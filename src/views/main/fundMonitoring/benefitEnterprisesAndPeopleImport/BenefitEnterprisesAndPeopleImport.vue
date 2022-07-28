@@ -1,0 +1,537 @@
+<!--惠企利民导入-->
+<template>
+  <div v-loading="tableLoading" style="height: 100%">
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+      <template v-slot:topTap></template>
+      <template v-slot:topTabPane>
+        <BsTabPanel
+          is-open
+          is-hide-query
+          :tab-status-btn-config="tabStatusBtnConfig"
+          :tab-status-num-config="tabStatusNumConfig"
+          @onQueryConditionsClick="onQueryConditionsClick1"
+        />
+      </template>
+      <template v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+      </template>
+      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
+      <template v-slot:mainTree>
+        <BsTreeSet
+          ref="treeSet"
+          v-model="leftTreeVisible"
+          :tree-config="treeTypeConfig"
+          @onChangeInput="changeInput"
+          @onAsideChange="asideChange"
+          @onConfrimData="treeSetConfrimData"
+        />
+        <BsBossTree
+          ref="leftTree"
+          :defaultexpandedkeys="['0']"
+          style="overflow: hidden"
+          :is-server="true"
+          :ajax-type="treeAjaxType"
+          :server-uri="treeServerUri"
+          :datas="treeData"
+          :is-checkbox="true"
+          :queryparams="treeQueryparams"
+          :global-config="treeGlobalConfig"
+          :clickmethod="onClickmethod"
+        />
+      </template>
+      <template v-slot:mainForm>
+        <BsTable
+          ref="mainTableRef"
+          :footer-config="tableFooterConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          :table-config="tableConfig"
+          :pager-config="mainPagerConfig"
+          :toolbar-config="tableToolbarConfig"
+          @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
+          @cellClick="cellClick"
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">{{ menuName }}</span>
+                <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+        </BsTable>
+      </template>
+    </BsMainFormListLayout>
+    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <!-- <AddDialog
+      v-if="dialogVisible"
+      :title="dialogTitle"
+    /> -->
+    <!-- 附件弹框 -->
+    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+  </div>
+</template>
+
+<script>
+import { proconf } from './BenefitEnterprisesAndPeopleImport'
+import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+// import AddDialog from './children/addDialog'
+// import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+export default {
+  components: {
+    // AddDialog
+  },
+  watch: {
+    queryConfig() {
+      this.getSearchDataList()
+    }
+  },
+  data() {
+    return {
+      // BsQuery 查询栏
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      radioShow: true,
+      breakRuleVisible: false,
+      onQueryConditionsClick1(isOpen) {
+        this.isShowQueryConditions = isOpen
+      },
+      treeData: [{
+        children: [],
+        code: 0,
+        id: 0,
+        label: '全部',
+        name: '全部',
+        parentId: null,
+        parentRuleName: null,
+        ruleLevel: 0,
+        ruleName: '全部'
+      }],
+      treeTypeConfig: {
+        curRadio: 'AGENCY'
+      },
+      treeGlobalConfig: {
+        inputVal: ''
+      },
+      treeQueryparams: { elementCode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
+      // treeServerUri: 'pay-clear-service/v2/lefttree',
+      treeServerUri: '',
+      treeAjaxType: 'get',
+      leftTreeVisible: true,
+      // 头部工具栏 BsTabPanel config
+      tabStatusBtnConfig: {
+        // changeBtns: true,
+        buttons: proconf.statusButtons,
+        curButton: proconf.curStatusButton,
+        buttonsInfo: proconf.buttons1,
+        methods: {
+          bsToolbarClickEvent: this.bsToolbarClickEvent
+        }
+      },
+      tabStatusNumConfig: {
+        '1': 0,
+        '2': 0,
+        '3': 0
+      },
+      isShowQueryConditions: true,
+      toolBarStatusSelect: {
+        type: 'button',
+        iconName: 'base-all.png',
+        iconNameActive: 'base-all-active.png',
+        iconUrl: '',
+        label: '全部',
+        code: '1',
+        curValue: '1'
+      },
+      // table 相关配置
+      tableLoading: false,
+      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableData: [],
+      tableToolbarConfig: {
+        // table工具栏配置
+        disabledMoneyConversion: false,
+        moneyConversion: true, // 是否有金额转换
+        import: false, // 导入
+        export: true, // 导出
+        print: false, // 打印
+        zoom: true, // 缩放
+        custom: true, // 选配展示列
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
+      },
+      leftNode: {},
+      regulationStatus: '1',
+      mainPagerConfig: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20
+      },
+      tableConfig: {
+        renderers: {
+          // 编辑 附件 操作日志
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+        }
+      },
+      tableFooterConfig: {
+        showFooter: false
+      },
+      // 操作日志
+      logData: [],
+      showLogView: false,
+      // 新增弹窗
+      dialogVisible: false,
+      dialogTitle: '附件上传',
+      addTableData: [],
+      // 请求 & 角色权限相关配置
+      menuName: '系统级监控规则',
+      params5: '',
+      menuId: '',
+      tokenid: '',
+      userInfo: {},
+      roleguid: this.$store.state.curNavModule.roleguid,
+      appId: 'pay_voucher',
+      isHaveZero: '0',
+      // 文件
+      showAttachmentDialog: false,
+      billguid: '',
+      condition: {},
+      handleType: '',
+      isEnable: '',
+      regulationType: '',
+      warningLevel: '',
+      DetailData: {},
+      regulationclass: '',
+      firulename: '',
+      mofdivcode: '',
+      leftTreeConfig: { // 左侧单位树配置
+        showFilter: false, // 是否显示过滤
+        isInitLoadData: false,
+        scrollLoad: false, // 是否开启滚动加载
+        isleaf: 0, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
+        levelno: -1, // 可选层级
+        expandOnClickNode: true,
+        defaultExpandRootNode: true,
+        defaultexpandedkeys: [0],
+        valueKeys: ['code', 'name', 'id'],
+        format: '{code}-{name}',
+        placeholder: '请选择',
+        multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
+        treeProps: {
+          // 树配置选项
+          labelFormat: '{label}', // {code}-{name}
+          nodeKey: 'code', // 树的主键
+          label: 'name', // 树的显示lalel字段
+          children: 'children' // 树的嵌套字段
+        },
+        multiple: false, // 是否多选,
+        isLazeLoad: false, // 是否调用接口远程懒加载数据
+        readonly: true,
+        clearable: true
+      }
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    search(obj) {
+      console.log(obj)
+      this.warningLevel = obj.warningLevel
+      this.regulationtype = obj.regulationType
+      this.firulename = obj.firulename
+      this.queryTableDatas()
+      // this.queryTableDatasCount()
+    },
+    // 初始化高级查询data
+    getSearchDataList() {
+      // 下拉树
+      let searchDataObj = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            searchDataObj[item.field + 'code'] = ''
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = ''
+          }
+        }
+      })
+      this.searchDataList = searchDataObj
+    },
+    // 初始化高级查询参数condition
+    getConditionList() {
+      let condition = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            if (item.field === 'cor_bgt_doc_no_') {
+              condition[item.field + 'name'] = []
+            } else {
+              condition[item.field + 'code'] = []
+            }
+          }
+        } else {
+          if (item.field) {
+            condition[item.field] = []
+          }
+        }
+      })
+      return condition
+    },
+    // 切换状态栏
+    bsToolbarClickEvent(obj) {
+      console.log(obj)
+      if (!obj.type) {
+        this.operationToolbarButtonClickEvent(obj)
+        return
+      }
+      this.tabSelect = obj.curValue
+      // this.queryTableDatas()
+    },
+    deleteList() {
+      // let datas = this.$refs.mainTableRef.getSelectionData()
+      // if (datas.length === 0) {
+      //   this.$message.warning('请选择数据')
+      //   return
+      // }
+      // let arr = []
+      // datas.forEach(res => {
+      //   arr.push(res.regulationCode)
+      // })
+      // HttpModule.delete(arr).then(res => {
+      //   if (res.code === '000000') {
+      //     this.$message.warning('删除成功')
+      //     this.queryTableDatas()
+      //     // this.queryTableDatasCount()
+      //   }
+      // })
+    },
+    changeData(val) {
+      // HttpModule.getDetailData(val).then(res => {
+      //   if (res.code === '000000') {
+      //     this.DetailData = res.data
+      //     this.dialogVisible = true
+      //     this.dialogTitle = '修改'
+      //   }
+      // })
+    },
+    getDetail(val) {
+      // HttpModule.getDetailData(val).then(res => {
+      //   if (res.code === '000000') {
+      //     this.DetailData = res.data
+      //     this.dialogVisible = true
+      //     this.dialogTitle = '查看详情'
+      //   }
+      // })
+    },
+    // 切换操作按钮
+    operationToolbarButtonClickEvent(obj, context, e) {
+      switch (obj.code) {
+        // 导入
+        case 'import':
+          break
+        default:
+          break
+      }
+    },
+    // 点击导入
+    imports() {
+      this.upload()
+      // this.dialogTitle = '附件上传'
+      // this.dialogVisible = true
+    },
+    changeVisible(val) {
+      console.log(val, '输出')
+      this.breakRuleVisible = val
+    },
+    onToolbarBtnClick({ context, table, code }) {
+      switch (code) {
+        // 刷新
+        case 'refresh':
+          this.refresh()
+          break
+      }
+    },
+    // 左侧树
+    changeInput(val) {
+      this.treeGlobalConfig.inputVal = val
+    },
+    onClickmethod(node) {
+      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
+      //   return
+      // }
+      if (node.id !== '0') {
+        console.log(node)
+        this.mofdivcode = node.node.code
+      } else {
+        this.condition = {}
+      }
+      this.queryTableDatas()
+    },
+    treeSetConfrimData(curTree) {
+      this.treeQueryparams.elementCode = curTree.code
+      this.$refs.leftTree.refreshTree()
+    },
+    asideChange() {
+      this.leftTreeVisible = false
+    },
+    // 查看附件
+    showAttachment(row) {
+      this.billguid = row.attachment_id
+      this.showAttachmentDialog = true
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      let key = obj.column.property
+      console.log(key, obj.row)
+      switch (key) {
+      }
+    },
+    // 刷新按钮 刷新查询栏，提示刷新 table 数据
+    refresh() {
+      this.queryTableDatas()
+      // this.queryTableDatasCount()
+    },
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.mainPagerConfig.currentPage = currentPage
+      this.mainPagerConfig.pageSize = pageSize
+      this.queryTableDatas()
+    },
+    // 展开折叠查询框
+    onQueryConditionsClick(isOpen) {
+      this.isShowQueryConditions = isOpen
+    },
+    // 新增或修改弹框
+    clickAddBtn(row) {
+      // if (this.addTableData.length > 0) {
+      //   this.addTableData = []
+      // }
+      this.dialogTitle = '新增'
+      // this.addTableData.push(row)
+      this.dialogVisible = true
+    },
+    // 查询 table 数据
+    queryTableDatas() {
+      // const param = {
+      //   page: this.mainPagerConfig.currentPage, // 页码
+      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
+      //   warn_level: this.warningLevel, // 预警级别
+      //   regulation_type: this.regulationtype,
+      //   mofdivname: this.mofdivname,
+      //   agencycode: this.agencycode,
+      //   firulename: this.firulename,
+      //   regulation_class: this.regulationclass,
+      //   mofdivcode: this.mofdivcode || ''
+      // }
+      // this.tableLoading = true
+      // HttpModule.queryTableDatas(param).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.results
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //     this.tabStatusNumConfig['1'] = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+    },
+    // 操作日志
+    queryActionLog(row) {
+      // let data = {
+      //   roleguid: this.$store.state.curNavModule.roleguid,
+      //   data: {
+      //     statusCode: this.toolBarStatusSelect.code,
+      //     id: row.id,
+      //     appId: 'pay_voucher'
+      //   }
+      // }
+      // HttpModule.queryActionLog(data).then(res => {
+      //   this.logData = res.data
+      //   console.log(this.logData)
+      //   this.showLogView = true
+      // })
+    },
+    // 送审
+    audieData(param) {
+      HttpModule.audieData(param).then(res => {
+        if (res.code === '000000') {
+          this.$message.warning('操作成功')
+          this.queryTableDatas()
+        }
+      })
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getTreeData(that.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
+          // treeResdata.forEach(item => {
+          //   item.label = item.id + '-' + item.businessName
+          // })
+          // const result = [
+          //   {
+          //     id: 'root',
+          //     label: '全部',
+          //     code: 'root',
+          //     isleaf: '0',
+          //     children: treeResdata
+          //   }
+          // ]
+          that.treeData = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenData(item.children)
+        }
+      })
+
+      return datas
+    }
+  },
+  created() {
+    console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
+    this.menuId = this.$store.state.curNavModule.guid
+    this.roleguid = this.$store.state.curNavModule.roleguid
+    this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
+    this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
+    this.getLeftTreeData()
+    this.queryTableDatas()
+  }
+}
+</script>
+<style scoped>
+.radio-right{
+  float: right;
+}
+.Titans-table ::v-deep  .vxe-body--row.row-yellow {
+  background-color: yellow;
+  color: #fff;
+}
+.Titans-table ::v-deep  .vxe-body--row.row-blue {
+  background-color: blue;
+  color: #fff;
+}
+.Titans-table ::v-deep  .vxe-body--row.row-red {
+  background-color: red;
+  color: #fff;
+}
+</style>

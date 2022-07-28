@@ -1,0 +1,1062 @@
+<!--单位用款申请(按计划)录入新增页面弹框-->
+<template>
+  <vxe-modal
+    v-model="dialogVisible"
+    :title="title"
+    width="96%"
+    height="90%"
+    :show-footer="false"
+    @close="dialogClose"
+  >
+    <div style="width:100%;height:45px;float:left;">
+      <div v-for="(item,index) in tabbtn" :key="index" class="setbtn">
+        <div :id="index" class="tabone" :class="activeIndex === index ? 'tabone1' : ''" @click="tabClick(index)">
+          {{ item }}
+        </div>
+      </div>
+    </div>
+    <!--模板信息-->
+    <div v-show="ruleSetShow" class="payVoucherInput" style="margin-top:50px;">
+      <div v-loading="addLoading" class="body">
+        <!-- <div v-show="!disabled" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+            @itemChange="itemChange"
+          />
+        </div> -->
+        <div class="header-table" style="margin-top:15px;">
+          <BsTable
+            ref="monitorTableRef"
+            height="480px"
+            :footer-config="{ showFooter: false }"
+            :table-columns-config="monitorTableColumnsConfig"
+            :table-data="operationTableData"
+            :table-config="tableConfig"
+            :toolbar-config="false"
+            :pager-config="false"
+          />
+        </div>
+      </div>
+    </div>
+    <!--规则定义-->
+    <div v-show="ruleDesShow" class="payVoucherInput" style="margin-top:50px;">
+      <div>
+        <div>
+          <div>
+            <el-row>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;引用模板</div>
+                      <el-input
+                        v-model="crTemplate"
+                        :disabled="disabled"
+                        placeholder="请输入模板名称"
+                        style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发系统</div>
+                      <el-select
+                        v-model="businessSystemCode"
+                        :disabled="disabled"
+                        placeholder="请选择触发系统"
+                        style="width:45%"
+                        @change="changeSysCode"
+                      >
+                        <el-option
+                          v-for="item in businessSystemCodeoptions"
+                          :key="item.id"
+                          :label="item.businessName"
+                          :value="item.id"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发模块</div>
+                      <el-select
+                        v-model="businessModuleCode"
+                        :disabled="disabled"
+                        placeholder="请选择触发模块"
+                        style="width:45%"
+                        @change="changeModCode"
+                      >
+                        <el-option
+                          v-for="item in businessModuleCodeoptions"
+                          :key="item.id"
+                          :label="item.businessName"
+                          :value="item.id"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发菜单</div>
+                      <el-select
+                        v-model="businessFunctionCode"
+                        :disabled="disabled"
+                        placeholder="请选择触发菜单"
+                        style="width:45%"
+                        @change="changeFunCode"
+                      >
+                        <el-option
+                          v-for="item in businessFunctionCodeoptions"
+                          :key="item.id"
+                          :label="item.businessName"
+                          :value="item.id"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控规则名称</div>
+                      <el-input
+                        v-model="monitorRuleName"
+                        :disabled="disabled"
+                        placeholder="请输入监控规则名称"
+                        style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
+                      <div style="width:200px;float:left;margin-top:2px">
+                        <BsTreeInput
+                          ref="ruleTree"
+                          v-model="regulationClass"
+                          :disabled="disabled"
+                          :datas="regulationClassoptions"
+                          :reloaddata="false"
+                          @input="selectRule"
+                        />
+                      </div>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警级别</div>
+                      <el-select
+                        v-model="warningLevel"
+                        :disabled="disabled"
+                        placeholder="请选择预警级别"
+                        style="width:45%"
+                        @change="chooseWarningLevel"
+                      >
+                        <el-option
+                          v-for="item in warningLeveloptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;处理方式</div>
+                      <el-select
+                        v-model="handleType"
+                        :disabled="true"
+                        placeholder="请选择处理方式"
+                        style="width:45%"
+                        @change="choosehandleType"
+                      >
+                        <el-option
+                          v-for="item in handleTypeoptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发类型</div>
+                      <el-select
+                        v-model="triggerClass"
+                        :disabled="disabled"
+                        placeholder="请选择触发类型"
+                        style="width:45%"
+                        @change="chooseTriggerClass"
+                      >
+                        <el-option
+                          v-for="item in triggerClassoptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row>
+            <!-- <el-row>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;主管部门</div>
+                      <el-select
+                        v-model="departmentCode"
+                        placeholder="请选择主管部门"
+                        style="width:45%"
+                        @change="changeDepartmentCode"
+                      >
+                        <el-option
+                          v-for="item in departmentCodeoptions"
+                          :key="item.id"
+                          :label="item.businessName"
+                          :value="item.id"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;业务处室</div>
+                      <el-select
+                        v-model="manageCode"
+                        placeholder="请选择业务处室"
+                        style="width:45%"
+                        @change="changeManageCode"
+                      >
+                        <el-option
+                          v-for="item in manageCodeoptions"
+                          :key="item.id"
+                          :label="item.businessName"
+                          :value="item.id"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row> -->
+          </div>
+        </div>
+        <div style="margin-bottom: 10px; color: red">
+          <p>注意：</p>
+          <p>1.【主管部门】和【业务处室】默认全部，不进行处室过滤，只有少数规则需要根据处室过滤权限时才使用此字段 ！</p>
+          <p>2.预警级别与处理方式对应关系统一为：一级黄色预警（预警，无需上传附件）、二级橙色预警（预警，需上传附件）、三级红色预警（拦截）、非人工干预蓝色预警（记录）</p>
+          <p>3.触发类型中“实时触发”指的是事中监控，“定时触发”指的是事后监控，定时触发需要设置触发时间和频率才能生效，比如：每月1次，定时触发的监控规则【处理方式】必须选择“记录”。</p>
+        </div>
+        <div class="header-table">
+          <BsTable
+            ref="mountTableRef"
+            height="300px"
+            :footer-config="{ showFooter: false }"
+            :table-columns-config="mountTableColumnsConfig"
+            :edit-config="editConfig"
+            :edit-rules="editRulesIn"
+            :table-data="mountTableData"
+            :toolbar-config="false"
+            :pager-config="false"
+          />
+        </div>
+      </div>
+    </div>
+    <!--应用设置-->
+    <div v-show="appSetShow" class="payVoucherInput" style="margin-top:50px;">
+      <el-row>
+        <el-col :span="24">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
+                <el-input
+                  v-model="policiesDescription"
+                  :disabled="disabled"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="请输入预警提示"
+                  style=" width:90%"
+                />
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+      </el-row>
+    </div>
+    <!--生效范围-->
+    <div v-show="effectiveShow" class="payVoucherInput" style="margin-top:50px;">
+      <el-row>
+        <el-col :span="12">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;管理级次</div>
+                <el-input
+                  v-model="regulationType"
+                  placeholder="请输入管理级次"
+                  style="width:45%"
+                  :disabled="disabled"
+                />
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+      </el-row>
+      <div>
+        <el-row>
+          <el-col :span="12">
+            <el-container>
+              <el-main width="100%">
+                <el-row>
+                  <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生效范围</div>
+                  <BsTree
+                    ref="rightTree"
+                    v-model="rightTreeValue"
+                    :tree-data="treeData"
+                    :config="{ multiple: true, rootName: '全部', disabled: true }"
+                    @onNodeCheckClick="onNodeCheckClick"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <!--审核意见-->
+    <div v-show="auditShow" class="payVoucherInput" style="margin-top:50px;">
+      <el-row>
+        <el-col :span="24">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;审核意见</div>
+                <el-input
+                  v-model="ruleFlowOpinion"
+                  :disabled="ruleDisabled"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="请输入审核意见"
+                  style=" width:90%"
+                />
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+      </el-row>
+      <div v-show="!disabled" slot="footer" style="width:100%;height: 80px;margin:0 15px">
+        <div v-if="showbox" id="bigbox"></div>
+        <el-divider style="color:#E7EBF0" />
+        <div type="flex" justify="end">
+          <div style="width:100%">
+            <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="audieData">确定</vxe-button>
+            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+          </div>
+        </div>
+      </div>
+      <div v-show="showable" slot="footer" style="width:100%;height: 80px;margin:0 15px">
+        <div type="flex" justify="end">
+          <div style="width:100%">
+            <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="audieData">确定</vxe-button>
+            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </vxe-modal>
+</template>
+<script>
+import { proconf } from '../SystemLevelRulesFlow.js'
+import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+export default {
+  name: 'AddDialog',
+  components: {},
+  computed: {
+    curNavModule() {
+      return this.$store.state.curNavModule
+    }
+  },
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    buttonType: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      showable: false,
+      rightTreeValue: [],
+      configIn: {
+        disabled: true
+      },
+      treeData: [],
+      disabled: false,
+      editConfig: {
+        trigger: 'dblclick',
+        mode: 'cell'
+      },
+      monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
+      operationTableData: [],
+      tabbtn: ['模板信息', '规则定义', '应用设置', '生效范围', '审核意见'],
+      ruleSetShow: true,
+      ruleDesShow: false,
+      appSetShow: false,
+      effectiveShow: false,
+      auditShow: false,
+      activeIndex: 0,
+      crTemplate: '',
+      monitorRuleName: '',
+      regulationType: '',
+      quhua: '',
+      ruleFlowOpinion: '',
+      mountTableColumnsConfig: proconf.mountTableColumnsConfig,
+      mountTableData: [],
+      // BsQuery 查询栏
+      queryConfig: proconf.sethighQueryConfig,
+      searchDataList: proconf.sethighQueryData,
+      // table 配置
+      tableConfig: {
+        renderers: {
+          // 编辑 附件 操作日志
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+        },
+        methods: {
+          onOptionRowClick: this.onOptionRowClick
+        }
+      },
+      businessModule: '',
+      businessModuleoptions: [
+        { value: '1', label: '610000000-陕西省本级' },
+        { value: '2', label: '610100000-西安市本级' },
+        { value: '3', label: '610102000-新城区本级' },
+        { value: '4', label: '610102998-新城区辖区' }
+      ],
+      businessFunction: '',
+      businessFunctionoptions: [
+        { value: '1', label: '000001-预算处预留' },
+        { value: '2', label: '001001-省级财政专项资金' },
+        { value: '3', label: '610102000-新城区本级' },
+        { value: '4', label: '610102998-新城区辖区' }
+      ],
+      warningLevel: '',
+      warningLeveloptions: [
+        { value: 1, label: '黄色预警' },
+        { value: 2, label: '橙色预警' },
+        { value: 3, label: '红色预警' },
+        { value: 4, label: '非人工干预蓝色预警' }
+      ],
+      handleType: '',
+      handleTypeoptions: [
+        { value: 1, label: '预警，无需上传附件' },
+        { value: 2, label: '预警，需上传附件' },
+        { value: 3, label: '拦截' },
+        { value: 4, label: '记录' }
+      ],
+      isEnable: '',
+      isEnableoptions: [
+        { value: 0, label: '否' },
+        { value: 1, label: '是' }
+      ],
+      policiesName: '',
+      policiesDescription: '',
+      dialogVisible: true,
+      addLoading: false,
+      token: '',
+      isContinuity: false,
+      // 文件上传相关参数
+      fileList: [],
+      fileData: [],
+      fileDataBakDel: [],
+      attachmentId: '',
+      showbox: false,
+      businessSystemCode: '',
+      businessSystemName: '',
+      businessSystemCodeoptions: [],
+      businessModuleCode: '',
+      businessModuleName: '',
+      businessModuleCodeoptions: [],
+      businessFunctionCode: '',
+      businessFunctionName: '',
+      businessFunctionCodeoptions: [],
+      SysparentId: 0,
+      ModparentId: 0,
+      regulationClass: '',
+      regulationClassoptions: [],
+      triggerClass: 1,
+      triggerClassoptions: [
+        { value: 1, label: '实时触发' },
+        { value: 2, label: '定时触发' }
+      ],
+      ruleDisabled: false
+    }
+  },
+  methods: {
+    // tab切换
+    tabClick(index) {
+      this.activeIndex = index
+      if (this.activeIndex === 0) {
+        this.ruleSetShow = true
+        this.ruleDesShow = false
+        this.appSetShow = false
+        this.effectiveShow = false
+        this.auditShow = false
+      } else if (this.activeIndex === 1) {
+        this.ruleSetShow = false
+        this.ruleDesShow = true
+        this.appSetShow = false
+        this.effectiveShow = false
+        this.auditShow = false
+      } else if (this.activeIndex === 2) {
+        this.ruleSetShow = false
+        this.ruleDesShow = false
+        this.appSetShow = true
+        this.effectiveShow = false
+        this.auditShow = false
+      } else if (this.activeIndex === 3) {
+        this.ruleSetShow = false
+        this.ruleDesShow = false
+        this.appSetShow = false
+        this.effectiveShow = true
+        this.auditShow = false
+      } else if (this.activeIndex === 4) {
+        this.ruleSetShow = false
+        this.ruleDesShow = false
+        this.appSetShow = false
+        this.effectiveShow = false
+        this.auditShow = true
+      }
+    },
+    getChildrenNewData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        item.code = item.id
+        item.guid = item.id
+        item.name = item.text
+        if (item.children) {
+          that.getChildrenNewData(item.children)
+        }
+      })
+
+      return datas
+    },
+    search() {
+      this.getTableData()
+    },
+    getTableData(val) {
+      let that = this
+      that.tableLoading = true
+      let param = {
+        page: 1,
+        pageSize: 500,
+        ...that.searchDataList
+      }
+      HttpModule.getPageQuery(param).then(res => {
+        if (res.code === '000000' && res.data.results) {
+          that.operationTableData = res.data.results
+        } else {
+          that.$message.warning('加载失败')
+        }
+        that.tableLoading = false
+      })
+    },
+    // 高级查询下拉框
+    itemChange(obj, form) {
+      console.log(obj, form)
+      if (obj.property === 'businessSystemName') {
+        this.getBusinessModelCodeDatas({ businessType: '2', parentId: obj.node.id })
+      }
+      if (obj.property === 'businessModuleName') {
+        this.getBusinessModelCodeDatas({ businessType: '3', parentId: obj.node.id })
+      }
+    },
+    onNodeCheckClick(data) {
+      console.log(data.nodes)
+      let arr = []
+
+      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      if (regulationType === '系统级') {
+        data.nodes.forEach(item => {
+          if (item.isleaf) {
+            let obj = {
+              mofDivCode: '',
+              agencyCode: '',
+              mofDiv: ''
+            }
+            obj.mofDivId = item.code
+            obj.mofDivCode = item.name.split('-')[0]
+            arr.push(obj)
+          }
+        })
+      } else if (regulationType === '部门级') {
+        data.nodes.forEach(item => {
+          if (item.isleaf) {
+            let obj = {
+              mofDivCode: '',
+              agencyCode: ''
+            }
+            obj.mofDivId = item.code
+            arr.push(obj)
+          }
+        })
+      } else if (regulationType === '财政级') {
+        data.nodes.forEach(item => {
+          if (item.isleaf) {
+            let obj = {
+              mofDivCode: '',
+              agencyCode: ''
+            }
+            obj.mofDivId = item.code
+            obj.mofDivCode = item.name.split('-')[0]
+            arr.push(obj)
+          }
+        })
+      }
+      console.log('arr', arr)
+      this.scope = arr
+    },
+    getChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.code = item.id
+        item.name = item.businessName
+        item.label = item.id + '-' + item.businessName
+        if (item.children) {
+          that.getChildrenData(item.children)
+        }
+      })
+
+      return datas
+    },
+    // // 获取业务模块
+    getBusinessModelCodeDatas(val) {
+      let that = this
+      HttpModule.getBusinessTreeData(val).then(res => {
+        if (res.code === '000000' && res.data.results) {
+          let treeResdata = that.getChildrenData(res.data.results)
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              name: '全部',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          if (val.businessType === '1') {
+            that.queryConfig.forEach(item => {
+              if (item.field === 'businessSystemName') {
+                console.log('result', result)
+                item.itemRender.options = result
+              }
+            })
+          } else if (val.businessType === '2') {
+            that.queryConfig.forEach(item => {
+              if (item.field === 'businessModuleName') {
+                item.itemRender.options = result
+              }
+            })
+          } else if (val.businessType === '3') {
+            that.queryConfig.forEach(item => {
+              if (item.field === 'businessFunctionName') {
+                item.itemRender.options = result
+              }
+            })
+          }
+        } else {
+          that.$message.warning('加载失败')
+        }
+      })
+    },
+    dialogClose() {
+      this.$parent.dialogVisible = false
+      this.$parent.queryTableDatas()
+    },
+    // 处理字符串
+    dealwithStr(str) {
+      let result = ''
+      if (str) {
+        if (str.substring(str.length - 7) === '0000000') {
+          result = '61'
+        } else if (str.substring(str.length - 5) === '00000') {
+          result = str.substring(0, 4)
+        } else if (str.substring(str.length - 3) === '000') {
+          result = str.substring(0, 6)
+        } else {
+          result = str
+        }
+        return result
+      }
+    },
+    getProvince(data) {
+      data.children.forEach(item => {
+        if (item.province === this.$store.state.userInfo.province) {
+          if (this.$store.state.userInfo.province === '610000000') {
+            let arr = []
+            arr.push(data)
+            this.treeData = this.getChildrenNewData(arr)
+            let dataArr = []
+            this.getCheckData(dataArr, this.treeData)
+            this.scope = dataArr
+          } else {
+            let arr = []
+            arr.push(item)
+            this.treeData = this.getChildrenNewData(arr)
+          }
+        } else {
+          if (item.children) {
+            // let arr = []
+            // arr.push(item)
+            this.getProvince(item)
+          }
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        item.code = item.id
+        item.guid = item.id
+        item.name = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
+    },
+    // 获取生效范围
+    getWhereTree() {
+      let result = this.dealwithStr(this.$store.state.userInfo.province)
+      // this.$store.state.userInfo.orgCode
+      let param = {
+        wheresql: 'and code like \'' + result + '%\'',
+        elementCode: 'admdiv',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      // let regulationType = this.$parent.DetailData.regulationType
+      if (regulationType === '部门级') {
+        param.elementCode = 'AGENCY'
+        param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
+      }
+      if (regulationType === '财政级') {
+        param.elementCode = 'AGENCY'
+        param.wheresql = 'and province =' + this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        if (regulationType === '部门级' || regulationType === '财政级') {
+          this.treeData = this.getChildrenNewData1(res.data)
+        } else {
+          this.getProvince(res.data[0])
+        }
+        if (this.$parent.dialogTitle !== '新增') {
+          let tempArr = []
+          // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+          this.$parent.DetailData.regulationScope.forEach(item => {
+            let str = item.mofDivId.toString()
+            // if (regulationType === '部门级') {
+            //   str = item.mofDivId.toString()
+            // } else {
+            //   str = item.mofDivId.toString()
+            // }
+            tempArr.push(str)
+          })
+
+          // this.$parent.DetailData.regulationScope.forEach(item => {
+          //   let str = item.mofDivCode.toString()
+          //   tempArr.push(str)
+          // })
+          this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+        }
+      })
+    },
+    // 保存新增的计划信息
+    doInsert() {
+    },
+    // 送审
+    audieData() {
+      if (!this.ruleFlowOpinion) {
+        this.$XModal.message({ status: 'warning', message: '请输入审批意见！' })
+        return
+      }
+      let operate = 0
+      if (this.buttonType === 'approval') {
+        operate = 2
+      }
+      if (this.buttonType === 'sendBack') {
+        operate = 4
+      }
+      let param = { operate: operate, regulationCodes: [this.$parent.DetailData.regulationCode], ruleFlowOpinion: this.ruleFlowOpinion }
+      HttpModule.audieData(param).then(res => {
+        if (res.code === '000000') {
+          this.$message.warning('操作成功')
+          this.$parent.dialogVisible = false
+          this.$parent.queryTableDatas()
+          this.$parent.queryTableDatasCount()
+          // this.queryTableDatas()
+        }
+      })
+    },
+    // 选择业务系统
+    changeSysCode(val) {
+      console.log(val)
+      this.SysparentId = val
+      this.businessModuleCode = ''
+      let busName = this.businessSystemCodeoptions.find(item => {
+        return item.id === val
+      })
+      this.businessSystemName = busName.businessName
+      this.getModLists()
+    },
+    // 选择业务模块
+    changeModCode(val) {
+      console.log(val)
+      this.ModparentId = val
+      this.businessFunctionCode = ''
+      let busName = this.businessModuleCodeoptions.find(item => {
+        return item.id === val
+      })
+      this.businessModuleName = busName.businessName
+      this.getFunLists()
+    },
+    // 业务系统下拉树
+    getSysLists() {
+      const param = {
+        businessType: 1,
+        parentId: 0
+      }
+      this.addLoading = true
+      HttpModule.getbusLists(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.businessSystemCodeoptions = res.data.results
+          if (this.$parent.dialogTitle === '新增') {
+            this.businessSystemCode = '1'
+            this.changeSysCode(this.businessSystemCode)
+          }
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    // 业务模块下拉树
+    getModLists() {
+      const param = {
+        businessType: 2,
+        parentId: this.SysparentId
+      }
+      this.addLoading = true
+      HttpModule.getbusLists(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.businessModuleCodeoptions = res.data.results
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    // 业务功能下拉树
+    getFunLists() {
+      const param = {
+        businessType: 3,
+        parentId: this.ModparentId
+      }
+      this.addLoading = true
+      HttpModule.getbusLists(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.businessFunctionCodeoptions = res.data.results
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children) {
+          that.getRegulationChildrenData(item.children)
+        }
+      })
+
+      return datas
+    },
+    getRegulation() {
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData(res.data)
+          this.regulationClassoptions = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    }
+
+  },
+  watch: {
+  },
+  created() {
+    this.getWhereTree()
+    this.monitorRuleName = this.$parent.DetailData.regulationName
+    this.warningLevel = this.$parent.DetailData.warningLevel
+    this.handleType = this.$parent.DetailData.handleType
+    this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+
+    this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
+    this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
+    this.SysparentId = this.businessSystemCode
+    this.getModLists()
+    this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
+    this.ModparentId = this.businessModuleCode
+    this.getFunLists()
+    this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
+    this.businessSystemName = this.$parent.DetailData.businessSystemName
+    this.businessModuleName = this.$parent.DetailData.businessModuleName
+    this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+    // this.regulationClass = this.$parent.DetailData.regulationClass
+    this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+    this.triggerClass = this.$parent.DetailData.triggerClass
+    this.businessModule = this.$parent.DetailData.businessModuleName
+    this.businessFunction = this.$parent.DetailData.businessFunctionName
+    this.regulationModelCode = this.$parent.DetailData.ruleTemplate.ruleTemplateCode
+    this.mountTableData = this.$parent.DetailData.regulationConfig
+
+    this.policiesDescription = this.$parent.DetailData.warningTips
+    this.ruleFlowOpinion = this.$parent.DetailData.ruleFlowOpinion ? this.$parent.DetailData.ruleFlowOpinion : '审核通过'
+    this.scope = this.$parent.DetailData.regulationScope
+    // 不可编辑
+    this.buttonConfig = {}
+    console.log('------------', this.buttonType)
+    if (this.buttonType === 'check') {
+      this.ruleSetShow = false
+      this.ruleDesShow = true
+      this.appSetShow = false
+      this.effectiveShow = false
+      this.activeIndex = 1
+      this.ruleDisabled = true
+      this.disabled = true
+      this.showable = false
+    } else if (this.buttonType === 'approval' || this.buttonType === 'sendBack') {
+      this.ruleDisabled = false
+      this.disabled = true
+      this.showable = true
+    } else {
+      this.ruleDisabled = false
+      this.disabled = true
+      this.showable = false
+    }
+    this.editConfig = false
+    this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+    this.getSysLists()
+    this.getRegulation()
+  }
+}
+</script>
+<style lang="scss">
+  .payVoucherInput {
+    margin: 15px;
+    .el-card {
+      margin-top: 0
+    }
+  }
+  .setbtn{
+    width:100px;
+    height:45px;
+    float:left;
+    margin-right:20px;
+  }
+  .tabone{
+    width:100px;
+    height:40px;
+    text-align:center;
+    line-height:40px;
+    float:left;
+    border:1px solid #ccc;
+    border-radius:4px;
+  }
+  .tabone1{
+    width:100px;
+    height:40px;
+    text-align:center;
+    line-height:40px;
+    float:left;
+    border:1px solid #ccc;
+    background-color:#f2f2f2;
+    border-radius:4px;
+  }
+  .vxe-modal--wrapper .vxe-modal--box {
+    z-index: 0;
+  }
+  #bigbox {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .3;
+  }
+  .el-row-item .font-set-small .hline{
+    width:72px;
+  }
+</style>

@@ -1,0 +1,7 @@
+// const defaultItemConfig = {
+
+// }
+
+// export {
+//   defaultItemConfig
+// }

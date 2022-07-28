@@ -1,0 +1,450 @@
+<template>
+  <div>
+    <JsEditor ref="JsEditor" @hook:mounted="onJsEditorMounted" />
+    <div class="built-in-fn">
+      <BsTree :config="builtInfnTreeConfig" :tree-data="builtInfnTreeData" @onNodeClick="onBuiltInfnTreeNodeClick" />
+    </div>
+  </div>
+</template>
+
+<script>
+import JsEditor from './children/jsEditor/JsEditor.vue'
+export default {
+  name: '',
+  components: {
+    JsEditor
+  },
+  data() {
+    return {
+      builtInfnTreeConfig: {
+        isHump: true, // 是否驼峰
+        checkOnClickNode: false,
+        clearStyleType: 'filter', // filter||filterBtn
+        destroyOnClose: false,
+        refreshTreeDataOnDrop: false, // 是否每次渲染下拉重新加载数据
+        expandOnClickNode: true, // 展开node
+        showFilter: true, // 是否显示过滤
+        isInitLoadData: false,
+        scrollLoad: false, // 是否开启滚动加载
+        isleaf: 1, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
+        levelno: -1, // 可选层级
+        valueKeys: ['code', 'name', 'id'],
+        format: '{code}-{name}',
+        placeholder: '请选择',
+        tooltip: '',
+        // tooltip: '{name}:\n{intro}\n{usage}\n{example}',
+        disabled: false, // 是否禁用
+        // multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
+        treeProps: {
+          // 树配置选项
+          labelFormat: '', // {code}-{name}
+          nodeKey: 'name', // 树的主键
+          label: 'name', // 树的显示lalel字段
+          children: 'children' // 树的嵌套字段
+        },
+        axiosConfig: {
+          rootName: '',
+          dataField: 'data',
+          successCode: '200', // 成功code
+          statusField: 'rscode',
+          method: 'post', // 请求方式
+          url: '' // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
+        },
+        multiple: false, // 是否多选,
+        isLazeLoad: false, // 是否调用接口远程懒加载数据
+        readonly: true, // 是否可编辑
+        clearable: true // 可清除
+      },
+      builtInfnTreeData: [
+        {
+          name: '数学函数',
+          intro: '数学函数可以进行一些计算',
+          usage: 'fn(args)',
+          example: 'ABS(-8)可以返回8，也就是-8的绝对值',
+          category: '数学函数',
+          // docUrl: "https://hc.jiandaoyun.com/doc/9035",
+          children: [
+            {
+              name: 'ABS',
+              intro: 'ABS函数可以获取一个数的绝对值',
+              usage: 'ABS(数字)',
+              example: 'ABS(-8)可以返回8，也就是-8的绝对值'
+            }, {
+              name: 'AVERAGE',
+              intro: 'AVERAGE函数可以获取一组数值的算术平均值',
+              usage: 'AVERAGE(数字1,数字2,...)',
+              example: 'AVERAGE({语文成绩},{数学成绩}, {英语成绩})返回三门课程的平均分'
+            }, {
+              name: 'CEILING',
+              intro: 'CEILING函数可以将数字增大到最接近原值的指定因数的倍数',
+              usage: 'CEILING(数字,因数)',
+              example: 'CEILING(7,6)返回12，因为12比7大的同时，也是6的倍数中最接近7的数字'
+            }, {
+              name: 'COUNT',
+              intro: 'COUNT函数可以获取参数的数量',
+              usage: 'COUNT(值,值,...)',
+              example: 'COUNT(小明,小王,小张,小李)返回4，也就是人员的数量'
+            }, {
+              name: 'COUNTIF',
+              intro: 'COUNTIF函数可以获取数组中满足条件的参数个数',
+              usage: 'COUNTIF(数组,"条件")',
+              example: 'COUNTIF([1,2,3,4],">2")，可得到1,2,3,4中大于2的数字数量，结果为2。'
+            }, {
+              name: 'FIXED',
+              intro: 'FIXED函数可将数字舍入到指定的小数位数并输出为文本',
+              usage: 'FIXED(数字,小数位数)',
+              example: 'FIXED(3.1415,2)返回"3.14"'
+            }, {
+              name: 'FLOOR',
+              intro: 'FLOOR函数可将数字减小到最接近原值的指定因数的倍数',
+              usage: 'FLOOR(数字,因数)',
+              example: 'FLOOR(7,6)返回6，因为6比7小的同时，也是6的倍数中最接近7的数字'
+            }, {
+              name: 'INT',
+              intro: 'INT函数可以获取一个数的整数部分',
+              usage: 'INT(数字)',
+              example: 'INT(3.1415)返回3，也就是3.1415的整数部分'
+            }, {
+              name: 'LARGE',
+              intro: 'LARGE函数可以获取数据集中第k个最大值',
+              usage: 'LARGE(数组,k)',
+              example: 'LARGE([1,2,4,3],1)返回数据由大到小排序后派第1的4'
+            }, {
+              name: 'LOG',
+              intro: 'LOG函数可以根据指定底数返回数字的对数',
+              usage: 'LOG(数字,底数)',
+              example: 'LOG(100,10)返回2，也就是以10为底数100的对数'
+            }, {
+              name: 'MAX',
+              intro: 'MAX函数可以获取一组数值的最大值',
+              usage: 'MAX(数字1,数字2,...)',
+              example: 'MAX({语文成绩},{数学成绩},{英语成绩})返回三门课程中的最高分'
+            }, {
+              name: 'MIN',
+              intro: 'MIN函数可以获取一组数值的最小值',
+              usage: 'MIN(数字1,数字2,...)',
+              example: 'MAX({语文成绩},{数学成绩},{英语成绩})返回三门课程中的最低分'
+            }, {
+              name: 'MOD',
+              intro: 'MOD函数可以获取两数相除的余数',
+              usage: 'MOD(被除数,除数)',
+              example: 'MOD(4,3)返回1，也就是4/3的余数'
+            }, {
+              name: 'POWER',
+              intro: 'POWER函数可以获取数字乘幂的结果',
+              usage: 'POWER(数字,指数)',
+              example: 'POWER(3，2)返回9，也就是3的2次方'
+            }, {
+              name: 'PRODUCT',
+              intro: 'PRODUCT函数可以获取一组数值的乘积',
+              usage: 'PRODUCT(数字1,数字2,...)',
+              example: 'PRODUCT({单价}, {数量})获取总价，也就是单价和数量的乘积'
+            }, {
+              name: 'ROUND',
+              intro: 'ROUND函数可以将数字四舍五入到指定的位数',
+              usage: 'ROUND(数字,数字位数)',
+              example: 'ROUND(3.1485,2)返回3.15'
+            }, {
+              name: 'SQRT',
+              intro: 'SQRT函数可以获取一个数字的正平方根',
+              usage: 'SQRT(数字)',
+              example: 'SQRT(9)返回3，也就是9的正平方根'
+            }, {
+              name: 'SUM',
+              intro: 'SUM函数可以获取一组数值的总和',
+              usage: 'SUM(数字1,数字2,...)',
+              example: 'SUM({语文成绩},{数学成绩}, {英语成绩})返回三门课程的总分'
+            }, {
+              name: 'SUMPRODUCT',
+              intro: 'SUMPRODUCT函数可以将数组间对应的元素相乘，并返回乘积之和，适用于加权求和',
+              usage: 'SUMPRODUCT(数组,数组...)',
+              example: 'SUMPRODUCT([1,2,3],[0.1,0.2,0.3])返回1.4，也就是 1×0.1 + 2×0.2 + 3×0.3的值'
+            }
+          ]
+        }, {
+          category: '文本函数',
+          name: '文本函数',
+          intro: '文本函数可以对一些字符进行截取替换合并等操作',
+          usage: 'fn(args)',
+          example: 'CONCATENATE("Hello"," ","World")会返回"Hello World"',
+          // docUrl: "https://hc.jiandaoyun.com/doc/9034",
+          children: [
+            {
+              name: 'CONCATENATE',
+              intro: 'CONCATENATE函数可以将多个文本合并成一个文本',
+              usage: 'CONCATENATE(文本1,文本2,...)',
+              example: 'CONCATENATE("Hello"," ","World")会返回"Hello World"'
+            }, {
+              name: 'EXACT',
+              intro: 'EXACT函数可以比较两个文本是否完全相同，完全相同则返回true，否则返回false',
+              usage: 'EXACT(文本1, 文本2)',
+              example: 'EXACT({手机号},{中奖手机号})，如果两者相同，返回true，如果不相同，返回false'
+            }, {
+              name: 'GETUSERNAME',
+              intro: 'GETUSERNAME函数可以获取当前用户的昵称',
+              usage: 'GETUSERNAME()',
+              example: '略'
+            }, {
+              name: 'ISEMPTY',
+              intro: 'ISEMPTY函数可以用来判断值是否为空文本、空对象或者空数组',
+              usage: 'ISEMPTY(文本)',
+              example: '略'
+            }, {
+              name: 'LEFT',
+              intro: 'LEFT函数可以从一个文本的第一个字符开始返回指定个数的字符',
+              usage: 'LEFT(文本,文本长度)',
+              example: 'LEFT("Hello World",5)返回"Hello"，也就是"Hello World"的从左往右的前5个字符'
+            }, {
+              name: 'LEN',
+              intro: 'LEN函数可以获取文本中的字符个数',
+              usage: 'LEN(文本)',
+              example: 'LEN("朝辞白帝彩云间")返回7，因为这句诗中有7个字符'
+            }, {
+              name: 'LOWER',
+              intro: 'LOWER函数可以将一个文本中的所有大写字母转换为小写字母',
+              usage: 'LOWER(文本)',
+              example: 'LOWER("JAYZ")返回"jayz"'
+            }, {
+              name: 'MID',
+              intro: 'MID返回文本中从指定位置开始的指定数目的字符',
+              usage: 'MID(文本,开始位置_数字,指定数目)',
+              example: 'MID("云平台应用定制工具",4,6)返回"应用定制工具"'
+            }, {
+              name: 'REPLACE',
+              intro: 'REPLACE函数可以根据指定的字符数，将部分文本替换为不同的文本',
+              usage: 'REPLACE(文本,开始位置,替换长度,新文本)',
+              example: 'REPLACE("企业云平台应用定制工具",3,7,"云平台数据管理平台")返回"企业云平台数据管理平台"'
+            }, {
+              name: 'REPT',
+              intro: 'REPT函数可以将文本重复一定次数',
+              usage: 'REPT(文本,重复次数)',
+              example: 'REPT("云平台",3)返回"云平台云平台云平台"'
+            }, {
+              name: 'RIGHT',
+              intro: 'RIGHT函数可以获取由给定文本右端指定数量的字符构成的文本值',
+              usage: 'RIGHT(文本,文本长度)',
+              example: 'RIGHT("Hello World",5)返回"World"，也就是"Hello World"从右往左的前5个字符'
+            }, {
+              name: 'SEARCH',
+              intro: 'SEARCH函数可以获取文本1在文本2中的开始位置',
+              usage: 'SEARCH(文本1,文本2)',
+              example: 'SEARCH("2016","云平台2016")返回4'
+            }, {
+              name: 'SPLIT',
+              intro: 'SPLIT函数可以将文本按指定分割符分割成数组',
+              usage: 'SPLIT(文本,分隔符_文本)',
+              example: 'SPLIT("云平台-应用定制工具","-")返回"云平台，应用定制工具"'
+            }, {
+              name: 'TEXT',
+              intro: 'TEXT函数可以将数字转化成文本',
+              usage: 'TEXT(数字)',
+              example: 'TEXT(3.1415)返回"3.1415"'
+            }, {
+              name: 'TRIM',
+              intro: 'TRIM函数可以删除文本首尾的空格',
+              usage: 'TRIM(文本)',
+              example: 'TRIM("   云平台   ")返回"云平台"'
+            }, {
+              name: 'UPPER',
+              intro: 'UPPER函数可以将一个文本中的所有小写字母转换为大写字母',
+              usage: 'UPPER(文本)',
+              example: 'UPPER("jayz")返回"JAYZ"'
+            }, {
+              name: 'VALUE',
+              intro: 'VALUE函数可以将文本转化为数字',
+              usage: 'VALUE(文本)',
+              example: 'VALUE("3.1415")返回3.1415'
+            }
+          ]
+        }, {
+          name: '日期函数',
+          intro: '日期函数可以获取和处理一些时间数据',
+          usage: 'fn(args)',
+          example: '略',
+          category: '日期函数',
+          // docUrl: "https://hc.jiandaoyun.com/doc/9036",
+          children: [
+            {
+              name: 'DATE',
+              intro: 'DATE函数可以将时间戳转换为日期对象',
+              usage: 'DATE(时间戳)',
+              example: '略'
+            }, {
+              name: 'DATEDELTA',
+              intro: 'DATEDELTA函数可以将指定日期加/减指定天数',
+              usage: 'DATEDELTA(指定日期,需要加减的天数)',
+              example: '略'
+            }, {
+              name: 'DAY',
+              intro: 'DAY函数可以获取某日期是当月的第几日',
+              usage: 'DAY(时间戳)',
+              example: '略'
+            }, {
+              name: 'DAYS',
+              intro: 'DAYS函数可以返回两个日期之间相差的天数。',
+              usage: 'DAYS(结束日期,开始日期)',
+              example: '略'
+            }, {
+              name: 'DAYS360',
+              intro: 'DAYS360按照一年 360 天的算法，返回两个日期间相差的天数',
+              usage: 'DAYS360(结束日期,开始日期)',
+              example: '略'
+            }, {
+              name: 'HOUR',
+              intro: 'HOUR函数可以返回某日期的小时数',
+              usage: 'HOUR(时间戳)',
+              example: '略'
+            }, {
+              name: 'ISOWEEKNUM',
+              intro: 'ISOWEEKNUM函数可以返回指定日期在全年中的ISO周数',
+              usage: 'ISOWEEKNUM(指定日期)',
+              example: '略'
+            }, {
+              name: 'MINUTE',
+              intro: 'MINUTE函数可以返回某日期的分钟数',
+              usage: 'MINUTE(日期)',
+              example: '略'
+            }, {
+              name: 'MONTH',
+              intro: 'MONTH返回某日期的月份',
+              usage: 'MONTH(日期)',
+              example: '略'
+            }, {
+              name: 'NOW',
+              intro: 'NOW函数可以获取当前时间',
+              usage: 'NOW()',
+              example: '略'
+            }, {
+              name: 'SECOND',
+              intro: 'SECOND函数可以返回某日期的秒数',
+              usage: 'SECOND(日期)',
+              example: '略'
+            }, {
+              name: 'SYSTIME',
+              intro: 'SYSTIME函数可以获取当前服务器时间',
+              usage: 'SYSTIME()',
+              example: '略'
+            }, {
+              name: 'TIME',
+              intro: 'TIME函数可以返回特定时间的十进制数字',
+              usage: 'TIME(时_数字,分_数字,秒_数字)',
+              example: '略'
+            }, {
+              name: 'TIMESTAMP',
+              intro: 'TIMESTAMP函数可以将日期对象转换成时间戳。',
+              usage: 'TIMESTAMP(日期)',
+              example: '略'
+            }, {
+              name: 'TODAY',
+              intro: 'TODAY函数可以返回今天',
+              usage: 'TODAY()',
+              example: '略'
+            }, {
+              name: 'WEEKNUM',
+              intro: 'WEEKNUM函数可以返回指定日期在当年是第几周',
+              usage: 'WEEKNUM(指定日期)',
+              example: '略'
+            }, {
+              name: 'YEAR',
+              intro: 'YEAR函数可以返回某日期的年份',
+              usage: 'YEAR(时间戳)',
+              example: '略'
+            }
+          ]
+        }, {
+          name: '逻辑函数',
+          intro: '逻辑函数可以处理一些条件与或非区反等运算',
+          usage: 'fn(args)',
+          example: '略',
+          category: '逻辑函数',
+          // docUrl: "https://hc.jiandaoyun.com/doc/9033",
+          children: [
+            {
+              name: 'AND',
+              intro: '如果所有参数都为真，AND函数返回布尔值true，否则返回布尔值 false',
+              usage: 'AND(逻辑表达式1,逻辑表达式2,...)',
+              example: 'AND({语文成绩}>90,{数学成绩}>90,{英语成绩}>90)，如果三门课成绩都> 90，返回true，否则返回false'
+            }, {
+              name: 'FALSE',
+              intro: 'FALSE函数返回布尔值false',
+              usage: 'FALSE()',
+              example: '略'
+            }, {
+              name: 'IF',
+              intro: 'IF函数判断一个条件能否满足；如果满足返回一个值，如果不满足则返回另外一个值',
+              usage: 'IF(逻辑表达式,为true时返回的值,为false时返回的值)',
+              example: 'IF({语文成绩}>60,"及格","不及格")，当语文成绩>60时返回及格，否则返回不及格。'
+            }, {
+              name: 'NOT',
+              intro: 'NOT函数返回与指定表达式相反的布尔值。',
+              usage: 'NOT(逻辑表达式)',
+              example: 'NOT({语文成绩}>60)，如果语文成绩大于60返回false，否则返回true'
+            }, {
+              name: 'OR',
+              intro: '如果任意参数为真，OR 函数返回布尔值true；如果所有参数为假，返回布尔值false。',
+              usage: 'OR(逻辑表达式1,逻辑表达式2,...)',
+              example: 'OR({语文成绩}>90,{数学成绩}>90,{英语成绩}>90)，任何一门课成绩> 90，返回true，否则返回false'
+            }, {
+              name: 'TRUE',
+              intro: 'TRUE函数返回布尔值true',
+              usage: 'TRUE()',
+              example: '略'
+            }, {
+              name: 'XOR',
+              intro: 'XOR函数可以返回所有参数的异或值',
+              usage: 'XOR(逻辑表达式1, 逻辑表达式2,...)',
+              example: 'XOR({语文成绩}>90,{数学成绩}>90)，如果两门成绩都>90,返回false；如果两门成绩都<90，返回false；如果其中一门>90，另外一门<90，返回true'
+            }
+          ]
+        }
+        // {
+        //   category: '高级函数',
+        //   name: '高级函数',
+        //   intro: '文本函数可以对一些字符进行截取替换合并等操作',
+        //   usage: 'fn(args)',
+        //   example: 'CONCATENATE("Hello"," ","World")会返回"Hello World"',
+        //   docUrl: 'https://hc.jiandaoyun.com/doc/9037',
+        //   children: [
+        //     {
+        //       name: 'MAPX',
+        //       intro: 'MAPX函数是一个可以用来进行跨表单取数的高级函数',
+        //       usage: 'MAPX(operation,map_value,map_field,result_field)',
+        //       example: '略'
+        //     }, {
+        //       name: 'RECNO',
+        //       intro: 'RECNO函数依据当前表单被新打开的次数进行不断累计，起始值为1。',
+        //       usage: 'RECNO()',
+        //       example: '略'
+        //     }, {
+        //       name: 'UUID',
+        //       intro: 'UUID函数随机码生成器。可适用于随机流水号的使用场景等',
+        //       usage: 'UUID()',
+        //       example: '略'
+        //     }
+        //   ]
+        // }
+      ],
+      tem: ''
+    }
+  },
+  methods: {
+    onBuiltInfnTreeNodeClick({ node, treeData, value, fieldName }) {
+      this.$refs.JsEditor.replaceSelection(node.name + '()')
+    },
+    onJsEditorMounted() {
+
+    }
+  },
+  mounted() {},
+  watch: {
+    tem: {
+      handler() {},
+      deep: true,
+      immediate: true
+    }
+  }
+}
+</script>
+
+<style lang='scss'>
+</style>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title></title>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <div>
+    </div>
+    <script>
+        // 约束分为
+        //       所有行 row 都有的约束
+        //       具体单元格 cell的交叉约束
+
+        //  约束类型有
+        //       计算 calculate  Number
+        //       显示 visible Boolean
+        //       可编辑 editable Boolean
+        //       置空 clear null
+        //       样式 style {color:'#fff',fontSize:'20px'}
+        //       取数 getData  await data,
+        //       设置值 value  'value'
+        //       other ...
+
+        //  约束表达式
+        //  '触发字段':'目标字段::约束类型::(Boolean 表达式)--??--(value key=value&key=value)--+--(Boolean 表达式)--??--(value key=value&key=value)--&&--目标字段::约束类型::表达式'
+        // 'age': 'income::value::{age}>=18?Math.pow({age},4)/2:0--&&--name::style::{age}>18&&{age}<=60--??--color=#F00&fontSize=20px--+--{age}>60--??--color=#ff0&fontSize=20px',
+
+        //  当 age 发生改变时     设置 income 的 值 为  {age}>=18?Math.pow({age},4)/2:0      同时设置 name 的样式为 {age}>18&&{age}<=60??color=#F00&fontSize=20px—+—{age}>60??color=#ff0&fontSize=20px
+
+        // 标记符号
+        //  :: 表示约束种类组内分割符号
+        //  --&&-- 表示组分割符
+        //  --+-- 表示值组分割符
+        //  --??-- 表示满足条件**值为***, 与--+--组合使用
+        //  {key} 表示字段
+
+        // 测试数据
+        let tableDataIn = [{
+            itemcode: '1001',
+            id: '1',
+            name: 'jack',
+            age: 24,
+            sex: '1',
+            days: 380,
+            eduBack: '008',
+            category: '前端',
+            interest: [0, 1],
+            bonus: 40000,
+            time: '2020-2-2',
+            params: {},
+            income: 20000,
+            actualIncome: 0,
+            address: 'Sydney No. 1 Lake Park',
+            conditions: '',
+            status: '0',
+            inductionTime: '2020-01-01',
+            departureTime: '2023-01-01',
+        }]
+
+        // 测试约束配置数据格式为
+        const calculateConstraintConfigIn = {
+            constraintConfig: { // 表间约束配置
+                // cell: {
+                //    'age:1001': 'income:1001::value::{age:1001}>=18?Math.pow({age:1001},4)/2:0--&&--name::style::{age:1001}>18&&{age:1001}<=60??color=#F00&fontSize=20px--+--{age:1001}>60??color=#ff0&fontSize=20px',
+                // },
+                row: {
+                    'age': 'income::value::{age}>=18?Math.pow({age},4)/2:0--&&--name::style::{age}>18&&{age}<=60--??--color=#F00&fontSize=20px--+--{age}>60--??--color=#ff0&fontSize=20px',
+                }
+            }
+        }
+
+        const constraintUtil = {
+            constrainRowDataMap: { // 约束最终渲染数据
+                itemcode: { // 单条数据唯一标识
+                    age: { // 作用字段
+                        visible: true, // 是否可见
+                        editable: true, // 是否可编辑
+                        clear: true, // 是否置空
+                        getData: {}, // 取数
+                        style: { // 样式
+
+                        },
+                        value: 'value' // 设置值
+                    }
+                }
+            },
+            each(object, callback) {
+                /* js原生each方法 */
+                let type = (function (obj) {
+                    switch (obj.constructor) {
+                        case Object:
+                            return 'Object'
+                        case Array:
+                            return 'Array'
+
+                        case NodeList:
+                            return 'NodeList'
+                        default:
+                            return 'null'
+                    }
+                })(object)
+                // 为数组或类数组时, 返回: index, value
+                if (type === 'Array' || type === 'NodeList') {
+                    // 由于存在类数组NodeList, 所以不能直接调用every方法
+                    [].every.call(object, function (v, i) {
+                        return callback.call(v, i, v) !== false
+                    })
+                } else if (type === 'Object') {
+                    // 为对象格式时,返回:key, value
+                    for (let i in object) {
+                        if (callback.call(object[i], i, object[i]) === false) {
+                            break
+                        }
+                    }
+                }
+            },
+            deepCopy(obj) {
+                // 深拷贝通用方法
+                let me = this
+                if (typeof obj !== 'object' || obj === null) return obj
+                let newObj = obj instanceof Array ? [] : {}
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        newObj[key] = typeof obj[key] === 'object' ? me.deepCopy(obj[key]) : obj[key]
+                    }
+                }
+                return newObj
+            },
+            genarateConstraintMap(constraintConfig, tableData) {
+                // 生成约束map
+                let self = this
+                this.each(tableData, (rowIndex, row) => {
+                    self.constrainRowDataMap[row.itemcode] = self.constrainRowDataMap[row.itemcode] || {}
+                    self.constrainRowDataMap[row.itemcode] = self.genarateRowConstraintMap(self.deepCopy(constraintConfig.row), row, self.constrainRowDataMap[row.itemcode])
+                })
+            },
+            genarateRowConstraintMap(rowConstraintConfig, row, dataMap) {
+                // 生成单条数据约束map
+
+                let self = this
+                this.each(rowConstraintConfig, (key, item) => {
+                    let regR = new RegExp('({[a-zA-Z0-9_]*})', 'ig')
+                    let rowsKey = rowConstraintConfig[key].match(regR) || []
+                    rowsKey = [...new Set(rowsKey)]
+                    if (rowsKey.length) {
+                        for (let keyC in rowsKey) {
+                            let reg = new RegExp('(' + rowsKey[keyC] + ')', 'ig')
+                            let keyF = rowsKey[keyC].replace(/\{|\}/g, '')
+                            rowConstraintConfig[key] = rowConstraintConfig[key].replace(reg, row[keyF] === null || row[keyF] === undefined ? '' : row[keyF])
+                        }
+                    }
+                    self.parsingRowConstraintConfigToMapData(rowConstraintConfig[key], dataMap)
+                })
+            },
+            parsingRowConstraintConfigToMapData(rowConstraintConfig, dataMap) {
+                // 生成单条数据约束map
+                let self = this
+                rowConstraintConfig.split("--&&--").forEach((item, index) => {
+                    let rowConstraintArr = item.split('::')
+                    dataMap[rowConstraintArr[0]] = dataMap[rowConstraintArr[0]] || {}
+                    dataMap[rowConstraintArr[0]][rowConstraintArr[1]] = self.parsingRowConstraintConfigToValueData(rowConstraintArr[2], rowConstraintArr[1])
+                })
+            },
+            evalEpression(expression) {
+                // 执行表达式
+                return new Function('return ' + expression)()
+            },
+            pasingExpression(expression) {
+                let str = ''
+                this.each(expression.split("--+--"), (index, item) => {
+                    if (index === 0) {
+                        str += 'if(' + item.split("--??--")[0] + '){return "' + item.split('--??--')[1] + '"}'
+                    } else {
+                        str += 'else if(' + item.split("--??--")[0] + '){return "' + item.split('--??--')[1] + '"}'
+                    }
+                })
+                str += 'else{return ""}'
+                return new Function(str)()
+            },
+            transExpressionToObject(value) {
+                // 获取全部参数,并转换成json对象
+                let valueArr = value.split('&')
+                let result = {}
+                for (let i = 0, _len = valueArr.length; i < _len; i++) {
+                    let pos = valueArr[i].indexOf('=')
+                    if (pos === -1) {
+                        continue
+                    }
+                    let name = valueArr[i].substring(0, pos)
+                    result[name] = valueArr[i].substring(pos + 1).match(new RegExp('({[a-zA-Z0-9_]*})', 'ig'))?this.evalEpression(valueArr[i].substring(pos + 1)): valueArr[i].substring(pos + 1)
+                }
+                return result
+            },
+            parsingRowConstraintConfigToValueData(expression, type) {
+                // 生成当条
+                // type: visible editable clear style value getData
+                let value = null
+
+                switch (type) {
+                    case 'visible':
+                        value = !!this.evalEpression(expression)
+                        break
+                    case 'editable':
+                        value = !!this.evalEpression(expression)
+                        break
+                    case 'clear':
+                        value = !!this.evalEpression(expression)
+                        break
+                    case 'value':
+                        value = this.evalEpression(expression)
+                        break
+                    case 'style':
+                        value = this.transExpressionToObject(this.pasingExpression(expression))
+                        break
+                    case 'getData':
+                        value = {}
+                        break
+
+                }
+                return value
+
+            }
+        }
+        constraintUtil.genarateConstraintMap(calculateConstraintConfigIn.constraintConfig, tableDataIn)
+    </script>
+</body>
+
+</html>

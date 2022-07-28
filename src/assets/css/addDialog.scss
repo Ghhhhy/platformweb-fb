@@ -1,0 +1,65 @@
+.invoice-category {
+  background: var(--common-background);
+  height: 40px;
+  padding-top: 5px;
+
+  .enter-name {
+    margin: 0 20px;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: 'PingFang SC';
+    line-height: 38px;
+    float: left;
+
+    .enter-name__border {
+      border-bottom: 2px solid;
+      margin: 0 16px
+    }
+  }
+
+  .cate-tip {
+    float: right;
+    color: red;
+    font-size: 16px;
+    margin-right: 60px;
+    line-height: 40px
+  }
+}
+
+.el-row-item {
+  margin: 15px 0 15px 30px;
+
+  .img-set {
+    float: left;
+    width: 70px;
+    height: 70px;
+    margin-right: 15px;
+    margin-top: 25px;
+  }
+
+  .font-set {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .font-set-small {
+    font-size: 10px;
+    font-weight: 700;
+
+    .hline {
+      margin-right: 1px;
+      width: 60px;
+      display: inline-block
+    }
+
+    .num {
+      text-align: right;
+      margin-left: 1px;
+      margin-right: 0;
+      width: 100px;
+      display: inline-block;
+    }
+  }
+}

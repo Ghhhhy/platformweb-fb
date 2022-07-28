@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title></title>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <div>
+    </div>
+    <script>
+        // 约束分为
+        //       所有行 row 都有的约束
+        //       具体单元格 cell的交叉约束
+
+        // 约束类型有
+        //       计算 calculate  Number
+        //       显示 visible Boolean
+        //       可编辑 editble Boolean
+        //       置空 clear null
+        //       样式 style {}  条件#color=#333&fontSize=20px+条件#data+条件#data
+        //       取数 getData  await data,
+        //       设置值 setData  条件#data+条件#data+条件#data
+        //       other ...
+        // 全局参考这种数据格式
+        //     设置：条件#值 + 条件#值 + 条件#值
+        //     是否 *：条件(单条件) || 条件#true + 条件#false + 条件#false(条件对结果)
+        // 配置数据格式为
+        //     constraintConfig:
+        //        row: { //  字段 : {字段}(Boolean 表达式)?#value(key=value&key=value)+{字段}(Boolean 表达式)?#value(key=value&key=value)
+        //             calculate: { // number 计算  1
+        //                 'income': '{age}>=18?Math.pow({age},4)/2:0' // 计算 number
+        //             },
+        //             visible: { // Boolean  显示
+        //                 'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+        //             },
+        //             editble: { //  Boolean 是否可编辑
+        //                 'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+        //             },
+        //             clear: { // 置空 true||false
+        //                 'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+        //             },
+        //             style: { // 样式 "fontSize=12px&color=#333"
+        //                 'income': '({age}>=18)||({age}<=100)#color=#333&fontSize=20px' // 显示 true||false
+        //             },
+        //             getData: { // setData
+        //                'income': 'url#arg'
+        //             },
+        //             setData: { // setData
+        //                 'income': '({age}>=18)||({age}<=100)#50000'
+        //             },
+        //             control: {
+
+        //             }
+        //         },
+        //         cell: { // {tableId} : {字段}(Boolean 表达式)?#value(key=value&key=value)+{字段}(Boolean 表达式)?#value(key=value&key=value)
+        //             calculate: { // number 计算
+        //                 'tableid:income:itemcode': '{1:1:age}>=18?Math.pow({1:1:age},4)/2:0' // 计算 number
+        //             },
+        //             visible: { // Boolean  显示
+
+        //             },
+        //             editble: { //  Boolean 是否可编辑
+
+        //             },
+        //             clear: { // 置空 true||false
+
+        //             },
+        //             style: { // 样式 "fontSize=12px&color=#333"
+
+        //             },
+        //             getData: { // getData
+
+        //             },
+        //             setData: { // setData
+
+        //             },
+        //             control: {
+
+        //             }
+        //         }
+        //     }
+
+        // const actionMap = { // 生成map最终都落于作用于cell
+        //     itemcode: {
+        //         field: {
+        //             clear:[{
+        //                     type:'cell'||'row',
+        //                     source:{},
+        //                     to: '',
+        //                     expression: '',
+        //             }]
+        //         }
+        //     }
+        // }
+
+        // let dataSource = {
+        //     tableId: '', // 表格ID
+        //     actionType: 'cell', // 作用对象 cell||col||row||column
+        //     controlType: configType, // 作用类型 calculate||visible||editble||clear||control||style||getData
+        //     targetTo: { // 作用对象表达式
+        //         expression: keyexpression, // 作用对象表达式
+        //         relyonData: { // 作用对象表达式解析后数据
+
+        //         },
+        //         expressionMap: { // 表达式映射单元格数据
+        //             rowId: '',
+        //             field: ''
+        //         }
+        //     },
+        //     constraint: {
+        //         expression: optionExpression, // 作用对象表达式
+        //         relyonData: { // 作用对象表达式解析后数据
+
+        //         },
+        //         expressionMap: { // 表达式单元格数据
+
+        //         }
+        //     },
+        //     actionToCell: '', // 作用单元格
+        //     actionResultValue: '' // 最终作用值
+        // }
+        let tableDataIn = [{
+            itemcode: '1001',
+            id: '1',
+            name: 'jack',
+            age: 24,
+            sex: '1',
+            days: 380,
+            eduBack: '008',
+            category: '前端',
+            interest: [0, 1],
+            bonus: 40000,
+            time: '2020-2-2',
+            params: {},
+            income: 20000,
+            actualIncome: 0,
+            address: 'Sydney No. 1 Lake Park',
+            conditions: '',
+            status: '0',
+            inductionTime: '2020-01-01',
+            departureTime: '2023-01-01',
+        }]
+        const calculateConstraintConfigIn = {
+            constraintConfig: { // 表间约束配置
+                cell: {
+                    calculate: { // number 计算
+                        '4:formula': '{age}>=18?Math.pow({age},4)/2:0' // 计算 number
+                    },
+                    visible: { // Boolean  显示
+                        '4:formula': '({age}>=18?Math.pow({age},4)/2:0)||({age}<=18?Math.pow({age},4)/2:0)' // 显示 true||false
+                    },
+                    editble: { //  Boolean 是否可编辑
+                        '4:formula': '{age}>=18?Math.pow({age},4)/2:0' // 可编辑 true||false
+                    },
+                    clear: { // 置空 true||false
+
+                    },
+                    control: {
+
+                    },
+                    style: { // 样式 "fontSize=12px&color=#333"
+                        '4:formula': '{age}>=18?Math.pow({age},4)/2:0' // 控制 表达式
+                    },
+                    getData: { // await getData
+
+                    }
+                },
+                row: {
+                    calculate: { // number 计算  1
+                        'income': '{age}>=18?Math.pow({age},4)/2:0' // 计算 number
+                    },
+                    visible: { // Boolean  显示
+                        'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+                    },
+                    editble: { //  Boolean 是否可编辑
+                        'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+                    },
+                    clear: { // 置空 true||false
+                        'income': '({age}>=18)||({age}<=100)' // 显示 true||false
+                    },
+                    style: { // 样式 "fontSize=12px&color=#333"
+                        'income': '({age}>=18)||({age}<=100)#color=#333&fontSize=20px' // 显示 true||false
+                    },
+                    getData: { // setData
+                        'income': 'url#arg'
+                    },
+                    setData: { // setData
+                        'income': '({age}>=18)||({age}<=100)#50000'
+                    },
+                    control: {
+
+                    }
+                }
+            }
+        }
+
+        const constraintUtil = {
+            getRowConstraintRelyFieldMap(constraintConfig) { // 生成row约束依赖字段映射
+                let constraintConfigMap = {}
+                Object.keys(constraintConfig).forEach((configType) => {
+                    let configObj = constraintConfig[configType]
+                    let curConfigObjMap = {}
+                    Object.keys(configObj).map((item, index) => {
+                        curConfigObjMap[item] = {
+                            relyonField: [...new Set(String(configObj[item]).match(new RegExp('({[a-zA-Z0-9_:]*})', 'ig')))],
+                            expression: configObj[item]
+                        }
+                    })
+                    constraintConfigMap[configType] = curConfigObjMap
+                })
+                return constraintConfigMap
+            },
+            getCellConstraintRelyFieldMap(constraintConfig) { // 生成cell约束依赖字段映射
+                let constraintConfigMap = {}
+                Object.keys(constraintConfig).forEach((configType) => {
+                    let configObj = constraintConfig[configType]
+                    let curConfigObjMap = {}
+                    Object.keys(configObj).map((item, index) => {
+                        curConfigObjMap[item] = {
+                            relyonField: [...new Set(String(configObj[item]).match(new RegExp('({[a-zA-Z0-9_:]*})', 'ig')))],
+                            expression: configObj[item]
+                        }
+                    })
+                    constraintConfigMap[configType] = curConfigObjMap
+                })
+                return constraintConfigMap
+            },
+            genarateRowConstraintMap({ constraintConfig, tableData }) { // 生成约束数据map
+                let self = this
+                let obj = Object.create(null)
+                let rowConstraintRelyFieldMap = this.getRowConstraintRelyFieldMap(constraintConfig.row)
+                // let cellConstraintRelyFieldMap = this.getRowConstraintRelyFieldMap(constraintConfig.cell)
+                tableData.forEach((row, index) => {
+                    obj[row["itemcode"]] = {
+
+                    }
+                    Object.keys(row).forEach((column, columnIndex) => {
+                        obj[row["itemcode"]][column.field] = {
+                            clear: [{
+                                type: 'cell' || 'row',
+                                source: {},
+                                to: '',
+                                expression: '',
+                            }]
+                        }
+                    })
+                })
+                // 转化约束格式为
+                //     itemcode: {
+                //         field: {
+                // clear:[{
+                //         type:'cell'||'row',
+                //         source:{},
+                //         to: '',
+                //         expression: '',
+                // }]
+                //         }
+                //     }
+            },
+            genarateConstraintMap() { // 生成约束映射
+                let constraintRowMap = this.genarateRowConstraintMap({ tableData: tableDataIn, constraintConfig: calculateConstraintConfigIn.constraintConfig })
+            },
+            genarateCellConstraintMap() { // 生成约束单元格映射
+
+            },
+            // getOpratorToRelyonData() {  // 操作依赖数据
+
+            // },
+            // getTargetExpressionMap() { // 获取目标源数据依赖
+
+            // },
+            getConstraintRelyonData(optionExpression) { // 获取约束数据依赖数据
+                let rowsKey = [...new Set(String(optionExpression).match(new RegExp('({[a-zA-Z0-9_:]*})', 'ig')))]
+                return rowsKey.map((item, index) => {
+                    let cellArrMap = item.split(':')
+                    return cellArrMap[0] + cellArrMap[1] + cellArrMap[2] // [tableid,field,itemcode]
+                })
+            },
+            getConstraintMap(keyexpression, optionExpression, configType) {
+
+            }
+        }
+        constraintUtil.genarateConstraintMap()
+    </script>
+</body>
+
+</html>

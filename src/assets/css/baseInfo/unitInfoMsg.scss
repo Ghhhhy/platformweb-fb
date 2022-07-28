@@ -1,0 +1,11 @@
+.basic-info{
+    .el-tabs__nav-scroll{
+        padding: 0 30px;
+        background: #fff;
+    }
+
+    .el-tabs__content{
+        margin: 0;
+        background-color: var(--common-background);
+    }
+}

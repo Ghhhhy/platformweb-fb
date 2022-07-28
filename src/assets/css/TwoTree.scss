@@ -1,0 +1,15 @@
+.tree {
+    height: 80vh;
+    flex-direction: column;
+    justify-content: space-around;
+    .tree-list {
+      height: 35vh;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 5px;
+      .aside-filter .base-filter {
+            max-height: 26vh !important;
+      }
+    }
+
+  }

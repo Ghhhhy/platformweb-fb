@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="17px" viewBox="0 0 13 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>路径 3备份 3</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#EA6E5E" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="财政画像-区域基本情况" transform="translate(-824.000000, -399.000000)" fill="url(#linearGradient-1)">
+            <g id="编组-15备份-2" transform="translate(464.000000, 269.000000)">
+                <g id="编组-16备份" transform="translate(303.000000, 130.000000)">
+                    <path d="M60.9837474,7.32640981 L57.2261937,7.32640981 L63.3175651,0 L69.2204413,7.32640981 L65.8902918,7.32640981 C65.1444096,12.6710891 62.7464104,15.8956192 58.6962943,17 C60.5708532,13.5344687 61.3333375,10.3099387 60.9837474,7.32640981 Z" id="路径-3备份-3" transform="translate(63.223317, 8.500000) scale(1, -1) translate(-63.223317, -8.500000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
