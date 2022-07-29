@@ -401,6 +401,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           if (res.data.titleList.length !== 0) {
+            this.tableColumnsConfig = [...proconf.PoliciesTableColumns]
             res.data.titleList.forEach(item => {
               this.tableColumnsConfig.push({
                 title: item.fiRuleName,
