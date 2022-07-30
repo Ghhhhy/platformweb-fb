@@ -388,7 +388,7 @@
                     v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name', labelFormat: '{code}-{name}', children: 'children' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
@@ -835,8 +835,8 @@ export default {
         param.wheresql = 'and code like \'' + this.$parent.DetailData.agencyCode.substring(0, 3) + '%\''
       }
       HttpModule.getTreewhere(param).then(res => {
-        console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
-        that.treeData = that.getChildrenNewData(res.data)
+        // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
+        that.treeData = res.data
         this.$nextTick(() => {
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
         })
