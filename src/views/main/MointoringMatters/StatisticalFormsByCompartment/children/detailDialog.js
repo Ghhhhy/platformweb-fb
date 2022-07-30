@@ -138,6 +138,7 @@ export let proconf = {
         'defaultValue': '',
         'props': {}
       },
+      filters: null,
       'sortable': 'true',
       'name': '$vxeSelect'
     },
