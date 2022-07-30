@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { proconf } from './detailDialog.js'
+import { proconf, statusMap } from './detailDialog.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRule.js'
 export default {
@@ -85,6 +85,10 @@ export default {
       default: ''
     },
     fiRuleCode: {
+      type: String,
+      default: ''
+    },
+    curStatusLable: {
       type: String,
       default: ''
     }
@@ -418,7 +422,8 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
-        fiRuleCode: this.fiRuleCode
+        fiRuleCode: this.fiRuleCode,
+        status: statusMap[this.curStatusLable] || ''
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

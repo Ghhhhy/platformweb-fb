@@ -62,6 +62,7 @@
       v-if="showViolations"
       :title="dialogTitle"
       :fi-rule-code="fiRuleCode"
+      :cur-status-lable="curStatusLable"
     />
   </div>
 </template>
@@ -198,7 +199,9 @@ export default {
       condition: {},
       violationsView: true,
       showViolations: false,
-      fiRuleCode: ''
+      fiRuleCode: '',
+      // 当前点击单元格对应列的title  查看明细过滤使用
+      curStatusLable: ''
     }
   },
   mounted() {
@@ -369,9 +372,9 @@ export default {
         key !== 'wholeHandleCount' &&
         key !== 'wholeNoHandleCount'
       ) {
+        this.curStatusLable = obj.column.title || ''
         this.showViolations = true
         this.fiRuleCode = key.split('-')[0]
-        console.log(key)
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

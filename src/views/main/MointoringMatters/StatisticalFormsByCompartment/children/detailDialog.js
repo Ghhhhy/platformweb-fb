@@ -1,4 +1,19 @@
 // import store from '@/store/index'
+/**
+ * 获取处理情况options
+ * @returns {[{label: string, value: number}, {label: string, value: number}]}
+ */
+export const getHandleStateOptions = () => {
+  return [
+    { value: 1, label: '未处理' },
+    { value: 2, label: '已处理' }
+  ]
+}
+
+export const statusMap = getHandleStateOptions().reduce((obj, item) => {
+  obj[item.label] = item.value
+  return obj
+}, {})
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -131,15 +146,12 @@ export let proconf = {
       align: 'center',
       'cellRender': {
         'name': '$vxeSelect',
-        options: [
-          { value: 1, label: '未处理' },
-          { value: 2, label: '已处理' }
-        ],
+        options: getHandleStateOptions(),
         'defaultValue': '',
         'props': {}
       },
       filters: null,
-      'sortable': 'true',
+      sortable: false,
       'name': '$vxeSelect'
     },
     {
