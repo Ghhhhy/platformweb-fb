@@ -929,7 +929,7 @@ export default {
             that.$parent.dialogVisible = false
             this.$parent.queryTableDatas()
           } else {
-            that.$message.error('操作失败')
+            that.$message.error(res.message)
           }
         }).finally(() => {
           // that.$parent.dialogVisible = false
