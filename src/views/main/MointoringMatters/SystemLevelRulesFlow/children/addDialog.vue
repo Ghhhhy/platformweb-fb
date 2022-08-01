@@ -118,7 +118,6 @@
                         :disabled="disabled"
                         placeholder="请选择触发菜单"
                         style="width:45%"
-                        @change="changeFunCode"
                       >
                         <el-option
                           v-for="item in businessFunctionCodeoptions"
@@ -158,7 +157,6 @@
                           :disabled="disabled"
                           :datas="regulationClassoptions"
                           :reloaddata="false"
-                          @input="selectRule"
                         />
                       </div>
                     </el-row>
@@ -177,7 +175,6 @@
                         :disabled="disabled"
                         placeholder="请选择预警级别"
                         style="width:45%"
-                        @change="chooseWarningLevel"
                       >
                         <el-option
                           v-for="item in warningLeveloptions"
@@ -200,7 +197,6 @@
                         :disabled="true"
                         placeholder="请选择处理方式"
                         style="width:45%"
-                        @change="choosehandleType"
                       >
                         <el-option
                           v-for="item in handleTypeoptions"
@@ -223,7 +219,6 @@
                         :disabled="disabled"
                         placeholder="请选择触发类型"
                         style="width:45%"
-                        @change="chooseTriggerClass"
                       >
                         <el-option
                           v-for="item in triggerClassoptions"
@@ -298,7 +293,6 @@
             :footer-config="{ showFooter: false }"
             :table-columns-config="mountTableColumnsConfig"
             :edit-config="editConfig"
-            :edit-rules="editRulesIn"
             :table-data="mountTableData"
             :toolbar-config="false"
             :pager-config="false"
@@ -358,7 +352,8 @@
                     ref="rightTree"
                     v-model="rightTreeValue"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true }"
+                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name', labelFormat: '{code}-{name}', children: 'children' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -434,6 +429,7 @@ export default {
   data() {
     return {
       showable: false,
+      defaultCheckedKeys: [],
       rightTreeValue: [],
       configIn: {
         disabled: true
@@ -632,8 +628,8 @@ export default {
               agencyCode: '',
               mofDiv: ''
             }
-            obj.mofDivId = item.code
-            obj.mofDivCode = item.name.split('-')[0]
+            obj.mofDivId = item.id
+            obj.mofDivCode = item.code
             arr.push(obj)
           }
         })
@@ -644,7 +640,7 @@ export default {
               mofDivCode: '',
               agencyCode: ''
             }
-            obj.mofDivId = item.code
+            obj.mofDivId = item.id
             arr.push(obj)
           }
         })
@@ -655,8 +651,8 @@ export default {
               mofDivCode: '',
               agencyCode: ''
             }
-            obj.mofDivId = item.code
-            obj.mofDivCode = item.name.split('-')[0]
+            obj.mofDivId = item.id
+            obj.mofDivCode = item.code
             arr.push(obj)
           }
         })
@@ -681,7 +677,8 @@ export default {
     getBusinessModelCodeDatas(val) {
       let that = this
       HttpModule.getBusinessTreeData(val).then(res => {
-        if (res.code === '000000' && res.data.results) {
+        console.log(res.data)
+        if (Array.isArray(res.data)) {
           let treeResdata = that.getChildrenData(res.data.results)
           const result = [
             {
@@ -798,10 +795,13 @@ export default {
         param.wheresql = 'and province =' + this.$store.state.userInfo.province
       }
       HttpModule.getTreewhere(param).then(res => {
+        console.log(res.data, regulationType)
         if (regulationType === '部门级' || regulationType === '财政级') {
-          this.treeData = this.getChildrenNewData1(res.data)
+          // this.treeData = this.getChildrenNewData1(res.data)
+          this.treeData = res.data
         } else {
-          this.getProvince(res.data[0])
+          this.treeData = res.data
+          // this.getProvince(res.data[0])
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []

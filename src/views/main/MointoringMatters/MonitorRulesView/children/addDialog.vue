@@ -919,7 +919,9 @@ export default {
         const params = {
           regulationCode: this.$parent.DetailData.regulationCode,
           warningLevel: this.warningLevel,
-          triggerClass: this.triggerClass
+          triggerClass: this.triggerClass,
+          regulationClass: this.regulationClass,
+          regulationName: this.monitorRuleName
         }
         HttpModule.updateData(params).then(res => {
           if (res.code === '000000') {
