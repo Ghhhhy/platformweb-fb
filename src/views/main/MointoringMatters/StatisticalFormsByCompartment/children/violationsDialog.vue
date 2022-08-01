@@ -394,7 +394,7 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
         warnLevel: this.warnLevel,
-        status: this.status,
+        // status: this.status,
         regulationType: this.regulationType,
         mofDivCode: this.mofDivCode,
         regulationClass: this.params5
