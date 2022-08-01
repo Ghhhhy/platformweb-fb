@@ -920,7 +920,7 @@ export default {
           regulationCode: this.$parent.DetailData.regulationCode,
           warningLevel: this.warningLevel,
           triggerClass: this.triggerClass,
-          regulationClass: this.regulationClass,
+          regulationClass: this.regulationClass.split('##')?.[0] || '',
           regulationName: this.monitorRuleName
         }
         HttpModule.updateData(params).then(res => {
