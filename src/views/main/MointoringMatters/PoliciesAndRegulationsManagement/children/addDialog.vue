@@ -39,9 +39,9 @@
                     >
                       <el-option
                         v-for="item in provinceOptions"
-                        :key="item.id"
-                        :label="item.rule_name"
-                        :value="item.rule_name"
+                        :key="item.id || item.ID"
+                        :label="item.rule_name || item.RULE_NAME"
+                        :value="item.rule_name || item.RULE_NAME"
                       />
                     </el-select>
                   </el-row>
