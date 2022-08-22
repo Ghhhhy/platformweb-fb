@@ -362,7 +362,7 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod(node) {
+    onClickmethod({ node }) {
       // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
       //   return
       // }
@@ -372,7 +372,7 @@ export default {
       this.getItem(code, treeData)
       console.log(this.codeList)
       if (node.id !== '0') {
-        this.mofDivCode = node.node.code
+        this.mofDivCode = node.code
       } else {
         this.condition = {}
       }
@@ -403,7 +403,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.queryTableDatas()
+      // this.queryTableDatas()
       // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
