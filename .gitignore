@@ -1,0 +1,31 @@
+.DS_Store
+node_modules
+/node_modules
+/dist
+/public/dll/
+/tests/e2e/reports/
+selenium-debug.log
+chromedriver.log
+geckodriver.log
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.history
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# /src/config/devUrlConfig.js
+# /src/api/serverGatewayMap.js
+# src/api/serverGatewayMap.js

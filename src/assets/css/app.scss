@@ -1,0 +1,339 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f2f7;
+  color: #464c5b;
+  font-size: 12px;
+  min-width: 1024px;
+  /* stylelint-disable */
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, 'Helvetica Neue', Helvetica;
+
+  &.ispreview {
+    overflow: hidden;
+
+    .boss-app {
+      filter: blur(20px);
+    }
+  }
+
+  .ui-selectable-helper {
+    border: 1px dashed #d1d1d1;
+    background-color: rgba(236, 218, 218, .1);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  body {
+    overflow-y: overlay;
+  }
+}
+
+.max-Zindex {
+  z-index: 2009 !important;
+}
+
+// button,
+// input,
+// select,
+// textarea {
+//   font-family: inherit;
+//   font-size: inherit;
+//   line-height: inherit;
+//   color: inherit;
+// }
+
+.boss-app {
+  position: relative;
+}
+
+.app-main {
+  position: relative;
+
+  .app-viewport {
+    position: relative;
+    padding: 10px;
+    height: 100%;
+    box-sizing: border-box;
+    background: #fff;
+
+    .app-panel {
+      margin: 0;
+      position: relative;
+      font-size: 14px;
+      .el-tabs{
+        height:100%;
+        .el-tabs__header{
+          margin-bottom:0;
+        }
+        .el-tabs__nav-scroll{
+          background-color: var(--common-background);
+          padding-left: 16px;
+        }
+        .el-tabs__content{
+          height:calc( 100% - 40px);
+        }
+        .el-tab-pane{
+          height:100%;
+        }
+      }
+    }
+  }
+
+  .boss-main {
+    .tab-pane {
+      flex: 1;
+    }
+
+    .el-tab-pane,
+    .app-panel {
+      height: 100%;
+      .info-left {
+        flex-shrink: 0;
+        width: 310px;
+        height: 100%;
+        background:var(--common-background);
+        > .boss-tree__base{
+          height:100%;
+          border:1px solid #eee;
+          .tree{
+            height:calc( 100% - 50px );
+            .el-tree{
+              background:transparent;
+            }
+          }
+        }
+        .left-toolBar {
+          line-height: 44px;
+          position: relative;
+          height: 44px;
+          padding: 0 10px;
+          box-sizing: border-box;
+        }
+
+        .ltt-tree{
+          height:100%;
+          overflow:hidden;
+          border:1px solid #eee;
+          .boss-tree__base{
+            height:100%;
+            box-sizing: border-box;
+            width: 100%!important;
+            .tree{
+              height:calc( 100% - 50px);
+              overflow:auto;
+              .el-tree{
+                background:transparent;
+              }
+            }
+          }
+        }
+        .left-toolBar + .ltt-tree {
+          height: calc(100% - 44px);
+        }
+      }
+
+      .info-main {
+        height:100%;
+        overflow: hidden;
+        flex: 1 1 auto;
+        position: relative;
+        padding-left: 10px;
+        box-sizing: border-box;
+      }
+    }
+    .boss-main-contain{
+      height: calc( 100vh - 92px );
+    }
+  }
+
+}
+
+.app-viewport {
+  .el-tabs {
+    flex: 1;
+  }
+}
+
+a {
+  &.link {
+    color: #43a3fb;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+}
+
+.el-dialog {
+  .modal-tip {
+    color: #f89d34;
+    background: #fff9e6;
+    border: 1px solid #f89d34;
+    padding: 10px 13px;
+    position: relative;
+    left: -12px;
+    width: 984px;
+    top: -17px;
+    margin-bottom: 5px;
+
+    .el-alert__content {
+      padding-right: 10px;
+    }
+
+    .el-alert__closebtn {
+      top: 12px;
+    }
+  }
+
+  .el-icon-warning {
+    color: #f89d34;
+    font-size: 16px;
+  }
+
+  .el-alert__closebtn {
+    top: 13px;
+    padding: 4px;
+  }
+}
+
+.flex-main-form {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.el-dialog {
+  width: 1000px;
+  margin-top: 10vh;
+
+  .el-dialog__header {
+    background: var(--hightlight-color);
+    padding: 13px 12px 12px 20px;
+    border-bottom: 1px solid #dce3f3;
+    font-size: 15px;
+
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  .el-dialog__footer {
+    text-align: right;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 0;
+    padding: 13px 12px 13px 20px;
+    border-top: 1px solid #dce3f3;
+
+    button {
+      padding: 10px 20px;
+    }
+  }
+}
+.el-tabs__nav-wrap::after {
+    height: 1px!important;
+}
+/*操作日志*/
+.operatelog{
+  .el-drawer__header{
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    span{
+      font-size: 16px;
+    }
+    span:focus{
+      outline:none;
+    }
+  }
+}
+/*人员信息维护页面布局*/
+.infocontainer {
+  height: 100%;
+  width: 100%;
+  background: #fafafa;
+  padding: 10px;
+  box-sizing: border-box;
+  .aside-filter {
+    .base-filter {
+      max-height: calc(100% - 40px);
+    }
+  }
+  .left-toolBar + .aside-filter {
+    height: calc(100% - 44px);
+  }
+  .flex-main-form{
+    width:100%;
+    height:100%;
+  }
+}
+/*一键测算 生成弹框*/
+.yjcs_sc{
+  .tree{
+    height:300px;
+    overflow:auto;
+  }
+}
+/*人员公用经费项目申报*/
+.ryjgyxmjfsb.main-modulebox{
+  height:100%;
+  .main-modulebox-con{
+    height:100%
+  }
+}
+/*转移支付项目申报 fmc-tree 另一个树组件*/
+/*.fmc-tree{
+  .fmc-left-tree{
+    height:100%!important;
+    .filter-content.nova-scroller{
+      margin:0;
+      .el-tree{
+        font-size:14px;
+      }
+    }
+  }
+}*/
+/*人员公用项目查看*/
+.ryjgyxmck_detail{
+  .el-dialog{
+    height:90vh;
+    margin-top:5vh!important;
+    margin-bottom:5vh!important;
+    .el-dialog__body{
+      height:calc( 100% - 50px );
+      overflow: auto;
+      box-sizing:border-box;
+      .high{
+        height:400px;
+        overflow:auto;
+        .el-card__body{
+          height:100%;
+          box-sizing:border-box;
+        }
+      }
+      .bottom_card {
+        margin-top: 30px;
+        height: 350px;
+        .el-card__body{
+          height:100%;
+          box-sizing:border-box;
+          .el-row{
+            height:100%;
+            .el-col{
+              height:100%;
+              padding:0 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+/*解决浏览器谷歌翻译多余内容问题*/
+#trans-tooltip, #tip-arrow-bottom, #tip-arrow-top{ display: none; }
+
+.footer-total-style{
+  font-weight: bold;
+}

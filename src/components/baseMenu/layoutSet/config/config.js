@@ -1,0 +1,7 @@
+const defaultConfig = {
+
+}
+
+export {
+  defaultConfig
+}

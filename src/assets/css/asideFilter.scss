@@ -1,0 +1,123 @@
+.el-tree{
+    .el-tree-node>.el-tree-node__children{
+        overflow: unset;
+    }
+    .el-tree-node.is-current>.el-tree-node__content {
+      background-color: rgba(0,0,0,0.04);
+    }
+}
+
+.el-tabs{
+    .el-tabs__item{
+        font-size: 16px;
+    }
+}
+.aside-filter {
+  position: relative;
+  height: 100%;
+  background-color: var(--common-background);
+  .base-filter {
+    overflow: auto;
+    max-height: calc( 80vh - 122px );
+    // max-width: calc(300px - 20px);
+    .el-tree-node__label,
+    .custom-tree-node {
+      max-width: 120px;
+    }
+  }
+
+  .base-filter__label {
+    display: inline-flex;
+    width: 100%;
+
+    &::after {
+      content: '('attr(data-count) ')';
+    }
+
+    span {
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  .filter-content {
+      display:inline-block;
+    margin-right: 20px;
+    width: 100%;
+    height:100%;
+
+    .filter-head {
+      height: 32px;
+      position: relative;
+      padding: 7px 15px;
+      line-height: 31px;
+      letter-spacing: 0;
+      color: #464c5b;
+      font-size: 16px;
+      border-bottom: 1px solid #dce3f3;
+      background-color: rgb(227, 242, 254);
+    }
+
+    .filter-body {
+      background: var(--common-background);
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border-right: solid 1px #E4E7ED;
+      padding: 10px 10px 0 10px;
+      height: calc(100% - 47px);
+      .el-tree{
+          background: none;
+      }
+    }
+  }
+
+  .aside-arrow {
+    overflow: hidden;
+    background: #f4f7fc;
+    border-right: 1px solid #dce3f3;
+    height: 100%;
+    cursor: pointer;
+
+    .fold-icon {
+      color: #474d5c;
+      font-size: 14px;
+    }
+  }
+
+  &.list-flod {
+    width: 20px;
+
+    .fold-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.list-filter,
+.list-mode__filter {
+  flex-shrink: 0;
+  margin-right: 20px;
+  max-height: 100%;
+}
+
+.list-filter {
+  .aside-filter {
+    .filter-content {
+      max-height: 82vh;
+    }
+  }
+}
+
+.list-mode__filter {
+  .aside-filter {
+    .filter-content {
+      max-height: 360px;
+    }
+  }
+}
+
+
+

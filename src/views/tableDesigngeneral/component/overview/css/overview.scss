@@ -1,0 +1,13 @@
+.overview-form {
+  margin: 0 30px;
+  .vxe-form.size--medium .vxe-form--item-inner {
+    display: grid;
+  }
+  .vxe-form--item-title {
+    font-size: 10px;
+    text-align: left!important;
+  }
+  .vxe-form--item {
+    float: inherit!important;
+  }
+}

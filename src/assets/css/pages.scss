@@ -1,0 +1,137 @@
+/*各页面 样式调整*/
+.left-toolBar.smallsize{
+  .el-radio-button__inner{
+    padding:9px 10px;
+  }
+}
+/*支出标准维护（非人员公用标准） */
+.zcbzwh_n{
+  padding:0!important;
+  .boss-left__toolbar{
+    position:absolute;
+    left: 10px;
+    top:6px;
+    z-index:9;
+  }
+}
+/*支出标准维护（人员公用标准） 单位对标准*/
+.dwdbz{
+  .el-dialog{
+    margin: 0;
+    .el-dialog__body{
+      height: calc( 100% - 80px );
+      .infocontainer{
+        .info-left{
+          background: var(--common-background);
+          float:left;
+          width:310px;
+          height:100%;
+          .left-toolBar{
+            display:none;
+          }
+          .tree {
+            width: 100%;
+            background: transparent;
+            height:100%;
+            .tree-list{
+              height: 50%;
+              overflow-y: auto;
+              overflow-x: auto;
+              .boss-tree__base{
+                height:100%;
+                .el-tree{
+                  background: transparent;
+                }
+              }
+            }
+          }
+        }
+        .info-main{
+          float:right;
+          height:100%;
+          width:calc( 100% - 320px );
+        }
+      }
+    }
+  }
+}
+.dwdbfz{
+  height: 400px;
+  overflow-y: auto;
+  .boss-tree__base{
+    height:100%;
+    .tree{
+      height:calc( 100% - 50px );
+    }
+  }
+}
+/*支出标准审核（非人员公用标准） */
+.zcbzsh{
+  padding:0!important;
+  .boss-left__toolbar{
+    position:absolute;
+    left: 10px;
+    top:6px;
+    z-index:9;
+  }
+}
+/*专项资金预算控制数分解（财政业务部门)*/
+.zxzjyskzsfj_cz{
+  height:100%;
+  .el-card{
+    height:50%;
+    box-sizing: border-box;
+    .el-card__body{
+      height:100%;
+      padding:10px;
+      box-sizing: border-box;
+      .el-tabs{
+        height:100%;
+        .el-tabs__header{
+          margin-bottom:10px;
+        }
+        .el-tabs__content{
+          height:calc( 100% - 50px );
+          .el-tab-pane{
+            height:100%;
+          }
+        }
+      }
+    }
+  }
+}
+/*专项资金预算编制（主管部门） 细化预算*/
+#refineBudget{
+  #firstTab{
+    .el-card__body {
+      height: 50px;
+      line-height: 50px;
+      padding-left:16px;
+    }
+  }
+  #upTab{
+    margin-top: 10px;
+    .el-tabs__content {
+      height: 50px;
+      line-height: 50px;
+      padding-left:16px;
+    }
+  }
+  #downTab{
+    margin-top: 10px;
+    height: calc( 100% - 250px );
+    .el-card__body {
+      height: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+/*专项资金目录维护*/
+.zxzjmlwh{
+  .boss-tree__base{
+    height:calc( 100% - 40px )!important;
+    box-sizing: border-box;
+    background: var(--common-background);
+    width: 100%!important;
+  }
+}

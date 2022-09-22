@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>备注icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="新增" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2-财政用款计划代码录入-新增备份" transform="translate(-198.000000, -844.000000)" fill="#CFD2D4">
+            <g id="弹窗" transform="translate(23.000000, 96.000000)">
+                <g id="内容" transform="translate(1.000000, 49.000000)">
+                    <g id="上传" transform="translate(24.000000, 630.000000)">
+                        <g transform="translate(24.000000, 56.000000)" id="间距-&lt;h16-&gt;">
+                            <g>
+                                <g id="编组-2">
+                                    <g id="描述" transform="translate(126.000000, 9.000000)">
+                                        <g id="备注icon" transform="translate(0.000000, 4.000000)">
+                                            <path d="M7,0 C10.8659932,0 14,3.13400675 14,7 C14,10.8659932 10.8659932,14 7,14 C3.13400675,14 0,10.8659932 0,7 C0,3.13400675 3.13400675,0 7,0 Z M7.5,9 L6.5,9 C6.22385763,9 6,9.22385763 6,9.5 L6,9.5 L6,10.5 C6,10.7761424 6.22385763,11 6.5,11 L6.5,11 L7.5,11 C7.77614237,11 8,10.7761424 8,10.5 L8,10.5 L8,9.5 C8,9.22385763 7.77614237,9 7.5,9 L7.5,9 Z M7.5,3 L6.5,3 C6.22385763,3 6,3.22385763 6,3.5 L6,3.5 L6,7.5 C6,7.77614237 6.22385763,8 6.5,8 L6.5,8 L7.5,8 C7.77614237,8 8,7.77614237 8,7.5 L8,7.5 L8,3.5 C8,3.22385763 7.77614237,3 7.5,3 L7.5,3 Z" id="icon" transform="translate(7.000000, 7.000000) scale(1, -1) translate(-7.000000, -7.000000) "></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

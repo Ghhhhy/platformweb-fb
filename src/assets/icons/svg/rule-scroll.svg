@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="538px" height="298px" viewBox="0 0 538 298" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>实时触发规则滚动显示图</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="538" height="298"></rect>
+        <rect id="path-3" x="0" y="0" width="538" height="48"></rect>
+        <filter x="-0.1%" y="-3.1%" width="100.2%" height="106.2%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-5" x="0" y="0" width="490" height="48"></rect>
+        <filter x="-0.1%" y="-3.1%" width="100.2%" height="106.2%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-7" x="0" y="0" width="490" height="48"></rect>
+        <filter x="-0.1%" y="-3.1%" width="100.2%" height="106.2%" filterUnits="objectBoundingBox" id="filter-8">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-9" x="0" y="0" width="490" height="48"></rect>
+        <filter x="-0.1%" y="-3.1%" width="100.2%" height="106.2%" filterUnits="objectBoundingBox" id="filter-10">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-11" x="0" y="0" width="490" height="48"></rect>
+        <filter x="-0.1%" y="-3.1%" width="100.2%" height="106.2%" filterUnits="objectBoundingBox" id="filter-12">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feColorMatrix values="0 0 0 0 0.847058824   0 0 0 0 0.847058824   0 0 0 0 0.847058824  0 0 0 1 0" type="matrix" in="shadowOffsetOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="监控预警总览" transform="translate(-24.000000, -452.000000)">
+            <g id="实时触发规则滚动显示图" transform="translate(24.000000, 452.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="矩形备份-9" fill="#FFFFFF" xlink:href="#path-1"></use>
+                <g id="编组-19备份" mask="url(#mask-2)">
+                    <g transform="translate(0.000000, 60.000000)" id="编组-26备份-2">
+                        <g id="矩形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                            <use fill="#FBFBFB" fill-rule="evenodd" xlink:href="#path-3"></use>
+                        </g>
+                        <text id="“818001-陕西省公安厅交通警察总队" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#2E3133">
+                            <tspan x="24" y="29">“818001-陕西省公安厅交通警察总队本级”触发了“工资</tspan>
+                        </text>
+                        <g id="…" transform="translate(373.000000, 23.000000)" fill="#2E3133" fill-rule="nonzero">
+                            <path d="M0.84,0 C0.602,0 0.406,0.07 0.252,0.238 C0.084,0.392 0,0.588 0,0.826 C0,1.064 0.084,1.26 0.252,1.428 C0.406,1.582 0.602,1.666 0.84,1.666 C1.078,1.666 1.288,1.582 1.456,1.428 C1.61,1.274 1.694,1.078 1.694,0.826 C1.694,0.588 1.61,0.392 1.456,0.238 C1.288,0.07 1.092,0 0.84,0 Z M5.516,0 C5.278,0 5.082,0.07 4.914,0.238 C4.746,0.392 4.676,0.588 4.676,0.826 C4.676,1.064 4.746,1.26 4.914,1.428 C5.082,1.582 5.278,1.666 5.516,1.666 C5.754,1.666 5.964,1.582 6.132,1.428 C6.286,1.274 6.37,1.078 6.37,0.826 C6.37,0.588 6.286,0.392 6.132,0.238 C5.964,0.07 5.754,0 5.516,0 Z M10.178,0 C9.94,0 9.744,0.07 9.576,0.238 C9.408,0.392 9.338,0.588 9.338,0.826 C9.338,1.064 9.408,1.26 9.576,1.428 C9.744,1.582 9.94,1.666 10.178,1.666 C10.416,1.666 10.612,1.582 10.78,1.428 C10.948,1.274 11.032,1.078 11.032,0.826 C11.032,0.588 10.948,0.392 10.78,0.238 C10.612,0.07 10.416,0 10.178,0 Z" id="形状"></path>
+                        </g>
+                        <text id="2022-05-12-22:30:08" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="14" fill="#8A9299">
+                            <tspan x="444" y="23">2022-05-12</tspan>
+                            <tspan x="464.196" y="37">22:30:08</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="编组-19备份-2" mask="url(#mask-2)">
+                    <g transform="translate(24.000000, 109.000000)" id="编组-26备份-2">
+                        <g id="矩形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
+                        </g>
+                        <text id="“208047-省教育厅财务处”触发了“" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#2E3133">
+                            <tspan x="0" y="29">“208047-省教育厅财务处”触发了“支付单笔大于1000万…</tspan>
+                        </text>
+                        <text id="2022-05-12-22:30:08" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="14" fill="#8A9299">
+                            <tspan x="420" y="23">2022-05-12</tspan>
+                            <tspan x="440.196" y="37">22:30:08</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="编组-19备份-3" mask="url(#mask-2)">
+                    <g transform="translate(24.000000, 157.000000)" id="编组-26备份-2">
+                        <g id="矩形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-7"></use>
+                        </g>
+                        <text id="“208006-西安工业大学”触发了“同" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#2E3133">
+                            <tspan x="0" y="29">“208006-西安工业大学”触发了“同户转款相关特殊提醒…</tspan>
+                        </text>
+                        <text id="2022-05-12-22:30:08" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="14" fill="#8A9299">
+                            <tspan x="420" y="23">2022-05-12</tspan>
+                            <tspan x="440.196" y="37">22:30:08</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="编组-19备份-4" mask="url(#mask-2)">
+                    <g transform="translate(24.000000, 205.000000)" id="编组-26备份-2">
+                        <g id="矩形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-10)" xlink:href="#path-9"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-9"></use>
+                        </g>
+                        <text id="“129007-陕西省国有资产评估中心”" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#2E3133">
+                            <tspan x="0" y="29">“129007-陕西省国有资产评估中心”触发了“同户名转账…</tspan>
+                        </text>
+                        <text id="2022-05-12-22:30:08" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="14" fill="#8A9299">
+                            <tspan x="420" y="23">2022-05-12</tspan>
+                            <tspan x="440.196" y="37">22:30:08</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="编组-19备份-5" mask="url(#mask-2)">
+                    <g transform="translate(24.000000, 253.000000)" id="编组-26备份-2">
+                        <g id="矩形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-12)" xlink:href="#path-11"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-11"></use>
+                        </g>
+                        <text id="“808001-省监狱局机关”触发了“建" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#2E3133">
+                            <tspan x="0" y="29">“808001-省监狱局机关”触发了“建议使用公务卡业务”监…</tspan>
+                        </text>
+                        <text id="2022-05-12-22:30:08" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="14" fill="#8A9299">
+                            <tspan x="420" y="23">2022-05-12</tspan>
+                            <tspan x="440.196" y="37">22:30:08</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="编组-7" mask="url(#mask-2)" fill="#2A8BFD">
+                    <g transform="translate(0.000000, 60.000000)">
+                        <rect id="矩形" x="0" y="0" width="4" height="48"></rect>
+                        <polygon id="三角形" transform="translate(11.000000, 24.000000) rotate(90.000000) translate(-11.000000, -24.000000) " points="11 21 16.25 27 5.75 27"></polygon>
+                    </g>
+                </g>
+                <text mask="url(#mask-2)" font-family="PingFangSC-Medium, PingFang SC" font-size="16" font-weight="400" line-spacing="26" fill="#595959">
+                    <tspan x="22.1639344" y="33">实时触发规则滚动显示图</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

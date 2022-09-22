@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="538px" height="266px" viewBox="0 0 538 266" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>规则启用情况</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="监控预警总览" transform="translate(-24.000000, -164.000000)">
+            <g id="规则启用情况" transform="translate(24.000000, 164.000000)">
+                <rect id="矩形备份-9" fill="#FFFFFF" x="0" y="0" width="538" height="265"></rect>
+                <g id="编组-13" transform="translate(24.000000, 50.492300)">
+                    <g id="横线" transform="translate(25.000000, 15.507700)" stroke="#F1F1F1" stroke-dasharray="2" stroke-linecap="square">
+                        <line x1="0.702380952" y1="0.5" x2="471.297619" y2="0.5" id="直线-3"></line>
+                        <line x1="0.702380952" y1="28.5" x2="471.297619" y2="28.5" id="直线-3备份-2"></line>
+                        <line x1="0.702380952" y1="56.5" x2="471.297619" y2="56.5" id="直线-3备份-4"></line>
+                        <line x1="0.702380952" y1="139.5" x2="471.297619" y2="139.5" id="直线-3备份-10"></line>
+                        <line x1="0.702380952" y1="84.5" x2="471.297619" y2="84.5" id="直线-3备份-6"></line>
+                        <line x1="0.702380952" y1="112.5" x2="471.297619" y2="112.5" id="直线-3备份-8"></line>
+                    </g>
+                    <g id="编组-11" transform="translate(47.000000, 148.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 4 22 4 22 6 -3.81639165e-17 6"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 2 22 2 22 4 -3.81639165e-17 4"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 1.77635684e-15 22 8.8817842e-15 22 2 -3.81639165e-17 2"></polygon>
+                    </g>
+                    <g id="编组-11备份-6" transform="translate(92.000000, 142.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 8 22 8 22 12 -3.81639165e-17 12"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 4 22 4 22 8 -3.81639165e-17 8"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 3.55271368e-15 22 1.77635684e-14 22 4 -3.81639165e-17 4"></polygon>
+                    </g>
+                    <g id="编组-11备份-7" transform="translate(137.222222, 75.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 52 22 52 22 79 -3.81639165e-17 79"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 26 22 26 22 53 -3.81639165e-17 53"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 2.39808173e-14 22 1.19904087e-13 22 27 -3.81639165e-17 27"></polygon>
+                    </g>
+                    <g id="编组-11备份-8" transform="translate(182.333333, 37.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 78 22 78 22 117 -3.81639165e-17 117"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 39 22 39 22 78 -3.81639165e-17 78"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 3.46389584e-14 22 1.73194792e-13 22 39 -3.81639165e-17 39"></polygon>
+                    </g>
+                    <g id="编组-11备份-9" transform="translate(227.444444, 59.413361)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 63.0943396 22 63.0943396 22 95.0943396 -3.81639165e-17 95.0943396"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 32.0943396 22 32.0943396 22 64.0943396 -3.81639165e-17 64.0943396"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 0.0943396226 22 0.0943396226 22 32.0943396 -3.81639165e-17 32.0943396"></polygon>
+                    </g>
+                    <g id="编组-11备份-10" transform="translate(273.000000, 148.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 4 22 4 22 6 -3.81639165e-17 6"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 2 22 2 22 4 -3.81639165e-17 4"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 1.77635684e-15 22 8.8817842e-15 22 2 -3.81639165e-17 2"></polygon>
+                    </g>
+                    <g id="编组-11备份-11" transform="translate(318.000000, 148.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 4 22 4 22 6 -3.81639165e-17 6"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 2 22 2 22 4 -3.81639165e-17 4"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 1.77635684e-15 22 8.8817842e-15 22 2 -3.81639165e-17 2"></polygon>
+                    </g>
+                    <g id="编组-11备份-12" transform="translate(363.000000, 142.507700)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 8 22 8 22 12 -3.81639165e-17 12"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 4 22 4 22 8 -3.81639165e-17 8"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 3.55271368e-15 22 1.77635684e-14 22 4 -3.81639165e-17 4"></polygon>
+                    </g>
+                    <g id="编组-11备份-13" transform="translate(407.888889, 95.073738)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 39.4339623 22 39.4339623 22 59.4339623 -3.81639165e-17 59.4339623"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 20.4339623 22 20.4339623 22 40.4339623 -3.81639165e-17 40.4339623"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 0.433962264 22 0.433962264 22 20.4339623 -3.81639165e-17 20.4339623"></polygon>
+                    </g>
+                    <g id="编组-11备份-14" transform="translate(453.000000, 87.941663)" opacity="0.949999988">
+                        <polygon id="Rectangle-6" fill="#FF1515" points="-3.81639165e-17 43.5660377 22 43.5660377 22 66.5660377 -3.81639165e-17 66.5660377"></polygon>
+                        <polygon id="Rectangle-6备份-2" fill="#FF6F20" points="-3.81639165e-17 22.5660377 22 22.5660377 22 45.5660377 -3.81639165e-17 45.5660377"></polygon>
+                        <polygon id="Rectangle-6备份-3" fill="#FFCB15" points="-3.81639165e-17 -0.433962264 22 -0.433962264 22 22.5660377 -3.81639165e-17 22.5660377"></polygon>
+                    </g>
+                    <text id="35-30-25-20-15-10" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="28" fill="#8A9299">
+                        <tspan x="0.6" y="13">35</tspan>
+                        <tspan x="0.6" y="41">30</tspan>
+                        <tspan x="0.6" y="69">25</tspan>
+                        <tspan x="0.6" y="97">20</tspan>
+                        <tspan x="2.988" y="125">15</tspan>
+                        <tspan x="2.988" y="153">10</tspan>
+                    </text>
+                    <text id="预算批复" transform="translate(53.771966, 180.000000) rotate(-30.000000) translate(-53.771966, -180.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="29.7719656" y="182">预算批复</tspan>
+                    </text>
+                    <text id="预算执行" transform="translate(234.487596, 181.341257) rotate(-30.000000) translate(-234.487596, -181.341257) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="210.487596" y="183.341257">预算执行</tspan>
+                    </text>
+                    <text id="决算和报告" transform="translate(364.142325, 183.894171) rotate(-30.000000) translate(-364.142325, -183.894171) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="334.142325" y="185.894171">决算和报告</tspan>
+                    </text>
+                    <text id="预算调整调剂" transform="translate(88.001154, 187.000000) rotate(-30.000000) translate(-88.001154, -187.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="52.0011539" y="189">预算调整调剂</tspan>
+                    </text>
+                    <text id="项目库管理" transform="translate(274.114729, 184.000000) rotate(-30.000000) translate(-274.114729, -184.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="244.114729" y="186">项目库管理</tspan>
+                    </text>
+                    <text id="直达资金" transform="translate(414.761165, 181.000000) rotate(-30.000000) translate(-414.761165, -181.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="390.761165" y="183">直达资金</tspan>
+                    </text>
+                    <text id="会计核算" transform="translate(143.832732, 181.000000) rotate(-30.000000) translate(-143.832732, -181.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="119.832732" y="183">会计核算</tspan>
+                    </text>
+                    <text id="基础信息管理" transform="translate(314.324679, 187.211657) rotate(-30.000000) translate(-314.324679, -187.211657) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="278.324679" y="189.211657">基础信息管理</tspan>
+                    </text>
+                    <text id="转移支付" transform="translate(460.183853, 181.105829) rotate(-30.000000) translate(-460.183853, -181.105829) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="436.183853" y="183.105829">转移支付</tspan>
+                    </text>
+                    <text id="预算编制" transform="translate(189.056615, 181.000000) rotate(-30.000000) translate(-189.056615, -181.000000) " font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" line-spacing="22" fill="#8A9299">
+                        <tspan x="165.056615" y="183">预算编制</tspan>
+                    </text>
+                    <polyline id="路径-53" stroke="#6395FA" points="58 138.5077 103 134.5077 148.222222 122.5077 193.333333 91.5077004 238.444444 44.0077004 284 59.5077004 329 115.0077 374 122.5077 418 109.5077 464 70.0077004"></polyline>
+                    <circle id="椭圆形" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="102" cy="134.5077" r="4"></circle>
+                    <circle id="椭圆形备份-3" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="238" cy="44.5077004" r="4"></circle>
+                    <circle id="椭圆形备份-5" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="284" cy="59.5077004" r="4"></circle>
+                    <circle id="椭圆形备份-7" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="331" cy="114.5077" r="4"></circle>
+                    <circle id="椭圆形备份-8" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="374" cy="121.5077" r="4"></circle>
+                    <circle id="椭圆形备份-9" stroke="#FFCE21" stroke-width="2" fill="#6395FA" cx="418" cy="109.5077" r="4"></circle>
+                    <circle id="椭圆形备份-10" stroke="#FFFFFF" stroke-width="2" fill="#6395FA" cx="464" cy="70.5077004" r="4"></circle>
+                    <circle id="椭圆形备份" stroke="#FF762C" stroke-width="2" fill="#6395FA" cx="148" cy="122.5077" r="4"></circle>
+                    <circle id="椭圆形备份-2" stroke="#FF762C" stroke-width="2" fill="#6395FA" cx="193" cy="91.5077004" r="4"></circle>
+                </g>
+                <g id="编组-9" transform="translate(24.000000, 16.000000)" fill="#595959" font-family="PingFangSC-Medium, PingFang SC" font-size="16" font-weight="400" line-spacing="26">
+                    <text id="规则启用情况">
+                        <tspan x="0" y="17">规则启用情况</tspan>
+                    </text>
+                </g>
+                <g id="图例一" transform="translate(461.000000, 20.716376)">
+                    <polygon id="路径" fill-opacity="0" fill="#FFFFFF" fill-rule="nonzero" points="0.137254625 1.07793221 31.191301 1.07793221 31.191301 16.9220678 12.5119216 16.9220678 0.137254625 16.9220678"></polygon>
+                    <text id="红色预警" fill="#8C8C8C" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal">
+                        <tspan x="11.9899404" y="13">红色预警</tspan>
+                    </text>
+                    <rect id="矩形" fill="#FFFFFF" x="0" y="3.34138015" width="7.68025879" height="11.3172397"></rect>
+                    <rect id="矩形" fill="#FF2121" x="0.768025879" y="4.47310412" width="6.14420703" height="9.05379176"></rect>
+                </g>
+                <g id="图例一" transform="translate(385.000000, 20.716376)">
+                    <polygon id="路径" fill-opacity="0" fill="#FFFFFF" fill-rule="nonzero" points="0.137254625 1.07793221 31.191301 1.07793221 31.191301 16.9220678 12.5119216 16.9220678 0.137254625 16.9220678"></polygon>
+                    <text id="橙色预警" fill="#8C8C8C" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal">
+                        <tspan x="11.9899404" y="13">橙色预警</tspan>
+                    </text>
+                    <rect id="矩形" fill="#FFFFFF" x="0" y="3.34138015" width="7.68025879" height="11.3172397"></rect>
+                    <rect id="矩形" fill="#FE752B" x="0.768025879" y="4.47310412" width="6.14420703" height="9.05379176"></rect>
+                </g>
+                <g id="图例一" transform="translate(309.000000, 20.716376)">
+                    <polygon id="路径" fill-opacity="0" fill="#FFFFFF" fill-rule="nonzero" points="0.137254625 1.07793221 31.191301 1.07793221 31.191301 16.9220678 12.5119216 16.9220678 0.137254625 16.9220678"></polygon>
+                    <text id="黄色预警" fill="#8C8C8C" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal">
+                        <tspan x="11.9899404" y="13">黄色预警</tspan>
+                    </text>
+                    <rect id="矩形" fill="#FFFFFF" x="0" y="3.34138015" width="7.68025879" height="11.3172397"></rect>
+                    <rect id="矩形" fill="#FFCE21" x="0.768025879" y="4.47310412" width="6.14420703" height="9.05379176"></rect>
+                </g>
+                <g id="图例一" transform="translate(233.000000, 20.716376)">
+                    <polygon id="路径" fill-opacity="0" fill="#FFFFFF" fill-rule="nonzero" points="0.137254625 1.07793221 31.191301 1.07793221 31.191301 16.9220678 12.5119216 16.9220678 0.137254625 16.9220678"></polygon>
+                    <text id="蓝色预警" fill="#8C8C8C" fill-rule="nonzero" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal">
+                        <tspan x="11.9899404" y="13">蓝色预警</tspan>
+                    </text>
+                    <rect id="矩形" fill="#FFFFFF" x="0" y="3.34138015" width="7.68025879" height="11.3172397"></rect>
+                    <rect id="矩形" fill="#6395FA" x="0.768025879" y="4.47310412" width="6.14420703" height="9.05379176"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

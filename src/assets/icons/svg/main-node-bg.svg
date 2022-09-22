@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="174px" height="284px" viewBox="0 0 174 284" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>路径 2</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#5B8FF9" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#5B8FF9" offset="49.3252841%"></stop>
+            <stop stop-color="#5B8FF9" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.264392671">
+        <path d="M0,0 C41.1473209,21.4886613 64.9269262,59.3089228 71.3388158,113.460784 C77.7507054,167.612646 53.9711001,224.459051 0,284 L168.014799,284 C120.812701,236.145626 97.2116526,179.29922 97.2116526,113.460784 C97.2116526,47.6223484 122.693039,9.80208692 173.655811,0 L0,0 Z" id="路径-2" fill="url(#linearGradient-1)"></path>
+    </g>
+</svg>
