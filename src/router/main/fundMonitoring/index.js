@@ -264,6 +264,15 @@ const routers = [
     path: '/dfrAllocationProgressTracking', // 直达资金分配进度跟踪表
     name: 'dfrAllocationProgressTracking',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrAllocationProgressTracking/dfrAllocationProgressTracking.vue')
+  },
+  {
+    path: '/dfrMultipleQuery', // 直达资金综合查询
+    name: 'dfrMultipleQuery',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/dfrMultipleQuery/dfrMultipleQuery.vue')
   }
 ]
 
