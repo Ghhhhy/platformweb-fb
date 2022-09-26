@@ -249,7 +249,8 @@ export default {
     // 生成右侧按钮组
     generateRightButtons() {
       this.rButtonsInfo = this.tabStatusBtnConfigIn.buttonsInfo || this.buttonsInfoIn
-      this.rButtons = this.rButtonsInfo[this.curTabSelect.curValue] || []
+      this.rButtons = this.rButtonsInfo[this.curTabSelect.curValue || this.curTabSelect.code] || this.rButtonsInfo
+      // this.rButtons = this.rButtonsInfo
     },
 
     // 合并状态按钮
@@ -397,8 +398,7 @@ export default {
         obj.callback(obj, self)
       } else {
         // 方式二: toolbar事件代理
-        typeof methods.bsToolbarClickEvent === 'function' &&
-          methods.bsToolbarClickEvent(obj, self)
+        typeof methods.bsToolbarClickEvent === 'function' && methods.bsToolbarClickEvent(obj, self)
       }
     },
 
@@ -526,17 +526,19 @@ export default {
           })
         }
       }
+    },
+    initFirst() {
+      window.addEventListener('resize', this.resize)
+      this.initData()
+      this.initTabStatusNumConfig()
+      this.$nextTick(() => {
+        this.resize()
+      })
     }
   },
   created() {},
   mounted() {
-    this.isPack = this.isOpen
-    window.addEventListener('resize', this.resize)
-    this.initData()
-    this.initTabStatusNumConfig()
-    this.$nextTick(() => {
-      this.resize()
-    })
+    this.initFirst()
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.resize)
@@ -612,7 +614,7 @@ export default {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   height: 56px;
-  padding-right: 24px;
+  padding-right: 16px;
   .Ttab-con .button li {
     width: 90px;
   }
