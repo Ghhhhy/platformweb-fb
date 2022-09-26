@@ -69,6 +69,16 @@
               </div>
             </div>
           </template>
+          <template v-slot:tools-before>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
+            </div>
+          </template>
         </BsTable>
       </template>
     </BsMainFormListLayout>
@@ -99,6 +109,7 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
@@ -335,7 +346,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -394,8 +409,8 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
@@ -430,8 +445,9 @@ export default {
       this.dialogTitle = '新增'
     },
     // 查询 table 数据
-    queryTableDatas() {
+    queryTableDatas(isFlush = false) {
       const param = {
+        isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         reportCode: 'dwzfqk',
@@ -445,12 +461,15 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.data
+          this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     loadChildrenMethod ({ row }) {
