@@ -1261,11 +1261,11 @@ export default {
       }
 
       HttpModule.getTreeData1(params).then(res => {
-        if (res.rscode === '100000') {
+        if (res.code === '000000') {
           let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.code + '-' + item.name
-          // })
+          treeResdata.forEach(item => {
+            item.label = item.code + '-' + item.name
+          })
           const result = [
             {
               id: 'root',
@@ -1276,7 +1276,7 @@ export default {
             }
           ]
           this.treeData = result
-          that.proTotal = res.data.total
+          that.proTotal = res.data.length
         } else {
           this.$message.error('左侧树加载失败')
         }
