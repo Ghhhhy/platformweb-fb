@@ -15,7 +15,7 @@ export function querydf(params) {
  * @return {Promise<unknown>}
  */
 export function queryDetaildf(params) {
-  return post('dfr-monitor-service/dfr/bgtInfoQuery/querydf', params)
+  return post('dfr-monitor-service/dfr/bgtInfoQuery/queryDetaildf', params)
 }
 
 /**

@@ -51,6 +51,7 @@
       </template>
     </BsMainFormListLayout>
     <PreviewModal
+      v-if="modalVisiableState"
       :visiable-state.sync="modalVisiableState"
       :current-value="currentRow"
     />

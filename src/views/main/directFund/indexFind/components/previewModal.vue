@@ -41,7 +41,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance()
-    const { currentTreeNode, currentRow } = instance.parent
+    const { currentTreeNode, currentRow } = instance.parent.data
     const visiable = computed({
       get() {
         return props.visiableState
@@ -70,7 +70,7 @@ export default defineComponent({
       columns: getIndexSourceGoneColumns(),
       dataKey: 'data',
       beforeFetch: (params) => {
-        params.toctrlId = unref(currentRow).toctrlId
+        params.toctrlId = unref(currentRow)?.toctrlId
         return params
       }
     })
