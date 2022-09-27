@@ -1,12 +1,39 @@
 import { post } from '@/api/http'
 
 /**
- * 获取指标数据
+ * 待分配指标列表
  * @param params
  * @return {Promise<unknown>}
  */
-export function getData(params) {
+export function querydf(params) {
   return post('dfr-monitor-service/dfr/bgtInfoQuery/querydf', params)
+}
+
+/**
+ * 待分配指标来源去向
+ * @param params
+ * @return {Promise<unknown>}
+ */
+export function queryDetaildf(params) {
+  return post('dfr-monitor-service/dfr/bgtInfoQuery/querydf', params)
+}
+
+/**
+ * 本级可执行指标列表
+ * @param params
+ * @return {Promise<unknown>}
+ */
+export function querykzx(params) {
+  return post('dfr-monitor-service/dfr/bgtInfoQuery/querykzx', params)
+}
+
+/**
+ * 本级可执行指标来源去向
+ * @param params
+ * @return {Promise<unknown>}
+ */
+export function queryDetailkzx(params) {
+  return post('dfr-monitor-service/dfr/bgtInfoQuery/queryDetailkzx', params)
 }
 
 /**
@@ -32,7 +59,11 @@ export function getIndexFindTree() {
                     children: [
                       {
                         name: '2022年待分配指标登记',
-                        code: '001020201'
+                        code: '001020201',
+                        request: {
+                          list: querydf,
+                          detail: queryDetaildf
+                        }
                       }
                     ]
                   },
@@ -42,7 +73,11 @@ export function getIndexFindTree() {
                     children: [
                       {
                         name: '2022年本级可执行指标登记',
-                        code: '001020301'
+                        code: '001020301',
+                        request: {
+                          list: querykzx,
+                          detail: queryDetailkzx
+                        }
                       }
                     ]
                   },
@@ -64,11 +99,4 @@ export function getIndexFindTree() {
       })
     }, 300)
   })
-}
-
-/**
- * 获取指标来源去向
- */
-export function getIndexSourceGone(params) {
-  return post('dfr-monitor-service/dfr/bgtInfoQuery/queryDetaildf', params)
 }

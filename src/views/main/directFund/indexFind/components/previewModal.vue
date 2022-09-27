@@ -10,8 +10,7 @@
     <div class="content" style="height: 100%; padding-bottom: 10px; box-sizing: border-box">
       <BsTable
         v-loading="tableLoadingState"
-        :table-global-config="{ seq: false }"
-        :table-config="tableConfig"
+        :table-config="{ ...tableConfig, seq: false }"
         :table-columns-config="columns"
         :table-data="tableData"
         :toolbar-config="false"
@@ -24,10 +23,9 @@
 </template>
 
 <script>
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed, unref, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { getIndexSourceGoneColumns } from '../model/data'
-import { getIndexSourceGone } from '@/api/frame/main/directFund/indexFind.js'
 
 export default defineComponent({
   props: {
@@ -42,6 +40,8 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const instance = getCurrentInstance()
+    const { currentTreeNode, currentRow } = instance.parent
     const visiable = computed({
       get() {
         return props.visiableState
@@ -66,9 +66,13 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: getIndexSourceGone,
+      fetch: unref(currentTreeNode).request.detail,
       columns: getIndexSourceGoneColumns(),
-      dataKey: 'data'
+      dataKey: 'data',
+      beforeFetch: (params) => {
+        params.toctrlId = unref(currentRow).toctrlId
+        return params
+      }
     })
 
     return {

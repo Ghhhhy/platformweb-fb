@@ -63,7 +63,7 @@ import useTable from '@/hooks/useTable'
 import useTree from '@/hooks/useTree'
 import PreviewModal from './components/previewModal.vue'
 
-import { getData, getIndexFindTree } from '@/api/frame/main/directFund/indexFind.js'
+import { getIndexFindTree } from '@/api/frame/main/directFund/indexFind.js'
 import useTabPlanel from './hooks/useTabPlanel'
 import { getIndexColumns } from './model/data'
 
@@ -86,11 +86,11 @@ export default defineComponent({
         tableLoadingState,
         pagerChange,
         onToolbarBtnClick,
-        getTable
+        getTable,
+        setFetchMethod
       },
       registerTable
     ] = useTable({
-      fetch: getData(),
       columns: getIndexColumns()
     })
 
@@ -112,11 +112,17 @@ export default defineComponent({
       fetch: getIndexFindTree
     })
 
+    // 左侧树显隐状态
     const leftVisible = ref(true)
+    // 当前选中的树节点
+    const currentTreeNode = ref(null)
     /**
      * 指标数节点点击
      */
-    function nodeClick() {
+    function nodeClick({ node }) {
+      if (!node.request) return
+      currentTreeNode.value = node
+      setFetchMethod(node.request.list)
       resetFetchTableData()
     }
 
@@ -141,7 +147,8 @@ export default defineComponent({
       nodeClick,
       leftVisible,
       modalVisiableState,
-      currentRow
+      currentRow,
+      currentTreeNode
     }
   }
 })
