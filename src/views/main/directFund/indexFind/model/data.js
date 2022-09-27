@@ -22,7 +22,8 @@ export function getIndexColumns() {
     },
     {
       field: 'ysly',
-      title: '预算来源'
+      title: '预算来源',
+      visible: false
     },
     {
       field: 'zjxz',
@@ -114,7 +115,8 @@ export function getIndexSourceGoneColumns() {
     },
     {
       field: 'ysly',
-      title: '预算来源'
+      title: '预算来源',
+      visible: false
     },
     {
       field: 'zjxz',
