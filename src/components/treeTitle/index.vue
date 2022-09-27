@@ -7,7 +7,7 @@
       <div class="fn-inline aside-tree-show-leftvisible" @click="asideHandle">
         <i class="ri-indent-decrease"></i>
       </div>
-      <div class="fn-inline tree-set__tip">
+      <div v-if="label" class="fn-inline tree-set__tip">
         <span>{{ label }}</span>
       </div>
       <div class="fn-inline tree-set__query">
@@ -63,6 +63,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.tree-set__query {
+  margin-left: 4px;
+}
 </style>

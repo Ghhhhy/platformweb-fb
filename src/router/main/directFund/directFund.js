@@ -73,5 +73,10 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/directFund/dfrFocus/Focus.vue')
+  },
+  {
+    path: '/indexFind', // 指标查询
+    name: 'IndexFind',
+    component: () => import('@/views/main/directFund/indexFind/index.vue')
   }
 ]

@@ -9,7 +9,7 @@ function useTree(
 ) {
   // tree配置
   const treeProps = ref({
-    labelFormat: '{name}{code}', // {code}-{name}
+    labelFormat: '{code}{name}',
     nodeKey: 'id', // 树的主键
     label: 'text', // 树的显示lalel字段
     children: 'children' // 树的嵌套字段

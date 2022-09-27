@@ -310,6 +310,7 @@ export default {
     this.$Import = new Import()
     this.$Export = new Export({ unit: unitLabel || '元' })
     this.initMounted()
+    this.$emit('register', this.$refs.xGrid || this)
   },
   watch: {
     ...watch

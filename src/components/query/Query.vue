@@ -248,6 +248,7 @@ export default {
     }
   },
   mounted() {
+    this.$emit('register', this.$refs.queryForm?.$refs?.form || this.$refs.queryForm)
   },
   watch: {
     queryConfig: {
