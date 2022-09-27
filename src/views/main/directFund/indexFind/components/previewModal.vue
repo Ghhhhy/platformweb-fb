@@ -14,9 +14,10 @@
         :table-columns-config="columns"
         :table-data="tableData"
         :toolbar-config="false"
-        :pager-config="false"
+        :pager-config="pagerConfig"
         size="medium"
         @register="registerTable"
+        @ajaxData="pagerChange"
       />
     </div>
   </vxe-modal>
@@ -62,13 +63,15 @@ export default defineComponent({
         tableData,
         resetFetchTableData,
         tableLoadingState,
-        getTable
+        getTable,
+        pagerChange,
+        pagerConfig
       },
       registerTable
     ] = useTable({
       fetch: unref(currentTreeNode).request.detail,
       columns: getIndexSourceGoneColumns(),
-      dataKey: 'data',
+      dataKey: 'data.results',
       beforeFetch: (params) => {
         params.toctrlId = unref(currentRow)?.toctrlId
         return params
@@ -84,7 +87,9 @@ export default defineComponent({
       resetFetchTableData,
       tableLoadingState,
       getTable,
-      registerTable
+      registerTable,
+      pagerChange,
+      pagerConfig
     }
   }
 })

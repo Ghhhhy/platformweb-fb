@@ -79,13 +79,13 @@ export default defineComponent({
     const [
       {
         columns,
-        pagerConfig,
         tableToolbarConfig,
         tableConfig,
         tableData,
         resetFetchTableData,
         tableLoadingState,
         pagerChange,
+        pagerConfig,
         onToolbarBtnClick,
         getTable,
         setFetchMethod
