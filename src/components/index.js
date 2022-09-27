@@ -65,6 +65,8 @@ import Big from '../utils/big.js' // Big
 import { setConfig, getConfig } from './GlobalConfig/index' // 组件用户自定义配置:Titans 默认配置对应组件下globleConfig 用户配置对应config/customConfig
 import MofDivTree from './mofDivTree/index' // 项目中区划树统一组件
 import BsEmpty from './empty/index'
+import BsTreeTitle from './treeTitle/index.vue' // 树组件头
+import BsTableTitle from './tableTitle/index.vue' // 表格标题
 
 const componentsLib = {
   BsBossTree,
@@ -120,7 +122,9 @@ const componentsLib = {
   BsPerformanceTable,
   BsPerformanceBasicInfo,
   MofDivTree,
-  BsEmpty
+  BsEmpty,
+  BsTreeTitle,
+  BsTableTitle
 }
 const utilsLib = {
   LoadingMark,
