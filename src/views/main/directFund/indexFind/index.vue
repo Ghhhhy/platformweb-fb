@@ -91,7 +91,8 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      columns: getIndexColumns()
+      columns: getIndexColumns(),
+      dataKey: 'data.results'
     })
 
     const modalVisiableState = ref(false)

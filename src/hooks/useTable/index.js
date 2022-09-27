@@ -162,8 +162,7 @@ function useTable(
         data = configIn.afterFetch(data)
       }
 
-      pagerConfig.total = data?.total || 0
-      console.log(transformFetchData(res, configIn.dataKey))
+      pagerConfig.total = data?.totalCount || data?.total || 0
       tableData.value = transformFetchData(res, configIn.dataKey) || []
     } finally {
       tableLoadingState.value = false
