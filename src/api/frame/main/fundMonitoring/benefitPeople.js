@@ -4,6 +4,9 @@ export default {
   getTreeData(params) {
     return get('mp-b-basedata-service/v2/basedata/page', params)
   },
+  getTreeData1(params) {
+    return get('large-monitor-platform/lmp/pro', params)
+  },
   // 查询一卡通数据
   pageQuery (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/pageQuery', params)
