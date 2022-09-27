@@ -5,57 +5,49 @@
 export function getIndexColumns() {
   const column = [
     {
-      field: 'column1',
+      field: 'cznsjg',
       title: '财政内设机构'
     },
     {
-      field: 'column2',
-      title: '专户'
+      field: 'bm',
+      title: '部门'
     },
     {
-      field: 'column3',
+      field: 'zxzj',
       title: '专项资金'
     },
     {
-      field: 'column4',
-      title: '资金初输安'
-    },
-    {
-      field: 'column5',
-      title: '金额（元）',
-      type: 'money'
-    },
-    {
-      field: 'column6',
-      title: '备注'
-    },
-    {
-      field: 'column7',
+      field: 'zcgnfl',
       title: '支出功能分科科目'
     },
     {
-      field: 'column8',
+      field: 'ysly',
       title: '预算来源'
     },
     {
-      field: 'column9',
+      field: 'zjxz',
       title: '资金性质'
     },
     {
-      field: 'column10',
-      title: '债务标识'
+      field: 'zwbs',
+      title: '债务标识',
+      visible: false
     },
     {
-      field: 'column11',
+      field: 'sjwh',
       title: '上级文号'
     },
     {
-      field: 'column12',
+      field: 'sjzx',
       title: '上级专项'
     },
     {
-      field: 'column13',
+      field: 'sfzd',
       title: '是否直达资金'
+    },
+    {
+      field: 'toctrlId',
+      visible: false
     }
   ]
   column.forEach(item => {
@@ -71,81 +63,83 @@ export function getIndexColumns() {
 export function getIndexSourceGoneColumns() {
   const column = [
     {
-      field: 'column1',
+      field: 'zbwh',
       title: '指标文号'
     },
     {
-      field: 'column2',
+      field: 'dw',
       title: '单位'
     },
     {
-      field: 'column3',
+      field: 'zxzj',
       title: '专项资金'
     },
     {
-      field: 'column4',
+      field: 'xmmc',
       title: '项目名称'
     },
     {
-      field: 'column5',
+      field: 'zcgnfl',
       title: '支出功能分类科目'
     },
     {
-      field: 'column6',
+      field: 'zbze',
       title: '指标总额',
       type: 'money',
       sort: true
     },
     {
-      field: 'column7',
+      field: 'yapje',
       title: '已安排金额',
       type: 'money'
     },
     {
-      field: 'column8',
+      field: 'ztje',
       title: '正在办理金额',
       type: 'money'
     },
     {
-      field: 'column9',
+      field: 'zbye',
       title: '指标金额',
       type: 'money'
     },
     {
-      field: 'column10',
-      title: '债务标识'
+      field: 'zjbs',
+      title: '债务标识',
+      visible: false
     },
     {
-      field: 'column11',
+      field: 'cznsjg',
       title: '财政内设机构'
     },
     {
-      field: 'column12',
+      field: 'ysly',
       title: '预算来源'
     },
     {
-      field: 'column13',
+      field: 'zjxz',
       title: '资金性质唯一标识'
     },
     {
-      field: 'column14',
+      field: 'csnd',
       title: '资金安排初输年度'
     },
     {
-      field: 'column15',
+      field: 'sjwh',
       title: '上级文号'
     },
     {
-      field: 'column16',
+      field: 'sjzx',
       title: '上级专项'
     },
     {
-      field: 'column17',
-      title: '需要跟踪的专项资金'
+      field: 'zffs',
+      title: '支付方式'
     },
     {
-      field: 'column18',
-      title: '支付方式'
+      field: 'zfje',
+      title: '支付金额',
+      type: 'money'
     }
   ]
   column.forEach(item => {

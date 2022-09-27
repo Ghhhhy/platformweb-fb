@@ -90,7 +90,7 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: getData,
+      fetch: getData(),
       columns: getIndexColumns()
     })
 
