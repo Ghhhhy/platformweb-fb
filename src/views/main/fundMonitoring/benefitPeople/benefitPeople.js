@@ -293,43 +293,44 @@ export let proconf = {
       filters: false,
       align: 'center',
       visible: false
-    },
-    {
-      title: '证件号码',
-      width: 180,
-      field: 'idenNo',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      visible: false
-    },
-    {
-      title: '支付日期',
-      width: 180,
-      field: 'xpayDate',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      visible: false
-    },
-    {
-      title: '四字标识',
-      width: 180,
-      field: 'szbs',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      visible: false
-    },
-    {
-      title: '可执行指标ID',
-      width: 180,
-      field: 'thirdindi',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      visible: false
     }
+    // ,
+    // {
+    //   title: '证件号码',
+    //   width: 180,
+    //   field: 'idenNo',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   visible: false
+    // },
+    // {
+    //   title: '支付日期',
+    //   width: 180,
+    //   field: 'xpayDate',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   visible: false
+    // },
+    // {
+    //   title: '四字标识',
+    //   width: 180,
+    //   field: 'szbs',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   visible: false
+    // },
+    // {
+    //   title: '可执行指标ID',
+    //   width: 180,
+    //   field: 'thirdindi',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   visible: false
+    // }
   ],
   PoliciesTableColumns1: [
     {
