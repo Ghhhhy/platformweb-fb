@@ -41,8 +41,8 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const instance = getCurrentInstance()
-    const { currentTreeNode, currentRow } = instance.parent.data
+    const { proxy } = getCurrentInstance()
+    const { currentTreeNode, currentRow } = proxy.$parent
     const visiable = computed({
       get() {
         return props.visiableState
