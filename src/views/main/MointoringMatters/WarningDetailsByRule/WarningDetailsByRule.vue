@@ -644,7 +644,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: this.params5,
+        // regulationClass: this.params5,
         firulecode: this.fiRuleCode
       }
       this.tableLoading = true
