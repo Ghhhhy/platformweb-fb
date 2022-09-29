@@ -43,6 +43,11 @@ export function getIndexColumns() {
       title: '上级专项'
     },
     {
+      field: 'amount',
+      title: '金额',
+      type: 'money'
+    },
+    {
       field: 'sfzd',
       title: '是否直达资金'
     },
@@ -139,9 +144,12 @@ export function getIndexSourceGoneColumns() {
       title: '支付方式'
     },
     {
-      field: 'zfje',
-      title: '支付金额',
-      type: 'money'
+      field: 'zcjjfl',
+      title: '支出经济分类科目'
+    },
+    {
+      field: 'zfyszcjjfl',
+      title: '政府预算支出经济分类'
     }
   ]
   column.forEach(item => {
