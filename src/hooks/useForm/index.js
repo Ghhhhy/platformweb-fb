@@ -7,7 +7,7 @@ function useForm(
   refKey = 'formRef' // 表单ref（直接使用vxe-form组件时没有提供register事件，无法获取表单实例；转而使用getCurrentInstance.refs[refKey]）
 ) {
   // 当前使用该hook的组件实例
-  const instance = getCurrentInstance()
+  const { proxy } = getCurrentInstance()
 
   // 表单实例
   const formRef = ref(null)
@@ -88,7 +88,7 @@ function useForm(
    * @returns {unknown}
    */
   async function getForm() {
-    const form = unref(formRef) || instance?.refs?.[refKey]
+    const form = unref(formRef) || proxy?.$refs?.[refKey]
 
     if (!form) {
       throw new Error(
