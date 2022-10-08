@@ -15,5 +15,12 @@ export default {
   // 疑似违规标记
   doMark(params) {
     return post('large-monitor-platform/lmp/warn/rpt/marking', params)
+  },
+  // 获取左侧树
+  getLeftTree(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+  },
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }

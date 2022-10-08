@@ -37,6 +37,71 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '监控规则名称',
+      field: 'fiRuleName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '监控规则名称'
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
     }
   ],
   highQueryData: {

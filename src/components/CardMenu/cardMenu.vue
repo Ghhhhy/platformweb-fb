@@ -15,7 +15,7 @@
           @generateCardBtns="preGenerateCardBtns"
         />
       </div>
-      <div v-show="curExtend === item.rowNo" ref="cardExtend" class="card-menu__extend" :style="{ width: extendWidth }">
+      <div v-show="curExtend === item.rowNo" ref="cardExtend" class="card-menu__extend" :style="{ width: extendWidth, 'margin-left': marginWidth, 'margin-right': marginWidth }">
         <div class="arrow" :class="arrowDirectClass"></div>
         <div class="extend-child">
           <PoperExtend v-if="(currentBtn === 'agentItem' || currentBtn === 'doneItem')" v-loading="adLoading" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />

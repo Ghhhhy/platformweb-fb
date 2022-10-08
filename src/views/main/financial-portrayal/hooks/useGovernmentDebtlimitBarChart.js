@@ -39,7 +39,7 @@ export const useGovernmentDebtlimitBarChart = () => {
           labelShow: true,
           data: [
             {
-              name: '上年同期',
+              name: '预算批复',
               value: 400,
               itemStyle: { color: getColor('fadeBlue') }
             },

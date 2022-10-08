@@ -2,7 +2,7 @@
   <div :class="['xmind-node-detail', `arrow-${info.arrowPosition}`]">
     <svg-icon name="node-info-arrow" class-name="node-detail-arrow" :style="{ color: info.color }" />
     <div class="node-info" :style="{ borderColor: info.color }">
-      <span v-if="showCurrentLabel" class="info-title">{{ info.label }}</span>
+      <span v-if="info.showLabel" class="info-title">{{ info.label }}</span>
       <span
         v-for="(item, key) in (info.detail || [])"
         :key="key"
@@ -97,8 +97,10 @@ export default defineComponent({
     display: block;
     font-size: 12px;
     line-height: 20px;
-    font-weight: 400;
     color: #2E3133;
+  }
+  .info-title  {
+    font-weight: 600;
   }
   .info-item {
     font-weight: 500;

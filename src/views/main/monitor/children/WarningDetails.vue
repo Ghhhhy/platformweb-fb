@@ -93,13 +93,6 @@
           v-if="showInfo"
           :title="dialogTitle"
         /> -->
-        <!-- 附件弹框 -->
-        <BsAttachment
-          v-if="showAttachmentDialog"
-          refs="attachmentboss"
-          :user-info="userInfo"
-          :billguid="billguid"
-        />
       </div>
     </vxe-modal>
     <DetailDialog
@@ -114,6 +107,17 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <HandleDialog
+      v-if="handleDialogVisible"
+      :title="dialogTitle"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+    />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -121,12 +125,17 @@
 import { proconf } from './WarningDetails'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
+import HandleDialog from './HandleDialog.vue'
+
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
+import GlAttachment from '@/views/main/MointoringMatters/common/GlAttachment'
 export default {
   name: 'WarningDetails',
   components: {
     DetailDialog,
-    HsDetailDialog
+    HsDetailDialog,
+    HandleDialog,
+    GlAttachment
   },
   watch: {
     queryConfig() {
@@ -135,8 +144,12 @@ export default {
   },
   props: {
     id: {
-      type: Number,
-      default: 1
+      type: String,
+      default: ''
+    },
+    regulationClass: {
+      type: String,
+      default: ''
     },
     functionCode: {
       type: String,
@@ -147,9 +160,12 @@ export default {
     return {
       // BsQuery 查询栏
       dialogHsVisible: false,
+      handleDialogVisible: false,
       showInfo: true,
       warningCode: '',
       fiRuleCode: '',
+      businessTime: '',
+      endTime: '',
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
@@ -272,10 +288,10 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      regulationClass: '',
       firulename: '',
       fivouno: '',
-      useoffunds: ''
+      useoffunds: '',
+      showGlAttachmentDialog: false
     }
   },
   mounted() {
@@ -288,6 +304,8 @@ export default {
       this.firulename = obj.firulename
       this.fivouno = obj.fivouno
       this.useoffunds = obj.useoffunds
+      this.businessTime = obj.businessTime
+      this.endTime = obj.endTime
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -460,6 +478,8 @@ export default {
           this.selectData = selection[0]
           if (this.selectData.regulationClass === '07') {
             this.dialogHsVisible = true
+          } else if (this.selectData.regulationClass === '10') {
+            this.handleDialogVisible = true
           } else {
             this.dialogVisible = true
           }
@@ -470,6 +490,18 @@ export default {
         default:
           break
       }
+    },
+    // 查看附件
+    showAttachment(row) {
+      console.log(row)
+      console.log('查看附件')
+      if (row.attachmentId === null || row.attachmentId === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentId
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     changeVisible(val) {
       console.log(val, '输出')
@@ -527,11 +559,6 @@ export default {
     },
     asideChange() {
       this.leftTreeVisible = false
-    },
-    // 查看附件
-    showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -610,8 +637,10 @@ export default {
         firulename: this.firulename,
         fivouno: this.fivouno,
         useoffunds: this.useoffunds,
-        regulation_class: this.regulationClass,
-        warnLogId: this.id
+        regulationClass: this.regulationClass,
+        warnLogId: this.id,
+        businessTime: this.businessTime,
+        endTime: this.endTime
       }
       console.log('-----=====', this.id)
       this.tableLoading = true

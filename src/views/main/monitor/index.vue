@@ -58,10 +58,16 @@
       :function-code="functionCode"
       :user-info="userInfo"
     />
+    <ErrorDialog
+      v-if="errorDialogVisible"
+      :title="errorTitle"
+      :error-msg="errorMsg"
+    />
     <checkDialog v-if="dialogVisible" :title="dialogTitle" />
     <WarningDetails
       v-if="warningDetailsByRuleView"
       :id="warnLogId"
+      :regulation-class="regulationClass"
     />
     <!-- 附件弹框 -->
     <!-- <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" /> -->
@@ -74,11 +80,13 @@ import AddDialog from './children/addDialog'
 import checkDialog from '@/views/main/MointoringMatters/SystemLevelRules/children/addDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/Monitoring.js'
 import WarningDetails from '@/views/main/monitor/children/WarningDetails.vue'
+import ErrorDialog from './children/errorDialog'
 export default {
   components: {
     AddDialog,
     checkDialog,
-    WarningDetails
+    WarningDetails,
+    ErrorDialog
   },
   watch: {
     queryConfig() {
@@ -185,8 +193,15 @@ export default {
       condition: {},
       functionCode: '',
       warnLogId: '',
+      regulationClass: '',
       warningDetailsByRuleView: false,
-      leftTreeVisible: false
+      leftTreeVisible: false,
+      errorTitle: '错误信息',
+      errorDialogVisible: false,
+      errorMsg: '',
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      fiscalYear: '',
+      mofDivCodeList: []
     }
   },
   methods: {
@@ -277,6 +292,7 @@ export default {
           }
         }
       }
+      this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -292,6 +308,9 @@ export default {
         case 'change':
           this.changePolices()
           break
+        case 'delete':
+          this.deleteData()
+          break
         default:
           break
       }
@@ -305,6 +324,46 @@ export default {
       // 增量查询
       this.addDialogVisible = true
       this.dialogTitle = '全量查询'
+    },
+    deleteData() {
+      // 删除违规数据
+      /* this.addDialogVisible = true
+      this.dialogTitle = '删除违规数据' */
+      let selectData = this.$refs.mainTableRef.getSelectionData()
+      if (selectData.length > 0) {
+        this.$confirm('确定要删除违规数据吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let flag = 0
+          let params = selectData.map((item) => {
+            if (item.exStatus === '0') {
+              flag++
+            }
+            let param = {}
+            param.warnLogId = item.id
+            param.regulationClass = item.regulationClass
+            param.firulecode = item.fiRuleCode
+            param.exStatus = item.exStatus
+            return param
+          })
+          if (flag > 0) {
+            this.$message.warning('正在执行中的数据不能删除！')
+            return
+          }
+          HttpModule.deleteWarnByLogId(params).then((res) => {
+            if (res.code === '000000') {
+              this.$message.success('删除成功')
+              this.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        })
+      } else {
+        this.$message.warning('请选择要删除的记录！')
+      }
     },
     changeVisible(val) {
       console.log(val, '输出')
@@ -385,7 +444,15 @@ export default {
         case 'warnTotal':
           console.log('click:', obj.row)
           this.warnLogId = obj.row.id
+          this.regulationClass = obj.row.regulationClass
           this.warningDetailsByRuleView = true
+          break
+        case 'errorMsg':
+          if (obj.row.errorMsg === '') {
+            return
+          }
+          this.errorDialogVisible = true
+          this.errorMsg = obj.row.errorMsg
           break
         default:
           break
@@ -445,13 +512,18 @@ export default {
           : '',
         exEndTime: this.condition.exEndTime
           ? this.condition.exEndTime.toString()
-          : ''
+          : '',
+        fiscalYear: this.condition.fiscalYear
+          ? this.condition.fiscalYear.toString()
+          : '',
+        mofDivCodeList: this.mofDivCodeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatass(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          console.log(this.tableData)
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
@@ -474,6 +546,32 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.data && Array.isArray(res.data)) {
+          console.log(this.queryConfig)
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          proconf.highQueryConfig[7].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -482,6 +580,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getLeftTreeData()
   },
   mounted() {
     HttpModule.monitorTheme().then((res) => {

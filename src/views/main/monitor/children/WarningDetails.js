@@ -102,7 +102,34 @@ export let proconf = {
           placeholder: '资金用途'
         }
       }
+    },
+    {
+      title: '违规数据创建时间',
+      field: 'businessTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '违规数据创建时间'
+        }
+      }
     }
+    // ,
+    // {
+    //   title: '支付数据结束时间',
+    //   field: 'endTime',
+    //   itemRender: {
+    //     name: '$vxeTime',
+    //     defaultValue: '',
+    //     props: {
+    //       format: 'YYYY-MM-DD',
+    //       type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+    //       placeholder: '支付数据结束时间'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     regulationType: '',
@@ -325,15 +352,15 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    /* {
-      title: '支付申请编码',
+    {
+      title: '业务单号',
       'width': 180,
-      field: 'fivouno',
+      field: 'businessNo',
       sortable: false,
       filters: false,
       align: 'center'
     },
-    {
+    /* {
       'title': '支付申请金额',
       'field': 'paymentamount',
       'width': '200',
@@ -370,6 +397,14 @@ export let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规数据创建时间',
+      'width': 180,
+      field: 'businessTime',
       sortable: false,
       filters: false,
       align: 'center'

@@ -25,9 +25,9 @@ export let proconf = {
   statusRightToolBarButton: {
     '0': [
       { code: 'save', label: '保存', status: 'primary' },
-      { code: 'confirm', label: '提交' }
-      // { code: 'import', label: '导入' },
-      // { code: 'export', label: '导出' }
+      { code: 'confirm', label: '提交' },
+      { code: 'import', label: '导入' },
+      { code: 'export', label: '导出' }
     ]
     // '2': [
     //   { code: 'revoke', label: '撤销' }

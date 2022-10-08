@@ -1,6 +1,6 @@
 // 本文件不允许私自修改，环保除引用第三方接口外一律使用post请求方式，接口定义请参考接口规范书写，这里只做全局http请求状态拦截，其他用户状态一律放行，页面内部做判断自行处理
 import axios from 'axios'
-import globalGatewayAgentConf from './serverGatewayMap.js'
+// import globalGatewayAgentConf from '../../public/static/js/config/serverGatewayMap.js'
 import {
   baseUrl
 } from './url'
@@ -8,9 +8,7 @@ import Qs from 'qs'
 import Router from '@/router/index.js'
 import store from '../store/index'
 import Encrypt from './smSecret/smSecret.js'
-import { Message } from 'element-ui'
-
-window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
+// window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
 const elink = document.createElement('a')
 axios.defaults.timeout = 300000
 axios.defaults.baseURL = baseUrl
@@ -47,25 +45,25 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
   })
   let serverName = serveUrl[0]
   if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(globalGatewayAgentConf.development).indexOf(serverName) >= 0) {
+    if (Object.keys(window.gloableToolFn.serverGatewayMap.development).indexOf(serverName) >= 0) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')
-      axios.defaults.baseURL = globalGatewayAgentConf.development[serverName]
+      axios.defaults.baseURL = window.gloableToolFn.serverGatewayMap.development[serverName]
     } else {
       axios.defaults.baseURL = oldUrl
     }
   } else {
     axios.defaults.baseURL = oldUrl
-    // if (Object.keys(globalGatewayAgentConf.production).indexOf(serverName) >= 0) {
+    // if (Object.keys(window.gloableToolFn.serverGatewayMap.production).indexOf(serverName) >= 0) {
     //   serveUrl.splice(0, 1)
     //   url = serveUrl.join('/')
-    //   axios.defaults.baseURL = globalGatewayAgentConf.production[serverName]
+    //   axios.defaults.baseURL = window.gloableToolFn.serverGatewayMap.production[serverName]
     // } else {
     //   axios.defaults.baseURL = oldUrl
     // }
     let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,fileservice,mp-b-project-lifecycle'
     let filePreviewService = 'mp-b-file-preview'
-    let monitor = 'large-monitor-platform,dfr-monitor-service'
+    let apaas1 = 'large-monitor-platform,dfr-monitor-service'
     let tempUrl = url.split('/')[0]
     if (tempUrl.length === 0) {
       tempUrl = url.split('/')[1]
@@ -76,7 +74,7 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
       url = 'apaas/api/' + url
     } else if (filePreviewService === tempUrl) {
       return url
-    } else if (monitor.indexOf(tempUrl) > -1) {
+    } else if (apaas1.indexOf(tempUrl) > -1) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')
     } else {
@@ -97,18 +95,18 @@ export const httpGlobalGatewayAgent = (url, Origin) => { // 注册全局网关
   let serverName = serveUrl[0]
   let baseURL = ''
   if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(globalGatewayAgentConf.development).indexOf(serverName) >= 0) {
+    if (Object.keys(window.gloableToolFn.serverGatewayMap.development).indexOf(serverName) >= 0) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')
-      baseURL = globalGatewayAgentConf.development[serverName]
+      baseURL = window.gloableToolFn.serverGatewayMap.development[serverName]
     } else {
       baseURL = oldUrl
     }
   } else {
-    // if (Object.keys(globalGatewayAgentConf.production).indexOf(serverName) >= 0) {
+    // if (Object.keys(window.gloableToolFn.serverGatewayMap.production).indexOf(serverName) >= 0) {
     //   serveUrl.splice(0, 1)
     //   url = serveUrl.join('/')
-    //   baseURL = globalGatewayAgentConf.production[serverName]
+    //   baseURL = window.gloableToolFn.serverGatewayMap.production[serverName]
     // } else {
     //   baseURL = oldUrl
     // }
@@ -136,7 +134,7 @@ export const httpGlobalGatewayAgent = (url, Origin) => { // 注册全局网关
     url
   }
 }
-export const globalGatewayAgentConfig = globalGatewayAgentConf
+export const globalGatewayAgentConfig = window.gloableToolFn.serverGatewayMap
 export const smSecretUtils = Encrypt
 axios.interceptors.response.use(function(response) {
   if (response.status === 200) {
@@ -182,15 +180,6 @@ axios.interceptors.response.use(function(response) {
   }
   return response
 }, function(error) {
-  console.log(error.response)
-  if (error?.response?.status) {
-    switch (error?.response?.status) {
-      case '504':
-        Message.error('网络超时，请重试！')
-    }
-  } else {
-    Message.error('网络错误，请重试！')
-  }
   // 对响应错误做处理
   return {
     data: {

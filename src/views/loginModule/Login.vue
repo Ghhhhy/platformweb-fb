@@ -178,6 +178,7 @@ export default {
             })
           } else {
             this.$store.commit('setUserInfo', res.data)
+            this.$store.dispatch('getUserRoles')
             this.$router.push({
               name: 'Main',
               params: {

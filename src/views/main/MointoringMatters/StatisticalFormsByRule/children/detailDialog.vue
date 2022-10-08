@@ -2,15 +2,15 @@
   <div v-loading="tableLoading" style="height: 100%">
     <vxe-modal
       v-model="showViolations"
+      v-loading="tableLoading"
       :title="title"
       width="96%"
       height="90%"
-      :show-footer="true"
+      :show-footer="false"
       @close="dialogClose"
     >
       <div v-loading="tableLoading" style="height: 100%">
         <BsMainFormListLayout>
-          <template v-slot:topTap></template>
           <template v-slot:topTabPane>
             <BsTabPanel
               ref="tabPanel"
@@ -40,26 +40,13 @@
               :table-data="tableData"
               :table-config="tableConfig"
               :pager-config="mainPagerConfig"
-              :toolbar-config="tableToolbarConfig"
+              :toolbar-config="false"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
               @cellClick="cellClick"
-            >
-              <template v-slot:toolbarSlots>
-                <div class="table-toolbar-left">
-                  <div class="table-toolbar-left-title">
-                    <span class="fn-inline">{{ menuName }}</span>
-                    <i class="fn-inline"></i>
-                  </div>
-                </div>
-              </template>
-            </BsTable>
+            />
           </template>
         </BsMainFormListLayout>
-      </div>
-      <div slot="footer" style="height: 80px;margin:0 15px">
-        <div type="flex" justify="space-around">
-        </div>
       </div>
     </vxe-modal>
     <DetailDialog
@@ -99,6 +86,14 @@ export default {
     mofDivName: {
       type: String,
       default: ''
+    },
+    fiscalYear: {
+      type: String,
+      default: ''
+    },
+    agencyCodeList: {
+      type: Array,
+      default: null
     }
   },
   watch: {
@@ -179,8 +174,13 @@ export default {
           onOptionRowClick: this.onOptionRowClick
         }
       },
+      // 表格尾部合计配置
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          paymentAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -212,7 +212,7 @@ export default {
     dialogClose() {
       this.$parent.showViolations = false
       console.log(this.$parent)
-      this.$parent.queryTableDatas()
+      // this.$parent.queryTableDatas()
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -331,8 +331,9 @@ export default {
       }
       this.condition = condition
       console.log(this.condition)
-      let fiscalYear = this.condition.fiscalYear[0]
-      this.queryTableDatas(fiscalYear)
+      this.payApplyNumber = val.payApplyNumber
+      this.fiRuleName = val.fiRuleName
+      this.queryTableDatas()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -357,6 +358,30 @@ export default {
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
+          break
+        case 'sign': // 生成
+          let temp = this.$refs.mainTableRef.getSelectionData()
+          let warnids = []
+          let param = {
+            warnids
+          }
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            this.tableLoading = true
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
           break
         default:
           break
@@ -423,24 +448,31 @@ export default {
       this.queryTableDatas()
     },
     // 查询 table 数据
-    queryTableDatas(fiscalYear) {
+    queryTableDatas() {
       console.log(this.fiRuleCode)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: this.fiscalYear || '2022',
         fiRuleCode: this.fiRuleCode,
         mofDivName: this.mofDivName,
         status: this.status,
-        regulationType: this.regulationType
+        regulationType: this.regulationType,
+        agencyCodeList: this.agencyCodeList,
+        fiRuleName: this.fiRuleName,
+        businessNo: this.payApplyNumber
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            item.agency = item.agencyCode + '-' + item.agencyName
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.tableFooterConfig.totalObj.paymentAmount = res.data.amountSum
         } else {
           this.$message.error(res.message)
         }
@@ -487,5 +519,8 @@ float: right;
 .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
+}
+.T-mainFormListLayout-modulebox {
+  padding: 0 !important
 }
 </style>

@@ -21,7 +21,7 @@ export let proconf = {
   },
   statusRightToolBarButton1: {
     '1': [
-      // { code: 'violation', label: '疑似违规', status: 'primary' },
+      { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
@@ -79,22 +79,22 @@ export let proconf = {
           placeholder: '规则名称'
         }
       }
-    },
-    {
-      title: '主题',
-      field: 'regulation_class',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-        ],
-        props: {
-          placeholder: '主题'
-        }
-      }
+    // },
+    // {
+    //   title: '主题',
+    //   field: 'regulation_class',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //     ],
+    //     props: {
+    //       placeholder: '主题'
+    //     }
+    //   }
     }
   ],
   highQueryData: {
@@ -267,7 +267,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofdivcode',
+      field: 'mofdivname',
       sortable: false,
       filters: false,
       align: 'center'
@@ -289,17 +289,9 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预算单位编码',
+      title: '预算单位',
       'width': 180,
-      field: 'agencycode',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位名称',
-      'width': 180,
-      field: 'agencyname',
+      field: 'agency',
       sortable: false,
       filters: false,
       align: 'center'
@@ -382,6 +374,28 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     }
   ],
   PoliciesTableColumns1: [
@@ -434,17 +448,9 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预算单位编码',
+      title: '预算单位',
       'width': 180,
-      field: 'agencycode',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位名称',
-      'width': 180,
-      field: 'agencyname',
+      field: 'agency',
       sortable: false,
       filters: false,
       align: 'center'
@@ -486,6 +492,45 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     }
-  ]
+  ],
+  // table 操作按钮
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      // const main = self.$parent.$parent.$parent.$parent
+      // let status = main._data.toolBarStatusSelect.curValue
+      return [
+        // <el-tooltip content="修改" placement="top" effect="light">
+        //   <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'uodate' })}>修改</a>
+        // </el-tooltip>,
+        <el-tooltip content="附件" placement="top" effect="light">
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+        </el-tooltip>
+      ]
+    }
+  }
 }

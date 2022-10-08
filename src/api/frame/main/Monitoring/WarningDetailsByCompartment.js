@@ -26,5 +26,9 @@ export default {
   },
   check(params) {
     return post('large-monitor-platform/lmp/totalWarn/checkData/' + params)
+  },
+  // 获取下拉树
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }

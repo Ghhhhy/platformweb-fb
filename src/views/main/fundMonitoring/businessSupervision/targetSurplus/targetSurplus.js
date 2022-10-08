@@ -63,6 +63,8 @@ const proconf = {
         type: 'name',
         align: 'left',
         treeNode: true,
+        sortable: false,
+        filters: false,
         width: 260,
         field: 'name',
         cellRender: { name: '$vxeIcon' }
@@ -76,12 +78,16 @@ const proconf = {
             title: '数量',
             field: 'numberz',
             width: 200,
+            sortable: false,
+            filters: false,
             align: 'right'
           },
           {
             title: '余额',
             field: 'amountz',
             width: 200,
+            sortable: false,
+            filters: false,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }
@@ -96,12 +102,16 @@ const proconf = {
             title: '数量',
             field: 'numberc',
             width: 200,
+            sortable: false,
+            filters: false,
             align: 'right'
           },
           {
             title: '余额',
             field: 'amountc',
             width: 200,
+            sortable: false,
+            filters: false,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }

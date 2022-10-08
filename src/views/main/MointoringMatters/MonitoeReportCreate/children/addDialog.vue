@@ -189,12 +189,13 @@ export default {
         this.addLoading = false
         if (res.code === '000000') {
           this.$parent.filePreviewDialogVisible = true
-          // this.$parent.dialogVisible = false
           this.$parent.fileGuid = res.data.fileguid
           this.$parent.delId = res.data.id
-          // this.$message.success('生成成功')
-          // this.$parent.dialogVisible = false
-          // this.$parent.queryTableDatas()
+          this.$parent.previewYear = this.year
+          this.$parent.previewStartMonth = this.startMonth
+          this.$parent.previewEndMonth = this.endMonth
+          this.$parent.previewCode = code
+          this.$parent.previewName = name
         } else {
           this.$message.error(res.message)
         }

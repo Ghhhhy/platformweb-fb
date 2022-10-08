@@ -9,6 +9,7 @@
 // editCellExportMethod(params) 单元格导出函数
 // footerCellExportMethod(params) 表尾单元格导出函数
 import { filterTypeMap } from './tableDefaultConfig'
+import FilterNumberRange from '@/components/renderers/tableFilters/FilterNumberRange'
 // let itemConfig = {
 //   orderIndex: '', // 嵌套数据结构
 //   orderPIndex: '', // 嵌套数据结构
@@ -2916,6 +2917,34 @@ const defaultTableRenderers = {
       ]
     }
   },
+  $vxeIcon6: {
+    // 增加icon图标展示 橙色
+    renderDefault(h, cellRander, params) {
+      let { row, column, $table } = params
+      return [
+        <div style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+        </div>
+      ]
+    }
+  },
+  $vxeIcon7: {
+    // 增加icon图标展示 蓝色
+    renderDefault(h, cellRander, params) {
+      let { row, column, $table } = params
+      return [
+        <div style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+        </div>
+      ]
+    }
+  },
   $vxeIcon5: {
     // 增加icon图标展示
     renderDefault(h, cellRander, params) {
@@ -2934,6 +2963,8 @@ const defaultTableRenderers = {
   $vxeRatio: {
     renderDefault(h, cellRander, params) {
       let { row, column } = params
+      // 设置转换后的值供导出所用
+      row[column.property + '__viewRatio'] = `${row[column.property]}%`
       return [
         <span>{row[column.property]}%</span>
       ]
@@ -3148,6 +3179,7 @@ const tablefilterRenderers = {
     },
     // 筛选方法
     filterMethod({ option, row, column }) {
+      console.log(option, row, column)
       const { data } = option
       let cellValue = row[column.property]
       return String(cellValue).toLowerCase().indexOf(data.toLowerCase()) > -1
@@ -3186,6 +3218,34 @@ const tablefilterRenderers = {
       } else {
         return true
       }
+    }
+  },
+  // 金额范围过滤渲染器
+  FilterNumberRange: {
+    /// 不显示底部按钮，使用自定义的按钮
+    isFooter: false,
+    renderFilter(h, renderOpts, params) {
+      return [
+        <FilterNumberRange params={params}></FilterNumberRange>
+      ]
+    },
+    // 筛选方法
+    filterMethod({ option, row, column }) {
+      const { min, max } = option.data
+      const property = column.property
+      const sortProperty = `${property}__viewSort`
+
+      let value = row[sortProperty] || row[property] || 0
+      if (typeof value === 'string') {
+        value = Number(value?.replace(/,/g, ''))
+      }
+      return min <= value && value <= max
+    },
+    // 重置
+    filterResetMethod({ options }) {
+      options.forEach(option => {
+        option.data = { min: '', max: '' }
+      })
     }
   }
 }

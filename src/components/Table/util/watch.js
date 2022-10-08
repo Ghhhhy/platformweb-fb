@@ -55,7 +55,7 @@ export default {
   },
   tableColumnsConfig: { // 表头配置监听
     handler(newvalue, oldValue) {
-      this.initTable()
+      this.completeMoneyFilter && this.initTable()
     },
     deep: true,
     immediate: true
@@ -141,6 +141,10 @@ export default {
   moneyUnit: { // 金额单位变换
     handler(newvalue, oldValue) {
       this.setMoneyUnit(newvalue, oldValue)
+      this.$nextTick(() => {
+        this.$refs.xGrid?.reloadColumn?.(this.tableColumnsConfigIn)
+      })
+      this.$Export.moneyUnit = this.toolbarConfigInCopy.moneyUnitOptions.find(item => item.value === newvalue)?.label
     },
     immediate: true
   },
@@ -220,6 +224,15 @@ export default {
   },
   mergeCells: { // 合并单元格
     handler(newvalue, oldValue) {
+    },
+    immediate: true
+  },
+  // 监听导出配置
+  exportModalConfig: {
+    handler(newvalue, oldValue) {
+      if (this.exportModalConfig && typeof this.exportModalConfig === 'object') {
+        this.exportModalData = Object.assign(this.exportModalData, this.exportModalConfig)
+      }
     },
     immediate: true
   }

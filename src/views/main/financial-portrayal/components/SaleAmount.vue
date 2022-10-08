@@ -2,8 +2,8 @@
   <div class="sale-amount">
     <div v-if="showRatio" class="ratio-container">
       <!-- 联调时需要根据上升、下降切换图标和值的类名down-color、up-color -->
-      <svg-icon name="ratio-down2" size="32" />
-      <span class="ratio down-color">16.73%</span>
+      <svg-icon :name="ratio < 0 ? 'ratio-down1' : 'ratio-up1'" size="32" />
+      <span :class="['ratio', ratio < 0 ? 'down-color' : 'up-color']">{{ ratio }}%</span>
     </div>
     <SpecificNumber v-bind="$props" />
   </div>
@@ -17,15 +17,19 @@ export default defineComponent({
   props: {
     lastValue: {
       type: [String, Number],
-      default: '9999999.99'
+      default: 0.00
     },
     currentValue: {
       type: [String, Number],
-      default: '9999999.99'
+      default: 0.00
     },
     showRatio: {
       type: Boolean,
       default: true
+    },
+    ratio: {
+      type: Number,
+      default: 0
     }
   },
   components: {

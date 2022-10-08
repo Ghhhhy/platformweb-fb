@@ -36,8 +36,8 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2021年', label: '2021年' },
-          { value: '2022年', label: '2022年' }
+          { value: '2021', label: '2021年' },
+          { value: '2022', label: '2022年' }
         ],
         props: {
           placeholder: '年份'
@@ -65,7 +65,7 @@ export let proconf = {
     },
     {
       title: '名称',
-      field: 'regulationName',
+      field: 'basicName',
       width: '8',
       align: 'left',
       formula: '',
@@ -80,7 +80,7 @@ export let proconf = {
     },
     {
       title: '创建人',
-      field: 'regulationName',
+      field: 'createPerson',
       width: '8',
       align: 'left',
       formula: '',

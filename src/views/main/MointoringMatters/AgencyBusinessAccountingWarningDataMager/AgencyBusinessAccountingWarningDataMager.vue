@@ -80,6 +80,11 @@
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -87,9 +92,10 @@
 import { proconf } from './AgencyBusinessAccountingWarningDataMager'
 import AddDialog from './children/handleDialog'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
+import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
-    AddDialog
+    AddDialog, GlAttachment
   },
   watch: {
     queryConfig() {
@@ -201,10 +207,12 @@ export default {
       isHaveZero: '0',
       // 文件
       showAttachmentDialog: false,
+      showGlAttachmentDialog: false,
       billguid: '',
       condition: {},
       warningCode: '',
-      businessId: ''
+      businessId: '',
+      selectData: {}
     }
   },
   mounted() {
@@ -368,9 +376,22 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.selectData = selection[0]
       this.warningCode = selection[0].warningCode
       this.dialogVisible = true
       this.dialogTitle = '详细信息'
+    },
+    // 查看附件
+    showAttachment(row) {
+      debugger
+      console.log('查看附件')
+      if (!row.attachmentid || row.attachmentid === null || row.attachmentid === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentid
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     // 处理
     handle() {
@@ -440,11 +461,6 @@ export default {
     },
     asideChange() {
       this.leftTreeVisible = false
-    },
-    // 查看附件
-    showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {

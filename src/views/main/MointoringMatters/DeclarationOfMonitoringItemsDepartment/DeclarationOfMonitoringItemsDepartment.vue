@@ -110,8 +110,8 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementcode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: '' },
-      treeServerUri: 'http://10.77.18.172:32303//lmp/mofDivTree',
+      treeQueryparams: { elementcode: 'AGENCY', province: '610000000', year: '2021', wheresql: '' },
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,

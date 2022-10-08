@@ -1,4 +1,4 @@
-<!-- 直达资金惠企利民发放明细 -->
+<!-- 直达资金监控预警结果（全省） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
@@ -30,13 +30,11 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :cell-style="cellStyle"
           @editClosed="onEditClosed"
+          @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -44,7 +42,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">直达资金地方预警汇总</span>
+                <span class="fn-inline">直达资金监控预警结果（全省）</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -64,7 +62,7 @@
 <script>
 import getFormData from './warningResult.js'
 import DetailDialog from './children/wdetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 export default {
   components: {
     DetailDialog
@@ -89,24 +87,6 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -117,42 +97,6 @@ export default {
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
       obj: {},
-      calculateConstraintConfig: {
-        enabled: true,
-        extendMapInfoField: true, // 是否扩展mapInfo字段
-        // gradedSummaryFields: ['bonus', 'income'],
-        calcAndConstraintItemCodeField: 'itemCode',
-        // 示例中1001为tableId
-        rowCodeFormulaConfig: {
-          // 单元格交叉计算
-          // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
-          '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
-          // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
-          // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
-        },
-        cellDataConfig: [// 提取和计算
-
-        ],
-        colFormulaConfig: {
-        },
-        getDataAxiosConfig: { // 跨表提取请求配置
-          dataField: 'data', // 数据字段
-          successCode: '100000', // 成功code
-          statusField: 'rscode',
-          method: 'get', // 请求方式
-          url: '' // 'queryTreeAssistData', //
-          //  [{ itemCode: '002', colField: 'f005', value: '1500.0' }, { itemCode: '002001', colField: 'f005', value: '500.0' }]
-        },
-        getDataParams: { // 提取公共参数
-
-        },
-        colConstraintConfig: {
-          // 'age': 'income::value::{age}>=18?Math.pow({age},4)/2:0--&&--name::style::{age}>18&&{age}<=60--??--color=#F00&fontSize=20px--+--{age}>60--??--color=#ff0&fontSize=20px'
-        },
-        rowCodeConstraintConfig: { // 表间约束配置
-          // '20:age': '10:income::value::{1001:age:20}>=18?Math.pow({1001:age:20},4)/2:0--&&--10:bonus::editable::{1001:age:20}>=18?true:false--&&--30:bonus::clear::{1001:age:20}<=18?true:false--&&--10:name::style::{1001:age:20}>18&&{1001:age:20}<=60--??--color=#F00&fontSize=20px--+--{1001:age:1001}>60--??--color=#ff0&fontSize=20px'
-        }
-      },
       toolbarConfig: {
         disabledMoneyConversion: false,
         ...getFormData('basicInfo', 'toolbarConfig')
@@ -160,10 +104,9 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
-        autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -213,13 +156,19 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      code: '',
+      fiscalYear: ''
     }
   },
   mounted() {
-    this.getNewData()
   },
   methods: {
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.queryTableDatas(this.detailType, this.code)
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
@@ -308,7 +257,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -332,242 +281,111 @@ export default {
     changeVisible(val) {
       this.breakRuleVisible = val
     },
-    onClickmethod(node) {
-      if (node.id !== '0') {
-        let key =
-          this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.id
-      } else {
-        this.condition = {}
-      }
-
-      this.queryTableDatas(node.guid)
-    },
-    handleDetail(type, recDivCode) {
-      // let params = {
-      //   reportCode: type === 'beAmount' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
-      //   mofDivCode: recDivCode,
-      //   fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
-      // }
-      // this.tableLoading = true
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-      }, 2000)
-      type === 'beAmount' ? this.detailData = [
-        {
-          businessName: '西北妇女儿童医院',
-          bzAmount: 864642328,
-          creditCode: '611301032018160011912'
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050000344',
-          bzAmount: 864634
-        },
-        {
-          businessName: '陕西省医疗保障局',
-          creditCode: '129910435745410803',
-          bzAmount: 864642398
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050450319',
-          bzAmount: 86434498
-        },
-        {
-          businessName: '陕西省地方病防治研究所',
-          creditCode: '61001711100058011254',
-          bzAmount: 8646498
-        },
-        {
-          businessName: '渭南九州通正元医药有限公司',
-          creditCode: '61001647508050000319',
-          bzAmount: 86422498
-        }
-      ] : this.detailData = [
-        {
-          card: 500383199204062383,
-          name: '张三',
-          bzAmount: 1461123
-        },
-        {
-          card: 500383199204062364,
-          name: '李四',
-          bzAmount: 755439
-        },
-        {
-          card: 50038319920532383,
-          name: '王五',
-          bzAmount: 447512300
-        },
-        {
-          card: 50038319920432383,
-          name: '安其',
-          bzAmount: 8042000
-        },
-        {
-          card: 500384642204062383,
-          name: '刘均',
-          bzAmount: 5610000
-        },
-        {
-          card: 500383199204062341,
-          name: '丰能',
-          bzAmount: 58350000
-        },
-        {
-          card: 500383199204067643,
-          name: '乔东',
-          bzAmount: 10020000
-        },
-        {
-          card: 500383199204074345,
-          name: '李太华',
-          bzAmount: 980000
-        },
-        {
-          card: 500383199204095859,
-          name: '张起灵',
-          bzAmount: 39670000
-        },
-        {
-          card: 500383199204064444,
-          name: '吴勇',
-          bzAmount: 7000000
-        },
-        {
-          card: 500383199204061111,
-          name: '邓伦',
-          bzAmount: 10000000
-        }
-      ]
-      this.detailVisible = true
-      this.detailType = type
-      // HttpModule.queryTableDatas(params).then((res) => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.detailData = res.data
-      //     this.detailVisible = true
-      //     this.detailType = type
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
-    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       switch (key) {
         case 'redUndoNum':
-          this.handleDetail('redUndoNum', obj.row.recDivCode)
-          this.detailTitle = '红灯系统整改-待整改'
+          this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '红色预警-未处理明细'
+          this.detailType = 'redUndoNum'
+          this.detailVisible = true
           break
         case 'redDoneNum':
-          this.handleDetail('redDoneNum', obj.row.recDivCode)
-          this.detailTitle = '红灯系统整改-已整改'
+          this.detailData = ['redDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '红色预警-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'redDoneNum'
+          break
+        case 'orangeUndoNum':
+          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '橙色预警-未上传附件明细'
+          this.detailVisible = true
+          this.detailType = 'orangeUndoNum'
+          break
+        case 'orangeDoneNum':
+          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '橙色预警-已上传附件明细'
+          this.detailVisible = true
+          this.detailType = 'orangeDoneNum'
           break
         case 'yellowUndoNum':
-          this.handleDetail('yellowUndoNum', obj.row.recDivCode)
-          this.detailTitle = '黄灯-待认定'
+          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '黄色预警-疑点信息明细'
+          this.detailVisible = true
+          this.detailType = 'yellowUndoNum'
           break
         case 'yellowDoneNum':
-          this.handleDetail('yellowDoneNum', obj.row.recDivCode)
-          this.detailTitle = '黄灯-已认定'
+          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定正常明细'
+          this.detailVisible = true
+          this.detailType = 'yellowDoneNum'
           break
         case 'yellowUndoNumw':
-          this.handleDetail('yellowUndoNumw', obj.row.recDivCode)
-          this.detailTitle = '黄灯-待整改'
+          this.detailData = ['yellowUndoNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'yellowUndoNumw'
           break
         case 'yellowDoneNumw':
-          this.handleDetail('yellowDoneNumw', obj.row.recDivCode)
-          this.detailTitle = '黄灯-已整改'
+          this.detailData = ['yellowDoneNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定违规-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'yellowDoneNumw'
           break
         case 'blueUndoNum':
-          this.handleDetail('blueUndoNum', obj.row.recDivCode)
-          this.detailTitle = '黄灯警铃-未处理'
+          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
+          this.detailType = 'blueUndoNum'
+          this.detailVisible = true
+          break
+        case 'blueDoneNum':
+          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定正常明细'
+          this.detailVisible = true
+          this.detailType = 'blueDoneNum'
+          break
+        case 'blueUndoNumw':
+          this.detailData = ['blueUndoNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'blueUndoNumw'
+          break
+        case 'blueDoneNumw':
+          this.detailData = ['blueDoneNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定违规-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'blueDoneNumw'
           break
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zyzdzjyszxqkfdq',
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.tableLoading = false
+          this.tableData = res.data.results
+          this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
       })
-    },
-    initTableData(tableDataTest) {
-      // let arr = JSON.parse(JSON.stringify(tableDataTest))
-      // arr.map(v => {
-      //   if ((parseFloat(v.recDivCode) / 10000000).toString().length === 2) {
-      //     v.type = 1
-      //   } else if ((parseFloat(v.recDivCode) / 10000000).toString().length === 5) {
-      //     v.type = 2
-      //   } else if ((parseFloat(v.recDivCode) / 10000000).toString().length === 7) {
-      //     v.type = 3
-      //   }
-      // })
-      // this.obj = {}
-      // arr.forEach(item => {
-      //   if (item.type === 1) {
-      //     this.obj[item.recDivCode.substring(0, 2)] = item
-      //     item.children = []
-      //     this.tableData.push(item)
-      //   } else if (item.type === 2) {
-      //     this.obj[item.recDivCode.substring(0, 5)] = item
-      //     item.children = []
-      //     this.tableData[0].children.push(item)
-      //   } else if (item.type === 3) {
-      //     this.obj[item.recDivCode.substring(0, 7)] = item
-      //   }
-      // })
-      // for (const key in this.obj) {
-      //   // const i = key.length - 2
-      //   // const pkey = key.substring(0, i)
-      //   for (var a = 0; a < this.tableData[0].children.length; a++) {
-      //     if (this.tableData[0].children[a] !== this.obj[key] && this.tableData[0].children[a].recDivCode.substring(0, 4) === this.obj[key].recDivCode.substring(0, 4) && this.tableData[0].children[a].type < this.obj[key].type) {
-      //       this.tableData[0].children[a].children.push(this.obj[key])
-      //     }
-      //   }
-      // }
-      return this.tableData
-    },
-    getNewData() {
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-        this.tableData = getFormData('basicInfo', 'tableData')
-        // this.initTableData(getFormData('basicInfo', 'tableData'))
-      }, 2000)
-      // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (['bpAmount', 'beAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
     }
   },
   created() {
@@ -575,7 +393,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.queryTableDatas()
+    this.queryTableDatas()
   }
 }
 </script>

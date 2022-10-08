@@ -34,36 +34,58 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
+          // { value: '2020', label: '2020年' },
+          // { value: '2021', label: '2021年' },
           { value: '2022', label: '2022年' }
         ],
         props: {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '截止日期',
+      field: 'endTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '截止日期'
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '2022'
   },
   basicInfo: {
     type: 'form',
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        seq: true, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [
       {
         title: '地区名称',
-        type: 'agencyName',
-        align: 'left',
+        type: 'name',
         treeNode: true,
-        width: 260,
-        field: 'agencyName',
-        cellRender: { name: '$vxeIcon' }
+        fixed: false,
+        align: 'left',
+        width: 160,
+        field: 'name',
+        cellRender: {
+          name: '$vxeIcon',
+          props: {
+            $refs: this
+          }
+        }
       },
       {
         title: '全省',
@@ -72,7 +94,7 @@ const proconf = {
         children: [
           {
             title: '中央安排',
-            field: 'jAmount',
+            field: 'amountQszyap',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
@@ -106,7 +128,7 @@ const proconf = {
             cellRender: {
               name: '$vxeMoney'
             },
-            formula: '({centrePlan1}+{loadPlan1})'
+            formula: '({amountQszyap}+{dfAmount}+{dfAmount1}+{dfAmount2})'
           }
         ]
       },
@@ -122,7 +144,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'szyapAmount',
+                field: 'amountSnjysZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -142,7 +164,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({szyapAmount}+{sdfapAmount})'
+                formula: '({amountSnjysZyap}+{sdfapAmount})'
               }
             ]
           },
@@ -222,7 +244,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'szybjfpAmount',
+                field: 'amountSnjfpbjZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -242,7 +264,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({szybjfpAmount}+{sdfbjfpAmount})'
+                formula: '({amountSnjfpbjZyap}+{sdfbjfpAmount})'
               }
             ]
           },
@@ -253,7 +275,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'szysxfpAmount',
+                field: 'amountSnjfpxjZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -273,7 +295,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({szysxfpAmount}+{sdfsxfpAmount})'
+                formula: '({amountSnjfpxjZyap}+{sdfsxfpAmount})'
               }
             ]
           },
@@ -287,7 +309,8 @@ const proconf = {
                 field: 'szywfpAmount',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountSnjysZyap}-({amountSnjfpbjZyap}+{amountSnjfpxjZyap})'
               },
               {
                 title: '省级安排',
@@ -318,7 +341,8 @@ const proconf = {
                 field: 'szyjd',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountSnjysZyap}-0==0?0:({amountSnjfpbjZyap}+{amountSnjfpxjZyap})/{amountSnjysZyap}*100'
               },
               {
                 title: '省级安排',
@@ -353,7 +377,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'shizyapAmount',
+                field: 'amountSjysZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -380,7 +404,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({shizyapAmount}+{shidfapAmount})'
+                formula: '({amountSjysZyap}+{shidfapAmount})'
               }
             ]
           },
@@ -474,7 +498,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'shzybjfpAmount',
+                field: 'amountSjfpbjZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -501,7 +525,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({shzybjfpAmount}+{shdfbjfpAmount})'
+                formula: '({amountSjfpbjZyap}+{shdfbjfpAmount})'
               }
             ]
           },
@@ -512,7 +536,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'shzyxjfpAmount',
+                field: 'amountSjfpxjZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -539,7 +563,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({shzyxjfpAmount}+{shdfxjfpAmount})'
+                formula: '({amountSjfpxjZyap}+{shdfxjfpAmount})'
               }
             ]
           },
@@ -553,7 +577,8 @@ const proconf = {
                 field: 'shzywfpAmount',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountSjysZyap}-({amountSjfpbjZyap}+{amountSjfpxjZyap})'
               },
               {
                 title: '省级安排',
@@ -591,7 +616,8 @@ const proconf = {
                 field: 'shzyjd',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountSjysZyap}-0==0?0:({amountSjfpbjZyap}+{amountSjfpxjZyap})/{amountSjysZyap}*100'
               },
               {
                 title: '省级安排',
@@ -633,7 +659,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'xzyapAmount',
+                field: 'amountXjysZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -667,7 +693,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({xzyapAmount}+{xdfapAmount})'
+                formula: '({amountXjysZyap}+{xdfapAmount})'
               }
             ]
           },
@@ -775,7 +801,7 @@ const proconf = {
             children: [
               {
                 title: '中央安排',
-                field: 'xzyyfpAmount',
+                field: 'amountXjfpZyap',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -809,7 +835,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({xzyyfpAmount}+{xdfyfpAmount})'
+                formula: '({amountXjfpZyap}+{xdfyfpAmount})'
               }
             ]
           },
@@ -823,7 +849,8 @@ const proconf = {
                 field: 'xzywfpAmount',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountXjysZyap}-{amountXjfpZyap}'
               },
               {
                 title: '省级安排',
@@ -868,7 +895,8 @@ const proconf = {
                 field: 'xzyjd',
                 width: 200,
                 align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountXjysZyap}-0==0?0:{amountXjfpZyap}/{amountXjysZyap}*100'
               },
               {
                 title: '省级安排',

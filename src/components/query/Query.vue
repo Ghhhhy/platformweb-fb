@@ -248,6 +248,7 @@ export default {
     }
   },
   mounted() {
+    this.$emit('register', this.$refs.queryForm?.$refs?.form || this.$refs.queryForm)
   },
   watch: {
     queryConfig: {
@@ -326,7 +327,7 @@ export default {
       }
     }
     .vxe-form--item {
-      padding: 12px 16px;
+      padding: 12px 8px;
 
       .vxe-input.size--medium {
         height: 32px;

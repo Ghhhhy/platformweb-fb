@@ -37,8 +37,10 @@
         <BsTree
           ref="leftTree"
           open-loading
+          :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :default-expanded-keys="defaultExpandedKeysIn"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -77,6 +79,10 @@
       :title="descTitle"
       :id-list="idList"
     />
+    <RulesAddModal
+      v-if="dialogVisibleRules"
+      :title="dialogTitle"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
@@ -85,26 +91,55 @@
 <script>
 import { proconf } from './MonitorRulesView'
 import AddDialog from './children/addDialog'
+import RulesAddModal from '../SystemLevelRules/children/addDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import DescDialog from './children/descDialog'
+import store from '@/store/index'
+import { mapState } from 'vuex'
+// import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
-    AddDialog, DescDialog
+    AddDialog, DescDialog, RulesAddModal
   },
   watch: {
     queryConfig() {
       this.getSearchDataList()
+    },
+    isPermission: {
+      handler(newData) {
+        if (newData) return
+
+        const index = this.toolBarStatusBtnConfig.buttonsInfo['1'].findIndex(item => item.code === 'set_rule')
+        if (index === -1) return
+        this.toolBarStatusBtnConfig.buttonsInfo['1'].splice(index, 1)
+      },
+      immediate: true
+    }
+  },
+  computed: {
+    ...mapState(['userRolesData']),
+    // 是否有直达资金以下dfrRoles权限
+    isPermission() {
+      const dfrRoles = ['直达资金经办岗', '直达资金审核岗', '直达资金系统管理员']
+      const roleSet = new Set([
+        ...(this.userRolesData.map(item => item.name) || []),
+        ...dfrRoles
+      ])
+      // 利用Set结构去重，并取并集后根据长度比较判断是否有包含关系
+      return roleSet.size < (this.userRolesData.length + dfrRoles.length)
     }
   },
   data() {
     return {
+      leftTreeFilterText: '',
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,
+      treeTypeConfig: {},
       // 树配置
-      treeTypeConfig: {
+      treeTypeConfig1: {
         curRadio: '2',
         radioGroup: [
           {
@@ -117,12 +152,25 @@ export default {
           }
         ]
       },
+      treeTypeConfig2: {
+        curRadio: '2',
+        radioGroup: [
+          {
+            code: '1',
+            label: '区划树'
+          },
+          {
+            code: '2',
+            label: '预警级别'
+          }
+        ]
+      },
       treeGlobalConfig: {
         inputVal: ''
       },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303//lmp/mofDivTree',
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -139,7 +187,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton,
+        buttonsInfo: this.$store.state.curNavModule.param5 === 'dfr' ? proconf.dfrStatusRightToolBarButton : proconf.statusRightToolBarButton,
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -177,6 +225,7 @@ export default {
         }
       },
       leftNode: {},
+      children: {},
       regulationStatus: '1',
       mainPagerConfig: {
         total: 0,
@@ -186,7 +235,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          $gloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -200,6 +249,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
+      dialogVisibleRules: false, // 直达资金新增规则弹窗
       dialogTitle: '新增',
       addTableData: [],
       // 请求 & 角色权限相关配置
@@ -211,6 +261,7 @@ export default {
       roleguid: this.$store.state.curNavModule.roleguid,
       appId: 'pay_voucher',
       isHaveZero: '0',
+      regulationClass: '',
       // 文件
       showAttachmentDialog: false,
       billguid: '',
@@ -233,7 +284,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{code}-{name}', // {code}-{name}
+          labelFormat: '{label}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -248,7 +299,9 @@ export default {
       descVisible: false,
       descTitle: '',
       idList: [],
-      provinceList: []
+      provinceList: [],
+      formDatas: {},
+      defaultExpandedKeysIn: ['0'] // 默认展开预警级别
     }
   },
   mounted() {
@@ -339,7 +392,6 @@ export default {
     },
     // 切换状态栏
     onStatusTabClick(obj) {
-      console.log(obj)
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
         return
@@ -383,6 +435,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.formDatas = datas[0].ruleElement
           this.provinceList = datas[0].codeList
           this.getDetail(datas[0].regulationCode)
           break
@@ -393,6 +446,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.formDatas = selection[0].ruleElement
           this.provinceList = selection[0].codeList
           this.update(selection[0].regulationCode)
           break
@@ -422,11 +476,11 @@ export default {
           // }
           this.stop(datas)
           break
-        // // 刷新
-        // case 'add-toolbar-refresh':
-        //   this.refresh()
-        //   break
-        // // 刷新
+        // 设置规则
+        case 'set_rule':
+          this.setRule()
+          break
+        // 刷新
         // case 'operation-toolbar-refresh':
         //   this.refresh()
         //   break
@@ -434,21 +488,62 @@ export default {
           break
       }
     },
+    setRule() {
+      // 直达资金规则弹窗
+      this.dialogVisibleRules = true
+      this.dialogTitle = '新增'
+    },
+    isRole(val) {
+      let isPermission = false
+      val.forEach((item) => {
+        if (item.name === '直达资金经办岗' || item.name === '直达资金审核岗' || item.name === '直达资金系统管理员') {
+          isPermission = true
+        }
+      })
+      console.log('isPermission', isPermission)
+      if (isPermission) {
+        const route = {
+          url: '/SystemLevelRules',
+          code: '882004001',
+          name: '系统级规则设置',
+          f_FullName: '系统级规则设置'
+        }
+        store.commit('setCurMenuObj', route)
+      } else {
+        this.$message.warning('请检查菜单权限！')
+      }
+    },
     open(datas) {
       this.idList = []
+      let isGo = true
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
+        if (item.isEnable === '1') {
+          isGo = false
+        }
       })
+      if (!isGo) {
+        this.$message.warning('选中数据中有规则已启用')
+        return
+      }
       this.descVisible = true
-      this.descTitle = '启用是由'
+      this.descTitle = '启用事由'
     },
     stop(datas) {
       this.idList = []
+      let isGo = true
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
+        if (item.isEnable === '0') {
+          isGo = false
+        }
       })
+      if (!isGo) {
+        this.$message.warning('选中数据中有规则已停用')
+        return
+      }
       this.descVisible = true
-      this.descTitle = '停用是由'
+      this.descTitle = '停用事由'
     },
     changeVisible(val) {
       console.log(val, '输出')
@@ -457,7 +552,6 @@ export default {
     // table 右侧操作按钮
     onOptionRowClick({ row, optionType }, context) {
       // console.log(context.$parent.$parent.$parent)
-      console.log(row.attachment_id)
       switch (optionType) {
         // 新增
         case 'add':
@@ -506,12 +600,15 @@ export default {
       })
     },
     onClickmethod(node) {
+      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+        this.regulationClass = '09'
+        this.warningLevel = node.node.code === '0' ? '' : node.node.code
+      }
       if (this.treeType === '1') {
         // if (node.node.code === '') {
         //   return
         // }
         let code = node.node.code
-        console.log(code)
         this.codeList = []
         let treeData = node.treeData
         this.getItem(code, treeData)
@@ -526,6 +623,7 @@ export default {
           'businessFeaturesCode': '', // 业务功能
           'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
           'isEnable': this.isEnable,
+          'regulationClass': this.regulationClass,
           'regulationName': this.regulationName,
           'regulationModelName': this.regulationModelName,
           id: this.condition.agency_code,
@@ -552,6 +650,10 @@ export default {
         // if (node.node.code === '') {
         //   return
         // }
+        if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+          this.queryTableDatas()
+          return
+        }
         let code = node.node.code
         let regulationClass = ''
         let regulationType = ''
@@ -641,6 +743,9 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+        this.regulationClass = '09'
+      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -652,6 +757,7 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
+        'regulationClass': this.regulationClass,
         'regulationModelName': this.regulationModelName,
         id: this.condition.agency_code,
         menuType: 1
@@ -675,15 +781,12 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      let data = {
-        roleguid: this.$store.state.curNavModule.roleguid,
-        data: {
-          statusCode: this.toolBarStatusSelect.code,
-          id: row.id,
-          appId: 'pay_voucher'
-        }
+      const param = {
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name,
+        declareCode: row.regulationCode
       }
-      HttpModule.queryActionLog(data).then(res => {
+      HttpModule.queryActionLog(param).then(res => {
         this.logData = res.data
         console.log(this.logData)
         this.showLogView = true
@@ -703,7 +806,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementCode: 'admdiv',
+          elementcode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
@@ -723,14 +826,14 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementCode: 'admdiv',
+          elementcode: 'admdiv',
           province: this.userInfo.province,
           year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
@@ -738,7 +841,7 @@ export default {
       }
       let that = this
       HttpModule.getLeftTree(params).then(res => {
-        if (res.data) {
+        if (res.rscode === '100000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
         } else {
@@ -748,12 +851,27 @@ export default {
     },
     getLeftTreeData1() {
       let that = this
+      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库 显示预警级别树
+        that.treeData = proconf.leftYjjbData
+        return
+      }
       HttpModule.getLeftTree1().then(res => {
         if (res.code === '000000') {
           let arr = []
+          // if (this.params5 === 'dfr') {
+          //   res.data.children.forEach(item1 => {
+          //     if (item1.code === '09') {
+          //       this.children = item1
+          //     }
+          //   })
+          //   arr.push(this.children)
+          //   let treeResdata = that.getChildrenData(arr)
+          //   that.treeData = treeResdata
+          // } else {
           arr.push(res.data)
           let treeResdata = that.getChildrenData(arr)
           that.treeData = treeResdata
+          // }
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -769,16 +887,24 @@ export default {
       })
 
       return datas
+    },
+    getTreeType() {
+      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+        this.treeTypeConfig = this.treeTypeConfig2
+      } else {
+        this.treeTypeConfig = this.treeTypeConfig1
+      }
     }
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    this.params5 = this.$store.state.curNavModule.param5 // 如果是直达资金监控规则库 菜单参数配置dfr
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getLeftTreeData1()
     this.queryTableDatas()
+    this.getTreeType()
   }
 }
 </script>

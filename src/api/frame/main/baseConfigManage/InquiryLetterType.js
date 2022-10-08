@@ -5,6 +5,9 @@ export default {
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/askType/pageQuery', params)
   },
+  queryTableDatas1(params) {
+    return post('dfr-monitor-service/dfr/dataExtraction/payDetail', params)
+  },
   // 新增
   addPolicies(params) {
     return post('large-monitor-platform/lmp/askType/add', params)

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import BSUI from '@/components/index.js'
-import globalGatewayConf from './serverGatewayMap.js'
+import globalGatewayConf from '../../public/static/js/config/serverGatewayMap.js'
 // import { basePublicUrl } from './url'
 import Qs from 'qs'
 import Router from '@/router/index.js'
@@ -167,17 +167,13 @@ axios.interceptors.response.use(function(response) {
     })
     BSUI.utilsLib.LoadingMark.removeLoadingMark()
   } else {
-    Message.error({
-      message: error?.message || '网络错误，请重试！',
-      type: 'warning'
-    })
     errorLogTool.recordBadUrlErrorInfo({ statusText: error.message }, error.config.url, error.config.method, error.config.data)
-    // debounceItemChange(() => {
-    //   Message.error({
-    //     message: error?.message || '网络错误，请重试！',
-    //     type: 'warning'
-    //   })
-    // })
+    debounceItemChange(() => {
+      Message.error({
+        message: error.message,
+        type: 'warning'
+      })
+    })
     BSUI.utilsLib.LoadingMark.removeLoadingMark()
   }
 

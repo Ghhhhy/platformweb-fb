@@ -192,7 +192,7 @@ export default {
         margin-right: 0px;
         height: 6px;
         width: 6px;
-        background: #666;
+        background: #fff;
         border-radius: 3px;
       }
       span {
@@ -202,10 +202,10 @@ export default {
     .nav-level-title-3 {
       i {
         margin-right: 0px;
-        height: 8px;
-        width: 8px;
-        background: url('../img/level3.svg');
-        background-size: 100% 100%;
+        height: 6px;
+        width: 6px;
+        background: #fff;
+        border-radius: 3px;
       }
       span {
         font-size: 14px;
@@ -216,15 +216,20 @@ export default {
         margin-right: 0px;
         height: 6px;
         width: 6px;
-        background: url('../img/level4.svg');
-        background-size: 100% 100%;
+        background: #fff;
+        border-radius: 3px;
       }
       span {
         font-size: 14px;
-        color: #999;
       }
     }
     .el-menu-item.is-active {
+      .nav-level-title-2 {
+        i {
+          background: url('../img/level3active.svg');
+          background-size: 100% 100%;
+        }
+      }
       .nav-level-title-3 {
         i {
           background: url('../img/level3active.svg');
@@ -233,8 +238,13 @@ export default {
       }
       .nav-level-title-4 {
         i {
-          background: url('../img/level4active.svg');
+          background: url('../img/level3active.svg');
           background-size: 100% 100%;
+        }
+        span {
+          opacity: 1;
+          font-weight: bold;
+          // color: var(--primary-color);
         }
       }
     }

@@ -105,6 +105,16 @@
         <div v-if="toolbarConfigInCopy.batchModify" class="batch-modify-slot fn-inline">
           <BatchModify :batch-modify-item-config="tableColumnsConfigIn" :batch-modify-fields="batchModifyFields" @onBatchModifyItemChange="onBatchModifyItemChange" @onSureClick="omBatchModifySureClick" />
         </div>
+        <!--口径说明：直接根据是否传入相关插槽判断按钮显示状态；点击按钮弹窗内容为插槽内容-->
+        <div class="custom-table-tips-actions">
+          <vxe-button
+            v-if="$scopedSlots.caliberDeclare"
+            title="口径说明"
+            @click="caliberDeclareHandle"
+          >
+            口径说明
+          </vxe-button>
+        </div>
         <div class="fn-inline toolbarTools-select">
           <div
             v-if="toolbarConfigInCopy.moneyConversion"
@@ -176,6 +186,8 @@
             <i class="vxe-button--icon ri-upload-2-line"></i>
           </vxe-button>
           <!-- </vxe-tooltip> -->
+          <!--扩展：工具栏前置插槽-->
+          <slot name="tools-before"></slot>
           <vxe-button
             v-if="toolbarConfigInCopy.refresh"
             name="refreshbtn"
@@ -208,6 +220,14 @@
           >
             <i class="vxe-button--icon ri-download-2-line"></i>
           </vxe-button>
+          <vxe-button
+            v-if="toolbarConfigInCopy.expandAll"
+            name="expandbtn"
+            :title="expandAllState ? '收起全部' : '展开全部'"
+            @click="onToolbarOperrateClick('expandAll')"
+          >
+            <i :class="expandAllState ? 'ri-checkbox-indeterminate-line' : 'ri-add-box-line'" class="vxe-button--icon"></i>
+          </vxe-button>
           <!-- <vxe-button v-if="toolbarConfigInCopy.custom" name="custombtn" @click="onToolbarOperrateClick('custom')">
             <i class="vxe-button--icon custom-ico custom"></i>
           </vxe-button> -->
@@ -231,6 +251,17 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
+    <!--口径说明弹窗-->
+    <CaliberDeclare
+      :dialog-visible.sync="caliberDeclareVisible"
+    >
+      <template
+        v-if="$scopedSlots.caliberDeclare"
+        #default
+      >
+        <slot name="caliberDeclare"></slot>
+      </template>
+    </CaliberDeclare>
   </div>
 </template>
 <script>
@@ -244,6 +275,7 @@ import { Export } from './export/export/export.js'
 import ExportModel from './export/Export.vue'
 import ImportModel from './import/import.vue'
 import BatchModify from './batchModify/BatchModify.vue'
+import CaliberDeclare from './caliberDeclare/CaliberDeclare.vue'
 export default {
   name: 'Table',
   directives: {
@@ -257,7 +289,8 @@ export default {
   components: {
     ExportModel,
     ImportModel,
-    BatchModify
+    BatchModify,
+    CaliberDeclare
   },
   props: {
     ...props
@@ -273,9 +306,11 @@ export default {
   computed: {
   },
   mounted() {
+    const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
     this.$Import = new Import()
-    this.$Export = new Export()
+    this.$Export = new Export({ unit: unitLabel || '元' })
     this.initMounted()
+    this.$emit('register', this.$refs.xGrid || this)
   },
   watch: {
     ...watch
@@ -498,9 +533,26 @@ export default {
   display: inline-block;
   background-size: 120% 120%;
 }
+.result-orange{
+  background-image:url(./assets/img/orange.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
+.result-blue{
+  background-image:url(./assets/img/blue.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
 .result-yellow-bell{
   background-image:url(./assets/img/yellowBell.svg) ;
   display: inline-block;
   background-size: 120% 120%;
+}
+.custom-table-tips-actions {
+  display: flex;
+  align-items: center;
+  .vxe-button {
+    margin-right: 8px;
+  }
 }
 </style>

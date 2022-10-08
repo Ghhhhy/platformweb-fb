@@ -28,17 +28,16 @@
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
         <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
+          open-loading
+          :filter-text="leftTreeFilterText"
           :tree-data="treeData"
-          :filter-text="treeGlobalConfig.inputVal"
-          :config="treeGlobalConfig.treeConfig"
+          :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -55,6 +54,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -80,6 +83,7 @@
 <script>
 import { proconf } from './payDataNormative'
 import HttpModule from '@/api/frame/main/fundMonitoring/payDataNormative.js'
+import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -94,10 +98,13 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,
+      codeList: [],
+      leftTreeFilterText: '',
       treeData: [{
         children: [],
         code: 0,
@@ -113,8 +120,7 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
@@ -445,17 +451,36 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod({ node }) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+    onClickmethod(node) {
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
-        this.mofdivcode = node.code
+        this.mofdivcode = node.node.code
       } else {
         this.condition = {}
       }
       this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -526,7 +551,7 @@ export default {
         payeeAcctNoStr: this.payeeAcctNoStr,
         proNameStr: this.proNameStr,
         payTimeStr: this.payTimeStr,
-        mofDivCode: this.mofdivcode || ''
+        mofDivCodeList: this.codeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -535,6 +560,7 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
@@ -591,21 +617,21 @@ export default {
       ) {
         params = {
           elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
+          province: this.userInfo.province,
+          year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementCode: 'admdiv',
           province: this.userInfo.province,
-          year: this.userInfo.year,
+          year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
-      HttpModule.getTreeData(params).then(res => {
+      getMofDivTree(params).then(res => {
         if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
+          let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -618,7 +644,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = res.data
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -627,7 +653,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || item.name
         if (item.children) {
           that.getChildrenData(item.children)
         }

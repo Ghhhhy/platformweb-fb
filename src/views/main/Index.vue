@@ -34,11 +34,10 @@
         </BsTabKeepRouter>
       </div>
       <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
-        <!-- :include="includedComponents"  -->
-        <BsKeepAlive ref="keepAlive">
-          <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.fullPath" />
+        <BsKeepAlive ref="keepAlive" :include="includedComponents">
+          <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.name" />
         </BsKeepAlive>
-        <router-view v-if="!$route.meta.keepAlive && ifrouteractive" :key="$route.fullPath" />
+        <router-view v-if="!$route.meta.keepAlive && ifrouteractive" :key="$route.name" />
       </div>
       <div v-show="showType === 'iframe'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
         <iframe
@@ -103,7 +102,8 @@ export default {
         noClear: true
       },
       showType: 'router',
-      menuData: []
+      menuData: [],
+      list: []
     }
   },
   computed: {
@@ -300,6 +300,7 @@ export default {
       })
     },
     onTabListChange(tabList) {
+      this.list = tabList
       this.tabListCp = JSON.parse(JSON.stringify(tabList))
       this.registIncludedComponents()
     },
@@ -330,6 +331,7 @@ export default {
           self.$error('error')
         })
       } else {
+        self.$refs.keepAlive.destroy(obj.url)
         this.$store.commit('setCurMenuObj', obj)
         // this.registTabComs(obj)
       }

@@ -114,7 +114,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -122,15 +122,17 @@
                     <el-input
                       v-model="sqlParam"
                       type="textarea"
-                      :rows="5"
+                      :rows="2"
                       placeholder="请输入拼接SQL段"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73%"
                     />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
-            <el-col :span="12">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -138,9 +140,9 @@
                     <el-input
                       v-model="dataSourceDesc"
                       type="textarea"
-                      :rows="5"
+                      :rows="2"
                       placeholder="请输入数据源描述"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73%"
                     />
                   </el-row>
                 </el-main>
@@ -223,11 +225,11 @@ export default {
       HttpModule.getDetail(this.dataSourceCode).then(res => {
         if (res.code === '000000') {
           this.dataSourceName = res.data.dataSourceName
-          this.businessSystemCode = parseInt(res.data.businessSystemCode)
+          this.businessSystemCode = res.data.businessSystemCode
           this.SysparentId = this.businessSystemCode
           this.getModLists()
           this.businessSystemName = res.data.businessSystemName
-          this.businessModuleCode = parseInt(res.data.businessModuleCode)
+          this.businessModuleCode = res.data.businessModuleCode
           this.businessModuleName = res.data.businessModuleName
           this.adapterAddr = res.data.adapterAddr
           this.dataSourceDesc = res.data.dataSourceDesc

@@ -89,7 +89,7 @@ export default {
       type: String,
       default: ''
     },
-    dataSourceCode: {
+    dataId: {
       type: String,
       default: ''
     },
@@ -227,7 +227,8 @@ export default {
         let param = {
           askTypeCode: this.askTypeCode,
           askTypeName: this.askTypeName,
-          askTypeDesc: this.askTypeDesc
+          askTypeDesc: this.askTypeDesc,
+          id: this.dataId
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {

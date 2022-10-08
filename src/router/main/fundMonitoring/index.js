@@ -1,15 +1,25 @@
 /*
  * 直达资金监控路由
  */
-export default [
+const routers = [
   {
-    path: '/BudgetImplementationCapital', // 直达资金预算下达_分资金
+    path: '/BudgetImplementationCapital', // 中央直达资金预算执行情况_分资金
     name: 'BudgetImplementationCapital',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
   },
   {
-    path: '/BudgetImplementationRegion', // 直达资金预算下达_分地区
+    path: '/BudgetImplementationRegion', // 中央直达资金预算执行情况_分地区
     name: 'BudgetImplementationRegion',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
+  },
+  {
+    path: '/BudgetImplementationCapitalCZ', // 中央参照直达资金预算执行情况_分资金
+    name: 'BudgetImplementationCapitalCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+  },
+  {
+    path: '/BudgetImplementationRegionCZ', // 中央参照直达资金预算执行情况_分地区
+    name: 'BudgetImplementationRegionCZ',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
   {
@@ -221,14 +231,58 @@ export default [
     name: 'DfrBudgetReleaseCapital',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrBudgetReleaseCapital/dfrBudgetReleaseCapital.vue')
   },
+  // {
+  //   path: '/BenefitEnterprisesAndPeople', // 惠企利民
+  //   name: 'BenefitEnterprisesAndPeople',
+  //   component: () => import('../../../views/main/fundMonitoring/benefitEnterprisesAndPeople/benefitEnterprisesAndPeople.vue')
+  // },
   {
     path: '/BenefitEnterprisesAndPeople', // 惠企利民
     name: 'BenefitEnterprisesAndPeople',
-    component: () => import('../../../views/main/fundMonitoring/benefitEnterprisesAndPeople/benefitEnterprisesAndPeople.vue')
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue')
   },
   {
     path: '/BenefitEnterprisesAndPeopleImport', // 支付接口数据导入
     name: 'BenefitEnterprisesAndPeopleImport',
     component: () => import('../../../views/main/fundMonitoring/benefitEnterprisesAndPeopleImport/BenefitEnterprisesAndPeopleImport.vue')
+  },
+  {
+    path: '/dfrAllocationWarning', // 直达资金分配预警表
+    name: 'dfrAllocationWarning',
+    component: () => import('../../../views/main/fundMonitoring/businessSupervision/dfrAllocationAlert/dfrAllocationAlert.vue')
+  },
+  {
+    path: '/dfrAllocation', // 直达资金分配表
+    name: 'dfrAllocation',
+    component: () => import('../../../views/main/fundMonitoring/businessSupervision/dfrAllocation/dfrAllocation.vue')
+  },
+  {
+    path: '/dfrAllocationProgressTracking', // 直达资金分配进度跟踪表
+    name: 'dfrAllocationProgressTracking',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrAllocationProgressTracking/dfrAllocationProgressTracking.vue')
+  },
+  {
+    path: '/dfrMultipleQuery', // 直达资金综合查询
+    name: 'dfrMultipleQuery',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/dfrMultipleQuery/dfrMultipleQuery.vue')
   }
 ]
+
+// 直达资金所有页面统一增加keepAlive
+routers.forEach(router => {
+  router.meta = {
+    keepAlive: true,
+    requireAuth: true,
+    ...(router.meta || {})
+  }
+})
+
+export default routers

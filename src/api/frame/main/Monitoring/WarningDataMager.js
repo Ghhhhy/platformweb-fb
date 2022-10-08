@@ -46,5 +46,8 @@ export default {
   // 获取合计
   fileUpload(params) {
     return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+  },
+  getTreewhere(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
   }
 }

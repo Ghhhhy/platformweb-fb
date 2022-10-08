@@ -4,7 +4,7 @@ export default [
     path: '/PoliciesAndRegulationsManagement',
     name: 'PoliciesAndRegulationsManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue')
@@ -14,7 +14,7 @@ export default [
     path: '/PoliciesAndRegulationsSelect',
     name: 'PoliciesAndRegulationsSelect',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue')
@@ -24,7 +24,7 @@ export default [
     path: '/MonitoringRuleFunctionManagement',
     name: 'MonitoringRuleFunctionManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitoringRuleFunctionManagement/MonitoringRuleFunctionManagement.vue')
@@ -34,7 +34,7 @@ export default [
     path: '/DeclarationOfMonitoringItemsDepartment',
     name: 'DeclarationOfMonitoringItemsDepartment',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsDepartment/DeclarationOfMonitoringItemsDepartment.vue')
@@ -44,7 +44,7 @@ export default [
     path: '/DeclarationOfMonitoringItemsFinance',
     name: 'DeclarationOfMonitoringItemsFinance',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFinance/DeclarationOfMonitoringItemsFinance.vue')
@@ -54,7 +54,7 @@ export default [
     path: '/DeclarationOfMonitoringItemsMonitor',
     name: 'DeclarationOfMonitoringItemsMonitor',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsMonitor/DeclarationOfMonitoringItemsMonitor.vue')
@@ -64,7 +64,7 @@ export default [
     path: '/DeclarationOfMonitoringItemsFlowFinance',
     name: 'DeclarationOfMonitoringItemsFlowFinance',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowFinance/DeclarationOfMonitoringItemsFlowFinance.vue')
@@ -74,7 +74,7 @@ export default [
     path: '/DeclarationOfMonitoringItemsFlowMonitor',
     name: 'DeclarationOfMonitoringItemsFlowMonitor',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowMonitor/DeclarationOfMonitoringItemsFlowMonitor.vue')
@@ -84,7 +84,7 @@ export default [
     path: '/ApprovalOfMonitoringMatters',
     name: 'ApprovalOfMonitoringMatters',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue')
@@ -94,7 +94,7 @@ export default [
     path: '/ApprovalOfMonitoringSelectMatters',
     name: 'ApprovalOfMonitoringSelectMatters',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue')
@@ -104,7 +104,7 @@ export default [
     path: '/MonitoringRuleTemplateLibraryManagement',
     name: 'MonitoringRuleTemplateLibraryManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitoringRuleTemplateLibraryManagement/MonitoringRuleTemplateLibraryManagement.vue')
@@ -114,7 +114,7 @@ export default [
     path: '/SystemLevelRules',
     name: 'SystemLevelRules',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
@@ -124,7 +124,7 @@ export default [
     path: '/SystemLevelRulesFlow',
     name: 'SystemLevelRulesFlow',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
@@ -134,7 +134,7 @@ export default [
     path: '/FinanceLevelRules',
     name: 'FinanceLevelRules',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
@@ -144,7 +144,7 @@ export default [
     path: '/FinanceLevelRulesFlow',
     name: 'FinanceLevelRulesFlow',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
@@ -154,7 +154,7 @@ export default [
     path: '/DepartmentLevelRules',
     name: 'DepartmentLevelRules',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
@@ -164,7 +164,7 @@ export default [
     path: '/DepartmentLevelRulesFlow',
     name: 'DepartmentLevelRulesFlow',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
@@ -174,7 +174,7 @@ export default [
     path: '/MonitorRulesView',
     name: 'MonitorRulesView',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
@@ -184,7 +184,7 @@ export default [
     path: '/SameNameTransferStatistics',
     name: 'SameNameTransferStatistics',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -194,7 +194,7 @@ export default [
     path: '/OtherMonitoringStatistics',
     name: 'OtherMonitoringStatistics',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -204,7 +204,7 @@ export default [
     path: '/ProcessSupervisionAndMonitoringStatistics',
     name: 'ProcessSupervisionAndMonitoringStatistics',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -214,7 +214,7 @@ export default [
     path: '/BudgetImplementWarningDataMager',
     name: 'BudgetImplementWarningDataMager',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -224,7 +224,7 @@ export default [
     path: '/NonStandardStatisticsOfUse',
     name: 'NonStandardStatisticsOfUse',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -234,7 +234,7 @@ export default [
     path: '/ExpenditureStatisticsAreNotStandardized',
     name: 'ExpenditureStatisticsAreNotStandardized',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -244,7 +244,7 @@ export default [
     path: '/PaymentInformationIsNotStandardizedStatistics',
     name: 'PaymentInformationIsNotStandardizedStatistics',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -254,7 +254,7 @@ export default [
     path: '/SalaryExpenditureRelatedStatistics',
     name: 'SalaryExpenditureRelatedStatistics',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -264,7 +264,7 @@ export default [
     path: '/SubjectStatisticsAreProhibited',
     name: 'SubjectStatisticsAreProhibited',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
@@ -274,7 +274,7 @@ export default [
     path: '/BudgetAccountingWarningDataMager',
     name: 'BudgetAccountingWarningDataMager',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
@@ -284,7 +284,7 @@ export default [
     path: '/AgencyBusinessAccountingWarningDataMager',
     name: 'AgencyBusinessAccountingWarningDataMager',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/AgencyBusinessAccountingWarningDataMager/AgencyBusinessAccountingWarningDataMager.vue')
@@ -294,7 +294,7 @@ export default [
     path: '/PayMonitorRulesMager',
     name: 'PayMonitorRulesMager',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/PayMonitorRulesMager/PayMonitorRulesMager.vue')
@@ -304,7 +304,7 @@ export default [
     path: '/StatisticalFormsByCompartment',
     name: 'StatisticalFormsByCompartment',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
@@ -314,7 +314,7 @@ export default [
     path: '/StatisticalFormsByRule',
     name: 'StatisticalFormsByRule',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
@@ -324,7 +324,7 @@ export default [
     path: '/StatisticalFormsByRank',
     name: 'StatisticalFormsByRank',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
@@ -334,7 +334,7 @@ export default [
     path: '/WarningDetailsByRule',
     name: 'WarningDetailsByRule',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
@@ -344,7 +344,7 @@ export default [
     path: '/WarningDetailsByCompartment',
     name: 'WarningDetailsByCompartment',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
@@ -354,7 +354,7 @@ export default [
     path: '/StatisticalFormsByCompartmentHs',
     name: 'StatisticalFormsByCompartmentHs',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
@@ -364,7 +364,7 @@ export default [
     path: '/StatisticalFormsByRuleHs',
     name: 'StatisticalFormsByRuleHs',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
@@ -374,7 +374,7 @@ export default [
     path: '/StatisticalFormsByRankHs',
     name: 'StatisticalFormsByRankHs',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
@@ -384,7 +384,7 @@ export default [
     path: '/WarningDetailsByRuleHs',
     name: 'WarningDetailsByRuleHs',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
@@ -394,7 +394,7 @@ export default [
     path: '/WarningDetailsByCompartmentHs',
     name: 'WarningDetailsByCompartmentHs',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
@@ -404,7 +404,7 @@ export default [
     path: '/enumerationSet',
     name: 'enumerationSet',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/EnumerationSet/EnumerationSet.vue')
@@ -414,7 +414,7 @@ export default [
     path: '/WarningDetailsByRuleAll',
     name: 'WarningDetailsByRuleAll',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
@@ -424,7 +424,7 @@ export default [
     path: '/WarningDetailsByCompartmentAll',
     name: 'WarningDetailsByCompartmentAll',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
@@ -434,7 +434,7 @@ export default [
     path: '/MonitorThemeByCompartment',
     name: 'MonitorThemeByCompartment',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorThemeByCompartment/MonitorThemeByCompartment.vue')
@@ -444,7 +444,7 @@ export default [
     path: '/MonitorThemeByRule',
     name: 'MonitorThemeByRule',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRule/MonitorThemeByRule.vue')
@@ -454,7 +454,7 @@ export default [
     path: '/MonitorThemeByRank',
     name: 'MonitorThemeByRank',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRank/MonitorThemeByRank.vue')
@@ -464,7 +464,7 @@ export default [
     path: '/InquiryLetterCreate',
     name: 'InquiryLetterCreate',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue')
@@ -474,7 +474,7 @@ export default [
     path: '/InquiryLetterReview',
     name: 'InquiryLetterReview',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue')
@@ -484,7 +484,7 @@ export default [
     path: '/InquiryLetterReplyByAgency',
     name: 'InquiryLetterReplyByAgency',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue')
@@ -494,7 +494,7 @@ export default [
     path: '/InquiryLetterReplyByFinance',
     name: 'InquiryLetterReplyByFinance',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue')
@@ -504,26 +504,45 @@ export default [
     path: '/InquiryLetterRecords',
     name: 'InquiryLetterRecords',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue')
   },
+  // 财政画像
   {
     path: '/financialPortrayal',
     name: 'FinancialPortrayal',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/financial-portrayal/index.vue')
+  },
+  // 预警总览
+  {
+    path: '/warningOverview',
+    name: 'WarningOverview',
+    meta: {
+      requireAuth: true
+    },
+    component: () => import('@/views/main/warningOverview/index.vue')
+  },
+  // 主题分析
+  {
+    path: '/subjectAnalysis',
+    name: 'SubjectAnalysis',
+    meta: {
+      requireAuth: true
+    },
+    component: () => import('@/views/main/subjectAnalysis/index.vue')
   },
   // 监控报告生成
   {
     path: '/MonitoeReportCreate',
     name: 'MonitoeReportCreate',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitoeReportCreate/MonitoeReportCreate.vue')
@@ -533,7 +552,7 @@ export default [
     path: '/MonitoeReportQuery',
     name: 'MonitoeReportQuery',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/MonitoeReportQuery/MonitoeReportQuery.vue')
@@ -543,7 +562,7 @@ export default [
     path: '/BasicDatabaseMaintenance',
     name: 'BasicDatabaseMaintenance',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/BasicDatabaseMaintenance/BasicDatabaseMaintenance.vue')
@@ -553,7 +572,7 @@ export default [
     path: '/FinancialBasicTableEntry',
     name: 'FinancialBasicTableEntry',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/FinancialBasicTableEntry/FinancialBasicTableEntry.vue')

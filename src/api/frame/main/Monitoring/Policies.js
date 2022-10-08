@@ -43,10 +43,10 @@ export default {
   },
   // 获取左侧树
   getTreeData(params) {
-    return post('large-monitor-platform/lmp/regulations/tree/0', params)
+    return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
   },
   // 新增下拉树
   getProvince(params) {
-    return get('large-monitor-platform/lmp/regulations/provinceList', params)
+    return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
   }
 }

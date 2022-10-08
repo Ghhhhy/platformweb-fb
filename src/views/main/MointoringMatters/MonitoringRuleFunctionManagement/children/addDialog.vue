@@ -86,20 +86,6 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;函数参数</div>
-                    <el-input
-                      v-model="functionParameter"
-                      placeholder="请输入函数参数"
-                      style="width:45%"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;数据源名称</div>
                     <el-select
                       v-model="dataSourceCode"
@@ -120,7 +106,25 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;函数参数</div>
+                    <el-input
+                      v-model="functionParameter"
+                      type="textarea"
+                      :rows="7"
+                      placeholder="请输入函数参数"
+                      style="width:73%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -130,7 +134,7 @@
                       type="textarea"
                       :rows="5"
                       placeholder="请输入函数描述"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73%"
                     />
                   </el-row>
                 </el-main>
@@ -312,8 +316,8 @@ export default {
       //   this.$message.warning('函数接口长度应小于等于500位')
       //   return
       // }
-      if (this.functionParameter.length > 500) {
-        this.$message.warning('函数参数长度应小于等于500位')
+      if (this.functionParameter.length > 5000) {
+        this.$message.warning('函数参数长度应小于等于5000位')
         return
       }
       if (this.description.length > 100) {

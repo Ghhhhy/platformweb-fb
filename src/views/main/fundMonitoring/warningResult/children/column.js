@@ -1,28 +1,41 @@
 // import store from '@/store/index'
 const proconf = {
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      // const main = self.$parent.$parent.$parent.$parent
+      // let status = main._data.toolBarStatusSelect.curValue
+      return [
+        // <el-tooltip content="修改" placement="top" effect="light">
+        //   <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'uodate' })}>修改</a>
+        // </el-tooltip>,
+        <el-tooltip content="附件" placement="top" effect="light">
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+        </el-tooltip>
+      ]
+    }
+  },
+  gloableOptionRow1: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      // const main = self.$parent.$parent.$parent.$parent
+      // let status = main._data.toolBarStatusSelect.curValue
+      return [
+        // <el-tooltip content="修改" placement="top" effect="light">
+        //   <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'uodate' })}>修改</a>
+        // </el-tooltip>,
+        <el-tooltip content="附件" placement="top" effect="light">
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment1' })}>附件</a>,
+        </el-tooltip>
+      ]
+    }
+  },
   highQueryConfig: [
     {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
-        props: {
-          placeholder: '业务年度'
-        }
-      }
-    },
-    {
-      title: '专项资金',
-      field: 'speTypeName',
+      title: '单位名称',
+      field: 'agencyName',
       width: '8',
       align: 'left',
       formula: '',
@@ -30,81 +43,97 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '专项资金'
-        }
-      }
-    },
-    {
-      title: '项目名称',
-      field: 'proCodeName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '项目名称'
-        }
-      }
-    },
-    {
-      title: '处室名称',
-      field: 'bgtMofDepName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '处室名称'
+          placeholder: '单位名称'
         }
       }
     }
   ],
   highQueryData: {
-    mofDivCode: '',
-    bgtMofDepName: '',
-    speTypeName: '',
-    levels: '',
-    proCodeName: ''
+    businessOffice: ''
   },
   // 红灯系统整改
   redUndoNum: [
     {
       title: '预警规则',
-      field: 'rule',
-      align: 'center'
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
     },
     {
       title: '年度',
       field: 'fiscalYear',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '地区',
-      field: 'agencyName',
+      field: 'dq',
       sortable: false,
-      align: 'right'
+      filters: false,
+      width: 140,
+      align: 'right',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
-      title: '单位处室',
-      field: 'corBgtDocNo',
+      title: '单位(处室)',
+      field: 'dwcs',
       sortable: false,
-      align: 'center'
+      filters: false,
+      width: 140,
+      align: 'right',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{businessOfficeCode}-{businessOffice}'
+        }
+      },
+      props: {
+        format: '{businessOfficeCode}-{businessOffice}'
+      }
     },
     {
       title: '问题明细',
-      field: 'makePerson',
+      field: 'matterDetail',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'right'
     },
     {
       title: '预警结果',
       field: 'warnResult',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center',
       cellRender: {
         name: '$vxeIcon1',
@@ -115,75 +144,701 @@ const proconf = {
     },
     {
       title: '预警时间',
-      field: 'warnTime',
-      sortable: false,
-      align: 'right',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '处理结果',
-      field: 'handleResult',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
       sortable: false,
       align: 'right'
     },
     {
-      title: '查看原文',
-      field: 'show',
+      title: '处理结果',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
       sortable: false,
-      align: 'right',
-      color: '#4293F4',
-      textDecoration: 'underline'
+      align: 'right'
     },
     {
       title: '整改时间',
-      field: 'makeTime',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
       sortable: false,
       align: 'right'
     }
   ],
-  // 黄灯系统整改
-  yellowConfig: [
+  redDoneNum: [
     {
       title: '预警规则',
-      field: 'rule',
-      align: 'center'
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
     },
     {
       title: '年度',
       field: 'fiscalYear',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
-      title: '区划名称',
-      field: 'mofDivName',
+      title: '地区',
+      field: 'dq',
       sortable: false,
-      align: 'right'
-    },
-    {
-      title: '单位名称',
-      field: 'agencyName',
-      sortable: false,
-      align: 'center'
-    },
-    {
-      title: '专项资金',
-      field: 'spe',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '明细',
-      field: 'detail',
-      sortable: false,
+      filters: false,
+      width: 140,
       align: 'right',
-      color: '#4293F4',
-      textDecoration: 'underline'
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位(处室)',
+      field: 'dwvc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{businessOfficeCode}-{businessOffice}'
+        }
+      },
+      props: {
+        format: '{businessOfficeCode}-{businessOffice}'
+      }
+    },
+    {
+      title: '问题明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
     },
     {
       title: '预警结果',
       field: 'warnResult',
       sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '处理结果',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'right'
+    }
+  ],
+  orangeUndoNum: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'detail',
+      sortable: false,
+      filters: false,
+      formula: 'matterDetail',
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon6',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  orangeDoneNum: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  yellowUndoNum: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center',
       cellRender: {
         name: '$vxeIcon2',
@@ -194,181 +849,1768 @@ const proconf = {
     },
     {
       title: '预警时间',
-      field: 'warnTime',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '认定结果',
-      field: 'handleResult',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
     },
     {
       title: '违规类型',
-      field: 'type',
+      filters: false,
+      width: 140,
+      field: 'warnType',
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '基本情况描述',
-      field: 'jbqkms',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '整改要求',
-      field: 'zgyq',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '认定附件',
-      field: 'rdfj',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
     },
     {
       title: '退回金额',
-      field: 'dhje',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '调停金额',
-      field: 'tdje',
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '其他金额',
-      field: 'qtje',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '认定时间',
-      field: 'rdsj',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '整改意见',
-      field: 'zgyj',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '整改附件',
-      field: 'zgfj',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
     },
     {
       title: '整改时间',
-      field: 'zgsj',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
       sortable: false,
-      align: 'right'
-    },
-    {
-      title: '是否发文',
-      field: 'sffw',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '数据说明',
-      field: 'sjsm',
-      sortable: false,
-      align: 'right'
+      align: 'center'
     }
   ],
-  // 黄灯警铃-未处理
-  blueUndoNumConfig: [
+  yellowDoneNum: [
     {
       title: '预警规则',
-      field: 'rule',
-      align: 'center'
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
     },
     {
       title: '年度',
       field: 'fiscalYear',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
-      title: '单位',
-      field: 'agencyName',
+      title: '区划名称',
+      field: 'qhmc',
       sortable: false,
-      align: 'center'
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
-      title: '查看原文',
-      field: 'skyw',
+      title: '单位名称',
+      field: 'dwmc',
       sortable: false,
-      align: 'right',
-      color: '#4293F4',
-      textDecoration: 'underline'
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
     },
     {
       title: '专项资金',
-      field: 'spe',
+      field: 'speTypeName',
       sortable: false,
-      align: 'right'
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
-      title: '上级文号',
-      field: 'supdocno',
+      title: '明细',
+      field: 'matterDetail',
       sortable: false,
-      align: 'right'
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '预警结果',
       field: 'warnResult',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center',
       cellRender: {
-        name: '$vxeIcon4',
+        name: '$vxeIcon3',
         props: {
           $refs: this
         }
       }
     },
     {
-      title: '下达时间',
-      field: 'warnTime',
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
-      title: '超时提醒',
-      field: 'cstx',
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
     },
     {
-      title: '中央下达金额',
-      field: 'zrxdje',
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '省级下达金额',
-      field: 'sjxdje',
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '金额',
-      field: 'je',
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  yellowUndoNumw: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon1',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  yellowDoneNumw: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  blueUndoNum: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon7',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  blueDoneNum: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  blueUndoNumw: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qhmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon1',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  blueDoneNumw: [
+    {
+      title: '预警规则',
+      field: 'yjgz',
+      width: 140,
+      align: 'center',
+      filters: false,
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{fiRuleCode}-{fiRuleName}'
+        }
+      },
+      props: {
+        format: '{fiRuleCode}-{fiRuleName}'
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '区划名称',
+      field: 'qh',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '单位名称',
+      field: 'dwmc',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      formula: '',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '未认定' }, { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
+    },
+    {
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '基本情况描述',
+      filters: false,
+      width: 140,
+      field: 'matterDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改要求',
+      filters: false,
+      width: 140,
+      field: 'rectifyAsk',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow1',
+      className: 'gloableOptionRow1',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow1',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow1'
+    },
+    {
+      title: '退回金额',
+      filters: false,
+      width: 140,
+      field: 'returnAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '调帐金额',
+      filters: false,
+      width: 140,
+      field: 'transferAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '其他金额',
+      filters: false,
+      width: 140,
+      field: 'otherAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '认定时间',
+      filters: false,
+      width: 140,
+      field: 'affirmTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改意见',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改附件',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow',
+        options: [],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$payVoucherInputGloableOptionRow'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'center'
     }
   ]
 }
@@ -390,10 +2632,10 @@ const statusButtons = [
     curValue: '2'
   }
 ]
-const statusButtons1 = [
+const statusButtons0 = [
   {
     code: '3',
-    label: '待认定',
+    label: '待整改',
     iconName: 'base-all.png',
     iconNameActive: 'base-all-active.png',
     type: 'button',
@@ -401,15 +2643,17 @@ const statusButtons1 = [
   },
   {
     code: '4',
-    label: '已认定',
+    label: '已整改',
     iconName: 'base-all.png',
     iconNameActive: 'base-all-active.png',
     type: 'button',
     curValue: '4'
-  },
+  }
+]
+const statusButtons1 = [
   {
     code: '5',
-    label: '待整改',
+    label: '待认定',
     iconName: 'base-all.png',
     iconNameActive: 'base-all-active.png',
     type: 'button',
@@ -417,11 +2661,61 @@ const statusButtons1 = [
   },
   {
     code: '6',
-    label: '已整改',
+    label: '已认定',
     iconName: 'base-all.png',
     iconNameActive: 'base-all-active.png',
     type: 'button',
     curValue: '6'
+  },
+  {
+    code: '7',
+    label: '待整改',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '7'
+  },
+  {
+    code: '8',
+    label: '已整改',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '8'
+  }
+]
+const statusButtons3 = [
+  {
+    code: '9',
+    label: '待认定',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '9'
+  },
+  {
+    code: '10',
+    label: '已认定',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '10'
+  },
+  {
+    code: '11',
+    label: '待整改',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '11'
+  },
+  {
+    code: '12',
+    label: '已整改',
+    iconName: 'base-all.png',
+    iconNameActive: 'base-all-active.png',
+    type: 'button',
+    curValue: '12'
   }
 ]
 const statusButtons2 = [
@@ -447,13 +2741,13 @@ const curStatusButton1 = {
   curValue: '2'
 }
 const curStatusButton3 = {
-  label: '已认定',
+  label: '待整改',
   code: '3',
   type: 'button',
   curValue: '3'
 }
 const curStatusButton4 = {
-  label: '已认定',
+  label: '已整改',
   code: '4',
   type: 'button',
   curValue: '4'
@@ -476,66 +2770,128 @@ const curStatusButton7 = {
   type: 'button',
   curValue: '7'
 }
+const curStatusButton8 = {
+  label: '待认定',
+  code: '5',
+  type: 'button',
+  curValue: '5'
+}
+const curStatusButton9 = {
+  label: '已认定',
+  code: '6',
+  type: 'button',
+  curValue: '6'
+}
+const curStatusButton10 = {
+  label: '待整改',
+  code: '7',
+  type: 'button',
+  curValue: '7'
+}
+const curStatusButton11 = {
+  label: '已整改',
+  code: '8',
+  type: 'button',
+  curValue: '8'
+}
+const curStatusButton12 = {
+  label: '待认定',
+  code: '9',
+  type: 'button',
+  curValue: '9'
+}
+const curStatusButton13 = {
+  label: '已认定',
+  code: '10',
+  type: 'button',
+  curValue: '10'
+}
+const curStatusButton14 = {
+  label: '待整改',
+  code: '11',
+  type: 'button',
+  curValue: '11'
+}
+const curStatusButton15 = {
+  label: '已整改',
+  code: '12',
+  type: 'button',
+  curValue: '12'
+}
 const buttons1 = {
   1: [
-    {
-      label: '整改审核',
-      code: 'toorbar_set',
-      status: 'primary'
-    }
   ],
   2: [
   ],
   3: [
     {
-      label: '人工认定',
-      code: 'peo_set',
+      label: '整改意见',
+      code: 'rectify_ask',
       status: 'primary'
-    },
-    {
-      label: '发送公文',
-      code: 'send_set'
     }
   ],
   4: [
     {
-      label: '认定修改',
-      code: 'peo_mof',
+      label: '意见修改',
+      code: 'rectify_ask_update',
       status: 'primary'
-    },
-    {
-      label: '查看日志',
-      code: 'show_log'
     }
   ],
   5: [
     {
-      label: '整改意见',
-      code: 'zgyj',
-      status: 'primary'
-    },
-    {
-      label: '查看日志',
-      code: 'show_log'
-    },
-    {
-      label: '发送公文',
-      code: 'send_set',
+      label: '人工认定',
+      code: 'peo_set',
       status: 'primary'
     }
   ],
   6: [
     {
-      label: '意见修改',
-      code: 'yjxg',
+      label: '认定修改',
+      code: 'peo_set_update',
       status: 'primary'
-    },
-    {
-      label: '查看日志',
-      code: 'show_log'
     }
   ],
   7: [
+    {
+      label: '整改意见',
+      code: 'rectify_ask',
+      status: 'primary'
+    }
+  ],
+  8: [
+    {
+      label: '意见修改',
+      code: 'rectify_ask_update',
+      status: 'primary'
+    }
+  ],
+  9: [
+    {
+      label: '人工认定',
+      code: 'peo_set',
+      status: 'primary'
+    }
+  ],
+  10: [
+    {
+      label: '认定修改',
+      code: 'peo_set_update',
+      status: 'primary'
+    }
+  ],
+  11: [
+    {
+      label: '整改意见',
+      code: 'rectify_ask',
+      status: 'primary'
+    }
+  ],
+  12: [
+    {
+      label: '意见修改',
+      code: 'rectify_ask_update',
+      status: 'primary'
+    }
   ]
 }
 const buttons2 = {
@@ -557,6 +2913,7 @@ const buttons2 = {
 export default proconf
 export {
   statusButtons,
+  statusButtons0,
   curStatusButton,
   buttons1,
   curStatusButton1,
@@ -565,7 +2922,16 @@ export {
   curStatusButton4,
   curStatusButton5,
   curStatusButton6,
+  curStatusButton8,
+  curStatusButton9,
+  curStatusButton10,
+  curStatusButton11,
+  curStatusButton12,
+  curStatusButton13,
+  curStatusButton14,
+  curStatusButton15,
   buttons2,
+  statusButtons3,
   curStatusButton7,
   statusButtons2
 }

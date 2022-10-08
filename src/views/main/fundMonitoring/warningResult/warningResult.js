@@ -58,21 +58,23 @@ const proconf = {
     tableColumnsConfig: [
       {
         title: '规则名称',
-        field: 'ruleName',
+        field: 'fiRuleName',
         sortable: true,
         align: 'center',
         width: 300
       },
       {
-        title: '红灯',
+        title: '红色预警',
         field: '',
-        sortable: true,
+        width: 140,
+        sortable: false,
         align: 'center',
-        'children': [
+        children: [
           {
             title: '未处理',
             field: 'redUndoNum',
-            width: '150',
+            width: 140,
+            filters: false,
             align: 'center',
             cellRender: {
               name: '$vxeIcon1',
@@ -84,8 +86,9 @@ const proconf = {
           {
             title: '已整改',
             field: 'redDoneNum',
-            width: '150',
+            width: 140,
             align: 'center',
+            filters: false,
             cellRender: {
               name: '$vxeIcon3',
               props: {
@@ -96,15 +99,84 @@ const proconf = {
         ]
       },
       {
-        title: '黄灯',
+        title: '橙色预警',
         field: '',
-        sortable: true,
+        sortable: false,
         align: 'center',
-        'children': [
+        children: [
+          {
+            title: '未上传附件',
+            field: 'orangeUndoNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon6',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '已上传附件',
+            field: 'orangeDoneNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          }
+          // {
+          //   title: '认定违规',
+          //   field: '',
+          //   sortable: false,
+          //   align: 'center',
+          //   'children': [
+          //     {
+          //       title: '未处理',
+          //       field: 'orangeUndoNumw',
+          //       width: 140,
+          //       filters: false,
+          //       align: 'center',
+          //       cellRender: {
+          //         name: '$vxeIcon1',
+          //         props: {
+          //           $refs: this
+          //         }
+          //       }
+          //     },
+          //     {
+          //       title: '已整改',
+          //       field: 'orangeDoneNumw',
+          //       width: 140,
+          //       filters: false,
+          //       align: 'center',
+          //       cellRender: {
+          //         name: '$vxeIcon3',
+          //         props: {
+          //           $refs: this
+          //         }
+          //       }
+          //     }
+          //   ]
+          // }
+        ]
+      },
+      {
+        title: '黄色预警',
+        field: '',
+        sortable: false,
+        align: 'center',
+        children: [
           {
             title: '疑点信息',
             field: 'yellowUndoNum',
-            width: '150',
+            width: 140,
+            filters: false,
             align: 'center',
             cellRender: {
               name: '$vxeIcon2',
@@ -116,7 +188,8 @@ const proconf = {
           {
             title: '认定正常',
             field: 'yellowDoneNum',
-            width: '150',
+            width: 140,
+            filters: false,
             align: 'center',
             cellRender: {
               name: '$vxeIcon3',
@@ -128,13 +201,14 @@ const proconf = {
           {
             title: '认定违规',
             field: '',
-            sortable: true,
+            sortable: false,
             align: 'center',
-            'children': [
+            children: [
               {
                 title: '未处理',
                 field: 'yellowUndoNumw',
-                width: '150',
+                width: 140,
+                filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon1',
@@ -146,7 +220,8 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'yellowDoneNumw',
-                width: '150',
+                width: 140,
+                filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
@@ -160,27 +235,29 @@ const proconf = {
         ]
       },
       {
-        title: '黄色警铃',
+        title: '非人工干预蓝色预警',
         field: '',
-        sortable: true,
+        sortable: false,
         align: 'center',
         'children': [
           {
-            title: '未处理',
+            title: '疑点信息',
             field: 'blueUndoNum',
-            width: '150',
+            width: 140,
+            filters: false,
             align: 'center',
             cellRender: {
-              name: '$vxeIcon4',
+              name: '$vxeIcon7',
               props: {
                 $refs: this
               }
             }
           },
           {
-            title: '已整改',
+            title: '认定正常',
             field: 'blueDoneNum',
-            width: '150',
+            width: 140,
+            filters: false,
             align: 'center',
             cellRender: {
               name: '$vxeIcon3',
@@ -188,67 +265,45 @@ const proconf = {
                 $refs: this
               }
             }
+          },
+          {
+            title: '认定违规',
+            field: '',
+            sortable: false,
+            align: 'center',
+            children: [
+              {
+                title: '未处理',
+                field: 'blueUndoNumw',
+                width: 140,
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon1',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '已整改',
+                field: 'blueDoneNumw',
+                width: 140,
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              }
+            ]
           }
         ]
       }
     ],
-    tableData: [
-      {
-        ruleName: '未上传发文件扫描_直达资金',
-        redUndoNum: '0',
-        redDoneNum: '0',
-        yellowUndoNum: '0',
-        yellowDoneNum: '0',
-        yellowUndoNumw: '0',
-        yellowDoneNumw: '0',
-        blueUndoNum: '0',
-        blueDoneNum: '0'
-      },
-      {
-        ruleName: '疑似违规收款户账户',
-        redUndoNum: '0',
-        redDoneNum: '0',
-        yellowUndoNum: '0',
-        yellowDoneNum: '0',
-        yellowUndoNumw: '0',
-        yellowDoneNumw: '0',
-        blueUndoNum: '0',
-        blueDoneNum: '0'
-      },
-      {
-        ruleName: '疑似违规将创业担保贷款资金用于禁止支出范围',
-        redUndoNum: '0',
-        redDoneNum: '0',
-        yellowUndoNum: '0',
-        yellowDoneNum: '0',
-        yellowUndoNumw: '0',
-        yellowDoneNumw: '0',
-        blueUndoNum: '0',
-        blueDoneNum: '0'
-      },
-      {
-        ruleName: '疑似违规用于禁止支出范围_就业补助',
-        redUndoNum: '0',
-        redDoneNum: '0',
-        yellowUndoNum: '0',
-        yellowDoneNum: '0',
-        yellowUndoNumw: '0',
-        yellowDoneNumw: '0',
-        blueUndoNum: '0',
-        blueDoneNum: '0'
-      },
-      {
-        ruleName: '未导入惠企利民明细',
-        redUndoNum: '0',
-        redDoneNum: '0',
-        yellowUndoNum: '0',
-        yellowDoneNum: '0',
-        yellowUndoNumw: '0',
-        yellowDoneNumw: '0',
-        blueUndoNum: '0',
-        blueDoneNum: '0'
-      }
-    ]
+    tableData: []
   }
 }
 export default function (tableType, configType) {

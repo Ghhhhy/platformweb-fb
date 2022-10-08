@@ -41,22 +41,26 @@
       </template>
       <template v-slot:mainForm>
         <div style="width:100%;height:45px;float:left;">
+          <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
           <div v-for="(item,index) in tabbtn" :key="index" class="setbtn">
             <div :id="index" class="tabone" :class="activeIndex === index ? 'tabone1' : ''" @click="tabClick(index)">
               {{ item }}
             </div>
           </div>
+          <div class="title">
+            <p v-show="basicTable" style="marginLeft:150px;font-weight:700">{{ provinceName }}财政运行基础情况表</p>
+            <p v-show="targetTable" style="marginLeft:150px;font-weight:700">{{ provinceName }}财政运行分析表</p>
+          </div>
           <!--基础表-->
           <div v-show="basicTable" class="payVoucherInput" style="margin-top:50px;">
-            <div class="body" style="font-size:10px;height:400px;overflow:auto;">
-              <p style="width:100%;textAlign:center;font-size:20px;margin-bottom:5px;font-weight:700">陕西省XX市XX县（区）财政运行基础情况表</p>
+            <div class="body" style="font-size:16px;height:430px;overflow:auto;">
               <table class="basicTable">
                 <tbody style="backgroundColor:#c9c9c9">
                   <tr>
-                    <td rowspan="80" style="font-weight:600;textAlign:center;">一、综合类指标</td>
-                    <td rowspan="2" style="font-weight:600">1.户籍人口（万人）</td>
-                    <td class="period">上年同期</td>
-                    <td style="width:20%"><el-input v-model="datas.registeredResidencePeriod" :disabled="disabled" /></td>
+                    <td rowspan="80" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px;width:15%">一、综合类指标</td>
+                    <td rowspan="2" style="font-weight:600;width:20%">1.户籍人口（万人）</td>
+                    <td class="period" style="width:15%">上年同期</td>
+                    <td style="width:50%"><el-input v-model="datas.registeredResidencePeriod" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
@@ -416,7 +420,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#8497b0">
                   <tr>
-                    <td rowspan="102" style="font-weight:600;textAlign:center;">二、财政收入类指标</td>
+                    <td rowspan="102" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">二、财政收入类指标</td>
                     <td rowspan="2" style="font-weight:600">1.一般公共预算</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -878,7 +882,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#ffd966">
                   <tr>
-                    <td rowspan="50" style="font-weight:600;textAlign:center;">三、财政支出类指标</td>
+                    <td rowspan="50" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">三、财政支出类指标</td>
                     <td rowspan="2" style="font-weight:600">1.一般公共预算</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -1106,7 +1110,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#a9d08e">
                   <tr>
-                    <td rowspan="56" style="font-weight:600;textAlign:center;">四、运行保障类指标</td>
+                    <td rowspan="56" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">四、运行保障类指标</td>
                     <td rowspan="2" style="font-weight:600">1.刚性支出</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -1352,7 +1356,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#9bc2e6">
                   <tr>
-                    <td rowspan="24" style="font-weight:600;textAlign:center;">五、直达资金类指标</td>
+                    <td rowspan="24" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">五、直达资金类指标</td>
                     <td rowspan="2" style="font-weight:600">1.上级下达直达资金金额</td>
                     <td class="period">上年同期</td>
                     <td style="width:20%"><el-input v-model="datas.param197" :disabled="disabled" /></td>
@@ -1463,7 +1467,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#ffd966">
                   <tr>
-                    <td rowspan="30" style="font-weight:600;textAlign:center;">六、政府债务类指标</td>
+                    <td rowspan="30" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">六、政府债务类指标</td>
                     <td rowspan="2" style="font-weight:600">1.政府债务限额</td>
                     <td class="period">上年同期</td>
                     <td style="width:20%"><el-input v-model="datas.param336" :disabled="disabled" /></td>
@@ -1601,7 +1605,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#c9c9c9">
                   <tr>
-                    <td rowspan="44" style="font-weight:600;textAlign:center;">七、预算管理类指标</td>
+                    <td rowspan="44" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">七、预算管理类指标</td>
                     <td rowspan="2" style="font-weight:600">1.预算执行进度</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -1775,7 +1779,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#c6e0b4">
                   <tr>
-                    <td rowspan="54" style="font-weight:600;textAlign:center;">八、社会保险类指标</td>
+                    <td rowspan="54" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">八、社会保险类指标</td>
                     <td rowspan="2" style="font-weight:600">1.城乡居民养老保险基金</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -2024,14 +2028,13 @@
           </div>
           <!--指标表-->
           <div v-show="targetTable" class="payVoucherInput" style="margin-top:50px;">
-            <div class="body" style="font-size:10px;height:400px;overflow:auto;">
-              <p style="width:100%;textAlign:center;font-size:20px;margin-bottom:5px;font-weight:700">陕西省XX市XX县（区）财政运行分析表</p>
+            <div class="body" style="font-size:20px;height:400px;overflow:auto;">
               <table class="basicTable">
                 <tbody style="backgroundColor:#f2f2f2">
                   <tr>
                     <td rowspan="9" style="width:20%;font-weight:600;textAlign:center;">一、财政收入稳健指数</td>
-                    <td class="period">财政依存度</td>
-                    <td><el-input v-model="datas.param297" :disabled="disabled" /></td>
+                    <td class="period" style="width:20%">财政依存度</td>
+                    <td style="width:60%"><el-input v-model="datas.param297" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td class="period">收入弹性</td>
@@ -2176,7 +2179,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#e2efda">
                   <tr>
-                    <td rowspan="5s" style="width:20%;font-weight:600;textAlign:center;">六、财政保障指数</td>
+                    <td rowspan="6" style="width:20%;font-weight:600;textAlign:center;">六、财政保障指数</td>
                     <td class="period">“三保”预算占比</td>
                     <td><el-input v-model="datas.param322" :disabled="disabled" /></td>
                   </tr>
@@ -2225,8 +2228,6 @@ import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     GlAttachment
-  },
-  watch: {
   },
   data() {
     return {
@@ -2807,7 +2808,8 @@ export default {
         param333: '',
         param334: '',
         param335: ''
-      }
+      },
+      provinceName: ''
     }
   },
   mounted() {
@@ -3053,6 +3055,7 @@ export default {
       if (node.id !== '0') {
         console.log(node)
         this.mofDivCode = code
+        this.provinceName = node.node.name
       } else {
         this.condition = {}
       }
@@ -3175,16 +3178,19 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           if (res.data === null) {
-            this.datas = this.datas1
+            this.datas = {}
+            console.log(this.datas)
             return
           }
-          Object.assign(this.datas, res.data)
+          this.datas = res.data
           console.log(this.datas)
           // this.datas = res.data
           if (res.data.status === 0) {
             this.disabled = false
           } else {
-            this.$message.warning('当前数据已提交')
+            if (this.toolBarStatusSelect.curValue === '0') {
+              this.$message.warning('当前数据已提交')
+            }
             this.disabled = true
           }
         } else {
@@ -3212,7 +3218,14 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    console.log(this.userInfo)
+    this.provinceName = this.$store.state.userInfo.admdivname
     this.getLeftTreeData()
+  },
+  watch: {
+    queryConfig() {
+      this.getSearchDataList()
+    }
   }
 }
 </script>
@@ -3233,23 +3246,27 @@ float: right;
   color: #fff;
 }
 .setbtn{
-    width:100px;
+    width:10%;
     height:45px;
     float:left;
     margin-right:20px;
   }
   .tabone{
-    width:100px;
+    width:100%;
     height:40px;
     text-align:center;
     line-height:40px;
     float:left;
     border:1px solid #ccc;
     border-radius:4px;
-    font-size: 10px;
+    font-size: 16px;
+  }
+  .title{
+    float:left;
+    width:70%;
   }
   .tabone1{
-    width:100px;
+    width:100%;
     height:40px;
     text-align:center;
     line-height:40px;
@@ -3257,12 +3274,12 @@ float: right;
     border:1px solid #ccc;
     background-color:#f2f2f2;
     border-radius:4px;
-    font-size: 10px;
+    font-size: 16px;
   }
   .basicTable{
     width: 100%;
     height: 300px;
-    font-size: 10px;
+    font-size: 16px;
     border-collapse: collapse;
     border: 1px solid #000000;
   }
@@ -3274,11 +3291,29 @@ float: right;
       text-align: left
     }
   .period {
-    width:20%;
     text-align:center;
   }
   /deep/.el-input__inner {
   background-color: transparent !important;
   color: #606266 !important;
+}
+.table-toolbar-contro-leftvisible {
+      line-height: 45px;
+      float: left;
+      margin-right: 16px;
+      height: 45px;
+      width: 32px;
+      cursor: pointer;
+      border-radius: 2px;
+      background-color: var(--primary-color);
+      font-family: 'remixicon' !important;
+      font-style: normal;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      background-size: 100% 100%;
+}
+.table-toolbar-contro-leftvisible::before {
+  content: '\ee55';
 }
 </style>

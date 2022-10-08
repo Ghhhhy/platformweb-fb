@@ -266,8 +266,9 @@ export default {
         if (res.rscode === '100000') {
           // console.log(555, this.$http.httpGlobalGatewayAgent(this.serverUri.download.serverUri))
           // const urlObj = this.$gloableToolFn.getFileUrl() + '/v2/stream/download'
-          const urlObj = 'http://10.77.18.172:32306/v2/stream/download'
-          const downLoadUrl = `${urlObj}?appid=${this.appid}&fileguid=${this.downparams.fileguid}`
+          // const urlObj = 'http://10.77.18.172:32306/v2/stream/download'
+          const urlObj = this.$http.httpGlobalGatewayAgent('fileservice/v2/stream/download')
+          const downLoadUrl = `${urlObj.baseURL}/${urlObj.url}?appid=${this.appid}&fileguid=${this.downparams.fileguid}`
 
           // 通过JS打开新窗口会被拦截，换一种实现方式: 先打开页面, 后更改页面地址
           let tempwindow = window.open('_blank')

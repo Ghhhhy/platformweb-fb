@@ -1,5 +1,5 @@
 //  规则管理审核api
-import { post } from '@/api/http'
+import { post, get } from '@/api/http'
 export default {
   // 获取表格数据
   queryTableDatas(params) {
@@ -20,5 +20,12 @@ export default {
   // 撤销
   revoke(params) {
     return post('large-monitor-platform/lmp/ask/noPass', params)
+  },
+  // 获取左侧树
+  getLeftTree(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+  },
+  getTypeList(params) {
+    return post('large-monitor-platform/lmp/ask/getTypeList', params)
   }
 }

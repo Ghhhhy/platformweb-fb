@@ -37,7 +37,15 @@ export default {
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
   },
+  // 撤销
+  revoke(params) {
+    return post('large-monitor-platform/lmp/ask/noPass', params)
+  },
   getTypeList(params) {
     return post('large-monitor-platform/lmp/ask/getTypeList', params)
+  },
+  // 查询附件
+  getFile(params) {
+    return get('fileservice/v2/files', params)
   }
 }

@@ -4,7 +4,7 @@ export default [
     path: '/DataSourceManagement',
     name: 'DataSourceManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/baseDataManage/DataSourceManagement.vue')
@@ -14,7 +14,7 @@ export default [
     path: '/ViolationTypeManagement',
     name: 'ViolationTypeManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/violationTypeManagement/violationTypeManagement.vue')
@@ -24,7 +24,7 @@ export default [
     path: '/WarnLevelManagement',
     name: 'WarnLevelManagement',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/warnLevelManagement/warnLevelManagement.vue')
@@ -33,7 +33,7 @@ export default [
     path: '/InquiryLetterType',
     name: 'InquiryLetterType',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/InquiryLetterType/InquiryLetterType.vue')
@@ -42,7 +42,7 @@ export default [
     path: '/CentralTransferPayment',
     name: 'CentralTransferPayment',
     meta: {
-      // keepAlive: true,
+      keepAlive: true,
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/CentralTransferPayment/CentralTransferPayment.vue')

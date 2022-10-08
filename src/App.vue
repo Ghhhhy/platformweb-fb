@@ -60,6 +60,7 @@ export default {
           // await this.$http.get('mp-b-sso-service/v1/user/app/message' + tokenid).then((res) => {
           if (res.rscode === '100000') {
             this.$store.commit('setUserInfo', res.data)
+            this.$store.dispatch('asyncUserRoles')
           }
         })
         .catch((err) => {
@@ -86,9 +87,17 @@ export default {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.ifrouteractive = true
-        this.$router.push({
-          name: 'Login'
-        })
+        if (process.env.NODE_ENV === 'development') {
+          this.$router.push({
+            name: 'Login'
+          })
+        } else if (window.gloableToolFn.serverGatewayMap.gloableUrl.isLoginOutToPortal) {
+          window.location.href = window.gloableToolFn.serverGatewayMap.gloableUrl.portalLoginUrl
+        } else {
+          this.$router.push({
+            name: 'Login'
+          })
+        }
       } else {
         await this.$http
           .get('mp-b-user-service/v1/user/app/message', { appguid: appguid })
@@ -98,11 +107,20 @@ export default {
               res = JSON.parse(res)
             }
             if (res.rscode === '118000') {
-              this.$router.push({
-                name: 'Login'
-              })
+              if (process.env.NODE_ENV === 'development') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else if (window.gloableToolFn.serverGatewayMap.gloableUrl.isLoginOutToPortal) {
+                window.location.href = window.gloableToolFn.serverGatewayMap.gloableUrl.portalLoginUrl
+              } else {
+                this.$router.push({
+                  name: 'Login'
+                })
+              }
             } else {
               this.$store.commit('setUserInfo', res.data)
+              this.$store.dispatch('asyncUserRoles')
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
@@ -237,5 +255,9 @@ export default {
 }
 .app-main .boss-main .el-tab-pane {
   height: 82.5vh;
+}
+/*遮罩层中message层级问题*/
+.modal-layout-message {
+  z-index: 3105 !important;
 }
 </style>

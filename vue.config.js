@@ -112,10 +112,17 @@ module.exports = {
       inject: true
     }
   },
-  productionSourceMap: true
+  productionSourceMap: true,
   // productionSourceMap: process.env.NODE_ENV !== 'production',
   // css: {
   //   sourceMap: process.env.NODE_ENV !== 'production',
   //   extract: process.env.NODE_ENV === 'production'
   // }
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "@/assets/css/global.scss";`
+      }
+    }
+  }
 }

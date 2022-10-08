@@ -183,7 +183,8 @@ export default {
       }
       this.code = this.selectData.code
       this.ruleName = this.selectData.ruleName
-      this.isEnable = this.selectData.isEnable
+      // isEnable：String => Number
+      this.isEnable = this.selectData.isEnable * 1
       this.description = this.selectData.description
       this.ruleLevel = this.selectData.ruleLevel
       if (this.ruleLevel === 1) {

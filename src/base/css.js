@@ -11,6 +11,9 @@ import '@/assets/css/colorTheme.scss'
 import '@/assets/css/Titans.scss' // Titans的样式
 import '@/assets/alifont/iconfont.css'
 
+// 金额的特殊字体
+import '@/assets/font/font.css'
+
 // 业务样式文件
 import '@/assets/css/asideFilter.scss' // 树的样式
 import '@/assets/css/leftToolbar.scss' // 左侧工具条样式
@@ -25,6 +28,7 @@ import '@/assets/css/addDialog.scss'
 
 import '@/assets/remixicon/remixicon.css' // 图标字体
 import '@/assets/css/adjust.scss' // 非侵入修改覆盖样式
+import '@/assets/css/dfr.scss' // 直达资金样式
 
 // import 'bs-ui/src/common/css/common.css' // 全局reset以及部分公共样式
 // import '@/assets/css/app.scss' // 全局主架构公共样式

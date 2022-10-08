@@ -129,7 +129,9 @@
                 </el-main>
               </el-container>
             </el-col>
-            <el-col :span="12">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -142,9 +144,8 @@
                     <el-input
                       v-model="content"
                       type="textarea"
-                      :rows="5"
                       placeholder="请输入违规类型说明"
-                      style="margin-bottom: 15px; width: 45%"
+                      style="margin-bottom: 15px; width: 73.5%"
                     />
                   </el-row>
                 </el-main>
@@ -248,7 +249,7 @@ export default {
       }
       this.code = this.selectData.code
       this.name = this.selectData.name
-      this.enable = this.selectData.enable
+      this.enable = Number(this.selectData.enable)
       this.levelNo = this.selectData.levelNo
       this.parentName = this.selectData.parentName
       this.guid = this.selectData.guid
@@ -273,13 +274,6 @@ export default {
           this.levelNo = 1
         }
       }
-      let rand = Math.floor(Math.random() * 900) + 100
-      rand = ''
-      for (var i = 0; i < 3; i++) {
-        var r = Math.floor(Math.random() * 10)
-        rand += r
-      }
-      this.code = busName.code + rand
     },
     getChildrenData(datas) {
       let that = this

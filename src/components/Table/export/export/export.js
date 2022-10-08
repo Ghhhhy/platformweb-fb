@@ -13,6 +13,9 @@ import XlsxTool from 'xlsx'
 import FileSaver from 'file-saver'
 export class Export {
   constructor(gloabelConfig = {}) {
+    // 导出时对金额涉及到单位的需要加对应的单位
+    this.moneyUnit = gloabelConfig.unit || '元'
+
     this.XlsxTool = XlsxTool
     this.xlsx = window.xlsx
     this.aTag = document.createElement('a')
@@ -264,12 +267,12 @@ export class Export {
       for (let i = 0; i < floorLength; i++) {
         let cell = row.addCell()
         if (i === 0) {
-          cell.value = getCellViewTitle(column)
+          cell.value = getCellViewTitle(column, this.moneyUnit)
           cell.hMerge = floorLength - 1
           cell.vMerge = 0
           cell0 = cell
         } else {
-          cell.value = getCellViewTitle(column)
+          cell.value = getCellViewTitle(column, this.moneyUnit)
           cell.hMerge = 0
           cell.vMerge = 0
         }
@@ -277,7 +280,7 @@ export class Export {
       }
     } else {
       let cellSing = row.addCell()
-      cellSing.value = getCellViewTitle(column)
+      cellSing.value = getCellViewTitle(column, this.moneyUnit)
       cellSing.hMerge = 0
       cellSing.vMerge = this.curExportConfig.exportViewTitleType === 'nestTitle' ? this.headerRows - curRows : 0
       cell0 = cellSing

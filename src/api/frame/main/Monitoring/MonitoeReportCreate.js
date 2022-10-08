@@ -16,5 +16,9 @@ export default {
   // 删除
   delete(params) {
     return post('large-monitor-platform/lmp/report/delete', params)
+  },
+  // 确认生成
+  confirmCreate(params) {
+    return post('large-monitor-platform/lmp/report/confirmCreate', params)
   }
 }

@@ -7,7 +7,7 @@ export default {
   },
   // 列表
   queryMonitorTableDatas(params) {
-    return post('large-monitor-platform/lmp/report/pageQueryByUser', params)
+    return post('large-monitor-platform/lmp/report/pageQuery', params)
   },
   // 预览
   look(params) {

@@ -65,6 +65,31 @@ export let proconf = {
   },
   highQueryConfig: [
     {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
       title: '监控规则名称',
       field: 'regulationName',
       width: '8',
@@ -79,25 +104,6 @@ export let proconf = {
         }
       }
     },
-    // {
-    //   title: '管理级次',
-    //   field: 'regulationType',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeSelect',
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //       { value: '1', label: '系统级' },
-    //       { value: '2', label: '财政级' },
-    //       { value: '3', label: '部门级' }
-    //     ],
-    //     props: {
-    //       placeholder: '管理级次'
-    //     }
-    //   }
-    // },
     {
       title: '预警级别',
       field: 'warningLevel',
@@ -135,56 +141,6 @@ export let proconf = {
         ],
         props: {
           placeholder: '处理方式'
-        }
-      }
-    },
-    // {
-    //   title: '业务模块',
-    //   field: 'businessModelCode',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeSelect',
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //     ],
-    //     props: {
-    //       placeholder: '业务模块'
-    //     }
-    //   }
-    // },
-    // {
-    //   title: '业务功能',
-    //   field: 'businessFeaturesCode',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeSelect',
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //     ],
-    //     props: {
-    //       placeholder: '业务功能'
-    //     }
-    //   }
-    // },
-    {
-      title: '是否启用',
-      field: 'isEnable',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '0', label: '否' },
-          { value: '1', label: '是' }
-        ],
-        props: {
-          placeholder: '是否启用'
         }
       }
     }
@@ -551,6 +507,13 @@ export let proconf = {
         'props': {}
       },
       'name': '$vxeSelect'
+    },
+    {
+      title: '白名单说明',
+      'width': 180,
+      field: 'ruleElementDesc',
+      sortable: false,
+      align: 'left'
     }
     // {
     //   title: '变更记录',
@@ -558,5 +521,106 @@ export let proconf = {
     //   sortable: false,
     //   align: 'left'
     // }
-  ]
+  ],
+  formItemsConfigMessage: [
+    {
+      field: 'payment',
+      title: '基础要素',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      itemRender: {
+        name: '$vxeSelect',
+        props: {
+          placeholder: '请选择基础要素',
+          multiple: true,
+          disabled: false
+        },
+        options: [
+          {
+            value: 0,
+            label: '预算单位',
+            urlC: 'AGENCY',
+            name: 'agency'
+          },
+          {
+            value: 1,
+            label: '预算项目',
+            urlC: 'PRO',
+            name: 'pro'
+          },
+          {
+            value: 2,
+            label: '功能分类',
+            urlC: 'EXPFUNC',
+            name: 'exp_func'
+          },
+          {
+            value: 3,
+            label: '政府支出经济分类',
+            urlC: 'DEPBGTECO',
+            name: 'dep_bgt_eco'
+          },
+          {
+            value: 4,
+            label: '部门支出经济分类',
+            urlC: 'GOVBGTECO',
+            name: 'gov_bgt_eco'
+          },
+          {
+            value: 5,
+            label: '指标文号',
+            urlC: 'BGTDOCNO',
+            name: 'cor_bgt_doc_no'
+          }
+        ]
+      }
+    },
+    {
+      field: 'payeeAcctName',
+      title: '收款人名称',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写收款人名称',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'payeeAcctNo',
+      title: '收款人账号',
+      titleAlign: 'center',
+      span: '20',
+      titleWidth: '100px',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写收款人账号',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'useDes',
+      title: '资金用途',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写资金用途',
+          disabled: false
+        }
+      }
+    }
+  ],
+  formValidationConfigMessage: {
+    payment: [
+      { required: true, message: '支付要素不能为空', trigger: 'change' }
+    ]
+  }
 }

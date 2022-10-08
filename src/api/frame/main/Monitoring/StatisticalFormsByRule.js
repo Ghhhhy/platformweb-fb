@@ -15,5 +15,12 @@ export default {
   // 疑似违规标记
   doMark(params) {
     return post('large-monitor-platform/lmp/warn/rpt/marking', params)
+  },
+  // 获取左侧树
+  getLeftTree(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }

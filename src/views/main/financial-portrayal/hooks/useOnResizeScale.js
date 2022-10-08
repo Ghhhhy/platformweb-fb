@@ -5,9 +5,9 @@ export const useOnResizeScale = (selector) => {
   const designWidth = 1920
   let dom = null
 
-  const updateScale = async () => {
+  const updateScale = () => {
     if (!dom) return
-    const viewportWidth = document.body.clientWidth
+    const viewportWidth = document.body.clientWidth || document.documentElement.clientWidth
     dom.style.transformOrigin = 'left top'
     dom.style.transform = `scale(${viewportWidth / designWidth})`
   }

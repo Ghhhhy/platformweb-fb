@@ -41,12 +41,26 @@
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">中央和地方预算下达_分地区(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:tools-before>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -89,6 +103,8 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
+      reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -130,26 +146,26 @@ export default {
         // gradedSummaryFields: ['bonus', 'income'],
         calcAndConstraintItemCodeField: 'itemCode',
         // 示例中1001为tableId
-        rowCodeFormulaConfig: {
-          // 单元格交叉计算
-          // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
-          '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
-          // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
-          // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
-        },
+        // rowCodeFormulaConfig: {
+        //   // 单元格交叉计算
+        //   // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
+        //   '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
+        //   // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
+        //   // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
+        // },
         cellDataConfig: [// 提取和计算
 
         ],
-        colFormulaConfig: {
-          jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
-          jLoad: '{jOut}/{jAmount}*100',
-          sUnassigned: '{jAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
-          sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{jAmount}*100',
-          aUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
-          aLoad: '({sbjfpAmount}+{sxjfpAmount})/{jAmount}*100',
-          xUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
-          xLoad: '{xbjfpAmount}/{jAmount}*100'
-        },
+        // colFormulaConfig: {
+        //   jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
+        //   jLoad: '{jOut}/{jAmount}*100',
+        //   sUnassigned: '{jAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
+        //   sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{jAmount}*100',
+        //   aUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
+        //   aLoad: '({sbjfpAmount}+{sxjfpAmount})/{jAmount}*100',
+        //   xUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
+        //   xLoad: '{xbjfpAmount}/{jAmount}*100'
+        // },
         getDataAxiosConfig: { // 跨表提取请求配置
           dataField: 'data', // 数据字段
           successCode: '100000', // 成功code
@@ -183,7 +199,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -232,7 +248,7 @@ export default {
     }
   },
   mounted() {
-    this.getNewData()
+    // this.getNewData()
   },
   methods: {
     // 展开折叠查询框
@@ -340,7 +356,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -3848,6 +3868,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.detailData = res.data
+          // this.reportTime = res.data.reportTime || ''
           this.detailVisible = true
           this.detailType = type
         } else {
@@ -3871,25 +3892,29 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = false) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
-      // const param = {
-      //   reportCode: 'zyzdzjyszxqkfdq',
-      //   fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
-      // }
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(param).then((res) => {
-      //   if (res.code === '000000') {
-      //     this.tableData = res.data
-      //     this.tableLoading = false
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
+    queryTableDatas(isFlush = false) {
+      const param = {
+        isFlush,
+        reportCode: 'zyhdfysxd_fdqzd',
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+      }
+      this.tableLoading = true
+      HttpModule.queryTableDatas(param).then((res) => {
+        if (res.code === '000000') {
+          this.tableData = res.data.data
+          this.reportTime = res.data.reportTime || ''
+          this.caliberDeclareContent = res.data.description || ''
+          this.tableLoading = false
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     initTableData(tableDataTest) {
       let arr = JSON.parse(JSON.stringify(tableDataTest))
@@ -3953,10 +3978,11 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
+    this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.queryTableDatas()
+    this.queryTableDatas()
   }
 }
 </script>

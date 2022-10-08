@@ -20,8 +20,8 @@ export let proconf = {
   },
   highQueryConfig: [
     {
-      title: '监控规则名称',
-      field: 'regulationName',
+      title: '问询事项',
+      field: 'askName',
       width: '8',
       align: 'left',
       formula: '',
@@ -30,7 +30,72 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '监控规则名称'
+          placeholder: '问询事项'
+        }
+      }
+    },
+    {
+      title: '问询函类型',
+      field: 'askType',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '问询函类型',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'province',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      'title': '生成日期',
+      'field': 'createTime',
+      'width': '8',
+      'align': 'left',
+      'formula': '',
+      'name': '$vxeTime',
+      'itemRender': {
+        'name': '$vxeTime',
+        'options': [],
+        'props': {
+          'placeholder': '生成日期'
         }
       }
     }

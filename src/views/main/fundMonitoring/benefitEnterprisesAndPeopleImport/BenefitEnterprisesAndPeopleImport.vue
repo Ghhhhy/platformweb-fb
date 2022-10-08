@@ -32,18 +32,14 @@
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
           :defaultexpandedkeys="['0']"
           style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :is-checkbox="true"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
+          :config="treeGlobalConfig.treeConfig"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -120,7 +116,8 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: ''
+        inputVal: '',
+        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
       },
       treeQueryparams: { elementCode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
@@ -367,13 +364,13 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod(node) {
+    onClickmethod({ node }) {
       // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
       //   return
       // }
       if (node.id !== '0') {
         console.log(node)
-        this.mofdivcode = node.node.code
+        this.mofdivcode = node.code
       } else {
         this.condition = {}
       }
@@ -474,8 +471,8 @@ export default {
     getLeftTreeData() {
       let that = this
       HttpModule.getTreeData(that.treeQueryparams).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
+        if (res.data && Array.isArray(res.data)) {
+          // let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -488,7 +485,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = treeResdata
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }

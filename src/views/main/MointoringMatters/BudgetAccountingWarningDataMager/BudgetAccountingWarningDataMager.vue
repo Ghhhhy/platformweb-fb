@@ -36,7 +36,7 @@
         <BsBossTree
           ref="leftTree"
           open-loading
-          :defaultexpandedkeys="['0']"
+          :defaultexpandedkeys="['7']"
           style="overflow: hidden"
           :is-server="true"
           :ajax-type="treeAjaxType"
@@ -104,6 +104,7 @@
       :title="dialogTitle"
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
+      :is-need-fi-rule-code="isNeedFiRuleCode"
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
@@ -132,6 +133,7 @@ export default {
   },
   data() {
     return {
+      isNeedFiRuleCode: true,
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -335,10 +337,10 @@ export default {
         // }
       ],
       fiRuleCode: '',
-      showGlAttachmentDialog: false
+      showGlAttachmentDialog: false,
+      agencyCodeList: [],
+      selectData: {}
     }
-  },
-  mounted() {
   },
   methods: {
     // 展开折叠查询框
@@ -406,6 +408,7 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
+      this.agencyCodeList = val.agencyCodeList_code__multiple
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -466,13 +469,17 @@ export default {
           fiRuleCode: this.fiRuleCode,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
-          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null
+          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
+          agencyCodeList: this.agencyCodeList
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              item.agency = item.agencyCode + '-' + item.agencyName
+            })
             this.mainPagerConfig.total = res.data.totalCount
             this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           } else {
@@ -527,6 +534,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.selectData = selection[0]
       this.warningCode = selection[0].warningCode
       this.dialogVisible = true
       this.dialogTitle = '详细信息'
@@ -586,14 +594,6 @@ export default {
       if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
         return
       }
-      if (node.id !== '0') {
-        let key = this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.code
-      } else {
-        this.condition = {}
-      }
-      console.log(this.condition)
-      this.businessId = this.condition.agency_code.toString()
       if (this.formVisible) {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
@@ -603,7 +603,8 @@ export default {
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null
+          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
+          businessFunctionName: node.businessName
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
@@ -625,13 +626,17 @@ export default {
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null
+          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
+          businessFunctionName: node.businessName
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              item.agency = item.agencyCode + '-' + item.agencyName
+            })
             this.mainPagerConfig.total = res.data.totalCount
             this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           } else {
@@ -685,7 +690,6 @@ export default {
     },
     getAllTotalTableData(params) {
       HttpModule.getAllTotalTableData().then(res => {
-        this.tableLoading = false
         if (res.code === '000000') {
           this.tabStatusNumConfig['0'] = res.data.noDealCount
           this.tabStatusNumConfig['1'] = res.data.dealCount
@@ -732,6 +736,9 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           that.tableData = res.data.results
+          this.tableData.forEach(item => {
+            item.agency = item.agencyCode + '-' + item.agencyName
+          })
           that.mainPagerConfig.total = res.data.totalCount
           that.tabStatusNumConfig[param.handleResult] = res.data.totalCount
         } else {
@@ -754,7 +761,33 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     }
+  },
+  mounted() {
   },
   created() {
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
@@ -763,6 +796,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getAllTotalTableData()
+    this.getAgency()
   }
 }
 </script>

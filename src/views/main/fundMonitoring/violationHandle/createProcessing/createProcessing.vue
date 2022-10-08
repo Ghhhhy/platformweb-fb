@@ -362,15 +362,26 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
     onClickmethod({ node }) {
       // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
       //   return
       // }
-      let code = node.node.code
-      this.codeList = []
-      let treeData = node.treeData
-      this.getItem(code, treeData)
-      console.log(this.codeList)
+      // let code = node.code
+      // this.codeList = []
+      // let treeData = node.treeData
+      // this.getItem(code, treeData)
+      // console.log(this.codeList)
       if (node.id !== '0') {
         this.mofDivCode = node.code
       } else {
@@ -403,7 +414,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      // this.queryTableDatas()
+      this.queryTableDatas()
       // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {

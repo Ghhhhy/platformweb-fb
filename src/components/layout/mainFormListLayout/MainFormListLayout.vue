@@ -136,7 +136,6 @@ export default {
   }
   .mmc-toolbar-search {
     background: #fff;
-    padding: 8px 8px 8px 8px;
     .mmc-toolbar {
       background: #fff;
     }

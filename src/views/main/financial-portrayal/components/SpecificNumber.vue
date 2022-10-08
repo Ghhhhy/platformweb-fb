@@ -43,11 +43,11 @@ export default defineComponent({
     },
     lastValue: {
       type: [String, Number],
-      default: '9999999.99'
+      default: 0.00
     },
     currentValue: {
       type: [String, Number],
-      default: '9999999.99'
+      default: 0.00
     }
   },
   setup(props) {
@@ -124,7 +124,6 @@ export default defineComponent({
       text-align: center;
       vertical-align: middle;
       font-weight: var(--font-weight-title);
-      font-family: var(--font-family-hyt);
       border-radius: 2px;
       background: linear-gradient(to bottom, var(--chart-theme) 0, var(--chart-theme) 50%, #2A8BFD 51%, #2A8BFD 100%);
     }

@@ -175,6 +175,19 @@ export default {
       this.provinceName = this.modifyData.provinceName
       this.provinceCode = this.modifyData.provinceCode
       this.id = this.modifyData.id
+      let param = {
+        billguid: this.attachmentId,
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getFile(param).then(res => {
+        if (res.rscode === '100000') {
+          // 获取附件信息
+          this.fileData = JSON.parse(res.data)
+        } else {
+          this.$message.error(res.result)
+        }
+      })
     },
     // 保存新增的计划信息
     doInsert() {
@@ -200,7 +213,8 @@ export default {
           basicDesc: this.basicDesc,
           attachmentId: this.attachmentId,
           provinceName: name,
-          provinceCode: code
+          provinceCode: code,
+          fileData: this.fileData
         }
         this.addLoading = true
         HttpModule.add(param).then(res => {
@@ -222,7 +236,8 @@ export default {
           attachmentId: this.attachmentId,
           provinceName: this.provinceName,
           provinceCode: this.provinceCode,
-          id: this.id
+          id: this.id,
+          fileData: this.fileData
         }
         this.addLoading = true
         HttpModule.update(param).then(res => {

@@ -46,5 +46,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.socoal-security-table-wrapper {
+  /deep/.el-table .cell.el-tooltip {
+    width: 100% !important;
+  }
+}
 </style>

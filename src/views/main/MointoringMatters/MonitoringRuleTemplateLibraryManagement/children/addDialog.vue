@@ -18,25 +18,28 @@
       </div>
       <!--监控事项挂接-->
       <div v-show="monitorShow" class="payVoucherInput" style="margin-top:50px;">
-        <div v-loading="addLoading" class="body">
-          <div class="main-query">
-            <BsQuery
-              ref="declareQueryFrom"
-              :query-form-item-config="declareQueryCofig"
-              :query-form-data="declareSearchDataList"
-              @onSearchClick="searchDeclare"
-            />
+        <div style="width:100%;height: 80px;margin:0 15px">
+          <div v-if="showbox" id="bigbox"></div>
+          <el-divider style="color:#E7EBF0" />
+          <div type="flex" justify="end">
+            <div style="width:100%">
+              <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="addOperation">{{ buttonName }}</vxe-button>
+              <vxe-button style="float:right;margin-right:20px" @click="deleteOperation">删除</vxe-button>
+            </div>
           </div>
+        </div>
+        <div v-loading="addLoading" class="body">
           <div class="header-table">
             <BsTable
               ref="operationTableRef"
               height="450px"
               :footer-config="{ showFooter: false }"
+              :checkbox-config="checkboxConfig"
               :table-columns-config="monitorTableColumnsConfig"
-              :table-data="operationTableData"
+              :table-data="tableData"
               :table-config="tableConfig"
               :toolbar-config="false"
-              :pager-config="mainPagerConfig"
+              :pager-config="false"
               @ajaxData="ajaxTableData"
               @cellClick="onCellClick"
             />
@@ -116,6 +119,7 @@
           <BsTable
             ref="mountTableRef"
             height="400px"
+            :checkbox-config="checkboxConfig"
             :footer-config="{ showFooter: false }"
             :table-columns-config="mountTableColumnsConfig"
             :table-data="mountTableData"
@@ -139,6 +143,7 @@
     </vxe-modal>
     <vxe-modal
       v-model="functionVisible"
+      v-loading="addLoading"
       title="挂接函数"
       width="96%"
       height="90%"
@@ -172,6 +177,46 @@
           <div style="width:100%">
             <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="functionSure">确定</vxe-button>
             <vxe-button style="float:right;margin-right:20px" @click="functionClose">取消</vxe-button>
+          </div>
+        </div>
+      </div>
+    </vxe-modal>
+    <vxe-modal
+      v-model="operationVisible"
+      v-loading="addLoading"
+      title="事项挂接"
+      width="96%"
+      height="90%"
+      :show-footer="false"
+      @close="operationClose"
+    >
+      <div class="main-query">
+        <BsQuery
+          ref="declareQueryFrom"
+          :query-form-item-config="declareQueryCofig"
+          :query-form-data="declareSearchDataList"
+          @onSearchClick="searchDeclare"
+        />
+      </div>
+      <div class="header-table">
+        <BsTable
+          ref="tableRef"
+          height="450px"
+          :footer-config="{ showFooter: false }"
+          :table-columns-config="monitorTableColumnsConfig"
+          :table-data="operationTableData"
+          :table-config="tableConfig"
+          :toolbar-config="false"
+          :pager-config="mainPagerConfig"
+          @ajaxData="ajaxTableData"
+        />
+      </div>
+      <div style="width:100%;height: 80px;margin:0 15px">
+        <el-divider style="color:#E7EBF0" />
+        <div type="flex" justify="end">
+          <div style="width:100%">
+            <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="operationSure">确定</vxe-button>
+            <vxe-button style="float:right;margin-right:20px" @click="operationClose">取消</vxe-button>
           </div>
         </div>
       </div>
@@ -220,6 +265,9 @@ export default {
   },
   data() {
     return {
+      checkboxConfig: {
+        checkAll: true
+      },
       condition: {},
       funcondition: {},
       tabbtn: ['监控事项挂接', '规则模板新增', '添加挂接函数'],
@@ -294,18 +342,13 @@ export default {
       SysparentId: 0,
       ModparentId: 0,
       functionVisible: false,
-      functionTableData: []
+      functionTableData: [],
+      tableData: [],
+      operationVisible: false,
+      buttonName: '修改'
     }
   },
   methods: {
-    // 表格单元行单击
-    onCellClick(obj, context, e) {
-      let key = obj
-      console.log(key)
-      if (key.column.type === 'checkbox') {
-        this.ruleAccord = key.row.ruleAccord
-      }
-    },
     getDeclareSearchDataList() {
     },
     getFunSearchDataList() {
@@ -644,18 +687,13 @@ export default {
       HttpModule.getDetail(params).then(res => {
         if (res.code === '000000') {
           this.ruleTemplateName = res.data.ruleTemplateName
-          // this.businessSystemCode = parseInt(res.data.businessSystemCode)
-          // this.businessModuleCode = parseInt(res.data.businessModuleCode)
-          // this.businessFunctionCode = parseInt(res.data.businessFunctionCode)
-          // this.businessSystemName = res.data.businessSystemName
-          // this.businessModuleName = res.data.businessModuleName
-          // this.businessFunctionName = res.data.businessFunctionName
           this.ruleRemark = res.data.ruleRemark
           this.ruleAccord = res.data.ruleAccord
-          // this.SysparentId = parseInt(res.data.businessSystemCode)
-          // this.ModparentId = parseInt(res.data.businessModuleCode)
-          this.operationTableData = [res.data.declareInfo]
-          // this.mountTableData = res.data.functionInfoList
+          if (res.data.declareInfo.declareCode) {
+            this.tableData = [res.data.declareInfo]
+            console.log(this.$refs.operationTableRef)
+            this.$refs.operationTableRef.handleCheckboxChange(this.tableData)
+          }
           this.getModLists()
           this.getFunLists()
         } else {
@@ -666,8 +704,14 @@ export default {
     add() {
       this.functionVisible = true
     },
+    addOperation() {
+      this.operationVisible = true
+    },
     functionClose() {
       this.functionVisible = false
+    },
+    operationClose() {
+      this.operationVisible = false
     },
     functionSure() {
       let selection = this.$refs.functionTableRef.getSelectionData()
@@ -676,9 +720,31 @@ export default {
         return
       }
       this.functionVisible = false
-      selection.forEach(item => {
-        this.mountTableData.push(item)
-      })
+      if (this.mountTableData.length > 0) {
+        selection.forEach(item => {
+          let bool = true
+          this.mountTableData.forEach(it => {
+            if (item.functionCode === it.functionCode) {
+              bool = false
+            }
+          })
+          if (bool) {
+            this.mountTableData.push(item)
+          }
+        })
+      } else {
+        this.mountTableData = selection
+      }
+    },
+    operationSure() {
+      let selection = this.$refs.tableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据进行操作')
+        return
+      }
+      this.operationClose()
+      this.tableData = selection
+      this.ruleAccord = selection[0].ruleAccord
     },
     deleteData() {
       let selection = this.$refs.mountTableRef.getSelectionData()
@@ -686,32 +752,45 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      // this.mountTableData.forEach(item => {
-      //   selection.forEach(it => {
-      //     if (item.id === it.id) {
-      //       this.mountTableData.splice(item, 1)
-      //     }
-      //   })
-      // })
-      this.$confirm('是否确定删除选择数据?', '提示', {
+      this.$confirm('是否删除选中数据？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        for (let i = 0; i < this.mountTableData.length; i++) {
-          selection.forEach(it => {
-            if (this.mountTableData[i].id === it.id) {
-              this.mountTableData.splice(i, 1)
+        this.$refs.mountTableRef.removeCheckboxRow()
+        selection.forEach(item => {
+          this.mountTableData.forEach((it, index) => {
+            if (item.functionCode === it.functionCode) {
+              this.mountTableData.splice(index)
             }
           })
-        }
+        })
+        console.log(this.$refs.mountTableRef)
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消'
         })
       })
-      // this.$refs.mountTableRef.deleteRowData()
+    },
+    deleteOperation() {
+      let selection = this.$refs.operationTableRef.getSelectionData()
+      if (selection.length === 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      this.$confirm('是否确定删除选中数据 ?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableData = []
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     // 保存
     doInsert() {
@@ -859,9 +938,11 @@ export default {
   created() {
     this.showInfo()
     if (this.title === '新增') {
-      this.loadMonitor()
+      this.checkboxConfig.checkAll = false
+      this.buttonName = '添加'
       this.loadFunMonitor()
     }
+    this.loadMonitor()
     this.getSysLists()
     // this.getModLists()
     // this.getFunLists()

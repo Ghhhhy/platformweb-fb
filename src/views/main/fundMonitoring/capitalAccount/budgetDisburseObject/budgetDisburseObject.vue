@@ -30,19 +30,13 @@
           :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
-          @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          open-loading
+          :config="leftTreeConfig"
+          :tree-data="treeData"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -58,6 +52,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -82,7 +80,7 @@
 
 <script>
 import { proconf } from './budgetDisburseObject'
-import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -97,9 +95,11 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
+      codeList: [],
       breakRuleVisible: false,
       treeData: [{
         children: [],
@@ -118,7 +118,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -182,7 +182,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         import: false, // 导入
         export: true, // 导出
         print: false, // 打印
@@ -200,12 +200,7 @@ export default {
         currentPage: 1,
         pageSize: 20
       },
-      tableConfig: {
-        renderers: {
-          // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
-        }
-      },
+      tableConfig: proconf.tableConfig,
       tableFooterConfig: {
         showFooter: false
       },
@@ -236,94 +231,100 @@ export default {
       DetailData: {},
       regulationclass: '',
       firulename: '',
-      // tableData: []
-      tableData: [
-        {
-          mofDivName: '合计',
-          proCode: '',
-          proCodeName: '',
-          yaAmount: 1522615641.58,
-          yzyapAmount: 941648.5,
-          ysjapAmount: 949219.64,
-          yshjapAmount: 818,
-          yxjapAmount: 8597,
-          zaAmount: 7974456.95,
-          zzyapAmount: 9874,
-          zsjapAmount: 811874,
-          zshjapAmount: 5298,
-          zxjapAmount: 4819.85,
-          amountName: '',
-          agencyCodeName: '',
-          xjExpFuncName: '',
-          sfUseful: '',
-          grantFrom: '',
-          sfaccount: ''
-        },
-        {
-          mofDivName: '[6100]陕西省本级',
-          proCode: '610000000000021041340',
-          proCodeName: '优抚对象补助资金',
-          yaAmount: 1522615641.58,
-          yzyapAmount: 941648.5,
-          ysjapAmount: 949219.64,
-          yshjapAmount: 818,
-          yxjapAmount: 8597,
-          zaAmount: 7974456.95,
-          zzyapAmount: 9874,
-          zsjapAmount: 811874,
-          zshjapAmount: 5298,
-          zxjapAmount: 4819.85,
-          amountName: '学生资助补助经费',
-          agencyCodeName: '[208003]西安理工大学',
-          xjExpFuncName: '[2050299]其他普通教育支出',
-          sfUseful: '利民',
-          grantFrom: '',
-          sfaccount: '是'
-        },
-        {
-          mofDivName: '[6100]陕西省本级',
-          proCode: '61000000000002116515',
-          proCodeName: '高校学生国家奖助学金',
-          yaAmount: 1525641.58,
-          yzyapAmount: 9648.5,
-          ysjapAmount: 94919.64,
-          yshjapAmount: 18,
-          yxjapAmount: 8497,
-          zaAmount: 79756.95,
-          zzyapAmount: 98754,
-          zsjapAmount: 8118474,
-          zshjapAmount: 52948,
-          zxjapAmount: 4819.5,
-          amountName: '优抚对象补助经费',
-          agencyCodeName: '[208001]省教育厅机关',
-          xjExpFuncName: '[2080899]其他优抚支出',
-          sfUseful: '利民',
-          grantFrom: '',
-          sfaccount: '是'
-        },
-        {
-          mofDivName: '[6100]陕西省本级',
-          proCode: '610000000000021046440',
-          proCodeName: '家庭经济困难学生生活补助',
-          yaAmount: 1521.58,
-          yzyapAmount: 948.5,
-          ysjapAmount: 949.64,
-          yshjapAmount: 88,
-          yxjapAmount: 97,
-          zaAmount: 797.95,
-          zzyapAmount: 74,
-          zsjapAmount: 814,
-          zshjapAmount: 52,
-          zxjapAmount: 49.85,
-          amountName: '学生资助补助经费',
-          agencyCodeName: '[208007]陕西科技大学',
-          xjExpFuncName: '[2050299]其他普通教育支出',
-          sfUseful: '利民',
-          grantFrom: '',
-          sfaccount: '是'
-        }
-      ],
-      mofdivcode: '',
+      tableData: [],
+      // tableData: [
+      //   {
+      //     mofDivName: '合计',
+      //     proCode: '',
+      //     proCodeName: '',
+      //     yaAmount: 1522615641.58,
+      //     yzyapAmount: 941648.5,
+      //     ysjapAmount: 949219.64,
+      //     yshjapAmount: 818,
+      //     yxjapAmount: 8597,
+      //     zaAmount: 7974456.95,
+      //     zzyapAmount: 9874,
+      //     zsjapAmount: 811874,
+      //     zshjapAmount: 5298,
+      //     zxjapAmount: 4819.85,
+      //     amountName: '',
+      //     agencyCodeName: '',
+      //     xjExpFuncName: '',
+      //     sfUseful: '',
+      //     grantFrom: '',
+      //     sfaccount: ''
+      //   },
+      //   {
+      //     mofDivName: '[6100]陕西省本级',
+      //     proCode: '610000000000021041340',
+      //     proCodeName: '优抚对象补助资金',
+      //     yaAmount: 1522615641.58,
+      //     yzyapAmount: 941648.5,
+      //     ysjapAmount: 949219.64,
+      //     yshjapAmount: 818,
+      //     yxjapAmount: 8597,
+      //     zaAmount: 7974456.95,
+      //     zzyapAmount: 9874,
+      //     zsjapAmount: 811874,
+      //     zshjapAmount: 5298,
+      //     zxjapAmount: 4819.85,
+      //     amountName: '学生资助补助经费',
+      //     agencyCodeName: '[208003]西安理工大学',
+      //     xjExpFuncName: '[2050299]其他普通教育支出',
+      //     sfUseful: '利民',
+      //     grantFrom: '',
+      //     sfaccount: '是'
+      //   },
+      //   {
+      //     mofDivName: '[6100]陕西省本级',
+      //     proCode: '61000000000002116515',
+      //     proCodeName: '高校学生国家奖助学金',
+      //     yaAmount: 1525641.58,
+      //     yzyapAmount: 9648.5,
+      //     ysjapAmount: 94919.64,
+      //     yshjapAmount: 18,
+      //     yxjapAmount: 8497,
+      //     zaAmount: 79756.95,
+      //     zzyapAmount: 98754,
+      //     zsjapAmount: 8118474,
+      //     zshjapAmount: 52948,
+      //     zxjapAmount: 4819.5,
+      //     amountName: '优抚对象补助经费',
+      //     agencyCodeName: '[208001]省教育厅机关',
+      //     xjExpFuncName: '[2080899]其他优抚支出',
+      //     sfUseful: '利民',
+      //     grantFrom: '',
+      //     sfaccount: '是'
+      //   },
+      //   {
+      //     mofDivName: '[6100]陕西省本级',
+      //     proCode: '610000000000021046440',
+      //     proCodeName: '家庭经济困难学生生活补助',
+      //     yaAmount: 1521.58,
+      //     yzyapAmount: 948.5,
+      //     ysjapAmount: 949.64,
+      //     yshjapAmount: 88,
+      //     yxjapAmount: 97,
+      //     zaAmount: 797.95,
+      //     zzyapAmount: 74,
+      //     zsjapAmount: 814,
+      //     zshjapAmount: 52,
+      //     zxjapAmount: 49.85,
+      //     amountName: '学生资助补助经费',
+      //     agencyCodeName: '[208007]陕西科技大学',
+      //     xjExpFuncName: '[2050299]其他普通教育支出',
+      //     sfUseful: '利民',
+      //     grantFrom: '',
+      //     sfaccount: '是'
+      //   }
+      // ],
+      mofDivCode: this.$store.state.userInfo.province,
+      fiscalYear: '',
+      speTypeName: '',
+      expFuncName: '',
+      proName: '',
+      hqlm: '',
+      endTime: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
@@ -336,7 +337,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{label}', // {code}-{name}
+          labelFormat: '{code}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -353,9 +354,12 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.regulationtype = obj.regulationType
-      this.firulename = obj.firulename
+      this.fiscalYear = obj.fiscalYear
+      this.speTypeName = obj.speTypeName
+      this.expFuncName = obj.expFuncName
+      this.proName = obj.proName
+      this.hqlm = obj.hqlm
+      this.endTime = obj.endTime
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -544,12 +548,24 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
+    // onClickmethod({ node }) {
+    //   // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
+    //   //   return
+    //   // }
+    //   if (node.id !== '0') {
+    //     console.log(node)
+    //     this.mofDivCode = node.code
+    //   } else {
+    //     this.condition = {}
+    //   }
+    //   this.queryTableDatas()
+    // },
     onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
         this.mofdivcode = node.node.code
       } else {
         this.condition = {}
@@ -611,30 +627,51 @@ export default {
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
     },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
+    },
     // 查询 table 数据
     queryTableDatas() {
-      // const param = {
-      //   page: this.mainPagerConfig.currentPage, // 页码
-      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
-      //   warn_level: this.warningLevel, // 预警级别
-      //   regulation_type: this.regulationtype,
-      //   mofdivname: this.mofdivname,
-      //   agencycode: this.agencycode,
-      //   firulename: this.firulename,
-      //   regulation_class: this.regulationclass,
-      //   mofdivcode: this.mofdivcode || ''
-      // }
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(param).then(res => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.tableData = res.data.results
-      //     this.mainPagerConfig.total = res.data.totalCount
-      //     this.tabStatusNumConfig['1'] = res.data.totalCount
-      //   } else {
-      //     this.$message.error(res.result)
-      //   }
-      // })
+      const param = {
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCode: this.mofDivCode, // 获取左侧树
+        speTypeName: this.speTypeName,
+        expFuncName: this.expFuncName,
+        proName: this.proName,
+        endTime: this.endTime,
+        hqlm: this.hqlm,
+        iscz: this.params5 === 'czzd', // 菜单参照直达标识
+        mofDivCodes: this.codeList
+      }
+      this.tableLoading = true
+      HttpModule.xmPageQuery(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
+        } else {
+          this.$message.error(res.result)
+        }
+      })
     },
     // 操作日志
     queryActionLog(row) {
@@ -668,7 +705,7 @@ export default {
         params = {
           elementCode: 'admdiv',
           province: '610000000',
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + 61 + '%\''
         }
       } else if (
@@ -687,21 +724,21 @@ export default {
       ) {
         params = {
           elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
+          province: this.userInfo.province,
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementCode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       HttpModule.getTreeData(params).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
+        if (res.data) {
+          // let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -714,7 +751,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = treeResdata
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -723,7 +760,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || item.name
         if (item.children) {
           that.getChildrenData(item.children)
         }
@@ -739,6 +776,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.params5 = this.$store.state.curNavModule.param5
     this.getLeftTreeData()
     this.queryTableDatas()
   }

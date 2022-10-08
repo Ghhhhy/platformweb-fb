@@ -21,6 +21,10 @@ export default {
   getLeftTree1(params) {
     return post('large-monitor-platform/lmp/regulation/queryRuleTree', params)
   },
+  // 获取用户的角色
+  getUserRoles(params) {
+    return get('mp-b-perm-service/v2/userroles', params)
+  },
   // 获取区划树
   getLeftTree2(params) {
     return post('large-monitor-platform/lmp/regulation/queryMofTree', params)
@@ -115,5 +119,9 @@ export default {
   // 停用
   stop(params) {
     return post('large-monitor-platform/lmp/regulation/stop', params)
+  },
+  // 操作日志
+  queryActionLog(params) {
+    return post('large-monitor-platform/lmp/regulation/queryActionLog', params)
   }
 }

@@ -15,6 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
+      { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
@@ -172,13 +173,13 @@ export let proconf = {
       'className': '',
       'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
     },
-    {
-      title: '资金用途',
-      field: 'useOfFunds',
-      width: '150',
-      sortable: false,
-      align: 'center'
-    },
+    // {
+    //   title: '资金用途',
+    //   field: 'useOfFunds',
+    //   width: '150',
+    //   sortable: false,
+    //   align: 'center'
+    // },
     {
       title: '监控拦截时间',
       field: 'createTime',

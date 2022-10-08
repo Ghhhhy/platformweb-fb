@@ -161,6 +161,36 @@ export default {
       default() {
         return '预览'
       }
+    },
+    previewYear: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    previewStartMonth: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    previewEndMonth: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    previewCode: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    previewName: {
+      type: String,
+      default() {
+        return ''
+      }
     }
   },
   data() {
@@ -229,26 +259,29 @@ export default {
   },
   methods: {
     doInsert() {
-      this.$parent.filePreviewDialogVisible = false
-      this.$parent.dialogVisible = false
-      this.$message.success('生成成功')
-      this.$parent.queryTableDatas()
-    },
-    dialogClose() {
-      this.$parent.filePreviewDialogVisible = false
-      let ids = []
-      ids.push(this.delId)
       const params = {
-        ids: ids
+        id: this.delId,
+        year: this.previewYear,
+        startMonth: this.previewStartMonth,
+        endMonth: this.previewEndMonth,
+        provinceCode: this.previewCode,
+        provinceName: this.previewName
       }
       this.tableLoading = true
-      HttpModule.delete(params).then(res => {
+      HttpModule.confirmCreate(params).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
+          this.$parent.filePreviewDialogVisible = false
+          this.$parent.dialogVisible = false
+          this.$message.success('生成成功')
+          this.$parent.queryTableDatas()
         } else {
           this.$message.error(res.message)
         }
       })
+    },
+    dialogClose() {
+      this.$parent.filePreviewDialogVisible = false
     },
     mountedInit() {
       this.toPdf()
@@ -305,7 +338,9 @@ export default {
     buildFileType() {
       let fileSuffix = this.file.suffix
       this.title = this.file.filename
-      this.url = this.file.path
+      let newUrl = window.gloableToolFn.serverGatewayMap.development.filePreviewService + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
+      this.url = newUrl
+      console.log(newUrl)
       this.positivePlayerOptions.sources[0].src = this.url
       if (this.inArray(fileSuffix, this.notSupportType)) {
         this.fileType = 'noSupport'

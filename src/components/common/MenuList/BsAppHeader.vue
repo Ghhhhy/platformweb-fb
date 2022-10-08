@@ -342,6 +342,7 @@ export default {
               })
             } else {
               this.$store.commit('setUserInfo', res.data)
+              this.$store.dispatch('asyncUserRoles')
               location.reload()
               // this.$router.push({
               //   name: 'Main',

@@ -68,5 +68,20 @@ export default {
   // 函数接口类型
   getFunctionApiType(params) {
     return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
+  },
+  deleteData(params) {
+    return post('large-monitor-platform/lmp/warnLog/deleteWarn', params)
+  },
+  getSql(params) {
+    return post('large-monitor-platform/lmp/function/sqlDetail', params)
+  },
+  checkSql(params) {
+    return post('large-monitor-platform/lmp/function/checkSql', params)
+  },
+  getLeftTree(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  deleteWarnByLogId(params) {
+    return post('large-monitor-platform/lmp/warnLog/deleteWarnByLogId', params)
   }
 }

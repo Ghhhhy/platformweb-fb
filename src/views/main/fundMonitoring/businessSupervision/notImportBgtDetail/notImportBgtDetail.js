@@ -85,7 +85,7 @@ export let proconf = {
     {
       title: '地区名称',
       'width': 180,
-      field: 'agencyName',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -93,7 +93,7 @@ export let proconf = {
     {
       title: '上级文号',
       'width': 180,
-      field: 'targetAmount',
+      field: 'supBgtDocNoName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -101,18 +101,18 @@ export let proconf = {
     {
       title: '上级专项资金',
       'width': 180,
-      field: 'realPay',
+      field: 'supSpeTypeName',
       sortable: false,
       filters: false,
       align: 'center'
     },
     {
-      title: '未导入金额',
+      title: '未接收金额',
       'width': 180,
-      field: 'payLoad',
+      field: 'amount',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'right',
       cellRender: {
         name: '$vxeMoney'
       }

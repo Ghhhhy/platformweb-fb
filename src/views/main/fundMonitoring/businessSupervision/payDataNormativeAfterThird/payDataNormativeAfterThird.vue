@@ -32,17 +32,13 @@
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
           :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
           style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          :tree-data="treeData"
+          :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          @onNodeCheckClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -58,6 +54,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -83,6 +83,8 @@
 <script>
 import { proconf } from './payDataNormativeAfterThird'
 import HttpModule from '@/api/frame/main/fundMonitoring/payDataNormativeAfterThird.js'
+import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
+
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -97,6 +99,7 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
@@ -118,7 +121,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -458,7 +461,7 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod(node) {
+    onClickmethod({ node }) {
       // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
       //   return
       // }
@@ -542,6 +545,7 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
@@ -574,8 +578,8 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getTreeData(that.treeQueryparams).then(res => {
-        if (res.rscode === '100000') {
+      getMofDivTree(that.treeQueryparams).then(res => {
+        if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
@@ -598,7 +602,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || item.name
         if (item.children) {
           that.getChildrenData(item.children)
         }

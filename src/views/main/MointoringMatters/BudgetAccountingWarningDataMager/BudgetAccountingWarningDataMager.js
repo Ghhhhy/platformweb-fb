@@ -105,6 +105,31 @@ export let proconf = {
           placeholder: '监控时间'
         }
       }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
     }
   ],
   highQueryData: {
@@ -146,7 +171,7 @@ export let proconf = {
     {
       title: '预算单位',
       width: '180px',
-      field: 'agencyName',
+      field: 'agency',
       sortable: false,
       align: 'left'
     },
@@ -439,7 +464,7 @@ export let proconf = {
       }
     },
     {
-      field: 'payApplyNumber',
+      field: 'pay_app_no',
       title: '支付申请编号',
       titleWidth: '180',
       span: 8,
@@ -449,7 +474,7 @@ export let proconf = {
       }
     },
     {
-      field: 'agencyName',
+      field: 'agency_name',
       title: '预算单位',
       titleWidth: '180',
       span: 8,
@@ -459,7 +484,7 @@ export let proconf = {
       }
     },
     {
-      field: 'targetDocNum',
+      field: 'cor_bgt_doc_no_name',
       title: '指标文号',
       titleWidth: '180',
       span: 8,
@@ -470,7 +495,7 @@ export let proconf = {
     },
     {
       title: '预算项目',
-      field: 'projectName',
+      field: 'pro_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -478,18 +503,18 @@ export let proconf = {
         props: { disabled: true, placeholder: '预算项目' } }
     },
     {
-      title: '项目分类',
-      field: 'projectTypeName',
+      title: '收支类别',
+      field: 'pro_cat_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '项目分类' }
+        props: { disabled: true, placeholder: '收支类别' }
       }
     },
     {
       title: '付款人',
-      field: 'payer',
+      field: 'pay_acct_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -499,7 +524,7 @@ export let proconf = {
     },
     {
       title: '付款人账号',
-      field: 'payAccount',
+      field: 'pay_acct_no',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -509,7 +534,7 @@ export let proconf = {
     },
     {
       title: '付款银行',
-      field: 'payBankName',
+      field: 'pay_acct_bank_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -519,7 +544,7 @@ export let proconf = {
     },
     {
       title: '收款人',
-      field: 'payee',
+      field: 'payee_acct_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -529,7 +554,7 @@ export let proconf = {
     },
     {
       title: '收款人账号',
-      field: 'receiveAccount',
+      field: 'payee_acct_no',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -539,7 +564,7 @@ export let proconf = {
     },
     {
       title: '收款银行',
-      field: 'receiveBankName',
+      field: 'payee_acct_bank_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -548,7 +573,7 @@ export let proconf = {
       }
     },
     {
-      field: 'paymentAmount',
+      field: 'pay_app_amt',
       title: '支付金额',
       titleWidth: '180',
       span: 8,
@@ -559,7 +584,7 @@ export let proconf = {
     },
     {
       title: '资金用途',
-      field: 'useOfFunds',
+      field: 'use_des',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -569,7 +594,7 @@ export let proconf = {
     },
     {
       title: '政府经济分类',
-      field: 'govEconomyType',
+      field: 'gov_bgt_eco_name',
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -579,7 +604,7 @@ export let proconf = {
     },
     {
       title: '部门经济分类',
-      field: 'deptEconomyType',
+      field: 'dep_bgt_eco_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -589,7 +614,7 @@ export let proconf = {
     },
     {
       title: '资金性质',
-      field: 'natureOfFunds',
+      field: 'fund_type_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -599,7 +624,7 @@ export let proconf = {
     },
     {
       title: '功能分类',
-      field: 'funcType',
+      field: 'exp_func_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -609,7 +634,7 @@ export let proconf = {
     },
     {
       title: '支付方式',
-      field: 'paymentMethod',
+      field: 'pay_type_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -619,7 +644,7 @@ export let proconf = {
     },
     {
       title: '结算方式',
-      field: 'settlementMethod',
+      field: 'set_mode_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -629,7 +654,7 @@ export let proconf = {
     },
     {
       title: '业务处室',
-      field: 'businessOffice',
+      field: 'manage_mof_dep_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -639,7 +664,7 @@ export let proconf = {
     },
     {
       title: '工资标识',
-      field: 'salaryMark',
+      field: 'is_sal_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -649,7 +674,7 @@ export let proconf = {
     },
     {
       title: '是否工会经费',
-      field: 'isUnionFunds',
+      field: 'is_fun_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -659,7 +684,7 @@ export let proconf = {
     },
     {
       title: '三公经费',
-      field: 'isThrExp',
+      field: 'thr_exp_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -669,7 +694,7 @@ export let proconf = {
     },
     {
       title: '直达资金标识',
-      field: 'directFund',
+      field: 'is_dir_name',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -802,13 +827,13 @@ export let proconf = {
   },
   handletableColumnsHsConfig: [
     {
-      title: '支付单号',
+      title: '支付凭证号',
       field: 'originalBillNo',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '支付单号' }
+        props: { disabled: true, placeholder: '支付凭证号' }
       }
     },
     {

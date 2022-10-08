@@ -39,11 +39,11 @@
             :toolbar-config="tableToolbarConfig"
             :pager-config="false"
           >
-            <template v-slot:toolbarSlots>
-              <div class="table-toolbar-left">
-                <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
-              </div>
-            </template>
+            <!--<template v-slot:toolbarSlots>-->
+            <!--  <div class="table-toolbar-left">-->
+            <!--    <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>-->
+            <!--  </div>-->
+            <!--</template>-->
           </bsTable>
         </div>
       </div>
@@ -158,16 +158,20 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
-                      <div style="width:200px;float:left;margin-top:2px">
-                        <BsTreeInput
-                          ref="ruleTree"
-                          v-model="regulationClass"
-                          :disabled="disabled"
-                          :datas="regulationClassoptions"
-                          :reloaddata="false"
-                          @input="selectRule"
+                      <el-select
+                        v-model="regulationClass"
+                        :disabled="disabled"
+                        placeholder="请选择监控主题"
+                        style="width:45%"
+                        @change="selectRule"
+                      >
+                        <el-option
+                          v-for="item in regulationClassoptions"
+                          :key="item.id"
+                          :label="item.regulationName"
+                          :value="item.regulationName"
                         />
-                      </div>
+                      </el-select>
                     </el-row>
                   </el-main>
                 </el-container>
@@ -290,6 +294,25 @@
                 </el-container>
               </el-col>
             </el-row> -->
+            <el-row>
+              <el-col :span="24">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
+                      <el-input
+                        v-model="policiesDescription"
+                        type="textarea"
+                        :disabled="disabled"
+                        :rows="2"
+                        placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
+                        style=" width:90%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row>
           </div>
         </div>
         <div style="margin-bottom: 10px; color: red">
@@ -315,25 +338,19 @@
     </div>
     <!--应用设置-->
     <div v-show="appSetShow" class="payVoucherInput" style="margin-top:50px;">
-      <el-row>
-        <el-col :span="24">
-          <el-container>
-            <el-main width="100%">
-              <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
-                <el-input
-                  v-model="policiesDescription"
-                  type="textarea"
-                  :disabled="disabled"
-                  :rows="2"
-                  placeholder="请输入预警提示"
-                  style=" width:90%"
-                />
-              </el-row>
-            </el-main>
-          </el-container>
-        </el-col>
-      </el-row>
+      <BsForm
+        ref="messageForm"
+        :is-editable="true"
+        :form-items-config="formItemsConfigMessage"
+        :form-data-list.sync="formDatas"
+        :form-validation-config="formValidationConfigMessage"
+        @itemChange="formItemChange"
+      />
+      <div style="margin-bottom: 10px; color: red; margin-top:100px">
+        <p>注意：</p>
+        <p>1.当收款人名称和资金用途的关键字为多个时，请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；</p>
+        <p>2.若业务数据满足上述条件任意一项就跳过该规则校验，即不预警</p>
+      </div>
     </div>
     <!--生效范围-->
     <div v-show="effectiveShow" class="payVoucherInput" style="margin-top:50px;">
@@ -388,7 +405,7 @@
                     v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name', labelFormat: '{code}-{name}', children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
@@ -470,7 +487,7 @@ export default {
       tableLoading: false,
       monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
       operationTableData: [],
-      tabbtn: ['模板信息', '规则定义', '应用设置', '生效范围'],
+      tabbtn: ['模板信息', '规则定义', '白名单', '生效范围'],
       ruleSetShow: true,
       ruleDesShow: false,
       appSetShow: false,
@@ -574,10 +591,156 @@ export default {
         }
       },
       disabledUpdate: false,
-      defaultCheckedKeys: ['610000000']
+      defaultCheckedKeys: ['610000000'],
+      ruleDisabled: false,
+      formItemsConfigMessage: proconf.formItemsConfigMessage,
+      paymentLen: 0,
+      paymentData: [],
+      formDatas: {
+        useDes: '',
+        payeeAcctNo: '',
+        payeeAcctName: ''
+      },
+      formValidationConfigMessage: proconf.formValidationConfigMessage
     }
   },
   methods: {
+    formItemChange(obj) {
+      if (obj.property === 'payment') {
+        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let content = this.formItemsConfigMessage[0].itemRender.options
+        this.formItemsConfigMessage.splice(1, this.paymentLen)
+        if (this.paymentData) {
+          if (data.length < this.paymentLen) {
+            this.paymentData.forEach(item => {
+              if (data.indexOf(item) === -1) {
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + '__viewSort'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name__multiple'] = []
+              }
+            })
+          }
+        }
+        this.paymentData = data
+        this.paymentLen = data.length
+        let datas = {}
+        data.forEach((item, index) => {
+          if (item === '1') {
+            datas = this.createPro(content[item], false)
+          } else {
+            datas = this.createObj(content[item], false)
+          }
+          this.formItemsConfigMessage.splice(1 + index, 0, datas)
+        })
+      }
+    },
+    createPro(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'code',
+                label: 'name',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              multiple: true,
+              disabled,
+              isleaf: false,
+              axiosConfig: {
+                method: 'get',
+                url:
+                  'mp-b-basedata-service/v2/basedata/page'
+              }
+            },
+            queryparams: {
+              elementcode: 'pro',
+              condition: '',
+              year: this.$store.state.userInfo.year,
+              province: this.$store.state.userInfo.province,
+              limit: 2000,
+              offset: 1
+            }
+          }
+        }
+      }
+    },
+    createObj(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                nodeKey: 'id',
+                label: 'text',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              disabled,
+              multiple: true,
+              isleaf: false,
+              axiosConfig: {
+                method: 'get',
+                url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+              }
+            },
+            queryparams: {
+              tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+              appguid: 'apaas',
+              year: this.$store.state.userInfo.year,
+              mofDivCode: this.$store.state.userInfo.province,
+              parameters: {}
+            }
+          }
+        }
+      }
+    },
+    resetFormDataListMessage() {
+      let paymentsArr = ['monitore', 'agency_code', 'pro_name', 'bgt_type_code', 'bgt_source_code', 'gov_bgt_eco_code', 'exp_func_code', 'cor_bgt_doc_no_name']
+      paymentsArr.forEach(item => {
+        this.formDatas[item + '__viewSort'] = ''
+        this.formDatas[item + 'code'] = ''
+        this.formDatas[item + 'code__multiple'] = []
+        this.formDatas[item + 'id'] = ''
+        this.formDatas[item + 'id__multiple'] = []
+        this.formDatas[item + 'name'] = ''
+        this.formDatas[item + 'name__multiple'] = []
+      })
+      this.formDatas.payment = []
+      this.formDatas.payment__multiple = []
+      this.formDatas.agency_code = []
+      this.formDatas.pro_name = []
+      this.formDatas.gov_bgt_eco_code = []
+      this.formDatas.exp_func_code = []
+      this.formDatas.cor_bgt_doc_no_name = []
+      this.formDatas.dep_bgt_eco_code = []
+    },
     sureButton() {
       let that = this
       let datas = this.$refs.monitorTableRef.getSelectionData()
@@ -797,6 +960,12 @@ export default {
       })
     },
     dialogClose() {
+      console.log(this.paymentLen)
+      this.formItemsConfigMessage.splice(1, this.paymentLen)
+      this.paymentLen = 0
+      let form = this.$refs.messageForm
+      form.clearValidate()
+      this.resetFormDataListMessage()
       this.$parent.dialogVisible = false
       this.$parent.queryTableDatas()
     },
@@ -920,16 +1089,22 @@ export default {
           regulationCode: this.$parent.DetailData.regulationCode,
           warningLevel: this.warningLevel,
           triggerClass: this.triggerClass,
-          regulationClass: this.regulationClass.split('##')?.[0] || '',
-          regulationName: this.monitorRuleName
+          handleType: this.handleType,
+          menuName: this.$store.state.curNavModule.name
         }
         HttpModule.updateData(params).then(res => {
           if (res.code === '000000') {
             that.$message.success('修改成功')
+            console.log(this.paymentLen)
+            this.formItemsConfigMessage.splice(1, this.paymentLen)
+            this.paymentLen = 0
+            let form = this.$refs.messageForm
+            form.clearValidate()
+            this.resetFormDataListMessage()
             that.$parent.dialogVisible = false
             this.$parent.queryTableDatas()
           } else {
-            that.$message.error(res.message)
+            that.$message.error('操作失败')
           }
         }).finally(() => {
           // that.$parent.dialogVisible = false
@@ -946,6 +1121,17 @@ export default {
         // }).finally(() => {
         //   // that.$parent.dialogVisible = false
         // })
+      }
+    },
+    chooseWarningLevel(val) {
+      if (val === 1) {
+        this.handleType = 1
+      } else if (val === 2) {
+        this.handleType = 2
+      } else if (val === 3) {
+        this.handleType = 3
+      } else if (val === 4) {
+        this.handleType = 4
       }
     },
     // 选择业务系统
@@ -1040,10 +1226,23 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getRegulationChildrenData(res.data)
           this.regulationClassoptions = treeResdata
+          this.regulationClassoptions.forEach(item => {
+            item.regulationName = item.code + '-' + item.ruleName
+          })
         } else {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    chooseTriggerClass(val) {
+      if (val === 2) {
+        this.warningLevel = 4
+        this.handleType = 4
+      }
+      if (val === 1) {
+        this.warningLevel = 1
+        this.handleType = 1
+      }
     }
   },
   watch: {
@@ -1066,10 +1265,15 @@ export default {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
       this.getTableData()
     } else if (this.$parent.dialogTitle === '查看详情') {
+      this.ruleSetShow = false
+      this.ruleDesShow = true
+      this.appSetShow = false
+      this.effectiveShow = false
+      this.activeIndex = 1
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
       this.handleType = this.$parent.DetailData.handleType
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
@@ -1093,10 +1297,15 @@ export default {
       this.disabledUpdate = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改') {
+      this.ruleSetShow = false
+      this.ruleDesShow = true
+      this.appSetShow = false
+      this.effectiveShow = false
+      this.activeIndex = 1
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
       this.handleType = this.$parent.DetailData.handleType
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
@@ -1118,6 +1327,62 @@ export default {
       this.buttonConfig = {}
       this.disabled = true
       this.editConfig = false
+    }
+    if (this.$parent.formDatas) {
+      this.formDatas = this.$parent.formDatas
+      if (this.formDatas.payment !== '') {
+        this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+        this.paymentLen = this.formDatas.payment__multiple.length
+        this.formDatas.payment__multiple.forEach((item, index) => {
+          let datas = {}
+          if (item === '1') {
+            datas = this.$parent.dialogTitle !== '新增' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+          } else {
+            datas = this.$parent.dialogTitle !== '新增' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+          }
+          this.formItemsConfigMessage.splice(1 + index, 0, datas)
+          // if (this.$parent.dialogTitle === '查看详情') {
+          //   this.formItemsConfigMessage.forEach(item => {
+          //     item.itemRender.props.disabled = true
+          //   })
+          // } else {
+          //   this.formItemsConfigMessage.forEach(item => {
+          //     item.itemRender.props.disabled = false
+          //   })
+          // }
+          // this.formDatas.agency_code = '000,000001,000002'
+          // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
+          this.formDatas.agency_code = this.formDatas.agencyCode
+          this.formDatas.agency_name = this.formDatas.agencyName
+          this.formDatas.pro_code = this.formDatas.proCode
+          this.formDatas.pro_name = this.formDatas.proName
+          this.formDatas.exp_func_code = this.formDatas.excFunCode
+          this.formDatas.exp_func_name = this.formDatas.excFunName
+          this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+          this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+          this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+          this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+          this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+          this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+          // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
+          // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
+          // let paramsCodes = ''
+          // let paramsNames = ''
+          // formDataParams.forEach(item => {
+          //   item = item.split('-')
+          //   paramsCodes += item[0]
+          //   paramsNames += item[1]
+          // })
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
+        })
+        console.log(this.formDatas)
+      }
+    }
+    if (this.$parent.dialogTitle === '查看详情' || this.$parent.dialogTitle === '修改') {
+      this.formItemsConfigMessage.forEach(item => {
+        item.itemRender.props.disabled = true
+      })
     }
     this.getSysLists()
     this.getRegulation()

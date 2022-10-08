@@ -18,7 +18,7 @@
                   <el-input
                     v-model="desc"
                     type="textarea"
-                    placeholder="请输入是由"
+                    placeholder="请输入事由"
                     style="width:100%"
                     :rows="5"
                   />
@@ -75,13 +75,14 @@ export default {
     },
     doInsert() {
       if (this.desc === '') {
-        this.$message.warning('请输入是由')
+        this.$message.warning('请输入事由')
         return
       }
-      if (this.title === '启用是由') {
+      if (this.title === '启用事由') {
         const params = {
           regulationCodes: this.idList,
-          openDesc: this.desc
+          openDesc: this.desc,
+          menuName: this.$store.state.curNavModule.name
         }
         HttpModule.open(params).then(res => {
           if (res.code === '000000') {
@@ -95,7 +96,8 @@ export default {
       } else {
         const params = {
           regulationCodes: this.idList,
-          openDesc: this.desc
+          openDesc: this.desc,
+          menuName: this.$store.state.curNavModule.name
         }
         HttpModule.stop(params).then(res => {
           if (res.code === '000000') {

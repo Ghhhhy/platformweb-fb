@@ -221,6 +221,21 @@ export let proconf = {
       }
     },
     {
+      title: '规则函数名称',
+      field: 'functionName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '规则函数名称'
+        }
+      }
+    },
+    {
       title: '业务模块',
       field: 'businessModuleName',
       width: '8',
@@ -242,7 +257,8 @@ export let proconf = {
   ],
   highQueryData: {
     ruleTemplateName: '',
-    businessModuleName: ''
+    businessModuleName: '',
+    functionName: ''
   },
   funchighQueryConfig: [
     {

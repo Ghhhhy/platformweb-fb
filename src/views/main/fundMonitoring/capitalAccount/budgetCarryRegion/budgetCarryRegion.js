@@ -34,25 +34,42 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
+          // { value: '2020', label: '2020年' },
+          // { value: '2021', label: '2021年' },
           { value: '2022', label: '2022年' }
         ],
         props: {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '截止日期',
+      field: 'endTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '截止日期'
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '2022',
+    endTime: ''
   },
   basicInfo: {
     type: 'form',
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        seq: true, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [

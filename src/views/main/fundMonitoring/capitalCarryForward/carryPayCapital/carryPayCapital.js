@@ -62,6 +62,8 @@ const proconf = {
         treeNode: true,
         fixed: false,
         align: 'left',
+        sortable: false,
+        filters: false,
         width: 160,
         field: 'speTypeName',
         cellRender: {
@@ -78,23 +80,32 @@ const proconf = {
         children: [
           {
             title: '资金总量',
-            field: 'jAmount1',
+            field: 'all1',
+            sortable: false,
+            filters: false,
+            formula: '{amountProvince}+{amountCity}+{amountCounty}',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出金额',
-            field: 'dfAmount1',
+            field: 'payAll',
+            sortable: false,
+            filters: false,
             width: 200,
             align: 'right',
+            formula: '{amountPayProvince}+{amountPayCity}+{amountPayCounty}',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
-            field: 'aAmount1',
+            field: 'payPro',
+            sortable: false,
+            filters: false,
             width: 200,
             align: 'right',
+            formula: '({all1}-0==0)?0:(({payAll}/{all1})*100)',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -108,21 +119,28 @@ const proconf = {
         children: [
           {
             title: '资金总量',
-            field: 'jAmount1',
+            field: 'amountProvince',
+            sortable: false,
+            filters: false,
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出金额',
-            field: 'dfAmount1',
+            field: 'amountPayProvince',
+            sortable: false,
+            filters: false,
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
-            field: 'aAmount1',
+            field: 'sjpayPro1',
+            sortable: false,
+            filters: false,
+            formula: '({amountProvince}-0==0)?0:({amountPayProvince}/{amountProvince}*100)',
             width: 200,
             align: 'right',
             cellRender: {
@@ -138,28 +156,36 @@ const proconf = {
         children: [
           {
             title: '资金总量',
+            sortable: false,
+            filters: false,
             width: 200,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                sortable: false,
+                filters: false,
+                align: 'right'
               },
               {
                 title: '市级',
-                field: 'shj',
+                sortable: false,
+                filters: false,
+                field: 'amountCity',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                sortable: false,
+                filters: false,
+                field: 'amountCity1',
                 width: 200,
                 align: 'right',
+                formula: '{amountCity}',
                 cellRender: {
                   name: '$vxeMoney'
                 }
@@ -173,23 +199,30 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: 'shj',
+                field: 'amountPayCity',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                field: 'amountPayCity1',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
+                formula: '{amountPayCity}',
                 cellRender: {
                   name: '$vxeMoney'
                 }
@@ -203,23 +236,30 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
+                sortable: false,
+                filters: false,
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                align: 'right'
               },
               {
                 title: '市级',
-                field: 'shj',
+                field: 'shijzcjd',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
+                formula: '({amountCity}-0==0)?0:({amountPayCity}/{amountCity})*100',
                 cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                field: 'shijzcjdall',
+                sortable: false,
+                filters: false,
                 width: 200,
                 align: 'right',
+                formula: '({amountCity}-0==0)?0:({amountPayCity}/{amountCity})*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -240,30 +280,37 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
+                sortable: false,
+                filters: false,
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                align: 'right'
               },
               {
                 title: '市级',
-                field: 'shj',
+                field: '',
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                sortable: false,
+                filters: false,
+                align: 'right'
               },
               {
                 title: '县级',
-                field: 'xj',
+                field: 'amountCounty',
                 width: 200,
                 align: 'right',
+                sortable: false,
+                filters: false,
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                field: 'amountCounty1',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
+                formula: '{amountCounty}',
                 cellRender: {
                   name: '$vxeMoney'
                 }
@@ -277,30 +324,37 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
+                sortable: false,
+                filters: false,
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                align: 'right'
               },
               {
                 title: '市级',
-                field: 'shj',
+                field: '',
+                sortable: false,
+                filters: false,
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeMoney' }
+                align: 'right'
               },
               {
                 title: '县级',
-                field: 'xj',
+                field: 'amountPayCounty',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                field: 'amountPayCounty1',
                 width: 200,
+                sortable: false,
+                filters: false,
                 align: 'right',
+                formula: '{amountPayCounty}',
                 cellRender: {
                   name: '$vxeMoney'
                 }
@@ -314,30 +368,38 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: 'sj',
+                field: '',
+                sortable: false,
+                filters: false,
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                align: 'right'
               },
               {
                 title: '市级',
-                field: 'shj',
+                field: '',
                 width: 200,
-                align: 'right',
-                cellRender: { name: '$vxeRatio' }
+                sortable: false,
+                filters: false,
+                align: 'right'
               },
               {
                 title: '县级',
-                field: 'xj',
+                field: 'xjzcjd',
                 width: 200,
                 align: 'right',
+                sortable: false,
+                filters: false,
+                formula: '({amountCounty}-0==0)?0:({amountPayCounty}/{amountCounty})*100',
                 cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '总金额',
-                field: 'zje',
+                field: 'xjzcjdzje',
                 width: 200,
                 align: 'right',
+                sortable: false,
+                filters: false,
+                formula: '({amountCounty}-0==0)?0:({amountPayCounty}/{amountCounty})*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -347,428 +409,7 @@ const proconf = {
         ]
       }
     ],
-    // tableData: []
-    tableData: [
-      {
-        speTypeCode: '1001',
-        speTypeName: '直达资金',
-        jAmount: 1083481488,
-        dfAmount: 48734785,
-        aAmount: 1136345273,
-        szyapAmount: 10881488,
-        sdfapAmount: 487785,
-        saAmount: 11365273,
-        sqzyapAmount: 10881488,
-        sqdfapAmount: 389938.09,
-        sqaAmount: 11271462.09,
-        shzyapAmount: 0,
-        shdfapAmount: 0,
-        shaAmount: 0,
-        szybjfpAmount: 24232,
-        sdfbjfpAmount: 43533,
-        sbjfpaAmount: 67453,
-        szysxfpAmount: 23245,
-        sdfsxfpAmount: 645,
-        ssxfpaAmount: 335,
-        szywfpAmount: 24546,
-        sdfwfpAmount: 7684,
-        swfpaAmount: 1626,
-        szyjd: 86,
-        sdfjd: 26,
-        sajd: 59,
-        shizyapAmount: 596,
-        shidfapAmount: 6496,
-        shiaAmount: 696,
-        shqzyapAmount: 692,
-        shqdfapAmount: 94611,
-        shqaAmount: 6962,
-        shhzyapAmount: 61623,
-        shhdfapAmount: 365466,
-        shhaAmount: 164612,
-        shzybjfpAmount: 95231,
-        shdfbjfpAmount: 6913,
-        shbjfpaAmount: 999,
-        shzyxjfpAmount: 666,
-        shdfxjfpAmount: 54649,
-        shxjfpaAmount: 2568621,
-        shzywfpAmount: 38882,
-        shdfwfpAmount: 2607503,
-        shwfpaAmount: 674,
-        shzyjd: 45,
-        shdfjd: 78,
-        shajd: 64,
-        xzyapAmount: 7654,
-        xdfapAmount: 344,
-        xaAmount: 5364,
-        xqzyapAmount: 124,
-        xqdfapAmount: 345,
-        xqaAmount: 124,
-        xhzyapAmount: 245,
-        xhdfapAmount: 4566,
-        xhaAmount: 457,
-        xzyyfpAmount: 354,
-        xdfyfpAmount: 1213,
-        xyfpaAmount: 44,
-        xzywfpAmount: 464,
-        xdfwfpAmount: 4364,
-        xwfpaAmount: 41464,
-        xzyjd: 45,
-        xdfjd: 66,
-        xajd: 45,
-        children: [
-          {
-            speTypeCode: '10001',
-            speTypeName: '共同财政事权转移支付',
-            jAmount: 1083481488,
-            dfAmount: 48734785,
-            aAmount: 1136345273,
-            szyapAmount: 10881488,
-            sdfapAmount: 487785,
-            saAmount: 11365273,
-            sqzyapAmount: 10881488,
-            sqdfapAmount: 389938.09,
-            sqaAmount: 11271462.09,
-            shzyapAmount: 0,
-            shdfapAmount: 0,
-            shaAmount: 0,
-            szybjfpAmount: 24232,
-            sdfbjfpAmount: 43533,
-            sbjfpaAmount: 67453,
-            szysxfpAmount: 23245,
-            sdfsxfpAmount: 645,
-            ssxfpaAmount: 335,
-            szywfpAmount: 24546,
-            sdfwfpAmount: 7684,
-            swfpaAmount: 1626,
-            szyjd: 86,
-            sdfjd: 26,
-            sajd: 59,
-            shizyapAmount: 596,
-            shidfapAmount: 6496,
-            shiaAmount: 696,
-            shqzyapAmount: 692,
-            shqdfapAmount: 94611,
-            shqaAmount: 6962,
-            shhzyapAmount: 61623,
-            shhdfapAmount: 365466,
-            shhaAmount: 164612,
-            shzybjfpAmount: 95231,
-            shdfbjfpAmount: 6913,
-            shbjfpaAmount: 999,
-            shzyxjfpAmount: 666,
-            shdfxjfpAmount: 54649,
-            shxjfpaAmount: 2568621,
-            shzywfpAmount: 38882,
-            shdfwfpAmount: 2607503,
-            shwfpaAmount: 674,
-            shzyjd: 45,
-            shdfjd: 78,
-            shajd: 64,
-            xzyapAmount: 7654,
-            xdfapAmount: 344,
-            xaAmount: 5364,
-            xqzyapAmount: 124,
-            xqdfapAmount: 345,
-            xqaAmount: 124,
-            xhzyapAmount: 245,
-            xhdfapAmount: 4566,
-            xhaAmount: 457,
-            xzyyfpAmount: 354,
-            xdfyfpAmount: 1213,
-            xyfpaAmount: 44,
-            xzywfpAmount: 464,
-            xdfwfpAmount: 4364,
-            xwfpaAmount: 41464,
-            xzyjd: 45,
-            xdfjd: 66,
-            xajd: 45,
-            children: [
-              {
-                speTypeCode: '10001',
-                speTypeName: '城乡义务教育补助经费',
-                jAmount: 1083481488,
-                dfAmount: 48734785,
-                aAmount: 1136345273,
-                szyapAmount: 10881488,
-                sdfapAmount: 487785,
-                saAmount: 11365273,
-                sqzyapAmount: 10881488,
-                sqdfapAmount: 389938.09,
-                sqaAmount: 11271462.09,
-                shzyapAmount: 0,
-                shdfapAmount: 0,
-                shaAmount: 0,
-                szybjfpAmount: 24232,
-                sdfbjfpAmount: 43533,
-                sbjfpaAmount: 67453,
-                szysxfpAmount: 23245,
-                sdfsxfpAmount: 645,
-                ssxfpaAmount: 335,
-                szywfpAmount: 24546,
-                sdfwfpAmount: 7684,
-                swfpaAmount: 1626,
-                szyjd: 86,
-                sdfjd: 26,
-                sajd: 59,
-                shizyapAmount: 596,
-                shidfapAmount: 6496,
-                shiaAmount: 696,
-                shqzyapAmount: 692,
-                shqdfapAmount: 94611,
-                shqaAmount: 6962,
-                shhzyapAmount: 61623,
-                shhdfapAmount: 365466,
-                shhaAmount: 164612,
-                shzybjfpAmount: 95231,
-                shdfbjfpAmount: 6913,
-                shbjfpaAmount: 999,
-                shzyxjfpAmount: 666,
-                shdfxjfpAmount: 54649,
-                shxjfpaAmount: 2568621,
-                shzywfpAmount: 38882,
-                shdfwfpAmount: 2607503,
-                shwfpaAmount: 674,
-                shzyjd: 45,
-                shdfjd: 78,
-                shajd: 64,
-                xzyapAmount: 7654,
-                xdfapAmount: 344,
-                xaAmount: 5364,
-                xqzyapAmount: 124,
-                xqdfapAmount: 345,
-                xqaAmount: 124,
-                xhzyapAmount: 245,
-                xhdfapAmount: 4566,
-                xhaAmount: 457,
-                xzyyfpAmount: 354,
-                xdfyfpAmount: 1213,
-                xyfpaAmount: 44,
-                xzywfpAmount: 464,
-                xdfwfpAmount: 4364,
-                xwfpaAmount: 41464,
-                xzyjd: 45,
-                xdfjd: 66,
-                xajd: 45
-              },
-              {
-                speTypeCode: '1007',
-                speTypeName: '支出地方高校改革发展资金',
-                sbjAmount: 16122680000,
-                sbbjfpAmount: 16122680000,
-                sbxjfpAmount: 0,
-                sbpayAppAmt: 264559042.41,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '101101',
-                speTypeName: '机关事业单位基本养老保险（人社厅）',
-                sbjAmount: 3258540000,
-                sbbjfpAmount: 726410000,
-                sbxjfpAmount: 2532130000,
-                sbpayAppAmt: 726410000,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 32380000,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '101102',
-                speTypeName: '企业职工基本养老保险（人社厅）',
-                sbjAmount: 1365220000,
-                sbbjfpAmount: 1365220000,
-                sbxjfpAmount: 0,
-                sbpayAppAmt: 9283240000,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '101103',
-                speTypeName: '城乡居民基本养老保险（人社厅）',
-                sbjAmount: 5709410000,
-                sbbjfpAmount: 0,
-                sbxjfpAmount: 5709410000,
-                sbpayAppAmt: 0,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '1012',
-                speTypeName: '困难群众救助补助资金',
-                sbjAmount: 4896150000,
-                sbbjfpAmount: 0,
-                sbxjfpAmount: 4896150000,
-                sbpayAppAmt: 0,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 7413218,
-                xpayAppAmt: 300320
-              },
-              {
-                speTypeCode: '1017',
-                speTypeName: '城乡居民基本医疗保险补助',
-                sbjAmount: 12933620000,
-                sbbjfpAmount: 0,
-                sbxjfpAmount: 12933620000,
-                sbpayAppAmt: 0,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '1018',
-                speTypeName: '基本公共卫生服务补助资金',
-                sbjAmount: 2268876000,
-                sbbjfpAmount: 55148000,
-                sbxjfpAmount: 2213728000,
-                sbpayAppAmt: 420665.38,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              }
-            ]
-          },
-          {
-            speTypeCode: '10002',
-            speTypeName: '一般性转移支付',
-            sbjAmount: 30269701613,
-            sbbjfpAmount: 6278751613,
-            sbxjfpAmount: 4690950000,
-            sbpayAppAmt: 138576576.31,
-            sbjfpAmount: 0,
-            sxjfpAmount: 0,
-            spayAppAmt: 0,
-            xbjfpAmount: 106680674.01,
-            xpayAppAmt: 5026387.94,
-            children: [
-              {
-                speTypeCode: '10002',
-                speTypeName: '生猪（牛羊）调出大县奖励资金',
-                sbjAmount: 11669701613,
-                sbbjfpAmount: 6278751613,
-                sbxjfpAmount: 5390950000,
-                sbpayAppAmt: 138576576.31,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 106680674.01,
-                xpayAppAmt: 5026387.94
-              },
-              {
-                speTypeCode: '10027',
-                speTypeName: '县级基本财力保障机制奖补资金',
-                sbjAmount: 1116122680000,
-                sbbjfpAmount: 1116122680000,
-                sbxjfpAmount: 0,
-                sbpayAppAmt: 264559042.41,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              },
-              {
-                speTypeCode: '101201',
-                speTypeName: '中央财政衔接推进乡村振兴补助资金',
-                sbjAmount: 3258540000,
-                sbbjfpAmount: 726410000,
-                sbxjfpAmount: 2532130000,
-                sbpayAppAmt: 726410000,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 32380000,
-                xpayAppAmt: 0
-              }
-            ]
-          },
-          {
-            speTypeCode: '10003',
-            speTypeName: '支持基层落实减税降费和重点民生等专项转移支付',
-            sbjAmount: 10669701613,
-            sbbjfpAmount: 6278751613,
-            sbxjfpAmount: 1390950000,
-            sbpayAppAmt: 138576576.31,
-            sbjfpAmount: 0,
-            sxjfpAmount: 0,
-            spayAppAmt: 0,
-            xbjfpAmount: 106680674.01,
-            xpayAppAmt: 5026387.94,
-            children: [
-              {
-                speTypeCode: '100031',
-                speTypeName: '其他减税降费资金转移支付',
-                sbjAmount: 11669701613,
-                sbbjfpAmount: 6278751613,
-                sbxjfpAmount: 5390950000,
-                sbpayAppAmt: 138576576.31,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 106680674.01,
-                xpayAppAmt: 5026387.94
-              },
-              {
-                speTypeCode: '10037',
-                speTypeName: '增值税留抵退税资金转移支付',
-                sbjAmount: 1116122680000,
-                sbbjfpAmount: 1116122680000,
-                sbxjfpAmount: 0,
-                sbpayAppAmt: 264559042.41,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 0,
-                xpayAppAmt: 0
-              }
-            ]
-          },
-          {
-            speTypeCode: '10004',
-            speTypeName: '专项转移支付',
-            sbjAmount: 164674613,
-            sbbjfpAmount: 164674613,
-            sbxjfpAmount: 950000,
-            sbpayAppAmt: 138576576.31,
-            sbjfpAmount: 0,
-            sxjfpAmount: 0,
-            spayAppAmt: 0,
-            xbjfpAmount: 106680674.01,
-            xpayAppAmt: 5026387.94,
-            children: [
-              {
-                speTypeCode: '100041',
-                speTypeName: '普惠金融发展专项资金',
-                sbjAmount: 64674613,
-                sbbjfpAmount: 64674613,
-                sbxjfpAmount: 5390950000,
-                sbpayAppAmt: 138576576.31,
-                sbjfpAmount: 0,
-                sxjfpAmount: 0,
-                spayAppAmt: 0,
-                xbjfpAmount: 106680674.01,
-                xpayAppAmt: 5026387.94
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    tableData: []
   }
 }
 export default function (tableType, configType) {

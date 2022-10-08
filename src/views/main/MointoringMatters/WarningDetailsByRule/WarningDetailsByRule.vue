@@ -91,6 +91,11 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -100,10 +105,12 @@ import { proconf } from './WarningDetailsByRule'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
+import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
-    HsDetailDialog
+    HsDetailDialog,
+    GlAttachment
   },
   watch: {
     queryConfig() {
@@ -122,7 +129,7 @@ export default {
       treeData: [{
         children: [],
         code: '',
-        id: '',
+        id: '0',
         label: '全部',
         name: '全部',
         parentId: null,
@@ -240,7 +247,8 @@ export default {
       DetailData: {},
       regulationclass: '',
       firulename: '',
-      fiRuleCode: ''
+      fiRuleCode: '',
+      showGlAttachmentDialog: false
     }
   },
   mounted() {
@@ -249,7 +257,7 @@ export default {
     search(obj) {
       console.log(obj)
       this.warningLevel = obj.warningLevel
-      this.regulationtype = obj.regulationType
+      this.regulationType = obj.regulationType
       this.firulename = obj.firulename
       this.regulation_class = obj.regulation_class
       this.queryTableDatas()
@@ -532,6 +540,7 @@ export default {
             temp.forEach(v => {
               warnids.push(v.warnid)
             })
+            this.tableLoading = true
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
@@ -551,8 +560,14 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
+      console.log('查看附件')
+      if (row.attachmentId === null || row.attachmentId === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentId
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -629,15 +644,19 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulation_class: this.params5,
-        firulecode: this.fiRuleCode,
-        regulationClass: this.regulation_class
+        // regulationClass: this.params5,
+        firulecode: this.fiRuleCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.handleTime === null) {
+              item.handleTime = '-'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
@@ -717,26 +736,27 @@ export default {
         // item.code = item.code
         item.value = item.code
         if (item.children) {
-          that.getChildrenData(item.children)
+          that.getChildrenData1(item.children)
         }
       })
 
       return datas
     },
     getTree() {
+      let that = this
       HttpModule.getTree(3).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getChildrenData1(res.data)
-          this.queryConfig[3].itemRender.options = treeResdata
+          let treeResdata = that.getChildrenData1(res.data)
+          that.queryConfig[3].itemRender.options = treeResdata
           console.log(treeResdata)
         } else {
-          this.$message.error('下拉树加载失败')
+          that.$message.error('下拉树加载失败')
         }
       })
     }
   },
   created() {
-    this.getTree()
+    // this.getTree()
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

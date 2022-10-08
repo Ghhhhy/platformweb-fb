@@ -168,7 +168,7 @@ export default {
   },
   defaultMoneyUnit: {
     type: Number,
-    default: 10000
+    default: 1
   },
   calculateConstraintConfig: {
     type: Object,
@@ -212,6 +212,10 @@ export default {
         cellCodeCalcData: {}
       }
     }
+  },
+  // 导出配置{Object} 属性参考Export组件中exportModalFormData
+  exportModalConfig: {
+    type: Object,
+    default: () => ({})
   }
-
 }

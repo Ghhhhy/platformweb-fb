@@ -28,21 +28,17 @@
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          open-loading
+          :filter-text="leftTreeFilterText"
+          :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          :tree-data="treeData"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -60,12 +56,27 @@
           :default-money-unit="10000"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">资金支付比例异常情况(单位:万元)</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:tools-before>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -83,6 +94,8 @@
 <script>
 import { proconf } from './abnormalPaymentRatio'
 import HttpModule from '@/api/frame/main/fundMonitoring/abnormalPaymentRatio.js'
+import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
+
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -96,11 +109,15 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,
+      codeList: [],
+      leftTreeFilterText: '',
       treeData: [{
         children: [],
         code: 0,
@@ -116,9 +133,10 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: ''
+        inputVal: '',
+        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
       },
-      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -328,7 +346,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -337,16 +359,35 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
-        this.mofdivcode = node.code
+        this.mofdivcode = node.node.code
       } else {
         this.condition = {}
       }
       this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -368,8 +409,8 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
@@ -404,13 +445,14 @@ export default {
       this.dialogTitle = '新增'
     },
     // 查询 table 数据
-    queryTableDatas() {
+    queryTableDatas(isFlush = false) {
       const param = {
+        isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         reportCode: 'dwzfqk',
         fiscalYear: this.fiscalYear,
-        mofDivCode: this.mofdivcode || '',
+        mofDivCodeList: this.codeList,
         agencyCode: '',
         agencyName: ''
       }
@@ -418,12 +460,16 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
+          this.tableData = res.data.data
+          this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     loadChildrenMethod ({ row }) {
@@ -435,7 +481,7 @@ export default {
             pageSize: this.mainPagerConfig.pageSize, // 每页条数
             reportCode: 'dwzfqk',
             fiscalYear: this.fiscalYear,
-            mofDivCode: this.mofdivcode || '',
+            mofDivCodeList: this.codeList,
             agencyCode: row.agencyCode,
             agencyName: row.agencyName
           }
@@ -477,9 +523,9 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getTreeData(that.treeQueryparams).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
+      getMofDivTree(that.treeQueryparams).then(res => {
+        if (res.data && Array.isArray(res.data)) {
+          // let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -492,7 +538,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = treeResdata
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }

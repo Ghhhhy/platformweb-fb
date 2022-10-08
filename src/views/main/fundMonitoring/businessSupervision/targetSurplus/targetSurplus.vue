@@ -41,12 +41,26 @@
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">待分指标余额情况(单位:万元)</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:tools-before>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -73,6 +87,8 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -324,7 +340,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -360,24 +380,28 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = false) {
       const param = {
+        isFlush,
         reportCode: 'dfzbyecx',
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.tableLoading = false
+          this.tableData = res.data.data
+          this.caliberDeclareContent = res.data.description || ''
+          this.reportTime = res.data.reportTime || ''
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
@@ -417,12 +441,12 @@ export default {
       return this.tableData
     },
     getNewData() {
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-        // this.tableData = getFormData('basicInfo', 'tableData')
-        this.initTableData(getFormData('basicInfo', 'tableData'))
-      }, 2000)
+      // this.tableLoading = true
+      // setTimeout(() => {
+      //   this.tableLoading = false
+      //   // this.tableData = getFormData('basicInfo', 'tableData')
+      //   this.initTableData(getFormData('basicInfo', 'tableData'))
+      // }, 2000)
       // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {

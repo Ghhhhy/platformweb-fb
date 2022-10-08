@@ -15,35 +15,54 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
+      { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
   highQueryConfig: [
     {
-      title: '业务年度',
-      field: 'fiscalYear',
-      'width': 180,
+      title: '支付申请编码',
+      field: 'payApplyNumber',
+      width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      name: '$vxeInput',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2021', label: '2021' },
-          { value: '2022', label: '2022' },
-          { value: '2023', label: '2023' }
-        ],
+        name: '$vxeInput',
+        options: [],
         props: {
-          placeholder: '业务年度'
+          placeholder: '支付申请编码'
+        }
+      }
+    },
+    {
+      title: '规则名称',
+      field: 'fiRuleName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '规则名称'
         }
       }
     }
   ],
   highQueryData: {
-    dataSourceName: '',
-    businessModuleCode: ''
+    payApplyNumber: '',
+    fiRuleName: ''
   },
   PoliciesTableColumns: [
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      width: '150',
+      sortable: false,
+      align: 'center'
+    },
     {
       title: '区划',
       field: 'mofDivName',
@@ -59,9 +78,10 @@ export let proconf = {
       'cellRender': {
         'name': '$vxeSelect',
         options: [
-          { value: 1, label: '黄色预警' },
-          { value: 2, label: '橙色预警' },
-          { value: 3, label: '红色预警' }
+          { value: '1', label: '黄色预警' },
+          { value: '2', label: '橙色预警' },
+          { value: '3', label: '红色预警' },
+          { value: '4', label: '蓝色预警' }
         ],
         'defaultValue': '',
         'props': {}
@@ -97,15 +117,8 @@ export let proconf = {
       'name': '$vxeSelect'
     },
     {
-      title: '预算单位编码',
-      field: 'agencyCode',
-      width: '150',
-      sortable: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位名称',
-      field: 'agencyName',
+      title: '预算单位',
+      field: 'agency',
       width: '150',
       sortable: false,
       align: 'center'
@@ -154,17 +167,14 @@ export let proconf = {
       'width': '150',
       'align': 'right',
       'filters': '[object Object]',
-      'filterRender': {
-        'name': 'FilterNumberCompare'
-      },
       'combinedType': 'average,subTotal,total,totalAll',
       'cellRender': {
-        'name': '$moneyRender',
+        'name': '$vxeMoney',
         'options': [],
         'defaultValue': '',
         'props': {}
       },
-      'name': '$moneyRender',
+      'name': '$vxeMoney',
       'fixed': '',
       'formula': '',
       'constraint': '',
@@ -173,13 +183,13 @@ export let proconf = {
       'className': '',
       'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
     },
-    {
+    /* {
       title: '资金用途',
       field: 'useOfFunds',
       width: '150',
       sortable: false,
       align: 'center'
-    },
+    }, */
     {
       title: '监控拦截时间',
       field: 'createTime',

@@ -36,6 +36,7 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :export-modal-config="{ fileName: '中央和地方预算支出_分地区' }"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -47,6 +48,16 @@
                 <span class="fn-inline">中央和地方预算支出_分地区(单位:万元)</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:tools-before>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -89,6 +100,7 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -340,7 +352,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -3871,20 +3887,23 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = false) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = false) {
       const param = {
+        isFlush,
         reportCode: 'zyzdzjyszxqkfdq',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data
+          this.reportTime = res.reportTime || ''
           this.tableLoading = false
         } else {
           this.$message.error(res.message)

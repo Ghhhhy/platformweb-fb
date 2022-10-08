@@ -1,3 +1,5 @@
+import { getUserRoles } from '@/api/frame/common/userroles.js'
+
 export const state = { // 实时监听state值的变化(最新状态)
   loading: false,
   islogin: false, // 是否登录,
@@ -15,7 +17,8 @@ export const state = { // 实时监听state值的变化(最新状态)
     appguid: ''
   },
   systemMenu: {},
-  lookAduitJxData: {}
+  lookAduitJxData: {},
+  userRolesData: [] // 用户角色
 }
 export const getters = {
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
@@ -47,6 +50,9 @@ export const getters = {
   },
   getLookAduitJxData(state) {
     return state.lookAduitJxData
+  },
+  getUserRolesData(state) {
+    return state.userRolesData
   }
 }
 export const mutations = {
@@ -102,6 +108,9 @@ export const mutations = {
   },
   setModefiyExpendData(state, obj) {
     state.modefiyExpendData = obj
+  },
+  setUserRoles(state, obj) {
+    state.userRolesData = obj
   }
 }
 export const actions = {
@@ -110,5 +119,23 @@ export const actions = {
   },
   asyncLookAuditJxData: (context, obj) => {
     context.commit('setLookAduitJxData', obj)
+  },
+  /**
+   * 请求当前用户角色列表
+   * @param commit
+   * @param state
+   * @returns {Promise<void>}
+   */
+  async asyncUserRoles({ commit, state }) {
+    const { userInfo } = state
+    const params = {
+      userguid: userInfo.guid,
+      province: userInfo.province,
+      year: userInfo.year
+    }
+    const { data } = await getUserRoles(params)
+    if (!Array.isArray(data)) return
+    console.log(data)
+    commit('setUserRoles', data)
   }
 }

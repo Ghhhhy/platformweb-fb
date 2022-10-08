@@ -36,6 +36,7 @@
           ref="createRef"
           :form-items-config="createConfig"
           :form-data-list="createDataList"
+          :form-validation-config="createValidate"
           :is-editable="isCreate"
           @itemChange="itemChange"
         />
@@ -307,6 +308,11 @@ export default {
       handletableColumnsConfig: proconf.handletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
+      createValidate: {
+        violateType: [
+          { required: true, message: '请选择违规类型', trigger: 'change' }
+        ]
+      },
       handlemainPagerConfig: {
         total: 0,
         currentPage: 1,
@@ -334,6 +340,7 @@ export default {
       // form表单联动当前字段change事件代理
       switch (property) {
         case 'violateType' :
+          this.$refs.createRef?.$refs?.form?.clearValidate?.()
           this.createDataList.violateType = itemValue
           break
         case 'handleType' :
@@ -359,6 +366,17 @@ export default {
         this.$parent.getdata()
       }
     },
+    moneyFormat(amt) {
+      const num = Math.round(amt * 100) / 100
+      let c = (num.toString().indexOf('.') !== -1) ? num.toLocaleString() : num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      if (c.length >= 3 & c.indexOf('.', c.length - 2) === c.length - 2) {
+        c = c + '0'
+      }
+      if (c.indexOf('.') === -1) {
+        c = c + '.00'
+      }
+      return c
+    },
     // 回显
     showInfo() {
       this.addLoading = true
@@ -377,15 +395,31 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
-              this.supplyDataList.deptEconomyType = res.data.executeData?.deptEconomyTypeCode + '-' + res.data.executeData?.deptEconomyType
-              this.supplyDataList.govEconomyType = res.data.executeData?.govEconomyTypeCode + '-' + res.data.executeData?.govEconomyType
-              this.supplyDataList.settlementMethod = res.data.executeData?.settlementMethodCode + '-' + res.data.executeData?.settlementMethod
-              this.supplyDataList.directFund = res.data.executeData?.directFundCode + '-' + res.data.executeData?.directFund || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.salaryMarkCode + '-' + res.data.executeData?.salaryMark
-              this.supplyDataList.isUnionFunds = res.data.executeData?.isUnionFunds + '-' + (res.data.executeData?.isUnionFunds === 1 ? '是' : '否')
-              this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.isThrExp = res.data.executeData?.isThrExp + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
+              this.supplyDataList.pay_app_amt = this.moneyFormat(this.supplyDataList.payAppAmt)
+              this.supplyDataList.agency_name = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
+              this.supplyDataList.pro_name = res.data.executeData.proCode + '-' + res.data.executeData.proName
+              this.supplyDataList.pay_type_name = res.data.executeData.payTypeName
+              this.supplyDataList.manage_mof_dep_name = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
+              this.supplyDataList.exp_func_name = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
+              this.supplyDataList.dep_bgt_eco_name = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
+              this.supplyDataList.gov_bgt_eco_name = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName
+              this.supplyDataList.set_mode_name = res.data.executeData.setModeCode + '-' + res.data.executeData.setModeName
+              this.supplyDataList.is_dir_name = (res.data.executeData.isDirCode === null ? '' : res.data.executeData.isDirCode) + '-' + (res.data.executeData.isDirName === null ? '' : res.data.executeData.isDirName)
+              this.supplyDataList.is_sal_name = res.data.executeData.isSalCode + '-' + res.data.executeData.isSalName
+              this.supplyDataList.is_fun_name = res.data.executeData.isFunCode + '-' + (res.data.executeData.isFunCode === 1 ? '是' : '否')
+              this.supplyDataList.fiDate = res.data.executeData.fiDate
+              this.supplyDataList.thr_exp_name = res.data.executeData.thrExpCode + (res.data.executeData.thrExpName === null ? '' : '-' + res.data.executeData.thrExpName)
+              this.supplyDataList.fund_type_name = res.data.executeData.fundTypeCode + '-' + res.data.executeData.fundTypeName
+              this.supplyDataList.payee_acct_bank_name = res.data.executeData.payAcctBankName
+              this.supplyDataList.payee_acct_no = res.data.executeData.payeeAcctNo
+              this.supplyDataList.payee_acct_name = res.data.executeData.payeeAcctName
+              this.supplyDataList.pay_acct_bank_name = res.data.executeData.payAcctBankName
+              this.supplyDataList.pay_acct_no = res.data.executeData.payAcctNo
+              this.supplyDataList.pay_acct_name = res.data.executeData.payAcctName
+              this.supplyDataList.pro_cat_name = res.data.executeData.proCatCode + '-' + res.data.executeData.proCatName
+              this.supplyDataList.cor_bgt_doc_no_name = res.data.executeData.corBgtDocNoName
+              this.supplyDataList.pay_app_no = res.data.executeData.payAppNo
+              this.supplyDataList.use_des = res.data.executeData.useDes
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -473,6 +507,7 @@ export default {
     },
     // 生成下发
     async doIssue() {
+      await this.$refs.createRef?.$refs?.form?.validate?.()
       let param = {
         agencyName: this.createDataList.agencyName,
         agencyCode: this.createDataList.agencyCode,

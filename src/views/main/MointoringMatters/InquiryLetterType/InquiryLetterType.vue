@@ -52,7 +52,7 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
-      :data-source-code="dataSourceCode"
+      :data-id="dataId"
       :modify-data="modifyData"
     />
     <!-- 附件弹框 -->
@@ -170,7 +170,8 @@ export default {
       billguid: '',
       condition: {},
       dataSourceCode: '',
-      param: ''
+      param: '',
+      dataId: ''
     }
   },
   mounted() {
@@ -338,7 +339,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
-      this.id = selection[0].id
+      this.dataId = selection[0].id
       this.modifyData = selection[0]
       this.dialogVisible = true
       this.dialogTitle = '修改'

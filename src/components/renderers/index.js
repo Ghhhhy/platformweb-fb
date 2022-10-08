@@ -7,6 +7,8 @@ import FilterComplex from './tableFilters/FilterComplex/FilterComplex.vue' // �
 import FilterContent from './tableFilters/FilterContent/FilterContent.vue' // 内容过滤器:Titans
 import FilterSelect from './tableFilters/FilterSelect/FilterSelect.vue' // 内容过滤器:Titans
 import FilterInput from './tableFilters/FilterInput/FilterInput.vue' // 内容过滤器:Titans
+import FilterNumberRange from './tableFilters/FilterNumberRange/index.vue' // 范围过滤器
+
 // 导出包
 const componentsLib = {
   EditDownConditions,
@@ -16,7 +18,8 @@ const componentsLib = {
   FilterComplex,
   FilterContent,
   FilterSelect,
-  FilterInput
+  FilterInput,
+  FilterNumberRange
 }
 const install = function (Vue) {
   Object.keys(componentsLib).forEach(key => {

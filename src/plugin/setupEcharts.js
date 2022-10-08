@@ -2,9 +2,9 @@
 import * as echarts from 'echarts'
 import 'echarts-liquidfill'
 // import 'echarts/map/js/china.js'
-// import shanxi from 'echarts/map/json/province/shanxi1.json'
+import shanxi from '@/assets/map/shanxi.json'
 // import china from 'echarts/map/json/china.json'
-// echarts.registerMap('shanxi', shanxi)
+echarts.registerMap('shanxi', shanxi)
 // echarts.registerMap('china', china)
 // const VueECharts = () => import('vue-echarts')
 const ECharts = {

@@ -15,7 +15,8 @@
             uniqe-name="attachmentUpload"
           />
           <!-- <el-button type="primary" @click="deleteAttachment">删除</el-button> -->
-          <el-button type="primary" style="height:32px;lineHight:0;marginRight:16px" @click="downloadAttachment">下载</el-button>
+          <el-button type="primary" @click="downloadAttachment">下载</el-button>
+          <el-button @click="preview">预览</el-button>
         </el-row>
         <div style="height:360px;">
           <BsTable
@@ -27,6 +28,12 @@
             :toolbar-config="false"
             :pager-config="false"
           />
+          <FilePreview
+            v-if="filePreviewDialogVisible"
+            :visible.sync="filePreviewDialogVisible"
+            :file-guid="fileGuid"
+            :app-id="appId"
+          />
         </div>
       </div>
     </vxe-modal>
@@ -37,9 +44,13 @@
 
 import HTTPModule from '@/api/frame/main/Monitoring/GlAttachment'
 import { proconf } from './js/GlAttachment'
+import FilePreview from './filePreview.vue'
 
 export default {
   name: 'GlAttachment',
+  components: {
+    FilePreview
+  },
   props: {
     userInfo: {
       type: Object,
@@ -67,7 +78,10 @@ export default {
         fileguid: ''
       },
       province: '',
-      year: ''
+      year: '',
+      filePreviewDialogVisible: false,
+      fileGuid: '',
+      delId: ''
     }
   },
   computed: {
@@ -100,6 +114,18 @@ export default {
       if (selection.length === 1) {
         this.downloadParams.fileguid = selection[0].fileguid
         this.$refs.attachmentUpload.downloadFileFile()
+      } else {
+        this.$message.error('请选择一条数据！')
+      }
+    },
+    // 预览文件
+    preview() {
+      let selection = this.$refs.table.getSelectionData()
+      if (selection.length === 1) {
+        this.downloadParams.fileguid = selection[0].fileguid
+        // this.appId = data.appid
+        this.fileGuid = selection[0].fileguid
+        this.filePreviewDialogVisible = true
       } else {
         this.$message.error('请选择一条数据！')
       }

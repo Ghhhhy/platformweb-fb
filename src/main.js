@@ -7,12 +7,13 @@ import store from './store/index'
 // import ElementUI from 'element-ui'
 import { setupElementUI } from './plugin/setupElementUI'
 import ElementUI from './common/js/lib/elementUI/elementUI.js'
-// 金额的特殊字体
-import './assets/font/font.css'
+import loadingDirective from './directive/loading.js'
 
 // 注册compoistion-api
 import { setupCompositionApi } from './plugin/setupCompositionApi'
 import { setupSvg } from './plugin/setupSvg'
+import { setupVueAwesomerSwiper } from './plugin/useVueAwesomeSwiper'
+import { setupVueQuillEditor } from './plugin/setupVueQuillEditor'
 // echart
 import Echarts from './plugin/setupEcharts.js'
 // vxeTable
@@ -47,6 +48,8 @@ Vue.config.productionTip = true
 Vue.config.devtools = true
 // Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.use(ElementUI)
+// 自定义loading指令覆盖element-ui的loading指令
+Vue.use(loadingDirective)
 Vue.use(Echarts)
 Vue.use(vxeTable)
 Vue.use(BSUI)
@@ -56,6 +59,8 @@ Vue.use(VideoPlayer)
 setupCompositionApi(Vue)
 setupSvg(Vue)
 setupElementUI(Vue)
+setupVueAwesomerSwiper(Vue)
+setupVueQuillEditor(Vue)
 
 Vue.prototype.$http = {
   get,
@@ -71,7 +76,7 @@ Vue.prototype.$http = {
 }
 router.beforeEach((to, from, next) => {
   BSUI.utilsLib.LoadingMark.showLoadingMark()
-  setTimeout(function() { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
+  setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
   const { tokenid } = store.getters.getLoginAuthentication
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (tokenid) { // 判断是否已经登录

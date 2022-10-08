@@ -37,6 +37,56 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
     }
   ],
   highQueryData: {
@@ -51,13 +101,13 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '整体违规情况',
+      title: '整体预警情况',
       field: 'totals',
       sortable: false,
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'wholeCount',
           width: '150',
           align: 'center'
@@ -88,7 +138,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'redWholeCount',
               width: '150',
               align: 'center'
@@ -113,7 +163,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'redSysCount',
               width: '150',
               align: 'center'
@@ -138,7 +188,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'redFinCount',
               width: '150',
               align: 'center'
@@ -171,7 +221,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'orangeWholeCount',
               width: '150',
               align: 'center'
@@ -196,7 +246,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'orangeSysCount',
               width: '150',
               align: 'center'
@@ -221,7 +271,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'orangeFinCount',
               width: '150',
               align: 'center'
@@ -254,7 +304,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'yellowWholeCount',
               width: '150',
               align: 'center'
@@ -279,7 +329,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'yellowSysCount',
               width: '150',
               align: 'center'
@@ -304,7 +354,7 @@ export let proconf = {
           align: 'center',
           children: [
             {
-              title: '累计违规',
+              title: '累计预警',
               field: 'yellowFinCount',
               width: '150',
               align: 'center'
@@ -318,6 +368,89 @@ export let proconf = {
             {
               title: '未处理',
               field: 'yellowFinNoHandleCount',
+              width: '150',
+              align: 'center'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      title: '蓝色预警',
+      field: 'blue',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '小计',
+          field: 'blueTotal',
+          align: 'center',
+          children: [
+            {
+              title: '累计预警',
+              field: 'blueWholeCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '已处理',
+              field: 'blueWholeHandleCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '未处理',
+              field: 'blueWholeNoHandleCount',
+              width: '150',
+              align: 'center'
+            }
+          ]
+        },
+        {
+          title: '系统级',
+          field: 'blueSys',
+          align: 'center',
+          children: [
+            {
+              title: '累计预警',
+              field: 'blueSysCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '已处理',
+              field: 'blueSysHandleCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '未处理',
+              field: 'blueSysNoHandleCount',
+              width: '150',
+              align: 'center'
+            }
+          ]
+        },
+        {
+          title: '财政级',
+          field: 'blueFin',
+          align: 'center',
+          children: [
+            {
+              title: '累计预警',
+              field: 'blueFinCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '已处理',
+              field: 'blueFinHandleCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '未处理',
+              field: 'blueFinNoHandleCount',
               width: '150',
               align: 'center'
             }

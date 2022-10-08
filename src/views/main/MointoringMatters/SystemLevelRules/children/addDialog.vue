@@ -179,17 +179,20 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
-                    <div style="width:193px;float:left;margin-top:2px">
-                      <BsTreeInput
-                        ref="ruleTree"
-                        v-model="regulationClass"
-                        :disabled="disabled"
-                        :datas="regulationClassoptions"
-                        :reloaddata="false"
-                        :isleaf="true"
-                        @input="selectRule"
+                    <el-select
+                      v-model="regulationClass"
+                      :disabled="disabled || $parent.dialogVisibleRules"
+                      placeholder="请选择监控主题"
+                      style="width:45%"
+                      @change="selectRule"
+                    >
+                      <el-option
+                        v-for="item in regulationClassoptions"
+                        :key="item.id"
+                        :label="item.regulationName"
+                        :value="item.regulationName"
                       />
-                    </div>
+                    </el-select>
                   </el-row>
                 </el-main>
               </el-container>
@@ -275,6 +278,7 @@
                       :disabled="disabled"
                       placeholder="请选择函数逻辑关系"
                       style="width:45%"
+                      @change="chooseRuleFlag"
                     >
                       <el-option
                         v-for="item in ruleFlagOptions"
@@ -287,29 +291,48 @@
                 </el-main>
               </el-container>
             </el-col>
-            <!--陕西专用-->
-            <!--<el-col :span="8">-->
-            <!--  <el-container>-->
-            <!--    <el-main width="100%">-->
-            <!--      <el-row>-->
-            <!--        <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>-->
-            <!--        <el-select-->
-            <!--          v-model="warnLocation"-->
-            <!--          :disabled="disabled"-->
-            <!--          placeholder="请选择提醒位置"-->
-            <!--          style="width:45%"-->
-            <!--        >-->
-            <!--          <el-option-->
-            <!--            v-for="item in warnLocationOptions"-->
-            <!--            :key="item.value"-->
-            <!--            :label="item.label"-->
-            <!--            :value="item.value"-->
-            <!--          />-->
-            <!--        </el-select>-->
-            <!--      </el-row>-->
-            <!--    </el-main>-->
-            <!--  </el-container>-->
-            <!--</el-col>-->
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
+                    <el-select
+                      v-model="warnLocation"
+                      :disabled="disabled"
+                      placeholder="请选择提醒位置"
+                      style="width:45%"
+                      @change="chooseWarnLocation"
+                    >
+                      <el-option
+                        v-for="item in warnLocationOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
+                    <el-input
+                      v-model="policiesDescription"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
+                      style=" width:90%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
           </el-row>
           <!-- <el-row>
             <el-col :span="8">
@@ -381,25 +404,19 @@
     </div>
     <!--应用设置-->
     <div v-show="appSetShow" class="payVoucherInput" style="margin-top:50px;">
-      <el-row>
-        <el-col :span="24">
-          <el-container>
-            <el-main width="100%">
-              <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
-                <el-input
-                  v-model="policiesDescription"
-                  type="textarea"
-                  :disabled="disabled"
-                  :rows="2"
-                  placeholder="请输入预警提示"
-                  style=" width:90%"
-                />
-              </el-row>
-            </el-main>
-          </el-container>
-        </el-col>
-      </el-row>
+      <BsForm
+        ref="messageForm"
+        :is-editable="true"
+        :form-items-config="formItemsConfigMessage"
+        :form-data-list.sync="formDatas"
+        :form-validation-config="formValidationConfigMessage"
+        @itemChange="formItemChange"
+      />
+      <div style="margin-bottom: 10px; color: red; margin-top:100px">
+        <p>注意：</p>
+        <p>1.当收款人名称和资金用途的关键字为多个时，请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；</p>
+        <p>2.若业务数据满足上述条件任意一项就跳过该规则校验，即不预警</p>
+      </div>
     </div>
     <!--生效范围-->
     <div v-show="effectiveShow" class="payVoucherInput" style="margin-top:50px;">
@@ -510,7 +527,7 @@ export default {
       tableLoading: false,
       monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
       operationTableData: [],
-      tabbtn: ['模板信息', '规则定义', '应用设置', '生效范围'],
+      tabbtn: ['模板信息', '规则定义', '白名单', '生效范围'],
       ruleSetShow: true,
       ruleDesShow: false,
       appSetShow: false,
@@ -631,10 +648,135 @@ export default {
       departmentName: '',
       departmentCodeoptions: [],
       SysparentId: 0,
-      ModparentId: 0
+      ModparentId: 0,
+      formItemsConfigMessage: proconf.formItemsConfigMessage,
+      paymentLen: 0,
+      paymentData: [],
+      formDatas: {
+        useDes: '',
+        payeeAcctNo: '',
+        payeeAcctName: ''
+      },
+      formValidationConfigMessage: proconf.formValidationConfigMessage
     }
   },
   methods: {
+    formItemChange(obj) {
+      if (obj.property === 'payment') {
+        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let content = this.formItemsConfigMessage[0].itemRender.options
+        this.formItemsConfigMessage.splice(1, this.paymentLen)
+        if (this.paymentData) {
+          if (data.length < this.paymentLen) {
+            this.paymentData.forEach(item => {
+              if (data.indexOf(item) === -1) {
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + '__viewSort'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name__multiple'] = []
+              }
+            })
+          }
+        }
+        this.paymentData = data
+        this.paymentLen = data.length
+        let datas = {}
+        data.forEach((item, index) => {
+          if (item === '1') {
+            datas = this.createPro(content[item], false)
+          } else {
+            datas = this.createObj(content[item], false)
+          }
+          this.formItemsConfigMessage.splice(1 + index, 0, datas)
+        })
+      }
+    },
+    createPro(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'code',
+                label: 'name',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              multiple: true,
+              disabled,
+              isleaf: false,
+              axiosConfig: {
+                method: 'get',
+                url:
+                  'mp-b-basedata-service/v2/basedata/page'
+              }
+            },
+            queryparams: {
+              condition: '',
+              elementcode: 'pro',
+              year: this.$store.state.userInfo.year,
+              province: this.$store.state.userInfo.province,
+              limit: 2000,
+              offset: 1
+            }
+          }
+        }
+      }
+    },
+    createObj(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                nodeKey: 'id',
+                label: 'text',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              disabled,
+              multiple: true,
+              isleaf: false,
+              axiosConfig: {
+                method: 'get',
+                url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+              }
+            },
+            queryparams: {
+              tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+              appguid: 'apaas',
+              year: this.$store.state.userInfo.year,
+              mofDivCode: this.$store.state.userInfo.province,
+              parameters: {}
+            }
+          }
+        }
+      }
+    },
     chooseWarningLevel(val) {
       if (val === 1) {
         this.handleType = 1
@@ -767,6 +909,7 @@ export default {
       })
     },
     onNodeCheckClick(data) {
+      console.log(data.nodes)
       let arr = []
 
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
@@ -802,7 +945,7 @@ export default {
               agencyCode: ''
             }
             obj.mofDivId = item.id
-            obj.mofDivCode = item.code
+            obj.agencyCode = item.code
             arr.push(obj)
           }
         })
@@ -900,8 +1043,38 @@ export default {
         }
       })
     },
+    resetFormDataListMessage() {
+      let paymentsArr = ['monitore', 'agency_code', 'pro_name', 'bgt_type_code', 'bgt_source_code', 'gov_bgt_eco_code', 'exp_func_code', 'cor_bgt_doc_no_name']
+      paymentsArr.forEach(item => {
+        this.formDatas[item + '__viewSort'] = ''
+        this.formDatas[item + 'code'] = ''
+        this.formDatas[item + 'code__multiple'] = []
+        this.formDatas[item + 'id'] = ''
+        this.formDatas[item + 'id__multiple'] = []
+        this.formDatas[item + 'name'] = ''
+        this.formDatas[item + 'name__multiple'] = []
+      })
+      this.formDatas.payment = []
+      this.formDatas.payment__multiple = []
+      this.formDatas.agency_code = []
+      this.formDatas.pro_name = []
+      this.formDatas.gov_bgt_eco_code = []
+      this.formDatas.exp_func_code = []
+      this.formDatas.cor_bgt_doc_no_name = []
+      this.formDatas.dep_bgt_eco_code = []
+    },
     dialogClose() {
+      console.log(this.paymentLen)
+      this.formItemsConfigMessage.splice(1, this.paymentLen)
+      this.paymentLen = 0
+      let form = this.$refs.messageForm
+      form.clearValidate()
+      this.resetFormDataListMessage()
+      this.formItemsConfigMessage.forEach(item => {
+        item.itemRender.props.disabled = false
+      })
       this.$parent.dialogVisible = false
+      this.$parent.dialogVisibleRules = false
       this.$parent.queryTableDatas()
     },
     // 处理字符串
@@ -1014,7 +1187,6 @@ export default {
           this.treeData = result
         } else {
           this.treeData = res.data
-          // this.getProvince(res.data[0])
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1043,28 +1215,65 @@ export default {
     },
     // 保存新增的计划信息
     doInsert() {
-      console.log(this.scope)
       // 校验判断
       let datas = this.$refs.monitorTableRef.getSelectionData()
       if (this.$parent.dialogTitle !== '修改' && datas.length !== 1) {
         this.$XModal.message({ status: 'warning', message: '请选择一条模板信息！' })
         return
       }
-
+      // if (this.formDatas.payment === '') {
+      //   this.$message.warning('请选择基础要素')
+      //   return
+      // }
+      // if (this.formDatas.payeeAcctName === '') {
+      //   this.$message.warning('请输入收款人名称')
+      //   return
+      // }
+      // if (this.formDatas.payeeAcctNo === '') {
+      //   this.$message.warning('请输入收款人账号')
+      //   return
+      // }
+      // if (this.formDatas.useDes === '') {
+      //   this.$message.warning('请输入资金用途')
+      //   return
+      // }
+      // console.log(this.formDatas)
+      // let isGo = true
+      // this.formDatas.payment.split(',').forEach(item => {
+      //   if (!this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name]) {
+      //     this.$message.warning('请选择' + this.formItemsConfigMessage[0].itemRender.options[item].label)
+      //     isGo = false
+      //   }
+      // })
+      // if (isGo === false) {
+      //   return
+      // }
       if (!this.monitorRuleName) {
         this.$XModal.message({ status: 'warning', message: '请输入规则名称！' })
         return
       }
 
-      if (!this.businessSystemCode || !this.businessSystemName) {
+      if (this.businessSystemCode === undefined) {
         this.$message.warning('请选择业务系统')
         return
       }
-      if (!this.businessModuleCode || !this.businessModuleName) {
+      if (this.businessSystemName === null) {
+        this.$message.warning('请选择业务系统')
+        return
+      }
+      if (this.businessModuleCode === undefined) {
         this.$message.warning('请选择业务模块')
         return
       }
-      if (!this.businessFunctionCode || !this.businessFunctionName) {
+      if (this.businessModuleName === null) {
+        this.$message.warning('请选择业务模块')
+        return
+      }
+      if (this.businessFunctionCode === undefined) {
+        this.$message.warning('请选择业务功能')
+        return
+      }
+      if (this.businessFunctionName === null) {
         this.$message.warning('请选择业务功能')
         return
       }
@@ -1077,7 +1286,7 @@ export default {
       //   return
       // }
       if (!this.policiesDescription) {
-        this.$XModal.message({ status: 'warning', message: '请输入预警提示！' })
+        this.$XModal.message({ status: 'warning', message: '请选择预警提示！' })
         return
       }
       if (this.monitorRuleName.length > 50) {
@@ -1164,10 +1373,11 @@ export default {
       let ruleId = ''
       let ruleName = ''
       if (that.regulationClass) {
-        let valArr = that.regulationClass.split('##')
-        ruleName = valArr[2]
+        let valArr = that.regulationClass.split('-')
+        ruleName = valArr[1]
         ruleId = valArr[0]
       }
+      console.log(this.formDatas)
       let param = {
         'regulationClass': ruleId,
         'regulationClassName': ruleName,
@@ -1193,15 +1403,43 @@ export default {
         menuName: this.$store.state.curNavModule.name,
         'ruleFlag': that.ruleFlag,
         'warnLocation': that.warnLocation,
-        isFull: isFull
+        isFull: isFull,
+        ruleElement: {
+          payment: this.formDatas.payment,
+          agencyCode: this.formDatas.agency_code,
+          agencyName: this.formDatas.agency_name,
+          proCode: this.formDatas.pro_code,
+          proName: this.formDatas.pro_name,
+          govBgtEcoCode: this.formDatas.gov_bgt_eco_code,
+          govBgtEcoName: this.formDatas.gov_bgt_eco_name,
+          excFunCode: this.formDatas.exp_func_code,
+          excFunName: this.formDatas.exp_func_name,
+          depBgtEcoCode: this.formDatas.dep_bgt_eco_code,
+          depBgtEcoName: this.formDatas.dep_bgt_eco_name,
+          corBgtDocNoName: this.formDatas.cor_bgt_doc_no_name,
+          corBgtDocNoCode: this.formDatas.cor_bgt_doc_no_code,
+          payeeAcctName: this.formDatas.payeeAcctName,
+          payeeAcctNo: this.formDatas.payeeAcctNo,
+          useDes: this.formDatas.useDes
+        }
       }
       console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
+        console.log(this.formDatas)
         param.regulationCode = this.$parent.DetailData.regulationCode
         HttpModule.updateData(param).then(res => {
           if (res.code === '000000') {
             that.$message.success('修改成功')
+            this.formItemsConfigMessage.splice(1, this.paymentLen)
+            this.paymentLen = 0
+            let form = this.$refs.messageForm
+            form.clearValidate()
+            this.resetFormDataListMessage()
+            this.formItemsConfigMessage.forEach(item => {
+              item.itemRender.props.disabled = false
+            })
             that.$parent.dialogVisible = false
+            this.$parent.dialogVisibleRules = false
             this.$parent.queryTableDatas()
           } else {
             that.$message.error(res.message)
@@ -1213,7 +1451,16 @@ export default {
         HttpModule.addData(param).then(res => {
           if (res.code === '000000') {
             that.$message.success('新增成功')
+            this.formItemsConfigMessage.splice(1, this.paymentLen)
+            this.paymentLen = 0
+            let form = this.$refs.messageForm
+            form.clearValidate()
+            this.resetFormDataListMessage()
+            this.formItemsConfigMessage.forEach(item => {
+              item.itemRender.props.disabled = false
+            })
             that.$parent.dialogVisible = false
+            this.$parent.dialogVisibleRules = false
             this.$parent.queryTableDatas()
           } else {
             that.$message.error(res.message)
@@ -1363,6 +1610,9 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getRegulationChildrenData(res.data)
           this.regulationClassoptions = treeResdata
+          this.regulationClassoptions.forEach(item => {
+            item.regulationName = item.code + '-' + item.ruleName
+          })
         } else {
           this.$message.error('下拉树加载失败')
         }
@@ -1403,6 +1653,8 @@ export default {
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
       this.getTableData()
+      // 直达资金新增规则
+      this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
     } else if (this.$parent.dialogTitle === '查看详情') {
       this.ruleSetShow = false
       this.ruleDesShow = true
@@ -1413,7 +1665,7 @@ export default {
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
@@ -1449,7 +1701,7 @@ export default {
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
@@ -1457,14 +1709,14 @@ export default {
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
       // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
-      this.businessSystemCode = parseInt(this.$parent.DetailData.businessSystemCode)
+      this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
       this.SysparentId = this.businessSystemCode
       this.getModLists()
-      this.businessModuleCode = parseInt(this.$parent.DetailData.businessModuleCode)
+      this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
       this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
+      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
@@ -1475,7 +1727,64 @@ export default {
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.scope = this.$parent.DetailData.regulationScope
     }
-
+    if (this.$parent.dialogTitle !== '新增') {
+      if (this.$parent.formDatas) {
+        this.formDatas = this.$parent.formDatas
+        if (this.formDatas.payment !== '') {
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+          this.paymentLen = this.formDatas.payment__multiple.length
+          this.formDatas.payment__multiple.forEach((item, index) => {
+            let datas = {}
+            if (item === '1') {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            } else {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            }
+            this.formItemsConfigMessage.splice(1 + index, 0, datas)
+            if (this.$parent.dialogTitle === '查看详情') {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = true
+              })
+            } else {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = false
+              })
+            }
+            // this.formDatas.agency_code = '000,000001,000002'
+            // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
+            this.formDatas.agency_code = this.formDatas.agencyCode
+            this.formDatas.agency_name = this.formDatas.agencyName
+            this.formDatas.pro_code = this.formDatas.proCode
+            this.formDatas.pro_name = this.formDatas.proName
+            this.formDatas.exp_func_code = this.formDatas.excFunCode
+            this.formDatas.exp_func_name = this.formDatas.excFunName
+            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+          // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
+          // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
+          // let paramsCodes = ''
+          // let paramsNames = ''
+          // formDataParams.forEach(item => {
+          //   item = item.split('-')
+          //   paramsCodes += item[0]
+          //   paramsNames += item[1]
+          // })
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
+          })
+          console.log(this.formDatas)
+        }
+      }
+    }
+    if (this.$parent.dialogTitle === '查看详情') {
+      this.formItemsConfigMessage.forEach(item => {
+        item.itemRender.props.disabled = true
+      })
+    }
     this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
     this.getSysLists()
     this.getDepLists()

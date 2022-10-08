@@ -1258,14 +1258,17 @@ export default {
             false,
             ajaxContentType
           ).then((res) => {
-            let resData = null
+            let resData = []
             if (self.getDataType(res) === 'Array') {
               resData = res
             } else if (self.getDataType(res) === 'Object') {
               if (
                 res[axiosConfig.statusField || 'rscode'] ===
-                (axiosConfig.successCode || '200')
+                (axiosConfig.successCode || '100000')
               ) {
+                if (self.getDataType(res.data) === 'Object') {
+                  res.data = res.data.data
+                }
                 dataFieldArr.forEach((item, index) => {
                   if (index === 0) {
                     resData = res[item]
@@ -1578,8 +1581,19 @@ export default {
     filterTextIn: {
       // 树 过滤
       handler(val) {
+        let self = this
+        // if (self.queryparams.elementcode === 'pro') {
+        //   clearTimeout(self.itemTimer)
+        //   self.itemTimer = setTimeout(function() {
+        //     self.queryparams.condition = val
+        //     self.initTreeData(true)
+        //   }, 3000)
+        // } else {
+        //   this.filterTextInCp = null
+        //   self.$refs.tree && this.$refs.tree.filter(val)
+        // }
         this.filterTextInCp = null
-        this.$refs.tree && this.$refs.tree.filter(val)
+        self.$refs.tree && this.$refs.tree.filter(val)
       },
       immediate: true
     },

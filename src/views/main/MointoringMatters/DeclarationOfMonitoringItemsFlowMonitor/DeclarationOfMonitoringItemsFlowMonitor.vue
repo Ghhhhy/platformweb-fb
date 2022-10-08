@@ -113,7 +113,7 @@ export default {
         inputVal: ''
       },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303//lmp/mofDivTree',
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -606,7 +606,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getLeftTreeData()
+    // this.getLeftTreeData()
   }
 }
 </script>

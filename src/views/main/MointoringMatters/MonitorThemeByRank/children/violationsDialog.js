@@ -15,6 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
+      { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },

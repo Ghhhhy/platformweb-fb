@@ -250,12 +250,13 @@ export default {
       queryConfig: [
         {
           title: '监控主题',
-          field: 'regulationClassName',
+          field: 'regulationClass',
           align: 'left',
           formula: '',
-          name: '$vxeInput',
+          name: '$vxeSelect',
           itemRender: {
-            name: '$vxeInput',
+            name: '$vxeSelect',
+            options: [],
             props: {
               placeholder: '监控主题'
             }
@@ -274,12 +275,12 @@ export default {
         }
       ],
       searchDataList: {
-        regulationClassName: '',
+        regulationClass: '',
         fiRuleName: ''
       },
       isShowQueryConditions: true,
       fiRuleName: '',
-      regulationClassName: ''
+      regulationClass: ''
     }
   },
   methods: {
@@ -348,7 +349,8 @@ export default {
         }
       }
       this.condition = condition
-      this.regulationClassName = this.condition.regulationClassName[0]
+      // this.regulationClassName = this.condition.regulationClassName[0]
+      this.regulationClass = this.condition.regulationClass[0]
       this.fiRuleName = this.condition.fiRuleName[0]
       this.getDataSourceInfo()
     },
@@ -365,7 +367,7 @@ export default {
     getDataSourceInfo() {
       this.addLoading = true
       const param = {
-        regulationClassName: this.regulationClassName,
+        regulationClass: this.regulationClass,
         fiRuleName: this.fiRuleName,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize // 每页条数
@@ -428,31 +430,49 @@ export default {
       let selectData = this.$refs.addTableRef.getSelectionData()
       if (selectData.length > 0) {
         if (selectData.length === 1) {
-          this.$confirm('点击执行将清空拦截表数据，确定要手动执行吗？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            let id = selectData.map((item) => {
-              return item.fiRuleCode
-            })
+          if (this.title === '删除违规数据') {
             let param = {
-              ruleCodes: id,
-              menuName: this.$store.state.curNavModule.name
+              regulationClass: selectData[0].regulationClass,
+              firulecode: selectData[0].fiRuleCode
             }
-            param.fullType = this.title === '增量查询' ? 'false' : 'true'
             this.addLoading = true
-            HttpModule.warnLogAdd(param).then((res) => {
+            HttpModule.deleteData(param).then((res) => {
               this.addLoading = false
               if (res.code === '000000') {
-                this.$message.success('新增成功')
+                this.$message.success('删除成功')
                 this.$parent.addDialogVisible = false
                 this.$parent.queryTableDatas()
               } else {
                 this.$message.error(res.message)
               }
             })
-          })
+          } else {
+            this.$confirm('确定要手动执行吗？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              let id = selectData.map((item) => {
+                return item.fiRuleCode
+              })
+              let param = {
+                ruleCodes: id,
+                menuName: this.$store.state.curNavModule.name
+              }
+              param.fullType = this.title === '增量查询' ? 'false' : 'true'
+              this.addLoading = true
+              HttpModule.warnLogAdd(param).then((res) => {
+                this.addLoading = false
+                if (res.code === '000000') {
+                  this.$message.success('新增成功')
+                  this.$parent.addDialogVisible = false
+                  this.$parent.queryTableDatas()
+                } else {
+                  this.$message.error(res.message)
+                }
+              })
+            })
+          }
         } else {
           this.$message.warning('监控规则只能选择一条！')
         }
@@ -495,6 +515,21 @@ export default {
     } */
     this.getDataSourceInfo()
     this.showInfo()
+  },
+  mounted() {
+    HttpModule.monitorTheme().then((res) => {
+      if (res.code === '000000') {
+        let resData = res.data.map((item) => {
+          return {
+            value: item.id,
+            label: item.ruleName
+          }
+        })
+        this.queryConfig[0].itemRender.options = resData
+      } else {
+        this.$message.error(res.message)
+      }
+    })
   }
 }
 </script>

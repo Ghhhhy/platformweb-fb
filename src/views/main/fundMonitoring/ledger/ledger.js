@@ -85,6 +85,13 @@ export let proconf = {
       width: 270
     },
     {
+      title: '口径说明',
+      field: 'description',
+      sortable: false,
+      align: 'center',
+      width: 270
+    },
+    {
       title: '操作',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',

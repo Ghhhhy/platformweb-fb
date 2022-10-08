@@ -98,6 +98,12 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '规则依据',
+      field: 'ruleAccord',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '操作',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',

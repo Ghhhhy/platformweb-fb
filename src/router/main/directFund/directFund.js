@@ -64,5 +64,19 @@ export default [
     },
     component: () =>
       import('../../../views/main/directFund/report/index.vue') // 本级报表编制审核
+  },
+  {
+    path: '/Focus',
+    name: 'Focus',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/directFund/dfrFocus/Focus.vue')
+  },
+  {
+    path: '/indexFind', // 指标查询
+    name: 'IndexFind',
+    component: () => import('@/views/main/directFund/indexFind/index.vue')
   }
 ]

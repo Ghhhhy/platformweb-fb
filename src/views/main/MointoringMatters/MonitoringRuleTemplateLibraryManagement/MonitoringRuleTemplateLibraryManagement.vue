@@ -191,6 +191,7 @@ export default {
       console.log(obj)
       this.ruleTemplateName = obj.ruleTemplateName
       this.businessModuleName = obj.businessModuleName
+      this.functionName = obj.functionName
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -394,6 +395,7 @@ export default {
         'businessModuleCode': this.businessModuleCode,
         'businessFunctionCode': this.businessFunctionCode,
         'ruleTemplateName': this.ruleTemplateName,
+        'functionName': this.functionName,
         businessModuleName: this.businessModuleName
       }
       this.tableLoading = true

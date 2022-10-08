@@ -15,7 +15,8 @@ export let proconf = {
   statusRightToolBarButton: {
     '1': [
       { code: 'add', label: '全量查询', status: 'primary' },
-      { code: 'change', label: '增量查询' }
+      { code: 'change', label: '增量查询' },
+      { code: 'delete', label: '删除违规数据' }
     ]
   },
   statusRightToolBarButtonByBusDept: {
@@ -129,6 +130,49 @@ export let proconf = {
           placeholder: '执行结束时间'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '2023', label: '2023' },
+          { value: '2022', label: '2022' },
+          { value: '2021', label: '2021' }
+        ],
+        props: {
+          placeholder: '年度'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -138,14 +182,16 @@ export let proconf = {
     fiRuleName: '',
     exStatus: '',
     exStartTime: '',
-    exEndTime: ''
+    exEndTime: '',
+    fiscalYear: '',
+    mofDivCodeList: []
   },
   PoliciesTableColumns: [
     {
       title: '触发方式',
       field: 'triggerMode',
       sortable: false,
-      width: 170,
+      width: 100,
       align: 'center',
       'cellRender': {
         'name': '$vxeSelect',
@@ -166,7 +212,7 @@ export let proconf = {
       title: '查询方式',
       field: 'exMode',
       sortable: false,
-      width: 170,
+      width: 100,
       align: 'center',
       'cellRender': {
         'name': '$vxeSelect',
@@ -187,8 +233,16 @@ export let proconf = {
       title: '监控主题',
       field: 'regulationClassName',
       sortable: false,
-      width: 170,
+      width: 100,
       align: 'center'
+    },
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      sortable: false,
+      width: 100,
+      align: 'center',
+      visible: false
     },
     {
       title: '规则名称',
@@ -203,6 +257,20 @@ export let proconf = {
         props: {}
       },
       name: '$vxeTableHref'
+    },
+    {
+      title: '区划',
+      field: 'mofDivName',
+      sortable: false,
+      width: 70,
+      align: 'center'
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      width: 70,
+      align: 'center'
     },
     {
       title: '本次扫描数据合计（条）',
@@ -274,6 +342,13 @@ export let proconf = {
     {
       title: '耗时',
       field: 'exTime',
+      sortable: false,
+      align: 'center',
+      width: 170
+    },
+    {
+      title: '业务数据最后扫描时间',
+      field: 'lastTime',
       sortable: false,
       align: 'center',
       width: 170

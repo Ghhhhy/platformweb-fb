@@ -105,6 +105,12 @@ export let proconf = {
       sortable: false,
       align: 'left'
     },
+    {
+      title: '规则依据',
+      field: 'ruleAccord',
+      sortable: false,
+      align: 'left'
+    },
     // 20220602禅道bug单35192 大监控-监控规则管理-监控事项申报-财政-待送审页面列表调整
     // {
     //   title: '当前操作类型',

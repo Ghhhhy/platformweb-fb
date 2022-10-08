@@ -99,6 +99,18 @@ export let proconf = {
       field: 'cfsHotTopicCateName',
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '中央项目资金名称编码',
+      field: 'proFundCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '中央项目资金名称名称',
+      field: 'proFundName',
+      sortable: false,
+      align: 'left'
     }
     // ,{
     //   title: '数据源地址',

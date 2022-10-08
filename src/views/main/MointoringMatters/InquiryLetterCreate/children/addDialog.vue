@@ -193,7 +193,7 @@ export default {
       askProvinceOptions: [],
       askAgency: '',
       askAgencyOptions: [],
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       askProvinceCode: '',
       askProvinceId: '',
       askProvinceName: '',
@@ -228,6 +228,19 @@ export default {
       this.askProvinceId = this.modifyData.askProvinceId
       this.askProvinceName = this.modifyData.askProvinceName
       this.attachmentId = this.modifyData.attachmentId
+      const param = {
+        billguid: this.attachmentId,
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getFile(param).then(res => {
+        if (res.rscode === '100000') {
+          // 获取附件信息
+          this.fileData = JSON.parse(res.data)
+        } else {
+          this.$message.error(res.result)
+        }
+      })
     },
     // 选择业务系统
     changeSysCode(val) {

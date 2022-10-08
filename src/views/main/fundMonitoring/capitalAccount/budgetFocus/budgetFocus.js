@@ -34,8 +34,8 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
+          // { value: '2020', label: '2020年' },
+          // { value: '2021', label: '2021年' },
           { value: '2022', label: '2022年' }
         ],
         props: {
@@ -45,14 +45,15 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '2022'
   },
   basicInfo: {
     type: 'form',
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        seq: true, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [

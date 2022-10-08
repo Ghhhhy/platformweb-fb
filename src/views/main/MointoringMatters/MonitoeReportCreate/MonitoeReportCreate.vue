@@ -88,6 +88,11 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
+      :preview-year="previewYear"
+      :preview-start-month="previewStartMonth"
+      :preview-end-month="previewEndMonth"
+      :preview-code="previewCode"
+      :preview-name="previewName"
     />
   </div>
 </template>
@@ -252,7 +257,12 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
-      createPerson: ''
+      createPerson: '',
+      previewYear: '',
+      previewStartMonth: '',
+      previewEndMonth: '',
+      previewCode: '',
+      previewName: ''
     }
   },
   mounted() {

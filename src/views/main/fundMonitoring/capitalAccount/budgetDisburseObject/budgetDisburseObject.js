@@ -29,20 +29,101 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
+          // { value: '2020', label: '2020年' },
+          // { value: '2021', label: '2021年' },
           { value: '2022', label: '2022年' }
         ],
         props: {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '资金名称',
+      field: 'speTypeName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '资金名称'
+        }
+      }
+    },
+    {
+      title: '功能科目',
+      field: 'expFuncName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '功能科目'
+        }
+      }
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '项目名称'
+        }
+      }
+    },
+    {
+      title: '惠企利民',
+      field: 'hqlm',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          // 福建惠企利民01，02，03
+          { value: '', label: '' },
+          { value: '01', label: '利民' },
+          { value: '02', label: '惠企' },
+          { value: '03', label: '惠企利民' }
+        ],
+        props: {
+          placeholder: '惠企利民'
+        }
+      }
+    },
+    {
+      title: '截止日期',
+      field: 'endTime',
+      width: '8',
+      align: 'center',
+      formula: '',
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '截止日期'
+        }
+      }
     }
   ],
   highQueryData: {
-    regulationType: '',
-    warningLevel: '',
-    firulename: ''
+    fiscalYear: '2022',
+    speTypeName: '',
+    expFuncName: '',
+    proName: '',
+    hqlm: '',
+    endTime: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -81,12 +162,20 @@ export let proconf = {
     declareCode: '',
     ruleTemplateName: ''
   },
+  tableConfig: {
+    globalConfig: {
+      // 全局配置
+      seq: true, // 序号列
+      useMoneyFilter: true
+    }
+  },
   PoliciesTableColumns: [
     {
       title: '区划名称',
       align: 'left',
       width: 160,
-      field: 'mofDivName'
+      field: 'mofDivName',
+      fixed: 'left'
     },
     {
       title: '项目编码',
@@ -98,7 +187,7 @@ export let proconf = {
       title: '项目名称',
       align: 'left',
       width: 160,
-      field: 'proCodeName'
+      field: 'proName'
     },
     {
       title: '预算数',
@@ -110,36 +199,36 @@ export let proconf = {
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'yaAmount',
-          formula: '{yzyapAmount}+{ysjapAmount}+{yshjapAmount}+{yxjapAmount}'
+          field: 'amountYszje',
+          formula: '{amountYszyap}+{amountYssnjap}+{amountYssjap}+{amountYsxjap}'
         },
         {
           title: '中央安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'yzyapAmount'
+          field: 'amountYszyap'
         },
         {
           title: '省级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'ysjapAmount'
+          field: 'amountYssnjap'
         },
         {
           title: '市级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'yshjapAmount'
+          field: 'amountYssjap'
         },
         {
           title: '县级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'yxjapAmount'
+          field: 'amountYsxjap'
         }
       ]
     },
@@ -153,36 +242,36 @@ export let proconf = {
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'zaAmount',
-          formula: '{zzyapAmount}+{zsjapAmount}+{zshjapAmount}+{zxjapAmount}'
+          field: 'amountZczje',
+          formula: '{amountZczyap}+{amountZcsnjap}+{amountZcsjap}+{amountZcxjap}'
         },
         {
           title: '中央安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'zzyapAmount'
+          field: 'amountZczyap'
         },
         {
           title: '省级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'zsjapAmount'
+          field: 'amountZcsnjap'
         },
         {
           title: '市级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'zshjapAmount'
+          field: 'amountZcsjap'
         },
         {
           title: '县级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
           width: 200,
-          field: 'zxjapAmount'
+          field: 'amountZcxjap'
         }
       ]
     },
@@ -190,37 +279,37 @@ export let proconf = {
       title: '资金名称',
       align: 'left',
       width: 160,
-      field: 'amountName'
+      field: 'speTypeName'
     },
     {
       title: '预算单位',
       align: 'left',
       width: 160,
-      field: 'agencyCodeName'
+      field: 'agencyName'
     },
     {
       title: '支出功能科目',
       align: 'left',
       width: 160,
-      field: 'xjExpFuncName'
+      field: 'expFuncName'
     },
     {
       title: '是否惠企利民',
       align: 'left',
       width: 160,
-      field: 'sfUseful'
+      field: 'hqlm'
     },
     {
       title: '发放表',
       align: 'left',
       width: 160,
-      field: 'grantFrom'
+      field: 'ffb'
     },
     {
       title: '是否拨入专户项目',
       align: 'left',
       width: 160,
-      field: 'sfaccount'
+      field: 'brzhxm'
     }
   ]
 }

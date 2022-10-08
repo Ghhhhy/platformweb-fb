@@ -97,12 +97,10 @@ export default defineComponent({
       currentleftDetail,
       currentRightDetail,
       expendBgNode,
-      incomeBgNode
+      incomeBgNode,
+      lastChildrenChange
     } = useXmind()
     const { verticalLineHeight } = useVerticalHeight()
-    const lastChildrenChange = (data) => {
-      console.log(data)
-    }
     return {
       financialTree,
       getJustifyDetail,
@@ -144,7 +142,6 @@ export default defineComponent({
 
     /* 滚动槽 */
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow:inset006pxrgba(0,0,0,0.3);
       border-radius: 10px;
     }
 
@@ -153,20 +150,16 @@ export default defineComponent({
       border-radius: 10px;
       background: rgba(0,0,0,0.1);
       cursor: pointer;
-      -webkit-box-shadow: inset006pxrgba(0,0,0,0.5);
 
       &:hover {
         background: rgba(0,0,0,0.08);
       }
     }
 
-    &::-webkit-scrollbar-thumb:window-inactive {
-      background: #CDDDFD ;
-    }
-
     .left-details {
       display: flex;
       flex-direction: column;
+      min-width: 169px;
     }
 
     .left-bg-nodes,

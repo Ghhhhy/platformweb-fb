@@ -1,45 +1,92 @@
 <template>
   <div class="search-wrapper-fix-top">
-    <div class="search-wrapper">
-      <div class="search-wrapper-left">
-        <SelectTree
-          v-model="treeValue"
-          :data="treeData"
-          :props="treeProps"
-          style="width: 242px"
-        />
-        <div class="deta-wrapper">
-          <el-date-picker
-            v-model="date"
-            type="month"
+    <div class="header-container">
+      <el-radio-group
+        v-model="currentComponent"
+        size="small"
+      >
+        <el-radio-button
+          v-for="item in moduleTabs"
+          :key="item.value"
+          :label="item.value"
+          size="small"
+          class="search-wrapper-tab"
+        >
+          {{ item.label }}
+        </el-radio-button>
+      </el-radio-group>
+      <div class="search-wrapper">
+        <div class="search-wrapper-left">
+          <SelectTree
+            v-model="treeValue"
+            :data="treeData"
+            :props="treeProps"
             size="small"
-            style="width: 250px"
-            placeholder="截止时间"
+            style="width: 242px"
+            v-on="$listeners"
           />
+          <div class="deta-wrapper">
+            <el-date-picker
+              v-model="date"
+              :clearable="false"
+              format="yyyy 年 MM 月"
+              value-format="timestamp"
+              type="month"
+              size="small"
+              style="width: 250px"
+              placeholder="截止时间"
+              @change="dateChange"
+            />
+          </div>
         </div>
-      </div>
-      <div class="search-wrapper-right">
-        <span class="search-wrapper-right-btn search-btn">搜索</span>
-        <span class="search-wrapper-right-btn reset-btn">重置</span>
+        <div class="search-wrapper-right">
+          <span
+            class="search-wrapper-right-btn search-btn"
+            @click="search"
+          >
+            搜索
+          </span>
+          <span
+            class="search-wrapper-right-btn reset-btn"
+            @click="reset"
+          >
+            重置
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from '@vue/composition-api'
+import { defineComponent, ref, unref, onMounted, watch } from '@vue/composition-api'
 import SelectTree from '@/components/SelectTree'
 import httpHandles from '@/api/frame/main/Monitoring/Declaration.js'
-import store from '@/store/index'
+import { moduleTabs } from '../model/data'
 export default defineComponent({
   components: {
     SelectTree
   },
-  setup() {
-    // 当前时间戳
-    const nowDate = new Date().getTime()
+  props: {
+    defaultDate: {
+      type: [String, Number],
+      default: new Date().getTime()
+    },
+    defaultMofDivCode: {
+      type: String,
+      default: ''
+    },
+    curComponentName: {
+      type: String,
+      default: ''
+    }
+  },
+  emits: ['dateChange', 'search', 'reset'],
+  setup(props, { emit }) {
+    // 当前tab选中 => 对应相关模块组件
+    const currentComponent = ref(moduleTabs[0].value)
     // date-picker绑定值
-    const date = ref(nowDate)
+    const date = ref(props.defaultDate)
     // 区划树属性
     const treeProps = {
       label: 'text'
@@ -47,16 +94,28 @@ export default defineComponent({
     // 请求区划树的属性
     const getTreeQuery = {
       elementcode: 'admdiv',
-      province: store.state.userInfo.province,
-      year: store.state.userInfo.year,
+      province: '610000000',
+      year: '2021',
       wheresql: 'and code like \'' + 61 + '%\''
     }
+
     // 区划树选中值<=>select值
-    const treeValue = ref('')
+    const treeValue = ref(props.defaultMofDivCode)
     // 区划树数据源
     const treeData = ref([])
-    const treeNodeClickHandle = () => {
-
+    // date-picker改变
+    const dateChange = (value) => {
+      emit('dateChange', value)
+    }
+    // 点击搜索
+    const search = () => {
+      emit('search')
+    }
+    // 点击重置
+    const reset = () => {
+      date.value = props.defaultDate
+      treeValue.value = props.defaultMofDivCode
+      emit('reset')
     }
     onMounted(async () => {
       // 拉取区划树数据
@@ -65,12 +124,23 @@ export default defineComponent({
         treeData.value = Array.isArray(res.data) ? res.data : []
       }
     })
+    watch(currentComponent, (curValue, preValue) => {
+      if (curValue === preValue) return
+      emit('tabChange', unref(curValue))
+    })
+    watch(() => props.curComponentName, () => {
+      currentComponent.value = props.curComponentName
+    })
     return {
       treeData,
       date,
       treeValue,
-      treeNodeClickHandle,
-      treeProps
+      treeProps,
+      dateChange,
+      search,
+      reset,
+      moduleTabs,
+      currentComponent
     }
   }
 })
@@ -81,26 +151,54 @@ export default defineComponent({
   position: fixed;
   top: 98px;
   left: 0;
-  width: calc(100% - 24px);
-  padding: 13px 0 0 24px;
+  width: 100%;
   box-sizing: border-box;
-  background: var(--hightlight-color);
   z-index: 99;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 48px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .search-wrapper-tab {
+    /deep/.el-radio-button__inner {
+      color: #2e3133
+    }
+    &.is-active /deep/.el-radio-button__inner{
+      color: #fff;
+      background-color: #2A8BFD;
+    }
+    &:first-child /deep/.el-radio-button__inner {
+      border-radius: 2px 0 0 2px;
+    }
+    &:last-child /deep/.el-radio-button__inner {
+      border-radius: 0 2px 2px 0;
+    }
+  }
 }
 
 .search-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 12px 24px;
+  justify-content: flex-end;
+  flex: 1;
   box-sizing: border-box;
-  background: #E3F1FF;
 
   .search-wrapper-left,
   .search-wrapper-right {
     display: flex;
     align-items: center;
+  }
+
+  .search-wrapper-left {
+    margin-right: 30px;
   }
 
   .search-wrapper-right {

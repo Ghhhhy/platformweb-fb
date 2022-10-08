@@ -5,7 +5,7 @@
     :title="title"
     width="96%"
     height="90%"
-    :show-footer="true"
+    :show-footer="false"
     @close="dialogClose"
   >
     <BsTabPanel
@@ -30,7 +30,10 @@
       :toolbar-config="tableToolbarConfig"
       :cell-style="cellStyle"
       :pager-config="pagerConfig"
+      :default-money-unit="10000"
       @cellClick="cellClick"
+      @ajaxData="ajaxTableData"
+      @onOptionRowClick="onOptionRowClick"
       @onToolbarBtnClick="onToolbarBtnClick"
     >
       <template v-slot:toolbarSlots>
@@ -42,27 +45,56 @@
         </div>
       </template>
     </BsTable>
+    <AddDialogs
+      v-if="dialogVisibles"
+      :title="dialogTitle1"
+      :select-data="selectData"
+      @close="closeHandle"
+    />
+    <AffirmDialogs
+      v-if="affirmDialogVisibles"
+      :title="dialogTitle1"
+      :select-data="selectData"
+      @close="closeHandle"
+    />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+      @close="closeAttachment"
+    />
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 import proconf, {
   buttons1,
   curStatusButton,
   statusButtons,
   curStatusButton3,
   curStatusButton4,
-  curStatusButton5,
-  curStatusButton6,
   curStatusButton1,
   statusButtons1,
-  curStatusButton7,
-  statusButtons2
+  statusButtons0,
+  statusButtons3,
+  curStatusButton8,
+  curStatusButton9,
+  curStatusButton10,
+  curStatusButton12,
+  curStatusButton15,
+  curStatusButton14,
+  curStatusButton13,
+  curStatusButton11
 } from './column.js'
-
+import AddDialogs from './children/AddDialogs'
+import AffirmDialogs from './children/AffirmDialogs'
+import GlAttachment from './common/GlAttachment'
 export default {
-  name: 'DetailDialog',
+  name: 'DetailDialogs',
   components: {
+    AddDialogs,
+    GlAttachment,
+    AffirmDialogs
   },
   computed: {
     curNavModule() {
@@ -83,6 +115,9 @@ export default {
   },
   data() {
     return {
+      userInfo: {},
+      billguid: '',
+      showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
         buttons: statusButtons,
@@ -99,7 +134,13 @@ export default {
         '4': 0,
         '5': 0,
         '6': 0,
-        '7': 0
+        '7': 0,
+        '8': 0,
+        '9': 0,
+        '10': 0,
+        '11': 0,
+        '12': 0,
+        '13': 0
       },
       onQueryConditionsClick1(isOpen) {
         this.isShowQueryConditions = isOpen
@@ -114,10 +155,9 @@ export default {
       tableColumnsConfig: [
       ],
       pagerConfig: {
-        autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableData: [],
       tableToolbarConfig: {
@@ -136,18 +176,106 @@ export default {
         }
       },
       tableConfig: {
-        globalConfig: {
-          // 全局配置
-          seq: true // 序号列
+        renderers: {
+          // 编辑 附件 操作日志
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow,
+          $payVoucherInputGloableOptionRow1: proconf.gloableOptionRow1
+        },
+        methods: {
+          onOptionRowClick: this.onOptionRowClick
         }
       },
       params: {},
+      condition: {},
       sDetailTitle: '',
       sDetailVisible: false,
-      sDetailData: []
+      sDetailData: [],
+      detailType: '',
+      fiRuleCode: '',
+      tableLoading: false,
+      dialogVisibles: false,
+      affirmDialogVisibles: false,
+      dialogTitle1: '整改意见',
+      fiscalYear: '',
+      selectData: {}
     }
   },
   methods: {
+    // table 右侧操作按钮
+    onOptionRowClick({ row, optionType }, context) {
+      console.log(row.dfrFileCode)
+      switch (optionType) {
+        // 附件
+        case 'attachment':
+          this.showAttachment(row)
+          break
+        case 'attachment1':
+          this.showAttachment1(row)
+          break
+        default:
+      }
+    },
+    // 查看附件
+    showAttachment(row) {
+      console.log('查看整改附件', row)
+      if (row.dfrFileCode === null || row.dfrFileCode === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.dfrFileCode
+      this.showGlAttachmentDialog = true
+    },
+    // 查看附件
+    showAttachment1(row) {
+      console.log('查看认定附件', row)
+      if (row.affirmFileCode === null || row.affirmFileCode === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.affirmFileCode
+      this.showGlAttachmentDialog = true
+    },
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.refresh()
+    },
+    refresh() {
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
+      // this.queryTableDatasCount()
+    },
+    // 搜索
+    search(val) {
+      this.searchDataList = val
+      console.log(val)
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          } else if (typeof this.searchDataList[key] === 'string') {
+            if (this.searchDataList[key].trim() !== '') {
+              this.searchDataList[key].split(',').forEach((item) => {
+                condition[key].push(item)
+              })
+            }
+          }
+        }
+      }
+      this.condition = condition
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
+    },
+    closeHandle() {
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
+      this.dialogVisibles = false
+      this.affirmDialogVisibles = false
+    },
+    closeAttachment() {
+      this.showGlAttachmentDialog = false
+    },
     bsToolbarClickEvent(obj, $this) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
@@ -155,31 +283,126 @@ export default {
       }
       this.tabSelect = obj.curValue
       if (this.tabSelect === '1') {
-        this.title = '红灯系统整改-待整改'
-        this.tableData = []
+        this.title = '红色预警-未处理明细'
+        this.detailType = 'redUndoNum'
+        this.tableColumnsConfig = proconf.redUndoNum
       } else if (this.tabSelect === '2') {
-        this.title = '红灯系统整改-已整改'
-        this.tableData = []
+        this.title = '红色预警-已整改明细'
+        this.detailType = 'redDoneNum'
+        this.tableColumnsConfig = proconf.redDoneNum
       } else if (this.tabSelect === '3') {
-        this.title = '黄灯-待认定'
-        this.tableData = []
+        this.title = '橙色预警-未上传附件明细'
+        this.detailType = 'orangeUndoNum'
+        this.tableColumnsConfig = proconf.orangeUndoNum
       } else if (this.tabSelect === '4') {
-        this.title = '黄灯-已认定'
-        this.tableData = []
+        this.title = '橙色预警-已上传附件明细'
+        this.detailType = 'orangeDoneNum'
+        this.tableColumnsConfig = proconf.orangeDoneNum
       } else if (this.tabSelect === '5') {
-        this.title = '黄灯-待整改'
-        this.tableData = []
+        this.title = '黄色预警-疑点信息明细'
+        this.detailType = 'yellowUndoNum'
+        this.tableColumnsConfig = proconf.yellowUndoNum
       } else if (this.tabSelect === '6') {
-        this.title = '黄灯-已整改'
-        this.tableData = []
+        this.title = '黄色预警-认定正常明细'
+        this.tableColumnsConfig = proconf.yellowDoneNum
+        this.detailType = 'yellowDoneNum'
       } else if (this.tabSelect === '7') {
-        this.title = '黄灯警铃-未处理'
-        this.tableData = []
+        this.title = '黄色预警-认定违规-未处理明细'
+        this.detailType = 'yellowUndoNumw'
+        this.tableColumnsConfig = proconf.yellowUndoNumw
+      } else if (this.tabSelect === '8') {
+        this.title = '黄色预警-认定违规-已整改明细'
+        this.detailType = 'yellowDoneNumw'
+        this.tableColumnsConfig = proconf.yellowDoneNumw
+      } else if (this.tabSelect === '9') {
+        this.title = '非人工干预蓝色预警-疑点信息明细'
+        this.detailType = 'blueUndoNum'
+        this.tableColumnsConfig = proconf.blueUndoNum
+      } else if (this.tabSelect === '10') {
+        this.title = '非人工干预蓝色预警-认定正常明细'
+        this.detailType = 'blueDoneNum'
+        this.tableColumnsConfig = proconf.blueDoneNum
+      } else if (this.tabSelect === '11') {
+        this.title = '非人工干预蓝色预警-认定违规-未处理明细'
+        this.detailType = 'blueUndoNumw'
+        this.tableColumnsConfig = proconf.blueUndoNumw
+      } else if (this.tabSelect === '12') {
+        this.title = '非人工干预蓝色预警-认定违规-已整改明细'
+        this.detailType = 'blueDoneNumw'
+        this.tableColumnsConfig = proconf.blueDoneNumw
       } else {
         this.tableColumnsConfig1 = this.tableColumnsConfig
         this.params.status = '1'
       }
+      this.condition = {}
+      this.pagerConfig.currentPage = 1
+      this.refresh()
+      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
       // this.params.status = this.tabSelect === '1' ? '0' : '1'
+    },
+    // 切换操作按钮
+    operationToolbarButtonClickEvent(obj, context, e) {
+      console.log(obj.code)
+      switch (obj.code) {
+        // 整改意见
+        case 'rectify_ask':
+          var selectionRow1 = this.$refs.mainTableRef.selection
+          if (selectionRow1.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.selectData = selectionRow1[0]
+          this.updateRectifyAsk()
+          break
+        // 整改意见
+        case 'rectify_ask_update':
+          var selectionRow2 = this.$refs.mainTableRef.selection
+          if (selectionRow2.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.selectData = selectionRow2[0]
+          this.updateRectifyAskup()
+          break
+        // 人工认定
+        case 'peo_set':
+          var selectionRow = this.$refs.mainTableRef.selection
+          if (selectionRow.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.selectData = selectionRow[0]
+          this.affirm()
+          break
+        // 人工认定
+        case 'peo_set_update':
+          var selectionRow4 = this.$refs.mainTableRef.selection
+          if (selectionRow4.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.selectData = selectionRow4[0]
+          this.affirmUpdate()
+          break
+        default:
+          break
+      }
+    },
+    updateRectifyAsk() {
+      this.dialogVisibles = true
+      this.dialogTitle1 = '整改处理单'
+    },
+    updateRectifyAskup() {
+      this.dialogVisibles = true
+      this.dialogTitle1 = '修改整改处理单'
+    },
+    affirm() {
+      this.affirmDialogVisibles = true
+      this.dialogTitle1 = '认定处理单'
+    },
+    affirmUpdate() {
+      this.affirmDialogVisibles = true
+      this.dialogTitle1 = '修改认定处理单'
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -230,6 +453,7 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
+      this.$parent.queryTableDatas()
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -240,126 +464,97 @@ export default {
       }
     },
     showInfo() {
-      this.tableData = this.detailData
-      console.log(proconf)
+      // this.tableData = this.detailData
+      this.detailType = this.detailData[0]
+      this.fiRuleCode = this.detailData[1]
+      this.fiscalYear = this.detailData[2]
       switch (this.title) {
-        case '红灯系统整改-待整改':
+        case '红色预警-未处理明细':
           this.tableColumnsConfig = proconf.redUndoNum
           this.tabStatusBtnConfig.curButton = curStatusButton
           break
-        case '红灯系统整改-已整改':
-          this.tableColumnsConfig = proconf.redUndoNum
+        case '红色预警-已整改明细':
+          this.tableColumnsConfig = proconf.redDoneNum
           this.tabStatusBtnConfig.curButton = curStatusButton1
           break
-        case '黄灯-待认定':
-          this.tableColumnsConfig = proconf.yellowConfig
-          this.tabStatusBtnConfig.buttons = statusButtons1
+        case '橙色预警-未上传附件明细':
+          this.tableColumnsConfig = proconf.orangeUndoNum
+          this.tabStatusBtnConfig.buttons = statusButtons0
           this.tabStatusBtnConfig.curButton = curStatusButton3
           break
-        case '黄灯-已认定':
-          this.tableColumnsConfig = proconf.yellowConfig
-          this.tabStatusBtnConfig.buttons = statusButtons1
+        case '橙色预警-已上传附件明细':
+          this.tableColumnsConfig = proconf.orangeDoneNum
+          this.tabStatusBtnConfig.buttons = statusButtons0
           this.tabStatusBtnConfig.curButton = curStatusButton4
           break
-        case '黄灯-待整改':
-          this.tableColumnsConfig = proconf.yellowConfig
+        case '黄色预警-疑点信息明细':
+          this.tableColumnsConfig = proconf.yellowUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons1
-          this.tabStatusBtnConfig.curButton = curStatusButton5
+          this.tabStatusBtnConfig.curButton = curStatusButton8
           break
-        case '黄灯-已整改':
-          this.tableColumnsConfig = proconf.yellowConfig
+        case '黄色预警-认定正常明细':
+          this.tableColumnsConfig = proconf.yellowDoneNum
           this.tabStatusBtnConfig.buttons = statusButtons1
-          this.tabStatusBtnConfig.curButton = curStatusButton6
+          this.tabStatusBtnConfig.curButton = curStatusButton9
           break
-        case '黄灯警铃-未处理':
-          this.tableColumnsConfig = proconf.blueUndoNumConfig
-          this.tabStatusBtnConfig.curButton = curStatusButton7
-          this.tabStatusBtnConfig.buttons = statusButtons2
+        case '黄色预警-认定违规-未处理明细':
+          this.tableColumnsConfig = proconf.yellowUndoNumw
+          this.tabStatusBtnConfig.curButton = curStatusButton10
+          this.tabStatusBtnConfig.buttons = statusButtons1
+          break
+        case '黄色预警-认定违规-已整改明细':
+          this.tableColumnsConfig = proconf.yellowDoneNumw
+          this.tabStatusBtnConfig.curButton = curStatusButton11
+          this.tabStatusBtnConfig.buttons = statusButtons1
+          break
+        case '非人工干预蓝色预警-疑点信息明细':
+          this.tableColumnsConfig = proconf.blueUndoNum
+          this.tabStatusBtnConfig.buttons = statusButtons3
+          this.tabStatusBtnConfig.curButton = curStatusButton12
+          break
+        case '非人工干预蓝色预警-认定正常明细':
+          this.tableColumnsConfig = proconf.blueDoneNum
+          this.tabStatusBtnConfig.buttons = statusButtons3
+          this.tabStatusBtnConfig.curButton = curStatusButton13
+          break
+        case '非人工干预蓝色预警-认定违规-未处理明细':
+          this.tableColumnsConfig = proconf.blueUndoNumw
+          this.tabStatusBtnConfig.curButton = curStatusButton14
+          this.tabStatusBtnConfig.buttons = statusButtons3
+          break
+        case '非人工干预蓝色预警-认定违规-已整改明细':
+          this.tableColumnsConfig = proconf.blueDoneNumw
+          this.tabStatusBtnConfig.curButton = curStatusButton15
+          this.tabStatusBtnConfig.buttons = statusButtons3
           break
         default:
           break
       }
     },
-    handleDetail(type, speTypeCode, mofDivCode) {
+    queryTableDatas(type, fiRuleCode) {
       let params = {
-        reportCode: type === 'fpAmount' ? 'zdzjzbmx_fdq' : 'zjzcmx_fdq',
-        speTypeCode: speTypeCode,
-        mofDivCode: mofDivCode,
-        fiscalYear: this.$parent.condition.fiscalYear ? this.$parent.condition.fiscalYear[0] : ''
+        field: type,
+        fiRuleCode: fiRuleCode,
+        page: this.pagerConfig.currentPage, // 页码
+        pageSize: this.pagerConfig.pageSize, // 每页条数
+        agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
+        fiscalYear: this.fiscalYear
       }
-      // this.$parent.sDetailVisible = true
-      // this.$parent.sDetailType = type
       this.tableLoading = true
-      // setTimeout(() => {
-      //   this.tableLoading = false
-      // }, 2000)
-      // this.$parent.sDetailData = [
-      //   {
-      //     bgtMofDepName: '事业股',
-      //     agencyName: '城固县水磨中心学校',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '初中教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '城财事〔2022〕6号',
-      //     fpAmount: 44937.5,
-      //     payAppAmt: 44937.5,
-      //     sspeTypeName: '城乡义务教育补助经费_教育体育局',
-      //     sSpeTypeName: '城乡义务教育补助经费_教育体育局'
-      //   },
-      //   {
-      //     bgtMofDepName: '事业股',
-      //     agencyName: '城固县原公镇中心学校',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '小学教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '城财事〔2022〕8号',
-      //     fpAmount: 317790,
-      //     payAppAmt: null,
-      //     sspeTypeName: '城乡义务教育补助经费_教育体育局',
-      //     sSpeTypeName: '城乡义务教育补助经费_教育体育局'
-      //   },
-      //   {
-      //     bgtMofDepName: '教科文股',
-      //     agencyName: '扶风县天度镇天度初级中学',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '其他普通教育支出',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '扶财办教〔2022〕003号',
-      //     fpAmount: 240000,
-      //     payAppAmt: null,
-      //     sspeTypeName: '城乡义务教育补助经费',
-      //     sSpeTypeName: '城乡义务教育补助经费'
-      //   },
-      //   {
-      //     bgtMofDepName: '文教政法股',
-      //     agencyName: '洛川县交口河镇京兆社区中心小学',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '小学教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '洛财办教〔2022〕12号',
-      //     fpAmount: 1250,
-      //     payAppAmt: 1250,
-      //     sspeTypeName: '城乡义务教育补助经费',
-      //     sSpeTypeName: '城乡义务教育补助经费'
-      //   }]
-      HttpModule.queryTableDatas(params).then((res) => {
+      // this.dialogVisibles = false
+      HttpModule.queryDetailDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.$parent.sDetailData = res.data
-          this.$parent.sDetailVisible = true
-          this.$parent.sDetailType = type
+          this.tableData = res.data.results
+          this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
       })
     },
+    handleDetail(type, speTypeCode, mofDivCode) {
+    },
     cellStyle({ row, rowIndex, column }) {
-      if (['fpAmount', 'payAppAmt'].includes(column.property) && column.title === '总金额') {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -386,6 +581,7 @@ export default {
     }
   },
   created() {
+    this.userInfo = this.$store.state.userInfo
   }
 }
 </script>

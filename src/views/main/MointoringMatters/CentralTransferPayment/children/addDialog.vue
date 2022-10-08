@@ -112,6 +112,50 @@
                 </el-main>
               </el-container>
             </el-col>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目资金名称编码</div>
+                    <el-select
+                      v-model="proFundCode"
+                      placeholder="请选择中央项目资金名称编码"
+                      style="width:45%"
+                      @change="changePro"
+                    >
+                      <el-option
+                        v-for="item in proFundCodeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目资金名称名称</div>
+                    <el-select
+                      v-model="proFundName"
+                      :disabled="true"
+                      placeholder="请选择中央项目资金名称名称"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in proFundNameOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
           </el-row>
           </el-row>
         </div>
@@ -164,6 +208,8 @@ export default {
       fundCategoryName: '',
       cfsHotTopicCateCode: '',
       cfsHotTopicCateName: '',
+      proFundCode: '',
+      proFundName: '',
       cfsHotTopicCateCodeOptions: [
         { value: '1', label: '01' },
         { value: '2', label: '02' },
@@ -173,6 +219,18 @@ export default {
         { value: '1', label: '中央直达资金' },
         { value: '2', label: '中央参照直达资金' },
         { value: '3', label: '其他' }
+      ],
+      proFundCodeOptions: [
+        { value: '1', label: '1' },
+        { value: '2', label: '2' },
+        { value: '3', label: '3' },
+        { value: '4', label: '4' }
+      ],
+      proFundNameOptions: [
+        { value: '一般性转移支付', label: '一般性转移支付' },
+        { value: '共同财政事权转移支付', label: '共同财政事权转移支付' },
+        { value: '专项转移支付', label: '专项转移支付' },
+        { value: '支持基层落实减税降费和重点民生等专项转移支付', label: '支持基层落实减税降费和重点民生等专项转移支付' }
       ],
       dialogVisible: true,
       addLoading: false,
@@ -203,6 +261,8 @@ export default {
       this.fundCategoryName = this.modifyData.fundCategoryName
       this.cfsHotTopicCateCode = this.modifyData.cfsHotTopicCateCode
       this.cfsHotTopicCateName = this.modifyData.cfsHotTopicCateName
+      this.proFundCode = this.modifyData.proFundCode
+      this.proFundName = this.modifyData.proFundName
       this.id = this.modifyData.id
     },
     // 选择业务系统
@@ -263,6 +323,18 @@ export default {
         }
       })
     },
+    changePro(val) {
+      console.log(val)
+      if (val === '1') {
+        this.proFundName = '一般性转移支付'
+      } else if (val === '2') {
+        this.proFundName = '共同财政事权转移支付'
+      } else if (val === '3') {
+        this.proFundName = '专项转移支付'
+      } else {
+        this.proFundName = '支持基层落实减税降费和重点民生等专项转移支付'
+      }
+    },
     // 保存新增的计划信息
     doInsert() {
       if (this.proCode === '') {
@@ -322,7 +394,9 @@ export default {
           fundCategoryCode: this.fundCategoryCode,
           fundCategoryName: this.fundCategoryName,
           cfsHotTopicCateCode: this.cfsHotTopicCateCode,
-          cfsHotTopicCateName: this.cfsHotTopicCateName
+          cfsHotTopicCateName: this.cfsHotTopicCateName,
+          proFundCode: this.proFundCode,
+          proFundName: this.proFundName
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {
