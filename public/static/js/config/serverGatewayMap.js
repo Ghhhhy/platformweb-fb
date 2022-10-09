@@ -29,18 +29,19 @@ window.gloableToolFn.serverGatewayMap = {
   development: { // 本地开发环境
     // ---------------------------apass系统相关服务---------------------------
     // 基础数据服务
-    // 'mp-b-basedata-service': 'http://223.223.190.114:11206/apaas/api/mp-b-basedata-service/',
-    // // 登录token校验
-    // 'mp-b-sso-service': 'http://223.223.190.114:11206/apaas/api/mp-b-sso-service/',
-    // // 权限服务
-    // 'mp-b-user-service': 'http://223.223.190.114:11206/apaas/api/mp-b-user-service/',
-    // 'mp-b-perm-service': 'http://223.223.190.114:11206/apaas/api/mp-b-perm-service',
-    'mp-b-basedata-service': 'http://10.70.13.201:82/mp-b-basedata-service/',
+    'mp-b-basedata-service': 'http://223.223.190.114:12218/apaas/api/mp-b-basedata-service/',
+    // 'mp-b-basedata-service': 'http://223.223.190.114:12218/mp-b-basedata-service/',
     // 登录token校验
-    'mp-b-sso-service': 'http://10.70.13.201:82/mp-b-sso-service/',
+    'mp-b-sso-service': 'http://223.223.190.114:12218/apaas/api/mp-b-sso-service/',
+    // 'mp-b-sso-service': 'http://223.223.190.114:12218/mp-b-sso-service/',
+
     // 权限服务
-    'mp-b-user-service': 'http://10.70.13.201:82/mp-b-user-service/',
-    'mp-b-perm-service': 'http://10.70.13.201:82/mp-b-perm-service',
+    'mp-b-user-service': 'http://223.223.190.114:12218/apaas/api/mp-b-user-service/',
+    // 'mp-b-user-service': 'http://223.223.190.114:12218/mp-b-user-service/',
+
+    'mp-b-perm-service': 'http://223.223.190.114:12218/apaas/api/mp-b-perm-service',
+
+    'mp-b-configure-service': 'http://223.223.190.114:12218/apaas/api/mp-b-configure-service',
     // ---------------------------其他业务模块服务---------------------------
     // 文件服务器
     fileservice: 'http://10.77.18.172:32306',
