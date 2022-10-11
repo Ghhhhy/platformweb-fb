@@ -273,7 +273,16 @@ const routers = [
       requireAuth: true
     },
     component: () => import('../../../views/main/fundMonitoring/dfrMultipleQuery/dfrMultipleQuery.vue')
-  }
+  },
+  {
+    path: '/CZBudgetDisburseObject', // 参照直达资金项目查询
+    name: 'CZBudgetDisburseObject',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseObject/budgetDisburseObject.vue')
+  },
 ]
 
 // 直达资金所有页面统一增加keepAlive
