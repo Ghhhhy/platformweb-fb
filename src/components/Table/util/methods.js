@@ -1465,15 +1465,16 @@ const toolBarEvent = {
       case 'expandAll':
         this.expendAllLoading = true
         // 设置宏任务，延迟执行避免js进程同步运行大量操作导致渲染进程loading假死
-        setTimeout(async () => {
-          await this.$nextTick()
-          const handle = this.expandAllState ? this.$refs.xGrid?.clearTreeExpand : this.$refs.xGrid?.setAllTreeExpand
-          handle?.(true)
+        setTimeout(() => {
+          const handle = this.expandAllState
+            ? () => this.$refs.xGrid?.clearTreeExpand?.()
+            : () => this.$refs.xGrid?.setAllTreeExpand?.(true)
+          handle()
             .finally(() => {
               this.expandAllState = !this.expandAllState
               this.expendAllLoading = false
             })
-        }, 300)
+        }, 16.67)
         break
     }
   },
