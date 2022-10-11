@@ -25,7 +25,7 @@
       :cell-class-name="cellClassName"
       :checkbox-config="checkboxConfig"
       :sort-config="sortConfigIn"
-      :loading="loading"
+      :loading="loading || expendAllLoading"
       :pager-config="pagerConfigIn"
       :columns="tableColumnsConfigIn"
       :form-config="tableFormConfigIn"
@@ -223,6 +223,7 @@
           <vxe-button
             v-if="treeConfig || toolbarConfigInCopy.expandAll"
             name="expandbtn"
+            :loading="expendAllLoading"
             :title="expandAllState ? '收起全部' : '展开全部'"
             @click="onToolbarOperrateClick('expandAll')"
           >

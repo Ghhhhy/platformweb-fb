@@ -1463,8 +1463,17 @@ const toolBarEvent = {
         )
         break
       case 'expandAll':
-        this.expandAllState = !this.expandAllState
-        this.$refs.xGrid?.[this.expandAllState ? 'setAllTreeExpand' : 'clearTreeExpand'](true)
+        this.expendAllLoading = true
+        // 设置宏任务，延迟执行避免js进程同步运行大量操作导致渲染进程loading假死
+        setTimeout(async () => {
+          await this.$nextTick()
+          const handle = this.expandAllState ? this.$refs.xGrid?.clearTreeExpand : this.$refs.xGrid?.setAllTreeExpand
+          handle?.(true)
+            .finally(() => {
+              this.expandAllState = !this.expandAllState
+              this.expendAllLoading = false
+            })
+        }, 300)
         break
     }
   },
