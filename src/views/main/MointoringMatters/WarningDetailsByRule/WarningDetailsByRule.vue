@@ -440,7 +440,7 @@ export default {
             this.dialogHsVisible = true
           } else if (this.selectData.regulationClass === '10') {
             this.handleDialogVisible = true
-          }  else {
+          } else {
             this.dialogVisible = true
           }
           this.dialogTitle = '详细信息'
