@@ -91,6 +91,12 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <HandleDialog
+      v-if="handleDialogVisible"
+      :title="dialogTitle"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+    />
     <GlAttachment
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
@@ -104,12 +110,14 @@ import { proconf } from './WarningDetailsByRule'
 // import AddDialog from './children/addDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
+import HandleDialog from '../../monitor/children/HandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
 import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
     HsDetailDialog,
+    HandleDialog,
     GlAttachment
   },
   watch: {
@@ -121,6 +129,7 @@ export default {
     return {
       // BsQuery 查询栏
       dialogHsVisible: false,
+      handleDialogVisible: false,
       warningCode: '',
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -429,7 +438,9 @@ export default {
           this.selectData = selection[0]
           if (this.selectData.regulationClass === '07') {
             this.dialogHsVisible = true
-          } else {
+          } else if (this.selectData.regulationClass === '10') {
+            this.handleDialogVisible = true
+          }  else {
             this.dialogVisible = true
           }
           this.dialogTitle = '详细信息'
