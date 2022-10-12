@@ -266,7 +266,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{label}', // {code}-{name}
+          labelFormat: '{code}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -678,7 +678,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: this.params5,
+        // regulationClass: this.params5,
         mofDivCodeList: this.codeList,
         mofdivcode: this.mofdivcode || '',
         triggerClass: this.triggerClass,
