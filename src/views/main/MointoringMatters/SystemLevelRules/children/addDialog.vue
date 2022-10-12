@@ -1337,6 +1337,10 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
         return
       }
+      if (!this.scope?.length) {
+        this.$XModal.message({ status: 'warning', message: '请选择生效范围' })
+        return
+      }
       this.$refs.mountTableRef.validate().then((res) => {
         if (Object.keys(res).length > 0) {
           let errors = Object.values(res)

@@ -619,8 +619,8 @@ export let proconf = {
     }
   ],
   formValidationConfigMessage: {
-    payment: [
-      { required: true, message: '支付要素不能为空', trigger: 'change' }
-    ]
+    // payment: [
+    //   { required: true, message: '支付要素不能为空', trigger: 'change' }
+    // ]
   }
 }
