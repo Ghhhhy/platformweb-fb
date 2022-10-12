@@ -79,6 +79,7 @@ export default {
   },
   data() {
     return {
+      currentRow: null, // 当前点击的单元格属于的行
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -380,6 +381,7 @@ export default {
         }
         this.showViolations = true
         this.fiRuleCode = obj.row.fiRuleCode
+        this.currentRow = obj.row
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

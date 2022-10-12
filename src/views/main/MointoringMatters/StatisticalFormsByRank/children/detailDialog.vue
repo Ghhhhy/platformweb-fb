@@ -72,6 +72,7 @@
 import { proconf } from './detailDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRank.js'
+import WarningDetailsByRuleHttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
 export default {
   components: {
     DetailDialog
@@ -473,7 +474,10 @@ export default {
         mofDivCodeList: this.mofDivCodeList
       }
       this.tableLoading = true
-      HttpModule.getViolationsDetailDatas(param).then(res => {
+      const handler = this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName === '未上传发文扫描件'
+        ? WarningDetailsByRuleHttpModule.getViolationsDetailDataByLogId
+        : HttpModule.getViolationsDetailDatas
+      handler(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
