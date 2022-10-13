@@ -461,7 +461,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       console.log(this.fiRuleCode)
-      const param = {
+      let param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
@@ -471,10 +471,31 @@ export default {
         fiRuleName: this.fiRuleName,
         businessNo: this.payApplyNumber,
         agencyCodeList: this.agencyCodeList,
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        warnLogId: this.$parent?.currentRow.warnLogId
+      }
+      if (this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName.trim() === '未上传发文扫描件') {
+        param = {
+          page: this.mainPagerConfig.currentPage, // 页码
+          pageSize: this.mainPagerConfig.pageSize, // 每页条数
+          warn_level: this.warningLevel, // 预警级别
+          regulation_type: this.regulationtype,
+          mofdivname: this.mofdivname,
+          agencycode: this.agencycode,
+          firulename: this.firulename,
+          fivouno: this.fivouno,
+          useoffunds: this.useoffunds,
+          regulationClass: this.$parent?.currentRow?.regulationClass || '10',
+          warnLogId: this.$parent?.currentRow?.warnLogId,
+          businessTime: this.businessTime,
+          endTime: this.endTime,
+          mark: 1 // 标识预警弹窗使用
+        }
       }
       this.tableLoading = true
-      const handler = this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName === '未上传发文扫描件'
+
+      console.log(this.$parent?.currentRow, '===============')
+      const handler = this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName.trim() === '未上传发文扫描件'
         ? WarningDetailsByRuleHttpModule.getViolationsDetailDataByLogId
         : HttpModule.getViolationsDetailDatas
       handler(param).then(res => {
