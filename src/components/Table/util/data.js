@@ -4,6 +4,7 @@ import GlobalConfig from '../../GlobalConfig/index.js'
 export default function () {
   let self = this
   return {
+    expendAllLoading: false, // 全部展开、全部折叠操作新增loading状态
     caliberDeclareVisible: false, // 口径说明弹窗显隐状态
     showRowDropHelpTip: false,
     scrollLoading: false,
