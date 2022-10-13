@@ -400,17 +400,15 @@
               <el-main width="100%">
                 <el-row>
                   <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生效范围</div>
-                  <el-form-item :disabled="true">
-                    <BsTree
-                      ref="rightTree"
-                      v-model="rightTreeValue"
-                      style="height: calc(100% - 100px)"
-                      :tree-data="treeData"
-                      :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name' } }"
-                      :default-checked-keys="defaultCheckedKeys"
-                      @onNodeCheckClick="onNodeCheckClick"
-                    />
-                  </el-form-item>
+                  <BsTree
+                    ref="rightTree"
+                    v-model="rightTreeValue"
+                    style="height: calc(100% - 100px)"
+                    :tree-data="treeData"
+                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name' } }"
+                    :default-checked-keys="defaultCheckedKeys"
+                    @onNodeCheckClick="onNodeCheckClick"
+                  />
                 </el-row>
               </el-main>
             </el-container>
