@@ -771,7 +771,7 @@ export default {
           break
         // 待归档
         case 'archive':
-          this.status = 2
+          this.status = 1
           this.tableColumnsConfig = proconf.createTableColumns
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
