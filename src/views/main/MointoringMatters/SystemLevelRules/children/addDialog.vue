@@ -448,7 +448,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -956,10 +956,10 @@ export default {
     getChildrenNewData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
-        item.code = item.id
+        item.label = item.text || item.name
+        // item.code = item.id
         item.guid = item.id
-        item.name = item.text
+        item.name = item.text || item.name
         if (item.children) {
           that.getChildrenNewData(item.children)
         }
@@ -1181,12 +1181,12 @@ export default {
               code: 'root',
               isleaf: '0',
               name: '全部',
-              children: res.data
+              children: this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = res.data
+          this.treeData = this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
