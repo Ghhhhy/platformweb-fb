@@ -1083,14 +1083,21 @@ export default {
       //   'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
       //   menuName: this.$store.state.curNavModule.name
       // }
+      let classCode = ''
+      if (that.regulationClass) {
+        let valArr = that.regulationClass.split('-')
+        classCode = valArr[0]
+      }
       console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         const params = {
           regulationCode: this.$parent.DetailData.regulationCode,
+          regulationName: this.$parent.DetailData.regulationName,
           warningLevel: this.warningLevel,
           triggerClass: this.triggerClass,
           handleType: this.handleType,
-          menuName: this.$store.state.curNavModule.name
+          menuName: this.$store.state.curNavModule.name,
+          regulationClass: classCode
         }
         HttpModule.updateData(params).then(res => {
           if (res.code === '000000') {
