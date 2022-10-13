@@ -374,7 +374,11 @@ export default {
             return
           }
           this.selectData = selection[0]
-          this.dialogVisible = true
+          if (this.isRegulationClass10()) {
+            this.handleDialogVisible = true
+          } else {
+            this.dialogVisible = true
+          }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
@@ -442,13 +446,6 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (this.isRegulationClass10()) {
-        this.handleDialogVisible = true
-        this.dialogTitle = '详细信息'
-        this.warningCode = obj.row.warningCode
-        this.fiRuleCode = obj.row.fiRuleCode
-        return
-      }
       let key = obj.column.property
       // console.log(key, obj.row)
       if (key.substring(0, 3) === 'red' || key.substring(0, 6) === 'yellow' || key.substring(0, 6) === 'orange') {
@@ -475,7 +472,7 @@ export default {
       this.queryTableDatas()
     },
     isRegulationClass10() {
-      return this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName === '未上传发文扫描件'
+      return this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName.trim() === '未上传发文扫描件'
     },
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
