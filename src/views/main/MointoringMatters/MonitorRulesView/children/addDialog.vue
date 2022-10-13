@@ -707,10 +707,12 @@ export default {
               isleaf: false,
               axiosConfig: {
                 method: 'get',
-                url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+                // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+                url: `mp-b-basedata-service/v2/basedata/${obj.urlC}/${this.$store.state.userInfo.province}/`
               }
             },
             queryparams: {
+              date: this.$store.state.userInfo.year,
               tokenid: this.$store.getters.getLoginAuthentication.tokenid,
               appguid: 'apaas',
               year: this.$store.state.userInfo.year,
