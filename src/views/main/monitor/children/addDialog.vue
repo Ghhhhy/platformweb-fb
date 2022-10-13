@@ -521,7 +521,7 @@ export default {
       if (res.code === '000000') {
         let resData = res.data.map((item) => {
           return {
-            value: item.id,
+            value: item.code,
             label: item.ruleName
           }
         })
