@@ -16,7 +16,8 @@ export let proconf = {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'dirDataSourceSync', label: '标准数据源数据同步' }
     ]
   },
   highQueryConfig: [
