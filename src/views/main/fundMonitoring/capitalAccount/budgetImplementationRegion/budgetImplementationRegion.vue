@@ -354,7 +354,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas(true)
+      this.queryTableDatas()
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -459,64 +459,17 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       switch (key) {
-        case 'amountSnjxd':
-        case 'amountSjxd':
-          switch (this.params5) {
-            case 'zyzdzjyszxqkfdq':
-              this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
-              break
-            case 'zyczzdzjyszxqk_fdq':
-              this.handleDetail('czzdzjxmmx_fdq_zyxd', obj.row.code, key)
-              break
-          }
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountZyxd':
-          this.handleDetail('zdzjxmmx_fzj_zyxdh', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountXjxd':
-          this.handleDetail('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountPayAll':
-        case 'amountSnjpay':
-        case 'amountSjpay':
-        case 'amountXjpay':
-          this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
-          this.detailTitle = '直达资金支出明细'
-          break
-        // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
-        case 'amountSnjwfp':
-        case 'amountSjwfp':
-          this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountXjwfp':
-          this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
-          break
-        // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
+        // 省本级分配走直达资金项目明细
         case 'amountSnjbjfp':
-        case 'amountSnjxjfp':
         case 'amountSbjfp':
-        case 'amountSxjfp':
         case 'amountXjfp':
-          this.handleDetail('zdzjzbmx_fzjfp', obj.row.code, key)
-          this.detailTitle = '直达资金指标明细'
+          this.handleDetail('zdzjxmmx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
           break
-        // case 'amountSnjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
-        //   this.detailTitle = '支出明细'
-        //   break
-        // case 'amountSjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
-        //   this.detailTitle = '支出明细'
-        //   break
-        // case 'amountXjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
-        //   this.detailTitle = '支出明细'
-        //   break
+        // 支出走地区支付明细
+        case 'amountPayAll':
+          this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
+          this.detailTitle = 'XX地区支出明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -627,7 +580,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
+      if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

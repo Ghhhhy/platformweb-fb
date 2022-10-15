@@ -36,8 +36,10 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :scroll-y="scrollConfig"
+          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
+          @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
           <!--口径说明插槽-->
@@ -69,12 +71,16 @@
     <DetailDialog
       v-if="detailVisible"
       :title="detailTitle"
+      :detail-type="detailType"
       :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
       :title="sDetailTitle"
       :s-detail-data="sDetailData"
+      :s-detail-query-param="sDetailQueryParam"
+      :s-detail-type="sDetailType"
     />
   </div>
 </template>
@@ -225,7 +231,9 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      detailQueryParam: {},
+      sDetailQueryParam: {}
     }
   },
   mounted() {
@@ -363,6 +371,43 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
+    handleDetail(type, trackProCode) {
+      let params = {
+        reportCode: type,
+        trackProCode: trackProCode,
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      }
+      this.detailType = type
+      this.detailQueryParam = params
+      this.detailVisible = true
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     // this.reportTime = res.data.reportTime || ''
+      //     this.detailVisible = true
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      let key = obj.column.property
+      switch (key) {
+        case 'amountSnjfpbjDfap':
+          this.handleDetail('zdzjxmmx', obj.row.code)
+          this.detailTitle = '地方安排明细'
+          break
+        case 'amountSnjfpAll':
+        case 'amountSjfpbjAll':
+        case 'amountXjfpAll':
+          this.handleDetail('zdzjxmmx_dfap', obj.row.code)
+          this.detailTitle = '直达资金项目明细'
+          break
+      }
+    },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = false) {
       this.queryTableDatas(isFlush)
@@ -372,7 +417,8 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: 'zyhdfysxd_fzjzd',
+        // reportCode: 'zyhdfysxd_fzjzd',
+        reportCode: this.params5,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
@@ -393,9 +439,18 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (['amountSnjfpbjDfap', 'amountSnjfpAll', 'amountSjfpbjAll', 'amountXjfpAll'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid

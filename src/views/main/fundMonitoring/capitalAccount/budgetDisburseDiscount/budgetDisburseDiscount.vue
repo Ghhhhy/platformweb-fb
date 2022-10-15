@@ -512,7 +512,8 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: 'zdzjhqlmffmx',
+        // reportCode: 'zdzjhqlmffmx',
+        reportCode: this.params5,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
@@ -589,6 +590,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuName = this.$store.state.curNavModule.name
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

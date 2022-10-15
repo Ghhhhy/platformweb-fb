@@ -23,6 +23,16 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
   {
+    path: '/BudgetDisburseRegionCZ', // // 参照直达资金支出_分地区
+    name: 'BudgetDisburseRegionCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseRegion/budgetDisburseRegion.vue')
+  },
+  {
+    path: '/BudgetDisburseCapitalCZ', // 参照直达资金支出_分资金
+    name: 'BudgetDisburseCapitalCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseCapital/budgetDisburseCapital.vue')
+  },
+  {
     path: '/BudgetDisburseRegion', // // 直达资金支出_分地区
     name: 'BudgetDisburseRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseRegion/budgetDisburseRegion.vue')
@@ -33,8 +43,13 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseCapital/budgetDisburseCapital.vue')
   },
   {
-    path: '/BudgetDisburseDiscount', // 惠企利民
+    path: '/BudgetDisburseDiscount', // 直达资金惠企利民发放明细
     name: 'BudgetDisburseDiscount',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseDiscount/budgetDisburseDiscount.vue')
+  },
+  {
+    path: '/BudgetDisburseDiscountCZ', // 参照直达资金惠企利民发放明细
+    name: 'BudgetDisburseDiscountCZ',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseDiscount/budgetDisburseDiscount.vue')
   },
   {
@@ -43,8 +58,18 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseObject/budgetDisburseObject.vue')
   },
   {
+    path: '/BudgetDisburseObjectCZ', // 参照直达资金项目查询
+    name: 'BudgetDisburseObjectCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseObject/budgetDisburseObject.vue')
+  },
+  {
     path: '/BudgetDisburseSubject', // 直达资金支出_分科目
     name: 'BudgetDisburseSubject',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseSubject/budgetDisburseSubject.vue')
+  },
+  {
+    path: '/BudgetDisburseSubjectCZ', // 参照直达资金支出_分科目
+    name: 'BudgetDisburseSubjectCZ',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetDisburseSubject/budgetDisburseSubject.vue')
   },
   {
@@ -58,6 +83,16 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetReleaseCapital/budgetReleaseCapital.vue')
   },
   {
+    path: '/BudgetReleaseRegionCZ', // 中央和地方预算下达分地区直达参照
+    name: 'BudgetReleaseRegionCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetReleaseRegion/budgetReleaseRegion.vue')
+  },
+  {
+    path: '/BudgetReleaseCapitalCZ', // 中央和地方预算下达分资金直达参照
+    name: 'BudgetReleaseCapitalCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetReleaseCapital/budgetReleaseCapital.vue')
+  },
+  {
     path: '/BudgetPayRegion', // 中央和地方预算支出分地区
     name: 'BudgetPayRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetPayRegion/budgetPayRegion.vue')
@@ -65,6 +100,16 @@ const routers = [
   {
     path: '/BudgetPayCapital', // 中央和地方预算支出分资金
     name: 'BudgetPayCapital',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetPayCapital/budgetPayCapital.vue')
+  },
+  {
+    path: '/BudgetPayRegionCZ', // 中央和地方预算支出分地区参照
+    name: 'BudgetPayRegionCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetPayRegion/budgetPayRegion.vue')
+  },
+  {
+    path: '/BudgetPayCapitalCZ', // 中央和地方预算支出分资金参照
+    name: 'BudgetPayCapitalCZ',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetPayCapital/budgetPayCapital.vue')
   },
   {
@@ -231,11 +276,16 @@ const routers = [
     name: 'DfrBudgetReleaseCapital',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrBudgetReleaseCapital/dfrBudgetReleaseCapital.vue')
   },
-  // {
-  //   path: '/BenefitEnterprisesAndPeople', // 惠企利民
-  //   name: 'BenefitEnterprisesAndPeople',
-  //   component: () => import('../../../views/main/fundMonitoring/benefitEnterprisesAndPeople/benefitEnterprisesAndPeople.vue')
-  // },
+  {
+    path: '/DfrBudgetReleaseRegionCZ', // 参照直达资金预算下达_分地区
+    name: 'DfrBudgetReleaseRegionCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrBudgetReleaseRegion/dfrBudgetReleaseRegion.vue')
+  },
+  {
+    path: '/DfrBudgetReleaseCapitalCZ', // 参照直达资金预算下达_分资金
+    name: 'DfrBudgetReleaseCapitalCZ',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrBudgetReleaseCapital/dfrBudgetReleaseCapital.vue')
+  },
   {
     path: '/BenefitEnterprisesAndPeople', // 惠企利民
     name: 'BenefitEnterprisesAndPeople',

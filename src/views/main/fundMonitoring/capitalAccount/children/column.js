@@ -125,7 +125,7 @@ const proconf = {
   projectColumn: [
     {
       title: '资金名称',
-      field: 'speTypeName',
+      field: 'trackProName',
       align: 'center'
     },
     {
@@ -142,7 +142,7 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
+      field: 'expFuncName',
       sortable: false,
       align: 'center'
     },
@@ -151,15 +151,114 @@ const proconf = {
       align: 'center',
       children: [
         {
-          title: '总金额',
-          field: 'fpAmount',
+          title: '金额',
+          field: 'amountAllfp',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
           title: '其中：中央直达资金',
-          field: 'fpAmount',
+          field: 'amountZdzjFp',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        }
+      ]
+    },
+    {
+      title: '支付金额（单位:万元）',
+      align: 'center',
+      children: [
+        {
+          title: '金额',
+          field: 'amountPayAll',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '中央安排',
+          field: 'amountPayZdzj',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        }
+      ]
+    },
+    {
+      title: '惠企利民',
+      field: 'hqlm',
+      sortable: false,
+      align: 'center'
+    }
+  ],
+  // 直达资金项目明细
+  zdzjprojectColumn: [
+    {
+      title: '资金名称',
+      field: 'trackProName',
+      align: 'center'
+    },
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      field: 'agencyName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      sortable: false,
+      align: 'center'
+    },
+    // {
+    //   title: '支出功能科目',
+    //   field: 'xjExpFuncName',
+    //   sortable: false,
+    //   align: 'center'
+    // },
+    {
+      title: '预算金额（单位:万元）',
+      align: 'center',
+      children: [
+        {
+          title: '总金额',
+          field: 'amountAllfp',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '中央安排',
+          field: 'amountbjfpzyap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '省级安排',
+          field: 'amountbjfpsnjap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '市级安排',
+          field: 'amountbjfpsjap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '县级安排',
+          field: 'amountbjfpxjap',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
@@ -172,14 +271,35 @@ const proconf = {
       children: [
         {
           title: '总金额',
-          field: 'payAppAmt',
+          field: 'amountPayAll',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
-          title: '其中：中央直达资金',
-          field: 'payAppAmt',
+          title: '中央安排',
+          field: 'amountpayzyap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '省级安排',
+          field: 'amountpaysnjap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '市级安排',
+          field: 'amountpaysjap',
+          sortable: false,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '县级安排',
+          field: 'amountpayxjap',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
@@ -188,7 +308,13 @@ const proconf = {
     },
     {
       title: '惠企利民',
-      field: '',
+      field: 'hqlm',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '发放表',
+      field: 'ffb',
       sortable: false,
       align: 'center'
     }

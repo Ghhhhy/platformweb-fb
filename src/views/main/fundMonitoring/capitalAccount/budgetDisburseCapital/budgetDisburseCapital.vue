@@ -41,7 +41,7 @@
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
-          <!--口径说明插槽-->
+        <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
             <p v-html="caliberDeclareContent"></p>
           </template>
@@ -70,12 +70,16 @@
     <DetailDialog
       v-if="detailVisible"
       :title="detailTitle"
+      :detail-type="detailType"
       :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
       :title="sDetailTitle"
       :s-detail-data="sDetailData"
+      :s-detail-query-param="sDetailQueryParam"
+      :s-detail-type="sDetailType"
     />
   </div>
 </template>
@@ -243,7 +247,9 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      detailQueryParam: {},
+      sDetailQueryParam: {}
     }
   },
   mounted() {
@@ -387,24 +393,25 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, speTypeCode) {
+    handleDetail(type, trackProCode) {
       let params = {
-        reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
-        speTypeCode: speTypeCode,
+        reportCode: type,
+        trackProCode: trackProCode,
         mofDivCode: '',
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
+      this.detailQueryParam = params
+      this.detailType = type
       this.detailVisible = true
-      this.tableLoading = true
-      HttpModule.queryTableDatas(params).then((res) => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.detailData = res.data
-          this.detailType = type
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -414,10 +421,10 @@ export default {
           this.handleDetail('jOut', obj.row.speTypeCode)
           this.detailTitle = '支出明细'
           break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.speTypeCode)
+        case 'amountSnjZcjeZje':
+        case 'amountSjZcjeZje':
+        case 'amountXjZjzlZje':
+          this.handleDetail('zdzjzcmx_fdq', obj.row.code)
           this.detailTitle = '直达资金项目明细'
       }
     },
@@ -430,7 +437,8 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: 'zdzjzjzc_fzj',
+        // reportCode: 'zdzjzjzc_fzj',
+        reportCode: this.params5,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
@@ -457,7 +465,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      if (['amountSnjZcjeZje', 'amountSjZcjeZje', 'amountXjZjzlZje'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -466,6 +474,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid
