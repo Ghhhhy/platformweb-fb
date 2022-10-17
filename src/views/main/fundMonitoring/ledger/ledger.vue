@@ -296,9 +296,39 @@ export default {
           })
           this.delete(deleteCodes)
           break
+        case 'dirDataSourceSync':
+          this.dirDataSourceSync()
+          break
         default:
           break
       }
+    },
+    dirDataSourceSync() {
+      this.$confirm('此操作将删除之前的数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.showLoading = true
+        var _this = this
+        HttpModule
+          .dirDataSourceSync()
+          .then(res => {
+            _this.showLoading = false
+            if (res.code === '000000') {
+              this.$message({
+                type: 'success',
+                message: '同步成功!'
+              })
+            }
+          })
+          .catch()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     delete(reportCodes) {
       this.$confirm('此操作将永久删除选中数据, 是否继续?', '提示', {

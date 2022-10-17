@@ -1,5 +1,5 @@
 //  数据抽取api
-import { post } from '@/api/http'
+import { get, post } from '@/api/http'
 export default {
   // 获取表格数据
   queryTableDatas (params) {
@@ -16,5 +16,9 @@ export default {
   // 删除
   deleteLedger (params) {
     return post('dfr-monitor-service/dfr/ledger/deleteLedger', params)
+  },
+  // 数据源数据同步
+  dirDataSourceSync () {
+    return get('dfr-monitor-service/dfr//zdzjledger/doDataSourceSync')
   }
 }
