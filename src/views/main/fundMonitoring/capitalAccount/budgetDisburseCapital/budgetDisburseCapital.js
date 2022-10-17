@@ -98,24 +98,21 @@ const proconf = {
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
-            field: 'amountZyxd',
-            formula: '{amountSnjZjzlZje}+{amountSjZjzlZje}+{amountXjZjzlZje}'
+            field: 'amountZyxd'
           },
           {
             title: '整合金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
-            field: 'amountQsZhje',
-            formula: '{amountSnjZhjeZje}+{amountSjZhjezje}+{amountSjZhjezje}'
+            field: 'amountQsZhje'
           },
           {
             title: '支出金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
-            field: 'amountQsZcje',
-            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
+            field: 'amountQsZcje'
           },
           {
             title: '支出进度',
