@@ -37,7 +37,7 @@
           open-loading
           :filter-text="leftTreeFilterText"
           :tree-data="treeData"
-          :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
           @onNodeClick="onClickmethod"
         />
       </template>
