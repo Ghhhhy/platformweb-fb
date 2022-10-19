@@ -117,8 +117,8 @@ export default {
   components: {
     DetailDialog,
     HsDetailDialog,
-    HandleDialog,
-    GlAttachment
+    GlAttachment,
+    HandleDialog
   },
   watch: {
     queryConfig() {

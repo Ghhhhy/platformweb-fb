@@ -982,9 +982,9 @@ export default {
       }
       this.wheresql && (params.wheresql = this.wheresql)
 
-      HttpModule.getTreeData(params).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = res.data.data
+      HttpModule.getTreeData1(params).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = res.data
           treeResdata.forEach(item => {
             item.label = item.code + '-' + item.name
           })

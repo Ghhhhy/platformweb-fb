@@ -210,17 +210,17 @@ export default {
         case 'zjzcmx_fdq':
           this.tableColumnsConfig = proconf.expenditureColumn
           break
+        case 'zdzjzcmx_fdq':
+          this.tableColumnsConfig = proconf.payColumn
+          break
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         // 指标明细
         case 'zdzjzbmx_fzj':
-          this.tableColumnsConfig = proconf.targetColumn
-          break
         case 'zdzjzbmx_fdq':
-          this.tableColumnsConfig = proconf.targetColumn
-          break
         case 'czzdzjzbmx_fdq':
+        case 'zdzjzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
           break
         default:
@@ -230,9 +230,16 @@ export default {
     }
   },
   mounted() {
-    this.showInfo()
+    // this.showInfo()
   },
-  watch: {},
+  watch: {
+    sDetailType: {
+      handler() {
+        this.showInfo()
+      },
+      immediate: true
+    }
+  },
   created() {
   }
 }

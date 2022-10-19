@@ -236,6 +236,7 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+        case 'zdzjzcmx_fzj':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -271,6 +272,21 @@ export default {
           this.queryConfig = proconf.highQueryConfig1
           this.searchDataList = proconf.highQueryData1
           break
+        // case 'zdzjxmmx':
+        //   this.tableColumnsConfig = proconf.projectColumn
+        //   break
+        case 'zdzjzcmx':
+          this.tableColumnsConfig = proconf.expenditureColumn
+          break
+        case 'zdzjxmmx_dfap':
+        case 'sbjfpaAmount':
+        case 'shbjfpaAmount':
+        case 'xyfpaAmount':
+          this.tableColumnsConfig = proconf.zdzjprojectColumn
+          break
+        case 'zdzjxmmx':
+          this.tableColumnsConfig = proconf.projectColumn
+          break
         default:
           break
       }
@@ -302,35 +318,34 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
-      // if (['fpAmount'].includes(column.property)) {
-      //   return {
-      //     color: '#4293F4',
-      //     textDecoration: 'underline'
-      //   }
-      // }
+      if (['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
       switch (key) {
-        case 'fpAmount':
-          if (this.detailType === 'zdzjxmmx_fdq_zyxd') {
-            // this.handleDetail('zdzjzbmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-            // this.$parent.sDetailTitle = '可执行指标明细'
-          } else if (this.detailType === 'zdzjxmmx_fzj_zyxd') {
-            // this.handleDetailfzj('zdzjzbmx_fdq', obj.row.proCode)
-            // this.$parent.sDetailTitle = '可执行指标明细'
-          } else if (this.detailType === 'czzdzjxmmx_fdq_zyxd') {
-            this.handleDetail('czzdzjzbmx_fdq', obj.row.proCode, obj.row.mofDivCode)
-            this.$parent.sDetailTitle = '可执行指标明细'
-          } else if (this.detailType === 'czzdzjxmmx_fzj_zyxd') {
-            this.handleDetailfzj('czzdzjzbmx_fdq', obj.row.proCode)
-            this.$parent.sDetailTitle = '可执行指标明细'
+        case 'amountZdzjFp':
+          if (this.detailType === 'zdzjxmmx') {
+            this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+            this.$parent.sDetailTitle = 'xx资金支出台账明细'
           }
           break
-        // case 'payAppAmt':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.speTypeCode, obj.row.mofDivCode)
-        //   this.$parent.sDetailTitle = '支出明细'
+        case 'amountPayAll':
+          this.handleDetail('zdzjzcmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+          this.$parent.sDetailTitle = '支出明细'
+          break
+        case 'amountbjfpsnjap':
+        case 'amountbjfpzyap':
+        case 'amountbjfpsjap':
+        case 'amountbjfpxjap':
+          this.handleDetail('zdzjzbmx_fzj', obj.row.speTypeCode, obj.row.mofDivCode)
+          this.$parent.sDetailTitle = '支出台账明细'
+          break
       }
     }
   },

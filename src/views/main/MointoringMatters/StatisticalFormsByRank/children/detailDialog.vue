@@ -65,16 +65,25 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <HandleDialog
+      v-if="handleDialogVisible"
+      :title="dialogTitle"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+    />
   </div>
 </template>
 
 <script>
 import { proconf } from './detailDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
+import HandleDialog from '@/views/main/monitor/children/HandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRank.js'
+import WarningDetailsByRuleHttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    HandleDialog
   },
   props: {
     title: {
@@ -113,6 +122,7 @@ export default {
   },
   data() {
     return {
+      handleDialogVisible: false,
       showInfo: false,
       warningCode: '',
       isShowQueryConditions: true,
@@ -364,7 +374,11 @@ export default {
             return
           }
           this.selectData = selection[0]
-          this.dialogVisible = true
+          if (this.isRegulationClass10()) {
+            this.handleDialogVisible = true
+          } else {
+            this.dialogVisible = true
+          }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
@@ -457,10 +471,13 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
+    isRegulationClass10() {
+      return this.$parent?.currentRow?.regulationClass === '10' || this.$parent?.currentRow?.fiRuleName.trim() === '未上传发文扫描件'
+    },
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       console.log(this.fiRuleCode)
-      const param = {
+      let param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
@@ -470,10 +487,33 @@ export default {
         fiRuleName: this.fiRuleName,
         businessNo: this.payApplyNumber,
         agencyCodeList: this.agencyCodeList,
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        warnLogId: this.$parent?.currentRow.warnLogId
+      }
+      if (this.isRegulationClass10()) {
+        param = {
+          page: this.mainPagerConfig.currentPage, // 页码
+          pageSize: this.mainPagerConfig.pageSize, // 每页条数
+          warn_level: this.warningLevel, // 预警级别
+          regulation_type: this.regulationtype,
+          mofdivname: this.mofdivname,
+          agencycode: this.agencycode,
+          firulename: this.firulename,
+          fivouno: this.fivouno,
+          useoffunds: this.useoffunds,
+          regulationClass: this.$parent?.currentRow?.regulationClass || '10',
+          warnLogId: this.$parent?.currentRow?.warnLogId,
+          businessTime: this.businessTime,
+          endTime: this.endTime,
+          mark: 1 // 标识预警弹窗使用
+        }
       }
       this.tableLoading = true
-      HttpModule.getViolationsDetailDatas(param).then(res => {
+
+      const handler = this.isRegulationClass10()
+        ? WarningDetailsByRuleHttpModule.getViolationsDetailDataByLogId
+        : HttpModule.getViolationsDetailDatas
+      handler(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
