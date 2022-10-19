@@ -115,8 +115,7 @@ const proconf = {
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
-            },
-            formula: '{zaAmount}'
+            }
           },
           {
             title: '支出进度',
@@ -242,7 +241,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100'
+                formula: '{amountSnjzyxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100'
               },
               {
                 title: '地方安排',
@@ -250,7 +249,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjdfpay}/{amountSnjdfdf}*100'
+                formula: '{amountSnjdfdf}-0==0?0:{amountSnjdfpay}/{amountSnjdfdf}*100'
               },
               {
                 title: '总进度',
@@ -260,7 +259,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({szyappPro}/2+{sdfappPro}/2)'
+                formula: '({sapAmount}/{saaAmount})'
               }
             ]
           }
@@ -396,7 +395,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shzyappPro}/2+{shdfappPro}/2)'
+                formula: '({shapAmount}/{shaaAmount})'
               }
             ]
           }
@@ -532,7 +531,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({xzyapPro}/2+{xdfappPro}/2)'
+                formula: '({xapAmount}/{xaaAmount})'
               }
             ]
           }
