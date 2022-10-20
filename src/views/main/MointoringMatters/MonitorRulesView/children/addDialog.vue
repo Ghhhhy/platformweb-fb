@@ -1009,9 +1009,9 @@ export default {
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
         that.treeData = res.data
-        this.$nextTick(() => {
-          this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
-        })
+        // this.$nextTick(() => {
+        //   this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
+        // })
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
           // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
