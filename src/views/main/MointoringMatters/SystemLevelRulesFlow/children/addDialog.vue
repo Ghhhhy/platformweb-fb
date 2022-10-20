@@ -376,7 +376,7 @@
                     v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'code', label: 'name' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'id', label: 'name' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
