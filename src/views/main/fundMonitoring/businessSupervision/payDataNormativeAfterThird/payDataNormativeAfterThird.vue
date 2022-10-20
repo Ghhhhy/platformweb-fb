@@ -531,10 +531,10 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const currentNode = this.$refs.leftTree?.$refs?.tree?.getCurrentNode?.()
-      let mofDivCodeList = []
+      const mofDivCodeList = []
       if (currentNode) {
-        mofDivCodeList = this.$XEUtils.mapTree([currentNode], item => {
-          return item?.code
+        this.$XEUtils.eachTree([currentNode], item => {
+          item?.code && mofDivCodeList.push(item?.code)
         })
       }
       const param = {
