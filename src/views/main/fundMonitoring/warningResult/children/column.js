@@ -121,6 +121,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '问题明细',
       field: 'matterDetail',
       sortable: false,
@@ -236,6 +252,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '问题明细',
       field: 'matterDetail',
       sortable: false,
@@ -349,6 +381,22 @@ const proconf = {
       props: {
         format: '{agencyCode}-{agencyName}'
       }
+    },
+    {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -585,6 +633,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -816,6 +880,22 @@ const proconf = {
       props: {
         format: '{agencyCode}-{agencyName}'
       }
+    },
+    {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1051,6 +1131,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1282,6 +1378,22 @@ const proconf = {
       props: {
         format: '{agencyCode}-{agencyName}'
       }
+    },
+    {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1517,6 +1629,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1748,6 +1876,22 @@ const proconf = {
       props: {
         format: '{agencyCode}-{agencyName}'
       }
+    },
+    {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1983,6 +2127,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -2216,6 +2376,22 @@ const proconf = {
       }
     },
     {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -2447,6 +2623,22 @@ const proconf = {
       props: {
         format: '{agencyCode}-{agencyName}'
       }
+    },
+    {
+      title: '支付申请金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '用途',
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '专项资金',
