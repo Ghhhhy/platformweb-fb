@@ -38,7 +38,7 @@
           style="overflow: hidden"
           :tree-data="treeData"
           :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
-          @onNodeCheckClick="onClickmethod"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>

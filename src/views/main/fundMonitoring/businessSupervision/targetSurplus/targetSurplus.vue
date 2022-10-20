@@ -385,7 +385,7 @@ export default {
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = false) {
+    queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
         reportCode: 'dfzbyecx',
