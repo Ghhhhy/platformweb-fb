@@ -667,15 +667,15 @@ export default {
       switch (obj.code) {
         // 挂接
         case 'hook_set':
-          if (datas1.length !== 1) {
-            this.$message.warning('请选择一条惠民支付明细数据')
-            return
-          }
+          // if (datas1.length !== 1) {
+          //   this.$message.warning('请选择一条惠民支付明细数据')
+          //   return
+          // }
           if (datas2.length !== 1) {
             this.$message.warning('请选择一条支付凭证信息数据')
             return
           }
-          this.hook(datas1[0], datas2[0])
+          this.hook(datas1, datas2[0])
           break
         // 手动读取
         case 'peo_read':
@@ -732,6 +732,7 @@ export default {
       const param = {
         payCertNo: datas1.payCertNo,
         id: datas1.id,
+        payCers: datas1,
         payCertId: datas2.payCertId
       }
       HttpModule.update(param).then(res => {

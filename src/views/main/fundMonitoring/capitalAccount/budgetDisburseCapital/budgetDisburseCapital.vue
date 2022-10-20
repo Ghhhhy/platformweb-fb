@@ -429,7 +429,7 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh(isFlush = false) {
+    refresh(isFlush = true) {
       this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },

@@ -38,7 +38,7 @@
           style="overflow: hidden"
           :tree-data="treeData"
           :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
-          @onNodeCheckClick="onClickmethod"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -530,13 +530,21 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      const currentNode = this.$refs.leftTree?.$refs?.tree?.getCurrentNode?.()
+      const mofDivCodeList = []
+      if (currentNode) {
+        this.$XEUtils.eachTree([currentNode], item => {
+          item?.code && mofDivCodeList.push(item?.code)
+        })
+      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         createDateStr: this.createDateStr,
         fiscalYear: this.fiscalYear,
         reportCode: 'zfsjgfxjcfy3hhgjdzf',
-        mofDivCode: this.mofdivcode || ''
+        mofDivCode: this.mofdivcode || '',
+        mofDivCodeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

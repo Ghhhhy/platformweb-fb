@@ -443,7 +443,7 @@ export default {
       this.dialogTitle = '新增'
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = false) {
+    queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
