@@ -530,13 +530,21 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      const currentNode = this.$refs.leftTree?.$refs?.tree?.getCurrentNode?.()
+      let mofDivCodeList = []
+      if (currentNode) {
+        mofDivCodeList = this.$XEUtils.mapTree([currentNode], item => {
+          return item?.code
+        })
+      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         createDateStr: this.createDateStr,
         fiscalYear: this.fiscalYear,
         reportCode: 'zfsjgfxjcfy3hhgjdzf',
-        mofDivCode: this.mofdivcode || ''
+        mofDivCode: this.mofdivcode || '',
+        mofDivCodeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
