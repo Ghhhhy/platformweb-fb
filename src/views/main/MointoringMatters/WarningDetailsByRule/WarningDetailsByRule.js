@@ -318,47 +318,47 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    {
-      title: '支付申请编码',
-      'width': 180,
-      field: 'fivouno',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      'title': '支付申请金额',
-      'field': 'paymentamount',
-      'width': '200',
-      'align': 'right',
-      'filters': '[object Object]',
-      'filterRender': {
-        'name': 'FilterNumberCompare'
-      },
-      'combinedType': 'average,subTotal,total,totalAll',
-      'cellRender': {
-        'name': '$moneyRender',
-        'options': [],
-        'defaultValue': '',
-        'props': {}
-      },
-      'name': '$moneyRender',
-      'fixed': '',
-      'formula': '',
-      'constraint': '',
-      'sortable': 'true',
-      'associatedQuery': '',
-      'className': '',
-      'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
-    },
-    {
-      title: '资金用途',
-      'width': 180,
-      field: 'useoffunds',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '支付申请编码',
+    //   'width': 180,
+    //   field: 'fivouno',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   'title': '支付申请金额',
+    //   'field': 'paymentamount',
+    //   'width': '200',
+    //   'align': 'right',
+    //   'filters': '[object Object]',
+    //   'filterRender': {
+    //     'name': 'FilterNumberCompare'
+    //   },
+    //   'combinedType': 'average,subTotal,total,totalAll',
+    //   'cellRender': {
+    //     'name': '$moneyRender',
+    //     'options': [],
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   'name': '$moneyRender',
+    //   'fixed': '',
+    //   'formula': '',
+    //   'constraint': '',
+    //   'sortable': 'true',
+    //   'associatedQuery': '',
+    //   'className': '',
+    //   'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
+    // },
+    // {
+    //   title: '资金用途',
+    //   'width': 180,
+    //   field: 'useoffunds',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '监控拦截时间',
       'width': 180,

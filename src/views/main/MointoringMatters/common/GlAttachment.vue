@@ -16,7 +16,7 @@
           />
           <!-- <el-button type="primary" @click="deleteAttachment">删除</el-button> -->
           <el-button type="primary" @click="downloadAttachment">下载</el-button>
-          <el-button @click="preview">预览</el-button>
+          <!-- <el-button @click="preview">预览</el-button>-->
         </el-row>
         <div style="height:360px;">
           <BsTable
