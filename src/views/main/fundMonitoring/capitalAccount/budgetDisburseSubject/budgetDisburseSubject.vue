@@ -386,7 +386,7 @@ export default {
         reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
         speTypeCode: speTypeCode,
         mofDivCode: '',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.detailVisible = true
       this.tableLoading = true
@@ -426,7 +426,7 @@ export default {
         isFlush,
         // reportCode: 'zdzjzc_fkm',
         reportCode: this.params5,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true

@@ -378,7 +378,7 @@ export default {
       let params = {
         reportCode: type === 'jOut' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
         mofDivCode: recDivCode,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       // this.tableLoading = true
@@ -3896,7 +3896,7 @@ export default {
       const param = {
         isFlush,
         reportCode: 'zyzdzjyszxqkfdq',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true
