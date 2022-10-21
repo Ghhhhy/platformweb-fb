@@ -246,7 +246,6 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           { value: '预算执行', label: '预算执行' },
-          { value: '预算管理', label: '预算管理' },
           { value: '单位核算', label: '单位核算' }
         ],
         props: {

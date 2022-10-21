@@ -481,7 +481,7 @@ export default {
     getRegulationChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || `${item.code}-${item.name}`
         if (item.children && item.children.length > 0) {
           that.getRegulationChildrenData(item.children)
           item.leaf = false

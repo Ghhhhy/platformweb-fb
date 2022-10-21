@@ -154,15 +154,15 @@ export let proconf = {
       iconNameActive: 'base-all-active.png',
       type: 'button',
       curValue: '2'
-    },
-    {
-      code: '3',
-      label: '专户资金细化汇总',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
-      type: 'button',
-      curValue: '3'
     }
+    // {
+    //   code: '3',
+    //   label: '专户资金细化汇总',
+    //   iconName: 'base-all.png',
+    //   iconNameActive: 'base-all-active.png',
+    //   type: 'button',
+    //   curValue: '3'
+    // }
   ],
   curStatusButton1: {
     label: '单位指标综合查看文号汇总',
