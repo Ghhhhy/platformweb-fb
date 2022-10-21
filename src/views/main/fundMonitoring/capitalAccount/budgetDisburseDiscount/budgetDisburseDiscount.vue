@@ -382,7 +382,7 @@ export default {
       // let params = {
       //   reportCode: type === 'beAmount' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
       //   mofDivCode: recDivCode,
-      //   fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      //   fiscalYear: this.searchDataList.fiscalYear
       // }
       // this.tableLoading = true
       this.tableLoading = true

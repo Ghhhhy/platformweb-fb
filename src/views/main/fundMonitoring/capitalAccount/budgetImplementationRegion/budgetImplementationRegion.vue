@@ -512,7 +512,7 @@ export default {
       const param = {
         isFlush,
         reportCode: this.params5,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }

@@ -877,16 +877,16 @@ export let proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' } }
     },
-    {
-      title: '收支类别',
-      field: 'pro_cat_name',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '收支类别' }
-      }
-    },
+    // {
+    //   title: '收支类别',
+    //   field: 'pro_cat_name',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '收支类别' }
+    //   }
+    // },
     {
       title: '付款人',
       field: 'pay_acct_name',

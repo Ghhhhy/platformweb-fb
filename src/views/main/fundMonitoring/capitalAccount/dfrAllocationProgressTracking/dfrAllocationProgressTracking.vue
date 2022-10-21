@@ -441,7 +441,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         reportCode: this.params5,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true

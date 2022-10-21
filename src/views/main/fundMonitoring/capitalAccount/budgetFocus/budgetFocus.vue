@@ -3841,7 +3841,7 @@ export default {
         reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
         speTypeCode: speTypeCode,
         mofDivCode: '',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.detailVisible = true
       this.tableLoading = true
@@ -3879,7 +3879,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         reportCode: 'zyzdzjyszxqkfzj',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
