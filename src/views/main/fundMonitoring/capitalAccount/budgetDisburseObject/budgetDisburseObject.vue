@@ -360,6 +360,8 @@ export default {
       this.proName = obj.proName
       this.hqlm = obj.hqlm
       this.endTime = obj.endTime
+      this.proCodes = obj.proCodes_code__multiple
+      this.expFuncCodes = obj.expFuncCodes_code__multiple
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -596,6 +598,36 @@ export default {
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getExcFunc() {
+      HttpModule.getExpFuncTreeData().then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
@@ -659,7 +691,9 @@ export default {
         endTime: this.endTime,
         hqlm: this.hqlm,
         iscz: this.params5 === 'czzd', // 菜单参照直达标识
-        mofDivCodes: this.codeList
+        mofDivCodes: this.codeList,
+        proCodes: this.proCodes === '' ? [] : this.proCodes,
+        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes
       }
       this.tableLoading = true
       HttpModule.xmPageQuery(param).then(res => {
@@ -777,6 +811,8 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
+    this.getPro()
+    this.getExcFunc()
     this.getLeftTreeData()
     this.queryTableDatas()
   }

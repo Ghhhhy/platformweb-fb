@@ -40,29 +40,69 @@ export let proconf = {
     },
     {
       title: '资金名称',
-      field: 'speTypeName',
+      field: 'proCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '资金名称'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '资金名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
+    // {
+    //   title: '功能科目',
+    //   field: 'expFuncName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: {
+    //       placeholder: '功能科目'
+    //     }
+    //   }
+    // },
     {
       title: '功能科目',
-      field: 'expFuncName',
+      field: 'expFuncCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '功能科目'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '功能科目',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -123,7 +163,9 @@ export let proconf = {
     expFuncName: '',
     proName: '',
     hqlm: '',
-    endTime: ''
+    endTime: '',
+    proCodes: '',
+    expFuncCodes: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
