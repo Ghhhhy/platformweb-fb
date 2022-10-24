@@ -1219,8 +1219,8 @@ export default {
           this.formDatas.agency_name = this.formDatas.agencyName
           this.formDatas.pro_code = this.formDatas.proCode
           this.formDatas.pro_name = this.formDatas.proName
-          this.formDatas.exp_func_code = this.formDatas.excFunCode
-          this.formDatas.exp_func_name = this.formDatas.excFunName
+          this.formDatas.exp_func_code = this.formDatas.expFunCode
+          this.formDatas.exp_func_name = this.formDatas.expFunName
           this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
           this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
           this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode

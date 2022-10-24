@@ -276,7 +276,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -284,7 +284,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'firulename',
+      field: 'fiRuleName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -292,7 +292,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofdivcode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -300,7 +300,7 @@ export let proconf = {
     {
       title: '预警级别',
       'width': 180,
-      field: 'warnlevel',
+      field: 'warnLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -308,7 +308,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationtype',
+      field: 'regulationType',
       sortable: false,
       filters: false,
       align: 'center'
@@ -316,7 +316,7 @@ export let proconf = {
     {
       title: '预算单位编码',
       'width': 180,
-      field: 'agencycode',
+      field: 'agencyCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -324,7 +324,7 @@ export let proconf = {
     {
       title: '预算单位名称',
       'width': 180,
-      field: 'agencyname',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -435,7 +435,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -443,7 +443,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'firulename',
+      field: 'fiRuleName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -467,7 +467,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofDiv',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -475,7 +475,7 @@ export let proconf = {
     {
       title: '预警级别',
       'width': 180,
-      field: 'warnlevel',
+      field: 'warnLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -483,7 +483,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationtype',
+      field: 'regulationType',
       sortable: false,
       filters: false,
       align: 'center'
