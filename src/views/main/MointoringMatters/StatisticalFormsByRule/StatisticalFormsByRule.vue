@@ -287,9 +287,10 @@ export default {
       if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
         condition.dataSourceName = this.searchDataList.dataSourceName
       }
-      if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
-        this.fiRuleName = this.searchDataList.fiRuleName
-      }
+      // if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
+      //   this.fiRuleName = this.searchDataList.fiRuleName
+      // }
+      this.fiRuleName = this.searchDataList?.fiRuleName
       if (this.searchDataList.businessModuleCode && this.searchDataList.businessModuleCode.trim() !== '') {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
