@@ -39,6 +39,10 @@
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
@@ -56,7 +60,7 @@
 
 <script>
 import getFormData from './carryMoneyRegion.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/carryImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 export default {
   watch: {
     $refs: {
@@ -71,6 +75,7 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -327,11 +332,13 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
+        isFlush: true,
         reportCode: 'zdjzzjfdqjzqkb'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
+          this.caliberDeclareContent = res.data.description || ''
           this.tableData = res.data
           this.tableLoading = false
         } else {

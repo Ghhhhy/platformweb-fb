@@ -445,7 +445,7 @@ export default {
       this.dialogTitle = '新增'
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = false) {
+    queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
@@ -487,7 +487,7 @@ export default {
           }
           HttpModule.queryTableDatas(param).then(res => {
             if (res.code === '000000') {
-              const childs = res.data
+              const childs = res.data.data
               resolve(childs)
             } else {
               this.$message.error(res.result)

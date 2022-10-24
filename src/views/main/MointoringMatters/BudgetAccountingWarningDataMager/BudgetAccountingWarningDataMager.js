@@ -78,7 +78,7 @@ export let proconf = {
     },
     {
       title: '支付申请编号',
-      field: 'payApplyNumber',
+      field: 'payAppNo',
       width: '8',
       align: 'left',
       formula: '',
@@ -164,7 +164,7 @@ export let proconf = {
     {
       title: '支付申请编号',
       width: '180px',
-      field: 'payApplyNumber',
+      field: 'payAppNo',
       sortable: false,
       align: 'left'
     },
@@ -178,21 +178,21 @@ export let proconf = {
     {
       title: '预算项目',
       width: '180px',
-      field: 'projectName',
+      field: 'proName',
       sortable: false,
       align: 'left'
     },
     {
       title: '指标文号',
       width: '180px',
-      field: 'targetDocNum',
+      field: 'corBgtDocNoName',
       sortable: false,
       align: 'left'
     },
     {
       title: '支付金额',
       width: '180px',
-      field: 'paymentAmount',
+      field: 'payAppAmt',
       sortable: false,
       align: 'right',
       'filters': '[object Object]',
@@ -221,77 +221,77 @@ export let proconf = {
     {
       title: '政府经济分类',
       width: '180px',
-      field: 'govEconomyType',
+      field: 'govBgtEcoName',
       sortable: false,
       align: 'left'
     },
     {
       title: '部门经济分类',
       width: '180px',
-      field: 'deptEconomyType',
+      field: 'depBgtEcoName',
       sortable: false,
       align: 'left'
     },
     {
       title: '资金用途',
       width: '180px',
-      field: 'useOfFunds',
+      field: 'useDes',
       sortable: false,
       align: 'left'
     },
     {
       title: '付款人',
       width: '180px',
-      field: 'payer',
+      field: 'payAcctName',
       sortable: false,
       align: 'left'
     },
     {
       title: '付款人账号',
       width: '180px',
-      field: 'payAccount',
+      field: 'payAcctNo',
       sortable: false,
       align: 'left'
     },
     {
       title: '付款人开户行',
       width: '180px',
-      field: 'payBankName',
+      field: 'payAcctBankName',
       sortable: false,
       align: 'left'
     },
     {
       title: '收款人',
       width: '180px',
-      field: 'payee',
+      field: 'payeeAcctName',
       sortable: false,
       align: 'left'
     },
     {
       title: '收款人账号',
       width: '180px',
-      field: 'receiveAccount',
+      field: 'payeeAcctNo',
       sortable: false,
       align: 'left'
     },
     {
       title: '收款人开户行',
       width: '180px',
-      field: 'receiveBankName',
+      field: 'payeeAcctBankName',
       sortable: false,
       align: 'left'
     },
     {
       title: '支出功能分类',
       width: '180px',
-      field: 'funcType',
+      field: 'expFuncName',
       sortable: false,
       align: 'left'
     },
     {
       title: '支付方式',
       width: '180px',
-      field: 'paymentMethod',
+      field: 'setModeName',
       sortable: false,
       align: 'left'
     },
