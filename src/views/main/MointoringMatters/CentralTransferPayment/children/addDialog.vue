@@ -124,7 +124,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目资金名称编码</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">中央项目资金名称编码</div>
                     <el-select
                       v-model="proFundCode"
                       placeholder="请选择中央项目资金名称编码"
@@ -146,7 +146,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目资金名称名称</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">中央项目资金名称名称</div>
                     <el-select
                       v-model="proFundName"
                       placeholder="请选择中央项目资金名称名称"
