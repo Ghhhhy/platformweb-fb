@@ -352,14 +352,14 @@ export default {
         this.$message.warning('请输入项目名称')
         return
       }
-      if (this.fundCategoryCode === '') {
-        this.$message.warning('请输入资金类别编码')
-        return
-      }
-      if (this.fundCategoryName === '') {
-        this.$message.warning('请输入资金类别名称')
-        return
-      }
+      // if (this.fundCategoryCode === '') {
+      //   this.$message.warning('请输入资金类别编码')
+      //   return
+      // }
+      // if (this.fundCategoryName === '') {
+      //   this.$message.warning('请输入资金类别名称')
+      //   return
+      // }
       if (this.cfsHotTopicCateCode === '') {
         this.$message.warning('请选择热点分类编码')
         return
