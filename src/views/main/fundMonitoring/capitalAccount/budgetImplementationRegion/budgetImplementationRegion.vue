@@ -354,7 +354,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(true)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -508,7 +508,7 @@ export default {
       return proCodes
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = false) {
+    queryTableDatas(isFlush) {
       const param = {
         isFlush,
         reportCode: this.params5,
@@ -596,7 +596,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getPro()
-    this.queryTableDatas()
+    this.queryTableDatas(flase)
   }
 }
 </script>
