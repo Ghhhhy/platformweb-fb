@@ -39,6 +39,10 @@
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
@@ -56,7 +60,7 @@
 
 <script>
 import getFormData from './carryPayCapital.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/carryImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 export default {
   watch: {
     $refs: {
@@ -71,6 +75,7 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -326,12 +331,14 @@ export default {
     queryTableDatas(val) {
       const param = {
         reportCode: 'jzzjzc_fzj',
+        isFlush: true,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data
+          this.caliberDeclareContent = res.data.description || ''
           this.tableLoading = false
         } else {
           this.$message.error(res.message)

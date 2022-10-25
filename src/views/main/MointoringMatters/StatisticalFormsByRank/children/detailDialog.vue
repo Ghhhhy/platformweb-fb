@@ -494,11 +494,12 @@ export default {
         param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          warn_level: this.warningLevel, // 预警级别
+          warn_level: this.warnLevel, // 预警级别
           regulation_type: this.regulationtype,
           mofdivname: this.mofdivname,
           agencycode: this.agencycode,
-          firulename: this.firulename,
+          firulecode: this.fiRuleCode,
+          firulename: this.fiRuleName,
           fivouno: this.fivouno,
           useoffunds: this.useoffunds,
           regulationClass: this.$parent?.currentRow?.regulationClass || '10',

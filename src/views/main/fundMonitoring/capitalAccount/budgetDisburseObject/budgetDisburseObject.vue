@@ -566,7 +566,10 @@ export default {
       let code = node.node.code
       this.codeList = []
       let treeData = node.treeData
-      this.getItem(code, treeData)
+      // 非顶级区划则获取区划code，否则查询表体数据时codeList为空进行查询
+      if (code !== node.treeData?.[0].code) {
+        this.getItem(code, treeData)
+      }
       if (node.id !== '0') {
         this.mofdivcode = node.node.code
       } else {

@@ -327,7 +327,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zdzjfpyjb',
+        reportCode: this.params5,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
@@ -358,6 +358,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
