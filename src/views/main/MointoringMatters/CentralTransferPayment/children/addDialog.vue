@@ -19,7 +19,6 @@
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目编码</div>
                     <el-input
                       v-model="proCode"
-                      disabled="true"
                       placeholder="请输入项目编码"
                       style="width:45%"
                     />
@@ -34,7 +33,6 @@
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目名称</div>
                     <el-input
                       v-model="proName"
-                      disabled="true"
                       placeholder="请输入项目名称"
                       style="width:45%"
                     />
@@ -141,7 +139,6 @@
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目资金名称名称</div>
                     <el-select
                       v-model="proFundName"
-                      :disabled="true"
                       placeholder="请选择中央项目资金名称名称"
                       style="width:45%"
                     >
@@ -369,12 +366,18 @@ export default {
       //   this.$message.warning('问询函类型描述应小于等于200位')
       //   return
       // }
+      let param = {
+        id: this.id || '',
+        proCode: this.proCode,
+        proName: this.proName,
+        fundCategoryCode: this.fundCategoryCode,
+        fundCategoryName: this.fundCategoryName,
+        cfsHotTopicCateCode: this.cfsHotTopicCateCode,
+        cfsHotTopicCateName: this.cfsHotTopicCateName,
+        proFundCode: this.proFundCode,
+        proFundName: this.proFundName
+      }
       if (this.title === '新增') {
-        let param = {
-          askTypeCode: this.askTypeCode,
-          askTypeName: this.askTypeName,
-          askTypeDesc: this.askTypeDesc
-        }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {
           this.addLoading = false
@@ -387,17 +390,6 @@ export default {
           }
         })
       } else {
-        let param = {
-          id: this.id,
-          proCode: this.proCode,
-          proName: this.proName,
-          fundCategoryCode: this.fundCategoryCode,
-          fundCategoryName: this.fundCategoryName,
-          cfsHotTopicCateCode: this.cfsHotTopicCateCode,
-          cfsHotTopicCateName: this.cfsHotTopicCateName,
-          proFundCode: this.proFundCode,
-          proFundName: this.proFundName
-        }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {
           this.addLoading = false

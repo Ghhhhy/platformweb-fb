@@ -15,7 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      // { code: 'add', label: '新增', status: 'primary' },
+      { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' }
       // { code: 'del', label: '删除' }
     ]
