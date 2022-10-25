@@ -351,7 +351,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zdzjfpb',
+        reportCode: this.params5,
         speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : ''
       }
       this.tableLoading = true
@@ -372,6 +372,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

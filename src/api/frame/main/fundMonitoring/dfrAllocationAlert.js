@@ -6,6 +6,6 @@ export default {
   },
   // 获取表格数据
   queryTableDatas (params) {
-    return post('dfr-monitor-service/dfr/dfrAllocationAlert/pageQuery', params)
+    return post('dfr-monitor-service/dfr/zdzjledger/query', params)
   }
 }
