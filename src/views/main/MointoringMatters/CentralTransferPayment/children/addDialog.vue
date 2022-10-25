@@ -16,10 +16,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目编码</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目编码</div>
                     <el-input
                       v-model="proCode"
-                      placeholder="请输入项目编码"
+                      placeholder="请输入中央项目编码"
                       style="width:45%"
                     />
                   </el-row>
@@ -30,10 +30,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目名称</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;中央项目名称</div>
                     <el-input
                       v-model="proName"
-                      placeholder="请输入项目名称"
+                      placeholder="请输入中央项目名称"
                       style="width:45%"
                     />
                   </el-row>
@@ -124,10 +124,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">中央项目资金名称编码</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">父级项目编码</div>
                     <el-select
                       v-model="proFundCode"
-                      placeholder="请选择中央项目资金名称编码"
+                      placeholder="请选择父级项目编码"
                       style="width:45%"
                       @change="changePro"
                     >
@@ -146,10 +146,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">中央项目资金名称名称</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">父级项目名称</div>
                     <el-select
                       v-model="proFundName"
-                      placeholder="请选择中央项目资金名称名称"
+                      placeholder="请选择父级项目名称"
                       style="width:45%"
                     >
                       <el-option
@@ -345,11 +345,11 @@ export default {
     // 保存新增的计划信息
     doInsert() {
       if (this.proCode === '') {
-        this.$message.warning('请输入项目编码')
+        this.$message.warning('请输入中央项目编码')
         return
       }
       if (this.proName === '') {
-        this.$message.warning('请输入项目名称')
+        this.$message.warning('请输入中央项目名称')
         return
       }
       // if (this.fundCategoryCode === '') {
