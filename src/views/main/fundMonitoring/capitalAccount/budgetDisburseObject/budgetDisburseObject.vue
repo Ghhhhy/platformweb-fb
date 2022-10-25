@@ -566,7 +566,11 @@ export default {
       let code = node.node.code
       this.codeList = []
       let treeData = node.treeData
-      this.getItem(code, treeData)
+      if (code === node.treeData?.[0].code) {
+        this.codeList = []
+      } else {
+        this.getItem(code, treeData)
+      }
       if (node.id !== '0') {
         this.mofdivcode = node.node.code
       } else {
