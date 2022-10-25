@@ -73,18 +73,23 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;热点分类编码</div>
-                    <el-select
+                    <el-input
                       v-model="cfsHotTopicCateCode"
-                      placeholder="请选择热点分类编码"
+                      placeholder="请输入"
                       style="width:45%"
-                    >
-                      <el-option
-                        v-for="item in cfsHotTopicCateCodeOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.label"
-                      />
-                    </el-select>
+                    />
+                    <!--<el-select-->
+                    <!--  v-model="cfsHotTopicCateCode"-->
+                    <!--  placeholder="请选择热点分类编码"-->
+                    <!--  style="width:45%"-->
+                    <!--&gt;-->
+                    <!--  <el-option-->
+                    <!--    v-for="item in cfsHotTopicCateCodeOptions"-->
+                    <!--    :key="item.value"-->
+                    <!--    :label="item.label"-->
+                    <!--    :value="item.label"-->
+                    <!--  />-->
+                    <!--</el-select>-->
                   </el-row>
                 </el-main>
               </el-container>
@@ -94,18 +99,23 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;热点分类名称</div>
-                    <el-select
+                    <el-input
                       v-model="cfsHotTopicCateName"
-                      placeholder="请选择热点分类名称"
+                      placeholder="请输入"
                       style="width:45%"
-                    >
-                      <el-option
-                        v-for="item in cfsHotTopicCateNameOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.label"
-                      />
-                    </el-select>
+                    />
+                    <!--<el-select-->
+                    <!--  v-model="cfsHotTopicCateName"-->
+                    <!--  placeholder="请选择热点分类名称"-->
+                    <!--  style="width:45%"-->
+                    <!--&gt;-->
+                    <!--  <el-option-->
+                    <!--    v-for="item in cfsHotTopicCateNameOptions"-->
+                    <!--    :key="item.value"-->
+                    <!--    :label="item.label"-->
+                    <!--    :value="item.label"-->
+                    <!--  />-->
+                    <!--</el-select>-->
                   </el-row>
                 </el-main>
               </el-container>
