@@ -1419,8 +1419,8 @@ export default {
           proName: this.formDatas.pro_name,
           govBgtEcoCode: this.formDatas.gov_bgt_eco_code,
           govBgtEcoName: this.formDatas.gov_bgt_eco_name,
-          excFunCode: this.formDatas.exp_func_code,
-          excFunName: this.formDatas.exp_func_name,
+          expFunCode: this.formDatas.exp_func_code,
+          expFunName: this.formDatas.exp_func_name,
           depBgtEcoCode: this.formDatas.dep_bgt_eco_code,
           depBgtEcoName: this.formDatas.dep_bgt_eco_name,
           corBgtDocNoName: this.formDatas.cor_bgt_doc_no_name,
@@ -1763,8 +1763,8 @@ export default {
             this.formDatas.agency_name = this.formDatas.agencyName
             this.formDatas.pro_code = this.formDatas.proCode
             this.formDatas.pro_name = this.formDatas.proName
-            this.formDatas.exp_func_code = this.formDatas.excFunCode
-            this.formDatas.exp_func_name = this.formDatas.excFunName
+            this.formDatas.exp_func_code = this.formDatas.expFunCode
+            this.formDatas.exp_func_name = this.formDatas.expFunName
             this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
             this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
             this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode

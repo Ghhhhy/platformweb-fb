@@ -426,7 +426,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofDivCode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
