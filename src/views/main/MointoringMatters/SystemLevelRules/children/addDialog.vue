@@ -140,7 +140,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;业务菜单</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;业务菜单</div>
                     <el-select
                       v-model="businessFunctionCode"
                       :disabled="disabled"
@@ -959,10 +959,10 @@ export default {
     getChildrenNewData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || item.name
+        item.label = item.name
         // item.code = item.id
-        item.guid = item.id
-        item.name = item.text || item.name
+        // item.guid = item.id
+        // item.name = item.text || item.name
         if (item.children) {
           that.getChildrenNewData(item.children)
         }
@@ -1175,6 +1175,7 @@ export default {
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
         // this.treeData = this.getChildrenNewData(res.data)
+        console.log(res.data, regulationType)
         if (regulationType === '部门级' || regulationType === '财政级') {
           // let treeResdata = this.getChildrenNewData1(res.data)
           const result = [
@@ -1208,6 +1209,7 @@ export default {
           //   let str = item.mofDivCode.toString()
           //   tempArr.push(str)
           // })
+          console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
         } else {
           let tempArr = []
@@ -1272,7 +1274,7 @@ export default {
         this.$message.warning('请选择业务模块')
         return
       }
-      if (this.businessFunctionCode === undefined) {
+      if (this.triggerClass !== 2 && !this.businessFunctionCode) {
         this.$message.warning('请选择业务功能')
         return
       }

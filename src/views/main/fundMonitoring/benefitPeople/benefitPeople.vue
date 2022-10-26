@@ -157,7 +157,7 @@ export default {
   },
   computed: {
     wheresql() {
-      return this.treeFilterText.trim() ? `and name like '%${this.treeFilterText}%'` : ''
+      return `and name like '%${this.treeFilterText}%'`
     }
   },
   watch: {
