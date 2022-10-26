@@ -379,9 +379,13 @@ export default {
         if (key.substring(0, 4) === 'blue') {
           this.warnLevel = '4'
         }
-        this.showViolations = true
-        this.fiRuleCode = obj.row.fiRuleCode
-        this.currentRow = obj.row
+        if (obj.row.fiRuleCode === '' || obj.row.fiRuleCode === null) {
+          this.$message.info('请选择具体的规则行去查看明细')
+        } else {
+          this.showViolations = true
+          this.fiRuleCode = obj.row.fiRuleCode
+          this.currentRow = obj.row
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

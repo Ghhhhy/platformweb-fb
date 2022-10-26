@@ -573,7 +573,7 @@ export default {
       if (node.id !== '0') {
         this.mofdivcode = node.node.code
       } else {
-        this.condition = {}
+        this.mofdivcode = {}
       }
       this.queryTableDatas()
     },
