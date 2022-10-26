@@ -474,7 +474,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
-      this.queryTableDatas(isFlush = true)
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     getPro() {
@@ -508,7 +508,7 @@ export default {
       return proCodes
     },
     // 查询 table 数据
-    queryTableDatas(isFlush) {
+    queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
         reportCode: this.params5,
@@ -596,7 +596,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getPro()
-    this.queryTableDatas(flase)
+    this.queryTableDatas(false)
   }
 }
 </script>
