@@ -121,22 +121,6 @@ export let proconf = {
       }
     },
     {
-      title: '上级文号',
-      width: 180,
-      field: 'supBgtDocNoName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '上级专项资金',
-      width: 180,
-      field: 'supSpeTypeName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
       title: '本级文号',
       width: 180,
       field: 'corBgtDocNoName',
@@ -153,9 +137,25 @@ export let proconf = {
       align: 'center'
     },
     {
+      title: '上级文号',
+      width: 180,
+      field: 'supBgtDocNoName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '上级专项资金',
+      width: 180,
+      field: 'supSpeTypeName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '下级地区',
       width: 180,
-      field: 'xjdq',
+      field: 'recDivCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -163,7 +163,7 @@ export let proconf = {
     {
       title: '下级地区名称',
       width: 180,
-      field: 'xjdqmc',
+      field: 'recDivName',
       sortable: false,
       filters: false,
       align: 'center'

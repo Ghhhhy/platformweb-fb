@@ -316,6 +316,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/dfrAllocationProgressTracking/dfrAllocationProgressTracking.vue')
   },
   {
+    path: '/userProRelation', // 用户资金权限配置
+    name: 'userProRelation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/UserProRelation/userProRelation.vue')
+  },
+  {
     path: '/dfrMultipleQuery', // 直达资金综合查询
     name: 'dfrMultipleQuery',
     meta: {

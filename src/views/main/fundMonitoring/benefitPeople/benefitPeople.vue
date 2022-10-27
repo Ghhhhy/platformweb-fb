@@ -157,7 +157,7 @@ export default {
   },
   computed: {
     wheresql() {
-      return this.treeFilterText.trim() ? `and name like '%${this.treeFilterText}%'` : ''
+      return `and name like '%${this.treeFilterText}%'`
     }
   },
   watch: {
@@ -286,12 +286,12 @@ export default {
       mainPagerConfig: {
         total: 0,
         currentPage: 1,
-        pageSize: 200
+        pageSize: 50
       },
       mainPagerConfig1: {
         total: 0,
         currentPage: 1,
-        pageSize: 200
+        pageSize: 50
       },
       tableConfig: {
       },
