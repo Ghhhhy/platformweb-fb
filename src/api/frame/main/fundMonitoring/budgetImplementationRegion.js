@@ -26,5 +26,9 @@ export default {
   // 获取功能分类
   getExpFuncTreeData() {
     return get('large-monitor-platform/lmp/expFuncTree/')
+  },
+  // 数据增量同步
+  doDataSourceAdd() {
+    return get('dfr-monitor-service/dfr/zdzjledger/doDataSourceAdd')
   }
 }

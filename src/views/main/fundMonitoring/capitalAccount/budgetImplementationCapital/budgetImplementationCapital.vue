@@ -3,15 +3,14 @@
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
       <template v-slot:topTap></template>
-      <!-- <template v-slot:topTabPane>
+      <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
-      </template> -->
+      </template>
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
@@ -90,6 +89,7 @@ import getFormData from './budgetImplementationCapital.js'
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
 export default {
   components: {
@@ -118,24 +118,19 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
+      // 头部工具栏 BsTabPanel config
+      toolBarStatusBtnConfig: {
+        changeBtns: true,
+        buttonsInfo: [
+          {
+            label: '数据增量同步',
+            status: 'primary',
+            code: 'increment',
+            loading: false,
+            callback: this.incrementHandle
+          }
+        ]
+      },
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -266,6 +261,17 @@ export default {
     // this.initTableData()
   },
   methods: {
+    // 增量同步
+    async incrementHandle() {
+      const btn = this.toolBarStatusBtnConfig.buttonsInfo.find(item => item.code === 'increment')
+      btn.loading = true
+      try {
+        checkRscode(await HttpModule.doDataSourceAdd())
+        this.$message.success('同步成功')
+      } finally {
+        btn.loading = false
+      }
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
