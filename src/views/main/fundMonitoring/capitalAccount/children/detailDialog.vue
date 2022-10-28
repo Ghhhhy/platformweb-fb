@@ -8,38 +8,40 @@
     :show-footer="false"
     @close="dialogClose"
   >
-    <div v-show="isShowQueryConditions" class="main-query">
-      <BsQuery
-        ref="queryFrom"
-        :query-form-item-config="queryConfig"
-        :query-form-data="searchDataList"
-        @onSearchClick="search"
-      />
-    </div>
-    <BsTable
-      ref="mainTableRef"
-      :footer-config="tableFooterConfig"
-      :table-config="tableConfig"
-      :table-columns-config="tableColumnsConfig"
-      :table-data="tableData"
-      :toolbar-config="tableToolbarConfig"
-      :cell-style="cellStyle"
-      :pager-config="pagerConfig"
-      :export-modal-config="{ fileName: title }"
-      :default-money-unit="10000"
-      @cellClick="cellClick"
-      @onToolbarBtnClick="onToolbarBtnClick"
-      @ajaxData="ajaxTableData"
-    >
-      <template v-slot:toolbarSlots>
-        <div class="table-toolbar-left">
-          <div class="table-toolbar-left-title">
-            <span class="fn-inline">{{ title }}</span>
-            <i class="fn-inline"></i>
+    <div style="height: calc(100% - 80px)">
+      <div v-show="isShowQueryConditions" class="main-query">
+        <BsQuery
+          ref="queryFrom"
+          :query-form-item-config="queryConfig"
+          :query-form-data="searchDataList"
+          @onSearchClick="search"
+        />
+      </div>
+      <BsTable
+        ref="mainTableRef"
+        :footer-config="tableFooterConfig"
+        :table-config="tableConfig"
+        :table-columns-config="tableColumnsConfig"
+        :table-data="tableData"
+        :toolbar-config="tableToolbarConfig"
+        :cell-style="cellStyle"
+        :pager-config="pagerConfig"
+        :export-modal-config="{ fileName: title }"
+        :default-money-unit="10000"
+        @cellClick="cellClick"
+        @onToolbarBtnClick="onToolbarBtnClick"
+        @ajaxData="ajaxTableData"
+      >
+        <template v-slot:toolbarSlots>
+          <div class="table-toolbar-left">
+            <div class="table-toolbar-left-title">
+              <span class="fn-inline">{{ title }}</span>
+              <i class="fn-inline"></i>
+            </div>
           </div>
-        </div>
-      </template>
-    </BsTable>
+        </template>
+      </BsTable>
+    </div>
   </vxe-modal>
 </template>
 <script>
