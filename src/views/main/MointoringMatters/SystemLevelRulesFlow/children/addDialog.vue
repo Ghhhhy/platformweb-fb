@@ -112,7 +112,7 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发菜单</div>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;触发菜单</div>
                       <el-select
                         v-model="businessFunctionCode"
                         :disabled="disabled"
