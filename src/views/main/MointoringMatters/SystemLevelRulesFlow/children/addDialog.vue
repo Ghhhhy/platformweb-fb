@@ -1151,10 +1151,10 @@ export default {
     this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
     this.ModparentId = this.businessModuleCode
     this.getFunLists()
-    this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
+    this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
     this.businessSystemName = this.$parent.DetailData.businessSystemName
     this.businessModuleName = this.$parent.DetailData.businessModuleName
-    this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+    this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
     // this.regulationClass = this.$parent.DetailData.regulationClass
     this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
     this.triggerClass = this.$parent.DetailData.triggerClass
