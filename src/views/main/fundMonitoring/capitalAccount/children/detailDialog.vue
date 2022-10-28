@@ -8,7 +8,7 @@
     :show-footer="false"
     @close="dialogClose"
   >
-    <div style="height: calc(100% - 40px)">
+    <div style="height: calc(100% - 80px)">
       <div v-show="isShowQueryConditions" class="main-query">
         <BsQuery
           ref="queryFrom"
