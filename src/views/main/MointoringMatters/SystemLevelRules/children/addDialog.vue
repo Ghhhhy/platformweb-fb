@@ -1274,14 +1274,14 @@ export default {
         this.$message.warning('请选择业务模块')
         return
       }
-      if (this.triggerClass !== 2 && !this.businessFunctionCode) {
-        this.$message.warning('请选择业务功能')
+      if (this.triggerClass === 1 && !this.businessFunctionCode) {
+        this.$message.warning('请选择业务菜单')
         return
       }
-      if (this.businessFunctionName === null) {
-        this.$message.warning('请选择业务功能')
-        return
-      }
+      // if (this.businessFunctionName === null) {
+      //   this.$message.warning('请选择业务菜单')
+      //   return
+      // }
       if (this.ruleFlag !== 0 && !this.ruleFlag) {
         this.$message.warning('请选择函数逻辑')
         return
@@ -1314,10 +1314,10 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择业务模块' })
         return
       }
-      if (!this.businessFunctionCode) {
-        this.$XModal.message({ status: 'warning', message: '请选择业务菜单' })
-        return
-      }
+      // if (!this.businessFunctionCode && this.triggerClass === 1) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择业务菜单' })
+      //   return
+      // }
       if (!this.monitorRuleName) {
         this.$XModal.message({ status: 'warning', message: '请输入监控规则名称' })
         return
@@ -1556,7 +1556,7 @@ export default {
         }
       })
     },
-    // 业务功能下拉树
+    // 业务菜单下拉树
     getFunLists() {
       const param = {
         businessType: 3,
@@ -1689,11 +1689,11 @@ export default {
       this.ModparentId = this.businessModuleCode
       this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
+      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
@@ -1725,11 +1725,11 @@ export default {
       this.ModparentId = this.businessModuleCode
       this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
+      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
 
