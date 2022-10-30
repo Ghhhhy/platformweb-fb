@@ -341,7 +341,7 @@ const proconf = {
                 width: 150,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({amountSnjdfdf}-0==0)?0:({amountSnjdfbjfp}{amountSnjdfxjfp})*100/{amountSnjdfdf})'
+                formula: '(({amountSnjdfdf}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountSnjdfdf})'
                 // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
               },
               {
@@ -538,7 +538,7 @@ const proconf = {
                 width: 150,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjzydf}-({amountSjzybjfp} - {amountSjzyxjfp})'
+                formula: '{amountSjzydf}-{amountSjzybjfp} - {amountSjzyxjfp}'
               },
               {
                 title: '地方安排',
@@ -546,7 +546,7 @@ const proconf = {
                 width: 150,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjdfdf}-({amountSjdfbjfp} - {amountSjdfxjfp})'
+                formula: '{amountSjdfdf}-{amountSjdfbjfp} - {amountSjdfxjfp}'
               },
               {
                 title: '总金额',
