@@ -259,7 +259,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({sapAmount}/{saaAmount})'
+                formula: '({sapAmount}/{saaAmount})*100'
               }
             ]
           }
@@ -395,7 +395,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shapAmount}/{shaaAmount})'
+                formula: '({shapAmount}/{shaaAmount})*100'
               }
             ]
           }
@@ -531,7 +531,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({xapAmount}/{xaaAmount})'
+                formula: '({xapAmount}/{xaaAmount})*100'
               }
             ]
           }
