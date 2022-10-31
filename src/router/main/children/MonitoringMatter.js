@@ -179,6 +179,16 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
   },
+  // 直达监控规则查看
+  {
+    path: '/MonitorRulesViewZD',
+    name: 'MonitorRulesViewZD',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
+  },
   // 同户名转账统计
   {
     path: '/SameNameTransferStatistics',

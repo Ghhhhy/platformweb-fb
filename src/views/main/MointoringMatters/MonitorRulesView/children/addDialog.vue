@@ -402,11 +402,9 @@
                   <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生效范围</div>
                   <BsTree
                     ref="rightTree"
-                    v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'id', label: 'name' } }"
-                    :default-checked-keys="defaultCheckedKeys"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -844,8 +842,10 @@ export default {
           if (item.isleaf) {
             let obj = {
               mofDivCode: '',
-              agencyCode: ''
+              agencyCode: '',
+              mofDiv: ''
             }
+            obj.mofDivId = item.id
             obj.mofDivCode = item.code
             arr.push(obj)
           }
@@ -882,6 +882,7 @@ export default {
         item.label = item.text
         item.guid = item.id
         item.name = item.text
+        item.code = item.id
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData(item.children)
@@ -1094,6 +1095,7 @@ export default {
       console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         const params = {
+          'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
           regulationCode: this.$parent.DetailData.regulationCode,
           regulationName: this.$parent.DetailData.regulationName,
           warningLevel: this.warningLevel,
@@ -1333,6 +1335,7 @@ export default {
 
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.isEnable = this.$parent.DetailData.isEnable
+      this.scope = this.$parent.DetailData.regulationScope
       // 不可编辑
       this.buttonConfig = {}
       this.disabled = true

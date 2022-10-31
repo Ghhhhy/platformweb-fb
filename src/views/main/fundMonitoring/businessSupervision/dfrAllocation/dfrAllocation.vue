@@ -357,7 +357,9 @@ export default {
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = this.initTableData(res.data)
+          if (res.data.data) {
+            this.tableData = this.initTableData(res.data.data)
+          }
           this.tableLoading = false
         } else {
           this.$message.error(res.message)
