@@ -121,27 +121,11 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '问题明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'right'
     },
     {
@@ -252,27 +236,11 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '问题明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'right'
     },
     {
@@ -383,22 +351,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -411,8 +363,8 @@ const proconf = {
       field: 'detail',
       sortable: false,
       filters: false,
-      formula: 'matterDetail',
-      width: 140,
+      formula: 'detail',
+      width: 400,
       align: 'center'
     },
     {
@@ -633,22 +585,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -658,10 +594,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -882,22 +818,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -907,10 +827,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -1131,22 +1051,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1156,10 +1060,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -1388,22 +1292,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1413,10 +1301,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -1645,22 +1533,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1670,10 +1542,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -1902,22 +1774,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -1927,10 +1783,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -2151,22 +2007,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -2176,10 +2016,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -2408,22 +2248,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -2433,10 +2257,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -2665,22 +2489,6 @@ const proconf = {
       }
     },
     {
-      title: '支付申请金额',
-      field: 'payAppAmt',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
-      title: '用途',
-      field: 'useDes',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center'
-    },
-    {
       title: '专项资金',
       field: 'speTypeName',
       sortable: false,
@@ -2690,10 +2498,10 @@ const proconf = {
     },
     {
       title: '明细',
-      field: 'matterDetail',
+      field: 'detail',
       sortable: false,
       filters: false,
-      width: 140,
+      width: 400,
       align: 'center'
     },
     {
@@ -2974,6 +2782,8 @@ const curStatusButton = {
   type: 'button',
   curValue: '1'
 }
+const curStatusButton0 = {
+}
 const curStatusButton1 = {
   label: '已整改',
   code: '2',
@@ -3136,18 +2946,28 @@ const buttons1 = {
 }
 const buttons2 = {
   1: [
-    {
-      label: '人工认定',
-      code: 'peo_set',
-      status: 'primary'
-    }
   ],
   2: [
-    {
-      label: '发送公文',
-      code: 'send_set',
-      status: 'primary'
-    }
+  ],
+  3: [
+  ],
+  4: [
+  ],
+  5: [
+  ],
+  6: [
+  ],
+  7: [
+  ],
+  8: [
+  ],
+  9: [
+  ],
+  10: [
+  ],
+  11: [
+  ],
+  12: [
   ]
 }
 export default proconf
@@ -3156,6 +2976,7 @@ export {
   statusButtons0,
   curStatusButton,
   buttons1,
+  curStatusButton0,
   curStatusButton1,
   statusButtons1,
   curStatusButton3,
