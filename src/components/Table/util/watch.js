@@ -144,7 +144,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.xGrid?.reloadColumn?.(this.tableColumnsConfigIn)
       })
-      this.$Export.moneyUnit = this.toolbarConfigInCopy.moneyUnitOptions.find(item => item.value === newvalue)?.label
+      this.$Export?.moneyUnit && (this.$Export.moneyUnit = this.toolbarConfigInCopy.moneyUnitOptions.find(item => item.value === newvalue)?.label)
     },
     immediate: true
   },

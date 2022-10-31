@@ -293,7 +293,6 @@ const registFn = {
     }
   },
   registSingelRowFilter(item) {
-    console.log(item)
     // 绑定单条列过滤器配置
     if (Array.isArray(item.children)) {
       return item
@@ -3201,6 +3200,16 @@ const batchModify = { // 批量修改
   }
 }
 const exportAndImportFn = {
+  computedExportRow(row, moneyKeys, ratioKeys) {
+    // 金额列根据单位进行计算
+    moneyKeys.forEach(key => {
+      row[key] = row[key] && (row[key] / this.moneyUnit)
+    })
+    // 进度列增加%
+    ratioKeys.forEach(key => {
+      row[key] = row[key] + '%'
+    })
+  },
   getPrintOption(exportModalFormData) {
     const checkColumns = []
     this.$XEUtils.eachTree(exportModalFormData.columns, column => {
@@ -3224,9 +3233,31 @@ const exportAndImportFn = {
     let self = this
     const columns = this.deepCopy(this.tableColumnsConfig)
     const { tableData, fullData, treeExpandData } = this.getTableData()
-    console.log(treeExpandData)
-
     const selection = this.selection
+
+    // 获取金额、进度特殊字段列表
+    const [moneyKeys, ratioKeys] = [[], []]
+    this.$XEUtils.eachTree(columns, item => {
+      if (item?.type === 'money' || item.cellRender?.name === '$vxeMoney') {
+        moneyKeys.push(item.field)
+      } else if (item.cellRender?.name === '$vxeRatio') {
+        ratioKeys.push(item.field)
+      }
+    })
+    // 深拷贝，为后续计算真实值做准备
+    const [
+      computedFullData,
+      computedExpandData
+    ] = [
+      this.$XEUtils.clone(fullData, true),
+      this.$XEUtils.clone(treeExpandData, true)]
+    this.$XEUtils.eachTree(computedFullData, item => {
+      this.computedExportRow(item, moneyKeys, ratioKeys)
+    })
+    this.$XEUtils.eachTree(computedExpandData, item => {
+      this.computedExportRow(item, moneyKeys, ratioKeys)
+    })
+
     this.exportModalData = Object.assign({
       isExportTree: !!self.treeConfigIn,
       saveType: '.xlsx',
@@ -3239,9 +3270,9 @@ const exportAndImportFn = {
       isExportOriginalData: false, // 是否导出源数据
       isExportData: true, // 是否导出数据
       columns: columns, // 表头配置
-      fullData: fullData,
+      fullData: computedFullData,
       tableData: tableData,
-      treeExpandData: treeExpandData,
+      treeExpandData: computedExpandData,
       datas: [], // 源数据, 如果胃空数组则取dataType 对应的数据，否则直接以datas导出
       selection: selection, // 选中数据
       index: true, // 是否添加序号,
@@ -3272,7 +3303,6 @@ const exportAndImportFn = {
     if (obj.onlyConfigExport) {
       this.$emit('onExportClick', obj, ec)
     } else {
-      console.log(obj)
       this.$Export.exportExcel(obj, this)
     }
   },

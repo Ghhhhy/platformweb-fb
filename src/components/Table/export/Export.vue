@@ -157,7 +157,6 @@
 </template>
 
 <script>
-import { formatterExpandColumns } from './export/util/utils.js'
 export default {
   name: 'Export',
   components: {},
@@ -392,8 +391,6 @@ export default {
         return a.sortIndex - b.sortIndex
       })
 
-      // 设置column取与单位关联的字段
-      formatterExpandColumns(exportColumns)
       let exportModalFormData = Object.assign({}, this.exportModalFormData, {
         columns: exportColumns
       })
@@ -410,8 +407,6 @@ export default {
         return a.sortIndex - b.sortIndex
       })
 
-      // 设置column取与单位关联的字段
-      formatterExpandColumns(exportColumns)
       let exportModalFormData = Object.assign({}, this.exportModalFormData, {
         columns: exportColumns
       })
