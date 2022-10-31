@@ -3200,6 +3200,13 @@ const batchModify = { // 批量修改
   }
 }
 const exportAndImportFn = {
+  /**
+   * 导出数据行相关数据字段计算
+   * @description 金额列根据单位计算；进度百分比列添加'%'
+   * @params row {Object} 当前行数据
+   * @params moneyKeys {Array} 金额列field数组
+   * @params ratioKeys {Array} 进度列field数组
+   * */
   computedExportRow(row, moneyKeys, ratioKeys) {
     // 金额列根据单位进行计算
     moneyKeys.forEach(key => {
