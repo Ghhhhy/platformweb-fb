@@ -1279,6 +1279,14 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
       title: '整改意见',
       filters: false,
       width: 140,
@@ -1451,6 +1459,14 @@ const proconf = {
           placeholder: '认定结果'
         }
       }
+    },
+    {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
     },
     {
       title: '违规类型',
@@ -1700,6 +1716,14 @@ const proconf = {
           placeholder: '认定结果'
         }
       }
+    },
+    {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
     },
     {
       title: '违规类型',
@@ -2200,6 +2224,14 @@ const proconf = {
       }
     },
     {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
       title: '违规类型',
       filters: false,
       width: 140,
@@ -2449,6 +2481,14 @@ const proconf = {
       }
     },
     {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
       title: '违规类型',
       filters: false,
       width: 140,
@@ -2696,6 +2736,14 @@ const proconf = {
           placeholder: '认定结果'
         }
       }
+    },
+    {
+      title: '认定人',
+      field: 'affirmPersomName',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
     },
     {
       title: '违规类型',
