@@ -18,5 +18,8 @@ export default {
   },
   updateYellow(params) {
     return post('dfr-monitor-service/dfr/warningResult/updateYellow', params)
+  },
+  detailQuery(params) {
+    return post('dfr-monitor-service/dfr/warningResult/detailQuery', params)
   }
 }

@@ -242,7 +242,7 @@ const proconf = {
                 field: 'numberSnjZcjdSnjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountSnjZjzlSjap}-0==0?0:{amountSnjZcjeSnjap}/{amountSnjZjzlSjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -252,7 +252,7 @@ const proconf = {
                 field: 'numberSnjZcjdzje',
                 width: 200,
                 align: 'right',
-                formula: '{numberSnjZcjdZyap}',
+                formula: '{amountSnjZjzlZje}-0==0?0:{amountSnjZcjeZje}/{amountSnjZjzlZje}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -373,7 +373,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjpay}'
+                formula: '{amountSjpay}+{amountSjZcjeSnjap}+{amountSjZcjeSjap}'
               }
             ]
           },
@@ -397,7 +397,7 @@ const proconf = {
                 field: 'numberSjZcjdSnjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountSjZjzlSnjap}-0==0?0:{amountSjZcjeSnjap}/{amountSjZjzlSnjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -407,7 +407,7 @@ const proconf = {
                 field: 'numberSjZcjdSjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountSjZjzlSjap}-0==0?0:{amountSjZcjeSjap}/{amountSjZjzlSjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -417,7 +417,7 @@ const proconf = {
                 field: 'numberSjZcjdZje',
                 width: 200,
                 align: 'right',
-                formula: '{numberSjZcjdZyap}',
+                formula: '{amountSjZcjeZje}-0==0?0:{amountSjZjzlZje}/{amountSjZcjeZje}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -558,6 +558,7 @@ const proconf = {
                 title: '总金额',
                 field: 'amountXjZcjeZje',
                 width: 200,
+                formula: '{amountXjpay}+{amountXjZcjeSnjap}+{amountXjZcjeSjap}+{amountXjZcjeXjap}',
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               }
@@ -583,7 +584,7 @@ const proconf = {
                 field: 'numberXjZcjdSnjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountXjZjzlSnjap}-0==0?0:{amountXjZcjeSnjap}/{amountXjZjzlSnjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -593,7 +594,7 @@ const proconf = {
                 field: 'numberXjZcjdSjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountXjZjzlSjap}-0==0?0:{amountXjZcjeSjap}/{amountXjZjzlSjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -603,7 +604,7 @@ const proconf = {
                 field: 'numberXjZcjdXjap',
                 width: 200,
                 align: 'right',
-                formula: '0',
+                formula: '{amountXjZjzlXjap}-0==0?0:{amountXjZcjeXjap}/{amountXjZjzlXjap}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -613,7 +614,7 @@ const proconf = {
                 field: 'numberXjZcjdZje',
                 width: 200,
                 align: 'right',
-                formula: '{numberXjZcjdZyap}',
+                formula: '{amountXjZjzlZje}-0==0?0:{amountXjZcjeZje}/{amountXjZjzlZje}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -640,6 +641,7 @@ const proconf = {
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
+            formula: '{amountSnjZcjeSnjap}+{amountSjZcjeSnjap}+{amountXjZcjeSnjap}',
             field: 'amountZczsSnjap'
           },
           {
@@ -647,6 +649,7 @@ const proconf = {
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
+            formula: '{amountSjZcjeSjap}+{amountXjZcjeSjap}',
             field: 'amountZczsSjap'
           },
           {
@@ -654,6 +657,7 @@ const proconf = {
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
+            formula: '{amountXjZcjeXjap}',
             field: 'amountZczsXjap'
           },
           {
@@ -662,7 +666,7 @@ const proconf = {
             cellRender: { name: '$vxeMoney' },
             width: 200,
             field: 'amountZczsZje',
-            formula: '{amountZczsZyap}'
+            formula: '{amountZczsZyap}+{amountZczsSnjap}+{amountZczsSjap}+{amountZczsXjap}'
           }
         ]
       }

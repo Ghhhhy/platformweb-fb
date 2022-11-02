@@ -33,6 +33,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
@@ -42,7 +43,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">直达资金监控预警结果（全省）</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -56,16 +57,24 @@
       :title="detailTitle"
       :detail-data="detailData"
     />
+    <sDetailDialog
+      v-if="sdetailVisible"
+      :title="sdetailTitle"
+      :s-detail-query-param="sdetailQueryParam"
+      :detail-data="sDetailData"
+    />
   </div>
 </template>
 
 <script>
 import getFormData from './warningResult.js'
 import DetailDialog from './children/wdetailDialog.vue'
+import sDetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    sDetailDialog
   },
   watch: {
     $refs: {
@@ -80,6 +89,7 @@ export default {
   },
   data() {
     return {
+      sDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -156,6 +166,10 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
+      sdetailVisible: false,
+      sdetailType: '',
+      sdetailTitle: '',
+      sdetailData: [],
       detailData: [],
       code: '',
       fiscalYear: ''
@@ -368,8 +382,6 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        page: this.pagerConfig.currentPage, // 页码
-        pageSize: this.pagerConfig.pageSize, // 每页条数
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
@@ -391,10 +403,14 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
   }
 }

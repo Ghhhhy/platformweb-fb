@@ -48,7 +48,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">待分指标余额情况(单位:万元)</span>
+                <span class="fn-inline">待分指标余额情况</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出

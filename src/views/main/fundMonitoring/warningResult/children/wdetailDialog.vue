@@ -69,6 +69,7 @@
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 import proconf, {
   buttons1,
+  buttons2,
   curStatusButton,
   statusButtons,
   curStatusButton3,
@@ -122,7 +123,7 @@ export default {
         // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        buttonsInfo: buttons1,
+        buttonsInfo: this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
@@ -552,23 +553,30 @@ export default {
         }
       })
     },
-    handleDetail(type, speTypeCode, mofDivCode) {
+    handleDetail(type, diBillId, mofDivCode) {
+      this.$parent.sdetailQueryParam = {
+        diBillId: diBillId,
+        fiscalYear: this.fiscalYear,
+        mofDivCode: mofDivCode
+      }
+      this.$parent.sdetailVisible = true
     },
     cellStyle({ row, rowIndex, column }) {
+      if (['detail'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      if (this.title === '直达资金项目明细') {
-        switch (key) {
-          case 'fpAmount':
-            this.handleDetail('fpAmount', obj.row.speTypeCode, obj.row.mofDivCode)
-            this.$parent.sDetailTitle = '指标明细'
-            break
-          case 'payAppAmt':
-            this.handleDetail('payAppAmt', obj.row.speTypeCode, obj.row.mofDivCode)
-            this.$parent.sDetailTitle = '支出明细'
-        }
+      switch (key) {
+        case 'detail':
+          this.handleDetail('detail', obj.row.diBillId, obj.row.mofDivCode)
+          this.$parent.sDetailTitle = '详细信息'
+          break
       }
     }
   },
