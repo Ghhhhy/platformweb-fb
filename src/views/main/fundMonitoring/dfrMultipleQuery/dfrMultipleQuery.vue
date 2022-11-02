@@ -1289,7 +1289,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || (`${item.code}-${item.name}`)
         if (item.children) {
           that.getChildrenData(item.children)
         }
