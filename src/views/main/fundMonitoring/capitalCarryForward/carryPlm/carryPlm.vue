@@ -331,7 +331,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zdjzxmqsmzqglqkb'
+        reportCode: this.params5
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -348,7 +348,7 @@ export default {
       // 异步加载子节点
       return new Promise(resolve => {
         const param = {
-          reportCode: 'zdjzxmqsmzqglqkb_xm',
+          reportCode: 'zdzjxmqsmzqglqkb_xm',
           isFlush: true,
           mofDivCode: row.code || ''
         }
@@ -375,6 +375,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.params5 = this.$store.state.curNavModule.param5
     this.queryTableDatas()
   }
 }
