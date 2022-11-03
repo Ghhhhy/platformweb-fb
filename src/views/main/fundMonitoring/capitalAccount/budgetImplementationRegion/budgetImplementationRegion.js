@@ -223,7 +223,7 @@ const proconf = {
             field: 'sLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSnjxd}+{amountSnjxjfp}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/({amountSnjxd}+{amountSnjxjfp})*100)',
+            formula: '({amountSnjxd}-0==0)?0:({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -286,7 +286,7 @@ const proconf = {
             field: 'aLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSjxd}+{amountSxjfp}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/({amountSjxd}+{amountSxjfp})*100)',
+            formula: '({amountSjxd}-0==0)?0:({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -342,7 +342,7 @@ const proconf = {
             field: 'xLoad',
             width: 200,
             align: 'right',
-            formula: '({amountXjfp}+{amountXjwfp}-0==0)?0:({amountXjfp}/({amountXjfp}+{amountXjwfp})*100)',
+            formula: '({amountXjfp}-0==0)?0:({amountXjfp}/{amountXjfp}*100)',
             cellRender: {
               name: '$vxeRatio'
             }

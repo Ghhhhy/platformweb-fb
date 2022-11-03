@@ -333,7 +333,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         isFlush: true,
-        reportCode: 'zdjzzjfdqjzqkb'
+        reportCode: this.params5
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -358,6 +358,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.params5 = this.$store.state.curNavModule.param5
     this.queryTableDatas()
   }
 }

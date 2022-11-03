@@ -351,7 +351,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjfpxjZyap})/{amountSnjsnjdf}*100'
+                formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100'
               },
               {
                 title: '总进度',
@@ -361,7 +361,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({szyjd}/2+{sdfjd}/2)'
+                formula: '{saAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{saAmount}*100'
               }
             ]
           }
@@ -436,7 +436,7 @@ const proconf = {
                   },
                   {
                     title: '市级安排',
-                    field: 'shidfapAmount1',
+                    field: 'sjzhsjapAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
@@ -449,7 +449,7 @@ const proconf = {
                     cellRender: {
                       name: '$vxeMoney'
                     },
-                    formula: '({shqzyapAmount}+{shqdfapAmount}+{shidfapAmount1})'
+                    formula: '({shqzyapAmount}+{shqdfapAmount}+{sjzhsjapAmount})'
                   }
                 ]
               },
@@ -474,7 +474,7 @@ const proconf = {
                   },
                   {
                     title: '市级安排',
-                    field: 'shidfapAmount1',
+                    field: 'sjzhhsjapAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
@@ -487,7 +487,7 @@ const proconf = {
                     cellRender: {
                       name: '$vxeMoney'
                     },
-                    formula: '({shhzyapAmount}+{shhdfapAmount}+{shidfapAmount1})'
+                    formula: '({shhzyapAmount}+{shhdfapAmount}+{sjzhhsjapAmount})'
                   }
                 ]
               }
@@ -633,7 +633,7 @@ const proconf = {
               },
               {
                 title: '市级安排',
-                field: 'shidfapAmount1',
+                field: 'sjsjapjd',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
@@ -647,7 +647,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shzyjd}/3+{shdfjd}/3+{shidfapAmount1}/3)'
+                formula: '{shiaAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{shiaAmount}*100'
               }
             ]
           }
@@ -729,14 +729,14 @@ const proconf = {
                   },
                   {
                     title: '市级安排',
-                    field: 'xdfapAmount3',
+                    field: 'xdfapzhAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '县级安排',
-                    field: 'xdfapAmount2',
+                    field: 'xdfapzhAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
@@ -774,14 +774,14 @@ const proconf = {
                   },
                   {
                     title: '市级安排',
-                    field: 'xdfapAmount3',
+                    field: 'xdfapzhhAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '县级安排',
-                    field: 'xdfapAmount2',
+                    field: 'xdfapzhAmount',
                     width: 200,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
@@ -880,7 +880,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({xzywfpAmount} - {amountXjxjbjfp})'
+                formula: '({amountXjxjdf} - {amountXjxjbjfp})'
               },
               {
                 title: '总金额',
@@ -917,7 +917,7 @@ const proconf = {
               },
               {
                 title: '市级安排',
-                field: 'xdfapAmount3',
+                field: 'xjsjapjd',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
@@ -925,7 +925,7 @@ const proconf = {
               },
               {
                 title: '县级安排',
-                field: 'xdfapAmount2',
+                field: 'xjxjapjd',
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
@@ -939,7 +939,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({xzyjd}/4+{xdfjd}/4+{xdfapAmount3}/4+{xdfapAmount2}/4)'
+                formula: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100'
               }
             ]
           }
