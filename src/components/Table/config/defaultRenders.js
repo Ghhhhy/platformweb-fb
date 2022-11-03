@@ -542,7 +542,7 @@ const defaultPublicRenders = {
                 data[property] = value
               },
               onTreeLoaded({ treeData, tree }, bsTree) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
+                $form.$parent?.itemOption?.({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
               },
               onNodeClick({ node, treeData, value }) {
                 if (node !== null) {
