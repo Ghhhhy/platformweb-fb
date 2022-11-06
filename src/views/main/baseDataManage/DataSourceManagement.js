@@ -128,6 +128,12 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '查询SQL',
+      field: 'selectSql',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '拼接SQL',
       field: 'sqlParam',
       sortable: false,
