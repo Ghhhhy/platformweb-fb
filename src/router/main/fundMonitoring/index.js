@@ -198,6 +198,11 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/warnRegion/warnRegion.vue')
   },
   {
+    path: '/WarnRegionSummary', // 地方监控预警汇总
+    name: 'WarnRegionSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRegionSummary/warnRegionSummary.vue')
+  },
+  {
     path: '/WarningResult',
     name: 'WarningResult',
     meta: {
@@ -294,6 +299,15 @@ const routers = [
       requireAuth: true
     },
     component: () => import('../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue')
+  },
+  {
+    path: '/benefitPeopleConfirm', // 惠企利民确认
+    name: 'benefitPeopleConfirm',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/benefitPeopleConfirm/benefitPeopleConfirm.vue')
   },
   {
     path: '/BenefitEnterprisesAndPeopleImport', // 支付接口数据导入

@@ -417,7 +417,7 @@ const proconf = {
                 field: 'numberSjZcjdZje',
                 width: 200,
                 align: 'right',
-                formula: '{amountSjZcjeZje}-0==0?0:{amountSjZjzlZje}/{amountSjZcjeZje}*100',
+                formula: '{amountSjZjzlZje}-0==0?0:{amountSjZcjeZje}/{amountSjZjzlZje}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }
