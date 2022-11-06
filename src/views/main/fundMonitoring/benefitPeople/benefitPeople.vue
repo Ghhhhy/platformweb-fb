@@ -137,12 +137,18 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
+    <AddDialog
+      v-if="addDialogVisible"
+      :title="dialogTitle"
+      :select-data="selectData"
+    />
   </div>
 </template>
 
 <script>
 import { proconf, getDateString } from './benefitPeople'
 import FilterTreeInput from './FilterTreeInput.vue'
+import AddDialog from './children/AddDialog'
 import ImportModel from '../../../../components/Table/import/import.vue'
 import { Import } from '../../../../components/Table/import/import/import.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
@@ -152,7 +158,8 @@ import { Export } from '../../../../components/Table/export/export/export'
 export default {
   components: {
     FilterTreeInput,
-    ImportModel
+    ImportModel,
+    AddDialog
     // AddDialog
   },
   computed: {
@@ -170,6 +177,8 @@ export default {
   },
   data() {
     return {
+      selectData: {},
+      addDialogVisible: false,
       // 左侧树过滤值
       treeFilterText: '',
       matchHoot: true,
@@ -681,6 +690,30 @@ export default {
         case 'peo_read':
           this.read()
           break
+        // 编辑
+        case 'update':
+          if (datas1.length !== 1) {
+            this.$message.warning('请选择一条惠民支付明细数据')
+            return
+          }
+          this.selectData = datas1[0]
+          this.updateImport()
+          break
+        // 删除
+        case 'delete':
+          if (this.$refs.mainTableRef.getSelectionData().length === 0) {
+            this.$message.warning('请选择需要删除的惠民支付明细数据')
+            return
+          }
+          this.$confirm('确认删除！', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            let datas = this.$refs.mainTableRef.getSelectionData()
+            this.delete(datas)
+          })
+          break
         // 取消挂接
         case 'hook_not':
           if (datas1.length === 0) {
@@ -716,6 +749,20 @@ export default {
         default:
           break
       }
+    },
+    delete(datas) {
+      HttpModule.delete(datas).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('删除成功')
+          this.queryTableDatas()
+        } else {
+          this.$message.error(res.result)
+        }
+      })
+    },
+    updateImport() {
+      this.addDialogVisible = true
+      this.dialogTitle = '修改'
     },
     importSuccessCallback(res) {
       console.log('res:', res)

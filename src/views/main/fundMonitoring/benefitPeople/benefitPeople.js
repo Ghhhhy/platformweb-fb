@@ -197,6 +197,14 @@ export let proconf = {
         code: 'import'
       },
       {
+        label: '删除',
+        code: 'delete'
+      },
+      {
+        label: '更新',
+        code: 'update'
+      },
+      {
         label: '挂接',
         code: 'hook_set',
         status: 'primary'
