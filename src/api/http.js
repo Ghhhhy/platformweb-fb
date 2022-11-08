@@ -5,9 +5,9 @@ import {
   baseUrl
 } from './url'
 import Qs from 'qs'
-import Router from '@/router/index.js'
 import store from '../store/index'
 import Encrypt from './smSecret/smSecret.js'
+import goLogin from '../utils/goLogin'
 // window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
 const elink = document.createElement('a')
 axios.defaults.timeout = 300000
@@ -154,7 +154,7 @@ axios.interceptors.response.use(function(response) {
     switch (response.data.code) {
       case (401):
         console.log('Unauthorized,表示用户没有权限(令牌、用户名、密码错误)')
-        Router.push('/Login')
+        goLogin()
         break
       case (400):
         console.log('Invalid Request,用户发出的请求有错误')

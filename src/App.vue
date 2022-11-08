@@ -10,6 +10,7 @@
 </template>
 <script>
 import Store from '@/utils/store'
+import goLogin from './utils/goLogin'
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -87,17 +88,7 @@ export default {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.ifrouteractive = true
-        if (process.env.NODE_ENV === 'development') {
-          this.$router.push({
-            name: 'Login'
-          })
-        } else if (window.gloableToolFn.serverGatewayMap.gloableUrl.isLoginOutToPortal) {
-          window.location.href = window.gloableToolFn.serverGatewayMap.gloableUrl.portalLoginUrl
-        } else {
-          this.$router.push({
-            name: 'Login'
-          })
-        }
+        goLogin()
       } else {
         await this.$http
           .get('mp-b-user-service/v1/user/app/message', { appguid: appguid })
@@ -107,17 +98,7 @@ export default {
               res = JSON.parse(res)
             }
             if (res.rscode === '118000') {
-              if (process.env.NODE_ENV === 'development') {
-                this.$router.push({
-                  name: 'Login'
-                })
-              } else if (window.gloableToolFn.serverGatewayMap.gloableUrl.isLoginOutToPortal) {
-                window.location.href = window.gloableToolFn.serverGatewayMap.gloableUrl.portalLoginUrl
-              } else {
-                this.$router.push({
-                  name: 'Login'
-                })
-              }
+              goLogin()
             } else {
               this.$store.commit('setUserInfo', res.data)
               this.$store.dispatch('asyncUserRoles')
@@ -135,9 +116,7 @@ export default {
           .catch((e) => {
             console.log(e)
             this.ifrouteractive = true
-            this.$router.push({
-              name: 'Login'
-            })
+            goLogin()
           })
       }
     },
@@ -154,7 +133,7 @@ export default {
                 .then((type) => {
                   if (type === 'confirm') {
                     localStorage.removeItem('__boss_cache__bsSxczyAccessToken')
-                    window.location.href = document.referrer || '/'
+                    goLogin()
                   }
                 })
             }
