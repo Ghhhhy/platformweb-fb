@@ -342,7 +342,7 @@ const proconf = {
             field: 'xLoad',
             width: 200,
             align: 'right',
-            formula: '({amountXjfp}-0==0)?0:({amountXjfp}/{amountXjfp}*100)',
+            formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
             cellRender: {
               name: '$vxeRatio'
             }

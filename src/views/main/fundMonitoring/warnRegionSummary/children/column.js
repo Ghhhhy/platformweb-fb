@@ -100,7 +100,7 @@ const proconf = {
     },
     {
       title: '金额（单位:万元）',
-      field: 'amount',
+      field: 'paymentAmount',
       sortable: false,
       filters: false,
       align: 'right',
@@ -1206,7 +1206,7 @@ const proconf = {
       title: '金额（单位:万元）',
       width: 140,
       filters: false,
-      field: 'amount',
+      field: 'paymentAmount',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
@@ -1268,7 +1268,7 @@ const proconf = {
       title: '金额（单位:万元）',
       width: 140,
       filters: false,
-      field: 'amount',
+      field: 'paymentAmount',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }

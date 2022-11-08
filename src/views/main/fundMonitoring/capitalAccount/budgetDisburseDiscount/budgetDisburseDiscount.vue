@@ -70,7 +70,9 @@
     <DetailDialog
       v-if="detailVisible"
       :title="detailTitle"
+      :detail-type="detailType"
       :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
@@ -244,7 +246,8 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      detailQueryParam: {}
     }
   },
   mounted() {
@@ -378,107 +381,19 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
-      // let params = {
-      //   reportCode: type === 'beAmount' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
-      //   mofDivCode: recDivCode,
-      //   fiscalYear: this.searchDataList.fiscalYear
-      // }
-      // this.tableLoading = true
+    handleDetail(reportCode, recDivCode) {
+      let params = {
+        mofDivCode: recDivCode,
+        fiscalYear: this.searchDataList.fiscalYear,
+        reportCode: reportCode
+      }
       this.tableLoading = true
       setTimeout(() => {
         this.tableLoading = false
       }, 2000)
-      type === 'beAmount' ? this.detailData = [
-        {
-          businessName: '西北妇女儿童医院',
-          bzAmount: 864642328,
-          creditCode: '611301032018160011912'
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050000344',
-          bzAmount: 864634
-        },
-        {
-          businessName: '陕西省医疗保障局',
-          creditCode: '129910435745410803',
-          bzAmount: 864642398
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050450319',
-          bzAmount: 86434498
-        },
-        {
-          businessName: '陕西省地方病防治研究所',
-          creditCode: '61001711100058011254',
-          bzAmount: 8646498
-        },
-        {
-          businessName: '渭南九州通正元医药有限公司',
-          creditCode: '61001647508050000319',
-          bzAmount: 86422498
-        }
-      ] : this.detailData = [
-        {
-          card: 500383199204062383,
-          name: '张三',
-          bzAmount: 1461123
-        },
-        {
-          card: 500383199204062364,
-          name: '李四',
-          bzAmount: 755439
-        },
-        {
-          card: 50038319920532383,
-          name: '王五',
-          bzAmount: 447512300
-        },
-        {
-          card: 50038319920432383,
-          name: '安其',
-          bzAmount: 8042000
-        },
-        {
-          card: 500384642204062383,
-          name: '刘均',
-          bzAmount: 5610000
-        },
-        {
-          card: 500383199204062341,
-          name: '丰能',
-          bzAmount: 58350000
-        },
-        {
-          card: 500383199204067643,
-          name: '乔东',
-          bzAmount: 10020000
-        },
-        {
-          card: 500383199204074345,
-          name: '李太华',
-          bzAmount: 980000
-        },
-        {
-          card: 500383199204095859,
-          name: '张起灵',
-          bzAmount: 39670000
-        },
-        {
-          card: 500383199204064444,
-          name: '吴勇',
-          bzAmount: 7000000
-        },
-        {
-          card: 500383199204061111,
-          name: '邓伦',
-          bzAmount: 10000000
-        }
-      ]
+      this.detailQueryParam = params
+      this.detailType = reportCode
       this.detailVisible = true
-      this.detailType = type
       // HttpModule.queryTableDatas(params).then((res) => {
       //   this.tableLoading = false
       //   if (res.code === '000000') {
@@ -494,12 +409,12 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       switch (key) {
-        case 'beAmount':
-          this.handleDetail('beAmount', obj.row.recDivCode)
+        case 'amountHqpay':
+          this.handleDetail('hjqybzje', obj.row.code)
           this.detailTitle = '项目惠及企业台账明细'
           break
-        case 'bpAmount':
-          this.handleDetail('bpAmount', obj.row.recDivCode)
+        case 'amountLmpay':
+          this.handleDetail('hjrybzje', obj.row.code)
           this.detailTitle = '项目惠及人员台账明细'
       }
     },
@@ -581,7 +496,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['bpAmount', 'beAmount'].includes(column.property)) {
+      if (['amountHqpay', 'amountLmpay'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

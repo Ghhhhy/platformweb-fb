@@ -344,7 +344,7 @@ export let proconf = {
     {
       title: '指标文号',
       width: 180,
-      field: 'corBgtDocNoCode',
+      field: 'corBgtDocNoName',
       sortable: false,
       filters: false,
       align: 'center'

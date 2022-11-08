@@ -8,33 +8,35 @@
     :show-footer="false"
     @close="dialogClose"
   >
-    <BsQuery
-      ref="queryFrom"
-      :query-form-item-config="queryConfig"
-      :query-form-data="searchDataList"
-      @onSearchClick="search"
-    />
-    <BsTable
-      ref="mainTableRef"
-      :footer-config="tableFooterConfig"
-      :table-config="tableConfig"
-      :table-columns-config="tableColumnsConfig"
-      :table-data="tableData"
-      :toolbar-config="tableToolbarConfig"
-      :pager-config="pagerConfig"
-      :default-money-unit="10000"
-      @ajaxData="ajaxTableData"
-      @onToolbarBtnClick="onToolbarBtnClick"
-    >
-      <template v-slot:toolbarSlots>
-        <div class="table-toolbar-left">
-          <div class="table-toolbar-left-title">
-            <span class="fn-inline">{{ title }}(单位:万元)</span>
-            <i class="fn-inline"></i>
+    <div style="height: calc(100% - 80px)">
+      <BsQuery
+        ref="queryFrom"
+        :query-form-item-config="queryConfig"
+        :query-form-data="searchDataList"
+        @onSearchClick="search"
+      />
+      <BsTable
+        ref="mainTableRef"
+        :footer-config="tableFooterConfig"
+        :table-config="tableConfig"
+        :table-columns-config="tableColumnsConfig"
+        :table-data="tableData"
+        :toolbar-config="tableToolbarConfig"
+        :pager-config="pagerConfig"
+        :default-money-unit="10000"
+        @ajaxData="ajaxTableData"
+        @onToolbarBtnClick="onToolbarBtnClick"
+      >
+        <template v-slot:toolbarSlots>
+          <div class="table-toolbar-left">
+            <div class="table-toolbar-left-title">
+              <span class="fn-inline">{{ title }}(单位:万元)</span>
+              <i class="fn-inline"></i>
+            </div>
           </div>
-        </div>
-      </template>
-    </BsTable>
+        </template>
+      </BsTable>
+    </div>
   </vxe-modal>
 </template>
 <script>
