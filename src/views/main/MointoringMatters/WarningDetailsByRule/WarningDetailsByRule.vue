@@ -131,6 +131,7 @@ export default {
       dialogHsVisible: false,
       handleDialogVisible: false,
       warningCode: '',
+      fiRuleCode: '',
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
@@ -256,7 +257,6 @@ export default {
       DetailData: {},
       regulationclass: '',
       firulename: '',
-      fiRuleCode: '',
       showGlAttachmentDialog: false
     }
   },
@@ -656,7 +656,7 @@ export default {
         agencycode: this.agencycode,
         firulename: this.firulename,
         // regulationClass: this.params5,
-        firulecode: this.fiRuleCode
+        fiRuleCode: this.fiRuleCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

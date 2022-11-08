@@ -469,7 +469,7 @@ export default {
         // 支出走地区支付明细
         case 'amountPayAll':
           this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
-          this.detailTitle = 'XX地区支出明细'
+          this.detailTitle = obj.row.name + '直达资金支出明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

@@ -169,7 +169,7 @@ export let proconf = {
   statusButtons: [
     {
       code: '1',
-      label: '待挂接',
+      label: '待确认',
       iconName: 'base-all.png',
       iconNameActive: 'base-all-active.png',
       type: 'button',
@@ -177,7 +177,7 @@ export let proconf = {
     },
     {
       code: '2',
-      label: '已挂接',
+      label: '已确认',
       iconName: 'base-all.png',
       iconNameActive: 'base-all-active.png',
       type: 'button',
@@ -185,7 +185,7 @@ export let proconf = {
     }
   ],
   curStatusButton: {
-    label: '待挂接',
+    label: '待确认',
     code: '1',
     type: 'button',
     curValue: '1'
@@ -193,31 +193,14 @@ export let proconf = {
   buttons: {
     1: [
       {
-        label: '导入',
-        code: 'import'
-      },
-      {
-        label: '删除',
-        code: 'delete'
-      },
-      {
-        label: '更新',
-        code: 'update'
-      },
-      {
-        label: '挂接',
+        label: '确认',
         code: 'hook_set',
-        status: 'primary'
-      },
-      {
-        label: '手动读取',
-        code: 'peo_read',
         status: 'primary'
       }
     ],
     2: [
       {
-        label: '取消挂接',
+        label: '取消确认',
         code: 'hook_not',
         status: 'primary'
       }
@@ -361,7 +344,7 @@ export let proconf = {
     {
       title: '指标文号',
       width: 180,
-      field: 'corBgtDocNoCode',
+      field: 'corBgtDocNoName',
       sortable: false,
       filters: false,
       align: 'center'

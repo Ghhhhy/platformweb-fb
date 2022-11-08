@@ -13,56 +13,31 @@
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <template v-slot:mainTree>
-        <FilterTreeInput
-          :filter-text="treeFilterText"
-          :expend.sync="leftTreeVisible"
-          @search="searchTreeHandle"
-        />
-        <!-- <BsTreeSet
+        <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
-          @onConfrimData="treeSetConfrimData"
-        /> -->
-        <BsBossTree
-          ref="leftTree"
-          v-loading="treeLoadingState"
-          :defaultexpandedkeys="['root']"
-          style="overflow: hidden"
-          :is-server="false"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
         />
-        <div class="block">
-          <el-pagination
-            background
-            small
-            :pager-count="5"
-            :current-page="treeCurrentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="treePageSize"
-            layout="total, prev, pager, next"
-            :total="proTotal"
-            @current-change="handleCurrentChange"
-          />
-        </div>
+        <BsTree
+          ref="leftTree"
+          open-loading
+          :config="leftTreeConfig"
+          :tree-data="treeData"
+          @onNodeClick="onClickmethod"
+        />
       </template>
       <template v-slot:mainForm>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <!-- <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
-        </div>
-        <BsTable
+        </div> -->
+        <!-- <BsTable
           ref="mainTableRef"
           v-loading="tableLoading1"
           style="height: 40%"
@@ -78,7 +53,7 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
-          <template v-slot:toolbarSlots>
+          <!-- <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title left-title-clear-float">
@@ -91,8 +66,8 @@
                 <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
               </div>
             </div>
-          </template>
-        </BsTable>
+          </template> -->
+        </BsTable> -->
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -104,7 +79,7 @@
         <BsTable
           ref="mainTableRef1"
           v-loading="tableLoading2"
-          style="height: 40%"
+          style="height: 100%"
           :footer-config="tableFooterConfig1"
           :table-columns-config="tableColumnsConfig1"
           :table-data="tableData1"
@@ -137,29 +112,20 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
-    <AddDialog
-      v-if="addDialogVisible"
-      :title="dialogTitle"
-      :select-data="selectData"
-    />
   </div>
 </template>
 
 <script>
-import { proconf, getDateString } from './benefitPeople'
-import FilterTreeInput from './FilterTreeInput.vue'
-import AddDialog from './children/AddDialog'
+import { proconf, getDateString } from './benefitPeopleConfirm'
 import ImportModel from '../../../../components/Table/import/import.vue'
 import { Import } from '../../../../components/Table/import/import/import.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeopleConfirm.js'
 import { Export } from '../../../../components/Table/export/export/export'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
-    FilterTreeInput,
-    ImportModel,
-    AddDialog
+    ImportModel
     // AddDialog
   },
   computed: {
@@ -177,13 +143,12 @@ export default {
   },
   data() {
     return {
-      selectData: {},
-      addDialogVisible: false,
       // 左侧树过滤值
       treeFilterText: '',
       matchHoot: true,
       isProName: false,
       isAmount: false,
+      codeList: [],
       importModalVisible: false, // 导入弹框
       fileConfig: {
         fileName: '',
@@ -218,14 +183,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: {
-        elementcode: 'pro',
-        year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province,
-        proName: this.proName1,
-        limit: 2000,
-        offset: 1
-      },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -360,7 +318,7 @@ export default {
       regulationclass: '',
       firulename: '',
       payAmt: '',
-      mofdivcode: '',
+      mofDivCode: this.$store.state.userInfo.province,
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
@@ -373,7 +331,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{label}', // {code}-{name}
+          labelFormat: '{code}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -475,23 +433,6 @@ export default {
       this.fileConfig.fileName = ''
       this.importModalVisible = true
     },
-    changes() {
-      let datas1 = this.$refs.mainTableRef1.getSelectionData()
-      if (datas1.length !== 1 && datas1.length !== 0) {
-        this.$message.info('请选择一条支付凭证信息进行匹配')
-      }
-      if (this.isProName) {
-        this.proName = datas1[0].proName
-      } else {
-        this.proName = ''
-      }
-      if (this.isAmount) {
-        this.payAmt = datas1[0].payAmt
-      } else {
-        this.payAmt = ''
-      }
-      this.queryTableDatas()
-    },
     bsToolbarClickEvent(obj, $this) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
@@ -531,15 +472,8 @@ export default {
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
-      this.refresh()
       this.refresh1()
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
-    },
-    search(obj) {
-      this.payCertNo = obj.payCertNo
-      this.amount = obj.amount
-      this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     search1(obj) {
       this.payCertNo = obj.payCertNo
@@ -619,8 +553,7 @@ export default {
           this.isHook = '1'
           break
       }
-      this.queryTableDatas()
-      this.queryTableDatas1()
+      // this.queryTableDatas1()
     },
     checkboxChange(checked, row) {
       switch (this.toolBarStatusSelect.code) {
@@ -635,92 +568,59 @@ export default {
           break
       }
     },
-    checkboxChange1(checked, row) {
-      switch (this.toolBarStatusSelect.code) {
-        case '1':
-          if (checked.selection.length !== 1 && checked.selection.length !== 0) {
-            this.$message.info('请选择一条支付凭证信息进行匹配')
-            break
-          }
-          if (this.isProName && this.isAmount) {
-            this.proName = checked.selection[0].proName
-            this.amount = checked.selection[0].amount
-            this.queryTableDatas()
-            break
-          }
-          if (this.isProName) {
-            this.proName = checked.selection[0].proName
-            this.queryTableDatas()
-            break
-          }
-          if (this.isAmount) {
-            this.amount = checked.selection[0].amount
-            this.queryTableDatas()
-            break
-          }
-          break
-        case '2':
-          this.dtos.length = checked.selection.length
-          for (let i = 0; i < this.dtos.length; i++) {
-            this.$set(this.dtos, i, checked.selection[i].payCertId)
-          }
-          this.queryTableDatas()
-          break
-      }
-    },
+    // checkboxChange1(checked, row) {
+    //   switch (this.toolBarStatusSelect.code) {
+    //     case '1':
+    //       if (this.isProName && this.isAmount) {
+    //         this.proName = checked.selection[0].proName
+    //         this.amount = checked.selection[0].amount
+    //         this.queryTableDatas()
+    //         break
+    //       }
+    //       if (this.isProName) {
+    //         this.proName = checked.selection[0].proName
+    //         this.queryTableDatas()
+    //         break
+    //       }
+    //       if (this.isAmount) {
+    //         this.amount = checked.selection[0].amount
+    //         this.queryTableDatas()
+    //         break
+    //       }
+    //       break
+    //     case '2':
+    //       this.dtos.length = checked.selection.length
+    //       for (let i = 0; i < this.dtos.length; i++) {
+    //         this.$set(this.dtos, i, checked.selection[i].payCertId)
+    //       }
+    //       this.queryTableDatas()
+    //       break
+    //   }
+    // },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
       let self = this
-      let datas1 = this.$refs.mainTableRef.getSelectionData()
       let datas2 = this.$refs.mainTableRef1.getSelectionData()
       switch (obj.code) {
         // 挂接
         case 'hook_set':
-          // if (datas1.length !== 1) {
-          //   this.$message.warning('请选择一条惠民支付明细数据')
-          //   return
-          // }
-          if (datas2.length !== 1) {
-            this.$message.warning('请选择一条支付凭证信息数据')
+          if (datas2.length === 0) {
+            this.$message.warning('请选择数据')
             return
           }
-          this.hook(datas1, datas2[0])
+          this.hook(datas2)
           break
         // 手动读取
         case 'peo_read':
           this.read()
           break
-        // 编辑
-        case 'update':
-          if (datas1.length !== 1) {
-            this.$message.warning('请选择一条惠民支付明细数据')
-            return
-          }
-          this.selectData = datas1[0]
-          this.updateImport()
-          break
-        // 删除
-        case 'delete':
-          if (this.$refs.mainTableRef.getSelectionData().length === 0) {
-            this.$message.warning('请选择需要删除的惠民支付明细数据')
-            return
-          }
-          this.$confirm('确认删除！', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            let datas = this.$refs.mainTableRef.getSelectionData()
-            this.delete(datas)
-          })
-          break
         // 取消挂接
         case 'hook_not':
-          if (datas1.length === 0) {
+          if (datas2.length === 0) {
             this.$message.warning('请选择数据')
             return
           }
-          this.notHook(datas1)
+          this.notHook(datas2)
           break
         // 导入
         case 'import':
@@ -750,20 +650,6 @@ export default {
           break
       }
     },
-    delete(datas) {
-      HttpModule.delete(datas).then(res => {
-        if (res.code === '000000') {
-          this.$message.success('删除成功')
-          this.queryTableDatas()
-        } else {
-          this.$message.error(res.result)
-        }
-      })
-    },
-    updateImport() {
-      this.addDialogVisible = true
-      this.dialogTitle = '修改'
-    },
     importSuccessCallback(res) {
       console.log('res:', res)
       HttpModule.importBenefit(res).then(res => {
@@ -775,25 +661,21 @@ export default {
       })
       this.refresh()
     },
-    hook(datas1, datas2) {
+    hook(datas2) {
       const param = {
-        payCertNo: datas1.payCertNo,
-        id: datas1.id,
-        payCers: datas1,
-        payCertId: datas2.payCertId
+        payDetailIds: datas2
       }
-      HttpModule.update(param).then(res => {
+      HttpModule.confirm(param).then(res => {
         if (res.code === '000000') {
-          this.$message.success('挂接成功')
-          this.queryTableDatas()
+          this.$message.success('确认成功')
           this.queryTableDatas1()
         } else {
           this.$message.error(res.result)
         }
       })
     },
-    notHook(datas1) {
-      HttpModule.notHook(datas1).then(res => {
+    notHook(datas2) {
+      HttpModule.notConfirm(datas2).then(res => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''
@@ -806,7 +688,6 @@ export default {
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
-          this.queryTableDatas()
           this.queryTableDatas1()
         } else {
           this.$message.error(res.result)
@@ -821,7 +702,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('读取成功')
-          this.queryTableDatas()
           this.queryTableDatas1()
         } else {
           this.$message.error(res.result)
@@ -852,17 +732,38 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
-      if (node.id !== 'root') {
-        this.proCode = node.code
-      } else {
-        this.condition = {}
-        this.proCode = ''
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      // 非顶级区划则获取区划code，否则查询表体数据时codeList为空进行查询
+      if (code !== node.treeData?.[0].code) {
+        this.getItem(code, treeData)
       }
-      this.queryTableDatas()
+      if (node.id !== '0') {
+        this.mofdivcode = node.node.code
+      } else {
+        this.mofdivcode = {}
+      }
       this.queryTableDatas1()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -883,19 +784,9 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.mainPagerConfig.currentPage = 1
-      this.queryTableDatas()
-      // this.queryTableDatasCount()
-    },
     refresh1() {
       this.queryTableDatas1()
       // this.queryTableDatasCount()
-    },
-    ajaxTableData({ params, currentPage, pageSize }) {
-      this.mainPagerConfig.currentPage = currentPage
-      this.mainPagerConfig.pageSize = pageSize
-      this.queryTableDatas()
     },
     ajaxTableData1({ params, currentPage, pageSize }) {
       this.mainPagerConfig1.currentPage = currentPage
@@ -928,32 +819,6 @@ export default {
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
     },
-    // 查询 table 数据
-    queryTableDatas() {
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        isHook: this.isHook,
-        proCode: this.proCode,
-        proName: this.proName,
-        payCertNo: this.payCertNo,
-        amount: this.amount,
-        payAmt: this.payAmt,
-        mofDivName: this.mofdivName,
-        dtos: this.dtos
-      }
-      this.tableLoading1 = true
-      HttpModule.pageQuery(param).then(res => {
-        this.tableLoading1 = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-          // this.tabStatusNumConfig['1'] = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
-    },
     // 查询 table1 数据
     queryTableDatas1() {
       const param = {
@@ -968,7 +833,8 @@ export default {
         amount: this.amount,
         isHook: this.isHook,
         roleId: this.roleId,
-        mofDivName: this.mofdivName,
+        mofDivCode: this.mofDivCode, // 获取左侧树
+        mofDivCodes: this.codeList,
         dtos: this.dtos
       }
       this.tableLoading2 = true
@@ -1018,40 +884,61 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      this.offset = (that.treeCurrentPage - 1) * (this.treePageSize)
-      this.treeLoadingState = true
-      let params = {
-        elementcode: 'pro',
-        year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province,
-        name: this.proName1,
-        limit: this.treePageSize,
-        offset: this.offset
+      let params = {}
+      if (this.userInfo.province === '610000000') {
+        params = {
+          elementCode: 'admdiv',
+          province: '610000000',
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + 61 + '%\''
+        }
+      } else if (
+        this.userInfo.province === '610100000' ||
+        this.userInfo.province === '610100000' ||
+        this.userInfo.province === '610200000' ||
+        this.userInfo.province === '610300000' ||
+        this.userInfo.province === '610400000' ||
+        this.userInfo.province === '610500000' ||
+        this.userInfo.province === '610600000' ||
+        this.userInfo.province === '610700000' ||
+        this.userInfo.province === '610800000' ||
+        this.userInfo.province === '610900000' ||
+        this.userInfo.province === '611000000' ||
+        this.userInfo.province === '611200000'
+      ) {
+        params = {
+          elementCode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+        }
+      } else {
+        params = {
+          elementCode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+        }
       }
-      this.wheresql && (params.wheresql = this.wheresql)
-
       HttpModule.getTreeData1(params).then(res => {
-        if (res.code === '000000') {
-          let treeResdata = res.data
-          treeResdata.forEach(item => {
-            item.label = item.code + '-' + item.name
-          })
-          const result = [
-            {
-              id: 'root',
-              label: '全部',
-              code: 'root',
-              isleaf: '0',
-              children: treeResdata
-            }
-          ]
-          that.treeData = result
-          that.proTotal = res.data.length
+        if (res.data) {
+          // let treeResdata = that.getChildrenData(res.data)
+          // treeResdata.forEach(item => {
+          //   item.label = item.id + '-' + item.businessName
+          // })
+          // const result = [
+          //   {
+          //     id: 'root',
+          //     label: '全部',
+          //     code: 'root',
+          //     isleaf: '0',
+          //     children: treeResdata
+          //   }
+          // ]
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }
-      }).finally(() => {
-        this.treeLoadingState = false
       })
     },
     handleCurrentChange(val) {

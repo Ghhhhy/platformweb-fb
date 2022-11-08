@@ -1,15 +1,14 @@
-<!-- 直达资金支出_分科目 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
       <template v-slot:topTap></template>
       <!-- <template v-slot:topTabPane>
         <BsTabPanel
-          ref="tabPanel"
-          :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
+          ref='tabPanel'
+          :is-open='isShowQueryConditions'
+          :tab-status-btn-config='toolBarStatusBtnConfig'
+          :tab-status-num-config='tabStatusNumConfig'
+          @onQueryConditionsClick='onQueryConditionsClick'
         />
       </template> -->
       <template v-slot:query>
@@ -35,32 +34,17 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
-          <!--口径说明插槽-->
-          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
-            <p v-html="caliberDeclareContent"></p>
-          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">{{ menuName }}</span>
+                <span class="fn-inline">地方监控预警汇总</span>
                 <i class="fn-inline"></i>
               </div>
-            </div>
-          </template>
-          <template v-slot:tools-before>
-            <div class="dfr-report-time-wrapper">
-              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
-                <div class="dfr-report-time-content">
-                  <i class="ri-history-fill"></i>
-                  <span class="dfr-report-time">{{ reportTime }}</span>
-                </div>
-              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -72,23 +56,16 @@
       :title="detailTitle"
       :detail-data="detailData"
     />
-    <SDetailDialog
-      v-if="sDetailVisible"
-      :title="sDetailTitle"
-      :s-detail-data="sDetailData"
-    />
   </div>
 </template>
 
 <script>
-import getFormData from './budgetDisburseSubject.js'
-import DetailDialog from '../children/detailDialog.vue'
-import SDetailDialog from '../children/sDetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import getFormData from './warnRegionSummary.js'
+import DetailDialog from './children/wdetailDialog.vue'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
 export default {
   components: {
-    DetailDialog,
-    SDetailDialog
+    DetailDialog
   },
   watch: {
     $refs: {
@@ -103,8 +80,6 @@ export default {
   },
   data() {
     return {
-      caliberDeclareContent: '', // 口径说明
-      reportTime: '', // 上次取数时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -139,39 +114,32 @@ export default {
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
+      obj: {},
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
         // gradedSummaryFields: ['bonus', 'income'],
         calcAndConstraintItemCodeField: 'itemCode',
         // 示例中1001为tableId
-        // rowCodeFormulaConfig: {
-        //   // 单元格交叉计算
-        //   // rowFormulaMap= { "colField:itemcode":"{tableId:colField:itemcode}[运算符]" }
-        //   '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
-        //   // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
-        //   // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
-        // },
+        rowCodeFormulaConfig: {
+          // 单元格交叉计算
+          // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
+          '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
+          // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
+          // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
+        },
         cellDataConfig: [// 提取和计算
 
         ],
-        // colFormulaConfig: {
-        //   jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
-        //   jLoad: '{jOut}/{sbjAmount}*100',
-        //   sUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
-        //   sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{sbjAmount}*100',
-        //   aUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
-        //   aLoad: '({sbjfpAmount}+{sxjfpAmount})/{sbjAmount}*100',
-        //   xUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
-        //   xLoad: '{xbjfpAmount}/{sbjAmount}*100'
-        // },
+        colFormulaConfig: {
+        },
         getDataAxiosConfig: { // 跨表提取请求配置
           dataField: 'data', // 数据字段
           successCode: '100000', // 成功code
           statusField: 'rscode',
           method: 'get', // 请求方式
           url: '' // 'queryTreeAssistData', //
-        //  [{ itemCode: "002", colField: "f005", value: "1500.0" }, { itemCode: "002001", colField: "f005", value: "500.0" }]
+          //  [{ itemCode: '002', colField: 'f005', value: '1500.0' }, { itemCode: '002001', colField: 'f005', value: '500.0' }]
         },
         getDataParams: { // 提取公共参数
 
@@ -198,7 +166,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: true, // 是否有金额转换
+        moneyConversion: false, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -243,15 +211,12 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
+      fiscalYear: '',
       detailData: []
     }
   },
   mounted() {
-    // this.tableLoading = true
-    // setTimeout(() => {
-    //   this.tableLoading = false
-    //   this.initTableData()
-    // }, 2000)
+    // this.getNewData()
   },
   methods: {
     // 展开折叠查询框
@@ -311,7 +276,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '直达资金预算下达_分资金(单位:万元)'
+          this.menuName = '直达资金地方预警汇总'
           this.radioShow = true
           break
       }
@@ -359,11 +324,7 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
-            type: 'warning'
-          }).then(() => {
-            this.refresh(true)
-          })
+          this.refresh()
           break
       }
     },
@@ -381,89 +342,92 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, speTypeCode) {
-      let params = {
-        reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
-        speTypeCode: speTypeCode,
-        mofDivCode: '',
-        fiscalYear: this.searchDataList.fiscalYear
-      }
-      this.detailVisible = true
-      this.tableLoading = true
-      HttpModule.queryTableDatas(params).then((res) => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.detailData = res.data
-          this.detailType = type
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+    handleDetail(type, mofDivCode) {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.speTypeCode)
-          this.detailTitle = '支出明细'
+        case 'numbernofileNum':
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '是否上传附件-未处理明细'
+          this.detailType = 'numbernofileNum'
+          this.detailVisible = true
           break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.speTypeCode)
-          this.detailTitle = '直达资金项目明细'
+        case 'numberfileNum':
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '是否上传附件-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberfileNum'
+          break
+        case 'numberwarnUndoNum':
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '支出预警-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNum'
+          break
+        case 'numberwarndoNum':
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '支出预警-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndoNum'
+          break
+        case 'numberwarnUndoNoNum':
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '支出预警-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNoNum'
+          break
+        case 'numberwarndidNum':
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '支出预警-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndidNum'
+          break
+        case 'numberhqlmUndoNum':
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '未导入惠企利民明细-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmUndoNum'
+          break
+        case 'numberhqlmdoNum':
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '未导入惠企利民明细-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmdoNum'
+          break
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh(isFlush = false) {
-      this.queryTableDatas(isFlush)
+    refresh() {
+      this.queryTableDatas()
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = false) {
+    queryTableDatas(val) {
       const param = {
-        isFlush,
-        // reportCode: 'zdzjzc_fkm',
-        reportCode: this.params5,
-        fiscalYear: this.searchDataList.fiscalYear,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.data
-          this.reportTime = res.data.reportTime
-          this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
+          this.tableData = res.data
         } else {
           this.$message.error(res.message)
         }
       })
-    },
-    initTableData() {
-      let tableDataTest = getFormData('basicInfo', 'tableData')
-      this.tableData = tableDataTest
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
     }
   },
   created() {
-    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
-    this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo

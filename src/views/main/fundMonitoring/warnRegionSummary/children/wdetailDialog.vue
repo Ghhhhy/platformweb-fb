@@ -8,7 +8,7 @@
     :show-footer="false"
     @close="dialogClose"
   >
-    <div style="height: calc(100% - 120px)">
+    <div style="height: calc(100% - 80px)">
       <BsQuery
         ref="queryFrom"
         :query-form-item-config="queryConfig"
@@ -40,7 +40,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -234,41 +234,23 @@ export default {
       this.fiscalYear = this.detailData[2]
       console.log(proconf)
       switch (this.title) {
-        case '红色预警-未处理明细':
+        case '是否上传附件-未处理明细':
           this.tableColumnsConfig = proconf.redUndoNum
           break
-        case '红色预警-已整改明细':
+        case '是否上传附件-已整改明细':
           this.tableColumnsConfig = proconf.redDoneNum
           break
-        case '橙色预警-未上传附件明细':
-          this.tableColumnsConfig = proconf.notuploadColumn
-          break
-        case '橙色预警-已上传附件明细':
-          this.tableColumnsConfig = proconf.uploadColumn
-          break
-        case '黄色预警-疑点信息明细':
+        case '支出预警-未处理明细':
           this.tableColumnsConfig = proconf.notpayColumn
           break
-        case '黄色预警-认定正常明细':
+        case '支出预警-已认定明细':
           this.tableColumnsConfig = proconf.payokColumn
           break
-        case '黄色预警-认定违规-未处理明细':
-          this.tableColumnsConfig = proconf.payokColumn
+        case '未导入惠企利民明细-未处理明细':
+          this.tableColumnsConfig = proconf.notgetColumn
           break
-        case '黄色预警-认定违规-已整改明细':
-          this.tableColumnsConfig = proconf.payedColumn
-          break
-        case '非人工干预蓝色预警-疑点信息明细':
-          this.tableColumnsConfig = proconf.notpayColumn
-          break
-        case '非人工干预蓝色预警-认定正常明细':
-          this.tableColumnsConfig = proconf.payokColumn
-          break
-        case '非人工干预蓝色预警-认定违规-未处理明细':
-          this.tableColumnsConfig = proconf.payokColumn
-          break
-        case '非人工干预蓝色预警-认定违规-已整改明细':
-          this.tableColumnsConfig = proconf.payedColumn
+        case '未导入惠企利民明细-已整改明细':
+          this.tableColumnsConfig = proconf.getColumn
           break
         default:
           break

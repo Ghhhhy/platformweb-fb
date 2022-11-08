@@ -27,6 +27,14 @@ export default {
   notHook (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHook', params)
   },
+  // 删除
+  delete (params) {
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/delete', params)
+  },
+  // 编辑
+  updateImport (params) {
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/updateImport', params)
+  },
   // 导入
   importBenefit (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/import', params)

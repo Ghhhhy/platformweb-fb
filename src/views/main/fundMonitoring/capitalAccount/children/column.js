@@ -392,7 +392,7 @@ const proconf = {
     },
     {
       title: '补助金额（单位:万元）',
-      field: 'bzAmount',
+      field: 'businessAmount',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
@@ -413,7 +413,7 @@ const proconf = {
     },
     {
       title: '补助金额（单位:万元）',
-      field: 'bzAmount',
+      field: 'peopleAmount',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
