@@ -903,7 +903,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getLeftTreeData1()
-    this.queryTableDatas()
+    // this.queryTableDatas()
     this.getTreeType()
   }
 }

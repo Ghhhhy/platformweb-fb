@@ -680,7 +680,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
     this.getRegulation()
     this.getLeftTreeData()
-    this.queryTableDatas()
+    // this.queryTableDatas()
   }
 }
 </script>
