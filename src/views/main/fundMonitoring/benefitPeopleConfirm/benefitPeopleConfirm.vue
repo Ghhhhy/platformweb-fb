@@ -53,20 +53,6 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
-          <!-- <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
-                <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
-              </div>
-            </div>
-          </template> -->
         </BsTable> -->
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery

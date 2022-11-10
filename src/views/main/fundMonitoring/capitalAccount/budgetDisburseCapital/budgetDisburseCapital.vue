@@ -393,8 +393,34 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, trackProCode) {
+    handleDetail(type, trackProCode, column) {
+      let condition = ''
+      switch (column) {
+        case 'amountSnjZcjeZje':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSjZcjeZje':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        case 'amountXjZcjeZje':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+      }
+      let isBj = ''
+      switch (column) {
+        case 'amountSnjZcjeZje':
+          isBj = '1'
+          break
+        case 'amountSjZcjeZje':
+          isBj = '2'
+          break
+        case 'amountXjZcjeZje':
+          isBj = '3'
+          break
+      }
       let params = {
+        condition,
+        isBj,
         reportCode: type,
         trackProCode: trackProCode,
         mofDivCode: '',
@@ -418,13 +444,13 @@ export default {
       let key = obj.column.property
       switch (key) {
         case 'jOut':
-          this.handleDetail('jOut', obj.row.speTypeCode)
+          this.handleDetail('jOut', obj.row.speTypeCode, key)
           this.detailTitle = '支出明细'
           break
         case 'amountSnjZcjeZje':
         case 'amountSjZcjeZje':
-        case 'amountXjZjzlZje':
-          this.handleDetail('zdzjzcmx_fdq', obj.row.code)
+        case 'amountXjZcjeZje':
+          this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
           this.detailTitle = '直达资金项目明细'
       }
     },
@@ -465,7 +491,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['amountSnjZcjeZje', 'amountSjZcjeZje', 'amountXjZjzlZje'].includes(column.property)) {
+      if (['amountSnjZcjeZje', 'amountSjZcjeZje', 'amountXjZcjeZje'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
