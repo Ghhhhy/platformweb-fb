@@ -693,7 +693,7 @@ export default {
         proName: this.proName,
         endTime: this.endTime,
         hqlm: this.hqlm,
-        iscz: this.transJson(this.params5)?.czzd, // 菜单参照直达标识
+        iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
         mofDivCodes: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.proCodes,
         expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes
