@@ -137,7 +137,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
+      tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
       calculateConstraintConfig: {
         enabled: true,
