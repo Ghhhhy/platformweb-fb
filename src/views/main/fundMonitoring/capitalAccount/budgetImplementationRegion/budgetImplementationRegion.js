@@ -352,7 +352,7 @@ const proconf = {
       }
     ],
     // 直辖（市、区）
-    tableColumnsConfigDirectly: [
+    tableColumnsConfigCity: [
       // {
       //   title: '地区编码',
       //   type: 'code',
