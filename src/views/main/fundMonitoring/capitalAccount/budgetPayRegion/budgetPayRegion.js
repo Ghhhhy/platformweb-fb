@@ -571,6 +571,369 @@ const proconf = {
         ]
       }
     ],
+    tableColumnsConfigCity: [
+      {
+        title: '地区名称',
+        type: 'name',
+        treeNode: true,
+        fixed: false,
+        align: 'left',
+        width: 160,
+        field: 'name',
+        cellRender: {
+          name: '$vxeIcon',
+          props: {
+            $refs: this
+          }
+        }
+      },
+      {
+        title: '全省',
+        width: 200,
+        align: 'center',
+        children: [
+          {
+            title: '资金总量',
+            field: 'amountZjzl',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '整合资金',
+            field: 'cAmount',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            visible: false
+          },
+          {
+            title: '支出资金',
+            field: 'amountZjzc',
+            width: 200,
+            align: 'right',
+            cellRender: {
+              name: '$vxeMoney'
+            }
+          },
+          {
+            title: '支出进度',
+            field: 'pPro',
+            width: 200,
+            align: 'right',
+            cellRender: {
+              name: '$vxeRatio'
+            },
+            formula: '(({amountZjzl}+{cAmount})-0==0?0:{amountZjzc}/({amountZjzl}+{cAmount})*100)'
+          }
+        ]
+      },
+      {
+        title: '市级',
+        width: 200,
+        align: 'center',
+        children: [
+          {
+            title: '资金总量',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'amountSnjzyxd',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '地方安排',
+                field: 'amountSnjdfdf',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '总金额',
+                field: 'saaAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({amountSnjzyxd}+{amountSnjdfdf})'
+              }
+            ]
+          },
+          {
+            title: '整合金额',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'szyapcAmount',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' },
+                visible: false
+              },
+              {
+                title: '地方安排',
+                field: 'sdfapcAmount',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' },
+                visible: false
+              },
+              {
+                title: '总金额',
+                field: 'sacAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({szyapcAmount}+{sdfapcAmount})',
+                visible: false
+              }
+            ]
+          },
+          {
+            title: '支出金额',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'amountSnjzypay',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '地方安排',
+                field: 'amountSnjdfpay',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '总金额',
+                field: 'sapAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({amountSnjzypay}+{amountSnjdfpay})'
+              }
+            ]
+          },
+          {
+            title: '支出进度',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'szyappPro',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountSnjzyxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100'
+              },
+              {
+                title: '地方安排',
+                field: 'sdfappPro',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountSnjdfdf}-0==0?0:{amountSnjdfpay}/{amountSnjdfdf}*100'
+              },
+              {
+                title: '总进度',
+                field: 'sapPro',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeRatio'
+                },
+                formula: '{saaAmount}-0==0?0:({sapAmount}/{saaAmount}*100)'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: '区级',
+        width: 200,
+        align: 'center',
+        children: [
+          {
+            title: '资金总量',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'amountXjzydf',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '地方安排',
+                field: 'amountXjdfdf',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '总金额',
+                field: 'xaaAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({amountXjzydf}+{amountXjdfdf})'
+              }
+            ]
+          },
+          {
+            title: '整合金额',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'xzyapcAmount',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' },
+                visible: false
+              },
+              {
+                title: '地方安排',
+                field: 'xdfapcAmount',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' },
+                visible: false
+              },
+              {
+                title: '总金额',
+                field: 'xacAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({xzyapcAmount}+{xdfapcAmount})',
+                visible: false
+              }
+            ]
+          },
+          {
+            title: '支出金额',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'amountXjzypay',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '地方安排',
+                field: 'amountXjdfpay',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
+              },
+              {
+                title: '总金额',
+                field: 'xapAmount',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeMoney'
+                },
+                formula: '({amountXjzypay}+{amountXjdfpay})'
+              }
+            ]
+          },
+          {
+            title: '支出进度',
+            width: 200,
+            align: 'right',
+            children: [
+              {
+                title: '中央安排',
+                field: 'xzyapPro',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountXjzydf}-0==0?0:{amountXjzypay}/{amountXjzydf}*100'
+              },
+              {
+                title: '地方安排',
+                field: 'xdfappPro',
+                width: 200,
+                align: 'right',
+                cellRender: { name: '$vxeRatio' },
+                formula: '{amountXjdfdf}-0==0?0:{amountXjdfpay}/{amountXjdfdf}*100'
+              },
+              {
+                title: '总进度',
+                field: 'xapPro',
+                width: 200,
+                align: 'right',
+                cellRender: {
+                  name: '$vxeRatio'
+                },
+                formula: '{xaaAmount}-0==0?0:({xapAmount}/{xaaAmount}*100)'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: '支出总数',
+        width: 200,
+        align: 'center',
+        children: [
+          {
+            title: '中央安排',
+            field: 'zzyapAmount',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
+          },
+          {
+            title: '地方安排',
+            field: 'zdfapAmount',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            formula: '{amountSnjdfpay}+{amountSjdfpay}+{amountXjdfpay}'
+          },
+          {
+            title: '总金额',
+            field: 'zaAmount',
+            width: 200,
+            align: 'right',
+            cellRender: {
+              name: '$vxeMoney'
+            },
+            formula: '({zzyapAmount}+{zdfapAmount})'
+          }
+        ]
+      }
+    ],
     tableData: []
     // tableData: [
     //   {

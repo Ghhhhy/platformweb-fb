@@ -327,7 +327,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: this.params5,
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''

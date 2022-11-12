@@ -25,6 +25,7 @@ import customConfig from './config/customConfig.js'
 import BSUI from './components/index.js'
 import TableConfig from './mixin/tableConf/index'
 import VideoPlayer from 'vue-video-player'
+import transJson from '@/utils/transformMenuQuery'
 import {
   get,
   post,
@@ -62,6 +63,7 @@ setupElementUI(Vue)
 setupVueAwesomerSwiper(Vue)
 setupVueQuillEditor(Vue)
 
+Vue.prototype.transJson = transJson
 Vue.prototype.$http = {
   get,
   post,

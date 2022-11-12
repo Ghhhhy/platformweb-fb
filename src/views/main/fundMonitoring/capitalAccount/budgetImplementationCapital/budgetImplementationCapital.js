@@ -487,55 +487,48 @@ const proconf = {
           {
             title: '整合金额',
             width: 200,
-            field: 'amountSjzhje',
+            field: 'amountXjzhje',
             align: 'right',
-            type: 'amountSjzhje',
+            type: 'amountXjzhje',
             cellRender: { name: '$vxeMoney' },
             visible: false
           },
           {
             title: '中央下达',
-            field: 'amountSjxd',
+            field: 'amountXjxd',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: true
           },
           {
-            title: '分配本级',
-            field: 'amountSbjfp',
-            width: 200,
-            align: 'right',
-            cellRender: { name: '$vxeMoney' }
-          },
-          {
-            title: '分配下级',
-            field: 'amountSxjfp',
+            title: '已分配',
+            field: 'amountXjfp',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
-            field: 'amountSjwfp',
+            field: 'amountXjwfp',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
+            formula: '{amountXjxd}-{amountXjfp}'
           },
           {
-            title: '本级已支出',
-            field: 'amountSjpay',
+            title: '已支出',
+            field: 'amountXjpay',
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配进度',
-            field: 'aLoad',
+            field: 'xLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
+            formula: '({amountXjfp}-0==0)?0:({amountXjfp}/{amountXjfp}*100)',
             cellRender: {
               name: '$vxeRatio'
             }

@@ -177,7 +177,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: proconf[`PoliciesTableColumns${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`],
       // tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -693,7 +693,7 @@ export default {
         proName: this.proName,
         endTime: this.endTime,
         hqlm: this.hqlm,
-        iscz: this.params5 === 'czzd', // 菜单参照直达标识
+        iscz: this.transJson(this.params5)?.czzd, // 菜单参照直达标识
         mofDivCodes: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.proCodes,
         expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes

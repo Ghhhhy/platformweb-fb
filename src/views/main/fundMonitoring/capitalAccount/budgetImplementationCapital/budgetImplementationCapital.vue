@@ -138,7 +138,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.$store?.state?.curNavModule?.param5?.isCity ? 'City' : ''}`),
+      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
       calculateConstraintConfig: {
         enabled: true,
@@ -470,7 +470,7 @@ export default {
       switch (key) {
         // case 'amountSnjxd':
         // case 'amountSjxd':
-        //   switch (this.params5) {
+        //   switch (this.transJson(this.params5 || '')?.reportCode) {
         //     case 'zyzdzjyszxqkfzj':
         //       this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
         //       break
@@ -558,7 +558,7 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: this.params5,
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
