@@ -605,7 +605,8 @@ export default {
     getViolationType() {
       let params = {
         page: 1,
-        size: 99999
+        size: 99999,
+        enable: '0' // 只查启用数据
       }
       HttpModule.queryViolationType(params).then(res => {
         if (res.code === '000000') {

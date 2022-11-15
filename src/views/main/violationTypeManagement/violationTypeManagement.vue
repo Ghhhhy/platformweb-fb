@@ -433,7 +433,8 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        parentId: guid ?? ''
+        parentId: guid ?? '',
+        enable: '' // 启用传空，都查询
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
