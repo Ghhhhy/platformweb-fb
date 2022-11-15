@@ -186,7 +186,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: true
+            visible: false
           },
           {
             title: '分配本级',
@@ -249,7 +249,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: true
+            visible: false
           },
           {
             title: '分配本级',
@@ -312,7 +312,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: true
+            visible: false
           },
           {
             title: '已分配',
@@ -436,7 +436,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: true
+            visible: false
           },
           {
             title: '分配本级',
@@ -499,7 +499,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: true
+            visible: false
           },
           {
             title: '已分配',
