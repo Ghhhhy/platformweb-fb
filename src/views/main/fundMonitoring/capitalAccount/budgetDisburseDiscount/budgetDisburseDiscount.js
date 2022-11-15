@@ -46,7 +46,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 200,
+      width: 100,
       align: 'center',
       filters: false,
       itemRender: {
@@ -84,7 +84,7 @@ const proconf = {
       },
       {
         title: '惠企',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
@@ -100,7 +100,7 @@ const proconf = {
           {
             title: '惠及企业补助金额',
             field: 'amountHqpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }
@@ -108,7 +108,7 @@ const proconf = {
       },
       {
         title: '利民',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
@@ -124,7 +124,7 @@ const proconf = {
           {
             title: '惠及人员补助金额',
             field: 'amountLmpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }

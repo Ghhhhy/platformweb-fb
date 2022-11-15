@@ -422,7 +422,7 @@ export default {
         condition,
         isBj,
         reportCode: type,
-        trackProCode: trackProCode,
+        proCode: trackProCode,
         mofDivCode: '',
         fiscalYear: this.searchDataList.fiscalYear
       }
