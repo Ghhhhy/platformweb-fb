@@ -353,5 +353,134 @@ export let proconf = {
       width: 160,
       field: 'brzhxm'
     }
+  ],
+  PoliciesTableColumnsCity: [
+    {
+      title: '区划名称',
+      align: 'left',
+      width: 160,
+      field: 'mofDivName',
+      fixed: 'left'
+    },
+    {
+      title: '项目编码',
+      align: 'left',
+      width: 160,
+      field: 'proCode'
+    },
+    {
+      title: '项目名称',
+      align: 'left',
+      width: 160,
+      field: 'proName'
+    },
+    {
+      title: '预算数',
+      width: 260,
+      align: 'center',
+      children: [
+        {
+          title: '总金额',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountYszje',
+          formula: '{amountYszyap}+{amountYssnjap}+{amountYssjap}+{amountYsxjap}'
+        },
+        {
+          title: '中央安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountYszyap'
+        },
+        {
+          title: '市级安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountYssnjap'
+        },
+        {
+          title: '区级安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountYsxjap'
+        }
+      ]
+    },
+    {
+      title: '支出数',
+      width: 260,
+      align: 'center',
+      children: [
+        {
+          title: '总金额',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountZczje',
+          formula: '{amountZczyap}+{amountZcsnjap}+{amountZcsjap}+{amountZcxjap}'
+        },
+        {
+          title: '中央安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountZczyap'
+        },
+        {
+          title: '市级安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountZcsnjap'
+        },
+        {
+          title: '区级安排',
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          width: 200,
+          field: 'amountZcxjap'
+        }
+      ]
+    },
+    {
+      title: '资金名称',
+      align: 'left',
+      width: 160,
+      field: 'speTypeName'
+    },
+    {
+      title: '预算单位',
+      align: 'left',
+      width: 160,
+      field: 'agencyName'
+    },
+    {
+      title: '支出功能科目',
+      align: 'left',
+      width: 160,
+      field: 'expFuncName'
+    },
+    {
+      title: '是否惠企利民',
+      align: 'left',
+      width: 160,
+      field: 'hqlm'
+    },
+    {
+      title: '发放表',
+      align: 'left',
+      width: 160,
+      field: 'ffb'
+    },
+    {
+      title: '是否拨入专户项目',
+      align: 'left',
+      width: 160,
+      field: 'brzhxm'
+    }
   ]
 }

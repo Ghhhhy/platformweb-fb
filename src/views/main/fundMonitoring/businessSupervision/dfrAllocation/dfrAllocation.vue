@@ -351,7 +351,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: this.params5,
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
         speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : ''
       }
       this.tableLoading = true

@@ -425,7 +425,7 @@ export default {
       const param = {
         isFlush,
         // reportCode: 'zdzjzc_fkm',
-        reportCode: this.params5,
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }

@@ -141,7 +141,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
+      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
       calculateConstraintConfig: {
         enabled: true,
@@ -433,7 +433,7 @@ export default {
       const param = {
         isFlush,
         // reportCode: 'zyhdfzjzc_fzjzd',
-        reportCode: this.params5,
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
