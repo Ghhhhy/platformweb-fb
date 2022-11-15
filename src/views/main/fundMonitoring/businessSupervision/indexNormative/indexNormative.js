@@ -215,7 +215,9 @@ export let proconf = {
       'width': 180,
       field: 'bgtExeFlag',
       align: 'center',
-      editRender: {
+      sortable: false,
+      filters: false,
+      cellRender: {
         name: '$vxeSelect',
         options: [
           { value: '2', label: '待分' },

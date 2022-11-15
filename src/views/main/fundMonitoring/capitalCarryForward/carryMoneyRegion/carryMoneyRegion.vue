@@ -333,7 +333,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         isFlush: true,
-        reportCode: this.transJson(this.params5 || '')?.reportCode
+        reportCode: 'zdjzzjfdqjzqkb'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

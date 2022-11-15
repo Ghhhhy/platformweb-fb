@@ -46,7 +46,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 200,
+      width: 100,
       align: 'center',
       filters: false,
       itemRender: {
@@ -97,7 +97,7 @@ const proconf = {
       },
       {
         title: '中央下达',
-        width: 200,
+        width: 100,
         field: 'amountZyxd',
         align: 'right',
         type: 'amountZyxd',
@@ -112,14 +112,14 @@ const proconf = {
             title: '金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'jOut',
             formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
           },
           {
             title: '进度',
             align: 'right',
-            width: 200,
+            width: 100,
             field: 'jLoad',
             formula: '({amountZyxd}-0==0)?0:({jOut}/{amountZyxd}*100)',
             cellRender: {
@@ -130,13 +130,13 @@ const proconf = {
       },
       {
         title: '省级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '省级下达',
             field: 'amountSnjxd',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: true
@@ -144,21 +144,21 @@ const proconf = {
           {
             title: '分配本级',
             field: 'amountSnjbjfp',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
             field: 'amountSnjxjfp',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
             field: 'sUnassigned',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjxd}-{amountSnjbjfp}-{amountSnjxjfp}'
@@ -166,7 +166,7 @@ const proconf = {
           {
             title: '分配进度',
             field: 'sLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountSnjxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100)',
             cellRender: {
@@ -176,14 +176,14 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSnjpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
             field: 'snpayLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountSnjbjfp}-0==0)?0:({amountSnjpay}/{amountSnjbjfp}*100)',
             cellRender: {
@@ -194,13 +194,13 @@ const proconf = {
       },
       {
         title: '市级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '市级下达',
             field: 'amountSjxd',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: false
@@ -208,21 +208,21 @@ const proconf = {
           {
             title: '分配本级',
             field: 'amountSbjfp',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
             field: 'amountSxjfp',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
             field: 'aUnassigned',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
@@ -230,7 +230,7 @@ const proconf = {
           {
             title: '分配进度',
             field: 'aLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
             cellRender: {
@@ -240,14 +240,14 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
             field: 'spayLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountSbjfp}-0==0)?0:({amountSjpay}/{amountSbjfp}*100)',
             cellRender: {
@@ -258,13 +258,13 @@ const proconf = {
       },
       {
         title: '县级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '县级下达',
             field: 'amountXjxd',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: false
@@ -272,14 +272,14 @@ const proconf = {
           {
             title: '已分配',
             field: 'amountXjfp',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
             field: 'xUnassigned',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountXjxd}-{amountXjfp}'
@@ -287,7 +287,7 @@ const proconf = {
           {
             title: '分配进度',
             field: 'xLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
             cellRender: {
@@ -297,14 +297,14 @@ const proconf = {
           {
             title: '已支出',
             field: 'amountXjpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
             field: 'xpayLoad',
-            width: 200,
+            width: 100,
             align: 'right',
             formula: '({amountXjfp}-0==0)?0:({amountXjpay}/{amountXjfp}*100)',
             cellRender: {

@@ -46,7 +46,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 200,
+      width: 100,
       align: 'center',
       filters: false,
       itemRender: {
@@ -84,27 +84,27 @@ const proconf = {
       },
       {
         title: '待分指标结转',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '指标金额',
             field: 'indexAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转金额',
             field: 'carryAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转进度',
             field: 'carryPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'
@@ -115,27 +115,27 @@ const proconf = {
       },
       {
         title: '国库集中支付结余',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '指标金额',
             field: 'gindexAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转金额',
             field: 'gcarryAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转进度',
             field: 'gcarryPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'
@@ -145,14 +145,14 @@ const proconf = {
           {
             title: '支出金额',
             field: 'payAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
             field: 'payPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'

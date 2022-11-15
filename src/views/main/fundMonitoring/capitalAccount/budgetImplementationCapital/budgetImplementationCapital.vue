@@ -349,7 +349,7 @@ export default {
       }
       condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(true)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {

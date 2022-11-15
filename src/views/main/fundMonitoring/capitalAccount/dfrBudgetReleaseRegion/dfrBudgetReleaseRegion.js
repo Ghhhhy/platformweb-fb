@@ -46,7 +46,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 200,
+      width: 100,
       align: 'center',
       filters: false,
       itemRender: {
@@ -89,41 +89,41 @@ const proconf = {
       },
       {
         title: '全省',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '中央安排',
             field: 'amountQszydf',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '省级安排',
             field: 'amountQssnjdf',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '市级安排',
             field: 'amountQssjdf',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '县级安排',
             field: 'amountQsxjdf',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '总资金',
             field: 'aAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
@@ -134,32 +134,32 @@ const proconf = {
       },
       {
         title: '省级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '预算金额',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSnjzyxd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSnjsnjdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'saAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -170,32 +170,32 @@ const proconf = {
           },
           {
             title: '整合资金情况',
-            width: 200,
+            width: 100,
             align: 'center',
             children: [
               {
                 title: '整合金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'sqzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'sqdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'sqaAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -206,27 +206,27 @@ const proconf = {
               },
               {
                 title: '整合后金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'shzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'shdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'shaAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -239,27 +239,27 @@ const proconf = {
           },
           {
             title: '分配本级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSnjzybjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSnjsnjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'sbjfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -270,27 +270,27 @@ const proconf = {
           },
           {
             title: '分配市县',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSnjzyxjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSnjsnjxjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'ssxfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -301,13 +301,13 @@ const proconf = {
           },
           {
             title: '未分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'szywfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjzyxd}-{amountSnjzybjfp} - {amountSnjzyxjfp}'
@@ -315,7 +315,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'sdfwfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp} - {amountSnjsnjxjfp}'
@@ -323,7 +323,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'swfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -334,13 +334,13 @@ const proconf = {
           },
           {
             title: '进度',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'szyjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100'
@@ -348,7 +348,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'sdfjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100'
@@ -356,7 +356,7 @@ const proconf = {
               {
                 title: '总进度',
                 field: 'sajd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
@@ -369,39 +369,39 @@ const proconf = {
       },
       {
         title: '市级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '预算金额',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSjzydf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSjsnjdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级安排',
                 field: 'amountSjsjdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'shiaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -412,39 +412,39 @@ const proconf = {
           },
           {
             title: '整合资金情况',
-            width: 200,
+            width: 100,
             align: 'center',
             children: [
               {
                 title: '整合金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'shqzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'shqdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '市级安排',
                     field: 'sjzhsjapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'shqaAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -455,34 +455,34 @@ const proconf = {
               },
               {
                 title: '整合后金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'shhzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'shhdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '市级安排',
                     field: 'sjzhhsjapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'shhaAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -495,34 +495,34 @@ const proconf = {
           },
           {
             title: '分配本级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSjzybjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSjsnjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级安排',
                 field: 'amountSjsjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'shbjfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -533,34 +533,34 @@ const proconf = {
           },
           {
             title: '分配县级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountSjzyxjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountSjsnjxjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级安排',
                 field: 'amountSjsjxjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'shxjfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -571,13 +571,13 @@ const proconf = {
           },
           {
             title: '未分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'shzywfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjzydf}-{amountSjzybjfp} - {amountSjzyxjfp}'
@@ -585,7 +585,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'shdfwfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjsnjdf}-{amountSjsnjbjfp} - {amountSjsnjxjfp}'
@@ -593,7 +593,7 @@ const proconf = {
               {
                 title: '市级安排',
                 field: 'shidfapAmount1',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjsjdf}-{amountSjsjbjfp} - {amountSjsjxjfp}'
@@ -601,7 +601,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'shwfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -612,13 +612,13 @@ const proconf = {
           },
           {
             title: '进度',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'shzyjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSjzydf}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{amountSjzydf}*100'
@@ -626,7 +626,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'shdfjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSjsnjdf}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{amountSjsnjdf}*100'
@@ -634,7 +634,7 @@ const proconf = {
               {
                 title: '市级安排',
                 field: 'sjsjapjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSjsjdf}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{amountSjsjdf}*100'
@@ -642,7 +642,7 @@ const proconf = {
               {
                 title: '总进度',
                 field: 'shajd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
@@ -655,46 +655,46 @@ const proconf = {
       },
       {
         title: '县级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '预算金额',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountXjzydf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountXjsnjfdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级安排',
                 field: 'amountXjsjdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级安排',
                 field: 'amountXjxjdf',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'xaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -705,46 +705,46 @@ const proconf = {
           },
           {
             title: '整合资金情况',
-            width: 200,
+            width: 100,
             align: 'center',
             children: [
               {
                 title: '整合金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'xqzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'xqdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '市级安排',
                     field: 'xdfapzhAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '县级安排',
                     field: 'xdfapzhAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'snallAmount3',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -755,41 +755,41 @@ const proconf = {
               },
               {
                 title: '整合后金额',
-                width: 200,
+                width: 100,
                 align: 'right',
                 children: [
                   {
                     title: '中央安排',
                     field: 'xhzyapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '省级安排',
                     field: 'xhdfapAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '市级安排',
                     field: 'xdfapzhhAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '县级安排',
                     field: 'xdfapzhAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
                     title: '总金额',
                     field: 'xhaAmount',
-                    width: 200,
+                    width: 100,
                     align: 'right',
                     cellRender: {
                       name: '$vxeMoney'
@@ -802,41 +802,41 @@ const proconf = {
           },
           {
             title: '已分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'amountXjzybjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '省级安排',
                 field: 'amountXjsnjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级安排',
                 field: 'amountXjsjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级安排',
                 field: 'amountXjxjbjfp',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'xyfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -847,13 +847,13 @@ const proconf = {
           },
           {
             title: '未分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'xzywfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjzydf}-{amountXjzybjfp})'
@@ -861,7 +861,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'xdfwfpAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjsnjfdf} - {amountXjsnjbjfp})'
@@ -869,7 +869,7 @@ const proconf = {
               {
                 title: '市级安排',
                 field: 'xdfapAmount3',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjsjdf} - {amountXjsjbjfp})'
@@ -877,7 +877,7 @@ const proconf = {
               {
                 title: '县级安排',
                 field: 'xdfapAmount2',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjxjdf} - {amountXjxjbjfp})'
@@ -885,7 +885,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'xwfpaAmount',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -896,13 +896,13 @@ const proconf = {
           },
           {
             title: '进度',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '中央安排',
                 field: 'xzyjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100'
@@ -910,7 +910,7 @@ const proconf = {
               {
                 title: '省级安排',
                 field: 'xdfjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100'
@@ -918,7 +918,7 @@ const proconf = {
               {
                 title: '市级安排',
                 field: 'xjsjapjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjsjdf}-0 == 0?0:{amountXjsjbjfp}/{amountXjsjdf}*100'
@@ -926,7 +926,7 @@ const proconf = {
               {
                 title: '县级安排',
                 field: 'xjxjapjd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100'
@@ -934,7 +934,7 @@ const proconf = {
               {
                 title: '总进度',
                 field: 'xajd',
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
