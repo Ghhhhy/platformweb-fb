@@ -36,6 +36,7 @@
           ref="leftTree"
           :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
           style="overflow: hidden"
+          :filter-text="treeGlobalConfig.inputVal"
           :tree-data="treeData"
           :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
           @onNodeClick="onClickmethod"
