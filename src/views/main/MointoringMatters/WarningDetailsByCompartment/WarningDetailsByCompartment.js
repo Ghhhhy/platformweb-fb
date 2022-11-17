@@ -121,7 +121,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '0', label: '实时' },
+          { value: '2', label: '实时' },
           { value: '1', label: '定时' }
         ],
         props: {
