@@ -2,15 +2,6 @@
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
-      <template v-slot:topTap></template>
-      <template v-slot:topTabPane>
-        <BsTabPanel
-          ref="tabPanel"
-          :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
-        />
-      </template>
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
@@ -52,6 +43,15 @@
                 <i class="fn-inline"></i>
               </div>
             </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <vxe-button
+              :loading="dataSourceAddLoading"
+              style="margin-right: 8px;"
+              @click="incrementHandle"
+            >
+              数据增量同步
+            </vxe-button>
           </template>
           <template v-slot:tools-before>
             <div class="dfr-report-time-wrapper">
@@ -119,18 +119,7 @@ export default {
       radioShow: true,
       breakRuleVisible: false,
       // 头部工具栏 BsTabPanel config
-      toolBarStatusBtnConfig: {
-        changeBtns: true,
-        buttonsInfo: [
-          {
-            label: '数据增量同步',
-            status: 'primary',
-            code: 'increment',
-            loading: false,
-            callback: this.incrementHandle
-          }
-        ]
-      },
+      dataSourceAddLoading: false,
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -263,13 +252,12 @@ export default {
   methods: {
     // 增量同步
     async incrementHandle() {
-      const btn = this.toolBarStatusBtnConfig.buttonsInfo.find(item => item.code === 'increment')
-      btn.loading = true
+      this.dataSourceAddLoading = true
       try {
         checkRscode(await HttpModule.doDataSourceAdd())
         this.$message.success('同步成功')
       } finally {
-        btn.loading = false
+        this.dataSourceAddLoading = false
       }
     },
     // 展开折叠查询框
@@ -361,7 +349,7 @@ export default {
       }
       condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(true)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {

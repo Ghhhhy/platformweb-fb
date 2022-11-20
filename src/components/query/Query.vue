@@ -304,7 +304,7 @@ export default {
 .T-search {
   flex: 1;
   background: var(--hightlight-color);
-  min-height: 56px;
+  //min-height: 50px;
 
   .basicsearch {
     display: flex;
@@ -327,7 +327,7 @@ export default {
       }
     }
     .vxe-form--item {
-      padding: 12px 8px;
+      padding: 8px 8px 8px 0;
 
       .vxe-input.size--medium {
         height: 32px;
@@ -394,7 +394,7 @@ export default {
     line-height: 32px;
   }
   .basicsearch-btngroups {
-    padding: 12px 16px;
+    padding: 8px 8px;
 
     .vxe-button {
       border-radius: 2px;

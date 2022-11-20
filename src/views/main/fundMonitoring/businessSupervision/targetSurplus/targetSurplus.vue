@@ -67,13 +67,24 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
   </div>
 </template>
 
 <script>
 import getFormData from './targetSurplus.js'
+import DetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/targetSurplus.js'
 export default {
+  components: {
+    DetailDialog
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -362,7 +373,27 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
+    handleDetail(reportCode, mofDivCode, column) {
+      let params = {
+        reportCode: reportCode,
+        mofDivCode: mofDivCode,
+        fiscalYear: this.searchDataList.fiscalYear,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+      // this.tableLoading = true
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -372,11 +403,10 @@ export default {
           this.handleDetail('jOut', obj.row.recDivCode)
           this.detailTitle = '支出明细'
           break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
-          this.detailTitle = '直达资金项目明细'
+        case 'amountz':
+        case 'amountc':
+          this.handleDetail('zdzjxmmx_wfp', obj.row.recDivCode)
+          this.detailTitle = '直达资金未分配项目明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -456,7 +486,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      if (['amountz', 'amountc'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

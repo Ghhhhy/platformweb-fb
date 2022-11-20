@@ -142,12 +142,12 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
+      field: 'expFuncName',
       sortable: false,
       align: 'center'
     },
     {
-      title: '预算金额（单位:万元）',
+      title: '未分配预算金额（单位:万元）',
       align: 'center',
       children: [
         {
@@ -165,32 +165,6 @@ const proconf = {
           cellRender: { name: '$vxeMoney' }
         }
       ]
-    },
-    {
-      title: '支付金额（单位:万元）',
-      align: 'center',
-      children: [
-        {
-          title: '金额',
-          field: 'amountPayAll',
-          sortable: false,
-          align: 'right',
-          cellRender: { name: '$vxeMoney' }
-        },
-        {
-          title: '中央安排',
-          field: 'amountPayZdzj',
-          sortable: false,
-          align: 'right',
-          cellRender: { name: '$vxeMoney' }
-        }
-      ]
-    },
-    {
-      title: '惠企利民',
-      field: 'hqlm',
-      sortable: false,
-      align: 'center'
     }
   ],
   // 直达资金项目明细

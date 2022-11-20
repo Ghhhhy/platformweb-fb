@@ -74,6 +74,7 @@ export default defineComponent({
       dataKey: 'data.results',
       beforeFetch: (params) => {
         params.toctrlId = unref(currentRow)?.toctrlId
+        params.bgtId = unref(currentRow)?.bgtId
         return params
       }
     })

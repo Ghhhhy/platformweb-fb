@@ -408,7 +408,7 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
-      this.agencyCodeList = val.agencyCodeList_code__multiple
+      this.agencyCodeList = val.agencyCodeList
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -447,6 +447,7 @@ export default {
           businessId: this.businessId,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
+          agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList),
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null
         }
         this.tableLoading = true
@@ -470,7 +471,7 @@ export default {
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          agencyCodeList: this.agencyCodeList
+          agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList)
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
@@ -487,6 +488,15 @@ export default {
           }
         })
       }
+    },
+    getTrees(val) {
+      let mofDivCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          mofDivCodes.push(item.split('##')[0])
+        })
+      }
+      return mofDivCodes
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -764,11 +774,12 @@ export default {
     },
     getAgency() {
       const param = {
-        wheresql: 'and province =' + this.$store.state.userInfo.province,
-        elementCode: 'AGENCY',
-        // elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
       }
       HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)

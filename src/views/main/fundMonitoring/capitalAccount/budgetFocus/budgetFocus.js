@@ -84,7 +84,7 @@ const proconf = {
             title: '总金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'yaAmount',
             formula: '{yzyapAmount}+{ysjapAmount}+{yshjapAmount}+{yxjapAmount}'
           },
@@ -92,28 +92,28 @@ const proconf = {
             title: '中央安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'yzyapAmount'
           },
           {
             title: '省级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'ysjapAmount'
           },
           {
             title: '市级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'yshjapAmount'
           },
           {
             title: '县级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'yxjapAmount'
           }
         ]
@@ -127,7 +127,7 @@ const proconf = {
             title: '总金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'zaAmount',
             formula: '{zzyapAmount}+{zsjapAmount}+{zshjapAmount}+{zxjapAmount}'
           },
@@ -135,28 +135,28 @@ const proconf = {
             title: '中央安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'zzyapAmount'
           },
           {
             title: '省级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'zsjapAmount'
           },
           {
             title: '市级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'zshjapAmount'
           },
           {
             title: '县级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 200,
+            width: 100,
             field: 'zxjapAmount'
           }
         ]

@@ -45,7 +45,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/targetSurplus.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -289,6 +289,9 @@ export default {
         case 'zdzjxmmx':
           this.tableColumnsConfig = proconf.projectColumn
           break
+        case 'zdzjxmmx_wfp':
+          this.tableColumnsConfig = proconf.projectColumn
+          break
         default:
           break
       }
@@ -334,7 +337,7 @@ export default {
         case 'amountZdzjFp':
           if (this.detailType === 'zdzjxmmx') {
             this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+            this.$parent.sDetailTitle = 'xx资金支出台账明细'
           }
           break
         case 'amountPayAll':

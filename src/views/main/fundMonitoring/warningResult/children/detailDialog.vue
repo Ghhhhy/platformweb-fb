@@ -110,7 +110,7 @@ export default {
             this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
             this.supplyDataList.proName = res.data.executeData.proCatCode + '-' + res.data.executeData.proName
             this.supplyDataList.payTypeName = res.data.executeData.payTypeCode + '-' + res.data.executeData.payTypeName
-            this.supplyDataList.isFunName = res.data.executeData.isFunCode + '-' + res.data.executeData.isFunName
+            this.supplyDataList.isFunName = res.data.executeData.isFunName === 1 ? '是' : '否'
             this.supplyDataList.expFuncName = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
             this.supplyDataList.depBgtEcoName = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
             this.supplyDataList.govBgtEcoName = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName

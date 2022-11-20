@@ -553,7 +553,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear, // 预警级别
+        fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodeList: this.codeList
       }
       this.tableLoading = true

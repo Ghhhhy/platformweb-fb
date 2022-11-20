@@ -613,8 +613,7 @@ export default {
   background: #fff;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  height: 56px;
-  padding-right: 16px;
+  padding: 8px;
   .Ttab-con .button li {
     width: 90px;
   }
@@ -631,7 +630,6 @@ export default {
     position: relative;
     font-size: 0;
     align-items: center;
-    height: 56px;
     .li {
       margin: 0;
       padding: 0;

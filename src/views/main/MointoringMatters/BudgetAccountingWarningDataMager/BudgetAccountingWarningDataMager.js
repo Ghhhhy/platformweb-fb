@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -68,8 +68,8 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '1', label: '待处理' },
-          { value: '2', label: '已处理' }
+          { value: '0', label: '待处理' },
+          { value: '1', label: '已处理' }
         ],
         props: {
           placeholder: '状态'
@@ -78,7 +78,7 @@ export let proconf = {
     },
     {
       title: '支付申请编号',
-      field: 'payAppNo',
+      field: 'payApplyNumber',
       width: '8',
       align: 'left',
       formula: '',
@@ -116,17 +116,30 @@ export let proconf = {
       itemRender: {
         name: '$vxeTree',
         options: [],
-        'props': {
-          'config': {
-            'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
-              'children': 'children'
+        props: {
+          config: {
+            treeProps: {
+              nodeKey: 'id',
+              label: '{name}',
+              labelFormat: '{code}-{name}',
+              children: 'children' // 子级字段名
             },
-            'placeholder': '预算单位',
-            'multiple': true,
-            'readonly': true,
-            'isleaf': false
+            multiple: true,
+            placeholder: '预算单位',
+            isleaf: false,
+            axiosConfig: {
+              method: 'get',
+              // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+              url: 'mp-b-basedata-service/v2/basedata/AGENCY/' + store.state.userInfo.province + '/'
+            }
+          },
+          queryparams: {
+            date: store.state.userInfo.year,
+            tokenid: store.getters.getLoginAuthentication.tokenid,
+            appguid: 'apaas',
+            year: store.state.userInfo.year,
+            mofDivCode: store.state.userInfo.province,
+            parameters: {}
           }
         }
       }
@@ -134,8 +147,10 @@ export let proconf = {
   ],
   highQueryData: {
     status: '',
+    payApplyNumber: '',
     businessFunctionCode: '',
-    createTime: ''
+    createTime: '',
+    agencyCodeList: ''
   },
   PoliciesTableColumns: [
     {
