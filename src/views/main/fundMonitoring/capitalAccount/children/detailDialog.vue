@@ -334,7 +334,7 @@ export default {
         case 'amountZdzjFp':
           if (this.detailType === 'zdzjxmmx') {
             this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-            this.$parent.sDetailTitle = 'xx资金支出台账明细'
+            this.$parent.sDetailTitle = '预算明细'
           }
           break
         case 'amountPayAll':

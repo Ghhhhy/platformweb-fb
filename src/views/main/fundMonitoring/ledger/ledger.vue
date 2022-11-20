@@ -299,9 +299,39 @@ export default {
         case 'dirDataSourceSync':
           this.dirDataSourceSync()
           break
+        case 'etlDataSync':
+          this.etlDataSync()
+          break
         default:
           break
       }
+    },
+    etlDataSync() {
+      this.$confirm('此操作将通过配置的ktr文件转换数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.showLoading = true
+        var _this = this
+        HttpModule
+          .etlDataSync()
+          .then(res => {
+            _this.showLoading = false
+            if (res.code === '000000') {
+              this.$message({
+                type: 'success',
+                message: '同步成功!'
+              })
+            }
+          })
+          .catch()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     dirDataSourceSync() {
       this.$confirm('此操作将删除之前的数据, 是否继续?', '提示', {
