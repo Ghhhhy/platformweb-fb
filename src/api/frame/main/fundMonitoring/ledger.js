@@ -20,5 +20,9 @@ export default {
   // 数据源数据同步
   dirDataSourceSync () {
     return get('dfr-monitor-service/dfr/zdzjledger/doDataSourceSync')
+  },
+  // ETL数据同步
+  etlDataSync () {
+    return get('dfr-monitor-service/dfr/zdzjledger/etlDataSync')
   }
 }
