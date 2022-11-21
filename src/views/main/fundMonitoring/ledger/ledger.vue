@@ -320,14 +320,14 @@ export default {
         type: 'warning'
       }).then(async () => {
         try {
-          this.showLoading = true
+          this.tableLoading = true
           checkRscode(await HttpModule.etlDataSync(formData))
           this.$message({
             type: 'success',
             message: '同步结束!'
           })
         } finally {
-          this.showLoading = false
+          this.tableLoading = false
         }
       })
     },
@@ -337,12 +337,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.showLoading = true
+        this.tableLoading = true
         var _this = this
         HttpModule
           .dirDataSourceSync()
           .then(res => {
-            _this.showLoading = false
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
@@ -350,7 +349,9 @@ export default {
               })
             }
           })
-          .catch()
+          .finally(() => {
+            this.tableLoading = false
+          })
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -364,12 +365,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.showLoading = true
+        this.tableLoading = true
         var _this = this
         HttpModule
           .deleteLedger(reportCodes)
           .then(res => {
-            _this.showLoading = false
+            _this.tableLoading = false
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
@@ -378,7 +379,9 @@ export default {
               _this.queryTableDatas()
             }
           })
-          .catch()
+          .finally(() => {
+            this.tableLoading = false
+          })
       }).catch(() => {
         this.$message({
           type: 'info',
