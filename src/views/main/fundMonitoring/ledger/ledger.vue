@@ -61,6 +61,8 @@
 import { proconf } from './ledger'
 import AddDialog from './children/AddDialog'
 import HttpModule from '@/api/frame/main/fundMonitoring/ledger.js'
+import { readLocalFile } from '@/utils/readLocalFile.js'
+import { checkRscode } from '@/utils/checkRscode'
 export default {
   components: {
     AddDialog
@@ -306,31 +308,27 @@ export default {
           break
       }
     },
-    etlDataSync() {
+    async etlDataSync() {
+      const { file } = await readLocalFile({
+        types: ['ktr']
+      })
+      const formData = new window.FormData()
+      formData.append('file', file)
       this.$confirm('将通过上传的ktr文件转换数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.showLoading = true
-        var _this = this
-        HttpModule
-          .etlDataSync()
-          .then(res => {
-            _this.showLoading = false
-            if (res.code === '000000') {
-              this.$message({
-                type: 'success',
-                message: '同步成功!'
-              })
-            }
+      }).then(async () => {
+        try {
+          this.showLoading = true
+          checkRscode(await HttpModule.etlDataSync(formData))
+          this.$message({
+            type: 'success',
+            message: '同步成功!'
           })
-          .catch()
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
+        } finally {
+          this.showLoading = false
+        }
       })
     },
     dirDataSourceSync() {
