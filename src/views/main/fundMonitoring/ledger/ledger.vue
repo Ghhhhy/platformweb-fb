@@ -307,7 +307,7 @@ export default {
       }
     },
     etlDataSync() {
-      this.$confirm('此操作将通过配置的ktr文件转换数据, 是否继续?', '提示', {
+      this.$confirm('将通过上传的ktr文件转换数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
