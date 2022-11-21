@@ -324,7 +324,7 @@ export default {
           checkRscode(await HttpModule.etlDataSync(formData))
           this.$message({
             type: 'success',
-            message: '同步成功!'
+            message: '同步结束!'
           })
         } finally {
           this.showLoading = false
