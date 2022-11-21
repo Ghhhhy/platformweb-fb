@@ -22,7 +22,7 @@ export default {
     return get('dfr-monitor-service/dfr/zdzjledger/doDataSourceSync')
   },
   // ETL数据同步
-  etlDataSync () {
-    return get('dfr-monitor-service/dfr/zdzjledger/etlDataSync')
+  etlDataSync (params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/etlDataSync', params, null, 'multipart/form-data;charset=UTF-8')
   }
 }
