@@ -203,6 +203,11 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/warnRegionSummary/warnRegionSummary.vue')
   },
   {
+    path: '/WarnRuleSummary', // 地方监控预警汇总-分规则
+    name: 'WarnRuleSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+  },
+  {
     path: '/WarningResult',
     name: 'WarningResult',
     meta: {
@@ -210,6 +215,15 @@ const routers = [
     },
     component: () =>
       import('../../../views/main/fundMonitoring/warningResult/warningResult.vue') // 直达资金监控预警结果(全省)
+  },
+  {
+    path: '/WarningResultHandleRegion',
+    name: 'WarningResultHandleRegion',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警结果(全省)
   },
   {
     path: '/NotImportBgtDetail', // 未导入指标明细查询
