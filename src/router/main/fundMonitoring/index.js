@@ -353,6 +353,16 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/UserProRelation/userProRelation.vue')
   },
   {
+    path: '/escalation', // 财政上报
+    name: 'escalation',
+    component: () => import('@/views/main/fundMonitoring/escalation/escalation.vue')
+  },
+  {
+    path: '/confirmEscalation', // 财政上报地市确认
+    name: 'confirmEscalation',
+    component: () => import('@/views/main/fundMonitoring/escalation/confirmEscalation.vue')
+  },
+  {
     path: '/dfrMultipleQuery', // 直达资金综合查询
     name: 'dfrMultipleQuery',
     meta: {

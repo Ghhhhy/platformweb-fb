@@ -18,7 +18,7 @@ export let proconf = {
       { code: 'change', label: '修改' },
       { code: 'del', label: '删除' },
       { code: 'dirDataSourceSync', label: '标准数据源数据同步' },
-      { code: 'etlDataSync', label: 'ETL数据同步' }
+      { code: 'etlDataSync', label: 'KETTLE数据同步' }
     ]
   },
   highQueryConfig: [
