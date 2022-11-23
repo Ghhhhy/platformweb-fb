@@ -310,11 +310,11 @@ export default {
     },
     async etlDataSync() {
       const { file } = await readLocalFile({
-        types: ['ktr']
+        types: ['kjb', 'ktr']
       })
       const formData = new window.FormData()
       formData.append('file', file)
-      this.$confirm('将通过上传的ktr文件转换数据, 是否继续?', '提示', {
+      this.$confirm('将通过上传的文件转换数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -338,7 +338,6 @@ export default {
         type: 'warning'
       }).then(() => {
         this.tableLoading = true
-        var _this = this
         HttpModule
           .dirDataSourceSync()
           .then(res => {
