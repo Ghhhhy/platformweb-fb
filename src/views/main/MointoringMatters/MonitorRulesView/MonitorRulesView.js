@@ -552,7 +552,7 @@ export let proconf = {
       filters: false,
       width: 100,
       cellRender: {
-        name: '$gloableOptionRow'
+        name: '$gloableOptionRowMonitorRulesView'
       }
     }
   ],

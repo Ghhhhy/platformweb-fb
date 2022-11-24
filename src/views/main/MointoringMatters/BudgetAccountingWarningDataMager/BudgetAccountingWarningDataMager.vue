@@ -133,6 +133,7 @@ export default {
   },
   data() {
     return {
+      currentTreeNode: null, // 左侧树选中的节点
       isNeedFiRuleCode: true,
       isShowQueryConditions: true,
       radioShow: true,
@@ -448,7 +449,8 @@ export default {
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList),
-          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null
+          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
+          businessFunctionName: this.currentTreeNode?.businessName
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
@@ -456,6 +458,7 @@ export default {
           if (res.code === '000000') {
             this.tableTotalData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
+            this.totalPagerConfig.total = res.data.totalCount
             this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           } else {
             this.$message.error(res.message)
@@ -601,6 +604,7 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
+      this.currentTreeNode = node
       if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
         return
       }
@@ -614,7 +618,7 @@ export default {
           'status': this.condition.status ? this.condition.status.toString() : '',
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: node.businessName
+          businessFunctionName: this.currentTreeNode?.businessName
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
@@ -622,6 +626,7 @@ export default {
           if (res.code === '000000') {
             this.tableTotalData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
+            this.totalPagerConfig.total = res.data.totalCount
             this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           } else {
             this.$message.error(res.message)
