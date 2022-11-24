@@ -213,6 +213,10 @@ export default {
         return
       }
       if (this.title === '整改处理单' || this.title === '修改整改处理单') {
+        if (this.dfrFileCode === '') {
+          this.$message.warning('请上传附件')
+          return
+        }
         let param = {
           rectifyDetail: this.rectifyDetail,
           warnType: this.warnType,
