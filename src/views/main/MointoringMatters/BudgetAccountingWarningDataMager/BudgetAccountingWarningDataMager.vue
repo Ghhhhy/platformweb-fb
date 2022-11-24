@@ -456,6 +456,7 @@ export default {
           if (res.code === '000000') {
             this.tableTotalData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
+            this.totalPagerConfig.total = res.data.totalCount
             this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           } else {
             this.$message.error(res.message)
