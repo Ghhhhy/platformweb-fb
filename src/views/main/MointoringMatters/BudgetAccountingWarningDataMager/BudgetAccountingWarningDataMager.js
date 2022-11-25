@@ -105,45 +105,22 @@ export let proconf = {
           placeholder: '监控时间'
         }
       }
-    },
-    {
-      title: '预算单位',
-      field: 'agencyCodeList',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        props: {
-          config: {
-            treeProps: {
-              nodeKey: 'id',
-              label: '{name}',
-              labelFormat: '{code}-{name}',
-              children: 'children' // 子级字段名
-            },
-            multiple: true,
-            placeholder: '预算单位',
-            isleaf: false,
-            axiosConfig: {
-              method: 'get',
-              // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
-              url: 'mp-b-basedata-service/v2/basedata/AGENCY/' + store.state.userInfo.province + '/'
-            }
-          },
-          queryparams: {
-            date: store.state.userInfo.year,
-            tokenid: store.getters.getLoginAuthentication.tokenid,
-            appguid: 'apaas',
-            year: store.state.userInfo.year,
-            mofDivCode: store.state.userInfo.province,
-            parameters: {}
-          }
-        }
-      }
     }
+    // {
+    //   title: '预算单位',
+    //   field: 'agencyCodeList',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '预算单位'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     status: '',
