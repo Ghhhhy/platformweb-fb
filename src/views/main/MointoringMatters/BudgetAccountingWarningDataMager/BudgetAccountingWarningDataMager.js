@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
