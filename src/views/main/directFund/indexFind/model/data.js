@@ -70,7 +70,9 @@ export function getIndexSourceGoneColumns() {
   const column = [
     {
       field: 'zbwh',
-      title: '指标文号'
+      title: '指标文号',
+      treeNode: true,
+      fixed: 'left'
     },
     {
       field: 'dw',
