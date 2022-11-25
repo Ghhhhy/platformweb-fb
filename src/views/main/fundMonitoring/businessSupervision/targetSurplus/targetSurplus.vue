@@ -395,6 +395,15 @@ export default {
       //   }
       // })
     },
+    getTrees(val) {
+      let mofDivCodes = []
+      if (val?.trim() !== '') {
+        val?.split(',')?.forEach((item) => {
+          mofDivCodes.push(item?.split('##')?.[0])
+        })
+      }
+      return mofDivCodes
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
@@ -489,7 +498,8 @@ export default {
       if (['amountz', 'amountc'].includes(column.property)) {
         return {
           color: '#4293F4',
-          textDecoration: 'underline'
+          textDecoration: 'underline',
+          cursor: 'pinter'
         }
       }
     }
