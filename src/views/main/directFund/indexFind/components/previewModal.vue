@@ -11,6 +11,7 @@
       <BsTable
         v-loading="tableLoadingState"
         :table-config="{ ...tableConfig, seq: false }"
+        :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
         :table-columns-config="columns"
         :table-data="tableData"
         :toolbar-config="false"
