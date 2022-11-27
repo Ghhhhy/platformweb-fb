@@ -13,7 +13,7 @@ function useTable(
     beforeFetch: config?.beforeFetch, // 前置钩子
     afterFetch: config?.afterFetch, // 后置钩子
     getSubmitFormData: config?.getSubmitFormData, // 获取搜索栏form表单值
-    openPager: typeof config?.openPager !== 'undefined' ? config?.openPager : false, // 是否开启分页
+    openPager: typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
     dataKey: typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records' // 深层取值字段
   }
   // 表格所有列
@@ -144,7 +144,7 @@ function useTable(
       }
 
       // 是否开启分页
-      if (configIn.openPager === undefined || configIn.openPager) {
+      if (configIn.openPager) {
         params.current = pagerConfig.currentPage
         params.size = pagerConfig.pageSize
       }
