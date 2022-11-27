@@ -45,7 +45,11 @@ export function getIndexColumns() {
     {
       field: 'amount',
       title: '金额',
-      type: 'money'
+      align: 'right',
+      cellRender: {
+        name: '$vxeMoney'
+      },
+      sort: true
     },
     {
       field: 'sfzd',
@@ -93,23 +97,38 @@ export function getIndexSourceGoneColumns() {
     {
       field: 'zbze',
       title: '指标总额',
-      type: 'money',
+      align: 'right',
+      cellRender: {
+        name: '$vxeMoney'
+      },
       sort: true
     },
     {
       field: 'yapje',
       title: '已安排金额',
-      type: 'money'
+      align: 'right',
+      cellRender: {
+        name: '$vxeMoney'
+      },
+      sort: true
     },
     {
       field: 'ztje',
       title: '正在办理金额',
-      type: 'money'
+      align: 'right',
+      cellRender: {
+        name: '$vxeMoney'
+      },
+      sort: true
     },
     {
       field: 'zbye',
       title: '指标金额',
-      type: 'money'
+      align: 'right',
+      cellRender: {
+        name: '$vxeMoney'
+      },
+      sort: true
     },
     {
       field: 'zjbs',
