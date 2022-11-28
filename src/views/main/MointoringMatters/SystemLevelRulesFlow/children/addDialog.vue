@@ -628,8 +628,9 @@ export default {
               isleaf: false,
               axiosConfig: {
                 method: 'post',
-                url:
-                  'large-monitor-platform/lmp/elementQuery/elementtree'
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code',
               }
             },
             queryparams: {
