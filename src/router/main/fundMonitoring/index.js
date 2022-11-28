@@ -370,6 +370,11 @@ const routers = [
       requireAuth: true
     },
     component: () => import('../../../views/main/fundMonitoring/dfrMultipleQuery/dfrMultipleQuery.vue')
+  },
+  {
+    path: '/notRecCenterBgtDetail', // 未接收中央指标明细
+    name: 'notRecCenterBgtDetail',
+    component: () => import('@/views/main/fundMonitoring/businessSupervision/notRecCenterBgtDetail/notRecCenterBgtDetail.vue')
   }
 ]
 
