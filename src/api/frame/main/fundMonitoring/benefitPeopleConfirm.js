@@ -2,7 +2,7 @@ import { post, get } from '@/api/http'
 export default {
   // 获取左侧树
   getTreeData(params) {
-    return get('mp-b-basedata-service/v2/basedata/page', params)
+    return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
   },
   getTreeData1(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
