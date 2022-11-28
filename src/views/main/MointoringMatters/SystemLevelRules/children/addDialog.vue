@@ -723,7 +723,7 @@ export default {
                 method: 'post',
                 url: 'large-monitor-platform/lmp/elementQuery/elementtree',
                 successCode: '000000', // 成功code
-                statusField: 'code',
+                statusField: 'code'
               }
             },
             queryparams: {
@@ -768,7 +768,7 @@ export default {
                 // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
                 url: 'large-monitor-platform/lmp/elementQuery/elementtree',
                 successCode: '000000', // 成功code
-                statusField: 'code',
+                statusField: 'code'
               }
             },
             queryparams: {

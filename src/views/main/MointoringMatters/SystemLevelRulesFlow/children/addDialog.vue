@@ -630,7 +630,7 @@ export default {
                 method: 'post',
                 url: 'large-monitor-platform/lmp/elementQuery/elementtree',
                 successCode: '000000', // 成功code
-                statusField: 'code',
+                statusField: 'code'
               }
             },
             queryparams: {
