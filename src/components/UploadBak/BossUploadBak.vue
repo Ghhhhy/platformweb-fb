@@ -241,7 +241,7 @@ export default {
       // 文件对象
       form.append('file', e.file)
       form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
+      form.append('appid', '4564CC930A9F45BAAEC7ADF7F6B7C6E5')
       temp.push(e.file.name)
       form.append('doctype', '')
       form.append('year', this.$store.state.userInfo.year)

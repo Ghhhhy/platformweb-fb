@@ -37,7 +37,7 @@ export default {
   querygetTableDatas(params) {
     return get('large-monitor-platform/v2/payvoucher/loadtabledatas', params)
   },
-  // 获取合计
+  // 附近上传
   fileUpload(params) {
     return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
   },
