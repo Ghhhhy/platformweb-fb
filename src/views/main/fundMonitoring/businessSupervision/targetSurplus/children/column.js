@@ -129,13 +129,31 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '预算单位',
-      field: 'agencyName',
+      title: '处室名称',
+      field: 'manageMofDepName',
       sortable: false,
       align: 'center'
     },
     {
-      title: '项目名称',
+      title: '上级指标文号',
+      field: 'supBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级指标文号',
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级专项资金名称',
+      field: 'supTrackProName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级专项资金名称',
       field: 'proName',
       sortable: false,
       align: 'center'
@@ -147,22 +165,33 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '未分配预算金额（单位:万元）',
+      title: '预算金额',
       align: 'center',
       children: [
         {
-          title: '金额',
+          title: '总金额',
           field: 'amountAllfp',
+          width: 100,
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
-          title: '其中：中央直达资金',
+          title: '未分配',
           field: 'amountZdzjFp',
+          width: 100,
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
+        },
+        {
+          title: '已分配',
+          field: 'amountZdzjyFp',
+          sortable: false,
+          width: 100,
+          align: 'right',
+          cellRender: { name: '$vxeMoney' },
+          format: '{amountAllfp}-{amountZdzjFp}'
         }
       ]
     }

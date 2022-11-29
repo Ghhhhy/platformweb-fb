@@ -40,7 +40,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',

@@ -115,7 +115,7 @@ const proconf = {
         treeNode: true,
         fixed: false,
         align: 'left',
-        width: 160,
+        width: 280,
         field: 'name',
         cellRender: {
           name: '$vxeIcon',
@@ -365,7 +365,7 @@ const proconf = {
         treeNode: true,
         fixed: false,
         align: 'left',
-        width: 160,
+        width: 250,
         field: 'name',
         cellRender: {
           name: '$vxeIcon',

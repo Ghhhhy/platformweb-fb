@@ -9,14 +9,14 @@
     @close="dialogClose"
   >
     <div style="height: calc(100% - 80px)">
-      <div v-show="isShowQueryConditions" class="main-query">
+      <!-- <div v-show="isShowQueryConditions" class="main-query">
         <BsQuery
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="searchDataList"
           @onSearchClick="search"
         />
-      </div>
+      </div> -->
       <BsTable
         ref="mainTableRef"
         :footer-config="tableFooterConfig"
@@ -203,18 +203,6 @@ export default {
     },
     queryTableDatas() {
       let params = this.detailQueryParam
-      params.page = this.pagerConfig.currentPage // 页码
-      params.pageSize = this.pagerConfig.pageSize // 每页条数
-      params.proName = this.condition.proName ? this.condition.proName[0] : ''
-      params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
-      params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
-      params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
-      params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
-      params.payAcctNo = this.condition.payAcctNo ? this.condition.payAcctNo[0] : ''
-      params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
-      params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
-      params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
-      params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
         this.$parent.tableLoading = false
@@ -231,65 +219,10 @@ export default {
       console.log(proconf)
       switch (this.detailType) {
         // 支出明细
-        case 'zjzcmx_fdq':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zjzcmx_fzj':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zdzjzcmx_fdq':
-        case 'zdzjzcmx_fzj':
-          this.tableColumnsConfig = proconf.payColumn
-          this.queryConfig = proconf.highQueryConfig2
-          this.searchDataList = proconf.highQueryData2
-          break
-        // 项目明细
-        case 'zdzjxmmx_fzj':
+        case 'zdzjdfjemx':
           this.tableColumnsConfig = proconf.projectColumn
           break
-        case 'zdzjxmmx_fdq':
-          this.tableColumnsConfig = proconf.projectColumn
-          break
-        // 中央下达项目明细
-        case 'czzdzjxmmx_fdq_zyxd':
-        case 'czzdzjxmmx_fzj_zyxd':
-          this.tableColumnsConfig = proconf.zyxdProColumn
-          break
-        case 'zdzjxmmx_fzj_zyxd':
-        case 'zdzjxmmx_fdq_zyxd':
-          this.tableColumnsConfig = proconf.zyxdProfzjColumn
-          break
-        case 'zdzjxmmx_fzj_zyxdh':
-        case 'zdzjxmmx_fzj_zyxdx':
-          this.tableColumnsConfig = proconf.zyxdProfzjhColumn
-          break
-        case 'zdzjxmmx_fzj_wfp':
-          this.tableColumnsConfig = proconf.zyxdProfzjwfpColumn
-          break
-        case 'zdzjxmmx_fzj_wfpx':
-          this.tableColumnsConfig = proconf.zyxdProfzjwfpxColumn
-          break
-        case 'zdzjzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetColumn
-          this.queryConfig = proconf.highQueryConfig1
-          this.searchDataList = proconf.highQueryData1
-          break
-        // case 'zdzjxmmx':
-        //   this.tableColumnsConfig = proconf.projectColumn
-        //   break
-        case 'zdzjzcmx':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zdzjxmmx_dfap':
-        case 'sbjfpaAmount':
-        case 'shbjfpaAmount':
-        case 'xyfpaAmount':
-          this.tableColumnsConfig = proconf.zdzjprojectColumn
-          break
-        case 'zdzjxmmx':
-          this.tableColumnsConfig = proconf.projectColumn
-          break
-        case 'zdzjxmmx_wfp':
+        case 'czzdzjdfjemx':
           this.tableColumnsConfig = proconf.projectColumn
           break
         default:
@@ -309,50 +242,43 @@ export default {
       this.$parent.sDetailQueryParam = params
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
-    },
-    handleDetailfzj(reportCode, proCode) {
-      let params = {
-        reportCode: reportCode,
-        proCodes: [proCode],
-        mofDivCode: this.detailQueryParam.mofDivCode,
-        fiscalYear: this.$parent.searchDataList.fiscalYear,
-        condition: this.detailQueryParam.condition
-      }
-      this.$parent.sDetailQueryParam = params
-      this.$parent.sDetailVisible = true
-      this.$parent.sDetailType = reportCode
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
-    },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-      switch (key) {
-        case 'amountZdzjFp':
-          if (this.detailType === 'zdzjxmmx') {
-            this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-            this.$parent.sDetailTitle = 'xx资金支出台账明细'
-          }
-          break
-        case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-          this.$parent.sDetailTitle = '支出明细'
-          break
-        case 'amountbjfpsnjap':
-        case 'amountbjfpzyap':
-        case 'amountbjfpsjap':
-        case 'amountbjfpxjap':
-          this.handleDetail('zdzjzbmx_fzj', obj.row.speTypeCode, obj.row.mofDivCode)
-          this.$parent.sDetailTitle = '支出台账明细'
-          break
-      }
     }
+    // handleDetailfzj(reportCode, proCode) {
+    //   let params = {
+    //     reportCode: reportCode,
+    //     proCodes: [proCode],
+    //     mofDivCode: this.detailQueryParam.mofDivCode,
+    //     fiscalYear: this.$parent.searchDataList.fiscalYear,
+    //     condition: this.detailQueryParam.condition
+    //   }
+    //   this.$parent.sDetailQueryParam = params
+    //   this.$parent.sDetailVisible = true
+    //   this.$parent.sDetailType = reportCode
+    // },
+    // cellStyle({ row, rowIndex, column }) {
+    //   if (['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
+    //     return {
+    //       color: '#4293F4',
+    //       textDecoration: 'underline'
+    //     }
+    //   }
+    // },
+    // 表格单元行单击
+    // cellClick(obj, context, e) {
+    //   let key = obj.column.property
+    //   switch (key) {
+    //     case 'amountZdzjFp':
+    //       if (this.detailType === 'zdzjxmmx') {
+    //         this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+    //         this.$parent.sDetailTitle = 'xx资金支出台账明细'
+    //       }
+    //       break
+    //     case 'amountZdzjFp':
+    //       this.handleDetail('zdzjzcmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+    //       this.$parent.sDetailTitle = '支出明细'
+    //       break
+    //   }
+    // }
   },
   mounted() {
     this.showInfo()
