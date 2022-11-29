@@ -182,7 +182,10 @@ export default {
     },
     initrightTreeData(elementcode, province) {
       // debugger
-      this.$http.get(`mp-b-basedata-service/v2/basedata/${elementcode}/${province}`, {}).then((res) => {
+      this.$http.post(`large-monitor-platform/lmp/elementQuery/elementtree`, {
+        elementCode: elementcode,
+        province
+      }).then((res) => {
 
       })
     },

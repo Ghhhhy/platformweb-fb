@@ -61,8 +61,9 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
     // } else {
     //   axios.defaults.baseURL = oldUrl
     // }
-    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,fileservice,mp-b-project-lifecycle'
+    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,mp-b-project-lifecycle'
     let filePreviewService = 'mp-b-file-preview'
+    let fileservice = 'fileservice'
     let apaas1 = 'large-monitor-platform,dfr-monitor-service'
     let tempUrl = url.split('/')[0]
     if (tempUrl.length === 0) {
@@ -74,6 +75,9 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
       url = 'apaas/api/' + url
     } else if (filePreviewService === tempUrl) {
       return url
+    } else if (fileservice === tempUrl) {
+      // 附件使用openapi接口
+      return 'openapi/' + url
     } else if (apaas1.indexOf(tempUrl) > -1) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')

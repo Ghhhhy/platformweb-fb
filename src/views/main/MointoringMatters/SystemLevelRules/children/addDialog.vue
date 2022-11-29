@@ -144,6 +144,7 @@
                     <el-select
                       v-model="businessFunctionCode"
                       :disabled="disabled"
+                      multiple="true"
                       placeholder="请选择业务菜单"
                       style="width:45%"
                       @change="changeFunCode"
@@ -639,10 +640,8 @@ export default {
       businessModuleCode: '',
       businessModuleName: '',
       businessModuleCodeoptions: [],
-      // businessFunctionCode: [],
-      // businessFunctionName: [],
-      businessFunctionCode: '',
-      businessFunctionName: '',
+      businessFunctionCode: [],
+      businessFunctionName: [],
       businessFunctionCodeoptions: [],
       departmentCode: '',
       departmentName: '',
@@ -720,14 +719,15 @@ export default {
               disabled,
               isleaf: false,
               axiosConfig: {
-                method: 'get',
-                url:
-                  'mp-b-basedata-service/v2/basedata/page'
+                method: 'post',
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
               }
             },
             queryparams: {
               condition: '',
-              elementcode: 'pro',
+              elementCode: 'pro',
               year: this.$store.state.userInfo.year,
               province: this.$store.state.userInfo.province,
               limit: 2000,
@@ -763,12 +763,15 @@ export default {
               multiple: true,
               isleaf: false,
               axiosConfig: {
-                method: 'get',
+                method: 'post',
                 // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
-                url: `mp-b-basedata-service/v2/basedata/${obj.urlC}/${this.$store.state.userInfo.province}/`
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
               }
             },
             queryparams: {
+              elementCode: obj.urlC,
               date: this.$store.state.userInfo.year,
               tokenid: this.$store.getters.getLoginAuthentication.tokenid,
               appguid: 'apaas',
@@ -1274,7 +1277,7 @@ export default {
         this.$message.warning('请选择业务模块')
         return
       }
-      if (this.triggerClass === 1 && !this.businessFunctionCode) {
+      if (this.triggerClass === 1 && (this.businessFunctionCode === undefined || this.businessFunctionCode.length === 0)) {
         this.$message.warning('请选择业务菜单')
         return
       }
@@ -1395,10 +1398,12 @@ export default {
         'businessSystemName': that.businessSystemName,
         'businessModuleCode': that.businessModuleCode,
         'businessModuleName': that.businessModuleName,
-        'businessFunctionCode': that.businessFunctionCode,
+        'menuIdList': that.businessFunctionCode.toString(), // 多菜单
+        'menuNameList': that.businessFunctionName.toString(),
+        // 'businessFunctionCode': that.businessFunctionCode,
         'departmentCode': that.departmentCode,
         'departmentName': that.departmentName,
-        'businessFunctionName': that.businessFunctionName,
+        // 'businessFunctionName': that.businessFunctionName,
         'regulationName': that.monitorRuleName, // 规则名称
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
         'warningLevel': that.warningLevel, // 预警级别
@@ -1505,20 +1510,20 @@ export default {
       console.log(val)
       this.businessFunctionCode = val
       this.businessFunctionName = []
-      let busName = this.businessFunctionCodeoptions.find(item => {
-        return item.id === val
-      })
-      this.businessFunctionName = busName.businessName
-      // let busName = []
-      // for (let i = 0; i < val.length; i++) {
-      //   busName.push(this.businessFunctionCodeoptions.find(item => {
-      //     return item.id === val[i]
-      //   }))
-      // }
-      // for (let i = 0; i < busName.length; i++) {
-      //   debugger
-      //   this.businessFunctionName.push(busName[i].businessName)
-      // }
+      // let busName = this.businessFunctionCodeoptions.find(item => {
+      //   return item.id === val
+      // })
+      // this.businessFunctionName = busName.businessName
+      let busName = []
+      for (let i = 0; i < val.length; i++) {
+        busName.push(this.businessFunctionCodeoptions.find(item => {
+          return item.id === val[i]
+        }))
+      }
+      for (let i = 0; i < busName.length; i++) {
+        debugger
+        this.businessFunctionName.push(busName[i].businessName)
+      }
     },
     // 业务系统下拉树
     getSysLists() {
@@ -1689,11 +1694,11 @@ export default {
       this.ModparentId = this.businessModuleCode
       this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
+      this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
+      this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
@@ -1725,11 +1730,11 @@ export default {
       this.ModparentId = this.businessModuleCode
       this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
+      this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
+      this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
 

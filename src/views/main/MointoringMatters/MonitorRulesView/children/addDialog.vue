@@ -662,13 +662,14 @@ export default {
               disabled,
               isleaf: false,
               axiosConfig: {
-                method: 'get',
-                url:
-                  'mp-b-basedata-service/v2/basedata/page'
+                method: 'post',
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
               }
             },
             queryparams: {
-              elementcode: 'pro',
+              elementCode: 'pro',
               condition: '',
               year: this.$store.state.userInfo.year,
               province: this.$store.state.userInfo.province,
@@ -705,12 +706,15 @@ export default {
               multiple: true,
               isleaf: false,
               axiosConfig: {
-                method: 'get',
+                method: 'post',
                 // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
-                url: `mp-b-basedata-service/v2/basedata/${obj.urlC}/${this.$store.state.userInfo.province}/`
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
               }
             },
             queryparams: {
+              elementCode: obj.urlC,
               date: this.$store.state.userInfo.year,
               tokenid: this.$store.getters.getLoginAuthentication.tokenid,
               appguid: 'apaas',

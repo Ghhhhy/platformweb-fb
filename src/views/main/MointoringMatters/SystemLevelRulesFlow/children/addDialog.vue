@@ -627,14 +627,15 @@ export default {
               disabled,
               isleaf: false,
               axiosConfig: {
-                method: 'get',
-                url:
-                  'mp-b-basedata-service/v2/basedata/page'
+                method: 'post',
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
               }
             },
             queryparams: {
               condition: '',
-              elementcode: 'pro',
+              elementCode: 'pro',
               year: this.$store.state.userInfo.year,
               province: this.$store.state.userInfo.province,
               limit: 2000,
