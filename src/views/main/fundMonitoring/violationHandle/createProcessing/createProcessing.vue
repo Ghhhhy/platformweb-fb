@@ -112,6 +112,7 @@ export default {
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
+      roleId: '',
       breakRuleVisible: false,
       treeData: [{
         children: [],
@@ -147,6 +148,8 @@ export default {
         'unIssue': 0,
         'issued': 0,
         'rectify': 0,
+        'rectifyUnit': 0,
+        'rectifiedUnit': 0,
         'rectified': 0,
         'archive': 0,
         'archived': 0,
@@ -208,7 +211,7 @@ export default {
       dialogTitle: '查看详情信息',
       addTableData: [],
       // 请求 & 角色权限相关配置
-      menuName: '监控处理单列表',
+      menuName: '监控问询单列表',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -266,7 +269,9 @@ export default {
       officeStatus: '',
       isIssue: false, // 已整改标识
       isArchive: false,
-      codeList: []
+      codeList: [],
+      filePreviewDialogVisible: false,
+      fileGuid: ''
     }
   },
   mounted() {
@@ -274,24 +279,19 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      if (this.menuName === '监控处理单列表' && this.status === 0) {
+      if (this.menuName === '监控问询单列表' && this.status === 0) {
         this.agencyName = obj.agencyName
         this.issueTime = obj.issueTime
         this.fiRuleName = obj.fiRuleName
         this.violateType = obj.violateType
         this.queryTableDatas()
-      } else if (this.menuName === '监控处理单列表' && this.status !== 0 && !this.isArchive) {
+      } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
         this.agencyName = obj.agencyName
         this.issueTime = obj.issueTime
         this.fiRuleName = obj.fiRuleName
-        this.violateType = obj.violateTyp
-        this.getdata()
-      } else if (this.isArchive) {
-        this.agencyName = obj.agencyName
-        this.issueTime = obj.issueTime
-        this.fiRuleName = obj.fiRuleName
+        this.status = obj.status === '' ? this.status : obj.status
         this.violateType = obj.violateType
-        this.getNoFile()
+        this.getdata()
       } else {
         this.firulename = obj.firulename
         this.regulationType = obj.regulationType
@@ -414,8 +414,13 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.queryTableDatas()
-      // this.queryTableDatasCount()
+      if (this.menuName === '监控问询单列表' && this.status === 0) {
+        this.queryTableDatas()
+      } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
+        this.getdata()
+      } else {
+        this.getWarnData()
+      }
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
@@ -445,6 +450,19 @@ export default {
         if (res.code === '000000') {
           console.log(res.data.results)
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['unIssue'] = res.data.totalCount
         } else {
@@ -461,25 +479,39 @@ export default {
         fiRuleName: this.fiRuleName,
         violateType: this.violateType,
         mofDivCode: this.mofDivCode || '',
-        unitStatus: this.unitStatus,
-        departmentStatus: this.departmentStatus,
-        officeStatus: this.officeStatus,
+        isUnit: this.param5.retroact,
         status: this.status,
+        roleId: this.roleId,
         mofDivCodeList: this.codeList
       }
       api.getDetail(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
-          if (this.unitStatus === 0 || this.departmentStatus === 0 || this.officeStatus === 0) {
+          if (this.status === 1) {
             this.tabStatusNumConfig['rectify'] = res.data.totalCount
-          } else if (this.unitStatus === 1 || this.departmentStatus === 1 || this.officeStatus === 1) {
-            this.tabStatusNumConfig['rectified'] = res.data.totalCount
-          } else if (this.status === 1) {
             this.tabStatusNumConfig['issued'] = res.data.totalCount
-          } else if (this.status === 5) {
-            this.tabStatusNumConfig['archived'] = res.data.totalCount
+          } else if (this.status === 2) {
+            this.tabStatusNumConfig['rectifyUnit'] = res.data.totalCount
+          } else if (this.status === 3) {
+            this.tabStatusNumConfig['rectifiedUnit'] = res.data.totalCount
+          } else if (this.status === 4) {
+            this.tabStatusNumConfig['rectified'] = res.data.totalCount
+          } else {
             this.tabStatusNumConfig['search'] = res.data.totalCount
           }
         } else {
@@ -502,6 +534,19 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['archive'] = res.data.totalCount
         } else {
@@ -519,7 +564,7 @@ export default {
       this.isCreate = true
       this.detailData = selection
       this.dialogVisible = true
-      this.dialogTitle = '监控处理单信息'
+      this.dialogTitle = '监控问询单信息'
     },
     // 整改
     handleFeedback() {
@@ -530,7 +575,17 @@ export default {
       }
       this.detailData = selection
       this.dialogVisible = true
-      this.dialogTitle = '监控处理单信息'
+      this.dialogTitle = '监控问询单信息'
+    },
+    handleProcess() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.detailData = selection
+      this.dialogVisible = true
+      this.dialogTitle = '监控问询单信息'
     },
     handleArchiving() {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -540,7 +595,7 @@ export default {
       }
       this.detailData = selection
       this.dialogVisible = true
-      this.dialogTitle = '监控处理单信息'
+      this.dialogTitle = '监控问询单信息'
     },
     handleDetail() {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -550,7 +605,7 @@ export default {
       }
       this.detailData = selection
       this.dialogVisible = true
-      this.dialogTitle = '监控处理单信息'
+      this.dialogTitle = '监控问询单信息'
     },
     onTabPanelBtnClick(obj) { // 按钮点击
       let self = this
@@ -560,6 +615,9 @@ export default {
           break
         case 'feedback': // 整改反馈
           self.handleFeedback(obj)
+          break
+        case 'process': // 审核
+          self.handleProcess(obj)
           break
         case 'archiving': // 归档
           self.handleArchiving(obj)
@@ -651,12 +709,12 @@ export default {
       if (param5.isCreate === 'true') { // 生成
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.createBtnConfig }
         obj.code = 'unIssue'
-      } else if (param5.isRetroact === 'true') { // 反馈
-        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactBtnConfig }
+      } else if (param5.isRetroact === 'true' && param5.retroact === 'department') { // 主管处室反馈
+        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactMofBtnConfig }
         obj.code = 'rectify'
-      } else if (param5.isArchive === 'true') { // 归档
-        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.archiveBtnConfig }
-        obj.code = 'archive'
+      } else if (param5.isRetroact === 'true' && param5.retroact === 'company') { // 单位反馈
+        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactBtnConfig }
+        obj.code = 'rectifyUnit'
       } else if (param5.isQuery === 'true') {
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.searchBtnConfig }
         obj.code = 'search'
@@ -725,7 +783,7 @@ export default {
           this.searchDataList = proconf.createHighQueryData
           this.$refs.queryFrom.onSearchResetClick()
           this.status = 0
-          this.menuName = '监控处理单列表'
+          this.menuName = '监控问询单列表'
           this.queryTableDatas()
           break
         // 已下发
@@ -734,7 +792,7 @@ export default {
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 1
-          this.menuName = '监控处理单列表'
+          this.menuName = '监控问询单列表'
           this.getdata()
           break
         // 待整改
@@ -743,14 +801,25 @@ export default {
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 1
-          if (this.param5.retroact === 'company') {
-            this.unitStatus = 0 // 单位未整改标识
-          } else if (this.param5.retroact === 'branch') {
-            this.departmentStatus = 0 // 部门未整改标识
-          } else {
-            this.officeStatus = 0 // 处室未整改标识
-          }
-          this.menuName = '监控处理单列表'
+          this.menuName = '监控问询单列表'
+          this.getdata()
+          break
+        // 已下发单位
+        case 'rectifyUnit':
+          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 2
+          this.menuName = '监控问询单列表'
+          this.getdata()
+          break
+        // 单位反馈待审核
+        case 'rectifiedUnit':
+          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 3
+          this.menuName = '监控问询单列表'
           this.getdata()
           break
         // 已整改
@@ -758,42 +827,15 @@ export default {
           this.tableColumnsConfig = proconf.policiesTableColumns
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
-          this.status = ''
-          if (this.param5.retroact === 'company') {
-            this.unitStatus = 1 // 单位整改标识
-          } else if (this.param5.retroact === 'branch') {
-            this.departmentStatus = 1 // 部门整改标识
-          } else {
-            this.officeStatus = 1 // 处室未整改标识
-          }
-          this.menuName = '监控处理单列表'
-          this.getdata()
-          break
-        // 待归档
-        case 'archive':
-          this.status = 1
-          this.tableColumnsConfig = proconf.createTableColumns
-          this.queryConfig = proconf.highQueryConfig
-          this.searchDataList = proconf.highQueryData
-          this.isArchive = true
-          this.menuName = '监控处理单列表'
-          this.getNoFile()
-          break
-        // 已归档
-        case 'archived':
-          this.tableColumnsConfig = proconf.createTableColumns
-          this.queryConfig = proconf.highQueryConfig
-          this.searchDataList = proconf.highQueryData
-          this.status = 5
-          this.menuName = '监控处理单列表'
+          this.status = 4
+          this.menuName = '监控问询单列表'
           this.getdata()
           break
         case 'search':
           this.tableColumnsConfig = proconf.createTableColumns
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
-          this.status = 5
-          this.menuName = '监控处理单列表'
+          this.menuName = '监控问询单列表'
           this.getdata()
           break
         default:
@@ -818,22 +860,22 @@ export default {
             v.value = v.code
             v.label = v.name
           })
-          this.queryConfig[1].itemRender.options = res.data.results
+          this.queryConfig[2].itemRender.options = res.data.results
         }
       })
     },
     getCount() {
-      api.getCount().then(res => {
+      let param = {
+        isUnit: this.param5.retroact,
+        roleId: this.roleId
+      }
+      api.getCount(param).then(res => {
         if (res.code === '000000') {
           this.tabStatusNumConfig['issued'] = res.data.issue
-          this.tabStatusNumConfig['archived'] = res.data.fileCount
-          if (this.param5.retroact === 'company') {
-            this.tabStatusNumConfig['rectified'] = res.data.unitCount
-          } else if (this.param5.retroact === 'branch') {
-            this.tabStatusNumConfig['rectified'] = res.data.departmentCount
-          } else if (this.param5.retroact === 'department') {
-            this.tabStatusNumConfig['rectified'] = res.data.officeCount
-          }
+          this.tabStatusNumConfig['rectify'] = res.data.issue
+          this.tabStatusNumConfig['rectifyUnit'] = res.data.unitCount
+          this.tabStatusNumConfig['rectifiedUnit'] = res.data.officeProcessCount
+          this.tabStatusNumConfig['rectified'] = res.data.rectifiedCount
         }
       })
     },
@@ -859,6 +901,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     this.getLeftTreeData()
     // this.queryTableDatas()
