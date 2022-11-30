@@ -12,6 +12,57 @@
   >
     <div v-loading="addLoading" style="padding-bottom: 10px; text-align: center">
       <el-row>
+        <el-col :span="11">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;选择年度</div>
+                <el-select v-model="fiscalYear" placeholder="年度">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="11">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;起始日期</div>
+                <el-date-picker
+                  v-model="form.startTime"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                />
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+        <el-col :span="11">
+          <el-container>
+            <el-main width="100%">
+              <el-row>
+                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;截止日期</div>
+                <el-date-picker
+                  v-model="form.endTime"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                />
+              </el-row>
+            </el-main>
+          </el-container>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col>
           <el-container>
             <el-main width="100%">
@@ -62,8 +113,17 @@ export default {
   },
   data() {
     return {
+      options: [{
+        value: '2022',
+        label: '2022年'
+      }, {
+        value: '2023',
+        label: '2023年'
+      }],
+      fiscalYear: this.$store.state.userInfo.year,
       isStrictly: false,
       checkedKeys: [],
+      endTime: '',
       treeData: [],
       scope: [],
       disabled: false,
@@ -85,6 +145,7 @@ export default {
       dataSourceName: '',
       functionType: '',
       functionName: '',
+      mrTime: '',
       functionApi: '',
       functionParameter: '',
       description: '',
@@ -98,12 +159,27 @@ export default {
       fileDataBakDel: [],
       attachmentId: '',
       showbox: false,
+      form: {
+        startTime: '',
+        endTime: ''
+      },
       addParam: {},
       fiRuleName: '',
       regulationClassName: ''
     }
   },
   methods: {
+    // 设置默认选中当前日期
+    getNowTime() {
+      let date = new Date()
+      let year = date.toLocaleDateString().split('/')[0]
+      let month = date.toLocaleDateString().split('/')[1]
+      let day = date.toLocaleDateString().split('/')[2] - 1
+      const defaultDate = year + '-' + month + '-' + day
+      // const defaultDate1 = this.$store.state.userInfo.year + '-01-01'
+      // this.$set(this.form, 'startTime', defaultDate1)
+      this.$set(this.form, 'endTime', defaultDate)
+    },
     onNodeCheckClick(data) {
       console.log(data)
       let arr = []
@@ -215,8 +291,19 @@ export default {
           this.$message.info('请选择生效范围！')
           return
         }
+        if (this.form.startTime === '') {
+          this.$message.info('请选择起始时间！')
+          return
+        }
+        if (this.form.endTime === '') {
+          this.$message.info('请选择截止时间！')
+          return
+        }
         const param = {
-          scope: this.scope
+          scope: this.scope,
+          fiscalYear: this.fiscalYear,
+          startTime: this.form.startTime,
+          endTime: this.form.endTime
         }
         this.addLoading = true
         HttpModule.addLog(param).then((res) => {
@@ -239,6 +326,7 @@ export default {
       this.btnShow = false
     } */
     this.getMofDiv()
+    this.getNowTime()
   }
 }
 </script>

@@ -101,6 +101,14 @@
       :s-detail-query-param="sDetailQueryParam"
       :s-detail-type="sDetailType"
     />
+    <ZbDetailDialog
+      v-if="zbDetailVisible"
+      :title="zbDetailTitle"
+      :zb-amt-unit="zbAmtUnit"
+      :zb-detail-data="zbDetailData"
+      :zb-detail-query-param="zbDetailQueryParam"
+      :zb-detail-type="zbDetailType"
+    />
   </div>
 </template>
 
@@ -108,12 +116,14 @@
 import { proconf } from './escalation'
 import DetailDialog from './children/detailDialog.vue'
 import SDetailDialog from './children/sDetailDialog.vue'
+import ZbDetailDialog from './children/zbDetailDialog.vue'
 import AddDialog from './children/AddDialog'
 import HttpModule from '@/api/frame/main/fundMonitoring/escalation.js'
 export default {
   components: {
     AddDialog,
     DetailDialog,
+    ZbDetailDialog,
     SDetailDialog
   },
   computed: {
@@ -133,6 +143,11 @@ export default {
       sDetailVisible: false,
       sDetailTitle: '',
       sDetailData: [],
+      zbDetailQueryParam: {},
+      zbDetailType: '',
+      zbDetailVisible: false,
+      zbDetailTitle: '',
+      zbDetailData: [],
       detailTitle: '',
       detailVisible: false,
       detailQueryParam: {},
@@ -186,6 +201,7 @@ export default {
       },
       amountUnit: '',
       amtUnit: '',
+      zbAmtUnit: '',
       // table 相关配置
       tableLoading: false,
       tableLoading1: false,
@@ -469,9 +485,10 @@ export default {
         case 'add_log':
           this.addLog()
           break
-        // 撤销生成
-        case 'delete_log':
+        // 重新生成
+        case 'refresh_log':
           let isSc = true
+          let isqr1 = true
           if (datas.length === 0) {
             this.$message.info('请选择数据！')
             return
@@ -480,12 +497,19 @@ export default {
             if (item.generateStatus === '0') {
               isSc = false
             }
+            if (item.confirmStatus === '1') {
+              isqr1 = false
+            }
           })
           if (!isSc) {
             this.$message.info('请选择生成完成的数据！')
             return
           }
-          this.deleteLog(datas)
+          if (!isqr1) {
+            this.$message.info('请选择未确认的数据！')
+            return
+          }
+          this.refreshLog(datas)
           break
         default:
           break
@@ -551,8 +575,8 @@ export default {
         })
       })
     },
-    deleteLog(datas) {
-      this.$confirm('此操作将撤销生成选中数据, 是否继续?', '提示', {
+    refreshLog(datas) {
+      this.$confirm('此操作将重新生成选中数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -560,13 +584,13 @@ export default {
         this.tableLoading1 = true
         var _this = this
         HttpModule
-          .deleteLog(datas)
+          .refreshLog(datas)
           .then(res => {
             _this.tableLoading1 = false
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
-                message: '撤销成功!'
+                message: '生成成功!'
               })
               this.tableData1 = []
               _this.queryTableDatas()
