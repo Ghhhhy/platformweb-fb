@@ -14,6 +14,9 @@ export default {
   deleteLog (params) {
     return post('dfr-monitor-service/dfr/dfrData/deleteLog', params)
   },
+  refreshLog (params) {
+    return post('dfr-monitor-service/dfr/dfrData/refreshLog', params)
+  },
   cancelEscalation (params) {
     return post('dfr-monitor-service/dfr/dfrData/cancelEscalation', params)
   },

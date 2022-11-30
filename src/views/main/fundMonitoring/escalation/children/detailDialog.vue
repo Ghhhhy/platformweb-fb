@@ -25,6 +25,7 @@
       :cell-style="cellStyle"
       :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
       :pager-config="pagerConfig"
+      :default-money-unit="unit"
       :export-modal-config="{ fileName: title + '(' + amountUnit + ')' }"
       @cellClick="cellClick"
       @onToolbarBtnClick="onToolbarBtnClick"
@@ -77,6 +78,10 @@ export default {
     amountUnit: {
       type: String,
       default: ''
+    },
+    unit: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -336,15 +341,40 @@ export default {
       this.queryTableDatas()
       this.querySumDetail()
     },
-    handleDetail(reportCode, row, key) {
-      let params = {
-        reportCode: reportCode,
-        mofDivCode: row.code,
-        escalationStatus: this.detailQueryParam.escalationStatus,
-        version: this.detailQueryParam.version
+    handleDetail(reportCode, row, column) {
+      let params = {}
+      let condition = ''
+      switch (column) {
+        // 支出明细
+        case 'je4':// 省级分配本级
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'je9':// 市级分配本级
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        case 'je14':// 县级分配
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+      }
+      if (this.detailType === 'zyzdzjyszxqkfdq') {
+        params = {
+          condition: condition,
+          reportCode: reportCode,
+          mofDivCode: row.code,
+          escalationStatus: this.detailQueryParam.escalationStatus,
+          version: this.detailQueryParam.version
+        }
+      } else if (this.detailType === 'zyzdzjyszxqkfzj') {
+        params = {
+          condition: condition,
+          reportCode: reportCode,
+          cenTraProCode: row.code,
+          escalationStatus: this.detailQueryParam.escalationStatus,
+          version: this.detailQueryParam.version
+        }
       }
       this.$parent.sDetailQueryParam = params
-      this.$parent.sDetailTitle = row.name + '支出明细'
+      this.$parent.sDetailTitle = row.name + this.$parent.sDetailTitle
       this.queryUnit()
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
@@ -395,29 +425,44 @@ export default {
       return datas
     },
     cellStyle({ row, rowIndex, column }) {
-      // if (this.detailType === 'zyzdzjyszxqkfdq' || this.detailType === 'zyzdzjyszxqkfzj') {
-      //   if (['je2', 'je4', 'je9', 'je14'].includes(column.property)) {
-      //     return {
-      //       color: '#4293F4',
-      //       textDecoration: 'underline'
-      //     }
-      //   }
-      // }
+      if (this.detailType === 'zyzdzjyszxqkfdq' || this.detailType === 'zyzdzjyszxqkfzj') {
+        if (['je2', 'je4', 'je9', 'je14'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      switch (key) {
-        // case 'je4':// 省级分配本级
-        // case 'je9':// 市级分配本级
-        // case 'je14':// 县级分配
-        //   this.handleDetail('fdqzdzjxmmx', obj.row, key)
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // case 'je2':// 支出
-        //   this.handleDetail('fdqzcmx', obj.row, key)
-        //   this.detailTitle = '支出明细'
-        //   break
+      if (this.detailType === 'zyzdzjyszxqkfdq') {
+        switch (key) {
+          case 'je4':// 省级分配本级
+          case 'je9':// 市级分配本级
+          case 'je14':// 县级分配
+            this.handleDetail('fdqzdzjxmmx', obj.row, key)
+            this.$parent.sDetailTitle = '直达资金项目明细'
+            break
+          case 'je2':// 支出
+            this.handleDetail('fdqzcmx', obj.row, key)
+            this.$parent.sDetailTitle = '支出明细'
+            break
+        }
+      } else if (this.detailType === 'zyzdzjyszxqkfzj') {
+        switch (key) {
+          case 'je4':// 省级分配本级
+          case 'je9':// 市级分配本级
+          case 'je14':// 县级分配
+            this.handleDetail('fzjzdzjxmmx', obj.row, key)
+            this.$parent.sDetailTitle = '直达资金项目明细'
+            break
+          case 'je2':// 支出
+            this.handleDetail('fzjzcmx', obj.row, key)
+            this.$parent.sDetailTitle = '支出明细'
+            break
+        }
       }
     }
   },
