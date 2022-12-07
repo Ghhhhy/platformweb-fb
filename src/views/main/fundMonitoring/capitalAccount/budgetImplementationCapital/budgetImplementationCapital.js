@@ -490,54 +490,61 @@ const proconf = {
       },
       {
         title: '区级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '整合金额',
-            width: 200,
-            field: 'amountXjzhje',
+            width: 100,
+            field: 'amountSjzhje',
             align: 'right',
-            type: 'amountXjzhje',
+            type: 'amountSjzhje',
             cellRender: { name: '$vxeMoney' },
             visible: false
           },
           {
             title: '中央下达',
-            field: 'amountXjxd',
-            width: 200,
+            field: 'amountSjxd',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: false
           },
           {
-            title: '已分配',
-            field: 'amountXjfp',
-            width: 200,
+            title: '分配本级',
+            field: 'amountSbjfp',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '分配下级',
+            field: 'amountSxjfp',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
-            field: 'amountXjwfp',
-            width: 200,
+            field: 'amountSjwfp',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountXjxd}-{amountXjfp}'
+            formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
           },
           {
-            title: '已支出',
-            field: 'amountXjpay',
-            width: 200,
+            title: '本级已支出',
+            field: 'amountSjpay',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配进度',
-            field: 'xLoad',
-            width: 200,
+            field: 'aLoad',
+            width: 100,
             align: 'right',
-            formula: '({amountXjfp}-0==0)?0:({amountXjfp}/{amountXjfp}*100)',
+            formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
             cellRender: {
               name: '$vxeRatio'
             }
