@@ -58,6 +58,7 @@
       :scroll-x="highConfigIn.scrollX || tableGlobalConfigIn.scrollX"
       :span-method="spanMethod"
       :filter-config="highConfigIn.filterConfig || tableGlobalConfigIn.filterConfig"
+      v-bind="$attrs"
       @radio-change="radioChange"
       @edit-closed="editClosed"
       @edit-actived="editActived"
@@ -555,5 +556,8 @@ export default {
   .vxe-button {
     margin-right: 8px;
   }
+}
+.Titans-table .vxe-table .vxe-cell:not([class*="c--tooltip"]) {
+  height: auto !important;
 }
 </style>
