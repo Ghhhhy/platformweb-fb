@@ -558,6 +558,8 @@ export default {
   }
 }
 .Titans-table .vxe-table .vxe-cell:not([class*="c--tooltip"]) {
-  height: auto !important;
+  height: 100% !important;
+  padding: 5px !important;
+  line-height: calc(1em + 6px) !important;
 }
 </style>
