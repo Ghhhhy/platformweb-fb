@@ -123,5 +123,8 @@ export default {
   // 操作日志
   queryActionLog(params) {
     return post('large-monitor-platform/lmp/regulation/queryActionLog', params)
+  },
+  queryWarningRule(params) {
+    return post('dfr-monitor-service/dfr/warningRule/view', params)
   }
 }

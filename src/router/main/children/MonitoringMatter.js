@@ -189,6 +189,15 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
   },
+  {
+    path: '/MonitorRulesViewFJ',
+    name: 'MonitorRulesViewFJ',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue')
+  },
   // 同户名转账统计
   {
     path: '/SameNameTransferStatistics',

@@ -616,6 +616,34 @@ export let proconf = {
           disabled: false
         }
       }
+    },
+    {
+      field: 'des',
+      title: '白名单描述',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单描述',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'basis',
+      title: '白名单依据',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单依据',
+          disabled: false
+        }
+      }
     }
   ],
   formValidationConfigMessage: {

@@ -654,7 +654,9 @@ export default {
       formDatas: {
         useDes: '',
         payeeAcctNo: '',
-        payeeAcctName: ''
+        payeeAcctName: '',
+        des: '',
+        basis: ''
       },
       formValidationConfigMessage: proconf.formValidationConfigMessage
     }
@@ -1434,10 +1436,11 @@ export default {
           corBgtDocNoCode: this.formDatas.cor_bgt_doc_no_code,
           payeeAcctName: this.formDatas.payeeAcctName,
           payeeAcctNo: this.formDatas.payeeAcctNo,
-          useDes: this.formDatas.useDes
+          useDes: this.formDatas.useDes,
+          des: this.formDatas.des,
+          basis: this.formDatas.basis
         }
       }
-      console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         console.log(this.formDatas)
         param.regulationCode = this.$parent.DetailData.regulationCode
@@ -1521,7 +1524,6 @@ export default {
         }))
       }
       for (let i = 0; i < busName.length; i++) {
-        debugger
         this.businessFunctionName.push(busName[i].businessName)
       }
     },
