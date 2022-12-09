@@ -171,6 +171,7 @@ export default {
       sdetailTitle: '',
       sdetailData: [],
       detailData: [],
+      trackProCodes: '',
       code: '',
       fiscalYear: ''
     }
@@ -299,75 +300,76 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       switch (key) {
         case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '红色预警-未处理明细'
           this.detailType = 'redUndoNum'
           this.detailVisible = true
           break
         case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['redDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '红色预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'redDoneNum'
           break
         case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '橙色预警-未上传附件明细'
           this.detailVisible = true
           this.detailType = 'orangeUndoNum'
           break
         case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '橙色预警-已上传附件明细'
           this.detailVisible = true
           this.detailType = 'orangeDoneNum'
           break
         case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色预警-疑点信息明细'
           this.detailVisible = true
           this.detailType = 'yellowUndoNum'
           break
         case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色预警-认定正常明细'
           this.detailVisible = true
           this.detailType = 'yellowDoneNum'
           break
         case 'yellowUndoNumw':
-          this.detailData = ['yellowUndoNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['yellowUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色预警-认定违规-未处理明细'
           this.detailVisible = true
           this.detailType = 'yellowUndoNumw'
           break
         case 'yellowDoneNumw':
-          this.detailData = ['yellowDoneNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['yellowDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色预警-认定违规-已整改明细'
           this.detailVisible = true
           this.detailType = 'yellowDoneNumw'
           break
         case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
           this.detailType = 'blueUndoNum'
           this.detailVisible = true
           break
         case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '非人工干预蓝色预警-认定正常明细'
           this.detailVisible = true
           this.detailType = 'blueDoneNum'
           break
         case 'blueUndoNumw':
-          this.detailData = ['blueUndoNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['blueUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '非人工干预蓝色预警-认定违规-未处理明细'
           this.detailVisible = true
           this.detailType = 'blueUndoNumw'
           break
         case 'blueDoneNumw':
-          this.detailData = ['blueDoneNumw', obj.row.fiRuleCode, this.fiscalYear]
+          this.detailData = ['blueDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '非人工干预蓝色预警-认定违规-已整改明细'
           this.detailVisible = true
           this.detailType = 'blueDoneNumw'
@@ -382,7 +384,8 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -394,6 +397,36 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
@@ -411,6 +444,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.getPro()
     this.queryTableDatas()
   }
 }
