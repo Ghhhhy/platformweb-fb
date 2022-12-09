@@ -29,7 +29,7 @@
         />
       </div>
     </div>
-    <div v-if="title === '监控处理单信息'" v-loading="addLoading" class="payVoucherInput">
+    <div v-if="title === '监控问询单信息'" v-loading="addLoading" class="payVoucherInput">
       <div>
         <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">疑似违规信息</div>
         <BsForm
@@ -57,7 +57,90 @@
           </el-main>
         </el-container>
       </el-col>
-      <div v-if="param5.isRetroact === 'true' || param5.isCreate === 'true' || param5.isArchive === 'true' || param5.isQuery === 'true'" style="margin-top:10px">
+      <div v-if="param5.retroact === 'department' || param5.retroact === 'company' || param5.isQuery === 'true' || status === 3 " style="margin-top:10px">
+        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室指导意见</div>
+        <el-row>
+          <el-col :span="24">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;指导意见</div>
+                  <el-input
+                    v-model="information2"
+                    type="textarea"
+                    :disabled="param5.retroact !== 'department' || status !== '1'"
+                    placeholder="主管处室指导意见"
+                    style="width:90%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="6">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;是否下发单位</div>
+                  <el-select v-model="value" :disabled="param5.retroact !== 'department' || status !== '1'" placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="6">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <el-input
+                    v-model="phone2"
+                    :disabled="param5.retroact !== 'department' || status !== '1'"
+                    placeholder="联系电话"
+                    style="width:45%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="6">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发人</div>
+                  <el-input
+                    v-model="handler2"
+                    disabled
+                    placeholder="下发人"
+                    style="width:45%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="6">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发时间</div>
+                  <el-input
+                    v-model="updateTime2"
+                    disabled
+                    placeholder="处理时间"
+                    style="width:45%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+        </el-row>
+      </div>
+      <div v-if="param5.retroact === 'company' || param5.isQuery === 'true' || status === '3' " style="margin-top:10px">
         <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">预算单位整改信息</div>
         <el-row>
           <el-col :span="24">
@@ -71,6 +154,21 @@
                     :disabled="param5.retroact !== 'company'"
                     placeholder="预算单位整改意见"
                     style="width:90%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="8">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <el-input
+                    v-model="phone1"
+                    :disabled="param5.retroact !== 'company'"
+                    placeholder="联系电话"
+                    style="width:45%"
                   />
                 </el-row>
               </el-main>
@@ -107,59 +205,17 @@
             </el-container>
           </el-col>
         </el-row>
+        <BsUploadBak
+          ref="myUpload"
+          :attachment-id="attachmentid1"
+          :file-list="fileList1"
+          :file-data-bak-del.sync="fileDataBakDel1"
+          :file-data.sync="fileData1"
+          :disabled="param5.retroact !== 'company'"
+          :is-upload="param5.retroact === 'company'"
+        />
       </div>
-      <div v-if="param5.retroact === 'department' || param5.retroact === 'branch' || param5.isCreate === 'true' || param5.isArchive === 'true' || param5.isQuery === 'true'" style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管部门整改信息</div>
-        <el-row>
-          <el-col :span="24">
-            <el-container>
-              <el-main width="100%">
-                <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;整改意见</div>
-                  <el-input
-                    v-model="information2"
-                    type="textarea"
-                    :disabled="param5.retroact !== 'branch'"
-                    placeholder="主管部门整改意见"
-                    style="width:90%"
-                  />
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-          <el-col :span="8">
-            <el-container>
-              <el-main width="100%">
-                <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理人</div>
-                  <el-input
-                    v-model="handler2"
-                    disabled
-                    placeholder="处理人"
-                    style="width:45%"
-                  />
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-          <el-col :span="8">
-            <el-container>
-              <el-main width="100%">
-                <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理时间</div>
-                  <el-input
-                    v-model="updateTime2"
-                    disabled
-                    placeholder="处理时间"
-                    style="width:45%"
-                  />
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-        </el-row>
-      </div>
-      <div v-if="param5.retroact === 'department' || param5.isCreate === 'true' || param5.isArchive === 'true' || param5.isQuery === 'true'" style="margin-top:10px">
+      <div v-if="param5.retroact === 'department' || param5.isQuery === 'true'" style="margin-top:10px">
         <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室整改信息</div>
         <el-row>
           <el-col :span="24">
@@ -170,9 +226,24 @@
                   <el-input
                     v-model="information3"
                     type="textarea"
-                    :disabled="param5.retroact !== 'department'"
+                    :disabled="param5.retroact !== 'department' || status !== '1' "
                     placeholder="主管处室整改意见"
                     style="width:90%"
+                  />
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col :span="8">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <el-input
+                    v-model="phone3"
+                    :disabled="param5.retroact !== 'department' || status !== '1'"
+                    placeholder="联系电话"
+                    style="width:45%"
                   />
                 </el-row>
               </el-main>
@@ -209,6 +280,37 @@
             </el-container>
           </el-col>
         </el-row>
+        <BsUploadBak
+          ref="myUpload"
+          :disabled="param5.retroact !== 'department' || status !== '1'"
+          :is-upload="param5.retroact === 'department' || status === '1'"
+          :attachment-id="attachmentid3"
+          :file-list="fileList3"
+          :file-data-bak-del.sync="fileDataBakDel3"
+          :file-data.sync="fileData3"
+        />
+      </div>
+      <div v-if="status === '3' || status === '4' || param5.isQuery === 'true'" style="margin-top:10px">
+        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室审核</div>
+        <el-row>
+          <el-col :span="6">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;审核意见</div>
+                  <el-select v-model="value1" :disabled="param5.retroact !== 'department' || status !== '3'" placeholder="请选择">
+                    <el-option
+                      v-for="item in options1"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+        </el-row>
       </div>
     </div>
     <div slot="footer" style="height: 80px;margin:0 15px">
@@ -216,8 +318,7 @@
       <el-divider style="color:#E7EBF0" />
       <div type="flex" justify="space-around">
         <div>
-          <vxe-button v-if="param5.isCreate === 'true' && title === '监控处理单信息'" status="primary" @click="doIssue">生成并下发</vxe-button>
-          <vxe-button v-if="param5.isArchive === 'true' && title === '监控处理单信息'" status="primary" @click="doFile">归档</vxe-button>
+          <vxe-button v-if="param5.isCreate === 'true' && title === '监控问询单信息'" status="primary" @click="doIssue">生成并下发</vxe-button>
           <vxe-button v-if="param5.isRetroact === 'true'" status="primary" @click="doFeedback">确定</vxe-button>
           <vxe-button @click="dialogClose">取消</vxe-button>
         </div>
@@ -269,14 +370,26 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
-    },
-    status: {
-      type: Number,
-      default: 0
     }
   },
   data() {
     return {
+      options: [{
+        value: '2',
+        label: '下发给单位'
+      }, {
+        value: '4',
+        label: '不下发'
+      }],
+      value: '',
+      value1: '',
+      options1: [{
+        value: '2',
+        label: '退回'
+      }, {
+        value: '4',
+        label: '通过'
+      }],
       // violateType: '', // 违规类型
       // fiRuleName: '', // 监控规则
       // warningLevel: '', // 预警级别
@@ -291,6 +404,12 @@ export default {
       information3: '',
       updateTime3: '',
       handler3: '',
+      phone1: '',
+      attachmentid1: '',
+      phone2: '',
+      attachmentid2: '',
+      phone3: '',
+      attachmentid3: '',
       doubtViolateExplain: '', // 疑似违规说明
       edit: false,
       handleResult: '',
@@ -328,10 +447,20 @@ export default {
       fileList: [],
       fileData: [],
       fileDataBakDel: [],
+      fileList1: [],
+      fileData1: [],
+      fileDataBakDel1: [],
+      fileList2: [],
+      fileData2: [],
+      fileDataBakDel2: [],
+      fileList3: [],
+      fileData3: [],
+      fileDataBakDel3: [],
       attachmentId: '',
       showbox: false,
       showbtn: false,
-      commentDept: 'unit'
+      commentDept: 1,
+      newWarn: ''
     }
   },
   methods: {
@@ -366,17 +495,6 @@ export default {
         this.$parent.getdata()
       }
     },
-    moneyFormat(amt) {
-      const num = Math.round(amt * 100) / 100
-      let c = (num.toString().indexOf('.') !== -1) ? num.toLocaleString() : num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
-      if (c.length >= 3 & c.indexOf('.', c.length - 2) === c.length - 2) {
-        c = c + '0'
-      }
-      if (c.indexOf('.') === -1) {
-        c = c + '.00'
-      }
-      return c
-    },
     // 回显
     showInfo() {
       this.addLoading = true
@@ -395,41 +513,32 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.pay_app_amt = this.moneyFormat(this.supplyDataList.payAppAmt)
-              this.supplyDataList.agency_name = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
-              this.supplyDataList.pro_name = res.data.executeData.proCode + '-' + res.data.executeData.proName
-              this.supplyDataList.pay_type_name = res.data.executeData.payTypeName
-              this.supplyDataList.manage_mof_dep_name = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
-              this.supplyDataList.exp_func_name = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
-              this.supplyDataList.dep_bgt_eco_name = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
-              this.supplyDataList.gov_bgt_eco_name = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName
-              this.supplyDataList.set_mode_name = res.data.executeData.setModeCode + '-' + res.data.executeData.setModeName
-              this.supplyDataList.is_dir_name = (res.data.executeData.isDirCode === null ? '' : res.data.executeData.isDirCode) + '-' + (res.data.executeData.isDirName === null ? '' : res.data.executeData.isDirName)
-              this.supplyDataList.is_sal_name = res.data.executeData.isSalCode + '-' + res.data.executeData.isSalName
-              this.supplyDataList.is_fun_name = res.data.executeData.isFunCode + '-' + (res.data.executeData.isFunCode === 1 ? '是' : '否')
-              this.supplyDataList.fiDate = res.data.executeData.fiDate
-              this.supplyDataList.thr_exp_name = res.data.executeData.thrExpCode + (res.data.executeData.thrExpName === null ? '' : '-' + res.data.executeData.thrExpName)
-              this.supplyDataList.fund_type_name = res.data.executeData.fundTypeCode + '-' + res.data.executeData.fundTypeName
-              this.supplyDataList.payee_acct_bank_name = res.data.executeData.payAcctBankName
-              this.supplyDataList.payee_acct_no = res.data.executeData.payeeAcctNo
-              this.supplyDataList.payee_acct_name = res.data.executeData.payeeAcctName
-              this.supplyDataList.pay_acct_bank_name = res.data.executeData.payAcctBankName
-              this.supplyDataList.pay_acct_no = res.data.executeData.payAcctNo
-              this.supplyDataList.pay_acct_name = res.data.executeData.payAcctName
-              this.supplyDataList.pro_cat_name = res.data.executeData.proCatCode + '-' + res.data.executeData.proCatName
-              this.supplyDataList.cor_bgt_doc_no_name = res.data.executeData.corBgtDocNoName
-              this.supplyDataList.pay_app_no = res.data.executeData.payAppNo
-              this.supplyDataList.use_des = res.data.executeData.useDes
+              this.supplyDataList.agencyName = res.data.executeData?.agency_code + '-' + res.data.executeData?.agency_name
+              this.supplyDataList.proName = res.data.executeData?.pro_code + '-' + res.data.executeData?.pro_name
+              this.supplyDataList.natureOfFunds = res.data.executeData?.fund_type_code + '-' + res.data.executeData?.fund_type_name
+              this.supplyDataList.proCatName = res.data.executeData?.pro_cat_code + '-' + res.data.executeData?.pro_cat_name
+              this.supplyDataList.deptEconomyType = res.data.executeData?.dep_bgt_eco_code + '-' + res.data.executeData?.dep_bgt_eco_name
+              this.supplyDataList.govEconomyType = res.data.executeData?.gov_bgt_eco_code + '-' + res.data.executeData?.gov_bgt_eco_name
+              this.supplyDataList.settlementMethod = res.data.executeData?.set_mode_code + '-' + res.data.executeData?.set_mode_name
+              this.supplyDataList.directFund = res.data.executeData?.is_dir_code + '-' + res.data.executeData?.is_dir_name || ''
+              this.supplyDataList.salaryMark = res.data.executeData?.is_sal_code + '-' + res.data.executeData?.is_sal_name
+              this.supplyDataList.isUnionFunds = res.data.executeData?.is_fun_code + '-' + (res.data.executeData?.is_fun_code === 1 ? '是' : '否')
+              this.supplyDataList.fiDate = res.data.executeData?.fiDate
+              this.supplyDataList.funcType = res.data.executeData?.exp_func_code + '-' + res.data.executeData?.exp_func_name
+              this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
+              this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
+              this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
             }
             this.handletableData = res.data?.regulationList
           } else {
             this.$message.error(res.message)
           }
         })
-      } else if (this.title === '监控处理单信息') {
+      } else if (this.title === '监控问询单信息') {
         this.createDataList.fiRuleName = this.detailData[0].fiRuleName
         this.createDataList.warnLevel = this.detailData[0].warnLevel
         this.createDataList.mofDivCode = this.detailData[0].mofDivCode
+        this.createDataList.agencyId = this.detailData[0].agencyId
         this.createDataList.agencyCode = this.detailData[0].agencyCode
         this.createDataList.agencyName = this.detailData[0].agencyName
         this.createDataList.violateType = this.detailData[0].violateType
@@ -437,63 +546,123 @@ export default {
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
         this.createDataList.issueTime = moment().format('YYYY-MM-DD HH:mm:ss')
-        // HttpModule.getDetail(this.dealNo).then(res => {
-        //   this.addLoading = false
-        //   if (res.code === '000000') {
-        // this.createDataList = res.data 疑似违规信息
-        // this.information1
-        // this.updateTime1
-        // this.handler1
-        // this.information2
-        // this.updateTime2
-        // this.handler2
-        // this.information3
-        // this.updateTime3
-        // this.handler3
-        // this.doubtViolateExplain
+        if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
+          this.createDataList.warnLevel = '1'
+        } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
+          this.createDataList.warnLevel = '2'
+        } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
+          this.createDataList.warnLevel = '3'
+        } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
+          this.createDataList.warnLevel = '4'
+        } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
+          this.createDataList.warnLevel = '5'
+        }
         let userInfo = this.$store.state.userInfo
-        if (this.param5.isArchive === 'true' || this.param5.isQuery === 'true') {
+        this.status = this.detailData[0].status
+        if (this.param5.isQuery === 'true' || this.detailData[0].status === '3' || this.detailData[0].status === '4') {
           this.handler3 = this.detailData[0].handler3
           this.updateTime3 = this.detailData[0].updateTime3
           this.information3 = this.detailData[0].information3
+          this.attachmentid3 = this.detailData[0].attachmentid3
+          this.phone3 = this.detailData[0].phone3
           this.handler1 = this.detailData[0].handler1
           this.updateTime1 = this.detailData[0].updateTime1
           this.information1 = this.detailData[0].information1
+          this.attachmentid1 = this.detailData[0].attachmentid1
+          this.phone1 = this.detailData[0].phone1
           this.handler2 = this.detailData[0].handler2
           this.updateTime2 = this.detailData[0].updateTime2
           this.information2 = this.detailData[0].information2
+          this.phone2 = this.detailData[0].phone2
+          if (this.detailData[0].status === '2' || this.detailData[0].status === '4') {
+            this.value = this.detailData[0].status
+            this.value1 = this.detailData[0].status
+          }
+          if (this.attachmentid1 != null) {
+            const param = {
+              billguid: this.attachmentid1,
+              year: this.$store.state.userInfo.year,
+              province: this.$store.state.userInfo.province
+            }
+            HttpModule.getFile(param).then(res => {
+              if (res.rscode === '100000') {
+                // 获取附件信息
+                this.fileData1 = JSON.parse(res.data)
+              } else {
+                this.$message.error(res.result)
+              }
+            })
+          }
+          if (this.attachmentid3 != null) {
+            const param = {
+              billguid: this.attachmentid3,
+              year: this.$store.state.userInfo.year,
+              province: this.$store.state.userInfo.province
+            }
+            HttpModule.getFile(param).then(res => {
+              if (res.rscode === '100000') {
+                // 获取附件信息
+                this.fileData3 = JSON.parse(res.data)
+              } else {
+                this.$message.error(res.result)
+              }
+            })
+          }
         }
         switch (this.param5.retroact) {
           case 'company':
+            this.value = this.detailData[0].status
             this.handler1 = userInfo.name
             this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
-            this.commentDept = 1
-            break
-          case 'branch':
-            debugger
-            this.handler2 = userInfo.name
-            this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
-            this.handler1 = this.detailData[0].handler1
-            if (this.detailData[0].updateTime1) {
-              this.updateTime1 = this.detailData[0].updateTime1
+            this.attachmentid1 = this.$ToolFn.utilFn.getUuid()
+            this.attachmentid1 = this.attachmentid1 != null ? this.attachmentid1 : this.$ToolFn.utilFn.getUuid()
+            if (this.attachmentid1 != null) {
+              const param = {
+                billguid: this.attachmentid1,
+                year: this.$store.state.userInfo.year,
+                province: this.$store.state.userInfo.province
+              }
+              HttpModule.getFile(param).then(res => {
+                if (res.rscode === '100000') {
+                  // 获取附件信息
+                  this.fileData1 = JSON.parse(res.data)
+                } else {
+                  this.$message.error(res.result)
+                }
+              })
             }
-            this.information1 = this.detailData[0].information1
-            this.commentDept = 2
-            break
-          case 'department':
-            this.handler3 = userInfo.name
-            this.updateTime3 = moment().format('YYYY-MM-DD HH:mm:ss')
-            this.handler1 = this.detailData[0].handler1
-            if (this.detailData[0].updateTime1) {
-              this.updateTime1 = this.detailData[0].updateTime1
-            }
+            this.handler2 = this.detailData[0].handler2
             if (this.detailData[0].updateTime2) {
               this.updateTime2 = this.detailData[0].updateTime2
             }
-            this.information1 = this.detailData[0].information1
+            this.information2 = this.detailData[0].information2
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
-            this.commentDept = 3
+            this.commentDept = 1
+            break
+          case 'department':
+            this.handler3 = userInfo.name
+            this.handler2 = userInfo.name
+            this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
+            this.updateTime3 = moment().format('YYYY-MM-DD HH:mm:ss')
+            this.attachmentid1 = this.detailData[0].attachmentid1
+            this.attachmentid3 = (this.attachmentid3 != null && this.attachmentid3 !== '') ? this.attachmentid3 : this.$ToolFn.utilFn.getUuid()
+            console.log('attachmentid3', this.attachmentid3)
+            if (this.attachmentid3 != null) {
+              const param = {
+                billguid: this.attachmentid3,
+                year: this.$store.state.userInfo.year,
+                province: this.$store.state.userInfo.province
+              }
+              HttpModule.getFile(param).then(res => {
+                if (res.rscode === '100000') {
+                  // 获取附件信息
+                  this.fileData3 = JSON.parse(res.data)
+                } else {
+                  this.$message.error(res.result)
+                }
+              })
+            }
             break
           default:
             break
@@ -508,12 +677,24 @@ export default {
     // 生成下发
     async doIssue() {
       await this.$refs.createRef?.$refs?.form?.validate?.()
+      if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
+        this.newWarn = 1
+      } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
+        this.newWarn = 2
+      } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
+        this.newWarn = 3
+      } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
+        this.newWarn = 4
+      } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
+        this.newWarn = 5
+      }
       let param = {
+        agencyId: this.createDataList.agencyId,
         agencyName: this.createDataList.agencyName,
         agencyCode: this.createDataList.agencyCode,
         violateType: this.createDataList.violateType, // 违规类型
         fiRuleName: this.createDataList.fiRuleName, // 监控规则
-        warningLevel: this.createDataList.warnLevel, // 预警级别
+        warningLevel: this.newWarn, // 预警级别
         handleType: this.createDataList.handleType, // 处理方式
         mofDivCode: this.createDataList.mofDivCode, // 区划
         handleResult: this.createDataList.handleResult, // 处理结果
@@ -550,28 +731,65 @@ export default {
     },
     // 反馈
     doFeedback() {
+      let flag = this.status
       if (this.param5.retroact === 'company' && this.information1 === '') {
         this.$message.warning('请输入整改意见')
         return
       }
-      if (this.param5.retroact === 'branch' && this.information2 === '') {
+      if (this.param5.retroact === 'department' && this.information3 === '' && this.value === '4') {
         this.$message.warning('请输入整改意见')
         return
       }
-      if (this.param5.retroact === 'department' && this.information3 === '') {
-        this.$message.warning('请输入整改意见')
+      if (this.param5.retroact === 'department' && this.information2 === '' && this.value === '2') {
+        this.$message.warning('请输入指导意见')
         return
+      }
+      if (this.param5.retroact === 'department' && this.value === '' && flag === '1') {
+        this.$message.warning('请选择是否下发单位')
+        return
+      }
+      if (this.param5.retroact === 'department' && this.value1 === '' && flag === '3') {
+        this.$message.warning('请选择审核意见')
+        return
+      }
+      if (this.param5.retroact === 'company') {
+        this.commentDept = '1'
+        this.status = 3
+      }
+      if (this.param5.retroact === 'department' && this.value === '4' && flag === '1') {
+        this.commentDept = '3'
+        this.status = 4
+      }
+      if (this.param5.retroact === 'department' && this.value === '2' && flag === '1') {
+        this.commentDept = '2'
+        this.status = 2
+      }
+      // 退回
+      if (this.param5.retroact === 'department' && this.value1 === '2' && flag === '3') {
+        this.commentDept = '4'
+        this.status = 2
+      }
+      // 通过
+      if (this.param5.retroact === 'department' && this.value1 === '4' && flag === '3') {
+        this.commentDept = '4'
+        this.status = 4
       }
       let param = {
         information1: this.information1,
         updateTime1: this.updateTime1,
         handler1: this.handler1,
+        phone1: this.phone1,
+        attachmentid1: this.attachmentid1,
         information2: this.information2,
         updateTime2: this.updateTime2,
         handler2: this.handler2,
+        phone2: this.phone2,
         information3: this.information3,
         updateTime3: this.updateTime3,
         handler3: this.handler3,
+        phone3: this.phone3,
+        status: this.status,
+        attachmentid3: this.attachmentid3,
         dealNo: this.detailData[0].dealNo,
         commentDept: this.commentDept
       }

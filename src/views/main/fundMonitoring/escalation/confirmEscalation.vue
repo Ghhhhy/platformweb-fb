@@ -88,16 +88,36 @@
       :detail-type="detailType"
       :detail-query-param="detailQueryParam"
     />
+    <SDetailDialog
+      v-if="sDetailVisible"
+      :title="sDetailTitle"
+      :amt-unit="amtUnit"
+      :s-detail-data="sDetailData"
+      :s-detail-query-param="sDetailQueryParam"
+      :s-detail-type="sDetailType"
+    />
+    <ZbDetailDialog
+      v-if="zbDetailVisible"
+      :title="zbDetailTitle"
+      :zb-amt-unit="zbAmtUnit"
+      :zb-detail-data="zbDetailData"
+      :zb-detail-query-param="zbDetailQueryParam"
+      :zb-detail-type="zbDetailType"
+    />
   </div>
 </template>
 
 <script>
 import { proconf } from './confirmEscalation'
 import DetailDialog from './children/detailDialog.vue'
+import SDetailDialog from './children/sDetailDialog.vue'
+import ZbDetailDialog from './children/zbDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/escalation.js'
 export default {
   components: {
-    DetailDialog
+    ZbDetailDialog,
+    DetailDialog,
+    SDetailDialog
   },
   computed: {
   },
@@ -111,6 +131,18 @@ export default {
   },
   data() {
     return {
+      sDetailQueryParam: {},
+      sDetailType: '',
+      sDetailVisible: false,
+      sDetailTitle: '',
+      sDetailData: [],
+      amtUnit: '',
+      zbAmtUnit: '',
+      zbDetailQueryParam: {},
+      zbDetailType: '',
+      zbDetailVisible: false,
+      zbDetailTitle: '',
+      zbDetailData: [],
       detailTitle: '',
       detailVisible: false,
       detailQueryParam: {},
@@ -532,8 +564,8 @@ export default {
       }
       this.detailTitle = row.reportName
       this.detailQueryParam = params
-      this.detailType = row.reportCode
       this.queryUnit()
+      this.detailType = row.reportCode
       this.detailVisible = true
     },
     queryUnit() {

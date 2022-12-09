@@ -208,12 +208,13 @@ export let proconf = {
         label: '挂接',
         code: 'hook_set',
         status: 'primary'
-      },
-      {
-        label: '手动读取',
-        code: 'peo_read',
-        status: 'primary'
       }
+      // ,
+      // {
+      //   label: '手动读取',
+      //   code: 'peo_read',
+      //   status: 'primary'
+      // }
     ],
     2: [
       {

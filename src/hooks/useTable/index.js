@@ -145,8 +145,8 @@ function useTable(
 
       // 是否开启分页
       if (configIn.openPager) {
-        params.current = pagerConfig.currentPage
-        params.size = pagerConfig.pageSize
+        params.page = pagerConfig.currentPage
+        params.pageSize = pagerConfig.pageSize
       }
 
       // 前置钩子（提供请求前的参数处理）

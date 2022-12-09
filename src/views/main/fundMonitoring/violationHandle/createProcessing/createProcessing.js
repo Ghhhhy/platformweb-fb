@@ -33,6 +33,38 @@ export let proconf = {
         }
       }
     },
+    {
+      title: '状态',
+      field: 'status',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '已下发'
+          },
+          {
+            value: 2,
+            label: '已下发单位'
+          },
+          {
+            value: 3,
+            label: '单位反馈待审核'
+          },
+          {
+            value: 4,
+            label: '已整改'
+          }
+        ],
+        props: {
+          placeholder: '状态'
+        }
+      }
+    },
     // {
     //   field: 'violateType',
     //   title: '违规类型',
@@ -92,6 +124,7 @@ export let proconf = {
   ],
   highQueryData: {
     issueTime: '',
+    status: '',
     fiRuleName: ''
   },
   createHighQueryConfig: [
@@ -238,10 +271,21 @@ export let proconf = {
     {
       title: '区划',
       width: 180,
-      field: 'mofDivCode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
       title: '预算单位',
@@ -249,7 +293,18 @@ export let proconf = {
       field: 'agencyName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
     },
     {
       title: '单号',
@@ -268,24 +323,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: 180,
-      align: 'center',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     },
     {
       title: '处理方式',
@@ -372,19 +428,15 @@ export let proconf = {
           },
           {
             value: 2,
-            label: '单位已整改'
+            label: '已下发单位'
           },
           {
             value: 3,
-            label: '部门已整改'
+            label: '单位反馈待审核'
           },
           {
             value: 4,
-            label: '处室已整改'
-          },
-          {
-            value: 5,
-            label: '归档'
+            label: '已整改'
           }
         ],
         defaultValue: '',
@@ -398,10 +450,21 @@ export let proconf = {
     {
       title: '区划',
       width: 180,
-      field: 'mofDivCode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
       title: '预算单位',
@@ -409,7 +472,18 @@ export let proconf = {
       field: 'agencyName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
     },
     {
       title: '监控规则',
@@ -420,24 +494,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: 180,
-      align: 'center',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     },
     {
       title: '查看详情',
@@ -454,11 +529,22 @@ export let proconf = {
   warnTableColumns: [
     {
       title: '区划',
-      'width': 180,
-      field: 'mofDivCode',
+      width: 180,
+      field: 'mofDivName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
       title: '预警级别',
@@ -602,8 +688,8 @@ export let proconf = {
         type: 'button',
         label: '已下发-已下发',
         code: 'issued',
-        iconName: 'base-zhibaio.png',
-        iconNameActive: 'base-zhibaio-active.png'
+        iconName: 'base-yiban.png',
+        iconNameActive: 'base-yiban-active.png'
       }
       // {
       //   type: 'button',
@@ -636,16 +722,79 @@ export let proconf = {
       {
         type: 'button',
         label: '待整改-待整改',
+        code: 'rectifyUnit',
+        iconName: 'base-daiban.png',
+        iconNameActive: 'base-daiban-active.png'
+      },
+      {
+        type: 'button',
+        label: '已整改-单位反馈待审核',
+        code: 'rectifiedUnit',
+        iconName: 'base-yiban.png',
+        iconNameActive: 'base-yiban-active.png'
+      },
+      {
+        type: 'button',
+        label: '已整改-已整改',
+        code: 'rectified',
+        iconName: 'base-yiban.png',
+        iconNameActive: 'base-yiban-active.png'
+      }
+      // {
+      //   type: 'button',
+      //   label: '预警明细列表',
+      //   code: 'warnList',
+      //   iconName: 'base-daiban.png',
+      //   iconNameActive: 'base-daiban-active.png'
+      // }
+    ],
+    curButton: {
+      label: '待整改',
+      code: 'rectifyUnit',
+      type: 'button'
+    },
+    buttonsInfo: {
+      'rectifyUnit': [
+        {
+          label: '整改反馈',
+          code: 'feedback',
+          status: 'primary'
+        }
+      ],
+      'rectifiedUnit': [
+      ]
+    }
+  },
+  retroactMofBtnConfig: {
+    changeBtns: true,
+    buttons: [
+      {
+        type: 'button',
+        label: '待整改-待整改',
         code: 'rectify',
         iconName: 'base-daiban.png',
         iconNameActive: 'base-daiban-active.png'
       },
       {
         type: 'button',
+        label: '待整改-已下发单位',
+        code: 'rectifyUnit',
+        iconName: 'base-daiban.png',
+        iconNameActive: 'base-daiban-active.png'
+      },
+      {
+        type: 'button',
+        label: '已整改-单位反馈待审核',
+        code: 'rectifiedUnit',
+        iconName: 'base-yiban.png',
+        iconNameActive: 'base-yiban-active.png'
+      },
+      {
+        type: 'button',
         label: '已整改-已整改',
         code: 'rectified',
-        iconName: 'base-zhibaio.png',
-        iconNameActive: 'base-zhibaio-active.png'
+        iconName: 'base-yiban.png',
+        iconNameActive: 'base-yiban-active.png'
       }
       // {
       //   type: 'button',
@@ -665,6 +814,13 @@ export let proconf = {
         {
           label: '整改反馈',
           code: 'feedback',
+          status: 'primary'
+        }
+      ],
+      'rectifiedUnit': [
+        {
+          label: '审核',
+          code: 'process',
           status: 'primary'
         }
       ],
@@ -721,8 +877,8 @@ export let proconf = {
         type: 'button',
         label: '查询',
         code: 'search',
-        iconName: 'base-daiban.png',
-        iconNameActive: 'base-daiban-active.png'
+        iconName: 'base-all.png',
+        iconNameActive: 'base-all-active.png'
       }
     ],
     curButton: {
@@ -849,13 +1005,16 @@ export let proconf = {
       }
     },
     {
-      field: 'agency_name',
-      title: '预算单位',
-      titleWidth: '180',
+      title: '预算单位名称',
       span: 8,
+      titleWidth: '180',
+      field: 'agencyName',
+      sortable: false,
+      filters: false,
+      align: 'center',
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '预算单位', disabled: true }
+        props: { placeholder: '预算单位名称', disabled: true }
       }
     },
     {
@@ -870,23 +1029,23 @@ export let proconf = {
     },
     {
       title: '预算项目',
-      field: 'pro_name',
+      field: 'proName',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' } }
     },
-    // {
-    //   title: '收支类别',
-    //   field: 'pro_cat_name',
-    //   span: 8,
-    //   titleWidth: '180',
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     props: { disabled: true, placeholder: '收支类别' }
-    //   }
-    // },
+    {
+      title: '收支类别',
+      field: 'proCatName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '收支类别' }
+      }
+    },
     {
       title: '付款人',
       field: 'pay_acct_name',
@@ -969,7 +1128,7 @@ export let proconf = {
     },
     {
       title: '政府经济分类',
-      field: 'gov_bgt_eco_name',
+      field: 'govEconomyType',
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -979,7 +1138,7 @@ export let proconf = {
     },
     {
       title: '部门经济分类',
-      field: 'dep_bgt_eco_name',
+      field: 'deptEconomyType',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -989,7 +1148,7 @@ export let proconf = {
     },
     {
       title: '资金性质',
-      field: 'fund_type_name',
+      field: 'natureOfFunds',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -999,7 +1158,7 @@ export let proconf = {
     },
     {
       title: '功能分类',
-      field: 'exp_func_name',
+      field: 'funcType',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1009,7 +1168,7 @@ export let proconf = {
     },
     {
       title: '支付方式',
-      field: 'pay_type_name',
+      field: 'paymentMethod',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1019,7 +1178,7 @@ export let proconf = {
     },
     {
       title: '结算方式',
-      field: 'set_mode_name',
+      field: 'settlementMethod',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1029,7 +1188,7 @@ export let proconf = {
     },
     {
       title: '业务处室',
-      field: 'manage_mof_dep_name',
+      field: 'businessOffice',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1039,7 +1198,7 @@ export let proconf = {
     },
     {
       title: '工资标识',
-      field: 'is_sal_name',
+      field: 'salaryMark',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1049,7 +1208,7 @@ export let proconf = {
     },
     {
       title: '是否工会经费',
-      field: 'is_fun_name',
+      field: 'isUnionFunds',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1059,7 +1218,7 @@ export let proconf = {
     },
     {
       title: '三公经费',
-      field: 'thr_exp_name',
+      field: 'isThrExp',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1069,7 +1228,7 @@ export let proconf = {
     },
     {
       title: '直达资金标识',
-      field: 'is_dir_name',
+      field: 'directFund',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1215,7 +1374,7 @@ export let proconf = {
           }
         ],
         defaultValue: '',
-        props: { placeholder: '处理方式' }
+        props: { disabled: true, placeholder: '处理方式' }
       },
       name: '$vxeSelect'
     },
@@ -1229,6 +1388,10 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           {
+            value: 0,
+            label: ''
+          },
+          {
             value: 1,
             label: '通过'
           },
@@ -1238,7 +1401,7 @@ export let proconf = {
           }
         ],
         defaultValue: '',
-        props: { placeholder: '处理结果' }
+        props: { disabled: true, placeholder: '处理结果' }
       },
       name: '$vxeSelect'
     },
@@ -1283,10 +1446,21 @@ export let proconf = {
     {
       title: '区划',
       width: 180,
-      field: 'mofDivCode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
       title: '预算单位',
@@ -1294,7 +1468,18 @@ export let proconf = {
       field: 'agencyName',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
     },
     {
       title: '监控处理单号',
@@ -1349,24 +1534,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: 180,
-      align: 'center',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     },
     {
       title: '处理方式',
@@ -1406,7 +1592,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '部门整改意见',
+      title: '主管处室指导意见',
       width: 180,
       field: 'information2',
       sortable: false,
@@ -1414,7 +1600,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '主管处室意见',
+      title: '主管处室整改意见',
       width: 180,
       field: 'information3',
       sortable: false,
@@ -1422,7 +1608,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '归档状态',
+      title: '状态',
       width: 180,
       field: 'status',
       align: 'center',
@@ -1430,28 +1616,20 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           {
-            value: 0,
-            label: '未下发'
-          },
-          {
             value: 1,
             label: '已下发'
           },
           {
             value: 2,
-            label: '单位已整改'
+            label: '已下发单位'
           },
           {
             value: 3,
-            label: '部门已整改'
+            label: '单位反馈待审核'
           },
           {
             value: 4,
-            label: '处室已整改'
-          },
-          {
-            value: 5,
-            label: '归档'
+            label: '已整改'
           }
         ],
         defaultValue: '',

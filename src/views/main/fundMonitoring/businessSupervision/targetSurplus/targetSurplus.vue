@@ -189,7 +189,7 @@ export default {
         autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -379,6 +379,8 @@ export default {
         mofDivCode: mofDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        pageSize: this.pagerConfig.pageSize,
+        currentPage: this.pagerConfig.currentPage,
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.detailQueryParam = params
@@ -408,14 +410,13 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.recDivCode)
-          this.detailTitle = '支出明细'
-          break
         case 'amountz':
+          this.handleDetail('zdzjdfjemx', obj.row.recDivCode)
+          this.detailTitle = '直达资金待分指标明细'
+          break
         case 'amountc':
-          this.handleDetail('zdzjxmmx_wfp', obj.row.recDivCode)
-          this.detailTitle = '直达资金未分配项目明细'
+          this.handleDetail('czzdzjdfjemx', obj.row.recDivCode)
+          this.detailTitle = '参照直达资金待分指标明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

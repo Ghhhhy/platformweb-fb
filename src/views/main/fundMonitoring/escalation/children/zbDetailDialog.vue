@@ -1,7 +1,7 @@
 <!--监控规则数据源管理新增页面弹框-->
 <template v-loading="tableLoading">
   <vxe-modal
-    v-model="sDetailVisible"
+    v-model="zbDetailVisible"
     :title="title"
     width="80%"
     height="80%"
@@ -24,16 +24,14 @@
       :table-data="tableData"
       :toolbar-config="tableToolbarConfig"
       :pager-config="pagerConfig"
-      :export-modal-config="{ fileName: title + '(' + amtUnit + ')' }"
-      :cell-style="cellStyle"
-      @cellClick="cellClick"
+      :export-modal-config="{ fileName: title + '(' + zbAmtUnit + ')' }"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
     >
       <template v-slot:toolbarSlots>
         <div class="table-toolbar-left">
           <div class="table-toolbar-left-title">
-            <span class="fn-inline">{{ title }}({{ amtUnit }})</span>
+            <span class="fn-inline">{{ title }}({{ zbAmtUnit }})</span>
             <i class="fn-inline"></i>
           </div>
         </div>
@@ -45,7 +43,7 @@
 import HttpModule from '@/api/frame/main/fundMonitoring/escalation.js'
 import proconf from './column.js'
 export default {
-  name: 'SDetailDialog',
+  name: 'ZbDetailDialog',
   components: {},
   computed: {
     curNavModule() {
@@ -57,21 +55,21 @@ export default {
       type: String,
       default: ''
     },
-    sDetailData: {
+    zbDetailData: {
       type: Array,
       default() {
         return []
       }
     },
-    sDetailType: {
+    zbDetailType: {
       type: String,
       default: ''
     },
-    amtUnit: {
+    zbAmtUnit: {
       type: String,
       default: ''
     },
-    sDetailQueryParam: {
+    zbDetailQueryParam: {
       type: Object,
       default() {
         return {}
@@ -126,12 +124,12 @@ export default {
       },
       params: {},
       sDetailTitle: '',
-      sDetailVisible: true
+      zbDetailVisible: true
     }
   },
   methods: {
     dialogClose() {
-      this.$parent.sDetailVisible = false
+      this.$parent.zbDetailVisible = false
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -150,7 +148,7 @@ export default {
       this.queryTableDatas()
     },
     queryTableDatas() {
-      let params = this.sDetailQueryParam
+      let params = this.zbDetailQueryParam
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       this.$parent.tableLoading = true
@@ -212,7 +210,8 @@ export default {
       return condition
     },
     queryHeader() {
-      let params = this.sDetailQueryParam
+      let params = this.zbDetailQueryParam
+      console.log('zbDetailQueryParam1', this.zbDetailQueryParam)
       this.tableLoading = true
       HttpModule.queryHeader(params).then(res => {
         this.tableLoading = false
@@ -225,7 +224,7 @@ export default {
       })
     },
     querySumDetail() {
-      let params = this.sDetailQueryParam
+      let params = this.zbDetailQueryParam
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       HttpModule.querySumDetail(params).then((res) => {
@@ -235,68 +234,6 @@ export default {
           this.$message.error(res.message)
         }
       })
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (this.sDetailType === 'fdqzdzjxmmx' || this.sDetailType === 'fzjzdzjxmmx') {
-        if (['je1', 'je3'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-      }
-    },
-    handleDetail(reportCode, row, column) {
-      let params = {
-        reportCode: reportCode,
-        bgtId: row.bgtId,
-        escalationStatus: this.sDetailQueryParam.escalationStatus,
-        version: this.sDetailQueryParam.version
-      }
-      this.$parent.zbDetailQueryParam = params
-      this.$parent.zbDetailTitle = row.name + this.$parent.sDetailTitle
-      this.queryUnit()
-      this.$parent.zbDetailVisible = true
-      this.$parent.zbDetailType = reportCode
-    },
-    queryUnit() {
-      let params = this.$parent.zbDetailQueryParam
-      this.tableLoading = true
-      HttpModule.queryUnit(params).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.$parent.zbAmtUnit = res.data?.amtUnit
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-      if (this.sDetailType === 'fdqzdzjxmmx') {
-        switch (key) {
-          case 'je1':// 预算金额-总金额
-            this.handleDetail('fdqzbmx', obj.row, key)
-            this.$parent.zbDetailTitle = '直达资金项目明细'
-            break
-          case 'je3':// 支付金额-总金额
-            this.handleDetail('fdqzcmx', obj.row, key)
-            this.$parent.zbDetailTitle = '支出明细'
-            break
-        }
-      } else if (this.sDetailType === 'fzjzdzjxmmx') {
-        switch (key) {
-          case 'je1':// 预算金额-总金额
-            this.handleDetail('fzjzbmx', obj.row, key)
-            this.$parent.zbDetailTitle = '直达资金项目明细'
-            break
-          case 'je3':// 支付金额-总金额
-            this.handleDetail('fzjzcmx', obj.row, key)
-            this.$parent.zbDetailTitle = '支出明细'
-            break
-        }
-      }
     },
     showInfo() {
       switch (this.sDetailType) {

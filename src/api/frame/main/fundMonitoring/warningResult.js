@@ -21,5 +21,8 @@ export default {
   },
   detailQuery(params) {
     return post('dfr-monitor-service/dfr/warningResult/detailQuery', params)
+  },
+  getProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   }
 }

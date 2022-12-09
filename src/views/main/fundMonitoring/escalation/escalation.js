@@ -96,8 +96,8 @@ export let proconf = {
         options: [
           { value: '0', label: '未上报' },
           { value: '1', label: '已上报' },
-          { value: '2', label: '上报中' },
-          { value: '3', label: '撤销上报中' }
+          { value: '2', label: '上报中' }
+          // { value: '3', label: '撤销上报中' }
         ],
         props: {
           placeholder: '上报状态'
@@ -143,18 +143,18 @@ export let proconf = {
         status: 'primary'
       },
       {
-        label: '撤销生成',
-        code: 'delete_log'
+        label: '重新生成',
+        code: 'refresh_log'
       },
       {
         label: '上报',
         code: 'confirm_escalation',
         status: 'primary'
-      },
-      {
-        label: '撤销上报',
-        code: 'cancel_escalation'
       }
+      // {
+      //   label: '撤销上报',
+      //   code: 'cancel_escalation'
+      // }
     ]
   },
   sethighQueryData: {
@@ -233,6 +233,34 @@ export let proconf = {
           placeholder: '上报状态'
         }
       }
+    },
+    {
+      title: '版本',
+      field: 'version',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '月份',
+      field: 'logMonth',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '起始时间',
+      field: 'startTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '截止时间',
+      field: 'endTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
     },
     {
       title: '生成时间',

@@ -36,7 +36,8 @@ const proconf = {
         options: [
           // // { value: '2020', label: '2020年' },
           // // { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
         ],
         props: {
           placeholder: '业务年度'
@@ -115,7 +116,7 @@ const proconf = {
         treeNode: true,
         fixed: false,
         align: 'left',
-        width: 160,
+        width: 280,
         field: 'name',
         cellRender: {
           name: '$vxeIcon',
@@ -365,7 +366,7 @@ const proconf = {
         treeNode: true,
         fixed: false,
         align: 'left',
-        width: 160,
+        width: 250,
         field: 'name',
         cellRender: {
           name: '$vxeIcon',
@@ -489,54 +490,61 @@ const proconf = {
       },
       {
         title: '区级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '整合金额',
-            width: 200,
-            field: 'amountXjzhje',
+            width: 100,
+            field: 'amountSjzhje',
             align: 'right',
-            type: 'amountXjzhje',
+            type: 'amountSjzhje',
             cellRender: { name: '$vxeMoney' },
             visible: false
           },
           {
             title: '中央下达',
-            field: 'amountXjxd',
-            width: 200,
+            field: 'amountSjxd',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             visible: false
           },
           {
-            title: '已分配',
-            field: 'amountXjfp',
-            width: 200,
+            title: '分配本级',
+            field: 'amountSbjfp',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '分配下级',
+            field: 'amountSxjfp',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
-            field: 'amountXjwfp',
-            width: 200,
+            field: 'amountSjwfp',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountXjxd}-{amountXjfp}'
+            formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
           },
           {
-            title: '已支出',
-            field: 'amountXjpay',
-            width: 200,
+            title: '本级已支出',
+            field: 'amountSjpay',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配进度',
-            field: 'xLoad',
-            width: 200,
+            field: 'aLoad',
+            width: 100,
             align: 'right',
-            formula: '({amountXjfp}-0==0)?0:({amountXjfp}/{amountXjfp}*100)',
+            formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
             cellRender: {
               name: '$vxeRatio'
             }
