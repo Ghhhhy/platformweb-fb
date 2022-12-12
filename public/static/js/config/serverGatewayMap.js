@@ -29,19 +29,29 @@ window.gloableToolFn.serverGatewayMap = {
   development: { // 本地开发环境
     // ---------------------------apass系统相关服务---------------------------
     // 基础数据服务
-    'mp-b-basedata-service': 'http://223.223.190.114:10100/apaas/api/mp-b-basedata-service/',
-    // 'mp-b-basedata-service': 'http://223.223.190.114:12218/mp-b-basedata-service/',
+    // 'mp-b-basedata-service': 'http://223.223.190.114:10100/apaas/api/mp-b-basedata-service/',
+    // // 'mp-b-basedata-service': 'http://223.223.190.114:12218/mp-b-basedata-service/',
+    // // 登录token校验
+    // 'mp-b-sso-service': 'http://223.223.190.114:10100/apaas/api/mp-b-sso-service/',
+    // // 'mp-b-sso-service': 'http://223.223.190.114:12218/mp-b-sso-service/',
+    //
+    // // 权限服务
+    // 'mp-b-user-service': 'http://223.223.190.114:10100/apaas/api/mp-b-user-service/',
+    // // 'mp-b-user-service': 'http://223.223.190.114:12218/mp-b-user-service/',
+    //
+    // 'mp-b-perm-service': 'http://223.223.190.114:10100/apaas/api/mp-b-perm-service',
+    //
+    // 'mp-b-configure-service': 'http://223.223.190.114:10100/apaas/api/mp-b-configure-service',
+    // ---------------------------上海apass系统相关服务---------------------------
+    'mp-b-basedata-service': 'http://43.143.57.251:6007/openapi/mp-b-basedata-service/',
     // 登录token校验
-    'mp-b-sso-service': 'http://223.223.190.114:10100/apaas/api/mp-b-sso-service/',
-    // 'mp-b-sso-service': 'http://223.223.190.114:12218/mp-b-sso-service/',
-
+    'mp-b-sso-service': 'http://43.143.57.251:6007/openapi/mp-b-sso-service/',
     // 权限服务
-    'mp-b-user-service': 'http://223.223.190.114:10100/apaas/api/mp-b-user-service/',
-    // 'mp-b-user-service': 'http://223.223.190.114:12218/mp-b-user-service/',
+    'mp-b-user-service': 'http://43.143.57.251:6007/openapi/mp-b-user-service/',
 
-    'mp-b-perm-service': 'http://223.223.190.114:10100/apaas/api/mp-b-perm-service',
+    'mp-b-perm-service': 'http://43.143.57.251:6007/openapi/mp-b-perm-service',
 
-    'mp-b-configure-service': 'http://223.223.190.114:10100/apaas/api/mp-b-configure-service',
+    'mp-b-configure-service': 'http://43.143.57.251:6007/openapi/mp-b-configure-service',
     // ---------------------------其他业务模块服务---------------------------
     // 文件服务器
     fileservice: 'http://223.223.190.114:10100/openapi/fileservice',
