@@ -362,7 +362,8 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    trackProCode: ''
   },
   basicInfo: {
     type: 'form',

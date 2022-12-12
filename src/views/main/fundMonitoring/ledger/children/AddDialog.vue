@@ -66,10 +66,10 @@ export default {
       content: '',
       formValidationConfig: {
         reportName: [
-          { required: true, message: '报表名不能为空', trigger: 'blur' }
+          { required: true, message: '报表名不能为空', trigger: 'change' }
         ],
         sqlCode: [
-          { required: true, message: '数据源sql不能为空', trigger: 'blur' }
+          { required: true, message: '数据源sql不能为空', trigger: 'change' }
         ]
       },
       mofShow: false,
@@ -150,28 +150,32 @@ export default {
       console.log(this.formData.description)
       if (this.title === '新增') {
         this.addLoading = true
-        HttpModule.addLedger(this.formData).then((res) => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('新增成功')
-            this.$parent.addDialogVisible = false
-            this.$parent.queryTableDatas()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+        this.$refs.addForm.validate().then(res =>
+          HttpModule.addLedger(this.formData).then((res) => {
+            this.addLoading = false
+            if (res.code === '000000') {
+              this.$message.success('新增成功')
+              this.$parent.addDialogVisible = false
+              this.$parent.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        )
       } else {
         this.addLoading = true
-        HttpModule.updateLedger(this.formData).then((res) => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('编辑成功')
-            this.$parent.addDialogVisible = false
-            this.$parent.queryTableDatas()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+        this.$refs.addForm.validate().then(res =>
+          HttpModule.updateLedger(this.formData).then((res) => {
+            this.addLoading = false
+            if (res.code === '000000') {
+              this.$message.success('编辑成功')
+              this.$parent.addDialogVisible = false
+              this.$parent.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        )
       }
     }
   },
