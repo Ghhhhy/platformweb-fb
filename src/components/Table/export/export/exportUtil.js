@@ -103,16 +103,18 @@ export function defaultViewValueFormat(value, row, column) {
       case '$vxeCalculate':
         if (val) {
           val = util.transToNumber(val, props.digits || 2)
-          return util.transToNumberLocalString(val, props.digits || 2)
+          return val * 1
+          // return util.transToNumberLocalString(val, props.digits || 2)
         } else {
-          return ''
+          return 0
         }
       case '$vxeMoney':
         if (val) {
           val = util.transToNumber(val, props.digits || 2)
-          return util.transToNumberLocalString(val, props.digits || 2)
+          return val * 1
+          // return util.transToNumberLocalString(val, props.digits || 2)
         } else {
-          return '0.00'
+          return 0.00
         }
       case '$EditDownConditions':
         return val
