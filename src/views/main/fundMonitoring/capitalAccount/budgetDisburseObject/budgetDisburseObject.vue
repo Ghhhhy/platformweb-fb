@@ -97,7 +97,7 @@ export default {
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
+      searchDataList: proconf.highQueryConfig,
       radioShow: true,
       codeList: [],
       breakRuleVisible: false,

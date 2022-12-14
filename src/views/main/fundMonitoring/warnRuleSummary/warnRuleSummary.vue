@@ -26,6 +26,7 @@
           id="1001"
           ref="bsTableRef"
           row-id="id"
+          :export-modal-config="{ fileName: menuName }"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
@@ -42,7 +43,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">地方监控预警汇总</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -431,6 +432,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
   }
 }

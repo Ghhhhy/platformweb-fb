@@ -200,7 +200,8 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
-      selectData: {}
+      selectData: {},
+      trackProCodes: []
     }
   },
   methods: {
@@ -471,6 +472,7 @@ export default {
       this.detailType = this.detailData[0]
       this.fiRuleCode = this.detailData[1]
       this.fiscalYear = this.detailData[2]
+      this.trackProCodes = this.detailData[3]
       switch (this.title) {
         case '红色预警-未处理明细':
           this.tableColumnsConfig = proconf.redUndoNum
@@ -541,7 +543,8 @@ export default {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
-        fiscalYear: this.fiscalYear
+        fiscalYear: this.fiscalYear,
+        trackProCodes: this.trackProCodes
       }
       this.tableLoading = true
       // this.dialogVisibles = false
