@@ -87,7 +87,7 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: '2022',
+    fiscalYear: '',
     mofDivCodes: '',
     endTime: ''
   },
