@@ -315,6 +315,53 @@
                 </el-main>
               </el-container>
             </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警类别</div>
+                    <el-select
+                      v-model="warnType"
+                      :disabled="disabled"
+                      placeholder="请选择预警类别"
+                      style="width:45%"
+                      @change="chooseWarnType"
+                    >
+                      <el-option
+                        v-for="item in warnTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;是否上传附件</div>
+                    <el-select
+                      v-model="uploadFile"
+                      :disabled="disabled"
+                      placeholder="请选择是否上传附件"
+                      style="width:45%"
+                      @change="chooseUploadFile"
+                    >
+                      <el-option
+                        v-for="item in uploadFileOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+
           </el-row>
           <el-row>
             <el-col :span="24">
@@ -601,6 +648,18 @@ export default {
         { value: 1, label: '门户' },
         { value: 2, label: '核算' },
         { value: 3, label: '不提示' }
+      ],
+      warnType: '',
+      warnTypeOptions: [
+        { value: 1, label: '流向' },
+        { value: 2, label: '流速' },
+        { value: 3, label: '流量' },
+        { value: 4, label: '其他' }
+      ],
+      uploadFile: '',
+      uploadFileOptions: [
+        { value: 1, label: '是' },
+        { value: 0, label: '否' }
       ],
       regulationClass: '',
       regulationClassName: '',
@@ -1345,6 +1404,14 @@ export default {
       }
       if (!this.warnLocation) {
         this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
+        return
+      }
+      if (!this.warnType) {
+        this.$XModal.message({ status: 'warning', message: '请选择预警类别' })
+        return
+      }
+      if (!this.uploadFile) {
+        this.$XModal.message({ status: 'warning', message: '请选择是否上传附件' })
         return
       }
       if (!this.scope?.length) {
