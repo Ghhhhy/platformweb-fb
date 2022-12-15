@@ -5,11 +5,16 @@ export function checkRscode(res, customMessage) {
     throw new Error('请求失败')
   }
 
-  const { code, errorMessage, result, message } = res
+  const { code, rscode, errorMessage, result, message } = res
 
   const SUCCESS_CODE = ['200', '100000', '000000']
 
-  const hasSuccess = res && Reflect.has(res, 'code') && SUCCESS_CODE.includes(code)
+  const hasSuccess = res &&
+    (
+      (Reflect.has(res, 'code') && SUCCESS_CODE.includes(code)) ||
+      (Reflect.has(res, 'rscode') && SUCCESS_CODE.includes(rscode))
+    )
+
   if (hasSuccess) {
     return res
   }
