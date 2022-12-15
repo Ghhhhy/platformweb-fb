@@ -241,6 +241,50 @@
                 </el-container>
               </el-col>
             </el-row>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">预警类别</div>
+                    <el-select
+                      v-model="warnType"
+                      :disabled="disabled"
+                      placeholder="请选择预警类别"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
+                    <el-select
+                      v-model="uploadFile"
+                      :disabled="disabled"
+                      placeholder="请选择是否上传附件"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in uploadFileOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
             <!-- <el-row>
               <el-col :span="8">
                 <el-container>
@@ -452,6 +496,18 @@ export default {
   },
   data() {
     return {
+      warnType: '',
+      warnTypeOptions: [
+        { value: 1, label: '流向' },
+        { value: 2, label: '流速' },
+        { value: 3, label: '流量' },
+        { value: 4, label: '其他' }
+      ],
+      uploadFile: '',
+      uploadFileOptions: [
+        { value: 1, label: '是' },
+        { value: 0, label: '否' }
+      ],
       showable: false,
       rightTreeValue: [],
       configIn: {
@@ -1140,6 +1196,9 @@ export default {
   },
   created() {
     this.getWhereTree()
+    this.warnType = this.$parent.DetailData.warnType
+    this.uploadFile = this.$parent.DetailData.uploadFile
+
     this.monitorRuleName = this.$parent.DetailData.regulationName
     this.warningLevel = this.$parent.DetailData.warningLevel
     this.handleType = this.$parent.DetailData.handleType

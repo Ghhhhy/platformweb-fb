@@ -319,13 +319,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警类别</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">预警类别</div>
                     <el-select
                       v-model="warnType"
                       :disabled="disabled"
                       placeholder="请选择预警类别"
                       style="width:45%"
-                      @change="chooseWarnType"
                     >
                       <el-option
                         v-for="item in warnTypeOptions"
@@ -342,13 +341,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;是否上传附件</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
                     <el-select
                       v-model="uploadFile"
                       :disabled="disabled"
                       placeholder="请选择是否上传附件"
                       style="width:45%"
-                      @change="chooseUploadFile"
                     >
                       <el-option
                         v-for="item in uploadFileOptions"
@@ -1406,14 +1404,14 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
         return
       }
-      if (!this.warnType) {
-        this.$XModal.message({ status: 'warning', message: '请选择预警类别' })
-        return
-      }
-      if (!this.uploadFile) {
-        this.$XModal.message({ status: 'warning', message: '请选择是否上传附件' })
-        return
-      }
+      // if (!this.warnType) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择预警类别' })
+      //   return
+      // }
+      // if (!this.uploadFile) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择是否上传附件' })
+      //   return
+      // }
       if (!this.scope?.length) {
         this.$XModal.message({ status: 'warning', message: '请选择生效范围' })
         return
@@ -1506,7 +1504,9 @@ export default {
           useDes: this.formDatas.useDes,
           des: this.formDatas.des,
           basis: this.formDatas.basis
-        }
+        },
+        warnType: this.warnType, // 预警类别
+        uploadFile: this.uploadFile // 是否上传附件
       }
       if (this.$parent.dialogTitle === '修改') {
         console.log(this.formDatas)
@@ -1739,6 +1739,9 @@ export default {
       // 直达资金新增规则
       this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
     } else if (this.$parent.dialogTitle === '查看详情') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData.uploadFile
+
       this.ruleSetShow = false
       this.ruleDesShow = true
       this.appSetShow = false
@@ -1778,6 +1781,9 @@ export default {
       this.disabled = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData.uploadFile
+
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName

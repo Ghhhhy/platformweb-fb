@@ -336,13 +336,12 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.refresh()
+      this.queryTableDatas()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
-      console.log(val)
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -362,7 +361,7 @@ export default {
       }
       condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.condition = condition
-      this.queryTableDatas(true)
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -542,8 +541,8 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh(isFlush = false) {
-      this.queryTableDatas(isFlush)
+    refresh(isFlush = true) {
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
     getTrees(val) {

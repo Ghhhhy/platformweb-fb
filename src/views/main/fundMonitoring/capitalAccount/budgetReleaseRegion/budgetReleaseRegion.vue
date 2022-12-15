@@ -320,13 +320,12 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.refresh()
+      this.queryTableDatas()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
-      console.log(val)
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -345,7 +344,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -423,7 +422,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
-      this.queryTableDatas(isFlush)
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据

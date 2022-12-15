@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -159,7 +159,7 @@ export let proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: '2022',
+    fiscalYear: store.state.userInfo.year,
     speTypeName: '',
     expFuncName: '',
     proName: '',
