@@ -498,15 +498,15 @@ export default {
     return {
       warnType: '',
       warnTypeOptions: [
-        { value: 1, label: '流向' },
-        { value: 2, label: '流速' },
-        { value: 3, label: '流量' },
-        { value: 4, label: '其他' }
+        { value: '1', label: '流向' },
+        { value: '2', label: '流速' },
+        { value: '3', label: '流量' },
+        { value: '4', label: '其他' }
       ],
       uploadFile: '',
       uploadFileOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: '1', label: '是' },
+        { value: '0', label: '否' }
       ],
       showable: false,
       rightTreeValue: [],

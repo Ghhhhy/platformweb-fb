@@ -156,6 +156,12 @@
                         :value="item.id"
                       />
                     </el-select>
+                    <!--<BsTree-->
+                    <!--  :is-drop-select-tree="true"-->
+                    <!--  :editable="true"-->
+                    <!--  :config="payAppMenu.treeConfig"-->
+                    <!--  :queryparams="payAppMenu.fetchParamsConfig"-->
+                    <!--/>-->
                   </el-row>
                 </el-main>
               </el-container>
@@ -519,6 +525,8 @@
 <script>
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+// import commonApi from '@/api/frame/common/menu.js'
+import { payAppMenu } from '@/common/model/data.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -535,6 +543,7 @@ export default {
   },
   data() {
     return {
+      payAppMenu,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -649,15 +658,15 @@ export default {
       ],
       warnType: '',
       warnTypeOptions: [
-        { value: 1, label: '流向' },
-        { value: 2, label: '流速' },
-        { value: 3, label: '流量' },
-        { value: 4, label: '其他' }
+        { value: '1', label: '流向' },
+        { value: '2', label: '流速' },
+        { value: '3', label: '流量' },
+        { value: '4', label: '其他' }
       ],
       uploadFile: '',
       uploadFileOptions: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
+        { value: '1', label: '是' },
+        { value: '0', label: '否' }
       ],
       regulationClass: '',
       regulationClassName: '',
@@ -1636,14 +1645,11 @@ export default {
         businessType: 3,
         parentId: this.ModparentId
       }
+      console.log(param)
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
-        if (res.code === '000000') {
-          this.businessFunctionCodeoptions = res.data.results
-        } else {
-          this.$message.error(res.message)
-        }
+        this.businessFunctionCodeoptions = res.data
       })
     },
     // 主管部门下拉树
@@ -1730,6 +1736,8 @@ export default {
   mounted() {
   },
   created() {
+    this.getFunLists()
+
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     this.getWhereTree()
@@ -1764,7 +1772,6 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
       this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
