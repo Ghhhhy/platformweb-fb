@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -30,7 +30,6 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
         options: [
@@ -89,7 +88,7 @@ const proconf = {
 
   ],
   highQueryData: {
-    fiscalYear: '2022',
+    fiscalYear: store.state.userInfo.year,
     proCodes: '',
     endTime: ''
   },

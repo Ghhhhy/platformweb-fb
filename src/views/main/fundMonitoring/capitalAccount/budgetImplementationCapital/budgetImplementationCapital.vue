@@ -53,6 +53,12 @@
             >
               数据增量同步
             </vxe-button>
+            <vxe-button
+              style="margin-right: 8px;"
+              @click="otherSysImportModal = true"
+            >
+              华青数据导入
+            </vxe-button>
           </template>
           <template v-slot:tools-before>
             <div class="dfr-report-time-wrapper">
@@ -82,6 +88,10 @@
       :s-detail-query-param="sDetailQueryParam"
       :s-detail-type="sDetailType"
     />
+    <ImportModal
+      v-if="otherSysImportModal"
+      v-model="otherSysImportModal"
+    />
   </div>
 </template>
 
@@ -89,13 +99,15 @@
 import getFormData from './budgetImplementationCapital.js'
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
+import ImportModal from './components/ImportModal'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
 export default {
   components: {
     DetailDialog,
-    SDetailDialog
+    SDetailDialog,
+    ImportModal
   },
   watch: {
     $refs: {
@@ -110,6 +122,7 @@ export default {
   },
   data() {
     return {
+      otherSysImportModal: false, // 华青数据导入弹窗显隐
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -324,13 +337,12 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.refresh()
+      this.queryTableDatas()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
-      console.log(val)
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -350,7 +362,7 @@ export default {
       }
       condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.condition = condition
-      this.queryTableDatas(true)
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -530,8 +542,8 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh(isFlush = false) {
-      this.queryTableDatas(isFlush)
+    refresh(isFlush = true) {
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
     getTrees(val) {

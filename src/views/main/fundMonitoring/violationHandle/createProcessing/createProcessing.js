@@ -384,6 +384,10 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           {
+            value: 0,
+            label: '未处理'
+          },
+          {
             value: 1,
             label: '通过'
           },
@@ -1389,7 +1393,7 @@ export let proconf = {
         options: [
           {
             value: 0,
-            label: ''
+            label: '未处理'
           },
           {
             value: 1,
@@ -1750,6 +1754,10 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
+          {
+            value: 0,
+            label: '未处理'
+          },
           {
             value: 1,
             label: '通过'

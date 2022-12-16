@@ -30,5 +30,13 @@ export default {
   // 数据增量同步
   doDataSourceAdd() {
     return get('dfr-monitor-service/dfr/zdzjledger/doDataSourceAdd')
+  },
+  // 华青数据导入
+  importHuaqing(params) {
+    const formData = new FormData()
+    Object.entries(params).forEach(([key, value]) => {
+      formData.append(key, value)
+    })
+    return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
   }
 }

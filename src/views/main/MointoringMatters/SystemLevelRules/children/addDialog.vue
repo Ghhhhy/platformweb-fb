@@ -156,6 +156,12 @@
                         :value="item.id"
                       />
                     </el-select>
+                    <!--<BsTree-->
+                    <!--  :is-drop-select-tree="true"-->
+                    <!--  :editable="true"-->
+                    <!--  :config="payAppMenu.treeConfig"-->
+                    <!--  :queryparams="payAppMenu.fetchParamsConfig"-->
+                    <!--/>-->
                   </el-row>
                 </el-main>
               </el-container>
@@ -315,6 +321,51 @@
                 </el-main>
               </el-container>
             </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">预警类别</div>
+                    <el-select
+                      v-model="warnType"
+                      :disabled="disabled"
+                      placeholder="请选择预警类别"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
+                    <el-select
+                      v-model="uploadFile"
+                      :disabled="disabled"
+                      placeholder="请选择是否上传附件"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in uploadFileOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+
           </el-row>
           <el-row>
             <el-col :span="24">
@@ -474,6 +525,8 @@
 <script>
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+// import commonApi from '@/api/frame/common/menu.js'
+import { payAppMenu } from '@/common/model/data.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -490,6 +543,7 @@ export default {
   },
   data() {
     return {
+      payAppMenu,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -601,6 +655,18 @@ export default {
         { value: 1, label: '门户' },
         { value: 2, label: '核算' },
         { value: 3, label: '不提示' }
+      ],
+      warnType: '',
+      warnTypeOptions: [
+        { value: '1', label: '流向' },
+        { value: '2', label: '流速' },
+        { value: '3', label: '流量' },
+        { value: '4', label: '其他' }
+      ],
+      uploadFile: '',
+      uploadFileOptions: [
+        { value: '1', label: '是' },
+        { value: '0', label: '否' }
       ],
       regulationClass: '',
       regulationClassName: '',
@@ -1347,6 +1413,14 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
         return
       }
+      // if (!this.warnType) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择预警类别' })
+      //   return
+      // }
+      // if (!this.uploadFile) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择是否上传附件' })
+      //   return
+      // }
       if (!this.scope?.length) {
         this.$XModal.message({ status: 'warning', message: '请选择生效范围' })
         return
@@ -1439,7 +1513,9 @@ export default {
           useDes: this.formDatas.useDes,
           des: this.formDatas.des,
           basis: this.formDatas.basis
-        }
+        },
+        warnType: this.warnType, // 预警类别
+        uploadFile: this.uploadFile // 是否上传附件
       }
       if (this.$parent.dialogTitle === '修改') {
         console.log(this.formDatas)
@@ -1569,14 +1645,11 @@ export default {
         businessType: 3,
         parentId: this.ModparentId
       }
+      console.log(param)
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
-        if (res.code === '000000') {
-          this.businessFunctionCodeoptions = res.data.results
-        } else {
-          this.$message.error(res.message)
-        }
+        this.businessFunctionCodeoptions = res.data
       })
     },
     // 主管部门下拉树
@@ -1663,6 +1736,8 @@ export default {
   mounted() {
   },
   created() {
+    this.getFunLists()
+
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     this.getWhereTree()
@@ -1672,6 +1747,9 @@ export default {
       // 直达资金新增规则
       this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
     } else if (this.$parent.dialogTitle === '查看详情') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData.uploadFile
+
       this.ruleSetShow = false
       this.ruleDesShow = true
       this.appSetShow = false
@@ -1694,7 +1772,6 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
       this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
@@ -1711,6 +1788,9 @@ export default {
       this.disabled = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData.uploadFile
+
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
