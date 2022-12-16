@@ -1,5 +1,6 @@
 import { reactive, ref, unref, nextTick } from '@vue/composition-api'
 import { getActionLabel, getClass, fliterActions, transformFetchData } from './utils'
+import { checkRscode } from '@/utils/checkRscode'
 
 function useTable(
   config,
@@ -155,7 +156,7 @@ function useTable(
       }
 
       // 真实请求
-      let res = await requestHandle(params)
+      let res = checkRscode(await requestHandle(params))
       let { data } = res
       // 后置钩子（提供返回数据处理）
       if (configIn.afterFetch && typeof configIn.afterFetch === 'function') {

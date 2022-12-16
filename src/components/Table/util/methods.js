@@ -7,6 +7,7 @@ import formatters from './formatter'
 import util from '../tool/util.js'
 import evalCalcUtil from '../../tool/eval/index.js'
 import { getColumnMoneyFilterConfig } from '../tool/tableColumnMoneyFilter'
+import XEUtils from 'xe-utils'
 
 const sortMethods = {
   arrSortGloabal(data, property, type, order = 'asc') {
@@ -995,7 +996,7 @@ const tableOptionFn = {
     const { fullData, visibleData, tableData, footerData } = this.$refs.xGrid.getTableData()
     const treeExpandData = this.fliterTableDataUnexpand(fullData)
 
-    const selection = this.$refs.xGrid.getCheckboxRecords()
+    const selection = this.$refs.xGrid.getCheckboxRecords(true)
     const { tableColumnsConfig, editRules } = this
     // const combinedData = this.getCombinedData(fullData, tableColumnsConfig)
     const combinedData = []
@@ -2016,10 +2017,19 @@ const calculateTool = {
             } else {
               // let calcResult = eval(formula)
               let calcResult = evalCalcUtil.eval(formula)
-              hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) ? '' : util.accurateFixed(calcResult, 2)
+              hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) || calcResult === null ? '' : util.accurateFixed(calcResult, 2)
               // 列单独配置元和万元单位
               if (visibleColumnObj[item] && visibleColumnObj[item].params && visibleColumnObj[item].params.moneyUnit) {
                 hasCalcColFormulaMap[item] = this.accurateFixed(this.transToNumber(this.accurateChuFa(hasCalcColFormulaMap[item], visibleColumnObj[item].params.moneyUnit), visibleColumnObj[item].params.digits || 2), 2)
+              }
+              // feat：对于$vxeRatio渲染的百分比 可根据配置保留小数位
+              if (visibleColumnObj[item]?.cellRender?.name === '$vxeRatio') {
+                // 保留小数位数支持：外部单列配置 || 全局配置 || 默认配置
+                const digits = visibleColumnObj[item]?.params?.digits || this.formulaDigits || 2
+                // XEUtils.round四舍五入
+                hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) || calcResult === null
+                  ? ''
+                  : XEUtils.round(calcResult, digits)
               }
               delete colFormulaMapCp[item]
             }
@@ -2034,8 +2044,8 @@ const calculateTool = {
       }
     } catch (e) {
       // console.log(i)
-      console.log(colFormulaMap, hasCalcColFormulaMap)
-      console.error('请核查公式')
+      // console.log(colFormulaMap, hasCalcColFormulaMap)
+      // console.error('请核查公式')
     }
     // console.log(hasCalcColFormulaMap)
     // debugger
@@ -3210,11 +3220,11 @@ const exportAndImportFn = {
   computedExportRow(row, moneyKeys, ratioKeys) {
     // 金额列根据单位进行计算
     moneyKeys.forEach(key => {
-      row[key] = row[key] && (row[key] / this.moneyUnit)
+      row[key] = (row[key] && this.moneyUnit) ? (row[key] / this.moneyUnit) : ''
     })
     // 进度列增加%
     ratioKeys.forEach(key => {
-      row[key] = row[key] + '%'
+      row[key] = row[key] ? `${row[key]}%` : ''
     })
   },
   getPrintOption(exportModalFormData) {
@@ -3239,8 +3249,7 @@ const exportAndImportFn = {
     // 触发导出动作
     let self = this
     const columns = this.deepCopy(this.tableColumnsConfig)
-    const { tableData, fullData, treeExpandData } = this.getTableData()
-    const selection = this.selection
+    const { tableData, fullData, treeExpandData, selection } = this.getTableData()
 
     // 获取金额、进度特殊字段列表
     const [moneyKeys, ratioKeys] = [[], []]
@@ -3265,6 +3274,13 @@ const exportAndImportFn = {
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })
 
+    const latestTableData = {
+      columns, // 表头配置
+      fullData: computedFullData, // 使用计算后的fullData
+      tableData,
+      treeExpandData: computedExpandData, // 使用计算后的expendData
+      selection
+    }
     this.exportModalData = Object.assign({
       isExportTree: !!self.treeConfigIn,
       saveType: '.xlsx',
@@ -3277,9 +3293,9 @@ const exportAndImportFn = {
       isExportOriginalData: false, // 是否导出源数据
       isExportData: true, // 是否导出数据
       columns: columns, // 表头配置
-      fullData: computedFullData,
+      fullData: fullData,
       tableData: tableData,
-      treeExpandData: computedExpandData,
+      treeExpandData: treeExpandData,
       datas: [], // 源数据, 如果胃空数组则取dataType 对应的数据，否则直接以datas导出
       selection: selection, // 选中数据
       index: true, // 是否添加序号,
@@ -3299,7 +3315,7 @@ const exportAndImportFn = {
         // 视图数据格式化方法
         // return value
       }
-    }, this.tableGlobalConfig.customExportConfig, this.exportModalData || {}, obj || {})
+    }, this.tableGlobalConfig.customExportConfig, this.exportModalData || {}, obj || {}, latestTableData)
     this.exportModalVisible = true
   },
   onExportClick(obj, ec) {
@@ -3310,6 +3326,7 @@ const exportAndImportFn = {
     if (obj.onlyConfigExport) {
       this.$emit('onExportClick', obj, ec)
     } else {
+      console.log(obj)
       this.$Export.exportExcel(obj, this)
     }
   },

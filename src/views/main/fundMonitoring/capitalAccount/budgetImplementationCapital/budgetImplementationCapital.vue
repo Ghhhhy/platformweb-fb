@@ -27,6 +27,7 @@
           :default-money-unit="10000"
           :export-modal-config="{ fileName: menuName }"
           :cell-style="cellStyle"
+          :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"

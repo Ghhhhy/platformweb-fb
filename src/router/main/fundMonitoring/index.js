@@ -375,6 +375,11 @@ const routers = [
     path: '/notRecCenterBgtDetail', // 未接收中央指标明细
     name: 'notRecCenterBgtDetail',
     component: () => import('@/views/main/fundMonitoring/businessSupervision/notRecCenterBgtDetail/notRecCenterBgtDetail.vue')
+  },
+  {
+    path: '/expenditureProgressRanking', // 直达资金支出进度排名
+    name: 'ExpenditureProgressRanking',
+    component: () => import('@/views/main/fundMonitoring/expenditureProgressRanking/index.vue')
   }
 ]
 
