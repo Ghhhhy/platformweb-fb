@@ -151,10 +151,10 @@ const proconf = {
           {
             title: '金额',
             align: 'right',
-            cellRender: { name: '$vxeMoney' },
             width: 100,
             field: 'amountPayAll',
-            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
+            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '进度',

@@ -542,7 +542,7 @@ const defaultPublicRenders = {
                 data[property] = value
               },
               onTreeLoaded({ treeData, tree }, bsTree) {
-                $form.$parent?.itemOption?.({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
+                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
               },
               onNodeClick({ node, treeData, value }) {
                 if (node !== null) {
@@ -1196,9 +1196,10 @@ const defaultPublicRenders = {
       let viewDigits = props.digits || bsTable.curSelectMoneyUnitOption.viewDigits
       let zero = bsTable.transToNumber('', viewDigits)
       let val = bsTable.transToNumber(row[column.property], viewDigits)
+
       if (val === zero && showZero) {
         val = '0.00'
-      } else if (val === zero && !showZero) {
+      } else if ((val === zero || Number(val) === Number(zero)) && !showZero) {
         return [<span class="text"></span>]
       } else if (bsTable.toolbarConfigInCopy.moneyInputSwich) {
         val = bsTable.transToNumber(bsTable.accurateChuFa(val, moneyUnit), viewDigits)
@@ -2945,6 +2946,20 @@ const defaultTableRenderers = {
       ]
     }
   },
+  $vxeIcon8: {
+    // 增加icon图标展示 灰色
+    renderDefault(h, cellRander, params) {
+      let { row, column, $table } = params
+      return [
+        <div style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px"></i>}
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+        </div>
+      ]
+    }
+  },
   $vxeIcon5: {
     // 增加icon图标展示
     renderDefault(h, cellRander, params) {
@@ -2964,9 +2979,9 @@ const defaultTableRenderers = {
     renderDefault(h, cellRander, params) {
       let { row, column } = params
       // 设置转换后的值供导出所用
-      row[column.property + '__viewRatio'] = `${row[column.property]}%`
+      row[column.property + '__viewRatio'] = Number(row[column.property]) > 0 ? `${row[column.property]}%` : ''
       return [
-        <span>{row[column.property]}%</span>
+        <span>{Number(row[column.property]) > 0 ? `${row[column.property]}%` : ''}</span>
       ]
     }
   }

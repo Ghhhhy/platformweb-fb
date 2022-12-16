@@ -37,6 +37,7 @@
           :default-money-unit="10000"
           :scroll-y="scrollConfig"
           :cell-style="cellStyle"
+          :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
