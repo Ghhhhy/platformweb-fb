@@ -78,7 +78,6 @@
       :deal-no="dealNo"
       :detail-data="detailData"
       :is-create="isCreate"
-      :status="status"
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
@@ -168,6 +167,10 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableColumnsConfig: proconf.policiesTableColumns,
+      tableColumnsConfig1: proconf.policiesTableColumns1,
+      tableColumnsConfig2: proconf.policiesTableColumns2,
+      tableColumnsConfig3: proconf.policiesTableColumns3,
+      tableColumnsConfig4: proconf.policiesTableColumns4,
       tableData: [
       ],
       tableToolbarConfig: {
@@ -270,6 +273,11 @@ export default {
       isIssue: false, // 已整改标识
       isArchive: false,
       codeList: [],
+      violateType: '',
+      regulationClassName: '',
+      warnTime: '',
+      triggerClass: '',
+      fiRuleName: '',
       filePreviewDialogVisible: false,
       fileGuid: ''
     }
@@ -279,24 +287,18 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      if (this.menuName === '监控问询单列表' && this.status === 0) {
-        this.agencyName = obj.agencyName
-        this.issueTime = obj.issueTime
-        this.fiRuleName = obj.fiRuleName
-        this.violateType = obj.violateType
-        this.queryTableDatas()
-      } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
-        this.agencyName = obj.agencyName
-        this.issueTime = obj.issueTime
-        this.fiRuleName = obj.fiRuleName
-        this.status = obj.status === '' ? this.status : obj.status
-        this.violateType = obj.violateType
+      this.dealNo = obj.dealNo
+      this.regulationClassName = obj.regulationClassName
+      this.warnTime = obj.warnTime
+      this.triggerClass = obj.triggerClass
+      this.warningLevel = obj.warningLevel
+      this.agencyName = obj.agencyName
+      this.issueTime = obj.issueTime
+      this.fiRuleName = obj.fiRuleName
+      this.violateType = obj.violateType
+      if (this.menuName === '监控问询单列表' && this.status !== 0) {
+        // this.status = obj.status === '' ? this.status : obj.status
         this.getdata()
-      } else {
-        this.firulename = obj.firulename
-        this.regulationType = obj.regulationType
-        this.warningLevel = obj.warningLevel
-        this.getWarnData()
       }
       // this.queryTableDatasCount()
     },
@@ -373,17 +375,25 @@ export default {
         }
       })
     },
-    onClickmethod({ node }) {
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
+    },
+    onClickmethod(node) {
       // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
       //   return
       // }
-      // let code = node.code
-      // this.codeList = []
-      // let treeData = node.treeData
-      // this.getItem(code, treeData)
-      // console.log(this.codeList)
+      console.log('node', node)
+      let code = node.node.code
+      this.codeList = []
+      this.getItem(code, this.treeData)
+      console.log(this.codeList)
       if (node.id !== '0') {
-        this.mofDivCode = node.code
+        // this.mofdivcode = node.code
       } else {
         this.condition = {}
       }
@@ -444,6 +454,9 @@ export default {
         mofDivCodeList: this.codeList,
         mofDivCode: this.mofDivCode || ''
       }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '09'
+      }
       this.tableLoading = true
       api.getMarkData(param).then(res => {
         this.tableLoading = false
@@ -482,8 +495,17 @@ export default {
         isUnit: this.param5.retroact,
         status: this.status,
         roleId: this.roleId,
-        mofDivCodeList: this.codeList
+        mofDivCodeList: this.codeList,
+        dealNo: this.dealNo,
+        regulationClassName: this.regulationClassName,
+        warnTime: this.warnTime,
+        triggerClass: this.triggerClass,
+        warningLevel: this.warningLevel
       }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '09'
+      }
+      this.tableLoading = true
       api.getDetail(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
@@ -706,18 +728,12 @@ export default {
     initButtons(param5) {
       let obj = {}
       console.log(param5)
-      if (param5.isCreate === 'true') { // 生成
-        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.createBtnConfig }
-        obj.code = 'unIssue'
-      } else if (param5.isRetroact === 'true' && param5.retroact === 'department') { // 主管处室反馈
+      if (param5.isRetroact === 'true' && param5.retroact === 'department') { // 主管处室反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactMofBtnConfig }
         obj.code = 'rectify'
       } else if (param5.isRetroact === 'true' && param5.retroact === 'company') { // 单位反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactBtnConfig }
         obj.code = 'rectifyUnit'
-      } else if (param5.isQuery === 'true') {
-        this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.searchBtnConfig }
-        obj.code = 'search'
       }
       //   } else {
       //     self.$message.error('区划配置信息初始化失败!')
@@ -802,33 +818,37 @@ export default {
           this.searchDataList = proconf.highQueryData
           this.status = 1
           this.menuName = '监控问询单列表'
+          this.tableData = []
           this.getdata()
           break
         // 已下发单位
         case 'rectifyUnit':
-          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.tableColumnsConfig = proconf.policiesTableColumns1
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 2
           this.menuName = '监控问询单列表'
+          this.tableData = []
           this.getdata()
           break
         // 单位反馈待审核
         case 'rectifiedUnit':
-          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.tableColumnsConfig = proconf.policiesTableColumns2
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 3
           this.menuName = '监控问询单列表'
+          this.tableData = []
           this.getdata()
           break
         // 已整改
         case 'rectified':
-          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.tableColumnsConfig = proconf.policiesTableColumns3
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 4
           this.menuName = '监控问询单列表'
+          this.tableData = []
           this.getdata()
           break
         case 'search':
@@ -866,8 +886,11 @@ export default {
     },
     getCount() {
       let param = {
-        isUnit: this.param5.retroact,
-        roleId: this.roleId
+        isUnit: this.transJson(this.$store.state.curNavModule.param5).retroact,
+        roleId: this.$store.state.curNavModule.roleguid
+      }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '09'
       }
       api.getCount(param).then(res => {
         if (res.code === '000000') {

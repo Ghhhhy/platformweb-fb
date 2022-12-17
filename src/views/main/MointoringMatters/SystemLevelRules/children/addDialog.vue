@@ -1649,7 +1649,7 @@ export default {
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
-        this.businessFunctionCodeoptions = res.data
+        this.businessFunctionCodeoptions = res.data.results
       })
     },
     // 主管部门下拉树
