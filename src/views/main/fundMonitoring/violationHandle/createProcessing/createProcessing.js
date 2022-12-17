@@ -34,67 +34,111 @@ export let proconf = {
       }
     },
     {
-      title: '状态',
-      field: 'status',
-      width: '8',
-      align: 'left',
+      title: '违规类型',
+      width: 180,
+      field: 'violateType',
       formula: '',
-      name: '$vxeSelect',
+      align: 'left',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '违规类型'
+        }
+      }
+    },
+    {
+      title: '单号',
+      width: 180,
+      field: 'dealNo',
+      formula: '',
+      align: 'left',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '单号'
+        }
+      }
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      formula: '',
+      align: 'left',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '主题'
+        }
+      }
+    },
+    {
+      title: '违规时间',
+      field: 'warnTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      formula: '',
+      align: 'left',
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
         options: [
           {
             value: 1,
-            label: '已下发'
+            label: '实时触发'
           },
           {
             value: 2,
-            label: '已下发单位'
-          },
-          {
-            value: 3,
-            label: '单位反馈待审核'
-          },
-          {
-            value: 4,
-            label: '已整改'
+            label: '定时触发'
           }
         ],
         props: {
-          placeholder: '状态'
+          placeholder: '监控类型'
+        },
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '预警级别',
+      field: 'warningLevel',
+      'width': 180,
+      align: 'center',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '黄色预警' },
+          { value: '2', label: '橙色预警' },
+          { value: '3', label: '红色预警' },
+          // { value: '4', label: '灰色预警' },
+          { value: '4', label: '蓝色预警' }
+        ],
+        props: {
+          placeholder: '预警级别'
         }
       }
     },
-    // {
-    //   field: 'violateType',
-    //   title: '违规类型',
-    //   width: 180,
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //       {
-    //         value: '指标使用不当',
-    //         label: '指标使用不当'
-    //       },
-    //       {
-    //         value: '支出进度太慢',
-    //         label: '支出进度太慢'
-    //       },
-    //       {
-    //         value: '资金使用方向错误',
-    //         label: '资金使用方向错误'
-    //       },
-    //       {
-    //         value: '资金超支',
-    //         label: '资金超支'
-    //       }
-    //     ],
-    //     props: {
-    //       placeholder: '违规类型',
-    //       disabled: false
-    //     }
-    //   }
-    // },
     {
       title: '监控规则',
       field: 'fiRuleName',
@@ -110,21 +154,15 @@ export let proconf = {
         }
       }
     }
-    // ,
-    // {
-    //   title: '下发时间',
-    //   field: 'issueTime',
-    //   itemRender: { name: '$input', props: { disabled: false, type: 'date', placeholder: '请选择下发时间' } }
-    // }
-    // {
-    //   title: '整改时间',
-    //   field: 'issueTime',
-    //   itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择整改时间' } }
-    // }
   ],
   highQueryData: {
-    issueTime: '',
-    status: '',
+    violateType: '',
+    dealNo: '',
+    regulationClassName: '',
+    warnTime: '',
+    agencyName: '',
+    triggerClass: '',
+    warningLevel: '',
     fiRuleName: ''
   },
   createHighQueryConfig: [
@@ -194,6 +232,7 @@ export let proconf = {
           { value: '1', label: '黄色预警' },
           { value: '2', label: '橙色预警' },
           { value: '3', label: '红色预警' },
+          // { value: '4', label: '灰色预警' },
           { value: '4', label: '蓝色预警' }
         ],
         props: {
@@ -261,9 +300,17 @@ export let proconf = {
   },
   policiesTableColumns: [
     {
-      title: '年度',
+      title: '违规类型',
       width: 180,
-      field: 'fiscalYear',
+      field: 'violateType',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '疑似违规说明',
+      width: 180,
+      field: 'doubtViolateExplain',
       sortable: false,
       filters: false,
       align: 'center'
@@ -313,6 +360,44 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规时间',
+      width: 180,
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '实时触发'
+          },
+          {
+            value: 2,
+            label: '定时触发'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '监控规则',
@@ -366,6 +451,10 @@ export let proconf = {
           {
             value: 4,
             label: '记录'
+          },
+          {
+            value: '5',
+            label: '禁止'
           }
         ],
         defaultValue: '',
@@ -383,10 +472,6 @@ export let proconf = {
       cellRender: {
         name: '$vxeSelect',
         options: [
-          {
-            value: 0,
-            label: '未处理'
-          },
           {
             value: 1,
             label: '通过'
@@ -411,11 +496,176 @@ export let proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    }
+  ],
+  policiesTableColumns1: [
+    {
+      title: '违规类型',
+      width: 180,
+      field: 'violateType',
+      sortable: false,
+      filters: false,
+      align: 'center'
     },
     {
-      title: '生成状态',
+      title: '疑似违规说明',
       width: 180,
-      field: 'status',
+      field: 'doubtViolateExplain',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      width: 180,
+      field: 'mofDivName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '预算单位',
+      width: 180,
+      field: 'agencyName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '单号',
+      width: 180,
+      field: 'dealNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规时间',
+      width: 180,
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '实时触发'
+          },
+          {
+            value: 2,
+            label: '定时触发'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '监控规则',
+      width: 180,
+      field: 'fiRuleName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    },
+    {
+      title: '处理方式',
+      field: 'handleType',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 2,
+            label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '拦截'
+          },
+          {
+            value: 4,
+            label: '记录'
+          },
+          {
+            value: '5',
+            label: '禁止'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '处理结果',
+      width: 180,
+      field: 'handleResult',
       sortable: false,
       filters: false,
       align: 'center',
@@ -423,31 +673,789 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           {
-            value: 0,
-            label: '未下发'
-          },
-          {
             value: 1,
-            label: '已下发'
+            label: '通过'
           },
           {
             value: 2,
-            label: '已下发单位'
-          },
-          {
-            value: 3,
-            label: '单位反馈待审核'
-          },
-          {
-            value: 4,
-            label: '已整改'
+            label: '不通过'
           }
         ],
         defaultValue: '',
         props: {}
       },
       name: '$vxeSelect'
-      // 0 未下发；1 已下发；2已整改；3已归档
+    },
+    {
+      title: '下发人',
+      width: 180,
+      field: 'handler2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发人联系电话',
+      width: 180,
+      field: 'phone2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发时间',
+      width: 180,
+      field: 'updateTime2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室指导意见',
+      width: 180,
+      field: 'information2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '查看详情',
+      field: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 180,
+      cellRender: {
+        name: '$ReportTaskGloableOptionRow'
+      }
+    }
+  ],
+  policiesTableColumns2: [
+    {
+      title: '违规类型',
+      width: 180,
+      field: 'violateType',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '疑似违规说明',
+      width: 180,
+      field: 'doubtViolateExplain',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      width: 180,
+      field: 'mofDivName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '预算单位',
+      width: 180,
+      field: 'agencyName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '单号',
+      width: 180,
+      field: 'dealNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规时间',
+      width: 180,
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '实时触发'
+          },
+          {
+            value: 2,
+            label: '定时触发'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '监控规则',
+      width: 180,
+      field: 'fiRuleName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    },
+    {
+      title: '处理方式',
+      field: 'handleType',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 2,
+            label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '拦截'
+          },
+          {
+            value: 4,
+            label: '记录'
+          },
+          {
+            value: '5',
+            label: '禁止'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '处理结果',
+      width: 180,
+      field: 'handleResult',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '通过'
+          },
+          {
+            value: 2,
+            label: '不通过'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '下发人',
+      width: 180,
+      field: 'handler2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发人联系电话',
+      width: 180,
+      field: 'phone2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发时间',
+      width: 180,
+      field: 'updateTime2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室指导意见',
+      width: 180,
+      field: 'information2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈人',
+      width: 180,
+      field: 'handler1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈人联系电话',
+      width: 180,
+      field: 'phone1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈时间',
+      width: 180,
+      field: 'updateTime1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '单位反馈意见',
+      width: 180,
+      field: 'information1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '查看详情',
+      field: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 180,
+      cellRender: {
+        name: '$ReportTaskGloableOptionRow'
+      }
+    }
+  ],
+  policiesTableColumns3: [
+    {
+      title: '违规类型',
+      width: 180,
+      field: 'violateType',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '疑似违规说明',
+      width: 180,
+      field: 'doubtViolateExplain',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      width: 180,
+      field: 'mofDivName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '预算单位',
+      width: 180,
+      field: 'agencyName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '单号',
+      width: 180,
+      field: 'dealNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规时间',
+      width: 180,
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '实时触发'
+          },
+          {
+            value: 2,
+            label: '定时触发'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '监控规则',
+      width: 180,
+      field: 'fiRuleName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    },
+    {
+      title: '处理方式',
+      field: 'handleType',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 2,
+            label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '拦截'
+          },
+          {
+            value: 4,
+            label: '记录'
+          },
+          {
+            value: '5',
+            label: '禁止'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '处理结果',
+      width: 180,
+      field: 'handleResult',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '通过'
+          },
+          {
+            value: 2,
+            label: '不通过'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '下发人',
+      width: 180,
+      field: 'handler2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发人联系电话',
+      width: 180,
+      field: 'phone2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '下发时间',
+      width: 180,
+      field: 'updateTime2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室指导意见',
+      width: 180,
+      field: 'information2',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈人',
+      width: 180,
+      field: 'handler1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈人联系电话',
+      width: 180,
+      field: 'phone1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '反馈时间',
+      width: 180,
+      field: 'updateTime1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '单位反馈意见',
+      width: 180,
+      field: 'information1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '查看详情',
+      field: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 180,
+      cellRender: {
+        name: '$ReportTaskGloableOptionRow'
+      }
+    }
+  ],
+  policiesTableColumns4: [
+    {
+      title: '违规类型',
+      width: 180,
+      field: 'violateType',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '疑似违规说明',
+      width: 180,
+      field: 'doubtViolateExplain',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      width: 180,
+      field: 'mofDivName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    {
+      title: '预算单位',
+      width: 180,
+      field: 'agencyName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{agencyCode}-{agencyName}'
+        }
+      },
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    {
+      title: '单号',
+      width: 180,
+      field: 'dealNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主题',
+      width: 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规时间',
+      width: 180,
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '实时触发'
+          },
+          {
+            value: 2,
+            label: '定时触发'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '监控规则',
+      width: 180,
+      field: 'fiRuleName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    },
+    {
+      title: '处理方式',
+      field: 'handleType',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 2,
+            label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '拦截'
+          },
+          {
+            value: 4,
+            label: '记录'
+          },
+          {
+            value: '5',
+            label: '禁止'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '处理结果',
+      width: 180,
+      field: 'handleResult',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '通过'
+          },
+          {
+            value: 2,
+            label: '不通过'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      title: '查看详情',
+      field: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 180,
+      cellRender: {
+        name: '$ReportTaskGloableOptionRow'
+      }
     }
   ],
   logoTableColumns: [
@@ -947,7 +1955,7 @@ export let proconf = {
           },
           {
             'value': '4',
-            'label': '非人工蓝色预警'
+            'label': '蓝色预警'
           }
         ],
         'defaultValue': '',
@@ -1344,7 +2352,7 @@ export let proconf = {
           },
           {
             value: '4',
-            label: '非人工蓝色预警'
+            label: '蓝色预警'
           }
         ],
         defaultValue: ''
@@ -1707,7 +2715,7 @@ export let proconf = {
           },
           {
             value: '4',
-            label: '非人工蓝色预警'
+            label: '蓝色预警'
           }
         ],
         defaultValue: ''

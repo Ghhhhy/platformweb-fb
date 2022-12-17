@@ -46,5 +46,30 @@ export default {
   // 获取数量
   getCount(params) {
     return post('large-monitor-platform/lmp/totalWarn/getCount', params)
+  },
+  // 获取预警情况
+  queryWarning (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarning', params)
+  },
+  queryDetailDatas (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryDetailDatas', params)
+  },
+  querySum(params) {
+    return post('large-monitor-platform/lmp/totalWarn/querySum', params)
+  },
+  queryWarningByMof (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarningByMof', params)
+  },
+  queryDetailDatasByMof (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryDetailDatasByMof', params)
+  },
+  querySumByMof(params) {
+    return post('large-monitor-platform/lmp/totalWarn/querySumByMof', params)
+  },
+  getTreewhere(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+  },
+  handleNormal(params) {
+    return post('large-monitor-platform/lmp/totalWarn/handleNormal', params)
   }
 }
