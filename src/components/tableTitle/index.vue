@@ -1,6 +1,9 @@
 <template>
   <div class="bs-table-left-wrapper">
-    <span class="bs-table-left-title">{{ title }}</span>
+    <span class="bs-table-left-title">
+      <span class="title">{{ title }}</span>
+    </span>
+    <slot></slot>
   </div>
 </template>
 
@@ -21,24 +24,33 @@ export default {
 .bs-table-left-wrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   .bs-table-left-title {
-    display: inline-block;
-    line-height: 32px;
     height: 32px;
-    min-width: 100px;
-    padding: 0 16px;
-    background: var(--hightlight-color);
-    font-size: 14px;
-    color: #2e3133;
-    text-align: left;
-  }
-  &::after {
-    width: 0;
-    height: 0;
-    border: 15px solid transparent;
-    border-bottom-width: 20px;
-    border-left-color: var(--hightlight-color);
-    content: '';
+    display: flex;
+    align-items: center;
+    .title {
+      line-height: 32px;
+      height: 32px;
+      display: inline-block;
+      padding: 0 16px;
+      min-width: 100px;
+      font-size: 14px;
+      text-align: left;
+      color: #555;
+      background: #E3F1FE;
+    }
+    &::after {
+      font-size: 0;
+      border-width: 16px;
+      border-style: solid;
+      border-color: transparent;
+      width: 0px;
+      height: 0px;
+      border-left-width: 20px;
+      border-left-color: #E3F1FE;
+      content: '';
+    }
   }
 }
 </style>

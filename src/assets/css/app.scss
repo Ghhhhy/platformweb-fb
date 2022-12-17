@@ -16,6 +16,22 @@ body {
     }
   }
 
+  .cursor {
+    cursor: pointer;
+    color: var(--primary-color);
+  }
+
+  .cursor-underline {
+    @extend .cursor;
+    text-decoration: underline;
+  }
+
+  .f-c-c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .ui-selectable-helper {
     border: 1px dashed #d1d1d1;
     background-color: rgba(236, 218, 218, .1);

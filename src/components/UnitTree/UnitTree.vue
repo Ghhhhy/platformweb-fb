@@ -403,6 +403,9 @@ export default {
       filterTextInCp: null
     }
   },
+  mounted() {
+    this.$emit('register', this.$refs.tree || this)
+  },
   methods: {
     filterNode(value, data) {
       // 过滤集合
@@ -1532,7 +1535,6 @@ export default {
     }
   },
   created() {},
-  mounted() {},
   watch: {
     fieldName: {
       handler() {}

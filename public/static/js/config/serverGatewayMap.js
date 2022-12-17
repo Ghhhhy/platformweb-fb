@@ -54,7 +54,7 @@ window.gloableToolFn.serverGatewayMap = {
     'mp-b-configure-service': 'http://43.143.57.251:6007/openapi/mp-b-configure-service',
     // ---------------------------其他业务模块服务---------------------------
     // 文件服务器
-    fileservice: 'http://223.223.190.114:10100/openapi/fileservice',
+    fileservice: 'http://43.143.57.251:6007/openapi/fileservice/',
     // 文件预览服务器
     filePreviewService: 'https://10.77.36.64:8088/filePreviewService',
     // ---------------------------其他业务模块服务---------------------------
@@ -67,11 +67,11 @@ window.gloableToolFn.serverGatewayMap = {
     // 监控
     // 'large-monitor-platform': 'http://10.77.36.66:10053',
     // 'large-monitor-platform': 'http://223.223.190.114:11206',
-    'large-monitor-platform': 'http://127.0.0.1:6602',
+    'large-monitor-platform': 'http://192.168.124.94:6603',
     // 直达资金监控服务
-    'dfr-service': 'http://223.223.190.114:11206/',
+    'dfr-service': 'http://192.168.124.94:6603/',
     // 'dfr-monitor-service': 'http://223.223.190.114:11206/',
-    'dfr-monitor-service': 'http://127.0.0.1:6603'
+    'dfr-monitor-service': 'http://192.168.124.94:6603'
   },
   gloableUrl: {
     isLoginOutToPortal: true,

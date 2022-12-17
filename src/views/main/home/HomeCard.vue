@@ -65,7 +65,7 @@ export default {
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
-    this.initEscalationVisible()
+    // this.initEscalationVisible()
   }
 }
 </script>

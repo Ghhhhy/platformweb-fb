@@ -16,6 +16,8 @@ import { setupVueAwesomerSwiper } from './plugin/useVueAwesomeSwiper'
 import { setupVueQuillEditor } from './plugin/setupVueQuillEditor'
 // echart
 import Echarts from './plugin/setupEcharts.js'
+// print
+import setupVuePrint from './plugin/setupVuePrint.js'
 // vxeTable
 import vxeTable from './base/vxeTable.js'
 // import vxeTable from 'bs-ui/src/base/vxeTable.js'
@@ -41,6 +43,7 @@ import {
 // import BSUI from 'bs-ui'
 // import BSUI from 'bs-ui/lib/bsui.common.js'
 // axios Request
+import useOptionChain from '@/utils/useOptionChain.js'
 BSUI.ConfigOption.setConfig(customConfig)
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
@@ -62,8 +65,10 @@ setupSvg(Vue)
 setupElementUI(Vue)
 setupVueAwesomerSwiper(Vue)
 setupVueQuillEditor(Vue)
+setupVuePrint(Vue)
 
 Vue.prototype.transJson = transJson
+Vue.prototype.useOptionChain = useOptionChain
 Vue.prototype.$http = {
   get,
   post,

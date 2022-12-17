@@ -217,5 +217,9 @@ export default {
   exportModalConfig: {
     type: Object,
     default: () => ({})
+  },
+  syncResize: {
+    type: Boolean,
+    default: true
   }
 }

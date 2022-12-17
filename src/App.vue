@@ -175,6 +175,8 @@ export default {
   created() {
     this.getUrlSearchToken()
     this.authentication()
+    // 获取预警信息
+    this.$store.dispatch('warnInfo/getWarnInfo')
   },
 
   mounted() {
