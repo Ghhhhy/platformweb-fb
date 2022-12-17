@@ -324,9 +324,9 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
           { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
         ],
         props: {
           placeholder: '业务年度'

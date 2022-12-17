@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -29,9 +29,9 @@ export let proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '2020', label: '2020年' },
           { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
         ],
         props: {
           placeholder: '业务年度'
@@ -42,7 +42,8 @@ export let proconf = {
   highQueryData: {
     regulationType: '',
     warningLevel: '',
-    firulename: ''
+    firulename: '',
+    fiscalYear: store.state.userInfo.year
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -118,4 +119,13 @@ export let proconf = {
       }
     }
   ]
+}
+export default function (tableType, configType) {
+  if (tableType && configType) {
+    return window.deepCopy(proconf[tableType][configType])
+  } else if (tableType) {
+    return window.deepCopy(proconf[tableType])
+  } else {
+    return null
+  }
 }

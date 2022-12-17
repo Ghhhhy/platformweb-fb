@@ -97,7 +97,7 @@ export default {
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
       radioShow: true,
       codeList: [],
       breakRuleVisible: false,
@@ -354,6 +354,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
       this.speTypeName = obj.speTypeName
       this.expFuncName = obj.expFuncName
