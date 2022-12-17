@@ -313,28 +313,13 @@ export default {
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
-      this.searchDataList = val
-      console.log(val)
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof this.searchDataList[key] === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
-      }
-      this.condition = condition
+    search(obj) {
+      console.log(obj)
+      this.fiscalYear = obj.fiscalYear
+      this.proNameRule = obj.proNameRule
+      this.searchDataList = obj
       this.queryTableDatas()
+      // this.queryTableDatasCount()
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -376,7 +361,7 @@ export default {
     handleDetail(reportCode, mofDivCode, column) {
       let params = {
         reportCode: reportCode,
-        mofDivCode: mofDivCode,
+        mofDivCodeList: mofDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.pagerConfig.pageSize,
@@ -411,11 +396,11 @@ export default {
       let key = obj.column.property
       switch (key) {
         case 'amountz':
-          this.handleDetail('zdzjdfjemx', obj.row.recDivCode)
+          this.handleDetail('zdzjdfjemx', obj.row.code)
           this.detailTitle = '直达资金待分指标明细'
           break
         case 'amountc':
-          this.handleDetail('czzdzjdfjemx', obj.row.recDivCode)
+          this.handleDetail('czzdzjdfjemx', obj.row.code)
           this.detailTitle = '参照直达资金待分指标明细'
       }
     },
@@ -429,7 +414,7 @@ export default {
       const param = {
         isFlush,
         reportCode: 'dfzbyecx',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

@@ -81,7 +81,8 @@
 </template>
 
 <script>
-import { proconf } from './notImportBgtDetail'
+import getFormData from './notImportBgtDetail.js'
+// import { proconf } from './notImportBgtDetail'
 import HttpModule from '@/api/frame/main/fundMonitoring/notImportBgtDetail.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
@@ -98,8 +99,8 @@ export default {
     return {
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
-      queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
+      queryConfig: getFormData('highQueryConfig'),
+      searchDataList: getFormData('highQueryData'),
       radioShow: true,
       breakRuleVisible: false,
       treeData: [{
@@ -125,7 +126,6 @@ export default {
       treeServerUri: '',
       treeAjaxType: 'get',
       leftTreeVisible: true,
-      fiscalYear: '',
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -162,7 +162,7 @@ export default {
           ]
         }
       },
-      buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
+      // buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
         '1': 2,
         '2': 0,
@@ -180,7 +180,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: getFormData('PoliciesTableColumns'),
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -206,7 +206,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          // $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
         }
       },
       tableFooterConfig: {
@@ -269,19 +269,35 @@ export default {
   mounted() {
   },
   methods: {
-    search(obj) {
-      console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.regulationtype = obj.regulationType
-      this.firulename = obj.firulename
+    search(val) {
+      this.searchDataList = val
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          } else if (typeof this.searchDataList[key] === 'string') {
+            if (this.searchDataList[key].trim() !== '') {
+              this.searchDataList[key].split(',').forEach((item) => {
+                condition[key].push(item)
+              })
+            }
+          }
+        }
+      }
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      this.condition = condition
       this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
       // 下拉树
       let searchDataObj = {}
       this.queryConfig.forEach(item => {
+        debugger
         if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''

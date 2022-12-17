@@ -253,14 +253,28 @@ export default {
   mounted() {
   },
   methods: {
-    search(obj) {
-      console.log(obj)
-      this.searchDataList = obj
-      this.fiscalYear = obj.fiscalYear
-      this.regulationtype = obj.regulationType
-      this.firulename = obj.firulename
+    search(val) {
+      this.searchDataList = val
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          } else if (typeof this.searchDataList[key] === 'string') {
+            if (this.searchDataList[key].trim() !== '') {
+              this.searchDataList[key].split(',').forEach((item) => {
+                condition[key].push(item)
+              })
+            }
+          }
+        }
+      }
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      this.condition = condition
       this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
