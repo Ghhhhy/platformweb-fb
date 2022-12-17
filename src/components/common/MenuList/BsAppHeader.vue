@@ -48,7 +48,7 @@
           <div v-for="(it,ids) in menuData" :key="ids" class="MenuList-header header-right flex">
             <div class="header-right-title flex">
               <!-- <i class="el-icon-position"></i> -->
-              <div v-if="it.unit.length + unit.length < 10" class="header-marquee">{{ it.unit }}&nbsp;{{ unit }}</div>
+              <div v-if="it.unit && (it.unit.length + unit.length < 10)" class="header-marquee">{{ it.unit }}&nbsp;{{ unit }}</div>
               <el-tooltip v-else class="item" effect="dark" :content="it.unit + ' ' + unit" placement="top-start">
                 <div class="header-marquee">{{ it.unit }}&nbsp;{{ unit }}</div>
               </el-tooltip>
@@ -258,7 +258,7 @@ export default {
     this.getFoundData()
     const userList = this.$store.getters.getuserInfo
     this.year = userList.year
-    this.unit = userList.orgname
+    this.unit = userList.orgname || ''
     this.plan = userList.admdivname
     this.name = userList.name
     this.province = userList.province
