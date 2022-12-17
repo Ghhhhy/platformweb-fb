@@ -545,6 +545,11 @@ export default {
   display: inline-block;
   background-size: 120% 120%;
 }
+.result-grey{
+  background-image:url(./assets/img/grey.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
 .result-yellow-bell{
   background-image:url(./assets/img/yellowBell.svg) ;
   display: inline-block;

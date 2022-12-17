@@ -150,7 +150,7 @@ const routers = [
   {
     path: '/CreateProcessing', // 监控处理单生成
     name: 'CreateProcessing',
-    component: () => import('../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue')
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
   },
   {
     path: '/DepartmentRetroact', // 主管处室反馈
@@ -175,7 +175,7 @@ const routers = [
   {
     path: '/QueryProcessing', // 查询
     name: 'QueryProcessing',
-    component: () => import('../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue')
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
   },
   {
     path: '/BudgetFocus', // 直达资金重点关注
@@ -195,7 +195,7 @@ const routers = [
   {
     path: '/WarnRegion', // 直达资金地方预警汇总
     name: 'WarnRegion',
-    component: () => import('../../../views/main/fundMonitoring/warnRegion/warnRegion.vue')
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue')
   },
   {
     path: '/WarnRegionSummary', // 地方监控预警汇总
