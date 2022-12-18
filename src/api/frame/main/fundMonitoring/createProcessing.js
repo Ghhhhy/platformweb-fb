@@ -1,6 +1,10 @@
 //  监控函数api
 import { post, get } from '@/api/http'
 export default {
+  // 查询附件
+  getFile(params) {
+    return get('fileservice/v2/files', params)
+  },
   // 获取表格数据
   queryTableDatas (params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfos', params)
