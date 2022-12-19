@@ -249,7 +249,10 @@ export default {
     handleDetail(reportCode, row, column) {
       let params = {
         reportCode: reportCode,
-        bgtId: row.bgtId,
+        cenTraProCode: row.cenTraProCode,
+        agencyCode: row.agencyCode,
+        expFuncCode: row.expFuncCode,
+        proCode: row.proCode,
         escalationStatus: this.sDetailQueryParam.escalationStatus,
         version: this.sDetailQueryParam.version
       }
