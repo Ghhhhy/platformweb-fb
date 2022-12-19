@@ -534,7 +534,7 @@ export default {
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
-                message: '上报成功!'
+                message: '上报中!'
               })
               _this.queryTableDatas()
             }
@@ -590,7 +590,7 @@ export default {
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
-                message: '生成成功!'
+                message: '生成中!'
               })
               this.tableData1 = []
               _this.queryTableDatas()

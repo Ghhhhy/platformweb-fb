@@ -512,21 +512,21 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agency_code + '-' + res.data.executeData?.agency_name
-              this.supplyDataList.proName = res.data.executeData?.pro_code + '-' + res.data.executeData?.pro_name
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fund_type_code + '-' + res.data.executeData?.fund_type_name
-              this.supplyDataList.proCatName = res.data.executeData?.pro_cat_code + '-' + res.data.executeData?.pro_cat_name
-              this.supplyDataList.deptEconomyType = res.data.executeData?.dep_bgt_eco_code + '-' + res.data.executeData?.dep_bgt_eco_name
-              this.supplyDataList.govEconomyType = res.data.executeData?.gov_bgt_eco_code + '-' + res.data.executeData?.gov_bgt_eco_name
-              this.supplyDataList.settlementMethod = res.data.executeData?.set_mode_code + '-' + res.data.executeData?.set_mode_name
-              this.supplyDataList.directFund = res.data.executeData?.is_dir_code + '-' + res.data.executeData?.is_dir_name || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.is_sal_code + '-' + res.data.executeData?.is_sal_name
-              this.supplyDataList.isUnionFunds = res.data.executeData?.is_fun_code + '-' + (res.data.executeData?.is_fun_code === 1 ? '是' : '否')
+              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+              this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+              this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+              this.supplyDataList.proCatName = res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName
+              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+              this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+              this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+              this.supplyDataList.directFund = res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
+              this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
               this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.funcType = res.data.executeData?.exp_func_code + '-' + res.data.executeData?.exp_func_name
-              this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
-              this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
-              this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+              this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+              this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+              this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
             }
             this.handletableData = res.data?.regulationList
           } else {
