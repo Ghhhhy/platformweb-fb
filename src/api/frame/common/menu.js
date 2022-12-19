@@ -1,4 +1,5 @@
 import { get, post } from '@/api/http'
+import store from '@/store/index'
 export default {
   getUnitTree(params) {
     return post('fiscal-config/queryTreeAssistData', params)
@@ -35,5 +36,15 @@ export default {
   },
   getToDoDatas(params) {
     return get('pay-todo-service/todo/getToDoDatas', params)
+  },
+  // 获取支付菜单
+  getPayMenus(params = {}) {
+    const payload = {
+      appids: ['pay'],
+      year: store.state.userInfo.year,
+      province: store.state.userInfo.province,
+      ...params
+    }
+    return get('mp-b-perm-service/v1/menutreeinfo', payload)
   }
 }

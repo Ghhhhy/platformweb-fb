@@ -309,7 +309,7 @@ export default {
         HttpModule.addLog(param).then((res) => {
           this.addLoading = false
           if (res.code === '000000') {
-            this.$message.success('生成成功')
+            this.$message.success('生成中')
             this.$parent.addDialogVisible = false
             this.$parent.queryTableDatas()
           } else {

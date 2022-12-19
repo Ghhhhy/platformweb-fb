@@ -159,8 +159,7 @@
                     <!--<BsTree-->
                     <!--  :is-drop-select-tree="true"-->
                     <!--  :editable="true"-->
-                    <!--  :config="payAppMenu.treeConfig"-->
-                    <!--  :queryparams="payAppMenu.fetchParamsConfig"-->
+                    <!--  v-bind="payAppMenu"-->
                     <!--/>-->
                   </el-row>
                 </el-main>
@@ -526,7 +525,7 @@
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 // import commonApi from '@/api/frame/common/menu.js'
-import { payAppMenu } from '@/common/model/data.js'
+// import { payAppMenu } from '@/common/model/data.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -543,7 +542,7 @@ export default {
   },
   data() {
     return {
-      payAppMenu,
+      // payAppMenu,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -622,14 +621,24 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: 1,
-      warningLeveloptions: [
+      warningLeveloptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
+        return {
+          value: item.warnLevel, label: item.warnName
+        }
+      }) ||
+      [
         { value: 1, label: '黄色预警' },
         { value: 2, label: '橙色预警' },
         { value: 3, label: '红色预警' },
         { value: 4, label: '非人工干预蓝色预警' }
       ],
       handleType: 1,
-      handleTypeoptions: [
+      handleTypeoptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
+        return {
+          value: item.warnLevel, label: item.warnTips
+        }
+      }) ||
+      [
         { value: 1, label: '预警，无需上传附件' },
         { value: 2, label: '预警，需上传附件' },
         { value: 3, label: '拦截' },
@@ -1588,20 +1597,24 @@ export default {
     changeFunCode(val) {
       console.log(val)
       this.businessFunctionCode = val
-      this.businessFunctionName = []
+      this.businessFunctionName = this.businessFunctionCodeoptions
+        ?.filter(item => {
+          return this.businessFunctionCode.includes(item.guid)
+        })
+        ?.map(item => item.name)
       // let busName = this.businessFunctionCodeoptions.find(item => {
       //   return item.id === val
       // })
       // this.businessFunctionName = busName.businessName
-      let busName = []
-      for (let i = 0; i < val.length; i++) {
-        busName.push(this.businessFunctionCodeoptions.find(item => {
-          return item.id === val[i]
-        }))
-      }
-      for (let i = 0; i < busName.length; i++) {
-        this.businessFunctionName.push(busName[i].businessName)
-      }
+      // let busName = []
+      // for (let i = 0; i < val.length; i++) {
+      //   busName.push(this.businessFunctionCodeoptions.find(item => {
+      //     return item.id === val[i]
+      //   }))
+      // }
+      // for (let i = 0; i < busName.length; i++) {
+      //   this.businessFunctionName.push(busName[i].businessName)
+      // }
     },
     // 业务系统下拉树
     getSysLists() {
@@ -1645,7 +1658,6 @@ export default {
         businessType: 3,
         parentId: this.ModparentId
       }
-      console.log(param)
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
@@ -1736,8 +1748,6 @@ export default {
   mounted() {
   },
   created() {
-    this.getFunLists()
-
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     this.getWhereTree()
@@ -1772,6 +1782,7 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
+      this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
       this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName

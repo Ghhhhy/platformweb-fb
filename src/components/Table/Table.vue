@@ -9,8 +9,8 @@
       :row-id="rowId"
       border
       import-config
-      sync-resize
-      auto-resize
+      :sync-resize="syncResize"
+      :auto-resize="autoResize"
       :stripe="tableGlobalConfigIn.stripe"
       keep-source
       header-align="center"

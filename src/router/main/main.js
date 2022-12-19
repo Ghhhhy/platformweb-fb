@@ -12,6 +12,8 @@ importAll(require.context('./baseDataManage', false, /.js$/))
 importAll(require.context('./fundMonitoring', false, /.js$/))
 importAll(require.context('./indexFind', false, /.js$/))
 importAll(require.context('./fujianLedge', false, /.js$/))
+importAll(require.context('./handlingOfViolations', false, /.js$/))
+importAll(require.context('./statisticAnalysis', false, /.js$/))
 const MainRoute = {
   path: '/Main',
   name: 'Main',

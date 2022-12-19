@@ -588,6 +588,8 @@ const defaultPublicRenders = {
   $vxeSelect: {
     // 下拉选择
     renderDefault(h, { props = {}, options }, { row, column }, context) {
+      const labelField = props.label || 'label'
+      const valueField = props.value || 'value'
       row[column.property] = (row[column.property] + '').replace(/null|undefined/ig, '')
       // // row[column.property] = typeof (row[column.property]) === 'string' ? row[column.property] : (Array.isArray(row[column.property]) ? row[column.property].join(',') : '')
       let arrValue = []
@@ -596,16 +598,16 @@ const defaultPublicRenders = {
         if (props.optgroup) {
           options.forEach((itemP, indexP) => {
             itemP.children.forEach((item, index) => {
-              if (row[column.property + '__multiple'].split(',').indexOf(item.value + '') >= 0) {
-                arrValue.push(item.label)
+              if (row[column.property + '__multiple'].split(',').indexOf(item[valueField] + '') >= 0) {
+                arrValue.push(item[labelField])
               }
             })
           })
         } else {
           row[column.property + '__multiple'] = (row[column.property] === '') ? [] : row[column.property].split(',')
           options.forEach((item, index) => {
-            if (row[column.property + '__multiple'].split(',').indexOf(item.value + '') >= 0) {
-              arrValue.push(item.label)
+            if (row[column.property + '__multiple'].split(',').indexOf(item[valueField] + '') >= 0) {
+              arrValue.push(item[labelField])
             }
           })
         }
@@ -613,15 +615,15 @@ const defaultPublicRenders = {
         if (props.optgroup) {
           options.forEach((itemP, indexP) => {
             itemP.children.forEach((item, index) => {
-              if (row[column.property] + '' === item.value + '') {
-                arrValue.push(item.label)
+              if (row[column.property] + '' === item[valueField] + '') {
+                arrValue.push(item[labelField])
               }
             })
           })
         } else {
           options.forEach((item, index) => {
-            if (row[column.property] + '' === item.value + '') {
-              arrValue.push(item.label)
+            if (row[column.property] + '' === item[valueField] + '') {
+              arrValue.push(item[labelField])
             }
           })
         }
@@ -2848,6 +2850,26 @@ const defaultTableRenderers = {
   //     return [<span>{row[column.property]}</span>]
   //   }
   // }
+  $customIcon: {
+    // 增加icon图标展示
+    renderDefault(h, cellRender, params) {
+      const { renderProps, options } = cellRender
+      let { row, column } = params
+      const cellValue = row[column.property]
+      const currentOption = options.find(option => String(option.value) === String(cellValue))
+      if (renderProps?.render && typeof renderProps?.render === 'function') {
+        return renderProps.render(h, { row, column, cellRender, params })
+      } else if (currentOption?.iconClass) {
+        return [
+          <i class={currentOption?.iconClass} style={{ ...(currentOption?.iconStyle || {}), fontSize: '18px' }}></i>
+        ]
+      } else {
+        return [
+          <span>{currentOption?.label || currentOption?.value}</span>
+        ]
+      }
+    }
+  },
   $vxeIcon: {
     // 增加icon图标展示
     renderDefault(h, cellRander, params) {
@@ -2865,13 +2887,14 @@ const defaultTableRenderers = {
   $vxeIcon1: {
     // 增加icon图标展示 红灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
         <div style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
         </div>
       ]
     }
@@ -2879,13 +2902,14 @@ const defaultTableRenderers = {
   $vxeIcon2: {
     // 增加icon图标展示 黄灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
         <div style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
         </div>
       ]
     }
@@ -2893,13 +2917,14 @@ const defaultTableRenderers = {
   $vxeIcon3: {
     // 增加icon图标展示 绿灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
         <div style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
         </div>
       ]
     }
@@ -2921,13 +2946,14 @@ const defaultTableRenderers = {
   $vxeIcon6: {
     // 增加icon图标展示 橙色
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
         <div style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
         </div>
       ]
     }
@@ -2935,13 +2961,14 @@ const defaultTableRenderers = {
   $vxeIcon7: {
     // 增加icon图标展示 蓝色
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
         <div style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
         </div>
       ]
     }

@@ -1,3 +1,4 @@
+import store from '@/store'
 export const getSearchFormSchemas = () => {
   return [
     {
@@ -7,6 +8,7 @@ export const getSearchFormSchemas = () => {
       align: 'right',
       itemRender: {
         name: '$input',
+        defaultValue: store.state.userInfo.year,
         props: {
           type: 'year',
           placeholder: '请选择业务年度',

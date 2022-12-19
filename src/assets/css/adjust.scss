@@ -338,8 +338,8 @@
   box-shadow: 0 0 0.2em 0 var(--secondary-color);
 }
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: var(--secondary-color);
-  border-color: var(--secondary-color);
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 .is--checked.vxe-custom--option .vxe-checkbox--icon:before, .is--checked.vxe-export--panel-column-option .vxe-checkbox--icon:before, .is--checked.vxe-table--filter-option .vxe-checkbox--icon:before, .is--indeterminate.vxe-custom--option .vxe-checkbox--icon:before, .is--indeterminate.vxe-export--panel-column-option .vxe-checkbox--icon:before, .is--indeterminate.vxe-table--filter-option .vxe-checkbox--icon:before, .vxe-table .is--checked.vxe-cell--checkbox .vxe-checkbox--icon:before, .vxe-table .is--indeterminate.vxe-cell--checkbox .vxe-checkbox--icon:before {
   border-color: var(--secondary-color);

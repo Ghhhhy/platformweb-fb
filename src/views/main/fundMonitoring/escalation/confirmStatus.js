@@ -32,6 +32,27 @@ export const getColumns = () => {
       align: 'center'
     },
     {
+      title: '月份',
+      field: 'logMonth',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '起始时间',
+      field: 'startTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '截止时间',
+      field: 'endTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '生成时间',
       field: 'createdTime',
       sortable: false,

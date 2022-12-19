@@ -581,17 +581,27 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: 1,
-      warningLeveloptions: [
+      warningLeveloptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
+        return {
+          value: item.warnLevel, label: item.warnName
+        }
+      }) ||
+      [
         { value: 1, label: '黄色预警' },
         { value: 2, label: '橙色预警' },
         { value: 3, label: '红色预警' },
         { value: 4, label: '非人工干预蓝色预警' }
       ],
       handleType: 1,
-      handleTypeoptions: [
-        { value: 1, label: '预警' },
-        { value: 2, label: '拦截' },
-        { value: 3, label: '冻结' },
+      handleTypeoptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
+        return {
+          value: item.warnLevel, label: item.warnTips
+        }
+      }) ||
+      [
+        { value: 1, label: '预警，无需上传附件' },
+        { value: 2, label: '预警，需上传附件' },
+        { value: 3, label: '拦截' },
         { value: 4, label: '记录' }
       ],
       isEnable: 0,

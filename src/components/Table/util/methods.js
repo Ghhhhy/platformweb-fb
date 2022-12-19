@@ -3266,7 +3266,8 @@ const exportAndImportFn = {
       computedExpandData
     ] = [
       this.$XEUtils.clone(fullData, true),
-      this.$XEUtils.clone(treeExpandData, true)]
+      this.$XEUtils.clone(treeExpandData, true)
+    ]
     this.$XEUtils.eachTree(computedFullData, item => {
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })

@@ -46,5 +46,14 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/CentralTransferPayment/CentralTransferPayment.vue')
+  },
+  {
+    path: '/UserRegulationRelation', // 用户资金权限配置
+    name: 'UserRegulationRelation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/UserRegulationRelation/UserRegulationRelation.vue')
   }
 ]

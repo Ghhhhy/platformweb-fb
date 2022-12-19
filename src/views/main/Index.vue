@@ -227,7 +227,6 @@ export default {
           this.curRouteTabObj.url !== value
         ) {
           let indexOf = this.getIndexof(this.tabListCp, value, 'url')
-          console.log(this.tabListCp[indexOf])
 
           this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
           // if (indexOf === -1) {
@@ -396,7 +395,6 @@ export default {
       let self = this
       // let userInfo = self.$store.state.userInfo
       let menuInfo = self.$store.state.curNavModule
-      console.log(menuInfo)
       let param = {
         menuguid: menuInfo.guid,
         roleguid: menuInfo.roleguid || self.userInfo.guid,
