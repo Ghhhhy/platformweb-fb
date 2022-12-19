@@ -81,6 +81,11 @@ const routers = [
     path: '/dfrPaySituationFund', // 中央直达资金支出情况_分资金(按月份)
     name: 'dfrPaySituationFund',
     component: () => import('@/views/main/fujianLedge/dfrPaySituationFund/index.vue')
+  },
+  {
+    path: '/centerzdzjRecDisplay', // 中央直达资金接收情况展示
+    name: 'centerzdzjRecDisplay',
+    component: () => import('@/views/main/fujianLedge/centerzdzjRecDisplay/index.vue')
   }
 ]
 
