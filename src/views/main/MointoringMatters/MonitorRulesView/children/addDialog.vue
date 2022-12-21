@@ -273,11 +273,11 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
                       <el-select
                         v-model="uploadFile"
                         :disabled="disabled"
-                        placeholder="请选择是否上传附件"
+                        placeholder="请选择是否必传附件"
                         style="width:45%"
                       >
                         <el-option
