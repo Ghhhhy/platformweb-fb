@@ -16,7 +16,7 @@ export default {
     // 获取预警信息
     async getWarnInfo({ commit }) {
       const { data } = await getWarnInfo()
-      commit('setWarnInfoOptions', data || [])
+      Array.isArray(data) && commit('setWarnInfoOptions', data || [])
     }
   }
 }
