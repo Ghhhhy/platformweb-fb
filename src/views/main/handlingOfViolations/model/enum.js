@@ -41,16 +41,16 @@ export const TabEnum = {
   NO_SEND: '1',
   // 已送审
   SENDED: '2',
-  // 被退回
-  RETURN: '3',
-  // 被禁止
-  DISABLED: '4',
-  // 全部 -> useTable-beforeFetch 过滤All的值
-  ALL: '5',
   // 未审核
-  NO_AUDIT: '1',
+  NO_AUDIT: '3',
   // 已审核
-  AUDITED: '2'
+  AUDITED: '4',
+  // 被退回
+  RETURN: '5',
+  // 被禁止
+  DISABLED: '6',
+  // 全部 -> useTable-beforeFetch 过滤All的值
+  ALL: '7'
 }
 
 /**
@@ -66,18 +66,6 @@ export const WarnLevelEnum = {
   RED: '3',
   // 蓝色预警
   BLUE: '4'
-}
-
-/**
- * 认定状态枚举
- */
-export const CheckStatusEnum = {
-  // 放行
-  PASS: 1,
-  // 改正
-  RETURN: 2,
-  // 禁止
-  DISABLED: 3
 }
 
 /**

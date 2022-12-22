@@ -70,8 +70,12 @@ function useTable(
         const handle = item.handle
         const classList = getClass(item, params)
         const label = getActionLabel(item, params)
+        const tips = item?.tips || label
 
-        return <el-tooltip content={label} placement="top" effect="light">
+        // const render = item.render || {}
+        // const renderType = render?.tagType || 'text'
+
+        return <el-tooltip content={tips} placement="top" effect="light">
           <a
             class={classList.join(' ') + ' gloable-option-row fn-inline'}
             onClick={() => handle(params)}

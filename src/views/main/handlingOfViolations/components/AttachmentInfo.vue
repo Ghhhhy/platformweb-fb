@@ -146,7 +146,7 @@ export default defineComponent({
     async function deleteFileHandle(file, index) {
       try {
         setDeleteLoading(true)
-        // 暂时取消立即删除操作：后续重新打开该处理单后根据后端返回的附件列表，在平台附件里面过滤，并删除后端没有存的文件
+        // 暂时取消立即从平台删除操作：后续重新打开该处理单后根据后端返回的附件列表，在平台附件里面过滤，并删除后端没有存的文件
         // 避免平台附件删除后，用户取消送审、确认操作 导致数据不一致问题
         // checkRscode(await deleteFile(file.fileguid))
         Message.success('删除成功！')

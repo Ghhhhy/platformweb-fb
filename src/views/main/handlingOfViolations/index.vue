@@ -65,7 +65,6 @@
       v-if="auditVisible"
       v-model="auditVisible"
       :checked-records="checkedRecords"
-      :modal-type="modalType"
       @success="resetFetchTableData"
     />
   </div>
@@ -87,7 +86,6 @@ import {
   searchFormAllTabSchema,
   getCommonColumns,
   getAuditDescriptionColumn,
-  checkStatusColumn,
   getNodeStatusColumn,
   sendAuditTabs,
   doAuditTabs,
@@ -235,7 +233,6 @@ export default defineComponent({
         initColumns.splice(
           2,
           0,
-          checkStatusColumn,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
       } else if (unref(currentTab).code === TabEnum.ALL) {
@@ -251,7 +248,6 @@ export default defineComponent({
           initColumns.splice(
             initColumns.length - 2,
             0,
-            checkStatusColumn,
             getAuditDescriptionColumn({ title: '处理意见' })
           )
         }
@@ -267,7 +263,6 @@ export default defineComponent({
         initColumns.splice(
           initColumns.length - 1,
           0,
-          checkStatusColumn,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
       }

@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <BsMainFormListLayout :left-visible="false">
+    <BsMainFormListLayout :left-visible="leftVisible">
       <template v-slot:topTabPane>
         <BsTabPanel
           :tab-status-btn-config="tabStatusBtnConfig"
@@ -15,6 +15,25 @@
             @onSearchClick="search"
             @register="registerForm"
           />
+        </div>
+      </template>
+      <template v-slot:mainTree>
+        <div style="height: 100%;">
+          <BsTreeTitle
+            :visiable.sync="leftVisible"
+            :input-value.sync="treeFilterText"
+            label="导航"
+          />
+          <div class="mmc-left-tree-body" style="height: calc(100% - 48px); overflow-y: auto">
+            <BsTree
+              ref="mofDivTree"
+              v-loading="treeLoading"
+              :filter-text="treeFilterText"
+              :config="{ showFilter: false, expandOnClickNode: false, treeProps }"
+              :tree-data="treeData"
+              @onNodeClick="nodeClick"
+            />
+          </div>
         </div>
       </template>
       <template v-slot:mainForm>
@@ -35,6 +54,12 @@
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
+                <div
+                  v-if="!leftVisible"
+                  class="table-toolbar-contro-leftvisible"
+                  @click="leftVisible = true"
+                >
+                </div>
                 <BsTableTitle title="统计分析" />
               </div>
             </template>
@@ -52,26 +77,23 @@
 </template>
 
 <script>
-import { defineComponent, provide, ref, toRaw } from '@vue/composition-api'
+import { defineComponent, provide, ref, unref, toRaw } from '@vue/composition-api'
 import PreviewDetail from '../common/components/PreviewDetail'
+import { eachTree } from 'xe-utils'
 
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
+import useTree from '@/hooks/useTree'
 import useTabPlanel from '../common/hooks/useTabPlanel'
 import { useModal } from '@/hooks/useModal/index'
 
-import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
+import { queryDep } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import {
   getWarnCountColumns,
   searchFormCommonSchemas
 } from '@/views/main/statisticAnalysis/common/model/data.js'
-import {
-  getRuleNameColumn,
-  getIsDirColumn,
-  getWarnLevelColumn,
-  getControlTypeColumn,
-  getWarnTypeColumn
-} from '@/views/main/handlingOfViolations/model/data.js'
+import { getAgencyNameColumn } from '@/views/main/handlingOfViolations/model/data.js'
+import elementTreeApi from '@/api/frame/common/tree/unitTree'
 
 export default defineComponent({
   components: {
@@ -90,11 +112,59 @@ export default defineComponent({
     provide('pagePath', pagePath)
     provide('modalType', '')
 
+    // 左侧区划树显隐
+    const leftVisible = ref(true)
+
     // 规则弹窗显隐
     const [ruleModalVisible, changeRuleModalVisibleVisible] = useModal()
 
     // 当前操作行
     const currentRow = ref(null)
+
+    /**
+     * 区划树相关
+     */
+    const {
+      treeProps,
+      treeData,
+      treeFilterText,
+      treeLoading
+    } = useTree(
+      {
+        treeProps: {
+          nodeKey: 'code'
+        },
+        fetch: elementTreeApi.getElementTree,
+        beforeFetch: params => {
+          return {
+            ...params,
+            elementCode: 'AGENCY'
+          }
+        },
+        afterFetch: data => {
+          return [
+            {
+              name: '全部',
+              customCode: 'ALL_NODE_CODE',
+              children: data || []
+            }
+          ]
+        },
+        // 新增赋值结束的钩子：需要根据单位树加载列表数据
+        finallyFetch: () => {
+          resetFetchTableData()
+        }
+      }
+    )
+    // 当前选中的树节点
+    const currentTreeNode = ref(null)
+    /**
+     * 指标数节点点击
+     */
+    function nodeClick({ node }) {
+      currentTreeNode.value = node
+      resetFetchTableData()
+    }
 
     /**
      * 搜索表单
@@ -144,20 +214,34 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: queryRule,
+      fetch: queryDep,
+      beforeFetch: params => {
+        console.log(unref(treeData))
+        const codes = []
+        if (!unref(currentTreeNode) || unref(currentTreeNode).customCode === 'ALL_NODE_CODE') {
+          eachTree(unref(treeData)[0]?.children ? unref(treeData)[0]?.children : [], item => {
+            codes.push(item.code)
+          })
+        } else {
+          eachTree([unref(currentTreeNode)], item => {
+            codes.push(item.code)
+          })
+        }
+
+        return {
+          ...params,
+          agencyCode: codes
+        }
+      },
       columns: [
-        getRuleNameColumn(),
-        getWarnLevelColumn('$vxeSelect'),
-        getControlTypeColumn(),
-        getWarnTypeColumn(),
-        ...getWarnCountColumns(),
-        getIsDirColumn({
-          cellRender: null
-        })
+        getAgencyNameColumn({
+          width: 'auto'
+        }),
+        ...getWarnCountColumns()
       ],
       getSubmitFormData,
       dataKey: 'data.results'
-    })
+    }, false)
     const footerConfig = ref({
       totalObj: {
         warnTotal: 15,
@@ -186,7 +270,15 @@ export default defineComponent({
     } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
 
     return {
+      leftVisible,
       ruleModalVisible,
+
+      treeProps,
+      treeData,
+      treeFilterText,
+      treeLoading,
+      currentTreeNode,
+      nodeClick,
 
       cellDblclick,
       footerConfig,

@@ -33,11 +33,11 @@
         <tr>
           <!--除开第1、2最后一列（序号、处理日期、是否终审），其余列平分宽度-->
           <th
-            v-for="(column, index) in columns"
+            v-for="(column) in columns"
             :key="column.field"
             :align="column.titleAlign || 'center'"
             :style="{
-              width: [0, 1, columns.length - 1].includes(index) ? `${column.width}px` : computedColumnWidth,
+              width: column.type === 'seq' && ['createTime'].includes(column.field) ? `${column.width}px` : computedColumnWidth,
               textAlign: 'center',
             }"
           >
@@ -76,7 +76,7 @@
 <script>
 import { defineComponent, unref, inject, computed } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { auditInfoColumns, checkStatusColumn, getAuditDescriptionColumn, indexColumn } from '../model/data'
+import { auditInfoColumns, getAuditDescriptionColumn, indexColumn } from '../model/data'
 import { RouterPathEnum, WarnLevelEnum } from '../model/enum'
 
 export default defineComponent({
@@ -101,31 +101,19 @@ export default defineComponent({
       if (unref(currentNode)?.warnLevel === WarnLevelEnum.BLUE) {
         // 蓝色预警
         common.splice(
-          common.length - 2,
+          common.length - 1,
           0,
           getAuditDescriptionColumn({ title: '处理说明' })
         )
       } else if (unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK) {
-        // 单位反馈
         common.splice(
-          1,
-          0,
-          checkStatusColumn
-        )
-        common.splice(
-          common.length - 2,
+          common.length - 1,
           0,
           getAuditDescriptionColumn({ title: '处理说明/处理意见' })
         )
       } else {
-        // 其他情况
         common.splice(
-          1,
-          0,
-          checkStatusColumn
-        )
-        common.splice(
-          common.length - 2,
+          common.length - 1,
           0,
           getAuditDescriptionColumn({ title: '处理说明/处理意见' })
         )

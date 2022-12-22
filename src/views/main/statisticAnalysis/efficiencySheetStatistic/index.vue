@@ -24,78 +24,38 @@
             :table-config="tableConfig"
             :table-columns-config="columns"
             :table-data="tableData"
-            :footer-config="footerConfig"
             :toolbar-config="tableToolbarConfig"
             :pager-config="pagerConfig"
             size="medium"
             @register="registerTable"
             @ajaxData="pagerChange"
             @onToolbarBtnClick="onToolbarBtnClick"
-            @cellDblclick="cellDblclick"
           >
             <template v-slot:toolbarSlots>
-              <div class="table-toolbar-left">
+              <div class="table-toolbar-left" style="display: flex; align-items: center;">
                 <BsTableTitle title="统计分析" />
+                <p style="font-size: 14px">说明：支出处室审核时间当月数据=当月审核间隔天数总和/总笔数</p>
               </div>
             </template>
           </BsTable>
         </div>
       </template>
     </BsMainFormListLayout>
-    <PreviewDetail
-      v-if="ruleModalVisible"
-      v-model="ruleModalVisible"
-      :current-row="currentRow"
-      @closeAll="closeAllHandle"
-    />
   </div>
 </template>
 
 <script>
-import { defineComponent, provide, ref, toRaw } from '@vue/composition-api'
-import PreviewDetail from '../common/components/PreviewDetail'
+import { defineComponent, toRaw } from '@vue/composition-api'
 
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTabPlanel from '../common/hooks/useTabPlanel'
-import { useModal } from '@/hooks/useModal/index'
 
 import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
-import {
-  getWarnCountColumns,
-  searchFormCommonSchemas
-} from '@/views/main/statisticAnalysis/common/model/data.js'
-import {
-  getRuleNameColumn,
-  getIsDirColumn,
-  getWarnLevelColumn,
-  getControlTypeColumn,
-  getWarnTypeColumn
-} from '@/views/main/handlingOfViolations/model/data.js'
+import { getIndexColumns, getSearchSchemas } from './model/data.js'
 
 export default defineComponent({
-  components: {
-    PreviewDetail
-  },
-  setup(_, { root }) {
-    const route = root.$route
-
-    // 页面路由
-    const pagePath = ref(route.path)
-
-    /**
-     * modalType:弹窗打开操作
-     * pagePath:页面路由
-     */
-    provide('pagePath', pagePath)
-    provide('modalType', '')
-
-    // 规则弹窗显隐
-    const [ruleModalVisible, changeRuleModalVisibleVisible] = useModal()
-
-    // 当前操作行
-    const currentRow = ref(null)
-
+  setup(_) {
     /**
      * 搜索表单
      */
@@ -107,7 +67,7 @@ export default defineComponent({
         getSubmitFormData
       },
       registerForm
-    ] = useForm(searchFormCommonSchemas)
+    ] = useForm(getSearchSchemas())
 
     /**
      * 搜索&重置
@@ -117,13 +77,6 @@ export default defineComponent({
       setSubmitFormData(toRaw(formData))
 
       resetFetchTableData()
-    }
-
-    /**
-     * 关闭所有弹窗
-     * */
-    function closeAllHandle() {
-      changeRuleModalVisibleVisible(false)
     }
 
     /**
@@ -139,42 +92,15 @@ export default defineComponent({
         tableLoadingState,
         pagerChange,
         pagerConfig,
-        onToolbarBtnClick,
-        getTable
+        onToolbarBtnClick
       },
       registerTable
     ] = useTable({
       fetch: queryRule,
-      columns: [
-        getRuleNameColumn(),
-        getWarnLevelColumn('$vxeSelect'),
-        getControlTypeColumn(),
-        getWarnTypeColumn(),
-        ...getWarnCountColumns(),
-        getIsDirColumn({
-          cellRender: null
-        })
-      ],
+      columns: getIndexColumns(),
       getSubmitFormData,
       dataKey: 'data.results'
     })
-    const footerConfig = ref({
-      totalObj: {
-        warnTotal: 15,
-        noEnd: 5,
-        end: 10
-      },
-      combinedType: ['switchTotal'],
-      showFooter: true
-    })
-
-    /**
-     * 双击单元格
-     * */
-    function cellDblclick({ row }) {
-      currentRow.value = row
-      changeRuleModalVisibleVisible(true)
-    }
 
     /**
      * 顶部tab模块
@@ -183,13 +109,10 @@ export default defineComponent({
       tabStatusBtnConfig,
       isShowSearchForm,
       onQueryConditionsClick
-    } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
+    } = useTabPlanel()
+    tabStatusBtnConfig.value.buttonsInfo = null
 
     return {
-      ruleModalVisible,
-
-      cellDblclick,
-      footerConfig,
       columns,
       registerTable,
       tableConfig,
@@ -200,9 +123,6 @@ export default defineComponent({
       onToolbarBtnClick,
       pagerChange,
       resetFetchTableData,
-
-      currentRow,
-      closeAllHandle,
 
       tabStatusBtnConfig,
       isShowSearchForm,

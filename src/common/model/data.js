@@ -32,31 +32,29 @@ export const payAppMenu = {
 }
 
 /** 预算单位treeSelect **/
-export const budgetUnitTreeSelect = {
-  isServer: true,
-  config: {
-    valueKeys: ['code', 'name', 'id'],
-    format: '{name}',
-    treeProps: {
+export const getBudgetUnitTreeSelect = (config = {}, editConfig = {}, queryparams = {}) => {
+  return {
+    isServer: true,
+    ajaxType: 'get',
+    serverUri: Urls.MOf_DIV_TREE,
+    multiple: true,
+    props: {
       labelFormat: '{code}-{name}', // {code}-{name}
       nodeKey: 'id',
       label: 'label',
       children: 'children'
     },
-    placeholder: '请选择',
-    multiple: true,
-    readonly: false,
-    isleaf: true,
-    axiosConfig: {
-      successCode: '100000', // 成功code
-      statusField: 'rscode',
-      method: 'get', // 请求方式
-      url: Urls.MOf_DIV_TREE // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
-    }
-  },
-  queryparams: {
-    elementCode: 'AGENCY',
-    year: store.state.userInfo.year,
-    province: store.state.userInfo.province
+    openFormatLabel: true,
+    editConfig: {
+      placeholder: '请选择',
+      ...(editConfig || {})
+    },
+    queryparams: {
+      elementCode: 'AGENCY',
+      year: store.state.userInfo.year,
+      province: store.state.userInfo.province,
+      ...(queryparams || {})
+    },
+    ...(config || {})
   }
 }
