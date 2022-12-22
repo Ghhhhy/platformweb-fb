@@ -140,7 +140,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          $ledgerInputGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
