@@ -103,7 +103,7 @@ export let proconf = {
       filters: false,
       width: 140,
       cellRender: {
-        name: '$payVoucherInputGloableOptionRow'
+        name: '$ledgerInputGloableOptionRow'
       }
     }]
 }
