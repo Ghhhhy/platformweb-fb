@@ -11,7 +11,7 @@ import { Message } from 'element-ui'
  * @param cloneRecords
  * @return {{initWarningCodesAttachFiles: ((function(): Promise<void>)|*), uploadAfter: uploadAfter, deleteFileHandle: deleteFileHandle, fileLoading: *}}
  */
-export default function useAttachFiles(currentNode, cloneRecords, checkedItemsObj) {
+export default function useAttachFiles(currentNode, cloneRecords, checkedItemsObj, isAutoDelete = true) {
   /**
    * 上传到平台附件成功回调
    */
@@ -42,11 +42,13 @@ export default function useAttachFiles(currentNode, cloneRecords, checkedItemsOb
       )
       const remoteFiles = data ? JSON.parse(data) : []
 
-      // 删除多余文件
-      const needDeleteFiles = remoteFiles
-        .filter(item => !targetWarningNode.attachFiles.includes(item.fileguid))
-        .map(item => item.fileguid)
-      initNeedDeleteFileIds.push(...needDeleteFiles)
+      if (isAutoDelete) {
+        // 时候自动删除多余文件
+        const needDeleteFiles = remoteFiles
+          .filter(item => !targetWarningNode.attachFiles.includes(item.fileguid))
+          .map(item => item.fileguid)
+        initNeedDeleteFileIds.push(...needDeleteFiles)
+      }
 
       // 以后端库里的files列表为参考 过滤远程文件 并添加保留状态
       targetWarningNode.attachFiles = targetWarningNode.attachFiles.map(fileguid => {
@@ -77,7 +79,9 @@ export default function useAttachFiles(currentNode, cloneRecords, checkedItemsOb
           warningNode.attachFiles = []
         }
       })
-      initNeedDeleteFileIds?.length && deleteFile(initNeedDeleteFileIds.join(','))
+      if (isAutoDelete && initNeedDeleteFileIds?.length) {
+        deleteFile(initNeedDeleteFileIds.join(','))
+      }
 
       await Promise.all(promiseList)
       currentNode.value = unref(cloneRecords)[0]

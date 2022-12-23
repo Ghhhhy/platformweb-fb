@@ -216,7 +216,6 @@ export default defineComponent({
     ] = useTable({
       fetch: queryDep,
       beforeFetch: params => {
-        console.log(unref(treeData))
         const codes = []
         if (!unref(currentTreeNode) || unref(currentTreeNode).customCode === 'ALL_NODE_CODE') {
           eachTree(unref(treeData)[0]?.children ? unref(treeData)[0]?.children : [], item => {

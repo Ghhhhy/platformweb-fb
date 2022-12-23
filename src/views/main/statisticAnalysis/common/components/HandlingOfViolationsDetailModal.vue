@@ -125,7 +125,7 @@ export default defineComponent({
     const {
       fileLoading,
       initWarningCodesAttachFiles
-    } = useAttachFiles(currentNode, cloneRecords)
+    } = useAttachFiles(currentNode, cloneRecords, currentNode, false)
 
     Promise.all([
       initWarningCodesAttachFiles(),

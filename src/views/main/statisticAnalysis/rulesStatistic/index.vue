@@ -146,7 +146,10 @@ export default defineComponent({
     ] = useTable({
       fetch: queryRule,
       columns: [
-        getRuleNameColumn(),
+        getRuleNameColumn({
+          title: '规则名称',
+          width: 'auto'
+        }),
         getWarnLevelColumn('$vxeSelect'),
         getControlTypeColumn(),
         getWarnTypeColumn(),
