@@ -121,6 +121,7 @@ export const getWarnCountColumns = () => {
       align: 'left',
       width: 140,
       sortable: false,
+      combinedType: 'totalAll',
       filters: false
     },
     {
@@ -128,6 +129,7 @@ export const getWarnCountColumns = () => {
       field: 'onWay',
       width: 140,
       align: 'left',
+      combinedType: 'totalAll',
       sortable: false,
       filters: false
     },
@@ -143,6 +145,7 @@ export const getWarnCountColumns = () => {
           field: 'release',
           width: 140,
           align: 'left',
+          combinedType: 'totalAll',
           sortable: false,
           filters: false
         },
@@ -151,6 +154,7 @@ export const getWarnCountColumns = () => {
           field: 'prohibit',
           width: 140,
           align: 'left',
+          combinedType: 'totalAll',
           sortable: false,
           filters: false
         }

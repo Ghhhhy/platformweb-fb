@@ -174,7 +174,7 @@ function useTable(
       // 后置钩子（提供返回数据处理）
       if (configIn.finallyFetch && typeof configIn.finallyFetch === 'function') {
         setTimeout(() => {
-          config.finallyFetch(data)
+          configIn.finallyFetch(data)
         })
       }
     } finally {
