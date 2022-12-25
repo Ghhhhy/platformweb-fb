@@ -8,7 +8,7 @@ export const useFooter = () => {
       release: 0,
       prohibit: 0
     },
-    combinedType: ['totalAll'],
+    combinedType: ['switchTotal'],
     showFooter: true
   })
 

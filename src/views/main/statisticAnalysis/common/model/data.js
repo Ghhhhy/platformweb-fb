@@ -118,18 +118,40 @@ export const getWarnCountColumns = () => {
     {
       title: '预警总数量',
       field: 'warnTotal',
-      align: 'left',
+      align: 'right',
       width: 140,
       sortable: false,
-      combinedType: 'totalAll',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'number'
+        }
+      },
       filters: false
     },
     {
       title: '在途',
       field: 'onWay',
       width: 140,
-      align: 'left',
-      combinedType: 'totalAll',
+      align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'number'
+        }
+      },
       sortable: false,
       filters: false
     },
@@ -144,8 +166,19 @@ export const getWarnCountColumns = () => {
           title: '放行',
           field: 'release',
           width: 140,
-          align: 'left',
-          combinedType: 'totalAll',
+          align: 'right',
+          combinedType: [
+            'average',
+            'subTotal',
+            'total',
+            'totalAll'
+          ],
+          cellRender: {
+            name: '$vxeInput',
+            props: {
+              type: 'number'
+            }
+          },
           sortable: false,
           filters: false
         },
@@ -153,8 +186,19 @@ export const getWarnCountColumns = () => {
           title: '禁止',
           field: 'prohibit',
           width: 140,
-          align: 'left',
-          combinedType: 'totalAll',
+          align: 'right',
+          combinedType: [
+            'average',
+            'subTotal',
+            'total',
+            'totalAll'
+          ],
+          cellRender: {
+            name: '$vxeInput',
+            props: {
+              type: 'number'
+            }
+          },
           sortable: false,
           filters: false
         }
