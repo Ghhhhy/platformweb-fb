@@ -94,6 +94,7 @@ import {
 } from '@/views/main/statisticAnalysis/common/model/data.js'
 import { getAgencyNameColumn } from '@/views/main/handlingOfViolations/model/data.js'
 import elementTreeApi from '@/api/frame/common/tree/unitTree'
+import { useFooter } from '../common/hooks/useFooter'
 
 export default defineComponent({
   components: {
@@ -196,6 +197,8 @@ export default defineComponent({
       changeRuleModalVisibleVisible(false)
     }
 
+    const { footerConfig } = useFooter()
+
     /**
      * 表格
      * */
@@ -232,6 +235,9 @@ export default defineComponent({
           agencyCode: codes
         }
       },
+      finallyFetch: data => {
+        footerConfig.value.totalObj = data?.warnHJVO || {}
+      },
       columns: [
         getAgencyNameColumn({
           width: 'auto'
@@ -241,15 +247,6 @@ export default defineComponent({
       getSubmitFormData,
       dataKey: 'data.results'
     }, false)
-    const footerConfig = ref({
-      totalObj: {
-        warnTotal: 15,
-        noEnd: 5,
-        end: 10
-      },
-      combinedType: ['switchTotal'],
-      showFooter: true
-    })
 
     /**
      * 双击单元格

@@ -88,7 +88,7 @@ function useTree(
       // 后置钩子（提供返回数据处理）
       if (config.finallyFetch && typeof config.finallyFetch === 'function') {
         setTimeout(() => {
-          config.finallyFetch()
+          config.finallyFetch(data)
         })
       }
     } finally {

@@ -13,6 +13,7 @@ function useTable(
     fetch: config?.fetch, // 请求数据方法
     beforeFetch: config?.beforeFetch, // 前置钩子
     afterFetch: config?.afterFetch, // 后置钩子
+    finallyFetch: config?.finallyFetch, // 赋值完成的钩子
     getSubmitFormData: config?.getSubmitFormData, // 获取搜索栏form表单值
     openPager: typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
     dataKey: typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records' // 深层取值字段
@@ -169,6 +170,13 @@ function useTable(
 
       pagerConfig.total = data?.totalCount || data?.total || 0
       tableData.value = transformFetchData(res, configIn.dataKey) || []
+
+      // 后置钩子（提供返回数据处理）
+      if (configIn.finallyFetch && typeof configIn.finallyFetch === 'function') {
+        setTimeout(() => {
+          config.finallyFetch(data)
+        })
+      }
     } finally {
       tableLoadingState.value = false
     }

@@ -60,6 +60,7 @@ import {
 import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import { RouterPathEnum } from '../model/enum'
+import { useFooter } from '../hooks/useFooter'
 
 const model = {
   prop: 'value',
@@ -103,6 +104,8 @@ export default defineComponent({
         title: '规则名称'
       })
     ]
+
+    const { footerConfig } = useFooter()
     /**
      * 表格
      * */
@@ -130,6 +133,9 @@ export default defineComponent({
           [property]: value
         }
       },
+      finallyFetch: data => {
+        footerConfig.value.totalObj = data?.warnHJVO || {}
+      },
       columns: [
         ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
         getWarnLevelColumn('$vxeSelect'),
@@ -141,15 +147,6 @@ export default defineComponent({
         })
       ],
       dataKey: 'data.results'
-    })
-    const footerConfig = ref({
-      totalObj: {
-        warnTotal: 15,
-        noEnd: 5,
-        end: 10
-      },
-      combinedType: ['switchTotal'],
-      showFooter: true
     })
 
     /**

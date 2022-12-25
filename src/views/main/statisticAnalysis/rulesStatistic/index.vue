@@ -72,6 +72,7 @@ import {
   getControlTypeColumn,
   getWarnTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
+import { useFooter } from '../common/hooks/useFooter'
 
 export default defineComponent({
   components: {
@@ -126,6 +127,8 @@ export default defineComponent({
       changeRuleModalVisibleVisible(false)
     }
 
+    const { footerConfig } = useFooter()
+
     /**
      * 表格
      * */
@@ -145,6 +148,9 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
+      finallyFetch: data => {
+        footerConfig.value.totalObj = data?.warnHJVO || {}
+      },
       columns: [
         getRuleNameColumn({
           title: '规则名称',
@@ -160,15 +166,6 @@ export default defineComponent({
       ],
       getSubmitFormData,
       dataKey: 'data.results'
-    })
-    const footerConfig = ref({
-      totalObj: {
-        warnTotal: 15,
-        noEnd: 5,
-        end: 10
-      },
-      combinedType: ['switchTotal'],
-      showFooter: true
     })
 
     /**
