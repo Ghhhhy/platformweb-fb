@@ -153,12 +153,14 @@ export default defineComponent({
           nodeKey: 'code'
         },
         fetch: elementTreeApi.getElementTree,
-        beforeFetch: params => {
-          return {
-            ...params,
-            elementCode: 'AGENCY',
-            nodeType: pagePathMapNodeType[unref(pagePath)]
-          }
+        afterFetch: data => {
+          return [
+            {
+              name: '全部',
+              customCode: 'ALL_NODE_CODE',
+              children: data || []
+            }
+          ]
         }
       },
       // 单位反馈不请求

@@ -136,12 +136,6 @@ export default defineComponent({
           nodeKey: 'code'
         },
         fetch: elementTreeApi.getElementTree,
-        beforeFetch: params => {
-          return {
-            ...params,
-            elementCode: 'AGENCY'
-          }
-        },
         afterFetch: data => {
           return [
             {

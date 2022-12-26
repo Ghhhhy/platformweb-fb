@@ -302,7 +302,6 @@ export const getAgencyNameColumn = (params = {}) => {
     title: '预算单位',
     field: 'agencyName',
     width: 200,
-    align: 'left',
     ...params
   }
 }
@@ -312,7 +311,6 @@ export const getDeptNameColumn = (params = {}) => {
     title: '主管部门',
     field: 'deptName',
     width: 200,
-    align: 'left',
     ...params
   }
 }
@@ -322,7 +320,6 @@ export const getManageMofDepNameColumn = (params = {}) => {
     title: '业务处室',
     field: 'manageMofDepName',
     width: 200,
-    align: 'left',
     ...params
   }
 }
@@ -336,20 +333,17 @@ export const getUnitColumns = () => {
     {
       title: '预算单位',
       field: 'agencyName',
-      width: 200,
-      align: 'left'
+      width: 200
     },
     {
       title: '主管部门',
       field: 'deptName',
-      width: 200,
-      align: 'left'
+      width: 200
     },
     {
       title: '业务处室',
       field: 'manageMofDepName',
-      width: 200,
-      align: 'left'
+      width: 200
     }
   ]
 }
@@ -414,7 +408,6 @@ export const getRuleNameColumn = (params = {}) => {
     title: '预警名称',
     field: 'ruleName',
     width: 260,
-    align: 'left',
     ...params
   }
 }
@@ -588,7 +581,7 @@ export const getReceiptsColumns = () => {
     },
     {
       title: '支出功能分类',
-      field: 'expendType',
+      field: 'expFuncName',
       width: 100,
       sortable: false,
       filters: false
