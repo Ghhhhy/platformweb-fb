@@ -331,7 +331,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zdjzxmqsmzqglqkb'
+        reportCode: this.params5
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

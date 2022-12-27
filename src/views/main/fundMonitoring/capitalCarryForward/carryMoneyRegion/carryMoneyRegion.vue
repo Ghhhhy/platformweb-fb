@@ -333,7 +333,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         isFlush: true,
-        reportCode: 'zdjzzjfdqjzqkb'
+        reportCode: this.params5
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
