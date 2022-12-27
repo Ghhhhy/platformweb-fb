@@ -122,7 +122,6 @@ export const getWarnCountColumns = () => {
       width: 140,
       sortable: false,
       combinedType: [
-        'average',
         'subTotal',
         'total',
         'totalAll'
@@ -141,7 +140,6 @@ export const getWarnCountColumns = () => {
       width: 140,
       align: 'right',
       combinedType: [
-        'average',
         'subTotal',
         'total',
         'totalAll'
@@ -168,7 +166,6 @@ export const getWarnCountColumns = () => {
           width: 140,
           align: 'right',
           combinedType: [
-            'average',
             'subTotal',
             'total',
             'totalAll'
@@ -188,7 +185,6 @@ export const getWarnCountColumns = () => {
           width: 140,
           align: 'right',
           combinedType: [
-            'average',
             'subTotal',
             'total',
             'totalAll'

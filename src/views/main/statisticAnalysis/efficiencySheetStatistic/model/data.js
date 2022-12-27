@@ -135,7 +135,7 @@ export const getSearchSchemas = () => {
   return [
     {
       title: '业务处室',
-      field: 'manageMofDepName',
+      field: 'manageMofDepCode',
       titleWidth: 0,
       itemRender: {
         name: '$vxeTree',
@@ -143,6 +143,7 @@ export const getSearchSchemas = () => {
         props: {
           config: {
             treeProps: {
+              labelFormat: '{code}-{name}',
               nodeKey: 'code',
               label: 'label',
               children: 'children'
@@ -157,7 +158,7 @@ export const getSearchSchemas = () => {
     },
     {
       title: '主管部门',
-      field: 'deptName',
+      field: 'deptCode',
       titleWidth: 0,
       itemRender: {
         name: '$vxeTree',
@@ -165,8 +166,9 @@ export const getSearchSchemas = () => {
         props: {
           config: {
             treeProps: {
+              labelFormat: '{code}-{name}',
               nodeKey: 'code',
-              label: 'label',
+              label: 'name',
               children: 'children'
             },
             placeholder: '主管部门',

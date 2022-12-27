@@ -20,7 +20,7 @@
       <template v-slot:mainForm>
         <div style="height: 100%">
           <BsTable
-            v-loading="tableLoadingState"
+            :loading="tableLoadingState"
             :table-config="tableConfig"
             :table-columns-config="columns"
             :table-data="tableData"

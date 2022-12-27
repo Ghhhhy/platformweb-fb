@@ -14,7 +14,7 @@
     <div style="height: calc(100% - 4px)">
       <div style="height: 100%">
         <BsTable
-          v-loading="tableLoadingState"
+          :loading="tableLoadingState"
           :table-config="tableConfig"
           :table-columns-config="columns"
           :table-data="tableData"

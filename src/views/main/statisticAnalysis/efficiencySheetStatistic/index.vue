@@ -20,7 +20,7 @@
       <template v-slot:mainForm>
         <div style="height: 100%">
           <BsTable
-            v-loading="tableLoadingState"
+            :loading="tableLoadingState"
             :table-config="tableConfig"
             :table-columns-config="columns"
             :table-data="tableData"
@@ -87,7 +87,12 @@ export default defineComponent({
         }
       })
     }
-    Promise.all([getElementTreeHandle('manageMofDepName'), getElementTreeHandle('deptName')])
+    Promise.all(
+      [
+        getElementTreeHandle('manageMofDepCode'),
+        getElementTreeHandle('deptCode')
+      ]
+    )
 
     /**
      * 搜索&重置
@@ -117,8 +122,18 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
+      beforeFetch: params => {
+        /*eslint-disable*/
+        const { manageMofDepCode_code__multiple, deptCode_code__multiple, month } = getSubmitFormData()
+        return {
+          ...params,
+          manageMofDepCode: manageMofDepCode_code__multiple || [],
+          deptCode: deptCode_code__multiple || [],
+          month: month || ''
+        }
+      },
       columns: getIndexColumns(),
-      getSubmitFormData,
+      // getSubmitFormData,
       dataKey: 'data.results'
     })
 
