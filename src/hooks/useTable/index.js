@@ -157,7 +157,7 @@ function useTable(
 
       // 前置钩子（提供请求前的参数处理）
       if (configIn.beforeFetch && typeof configIn.beforeFetch === 'function') {
-        params = configIn.beforeFetch(params)
+        params = await configIn.beforeFetch(params)
       }
 
       // 真实请求

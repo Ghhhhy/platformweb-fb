@@ -30,7 +30,7 @@
               ref="mofDivTree"
               v-loading="treeLoading"
               :filter-text="treeFilterText"
-              :config="{ showFilter: false, treeProps }"
+              :config="{ showFilter: false, expandOnClickNode: false, treeProps }"
               :tree-data="treeData"
               @onNodeClick="nodeClick"
             />
@@ -152,7 +152,7 @@ export default defineComponent({
         treeProps: {
           nodeKey: 'code'
         },
-        fetch: elementTreeApi.getElementTree,
+        fetch: elementTreeApi.getAgencyTree,
         afterFetch: data => {
           return [
             {

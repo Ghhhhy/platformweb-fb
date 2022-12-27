@@ -320,9 +320,31 @@ export default defineComponent({
         }
         // 走请求逻辑
         checkRscode(await bpmFlow(params))
-        visible.value = false
         Message.success('操作成功！')
+        visible.value = false
         emit('success')
+
+        // 后续优化项
+        // if (warningCodeAndFilesList.length < unref(cloneRecords)?.length) {
+        //   MessageBox.confirm('是否继续处理剩余处理单?', '操作成功', {
+        //     confirmButtonText: '继续',
+        //     cancelButtonText: '取消',
+        //     type: 'warning'
+        //   })
+        //     .then(() => {
+        //       warningCodeAndFilesList.forEach(item => {
+        //         const index = cloneRecords.value.findIndex(record => item.warningCode === record.warningCode)
+        //         index > -1 && cloneRecords.value.splice(index, 1)
+        //       })
+        //       if (!cloneRecords.value.find(item => item.warningCode === unref(currentNode).warningCode)) {
+        //         currentNode.value = cloneRecords.value[0]
+        //       }
+        //     })
+        //     .catch(() => {
+        //       visible.value = false
+        //       emit('success')
+        //     })
+        // }
       } finally {
         setAuditButLoading(false)
       }
