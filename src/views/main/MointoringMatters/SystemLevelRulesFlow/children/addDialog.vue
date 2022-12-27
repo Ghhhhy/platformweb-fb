@@ -113,20 +113,30 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;触发菜单</div>
-                      <el-select
-                        v-model="businessFunctionCode"
-                        :disabled="disabled"
-                        placeholder="请选择触发菜单"
-                        style="width:45%"
-                        @change="changeFunCode"
-                      >
-                        <el-option
-                          v-for="item in businessFunctionCodeoptions"
-                          :key="item.id"
-                          :label="item.businessName"
-                          :value="item.id"
-                        />
-                      </el-select>
+                      <!--:disabled="disabled"-->
+                      <!--<el-select-->
+                      <!--  v-model="businessFunctionCode"-->
+                      <!--  placeholder="请选择触发菜单"-->
+                      <!--  style="width:45%"-->
+                      <!--  @change="changeFunCode"-->
+                      <!--&gt;-->
+                      <!--  <el-option-->
+                      <!--    v-for="item in businessFunctionCodeoptions"-->
+                      <!--    :key="item.id"-->
+                      <!--    :label="item.businessName"-->
+                      <!--    :value="item.id"-->
+                      <!--  />-->
+                      <!--</el-select>-->
+                      <BsTree
+                        v-model="businessFunctionCodeModal"
+                        :is-drop-select-tree="true"
+                        :editable="true"
+                        :tree-data="businessFunctionTreeData"
+                        :default-checked-keys="businessFunctionCode"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                        class="businessFunctionTree"
+                        style="display: inline-block;"
+                      />
                     </el-row>
                   </el-main>
                 </el-container>
@@ -476,8 +486,10 @@
 <script>
 import { proconf } from '../SystemLevelRulesFlow.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
 export default {
   name: 'AddDialog',
+  mixins: [queryTreedElementByCodeMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -609,7 +621,7 @@ export default {
       businessModuleCode: '',
       businessModuleName: '',
       businessModuleCodeoptions: [],
-      businessFunctionCode: '',
+      businessFunctionCode: [],
       businessFunctionName: '',
       businessFunctionCodeoptions: [],
       SysparentId: 0,
@@ -644,7 +656,6 @@ export default {
             this.paymentData.forEach(item => {
               if (data.indexOf(item) === -1) {
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + '__viewSort'] = ''
-                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = ''
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code__multiple'] = []
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id'] = ''
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id__multiple'] = []
@@ -1113,14 +1124,13 @@ export default {
     },
     // 选择业务模块
     changeModCode(val) {
-      console.log(val)
       this.ModparentId = val
-      this.businessFunctionCode = ''
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
       this.businessModuleName = busName.businessName
-      this.getFunLists()
+      this.businessFunctionCodeModal = ''
+      // this.getFunLists()
     },
     // 业务系统下拉树
     getSysLists() {
@@ -1204,7 +1214,7 @@ export default {
   },
   watch: {
   },
-  created() {
+  async created() {
     this.getWhereTree()
     this.warnType = this.$parent.DetailData.warnType
     this.uploadFile = this.$parent.DetailData.uploadFile
@@ -1220,11 +1230,15 @@ export default {
     this.getModLists()
     this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
     this.ModparentId = this.businessModuleCode
-    this.getFunLists()
-    this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
+
+    this.businessFunctionCodeModal = this.encodeBusinessFunction(
+      this.$parent.DetailData.menuIdList?.split(',') || [],
+      this.$parent.DetailData.menuNameList?.split(',') || []
+    )
+    // this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
     this.businessSystemName = this.$parent.DetailData.businessSystemName
     this.businessModuleName = this.$parent.DetailData.businessModuleName
-    this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
+    // this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
     // this.regulationClass = this.$parent.DetailData.regulationClass
     this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
     this.triggerClass = this.$parent.DetailData.triggerClass

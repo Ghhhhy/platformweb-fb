@@ -120,20 +120,30 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发菜单</div>
-                      <el-select
-                        v-model="businessFunctionName"
-                        :disabled="disabled"
-                        placeholder="请选择触发菜单"
-                        style="width:45%"
-                        @change="changeFunCode"
-                      >
-                        <el-option
-                          v-for="item in businessFunctionCodeoptions"
-                          :key="item.id"
-                          :label="item.businessName"
-                          :value="item.id"
-                        />
-                      </el-select>
+                      <!--<el-select-->
+                      <!--  v-model="businessFunctionName"-->
+                      <!--  :disabled="disabled"-->
+                      <!--  placeholder="请选择触发菜单"-->
+                      <!--  style="width:45%"-->
+                      <!--  @change="changeFunCode"-->
+                      <!--&gt;-->
+                      <!--  <el-option-->
+                      <!--    v-for="item in businessFunctionCodeoptions"-->
+                      <!--    :key="item.id"-->
+                      <!--    :label="item.businessName"-->
+                      <!--    :value="item.id"-->
+                      <!--  />-->
+                      <!--</el-select>-->
+                      <BsTree
+                        v-model="businessFunctionCodeModal"
+                        :is-drop-select-tree="true"
+                        :editable="true"
+                        :tree-data="businessFunctionTreeData"
+                        :default-checked-keys="businessFunctionCode"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                        class="businessFunctionTree"
+                        style="display: inline-block;"
+                      />
                     </el-row>
                   </el-main>
                 </el-container>
@@ -473,8 +483,11 @@
 <script>
 import { proconf } from '../MonitorRulesView.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
+
 export default {
   name: 'AddDialog',
+  mixins: [queryTreedElementByCodeMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -1231,12 +1244,12 @@ export default {
     changeModCode(val) {
       console.log(val)
       this.ModparentId = val
-      this.businessFunctionCode = ''
+      this.businessFunctionCodeModal = ''
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
       this.businessModuleName = busName.businessName
-      this.getFunLists()
+      // this.getFunLists()
     },
     // 业务系统下拉树
     getSysLists() {
@@ -1367,11 +1380,11 @@ export default {
       this.getModLists()
       this.businessModuleCode = parseInt(this.$parent.DetailData.businessModuleCode)
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
-      this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
+      // this.getFunLists()
+      // this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      // this.businessFunctionName = this.$parent.DetailData.businessFunctionName
       this.mountTableData = this.$parent.DetailData.regulationConfig
 
       this.policiesDescription = this.$parent.DetailData.warningTips
@@ -1402,11 +1415,11 @@ export default {
       this.getModLists()
       this.businessModuleCode = parseInt(this.$parent.DetailData.businessModuleCode)
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
-      this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
+      // this.getFunLists()
+      // this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      // this.businessFunctionName = this.$parent.DetailData.businessFunctionName
       this.mountTableData = this.$parent.DetailData.regulationConfig
 
       this.policiesDescription = this.$parent.DetailData.warningTips
