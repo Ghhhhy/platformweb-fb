@@ -19739,6 +19739,14 @@
         "worker-loader": "^2.0.0"
       }
     },
+    "vue-print-nb": {
+      "version": "1.7.5",
+      "resolved": "https://registry.npmmirror.com/vue-print-nb/-/vue-print-nb-1.7.5.tgz",
+      "integrity": "sha512-iNbNyUVRWz0Ha1UTiCKxMPtHLUDGgNI8e8xmD3xqm9RlXIUeX9bT7DgNAfY8vPzqyFRHqGjxLI1rycKH366ziQ==",
+      "requires": {
+        "vue": "^2.6.11"
+      }
+    },
     "vue-quill-editor": {
       "version": "3.0.6",
       "resolved": "https://registry.npm.taobao.org/vue-quill-editor/download/vue-quill-editor-3.0.6.tgz",

@@ -58,14 +58,14 @@ const proconf = {
     tableColumnsConfig: [
       {
         title: '资金名称',
-        type: 'speTypeName',
+        type: 'name',
         treeNode: true,
         fixed: false,
         align: 'left',
         sortable: false,
         filters: false,
         width: 160,
-        field: 'speTypeName',
+        field: 'name',
         cellRender: {
           name: '$vxeIcon',
           props: {
