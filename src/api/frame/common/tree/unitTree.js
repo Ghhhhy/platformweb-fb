@@ -1,6 +1,6 @@
-import { post } from '@/api/http'
+import { post, get } from '@/api/http'
 import store from '@/store/index'
-const { year, province } = store.state.userInfo
+// const { year, province } = store.state.userInfo
 
 export default {
   getUnitTree(params) {
@@ -9,14 +9,10 @@ export default {
   // 获取预算单位树
   getElementTree(params = {}) {
     const payload = {
-      ...params,
-      year,
-      province,
-      date: year,
       tokenid: store.getters.getLoginAuthentication.tokenid,
-      appguid: 'apaas',
-      parameters: {}
+      elementCode: 'agency',
+      ...params
     }
-    return post('large-monitor-platform/lmp/elementQuery/elementtree', payload)
+    return get('large-monitor-platform/lmp/elementQuery/lefttree', payload)
   }
 }

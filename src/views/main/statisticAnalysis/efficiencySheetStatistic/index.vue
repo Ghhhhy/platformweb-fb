@@ -50,9 +50,11 @@ import { defineComponent, toRaw } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTabPlanel from '../common/hooks/useTabPlanel'
+import { getIndexColumns, getSearchSchemas } from './model/data.js'
 
 import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
-import { getIndexColumns, getSearchSchemas } from './model/data.js'
+import treeApi from '@/api/frame/common/tree/unitTree.js'
+import { checkRscode } from '@/utils/checkRscode'
 
 export default defineComponent({
   setup(_) {
@@ -64,10 +66,28 @@ export default defineComponent({
         formData,
         formSchemas,
         setSubmitFormData,
-        getSubmitFormData
+        getSubmitFormData,
+        updateFormSchemas
       },
       registerForm
     ] = useForm(getSearchSchemas())
+    /**
+     * 获取树
+     * */
+    async function getElementTreeHandle(field = '') {
+      const { data } = checkRscode(
+        await treeApi.getElementTree({
+          elementCode: field === 'deptName' ? 'dept' : 'manage_mof_dep'
+        })
+      )
+      updateFormSchemas({
+        field,
+        itemRender: {
+          options: data || []
+        }
+      })
+    }
+    Promise.all([getElementTreeHandle('manageMofDepName'), getElementTreeHandle('deptName')])
 
     /**
      * 搜索&重置
