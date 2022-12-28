@@ -7,11 +7,11 @@ export default {
       businessFunctionTreeData: [],
       // 业务菜单树配置
       businessFunctionTreeConfig: {
-        valueKeys: ['code', 'name'],
+        valueKeys: ['guid', 'name'],
         format: '{name}',
         treeProps: {
           labelFormat: '{name}', // {code}-{name}
-          nodeKey: 'code',
+          nodeKey: 'guid',
           label: 'label',
           children: 'children'
         },
