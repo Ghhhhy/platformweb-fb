@@ -1230,11 +1230,7 @@ export default {
     this.getModLists()
     this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
     this.ModparentId = this.businessModuleCode
-
-    this.businessFunctionCodeModal = this.encodeBusinessFunction(
-      this.$parent.DetailData.menuIdList?.split(',') || [],
-      this.$parent.DetailData.menuNameList?.split(',') || []
-    )
+    
     // this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
     this.businessSystemName = this.$parent.DetailData.businessSystemName
     this.businessModuleName = this.$parent.DetailData.businessModuleName
