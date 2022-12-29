@@ -303,6 +303,7 @@ export default {
         xjExpFuncCode: row.xjExpFuncCode,
         manageMofDepName: row.manageMofDepName,
         xjCorBgtDocNo: row.corBgtDocNo,
+        condition: this.detailQueryParam.condition,
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.searchDataList.fiscalYear
       }
