@@ -294,12 +294,15 @@ export default {
       }
       this.queryTableDatas()
     },
-    handleDetail(reportCode, proCode, mofDivCode, manageMofDepName, corBgtDocNo) {
+    handleDetail(reportCode, row) {
       let params = {
         reportCode: reportCode,
-        proCodes: [proCode],
-        manageMofDepName: manageMofDepName,
-        xjCorBgtDocNo: corBgtDocNo,
+        proCode1: row.proCode,
+        trackProCode: row.trackProCode,
+        agencyCode: row.agencyCode,
+        xjExpFuncCode: row.xjExpFuncCode,
+        manageMofDepName: row.manageMofDepName,
+        xjCorBgtDocNo: row.corBgtDocNo,
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.searchDataList.fiscalYear
       }
@@ -333,19 +336,19 @@ export default {
       switch (key) {
         case 'amountZdzjFp':
           if (this.detailType === 'zdzjxmmx') {
-            this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+            this.handleDetail('zdzjzbmx_fzjfp', obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
+          this.handleDetail('zdzjzcmx_fdq', obj.row)
           this.$parent.sDetailTitle = '支出明细'
           break
         case 'amountbjfpsnjap':
         case 'amountbjfpzyap':
         case 'amountbjfpsjap':
         case 'amountbjfpxjap':
-          this.handleDetail('zdzjzbmx_fzj', obj.row.speTypeCode, obj.row.mofDivCode)
+          this.handleDetail('zdzjzbmx_fzj', obj.row)
           this.$parent.sDetailTitle = '支出台账明细'
           break
       }
