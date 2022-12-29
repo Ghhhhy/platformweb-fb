@@ -162,7 +162,6 @@ export default defineComponent({
         getWarnTypeColumn(),
         ...getWarnCountColumns(),
         getIsDirColumn({
-          cellRender: null,
           minWidth: 100,
           width: 'auto'
         })

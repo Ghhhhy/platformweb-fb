@@ -142,9 +142,7 @@ export default defineComponent({
         getControlTypeColumn(),
         getWarnTypeColumn(),
         ...getWarnCountColumns(),
-        getIsDirColumn({
-          cellRender: null
-        })
+        getIsDirColumn()
       ],
       dataKey: 'data.results'
     })
