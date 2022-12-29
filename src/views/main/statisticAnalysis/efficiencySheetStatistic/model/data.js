@@ -26,7 +26,7 @@ export const getIndexColumns = () => {
       children: [
         {
           title: '当月数据',
-          field: 'currentMonth',
+          field: 'monthData',
           align: 'center',
           width: 140,
           sortable: false,
@@ -34,7 +34,7 @@ export const getIndexColumns = () => {
         },
         {
           title: '累计数据',
-          field: 'totalMonth',
+          field: 'cumulativeData',
           align: 'center',
           width: 140,
           sortable: false,
@@ -50,7 +50,7 @@ export const getIndexColumns = () => {
       children: [
         {
           title: '当月数量（A）',
-          field: 'currentNum',
+          field: 'monthNumber',
           align: 'center',
           width: 140,
           sortable: false,
@@ -58,7 +58,7 @@ export const getIndexColumns = () => {
         },
         {
           title: '累计数量（B）',
-          field: 'totalNum',
+          field: 'cumulativeNumber',
           align: 'center',
           width: 140,
           sortable: false,
@@ -74,7 +74,7 @@ export const getIndexColumns = () => {
       children: [
         {
           title: '当月预期数（C）',
-          field: 'currentNum',
+          field: 'monthOverdue',
           align: 'center',
           width: 140,
           sortable: false,
@@ -82,7 +82,7 @@ export const getIndexColumns = () => {
         },
         {
           title: '累计预期数（D）',
-          field: 'totalNum',
+          field: 'cumulativeOverdue',
           align: 'center',
           width: 140,
           sortable: false,
@@ -98,31 +98,31 @@ export const getIndexColumns = () => {
       children: [
         {
           title: '当月预期占比（=C/A）',
-          field: 'currentNum',
+          field: 'monthOverduePercentage',
           align: 'center',
           width: 160,
           sortable: false,
-          filters: false,
-          cellRender: {
-            name: '$vxeRatio'
-          }
+          filters: false
+          // cellRender: {
+          //   name: '$vxeRatio'
+          // }
         },
         {
           title: '累计预期占比（=D/B）',
-          field: 'totalNum',
+          field: 'cumulativeOverduePercentage',
           align: 'center',
           width: 160,
           sortable: false,
-          filters: false,
-          cellRender: {
-            name: '$vxeRatio'
-          }
+          filters: false
+          // cellRender: {
+          //   name: '$vxeRatio'
+          // }
         }
       ]
     },
     {
       title: '备注',
-      field: 'text',
+      field: 'remarks',
       align: 'left',
       width: 140,
       sortable: false,
@@ -134,54 +134,66 @@ export const getIndexColumns = () => {
 export const getSearchSchemas = () => {
   return [
     {
-      title: '业务处室',
-      field: 'manageMofDepCode',
-      titleWidth: 0,
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        props: {
-          config: {
-            treeProps: {
-              labelFormat: '{code}-{name}',
-              nodeKey: 'code',
-              label: 'label',
-              children: 'children'
-            },
-            placeholder: '业务处室',
-            multiple: true,
-            readonly: true,
-            isleaf: false
-          }
-        }
-      }
-    },
-    {
       title: '主管部门',
       field: 'deptCode',
       titleWidth: 0,
       itemRender: {
-        name: '$vxeTree',
+        name: '$select',
         options: [],
+        optionProps: {
+          label: 'name',
+          value: 'code'
+        },
         props: {
-          config: {
-            treeProps: {
-              labelFormat: '{code}-{name}',
-              nodeKey: 'code',
-              label: 'name',
-              children: 'children'
-            },
-            placeholder: '主管部门',
-            multiple: true,
-            readonly: true,
-            isleaf: false
-          }
+          clearable: true,
+          placeholder: '主管部门'
+          // config: {
+          //   treeProps: {
+          //     labelFormat: '{code}-{name}',
+          //     nodeKey: 'code',
+          //     label: 'name',
+          //     children: 'children'
+          //   },
+          //   placeholder: '主管部门',
+          //   multiple: false,
+          //   readonly: true,
+          //   isleaf: false
+          // }
+        }
+      }
+    },
+    {
+      title: '业务处室',
+      field: 'manageMofDepCode',
+      titleWidth: 0,
+      itemRender: {
+        name: '$select',
+        options: [],
+        optionProps: {
+          label: 'name',
+          value: 'code'
+        },
+        props: {
+          placeholder: '业务处室',
+          clearable: true
+          // config: {
+          //   treeProps: {
+          //     labelFormat: '{code}-{name}',
+          //     nodeKey: 'code',
+          //     label: 'label',
+          //     children: 'children'
+          //   },
+          //   placeholder: '业务处室',
+          //   multiple: false,
+          //   readonly: true,
+          //   isleaf: false
+          // }
         }
       }
     },
     {
       title: '统计月份',
-      field: 'month',
+      field: 'statisticalMonth',
       titleWidth: 0,
       itemRender: {
         name: '$input',

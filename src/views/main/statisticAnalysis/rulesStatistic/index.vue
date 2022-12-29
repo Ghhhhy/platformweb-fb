@@ -154,6 +154,7 @@ export default defineComponent({
       columns: [
         getRuleNameColumn({
           title: '规则名称',
+          minWidth: 260,
           width: 'auto'
         }),
         getWarnLevelColumn('$vxeSelect'),
@@ -161,7 +162,9 @@ export default defineComponent({
         getWarnTypeColumn(),
         ...getWarnCountColumns(),
         getIsDirColumn({
-          cellRender: null
+          cellRender: null,
+          minWidth: 100,
+          width: 'auto'
         })
       ],
       getSubmitFormData,

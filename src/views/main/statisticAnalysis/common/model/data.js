@@ -159,6 +159,7 @@ export const getWarnCountColumns = () => {
       align: 'left',
       sortable: false,
       filters: false,
+      width: 280,
       children: [
         {
           title: '放行',

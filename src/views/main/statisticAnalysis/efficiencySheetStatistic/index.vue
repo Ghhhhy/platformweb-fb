@@ -52,9 +52,9 @@ import useForm from '@/hooks/useForm'
 import useTabPlanel from '../common/hooks/useTabPlanel'
 import { getIndexColumns, getSearchSchemas } from './model/data.js'
 
-import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import treeApi from '@/api/frame/common/tree/unitTree.js'
 import { checkRscode } from '@/utils/checkRscode'
+import { queryPayEfficiency } from '@/api/frame/main/statisticAnalysis/efficiencySheetStatistic'
 
 export default defineComponent({
   setup(_) {
@@ -77,7 +77,7 @@ export default defineComponent({
     async function getElementTreeHandle(field = '') {
       const { data } = checkRscode(
         await treeApi.getElementTree({
-          elementCode: field === 'deptName' ? 'dept' : 'manage_mof_dep'
+          elementCode: field === 'deptCode' ? 'dept' : 'manage_mof_dep'
         })
       )
       updateFormSchemas({
@@ -121,19 +121,19 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: queryRule,
-      beforeFetch: params => {
-        /*eslint-disable*/
-        const { manageMofDepCode_code__multiple, deptCode_code__multiple, month } = getSubmitFormData()
-        return {
-          ...params,
-          manageMofDepCode: manageMofDepCode_code__multiple || [],
-          deptCode: deptCode_code__multiple || [],
-          month: month || ''
-        }
-      },
+      fetch: queryPayEfficiency,
+      // beforeFetch: params => {
+      //   /*eslint-disable*/
+      //   const { manageMofDepCode_code, deptCode_code, month } = getSubmitFormData()
+      //   return {
+      //     ...params,
+      //     manageMofDepCode: manageMofDepCode_code || '',
+      //     deptCode: deptCode_code || '',
+      //     month: month || ''
+      //   }
+      // },
       columns: getIndexColumns(),
-      // getSubmitFormData,
+      getSubmitFormData,
       dataKey: 'data.results'
     })
 
