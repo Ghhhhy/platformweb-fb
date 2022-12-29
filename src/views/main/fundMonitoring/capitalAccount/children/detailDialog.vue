@@ -302,6 +302,7 @@ export default {
         agencyCode: row.agencyCode,
         xjExpFuncCode: row.xjExpFuncCode,
         manageMofDepName: row.manageMofDepName,
+        bgtMofDepCode: row.bgtMofDepCode,
         xjCorBgtDocNo: row.corBgtDocNo,
         condition: this.detailQueryParam.condition,
         mofDivCode: this.detailQueryParam.mofDivCode,
