@@ -319,7 +319,7 @@
       <div type="flex" justify="space-around">
         <div>
           <vxe-button v-if="param5.isCreate === 'true' && title === '监控问询单信息'" status="primary" @click="doIssue">生成并下发</vxe-button>
-          <vxe-button v-if="param5.isRetroact === 'true'" status="primary" @click="doFeedback">确定</vxe-button>
+          <vxe-button v-if="param5.isRetroact === 'true' && title !== '查看详情信息'" status="primary" @click="doFeedback">确定</vxe-button>
           <vxe-button @click="dialogClose">取消</vxe-button>
         </div>
       </div>
@@ -615,7 +615,7 @@ export default {
         }
         switch (this.param5.retroact) {
           case 'company':
-            this.value = this.detailData[0].status
+            this.value = this.detailData[0].status + ''
             this.handler1 = userInfo.name
             this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
             this.attachmentid1 = this.$ToolFn.utilFn.getUuid()

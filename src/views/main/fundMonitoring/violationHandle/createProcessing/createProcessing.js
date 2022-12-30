@@ -463,30 +463,6 @@ export let proconf = {
       name: '$vxeSelect'
     },
     {
-      title: '处理结果',
-      width: 180,
-      field: 'handleResult',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '通过'
-          },
-          {
-            value: 2,
-            label: '不通过'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
       title: '查看详情',
       field: 'gloableOptionRow',
       align: 'center',
@@ -655,30 +631,6 @@ export let proconf = {
           {
             value: '5',
             label: '禁止'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '处理结果',
-      width: 180,
-      field: 'handleResult',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '通过'
-          },
-          {
-            value: 2,
-            label: '不通过'
           }
         ],
         defaultValue: '',
@@ -887,30 +839,6 @@ export let proconf = {
           {
             value: '5',
             label: '禁止'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '处理结果',
-      width: 180,
-      field: 'handleResult',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '通过'
-          },
-          {
-            value: 2,
-            label: '不通过'
           }
         ],
         defaultValue: '',
@@ -1159,30 +1087,6 @@ export let proconf = {
       name: '$vxeSelect'
     },
     {
-      title: '处理结果',
-      width: 180,
-      field: 'handleResult',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '通过'
-          },
-          {
-            value: 2,
-            label: '不通过'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
       title: '下发人',
       width: 180,
       field: 'handler2',
@@ -1215,7 +1119,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '反馈人',
+      title: '单位反馈人',
       width: 180,
       field: 'handler1',
       sortable: false,
@@ -1223,7 +1127,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '反馈人联系电话',
+      title: '单位反馈人联系电话',
       width: 180,
       field: 'phone1',
       sortable: false,
@@ -1231,7 +1135,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '反馈时间',
+      title: '单位反馈时间',
       width: 180,
       field: 'updateTime1',
       sortable: false,
@@ -1242,6 +1146,38 @@ export let proconf = {
       title: '单位反馈意见',
       width: 180,
       field: 'information1',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室反馈人',
+      width: 180,
+      field: 'handler3',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室反馈人联系电话',
+      width: 180,
+      field: 'phone3',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室反馈时间',
+      width: 180,
+      field: 'updateTime3',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主管处室反馈意见',
+      width: 180,
+      field: 'information3',
       sortable: false,
       filters: false,
       align: 'center'
