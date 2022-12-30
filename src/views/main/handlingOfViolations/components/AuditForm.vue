@@ -36,7 +36,8 @@ export default defineComponent({
         formData,
         rules,
         formSchemas,
-        validate
+        validate,
+        reset
       }
     ] = useForm(
       getAuditFormSchemas(unref(isUnitFeedbackPage)),
@@ -49,6 +50,7 @@ export default defineComponent({
       rules,
       formSchemas,
       validate,
+      reset,
       isUnitFeedbackPage
     }
   }

@@ -140,7 +140,7 @@ import usePrint from '../hooks/usePrint'
 import useWarnInfo from '../hooks/useWarnInfo'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
 
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import { ModalTypeEnum, RouterPathEnum, TabEnum } from '../model/enum'
 import { checkRscode } from '@/utils/checkRscode'
 import { bpmFlow } from '@/api/frame/main/handlingOfViolations/index.js'
@@ -174,10 +174,17 @@ export default defineComponent({
   },
   model,
   setup(props, { emit }) {
+    const isNeedRefreshIndexList = ref(false)
     /**
      * 弹窗内部状态
      * */
-    const { visible } = useModalInner(props, emit, model)
+    const { visible } = useModalInner(props, emit, {
+      ...model,
+      setCallback: val => {
+        // 关闭弹窗 && 需要刷新父组件列表
+        if (!val && unref(isNeedRefreshIndexList)) emit('success')
+      }
+    })
 
     /**
      * 处理单相关
@@ -290,6 +297,14 @@ export default defineComponent({
     }
 
     /**
+     * 关闭弹窗 刷新父组件
+     * */
+    function closeModal() {
+      isNeedRefreshIndexList.value = true
+      visible.value = false
+    }
+
+    /**
      * 共用提交
      * @param actionType {string} 操作类型：送审、确认、退回、禁止
      * */
@@ -321,30 +336,35 @@ export default defineComponent({
         // 走请求逻辑
         checkRscode(await bpmFlow(params))
         Message.success('操作成功！')
-        visible.value = false
-        emit('success')
-
-        // 后续优化项
-        // if (warningCodeAndFilesList.length < unref(cloneRecords)?.length) {
-        //   MessageBox.confirm('是否继续处理剩余处理单?', '操作成功', {
-        //     confirmButtonText: '继续',
-        //     cancelButtonText: '取消',
-        //     type: 'warning'
-        //   })
-        //     .then(() => {
-        //       warningCodeAndFilesList.forEach(item => {
-        //         const index = cloneRecords.value.findIndex(record => item.warningCode === record.warningCode)
-        //         index > -1 && cloneRecords.value.splice(index, 1)
-        //       })
-        //       if (!cloneRecords.value.find(item => item.warningCode === unref(currentNode).warningCode)) {
-        //         currentNode.value = cloneRecords.value[0]
-        //       }
-        //     })
-        //     .catch(() => {
-        //       visible.value = false
-        //       emit('success')
-        //     })
-        // }
+        // closeModal()
+        // 全部处理单都已处理 -> 直接关闭弹窗
+        if (warningCodeAndFilesList.length === unref(cloneRecords)?.length) {
+          closeModal()
+          return
+        }
+        MessageBox.confirm('是否继续处理?', '操作成功', {
+          confirmButtonText: '继续',
+          cancelButtonText: '取消',
+          type: 'success'
+        })
+          .then(() => {
+            warningCodeAndFilesList.forEach(item => {
+              const index = cloneRecords.value.findIndex(record => item.warningCode === record.warningCode)
+              index > -1 && cloneRecords.value.splice(index, 1)
+            })
+            if (!cloneRecords.value.find(item => item.warningCode === unref(currentNode).warningCode)) {
+              currentNode.value = cloneRecords.value[0]
+            }
+            // 勾选置空
+            checkedItemsKey.value = []
+            // 处理意见置空
+            auditFormRef.value?.reset()
+            // 需要在后续关闭弹窗后执行刷新主列表操作
+            isNeedRefreshIndexList.value = true
+          })
+          .catch(() => {
+            closeModal()
+          })
       } finally {
         setAuditButLoading(false)
       }
@@ -354,13 +374,10 @@ export default defineComponent({
      * 是否有不同预警级别
      */
     function hasDifferentWarnLevel() {
-      const levelSet = new Set()
-      unref(checkedItemsKey).forEach(warningCode => {
-        const warnLevel = unref(cloneRecords).find(item => item.warningCode === warningCode)?.warnLevel
-        warnLevel && levelSet.add(warnLevel)
-      })
-      // 暂时取消蓝色预警和其他预警级别不能批量操作 => 改为：不能含两种预警级别
-      // return levelSet.has(WarningLevelEnum.BLUE) && levelSet.size > 1
+      const warnLevelList = (unref(checkedItemsObj)?.length ? unref(checkedItemsObj) : [unref(currentNode)])
+        .map(item => item.warnLevel)
+
+      const levelSet = new Set(warnLevelList)
       return levelSet.size > 1
     }
 

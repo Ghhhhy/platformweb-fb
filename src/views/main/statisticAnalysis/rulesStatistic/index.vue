@@ -89,6 +89,7 @@ export default defineComponent({
      * pagePath:页面路由
      */
     provide('pagePath', pagePath)
+    // 因【处理单查看】等子孙组件使用到inject('modalType')，故此提供一个空值，避免报错
     provide('modalType', '')
 
     // 规则弹窗显隐

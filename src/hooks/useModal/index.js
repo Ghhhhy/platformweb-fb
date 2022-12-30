@@ -23,7 +23,8 @@ export function useModal() {
 export function useModalInner(props, emit, option) {
   const config = {
     prop: option?.prop || 'value',
-    event: option?.event || 'changeValue'
+    event: option?.event || 'changeValue',
+    setCallback: option?.setCallback
   }
   // 显隐内部状态
   const visible = computed({
@@ -31,6 +32,9 @@ export function useModalInner(props, emit, option) {
       return props[config.prop]
     },
     set(val) {
+      if (config.setCallback && typeof config.setCallback === 'function') {
+        config.setCallback(val)
+      }
       emit(config.event, val)
     }
   })
