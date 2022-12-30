@@ -416,74 +416,75 @@ const proconf = {
           }
         ]
       },
-      {
-        title: '橙色预警',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '未上传附件',
-            field: 'orangeUndoNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon6',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已上传附件',
-            field: 'orangeDoneNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          }
-          // {
-          //   title: '认定违规',
-          //   field: '',
-          //   sortable: false,
-          //   align: 'center',
-          //   'children': [
-          //     {
-          //       title: '未处理',
-          //       field: 'orangeUndoNumw',
-          //       width: 140,
-          //       filters: false,
-          //       align: 'center',
-          //       cellRender: {
-          //         name: '$vxeIcon1',
-          //         props: {
-          //           $refs: this
-          //         }
-          //       }
-          //     },
-          //     {
-          //       title: '已整改',
-          //       field: 'orangeDoneNumw',
-          //       width: 140,
-          //       filters: false,
-          //       align: 'center',
-          //       cellRender: {
-          //         name: '$vxeIcon3',
-          //         props: {
-          //           $refs: this
-          //         }
-          //       }
-          //     }
-          //   ]
-          // }
-        ]
-      },
+      // 上海临时去掉
+      // {
+      //   title: '橙色预警',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '未上传附件',
+      //       field: 'orangeUndoNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon6',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已上传附件',
+      //       field: 'orangeDoneNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      //     // {
+      //     //   title: '认定违规',
+      //     //   field: '',
+      //     //   sortable: false,
+      //     //   align: 'center',
+      //     //   'children': [
+      //     //     {
+      //     //       title: '未处理',
+      //     //       field: 'orangeUndoNumw',
+      //     //       width: 140,
+      //     //       filters: false,
+      //     //       align: 'center',
+      //     //       cellRender: {
+      //     //         name: '$vxeIcon1',
+      //     //         props: {
+      //     //           $refs: this
+      //     //         }
+      //     //       }
+      //     //     },
+      //     //     {
+      //     //       title: '已整改',
+      //     //       field: 'orangeDoneNumw',
+      //     //       width: 140,
+      //     //       filters: false,
+      //     //       align: 'center',
+      //     //       cellRender: {
+      //     //         name: '$vxeIcon3',
+      //     //         props: {
+      //     //           $refs: this
+      //     //         }
+      //     //       }
+      //     //     }
+      //     //   ]
+      //     // }
+      //   ]
+      // },
       {
         title: '黄色预警',
         field: '',
@@ -553,7 +554,7 @@ const proconf = {
         ]
       },
       {
-        title: '非人工干预蓝色预警',
+        title: '蓝色预警', // 非人工干预蓝色预警
         field: '',
         sortable: false,
         align: 'center',
