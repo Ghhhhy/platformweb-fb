@@ -100,22 +100,20 @@ export const warnLevelOptions = [
 ]
 
 // 监控处理方式Options（参照原项目内几种方式）
-export const controlTypeOptions = store.state.warnInfo.warnInfoOptions
-  .map(item => {
+export const controlTypeOptions = store.state.warnInfo.warnInfoOptions?.length
+  ? store.state.warnInfo.warnInfoOptions.map(item => {
     return {
       value: String(item.warnLevel),
       label: item.warnTips,
       ...item
     }
   })
-
-console.log(controlTypeOptions)
-// [
-//   { value: '1', label: '禁止' },
-//   { value: '2', label: '冻结' },
-//   { value: '3', label: '警示' },
-//   { value: '4', label: '提醒' }
-// ]
+  : [
+    { value: '1', label: '禁止' },
+    { value: '2', label: '冻结' },
+    { value: '3', label: '警示' },
+    { value: '4', label: '提醒' }
+  ]
 
 warnLevelOptions.forEach(option => {
   const storeWarn = store.state.warnInfo.warnInfoOptions.find(item => item.warnLevel === option.value)
@@ -136,8 +134,8 @@ export const warnTypeOptions = [
 ]
 // 是否直达资金options
 export const isDirOptions = [
-  { value: 1, label: '是' },
-  { value: 0, label: '否' }
+  { value: '1', label: '是' },
+  { value: '0', label: '否' }
 ]
 
 // 业务状态options
@@ -159,7 +157,7 @@ export const getNodeStatusOptions = () => {
 export const searchFormCommonSchemas = [
   {
     title: '预警级别',
-    field: 'warningLevel',
+    field: 'warnLevel',
     titleWidth: 0,
     itemRender: {
       name: '$select',
@@ -251,7 +249,7 @@ export const searchFormCommonSchemas = [
   },
   {
     title: '业务记录编码',
-    field: 'waringCode',
+    field: 'businessNo',
     titleWidth: 0,
     itemRender: {
       name: '$input',
@@ -529,7 +527,7 @@ export const getAuditFormSchemas = (isUnitFeedback = false) => {
       title: isUnitFeedback ? '处理说明' : '处理意见',
       field: 'dealResult',
       required: true,
-      span: 16,
+      span: 24,
       itemRender: {
         name: '$input',
         props: {
@@ -693,12 +691,13 @@ export const fileColumns = [
     title: '附件文件名称',
     field: 'filename',
     sortable: false,
-    filters: false
+    filters: false,
+    width: 'auto'
   },
   {
     title: '上传时间',
     field: 'createtime',
-    width: 160,
+    width: 'auto',
     sortable: false,
     filters: false
   },
@@ -725,7 +724,7 @@ export const fileColumns = [
 // 序号列
 export const indexColumn = {
   title: '序号',
-  width: 80,
+  width: 60,
   type: 'seq',
   sortable: false,
   filters: false

@@ -9,7 +9,7 @@
       :row-id="rowId"
       border
       import-config
-      :sync-resize="syncResize"
+      sync-resize
       :auto-resize="autoResize"
       :stripe="tableGlobalConfigIn.stripe"
       keep-source

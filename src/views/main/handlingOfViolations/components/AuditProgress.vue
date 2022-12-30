@@ -37,7 +37,7 @@
             :key="column.field"
             :align="column.titleAlign || 'center'"
             :style="{
-              width: column.type === 'seq' && ['createTime'].includes(column.field) ? `${column.width}px` : computedColumnWidth,
+              width: column.width ? `${column.width}px` : computedColumnWidth,
               textAlign: 'center',
             }"
           >
@@ -123,11 +123,16 @@ export default defineComponent({
     })
 
     const computedColumnWidth = computed(() => {
-      const first = unref(columns)[0]
-      const second = unref(columns)[1]
-      const last = unref(columns)[unref(columns).length - 1]
-      const otherWidth = first.width + second.width + last.width
-      return `calc((100% - ${otherWidth}px) / ${unref(columns).length - 3}`
+      let length = unref(columns).length
+      const totalWidth = unref(columns).reduce((sum, column) => {
+        if (column.width) {
+          sum += column.width
+          length--
+        }
+        return sum
+      })
+
+      return `calc((100% - ${totalWidth}px) / ${length}`
     })
     /**
      * 表格
