@@ -440,6 +440,12 @@ export default {
           isBj = '3'
           break
       }
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
       let params = {
         condition: condition,
         reportCode: reportCode,
@@ -447,6 +453,7 @@ export default {
         proCode: proCode,
         speTypeCode: '',
         isBj: isBj,
+        isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)

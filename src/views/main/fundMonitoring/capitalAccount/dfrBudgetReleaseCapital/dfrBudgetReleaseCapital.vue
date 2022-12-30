@@ -395,7 +395,14 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(type, trackProCode) {
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
       let params = {
+        isCz: isCz,
         reportCode: type,
         trackProCode: trackProCode,
         mofDivCode: '',

@@ -383,9 +383,16 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(type, speTypeCode) {
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
       let params = {
         reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
         speTypeCode: speTypeCode,
+        isCz: isCz,
         mofDivCode: '',
         fiscalYear: this.searchDataList.fiscalYear
       }

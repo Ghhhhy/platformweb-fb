@@ -407,6 +407,12 @@ export default {
           condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
           break
       }
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
       let isBj = ''
       switch (column) {
         case 'amountSnjZcjeZje':
@@ -423,6 +429,7 @@ export default {
         condition,
         isBj,
         reportCode: type,
+        isCz: isCz,
         proCode: trackProCode,
         mofDivCode: '',
         fiscalYear: this.searchDataList.fiscalYear

@@ -304,6 +304,7 @@ export default {
         manageMofDepName: row.manageMofDepName,
         bgtMofDepCode: row.bgtMofDepCode,
         xjCorBgtDocNo: row.corBgtDocNo,
+        isCz: this.detailQueryParam.isCz,
         condition: this.detailQueryParam.condition,
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.searchDataList.fiscalYear
