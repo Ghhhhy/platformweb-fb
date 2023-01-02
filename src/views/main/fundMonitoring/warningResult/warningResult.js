@@ -381,64 +381,30 @@ const proconf = {
         align: 'center',
         width: 300
       },
-      {
-        title: '红色预警',
-        field: '',
-        width: 140,
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '未处理',
-            field: 'redUndoNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon1',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已整改',
-            field: 'redDoneNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          }
-        ]
-      },
       // 上海临时去掉
       // {
-      //   title: '橙色预警',
+      //   title: '红色预警',
       //   field: '',
+      //   width: 140,
       //   sortable: false,
       //   align: 'center',
       //   children: [
       //     {
-      //       title: '未上传附件',
-      //       field: 'orangeUndoNum',
+      //       title: '未处理',
+      //       field: 'redUndoNum',
       //       width: 140,
-      //       align: 'center',
       //       filters: false,
+      //       align: 'center',
       //       cellRender: {
-      //         name: '$vxeIcon6',
+      //         name: '$vxeIcon1',
       //         props: {
       //           $refs: this
       //         }
       //       }
       //     },
       //     {
-      //       title: '已上传附件',
-      //       field: 'orangeDoneNum',
+      //       title: '已整改',
+      //       field: 'redDoneNum',
       //       width: 140,
       //       align: 'center',
       //       filters: false,
@@ -449,110 +415,144 @@ const proconf = {
       //         }
       //       }
       //     }
-      //     // {
-      //     //   title: '认定违规',
-      //     //   field: '',
-      //     //   sortable: false,
-      //     //   align: 'center',
-      //     //   'children': [
-      //     //     {
-      //     //       title: '未处理',
-      //     //       field: 'orangeUndoNumw',
-      //     //       width: 140,
-      //     //       filters: false,
-      //     //       align: 'center',
-      //     //       cellRender: {
-      //     //         name: '$vxeIcon1',
-      //     //         props: {
-      //     //           $refs: this
-      //     //         }
-      //     //       }
-      //     //     },
-      //     //     {
-      //     //       title: '已整改',
-      //     //       field: 'orangeDoneNumw',
-      //     //       width: 140,
-      //     //       filters: false,
-      //     //       align: 'center',
-      //     //       cellRender: {
-      //     //         name: '$vxeIcon3',
-      //     //         props: {
-      //     //           $refs: this
-      //     //         }
-      //     //       }
-      //     //     }
-      //     //   ]
-      //     // }
       //   ]
       // },
       {
-        title: '黄色预警',
+        title: '橙色预警',
         field: '',
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '疑点信息',
-            field: 'yellowUndoNum',
+            title: '未上传附件',
+            field: 'orangeUndoNum',
             width: 140,
-            filters: false,
             align: 'center',
+            filters: false,
             cellRender: {
-              name: '$vxeIcon2',
+              name: '$vxeIcon6',
               props: {
                 $refs: this
               }
             }
           },
           {
-            title: '认定正常',
-            field: 'yellowDoneNum',
+            title: '已上传附件',
+            field: 'orangeDoneNum',
             width: 140,
-            filters: false,
             align: 'center',
+            filters: false,
             cellRender: {
               name: '$vxeIcon3',
               props: {
                 $refs: this
               }
             }
-          },
-          {
-            title: '认定违规',
-            field: '',
-            sortable: false,
-            align: 'center',
-            children: [
-              {
-                title: '未处理',
-                field: 'yellowUndoNumw',
-                width: 140,
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon1',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '已整改',
-                field: 'yellowDoneNumw',
-                width: 140,
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              }
-            ]
           }
+          // {
+          //   title: '认定违规',
+          //   field: '',
+          //   sortable: false,
+          //   align: 'center',
+          //   'children': [
+          //     {
+          //       title: '未处理',
+          //       field: 'orangeUndoNumw',
+          //       width: 140,
+          //       filters: false,
+          //       align: 'center',
+          //       cellRender: {
+          //         name: '$vxeIcon1',
+          //         props: {
+          //           $refs: this
+          //         }
+          //       }
+          //     },
+          //     {
+          //       title: '已整改',
+          //       field: 'orangeDoneNumw',
+          //       width: 140,
+          //       filters: false,
+          //       align: 'center',
+          //       cellRender: {
+          //         name: '$vxeIcon3',
+          //         props: {
+          //           $refs: this
+          //         }
+          //       }
+          //     }
+          //   ]
+          // }
         ]
       },
+      // {
+      //   title: '黄色预警',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '疑点信息',
+      //       field: 'yellowUndoNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon2',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '认定正常',
+      //       field: 'yellowDoneNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '认定违规',
+      //       field: '',
+      //       sortable: false,
+      //       align: 'center',
+      //       children: [
+      //         {
+      //           title: '未处理',
+      //           field: 'yellowUndoNumw',
+      //           width: 140,
+      //           filters: false,
+      //           align: 'center',
+      //           cellRender: {
+      //             name: '$vxeIcon1',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         },
+      //         {
+      //           title: '已整改',
+      //           field: 'yellowDoneNumw',
+      //           width: 140,
+      //           filters: false,
+      //           align: 'center',
+      //           cellRender: {
+      //             name: '$vxeIcon3',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         title: '蓝色预警', // 非人工干预蓝色预警
         field: '',

@@ -326,12 +326,12 @@ export default {
       this.dialogTitle = '全量查询'
     },
     deleteData() {
-      // 删除违规数据
+      // 删除预警数据
       /* this.addDialogVisible = true
-      this.dialogTitle = '删除违规数据' */
+      this.dialogTitle = '删除预警数据' */
       let selectData = this.$refs.mainTableRef.getSelectionData()
       if (selectData.length > 0) {
-        this.$confirm('确定要删除违规数据吗？', '提示', {
+        this.$confirm('确定要删除预警数据吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

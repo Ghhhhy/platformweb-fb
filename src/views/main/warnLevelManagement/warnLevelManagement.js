@@ -95,7 +95,7 @@ export let proconf = {
           { value: '2', label: '否' }
         ],
         props: {
-          placeholder: '处理方式'
+          placeholder: '是否启用'
         }
       }
     },

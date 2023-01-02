@@ -250,8 +250,8 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = val
       console.log(val)
+      this.searchDataList = val
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -472,6 +472,7 @@ export default {
       this.detailType = this.detailData[0]
       this.fiRuleCode = this.detailData[1]
       this.fiscalYear = this.detailData[2]
+      this.searchDataList.fiscalYear = this.detailData[2]
       this.trackProCodes = this.detailData[3]
       switch (this.title) {
         case '红色预警-未处理明细':
@@ -544,7 +545,8 @@ export default {
         pageSize: this.pagerConfig.pageSize, // 每页条数
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
         fiscalYear: this.fiscalYear,
-        trackProCodes: this.trackProCodes
+        trackProCodes: this.trackProCodes,
+        ...this.searchDataList
       }
       this.tableLoading = true
       // this.dialogVisibles = false

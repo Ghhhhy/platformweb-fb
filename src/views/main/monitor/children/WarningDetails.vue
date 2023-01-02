@@ -77,7 +77,7 @@
                   >
                   </div>
                   <div class="table-toolbar-left-title">
-                    <span class="fn-inline">违规数据明细</span>
+                    <span class="fn-inline">预警数据明细</span>
                     <i class="fn-inline"></i>
                   </div>
                 </div>

@@ -439,13 +439,14 @@
       <div style="margin-bottom: 10px; color: red">
         <p>注意：</p>
         <p>1.【主管部门】和【业务处室】默认全部，不进行处室过滤，只有少数规则需要根据处室过滤权限时才使用此字段 ！</p>
-        <p>2.预警级别与处理方式对应关系统一为：一级黄色预警（预警，无需上传附件）、二级橙色预警（预警，需上传附件）、三级红色预警（拦截）、非人工干预蓝色预警（记录）</p>
+        <p>2.预警级别与处理方式对应关系统一为：{{ $store.state.warnInfo.warnLevelOptions.map(item => `${item.label}（${item.warnTips}）`).join('、') }}</p>
         <p>3.触发类型中“实时触发”指的是事中监控，“定时触发”指的是事后监控，定时触发需要设置触发时间和频率才能生效，比如：每月1次，定时触发的监控规则【处理方式】必须选择“记录”。</p>
       </div>
       <div class="header-table">
         <BsTable
           ref="mountTableRef"
           height="300px"
+          :table-global-config="{ showOverflow: false }"
           :footer-config="{ showFooter: false }"
           :edit-config="editConfig"
           :edit-rules="editRulesIn"
@@ -624,29 +625,9 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: 1,
-      warningLeveloptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnName
-        }
-      }) ||
-      [
-        { value: 1, label: '黄色预警' },
-        { value: 2, label: '橙色预警' },
-        { value: 3, label: '红色预警' },
-        { value: 4, label: '非人工干预蓝色预警' }
-      ],
+      warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
       handleType: 1,
-      handleTypeoptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnTips
-        }
-      }) ||
-      [
-        { value: 1, label: '预警，无需上传附件' },
-        { value: 2, label: '预警，需上传附件' },
-        { value: 3, label: '拦截' },
-        { value: 4, label: '记录' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       triggerClass: 1,
       triggerClassoptions: [
         { value: 1, label: '实时触发' },

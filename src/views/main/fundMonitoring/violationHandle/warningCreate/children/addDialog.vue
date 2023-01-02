@@ -547,11 +547,11 @@ export default {
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
         this.createDataList.issueTime = moment().format('YYYY-MM-DD HH:mm:ss')
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
-          this.createDataList.warnLevel = '1'
+          this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
           this.createDataList.warnLevel = '2'
         } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
-          this.createDataList.warnLevel = '3'
+          this.createDataList.warnLevel = '1'
         } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
           this.createDataList.warnLevel = '4'
         }

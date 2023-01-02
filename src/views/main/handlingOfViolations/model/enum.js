@@ -58,12 +58,12 @@ export const TabEnum = {
  * @type {{RED: string, BLUE: string, YELLOW: string, ORANGE: string}}
  */
 export const WarnLevelEnum = {
-  // 黄色预警
-  YELLOW: '1',
+  // 红色预警
+  RED: '1',
   // 橙色预警
   ORANGE: '2',
-  // 红色预警
-  RED: '3',
+  // 黄色预警
+  YELLOW: '3',
   // 蓝色预警
   BLUE: '4'
 }

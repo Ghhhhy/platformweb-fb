@@ -100,23 +100,15 @@ export const warnLevelOptions = [
 ]
 
 // 监控处理方式Options（参照原项目内几种方式）
-export const controlTypeOptions = store.state.warnInfo.warnInfoOptions?.length
-  ? store.state.warnInfo.warnInfoOptions.map(item => {
-    return {
-      value: String(item.warnLevel),
-      label: item.warnTips,
-      ...item
-    }
-  })
-  : [
-    { value: '1', label: '禁止' },
-    { value: '2', label: '冻结' },
-    { value: '3', label: '警示' },
-    { value: '4', label: '提醒' }
-  ]
+export const controlTypeOptions = store.state.warnInfo.warnControlTypeOptions.map(item => {
+  return {
+    value: item.warnLevel || String(item.warnLevel),
+    ...item
+  }
+})
 
 warnLevelOptions.forEach(option => {
-  const storeWarn = store.state.warnInfo.warnInfoOptions.find(item => item.warnLevel === option.value)
+  const storeWarn = store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === option.value)
   if (storeWarn) {
     option = {
       ...option,
@@ -379,7 +371,7 @@ export const getControlTypeColumn = (params = {}) => {
   }
 }
 
-export const getWarnLevelColumn = (warnLevelRenderName) => {
+export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
   return {
     title: '预警级别',
     field: 'warnLevel',
@@ -387,7 +379,10 @@ export const getWarnLevelColumn = (warnLevelRenderName) => {
     filters: false,
     cellRender: {
       name: warnLevelRenderName,
-      options: warnLevelOptions
+      options: warnLevelOptions,
+      props: {
+        showLabel: true
+      }
     }
   }
 }
@@ -444,16 +439,16 @@ export const getWarnTypeColumn = (params = {}) => {
  */
 export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
   const columns = [
+    getCreateTimeColumn(),
+    getRuleNameColumn(),
+    getAmountColumn(),
     getWarnLevelColumn(warnLevelRenderName),
     getControlTypeColumn(),
     getWarningCodeColumn(),
-    getCreateTimeColumn(),
     getAgencyNameColumn(),
     getDeptNameColumn(),
     getManageMofDepNameColumn(),
     getBusinessNoColumn(),
-    getRuleNameColumn(),
-    getAmountColumn(),
     getWarnTypeColumn(),
     getIsDirColumn()
   ]
