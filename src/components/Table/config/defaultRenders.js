@@ -2853,7 +2853,7 @@ const defaultTableRenderers = {
   $customIcon: {
     // 增加icon图标展示
     renderDefault(h, cellRender, params) {
-      const { renderProps, options } = cellRender
+      const { renderProps, options, props } = cellRender
       let { row, column } = params
       const cellValue = row[column.property]
       const currentOption = options.find(option => String(option.value) === String(cellValue))
@@ -2861,7 +2861,8 @@ const defaultTableRenderers = {
         return renderProps.render(h, { row, column, cellRender, params })
       } else if (currentOption?.iconClass) {
         return [
-          <i class={currentOption?.iconClass} style={{ ...(currentOption?.iconStyle || {}), fontSize: '18px' }}></i>
+          <i class={currentOption?.iconClass} style={{ ...(currentOption?.iconStyle || {}), fontSize: '18px', verticalAlign: 'middle' }}></i>,
+          props?.showLabel ? <span style={{ ...(currentOption?.iconStyle || {}), verticalAlign: 'middle' }}>{currentOption?.label || currentOption?.value}</span> : ''
         ]
       } else {
         return [
