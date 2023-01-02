@@ -8,7 +8,7 @@ function useTabPlanel(
   currentRow
 ) {
   // 搜索栏显隐
-  const isShowSearchForm = ref(false)
+  const isShowSearchForm = ref(true)
 
   /**
    * 显示隐藏筛选表单
