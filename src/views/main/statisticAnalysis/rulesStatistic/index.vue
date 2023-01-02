@@ -28,6 +28,7 @@
             :toolbar-config="tableToolbarConfig"
             :pager-config="pagerConfig"
             size="medium"
+            :cell-class-name="cellCursorUnderlineClassName"
             @register="registerTable"
             @ajaxData="pagerChange"
             @onToolbarBtnClick="onToolbarBtnClick"
@@ -63,7 +64,8 @@ import { useModal } from '@/hooks/useModal/index'
 import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import {
   getWarnCountColumns,
-  searchFormCommonSchemas
+  searchFormCommonSchemas,
+  cellCursorUnderlineClassName
 } from '@/views/main/statisticAnalysis/common/model/data.js'
 import {
   getRuleNameColumn,
@@ -158,7 +160,7 @@ export default defineComponent({
           minWidth: 260,
           width: 'auto'
         }),
-        getWarnLevelColumn('$vxeSelect'),
+        getWarnLevelColumn(),
         getControlTypeColumn(),
         getWarnTypeColumn(),
         ...getWarnCountColumns(),
@@ -203,6 +205,7 @@ export default defineComponent({
       onToolbarBtnClick,
       pagerChange,
       resetFetchTableData,
+      cellCursorUnderlineClassName,
 
       currentRow,
       closeAllHandle,

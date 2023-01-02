@@ -205,6 +205,15 @@ export const getWarnCountColumns = () => {
 }
 
 /**
+ * cell-class-name
+ * */
+export function cellCursorUnderlineClassName({ column }, fields = ['warnTotal', 'onWay', 'release', 'prohibit']) {
+  if (fields.includes(column.property)) {
+    return 'cursor-underline'
+  }
+}
+
+/**
  * 主列表columns
  * @return {[{field: string, sortable: boolean, filters: boolean, title: string, align: string}, {field: string, sortable: boolean, filters: boolean, title: string}, {field: string, sortable: boolean, filters: boolean, title: string}, {field: string, width: number, sortable: boolean, filters: boolean, title: string}, {field: string, width: number, sortable: boolean, filters: boolean, title: string, align: string}, null, null, null]}
  */

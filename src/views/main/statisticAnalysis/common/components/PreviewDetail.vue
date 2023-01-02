@@ -22,6 +22,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           size="medium"
+          :cell-class-name="cellCursorUnderlineClassName"
           @register="registerTable"
           @ajaxData="pagerChange"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -48,7 +49,7 @@ import HandlingOfViolationsModal from '../components/HandlingOfViolationsModal'
 import useTable from '@/hooks/useTable'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
 
-import { getWarnCountColumns } from '@/views/main/statisticAnalysis/common/model/data.js'
+import { getWarnCountColumns, cellCursorUnderlineClassName } from '@/views/main/statisticAnalysis/common/model/data.js'
 import {
   getRuleNameColumn,
   getIsDirColumn,
@@ -138,7 +139,7 @@ export default defineComponent({
       },
       columns: [
         ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
-        getWarnLevelColumn('$vxeSelect'),
+        getWarnLevelColumn(),
         getControlTypeColumn(),
         getWarnTypeColumn(),
         ...getWarnCountColumns(),
@@ -160,6 +161,7 @@ export default defineComponent({
       handlingOfViolationsModel,
       detailCurrentRow,
 
+      cellCursorUnderlineClassName,
       cellDblclick,
       footerConfig,
       columns,

@@ -47,6 +47,7 @@
             :toolbar-config="tableToolbarConfig"
             :pager-config="pagerConfig"
             size="medium"
+            :cell-class-name="cellCursorUnderlineClassName"
             @register="registerTable"
             @ajaxData="pagerChange"
             @onToolbarBtnClick="onToolbarBtnClick"
@@ -90,7 +91,8 @@ import { useModal } from '@/hooks/useModal/index'
 import { queryDep } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import {
   getWarnCountColumns,
-  searchFormCommonSchemas
+  searchFormCommonSchemas,
+  cellCursorUnderlineClassName
 } from '@/views/main/statisticAnalysis/common/model/data.js'
 import { getAgencyNameColumn } from '@/views/main/handlingOfViolations/model/data.js'
 import elementTreeApi from '@/api/frame/common/tree/unitTree'
@@ -282,6 +284,7 @@ export default defineComponent({
       onToolbarBtnClick,
       pagerChange,
       resetFetchTableData,
+      cellCursorUnderlineClassName,
 
       currentRow,
       closeAllHandle,
