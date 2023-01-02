@@ -1,4 +1,4 @@
-import { post, get } from '@/api/http'
+import { post, get, postFormData } from '@/api/http'
 export default {
   // 获取左侧树
   getTreeData(params) {
@@ -38,5 +38,9 @@ export default {
   // 导入
   importBenefit (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/import', params)
+  },
+  // 到人到户导入 | 企业补贴导入
+  importPersonAndCompany (params) {
+    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/savePayDetailExcel', params)
   }
 }

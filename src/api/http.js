@@ -204,7 +204,6 @@ export function get(url, params, Origin, contentType) {
         params: params
       })
       .then(response => {
-        // console.log('get', '\n', url, '\n', params, '\n', response)
         resolve(response.data)
       })
       .catch(error => {
@@ -223,6 +222,27 @@ export function post(url, data = {}, Origin, contentType) {
       .post(globalGatewayAgent(url, Origin), data)
       .then(response => {
         // console.log('post', '\n', url, 'response', response, '\n', data, '\n', response)
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+// 封装axios的post-formData请求，避免每次都要用post调用时要new FormData
+export function postFormData(url, data = {}, Origin) {
+  // axios.defaults.headers.post['Content-Type'] = 'application/json' || 'application/x-www-form-urlencoded
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+  axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
+  const formData = new FormData()
+  Object.entries(data || {}).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+  return new Promise((resolve, reject) => {
+    axios
+      .post(globalGatewayAgent(url, Origin), formData)
+      .then(response => {
         resolve(response.data)
       })
       .catch(error => {
