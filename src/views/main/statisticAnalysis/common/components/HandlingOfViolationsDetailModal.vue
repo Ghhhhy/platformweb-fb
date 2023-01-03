@@ -5,6 +5,7 @@
     title="处理单查看"
     width="80%"
     height="80%"
+    resize
     show-footer
   >
     <template #footer>

@@ -2880,7 +2880,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='el-icon-document' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='el-icon-folder' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='el-icon-folder-opened' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
@@ -2895,7 +2895,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
-          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2910,7 +2910,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
-          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2925,7 +2925,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
-          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2939,7 +2939,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
@@ -2954,7 +2954,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
-          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2969,7 +2969,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
-          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>}
+          { showValue && <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2997,7 +2997,7 @@ const defaultTableRenderers = {
           { (row.hasChild === false) && <i class='el-icon-document' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.hasChild === true && <i class='el-icon-folder' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.hasChild === true && <i class='el-icon-folder-opened' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
