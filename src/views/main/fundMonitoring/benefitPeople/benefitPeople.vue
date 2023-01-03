@@ -752,7 +752,7 @@ export default {
         case 'company-import':
           const selectionData = this.$refs.mainTableRef1.getSelectionData()
           if (selectionData?.length !== 1) {
-            this.$message.warning('请选择一条支付明细')
+            this.$message.warning('请选择一条支付凭证信息')
             return
           }
           const { file } = await readLocalFile({
