@@ -233,7 +233,7 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       mofDivCode: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤

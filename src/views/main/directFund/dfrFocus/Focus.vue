@@ -228,7 +228,7 @@ export default {
       payeeAcctName: '',
       xpayDate: '',
       setModeName: '',
-      year: '',
+      year: this.$store.state.userInfo.year,
       agencyCode: '',
       mofdivcode: '',
       codeList: []

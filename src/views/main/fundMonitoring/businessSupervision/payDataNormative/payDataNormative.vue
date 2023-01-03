@@ -190,7 +190,7 @@ export default {
       tableFooterConfig: {
         showFooter: false
       },
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       userDesStr: '',
       payAcctNameStr: '',
       payAcctNoStr: '',

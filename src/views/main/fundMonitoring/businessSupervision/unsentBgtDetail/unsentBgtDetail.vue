@@ -225,7 +225,7 @@ export default {
       params5: '',
       menuId: '',
       tokenid: '',
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       userInfo: {},
       roleguid: this.$store.state.curNavModule.roleguid,
       appId: 'pay_voucher',

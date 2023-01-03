@@ -242,7 +242,7 @@ export default {
       firulename: '',
       mofdivcode: '',
       createDateStr: '',
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,

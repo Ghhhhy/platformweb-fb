@@ -241,7 +241,7 @@ export default {
       regulationclass: '',
       firulename: '',
       mofdivcode: '',
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       proNameRule: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
