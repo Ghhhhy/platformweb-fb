@@ -18,7 +18,7 @@ import FilterContent from './renderers/tableFilters/FilterContent/FilterContent.
 import FilterInput from './renderers/tableFilters/FilterInput/FilterInput.vue' // 内容过滤器:Titans
 import FilterSelect from './renderers/tableFilters/FilterSelect/FilterSelect.vue' // 内容过滤器:Titans
 import FilterNumberRange from './renderers/tableFilters/FilterNumberRange/index.vue' // 数值范围过滤器
-
+import BsFilePreview from './filePreview/filePreview'
 // import FilterNumberCompare from './renderers/tableFilters/FilterNumberCompare/FilterNumberCompare.vue' // 内容过滤器:Jigsaw
 import BsTab from './Tab/Tab.vue' // tab切换:Titans
 import BsTable from './Table/Table.vue' // table:Titans
@@ -124,7 +124,8 @@ const componentsLib = {
   MofDivTree,
   BsEmpty,
   BsTreeTitle,
-  BsTableTitle
+  BsTableTitle,
+  BsFilePreview
 }
 const utilsLib = {
   LoadingMark,

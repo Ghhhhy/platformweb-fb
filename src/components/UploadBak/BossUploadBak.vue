@@ -11,6 +11,7 @@
         action="#"
         :show-file-list="false"
         :data="uploadDFileParams"
+        :disabled="disabled"
         :on-remove="handleRemove"
         :http-request="handelUploadDebugfile"
       >
@@ -56,23 +57,37 @@
                 <span class="sp-my-thr">{{ file['filename'] }}</span>
               </div>
               <div class="fn-inline enclosure-css4">
-                <button @click="handleRemove(index, file)"><img src="@/assets/img/upload/deleteicon@2x.png" alt="" class="img-my-two"></button>
+                <button v-if="allowDelete" :disabled="disabled" @click="handleRemove(index, file)"><img src="@/assets/img/upload/deleteicon@2x.png" alt="" class="img-my-two"></button>
+                <i v-if="allowDownload" class="ri-file-download-fill cursor" @click="handleDownload(file)"></i>
+                <i v-if="allowPreview" class="ri-eye-fill cursor" @click="handleFilePreview(file)"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <bs-file-preview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="currentFile.fileguid"
+      :app-id="$store.getters.getLoginAuthentication.appguid"
+    />
   </div>
   <!-- </div> -->
 </template>
 <script>
 import HttpModule from '@/api/frame/main/Monitoring/Monitoring.js'
+import { downloadByFileId } from '@/utils/download'
+
 export default {
   props: {
     isUpload: {
       type: Boolean,
       default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     attachmentId: {
       type: String,
@@ -89,10 +104,29 @@ export default {
       default() {
         return []
       }
+    },
+    // 允许被删除
+    allowDelete: {
+      type: Boolean,
+      default: true
+    },
+    // 允许下载
+    allowDownload: {
+      type: Boolean,
+      default: false
+    },
+    // 允许预览
+    allowPreview: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      // 当前操作的file
+      currentFile: null,
+      // 文件预览弹窗显隐
+      filePreviewDialogVisible: false,
       isChange: true,
       uploadDFileParams: {},
       fileDataBakAdd: [],
@@ -284,8 +318,25 @@ export default {
           this.$message.error('上传失败')
         }
       }).catch()
-    }
+    },
     // 点击表格行触发事件
+    /**
+     * 根据fileId下载文件
+     */
+    handleDownload(file) {
+      if (!file.fileguid) {
+        this.$message.error('未知的文件id')
+        return
+      }
+      downloadByFileId(file.fileguid)
+    },
+    /**
+     * 预览
+     */
+    handleFilePreview(file) {
+      this.currentFile = file
+      this.filePreviewDialogVisible = true
+    }
   },
   created() {
     this.sizeNum = 1

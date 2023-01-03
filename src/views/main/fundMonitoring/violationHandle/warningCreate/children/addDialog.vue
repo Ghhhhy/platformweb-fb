@@ -211,6 +211,9 @@
           :file-list="fileList1"
           :file-data-bak-del.sync="fileDataBakDel1"
           :file-data.sync="fileData1"
+          :allow-delete="false"
+          :allow-download="true"
+          :allow-preview="true"
           disabled
           :is-upload="false"
         />
@@ -283,6 +286,9 @@
         <BsUploadBak
           ref="myUpload"
           disabled
+          :allow-delete="false"
+          :allow-download="true"
+          :allow-preview="true"
           :is-upload="false"
           :attachment-id="attachmentid3"
           :file-list="fileList3"
