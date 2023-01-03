@@ -31,7 +31,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
-          :pager-config="pagerConfig"
+          :pager-config="false"
           :default-money-unit="10000"
           :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
@@ -299,7 +299,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       switch (key) {
         case 'redUndoNum':
@@ -384,7 +384,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       }
       this.tableLoading = true
@@ -436,9 +436,7 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    this.searchDataList.fiscalYear = year
+    this.searchDataList.fiscalYear = this.$store.state.userInfo.year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

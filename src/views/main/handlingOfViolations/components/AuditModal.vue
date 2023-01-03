@@ -5,6 +5,7 @@
     :title="modalTitle"
     width="80%"
     height="80%"
+    resize
     show-footer
   >
     <template #footer>
@@ -13,7 +14,7 @@
         <vxe-button size="small" @click="visible = false">取消</vxe-button>
         <vxe-button :loading="printLoading" type="primary" size="small" @click="printHandle">打印</vxe-button>
       </div>
-      <!--审核 | 确认-->
+      <!--处理-->
       <div v-if="modalType === ModalTypeEnum.AUDIT">
         <vxe-button size="small" @click="visible = false">取消</vxe-button>
         <vxe-button v-if="!isUnitFeedbackPage" :disabled="auditButLoading" size="small" @click="submitFetch(TabEnum.RETURN)">
@@ -35,6 +36,7 @@
           height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel ? 110 : 0}px)`,
         }"
       >
+        <!--左侧处理单信息-->
         <template #paneL>
           <div class="left-items">
             <el-checkbox
@@ -72,6 +74,7 @@
             </div>
           </div>
         </template>
+        <!--右侧当前选中的处理单信息-->
         <template #paneR>
           <div class="right-info" style="height: 100%; overflow-y: auto">
             <!--规则信息-->

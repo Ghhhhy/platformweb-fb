@@ -379,7 +379,8 @@ const proconf = {
         field: 'fiRuleName',
         sortable: true,
         align: 'center',
-        width: 300
+        minWidth: 300,
+        width: 'auto'
       },
       // 上海临时去掉
       // {
@@ -424,21 +425,21 @@ const proconf = {
         align: 'center',
         children: [
           {
-            title: '未上传附件',
-            field: 'orangeUndoNum',
+            title: '未处理',
+            field: 'orangeTodoNum',
             width: 140,
             align: 'center',
             filters: false,
             cellRender: {
-              name: '$vxeIcon6',
+              name: '$vxeIcon1',
               props: {
                 $refs: this
               }
             }
           },
           {
-            title: '已上传附件',
-            field: 'orangeDoneNum',
+            title: '已通过',
+            field: 'orangePassNum',
             width: 140,
             align: 'center',
             filters: false,
@@ -448,7 +449,46 @@ const proconf = {
                 $refs: this
               }
             }
+          },
+          {
+            title: '已禁止',
+            field: 'orangeForbidNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon8',
+              props: {
+                $refs: this
+              }
+            }
           }
+          // {
+          //   title: '未上传附件',
+          //   field: 'orangeUndoNum',
+          //   width: 140,
+          //   align: 'center',
+          //   filters: false,
+          //   cellRender: {
+          //     name: '$vxeIcon6',
+          //     props: {
+          //       $refs: this
+          //     }
+          //   }
+          // },
+          // {
+          //   title: '已上传附件',
+          //   field: 'orangeDoneNum',
+          //   width: 140,
+          //   align: 'center',
+          //   filters: false,
+          //   cellRender: {
+          //     name: '$vxeIcon3',
+          //     props: {
+          //       $refs: this
+          //     }
+          //   }
+          // }
           // {
           //   title: '认定违规',
           //   field: '',

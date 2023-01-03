@@ -5,6 +5,7 @@
     title="查看详情"
     width="90%"
     height="90%"
+    resize
     show-footer
   >
     <template #footer>
