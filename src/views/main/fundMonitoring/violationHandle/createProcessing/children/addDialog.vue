@@ -211,6 +211,9 @@
           :file-list="fileList1"
           :file-data-bak-del.sync="fileDataBakDel1"
           :file-data.sync="fileData1"
+          :allow-download="true"
+          :allow-preview="true"
+          :allow-delete="param5.retroact === 'company'"
           :disabled="param5.retroact !== 'company'"
           :is-upload="param5.retroact === 'company'"
         />
@@ -284,6 +287,9 @@
           ref="myUpload"
           :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
           :is-upload="param5.retroact === 'department' || status === '1' || status === 1"
+          :allow-delete="param5.retroact === 'department' || status === '1' || status === 1"
+          :allow-download="true"
+          :allow-preview="true"
           :attachment-id="attachmentid3"
           :file-list="fileList3"
           :file-data-bak-del.sync="fileDataBakDel3"
@@ -579,8 +585,12 @@ export default {
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
           if (this.detailData[0].status === '2' || this.detailData[0].status === '4' || this.detailData[0].status === 2 || this.detailData[0].status === 4) {
-            this.value = this.detailData[0].status + ''
             this.value1 = this.detailData[0].status + ''
+          }
+          if (this.detailData[0].information2 !== null || this.detailData[0].information2 !== '') {
+            this.value = '2'
+          } else {
+            this.value = '4'
           }
           if (this.attachmentid1 != null) {
             const param = {
@@ -635,11 +645,10 @@ export default {
                 }
               })
             }
-            this.handler2 = this.detailData[0].handler2
             if (this.detailData[0].updateTime2) {
               this.updateTime2 = this.detailData[0].updateTime2
             }
-            this.information2 = this.detailData[0].information2
+            this.phone2 = this.detailData[0].phone2
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
             this.commentDept = 1

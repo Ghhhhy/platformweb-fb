@@ -16,6 +16,11 @@ body {
     }
   }
 
+  .ui-selectable-helper {
+    border: 1px dashed #d1d1d1;
+    background-color: rgba(236, 218, 218, .1);
+  }
+
   .cursor {
     cursor: pointer;
     color: var(--primary-color) !important;
