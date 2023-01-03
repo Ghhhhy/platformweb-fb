@@ -141,26 +141,31 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;业务菜单</div>
-                    <el-select
-                      v-model="businessFunctionCode"
-                      :disabled="disabled"
-                      multiple="true"
-                      placeholder="请选择业务菜单"
-                      style="width:45%"
-                      @change="changeFunCode"
-                    >
-                      <el-option
-                        v-for="item in businessFunctionCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
-                    <!--<BsTree-->
-                    <!--  :is-drop-select-tree="true"-->
-                    <!--  :editable="true"-->
-                    <!--  v-bind="payAppMenu"-->
-                    <!--/>-->
+                    <!--<el-select-->
+                    <!--  v-model="businessFunctionCode"-->
+                    <!--  :disabled="disabled"-->
+                    <!--  multiple="true"-->
+                    <!--  placeholder="请选择业务菜单"-->
+                    <!--  style="width:45%"-->
+                    <!--  @change="changeFunCode"-->
+                    <!--&gt;-->
+                    <!--  <el-option-->
+                    <!--    v-for="item in businessFunctionCodeoptions"-->
+                    <!--    :key="item.id"-->
+                    <!--    :label="item.businessName"-->
+                    <!--    :value="item.id"-->
+                    <!--  />-->
+                    <!--</el-select>-->
+                    <BsTree
+                      v-model="businessFunctionCodeModal"
+                      :is-drop-select-tree="true"
+                      :editable="true"
+                      :tree-data="businessFunctionTreeData"
+                      :default-checked-keys="businessFunctionCode"
+                      v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                      class="businessFunctionTree"
+                      style="display: inline-block;"
+                    />
                   </el-row>
                 </el-main>
               </el-container>
@@ -284,7 +289,6 @@
                       :disabled="disabled"
                       placeholder="请选择函数逻辑关系"
                       style="width:45%"
-                      @change="chooseRuleFlag"
                     >
                       <el-option
                         v-for="item in ruleFlagOptions"
@@ -307,7 +311,6 @@
                       :disabled="disabled"
                       placeholder="请选择提醒位置"
                       style="width:45%"
-                      @change="chooseWarnLocation"
                     >
                       <el-option
                         v-for="item in warnLocationOptions"
@@ -346,11 +349,11 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
                     <el-select
                       v-model="uploadFile"
                       :disabled="disabled"
-                      placeholder="请选择是否上传附件"
+                      placeholder="请选择是否必传附件"
                       style="width:45%"
                     >
                       <el-option
@@ -436,13 +439,14 @@
       <div style="margin-bottom: 10px; color: red">
         <p>注意：</p>
         <p>1.【主管部门】和【业务处室】默认全部，不进行处室过滤，只有少数规则需要根据处室过滤权限时才使用此字段 ！</p>
-        <p>2.预警级别与处理方式对应关系统一为：一级黄色预警（预警，无需上传附件）、二级橙色预警（预警，需上传附件）、三级红色预警（拦截）、非人工干预蓝色预警（记录）</p>
+        <p>2.预警级别与处理方式对应关系统一为：{{ $store.state.warnInfo.warnLevelOptions.map(item => `${item.label}（${item.warnTips}）`).join('、') }}</p>
         <p>3.触发类型中“实时触发”指的是事中监控，“定时触发”指的是事后监控，定时触发需要设置触发时间和频率才能生效，比如：每月1次，定时触发的监控规则【处理方式】必须选择“记录”。</p>
       </div>
       <div class="header-table">
         <BsTable
           ref="mountTableRef"
           height="300px"
+          :table-global-config="{ showOverflow: false }"
           :footer-config="{ showFooter: false }"
           :edit-config="editConfig"
           :edit-rules="editRulesIn"
@@ -524,10 +528,11 @@
 <script>
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
-// import commonApi from '@/api/frame/common/menu.js'
-// import { payAppMenu } from '@/common/model/data.js'
+import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
+
 export default {
   name: 'AddDialog',
+  mixins: [queryTreedElementByCodeMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -542,7 +547,6 @@ export default {
   },
   data() {
     return {
-      // payAppMenu,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -621,29 +625,9 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: 1,
-      warningLeveloptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnName
-        }
-      }) ||
-      [
-        { value: 1, label: '黄色预警' },
-        { value: 2, label: '橙色预警' },
-        { value: 3, label: '红色预警' },
-        { value: 4, label: '非人工干预蓝色预警' }
-      ],
+      warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
       handleType: 1,
-      handleTypeoptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnTips
-        }
-      }) ||
-      [
-        { value: 1, label: '预警，无需上传附件' },
-        { value: 2, label: '预警，需上传附件' },
-        { value: 3, label: '拦截' },
-        { value: 4, label: '记录' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       triggerClass: 1,
       triggerClassoptions: [
         { value: 1, label: '实时触发' },
@@ -1585,14 +1569,13 @@ export default {
     },
     // 选择业务模块
     changeModCode(val) {
-      console.log(val)
       this.ModparentId = val
-      this.businessFunctionCode = ''
+      this.businessFunctionCodeModal = ''
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
       this.businessModuleName = busName.businessName
-      this.getFunLists()
+      // this.getFunLists()
     },
     changeFunCode(val) {
       console.log(val)
@@ -1748,8 +1731,6 @@ export default {
   mounted() {
   },
   created() {
-    console.log(this.$parent.DetailData)
-    console.log(this.$store.state.userInfo.orgCode)
     this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
@@ -1782,13 +1763,14 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
+
+      // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
+      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.menuNameList
+      // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
@@ -1821,13 +1803,14 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
+
+      // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
+      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.menuNameList
+      // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
 

@@ -150,24 +150,12 @@ export default {
           align: 'left',
           cellRender: {
             name: '$vxeSelect',
-            options: [
-              {
-                value: '1',
-                label: '黄色预警'
-              },
-              {
-                value: '2',
-                label: '橙色预警'
-              },
-              {
-                value: '3',
-                label: '红色预警'
-              },
-              {
-                value: '4',
-                label: '蓝色预警'
+            options: this.$store.state.warnInfo.warnLevelOptions.map(item => {
+              return {
+                ...item,
+                value: String(item.value)
               }
-            ],
+            }),
             defaultValue: '',
             props: {}
           }
@@ -179,24 +167,12 @@ export default {
           align: 'left',
           cellRender: {
             name: '$vxeSelect',
-            options: [
-              {
-                value: '1',
-                label: '预警'
-              },
-              {
-                value: '2',
-                label: '拦截'
-              },
-              {
-                value: '3',
-                label: '冻结'
-              },
-              {
-                value: '4',
-                label: '记录'
+            options: this.$store.state.warnInfo.warnControlTypeOptions.map(item => {
+              return {
+                ...item,
+                value: String(item.value)
               }
-            ],
+            }),
             defaultValue: '',
             props: {}
           }
@@ -430,7 +406,7 @@ export default {
       let selectData = this.$refs.addTableRef.getSelectionData()
       if (selectData.length > 0) {
         if (selectData.length === 1) {
-          if (this.title === '删除违规数据') {
+          if (this.title === '删除预警数据') {
             let param = {
               regulationClass: selectData[0].regulationClass,
               firulecode: selectData[0].fiRuleCode

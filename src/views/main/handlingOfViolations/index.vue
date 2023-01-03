@@ -30,7 +30,7 @@
               ref="mofDivTree"
               v-loading="treeLoading"
               :filter-text="treeFilterText"
-              :config="{ showFilter: false, treeProps }"
+              :config="{ showFilter: false, expandOnClickNode: false, treeProps }"
               :tree-data="treeData"
               @onNodeClick="nodeClick"
             />
@@ -65,7 +65,6 @@
       v-if="auditVisible"
       v-model="auditVisible"
       :checked-records="checkedRecords"
-      :modal-type="modalType"
       @success="resetFetchTableData"
     />
   </div>
@@ -87,7 +86,6 @@ import {
   searchFormAllTabSchema,
   getCommonColumns,
   getAuditDescriptionColumn,
-  checkStatusColumn,
   getNodeStatusColumn,
   sendAuditTabs,
   doAuditTabs,
@@ -154,13 +152,15 @@ export default defineComponent({
         treeProps: {
           nodeKey: 'code'
         },
-        fetch: elementTreeApi.getElementTree,
-        beforeFetch: params => {
-          return {
-            ...params,
-            elementCode: 'AGENCY',
-            nodeType: pagePathMapNodeType[unref(pagePath)]
-          }
+        fetch: elementTreeApi.getAgencyTree,
+        afterFetch: data => {
+          return [
+            {
+              name: '全部',
+              customCode: 'ALL_NODE_CODE',
+              children: data || []
+            }
+          ]
         }
       },
       // 单位反馈不请求
@@ -235,7 +235,6 @@ export default defineComponent({
         initColumns.splice(
           2,
           0,
-          checkStatusColumn,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
       } else if (unref(currentTab).code === TabEnum.ALL) {
@@ -251,7 +250,6 @@ export default defineComponent({
           initColumns.splice(
             initColumns.length - 2,
             0,
-            checkStatusColumn,
             getAuditDescriptionColumn({ title: '处理意见' })
           )
         }
@@ -267,7 +265,6 @@ export default defineComponent({
         initColumns.splice(
           initColumns.length - 1,
           0,
-          checkStatusColumn,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
       }

@@ -1,4 +1,6 @@
 // import store from '@/store/index'
+import store from '@/store'
+
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -97,12 +99,12 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions?.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
         props: {
           placeholder: '预警级别'
         }
@@ -117,12 +119,12 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '预警（无需上传附件）' },
-          { value: '2', label: '预警（需上传附件）' },
-          { value: '3', label: '拦截' },
-          { value: '4', label: '记录' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
         props: {
           placeholder: '处理方式'
         }
@@ -431,12 +433,7 @@ export let proconf = {
       name: '$vxeSelect',
       editRender: {
         name: '$vxeSelect',
-        options: [
-          { value: 1, label: '黄色预警' },
-          { value: 2, label: '橙色预警' },
-          { value: 3, label: '红色预警' },
-          { value: 4, label: '蓝色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions,
         props: {
           placeholder: '预警级别'
         }
@@ -450,12 +447,7 @@ export let proconf = {
       name: '$vxeSelect',
       editRender: {
         name: '$vxeSelect',
-        options: [
-          { value: 1, label: '预警（无需上传附件）' },
-          { value: 2, label: '预警（需上传附件）' },
-          { value: 3, label: '拦截' },
-          { value: 4, label: '记录' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         props: {
           placeholder: '处理方式'
         }
@@ -711,40 +703,16 @@ export let proconf = {
       label: '预警级别',
       name: '预警级别',
       text: '预警级别',
-      children: [
-        {
-          code: '1',
-          id: '1',
-          label: '黄色预警',
-          name: '黄色预警',
-          text: '黄色预警',
-          children: []
-        },
-        {
-          code: '2',
-          id: '2',
-          label: '橙色预警',
-          name: '橙色预警',
-          text: '橙色预警',
-          children: []
-        },
-        {
-          code: '3',
-          id: '3',
-          label: '红色预警',
-          name: '红色预警',
-          text: '红色预警',
-          children: []
-        },
-        {
-          code: '4',
-          id: '4',
-          label: '蓝色预警',
-          name: '蓝色预警',
-          text: '蓝色预警',
+      children: store.state.warnInfo.warnLevelOptions.map(item => {
+        return {
+          ...item,
+          code: String(item.value),
+          id: String(item.value),
+          name: item.label,
+          text: item.label,
           children: []
         }
-      ]
+      })
     }
   ]
 }

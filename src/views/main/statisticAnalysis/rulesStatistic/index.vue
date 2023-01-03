@@ -20,51 +20,85 @@
       <template v-slot:mainForm>
         <div style="height: 100%">
           <BsTable
-            v-loading="tableLoadingState"
+            :loading="tableLoadingState"
             :table-config="tableConfig"
             :table-columns-config="columns"
             :table-data="tableData"
+            :footer-config="footerConfig"
             :toolbar-config="tableToolbarConfig"
             :pager-config="pagerConfig"
             size="medium"
+            :cell-class-name="cellCursorUnderlineClassName"
             @register="registerTable"
             @ajaxData="pagerChange"
             @onToolbarBtnClick="onToolbarBtnClick"
+            @cellDblclick="cellDblclick"
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
-                <div
-                  v-if="!leftVisible"
-                  class="table-toolbar-contro-leftvisible"
-                  @click="leftVisible = true"
-                >
-                </div>
-                <BsTableTitle title="统计分析（按规则统计）" />
+                <BsTableTitle title="统计分析" />
               </div>
             </template>
           </BsTable>
         </div>
       </template>
     </BsMainFormListLayout>
+    <PreviewDetail
+      v-if="ruleModalVisible"
+      v-model="ruleModalVisible"
+      :current-row="currentRow"
+      @closeAll="closeAllHandle"
+    />
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, toRaw } from '@vue/composition-api'
+import { defineComponent, provide, ref, toRaw } from '@vue/composition-api'
+import PreviewDetail from '../common/components/PreviewDetail'
+
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
-import useTabPlanel from './hooks/useTabPlanel'
+import useTabPlanel from '../common/hooks/useTabPlanel'
+import { useModal } from '@/hooks/useModal/index'
 
-import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
-import { getIndexColumns, searchFormCommonSchemas } from './model/data'
+import { queryRule } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
+import {
+  getWarnCountColumns,
+  searchFormCommonSchemas,
+  cellCursorUnderlineClassName
+} from '@/views/main/statisticAnalysis/common/model/data.js'
+import {
+  getRuleNameColumn,
+  getIsDirColumn,
+  getWarnLevelColumn,
+  getControlTypeColumn,
+  getWarnTypeColumn
+} from '@/views/main/handlingOfViolations/model/data.js'
+import { useFooter } from '../common/hooks/useFooter'
 
 export default defineComponent({
-  setup(_) {
-    // 左侧区划树显隐
-    const leftVisible = ref(true)
+  components: {
+    PreviewDetail
+  },
+  setup(_, { root }) {
+    const route = root.$route
 
-    // 处理单弹窗显隐
-    const ruleModalVisible = ref(false)
+    // 页面路由
+    const pagePath = ref(route.path)
+
+    /**
+     * modalType:弹窗打开操作
+     * pagePath:页面路由
+     */
+    provide('pagePath', pagePath)
+    // 因【处理单查看】等子孙组件使用到inject('modalType')，故此提供一个空值，避免报错
+    provide('modalType', '')
+
+    // 规则弹窗显隐
+    const [ruleModalVisible, changeRuleModalVisibleVisible] = useModal()
+
+    // 当前操作行
+    const currentRow = ref(null)
 
     /**
      * 搜索表单
@@ -90,6 +124,15 @@ export default defineComponent({
     }
 
     /**
+     * 关闭所有弹窗
+     * */
+    function closeAllHandle() {
+      changeRuleModalVisibleVisible(false)
+    }
+
+    const { footerConfig } = useFooter()
+
+    /**
      * 表格
      * */
     const [
@@ -107,14 +150,36 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: pageQueryIndex,
-      columns: getIndexColumns(),
+      fetch: queryRule,
+      finallyFetch: data => {
+        footerConfig.value.totalObj = data?.warnHJVO || {}
+      },
+      columns: [
+        getRuleNameColumn({
+          title: '规则名称',
+          minWidth: 260,
+          width: 'auto'
+        }),
+        getWarnLevelColumn(),
+        getControlTypeColumn(),
+        getWarnTypeColumn(),
+        ...getWarnCountColumns(),
+        getIsDirColumn({
+          minWidth: 100,
+          width: 'auto'
+        })
+      ],
       getSubmitFormData,
       dataKey: 'data.results'
     })
 
-    // 选中行
-    const checkedRecords = ref([])
+    /**
+     * 双击单元格
+     * */
+    function cellDblclick({ row }) {
+      currentRow.value = row
+      changeRuleModalVisibleVisible(true)
+    }
 
     /**
      * 顶部tab模块
@@ -123,12 +188,13 @@ export default defineComponent({
       tabStatusBtnConfig,
       isShowSearchForm,
       onQueryConditionsClick
-    } = useTabPlanel(ruleModalVisible, getTable, checkedRecords)
+    } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
 
     return {
-      leftVisible,
       ruleModalVisible,
 
+      cellDblclick,
+      footerConfig,
       columns,
       registerTable,
       tableConfig,
@@ -139,7 +205,10 @@ export default defineComponent({
       onToolbarBtnClick,
       pagerChange,
       resetFetchTableData,
-      checkedRecords,
+      cellCursorUnderlineClassName,
+
+      currentRow,
+      closeAllHandle,
 
       tabStatusBtnConfig,
       isShowSearchForm,

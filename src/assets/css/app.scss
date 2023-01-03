@@ -18,7 +18,10 @@ body {
 
   .cursor {
     cursor: pointer;
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
+    &:hover {
+      color: rgba(var(--primary-color), 0.7);
+    }
   }
 
   .cursor-underline {

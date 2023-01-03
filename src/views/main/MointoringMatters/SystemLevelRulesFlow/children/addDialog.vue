@@ -113,20 +113,30 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;触发菜单</div>
-                      <el-select
-                        v-model="businessFunctionCode"
-                        :disabled="disabled"
-                        placeholder="请选择触发菜单"
-                        style="width:45%"
-                        @change="changeFunCode"
-                      >
-                        <el-option
-                          v-for="item in businessFunctionCodeoptions"
-                          :key="item.id"
-                          :label="item.businessName"
-                          :value="item.id"
-                        />
-                      </el-select>
+                      <!--:disabled="disabled"-->
+                      <!--<el-select-->
+                      <!--  v-model="businessFunctionCode"-->
+                      <!--  placeholder="请选择触发菜单"-->
+                      <!--  style="width:45%"-->
+                      <!--  @change="changeFunCode"-->
+                      <!--&gt;-->
+                      <!--  <el-option-->
+                      <!--    v-for="item in businessFunctionCodeoptions"-->
+                      <!--    :key="item.id"-->
+                      <!--    :label="item.businessName"-->
+                      <!--    :value="item.id"-->
+                      <!--  />-->
+                      <!--</el-select>-->
+                      <BsTree
+                        v-model="businessFunctionCodeModal"
+                        :is-drop-select-tree="true"
+                        :editable="true"
+                        :tree-data="businessFunctionTreeData"
+                        :default-checked-keys="businessFunctionCode"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                        class="businessFunctionTree"
+                        style="display: inline-block;"
+                      />
                     </el-row>
                   </el-main>
                 </el-container>
@@ -267,11 +277,11 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否上传附件</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
                     <el-select
                       v-model="uploadFile"
                       :disabled="disabled"
-                      placeholder="请选择是否上传附件"
+                      placeholder="请选择是否必传附件"
                       style="width:45%"
                     >
                       <el-option
@@ -355,7 +365,7 @@
         <div style="margin-bottom: 10px; color: red">
           <p>注意：</p>
           <p>1.【主管部门】和【业务处室】默认全部，不进行处室过滤，只有少数规则需要根据处室过滤权限时才使用此字段 ！</p>
-          <p>2.预警级别与处理方式对应关系统一为：一级黄色预警（预警，无需上传附件）、二级橙色预警（预警，需上传附件）、三级红色预警（拦截）、非人工干预蓝色预警（记录）</p>
+          <p>2.预警级别与处理方式对应关系统一为：{{ $store.state.warnInfo.warnLevelOptions.map(item => `${item.label}（${item.warnTips}）`).join('、') }}</p>
           <p>3.触发类型中“实时触发”指的是事中监控，“定时触发”指的是事后监控，定时触发需要设置触发时间和频率才能生效，比如：每月1次，定时触发的监控规则【处理方式】必须选择“记录”。</p>
         </div>
         <div class="header-table">
@@ -476,8 +486,10 @@
 <script>
 import { proconf } from '../SystemLevelRulesFlow.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
 export default {
   name: 'AddDialog',
+  mixins: [queryTreedElementByCodeMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -563,29 +575,9 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: '',
-      warningLeveloptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnName
-        }
-      }) ||
-      [
-        { value: 1, label: '黄色预警' },
-        { value: 2, label: '橙色预警' },
-        { value: 3, label: '红色预警' },
-        { value: 4, label: '非人工干预蓝色预警' }
-      ],
+      warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
       handleType: '',
-      handleTypeoptions: this.$store.state.warnInfo.warnInfoOptions?.map(item => {
-        return {
-          value: item.warnLevel, label: item.warnTips
-        }
-      }) ||
-      [
-        { value: 1, label: '预警，无需上传附件' },
-        { value: 2, label: '预警，需上传附件' },
-        { value: 3, label: '拦截' },
-        { value: 4, label: '记录' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       isEnable: '',
       isEnableoptions: [
         { value: 0, label: '否' },
@@ -609,7 +601,7 @@ export default {
       businessModuleCode: '',
       businessModuleName: '',
       businessModuleCodeoptions: [],
-      businessFunctionCode: '',
+      businessFunctionCode: [],
       businessFunctionName: '',
       businessFunctionCodeoptions: [],
       SysparentId: 0,
@@ -644,7 +636,6 @@ export default {
             this.paymentData.forEach(item => {
               if (data.indexOf(item) === -1) {
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + '__viewSort'] = ''
-                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = ''
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code__multiple'] = []
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id'] = ''
                 this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id__multiple'] = []
@@ -1113,14 +1104,13 @@ export default {
     },
     // 选择业务模块
     changeModCode(val) {
-      console.log(val)
       this.ModparentId = val
-      this.businessFunctionCode = ''
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
       this.businessModuleName = busName.businessName
-      this.getFunLists()
+      this.businessFunctionCodeModal = ''
+      // this.getFunLists()
     },
     // 业务系统下拉树
     getSysLists() {
@@ -1204,7 +1194,7 @@ export default {
   },
   watch: {
   },
-  created() {
+  async created() {
     this.getWhereTree()
     this.warnType = this.$parent.DetailData.warnType
     this.uploadFile = this.$parent.DetailData.uploadFile
@@ -1220,11 +1210,11 @@ export default {
     this.getModLists()
     this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
     this.ModparentId = this.businessModuleCode
-    this.getFunLists()
-    this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
+
+    // this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
     this.businessSystemName = this.$parent.DetailData.businessSystemName
     this.businessModuleName = this.$parent.DetailData.businessModuleName
-    this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
+    // this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
     // this.regulationClass = this.$parent.DetailData.regulationClass
     this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
     this.triggerClass = this.$parent.DetailData.triggerClass

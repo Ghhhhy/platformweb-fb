@@ -28,6 +28,7 @@
                 :style="selectStyle"
                 :readonly="configIn.readonly"
                 :placeholder="configIn.placeholder"
+                :disabled="configIn.disabled"
                 :clearable="configIn.clearStyleType === 'filterBtn' ? false : configIn.clearable"
                 @blur="onEntryBlur"
                 @focus="onEntryFocus"

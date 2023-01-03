@@ -158,6 +158,11 @@ function useForm(
     Promise.all(asyncAll)
   }
 
+  async function reset() {
+    const instance = await getForm()
+    instance?.reset?.()
+  }
+
   return [
     {
       formData,
@@ -176,7 +181,8 @@ function useForm(
       setSubmitFormData,
 
       validate,
-      clearValidate
+      clearValidate,
+      reset
     },
     register
   ]

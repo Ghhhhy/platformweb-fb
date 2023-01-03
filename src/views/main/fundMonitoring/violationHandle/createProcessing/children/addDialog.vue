@@ -319,7 +319,7 @@
       <div type="flex" justify="space-around">
         <div>
           <vxe-button v-if="param5.isCreate === 'true' && title === '监控问询单信息'" status="primary" @click="doIssue">生成并下发</vxe-button>
-          <vxe-button v-if="param5.isRetroact === 'true'" status="primary" @click="doFeedback">确定</vxe-button>
+          <vxe-button v-if="param5.isRetroact === 'true' && title !== '查看详情信息'" status="primary" @click="doFeedback">确定</vxe-button>
           <vxe-button @click="dialogClose">取消</vxe-button>
         </div>
       </div>
@@ -548,11 +548,11 @@ export default {
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
         this.createDataList.issueTime = moment().format('YYYY-MM-DD HH:mm:ss')
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
-          this.createDataList.warnLevel = '1'
+          this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
           this.createDataList.warnLevel = '2'
         } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
-          this.createDataList.warnLevel = '3'
+          this.createDataList.warnLevel = '1'
         } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
           this.createDataList.warnLevel = '4'
         } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
@@ -615,7 +615,7 @@ export default {
         }
         switch (this.param5.retroact) {
           case 'company':
-            this.value = this.detailData[0].status
+            this.value = this.detailData[0].status + ''
             this.handler1 = userInfo.name
             this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
             this.attachmentid1 = this.$ToolFn.utilFn.getUuid()
@@ -682,11 +682,11 @@ export default {
     async doIssue() {
       await this.$refs.createRef?.$refs?.form?.validate?.()
       if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
-        this.newWarn = 1
+        this.newWarn = 3
       } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
         this.newWarn = 2
       } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
-        this.newWarn = 3
+        this.newWarn = 1
       } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
         this.newWarn = 4
       } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {

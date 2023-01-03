@@ -193,6 +193,14 @@ export let proconf = {
   buttons: {
     1: [
       {
+        label: '到人到户导入',
+        code: 'person-import'
+      },
+      {
+        label: '企业补贴导入',
+        code: 'company-import'
+      },
+      {
         label: '导入',
         code: 'import'
       },

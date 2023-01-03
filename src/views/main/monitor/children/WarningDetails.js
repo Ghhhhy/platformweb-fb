@@ -104,7 +104,7 @@ export let proconf = {
       }
     },
     {
-      title: '违规数据创建时间',
+      title: '预警数据创建时间',
       field: 'businessTime',
       itemRender: {
         name: '$vxeTime',
@@ -112,7 +112,7 @@ export let proconf = {
         props: {
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '违规数据创建时间'
+          placeholder: '预警数据创建时间'
         }
       }
     }
@@ -402,7 +402,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '违规数据创建时间',
+      title: '预警数据创建时间',
       'width': 180,
       field: 'businessTime',
       sortable: false,
@@ -410,7 +410,7 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '违规处理时间',
+      title: '预警处理时间',
       'width': 180,
       field: 'handleTime',
       sortable: false,

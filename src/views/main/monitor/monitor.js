@@ -16,7 +16,7 @@ export let proconf = {
     '1': [
       { code: 'add', label: '全量查询', status: 'primary' },
       { code: 'change', label: '增量查询' },
-      { code: 'delete', label: '删除违规数据' }
+      { code: 'delete', label: '删除预警数据' }
     ]
   },
   statusRightToolBarButtonByBusDept: {

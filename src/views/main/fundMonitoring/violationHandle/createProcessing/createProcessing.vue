@@ -464,11 +464,11 @@ export default {
           console.log(res.data.results)
           this.tableData = res.data.results
           this.tableData.forEach(item => {
-            if (item.warnLevel === 1) {
+            if (item.warnLevel === 3) {
               item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
             } else if (item.warnLevel === 2) {
               item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
+            } else if (item.warnLevel === 1) {
               item.warnLevel = '<span style="color:red">红色预警</span>'
             } else if (item.warnLevel === 4) {
               item.warnLevel = '<span style="color:blue">蓝色预警</span>'
@@ -511,11 +511,11 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.tableData.forEach(item => {
-            if (item.warnLevel === 1) {
+            if (item.warnLevel === 3) {
               item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
             } else if (item.warnLevel === 2) {
               item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
+            } else if (item.warnLevel === 1) {
               item.warnLevel = '<span style="color:red">红色预警</span>'
             } else if (item.warnLevel === 4) {
               item.warnLevel = '<span style="color:blue">蓝色预警</span>'
@@ -557,11 +557,11 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.tableData.forEach(item => {
-            if (item.warnLevel === 1) {
+            if (item.warnLevel === 3) {
               item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
             } else if (item.warnLevel === 2) {
               item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
+            } else if (item.warnLevel === 1) {
               item.warnLevel = '<span style="color:red">红色预警</span>'
             } else if (item.warnLevel === 4) {
               item.warnLevel = '<span style="color:blue">蓝色预警</span>'

@@ -6,7 +6,8 @@ function useTree(
     treeProps: {},
     fetch: null, // 请求方法
     beforeFetch: null, // 前置钩子
-    afterFetch: null // 后置钩子
+    afterFetch: null, // 后置钩子
+    finallyFetch: null // 赋值完成的钩子
   },
   immediate = true // 是否立即请求数据
 ) {
@@ -84,6 +85,12 @@ function useTree(
       }
 
       treeData.value = data
+      // 后置钩子（提供返回数据处理）
+      if (config.finallyFetch && typeof config.finallyFetch === 'function') {
+        setTimeout(() => {
+          config.finallyFetch(data)
+        })
+      }
     } finally {
       treeLoading.value = false
     }

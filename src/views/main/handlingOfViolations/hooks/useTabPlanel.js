@@ -11,7 +11,7 @@ function useTabPlanel(
   currentTab
 ) {
   // 搜索栏显隐
-  const isShowSearchForm = ref(false)
+  const isShowSearchForm = ref(true)
 
   // 当前弹窗打开类别（处理、查看）
   const modalType = ref('')

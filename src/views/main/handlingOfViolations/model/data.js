@@ -1,6 +1,6 @@
 import store from '@/store/index'
 
-import { TabEnum, WarnLevelEnum, CheckStatusEnum, RouterPathEnum } from './enum'
+import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
 
 /**
  * 页面标识映射节点类型：用于给接口做权限区分
@@ -100,25 +100,15 @@ export const warnLevelOptions = [
 ]
 
 // 监控处理方式Options（参照原项目内几种方式）
-export const controlTypeOptions = store.state.warnInfo.warnInfoOptions
-  .map(item => {
-    return {
-      value: String(item.warnLevel),
-      label: item.warnTips,
-      ...item
-    }
-  })
-
-console.log(controlTypeOptions)
-// [
-//   { value: '1', label: '禁止' },
-//   { value: '2', label: '冻结' },
-//   { value: '3', label: '警示' },
-//   { value: '4', label: '提醒' }
-// ]
+export const controlTypeOptions = store.state.warnInfo.warnControlTypeOptions.map(item => {
+  return {
+    value: item.warnLevel || String(item.warnLevel),
+    ...item
+  }
+})
 
 warnLevelOptions.forEach(option => {
-  const storeWarn = store.state.warnInfo.warnInfoOptions.find(item => item.warnLevel === option.value)
+  const storeWarn = store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === option.value)
   if (storeWarn) {
     option = {
       ...option,
@@ -136,25 +126,21 @@ export const warnTypeOptions = [
 ]
 // 是否直达资金options
 export const isDirOptions = [
-  { value: 1, label: '是' },
-  { value: 0, label: '否' }
+  { value: '1', label: '是' },
+  { value: '0', label: '否' }
 ]
 
 // 业务状态options
-export const getNodeStatusOptions = (isUnitPage = true) => {
+export const getNodeStatusOptions = () => {
   return [
-    { value: 1, label: isUnitPage ? '待送审' : '待审核' },
-    { value: 2, label: isUnitPage ? '已送审' : '已审核' },
-    { value: 3, label: '被退回' },
-    { value: 4, label: '被禁止' }
+    { value: 1, label: '待送审' },
+    { value: 2, label: '已送审' },
+    { value: 3, label: '待审核' },
+    { value: 4, label: '已审核' },
+    { value: 5, label: '被退回' },
+    { value: 6, label: '被禁止' }
   ]
 }
-
-// 是否终审拉下options
-export const isEndOptions = [
-  { value: 1, label: '是' },
-  { value: 0, label: '否' }
-]
 
 /**
  * 首页列表筛选表单
@@ -163,7 +149,7 @@ export const isEndOptions = [
 export const searchFormCommonSchemas = [
   {
     title: '预警级别',
-    field: 'warningLevel',
+    field: 'warnLevel',
     titleWidth: 0,
     itemRender: {
       name: '$select',
@@ -255,7 +241,7 @@ export const searchFormCommonSchemas = [
   },
   {
     title: '业务记录编码',
-    field: 'waringCode',
+    field: 'businessNo',
     titleWidth: 0,
     itemRender: {
       name: '$input',
@@ -285,17 +271,165 @@ export const searchFormAllTabSchema = [
 ]
 
 /**
- * 是否终审Column
- * @type {{field: string, width: number, filters: boolean, title: string, cellRender: {name: string, options: [{label: string, value: number}, {label: string, value: number}]}}}
+ * 是否直达资金column
  */
-export const isEndColumn = {
-  title: '是否终审',
-  field: 'isEnd',
-  width: 80,
-  filters: false,
-  cellRender: {
-    name: '$vxeSelect',
-    options: isEndOptions
+export const getIsDirColumn = (params = {}) => {
+  return {
+    title: '是否直达资金',
+    field: 'isDir',
+    width: 160,
+    filters: false,
+    cellRender: {
+      name: '$vxeSelect',
+      options: isDirOptions
+    },
+    ...params
+  }
+}
+
+export const getAgencyNameColumn = (params = {}) => {
+  return {
+    title: '预算单位',
+    field: 'agencyName',
+    width: 200,
+    ...params
+  }
+}
+
+export const getDeptNameColumn = (params = {}) => {
+  return {
+    title: '主管部门',
+    field: 'deptName',
+    width: 200,
+    ...params
+  }
+}
+
+export const getManageMofDepNameColumn = (params = {}) => {
+  return {
+    title: '业务处室',
+    field: 'manageMofDepName',
+    width: 200,
+    ...params
+  }
+}
+
+/**
+ * 单位部门处室
+ * @type {[{field: string, width: number, title: string, align: string}, {field: string, width: number, title: string, align: string}, {field: string, width: number, title: string, align: string}]}
+ */
+export const getUnitColumns = () => {
+  return [
+    {
+      title: '预算单位',
+      field: 'agencyName',
+      width: 200
+    },
+    {
+      title: '主管部门',
+      field: 'deptName',
+      width: 200
+    },
+    {
+      title: '业务处室',
+      field: 'manageMofDepName',
+      width: 200
+    }
+  ]
+}
+
+// 预警日期
+export const getCreateTimeColumn = (params = {}) => {
+  return {
+    title: '预警日期',
+    field: 'createTime',
+    width: 120,
+    ...params
+  }
+}
+
+export const getWarningCodeColumn = (params = {}) => {
+  return {
+    title: '处理单编号',
+    field: 'warningCode',
+    width: 200,
+    ...params
+  }
+}
+
+export const getControlTypeColumn = (params = {}) => {
+  return {
+    title: '监控处理方式',
+    field: 'controlType',
+    filters: false,
+    width: 160,
+    cellRender: {
+      name: '$vxeSelect',
+      options: controlTypeOptions
+    },
+    ...params
+  }
+}
+
+export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
+  return {
+    title: '预警级别',
+    field: 'warnLevel',
+    width: 120,
+    filters: false,
+    cellRender: {
+      name: warnLevelRenderName,
+      options: warnLevelOptions,
+      props: {
+        showLabel: true
+      }
+    }
+  }
+}
+
+export const getBusinessNoColumn = (params = {}) => {
+  return {
+    title: '业务记录编号',
+    field: 'businessNo',
+    width: 260,
+    ...params
+  }
+}
+
+export const getRuleNameColumn = (params = {}) => {
+  return {
+    title: '预警名称',
+    field: 'ruleName',
+    width: 260,
+    ...params
+  }
+}
+
+export const getAmountColumn = (params = {}) => {
+  return {
+    title: '金额',
+    field: 'amount',
+    width: 160,
+    align: 'right',
+    filters: false,
+    cellRender: {
+      name: '$vxeMoney'
+    },
+    ...params
+  }
+}
+
+export const getWarnTypeColumn = (params = {}) => {
+  return {
+    title: '预警类别',
+    field: 'warnType',
+    width: 160,
+    filters: false,
+    cellRender: {
+      name: '$vxeSelect',
+      options: warnTypeOptions
+    },
+    ...params
   }
 }
 
@@ -305,95 +439,18 @@ export const isEndColumn = {
  */
 export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
   const columns = [
-    {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: 120,
-      filters: false,
-      cellRender: {
-        name: warnLevelRenderName,
-        options: warnLevelOptions
-      }
-    },
-    {
-      title: '监控处理方式',
-      field: 'controlType',
-      filters: false,
-      width: 160,
-      cellRender: {
-        name: '$vxeSelect',
-        options: controlTypeOptions
-      }
-    },
-    {
-      title: '处理单编号',
-      field: 'warningCode',
-      width: 200
-    },
-    {
-      title: '预警日期',
-      field: 'createTime',
-      width: 120
-    },
-    {
-      title: '预算单位',
-      field: 'agencyName',
-      width: 200,
-      align: 'left'
-    },
-    {
-      title: '主管部门',
-      field: 'deptName',
-      width: 200,
-      align: 'left'
-    },
-    {
-      title: '业务处室',
-      field: 'manageMofDepName',
-      width: 200,
-      align: 'left'
-    },
-    {
-      title: '业务记录编号',
-      field: 'businessNo',
-      width: 260
-    },
-    {
-      title: '预警名称',
-      field: 'ruleName',
-      width: 200,
-      align: 'left'
-    },
-    {
-      title: '金额',
-      field: 'amount',
-      width: 160,
-      align: 'right',
-      filters: false,
-      cellRender: {
-        name: '$vxeMoney'
-      }
-    },
-    {
-      title: '预警类别',
-      field: 'warnType',
-      width: 100,
-      filters: false,
-      cellRender: {
-        name: '$vxeSelect',
-        options: warnTypeOptions
-      }
-    },
-    {
-      title: '是否直达资金',
-      field: 'isDir',
-      width: 100,
-      filters: false,
-      cellRender: {
-        name: '$vxeSelect',
-        options: isDirOptions
-      }
-    }
+    getCreateTimeColumn(),
+    getRuleNameColumn(),
+    getAmountColumn(),
+    getWarnLevelColumn(warnLevelRenderName),
+    getControlTypeColumn(),
+    getWarningCodeColumn(),
+    getAgencyNameColumn(),
+    getDeptNameColumn(),
+    getManageMofDepNameColumn(),
+    getBusinessNoColumn(),
+    getWarnTypeColumn(),
+    getIsDirColumn()
   ]
   columns.forEach(column => {
     column.sortable = column.sortable || false
@@ -406,7 +463,7 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
  * 业务状态cloumn
  * @type {[{field: string, width: number, filters: boolean, title: string, cellRender: {name: string, options: [{label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}]}}]}
  */
-export const getNodeStatusColumn = (isUnitPage = true) => {
+export const getNodeStatusColumn = () => {
   return {
     title: '业务状态',
     field: 'nodeStatus',
@@ -415,7 +472,7 @@ export const getNodeStatusColumn = (isUnitPage = true) => {
     align: 'center',
     cellRender: {
       name: '$vxeSelect',
-      options: getNodeStatusOptions(isUnitPage)
+      options: getNodeStatusOptions()
     }
   }
 }
@@ -426,31 +483,12 @@ export const getNodeStatusColumn = (isUnitPage = true) => {
  */
 export const getAuditDescriptionColumn = (params = {}) => {
   return {
-    title: '处理说明',
+    title: '处理说明/意见',
     field: 'dealResult',
     width: 260,
     filters: false,
     align: 'center',
     ...params
-  }
-}
-
-// 认定状态options
-export const checkStatusOptions = [
-  { value: CheckStatusEnum.PASS, label: '放行' },
-  { value: CheckStatusEnum.RETURN, label: '改正' },
-  { value: CheckStatusEnum.DISABLED, label: '禁止' }
-]
-// 认定状态column
-export const checkStatusColumn = {
-  title: '认定状态',
-  field: 'checkStatus',
-  width: 100,
-  filters: false,
-  align: 'center',
-  cellRender: {
-    name: '$vxeSelect',
-    options: checkStatusOptions
   }
 }
 
@@ -472,27 +510,6 @@ export const auditInfoColumns = [
   }
 ]
 
-// 是否终审options
-const isFinallyOptions = [
-  { value: 1, label: '是' },
-  { value: 0, label: '否' }
-]
-// 是否终审Column
-export const isFinallyAuditColumn = {
-  title: '是否终审',
-  field: 'isEnd',
-  width: 100,
-  filters: false,
-  align: 'center',
-  formatter: ({ row }) => {
-    return isFinallyOptions.find(item => item.value === row.isFinally).label
-  },
-  cellRender: {
-    name: '$vxeSelect',
-    options: isFinallyOptions
-  }
-}
-
 /**
  * 获取审核表单
  * @param isUnitFeedback 是否是单位反馈
@@ -500,12 +517,12 @@ export const isFinallyAuditColumn = {
  * @return {[{field: string, itemRender: {name: string, props: {clearable: boolean, placeholder: string}}, title: (string), required: boolean, span: number}]}
  */
 export const getAuditFormSchemas = (isUnitFeedback = false) => {
-  const formSchemas = [
+  return [
     {
       title: isUnitFeedback ? '处理说明' : '处理意见',
       field: 'dealResult',
       required: true,
-      span: 16,
+      span: 24,
       itemRender: {
         name: '$input',
         props: {
@@ -515,23 +532,6 @@ export const getAuditFormSchemas = (isUnitFeedback = false) => {
       }
     }
   ]
-  if (!isUnitFeedback) {
-    formSchemas.unshift({
-      title: '认定状态',
-      field: 'checkStatus',
-      required: true,
-      span: 8,
-      itemRender: {
-        name: '$select',
-        options: checkStatusOptions,
-        props: {
-          placeholder: '请选择',
-          clearable: true
-        }
-      }
-    })
-  }
-  return formSchemas
 }
 
 // 单据columns
@@ -539,63 +539,84 @@ export const getReceiptsColumns = () => {
   return [
     {
       title: '业务单据日期',
-      field: 'receiptsTime',
+      field: 'createTime',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '项目分类',
-      field: 'projectType',
+      field: 'proCateName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '资金渠道',
-      field: 'moneyOrigin',
+      field: 'fundDitchName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '资金性质',
-      field: 'moneyField',
+      field: 'fundTypeName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '项目名称',
-      field: 'prejectName',
+      field: 'proName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '支出功能分类',
-      field: 'expendType',
+      field: 'expFuncName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '政府经济分类',
-      field: 'gvoType',
+      field: 'govBgtEcoName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '部门经济分类',
-      field: 'depType',
+      field: 'depBgtEcoName',
       width: 100,
       sortable: false,
       filters: false
     },
     {
       title: '收款人全称',
-      field: 'payee',
+      field: 'payeeAcctName',
+      width: 120,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '收款人账号',
+      field: 'payeeAcctNo',
+      width: 160,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '收款人开户行',
+      field: 'payeeAcctBankName',
+      width: 120,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '支出用途',
+      field: 'useDes',
       width: 120,
       sortable: false,
       filters: false
@@ -607,7 +628,7 @@ export const getReceiptsColumns = () => {
 export const receiptsSearchFormSchemas = [
   {
     title: '业务记录编号',
-    field: 'signNo',
+    field: 'payAppNo',
     span: 6,
     titleWidth: 0,
     itemRender: {
@@ -620,7 +641,7 @@ export const receiptsSearchFormSchemas = [
   },
   {
     title: '收款人全称',
-    field: 'payee',
+    field: 'payeeAcctName',
     span: 6,
     titleWidth: 0,
     itemRender: {
@@ -633,7 +654,7 @@ export const receiptsSearchFormSchemas = [
   },
   {
     title: '最小金额',
-    field: 'minMoney',
+    field: 'minAmt',
     titleWidth: 0,
     itemRender: {
       name: '$input',
@@ -646,7 +667,7 @@ export const receiptsSearchFormSchemas = [
   },
   {
     title: '最大金额',
-    field: 'maxMoney',
+    field: 'maxAmt',
     titleWidth: 0,
     itemRender: {
       name: '$input',
@@ -665,12 +686,13 @@ export const fileColumns = [
     title: '附件文件名称',
     field: 'filename',
     sortable: false,
-    filters: false
+    filters: false,
+    width: 'auto'
   },
   {
     title: '上传时间',
     field: 'createtime',
-    width: 160,
+    width: 'auto',
     sortable: false,
     filters: false
   },
@@ -697,7 +719,7 @@ export const fileColumns = [
 // 序号列
 export const indexColumn = {
   title: '序号',
-  width: 80,
+  width: 60,
   type: 'seq',
   sortable: false,
   filters: false

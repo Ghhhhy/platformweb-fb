@@ -31,3 +31,11 @@ export function getMulitDetail(warningCodeList) {
 export function bpmFlow(params) {
   return post('large-monitor-platform/lmp/warnProcess/bpmFlow', params)
 }
+
+/**
+ * 业务单据查看
+ * @return {Promise | Promise<unknown>}
+ */
+export function billPage(params) {
+  return post('large-monitor-platform/lmp/warnProcess/billPage', params)
+}
