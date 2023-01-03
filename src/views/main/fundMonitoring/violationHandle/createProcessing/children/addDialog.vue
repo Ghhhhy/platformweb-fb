@@ -579,8 +579,12 @@ export default {
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
           if (this.detailData[0].status === '2' || this.detailData[0].status === '4' || this.detailData[0].status === 2 || this.detailData[0].status === 4) {
-            this.value = this.detailData[0].status + ''
             this.value1 = this.detailData[0].status + ''
+          }
+          if (this.detailData[0].information2 !== null || this.detailData[0].information2 !== '') {
+            this.value = '2'
+          } else {
+            this.value = '4'
           }
           if (this.attachmentid1 != null) {
             const param = {
@@ -635,11 +639,10 @@ export default {
                 }
               })
             }
-            this.handler2 = this.detailData[0].handler2
             if (this.detailData[0].updateTime2) {
               this.updateTime2 = this.detailData[0].updateTime2
             }
-            this.information2 = this.detailData[0].information2
+            this.phone2 = this.detailData[0].phone2
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
             this.commentDept = 1
