@@ -256,7 +256,7 @@ export let proconf = {
     {
       title: '金额(元)',
       width: 180,
-      field: 'amount',
+      field: 'payAmt',
       sortable: false,
       filters: false,
       align: 'center',
