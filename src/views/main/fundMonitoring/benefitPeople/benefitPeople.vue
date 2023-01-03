@@ -768,7 +768,9 @@ export default {
             await HttpModule.importPersonAndCompany(params)
           )
           this.$message.success('导入成功')
+          this.dtos = []
           this.queryTableDatas()
+          this.queryTableDatas1()
           break
         default:
           break
