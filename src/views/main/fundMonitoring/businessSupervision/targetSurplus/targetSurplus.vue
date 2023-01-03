@@ -187,7 +187,7 @@ export default {
       ifRenderExpandContentTable: true,
       pagerConfig: {
         autoHidden: true,
-        total: 1,
+        totalCount: 1,
         currentPage: 1,
         pageSize: 20
       },
@@ -365,7 +365,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.pagerConfig.pageSize,
-        currentPage: this.pagerConfig.currentPage,
+        page: this.pagerConfig.currentPage,
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.detailQueryParam = params

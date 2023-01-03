@@ -95,7 +95,8 @@ export function getIndexFindTree() {
               }
             ]
           }
-        ]
+        ],
+        code: '000000'
       })
     }, 300)
   })

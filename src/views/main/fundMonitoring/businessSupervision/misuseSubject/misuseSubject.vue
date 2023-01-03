@@ -343,7 +343,7 @@ export default {
     },
     handleDetail(type, recDivCode) {
       let params = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(params).then((res) => {
@@ -381,7 +381,7 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

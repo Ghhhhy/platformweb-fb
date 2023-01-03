@@ -370,7 +370,7 @@ export default {
       const param = {
         isFlush,
         reportCode: 'wtbhqlmffmx',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

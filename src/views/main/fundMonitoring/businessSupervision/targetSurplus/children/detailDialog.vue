@@ -203,6 +203,8 @@ export default {
     },
     queryTableDatas() {
       let params = this.detailQueryParam
+      params.page = this.pagerConfig.currentPage // 页码
+      params.pageSize = this.pagerConfig.pageSize // 每页条数
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
         this.$parent.tableLoading = false
