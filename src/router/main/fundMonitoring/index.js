@@ -380,6 +380,11 @@ const routers = [
     path: '/expenditureProgressRanking', // 直达资金支出进度排名
     name: 'ExpenditureProgressRanking',
     component: () => import('@/views/main/fundMonitoring/expenditureProgressRanking/index.vue')
+  },
+  {
+    path: '/payProcessingDepCapital', // 直达资金分处室分资金支出进度情况统计表
+    name: 'payProcessingDepCapital',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/payProcessingDepCapital/payProcessingDepCapital.vue')
   }
 ]
 
