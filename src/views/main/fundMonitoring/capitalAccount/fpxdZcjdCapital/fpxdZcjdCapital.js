@@ -136,7 +136,7 @@ const proconf = {
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeRatio' },
-        formula: '(({amountTotal}-0==0)?0:({amountShort})*100/{amountTotal})'
+        formula: '({zcjd}-{pro})'
       },
       {
         title: '短支额',
@@ -145,7 +145,8 @@ const proconf = {
         align: 'right',
         cellRender: {
           name: '$vxeMoney'
-        }
+        },
+        formula: '({djd}*{amountTotal})'
       }
     ],
     tableData: []
