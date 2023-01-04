@@ -380,6 +380,7 @@
           <BsTable
             ref="mountTableRef"
             height="300px"
+            :table-global-config="{ showOverflow: false }"
             :footer-config="{ showFooter: false }"
             :edit-config="editConfig"
             :edit-rules="editRulesIn"

@@ -372,6 +372,7 @@
           <BsTable
             ref="mountTableRef"
             height="300px"
+            :table-global-config="{ showOverflow: false }"
             :footer-config="{ showFooter: false }"
             :table-columns-config="mountTableColumnsConfig"
             :edit-config="editConfig"
