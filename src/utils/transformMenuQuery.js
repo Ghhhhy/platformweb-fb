@@ -10,7 +10,7 @@ export default function transJson(string = '') {
   if (string?.indexOf('=') === -1) return string
 
   return string?.split(',')
-    .reduce((obj, item) => {
+    ?.reduce((obj, item) => {
       if (!item) return obj
 
       let [key, value = ''] = item?.split('=')
@@ -20,5 +20,5 @@ export default function transJson(string = '') {
         ...obj,
         [key]: value
       }
-    }, {})
+    }, {}) || {}
 }

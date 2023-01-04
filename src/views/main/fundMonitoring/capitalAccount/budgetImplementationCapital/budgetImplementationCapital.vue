@@ -47,6 +47,7 @@
           </template>
           <template v-slot:toolbar-custom-slot>
             <vxe-button
+              v-if="transJson($store.state.curNavModule.params5).incrementUpdateBtnVisible !== false"
               :loading="dataSourceAddLoading"
               style="margin-right: 8px;"
               @click="incrementHandle"
@@ -54,6 +55,7 @@
               数据增量同步
             </vxe-button>
             <vxe-button
+              v-if="transJson($store.state.curNavModule.params5).otherSysImportBtnVisible !== false"
               style="margin-right: 8px;"
               @click="otherSysImportModal = true"
             >
