@@ -4,7 +4,7 @@
  * @return {Object}
  */
 export default function transJson(string = '') {
-  if (!string?.trim()) return
+  if (!string?.trim()) return {}
 
   // 兼容一个参数值（例如：czzd）
   if (string?.indexOf('=') === -1) return string
