@@ -395,6 +395,16 @@ const routers = [
     path: '/payProcessingDepCapital', // 中央直达资金分县市分配下达、支出进度情况表
     name: 'payProcessingDepCapital',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/fpxdZcjdRegion/fpxdZcjdRegion.vue')
+  },
+  {
+    path: '/monitorCity', // 直达资金分市（州）直达资金监控工作情况表
+    name: 'monitorCity',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/monitorCity/monitorCity.vue')
+  },
+  {
+    path: '/monitorCounty', //  直达资金分县（市、区）直达资金监控工作情况表
+    name: 'monitorCounty',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/monitorCounty/monitorCounty.vue')
   }
 ]
 
