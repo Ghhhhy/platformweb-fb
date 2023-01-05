@@ -435,7 +435,13 @@ export default {
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
-      this.queryTableDatas()
+      if (this.menuName === '监控问询单列表' && this.status === 0) {
+        this.queryTableDatas()
+      } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
+        this.getdata()
+      } else {
+        this.getWarnData()
+      }
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
