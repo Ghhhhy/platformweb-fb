@@ -67,8 +67,8 @@
       v-if="!tableData.length"
       class="empty-container"
     >
-      <img :src="require('@/components/Table/assets/img/empty.svg')">
-      <p style="margin-top: 8px;">亲，没有更多数据了！</p>
+      <!--<img :src="require('@/components/Table/assets/img/empty.svg')">-->
+      <p style="margin-top: 8px;">暂无处理进度数据！</p>
     </div>
   </div>
 </template>

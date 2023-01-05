@@ -151,9 +151,7 @@ export default defineComponent({
         }),
         getWarnTypeColumn(),
         getIsDirColumn(),
-        getBusinessNoColumn({
-          field: 'payAppNo'
-        }),
+        getBusinessNoColumn(),
         ...getReceiptsColumns()
       ]
     })

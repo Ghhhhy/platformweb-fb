@@ -19,7 +19,7 @@
         <template #header>
           <bs-table-title title="规则信息">
             <div class="f-c-c">
-              <span v-if="currentWarnDetail.ruleResVO" style="font-size: 16px; margin-right: 14px;">处理单编码：{{ currentWarnDetail.ruleResVO.warningCode }}</span>
+              <span v-if="currentWarnDetail.ruleResVO" style="font-size: 16px; margin-right: 14px;">处理单编号：{{ currentWarnDetail.ruleResVO.warningCode }}</span>
               <vxe-button size="mini" @click="changeReceiptsModalVisible(true)">业务单据查看</vxe-button>
             </div>
           </bs-table-title>

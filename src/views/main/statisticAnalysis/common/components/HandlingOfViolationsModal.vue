@@ -22,6 +22,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           size="medium"
+          :cell-class-name="obj => cellCursorUnderlineClassName(obj, ['warningCode'])"
           @register="registerTable"
           @ajaxData="pagerChange"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -48,7 +49,7 @@ import useTable from '@/hooks/useTable'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
 import HandlingOfViolationsDetailModal from './HandlingOfViolationsDetailModal'
 import { queryAuditTable } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
-
+import { cellCursorUnderlineClassName } from '../model/data'
 import {
   getRuleNameColumn,
   getControlTypeColumn,
@@ -134,10 +135,7 @@ export default defineComponent({
         getAgencyNameColumn(),
         getDeptNameColumn(),
         getManageMofDepNameColumn(),
-        getBusinessNoColumn({
-          field: 'payCertNo',
-          title: '业务记录编号'
-        }),
+        getBusinessNoColumn(),
         getAmountColumn(),
         getWarnTypeColumn(),
         getAuditDescriptionColumn(),
@@ -169,7 +167,9 @@ export default defineComponent({
       tableToolbarConfig,
       onToolbarBtnClick,
       pagerChange,
-      resetFetchTableData
+      resetFetchTableData,
+
+      cellCursorUnderlineClassName
     }
   }
 })
