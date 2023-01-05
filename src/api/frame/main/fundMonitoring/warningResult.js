@@ -24,5 +24,9 @@ export default {
   },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
+  },
+  // 根据年度获取规则
+  getFiRule(params) {
+    return post('dfr-monitor-service/dfr/warningResult/getFiRule', params)
   }
 }
