@@ -450,7 +450,9 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getAgencyNameColumn(),
     getDeptNameColumn(),
     getManageMofDepNameColumn(),
-    getBusinessNoColumn(),
+    getBusinessNoColumn({
+      field: 'businessNo'
+    }),
     getWarnTypeColumn(),
     getIsDirColumn()
   ]
