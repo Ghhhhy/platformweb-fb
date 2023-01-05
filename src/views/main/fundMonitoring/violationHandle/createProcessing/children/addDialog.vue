@@ -695,8 +695,8 @@ export default {
         this.handler2 = userInfo.name
         this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
       } else {
-        this.handler2 = '/'
-        this.updateTime2 = '/'
+        this.handler2 = ''
+        this.updateTime2 = ''
       }
       console.log('this.value', this.value)
     },
