@@ -81,7 +81,7 @@
               <el-main width="100%">
                 <el-row style="display: flex">
                   <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;是否下发单位</div>
-                  <el-select v-model="value" :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)" placeholder="请选择">
+                  <el-select v-model="value" :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)" placeholder="请选择" @change="changeValue">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -655,9 +655,11 @@ export default {
             break
           case 'department':
             this.handler3 = userInfo.name
-            this.handler2 = userInfo.name
-            this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
             this.updateTime3 = moment().format('YYYY-MM-DD HH:mm:ss')
+            if (this.value === '2') {
+              this.handler2 = userInfo.name
+              this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
+            }
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.attachmentid3 = (this.attachmentid3 != null && this.attachmentid3 !== '') ? this.attachmentid3 : this.$ToolFn.utilFn.getUuid()
             console.log('attachmentid3', this.attachmentid3)
@@ -686,6 +688,17 @@ export default {
         // })
       }
       this.getViolationType()
+    },
+    changeValue() {
+      let userInfo = this.$store.state.userInfo
+      if (this.value === '2') {
+        this.handler2 = userInfo.name
+        this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        this.handler2 = '/'
+        this.updateTime2 = '/'
+      }
+      console.log('this.value', this.value)
     },
     // 生成下发
     async doIssue() {
