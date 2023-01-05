@@ -68,7 +68,7 @@
                   <el-input
                     v-model="information2"
                     type="textarea"
-                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
+                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '4'"
                     placeholder="主管处室指导意见"
                     style="width:90%"
                   />
@@ -100,7 +100,7 @@
                   <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
                   <el-input
                     v-model="phone2"
-                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
+                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '4'"
                     placeholder="联系电话"
                     style="width:45%"
                   />
@@ -852,6 +852,15 @@ export default {
     }
   },
   watch: {
+    value: {
+      handler(curVal, preVal) {
+        if (curVal !== preVal && curVal === '4') {
+          this.information2 = ''
+          this.phone2 = ''
+        }
+      },
+      immediate: true
+    }
   },
   created() {
     this.showInfo()
