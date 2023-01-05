@@ -20,7 +20,6 @@
         ref="queryFrom"
         :query-form-item-config="queryConfig"
         :query-form-data="searchDataList"
-        @itemChange="itemChange"
         @onSearchClick="search"
       />
       <BsTable
@@ -208,21 +207,6 @@ export default {
     }
   },
   methods: {
-    async getFiRuleHandle(fiscalYear) {
-      const { data } = await HttpModule.getFiRule({
-        fiscalYear
-      })
-      if (Array.isArray(data)) {
-        this.searchDataList.fiRuleCode = ''
-        const item = this.queryConfig.find(item => item.field === 'fiRuleCode')
-        item && (item.itemRender.options = data)
-      }
-    },
-    itemChange(obj) {
-      if (obj.property === 'fiscalYear') {
-        this.getFiRuleHandle(obj?.data?.fiscalYear)
-      }
-    },
     // table 右侧操作按钮
     onOptionRowClick({ row, optionType }, context) {
       console.log(row.dfrFileCode)

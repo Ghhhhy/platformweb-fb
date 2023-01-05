@@ -49,23 +49,6 @@ const proconf = {
       }
     },
     {
-      title: '预警规则',
-      field: 'fiRuleCode',
-      span: 6,
-      align: 'left',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [],
-        props: {
-          placeholder: '预警规则'
-        },
-        optionProps: {
-          label: 'fiRuleName',
-          value: 'fiRuleCode'
-        }
-      }
-    },
-    {
       title: '单位名称',
       field: 'agencyName',
       span: 6,
