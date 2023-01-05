@@ -98,7 +98,7 @@ const proconf = {
       },
       {
         title: '财政部文件收文时间',
-        field: 'recDate',
+        field: 'docDate',
         width: 100,
         align: 'right'
       }
