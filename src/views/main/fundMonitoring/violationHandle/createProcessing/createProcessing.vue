@@ -23,26 +23,6 @@
           />
         </div>
       </template>
-      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
-        <BsTreeSet
-          ref="treeSet"
-          v-model="leftTreeVisible"
-          :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
-          @onAsideChange="asideChange"
-          @onConfrimData="treeSetConfrimData"
-        />
-        <BsTree
-          ref="leftTree"
-          :defaultexpandedkeys="['0']"
-          style="overflow: hidden"
-          :tree-data="treeData"
-          :filter-text="treeGlobalConfig.inputVal"
-          :config="treeGlobalConfig.treeConfig"
-          @onNodeClick="onClickmethod"
-        />
-      </template>
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
@@ -58,7 +38,6 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -135,7 +114,7 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
-      leftTreeVisible: true,
+      leftTreeVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         methods: {
@@ -932,7 +911,6 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-    this.getLeftTreeData()
     // this.queryTableDatas()
     this.initButtons(this.param5)
     this.getViolationType()
