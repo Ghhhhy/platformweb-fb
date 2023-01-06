@@ -396,16 +396,30 @@ export default {
     },
     handleDetail(type, trackProCode, column) {
       let condition = ''
-      switch (column) {
-        case 'amountSnjZcjeZje':
-          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-          break
-        case 'amountSjZcjeZje':
-          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-          break
-        case 'amountXjZcjeZje':
-          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-          break
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'amountSnjZcjeZje':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjZcjeZje':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'amountXjZcjeZje':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          case 'amountSnjZcjeZje':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjZcjeZje':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjZcjeZje':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
       }
       let isCz = ''
       if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
