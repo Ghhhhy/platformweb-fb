@@ -3356,7 +3356,81 @@ const exportAndImportFn = {
     let { viewToSourceMap, tableColumnsTitleFieldMap, tableColumnsFieldMap, rowsObjTemp, colFormulaConfig } = this.generateColumnsAllMap(obj.conlums)
     let validResult = true
     let validResultFieldTitle = []
+    let formatData = false
     // let valiRule = []
+    if (process.env.VUE_APP_CONF_ISHB) {
+      let valiRule = {}
+      obj.viewData.map((row, rowIndex) => {
+        for (let key in tableColumnsFieldMap) {
+          let column = tableColumnsFieldMap[key]
+          let flag = false
+          // 每一列不重复校验
+          let fieldValue = row[column.title]
+          let field = column.field
+          if (column.required) {
+            // 必填
+            if (field === 'pay_amt' || field === 'pay_app_amt' || field === 'xpay_amt') {
+              // 金额需大于0
+              if (!fieldValue || isNaN(fieldValue) || row[field] * 1 < 0) {
+                flag = true
+                let msg = `第${rowIndex + 1}行${column.title}需为大于0的数字`
+                this.collectValidError(valiRule, rowIndex, field, column, msg)
+              }
+            } else {
+              if (!fieldValue) {
+                flag = true
+                this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${column.title}为必填项`)
+              }
+            }
+          }
+          if (column.reg && !flag) {
+            let value = fieldValue
+            if (!column.reg.test(value)) {
+              flag = true
+              this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${column.msg}`)
+            }
+          }
+          if (column.validator && typeof (column.validator) === 'function' && !flag) {
+            let data = row
+            let res = column.validator.call(this, data)
+            if (!res.result) {
+              this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${res.msg}`)
+            }
+          }
+          // 校验规则
+          if (obj.valiRules) {
+            let valiRules = Object.keys(obj.valiRules)
+            if (valiRules && valiRules.length > 0) {
+              if (fieldValue) {
+                valiRules.forEach(ruleField => {
+                  if (ruleField === field) {
+                    let reg = obj.valiRules[ruleField]
+                    if (reg instanceof RegExp) {
+                      let r = new RegExp(reg)
+                      if (!r.test(fieldValue)) {
+                        this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${obj.valiRules[ruleField + '_msg']}`)
+                      }
+                    } else if (reg instanceof Function) {
+                      let res = reg.call(this, fieldValue, row, column.title)
+                      if (res && !res.result) {
+                        this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${res.msg}`)
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          }
+        }
+      })
+      if (Object.keys(valiRule).length > 0) {
+        return {
+          result: false,
+          valiRule: valiRule
+        }
+      }
+      this.importModalVisible = false
+    }
     let viewData = obj.viewData.map((row, rowIndex) => {
       Object.keys(row).forEach((key, keyIndex) => {
         let parseViewValue = self.reverseParseViewDataTosource(viewToSourceMap[tableColumnsTitleFieldMap[key]], row[key])
@@ -3385,8 +3459,10 @@ const exportAndImportFn = {
         }
       })
       row = Object.assign({}, rowsObjTemp, row)
+      formatData = true
       return this.reductionColFormula(colFormulaConfig, self.reductionColFormula(colFormulaConfig, row))
     })
+    if (formatData) return viewData
     self.reductionRowCodeFormula(this.calculateConstraintConfigIn.rowCodeFormulaConfig, viewData, self.id)
     return validResult && !validResultFieldTitle.length && viewData
   },

@@ -571,17 +571,18 @@ export default {
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
         this.createDataList.issueTime = moment().format('YYYY-MM-DD HH:mm:ss')
-        if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
-          this.createDataList.warnLevel = '3'
-        } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
-          this.createDataList.warnLevel = '2'
-        } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
-          this.createDataList.warnLevel = '1'
-        } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
-          this.createDataList.warnLevel = '4'
-        } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
-          this.createDataList.warnLevel = '5'
-        }
+        // if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
+        //   this.createDataList.warnLevel = '3'
+        // } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
+        //   this.createDataList.warnLevel = '2'
+        // } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
+        //   this.createDataList.warnLevel = '1'
+        // } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
+        //   this.createDataList.warnLevel = '4'
+        // } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
+        //   this.createDataList.warnLevel = '5'
+        // }
+        this.createDataList.warnLevel = this.createDataList.warnLevel.match(/>([^<]*)</)[1]
         let userInfo = this.$store.state.userInfo
         this.status = this.detailData[0].status
         console.log('this.param5', this.param5)
@@ -733,15 +734,15 @@ export default {
     // 生成下发
     async doIssue() {
       await this.$refs.createRef?.$refs?.form?.validate?.()
-      if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
+      if (this.createDataList.warnLevel === '黄色预警') {
         this.newWarn = 3
-      } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
+      } else if (this.createDataList.warnLevel === '橙色预警') {
         this.newWarn = 2
-      } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
+      } else if (this.createDataList.warnLevel === '红色预警') {
         this.newWarn = 1
-      } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
+      } else if (this.createDataList.warnLevel === '蓝色预警') {
         this.newWarn = 4
-      } else if (this.createDataList.warnLevel === '<span style="color:gray">灰色预警</span>') {
+      } else if (this.createDataList.warnLevel === '灰色预警') {
         this.newWarn = 5
       }
       let param = {
@@ -751,7 +752,7 @@ export default {
         agencyCode: this.createDataList.agencyCode,
         violateType: this.createDataList.violateType, // 违规类型
         fiRuleName: this.createDataList.fiRuleName, // 监控规则
-        warningLevel: this.createDataList.warnLevel, // 预警级别
+        warningLevel: this.newWarn, // 预警级别
         handleType: this.createDataList.handleType, // 处理方式
         mofDivCode: this.createDataList.mofDivCode, // 区划
         handleResult: this.createDataList.handleResult, // 处理结果

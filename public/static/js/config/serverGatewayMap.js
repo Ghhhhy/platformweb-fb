@@ -81,3 +81,4 @@ window.gloableToolFn.serverGatewayMap = {
     portalLoginUrl: 'http://10.77.18.66/ezweb/portal/main1/loginNew.jsp?max=1'
   }
 }
+window.gloableToolFn.enableWaterMark = true

@@ -65,7 +65,6 @@
                     placeholder="处理人"
                     style="width:45%"
                   />
-                  </el-select>
                 </el-row>
               </el-main>
             </el-container>

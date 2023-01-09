@@ -31,7 +31,6 @@
         :toolbar-config="tableToolbarConfig"
         :cell-style="cellStyle"
         :pager-config="pagerConfig"
-        :default-money-unit="10000"
         @cellClick="cellClick"
         @ajaxData="ajaxTableData"
         @onOptionRowClick="onOptionRowClick"
@@ -40,7 +39,7 @@
         <template v-slot:toolbarSlots>
           <div class="table-toolbar-left">
             <div class="table-toolbar-left-title">
-              <span class="fn-inline">{{ title }}(单位:万元)</span>
+              <span class="fn-inline">{{ title }}(单位:元)</span>
               <i class="fn-inline"></i>
             </div>
           </div>
@@ -92,8 +91,6 @@ import proconf, {
 import AddDialogs from './children/AddDialogs'
 import AffirmDialogs from './children/AffirmDialogs'
 import GlAttachment from './common/GlAttachment'
-import { BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE } from '@/common/model/data'
-
 export default {
   name: 'DetailDialogs',
   components: {
@@ -127,7 +124,7 @@ export default {
         // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        buttonsInfo: this.detailData[1] === BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE ? [] : this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
+        buttonsInfo: this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
@@ -224,7 +221,8 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看整改附件', row)
-      if (row.dfrFileCode === null || row.dfrFileCode === '') {
+      // if (row.dfrFileCode === null || row.dfrFileCode === '') {
+      if (row.affirmFileCode === null || row.affirmFileCode === '') {
         this.$message.warning('该数据无附件')
         return
       }

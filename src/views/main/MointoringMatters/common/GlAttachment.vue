@@ -29,7 +29,13 @@
             :pager-config="false"
           />
           <FilePreview
-            v-if="filePreviewDialogVisible"
+            v-if="!isHB && filePreviewDialogVisible"
+            :visible.sync="filePreviewDialogVisible"
+            :file-guid="fileGuid"
+            :app-id="appId"
+          />
+          <FilePreviewHB
+            v-if="isHB && filePreviewDialogVisible"
             :visible.sync="filePreviewDialogVisible"
             :file-guid="fileGuid"
             :app-id="appId"
@@ -45,11 +51,12 @@
 import HTTPModule from '@/api/frame/main/Monitoring/GlAttachment'
 import { proconf } from './js/GlAttachment'
 import FilePreview from './filePreview.vue'
+import FilePreviewHB from '@/hb/components/filePreviewHB.vue'
 
 export default {
   name: 'GlAttachment',
   components: {
-    FilePreview
+    FilePreview, FilePreviewHB
   },
   props: {
     userInfo: {
@@ -81,7 +88,8 @@ export default {
       year: '',
       filePreviewDialogVisible: false,
       fileGuid: '',
-      delId: ''
+      delId: '',
+      isHB: process.env.VUE_APP_CONF_ISHB || false
     }
   },
   computed: {

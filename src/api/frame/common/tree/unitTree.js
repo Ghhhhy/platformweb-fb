@@ -31,7 +31,7 @@ export default {
   // 根据code获取菜单
   queryTreedElementByCod(code = 'pay') {
     const formData = new FormData()
-    formData.append('code', code)
+    formData.append('code', code || 'pay')
     return post('large-monitor-platform/lmp/elementQuery/queryTreedElementByCode', formData, null, 'multipart/form-data')
   }
 }

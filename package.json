@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "fix-memory-limit": "cross-env LIMIT=8192 increase-memory-limit",
-    "serve": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build --mode prod",
+    "serve": "vue-cli-service serve --mode hbdev",
+    "serve:hb": "vue-cli-service serve --mode hbdev",
+    "build": "vue-cli-service build --mode hbprod",
+    "build:hb": "vue-cli-service build --mode hbprod",
     "build:stage": "vue-cli-service build --mode stage",
     "analyz": "npm_config_report=true npm run build",
     "test:unit": "vue-cli-service test:unit",
