@@ -3224,7 +3224,7 @@ const exportAndImportFn = {
     })
     // 进度列增加%
     ratioKeys.forEach(key => {
-      row[key] = row[key] ? `${row[key]}%` : ''
+      row[key] = row[key] ? `${Number.prototype.toFixed.call(row[key], 1)}%` : ''
     })
   },
   getPrintOption(exportModalFormData) {
