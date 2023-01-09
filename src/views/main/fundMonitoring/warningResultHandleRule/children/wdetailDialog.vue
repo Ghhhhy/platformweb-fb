@@ -194,7 +194,7 @@ export default {
       sDetailVisible: false,
       sDetailData: [],
       detailType: '',
-      mofDivCode: '',
+      fiRuleCode: '',
       tableLoading: false,
       dialogVisibles: false,
       affirmDialogVisibles: false,
@@ -245,7 +245,7 @@ export default {
       this.refresh()
     },
     refresh() {
-      this.queryTableDatas(this.detailType, this.mofDivCode)
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
       // this.queryTableDatasCount()
     },
     // 搜索
@@ -270,10 +270,10 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas(this.detailType, this.mofDivCode)
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
     },
     closeHandle() {
-      this.queryTableDatas(this.detailType, this.mofDivCode)
+      this.queryTableDatas(this.detailType, this.fiRuleCode)
       this.dialogVisibles = false
       this.affirmDialogVisibles = false
     },
@@ -454,7 +454,7 @@ export default {
     showInfo() {
       // this.tableData = this.detailData
       this.detailType = this.detailData[0]
-      this.mofDivCode = this.detailData[1]
+      this.fiRuleCode = this.detailData[1]
       this.fiscalYear = this.detailData[2]
       this.trackProCodes = this.detailData[3]
       switch (this.title) {
@@ -502,10 +502,10 @@ export default {
           break
       }
     },
-    queryTableDatas(type, mofDivCode) {
+    queryTableDatas(type, fiRuleCode) {
       let params = {
         field: type,
-        mofDivCode: mofDivCode,
+        fiRuleCode: fiRuleCode,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
@@ -524,11 +524,11 @@ export default {
         }
       })
     },
-    handleDetail(type, diBillId, mofDivCode) {
+    handleDetail(type, diBillId, fiRuleCode) {
       this.$parent.sdetailQueryParam = {
         diBillId: diBillId,
         fiscalYear: this.fiscalYear,
-        mofDivCode: mofDivCode
+        fiRuleCode: fiRuleCode
       }
       this.$parent.sdetailVisible = true
     },
@@ -545,7 +545,7 @@ export default {
       let key = obj.column.property
       switch (key) {
         case 'detail':
-          this.handleDetail('detail', obj.row.diBillId, obj.row.mofDivCode)
+          this.handleDetail('detail', obj.row.diBillId, obj.row.fiRuleCode)
           this.$parent.sDetailTitle = '详细信息'
           break
       }

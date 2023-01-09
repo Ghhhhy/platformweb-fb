@@ -1,4 +1,4 @@
-<!-- 结转资金预算下达_分地区 -->
+<!-- 直达资金监控预警结果（全省） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
@@ -29,25 +29,22 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
-          :table-data="tableData"
-          :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :show-zero="false"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
+          @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
+          @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
-          <!--口径说明插槽-->
-          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
-            <p v-html="caliberDeclareContent"></p>
-          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">结转资金预算下达_分地区(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -56,13 +53,30 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-data="detailData"
+    />
+    <sDetailDialog
+      v-if="sdetailVisible"
+      :title="sdetailTitle"
+      :s-detail-query-param="sdetailQueryParam"
+      :detail-data="sDetailData"
+    />
   </div>
 </template>
 
 <script>
-import getFormData from './carryImplementationRegion.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import getFormData from './warningResultHandleRule.js'
+import DetailDialog from './children/wdetailDialog.vue'
+import sDetailDialog from './children/detailDialog.vue'
+import HttpModule from '@/api/frame/main/fundMonitoring/warningResultHandleRule.js'
 export default {
+  components: {
+    DetailDialog,
+    sDetailDialog
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -76,7 +90,7 @@ export default {
   },
   data() {
     return {
-      caliberDeclareContent: '', // 口径说明
+      sDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -84,24 +98,6 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -112,29 +108,6 @@ export default {
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
       obj: {},
-      calculateConstraintConfig: {
-        enabled: true,
-        extendMapInfoField: true, // 是否扩展mapInfo字段
-        // gradedSummaryFields: ['bonus', 'income'],
-        calcAndConstraintItemCodeField: 'itemCode',
-        getDataAxiosConfig: { // 跨表提取请求配置
-          dataField: 'data', // 数据字段
-          successCode: '100000', // 成功code
-          statusField: 'rscode',
-          method: 'get', // 请求方式
-          url: '' // 'queryTreeAssistData', //
-        //  [{ itemCode: '002', colField: 'f005', value: '1500.0' }, { itemCode: '002001', colField: 'f005', value: '500.0' }]
-        },
-        getDataParams: { // 提取公共参数
-
-        },
-        colConstraintConfig: {
-          // 'age': 'income::value::{age}>=18?Math.pow({age},4)/2:0--&&--name::style::{age}>18&&{age}<=60--??--color=#F00&fontSize=20px--+--{age}>60--??--color=#ff0&fontSize=20px'
-        },
-        rowCodeConstraintConfig: { // 表间约束配置
-          // '20:age': '10:income::value::{1001:age:20}>=18?Math.pow({1001:age:20},4)/2:0--&&--10:bonus::editable::{1001:age:20}>=18?true:false--&&--30:bonus::clear::{1001:age:20}<=18?true:false--&&--10:name::style::{1001:age:20}>18&&{1001:age:20}<=60--??--color=#F00&fontSize=20px--+--{1001:age:1001}>60--??--color=#ff0&fontSize=20px'
-        }
-      },
       toolbarConfig: {
         disabledMoneyConversion: false,
         ...getFormData('basicInfo', 'toolbarConfig')
@@ -143,14 +116,14 @@ export default {
       ifRenderExpandContentTable: true,
       pagerConfig: {
         autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: true, // 是否有金额转换
+        moneyConversion: false, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -195,13 +168,24 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      sdetailVisible: false,
+      sdetailType: '',
+      sdetailTitle: '',
+      sdetailData: [],
+      detailData: [],
+      code: '',
+      fiscalYear: '',
+      trackProCodes: []
     }
   },
   mounted() {
-    // this.getNewData()
   },
   methods: {
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.queryTableDatas(this.detailType, this.code)
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
@@ -249,6 +233,25 @@ export default {
       })
       return condition
     },
+    // 切换状态栏
+    onStatusTabClick(obj) {
+      if (!obj.type) {
+        this.operationToolbarButtonClickEvent(obj)
+        return
+      }
+      this.toolBarStatusSelect = obj
+      switch (obj.curValue) {
+        // 全部
+        case '1':
+          this.menuName = '直达资金地方预警汇总'
+          this.radioShow = true
+          break
+      }
+      this.condition = {}
+      this.mainPagerConfig.currentPage = 1
+      this.refresh()
+      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
+    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -271,7 +274,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -295,36 +298,109 @@ export default {
     changeVisible(val) {
       this.breakRuleVisible = val
     },
-    onClickmethod(node) {
-      if (node.id !== '0') {
-        let key =
-          this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.id
-      } else {
-        this.condition = {}
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      let key = obj.column.property
+      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+      switch (key) {
+        case 'numbernofileNum':
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-未处理明细'
+          this.detailType = 'numbernofileNum'
+          this.detailVisible = true
+          break
+        case 'numberfileNum':
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberfileNum'
+          break
+        case 'numberwarnUndoNum':
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNum'
+          break
+        case 'numberwarndoNum':
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndoNum'
+          break
+        case 'numberwarnUndoNoNum':
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNoNum'
+          break
+        case 'numberwarndidNum':
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndidNum'
+          break
+        case 'numberhqlmUndoNum':
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmUndoNum'
+          break
+        case 'numberhqlmdoNum':
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmdoNum'
+          break
       }
-      this.queryTableDatas(node.guid)
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
       // this.queryTableDatasCount()
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'jzzjysxd_fdq',
-        isFlush: true,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.userInfo.year
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
+        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
         if (res.code === '000000') {
-          if (res.data) {
-            this.tableData = res.data.data
-            this.caliberDeclareContent = res.data.description || ''
-          }
-          this.tableLoading = false
+          this.tableData = res.data
+          // this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -338,10 +414,15 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
+    this.getPro()
     this.queryTableDatas()
   }
 }

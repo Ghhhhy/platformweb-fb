@@ -223,7 +223,16 @@ const routers = [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警结果(全省)
+      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警处理_地区
+  },
+  {
+    path: '/WarningResultHandleRule',
+    name: 'WarningResultHandleRule',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
   },
   {
     path: '/NotImportBgtDetail', // 未导入指标明细查询

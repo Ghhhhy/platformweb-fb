@@ -377,8 +377,7 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '地区名称',
-        treeNode: true,
+        title: '规则名称',
         align: 'left',
         width: 260,
         field: 'name',

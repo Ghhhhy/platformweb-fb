@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import getFormData from '../warningResultHandleRegion.js'
+import getFormData from '../warningResultHandleRule.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResultHandleRule.js'
 export default {
   name: 'SDetailDialog',

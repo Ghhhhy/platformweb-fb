@@ -3007,9 +3007,9 @@ const defaultTableRenderers = {
     renderDefault(h, cellRander, params) {
       let { row, column } = params
       // 设置转换后的值供导出所用
-      row[column.property + '__viewRatio'] = Number(row[column.property]) > 0 ? `${row[column.property]}%` : ''
+      row[column.property + '__viewRatio'] = Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : ''
       return [
-        <span>{Number(row[column.property]) > 0 ? `${row[column.property]}%` : ''}</span>
+        <span>{Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : ''}</span>
       ]
     }
   }

@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -30,22 +30,24 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
+          type: 'year',
+          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: store.state.userInfo.year
   },
   basicInfo: {
     type: 'form',
@@ -69,7 +71,7 @@ const proconf = {
       },
       {
         title: '全省',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
@@ -78,7 +80,7 @@ const proconf = {
             sortable: false,
             filters: false,
             formula: '{amountProvince}+{amountCity}+{amountCounty}',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -87,7 +89,7 @@ const proconf = {
             sortable: false,
             filters: false,
             field: 'amountProvince',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -96,7 +98,7 @@ const proconf = {
             sortable: false,
             filters: false,
             field: 'amountCity',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
@@ -107,7 +109,7 @@ const proconf = {
             sortable: false,
             filters: false,
             field: 'amountCounty',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
@@ -117,15 +119,15 @@ const proconf = {
       },
       {
         title: '省级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '结转金额',
             sortable: false,
             filters: false,
-            field: 'amountProvince',
-            width: 200,
+            field: 'amountSnjjz',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -133,35 +135,37 @@ const proconf = {
             title: '分配本级',
             sortable: false,
             filters: false,
-            field: 'amountProvince',
-            width: 200,
+            field: 'amountsnjfpbj',
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
-            field: '',
+            field: 'amountsnjfpxj',
             sortable: false,
             filters: false,
-            width: 200,
-            align: 'right'
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
-            field: '',
-            width: 200,
+            field: 'amountsnjwfp',
+            width: 100,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '进度',
             field: 'spro1',
-            width: 200,
+            width: 100,
             align: 'right',
             sortable: false,
             filters: false,
-            formula: '100',
+            formula: '{amountSnjjz}-0==0?0:({amountsnjfpbj}+{amountsnjwfp})/{amountSnjjz}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -170,26 +174,27 @@ const proconf = {
       },
       {
         title: '市级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '结转金额',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountsjsnjjz',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: 'amountCity',
-                width: 200,
+                field: 'amountsjjz',
+                width: 100,
                 sortable: false,
                 filters: false,
                 align: 'right',
@@ -199,44 +204,45 @@ const proconf = {
                 title: '总金额',
                 sortable: false,
                 filters: false,
-                field: 'shsaAmount11',
-                width: 200,
+                field: 'amountsjjzall',
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({amountCity})'
+                formula: '({amountsjsnjjz}+{amountsjjz})'
               }
             ]
           },
           {
             title: '分配本级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
                 sortable: false,
                 filters: false,
-                field: '',
-                width: 200,
-                align: 'right'
+                field: 'amountsjsnjfpbj',
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: 'amountCity',
+                field: 'amountsjfpbj',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: 'shsaAmount2',
+                field: 'amountsjfpbjall',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -247,71 +253,77 @@ const proconf = {
           },
           {
             title: '分配下级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
-                width: 200,
+                field: 'amountsjsnjfpxj',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
-                width: 200,
+                field: 'amountsjfpxj',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountsjfpxjall',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
-                formula: ''
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountsjsnjfpxj}+{amountsjfpxj}'
               }
             ]
           },
           {
             title: '未分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountsjsnjwfp',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
-                width: 200,
+                field: 'amountsjwfp',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountsjwfpall',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
-                formula: ''
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountsjsnjwfp}+{amountsjwfp}'
               }
             ]
           },
           {
             title: '进度',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
@@ -319,27 +331,29 @@ const proconf = {
                 field: '',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                formula: '{amountsjsnjjz}-0==0?0:({amountsjsnjfpxj}+{amountsjsnjfpbj})/{amountsjsnjjz}',
+                cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '市级',
                 field: 'shjpro',
-                width: 200,
+                width: 100,
                 sortable: false,
                 filters: false,
                 align: 'right',
-                formula: '100',
+                formula: '{amountsjjz}-0==0?0:({amountsjfpxj}+{amountsjfpbj})/{amountsjjz}',
                 cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '总进度',
                 field: 'shpro',
-                formula: '100',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
+                formula: '{amountsjjzall}-0==0?0:({amountsjfpxjall}+{amountsjfpbjall})/{amountsjjzall}',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -350,34 +364,36 @@ const proconf = {
       },
       {
         title: '县级',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '结转金额',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
-                width: 200,
+                field: 'amountxjsnjjz',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
-                width: 200,
+                field: 'amountxjsjjz',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级',
-                field: 'amountCounty',
-                width: 200,
+                field: 'amountxjjz',
+                width: 100,
                 sortable: false,
                 filters: false,
                 align: 'right',
@@ -385,43 +401,45 @@ const proconf = {
               },
               {
                 title: '总金额',
-                field: 'xsaAmount11',
-                width: 200,
+                field: 'amountxjjzall',
+                width: 100,
                 align: 'right',
                 sortable: false,
                 filters: false,
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({amountCounty})'
+                formula: '({amountxjsnjjz}+{amountxjsjjz}+{amountxjjz})'
               }
             ]
           },
           {
             title: '分配本级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountxjsnjfpbj',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
-                width: 200,
+                field: 'amountxjsjfpbj',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级',
-                field: 'amountCounty',
-                width: 200,
+                field: 'amountxjfpbj',
+                width: 100,
                 align: 'right',
                 sortable: false,
                 filters: false,
@@ -429,137 +447,149 @@ const proconf = {
               },
               {
                 title: '总金额',
-                field: 'xsaAmount2',
-                width: 200,
+                field: 'amountxjfpbjall',
+                width: 100,
                 align: 'right',
                 sortable: false,
                 filters: false,
                 cellRender: {
                   name: '$vxeMoney'
                 },
-                formula: '({amountCounty})'
+                formula: '({amountxjsnjfpbj}+{amountxjsjfpbj}+{amountxjfpbj})'
               }
             ]
           },
           {
             title: '分配下级',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
-                width: 200,
+                field: 'amountxjsnjfpxj',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
-                width: 200,
+                field: 'amountxjsjfpxj',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级',
-                field: '',
+                field: 'amountxjfpxj',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountxjfpxjall',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
-                formula: ''
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountxjsnjfpxj}+{amountxjsjfpxj}+{amountxjfpxj}'
               }
             ]
           },
           {
             title: '未分配',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountxjsnjwfp',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
-                field: '',
+                field: 'amountxjsjwfp',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级',
-                field: '',
-                width: 200,
+                field: 'amountxjwfp',
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountxjwfpall',
                 sortable: false,
                 filters: false,
-                width: 200,
+                width: 100,
                 align: 'right',
-                formula: ''
+                cellRender: { name: '$vxeMoney' },
+                formula: '{amountxjsnjwfp}+{amountxjsjwfp}+{amountxjwfp}'
               }
             ]
           },
           {
             title: '进度',
-            width: 200,
+            width: 100,
             align: 'right',
             children: [
               {
                 title: '省级',
                 field: 'sj',
-                width: 200,
+                width: 100,
                 sortable: false,
                 filters: false,
-                align: 'right'
+                align: 'right',
+                formula: '{amountxjsnjjz}-0==0?0:({amountxjsnjfpbj}+{amountxjsnjfpxj})/{amountxjsnjjz}*100',
+                cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '市级',
                 field: 'shj',
                 sortable: false,
                 filters: false,
-                width: 200,
-                align: 'right'
+                width: 100,
+                align: 'right',
+                formula: '{amountxjsjjz}-0==0?0:({amountxjsjfpbj}+{amountxjsjfpxj})/{amountxjsjjz}*100',
+                cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '县级',
                 field: 'xj',
-                width: 200,
+                width: 100,
                 sortable: false,
                 filters: false,
                 align: 'right',
-                formula: '100',
+                formula: '{amountxjjz}-0==0?0:({amountxjfpbj}+{amountxjfpxj})/{amountxjjz}*100',
                 cellRender: { name: '$vxeRatio' }
               },
               {
                 title: '总进度',
                 field: 'saAmount1',
-                width: 200,
+                width: 100,
                 sortable: false,
                 filters: false,
                 align: 'right',
-                formula: '100',
+                formula: '{amountxjjzall}-0==0?0:({amountxjfpbjall}+{amountxjfpxjall})/{amountxjjzall}*100',
                 cellRender: {
                   name: '$vxeRatio'
                 }

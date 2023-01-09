@@ -9,7 +9,7 @@ export default function transJson(string = '') {
   // 兼容一个参数值（例如：czzd）
   if (string?.indexOf('=') === -1) return string
 
-  return string?.split(',')
+  const params = string?.split(',')
     ?.reduce((obj, item) => {
       if (!item) return obj
 
@@ -21,4 +21,6 @@ export default function transJson(string = '') {
         [key]: value
       }
     }, {}) || {}
+  console.log(params)
+  return params
 }

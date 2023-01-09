@@ -115,6 +115,7 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
+        autoHidden: true,
         total: 0,
         currentPage: 1,
         pageSize: 20
@@ -303,77 +304,53 @@ export default {
       this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       switch (key) {
-        case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '红色预警-未处理明细'
-          this.detailType = 'redUndoNum'
+        case 'numbernofileNum':
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-未处理明细'
+          this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
-        case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '红色预警-已整改明细'
+        case 'numberfileNum':
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-已整改明细'
           this.detailVisible = true
-          this.detailType = 'redDoneNum'
+          this.detailType = 'numberfileNum'
           break
-        case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '橙色预警-未上传附件明细'
+        case 'numberwarnUndoNum':
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-未处理明细'
           this.detailVisible = true
-          this.detailType = 'orangeUndoNum'
+          this.detailType = 'numberwarnUndoNum'
           break
-        case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '橙色预警-已上传附件明细'
+        case 'numberwarndoNum':
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-已认定明细'
           this.detailVisible = true
-          this.detailType = 'orangeDoneNum'
+          this.detailType = 'numberwarndoNum'
           break
-        case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-疑点信息明细'
+        case 'numberwarnUndoNoNum':
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-未处理明细'
           this.detailVisible = true
-          this.detailType = 'yellowUndoNum'
+          this.detailType = 'numberwarnUndoNoNum'
           break
-        case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定正常明细'
+        case 'numberwarndidNum':
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-已认定明细'
           this.detailVisible = true
-          this.detailType = 'yellowDoneNum'
+          this.detailType = 'numberwarndidNum'
           break
-        case 'yellowUndoNumw':
-          this.detailData = ['yellowUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定违规-未处理明细'
+        case 'numberhqlmUndoNum':
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-未处理明细'
           this.detailVisible = true
-          this.detailType = 'yellowUndoNumw'
+          this.detailType = 'numberhqlmUndoNum'
           break
-        case 'yellowDoneNumw':
-          this.detailData = ['yellowDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定违规-已整改明细'
+        case 'numberhqlmdoNum':
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-已整改明细'
           this.detailVisible = true
-          this.detailType = 'yellowDoneNumw'
-          break
-        case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
-          this.detailType = 'blueUndoNum'
-          this.detailVisible = true
-          break
-        case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定正常明细'
-          this.detailVisible = true
-          this.detailType = 'blueDoneNum'
-          break
-        case 'blueUndoNumw':
-          this.detailData = ['blueUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定违规-未处理明细'
-          this.detailVisible = true
-          this.detailType = 'blueUndoNumw'
-          break
-        case 'blueDoneNumw':
-          this.detailData = ['blueDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定违规-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'blueDoneNumw'
+          this.detailType = 'numberhqlmdoNum'
           break
       }
     },
