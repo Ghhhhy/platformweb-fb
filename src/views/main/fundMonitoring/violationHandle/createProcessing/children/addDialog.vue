@@ -64,7 +64,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;指导意见</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value === '2'" color="red">*</font>&nbsp;指导意见</div>
                   <el-input
                     v-model="information2"
                     type="textarea"
@@ -80,7 +80,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;是否下发单位</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;是否下发单位</div>
                   <el-select v-model="value" :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)" placeholder="请选择" @change="changeValue">
                     <el-option
                       v-for="item in options"
@@ -97,7 +97,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value === '2'" color="red">*</font>&nbsp;联系电话</div>
                   <el-input
                     v-model="phone2"
                     :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '4'"
@@ -147,7 +147,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;整改意见</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'company'" color="red">*</font>&nbsp;整改意见</div>
                   <el-input
                     v-model="information1"
                     type="textarea"
@@ -163,7 +163,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'company'" color="red">*</font>&nbsp;联系电话</div>
                   <el-input
                     v-model="phone1"
                     :disabled="param5.retroact !== 'company'"
@@ -225,11 +225,11 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;主管处室整改意见</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value === '4'" color="red">*</font>&nbsp;主管处室整改意见</div>
                   <el-input
                     v-model="information3"
                     type="textarea"
-                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) "
+                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '2'"
                     placeholder="主管处室整改意见"
                     style="width:90%"
                   />
@@ -241,10 +241,10 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;联系电话</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value === '4'" color="red">*</font>&nbsp;联系电话</div>
                   <el-input
                     v-model="phone3"
-                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
+                    :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '2'"
                     placeholder="联系电话"
                     style="width:45%"
                   />
@@ -285,8 +285,8 @@
         </el-row>
         <BsUploadBak
           ref="myUpload"
-          :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
-          :is-upload="param5.retroact === 'department' || status === '1' || status === 1"
+          :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '2'"
+          :is-upload="param5.retroact === 'department' || status === '1' || status === 1 || value !== '2'"
           :allow-delete="param5.retroact === 'department' || status === '1' || status === 1"
           :allow-download="true"
           :allow-preview="true"
@@ -303,7 +303,7 @@
             <el-container>
               <el-main width="100%">
                 <el-row style="display: flex">
-                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;审核意见</div>
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;审核意见</div>
                   <el-select v-model="value1" :disabled="param5.retroact !== 'department' || (status !== '3' && status !== 3)" placeholder="请选择">
                     <el-option
                       v-for="item in options1"
@@ -698,6 +698,13 @@ export default {
         this.handler2 = ''
         this.updateTime2 = ''
       }
+      if (this.value === '4') {
+        this.handler3 = userInfo.name
+        this.updateTime3 = moment().format('YYYY-MM-DD HH:mm:ss')
+      } else {
+        this.handler3 = ''
+        this.updateTime3 = ''
+      }
       console.log('this.value', this.value)
     },
     // 生成下发
@@ -759,6 +766,8 @@ export default {
     // 反馈
     doFeedback() {
       let flag = this.status
+      let re = /^1\d{10}$/
+      let re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/
       if (this.param5.retroact === 'company' && this.information1 === '') {
         this.$message.warning('请输入整改意见')
         return
@@ -778,6 +787,42 @@ export default {
       if (this.param5.retroact === 'department' && this.value1 === '' && (flag === '3' || flag === 3)) {
         this.$message.warning('请选择审核意见')
         return
+      }
+      if (this.param5.retroact === 'department' && this.phone2 === '' && this.value === '2') {
+        this.$message.warning('请输入联系电话')
+        return
+      }
+      if (this.param5.retroact === 'department' && this.phone3 === '' && this.value === '4') {
+        this.$message.warning('请输入联系电话')
+        return
+      }
+      if (this.param5.retroact === 'company' && this.phone1 === '') {
+        this.$message.warning('请输入联系电话')
+        return
+      }
+      if (this.phone2 !== '') {
+        if (!re.test(this.phone2)) {
+          if (!re1.test(this.phone2)) {
+            this.$message.warning('请输入正确的电话号码')
+            return
+          }
+        }
+      }
+      if (this.phone3 !== '') {
+        if (!re.test(this.phone3)) {
+          if (!re1.test(this.phone3)) {
+            this.$message.warning('请输入正确的电话号码')
+            return
+          }
+        }
+      }
+      if (this.phone1 !== '') {
+        if (!re.test(this.phone1)) {
+          if (!re1.test(this.phone1)) {
+            this.$message.warning('请输入正确的电话号码')
+            return
+          }
+        }
       }
       if (this.param5.retroact === 'company') {
         this.commentDept = '1'
@@ -870,6 +915,10 @@ export default {
         if (curVal !== preVal && curVal === '4') {
           this.information2 = ''
           this.phone2 = ''
+        }
+        if (curVal !== preVal && curVal === '2') {
+          this.information3 = ''
+          this.phone3 = ''
         }
       },
       immediate: true

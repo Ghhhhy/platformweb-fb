@@ -650,6 +650,24 @@ export let proconf = {
       align: 'center'
     },
     {
+      title: '是否被退回',
+      width: 180,
+      field: 'isReturn',
+      align: 'center',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: 1,
+            label: '审核被退回'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
       title: '查看详情',
       field: 'gloableOptionRow',
       align: 'center',
