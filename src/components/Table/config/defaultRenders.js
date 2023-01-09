@@ -2876,11 +2876,11 @@ const defaultTableRenderers = {
     renderDefault(h, cellRander, params) {
       let { row, column, $table } = params
       return [
-        <div class="waring-icon-render-wrapper" style="margin-left:10px;display:flex">
+        <div style="margin-left:10px;display:flex">
           { (row.children?.length < 1 || !row.children) && <i class='el-icon-document' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='el-icon-folder' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='el-icon-folder-opened' style="margin-right: 10px;line-height:32px"></i>}
-          <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
