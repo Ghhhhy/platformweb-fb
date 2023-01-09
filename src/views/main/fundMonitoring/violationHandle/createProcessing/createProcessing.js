@@ -668,6 +668,14 @@ export let proconf = {
       name: '$vxeSelect'
     },
     {
+      title: '退回原因',
+      width: 180,
+      field: 'returnReason',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '查看详情',
       field: 'gloableOptionRow',
       align: 'center',

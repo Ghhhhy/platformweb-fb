@@ -296,7 +296,7 @@
           :file-data.sync="fileData3"
         />
       </div>
-      <div v-if="status === '3' || status === 3 || status === '4' || param5.isQuery === 'true'" style="margin-top:10px">
+      <div v-if="status === '3' || status === 3 || status === '4' || param5.isQuery === 'true' || ((status === 2 || status === '2') && isReturn === '1')" style="margin-top:10px">
         <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室审核</div>
         <el-row>
           <el-col :span="6">
@@ -312,6 +312,22 @@
                       :value="item.value"
                     />
                   </el-select>
+                </el-row>
+              </el-main>
+            </el-container>
+          </el-col>
+          <el-col v-if="(param5.retroact === 'department' && (status !== '3' || status !== 3) && value1 === '2') || (param5.retroact === 'company' && value1 === '2')" :span="24">
+            <el-container>
+              <el-main width="100%">
+                <el-row style="display: flex">
+                  <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;退回原因</div>
+                  <el-input
+                    v-model="returnReason"
+                    type="textarea"
+                    :disabled="param5.retroact !== 'department' || (status !== '3' && status !== 3)"
+                    placeholder="退回原因"
+                    style="width:90%"
+                  />
                 </el-row>
               </el-main>
             </el-container>
@@ -409,6 +425,8 @@ export default {
       handler2: '',
       information3: '',
       updateTime3: '',
+      returnReason: '',
+      isReturn: '',
       handler3: '',
       phone1: '',
       attachmentid1: '',
@@ -652,6 +670,11 @@ export default {
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
             this.commentDept = 1
+            this.returnReason = this.detailData[0].returnReason
+            this.isReturn = this.detailData[0].isReturn
+            if (this.isReturn === '1') {
+              this.value1 = '2'
+            }
             break
           case 'department':
             this.handler3 = userInfo.name
@@ -788,6 +811,10 @@ export default {
         this.$message.warning('请选择审核意见')
         return
       }
+      if (this.param5.retroact === 'department' && this.value1 === '2' && (flag === '3' || flag === 3) && this.returnReason === '') {
+        this.$message.warning('请输入退回原因')
+        return
+      }
       if (this.param5.retroact === 'department' && this.phone2 === '' && this.value === '2') {
         this.$message.warning('请输入联系电话')
         return
@@ -863,7 +890,8 @@ export default {
         status: this.status,
         attachmentid3: this.attachmentid3,
         dealNo: this.detailData[0].dealNo,
-        commentDept: this.commentDept
+        commentDept: this.commentDept,
+        returnReason: this.returnReason
       }
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
