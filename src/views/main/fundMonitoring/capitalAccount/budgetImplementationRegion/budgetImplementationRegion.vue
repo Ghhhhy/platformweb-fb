@@ -396,27 +396,52 @@ export default {
     },
     handleDetail(reportCode, mofDivCode, column) {
       let condition = ''
-      switch (column) {
-        case 'amountSnjwfp':
-        case 'amountSnjxd':
-        case 'amountSnjpay':
-        case 'amountSnjbjfp':
-        case 'amountSnjxjfp':
-          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-          break
-        case 'amountSjxd':
-        case 'amountSjpay':
-        case 'amountSjwfp':
-        case 'amountSbjfp':
-        case 'amountSxjfp':
-          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-          break
-        case 'amountXjxd':
-        case 'amountXjpay':
-        case 'amountXjwfp':
-        case 'amountXjfp':
-          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-          break
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
       }
       let isBj = ''
       switch (column) {

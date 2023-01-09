@@ -92,6 +92,8 @@ import proconf, {
 import AddDialogs from './children/AddDialogs'
 import AffirmDialogs from './children/AffirmDialogs'
 import GlAttachment from './common/GlAttachment'
+import { BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE } from '@/common/model/data'
+
 export default {
   name: 'DetailDialogs',
   components: {
@@ -125,7 +127,7 @@ export default {
         // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        buttonsInfo: this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
+        buttonsInfo: this.detailData[1] === BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE ? [] : this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
@@ -471,8 +473,9 @@ export default {
       // this.tableData = this.detailData
       this.detailType = this.detailData[0]
       this.fiRuleCode = this.detailData[1]
-      this.fiscalYear = this.detailData[2]
-      this.searchDataList.fiscalYear = this.detailData[2]
+      this.fiscalYear = this.detailData[2] || this.$store.state.userInfo.year
+      this.searchDataList.fiscalYear = this.detailData[2] || this.$store.state.userInfo.year
+      this.getFiRuleHandle()
       this.trackProCodes = this.detailData[3]
       switch (this.title) {
         case '红色预警-未处理明细':
@@ -543,10 +546,8 @@ export default {
         fiRuleCode: fiRuleCode,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
-        agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
-        fiscalYear: this.fiscalYear,
         trackProCodes: this.trackProCodes,
-        ...this.searchDataList
+        ...(this.searchDataList || {})
       }
       this.tableLoading = true
       // this.dialogVisibles = false

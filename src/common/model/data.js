@@ -58,3 +58,6 @@ export const getBudgetUnitTreeSelect = (config = {}, editConfig = {}, queryparam
     ...(config || {})
   }
 }
+
+/** 惠企利民规则编码 **/
+export const BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE = '01090111'

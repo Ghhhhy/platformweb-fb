@@ -34,9 +34,24 @@ const proconf = {
   },
   highQueryConfig: [
     {
+      title: '年度',
+      field: 'fiscalYear',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'year',
+          valueFormat: 'yyyy',
+          labelFormat: 'yyyy年',
+          placeholder: '年度'
+        }
+      }
+    },
+    {
       title: '单位名称',
       field: 'agencyName',
-      width: '8',
+      span: 6,
       align: 'left',
       formula: '',
       name: '$vxeInput',
@@ -44,6 +59,107 @@ const proconf = {
         name: '$vxeInput',
         props: {
           placeholder: '单位名称'
+        }
+      }
+    },
+    {
+      title: '预警开始日期',
+      field: 'warnStartTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '预警开始日期：yyyy-MM-dd',
+          placeholder: '预警开始日期'
+        }
+      }
+    },
+    {
+      title: '预警结束日期',
+      field: 'warnEndTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '预警结束日期：yyyy-MM-dd',
+          placeholder: '预警结束日期'
+        }
+      }
+    },
+    {
+      title: '整改开始日期',
+      field: 'rectifyStartTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '整改开始日期：yyyy-MM-dd',
+          placeholder: '整改开始日期'
+        }
+      }
+    },
+    {
+      title: '整改结束日期',
+      field: 'rectifyEndTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '整改结束日期：yyyy-MM-dd',
+          placeholder: '整改结束日期'
+        }
+      }
+    },
+    {
+      title: '认定开始日期',
+      field: 'affirmStartTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '认定开始日期：yyyy-MM-dd',
+          placeholder: '认定开始日期'
+        }
+      }
+    },
+    {
+      title: '认定结束日期',
+      field: 'affirmEndTime',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          type: 'date',
+          labelFormat: '认定结束日期：yyyy-MM-dd',
+          placeholder: '认定结束日期'
+        }
+      }
+    },
+    {
+      title: '认定结果',
+      field: 'affirmResult',
+      span: 6,
+      align: 'left',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '待认定' },
+          { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
         }
       }
     }

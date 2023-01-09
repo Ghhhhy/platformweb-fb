@@ -16,14 +16,34 @@
       </div>
       <!--处理-->
       <div v-if="modalType === ModalTypeEnum.AUDIT">
-        <vxe-button size="small" @click="visible = false">取消</vxe-button>
-        <vxe-button v-if="!isUnitFeedbackPage" :disabled="auditButLoading" size="small" @click="submitFetch(TabEnum.RETURN)">
+        <vxe-button
+          size="small"
+          @click="visible = false"
+        >
+          取消
+        </vxe-button>
+        <vxe-button
+          v-if="!isUnitFeedbackPage"
+          :disabled="auditButLoading"
+          size="small"
+          @click="submitFetch(TabEnum.RETURN)"
+        >
           退回
         </vxe-button>
-        <vxe-button v-if="isDivisionReAudit" :disabled="auditButLoading" size="small" @click="submitFetch(TabEnum.DISABLED)">
+        <vxe-button
+          v-if="isDivisionReAudit"
+          :disabled="auditButLoading"
+          size="small"
+          @click="submitFetch(TabEnum.DISABLED)"
+        >
           禁止
         </vxe-button>
-        <vxe-button :disabled="auditButLoading" type="primary" size="small" @click="submitFetch(isUnitFeedbackPage ? TabEnum.SENDED : TabEnum.AUDITED)">
+        <vxe-button
+          :disabled="auditButLoading"
+          type="primary"
+          size="small"
+          @click="submitFetch(isUnitFeedbackPage ? TabEnum.SENDED : TabEnum.AUDITED)"
+        >
           {{ btnTitle }}
         </vxe-button>
       </div>
@@ -45,7 +65,7 @@
               class="dfr-custom-check-all"
               @change="handleCheckAllChange"
             >
-              全部处理单编号（{{ cloneRecords.length }}）
+              全部监控处理单（{{ cloneRecords.length }}）
             </el-checkbox>
             <div class="items-detail">
               <el-checkbox-group
@@ -81,7 +101,12 @@
             <RuleInfo :rule-info="currentWarnDetail.ruleResVO">
               <template #header>
                 <bs-table-title title="规则信息">
-                  <vxe-button size="mini" @click="changeReceiptsModalVisible(true)">业务单据查看</vxe-button>
+                  <vxe-button
+                    size="mini"
+                    @click="changeReceiptsModalVisible(true)"
+                  >
+                    业务单据查看
+                  </vxe-button>
                 </bs-table-title>
               </template>
             </RuleInfo>
@@ -456,6 +481,8 @@ export default defineComponent({
   padding: 0 0 2px 4px;
   width: 100%;
   box-sizing: border-box;
+  font-weight: bold;
+  font-size: 18px;
   overflow: hidden;
 }
 .dfr-custom-checkbox {

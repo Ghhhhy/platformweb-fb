@@ -133,12 +133,14 @@ export const isDirOptions = [
 // 业务状态options
 export const getNodeStatusOptions = () => {
   return [
-    { value: 1, label: '待送审' },
-    { value: 2, label: '已送审' },
-    { value: 3, label: '待审核' },
-    { value: 4, label: '已审核' },
-    { value: 5, label: '被退回' },
-    { value: 6, label: '被禁止' }
+    { value: TabEnum.NO_SEND, label: '待送审' },
+    { value: TabEnum.SENDED, label: '已送审' },
+    { value: TabEnum.NO_AUDIT, label: '待审核' },
+    { value: TabEnum.AUDITED, label: '已审核' },
+    { value: TabEnum.RETURN, label: '被退回' },
+    { value: TabEnum.DISABLED, label: '被禁止' },
+    { value: TabEnum.RETURN_SELF, label: '已退回' },
+    { value: TabEnum.DISABLED_SELF, label: '已禁止' }
   ]
 }
 
@@ -390,7 +392,7 @@ export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
 export const getBusinessNoColumn = (params = {}) => {
   return {
     title: '业务记录编号',
-    field: 'businessNo',
+    field: 'payCertNo',
     width: 260,
     ...params
   }
@@ -448,7 +450,9 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getAgencyNameColumn(),
     getDeptNameColumn(),
     getManageMofDepNameColumn(),
-    getBusinessNoColumn(),
+    getBusinessNoColumn({
+      field: 'businessNo'
+    }),
     getWarnTypeColumn(),
     getIsDirColumn()
   ]

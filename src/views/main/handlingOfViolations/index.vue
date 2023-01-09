@@ -89,7 +89,7 @@ import {
   getNodeStatusColumn,
   sendAuditTabs,
   doAuditTabs,
-  pagePathMapNodeType
+  pagePathMapNodeType, getNodeStatusOptions
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 
@@ -106,6 +106,11 @@ export default defineComponent({
     // 是否是单位页面（单位反馈、单位审核）
     const isUnitMenu = computed(() => {
       return [RouterPathEnum.UNIT_FEEDBACK, RouterPathEnum.UNIT_AUDIT].includes(pagePath.value)
+    })
+
+    // 是否是单位反馈
+    const isUnitFeedbackMenu = computed(() => {
+      return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
     })
 
     // 左侧区划树显隐
@@ -306,7 +311,13 @@ export default defineComponent({
         updateFormSchemas({
           field: 'nodeStatus',
           itemRender: {
-            options: unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1)
+            options: [
+              ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
+              ...unref(isUnitFeedbackMenu)
+                ? []
+                : getNodeStatusOptions()
+                  .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
+            ]
           }
         })
       } else {

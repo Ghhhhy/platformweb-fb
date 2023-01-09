@@ -414,6 +414,11 @@ const routers = [
     path: '/monitorCounty', //  直达资金分县（市、区）直达资金监控工作情况表
     name: 'monitorCounty',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/monitorCounty/monitorCounty.vue')
+  },
+  {
+    path: '/centerZdzjSituation', //  中央直达资金情况表
+    name: 'centerZdzjSituation',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/centerZdzjSituation/centerZdzjSituation.vue')
   }
 ]
 

@@ -92,6 +92,7 @@ import proconf, {
 import AddDialogs from './children/AddDialogs'
 import AffirmDialogs from './children/AffirmDialogs'
 import GlAttachment from './common/GlAttachment'
+import { BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE } from '@/common/model/data'
 export default {
   name: 'DetailDialogs',
   components: {
@@ -125,7 +126,7 @@ export default {
         // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        buttonsInfo: this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
+        buttonsInfo: this.detailData[1] === BENEFIT_ENTERPRISES_AND_PEOPLE_FI_RULE_CODE ? [] : this.$store.state.curNavModule.name === '直达资金监控预警结果' ? buttons2 : buttons1,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }

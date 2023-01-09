@@ -38,19 +38,23 @@ export const ModalTypeEnum = {
  */
 export const TabEnum = {
   // 未送审
-  NO_SEND: '1',
+  NO_SEND: 1,
   // 已送审
-  SENDED: '2',
+  SENDED: 2,
   // 未审核
-  NO_AUDIT: '3',
+  NO_AUDIT: 3,
   // 已审核
-  AUDITED: '4',
+  AUDITED: 4,
   // 被退回
-  RETURN: '5',
+  RETURN: 5,
   // 被禁止
-  DISABLED: '6',
+  DISABLED: 6,
+  // 已退回
+  RETURN_SELF: 7,
+  // 已禁止
+  DISABLED_SELF: 8,
   // 全部 -> useTable-beforeFetch 过滤All的值
-  ALL: '7'
+  ALL: 'all'
 }
 
 /**
