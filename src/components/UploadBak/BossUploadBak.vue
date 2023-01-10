@@ -119,6 +119,11 @@ export default {
     allowPreview: {
       type: Boolean,
       default: false
+    },
+    // 文件大小
+    sizeNum: {
+      type: Number,
+      default: 10
     }
   },
   data() {
@@ -129,8 +134,7 @@ export default {
       filePreviewDialogVisible: false,
       isChange: true,
       uploadDFileParams: {},
-      fileDataBakAdd: [],
-      sizeNum: 1
+      fileDataBakAdd: []
     }
   },
   watch: {
@@ -337,11 +341,7 @@ export default {
       this.currentFile = file
       this.filePreviewDialogVisible = true
     }
-  },
-  created() {
-    this.sizeNum = 1
   }
-
 }
 </script>
 <style  lang="scss">
