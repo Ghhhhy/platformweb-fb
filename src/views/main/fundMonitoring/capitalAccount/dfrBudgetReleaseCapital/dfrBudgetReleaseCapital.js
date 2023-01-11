@@ -44,6 +44,32 @@ const proconf = {
       }
     },
     {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code'],
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            multiple: false,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
       title: '截止日期',
       field: 'endTime',
       width: 100,
@@ -61,6 +87,7 @@ const proconf = {
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
+    mofDivCodes: '',
     endTime: ''
   },
   basicInfo: {
