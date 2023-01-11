@@ -435,6 +435,7 @@ export default {
         // reportCode: 'zdzjzc_fkm',
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
+        expFuncName: this.condition.expFuncName ? this.condition.expFuncName[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true

@@ -46,6 +46,19 @@ const proconf = {
       }
     },
     {
+      title: '支出科目',
+      field: 'expFuncName',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '支出科目'
+        }
+      }
+    },
+    {
       title: '截止日期',
       field: 'endTime',
       width: 100,
@@ -63,6 +76,7 @@ const proconf = {
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
+    expFuncName: '',
     endTime: ''
   },
   basicInfo: {
