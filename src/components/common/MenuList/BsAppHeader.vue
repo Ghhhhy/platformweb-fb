@@ -62,10 +62,10 @@
             <el-dropdown class="search-select" trigger="click">
               <div class="header-right-year flex pointer" style="height: 50px">
                 <span class="header-right-year-desc">{{ year }}年
-                  <i v-if="yearSelectActive" class="ri-arrow-drop-down-line icon"></i>
+                  <i class="ri-arrow-drop-down-line icon"></i>
                 </span>
               </div>
-              <el-dropdown-menu v-if="yearSelectActive" slot="dropdown" class="yearUl">
+              <el-dropdown-menu slot="dropdown" class="yearUl">
                 <el-dropdown-item
                   v-for="(item,ite) in yearList"
                   :key="ite"
@@ -245,12 +245,6 @@ export default {
     }
   },
   computed: {
-    yearSelectActive() {
-      if (this.province.startsWith('35')) {
-        return false
-      }
-      return true
-    }
   },
   mounted() {
     this.darkMode = localStorage.getItem('__boss__darkmode__') === 'true' || false
