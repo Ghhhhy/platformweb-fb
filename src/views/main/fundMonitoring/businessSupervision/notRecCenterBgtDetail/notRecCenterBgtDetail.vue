@@ -557,13 +557,13 @@ export default {
         mofDivCodeList: this.codeList
       }
       this.tableLoading = true
-      HttpModule.querySum(param).then(res => {
-        if (res.code === '000000') {
-          this.tableFooterConfig.totalObj = res.data[0]
-        } else {
-          this.$message.error(res.result)
-        }
-      })
+      // HttpModule.querySum(param).then(res => {
+      //   if (res.code === '000000') {
+      //     this.tableFooterConfig.totalObj = res.data[0]
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
       HttpModule.queryTableDatasPage(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
@@ -613,65 +613,6 @@ export default {
       //   }
       // })
     },
-    getLeftTreeData() {
-      let that = this
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\'' + 'and code not like \'%998\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
-        }
-      }
-      HttpModule.getTreeData(params).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = treeResdata
-        } else {
-          this.$message.error('左侧树加载失败')
-        }
-      })
-    },
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
@@ -691,7 +632,6 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.getLeftTreeData()
     this.queryTableDatas()
     this.queryCaliberDeclareContent()
   }
