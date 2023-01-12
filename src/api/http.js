@@ -83,7 +83,7 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
         )
       }
       // 附件使用openapi接口
-      return 'openapi/' + url
+      return (window.gloableToolFn.serverGatewayMap.gloableUrl.fileservicePrefix || 'openapi/') + url
     } else if (apaas1.indexOf(tempUrl) > -1) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')

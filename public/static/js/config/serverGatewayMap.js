@@ -78,7 +78,8 @@ window.gloableToolFn.serverGatewayMap = {
     // 准生产门户
     // portalLoginUrl: 'http://10.77.18.155:8081/ezweb/portal/main1/loginNew.jsp?max=1',
     // 生产门户
-    portalLoginUrl: 'http://10.77.18.66/ezweb/portal/main1/loginNew.jsp?max=1'
+    portalLoginUrl: 'http://10.77.18.66/ezweb/portal/main1/loginNew.jsp?max=1',
+    fileservicePrefix: 'openapi/'
   }
 }
 window.gloableToolFn.enableWaterMark = true
