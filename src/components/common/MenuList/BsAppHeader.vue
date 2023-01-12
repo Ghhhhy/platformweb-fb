@@ -264,7 +264,7 @@ export default {
     this.province = userList.province
     console.log('userList.app.yearSelect', userList.app.yearSelect)
     // this.yearList = userList.app.yearSelect
-    this.yearList = ['2022', '2023']
+    this.yearList = userList.app.yearSelect
   },
   watch: {
     darkMode: {
