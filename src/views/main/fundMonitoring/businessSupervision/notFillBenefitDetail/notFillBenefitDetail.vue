@@ -365,12 +365,43 @@ export default {
       this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
         reportCode: 'wtbhqlmffmx',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year,
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -451,6 +482,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getPro()
     this.queryTableDatas()
   }
 }

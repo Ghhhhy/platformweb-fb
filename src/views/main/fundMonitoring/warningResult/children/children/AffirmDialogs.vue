@@ -315,7 +315,8 @@ export default {
           transferAmt: this.transferAmt || 0,
           otherAmt: this.otherAmt || 0,
           diBillId: this.diBillId,
-          affirmFileCode: this.attachmentId
+          affirmFileCode: this.attachmentId,
+          dfrFileCode: this.attachmentId
         }
         this.addLoading = true
         HttpModule.updateYellow(param).then(res => {

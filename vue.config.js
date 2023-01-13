@@ -12,7 +12,7 @@ argv.remain.forEach((item) => {
 })
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production' ? 'error' : false,
-  publicPath: process.env.NODE_ENV === 'production' ? './' : './',
+  publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_CONF_PUBLIC_PATH || './') : (process.env.VUE_APP_CONF_PUBLIC_PATH || './'),
   chainWebpack: config => {
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')
@@ -57,7 +57,7 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-          symbolId: 'icon-[name]'
+        symbolId: 'icon-[name]'
       })
       .end()
   },
@@ -121,7 +121,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `@import "@/assets/css/global.scss";`
+        prependData: '@import "@/assets/css/global.scss";'
       }
     }
   }

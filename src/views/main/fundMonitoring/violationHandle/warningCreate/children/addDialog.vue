@@ -552,15 +552,16 @@ export default {
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
         this.createDataList.issueTime = moment().format('YYYY-MM-DD HH:mm:ss')
-        if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
-          this.createDataList.warnLevel = '3'
-        } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
-          this.createDataList.warnLevel = '2'
-        } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
-          this.createDataList.warnLevel = '1'
-        } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
-          this.createDataList.warnLevel = '4'
-        }
+        // if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
+        //   this.createDataList.warnLevel = '3'
+        // } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
+        //   this.createDataList.warnLevel = '2'
+        // } else if (this.createDataList.warnLevel === '<span style="color:red">红色预警</span>') {
+        //   this.createDataList.warnLevel = '1'
+        // } else if (this.createDataList.warnLevel === '<span style="color:blue">蓝色预警</span>') {
+        //   this.createDataList.warnLevel = '4'
+        // }
+        this.createDataList.warnLevel = this.createDataList.warnLevel.match(/>([^<]*)</)[1]
         this.status = this.detailData[0].status
         if (this.isDone === true) {
           this.handler3 = this.detailData[0].handler3
@@ -618,6 +619,15 @@ export default {
     // 生成下发
     async doIssue() {
       await this.$refs.createRef?.$refs?.form?.validate?.()
+      if (this.createDataList.warnLevel === '黄色预警') {
+        this.createDataList.warnLevel = 1
+      } else if (this.createDataList.warnLevel === '橙色预警') {
+        this.createDataList.warnLevel = 2
+      } else if (this.createDataList.warnLevel === '红色预警') {
+        this.createDataList.warnLevel = 3
+      } else if (this.createDataList.warnLevel === '蓝色预警') {
+        this.createDataList.warnLevel = 4
+      }
       let param = {
         agencyId: this.createDataList.agencyId,
         manageMofDepId: this.createDataList.manageMofDepId,

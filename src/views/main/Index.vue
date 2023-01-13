@@ -59,6 +59,7 @@
 <script>
 import MenuModule from '@/api/frame/common/menu.js'
 import GlobalSetting from '@/views/main/GlobalSetting'
+import { generateDefaultWaterPrint } from '@/hb/waterMark.js'
 export default {
   name: 'Main',
   components: {
@@ -514,6 +515,10 @@ export default {
       window.history.forward()
     })
     this.getMenus()
+    if (window.gloableToolFn.enableWaterMark) {
+      let { userInfo, loginData } = this.$store.state
+      generateDefaultWaterPrint(userInfo.code, loginData)
+    }
   },
   watch: {
     curMenuObj: {

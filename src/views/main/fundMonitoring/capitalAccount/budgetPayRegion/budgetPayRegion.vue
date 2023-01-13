@@ -402,7 +402,8 @@ export default {
         reportCode: type,
         isCz: isCz,
         mofDivCode: recDivCode,
-        fiscalYear: this.searchDataList.fiscalYear
+        fiscalYear: this.searchDataList.fiscalYear,
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.detailType = type
       this.detailQueryParam = params
@@ -434,6 +435,36 @@ export default {
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
@@ -441,7 +472,8 @@ export default {
         // reportCode: 'zyhdfzjzc_fdqzd',
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -522,6 +554,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getPro()
     this.queryTableDatas()
   }
 }

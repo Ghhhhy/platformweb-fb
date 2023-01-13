@@ -76,8 +76,14 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
     } else if (filePreviewService === tempUrl) {
       return url
     } else if (fileservice === tempUrl) {
+      if (process.env.VUE_APP_CONF_ISHB) {
+        return url.replace(
+          tempUrl,
+          window.gloableToolFn.serverGatewayMap.production[fileservice]
+        )
+      }
       // 附件使用openapi接口
-      return 'openapi/' + url
+      return (window.gloableToolFn.serverGatewayMap.gloableUrl.fileservicePrefix || 'openapi/') + url
     } else if (apaas1.indexOf(tempUrl) > -1) {
       serveUrl.splice(0, 1)
       url = serveUrl.join('/')
@@ -152,7 +158,7 @@ axios.interceptors.response.use(function(response) {
       let r = confirm('用户信息失效，请前往平台重新登录。点击确认返回首页')
       if (r) {
         localStorage.removeItem('__boss_cache__bsSxczyAccessToken')
-        window.location.href = document.referrer || '/'
+        window.location.href = window.gloableToolFn.serverGatewayMap?.gloableUrl?.portalLoginUrl || (document.referrer || '/')
       }
     }
     switch (response.data.code) {

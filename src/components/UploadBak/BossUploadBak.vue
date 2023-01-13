@@ -120,9 +120,9 @@ export default {
       type: Boolean,
       default: false
     },
-    // 文件大小 单位M
+    // 文件大小
     sizeNum: {
-      type: [Number, String],
+      type: Number,
       default: 10
     }
   },

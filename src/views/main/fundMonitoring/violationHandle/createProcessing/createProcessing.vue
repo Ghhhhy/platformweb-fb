@@ -32,6 +32,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -902,6 +903,13 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (['isReturn'].includes(column.property)) {
+        return {
+          color: '#fa0101'
+        }
+      }
     }
   },
   created() {

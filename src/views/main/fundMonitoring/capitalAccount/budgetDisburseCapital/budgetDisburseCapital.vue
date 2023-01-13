@@ -446,7 +446,8 @@ export default {
         isCz: isCz,
         proCode: trackProCode,
         mofDivCode: '',
-        fiscalYear: this.searchDataList.fiscalYear
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.detailQueryParam = params
       this.detailType = type
@@ -481,6 +482,36 @@ export default {
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
+    getMofDiv() {
+      HttpModule.getMofTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getTrees(val) {
+      let mofDivCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          mofDivCodes.push(item.split('-')[0])
+        })
+      }
+      return mofDivCodes
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
@@ -488,7 +519,8 @@ export default {
         // reportCode: 'zdzjzjzc_fzj',
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -528,6 +560,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getMofDiv()
     this.queryTableDatas()
   }
 }

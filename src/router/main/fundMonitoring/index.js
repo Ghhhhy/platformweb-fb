@@ -321,7 +321,13 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue')
+    component: () => {
+      if (process.env.VUE_APP_CONF_ISHB) {
+        return import('../../../hb/views/Benifit/BenifitPeople.vue')
+      } else {
+        return import('../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue')
+      }
+    }
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认
