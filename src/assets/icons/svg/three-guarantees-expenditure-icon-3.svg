@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="32px" viewBox="0 0 36 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.500600934" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.600000024">
+        <g id="三保支出监控总览2" transform="translate(-254.000000, -456.000000)" fill="url(#linearGradient-1)">
+            <g id="Clipped" transform="translate(48.000000, 403.000000)">
+                <g id="编组" transform="translate(-16.625000, 0.000000)">
+                    <g transform="translate(223.000000, 53.000000)" id="形状">
+                        <path d="M12.25,0 L22.75,0 L22.75,31.6285714 L12.25,31.6285714 L12.25,0 Z M35,8.78571429 L24.5,8.78571429 L24.5,31.6285714 L35,31.6285714 L35,8.78571429 Z M0,17.5714286 L10.5,17.5714286 L10.5,31.6285714 L0,31.6285714 L0,17.5714286 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

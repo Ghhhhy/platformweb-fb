@@ -1,5 +1,5 @@
 import { useBarChart } from '@/views/main/financial-portrayal/hooks/useBarChart'
-import { watch, unref } from '@vue/composition-api'
+import { watch, unref, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import * as echarts from 'echarts'
 
 export const useChart = (option, observeNode = null) => {
@@ -16,6 +16,14 @@ export const useChart = (option, observeNode = null) => {
   watch(option, () => {
     setOption?.(unref(option))
   }, { deep: true, immediate: true })
+
+  onMounted(() => {
+    window.addEventListener('resize', resize)
+  })
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', resize)
+  })
 
   return {
     chartId,

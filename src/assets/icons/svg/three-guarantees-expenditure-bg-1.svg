@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="276px" height="138px" viewBox="0 0 276 138" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Clipped</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="276" height="138"></rect>
+        <linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#5572FF" offset="0%"></stop>
+            <stop stop-color="#C877FA" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="100%" y2="0%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="三保支出监控总览2" transform="translate(-48.000000, -241.000000)">
+            <g id="Clipped" transform="translate(48.000000, 241.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="矩形"></g>
+                <g id="编组" mask="url(#mask-2)">
+                    <g transform="translate(-7.875000, 0.000000)">
+                        <rect id="矩形" fill="url(#linearGradient-3)" fill-rule="nonzero" x="8" y="0" width="276" height="138"></rect>
+                        <g id="编组" opacity="0.0500000007" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0.000000, 74.678572)">
+                            <path d="M0,29.0029604 C0,29.0029604 15.0472,8.20720107 53.06665,8.20720107 C91.08575,8.20720107 118.3735,29.0029604 144.171125,29.0029604 C169.967875,29.0029604 198.344125,-4.69561314 237.027,0.555648703 C275.709875,5.80690879 284.375,26.0791626 284.375,26.0791626 C284.375,26.0791626 284.375,59.7428569 284.375,59.7428569 C284.375,59.7428569 0,57.2879526 0,57.2879526 C0,57.2879526 0,29.0029604 0,29.0029604 C0,29.0029604 0,29.0029604 0,29.0029604 Z" id="路径" fill="url(#linearGradient-4)"></path>
+                        </g>
+                        <g id="编组" opacity="0.0500000007" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(4.375000, 80.828572)">
+                            <path d="M0,38.3445466 C0,38.3445466 32.9637875,7.15310835 63.9219,7.15310835 C94.87975,7.15310835 117.3375,17.274383 130.38025,18.8146944 C143.423,20.3550937 190.309875,21.0814087 216.031375,7.15310835 C241.752,-6.77521837 278.011125,3.24662835 284.004,7.15310835 C289.996,11.0596323 284.004,57.1071423 284.004,57.1071423 C284.004,57.1071423 0,54.004028 0,54.004028 C0,54.004028 0,38.3445466 0,38.3445466 C0,38.3445466 0,38.3445466 0,38.3445466 Z" id="路径" fill="url(#linearGradient-5)"></path>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(103.250000, 17.571429)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.75" cy="1.75714286" rx="1.75" ry="1.75714286"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(140.000000, 23.721429)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="2.625" cy="2.63571429" rx="2.625" ry="2.63571429"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(118.125000, 36.900000)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="0.875" cy="0.878571429" rx="1" ry="1"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(157.500000, 59.742857)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.3125" cy="1.31785714" rx="1.3125" ry="1.31785714"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(140.000000, 87.857143)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.3125" cy="1.31785714" rx="1.3125" ry="1.31785714"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(63.000000, 53.592857)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.3125" cy="1.31785714" rx="1.3125" ry="1.31785714"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(29.750000, 15.814286)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="2.1875" cy="2.19642857" rx="2.1875" ry="2.19642857"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.149999991" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(179.000000, 0.000000)">
+                            <path d="M0,0 C0,0 0,0 0,0 L101.5,0 C103.432997,0 105,1.76527727 105,3.94285714 L105,134.057143 C105,136.234723 103.432997,138 101.5,138 L0,138 C0,138 0,138 0,138 L0,0 Z" id="路径" fill="url(#linearGradient-6)" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

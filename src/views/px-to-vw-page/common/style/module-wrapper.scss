@@ -1,0 +1,26 @@
+.module-wrapper {
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.14);
+}
+
+.module-title {
+  padding: 16px 24px;
+  margin: 0;
+  font-family: PingFangSC-Medium;
+  font-weight: bold;
+  font-size: 16px;
+  color: #595959;
+  letter-spacing: 0;
+  line-height: 26px;
+}
+
+.title-position-container {
+  position: relative;
+  .module-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+  }
+}

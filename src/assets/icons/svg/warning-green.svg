@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>红灯</title>
+    <defs>
+        <filter x="-23.1%" y="-23.1%" width="146.2%" height="146.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="1" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <linearGradient x1="15.9519138%" y1="15.5387911%" x2="84.9792123%" y2="89.2139454%" id="linearGradient-2">
+            <stop stop-color="#57D272" offset="0%"></stop>
+            <stop stop-color="#47B45E" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="15.9519138%" y1="15.5448163%" x2="84.9792123%" y2="89.2070892%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#42A357" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-35.7%" y="-35.7%" width="171.4%" height="171.4%" filterUnits="objectBoundingBox" id="filter-4">
+            <feGaussianBlur stdDeviation="1" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <linearGradient x1="15.9519138%" y1="15.5448163%" x2="50%" y2="50%" id="linearGradient-5">
+            <stop stop-color="#225A11" offset="0%"></stop>
+            <stop stop-color="#374E38" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-35.7%" y="-35.7%" width="171.4%" height="171.4%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="1" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="红灯" transform="translate(2.000000, 2.000000)">
+            <rect id="矩形" fill="#FFFFFF" opacity="0" x="0" y="0" width="16" height="16"></rect>
+            <circle id="椭圆形" fill="#42A357" opacity="0.441987537" filter="url(#filter-1)" cx="8" cy="8" r="6.5"></circle>
+            <circle id="椭圆形备份-3" fill="url(#linearGradient-2)" cx="8" cy="8" r="6"></circle>
+            <path d="M8,3 C9.31501109,3 10.5114541,3.50765026 11.4040452,4.33766687 C10.8102219,4.11946656 10.1690624,4 9.5,4 C6.46243388,4 4,6.46243388 4,9.5 C4,10.1690624 4.11946656,10.8102219 4.33823162,11.4033104 C3.50765026,10.5114541 3,9.31501109 3,8 C3,5.23857625 5.23857625,3 8,3 Z" id="形状结合" fill="url(#linearGradient-3)" filter="url(#filter-4)"></path>
+            <path d="M10,5 C11.3150111,5 12.5114541,5.50765026 13.4040452,6.33766687 C12.8102219,6.11946656 12.1690624,6 11.5,6 C8.46243388,6 6,8.46243388 6,11.5 C6,12.1690624 6.11946656,12.8102219 6.33823162,13.4033104 C5.50765026,12.5114541 5,11.3150111 5,10 C5,7.23857625 7.23857625,5 10,5 Z" id="形状结合备份" fill="url(#linearGradient-5)" filter="url(#filter-6)" transform="translate(9.202023, 9.201655) scale(-1, -1) translate(-9.202023, -9.201655) "></path>
+        </g>
+    </g>
+</svg>

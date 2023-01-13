@@ -556,6 +556,24 @@ export default [
     },
     component: () => import('@/views/main/subjectAnalysis/index.vue')
   },
+  {
+    path: '/threeGuaranteesExpenditure',
+    name: 'ThreeGuaranteesExpenditure',
+    meta: {
+      title: '“三保”支出监控总览',
+      requireAuth: true
+    },
+    component: () => import('@/views/px-to-vw-page/threeGuaranteesExpenditure/index.vue')
+  },
+  {
+    path: '/threePublicExpenses',
+    name: 'ThreePublicExpenses',
+    meta: {
+      title: '“三公”经费监控总览',
+      requireAuth: true
+    },
+    component: () => import('@/views/px-to-vw-page/threePublicExpenses/index.vue')
+  },
   // 监控报告生成
   {
     path: '/MonitoeReportCreate',
