@@ -17,6 +17,7 @@
 import { defineComponent, ref } from '@vue/composition-api'
 import computedPx from '@/utils/computedPx'
 import { concernsByCapital } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
+import { formatterThousands } from '@/utils/thousands.js'
 
 export default defineComponent({
   setup() {
@@ -48,7 +49,10 @@ export default defineComponent({
         title: '预算数',
         width: `${computedPx(92)}px`,
         align: 'center',
-        headerAlign: 'center'
+        headerAlign: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'budgetProgress',
@@ -62,7 +66,10 @@ export default defineComponent({
         title: '执行数',
         width: `${computedPx(103)}px`,
         align: 'center',
-        headerAlign: 'center'
+        headerAlign: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'executionsProgress',

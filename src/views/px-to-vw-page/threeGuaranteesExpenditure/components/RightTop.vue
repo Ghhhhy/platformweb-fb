@@ -10,11 +10,11 @@
 import { defineComponent } from '@vue/composition-api'
 import { useChart } from '@/hooks/useChart'
 import { useRightTop } from '../../common/hooks/useRightTop'
+import { RegulationClassEnum } from '@/views/px-to-vw-page/common/model/enum.js'
 
-import { monitoringBySubject } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
 export default defineComponent({
   setup() {
-    const { chartOption } = useRightTop(monitoringBySubject)
+    const { chartOption } = useRightTop(RegulationClassEnum.THREE_GUARANTEES_EXPENDITURE)
     const { chartId } = useChart(chartOption)
     return {
       chartId

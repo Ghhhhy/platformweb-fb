@@ -24,7 +24,7 @@
         :key="item.icon"
         class="tfoot-legend-item"
       >
-        <svg-icon :name="item.icon" size="14" />
+        <svg-icon :name="item.icon" class-name="tfoot-legend-icon" size="14" />
         <span class="tfoot-legend-item-name">{{ item.name }}</span>
       </span>
     </div>
@@ -35,6 +35,7 @@
 import { computed, defineComponent, ref, unref } from '@vue/composition-api'
 import computedPx from '@/utils/computedPx'
 import { comparison } from '@/api/frame/main/threePublicExpenses/index.js'
+import { formatterThousands } from '@/utils/thousands.js'
 
 // 图标枚举
 const ChartIconNameEnum = {
@@ -60,28 +61,40 @@ export default defineComponent({
         title: '决算数',
         width: `${computedPx(66)}px`,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'organizationAmount',
         title: '预算编制数',
         width: `${computedPx(100)}px`,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'budgetAmount',
         title: '调整预算数',
         width: `${computedPx(100)}px`,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'executionsAmount',
         title: '执行数',
         width: `${computedPx(80)}px`,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'executionsDivideFinalAccounts',
@@ -168,7 +181,6 @@ export default defineComponent({
       }
     ]
 
-    console.log(legend)
     return {
       columns,
       tableData,
@@ -197,5 +209,10 @@ export default defineComponent({
       margin-left: 8px;
     }
   }
+}
+
+.tfoot-legend-icon {
+  font-size: 14px;
+  margin-right: 8px;
 }
 </style>

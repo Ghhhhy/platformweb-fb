@@ -6,7 +6,7 @@
         :value.sync="selectValue"
         :option="selectOption"
         size="small"
-        class="custom-select"
+        class="custom-select type-select-wrapper"
       />
     </div>
     <div :id="chartId" class="chart-container">
@@ -63,5 +63,25 @@ export default defineComponent({
     width: 100%;
     height: 100%;
   }
+}
+
+.type-select-wrapper {
+
+  /deep/.el-input--small {
+    font-size: 13px;
+
+    .el-input__inner {
+      height: 32px;
+      line-height: 1;
+      font-size: 13px;
+    }
+  }
+  /deep/.el-select__caret {
+    line-height: 1;
+  }
+}
+
+.el-select-dropdown {
+  font-size: 13px;
 }
 </style>

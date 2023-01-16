@@ -1,5 +1,5 @@
 <template>
-  <div class="module-wrapper module-left-center">
+  <div class="module-wrapper module-left-bottom">
     <p class="module-title">“三保”分类关注-分类别</p>
     <vxe-grid
       :columns="columns"
@@ -27,6 +27,7 @@ import { concernsByType } from '@/api/frame/main/threeGuaranteesExpenditure/inde
 import WarningType from '../../common/components/WarningType'
 import { WarnTypeEnum } from '../../common/model/enum'
 import computedPx from '@/utils/computedPx'
+import { formatterThousands } from '@/utils/thousands.js'
 
 export default defineComponent({
   components: { WarningType },
@@ -44,14 +45,20 @@ export default defineComponent({
         title: '预算数',
         width: `${computedPx(90)}px`,
         align: 'left',
-        headerAlign: 'center'
+        headerAlign: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'executionsAmount',
         title: '执行数',
         width: `${computedPx(98)}px`,
         headerAlign: 'center',
-        align: 'left'
+        align: 'left',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'executionsBudget',
@@ -68,7 +75,10 @@ export default defineComponent({
         title: '核算数',
         width: `${computedPx(100)}px`,
         headerAlign: 'center',
-        align: 'center'
+        align: 'center',
+        formatter: ({ cellValue }) => {
+          return formatterThousands(cellValue)
+        }
       },
       {
         field: 'accountingBudget',
@@ -115,14 +125,8 @@ export default defineComponent({
 @import "../../common/style/module-wrapper";
 @import "../../common/style/vxe-table-style";
 
-.module-left-center {
+.module-left-bottom {
   width: 100%;
   height: 212px;
-  margin: 16px 0;
-}
-
-tbody {
-  max-height: 120px;
-  overflow-y: auto;
 }
 </style>

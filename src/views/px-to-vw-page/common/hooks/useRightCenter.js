@@ -24,7 +24,7 @@ export const useRightCenter = (regulationClass) => {
       splitLine: { show: false },
       data: [],
       axisLabel: {
-        rotate: 30
+        rotate: 0
       }
     },
     tooltip: {
@@ -32,7 +32,7 @@ export const useRightCenter = (regulationClass) => {
     },
     legend: {
       right: computedPx(22),
-      top: computedPx(16),
+      top: computedPx(10),
       selectedMode: true,
       icon: 'roundRect'
     },
@@ -55,6 +55,8 @@ export const useRightCenter = (regulationClass) => {
     const { data } = await monitoringByMof({ regulationClass })
     const xAxisData = []
     const serieData = [[], [], []]
+    chartOption.value.xAxis.axisLabel.rotate = data.length > 6 ? 30 : 0
+
     data?.forEach(item => {
       xAxisData.push(item.mofDivName)
       serieData[0].push({

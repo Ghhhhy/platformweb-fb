@@ -36,7 +36,7 @@ export const useCenterBottom = (selectValue) => {
     xAxis: {
       splitLine: { show: true },
       axisLabel: {
-        rotate: unref(selectValue) === SelectEnum.BY_MONTH ? 0 : 30
+        rotate: 0
       },
       data: []
     },
@@ -49,7 +49,7 @@ export const useCenterBottom = (selectValue) => {
     legend: {
       show: false,
       right: computedPx(24),
-      top: computedPx(16),
+      top: computedPx(10),
       icon: 'roundRect'
     },
     series: [
@@ -73,10 +73,9 @@ export const useCenterBottom = (selectValue) => {
    * @returns {Promise<void>}
    */
   const updateSeries = async () => {
-    chartOption.value.xAxis.axisLabel.rotate = unref(selectValue) === SelectEnum.BY_MONTH ? 0 : 30
-
     const { data } = await expenditure({ expenditureType: unref(selectValue) })
     const [xAxisData, numberSeriseData] = [[], []]
+    chartOption.value.xAxis.axisLabel.rotate = unref(selectValue) === SelectEnum.BY_MOF_DIV && data?.length > 6 ? 30 : 0
 
     data?.forEach(item => {
       const name = unref(selectValue) === SelectEnum.BY_MOF_DIV ? item.mofDivName : item.month
