@@ -4,10 +4,12 @@
     <vxe-grid
       :columns="columns"
       :data="tableData"
-      :height="computedPx(120)"
+      :height="tableHeight"
       show-overflow="tooltip"
       show-header-overflow="tooltip"
       border="full"
+      auto-resize
+      sync-resize
       class="chart-table"
     >
       <template
@@ -36,6 +38,7 @@ import { computed, defineComponent, ref, unref } from '@vue/composition-api'
 import computedPx from '@/utils/computedPx'
 import { comparison } from '@/api/frame/main/threePublicExpenses/index.js'
 import { formatterThousands } from '@/utils/thousands.js'
+import { useTableHeight } from '../../common/hooks/useTableHeight'
 
 // 图标枚举
 const ChartIconNameEnum = {
@@ -181,10 +184,12 @@ export default defineComponent({
       }
     ]
 
+    const { tableHeight } = useTableHeight(120)
+
     return {
       columns,
       tableData,
-      computedPx,
+      tableHeight,
       legend,
       computedSlots
     }

@@ -4,7 +4,9 @@
     <vxe-grid
       :columns="columns"
       :data="tableData"
-      :height="computedPx(200)"
+      :height="tableHeight"
+      auto-resize
+      sync-resize
       show-overflow="tooltip"
       show-header-overflow="tooltip"
       border="full"
@@ -18,6 +20,7 @@ import { defineComponent, ref } from '@vue/composition-api'
 import computedPx from '@/utils/computedPx'
 import { concernsByCapital } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
 import { formatterThousands } from '@/utils/thousands.js'
+import { useTableHeight } from '../../common/hooks/useTableHeight'
 
 export default defineComponent({
   setup() {
@@ -93,10 +96,11 @@ export default defineComponent({
     }
     getTableData()
 
+    const { tableHeight } = useTableHeight(200)
     return {
       columns,
       tableData,
-      computedPx
+      tableHeight
     }
   }
 })

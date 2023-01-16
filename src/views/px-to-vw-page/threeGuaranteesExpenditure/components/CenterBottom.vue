@@ -4,10 +4,12 @@
     <vxe-grid
       :columns="columns"
       :data="tableData"
-      :height="computedPx(268)"
+      :height="tableHeight"
       show-overflow="tooltip"
       show-header-overflow="tooltip"
       border="full"
+      auto-resize
+      sync-resize
       class="chart-table"
     >
       <template #warnStatusSlot="{ row, column }">
@@ -25,6 +27,7 @@ import computedPx from '@/utils/computedPx'
 import { formatterThousands } from '@/utils/thousands.js'
 import { WarnTypeEnum } from '../../common/model/enum'
 import { treasuryComparison } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
+import { useTableHeight } from '../../common/hooks/useTableHeight'
 
 export default defineComponent({
   components: { WarningType },
@@ -82,10 +85,12 @@ export default defineComponent({
     }
     getTableData()
 
+    const { tableHeight } = useTableHeight(268)
+
     return {
       columns,
       tableData,
-      computedPx,
+      tableHeight,
       WarnTypeEnum
     }
   }

@@ -4,7 +4,9 @@
     <vxe-grid
       :columns="columns"
       :data="tableData"
-      :height="computedPx(224)"
+      :height="tableHeight"
+      auto-resize
+      sync-resize
       :cell-class-name="cellClassName"
       show-overflow="tooltip"
       show-header-overflow="tooltip"
@@ -20,6 +22,7 @@ import computedPx from '@/utils/computedPx'
 import { formatterThousands } from '@/utils/thousands.js'
 
 import { comparison } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
+import { useTableHeight } from '../../common/hooks/useTableHeight'
 
 export default defineComponent({
   setup() {
@@ -131,10 +134,12 @@ export default defineComponent({
     }
     getTableData()
 
+    const { tableHeight } = useTableHeight(224)
+
     return {
       columns,
       tableData,
-      computedPx,
+      tableHeight,
       cellClassName
     }
   }
