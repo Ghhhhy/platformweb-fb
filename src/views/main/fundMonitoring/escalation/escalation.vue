@@ -448,6 +448,7 @@ export default {
         // 上报
         case 'confirm_escalation':
           let isqr = true
+          let isScw = true
           if (datas.length === 0) {
             this.$message.info('请选择数据！')
             return
@@ -456,9 +457,16 @@ export default {
             if (item.confirmStatus === '0') {
               isqr = false
             }
+            if (item.generateStatus === '0') {
+              isScw = false
+            }
           })
           if (!isqr) {
             this.$message.info('请选择已确认的数据！')
+            return
+          }
+          if (!isScw) {
+            this.$message.info('请选择生成完成的数据！')
             return
           }
           this.confirmEscalation(datas)
