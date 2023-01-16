@@ -73,7 +73,7 @@ export default defineComponent({
 
   .shanxi-map {
     width: 592px;
-    height: 563px;
+    height: 561px;
     box-sizing: border-box;
   }
 

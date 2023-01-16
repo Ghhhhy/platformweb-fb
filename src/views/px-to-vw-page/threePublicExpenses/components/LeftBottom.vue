@@ -27,7 +27,7 @@ export default defineComponent({
 @import "../../common/style/module-wrapper";
 .left-bottom {
   width: 100%;
-  height: 388px;
+  height: 396px;
   background: #fff;
 
   /deep/.el-empty__image {

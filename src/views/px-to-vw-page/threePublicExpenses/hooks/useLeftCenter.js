@@ -61,7 +61,7 @@ export const useLeftCenter = () => {
     },
     legend: {
       right: computedPx(22),
-      top: computedPx(16),
+      top: computedPx(10),
       selectedMode: true,
       icon: 'roundRect'
     },

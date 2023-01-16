@@ -3,14 +3,16 @@
     <p class="module-title">“三公”整体情况</p>
     <div class="module-detail-wrapper">
       <div
-        v-for="(item, index) in data"
+        v-for="(item, index) in dataSource"
         :key="index"
         class="item-detail"
       >
-        <span class="item-detail-label">{{ item.name }}</span>
-        <div class="item-detail-value-wrapper">
-          <span class="item-detail-value">{{ item.value }}</span>
-          <span class="item-detail-unit">万元</span>
+        <div class="item-detail-content">
+          <span class="item-detail-label">{{ item.name }}</span>
+          <div class="item-detail-value-wrapper">
+            <span class="item-detail-value">{{ item.value }}</span>
+            <span class="item-detail-unit">万元</span>
+          </div>
         </div>
         <svg-icon :name="item.icon" class-name="item-detail-icon" />
       </div>
@@ -22,14 +24,15 @@
 import { defineComponent, ref } from '@vue/composition-api'
 import { formatterThousands } from '@/utils/thousands.js'
 import { overallSituation } from '@/api/frame/main/threePublicExpenses/index.js'
+import { getUnit } from '../../common/utils'
 
 const iconPrefix = 'three-public-expenses-left-top-'
 export default defineComponent({
   setup() {
-    const data = ref([
-      { name: '年初预算数', value: 0, field: 'beginningBudgetAmount', icon: `${iconPrefix}1` },
-      { name: '调整预算数', value: 0, field: 'adjustedBudgetAmount', icon: `${iconPrefix}2` },
-      { name: '执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}3` }
+    const dataSource = ref([
+      { name: '年初预算数', value: 0, field: 'beginningBudgetAmount', icon: `${iconPrefix}1`, unit: '元' },
+      { name: '调整预算数', value: 0, field: 'adjustedBudgetAmount', icon: `${iconPrefix}2`, unit: '元' },
+      { name: '执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}3`, unit: '元' }
     ])
 
     /**
@@ -37,14 +40,15 @@ export default defineComponent({
      */
     async function overallSituationRequest() {
       const { data } = await overallSituation()
-      data.value.forEach(item => {
+      dataSource.value.forEach(item => {
+        item.unit = getUnit(data[item.field])
         item.value = data[item.field] ? formatterThousands(data[item.field]) : 0
       })
     }
     overallSituationRequest()
 
     return {
-      data
+      dataSource
     }
   }
 })
@@ -53,7 +57,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "../../common/style/module-wrapper";
 .module-left-top {
+  height: 168px;
   padding: 16px 24px;
+  box-sizing: border-box;
 
   .module-title {
     padding: 0;
@@ -66,17 +72,23 @@ export default defineComponent({
 
     .item-detail {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+
       width: 180px;
-      min-height: 96px;
+      height: 96px;
       padding: 18px 16px;
       margin-top: 14px;
       border-radius: 2px;
       box-sizing: border-box;
       box-shadow: 0 0 10px 0 rgba(0,0,0,0.14);
       overflow: hidden;
+
+      .item-detail-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 2;
+      }
 
       &-label {
         margin-bottom: 8px;
@@ -89,6 +101,7 @@ export default defineComponent({
       &-unit{
         font-size: 28px;
         color: #000000;
+        line-height: 1;
       }
 
       &-value {

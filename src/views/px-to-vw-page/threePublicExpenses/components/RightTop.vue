@@ -10,12 +10,11 @@
 import { defineComponent } from '@vue/composition-api'
 import { useChart } from '@/hooks/useChart'
 import { useRightTop } from '../../common/hooks/useRightTop'
-
-import { monitoringBySubject } from '@/api/frame/main/threePublicExpenses/index.js'
+import { RegulationClassEnum } from '@/views/px-to-vw-page/common/model/enum.js'
 
 export default defineComponent({
   setup() {
-    const { chartOption } = useRightTop(monitoringBySubject)
+    const { chartOption } = useRightTop(RegulationClassEnum.THREE_PUBLIC_EXPENSES)
     const { chartId } = useChart(chartOption)
     return {
       chartId

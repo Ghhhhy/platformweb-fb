@@ -4,7 +4,7 @@ import {
   getTooltipFormatter
 } from '@/views/main/financial-portrayal/model/getEchartsConfig'
 import { getColor } from '@/hooks/useChart/getChartConfig'
-import computedPx from '../../../../utils/computedPx'
+import computedPx from '@/utils/computedPx'
 // import { queryAnalysisByWarnLevel } from '@/api/frame/main/subjectAnalysis'
 
 export const useRightTop = () => {
@@ -32,7 +32,7 @@ export const useRightTop = () => {
     },
     legend: {
       right: computedPx(22),
-      top: computedPx(16),
+      top: computedPx(10),
       selectedMode: true,
       icon: 'roundRect'
     },

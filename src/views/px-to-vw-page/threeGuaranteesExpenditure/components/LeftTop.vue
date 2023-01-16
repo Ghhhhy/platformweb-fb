@@ -3,7 +3,7 @@
     <p class="module-title">“三保”整体情况</p>
     <div class="module-detail-wrapper">
       <div
-        v-for="(item, index) in data"
+        v-for="(item, index) in dataSource"
         :key="index"
         class="item-detail"
       >
@@ -11,7 +11,7 @@
           <span class="item-detail-label">{{ item.name }}</span>
           <div class="item-detail-value-wrapper">
             <span class="item-detail-value">{{ formatterThousands(item.value) }}</span>
-            <span class="item-detail-unit">万元</span>
+            <span class="item-detail-unit">{{ item.unit }}</span>
           </div>
         </div>
         <svg-icon :name="item.icon" class-name="item-detail-icon" />
@@ -25,15 +25,16 @@
 import { defineComponent, ref } from '@vue/composition-api'
 import { formatterThousands } from '@/utils/thousands.js'
 import { overallSituation } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
+import { getUnit } from '../../common/utils'
 
 const iconPrefix = 'three-guarantees-expenditure-'
 export default defineComponent({
   setup() {
-    const data = ref([
-      { name: '预算数', value: 0, field: 'budgetAmount', icon: `${iconPrefix}icon-1`, bg: `${iconPrefix}bg-1` },
-      { name: '可执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}icon-2`, bg: `${iconPrefix}bg-2` },
-      { name: '执行数', value: 0, field: 'executableAmount', icon: `${iconPrefix}icon-3`, bg: `${iconPrefix}bg-3` },
-      { name: '核算数', value: 0, field: 'accountingAmount', icon: `${iconPrefix}icon-4`, bg: `${iconPrefix}bg-4` }
+    const dataSource = ref([
+      { name: '预算数', value: 0, field: 'budgetAmount', icon: `${iconPrefix}icon-1`, bg: `${iconPrefix}bg-1`, unit: '元' },
+      { name: '可执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}icon-2`, bg: `${iconPrefix}bg-2`, unit: '元' },
+      { name: '执行数', value: 0, field: 'executableAmount', icon: `${iconPrefix}icon-3`, bg: `${iconPrefix}bg-3`, unit: '元' },
+      { name: '核算数', value: 0, field: 'accountingAmount', icon: `${iconPrefix}icon-4`, bg: `${iconPrefix}bg-4`, unit: '元' }
     ])
 
     /**
@@ -41,14 +42,15 @@ export default defineComponent({
      */
     async function overallSituationRequest() {
       const { data } = await overallSituation()
-      data.value.forEach(item => {
+      dataSource.value.forEach(item => {
+        item.unit = getUnit(data[item.field])
         item.value = data[item.field] ? formatterThousands(data[item.field]) : 0
       })
     }
     overallSituationRequest()
     return {
       formatterThousands,
-      data
+      dataSource
     }
   }
 })
@@ -57,7 +59,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "../../common/style/module-wrapper";
 .module-left-top {
+  height: 402px;
   padding: 16px 24px 24px;
+  box-sizing: border-box;
 
   .module-title {
     padding: 0;

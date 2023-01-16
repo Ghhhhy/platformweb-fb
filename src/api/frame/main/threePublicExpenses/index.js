@@ -36,16 +36,16 @@ export const businessStatistics = (params) => {
  * 三公-支出情况
  * @return {*}
  */
-export const expenditure = () => {
-  return post('lmp/thrExpReport/expenditure')
+export const expenditure = (params) => {
+  return post('lmp/thrExpReport/expenditure', params)
 }
 
 /**
  * 三公-监控情况-按科目
  * @return {*}
  */
-export const monitoringBySubject = () => {
-  return post('lmp/thrExpReport/monitoringBySubject')
+export const monitoringBySubject = (params) => {
+  return post('lmp/thrExpReport/monitoringBySubject', params)
 }
 
 /**

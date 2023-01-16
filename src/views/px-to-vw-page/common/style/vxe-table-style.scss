@@ -1,6 +1,7 @@
 $table-head-bg: rgba(42,139,253,0.20);
 
 .chart-table {
+  font-size: 14px;
   /deep/.vxe-table--header-wrapper {
     background: $table-head-bg;
   }

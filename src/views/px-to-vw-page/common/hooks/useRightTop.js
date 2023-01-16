@@ -6,8 +6,9 @@ import {
 } from '@/views/main/financial-portrayal/model/getEchartsConfig'
 import { getColor } from '@/hooks/useChart/getChartConfig'
 import computedPx from '@/utils/computedPx'
+import { monitoringBySubject } from '@/api/frame/main/threePublicExpenses/index.js'
 
-export const useRightTop = (fetch) => {
+export const useRightTop = (regulationClass) => {
   // serise列表
   const serisesList = [
     { name: '预警数', color: getColor('blue') },
@@ -56,7 +57,7 @@ export const useRightTop = (fetch) => {
     },
     legend: {
       right: computedPx(22),
-      top: computedPx(16),
+      top: computedPx(10),
       selectedMode: true,
       icon: 'roundRect'
     },
@@ -81,9 +82,7 @@ export const useRightTop = (fetch) => {
    * @returns {Promise<void>}
    */
   const updateSeries = async () => {
-    if (!fetch && typeof fetch !== 'function') return
-
-    const { data } = await fetch()
+    const { data } = await monitoringBySubject({ regulationClass })
     const xAxisData = []
     const serieData = [[], [], []]
     data?.forEach(item => {

@@ -56,7 +56,7 @@ export default defineComponent({
 .three-guarantees-expenditure-overview {
   width: 100%;
   min-height: 100%;
-  padding: 0 24px;
+  padding: 0 24px 16px;
   box-sizing: border-box;
 
   .three-guarantees-expenditure-header {
