@@ -126,9 +126,18 @@ export default defineComponent({
      * 初始化swiper
      */
     const initSwiper = () => {
+      destroySwiper()
       nextTick(() => {
         swiperInstance = new Swiper('.rule-swiper-container', swiperOption)
       })
+    }
+
+    /**
+     * 销毁swiper
+     * */
+    const destroySwiper = () => {
+      swiperInstance && swiperInstance?.destroy?.()
+      swiperInstance = null
     }
 
     /**
@@ -175,14 +184,22 @@ export default defineComponent({
       updateSwiper()
     }, { deep: true })
 
+    /**
+     * 动态计算高度，重新初始化
+     */
+    const resizeHandle = () => {
+      swiperOption.height = computedPx(320)
+      initSwiper()
+    }
+
     onMounted(() => {
       getLatestDataHandle()
-      swiperInstance && window.addEventListener('resize', swiperInstance.updateSize)
+      window.addEventListener('resize', resizeHandle)
     })
 
     onBeforeUnmount(() => {
       timer && clearInterval(timer)
-      swiperInstance && window.removeEventListener('resize', swiperInstance.updateSize)
+      window.removeEventListener('resize', resizeHandle)
     })
 
     return {
