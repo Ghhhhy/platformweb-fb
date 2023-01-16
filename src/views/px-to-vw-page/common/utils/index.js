@@ -1,4 +1,4 @@
-import { formatterThousands } from '@/utils/thousands.js'
+import { commafy } from 'xe-utils'
 /**
  * 获取单位
  * @param {number} money
@@ -30,7 +30,7 @@ export const getUnit = (money) => {
     if (money >= min && money < max) {
       return {
         unitText,
-        value: formatterThousands(money / (min || 1))
+        value: commafy(money / (min || 1), { digits: 2 })
       }
     }
   }

@@ -29,9 +29,9 @@ const iconPrefix = 'three-public-expenses-left-top-'
 export default defineComponent({
   setup() {
     const dataSource = ref([
-      { name: '年初预算数', value: 0, field: 'beginningBudgetAmount', icon: `${iconPrefix}1`, unit: '元' },
-      { name: '调整预算数', value: 0, field: 'adjustedBudgetAmount', icon: `${iconPrefix}2`, unit: '元' },
-      { name: '执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}3`, unit: '元' }
+      { name: '年初预算数', value: 988787222.12, field: 'beginningBudgetAmount', icon: `${iconPrefix}1`, unit: '元' },
+      { name: '调整预算数', value: 3618923.98, field: 'adjustedBudgetAmount', icon: `${iconPrefix}2`, unit: '元' },
+      { name: '执行数', value: 1233.09, field: 'executionsAmount', icon: `${iconPrefix}3`, unit: '元' }
     ])
 
     /**
