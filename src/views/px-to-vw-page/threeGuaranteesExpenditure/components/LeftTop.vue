@@ -10,7 +10,7 @@
         <div class="item-detail-content">
           <span class="item-detail-label">{{ item.name }}</span>
           <div class="item-detail-value-wrapper">
-            <span class="item-detail-value">{{ formatterThousands(item.value) }}</span>
+            <span class="item-detail-value">{{ item.value }}</span>
             <span class="item-detail-unit">{{ item.unit }}</span>
           </div>
         </div>
@@ -23,7 +23,6 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
-import { formatterThousands } from '@/utils/thousands.js'
 import { overallSituation } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
 import { getUnit } from '../../common/utils'
 
@@ -43,13 +42,13 @@ export default defineComponent({
     async function overallSituationRequest() {
       const { data } = await overallSituation()
       dataSource.value.forEach(item => {
-        item.unit = getUnit(data[item.field])
-        item.value = data[item.field] ? formatterThousands(data[item.field]) : 0
+        const { unitText, value } = getUnit(data[item.field])
+        item.unit = unitText
+        item.value = value || 0
       })
     }
     overallSituationRequest()
     return {
-      formatterThousands,
       dataSource
     }
   }

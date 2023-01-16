@@ -1,7 +1,8 @@
+import { formatterThousands } from '@/utils/thousands.js'
 /**
  * 获取单位
  * @param {number} money
- * @return {string|string}
+ * @return {{value: number, unitText: string}|{value: number, unitText: (string)}}
  */
 export const getUnit = (money) => {
   const moneyOption = [
@@ -22,10 +23,15 @@ export const getUnit = (money) => {
     }
   ]
 
-  if (!money) return '元'
+  if (!money) return { unitText: '元', value: 0 }
 
   for (let item of moneyOption) {
     const { max, min, unitText } = item
-    if (money >= min && money < max) return unitText
+    if (money >= min && money < max) {
+      return {
+        unitText,
+        value: formatterThousands(money / (min || 1))
+      }
+    }
   }
 }
