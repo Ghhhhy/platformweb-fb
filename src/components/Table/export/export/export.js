@@ -12,7 +12,9 @@ import { defaultViewValueFormat, defaultViewValueFormatType, getCellValueAlign, 
 import XlsxTool from 'xlsx'
 import FileSaver from 'file-saver'
 export class Export {
-  constructor(gloabelConfig = {}) {
+  constructor(gloabelConfig = {}, tableComponentInstance) {
+    // 当前表格组件实例
+    this.tableComponentInstance = tableComponentInstance
     // 导出时对金额涉及到单位的需要加对应的单位
     this.moneyUnit = gloabelConfig.unit || '元'
 
@@ -331,7 +333,9 @@ export class Export {
     let self = this
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetVisibleData.addRow()
-      row.seqIndex = pRowIndex === undefined ? rowIndex + 1 : pRowIndex + '.' + (+rowIndex + 1)
+
+      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : self.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
+
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
         self.generateCellViewValue(cell, row, column, rowIndex + 1, pRowIndex)
@@ -353,7 +357,7 @@ export class Export {
   generateCellViewValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = pRowIndex !== undefined ? pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = this.getViewCellValue(item, column)
       // cell.cellType = this.getViewCellValueType(item, column)
@@ -470,7 +474,7 @@ export class Export {
     let self = this
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetOriginalData.addRow()
-      row.seqIndex = pRowIndex === undefined ? rowIndex + 1 : pRowIndex + '.' + (+rowIndex + 1)
+      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : this.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
         self.generateCellOrangeValue(cell, row, column, rowIndex + 1, pRowIndex)
@@ -483,7 +487,7 @@ export class Export {
   generateCellOrangeValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = pRowIndex !== undefined ? pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = item[column.field] === undefined ? '' : item[column.field]
     }

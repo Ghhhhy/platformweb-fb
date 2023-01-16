@@ -9,6 +9,9 @@ import evalCalcUtil from '../../tool/eval/index.js'
 import { getColumnMoneyFilterConfig } from '../tool/tableColumnMoneyFilter'
 import XEUtils from 'xe-utils'
 
+// 唯一行id属性名称
+const rowUuidKeyName = '__BOSS_UUID'
+
 const sortMethods = {
   arrSortGloabal(data, property, type, order = 'asc') {
     // 通用 排序
@@ -589,6 +592,14 @@ const initMethods = {
     this.initCalculateConstraintConfig()
     this.selection = []
     data = Array.isArray(data || this.tableData) ? (data || this.tableData) : []
+
+    // 为树形数据设置唯一属性
+    if (self.treeConfig && self.isTreeSeqToFlat) {
+      XEUtils.eachTree(data, item => {
+        Reflect.set(item, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
+      })
+    }
+
     return new Promise((resolve, reject) => {
       this.rePerformAllCalcAndConstraintByData(self.unidirectionalData ? self.deepCopy(data) : data, true).then(({ dataCodeRowMap, dataCodeRowArr, afterCalcData }) => {
         self.tableDataMap = dataCodeRowMap
@@ -621,13 +632,29 @@ const initMethods = {
   initSeqConfig(startIndex = 0) {
     // 初始化序号配置项
     let self = this
+
     this.seqConfig = {
       startIndex: 1, // 设置序号的起始值 number0
-      seqMethod({ row, $rowIndex, rowIndex, column, columnIndex, seq, $seq }) {
+      seqMethod(data) {
+        const { seq, $seq, row } = data
+
         if (self.pagerConfigIn && !self.treeConfig) {
           return (self.pagerConfigIn.pageSize > 0 ? self.pagerConfigIn.pageSize : 20) * ((self.pagerConfigIn.currentPage > 0 ? self.pagerConfigIn.currentPage : 1) - 1) + seq
         } else {
-          return $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          let finalSeq = $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          if (self.isTreeSeqToFlat) {
+            const arr = XEUtils.toTreeArray(self.getTableData().treeExpandData)
+            const index = arr.findIndex(item => item[rowUuidKeyName] === row[rowUuidKeyName])
+            // 根据第一行是否是合计行判断
+            if (arr[0]?.id === '#') {
+              finalSeq = row.id === '#' ? '#' : index
+            } else {
+              finalSeq = index + 1
+            }
+          }
+
+          // return $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          return finalSeq
         }
       }
     }
@@ -3268,10 +3295,23 @@ const exportAndImportFn = {
       this.$XEUtils.clone(fullData, true),
       this.$XEUtils.clone(treeExpandData, true)
     ]
+    const fullDataTreeArr = XEUtils.toTreeArray(computedFullData)
+    const treeExpandDataTreeArr = XEUtils.toTreeArray(computedExpandData)
+
     this.$XEUtils.eachTree(computedFullData, item => {
+      if (self.isTreeSeqToFlat) {
+        const findIndex = fullDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
+        item.seqIndex = fullDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
+      }
+
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })
+
     this.$XEUtils.eachTree(computedExpandData, item => {
+      if (self.isTreeSeqToFlat) {
+        const findIndex = treeExpandDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
+        item.seqIndex = treeExpandDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
+      }
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })
 

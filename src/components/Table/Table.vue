@@ -310,7 +310,7 @@ export default {
   mounted() {
     const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
     this.$Import = new Import()
-    this.$Export = new Export({ unit: unitLabel || '元' })
+    this.$Export = new Export({ unit: unitLabel || '元' }, this)
     this.initMounted()
     this.$emit('register', this.$refs.xGrid || this)
   },

@@ -1,6 +1,11 @@
 // props   Author:Titans@2396757591@qq.com
 // import { tableFormConfig, tableConfig, columns, tableData, toolbarConfig } from '../config/config'
 export default {
+  // 树形表格序号扁平化：[1, 2, 2.1, 2.11] => [1, 2, 3, 4]
+  isTreeSeqToFlat: {
+    type: Boolean,
+    default: true
+  },
   unidirectionalData: { // 是否单向数据，不拷贝数据
     type: Boolean,
     default: true

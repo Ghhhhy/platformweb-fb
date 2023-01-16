@@ -28,7 +28,6 @@ export default defineComponent({
   setup() {
     const columns = ref([
       {
-        field: 'year',
         title: '',
         align: 'center',
         children: [
