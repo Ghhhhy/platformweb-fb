@@ -154,6 +154,7 @@ export default defineComponent({
       const { data = {} } = await comparison()
       tableData.value = unref(tableData).map(row => {
         return {
+          year: row.year,
           ...unref(columns).reduce(
             (obj, column) => {
               if (data && !Reflect.has(data, `${column.field}${row.fieldSuffix}`)) return obj
