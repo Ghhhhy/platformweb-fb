@@ -10,6 +10,7 @@
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
+          :is-hide-query="true"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
@@ -80,7 +81,7 @@ export default {
       breakRuleVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
-        changeBtns: true,
+        changeBtns: false,
         buttons: proconf.toolBarStatusButtons,
         curButton: {
           type: 'button',
