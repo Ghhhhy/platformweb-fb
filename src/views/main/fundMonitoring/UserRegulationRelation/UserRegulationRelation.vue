@@ -26,12 +26,19 @@
             /> -->
           </div>
           <div class="tree">
-            <BsTree
+            <BsBossTree
               ref="stampTree"
               v-loading="showLoadingRight"
-              :tree-data="stampTreeData"
-              :config="{ multiple: true, treeProps: { nodeKey: 'regulationCode', label: 'label' } }"
-              @onNodeCheckClick="nodecheckmethod"
+              :visible="true"
+              :datas="stampTreeData"
+              empty-text="暂无数据"
+              :is-need-root="false"
+              :is-checkbox="true"
+              :defaultexpandedkeys="['0']"
+              :is-show-input="true"
+              :open-loading="true"
+              treeid="regulationCode"
+              :nodecheckmethod="nodecheckmethod"
             />
           </div>
         </div>
@@ -77,7 +84,7 @@ export default {
     treeNodeClick(obj) {
       this.userSelect = obj
       const param = {
-        userId: obj.guid
+        userId: obj.id
       }
       HttpModule.queryByUserId(param).then(res => {
         let array = []
@@ -85,10 +92,9 @@ export default {
           array.push(item.regulationCode)
         })
         this.proArray = array
-        console.log('array', this.$refs.stampTree)
-        this.$nextTick(() => {
-          this.$refs.stampTree.treeOptionFn().setCheckedKeys(array)
-        })
+        // console.log('array', array)
+        // console.log('array', this.$refs.stampTree)
+        this.$refs.stampTree.setCheckedKeys(array)
         // if (array.length > 0) {
         //   this.$nextTick(() => {
         //     this.$refs.stampTree.treeOptionFn().setCheckedKeys(array)
@@ -104,28 +110,27 @@ export default {
       //   return
       // }
       if (this.userSelect.id) {
-        console.log('state.checkedKeys', state.checkedKeys)
-        let isChecked = this.proArray.indexOf(obj.node.regulationCode) > -1
-        console.log(this.proArray)
-        console.log(isChecked)
+        let isChecked = state.checkedKeys.includes(obj.regulationCode)
         var param = {
           userId: this.userSelect.id,
-          regulationCode: obj.node.regulationCode,
-          regulationName: obj.node.regulationName
+          regulationCode: obj.regulationCode,
+          regulationName: obj.regulationName
         }
-        if (!isChecked) {
+        if (isChecked) {
           HttpModule.insert(param).then(res => {
             if (res.code === '000000') {
-              this.$message.success('success')
+              this.$message.success('授权成功')
             } else {
+              this.treeNodeClick(obj)
               this.$message.error(res.result)
             }
           })
         } else {
           HttpModule.delete(param).then(res => {
             if (res.code === '000000') {
-              this.$message.success('success')
+              this.$message.success('取消授权成功')
             } else {
+              this.treeNodeClick(obj)
               this.$message.error(res.result)
             }
           })
