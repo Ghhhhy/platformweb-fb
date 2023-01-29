@@ -113,28 +113,19 @@ export default {
         let isChecked = state.checkedKeys.includes(obj.regulationCode)
         var param = {
           userId: this.userSelect.id,
-          regulationCode: obj.regulationCode,
-          regulationName: obj.regulationName
+          regulation: state.checkedNodes
+            .map(item => {
+              return { regulationCode: item.regulationCode, regulationName: item.regulationName }
+            })
         }
-        if (isChecked) {
-          HttpModule.insert(param).then(res => {
-            if (res.code === '000000') {
-              this.$message.success('授权成功')
-            } else {
-              this.treeNodeClick(obj)
-              this.$message.error(res.result)
-            }
-          })
-        } else {
-          HttpModule.delete(param).then(res => {
-            if (res.code === '000000') {
-              this.$message.success('取消授权成功')
-            } else {
-              this.treeNodeClick(obj)
-              this.$message.error(res.result)
-            }
-          })
-        }
+        HttpModule.insert(param).then(res => {
+          if (res.code === '000000') {
+            this.$message.success(isChecked ? '授权成功' : '取消授权成功')
+          } else {
+            this.treeNodeClick(this.userSelect)
+            this.$message.error(res.result)
+          }
+        })
       } else {
         this.$message.warning('请选择用户！')
       }

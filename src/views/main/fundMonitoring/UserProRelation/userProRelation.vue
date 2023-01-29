@@ -202,27 +202,19 @@ export default {
         let isChecked = state.checkedKeys.indexOf(obj.code) > -1
         var param = {
           userId: this.userSelect.id,
-          proCode: obj.code,
-          cfsHotTopicCateCode: obj.cfsHotTopicCateCode,
-          proName: obj.name
+          proList: state.checkedNodes
+            .map(item => {
+              return { proCode: item.code, proName: item.proName, cfsHotTopicCateCode: item.cfsHotTopicCateCode }
+            })
         }
-        if (isChecked) {
-          HttpModule.insert(param).then(res => {
-            if (res.code === '000000') {
-              this.$message.success('授权成功')
-            } else {
-              this.$message.error(res.result)
-            }
-          })
-        } else {
-          HttpModule.delete(param).then(res => {
-            if (res.code === '000000') {
-              this.$message.success('取消授权成功')
-            } else {
-              this.$message.error(res.result)
-            }
-          })
-        }
+        HttpModule.insert(param).then(res => {
+          if (res.code === '000000') {
+            this.$message.success(isChecked ? '授权成功' : '取消授权成功')
+          } else {
+            this.treeNodeClick(this.userSelect)
+            this.$message.error(res.result)
+          }
+        })
       } else {
         this.$message.warning('请选择用户！')
       }
