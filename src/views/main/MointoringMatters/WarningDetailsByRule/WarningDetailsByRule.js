@@ -386,12 +386,12 @@ export let proconf = {
       'sortable': 'false',
       'width': '100',
       'cellRender': {
-        'name': '$payVoucherInputGloableOptionRow',
+        'name': '$warningDetailsByRuleOptionRow',
         'options': [],
         'defaultValue': '',
         'props': {}
       },
-      'name': '$payVoucherInputGloableOptionRow',
+      'name': '$warningDetailsByRuleOptionRow',
       'formula': '',
       'constraint': '',
       'combinedType': '',
@@ -498,17 +498,17 @@ export let proconf = {
     {
       'title': '操作',
       'field': 'gloableOptionRow',
-      'className': 'gloableOptionRow',
       'align': 'center',
       'fixed': 'right',
       'sortable': 'false',
       'width': '100',
       'cellRender': {
-        'name': '$WarningDetailsByRuleActionsColumn',
+        'name': '$warningDetailsByRuleOptionRow',
         'options': [],
         'defaultValue': '',
         'props': {}
       },
+      'name': '$warningDetailsByRuleOptionRow',
       'formula': '',
       'constraint': '',
       'combinedType': '',
@@ -522,6 +522,7 @@ export let proconf = {
     renderDefault(h, cellRender, params, context) {
       let self = context.$grid.$parent
       let { row, column } = params
+      console.log(params)
       // const main = self.$parent.$parent.$parent.$parent
       // let status = main._data.toolBarStatusSelect.curValue
       return [
