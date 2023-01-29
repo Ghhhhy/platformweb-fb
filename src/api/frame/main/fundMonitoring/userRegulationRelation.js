@@ -8,8 +8,8 @@ export default {
   queryByUserId (params) {
     return post('large-monitor-platform/lmp/userRegulationRelation/queryByUserId', params)
   },
-  insert (params) {
-    return post('large-monitor-platform/lmp/userRegulationRelation/add', params)
+  update (params) {
+    return post('large-monitor-platform/lmp/userRegulationRelation/update', params)
   },
   delete (params) {
     return post('large-monitor-platform/lmp/userRegulationRelation/delete', params)

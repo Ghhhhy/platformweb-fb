@@ -118,7 +118,7 @@ export default {
               return { regulationCode: item.regulationCode, regulationName: item.regulationName }
             })
         }
-        HttpModule.insert(param).then(res => {
+        HttpModule.update(param).then(res => {
           if (res.code === '000000') {
             this.$message.success(isChecked ? '授权成功' : '取消授权成功')
           } else {
