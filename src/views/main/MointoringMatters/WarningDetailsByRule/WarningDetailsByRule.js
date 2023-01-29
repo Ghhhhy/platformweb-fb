@@ -504,12 +504,11 @@ export let proconf = {
       'sortable': 'false',
       'width': '100',
       'cellRender': {
-        'name': '$payVoucherInputGloableOptionRow',
+        'name': '$WarningDetailsByRuleActionsColumn',
         'options': [],
         'defaultValue': '',
         'props': {}
       },
-      'name': '$payVoucherInputGloableOptionRow',
       'formula': '',
       'constraint': '',
       'combinedType': '',

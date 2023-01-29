@@ -220,7 +220,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          $WarningDetailsByRuleActionsColumn: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
