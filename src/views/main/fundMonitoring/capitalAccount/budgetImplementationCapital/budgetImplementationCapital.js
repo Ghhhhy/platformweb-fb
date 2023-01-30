@@ -65,7 +65,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '地区',
-            multiple: false,
+            multiple: true,
             readonly: false,
             isleaf: true
           }

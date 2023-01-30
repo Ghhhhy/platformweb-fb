@@ -584,7 +584,7 @@ export default {
       let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
-          mofDivCodes.push(item.split('-')[0])
+          mofDivCodes.push(item.split('##')[0])
         })
       }
       return mofDivCodes
