@@ -46,21 +46,30 @@ import { getLatestData } from '@/api/frame/main/warningOverview'
 
 export default defineComponent({
   props: {
+    // 模块标题
     title: {
       type: String,
       default: '实时触发规则滚动显示图'
     },
+    // 请求方法
     fetch: {
       type: Function,
       default: getLatestData
     },
+    // code映射字段
     codeField: {
       type: String,
       default: 'firulecode'
     },
+    // 名称映射字段
     nameField: {
       type: String,
       default: 'firulename'
+    },
+    // 请求负载
+    payload: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props) {
@@ -73,10 +82,11 @@ export default defineComponent({
     const interval = 60000 * 5
 
     const getLatestDataHandle = async () => {
-      const { data } = await props.fetch()
+      const params = props.payload || {}
+      const { data } = await props.fetch(params)
       news.value = data || []
       timer = setInterval(async () => {
-        const { data } = await props.fetch()
+        const { data } = await props.fetch(params)
         news.value = data || []
       }, interval)
     }

@@ -3,6 +3,7 @@
     <RuleScroll
       :title="title"
       :fetch="getLatestData"
+      :payload="payload"
     />
   </div>
 </template>
@@ -11,13 +12,18 @@
 import { defineComponent } from '@vue/composition-api'
 import RuleScroll from './RuleScroll'
 import { getLatestData } from '@/api/frame/main/threePublicExpenses/index.js'
+import { RegulationClassEnum } from '@/views/px-to-vw-page/common/model/enum.js'
 
 export default defineComponent({
   components: { RuleScroll },
   setup() {
+    // 请求参数
+    const payload = { regulationClass: RegulationClassEnum.THREE_PUBLIC_EXPENSES }
+
     return {
       title: '"三公"规则实时预警情况',
-      getLatestData
+      getLatestData,
+      payload
     }
   }
 })

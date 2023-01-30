@@ -20,8 +20,8 @@ export const monitoringByRuleType = () => {
  * 三公-规则实时预警情况
  * @return {*}
  */
-export const getLatestData = () => {
-  return post('lmp/warn/statistics/getLatestData')
+export const getLatestData = (params) => {
+  return post('lmp/warn/statistics/getLatestData', params)
 }
 
 /**
