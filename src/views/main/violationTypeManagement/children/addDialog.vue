@@ -259,11 +259,19 @@ export default {
       this.parentRule = this.selectData.parentId + '##' + this.selectData.parentId + '##' + this.selectData.parentName
     },
     selectRule(val) {
+      // BossTreeInput组件封装有问题（未知人员封装），会清空时执行emitClearLineData将结果赋值为initId+当前时间戳
+      // 为了不给其他页面造成影响，暂时当前页面判断处理
+      if (val.includes('initId')) {
+        this.levelNo = 1
+        this.parentName = ''
+        this.parentId = ''
+        return
+      }
       let valArr = val.split('##')
       this.parentName = valArr[2]
       this.parentId = valArr[0]
       let busName = this.getSelect(this.parentRuleoptions, this.parentId)
-      console.log(this.parentId, busName)
+
       if (busName !== undefined && busName !== 'undefined') {
         this.levelNo = busName.levelNo + 1
       }
