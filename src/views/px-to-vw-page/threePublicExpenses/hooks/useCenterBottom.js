@@ -5,8 +5,11 @@ import computedPx from '@/utils/computedPx'
 import { expenditure } from '@/api/frame/main/threePublicExpenses/index.js'
 import * as echarts from 'echarts'
 import { SelectEnum } from '../model/data'
+import useLoadingState from '@/hooks/useLoadingState'
 
 export const useCenterBottom = (selectValue) => {
+  const [loadingState, setLoadingState] = useLoadingState()
+
   const areaStyle = {
     color: new echarts.graphic.LinearGradient(
       0,
@@ -37,7 +40,9 @@ export const useCenterBottom = (selectValue) => {
       splitLine: { show: true },
       axisLabel: {
         rotate: 0,
-        formatter: value => unref(selectValue) === SelectEnum.BY_MOF_DIV ? value : `${value}月`
+        formatter: value => {
+          return unref(selectValue) === SelectEnum.BY_MOF_DIV ? value : `${value}月`
+        }
       },
       data: []
     },
@@ -48,8 +53,7 @@ export const useCenterBottom = (selectValue) => {
       nameLocation: 'end',
       nameGap: 0,
       nameTextStyle: {
-        color: '#8A9299',
-        padding: [0, computedPx(40), computedPx(25), 0]
+        color: '#8A9299'
       }
     },
     tooltip: {
@@ -82,20 +86,26 @@ export const useCenterBottom = (selectValue) => {
    * @returns {Promise<void>}
    */
   const updateSeries = async () => {
-    const { data } = await expenditure({ expenditureType: unref(selectValue) })
-    const [xAxisData, numberSeriseData] = [[], []]
-    chartOption.value.xAxis.axisLabel.rotate = unref(selectValue) === SelectEnum.BY_MOF_DIV && data?.length > 6 ? 30 : 0
+    try {
+      setLoadingState(true)
 
-    data?.forEach(item => {
-      const name = unref(selectValue) === SelectEnum.BY_MOF_DIV ? item.mofDivName : item.month
-      xAxisData.push(name)
-      numberSeriseData.push({
-        name: name,
-        value: item.payAppAmt ? item.payAppAmt / 10000 : 0
+      const { data } = await expenditure({ expenditureType: unref(selectValue) })
+      const [xAxisData, numberSeriseData] = [[], []]
+      chartOption.value.xAxis.axisLabel.rotate = unref(selectValue) === SelectEnum.BY_MOF_DIV && data?.length > 6 ? 30 : 0
+
+      data?.forEach(item => {
+        const name = unref(selectValue) === SelectEnum.BY_MOF_DIV ? item.mofDivName : item.month
+        xAxisData.push(name)
+        numberSeriseData.push({
+          name: name,
+          value: item.payAppAmt ? item.payAppAmt / 10000 : 0
+        })
       })
-    })
-    chartOption.value.xAxis.data = xAxisData
-    chartOption.value.series[0].data = numberSeriseData
+      chartOption.value.xAxis.data = xAxisData
+      chartOption.value.series[0].data = numberSeriseData
+    } finally {
+      setLoadingState(false)
+    }
   }
 
   onMounted(() => {
@@ -106,6 +116,7 @@ export const useCenterBottom = (selectValue) => {
     updateSeries()
   })
   return {
-    chartOption
+    chartOption,
+    loadingState
   }
 }

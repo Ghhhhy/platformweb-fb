@@ -9,7 +9,7 @@
         class="custom-select type-select-wrapper"
       />
     </div>
-    <div :id="chartId" class="chart-container">
+    <div :id="chartId" v-loading="loadingState" class="chart-container">
     </div>
   </div>
 </template>
@@ -29,13 +29,14 @@ export default defineComponent({
       option: getViewAllRuleSelectOption(),
       defaultValue: SelectEnum.BY_MONTH
     })
-    const { chartOption } = useCenterBottom(selectValue)
+    const { chartOption, loadingState } = useCenterBottom(selectValue)
     const { chartId } = useChart(chartOption)
     return {
       chartOption,
       chartId,
       selectValue,
-      selectOption
+      selectOption,
+      loadingState
     }
   }
 })
