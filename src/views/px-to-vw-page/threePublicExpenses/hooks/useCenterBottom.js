@@ -31,21 +31,25 @@ export const useCenterBottom = (selectValue) => {
       bottom: computedPx(12),
       left: computedPx(24),
       right: computedPx(24),
-      top: computedPx(80)
+      top: computedPx(100)
     },
     xAxis: {
       splitLine: { show: true },
       axisLabel: {
-        rotate: 0
+        rotate: 0,
+        formatter: value => unref(selectValue) === SelectEnum.BY_MOF_DIV ? value : `${value}月`
       },
       data: []
     },
     yAxis: {
       splitLine: { show: false },
-      axisLabel: {
-        formatter: value => {
-          return `${value / 10000}万元`
-        }
+      name: '万元',
+      nameRotate: 0,
+      nameLocation: 'end',
+      nameGap: 0,
+      nameTextStyle: {
+        color: '#8A9299',
+        padding: [0, computedPx(40), computedPx(25), 0]
       }
     },
     tooltip: {
@@ -87,7 +91,7 @@ export const useCenterBottom = (selectValue) => {
       xAxisData.push(name)
       numberSeriseData.push({
         name: name,
-        value: item.payAppAmt || 0
+        value: item.payAppAmt ? item.payAppAmt / 10000 : 0
       })
     })
     chartOption.value.xAxis.data = xAxisData
