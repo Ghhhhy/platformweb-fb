@@ -41,7 +41,12 @@ export const useCenterBottom = (selectValue) => {
       data: []
     },
     yAxis: {
-      splitLine: { show: false }
+      splitLine: { show: false },
+      axisLabel: {
+        formatter: value => {
+          return `${value / 10000}万元`
+        }
+      }
     },
     tooltip: {
       formatter: getTooltipFormatter('seriesName')
