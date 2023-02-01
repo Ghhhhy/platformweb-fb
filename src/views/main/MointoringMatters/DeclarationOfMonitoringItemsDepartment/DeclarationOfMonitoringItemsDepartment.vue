@@ -620,7 +620,6 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getLeftTreeData()
   }
 }
 </script>
