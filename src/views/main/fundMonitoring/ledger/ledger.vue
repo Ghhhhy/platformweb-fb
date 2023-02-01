@@ -294,7 +294,7 @@ export default {
           }
           var deleteCodes = []
           selectionRow1.forEach(function(item, index) {
-            deleteCodes.push(item.reportId)
+            deleteCodes.push(item.ledgerId)
           })
           this.delete(deleteCodes)
           break
