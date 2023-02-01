@@ -324,7 +324,7 @@
       <el-divider style="color:#E7EBF0" />
       <div type="flex" justify="space-around">
         <div>
-          <vxe-button v-if="title === '监控问询单信息' && !isDone" status="primary" @click="doIssue">生成并下发</vxe-button>
+          <vxe-button v-if="title === '监控问询单信息' && !isDone" :disabled="addLoading" status="primary" @click="doIssue">生成并下发</vxe-button>
           <vxe-button @click="dialogClose">取消</vxe-button>
         </div>
       </div>
@@ -646,19 +646,18 @@ export default {
         warningCode: this.detailData[0].warningCode
       }
       this.addLoading = true
-      await HttpModule.handleAdd(param).then(res => {
-        if (res.code === '000000') {
-          this.addLoading = false
+      HttpModule.handleAdd(param)
+        .then(res => {
           if (res.code === '000000') {
-            this.$message.success('生成并下发成功')
             this.$emit('close')
+            this.$message.success('生成并下发成功')
           } else {
             this.$message.error(res.message)
           }
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+        })
+        .finally(() => {
+          this.addLoading = false
+        })
     },
     // 反馈
     doFeedback() {

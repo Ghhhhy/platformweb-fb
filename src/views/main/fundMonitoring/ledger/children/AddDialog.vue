@@ -10,7 +10,7 @@
     :show-footer="true"
     @close="dialogClose"
   >
-    <div v-loading="addLoading" style="padding-bottom: 10px;">
+    <div style="padding-bottom: 10px;">
       <BsForm
         ref="addForm"
         :form-items-config="addFormItemsConfig"
@@ -30,7 +30,7 @@
     </div>
     <div slot="footer" class="vxeModalUnique">
       <el-button size="mini" @click="dialogClose">取消</el-button>
-      <el-button size="mini" type="primary" style="margin-right:0px;" @click="addOrUpdate">保存</el-button>
+      <el-button :loading="addLoading" size="mini" type="primary" style="margin-right:0px;" @click="addOrUpdate">保存</el-button>
     </div>
   </vxe-modal>
 </template>
@@ -107,7 +107,7 @@ export default {
       functionParameter: '',
       description: '',
       dialogVisible: true,
-      addLoading: true,
+      addLoading: false,
       token: '',
       isContinuity: false,
       // 文件上传相关参数
@@ -147,34 +147,39 @@ export default {
     },
     // 保存新增的计划信息
     addOrUpdate() {
-      console.log(this.formData.description)
       if (this.title === '新增') {
         this.addLoading = true
         this.$refs.addForm.validate().then(res =>
-          HttpModule.addLedger(this.formData).then((res) => {
-            this.addLoading = false
-            if (res.code === '000000') {
-              this.$message.success('新增成功')
-              this.$parent.addDialogVisible = false
-              this.$parent.queryTableDatas()
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          HttpModule.addLedger(this.formData)
+            .then((res) => {
+              if (res.code === '000000') {
+                this.$message.success('新增成功')
+                this.$parent.addDialogVisible = false
+                this.$parent.queryTableDatas()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+            .finally(() => {
+              this.addLoading = false
+            })
         )
       } else {
         this.addLoading = true
         this.$refs.addForm.validate().then(res =>
-          HttpModule.updateLedger(this.formData).then((res) => {
-            this.addLoading = false
-            if (res.code === '000000') {
-              this.$message.success('编辑成功')
-              this.$parent.addDialogVisible = false
-              this.$parent.queryTableDatas()
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          HttpModule.updateLedger(this.formData)
+            .then((res) => {
+              if (res.code === '000000') {
+                this.$message.success('编辑成功')
+                this.$parent.addDialogVisible = false
+                this.$parent.queryTableDatas()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+            .finally(() => {
+              this.addLoading = false
+            })
         )
       }
     }
