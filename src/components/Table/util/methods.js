@@ -3326,7 +3326,7 @@ const exportAndImportFn = {
       isExportTree: !!self.treeConfigIn,
       saveType: '.xlsx',
       fileName: 'export', // 文件名
-      dataType: 'fullData', // fullData || selection || treeExpandData
+      dataType: !self.treeConfigIn ? 'fullData' : 'treeExpandData',
       isExportHead: true, // 是否导出表头
       isExportFooter: false, // 是否导出表尾部
       isExportOnlySourceField: false, // 是否只导出数据源表头字段，
