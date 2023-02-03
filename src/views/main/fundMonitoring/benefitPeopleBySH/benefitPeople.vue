@@ -149,10 +149,12 @@
 import { proconf, getDateString } from './benefitPeople'
 import FilterTreeInput from './FilterTreeInput.vue'
 import AddDialog from './children/AddDialog'
-import ImportModel from '../../../../components/Table/import/import.vue'
-import { Import } from '../../../../components/Table/import/import/import.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
-import { Export } from '../../../../components/Table/export/export/export'
+import ImportModel from '@/components/Table/import/import.vue'
+import { Import } from '@/components/Table/import/import/import.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeopleBySH.js'
+import { Export } from '@/components/Table/export/export/export'
+import { readLocalFile } from '@/utils/readLocalFile'
+import { checkRscode } from '@/utils/checkRscode'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -669,7 +671,7 @@ export default {
       }
     },
     // 切换操作按钮
-    operationToolbarButtonClickEvent(obj, context, e) {
+    async operationToolbarButtonClickEvent(obj, context, e) {
       let self = this
       let datas1 = this.$refs.mainTableRef.getSelectionData()
       let datas2 = this.$refs.mainTableRef1.getSelectionData()
@@ -746,6 +748,30 @@ export default {
             }
           )
           break
+        case 'person-import':
+        case 'company-import':
+          const selectionData = this.$refs.mainTableRef1.getSelectionData()
+          if (selectionData?.length !== 1) {
+            this.$message.warning('请选择一条支付凭证信息')
+            return
+          }
+          const { file } = await readLocalFile({
+            types: ['xlsx', 'xls']
+          })
+          const params = {
+            file,
+            fileType: obj.code === 'person-import' ? '1' : '2',
+            payCertNo: selectionData[0].payCertNo,
+            payApplyId: selectionData[0].payAppId
+          }
+          checkRscode(
+            await HttpModule.importPersonAndCompany(params)
+          )
+          this.$message.success('导入成功')
+          this.dtos = []
+          this.queryTableDatas()
+          this.queryTableDatas1()
+          break
         default:
           break
       }
@@ -765,7 +791,6 @@ export default {
       this.dialogTitle = '修改'
     },
     importSuccessCallback(res) {
-      console.log('res:', res)
       HttpModule.importBenefit(res).then(res => {
         if (res.code === '000000') {
           this.$message.success('导入成功')
