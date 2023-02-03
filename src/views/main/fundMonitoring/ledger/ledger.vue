@@ -514,8 +514,8 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        reportCode: this.condition.reportCode ? this.condition.reportCode[0] : '',
-        reportName: this.condition.reportName ? this.condition.reportName[0] : ''
+        reportCode: this.searchDataList.reportCode || '',
+        reportName: this.searchDataList.reportName || ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
