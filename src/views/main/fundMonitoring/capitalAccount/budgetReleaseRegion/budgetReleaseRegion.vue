@@ -416,6 +416,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'amountSnjfpbjDfap':
           this.handleDetail('zdzjxmmx', obj.row.code)
@@ -538,7 +543,9 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['amountSnjfpbjDfap', 'amountSnjfpAll', 'amountSjfpbjAll', 'amountXjfpAll'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountSnjfpbjDfap', 'amountSnjfpAll', 'amountSjfpbjAll', 'amountXjfpAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

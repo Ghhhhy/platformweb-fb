@@ -551,6 +551,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       if (['reportName'].includes(key)) {
         this.handleDetail(obj.row, key)
       }
@@ -696,7 +701,9 @@ export default {
       return datas
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['reportName'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['reportName'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

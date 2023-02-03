@@ -299,6 +299,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       switch (key) {

@@ -348,6 +348,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       switch (key) {
         case 'numbernofileNum':

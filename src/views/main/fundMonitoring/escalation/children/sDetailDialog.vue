@@ -238,7 +238,9 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (this.sDetailType === 'fdqzdzjxmmx' || this.sDetailType === 'fzjzdzjxmmx') {
-        if (['je1', 'je3'].includes(column.property)) {
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['je1', 'je3'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
@@ -277,6 +279,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       if (this.sDetailType === 'fdqzdzjxmmx') {
         switch (key) {
           case 'je1':// 预算金额-总金额

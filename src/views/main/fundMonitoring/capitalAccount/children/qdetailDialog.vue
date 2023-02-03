@@ -178,7 +178,9 @@ export default {
       })
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['fpAmount', 'payAppAmt'].includes(column.property) && column.title === '总金额') {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['fpAmount', 'payAppAmt'].includes(column.property) && column.title === '总金额') {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -188,6 +190,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       if (this.title === '直达资金项目明细') {
         switch (key) {
           case 'fpAmount':

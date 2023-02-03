@@ -426,7 +426,9 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (this.detailType === 'zyzdzjyszxqkfdq' || this.detailType === 'zyzdzjyszxqkfzj') {
-        if (['je2', 'je4', 'je9', 'je14'].includes(column.property)) {
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['je2', 'je4', 'je9', 'je14'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
@@ -437,6 +439,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       if (this.detailType === 'zyzdzjyszxqkfdq') {
         switch (key) {
           case 'je4':// 省级分配本级

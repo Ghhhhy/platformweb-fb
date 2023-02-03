@@ -462,6 +462,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'jOut':
           this.handleDetail('jOut', obj.row.recDivCode, key)
@@ -583,7 +588,9 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['amountSnjZcjeZje', 'amountSjZcjeZje', 'amountXjZcjeZje'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountSnjZcjeZje', 'amountSjZcjeZje', 'amountXjZcjeZje'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

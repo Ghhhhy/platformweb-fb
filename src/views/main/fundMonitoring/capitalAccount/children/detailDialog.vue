@@ -326,7 +326,9 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -336,6 +338,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'amountZdzjFp':
           if (this.detailType === 'zdzjxmmx') {

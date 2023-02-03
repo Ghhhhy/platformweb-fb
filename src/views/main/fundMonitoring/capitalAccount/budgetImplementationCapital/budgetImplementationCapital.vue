@@ -502,6 +502,11 @@ export default {
     // 表格单元行单击  'amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         // case 'amountSnjxd':
         // case 'amountSjxd':
@@ -643,8 +648,10 @@ export default {
       return datas
     },
     cellStyle({ row, rowIndex, column }) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
       // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-      if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

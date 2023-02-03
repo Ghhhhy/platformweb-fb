@@ -462,6 +462,11 @@ export default {
     cellClick(obj, context, e) {
       console.log(obj)
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'fiRuleName':
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
