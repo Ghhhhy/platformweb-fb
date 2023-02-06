@@ -42,10 +42,11 @@ const proconf = {
         options: [],
         'props': {
           'config': {
-            'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
-              'children': 'children'
+            treeProps: {
+              labelFormat: '{code}-{name}',
+              nodeKey: 'code',
+              label: 'name',
+              children: 'children' // 子级字段名
             },
             'placeholder': '预算单位',
             'multiple': true,
