@@ -71,7 +71,7 @@ export default {
     return post('large-monitor-platform/lmp/totalWarn/querySumByMof', params)
   },
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
   },
   handleNormal(params) {
     return post('large-monitor-platform/lmp/totalWarn/handleNormal', params)

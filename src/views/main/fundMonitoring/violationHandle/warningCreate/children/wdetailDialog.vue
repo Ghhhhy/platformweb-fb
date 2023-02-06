@@ -824,14 +824,16 @@ export default {
     },
     getAgency() {
       const param = {
-        wheresql: 'and province =' + this.$store.state.userInfo.province,
         elementCode: 'AGENCY',
-        // elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
       }
       HttpModule.getTreewhere(param).then(res => {
-        let treeResdata = this.getChildrenNewData1(res.data)
+        let treeResdata = res.data
         this.queryConfig[0].itemRender.options = treeResdata
       })
     },
