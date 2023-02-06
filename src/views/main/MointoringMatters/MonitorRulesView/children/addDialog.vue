@@ -1355,6 +1355,7 @@ export default {
       this.handleType = this.$parent.DetailData.handleType
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      this.triggerClass = this.$parent.DetailData?.triggerClass
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       this.businessSystemCode = parseInt(this.$parent.DetailData.businessSystemCode)
@@ -1390,6 +1391,7 @@ export default {
       this.handleType = this.$parent.DetailData.handleType
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      this.triggerClass = this.$parent.DetailData?.triggerClass
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       this.businessSystemCode = parseInt(this.$parent.DetailData.businessSystemCode)
