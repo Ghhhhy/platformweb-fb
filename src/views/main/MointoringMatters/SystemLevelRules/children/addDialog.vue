@@ -157,6 +157,7 @@
                     <!--  />-->
                     <!--</el-select>-->
                     <BsTree
+                      ref="businessFunctionCodeModalRef"
                       v-model="businessFunctionCodeModal"
                       :is-drop-select-tree="true"
                       :editable="true"
@@ -897,6 +898,7 @@ export default {
       this.activeIndex = 1
       this.businessSystemCode = datas[0].businessSystemCode
       this.changeSysCode(this.businessSystemCode)
+
       this.businessModuleCode = datas[0].businessModuleCode
       this.changeModCode(this.businessModuleCode)
       let datas1 = this.$refs.mountTableRef.getSelectionData()
@@ -1571,6 +1573,7 @@ export default {
     changeModCode(val) {
       this.ModparentId = val
       this.businessFunctionCodeModal = ''
+      this.$refs.businessFunctionCodeModalRef.reset?.()
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
