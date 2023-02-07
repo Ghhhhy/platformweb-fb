@@ -138,7 +138,10 @@ module.exports = {
             mediaQuery: false, // 媒体查询里的单位是否需要转换单位
             replace: true, // 是否直接更换属性值，而不添加备用属性
             // exclude: [/node_modules/, /src\\[common|components|assets|base]/, /src\\views\\?!px-to-vw-page/], // 忽略某些文件夹下的文件或特定文件, /\/src\/views\//
-            include: /src\\views\\px-to-vw-page/, // 如果设置了include，那将只有匹配到的文件才会被转换
+            include: [
+              /src\\views\\px-to-vw-page/
+              // /src\\views\\main\\(financial-portrayal|subjectAnalysis|warningOverview)/
+            ], // 如果设置了include，那将只有匹配到的文件才会被转换
             landscape: false, // 是否添加根据 landscapeWidth 生成的媒体查询条件 @media (orientation: landscape)
             landscapeUnit: 'vw' // 横屏时使用的单位
           })
