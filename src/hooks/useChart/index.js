@@ -8,6 +8,8 @@ import {
   getTooltipFormatter
 } from '@/views/main/financial-portrayal/model/getEchartsConfig'
 
+let uniqueKey = 0
+
 export const useChart = (option = {}) => {
   const initOptions = ref({
     backgroundColor: getColor('white'),
@@ -38,12 +40,13 @@ export const useChart = (option = {}) => {
   const getRandom = (digit = 6) => {
     return String(Math.random()).split('.')[1].substring(2, digit + 2)
   }
-  const chartId = `chart${getRandom()}`
+  const chartId = `chart${getRandom()}-${++uniqueKey}`
 
   let chartInstance = null
 
   // 初始化
   const init = () => {
+    console.log(chartId, document.getElementById(chartId))
     chartInstance = echarts.init(
       document.getElementById(chartId),
       null,
@@ -67,10 +70,6 @@ export const useChart = (option = {}) => {
     chartInstance?.resize?.()
   }
 
-  watch(option, () => {
-    setOption(option)
-  }, { deep: true, immediate: true })
-
   onMounted(() => {
     init()
     window.addEventListener('resize', resize)
@@ -79,6 +78,10 @@ export const useChart = (option = {}) => {
   onBeforeUnmount(() => {
     window.removeEventListener('resize', resize)
   })
+
+  watch(option, () => {
+    setOption(option)
+  }, { deep: true, immediate: true })
 
   return {
     chartId,
