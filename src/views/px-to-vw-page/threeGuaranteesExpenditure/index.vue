@@ -78,7 +78,9 @@ export default defineComponent({
     justify-content: space-between;
   }
 
-  :where(.module-left, .module-center, .module-right) {
+  .module-left,
+  .module-center,
+  .module-right {
     width: 624px;
     height: 100%;
   }
