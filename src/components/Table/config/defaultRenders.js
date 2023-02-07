@@ -3005,11 +3005,13 @@ const defaultTableRenderers = {
   // 单值
   $vxeRatio: {
     renderDefault(h, cellRander, params) {
-      let { row, column } = params
+      let { row, column, $table: { $parent } } = params
+      const showZero = $parent?.$parent?._props?.showZero
+
       // 设置转换后的值供导出所用
-      row[column.property + '__viewRatio'] = Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : ''
+      row[column.property + '__viewRatio'] = Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : showZero ? '0%' : ''
       return [
-        <span>{Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : ''}</span>
+        <span>{Number(row[column.property]) > 0 ? `${row[column.property].toFixed(1)}%` : showZero ? '0%' : ''}</span>
       ]
     }
   }
