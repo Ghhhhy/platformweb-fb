@@ -360,9 +360,10 @@ export class Export {
       cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = this.getViewCellValue(item, column)
-      // cell.cellType = this.getViewCellValueType(item, column)
     }
-    this.generateCellViewValueStyle(cell, column)
+    // 树形表格设置缩进
+    const indent = !column.treeNode || !pRowIndex ? 0 : pRowIndex === '#' ? 2 : pRowIndex * 2
+    this.generateCellViewValueStyle(cell, column, indent)
   }
   generateFooterCellViewValue(cell, value, column) {
     // 生成footer单元格数据
@@ -413,7 +414,7 @@ export class Export {
       patternType: 'solid'
     }
   }
-  generateCellViewValueStyle(cell, column) {
+  generateCellViewValueStyle(cell, column, indent) {
     cell.style.border = {
       left: 'thin',
       right: 'thin',
@@ -425,7 +426,7 @@ export class Export {
       bottomColor: 'FF000000'
     }
     cell.style.align = {
-      indent: 0,
+      indent: indent || 0,
       shrinkToFit: false,
       textRotation: 0,
       wrapText: false,
@@ -491,7 +492,9 @@ export class Export {
     } else {
       cell.value = item[column.field] === undefined ? '' : item[column.field]
     }
-    this.generateCellViewValueStyle(cell, column)
+    // 树形表格设置缩进
+    const indent = !column.treeNode || !pRowIndex ? 0 : pRowIndex === '#' ? 2 : pRowIndex * 2
+    this.generateCellViewValueStyle(cell, column, indent)
   }
   toBuffer(wbout) {
     const buf = new ArrayBuffer(wbout.length)
