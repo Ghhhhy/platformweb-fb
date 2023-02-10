@@ -1,11 +1,11 @@
 <template>
   <div class="bar-chart-container">
     <div class="detail-title-wrapper">
-      <DetailTitle
-        :title="option.detailTitle"
-        :show-dot="option.showDot"
-        :unit="option.unit"
-      />
+      <!--<DetailTitle-->
+      <!--  :title="option.detailTitle"-->
+      <!--  :show-dot="option.showDot"-->
+      <!--  :unit="option.unit"-->
+      <!--/>-->
     </div>
     <div v-if="option.customLegend" class="custom-legend" :style="position">
       <div
@@ -68,7 +68,19 @@ export default defineComponent({
     })
 
     watch(() => props.option, (newOption) => {
-      setOption?.(newOption)
+      setOption?.({
+        ...(newOption || {}),
+        title: newOption.title || newOption.detailTitle ? {
+          text: newOption.detailTitle,
+          left: 10,
+          top: 4,
+          textStyle: {
+            fontSize: 14,
+            color: '#666',
+            fontWeight: 500
+          }
+        } : {}
+      })
     }, { deep: true })
 
     return {
