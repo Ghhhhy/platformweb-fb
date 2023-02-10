@@ -8,11 +8,11 @@
     <!-- 区域基本情况 -->
     <div class="module-chart-container">
       <!-- 人口 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="populationChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="populationChartOption" />
       </div>
       <!-- 国民GDP -->
-      <div class="chart-wrapper gdp-chart-wrapper">
+      <div v-html2canvas="gdpChartOption.detailTitle" class="chart-wrapper gdp-chart-wrapper">
         <BarChart1 :option="gdpChartOption" :chart-width="'90%'" />
         <div class="gdp-speed-container">
           <Trend
@@ -23,23 +23,23 @@
         </div>
       </div>
       <!-- 工业增加值 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="industrialAddedChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="industrialAddedChartOption" />
       </div>
       <!-- 主要行业增加值 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="mainIndustrialChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="mainIndustrialChartOption" />
       </div>
       <!-- 固定资产投入增速 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="fixedAssetsSpeedChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="fixedAssetsSpeedChartOption" />
       </div>
       <!-- 固定资产投入增加额 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="fixedAssetsValueChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="fixedAssetsValueChartOption" />
       </div>
       <!-- 社会消费品零售总额(亿元) -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="'社会消费品零售总额(亿元)'" class="chart-wrapper">
         <DetailContainer title="社会消费品零售总额(亿元)">
           <SaleAmount
             :current-value="saleAmount.retailTotal"
@@ -50,17 +50,17 @@
         </DetailContainer>
       </div>
       <!-- 进出口总值（亿元） -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="importAndExportChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="importAndExportChartOption" />
       </div>
       <!-- 先行指标 -->
-      <div class="chart-wrapper leading-Indicator-wrapper">
+      <div v-html2canvas="leadingIndicatorChartOption.detailTitle" class="chart-wrapper leading-Indicator-wrapper">
         <div class="trend-container">
           <Trend
             v-for="(item, key) in leadingIndicatorValues"
             :key="item.lable"
             :option="item"
-            :show-icon="key === 'current'"
+            :show-icon="key === 'increase'"
             algin="center"
             custom-color="#2A8BFD"
           />
@@ -71,7 +71,7 @@
         />
       </div>
       <!-- 居民消费价格指数 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="CIPCommonChartOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="CIPCommonChartOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="CIPCurrentChartOption" />
@@ -80,7 +80,7 @@
         </CommonChartContainer>
       </div>
       <!-- 工业品出厂价格指数 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="exFactoryPriceCommonOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="exFactoryPriceCommonOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="exFactoryPriceChartOption" />
@@ -89,7 +89,7 @@
         </CommonChartContainer>
       </div>
       <!-- 失业率 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="unemploymentRateCommonOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="unemploymentRateCommonOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="unemploymentRateCurrentChartOption" />

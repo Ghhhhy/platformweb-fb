@@ -15,6 +15,14 @@ export const useRigidExpenditureLineChart = () => {
   // 财政保障指数 => 刚性支出额
   const rigidExpenditureLineChart = reactive({
     detailTitle: '一般公共预算收入',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '一般公共预算收入'
+        }
+      }
+    },
     title: {
       text: '单位（亿元）',
       left: 'right',
@@ -28,9 +36,6 @@ export const useRigidExpenditureLineChart = () => {
     tooltip: {
       ...getTooltip('line'),
       formatter: getTooltipFormatter('seriesName')
-    },
-    toolbox: {
-
     },
     // 由于series中设置了symbol: 'circle' 而默认legend会读取series中symbol，故此处需要手动修改legend的icon
     legend: {

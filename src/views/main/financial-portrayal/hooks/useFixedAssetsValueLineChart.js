@@ -13,6 +13,14 @@ export const useFixedAssetsValueLineChart = (originData) => {
   // 区域基本情况 => 固定资产投入增加额
   const fixedAssetsValueChartOption = reactive({
     detailTitle: '固定资产投入增加额',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '固定资产投入增加额'
+        }
+      }
+    },
     tooltip: {
       ...getTooltip('line'),
       formatter: getTooltipFormatter('seriesName')
@@ -90,7 +98,10 @@ export const useFixedAssetsValueLineChart = (originData) => {
             name: '房地产开发投资',
             value: unref(currentData).fixedAssetsRealEstatePeriod || 0
           }
-        ]
+        ],
+        lineStyle: {
+          type: 'dotted'
+        }
       })
     ]
   }

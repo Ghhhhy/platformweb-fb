@@ -13,6 +13,14 @@ export const useDistributeScheduleBarChart = () => {
   // 直达资金 => 上级下达
   const distributeScheduleBarChart = reactive({
     detailTitle: '分配进度',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '分配进度'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

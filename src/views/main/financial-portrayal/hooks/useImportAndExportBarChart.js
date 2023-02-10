@@ -14,15 +14,35 @@ export const useImportAndExportBarChart = (originData) => {
   // 区域基本情况 => 进出口总值（亿元）
   const importAndExportChartOption = reactive({
     detailTitle: '进出口总值（亿元）',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '进出口总值（亿元）'
+        }
+      }
+    },
     tooltip: {
       ...getTooltip(),
       formatter: getTooltipFormatter('name')
     },
     // 由于series中设置了symbol,而默认legend会读取series中symbol，故此处需要手动修改legend的icon
     legend: {
-      icon: 'rect'
+      icon: 'rect',
+      show: false
     },
     xAxis: getAxis({ type: 'category', data: importAndExportXAxis() }),
+    // 自定义legend
+    customLegend: [
+      {
+        label: '出口总值',
+        color: getColor('blue')
+      },
+      {
+        label: '进口总值',
+        color: getColor('red')
+      }
+    ],
     series: []
   })
   const updataSeries = (currentData) => {
@@ -36,12 +56,12 @@ export const useImportAndExportBarChart = (originData) => {
         data: [
           {
             name: '本期',
-            value: unref(currentData).exportTotal || 0,
+            value: unref(currentData).importTotal || 0,
             itemStyle: { color: getColor('blue') }
           },
           {
             name: '本期',
-            value: unref(currentData).importTotal || 0,
+            value: unref(currentData).exportTotal || 0,
             itemStyle: { color: getColor('red') }
           }
         ]
@@ -56,12 +76,12 @@ export const useImportAndExportBarChart = (originData) => {
         data: [
           {
             name: '上年同期',
-            value: unref(currentData).exportTotalPeriod || 0,
+            value: unref(currentData).importTotalPeriod || 0,
             itemStyle: { color: getColor('fadeBlue') }
           },
           {
             name: '上年同期',
-            value: unref(currentData).importTotalPeriod || 0,
+            value: unref(currentData).exportTotalPeriod || 0,
             itemStyle: { color: getColor('fadeRed') }
           }
         ]

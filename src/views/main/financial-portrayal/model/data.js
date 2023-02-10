@@ -5,6 +5,9 @@ import { formatterThousands } from '@/utils/thousands'
 export const periodXAxis = () => {
   return ['本期', '上年同期']
 }
+export const populationXAxis = () => {
+  return ['户籍人口', '常住人口']
+}
 
 export const industrialAddedXAxis = () => {
   return ['规上工业增加值', '战略性新兴产业增加值']
@@ -27,7 +30,7 @@ export const importAndExportXAxis = () => {
 }
 
 export const leadingIndicatorXAxis = () => {
-  return [...periodXAxis(), '采购经理指数']
+  return ['存款余额', '贷款余额', '采购经理指数']
 }
 
 // 先行指数右侧y轴

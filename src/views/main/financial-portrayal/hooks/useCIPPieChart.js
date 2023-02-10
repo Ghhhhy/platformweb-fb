@@ -9,6 +9,14 @@ import { useWatchOriginDataChange } from './useWatchOriginDataChange'
 export const useCIPPieChart = (originData) => {
   const CIPCommonChartOption = reactive({
     detailTitle: '居民消费价格指数',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '居民消费价格指数'
+        }
+      }
+    },
     customLegend: [
       {
         label: '本期',
@@ -61,8 +69,8 @@ export const useCIPPieChart = (originData) => {
         },
         data: [
           {
-            value: unref(currentData).CPIIndex || 0,
-            name: 'CIP'
+            value: unref(currentData).cpiIndex || 0,
+            name: 'CPI'
           }
         ],
         detail: {
@@ -112,8 +120,8 @@ export const useCIPPieChart = (originData) => {
         },
         data: [
           {
-            value: unref(currentData).CPIIndexPeriod || 0,
-            name: 'CIP'
+            value: unref(currentData).cpiIndexPeriod || 0,
+            name: 'CPI'
           }
         ],
         detail: {
