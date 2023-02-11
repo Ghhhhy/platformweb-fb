@@ -30,6 +30,7 @@
       :toolbar-config="tableToolbarConfig"
       :cell-style="cellStyle"
       :pager-config="pagerConfig"
+      @ajaxData="ajaxTableData"
       @cellClick="cellClick"
       @onOptionRowClick="onOptionRowClick"
       @onToolbarBtnClick="onToolbarBtnClick"
