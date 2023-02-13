@@ -431,7 +431,7 @@ export let proconf = {
       align: 'left',
       formula: '',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions,
         props: {
@@ -445,7 +445,7 @@ export let proconf = {
       'width': 180,
       align: 'left',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnControlTypeOptions,
         props: {
