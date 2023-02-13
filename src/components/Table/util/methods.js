@@ -10,7 +10,16 @@ import { getColumnMoneyFilterConfig } from '../tool/tableColumnMoneyFilter'
 import XEUtils from 'xe-utils'
 
 // 唯一行id属性名称
-const rowUuidKeyName = '__BOSS_UUID'
+export const rowUuidKeyName = '__BOSS_UUID'
+
+// 设置树形表格唯一键
+const setRowUuidKey = (rows, instance) => {
+  if (instance?.treeConfig && instance?.isTreeSeqToFlat && rows) {
+    XEUtils.eachTree(Array.isArray(rows) ? rows : [rows], item => {
+      !item[rowUuidKeyName] && Reflect.set(item, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
+    })
+  }
+}
 
 const sortMethods = {
   arrSortGloabal(data, property, type, order = 'asc') {
@@ -594,11 +603,7 @@ const initMethods = {
     data = Array.isArray(data || this.tableData) ? (data || this.tableData) : []
 
     // 为树形数据设置唯一属性
-    if (self.treeConfig && self.isTreeSeqToFlat) {
-      XEUtils.eachTree(data, item => {
-        Reflect.set(item, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
-      })
-    }
+    setRowUuidKey(data, this)
 
     return new Promise((resolve, reject) => {
       this.rePerformAllCalcAndConstraintByData(self.unidirectionalData ? self.deepCopy(data) : data, true).then(({ dataCodeRowMap, dataCodeRowArr, afterCalcData }) => {
@@ -1853,6 +1858,9 @@ const tableEvent = {
     this.$emit('ProxyEvent', 'resizableChange', obj, this, this.$refs.xGrid)
   }, // 当列宽拖动发生变化时会触发该事件 { $rowIndex, column, columnIndex, $columnIndex, $event }
   toggleRowExpand(obj) {
+    // 懒加载子节点需要给子节点设置唯一键
+    setRowUuidKey(obj.row, this)
+
     this.$emit('toggleRowExpand', obj, this, this.$refs.xGrid)
     this.$emit('ProxyEvent', 'toggleRowExpand', obj, this, this.$refs.xGrid)
   }, // 当行展开或收起时会触发该事件 { expanded, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }
