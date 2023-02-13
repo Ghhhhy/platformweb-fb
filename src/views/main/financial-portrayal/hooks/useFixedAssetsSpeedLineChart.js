@@ -15,6 +15,14 @@ export const useFixedAssetsSpeedLineChart = (originData) => {
   // 区域基本情况 => 固定资产投入增速
   const fixedAssetsSpeedChartOption = reactive({
     detailTitle: '固定资产投入增速',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '固定资产投入增速'
+        }
+      }
+    },
     tooltip: {
       ...getTooltip('line'),
       formatter: getTooltipFormatter('seriesName')
@@ -98,7 +106,10 @@ export const useFixedAssetsSpeedLineChart = (originData) => {
             name: '房地产开发投资',
             value: unref(currentData).fixedAssetsRealEstateGrowthPeriod || 0
           }
-        ]
+        ],
+        lineStyle: {
+          type: 'dotted'
+        }
       })
     ]
   }

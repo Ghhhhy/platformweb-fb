@@ -182,6 +182,7 @@ export const getAxisLabel = (formatter = (value) => value) => {
   return {
     color: '#8C8C8C',
     fontSize: 12,
+    lineHeight: 18,
     // 强制显示所有
     interval: 0,
     hideOverlap: false,

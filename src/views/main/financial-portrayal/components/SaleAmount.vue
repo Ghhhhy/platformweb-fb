@@ -1,11 +1,19 @@
 <template>
   <div class="sale-amount">
+    <SpecificNumber
+      class="mgt30"
+      :title="currentTitle"
+      :value="currentValue1"
+    />
     <div v-if="showRatio" class="ratio-container">
       <!-- 联调时需要根据上升、下降切换图标和值的类名down-color、up-color -->
       <svg-icon :name="ratio < 0 ? 'ratio-down1' : 'ratio-up1'" size="32" />
       <span :class="['ratio', ratio < 0 ? 'down-color' : 'up-color']">{{ ratio }}%</span>
     </div>
-    <SpecificNumber v-bind="$props" />
+    <SpecificNumber
+      :title="lastTitle"
+      :value="lastValue1"
+    />
   </div>
 </template>
 
@@ -36,15 +44,23 @@ export default defineComponent({
     SpecificNumber
   },
   setup(props) {
-    const realLastValue = computed(() => {
-      return formatterThousands(props.lastValue)
+    const lastValue1 = computed(() => {
+      return formatterThousands(props.lastValue).split('')
     })
-    const realCurrentValue = computed(() => {
+    const currentValue1 = computed(() => {
       return formatterThousands(props.currentValue).split('')
     })
+    const lastTitle = computed(() => {
+      return '上年同期'
+    })
+    const currentTitle = computed(() => {
+      return '本\xa0\xa0\xa0\xa0\xa0\xa0期'
+    })
     return {
-      realLastValue,
-      realCurrentValue,
+      lastValue1,
+      currentValue1,
+      lastTitle,
+      currentTitle,
       formatterThousands,
       parseThousands
     }
@@ -56,7 +72,6 @@ export default defineComponent({
 .ratio-container {
   display: flex;
   align-items: center;
-  margin: 36px 0 8px;
 
   .ratio {
     font-size: 18px;

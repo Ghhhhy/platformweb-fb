@@ -6,6 +6,14 @@ export const useIssueBondsBarChart = () => {
   // 政府债务类指标 => 年内发行债券
   const issueBondsChartOption = reactive({
     detailTitle: '年内发行债券',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '年内发行债券'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

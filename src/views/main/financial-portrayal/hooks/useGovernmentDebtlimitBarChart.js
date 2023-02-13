@@ -6,6 +6,14 @@ export const useGovernmentDebtlimitBarChart = () => {
   // 政府债务类指标 => 政府债务限额
   const governmentDebtlimitChartOption = reactive({
     detailTitle: '政府债务限额',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '政府债务限额'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

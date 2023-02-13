@@ -25,13 +25,6 @@ export const useBarChart = (echarts, config, observeNode = null) => {
     backgroundColor: getColor('white'),
     color: getColor(['blue', 'green']),
     title: getTitle(),
-    toolbox: {
-      show: true,
-      feature: {
-        saveAsImage: {
-        }
-      }
-    },
     // 指示器
     tooltip: {
       ...getTooltip(),

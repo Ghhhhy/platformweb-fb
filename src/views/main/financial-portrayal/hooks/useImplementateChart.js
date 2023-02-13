@@ -14,6 +14,14 @@ export const useImplementateChart = () => {
     ],
     showDot: true,
     detailTitle: '一般公共预算收入',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '一般公共预算收入'
+        }
+      }
+    },
     tooltip: { show: false },
     legend: { show: false },
     series: [],
