@@ -404,7 +404,7 @@ export default {
       let params = {
         isCz: isCz,
         reportCode: type,
-        trackProCode: trackProCode,
+        proCode: trackProCode,
         mofDivCode: '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)

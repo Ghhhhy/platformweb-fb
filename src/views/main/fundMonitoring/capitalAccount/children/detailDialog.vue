@@ -328,7 +328,7 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
+      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountpayzyap'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -345,12 +345,12 @@ export default {
 
       switch (key) {
         case 'amountZdzjFp':
-          if (this.detailType === 'zdzjxmmx') {
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap') {
             this.handleDetail('zdzjzbmx_fzjfp', obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
-        case 'amountPayAll':
+        case 'amountpayzyap':
           this.handleDetail('zdzjzcmx_fdq', obj.row)
           this.$parent.sDetailTitle = '支出明细'
           break
