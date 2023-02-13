@@ -435,28 +435,7 @@ export let proconf = {
       width: 180,
       cellRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '拦截'
-          },
-          {
-            value: 4,
-            label: '记录'
-          },
-          {
-            value: '5',
-            label: '禁止'
-          }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         defaultValue: '',
         props: {}
       },

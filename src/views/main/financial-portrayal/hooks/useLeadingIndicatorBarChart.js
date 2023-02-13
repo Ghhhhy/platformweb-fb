@@ -20,11 +20,23 @@ export const useLeadingIndicatorBarChart = (originData) => {
     last: {
       label: '上年同期用电量',
       value: 0.00
+    },
+    increase: {
+      label: '较上年增长',
+      value: 0.00
     }
   })
   // 区域基本情况 => 先行指标
   const leadingIndicatorChartOption = reactive({
     detailTitle: '先行指标',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '先行指标'
+        }
+      }
+    },
     grid: getGrid({ left: 48, top: 140, right: 34, bottom: 10 }),
     tooltip: {
       ...getTooltip(),
@@ -66,23 +78,24 @@ export const useLeadingIndicatorBarChart = (originData) => {
   const updataSeries = (currentData) => {
     leadingIndicatorValues.current.value = formatterThousands(unref(currentData).electricityConsumption) || 0.00
     leadingIndicatorValues.last.value = formatterThousands(unref(currentData).electricityConsumptionPeriod) || 0.00
+    leadingIndicatorValues.increase.value = formatterThousands(unref(currentData).electricityConsumption - unref(currentData).electricityConsumptionPeriod) || 0.00
     leadingIndicatorChartOption.series = [
       getBarSerie({
         barWidth: 16,
         data: [
           {
-            name: '存款余额',
+            name: '本期',
             value: unref(currentData).depositBalance || 0,
             itemStyle: { color: getColor('green') }
           },
           {
-            name: '存款余额',
+            name: '本期',
             value: unref(currentData).loanBalance || 0,
-            itemStyle: { color: getColor('fadeGreen') }
+            itemStyle: { color: getColor('orange') }
           },
           {
             name: '本期',
-            value: unref(currentData).PMIIndex || 0,
+            value: unref(currentData).pmiIndex || 0,
             itemStyle: { color: getColor('blue') }
           }
         ]
@@ -91,18 +104,18 @@ export const useLeadingIndicatorBarChart = (originData) => {
         barWidth: 16,
         data: [
           {
-            name: '贷款余额',
+            name: '上年同期',
             value: unref(currentData).depositBalancePeriod || 0,
-            itemStyle: { color: getColor('orange') }
+            itemStyle: { color: getColor('fadeGreen') }
           },
           {
-            name: '贷款余额',
+            name: '上年同期',
             value: unref(currentData).loanBalancePeriod || 0,
             itemStyle: { color: getColor('fadeOrange') }
           },
           {
             name: '上年同期',
-            value: unref(currentData).PMIIndexPeriod || 0,
+            value: unref(currentData).pmiIndexPeriod || 0,
             itemStyle: { color: getColor('fadeBlue') }
           }
         ]

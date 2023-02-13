@@ -12,20 +12,20 @@
         />
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
+      <!--      <template v-slot:mainTree>
         <FilterTreeInput
           :filter-text="treeFilterText"
           :expend.sync="leftTreeVisible"
           @search="searchTreeHandle"
         />
-        <!-- <BsTreeSet
+        &lt;!&ndash; <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
-        /> -->
+        /> &ndash;&gt;
         <BsBossTree
           ref="leftTree"
           v-loading="treeLoadingState"
@@ -52,7 +52,7 @@
             @current-change="handleCurrentChange"
           />
         </div>
-      </template>
+      </template>-->
       <template v-slot:mainForm>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
@@ -80,7 +80,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>-->
               <div class="table-toolbar-left-title left-title-clear-float">
                 <span class="fn-inline">惠民支付明细数据</span>
                 <i class="fn-inline"></i>
@@ -119,7 +119,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>-->
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">支付凭证信息</span>
                 <i class="fn-inline"></i>
@@ -147,7 +147,7 @@
 
 <script>
 import { proconf, getDateString } from './benefitPeople'
-import FilterTreeInput from './FilterTreeInput.vue'
+// import FilterTreeInput from './FilterTreeInput.vue'
 import AddDialog from './children/AddDialog'
 import ImportModel from '../../../../components/Table/import/import.vue'
 import { Import } from '../../../../components/Table/import/import/import.js'
@@ -157,7 +157,7 @@ import { Export } from '../../../../components/Table/export/export/export'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
-    FilterTreeInput,
+    // FilterTreeInput,
     ImportModel,
     AddDialog
     // AddDialog
@@ -229,7 +229,7 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
-      leftTreeVisible: true,
+      leftTreeVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         buttons: proconf.statusButtons,
@@ -1080,7 +1080,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.roleId = this.$store.state.curNavModule.roleguid
-    this.getLeftTreeData()
+    // this.getLeftTreeData()
     // this.queryTableDatas()
     // this.queryTableDatas1()
   }

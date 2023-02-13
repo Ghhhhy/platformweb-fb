@@ -13,6 +13,14 @@ export const useGovernmentDebtAmountBarChart = () => {
   // 政府债务类指标 => 政府债务金额
   const governmentDebtAmountBarChart = reactive({
     detailTitle: '政府债务金额',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '政府债务金额'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

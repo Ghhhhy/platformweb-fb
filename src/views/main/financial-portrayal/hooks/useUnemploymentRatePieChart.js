@@ -25,6 +25,14 @@ export const useUnemploymentRatePieChart = (originData) => {
     title: [
       getPieTitle({ left: '50%', bottom: '20px', text: '本期' })
     ],
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '失业率'
+        }
+      }
+    },
     series: []
   })
   // 区域基本情况 => 上年同期失业率
@@ -32,6 +40,14 @@ export const useUnemploymentRatePieChart = (originData) => {
     title: [
       getPieTitle({ left: '50%', bottom: '20px', text: '上年同期' })
     ],
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '失业率'
+        }
+      }
+    },
     series: []
   })
   const updataSeries = (currentData) => {

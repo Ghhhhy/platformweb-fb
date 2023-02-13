@@ -7,6 +7,14 @@ export const useIndustrialAddedBarChart = (originData) => {
   // 区域基本情况 => 工业增加值
   const industrialAddedChartOption = reactive({
     detailTitle: '工业增加值',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '工业增加值'
+        }
+      }
+    },
     tooltip: {
       ...getTooltip(),
       formatter: getTooltipFormatter('name')

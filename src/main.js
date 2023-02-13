@@ -44,6 +44,8 @@ import {
 // import BSUI from 'bs-ui/lib/bsui.common.js'
 // axios Request
 import useOptionChain from '@/utils/useOptionChain.js'
+import html2canvasDirective from './directive/html2canvasDirective'
+
 BSUI.ConfigOption.setConfig(customConfig)
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
@@ -54,6 +56,7 @@ Vue.config.devtools = true
 Vue.use(ElementUI)
 // 自定义loading指令覆盖element-ui的loading指令
 Vue.use(loadingDirective)
+Vue.use(html2canvasDirective)
 Vue.use(Echarts)
 Vue.use(vxeTable)
 Vue.use(BSUI)

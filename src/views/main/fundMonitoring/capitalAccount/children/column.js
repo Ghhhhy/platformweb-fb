@@ -237,28 +237,28 @@ const proconf = {
         },
         {
           title: '中央安排',
-          field: 'amountbjfpzyap',
+          field: 'amountZdzjFp',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
           title: '省级安排',
-          field: 'amountbjfpsnjap',
+          field: 'amountSnjap',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
           title: '市级安排',
-          field: 'amountbjfpsjap',
+          field: 'amountSjap',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }
         },
         {
           title: '县级安排',
-          field: 'amountbjfpxjap',
+          field: 'amountXjap',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }

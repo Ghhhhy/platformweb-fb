@@ -20,7 +20,7 @@ export const useExFactoryPricePieChart = (originData) => {
     exFactoryPriceCommonOption.options = periodXAxis().map((item, index) => {
       return {
         label: item,
-        value: index < 1 ? unref(currentData).PPIIndex || 0 : unref(currentData).PPIIndexPeriod || 0,
+        value: index < 1 ? unref(currentData).ppiIndex || 0 : unref(currentData).ppiIndexPeriod || 0,
         color: getColor(index < 1 ? 'green' : 'yellow')
       }
     })
@@ -52,7 +52,7 @@ export const useExFactoryPricePieChart = (originData) => {
         },
         data: [
           {
-            value: unref(currentData).PPIIndex || 0,
+            value: unref(currentData).ppiIndex || 0,
             name: 'PPI'
           }
         ],
@@ -90,7 +90,7 @@ export const useExFactoryPricePieChart = (originData) => {
         },
         data: [
           {
-            value: unref(currentData).PPIIndexPeriod || 0,
+            value: unref(currentData).ppiIndexPeriod || 0,
             name: 'PPI'
           }
         ],

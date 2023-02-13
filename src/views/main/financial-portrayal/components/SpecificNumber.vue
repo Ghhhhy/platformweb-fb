@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="value-container" :style="valueWrapperStyle">
+      <span class="unit">{{ title }}&nbsp;&nbsp;</span>
       <div class="values">
         <!-- 四个角标 -->
         <i
@@ -8,7 +9,7 @@
           :key="`${index}-corner-mark`"
           class="corner-mark"
         ></i>
-        <template v-for="(item, index) in realCurrentValue">
+        <template v-for="(item, index) in value">
           <!-- 千分治符 -->
           <i
             v-if="item === ','"
@@ -22,18 +23,11 @@
       </div>
       <span class="unit">亿元</span>
     </div>
-    <div class="last-year">
-      <div class="last-year-title">上年同期</div>
-      <div class="last-year-content">
-        <span class="value">{{ realLastValue }}</span>
-        <span class="unit">亿元</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { formatterThousands, parseThousands } from '@/utils/thousands'
 export default defineComponent({
   props: {
@@ -41,25 +35,17 @@ export default defineComponent({
       type: Object,
       default: () => ({ marginBottom: '30px' })
     },
-    lastValue: {
-      type: [String, Number],
+    value: {
+      type: Array,
       default: 0.00
     },
-    currentValue: {
-      type: [String, Number],
-      default: 0.00
+    title: {
+      type: String,
+      default: '上年同期'
     }
   },
-  setup(props) {
-    const realLastValue = computed(() => {
-      return formatterThousands(props.lastValue)
-    })
-    const realCurrentValue = computed(() => {
-      return formatterThousands(props.currentValue).split('')
-    })
+  setup() {
     return {
-      realLastValue,
-      realCurrentValue,
       formatterThousands,
       parseThousands
     }
