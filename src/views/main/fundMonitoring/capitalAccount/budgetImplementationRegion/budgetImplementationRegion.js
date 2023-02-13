@@ -470,7 +470,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountSnjxd}-{amountSnjbjfp}-{amountSnjxjfp}'
+            formula: '{amountZyxd}-{amountSnjbjfp}-{amountSnjxjfp}'
           },
           {
             title: '本级已支出',
@@ -484,7 +484,7 @@ const proconf = {
             field: 'sLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSnjxd}-0==0)?0:({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100',
+            formula: '({amountZyxd}-0==0)?0:({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -533,7 +533,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
+            formula: '{amountZyxd}-{amountSbjfp}-{amountSxjfp}'
           },
           {
             title: '本级已支出',
@@ -547,7 +547,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSjxd}-0==0)?0:({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100',
+            formula: '({amountZyxd}-0==0)?0:({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -589,7 +589,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountXjxd}-{amountXjfp}'
+            formula: '{amountZyxd}-{amountXjfp}'
           },
           {
             title: '已支出',
@@ -603,7 +603,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:({amountXjfp}/{amountZyxd}*100)',
             cellRender: {
               name: '$vxeRatio'
             }
