@@ -89,7 +89,7 @@ export let proconf = {
       width: 180,
       field: 'agencyCodeName',
       treeNode: true,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon5'
       }
