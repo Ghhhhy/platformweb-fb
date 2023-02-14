@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -83,7 +84,9 @@ import { proconf } from './budgetDisburseObject'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+import regionMixin from '../mixins/regionMixin'
 export default {
+  mixins: [regionMixin],
   components: {
     // AddDialog
   },
@@ -602,8 +605,8 @@ export default {
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
-    getPro() {
-      HttpModule.getProTreeData().then(res => {
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[1].itemRender.options = treeResdata

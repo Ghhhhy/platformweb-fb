@@ -9,6 +9,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -105,7 +106,9 @@ import ImportModal from './components/ImportModal'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
+import capitalMixin from '../mixins/capitalMixin'
 export default {
+  mixins: [capitalMixin],
   components: {
     DetailDialog,
     SDetailDialog,
@@ -626,8 +629,8 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
-    getMofDiv() {
-      HttpModule.getMofTreeData().then(res => {
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
           let treeResdata = this.getChildrenNewData1(res.data)

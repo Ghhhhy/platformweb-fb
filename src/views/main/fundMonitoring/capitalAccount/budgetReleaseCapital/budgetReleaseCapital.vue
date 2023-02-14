@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -91,7 +92,9 @@ import getFormData from './budgetReleaseCapital.js'
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import capitalMixin from '../mixins/capitalMixin'
 export default {
+  mixins: [capitalMixin],
   components: {
     DetailDialog,
     SDetailDialog
@@ -427,8 +430,8 @@ export default {
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
-    getMofDiv() {
-      HttpModule.getMofTreeData().then(res => {
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
           let treeResdata = this.getChildrenNewData1(res.data)

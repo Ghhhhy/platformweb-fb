@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -88,7 +89,9 @@ import getFormData from './budgetDisburseDiscount.js'
 import DetailDialog from '../children/qdetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import regionMixin from '../mixins/regionMixin'
 export default {
+  mixins: [regionMixin],
   components: {
     DetailDialog,
     SDetailDialog

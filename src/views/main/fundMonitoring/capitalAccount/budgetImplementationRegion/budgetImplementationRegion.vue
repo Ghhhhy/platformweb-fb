@@ -18,6 +18,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
+            @itemChange="itemChange"
             @onSearchClick="search"
           />
         </div>
@@ -91,7 +92,9 @@ import getFormData from './budgetImplementationRegion.js'
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import regionMixin from '../mixins/regionMixin'
 export default {
+  mixins: [regionMixin],
   components: {
     DetailDialog,
     SDetailDialog
@@ -515,10 +518,9 @@ export default {
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
-    getPro() {
-      HttpModule.getProTreeData().then(res => {
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
-          console.log('data', res.data)
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[1].itemRender.options = treeResdata
         } else {
