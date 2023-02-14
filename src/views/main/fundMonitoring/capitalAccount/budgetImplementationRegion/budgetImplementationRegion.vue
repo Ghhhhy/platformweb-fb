@@ -568,6 +568,8 @@ export default {
         } else {
           this.$message.error(res.message)
         }
+      }).catch(() => {
+        this.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
