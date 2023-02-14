@@ -319,9 +319,11 @@ export default {
           this.$emit('update:fileData', this.fileData)
           this.$message.success('上传成功')
         } else {
-          this.$message.error('上传失败')
+          this.$message.error(res?.result || '上传失败')
         }
-      }).catch()
+      }).catch((res) => {
+        this.$message.error(res?.result || '上传失败')
+      })
     },
     // 点击表格行触发事件
     /**
