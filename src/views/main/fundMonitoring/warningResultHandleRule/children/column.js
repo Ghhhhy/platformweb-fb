@@ -138,6 +138,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon1',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -253,6 +255,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -376,6 +380,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon6',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -609,6 +615,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -842,6 +850,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon2',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -1075,6 +1085,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -1316,6 +1328,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon1',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -1557,6 +1571,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -1798,6 +1814,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon7',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -2031,6 +2049,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -2272,6 +2292,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon1',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
@@ -2513,6 +2535,8 @@ const proconf = {
       cellRender: {
         name: '$vxeIcon3',
         props: {
+          // 不显示数值
+          showValue: false,
           $refs: this
         }
       }
