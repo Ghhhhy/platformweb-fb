@@ -74,7 +74,7 @@ export default {
     defaultSplitPaneLeftWidth: {
       type: Number,
       default() {
-        return 20
+        return 15
       }
     }
   },
@@ -89,6 +89,7 @@ export default {
   methods: {
     asideChange() {},
     onSplitPaneResize(leftWidth) {
+      console.log(leftWidth)
       // if (leftWidth > 0) {
       //   this.leftVisible = true
       // }
