@@ -415,6 +415,12 @@ export class Export {
     }
   }
   generateCellViewValueStyle(cell, column, indent) {
+    if (column.cellRender?.name === '$vxeRatio') {
+      cell.value = cell.value ? cell.value / 100 : cell.value
+      cell.numFmt = '0.0%'
+    } else if (column.cellRender?.name === '$vxeMoney') {
+      cell.numFmt = '0.00'
+    }
     cell.style.border = {
       left: 'thin',
       right: 'thin',
@@ -491,6 +497,10 @@ export class Export {
       cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = item[column.field] === undefined ? '' : item[column.field]
+    }
+    if (column.cellRender?.name === '$vxeRatio') {
+      cell.value = cell.value ? cell.value * 1 : cell.value
+      cell.numFmt = '.0%'
     }
     // 树形表格设置缩进
     const indent = !column.treeNode || !pRowIndex ? 0 : pRowIndex === '#' ? 2 : pRowIndex * 2

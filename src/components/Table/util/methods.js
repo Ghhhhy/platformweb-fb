@@ -3258,9 +3258,9 @@ const exportAndImportFn = {
       row[key] = (row[key] && this.moneyUnit) ? (row[key] / this.moneyUnit) : ''
     })
     // 进度列增加%
-    ratioKeys.forEach(key => {
-      row[key] = row[key] ? `${Number.prototype.toFixed.call(row[key], 1)}%` : ''
-    })
+    // ratioKeys.forEach(key => {
+    //   row[key] = row[key] ? Number.prototype.toFixed.call(row[key], 1) : ''
+    // })
   },
   getPrintOption(exportModalFormData) {
     const checkColumns = []
