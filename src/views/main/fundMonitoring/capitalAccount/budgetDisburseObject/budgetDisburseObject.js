@@ -222,6 +222,18 @@ export let proconf = {
       fixed: 'left'
     },
     {
+      title: '资金名称',
+      align: 'left',
+      width: 160,
+      field: 'speTypeName'
+    },
+    {
+      title: '预算单位',
+      align: 'left',
+      width: 160,
+      field: 'agencyName'
+    },
+    {
       title: '项目编码',
       align: 'left',
       width: 160,
@@ -320,18 +332,6 @@ export let proconf = {
       ]
     },
     {
-      title: '资金名称',
-      align: 'left',
-      width: 160,
-      field: 'speTypeName'
-    },
-    {
-      title: '预算单位',
-      align: 'left',
-      width: 160,
-      field: 'agencyName'
-    },
-    {
       title: '支出功能科目',
       align: 'left',
       width: 160,
@@ -363,6 +363,18 @@ export let proconf = {
       width: 160,
       field: 'mofDivName',
       fixed: 'left'
+    },
+    {
+      title: '资金名称',
+      align: 'left',
+      width: 160,
+      field: 'speTypeName'
+    },
+    {
+      title: '预算单位',
+      align: 'left',
+      width: 160,
+      field: 'agencyName'
     },
     {
       title: '项目编码',
@@ -447,18 +459,6 @@ export let proconf = {
           field: 'amountZcxjap'
         }
       ]
-    },
-    {
-      title: '资金名称',
-      align: 'left',
-      width: 160,
-      field: 'speTypeName'
-    },
-    {
-      title: '预算单位',
-      align: 'left',
-      width: 160,
-      field: 'agencyName'
     },
     {
       title: '支出功能科目',
