@@ -11,13 +11,19 @@ import XEUtils from 'xe-utils'
 
 // 唯一行id属性名称
 export const rowUuidKeyName = '__BOSS_UUID'
+// 树形节点深度
+export const rowUniqueLevelKey = '__BOSS_TREE_NODE_LEVEL'
 
 // 设置树形表格唯一键
-const setRowUuidKey = (rows, instance) => {
-  if (instance?.treeConfig && instance?.isTreeSeqToFlat && rows) {
-    XEUtils.eachTree(Array.isArray(rows) ? rows : [rows], item => {
-      !item[rowUuidKeyName] && Reflect.set(item, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
-    })
+const setRowUuidKey = (rows, instance, level = 0) => {
+  for (let row of Array.isArray(rows) ? rows : [rows]) {
+    // 设置唯一标识
+    !row[rowUuidKeyName] && Reflect.set(row, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
+    // 设置节点层级
+    !row[rowUniqueLevelKey] && Reflect.set(row, rowUniqueLevelKey, level)
+    if (row?.children && row?.children?.length) {
+      setRowUuidKey(row.children, instance, level + 1)
+    }
   }
 }
 
