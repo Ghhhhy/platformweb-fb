@@ -84,7 +84,7 @@ export default {
     treeNodeClick(obj) {
       this.userSelect = obj
       const param = {
-        userId: obj.mofDepId
+        userId: obj.id
       }
       HttpModule.queryByUserId(param).then(res => {
         let array = []
@@ -109,10 +109,10 @@ export default {
       //   this.$refs.stampTree.setCheckedKeys(this.proArray)
       //   return
       // }
-      if (this.userSelect.mofDepId) {
+      if (this.userSelect.id) {
         let isChecked = state.checkedKeys.includes(obj.code)
         var param = {
-          mofDepId: this.userSelect.mofDepId,
+          mofDepId: this.userSelect.id,
           manageMofDepProRelation: state.checkedNodes
             .map(item => {
               return { proCode: item.code, proName: item.name }
