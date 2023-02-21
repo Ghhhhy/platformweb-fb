@@ -1,5 +1,6 @@
 //  数据抽取api
 import { post, get } from '@/api/http'
+import store from '@/store'
 export default {
   // 获取表格数据
   queryTableDatas (params) {
@@ -20,7 +21,7 @@ export default {
   },
   // 获取处室信息树
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/MANAGE_MOF_DEP/150000000', params)
+    return get(`mp-b-basedata-service/v2/basedata/MANAGE_MOF_DEP/${store.state.userInfo.province}`, params)
   },
   update (params) {
     return post('dfr-monitor-service/dfr/manageMofDepProRelation/update', params)
