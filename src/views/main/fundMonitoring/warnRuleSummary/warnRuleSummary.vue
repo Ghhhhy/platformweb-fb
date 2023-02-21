@@ -413,7 +413,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -433,6 +433,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
