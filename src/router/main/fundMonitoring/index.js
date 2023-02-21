@@ -376,6 +376,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/UserProRelation/userProRelation.vue')
   },
   {
+    path: '/manageMofDepProRelation', // 用户资金权限配置
+    name: 'manageMofDepProRelation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/ManageMofDepProRelation/ManageMofDepProRelation.vue')
+  },
+  {
     path: '/escalation', // 财政上报
     name: 'escalation',
     component: () => import('@/views/main/fundMonitoring/escalation/escalation.vue')
