@@ -6,8 +6,8 @@ export default {
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/manageMofDepProRelation/query', params)
   },
-  queryByUserId (params) {
-    return post('dfr-monitor-service/dfr/manageMofDepProRelation/queryByUserId', params)
+  queryByMofDepId (params) {
+    return post('dfr-monitor-service/dfr/manageMofDepProRelation/queryByMofDepId', params)
   },
   insert (params) {
     return post('dfr-monitor-service/dfr/manageMofDepProRelation/add', params)
