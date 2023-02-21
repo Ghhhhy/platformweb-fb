@@ -37,7 +37,7 @@
               :defaultexpandedkeys="['0']"
               :is-show-input="true"
               :open-loading="true"
-              treeid="regulationCode"
+              treeid="code"
               :nodecheckmethod="nodecheckmethod"
             />
           </div>
@@ -84,12 +84,12 @@ export default {
     treeNodeClick(obj) {
       this.userSelect = obj
       const param = {
-        userId: obj.id
+        userId: obj.mofDepId
       }
       HttpModule.queryByUserId(param).then(res => {
         let array = []
         res.data.forEach(item => {
-          array.push(item.regulationCode)
+          array.push(item.code)
         })
         this.proArray = array
         // console.log('array', array)
@@ -109,10 +109,10 @@ export default {
       //   this.$refs.stampTree.setCheckedKeys(this.proArray)
       //   return
       // }
-      if (this.userSelect.id) {
-        let isChecked = state.checkedKeys.includes(obj.proCode)
+      if (this.userSelect.mofDepId) {
+        let isChecked = state.checkedKeys.includes(obj.code)
         var param = {
-          mofDepId: this.userSelect.id,
+          mofDepId: this.userSelect.mofDepId,
           manageMofDepProRelation: state.checkedNodes
             .map(item => {
               return { proCode: item.code, proName: item.name }
