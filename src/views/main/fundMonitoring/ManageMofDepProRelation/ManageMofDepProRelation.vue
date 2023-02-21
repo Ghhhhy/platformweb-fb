@@ -84,7 +84,7 @@ export default {
     treeNodeClick(obj) {
       this.userSelect = obj
       const param = {
-        userId: obj.id
+        mofDepId: obj.id
       }
       HttpModule.queryByUserId(param).then(res => {
         let array = []
