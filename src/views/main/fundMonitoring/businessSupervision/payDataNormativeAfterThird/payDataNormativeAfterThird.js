@@ -204,22 +204,22 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '支付日期明细',
-      width: 180,
-      field: 'payDateDetail',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '支付确认日期明细',
-      width: 180,
-      field: 'xpayDate',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '支付日期明细',
+    //   width: 180,
+    //   field: 'payDateDetail',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '支付确认日期明细',
+    //   width: 180,
+    //   field: 'xpayDate',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '金额',
       width: 180,

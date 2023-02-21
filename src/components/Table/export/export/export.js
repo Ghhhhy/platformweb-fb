@@ -11,6 +11,7 @@
 import { defaultViewValueFormat, defaultViewValueFormatType, getCellValueAlign, getCellViewTitle } from './exportUtil.js'
 import XlsxTool from 'xlsx'
 import FileSaver from 'file-saver'
+import { rowUniqueLevelKey } from '../../util/methods'
 export class Export {
   constructor(gloabelConfig = {}, tableComponentInstance) {
     // 当前表格组件实例
@@ -361,8 +362,9 @@ export class Export {
     } else {
       cell.value = this.getViewCellValue(item, column)
     }
+
     // 树形表格设置缩进
-    const indent = !column.treeNode || !pRowIndex ? 0 : pRowIndex === '#' ? 2 : pRowIndex * 2
+    const indent = !column.treeNode || !pRowIndex ? 0 : (item[rowUniqueLevelKey] || 0) * 2
     this.generateCellViewValueStyle(cell, column, indent)
   }
   generateFooterCellViewValue(cell, value, column) {
@@ -503,7 +505,7 @@ export class Export {
       cell.numFmt = '.0%'
     }
     // 树形表格设置缩进
-    const indent = !column.treeNode || !pRowIndex ? 0 : pRowIndex === '#' ? 2 : pRowIndex * 2
+    const indent = !column.treeNode || !pRowIndex ? 0 : (item[rowUniqueLevelKey] || 0) * 2
     this.generateCellViewValueStyle(cell, column, indent)
   }
   toBuffer(wbout) {
