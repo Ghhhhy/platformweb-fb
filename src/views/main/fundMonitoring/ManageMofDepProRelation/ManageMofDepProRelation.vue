@@ -11,6 +11,9 @@
       <template v-slot:mainForm>
         <div style="height:100%">
           <div class="tree">
+            <div class="title">
+              <span style="font-size: 14px;font-weight: bold;margin-top: 7px;">处室列表</span>
+            </div>
             <!--            <TreeScollLoad />-->
             <BsBossTree
               ref="userTree"
@@ -26,6 +29,9 @@
             />
           </div>
           <div class="tree">
+            <div class="title">
+              <span style="font-size: 14px;font-weight: bold;margin-top: 7px;">资金列表</span>
+            </div>
             <BsBossTree
               ref="stampTree"
               v-loading="showLoadingRight"
@@ -37,6 +43,7 @@
               :defaultexpandedkeys="['0']"
               :is-show-input="true"
               :open-loading="true"
+              :accordion="accordion"
               treeid="code"
               :nodecheckmethod="nodecheckmethod"
             />
@@ -86,21 +93,25 @@ export default {
       const param = {
         mofDepId: obj.id
       }
-      HttpModule.queryByUserId(param).then(res => {
+      HttpModule.queryByMofDepId(param).then(res => {
         let array = []
-        res.data.forEach(item => {
-          array.push(item.code)
-        })
-        this.proArray = array
-        // console.log('array', array)
-        // console.log('array', this.$refs.stampTree)
-        this.$refs.stampTree.setCheckedKeys(array)
-        // if (array.length > 0) {
-        //   this.$nextTick(() => {
-        //     this.$refs.stampTree.treeOptionFn().setCheckedKeys(array)
-        //   })
-        // }
-        console.log('array1', this.$refs.stampTree)
+        if (res.code === '000000') {
+          res.data.forEach(item => {
+            array.push(item.code)
+          })
+          this.proArray = array
+          // console.log('array', array)
+          // console.log('array', this.$refs.stampTree)
+          this.$refs.stampTree.setCheckedKeys(array)
+          // if (array.length > 0) {
+          //   this.$nextTick(() => {
+          //     this.$refs.stampTree.treeOptionFn().setCheckedKeys(array)
+          //   })
+          // }
+          console.log('array1', this.$refs.stampTree)
+        } else {
+          this.$message.error(res.message)
+        }
       })
     },
     nodecheckmethod(obj, state) {
@@ -127,7 +138,7 @@ export default {
           }
         })
       } else {
-        this.$message.warning('请选择用户！')
+        this.$message.warning('请选择处室！')
       }
     },
     // 获取处室树
@@ -151,6 +162,9 @@ export default {
         this.$set(item, 'label', item.code + '-' + item.name)
       })
       return treeArray
+    },
+    accordion: { // 是否每次只打开一个同级树节点展开
+      type: true
     }
   },
   mounted() {
