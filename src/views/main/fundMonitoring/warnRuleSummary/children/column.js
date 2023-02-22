@@ -99,7 +99,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       field: 'paymentAmount',
       sortable: false,
       filters: false,
@@ -176,7 +176,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '预算金额（单位:万元）',
+      title: '预算金额',
       align: 'center',
       children: [
         {
@@ -196,7 +196,7 @@ const proconf = {
       ]
     },
     {
-      title: '支付金额（单位:万元）',
+      title: '支付金额',
       align: 'center',
       children: [
         {
@@ -266,14 +266,14 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '预算金额（单位:万元）',
+      title: '预算金额',
       field: 'fpAmount',
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '支出金额（单位:万元）',
+      title: '支出金额',
       field: 'payAppAmt',
       sortable: false,
       align: 'right',
@@ -693,7 +693,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       field: 'paymentAmount',
       width: 140,
       sortable: false,
@@ -849,7 +849,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       filters: false,
       field: 'paymentAmount',
       width: 140,
@@ -1041,7 +1041,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       field: 'paymentAmount',
       width: 140,
       filters: false,
@@ -1203,7 +1203,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       width: 140,
       filters: false,
       field: 'paymentAmount',
@@ -1265,7 +1265,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       width: 140,
       filters: false,
       field: 'paymentAmount',
