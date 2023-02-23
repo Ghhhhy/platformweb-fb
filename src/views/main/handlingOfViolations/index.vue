@@ -208,11 +208,12 @@ export default defineComponent({
     ] = useTable({
       fetch: pageQueryIndex,
       beforeFetch: params => {
-        // 非全部页签
         if (unref(currentTab)?.code !== TabEnum.ALL) {
-          params.statusCode = unref(currentTab).value
-        } else {
-          params.statusCode = ''
+          // 非全部页签
+          params.statusCodes = [unref(currentTab).value]
+        } else if (unref(currentTab)?.code === TabEnum.ALL && !params.statusCode) {
+          // 全部页签 且没有选值
+          params.statusCodes = unref(tabStatusBtnConfig).buttons?.map(item => item.value)
         }
         return {
           ...params,
