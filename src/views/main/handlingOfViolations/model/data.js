@@ -140,9 +140,17 @@ export const getStatusCodeOptions = () => {
     { value: TabEnum.DISABLED_SELF, label: '已禁止' }
   ]
   if (RouterPathEnum.UNIT_FEEDBACK === router.currentRoute.path) {
+    // 单位反馈
     options.unshift(...[{ value: TabEnum.NO_SEND, label: '待送审' }, { value: TabEnum.SENDED, label: '已送审' }])
-  } else {
+  } else if (Object.keys(RouterPathEnum).includes(router.currentRoute.path)) {
+    // 除开单位反馈的所有违规处理菜单
     options.unshift(...[{ value: TabEnum.NO_AUDIT, label: '待审核' }, { value: TabEnum.AUDITED, label: '已审核' }])
+  } else {
+    // 其他菜单全部显示（主题分析菜单需要用到）
+    options.unshift(
+      ...[{ value: TabEnum.NO_SEND, label: '待送审' }, { value: TabEnum.SENDED, label: '已送审' }],
+      ...[{ value: TabEnum.NO_AUDIT, label: '待审核' }, { value: TabEnum.AUDITED, label: '已审核' }]
+    )
   }
   return options
 }
