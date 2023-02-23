@@ -547,8 +547,8 @@ export default {
       let key = obj.column.property
 
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
 
       switch (key) {
         case 'detail':
