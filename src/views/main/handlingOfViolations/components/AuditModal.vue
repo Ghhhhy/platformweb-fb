@@ -26,7 +26,7 @@
           v-if="!isUnitFeedbackPage"
           :disabled="auditButLoading"
           size="small"
-          @click="submitFetch(TabEnum.RETURN)"
+          @click="submitFetch(ActionTypeEnum.ACTION_RETURN)"
         >
           退回
         </vxe-button>
@@ -34,7 +34,7 @@
           v-if="isDivisionReAudit"
           :disabled="auditButLoading"
           size="small"
-          @click="submitFetch(TabEnum.DISABLED)"
+          @click="submitFetch(ActionTypeEnum.ACTION_DISABLED, 1)"
         >
           禁止
         </vxe-button>
@@ -42,7 +42,7 @@
           :disabled="auditButLoading"
           type="primary"
           size="small"
-          @click="submitFetch(isUnitFeedbackPage ? TabEnum.SENDED : TabEnum.AUDITED)"
+          @click="submitFetch(ActionTypeEnum.ACTION_AUDIT)"
         >
           {{ btnTitle }}
         </vxe-button>
@@ -167,9 +167,10 @@ import useInjectState from '../hooks/useInjectState'
 import usePrint from '../hooks/usePrint'
 import useWarnInfo from '../hooks/useWarnInfo'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
+import store from '@/store'
 
 import { Message, MessageBox } from 'element-ui'
-import { ModalTypeEnum, RouterPathEnum, TabEnum } from '../model/enum'
+import { ModalTypeEnum, RouterPathEnum, ActionTypeEnum } from '../model/enum'
 import { checkRscode } from '@/utils/checkRscode'
 import { bpmFlow } from '@/api/frame/main/handlingOfViolations/index.js'
 import { pagePathMapNodeType, warnLevelOptions } from '../model/data'
@@ -289,7 +290,10 @@ export default defineComponent({
 
     Promise.all([
       initWarningCodesAttachFiles(),
-      getDetailHandle(unref(currentNode).warningCode)
+      getDetailHandle({
+        warningCode: unref(currentNode).warningCode,
+        id: unref(currentNode).id
+      })
     ])
 
     /**
@@ -301,7 +305,7 @@ export default defineComponent({
       printData,
       printHandle,
       openPrintCallback
-    } = usePrint(checkedItemsKey, currentWarnDetail)
+    } = usePrint(checkedItemsKey, currentWarnDetail, cloneRecords)
 
     // 处理意见、说明组件ref实例
     const auditFormRef = ref(null)
@@ -336,7 +340,7 @@ export default defineComponent({
      * 共用提交
      * @param actionType {string} 操作类型：送审、确认、退回、禁止
      * */
-    async function submitFetch(nodeStatus) {
+    async function submitFetch(actionType, forbidStatus) {
       try {
         setAuditButLoading(true)
         submitBeforeValidate()
@@ -351,7 +355,7 @@ export default defineComponent({
 
         const params = {
           ...auditFormData,
-          nodeStatus,
+          actionType,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           warningCodeAndFilesList: warningCodeAndFilesList.map(item => {
             return {
@@ -359,7 +363,12 @@ export default defineComponent({
               warnLevel: item.warnLevel,
               attachFiles: item.attachFiles.map(item => item.fileguid)
             }
-          })
+          }),
+          menuId: store.state.curNavModule.guid
+        }
+        // 禁止额外参数标识
+        if (forbidStatus) {
+          params.forbidStatus = forbidStatus
         }
         // 走请求逻辑
         checkRscode(await bpmFlow(params))
@@ -412,7 +421,7 @@ export default defineComponent({
     return {
       ModalTypeEnum,
       RouterPathEnum,
-      TabEnum,
+      ActionTypeEnum,
 
       visible,
       modalTitle,

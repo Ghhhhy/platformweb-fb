@@ -53,7 +53,7 @@ import { cellCursorUnderlineClassName } from '../model/data'
 import {
   getRuleNameColumn,
   getControlTypeColumn,
-  getNodeStatusColumn,
+  getStatusCodeColumn,
   getWarningCodeColumn,
   getCreateTimeColumn,
   getAgencyNameColumn,
@@ -129,7 +129,7 @@ export default defineComponent({
       columns: [
         getRuleNameColumn(),
         getControlTypeColumn(),
-        getNodeStatusColumn(),
+        getStatusCodeColumn(),
         getWarningCodeColumn(),
         getCreateTimeColumn(),
         getAgencyNameColumn(),

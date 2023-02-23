@@ -149,7 +149,7 @@ export default defineComponent({
       printData,
       printHandle,
       openPrintCallback
-    } = usePrint(checkedItemsKey, currentWarnDetail)
+    } = usePrint(checkedItemsKey, currentWarnDetail, [])
 
     return {
       ModalTypeEnum,

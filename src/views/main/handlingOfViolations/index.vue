@@ -77,6 +77,7 @@ import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
+import store from '@/store'
 
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
@@ -86,10 +87,10 @@ import {
   searchFormAllTabSchema,
   getCommonColumns,
   getAuditDescriptionColumn,
-  getNodeStatusColumn,
+  getStatusCodeColumn,
   sendAuditTabs,
   doAuditTabs,
-  pagePathMapNodeType, getNodeStatusOptions
+  pagePathMapNodeType, getStatusCodeOptions
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 
@@ -207,14 +208,17 @@ export default defineComponent({
     ] = useTable({
       fetch: pageQueryIndex,
       beforeFetch: params => {
+        // 非全部页签
         if (unref(currentTab)?.code !== TabEnum.ALL) {
-          params.nodeStatus = unref(currentTab).value
+          params.statusCode = unref(currentTab).value
+        } else {
+          params.statusCode = ''
         }
-        params.nodeStatus && (params.nodeStatus = Number(params.nodeStatus))
         return {
           ...params,
           nodeType: pagePathMapNodeType[unref(pagePath)],
-          elementCode: unref(currentTreeNode)?.code
+          elementCode: unref(currentTreeNode)?.code,
+          menuId: store.state.curNavModule.guid
         }
       },
       columns: [],
@@ -244,7 +248,7 @@ export default defineComponent({
         )
       } else if (unref(currentTab).code === TabEnum.ALL) {
         // 全部
-        initColumns.splice(2, 0, getNodeStatusColumn(unref(isUnitMenu)))
+        initColumns.splice(2, 0, getStatusCodeColumn(unref(isUnitMenu)))
         if (unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK) {
           initColumns.splice(
             initColumns.length - 2,
@@ -309,13 +313,13 @@ export default defineComponent({
         })
 
         updateFormSchemas({
-          field: 'nodeStatus',
+          field: 'statusCode',
           itemRender: {
             options: [
               ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
               ...unref(isUnitFeedbackMenu)
                 ? []
-                : getNodeStatusOptions()
+                : getStatusCodeOptions()
                   .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
             ]
           }
