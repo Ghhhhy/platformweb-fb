@@ -103,7 +103,7 @@ export const warnLevelOptions = [
 // 监控处理方式Options（参照原项目内几种方式）
 export const controlTypeOptions = store.state.warnInfo.warnControlTypeOptions.map(item => {
   return {
-    value: item.warnLevel || String(item.warnLevel),
+    value: String(item.warnLevel),
     ...item
   }
 })

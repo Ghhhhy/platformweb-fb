@@ -358,12 +358,14 @@ export default defineComponent({
           actionType,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           warningCodeAndFilesList: warningCodeAndFilesList.map(item => {
+            const { warningCode, warnLevel, attachFiles } = item
             return {
-              warningCode: item.warningCode,
-              warnLevel: item.warnLevel,
-              attachFiles: item.attachFiles.map(item => item.fileguid)
+              warningCode,
+              warnLevel,
+              attachFiles: attachFiles.map(item => item.fileguid)
             }
           }),
+          statusCode: warningCodeAndFilesList[0]?.statusCode,
           menuId: store.state.curNavModule.guid
         }
         // 禁止额外参数标识
