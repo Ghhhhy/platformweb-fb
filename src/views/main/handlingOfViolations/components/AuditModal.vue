@@ -358,10 +358,11 @@ export default defineComponent({
           actionType,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           warningCodeAndFilesList: warningCodeAndFilesList.map(item => {
-            const { warningCode, warnLevel, attachFiles } = item
+            const { warningCode, warnLevel, attachFiles, id } = item
             return {
               warningCode,
               warnLevel,
+              id,
               attachFiles: attachFiles.map(item => item.fileguid)
             }
           }),
