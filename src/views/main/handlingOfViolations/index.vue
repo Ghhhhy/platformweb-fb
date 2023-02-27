@@ -84,13 +84,12 @@ import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
 
 import {
   searchFormCommonSchemas,
-  searchFormAllTabSchema,
   getCommonColumns,
   getAuditDescriptionColumn,
   getStatusCodeColumn,
   sendAuditTabs,
   doAuditTabs,
-  pagePathMapNodeType, getStatusCodeOptions
+  pagePathMapNodeType
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 
@@ -110,9 +109,9 @@ export default defineComponent({
     })
 
     // 是否是单位反馈
-    const isUnitFeedbackMenu = computed(() => {
-      return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
-    })
+    // const isUnitFeedbackMenu = computed(() => {
+    //   return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
+    // })
 
     // 左侧区划树显隐
     const leftVisible = ref(true)
@@ -128,8 +127,8 @@ export default defineComponent({
         formData,
         formSchemas,
         setSubmitFormData,
-        getSubmitFormData,
-        updateFormSchemas
+        getSubmitFormData
+        // updateFormSchemas
         // getForm
       },
       registerForm
