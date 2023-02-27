@@ -481,14 +481,14 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
 export const getStatusCodeColumn = () => {
   return {
     title: '业务状态',
-    field: 'statusCode',
+    field: 'statusName',
     width: 120,
     filters: false,
-    align: 'center',
-    cellRender: {
-      name: '$vxeSelect',
-      options: getStatusCodeOptions()
-    }
+    align: 'center'
+    // cellRender: {
+    //   name: '$vxeSelect',
+    //   options: getStatusCodeOptions()
+    // }
   }
 }
 

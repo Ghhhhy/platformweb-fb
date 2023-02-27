@@ -305,29 +305,31 @@ export default defineComponent({
      * 设置搜索表单
      */
     function computedSchemas() {
-      if (unref(currentTab).code === TabEnum.ALL) {
-        formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
-        unref(formSchemas).forEach(schema => {
-          if (!Reflect.has(formData, schema.field)) {
-            Object.assign(formData, { [schema.field]: '' })
-          }
-        })
-
-        updateFormSchemas({
-          field: 'statusCode',
-          itemRender: {
-            options: [
-              ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
-              ...unref(isUnitFeedbackMenu)
-                ? []
-                : getStatusCodeOptions()
-                  .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
-            ]
-          }
-        })
-      } else {
-        formSchemas.value = searchFormCommonSchemas
-      }
+      formSchemas.value = searchFormCommonSchemas
+      // 工作流接入，暂时去掉业务状态筛选
+      // if (unref(currentTab).code === TabEnum.ALL) {
+      //   formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
+      //   unref(formSchemas).forEach(schema => {
+      //     if (!Reflect.has(formData, schema.field)) {
+      //       Object.assign(formData, { [schema.field]: '' })
+      //     }
+      //   })
+      //
+      //   updateFormSchemas({
+      //     field: 'statusCode',
+      //     itemRender: {
+      //       options: [
+      //         ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
+      //         ...unref(isUnitFeedbackMenu)
+      //           ? []
+      //           : getStatusCodeOptions()
+      //             .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
+      //       ]
+      //     }
+      //   })
+      // } else {
+      //   formSchemas.value = searchFormCommonSchemas
+      // }
     }
 
     /**
