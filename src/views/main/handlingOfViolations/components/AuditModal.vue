@@ -382,9 +382,9 @@ export default defineComponent({
           closeModal()
           return
         }
-        MessageBox.confirm('是否继续处理?', '操作成功', {
+        MessageBox.confirm('存在未处理的处理单，是否继续处理?', '操作成功', {
           confirmButtonText: '继续',
-          cancelButtonText: '取消',
+          cancelButtonText: '关闭',
           type: 'success'
         })
           .then(() => {
