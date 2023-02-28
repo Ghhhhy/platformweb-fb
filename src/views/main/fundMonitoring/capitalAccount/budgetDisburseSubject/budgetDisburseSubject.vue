@@ -435,12 +435,13 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
+      console.log(this.searchDataList)
       const param = {
         isFlush,
         // reportCode: 'zdzjzc_fkm',
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
-        expFuncName: this.condition.expFuncName ? this.condition.expFuncName[0] : '',
+        expFuncCode: this.searchDataList?.expFuncCode_code || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true

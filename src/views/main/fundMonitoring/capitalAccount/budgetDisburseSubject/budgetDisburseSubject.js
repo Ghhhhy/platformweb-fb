@@ -47,14 +47,33 @@ const proconf = {
     },
     {
       title: '支出科目',
-      field: 'expFuncName',
+      field: 'expFuncCode',
       width: 200,
-      align: 'center',
-      filters: false,
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '支出科目'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'code',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '支出科目',
+            multiple: false,
+            readonly: false,
+            isleaf: false,
+            axiosConfig: {
+              successCode: '000000', // 成功code
+              statusField: 'code',
+              method: 'get', // 请求方式
+              url: 'large-monitor-platform/lmp/expFuncTree'
+            }
+          }
         }
       }
     },
