@@ -334,13 +334,13 @@ export default {
         scrollLoad: false, // 是否开启滚动加载
         isleaf: 0, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
         levelno: -1, // 可选层级
-        valueKeys: ['code', 'name', 'id'],
+        valueKeys: ['code', 'name', 'id', 'codeFragment'],
         format: '{code}-{name}',
         placeholder: '请选择',
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{code}-{name}', // {code}-{name}
+          labelFormat: '{codeFragment}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
