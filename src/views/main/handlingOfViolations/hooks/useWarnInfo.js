@@ -14,7 +14,7 @@ export default function useWarnInfo(props) {
 
   // 当前选中节点
   const currentNode = ref({ ...unref(cloneRecords)[0] })
-  console.log(unref(currentNode))
+
   provide('currentNode', currentNode)
 
   // 当前左侧选择的单据列表
@@ -56,7 +56,8 @@ export default function useWarnInfo(props) {
   function nodeClick(item, event) {
     if (event.target?.dataset?.valid) {
       currentNode.value = item
-      getDetailHandle(item.warningCode)
+      const { warningCode, id } = item
+      getDetailHandle({ warningCode, id })
     }
   }
 
@@ -68,8 +69,8 @@ export default function useWarnInfo(props) {
   /**
    * 查询处理单详情
    * */
-  async function getDetailHandle(warningCode) {
-    const { data } = checkRscode(await getDetail(warningCode))
+  async function getDetailHandle(params) {
+    const { data } = checkRscode(await getDetail(params))
     currentWarnDetail.value = data
   }
 

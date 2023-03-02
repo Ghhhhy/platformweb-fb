@@ -9,7 +9,7 @@ import { getMulitDetail } from '@/api/frame/main/handlingOfViolations/index.js'
  * @param currentWarnDetail
  * @return {{openPrintCallback: openPrintCallback, printLoading: *, printHandle: ((function(): Promise<void>)|*), printData: Ref<UnwrapRef<*[]>>, printHtmlNodeRef: null}}
  */
-export default function usePrint(checkedItemsKey, currentWarnDetail) {
+export default function usePrint(checkedItemsKey, currentWarnDetail, cloneRecords) {
   // 需要打印的数据
   const printData = ref([])
   // 打印组件ref
@@ -24,7 +24,12 @@ export default function usePrint(checkedItemsKey, currentWarnDetail) {
       if (!unref(checkedItemsKey).length) {
         printData.value = [unref(currentWarnDetail)]
       } else {
-        const { data } = checkRscode(await getMulitDetail(unref(checkedItemsKey)))
+        const params = unref(cloneRecords)
+          .filter(item => unref(checkedItemsKey).include(item.warningCode))
+          .map(item => {
+            return { warningCode: item.warningCode, id: item.id }
+          })
+        const { data } = checkRscode(await getMulitDetail(params))
         printData.value = data
       }
       setTimeout(() => {

@@ -77,19 +77,19 @@ import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
+import store from '@/store'
 
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
 
 import {
   searchFormCommonSchemas,
-  searchFormAllTabSchema,
   getCommonColumns,
   getAuditDescriptionColumn,
-  getNodeStatusColumn,
+  getStatusCodeColumn,
   sendAuditTabs,
   doAuditTabs,
-  pagePathMapNodeType, getNodeStatusOptions
+  pagePathMapNodeType
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 
@@ -109,9 +109,9 @@ export default defineComponent({
     })
 
     // 是否是单位反馈
-    const isUnitFeedbackMenu = computed(() => {
-      return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
-    })
+    // const isUnitFeedbackMenu = computed(() => {
+    //   return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
+    // })
 
     // 左侧区划树显隐
     const leftVisible = ref(true)
@@ -127,8 +127,8 @@ export default defineComponent({
         formData,
         formSchemas,
         setSubmitFormData,
-        getSubmitFormData,
-        updateFormSchemas
+        getSubmitFormData
+        // updateFormSchemas
         // getForm
       },
       registerForm
@@ -208,13 +208,17 @@ export default defineComponent({
       fetch: pageQueryIndex,
       beforeFetch: params => {
         if (unref(currentTab)?.code !== TabEnum.ALL) {
-          params.nodeStatus = unref(currentTab).value
+          // 非全部页签
+          params.statusCodes = [unref(currentTab).value]
+        } else if (unref(currentTab)?.code === TabEnum.ALL && !params.statusCode) {
+          // 全部页签 且没有选值
+          params.statusCodes = unref(tabStatusBtnConfig).buttons?.map(item => item.value)
         }
-        params.nodeStatus && (params.nodeStatus = Number(params.nodeStatus))
         return {
           ...params,
           nodeType: pagePathMapNodeType[unref(pagePath)],
-          elementCode: unref(currentTreeNode)?.code
+          elementCode: unref(currentTreeNode)?.code,
+          menuId: store.state.curNavModule.guid
         }
       },
       columns: [],
@@ -244,7 +248,7 @@ export default defineComponent({
         )
       } else if (unref(currentTab).code === TabEnum.ALL) {
         // 全部
-        initColumns.splice(2, 0, getNodeStatusColumn(unref(isUnitMenu)))
+        initColumns.splice(2, 0, getStatusCodeColumn(unref(isUnitMenu)))
         if (unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK) {
           initColumns.splice(
             initColumns.length - 2,
@@ -300,29 +304,31 @@ export default defineComponent({
      * 设置搜索表单
      */
     function computedSchemas() {
-      if (unref(currentTab).code === TabEnum.ALL) {
-        formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
-        unref(formSchemas).forEach(schema => {
-          if (!Reflect.has(formData, schema.field)) {
-            Object.assign(formData, { [schema.field]: '' })
-          }
-        })
-
-        updateFormSchemas({
-          field: 'nodeStatus',
-          itemRender: {
-            options: [
-              ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
-              ...unref(isUnitFeedbackMenu)
-                ? []
-                : getNodeStatusOptions()
-                  .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
-            ]
-          }
-        })
-      } else {
-        formSchemas.value = searchFormCommonSchemas
-      }
+      formSchemas.value = searchFormCommonSchemas
+      // 工作流接入，暂时去掉业务状态筛选
+      // if (unref(currentTab).code === TabEnum.ALL) {
+      //   formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
+      //   unref(formSchemas).forEach(schema => {
+      //     if (!Reflect.has(formData, schema.field)) {
+      //       Object.assign(formData, { [schema.field]: '' })
+      //     }
+      //   })
+      //
+      //   updateFormSchemas({
+      //     field: 'statusCode',
+      //     itemRender: {
+      //       options: [
+      //         ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
+      //         ...unref(isUnitFeedbackMenu)
+      //           ? []
+      //           : getStatusCodeOptions()
+      //             .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
+      //       ]
+      //     }
+      //   })
+      // } else {
+      //   formSchemas.value = searchFormCommonSchemas
+      // }
     }
 
     /**

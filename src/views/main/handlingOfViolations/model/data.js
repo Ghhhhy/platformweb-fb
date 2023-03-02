@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import router from '@/router'
 
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
 
@@ -102,7 +103,7 @@ export const warnLevelOptions = [
 // 监控处理方式Options（参照原项目内几种方式）
 export const controlTypeOptions = store.state.warnInfo.warnControlTypeOptions.map(item => {
   return {
-    value: item.warnLevel || String(item.warnLevel),
+    value: String(item.warnLevel),
     ...item
   }
 })
@@ -131,17 +132,27 @@ export const isDirOptions = [
 ]
 
 // 业务状态options
-export const getNodeStatusOptions = () => {
-  return [
-    { value: TabEnum.NO_SEND, label: '待送审' },
-    { value: TabEnum.SENDED, label: '已送审' },
-    { value: TabEnum.NO_AUDIT, label: '待审核' },
-    { value: TabEnum.AUDITED, label: '已审核' },
+export const getStatusCodeOptions = () => {
+  const options = [
     { value: TabEnum.RETURN, label: '被退回' },
     { value: TabEnum.DISABLED, label: '被禁止' },
     { value: TabEnum.RETURN_SELF, label: '已退回' },
     { value: TabEnum.DISABLED_SELF, label: '已禁止' }
   ]
+  if (RouterPathEnum.UNIT_FEEDBACK === router.currentRoute.path) {
+    // 单位反馈
+    options.unshift(...[{ value: TabEnum.NO_SEND, label: '待送审' }, { value: TabEnum.SENDED, label: '已送审' }])
+  } else if (Object.keys(RouterPathEnum).includes(router.currentRoute.path)) {
+    // 除开单位反馈的所有违规处理菜单
+    options.unshift(...[{ value: TabEnum.NO_AUDIT, label: '待审核' }, { value: TabEnum.AUDITED, label: '已审核' }])
+  } else {
+    // 其他菜单全部显示（主题分析菜单需要用到）
+    options.unshift(
+      ...[{ value: TabEnum.NO_SEND, label: '待送审' }, { value: TabEnum.SENDED, label: '已送审' }],
+      ...[{ value: TabEnum.NO_AUDIT, label: '待审核' }, { value: TabEnum.AUDITED, label: '已审核' }]
+    )
+  }
+  return options
 }
 
 /**
@@ -259,7 +270,7 @@ export const searchFormCommonSchemas = [
 export const searchFormAllTabSchema = [
   {
     title: '业务状态',
-    field: 'nodeStatus',
+    field: 'statusCode',
     titleWidth: 0,
     itemRender: {
       name: '$select',
@@ -467,17 +478,17 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
  * 业务状态cloumn
  * @type {[{field: string, width: number, filters: boolean, title: string, cellRender: {name: string, options: [{label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}, {label: string, value: string, iconClass: string}]}}]}
  */
-export const getNodeStatusColumn = () => {
+export const getStatusCodeColumn = () => {
   return {
     title: '业务状态',
-    field: 'nodeStatus',
+    field: 'statusName',
     width: 120,
     filters: false,
-    align: 'center',
-    cellRender: {
-      name: '$vxeSelect',
-      options: getNodeStatusOptions()
-    }
+    align: 'center'
+    // cellRender: {
+    //   name: '$vxeSelect',
+    //   options: getStatusCodeOptions()
+    // }
   }
 }
 
