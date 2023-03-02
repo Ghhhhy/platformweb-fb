@@ -3,6 +3,7 @@
 // let bigDecimalCall = bigDecimal
 // console.log(bigNumberCall)
 import BigNumber from './big.js'
+import xeUtils from 'xe-utils'
 export default {
   getbasicDataType(obj) {
     // 获取数据类型
@@ -198,13 +199,17 @@ export default {
   //   }
   //   return String(number)
   // },
-  accurateFixed(number, n) { // 保留小数位数(截取)
-    let numberArr = this.transInputToNumber(number, n).split('.')
-    if (n > 0) {
-      return numberArr[0] + (numberArr[1] ? ('.' + numberArr[1].slice(0, n)) : '')
-    } else {
-      return numberArr[0] || ''
-    }
+  // accurateFixed(number, n) { // 保留小数位数(截取)
+  //   let numberArr = this.transInputToNumber(number, n).split('.')
+  //   if (n > 0) {
+  //     return numberArr[0] + (numberArr[1] ? ('.' + numberArr[1].slice(0, n)) : '')
+  //   } else {
+  //     return numberArr[0] || ''
+  //   }
+  // },
+  accurateFixed(number, n) { // 保留小数位数(四舍五入)
+    const val = xeUtils.toFixed(number, n)
+    return val || ''
   },
   transToNumberLocalString(number, digits = 0) {
     // 返回逗号隔开千分位的数字

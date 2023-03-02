@@ -38,23 +38,36 @@ export const ModalTypeEnum = {
  */
 export const TabEnum = {
   // 未送审
-  NO_SEND: 1,
+  NO_SEND: '1',
   // 已送审
-  SENDED: 2,
+  SENDED: '2',
   // 未审核
-  NO_AUDIT: 3,
+  NO_AUDIT: '1',
   // 已审核
-  AUDITED: 4,
-  // 被退回
-  RETURN: 5,
-  // 被禁止
-  DISABLED: 6,
+  AUDITED: '2',
   // 已退回
-  RETURN_SELF: 7,
+  RETURN_SELF: '3',
+  // 被退回
+  RETURN: '4',
+  // 被禁止
+  DISABLED: '16',
   // 已禁止
-  DISABLED_SELF: 8,
+  DISABLED_SELF: '18',
   // 全部 -> useTable-beforeFetch 过滤All的值
   ALL: 'all'
+}
+
+/**
+ * 操作类型
+ * @type {{ACTION_RETURN: string, ACTION_DISABLED: string, ACTION_AUDIT: string}}
+ */
+export const ActionTypeEnum = {
+  // 审核 | 送审
+  ACTION_AUDIT: '2',
+  // 退回
+  ACTION_RETURN: '6',
+  // 禁止
+  ACTION_DISABLED: '7'
 }
 
 /**

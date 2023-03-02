@@ -127,7 +127,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;区本级审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;区县监控机构审核意见</div>
                     <el-input
                       v-model="flowOptionByQu"
                       :disabled="edit"
@@ -155,7 +155,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;市本级审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;市本级监控机构审核意见</div>
                     <el-input
                       v-model="flowOptionByShi"
                       :disabled="edit"

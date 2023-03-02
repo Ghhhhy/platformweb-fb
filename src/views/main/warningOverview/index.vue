@@ -40,7 +40,6 @@ import RuleScroll from './components/RuleScroll'
 import ViewAllRules from './components/ViewAllRules'
 import MonitoringHandlingInfo from './components/MonitoringHandlingInfo'
 // import { useComputedChartWidth } from '@/views/main/financial-portrayal/hooks/useComputedChartWidth'
-
 export default defineComponent({
   components: { Map, MenuModel, RuleUseInfoChart, RuleScroll, ViewAllRules, MonitoringHandlingInfo },
   setup() {
