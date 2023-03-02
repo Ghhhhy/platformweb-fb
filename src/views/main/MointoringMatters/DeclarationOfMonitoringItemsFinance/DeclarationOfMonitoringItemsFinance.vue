@@ -12,6 +12,16 @@
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
+      <template v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+      </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <!-- <template v-slot:mainTree>
         <BsTreeSet
@@ -205,12 +215,57 @@ export default {
       showAttachmentDialog: false,
       billguid: '',
       condition: {},
-      manageMofCodes: []
+      manageMofCodes: [],
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      declareName: ''
     }
   },
   mounted() {
   },
   methods: {
+    search(obj) {
+      console.log(obj)
+      this.declareName = obj.declareName
+      this.queryTableDatas()
+    },
+    // 初始化高级查询data
+    getSearchDataList() {
+      // 下拉树
+      let searchDataObj = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            searchDataObj[item.field + 'code'] = ''
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = ''
+          }
+        }
+      })
+      this.searchDataList = searchDataObj
+    },
+    // 初始化高级查询参数condition
+    getConditionList() {
+      let condition = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            if (item.field === 'cor_bgt_doc_no_') {
+              condition[item.field + 'name'] = []
+            } else {
+              condition[item.field + 'code'] = []
+            }
+          }
+        } else {
+          if (item.field) {
+            condition[item.field] = []
+          }
+        }
+      })
+      return condition
+    },
     // 切换状态栏
     onStatusTabClick(obj) {
       if (!obj.type) {
@@ -547,7 +602,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        declareName: '',
+        declareName: this.declareName,
         agencyCodes: [],
         manageMofCodes: this.manageMofCodes,
         mofDivCodes: [],
