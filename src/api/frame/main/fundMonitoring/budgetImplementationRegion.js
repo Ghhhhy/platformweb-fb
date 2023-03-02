@@ -31,6 +31,9 @@ export default {
   doDataSourceAdd() {
     return get('dfr-monitor-service/dfr/zdzjledger/doDataSourceAdd')
   },
+  getManageMofDepTreeData() {
+    return get('large-monitor-platform/lmp/manageMofDep/')
+  },
   // 华青数据导入
   importHuaqing(params) {
     const formData = new FormData()
