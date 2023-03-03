@@ -71,8 +71,7 @@ import {
   getRuleNameColumn,
   getIsDirColumn,
   getWarnLevelColumn,
-  getControlTypeColumn,
-  getWarnTypeColumn
+  getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
 
@@ -162,7 +161,6 @@ export default defineComponent({
         }),
         getWarnLevelColumn(),
         getControlTypeColumn(),
-        getWarnTypeColumn(),
         ...getWarnCountColumns(),
         getIsDirColumn({
           minWidth: 100,

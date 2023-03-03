@@ -62,7 +62,6 @@ import {
   getBusinessNoColumn,
   getAuditDescriptionColumn,
   getIsDirColumn,
-  getWarnTypeColumn,
   getAmountColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 
@@ -137,7 +136,6 @@ export default defineComponent({
         getManageMofDepNameColumn(),
         getBusinessNoColumn(),
         getAmountColumn(),
-        getWarnTypeColumn(),
         getAuditDescriptionColumn(),
         getIsDirColumn()
       ],
