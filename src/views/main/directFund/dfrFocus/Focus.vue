@@ -352,7 +352,7 @@ export default {
     getChildrenNewData1(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.code + '-' + item.name
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }
@@ -681,7 +681,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getLeftTreeData()
-    // this.getAgency()
+    this.getAgency()
   }
 }
 </script>

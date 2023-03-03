@@ -14,21 +14,23 @@ export let proconf = {
   ],
   highQueryConfig: [
     {
-      title: '年份',
-      field: 'year',
-      'width': 180,
+      title: '业务年度',
+      field: 'fiscalYear',
+      width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2021', label: '2021' },
-          { value: '2022', label: '2022' },
-          { value: '2023', label: '2023' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
-          placeholder: '年份'
+          type: 'year',
+          valueFormat: 'yyyy',
+          placeholder: '业务年度'
         }
       }
     },
@@ -42,17 +44,17 @@ export let proconf = {
       itemRender: {
         name: '$vxeTree',
         options: [],
-        'props': {
-          'config': {
-            'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
-              'children': 'children'
+        props: {
+          config: {
+            treeProps: {
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
             },
-            'placeholder': '预算单位',
-            'multiple': false,
-            'readonly': true,
-            'isleaf': true
+            placeholder: '预算单位',
+            multiple: false,
+            readonly: true,
+            isleaf: true
           }
         }
       }
