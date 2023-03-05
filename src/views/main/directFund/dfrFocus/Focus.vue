@@ -570,7 +570,8 @@ export default {
         year: this.year,
         setModeName: this.setModeName,
         agencyCode: this.agencyCode,
-        mofDivCodeList: this.codeList
+        mofDivCodeList: this.codeList,
+        sqlCode: 'zdzj_zfmx'
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }

@@ -931,14 +931,16 @@ export default {
       return proCodes
     },
     // 查询 table 数据
+    // 综合查询处室指标综合查看文号汇总
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_cszbzhckwhhz'
       }
       this.tableLoading1 = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -948,18 +950,20 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
+    // 综合查询处室指标综合查看汇总
     queryTableDatasByDep() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_cszbzhckhz'
       }
       this.tableLoading1 = true
       HttpModule.queryTableDatasByDep(param).then(res => {
@@ -974,6 +978,7 @@ export default {
       })
     },
     // 查询 table1 数据
+    // 综合查询处室指标综合查看文号汇总明细
     queryTableDatas1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -981,8 +986,9 @@ export default {
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_cszbzhckwhhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryTableDatas1(param).then(res => {
@@ -991,18 +997,20 @@ export default {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
+    // 综合查询单位指标综合查看文号汇总
     queryTableDatasByAgency() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_dwzbzhckwhhz'
       }
       this.tableLoading1 = true
       HttpModule.queryTableDatasByAgency(param).then(res => {
@@ -1012,11 +1020,12 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
         // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
     // 查询 table1 数据
+    // 综合查询单位指标综合查看文号汇总明细
     queryTableDatasByAgency1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -1024,8 +1033,9 @@ export default {
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_dwzbzhckwhhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryTableDatasByAgency1(param).then(res => {
@@ -1034,7 +1044,7 @@ export default {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -1044,8 +1054,9 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_dwzbzhckhz'
       }
       this.tableLoading1 = true
       HttpModule.queryTableByAgency(param).then(res => {
@@ -1055,11 +1066,12 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
     // 查询 table1 数据
+    // 综合查询处室指标综合查看汇总
     queryTableByAgency1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -1067,8 +1079,9 @@ export default {
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_dwzbzhckhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryTableByAgency1(param).then(res => {
@@ -1077,10 +1090,11 @@ export default {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
+    // 综合查询处室指标综合查看汇总明细
     queryTableDatasByDep1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -1088,8 +1102,9 @@ export default {
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_cszbzhckhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryTableDatasByDep1(param).then(res => {
@@ -1102,6 +1117,7 @@ export default {
         }
       })
     },
+    // 综合查询市县补助指标文号汇总
     queryMofDiv() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
@@ -1109,8 +1125,9 @@ export default {
         fiscalYear: this.fiscalYear,
         recDivCodeList: this.codeList,
         recDivCode: this.recDivCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_sxbzzbwhhz'
       }
       this.tableLoading1 = true
       HttpModule.queryMofDiv(param).then(res => {
@@ -1119,10 +1136,11 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
+    // 综合查询市县补助指标文号汇总明细
     queryDetailMofDiv() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -1131,8 +1149,9 @@ export default {
         recDivCode: this.recDivCode,
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_sxbzzbwhhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryDetailMofDiv(param).then(res => {
@@ -1142,7 +1161,7 @@ export default {
           this.mainPagerConfig1.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -1153,8 +1172,9 @@ export default {
         fiscalYear: this.fiscalYear,
         recDivCodeList: this.codeList,
         recDivCode: this.recDivCode,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_sxbzzbhz'
       }
       this.tableLoading1 = true
       HttpModule.queryMofDiv1(param).then(res => {
@@ -1163,7 +1183,7 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -1175,8 +1195,9 @@ export default {
         recDivCode: this.recDivCode,
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
-        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode
+        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCode: this.expFuncCode,
+        sqlCode: 'zhcx_sxbzzbhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.queryDetailMofDiv1(param).then(res => {
@@ -1186,7 +1207,7 @@ export default {
           this.mainPagerConfig1.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
