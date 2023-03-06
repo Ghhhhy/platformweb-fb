@@ -25,6 +25,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :scroll-y="scrollConfig"
           :cell-style="cellStyle"
           :show-zero="false"

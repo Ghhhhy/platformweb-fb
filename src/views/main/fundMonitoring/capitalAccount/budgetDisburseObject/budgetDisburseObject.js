@@ -41,6 +41,33 @@ export let proconf = {
       }
     },
     {
+      title: '处室名称',
+      field: 'manageMofDeps',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'guid'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'guid',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '处室名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
       title: '资金名称',
       field: 'proCodes',
       width: '8',

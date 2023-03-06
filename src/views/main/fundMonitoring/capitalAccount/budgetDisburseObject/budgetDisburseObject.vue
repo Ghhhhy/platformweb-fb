@@ -366,6 +366,7 @@ export default {
       this.endTime = obj.endTime
       this.proCodes = obj.proCodes_code__multiple
       this.expFuncCodes = obj.expFuncCodes_code__multiple
+      this.manageMofDeps = obj.manageMofDeps_id__multiple
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -605,11 +606,21 @@ export default {
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
+    getManageMofDep() {
+      HttpModule.getManageMofDepTreeData().then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
       HttpModule.getProTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[1].itemRender.options = treeResdata
+          this.queryConfig[2].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
         }
@@ -619,7 +630,7 @@ export default {
       HttpModule.getExpFuncTreeData().then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[2].itemRender.options = treeResdata
+          this.queryConfig[3].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
         }
@@ -700,7 +711,8 @@ export default {
         iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
         mofDivCodes: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.proCodes,
-        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes
+        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
+        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps
       }
       this.tableLoading = true
       HttpModule.xmPageQuery(param).then(res => {
@@ -819,6 +831,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
     this.getPro()
+    this.getManageMofDep()
     this.getExcFunc()
     this.getLeftTreeData()
     this.queryTableDatas()
