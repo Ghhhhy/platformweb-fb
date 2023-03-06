@@ -49,6 +49,8 @@ export const TabEnum = {
   RETURN_SELF: '3',
   // 被退回
   RETURN: '4',
+  // 已作废
+  VOIDED: '15',
   // 被禁止
   DISABLED: '16',
   // 已禁止

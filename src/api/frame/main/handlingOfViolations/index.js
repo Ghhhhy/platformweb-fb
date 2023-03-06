@@ -39,3 +39,11 @@ export function bpmFlow(params) {
 export function billPage(params) {
   return post('large-monitor-platform/lmp/warnProcess/billPage', params)
 }
+
+/**
+ * 处理单作废
+ * @return {Promise | Promise<unknown>}
+ */
+export function billInvalid(params) {
+  return post('large-monitor-platform/lmp/warnProcess/billInvalid', params)
+}

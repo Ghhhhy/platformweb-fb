@@ -89,7 +89,9 @@ import {
   getStatusCodeColumn,
   sendAuditTabs,
   doAuditTabs,
-  pagePathMapNodeType
+  pagePathMapNodeType,
+  searchFormAllTabSchema,
+  getStatusCodeOptions
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 
@@ -109,9 +111,9 @@ export default defineComponent({
     })
 
     // 是否是单位反馈
-    // const isUnitFeedbackMenu = computed(() => {
-    //   return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
-    // })
+    const isUnitFeedbackMenu = computed(() => {
+      return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
+    })
 
     // 左侧区划树显隐
     const leftVisible = ref(true)
@@ -127,8 +129,8 @@ export default defineComponent({
         formData,
         formSchemas,
         setSubmitFormData,
-        getSubmitFormData
-        // updateFormSchemas
+        getSubmitFormData,
+        updateFormSchemas
         // getForm
       },
       registerForm
@@ -208,11 +210,11 @@ export default defineComponent({
       fetch: pageQueryIndex,
       beforeFetch: params => {
         if (unref(currentTab)?.code !== TabEnum.ALL) {
-          // 非全部页签
-          params.statusCodes = [unref(currentTab).value]
-        } else if (unref(currentTab)?.code === TabEnum.ALL && !params.statusCode) {
-          // 全部页签 且没有选值
-          params.statusCodes = unref(tabStatusBtnConfig).buttons?.map(item => item.value)
+          // 非全部页签的statusCode字段取值映射tab对应的值
+          params.statusCode = unref(currentTab).value
+        } else if (unref(currentTab)?.code === TabEnum.ALL) {
+          // 全部页签
+          params.isAll = true
         }
         return {
           ...params,
@@ -288,7 +290,7 @@ export default defineComponent({
       isShowSearchForm,
       modalType,
       onQueryConditionsClick
-    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab)
+    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab, resetFetchTableData)
     /**
      * tab切换
      * @param tab
@@ -305,30 +307,33 @@ export default defineComponent({
      */
     function computedSchemas() {
       formSchemas.value = searchFormCommonSchemas
-      // 工作流接入，暂时去掉业务状态筛选
-      // if (unref(currentTab).code === TabEnum.ALL) {
-      //   formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
-      //   unref(formSchemas).forEach(schema => {
-      //     if (!Reflect.has(formData, schema.field)) {
-      //       Object.assign(formData, { [schema.field]: '' })
-      //     }
-      //   })
-      //
-      //   updateFormSchemas({
-      //     field: 'statusCode',
-      //     itemRender: {
-      //       options: [
-      //         ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
-      //         ...unref(isUnitFeedbackMenu)
-      //           ? []
-      //           : getStatusCodeOptions()
-      //             .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
-      //       ]
-      //     }
-      //   })
-      // } else {
-      //   formSchemas.value = searchFormCommonSchemas
-      // }
+
+      // 全部tab时添加状态筛选
+      if (unref(currentTab).code === TabEnum.ALL) {
+        formSchemas.value = [...searchFormCommonSchemas, ...searchFormAllTabSchema]
+        unref(formSchemas).forEach(schema => {
+          if (!Reflect.has(formData, schema.field)) {
+            Object.assign(formData, { [schema.field]: '' })
+          }
+        })
+
+        updateFormSchemas({
+          field: 'statusCode',
+          itemRender: {
+            options: [
+              // 根据当前页面的tab获取全部tab里面的状态筛选
+              ...unref(tabStatusBtnConfig).buttons.slice(0, unref(tabStatusBtnConfig).buttons?.length - 1),
+              // 2023.3.6单位反馈添加已作废状态
+              ...unref(isUnitFeedbackMenu)
+                ? [{ value: TabEnum.VOIDED, label: '已作废' }]
+                : getStatusCodeOptions()
+                  .filter(item => [TabEnum.RETURN_SELF, TabEnum.DISABLED_SELF].includes(item.value))
+            ]
+          }
+        })
+      } else {
+        formSchemas.value = searchFormCommonSchemas
+      }
     }
 
     /**

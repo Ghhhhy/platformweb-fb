@@ -41,9 +41,9 @@
         </el-col>
         <el-col :span="8">
           <div class="info-item">
-            <span class="label">预警类别</span>
+            <span class="label">业务编号</span>
             <span class="content">
-              {{ warnTypeOption.label }}
+              {{ ruleInfo.businessNo }}
             </span>
           </div>
         </el-col>
@@ -51,7 +51,7 @@
           <div class="info-item">
             <span class="label">金额</span>
             <span class="content">
-              {{ formatterThousands(ruleInfo.amount) }}
+              {{ $XEUtils.commafy(ruleInfo.amount || 0, { digits: 2 }) }}
             </span>
           </div>
         </el-col>

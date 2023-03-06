@@ -253,13 +253,13 @@ export const searchFormCommonSchemas = [
     }
   },
   {
-    title: '业务记录编码',
+    title: '业务编号',
     field: 'businessNo',
     titleWidth: 0,
     itemRender: {
       name: '$input',
       props: {
-        placeholder: '业务记录编码',
+        placeholder: '业务编号',
         clearable: true
       }
     }

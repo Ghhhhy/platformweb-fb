@@ -127,6 +127,16 @@ function useForm(
   }
 
   /**
+   * 获取指定表单项配置
+   * @return {Array<UnwrapRefSimple<*>>}
+   */
+  function getFormSchemaByField(field = []) {
+    if (!field) throw new TypeError('field is required!')
+
+    return unref(formSchemas).find(schema => field === schema.field)
+  }
+
+  /**
    * 校验表单
    * @returns {Promise<void>}
    */
@@ -176,6 +186,7 @@ function useForm(
 
       getFormSchemas,
       updateFormSchemas,
+      getFormSchemaByField,
 
       getSubmitFormData,
       setSubmitFormData,

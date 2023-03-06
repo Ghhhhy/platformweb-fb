@@ -5,10 +5,7 @@
         <!--规则信息-->
         <RuleInfo :rule-info="item.ruleResVO">
           <template #header>
-            <div style="display: flex; align-items: center; justify-content: space-between">
-              <bs-table-title title="规则信息" />
-              <span style="font-size: 16px">处理单编码：{{ item.ruleResVO.warningCode }}</span>
-            </div>
+            <bs-table-title title="违规单信息" />
           </template>
         </RuleInfo>
         <!--处理进度-->

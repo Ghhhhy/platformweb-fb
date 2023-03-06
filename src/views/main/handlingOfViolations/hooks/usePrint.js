@@ -25,17 +25,21 @@ export default function usePrint(checkedItemsKey, currentWarnDetail, cloneRecord
         printData.value = [unref(currentWarnDetail)]
       } else {
         const params = unref(cloneRecords)
-          .filter(item => unref(checkedItemsKey).include(item.warningCode))
+          .filter(item => unref(checkedItemsKey)?.includes(item.warningCode))
           .map(item => {
             return { warningCode: item.warningCode, id: item.id }
           })
         const { data } = checkRscode(await getMulitDetail(params))
         printData.value = data
       }
-      setTimeout(() => {
-        printHtmlNodeRef.value?.printTrigger?.()
-      }, unref(printData)?.length * 300)
+      setTimeout(
+        () => {
+          printHtmlNodeRef.value?.printTrigger?.()
+        },
+        Math.min(unref(printData)?.length * 300, 2000)
+      )
     } catch (e) {
+      console.log(e)
       setPrintLoading(false)
     }
   }

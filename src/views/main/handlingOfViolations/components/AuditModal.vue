@@ -48,7 +48,7 @@
         </vxe-button>
       </div>
     </template>
-    <div class="modal-content" style="height: calc(100% - 4px)">
+    <div class="modal-content" :style="{ height: `calc(100% - ${modalType === ModalTypeEnum.AUDIT ? 6 : 20}px)` }">
       <BsSplitPane
         :default-percent="20"
         split="vertical"
@@ -100,7 +100,7 @@
             <!--规则信息-->
             <RuleInfo :rule-info="currentWarnDetail.ruleResVO">
               <template #header>
-                <bs-table-title title="规则信息">
+                <bs-table-title title="违规单信息">
                   <vxe-button
                     size="mini"
                     @click="changeReceiptsModalVisible(true)"
