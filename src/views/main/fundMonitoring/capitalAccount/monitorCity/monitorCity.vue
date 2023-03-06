@@ -21,6 +21,7 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :calculate-constraint-config="calculateConstraintConfig"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
