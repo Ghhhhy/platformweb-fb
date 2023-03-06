@@ -18,7 +18,7 @@ export default function useWarnInfo(props) {
   provide('currentNode', currentNode)
 
   // 当前左侧选择的单据列表
-  const checkedItemsKey = ref([])
+  const checkedItemsKey = ref(unref(cloneRecords).map(item => item.warningCode))
 
   // 当前左侧勾选的单据key列表所所对应的单据对象列表
   const checkedItemsObj = computed(() => {
@@ -28,7 +28,7 @@ export default function useWarnInfo(props) {
   })
 
   // 全选checkbox选中状态
-  const checkedAll = ref(false)
+  const checkedAll = ref(true)
 
   // 全选按钮-样式控制
   const isIndeterminate = ref(false)

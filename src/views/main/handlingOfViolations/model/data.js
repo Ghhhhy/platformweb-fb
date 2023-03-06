@@ -173,19 +173,19 @@ export const searchFormCommonSchemas = [
       }
     }
   },
-  {
-    title: '预警类别',
-    field: 'warnType',
-    titleWidth: 0,
-    itemRender: {
-      name: '$select',
-      options: warnTypeOptions,
-      props: {
-        clearable: true,
-        placeholder: '预警类别'
-      }
-    }
-  },
+  // {
+  //   title: '预警类别',
+  //   field: 'warnType',
+  //   titleWidth: 0,
+  //   itemRender: {
+  //     name: '$select',
+  //     options: warnTypeOptions,
+  //     props: {
+  //       clearable: true,
+  //       placeholder: '预警类别'
+  //     }
+  //   }
+  // },
   {
     title: '是否直达资金',
     field: 'isDir',
@@ -253,13 +253,13 @@ export const searchFormCommonSchemas = [
     }
   },
   {
-    title: '业务记录编码',
+    title: '业务编号',
     field: 'businessNo',
     titleWidth: 0,
     itemRender: {
       name: '$input',
       props: {
-        placeholder: '业务记录编码',
+        placeholder: '业务编号',
         clearable: true
       }
     }
@@ -402,7 +402,7 @@ export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
 
 export const getBusinessNoColumn = (params = {}) => {
   return {
-    title: '业务记录编号',
+    title: '业务编号',
     field: 'payCertNo',
     width: 260,
     ...params
@@ -464,7 +464,7 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getBusinessNoColumn({
       field: 'businessNo'
     }),
-    getWarnTypeColumn(),
+    // getWarnTypeColumn(),
     getIsDirColumn()
   ]
   columns.forEach(column => {
@@ -642,14 +642,14 @@ export const getReceiptsColumns = () => {
 // 单据搜索表单
 export const receiptsSearchFormSchemas = [
   {
-    title: '业务记录编号',
+    title: '业务编号',
     field: 'payAppNo',
     span: 6,
     titleWidth: 0,
     itemRender: {
       name: '$input',
       props: {
-        placeholder: '业务记录编号',
+        placeholder: '业务编号',
         clearable: true
       }
     }
