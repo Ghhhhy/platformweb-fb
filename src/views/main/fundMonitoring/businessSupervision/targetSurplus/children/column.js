@@ -165,36 +165,44 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '预算金额',
-      align: 'center',
-      children: [
-        {
-          title: '总金额',
-          field: 'amountAllfp',
-          width: 100,
-          sortable: false,
-          align: 'right',
-          cellRender: { name: '$vxeMoney' }
-        },
-        {
-          title: '未分配',
-          field: 'amountZdzjFp',
-          width: 100,
-          sortable: false,
-          align: 'right',
-          cellRender: { name: '$vxeMoney' }
-        },
-        {
-          title: '已分配',
-          field: 'amountZdzjyFp',
-          sortable: false,
-          width: 100,
-          align: 'right',
-          cellRender: { name: '$vxeMoney' },
-          format: '{amountAllfp}-{amountZdzjFp}'
-        }
-      ]
+      title: '剩余金额',
+      field: 'amountAllfp',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     }
+    // {
+    //   title: '预算金额',
+    //   align: 'center',
+    //   children: [
+    //     {
+    //       title: '总金额',
+    //       field: 'amountAllfp',
+    //       width: 100,
+    //       sortable: false,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' }
+    //     },
+    //     {
+    //       title: '未分配',
+    //       field: 'amountZdzjFp',
+    //       width: 100,
+    //       sortable: false,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' }
+    //     },
+    //     {
+    //       title: '已分配',
+    //       field: 'amountZdzjyFp',
+    //       sortable: false,
+    //       width: 100,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' },
+    //       format: '{amountAllfp}-{amountZdzjFp}'
+    //     }
+    //   ]
+    // }
   ],
   // 直达资金项目明细
   zdzjprojectColumn: [
