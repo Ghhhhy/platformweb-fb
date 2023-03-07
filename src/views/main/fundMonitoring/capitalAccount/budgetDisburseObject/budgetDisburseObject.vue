@@ -366,7 +366,7 @@ export default {
       this.endTime = obj.endTime
       this.proCodes = obj.proCodes_code__multiple
       this.expFuncCodes = obj.expFuncCodes_code__multiple
-      this.manageMofDeps = obj.manageMofDeps_id__multiple
+      this.manageMofDeps = obj.manageMofDeps_code__multiple
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
