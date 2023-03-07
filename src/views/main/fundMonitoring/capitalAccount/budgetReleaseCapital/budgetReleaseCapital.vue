@@ -336,6 +336,7 @@ export default {
         }
       }
       this.condition = condition
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
@@ -385,7 +386,7 @@ export default {
       let params = {
         isCz: isCz,
         reportCode: type,
-        trackProCode: trackProCode,
+        proCode: trackProCode,
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
@@ -455,7 +456,7 @@ export default {
       let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
-          mofDivCodes.push(item.split('-')[0])
+          mofDivCodes.push(item.split('##')[0])
         })
       }
       return mofDivCodes

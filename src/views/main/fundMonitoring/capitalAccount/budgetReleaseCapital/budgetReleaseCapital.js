@@ -57,6 +57,7 @@ const proconf = {
         props: {
           config: {
             valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
             treeProps: {
               labelFormat: '{code}-{name}', // {code}-{name}
               nodeKey: 'id',
