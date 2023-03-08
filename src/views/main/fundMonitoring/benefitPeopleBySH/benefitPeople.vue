@@ -718,11 +718,11 @@ export default {
           break
         // 取消挂接
         case 'hook_not':
-          if (datas1.length === 0) {
-            this.$message.warning('请选择数据')
+          if (datas2.length === 0) {
+            this.$message.warning('请选择支付凭证数据')
             return
           }
-          this.notHook(datas1)
+          this.notHook(datas2)
           break
         // 导入
         case 'import':
@@ -750,19 +750,19 @@ export default {
           break
         case 'person-import':
         case 'company-import':
-          const selectionData = this.$refs.mainTableRef1.getSelectionData()
-          if (selectionData?.length !== 1) {
-            this.$message.warning('请选择一条支付凭证信息')
-            return
-          }
+          // const selectionData = this.$refs.mainTableRef1.getSelectionData()
+          // if (selectionData?.length !== 1) {
+          //   this.$message.warning('请选择一条支付凭证信息')
+          //   return
+          // }
           const { file } = await readLocalFile({
             types: ['xlsx', 'xls']
           })
           const params = {
             file,
-            fileType: obj.code === 'person-import' ? '1' : '2',
-            payCertNo: selectionData[0].payCertNo,
-            payApplyId: selectionData[0].payAppId
+            fileType: obj.code === 'person-import' ? '1' : '2'
+            // payCertNo: selectionData[0].payCertNo,
+            // payApplyId: selectionData[0].payAppId
           }
           checkRscode(
             await HttpModule.importPersonAndCompany(params)
@@ -818,7 +818,7 @@ export default {
       })
     },
     notHook(datas1) {
-      HttpModule.notHook(datas1).then(res => {
+      HttpModule.notHookByInterFace(datas1).then(res => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''

@@ -27,6 +27,10 @@ export default {
   notHook (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHook', params)
   },
+  // 通过支付接口取消挂接
+  notHookByInterFace (params) {
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookByInterFace', params)
+  },
   // 删除
   delete (params) {
     return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/delete', params)
