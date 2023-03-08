@@ -561,18 +561,18 @@ export const getReceiptsColumns = () => {
     },
     {
       title: '项目分类',
-      field: 'proCateName',
+      field: 'proCatName',
       width: 100,
       sortable: false,
       filters: false
     },
-    {
-      title: '资金渠道',
-      field: 'fundDitchName',
-      width: 100,
-      sortable: false,
-      filters: false
-    },
+    // {
+    //   title: '资金渠道',
+    //   field: 'fundDitchName',
+    //   width: 100,
+    //   sortable: false,
+    //   filters: false
+    // },
     {
       title: '资金性质',
       field: 'fundTypeName',
