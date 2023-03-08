@@ -30,7 +30,7 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
     const hasOrangeLevel = unref(checkedItemsObj).length
       ? unref(checkedItemsObj).some(item => item.warnLevel === WarnLevelEnum.ORANGE)
       : unref(currentNode).warnLevel === WarnLevelEnum.ORANGE
-    return isDivisionReAudit && hasOrangeLevel
+    return unref(isDivisionReAudit) && hasOrangeLevel
   })
 
   return {
