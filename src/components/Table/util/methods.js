@@ -471,6 +471,8 @@ const initMethods = {
         sortable: false
       }
     }, this.tableConfig || this.tableGlobalConfigIn.tableConfig)
+    this.initTableConlums()
+
     this.registTableRender(this.tableConfigCp.renderers)
   },
   initCacheColumn() {

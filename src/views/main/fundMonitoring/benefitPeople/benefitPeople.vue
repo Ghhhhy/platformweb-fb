@@ -2,7 +2,6 @@
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
-      <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
@@ -12,20 +11,20 @@
         />
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <!--      <template v-slot:mainTree>
+      <template v-slot:mainTree>
         <FilterTreeInput
           :filter-text="treeFilterText"
           :expend.sync="leftTreeVisible"
           @search="searchTreeHandle"
         />
-        &lt;!&ndash; <BsTreeSet
+        <!-- <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
-        /> &ndash;&gt;
+        /> -->
         <BsBossTree
           ref="leftTree"
           v-loading="treeLoadingState"
@@ -52,47 +51,8 @@
             @current-change="handleCurrentChange"
           />
         </div>
-      </template>-->
+      </template>
       <template v-slot:mainForm>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 40%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>-->
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
-                <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
-              </div>
-            </div>
-          </template>
-        </BsTable>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -119,10 +79,49 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>-->
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">支付凭证信息</span>
                 <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+        </BsTable>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+        <BsTable
+          ref="mainTableRef"
+          v-loading="tableLoading1"
+          style="height: 40%"
+          :footer-config="tableFooterConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          :table-config="tableConfig"
+          :pager-config="mainPagerConfig"
+          :toolbar-config="tableToolbarConfig"
+          @checkboxChange="checkboxChange"
+          @checkboxAll="checkboxChange"
+          @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
+          @cellClick="cellClick"
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left" style="display: flex; align-items: center">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div class="table-toolbar-left-title left-title-clear-float">
+                <span class="fn-inline">惠民支付明细数据</span>
+                <i class="fn-inline"></i>
+              </div>
+              <div v-if="matchHoot">
+                <span>匹配条件：</span>
+                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
+                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
               </div>
             </div>
           </template>
@@ -147,17 +146,19 @@
 
 <script>
 import { proconf, getDateString } from './benefitPeople'
-// import FilterTreeInput from './FilterTreeInput.vue'
+import FilterTreeInput from './FilterTreeInput.vue'
 import AddDialog from './children/AddDialog'
-import ImportModel from '../../../../components/Table/import/import.vue'
-import { Import } from '../../../../components/Table/import/import/import.js'
+import ImportModel from '@/components/Table/import/import.vue'
+import { Import } from '@/components/Table/import/import/import.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
-import { Export } from '../../../../components/Table/export/export/export'
+import { Export } from '@/components/Table/export/export/export'
+import { readLocalFile } from '@/utils/readLocalFile'
+import { checkRscode } from '@/utils/checkRscode'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
-    // FilterTreeInput,
+    FilterTreeInput,
     ImportModel,
     AddDialog
     // AddDialog
@@ -229,7 +230,7 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
-      leftTreeVisible: false,
+      leftTreeVisible: true,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         buttons: proconf.statusButtons,
@@ -303,6 +304,12 @@ export default {
         pageSize: 50
       },
       tableConfig: {
+        globalConfig: {
+          checkType: 'checkbox',
+          seq: true,
+          filters: true,
+          sortable: false
+        }
       },
       tableConfig1: {
       },
@@ -481,12 +488,12 @@ export default {
         this.$message.info('请选择一条支付凭证信息进行匹配')
       }
       if (this.isProName) {
-        this.proName = datas1[0].proName
+        this.proName = datas1[0]?.proName
       } else {
         this.proName = ''
       }
       if (this.isAmount) {
-        this.payAmt = datas1[0].payAmt
+        this.payAmt = datas1[0]?.payAmt
       } else {
         this.payAmt = ''
       }
@@ -527,6 +534,13 @@ export default {
           this.useDes = ''
           this.dtos = []
           break
+      }
+      console.log(obj.code, obj.code === '1')
+      this.tableConfig.globalConfig = {
+        checkType: obj.code === '1' ? 'checkbox' : false,
+        seq: true,
+        filters: true,
+        sortable: false
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
@@ -643,18 +657,18 @@ export default {
             break
           }
           if (this.isProName && this.isAmount) {
-            this.proName = checked.selection[0].proName
-            this.amount = checked.selection[0].amount
+            this.proName = checked.selection[0]?.proName
+            this.amount = checked.selection[0]?.amount
             this.queryTableDatas()
             break
           }
           if (this.isProName) {
-            this.proName = checked.selection[0].proName
+            this.proName = checked.selection[0]?.proName
             this.queryTableDatas()
             break
           }
           if (this.isAmount) {
-            this.amount = checked.selection[0].amount
+            this.amount = checked.selection[0]?.amount
             this.queryTableDatas()
             break
           }
@@ -669,7 +683,7 @@ export default {
       }
     },
     // 切换操作按钮
-    operationToolbarButtonClickEvent(obj, context, e) {
+    async operationToolbarButtonClickEvent(obj, context, e) {
       let self = this
       let datas1 = this.$refs.mainTableRef.getSelectionData()
       let datas2 = this.$refs.mainTableRef1.getSelectionData()
@@ -716,11 +730,11 @@ export default {
           break
         // 取消挂接
         case 'hook_not':
-          if (datas1.length === 0) {
-            this.$message.warning('请选择数据')
+          if (datas2.length === 0) {
+            this.$message.warning('请选择支付凭证数据')
             return
           }
-          this.notHook(datas1)
+          this.notHook(datas2)
           break
         // 导入
         case 'import':
@@ -746,6 +760,30 @@ export default {
             }
           )
           break
+        case 'person-import':
+        case 'company-import':
+          // const selectionData = this.$refs.mainTableRef1.getSelectionData()
+          // if (selectionData?.length !== 1) {
+          //   this.$message.warning('请选择一条支付凭证信息')
+          //   return
+          // }
+          const { file } = await readLocalFile({
+            types: ['xlsx', 'xls']
+          })
+          const params = {
+            file,
+            fileType: obj.code === 'person-import' ? '1' : '2'
+            // payCertNo: selectionData[0].payCertNo,
+            // payApplyId: selectionData[0].payAppId
+          }
+          checkRscode(
+            await HttpModule.importPersonAndCompany(params)
+          )
+          this.$message.success('导入成功')
+          this.dtos = []
+          this.queryTableDatas()
+          this.queryTableDatas1()
+          break
         default:
           break
       }
@@ -765,7 +803,6 @@ export default {
       this.dialogTitle = '修改'
     },
     importSuccessCallback(res) {
-      console.log('res:', res)
       HttpModule.importBenefit(res).then(res => {
         if (res.code === '000000') {
           this.$message.success('导入成功')
@@ -792,8 +829,8 @@ export default {
         }
       })
     },
-    notHook(datas1) {
-      HttpModule.notHook(datas1).then(res => {
+    notHook(datas2) {
+      HttpModule.notHookByInterFace(datas2).then(res => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''
@@ -1080,7 +1117,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.roleId = this.$store.state.curNavModule.roleguid
-    // this.getLeftTreeData()
+    this.getLeftTreeData()
     // this.queryTableDatas()
     // this.queryTableDatas1()
   }

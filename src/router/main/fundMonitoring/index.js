@@ -330,14 +330,6 @@ const routers = [
     }
   },
   {
-    path: '/BenefitEnterprisesAndPeopleBySH', // 惠企利民-上海
-    name: 'BenefitEnterprisesAndPeopleBySH',
-    meta: {
-      requireAuth: true
-    },
-    component: () => import('@/views/main/fundMonitoring/benefitPeopleBySH/benefitPeople.vue')
-  },
-  {
     path: '/benefitPeopleConfirm', // 惠企利民确认
     name: 'benefitPeopleConfirm',
     meta: {

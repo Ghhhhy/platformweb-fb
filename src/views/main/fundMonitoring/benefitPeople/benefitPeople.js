@@ -193,9 +193,17 @@ export let proconf = {
   buttons: {
     1: [
       {
-        label: '导入',
-        code: 'import'
+        label: '到人到户导入',
+        code: 'person-import'
       },
+      {
+        label: '企业补贴导入',
+        code: 'company-import'
+      },
+      // {
+      //   label: '导入',
+      //   code: 'import'
+      // },
       {
         label: '删除',
         code: 'delete'
@@ -248,7 +256,7 @@ export let proconf = {
     {
       title: '金额(元)',
       width: 180,
-      field: 'amount',
+      field: 'payAmt',
       sortable: false,
       filters: false,
       align: 'center',
@@ -302,6 +310,70 @@ export let proconf = {
       filters: false,
       align: 'center',
       visible: false
+    },
+    {
+      title: '街道(乡镇)名称',
+      width: 180,
+      field: 'townName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '村名称',
+      width: 180,
+      field: 'villageName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '姓名',
+      width: 180,
+      field: 'perName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '按户或按人补助',
+      width: 180,
+      field: 'toPeopFamily',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '备注',
+      width: 180,
+      field: 'addWord',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '发放月份',
+      width: 180,
+      field: 'payMonth',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '社会统一信用代码',
+      width: 180,
+      field: 'unifsocCredCode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '企业名称',
+      width: 180,
+      field: 'corpName;',
+      sortable: false,
+      filters: false,
+      align: 'center'
     }
     // ,
     // {
