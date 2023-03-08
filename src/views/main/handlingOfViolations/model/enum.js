@@ -50,7 +50,7 @@ export const TabEnum = {
   // 被退回
   RETURN: '4',
   // 已作废
-  VOIDED: '15',
+  VOIDED: '5',
   // 被禁止
   DISABLED: '16',
   // 已禁止
