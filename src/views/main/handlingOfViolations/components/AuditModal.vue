@@ -31,7 +31,7 @@
           退回
         </vxe-button>
         <vxe-button
-          v-if="isDivisionReAudit"
+          v-if="isAllowDisabled"
           :disabled="auditButLoading"
           size="small"
           @click="submitFetch(ActionTypeEnum.ACTION_DISABLED, 1)"
@@ -247,10 +247,10 @@ export default defineComponent({
      * 判断相关
      * */
     const {
-      isDivisionReAudit,
+      isAllowDisabled,
       isUnitFeedbackPage,
       isBlueWarnLevel
-    } = useIs(currentNode, pagePath)
+    } = useIs(currentNode, pagePath, checkedItemsObj)
 
     // // 是否显示表单
     // const isShowFormComponent = computed(() => {
@@ -435,7 +435,7 @@ export default defineComponent({
       cloneRecords,
       getWarnLevelOption,
 
-      isDivisionReAudit,
+      isAllowDisabled,
       isUnitFeedbackPage,
 
       printLoading,
