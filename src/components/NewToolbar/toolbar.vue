@@ -212,7 +212,7 @@ export default {
       rButtonsMore: [],
       queryparams: {},
       loading: false,
-      isPack: false,
+      isPack: this.isOpen,
       statusButtons: { ...defaultStatusButtons },
       init: true,
       hasMoreBtn: false,
