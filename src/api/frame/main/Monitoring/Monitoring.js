@@ -39,7 +39,7 @@ export default {
   },
   // 附近上传
   fileUpload(params) {
-    return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+    return post('fileservice/v2/upload', params, null, 'multipart/form-data')
   },
   // 获取表格数据
   queryDataSourceDatas(params) {
