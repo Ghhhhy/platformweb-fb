@@ -53,19 +53,9 @@ export default {
     let agentItemTemp = []
     if (this.cur.currentCard && this.cur.currentBtn && this.cardBtns[this.cur.currentCard]) {
       agentItemTemp = extend(true, [], this.cardBtns[this.cur.currentCard][this.cur.currentBtn])
-      console.log(agentItemTemp)
     }
     return {
-      agentItems: [
-        {
-          name: '直达自己待办',
-          num: 10
-        },
-        {
-          name: '直达自己待办',
-          num: 2
-        }
-      ],
+      agentItems: agentItemTemp,
       cardBtnsIn: extend(true, {}, this.cardBtns),
       currentCard: this.cur.currentCard || '',
       currentBtn: this.cur.currentBtn || '',
@@ -100,20 +90,19 @@ export default {
     },
 
     initAgentItems() {
-      // if (this.currentCard && this.currentBtn) {
-      //   if (!this.cardBtnsIn[this.currentCard]) {
-      //     this.agentItems = []
-      //     return
-      //   }
-      //   this.agentItems = extend(true, [], this.cardBtnsIn[this.currentCard][this.currentBtn])
-      // }
+      if (this.currentCard && this.currentBtn) {
+        if (!this.cardBtnsIn[this.currentCard]) {
+          this.agentItems = []
+          return
+        }
+        this.agentItems = extend(true, [], this.cardBtnsIn[this.currentCard][this.currentBtn])
+      }
     }
   },
   created() {
 
   },
   mounted() {
-    console.log(this.cardBtns, '2222222222222222')
   },
   watch: {
     cardBtns: {
