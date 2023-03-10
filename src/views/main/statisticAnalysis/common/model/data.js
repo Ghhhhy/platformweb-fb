@@ -5,7 +5,6 @@ import {
   getWarnTypeColumn,
   getIsDirColumn,
   warnLevelOptions,
-  warnTypeOptions,
   isDirOptions
 } from '@/views/main/handlingOfViolations/model/data'
 
@@ -16,7 +15,7 @@ import {
 export const searchFormCommonSchemas = [
   {
     title: '预警级别',
-    field: 'warningLevel',
+    field: 'warnLevel',
     titleWidth: 0,
     itemRender: {
       name: '$select',
@@ -24,19 +23,6 @@ export const searchFormCommonSchemas = [
       props: {
         clearable: true,
         placeholder: '预警级别'
-      }
-    }
-  },
-  {
-    title: '预警类别',
-    field: 'warnType',
-    titleWidth: 0,
-    itemRender: {
-      name: '$select',
-      options: warnTypeOptions,
-      props: {
-        clearable: true,
-        placeholder: '预警类别'
       }
     }
   },

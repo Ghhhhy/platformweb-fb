@@ -4,6 +4,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           :tab-status-btn-config="tabStatusBtnConfig"
+          :is-open="isShowSearchForm"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>

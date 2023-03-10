@@ -130,7 +130,10 @@ export default defineComponent({
 
     Promise.all([
       initWarningCodesAttachFiles(),
-      getDetailHandle(unref(currentNode).warningCode)
+      getDetailHandle({
+        warningCode: unref(currentNode).warningCode,
+        id: unref(currentNode).id
+      })
     ])
 
     /**
