@@ -434,6 +434,11 @@ const routers = [
     path: '/centerZdzjSituation', //  中央直达资金情况表
     name: 'centerZdzjSituation',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/centerZdzjSituation/centerZdzjSituation.vue')
+  },
+  {
+    path: '/dfrDatabase', //  直达资金资料库
+    name: 'dfrDatabase',
+    component: () => import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
   }
 ]
 
