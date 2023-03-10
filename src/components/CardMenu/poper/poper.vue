@@ -14,7 +14,7 @@
     >
       <div class="fn-inline extend-title">
         <div class="title-tip fn-inline olh pointer" :title="item.name" @click.stop="onClickBtn(item)">{{ item.name }}</div>
-        <div v-if="item.num" class="num-color fn-inline">{{ item.num }}个</div>
+        <div v-if="item.num" class="num-color fn-inline">{{ item.num }}条</div>
       </div>
       <button v-if="item.button" class="extend-btn" @click.stop="onClickBtn(item)">{{ item.button.label }}</button>
     </div>
@@ -53,9 +53,19 @@ export default {
     let agentItemTemp = []
     if (this.cur.currentCard && this.cur.currentBtn && this.cardBtns[this.cur.currentCard]) {
       agentItemTemp = extend(true, [], this.cardBtns[this.cur.currentCard][this.cur.currentBtn])
+      console.log(agentItemTemp)
     }
     return {
-      agentItems: agentItemTemp,
+      agentItems: [
+        {
+          name: '直达自己待办',
+          num: 10
+        },
+        {
+          name: '直达自己待办',
+          num: 2
+        }
+      ],
       cardBtnsIn: extend(true, {}, this.cardBtns),
       currentCard: this.cur.currentCard || '',
       currentBtn: this.cur.currentBtn || '',
@@ -90,13 +100,13 @@ export default {
     },
 
     initAgentItems() {
-      if (this.currentCard && this.currentBtn) {
-        if (!this.cardBtnsIn[this.currentCard]) {
-          this.agentItems = []
-          return
-        }
-        this.agentItems = extend(true, [], this.cardBtnsIn[this.currentCard][this.currentBtn])
-      }
+      // if (this.currentCard && this.currentBtn) {
+      //   if (!this.cardBtnsIn[this.currentCard]) {
+      //     this.agentItems = []
+      //     return
+      //   }
+      //   this.agentItems = extend(true, [], this.cardBtnsIn[this.currentCard][this.currentBtn])
+      // }
     }
   },
   created() {
@@ -157,6 +167,8 @@ export default {
         margin-top: 2px;
         .title-tip{
           max-width: 280px;
+          text-decoration: underline;
+          color: var(--primary-color)
         }
         .num-color{
           color: #FFA522;

@@ -18,22 +18,22 @@
       <div v-show="curExtend === item.rowNo" ref="cardExtend" class="card-menu__extend" :style="{ width: extendWidth, 'margin-left': marginWidth, 'margin-right': marginWidth }">
         <div class="arrow" :class="arrowDirectClass"></div>
         <div class="extend-child">
-          <PoperExtend v-if="(currentBtn === 'agentItem' || currentBtn === 'doneItem')" v-loading="adLoading" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
+          <!--自定义待办-->
+          <MenuTodo v-if="currentBtn === 'agentItem'" :card="cur" />
+          <PoperExtend v-if="currentBtn === 'doneItem'" v-loading="adLoading" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
           <CardMenuTree v-if="currentBtn === 'funMenu'" :data="menuTree" />
           <CardVideo v-if="currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
         </div>
-
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import Card from './card/card'
-import PoperExtend from './poper/poper'
 import CardMenuTree from './other/menuTree/index.vue'
 import CardVideo from './other/video'
+import MenuTodo from './other/menuTodo'
 import data from './config/data'
 import MenuModule from '@/api/frame/common/menu.js'
 
@@ -48,9 +48,9 @@ export default {
   mixins: [data],
   components: {
     Card,
-    PoperExtend,
     CardMenuTree,
-    CardVideo
+    CardVideo,
+    MenuTodo
   },
   props: {
 

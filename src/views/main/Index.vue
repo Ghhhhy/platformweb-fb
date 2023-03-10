@@ -443,6 +443,8 @@ export default {
             this.addDynamicRoutingRoute(this.recursiveChangeUrl(res))
             this.onMenuSelectChange(this.defaultActiveMenu)
             this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            // 根据菜单信息获取待办
+            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
           } else {
             // this.$message({
             //   dangerouslyUseHTMLString: true,

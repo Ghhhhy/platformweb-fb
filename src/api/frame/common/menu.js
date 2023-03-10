@@ -49,5 +49,9 @@ export default {
       ...params
     }
     return get('mp-b-perm-service/v1/menutreeinfo', payload)
+  },
+  // 根据菜单信息获取待办
+  getMenuTodoInfo(params) {
+    return post('dfr-monitor-service/dfr/todo/getTodoInfo', params)
   }
 }
