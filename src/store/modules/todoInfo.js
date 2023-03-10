@@ -50,7 +50,7 @@ export default {
      * @return {function(*)}
      */
     getMenuTodoInfo(state) {
-      return (menuId) => state.menuMapTodoInfo?.find(item => item.menuId === menuId) || {}
+      return (menuId) => state.menuMapTodoInfo?.find(item => item.id === menuId) || {}
     }
   },
   actions: {
