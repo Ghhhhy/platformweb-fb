@@ -33,6 +33,7 @@
 import Card from './card/card'
 import CardMenuTree from './other/menuTree/index.vue'
 import CardVideo from './other/video'
+import PoperExtend from './poper/poper'
 import MenuTodo from './other/menuTodo'
 import data from './config/data'
 import MenuModule from '@/api/frame/common/menu.js'
@@ -50,7 +51,8 @@ export default {
     Card,
     CardMenuTree,
     CardVideo,
-    MenuTodo
+    MenuTodo,
+    PoperExtend
   },
   props: {
 
