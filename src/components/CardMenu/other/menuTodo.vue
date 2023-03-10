@@ -1,6 +1,7 @@
 <template>
   <section class="menu-todo-wrapper">
-    <div class="menu-todo-content">
+    <p v-if="!todoList || !todoList.length" class="todo-empty-text">暂无待办数据</p>
+    <div v-else class="menu-todo-content">
       <div
         v-for="item in todoList"
         :key="item.menuId || item.code"
@@ -60,6 +61,15 @@ export default {
   height: 120px;
   overflow-y: auto;
   box-sizing: border-box;
+
+  .todo-empty-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 20px;
+    color: #dFE1E2;
+  }
 
   .menu-todo-content {
     display: flex;
