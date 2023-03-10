@@ -36,14 +36,14 @@ export default {
   methods: {
     /**
      * 点击待办跳转
-     * @param menu { menuId: string, menuName: string, code: string, url: string, params5: string, todoCount: number  }
+     * @param menu { menuId: string, menuName: string, code: string, url: string, param5: string, todoCount: number  }
      */
     todoClick(menu) {
-      const { menuId: id, menuName: name, params5, url, code } = menu
+      const { menuId: id, menuName: name, param5, url, code } = menu
       const params = {
         id,
         name,
-        params5,
+        param5,
         // code必填，但是值随便都起作用
         code: code || this.$XEUtils.uniqueId(),
         url: url?.startsWith('/') ? url : `/${url}`

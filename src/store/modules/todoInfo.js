@@ -8,7 +8,7 @@ function generatorMenuTodoParam(menu) {
     name: menuName,
     url,
     code,
-    params5
+    param5
   } = menu
   return {
     menuId,
@@ -16,7 +16,7 @@ function generatorMenuTodoParam(menu) {
     roleId,
     url,
     code,
-    params5
+    param5
   }
 }
 
