@@ -45,7 +45,7 @@ export default {
       let { menuId: id, menuName: name, param5, url, code, menuTabCode } = menu
 
       if (menuTabCode) {
-        param5 = `${param5 ?? ''},${menuTabCode}=${menuTabCode}`
+        param5 = `${param5 || ''},menuTabCode=${menuTabCode}`
       }
       const curMenuObj = {
         id,
