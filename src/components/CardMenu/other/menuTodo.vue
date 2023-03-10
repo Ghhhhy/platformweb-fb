@@ -2,12 +2,12 @@
   <section class="menu-todo-wrapper">
     <div class="menu-todo-content">
       <div
-        v-for="item in 30"
-        :key="item"
+        v-for="item in todoList"
+        :key="item.menuId || item.code"
         class="menu-todo-item"
         @click="todoClick(item)"
       >
-        <span class="content">{{ item.name }}</span>
+        <span class="content">{{ item.menuName }}</span>
         <span class="number">{{ item.todoCount }}条</span>
       </div>
     </div>
@@ -57,6 +57,8 @@ export default {
 .menu-todo-wrapper {
   font-size: 14px;
   padding: 16px 0;
+  height: 120px;
+  overflow-y: auto;
   box-sizing: border-box;
 
   .menu-todo-content {
