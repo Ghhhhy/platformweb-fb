@@ -9,6 +9,7 @@
         @click="todoClick(item)"
       >
         <span class="content">{{ item.menuName }}</span>
+        <span v-if="item.menuTabName || item.menuTabCode" class="status">（{{ item.menuTabName }}）</span>
         <span class="number">{{ item.todoCount }}条</span>
       </div>
     </div>
@@ -17,6 +18,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
   props: {
     // 当前的卡片
@@ -40,8 +42,12 @@ export default {
      * @param menu { menuId: string, menuName: string, code: string, url: string, param5: string, todoCount: number  }
      */
     todoClick(menu) {
-      const { menuId: id, menuName: name, param5, url, code } = menu
-      const params = {
+      let { menuId: id, menuName: name, param5, url, code, menuTabCode } = menu
+
+      if (menuTabCode) {
+        param5 = `${param5 ?? ''},${menuTabCode}=${menuTabCode}`
+      }
+      const curMenuObj = {
         id,
         name,
         param5,
@@ -49,7 +55,7 @@ export default {
         code: code || this.$XEUtils.uniqueId(),
         url: url?.startsWith('/') ? url : `/${url}`
       }
-      this.$store.commit('setCurMenuObj', params)
+      this.$store.commit('setCurMenuObj', curMenuObj)
     }
   }
 }
@@ -93,8 +99,11 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      .status {
+        margin-left: 2px;
+      }
       .number {
-        margin-left: 8px;
+        margin-left: 16px;
         color: #FFA522;
       }
       &:hover {

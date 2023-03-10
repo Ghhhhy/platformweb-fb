@@ -910,6 +910,12 @@ export default {
           color: '#fa0101'
         }
       }
+    },
+    /**
+     * 根据菜单参数初始化tab默认项
+     */
+    initTabByMenuParams(val) {
+      this.toolBarStatusBtnConfig.curButton = this.toolBarStatusBtnConfig.buttons.find(item => item.code === val)
     }
   },
   created() {
@@ -919,6 +925,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+    this.param5?.menuTabCode && this.initTabByMenuParams(this.param5?.menuTabCode)
     // this.queryTableDatas()
     this.initButtons(this.param5)
     this.getViolationType()
