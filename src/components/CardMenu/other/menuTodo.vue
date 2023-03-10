@@ -8,8 +8,10 @@
         class="menu-todo-item"
         @click="todoClick(item)"
       >
-        <span class="content">{{ item.menuName }}</span>
-        <span v-if="item.menuTabName || item.menuTabCode" class="status">（{{ item.menuTabName }}）</span>
+        <span class="content" :title="`${item.menuName}${item.menuTabName}`">
+          {{ item.menuName }}
+          <span v-if="item.menuTabName || item.menuTabCode" class="status">（{{ item.menuTabName }}）</span>
+        </span>
         <span class="number">{{ item.todoCount }}条</span>
       </div>
     </div>
