@@ -83,6 +83,12 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    '$store.state.curNavModule.param5': {
+      handler() {
+        this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+        this.initTabByMenuParams(this.param5.menuTabCode)
+      }
     }
   },
   data() {
@@ -923,11 +929,6 @@ export default {
         curButton: this.toolBarStatusBtnConfig?.buttons?.find(item => item.code === val)
       }
     }
-  },
-  activated() {
-    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-
-    this.initTabByMenuParams(this.param5.menuTabCode)
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
