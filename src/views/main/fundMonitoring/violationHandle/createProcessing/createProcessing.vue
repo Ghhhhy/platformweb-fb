@@ -84,9 +84,9 @@ export default {
       deep: true,
       immediate: true
     },
-    '$store.state.curNavModule': {
+    '$store.state.curMenuObj': {
       handler() {
-        this.param5 = this.transJson(this.$store.state.curNavModule?.param5)
+        this.param5 = this.transJson(this.$store.state.curMenuObj?.param5)
         this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
       },
       deep: true
@@ -937,7 +937,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
-    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+    this.param5 = this.transJson(this.$store.state.curMenuObj.param5)
     // this.queryTableDatas()
     this.initButtons(this.param5)
 
