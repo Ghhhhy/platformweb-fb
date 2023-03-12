@@ -725,6 +725,8 @@ export default {
       //     self.$message.error('区划配置信息初始化失败!')
       //   }
       // })
+      // 待办跳转会携带menuTabCode参数，根据参数初始化对应tab选中
+      this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
     },
     transJson(str) {
       if (!str) return
@@ -915,7 +917,11 @@ export default {
      * 根据菜单参数初始化tab默认项
      */
     initTabByMenuParams(val) {
-      this.toolBarStatusBtnConfig.curButton = this.toolBarStatusBtnConfig.buttons.find(item => item.code === val)
+      // 浅拷贝改变引用地址（tab组件未深度监听）
+      this.toolBarStatusBtnConfig = {
+        ...this.toolBarStatusBtnConfig,
+        curButton: this.toolBarStatusBtnConfig?.buttons?.find(item => item.code === val)
+      }
     }
   },
   created() {
@@ -925,9 +931,9 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-    this.param5?.menuTabCode && this.initTabByMenuParams(this.param5?.menuTabCode)
     // this.queryTableDatas()
     this.initButtons(this.param5)
+
     this.getViolationType()
     this.getCount()
   }
