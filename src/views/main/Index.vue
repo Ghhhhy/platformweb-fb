@@ -527,7 +527,7 @@ export default {
       handler(newValue) {
         if (newValue && Object.keys(newValue).length) {
           this.registTabComs(newValue, true)
-          this.$store.commit('setCurMenuObj', {})
+          // this.$store.commit('setCurMenuObj', {})
         }
       },
       deep: true,
