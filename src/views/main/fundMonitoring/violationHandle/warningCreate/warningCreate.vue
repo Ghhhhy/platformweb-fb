@@ -411,7 +411,7 @@ export default {
         pageSize: this.pagerConfig.pageSize, // 每页条数
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : ''
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '09'
       }
       this.tableLoading = true

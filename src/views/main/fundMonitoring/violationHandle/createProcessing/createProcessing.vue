@@ -84,7 +84,7 @@ export default {
       deep: true,
       immediate: true
     },
-    '$store.state.curMenuObj': {
+    '$store.state.curNavModule': {
       handler() {
         this.param5 = this.transJson(this.$store.state.curMenuObj?.param5)
         this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)

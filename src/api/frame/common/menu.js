@@ -52,6 +52,6 @@ export default {
   },
   // 根据菜单信息获取待办
   getMenuTodoInfo(params) {
-    return post('dfr-monitor-service/dfr/todo/getTodoInfo', params)
+    return post('large-monitor-platform/lmp/todo/getTodoInfo', params)
   }
 }
