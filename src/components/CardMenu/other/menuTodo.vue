@@ -45,11 +45,13 @@ export default {
      */
     todoClick(menu) {
       let { menuId: id, menuName: name, param5, url, code, menuTabCode } = menu
-
+      const currentMenu = this.$XEUtils.toTreeArray(this.$store.state.systemMenu || [])
+        .find(item => item.guid === id)
       if (menuTabCode) {
         param5 = `${param5 || ''},menuTabCode=${menuTabCode}`
       }
       const curMenuObj = {
+        ...currentMenu,
         id,
         name,
         param5,
