@@ -87,7 +87,7 @@ export default {
     '$store.state.curNavModule.param5': {
       handler() {
         this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-        this.initTabByMenuParams(this.param5.menuTabCode)
+        this.param5.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
       }
     }
   },
