@@ -84,11 +84,12 @@ export default {
       deep: true,
       immediate: true
     },
-    '$store.state.curNavModule.param5': {
+    '$store.state.curNavModule': {
       handler() {
-        this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-        this.param5.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
-      }
+        this.param5 = this.transJson(this.$store.state.curNavModule?.param5)
+        this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
+      },
+      deep: true
     }
   },
   data() {
