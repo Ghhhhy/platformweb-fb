@@ -924,6 +924,11 @@ export default {
       }
     }
   },
+  activated() {
+    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+
+    this.initTabByMenuParams(this.param5.menuTabCode)
+  },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
