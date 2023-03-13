@@ -468,8 +468,8 @@ const proconf = {
             field: 'amountSnjwfp',
             width: 200,
             align: 'right',
-            cellRender: { name: '$vxeMoney' },
-            formula: '{amountZyxd}-{amountSnjbjfp}-{amountSnjxjfp}'
+            cellRender: { name: '$vxeMoney' }
+            // formula: '{amountZyxd}-{amountSnjbjfp}-{amountSnjxjfp}'
           },
           {
             title: '本级已支出',
@@ -531,8 +531,8 @@ const proconf = {
             field: 'amountSjwfp',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeMoney' },
-            formula: '{amountZyxd}-{amountSbjfp}-{amountSxjfp}'
+            cellRender: { name: '$vxeMoney' }
+            // formula: '{amountZyxd}-{amountSbjfp}-{amountSxjfp}'
           },
           {
             title: '本级已支出',
@@ -587,8 +587,8 @@ const proconf = {
             field: 'amountXjwfp',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeMoney' },
-            formula: '{amountZyxd}-{amountXjfp}'
+            cellRender: { name: '$vxeMoney' }
+            // formula: '{amountZyxd}-{amountXjfp}'
           },
           {
             title: '已支出',

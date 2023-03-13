@@ -716,14 +716,17 @@ export default {
       }
       this.tableLoading = true
       HttpModule.xmPageQuery(param).then(res => {
-        this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
+          if (res.data) {
+            this.tableData = res.data.results
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          }
         } else {
           this.$message.error(res.result)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     // 操作日志

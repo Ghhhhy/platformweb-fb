@@ -149,13 +149,14 @@ export default {
       // params.xjCorBgtDocNo = this.condition.xjCorBgtDocNo ? this.condition.xjCorBgtDocNo[0] : ''
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
-        this.$parent.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.$parent.tableLoading = false
       })
     },
     // 搜索

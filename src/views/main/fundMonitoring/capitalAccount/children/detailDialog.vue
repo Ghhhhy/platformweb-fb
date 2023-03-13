@@ -217,13 +217,14 @@ export default {
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
-        this.$parent.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.$parent.tableLoading = false
       })
     },
     showInfo() {

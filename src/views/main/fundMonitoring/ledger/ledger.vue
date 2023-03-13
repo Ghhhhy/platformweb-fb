@@ -304,9 +304,30 @@ export default {
         case 'etlDataSync':
           this.etlDataSync()
           break
+        case 'doIncrementSync':
+          this.doIncrementSync()
+          break
         default:
           break
       }
+    },
+    async doIncrementSync() {
+      this.$confirm('将执行一次增量数据同步, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          this.tableLoading = true
+          checkRscode(await HttpModule.doIncrementSync())
+          this.$message({
+            type: 'success',
+            message: '同步结束!'
+          })
+        } finally {
+          this.tableLoading = false
+        }
+      })
     },
     async etlDataSync() {
       const { file } = await readLocalFile({
