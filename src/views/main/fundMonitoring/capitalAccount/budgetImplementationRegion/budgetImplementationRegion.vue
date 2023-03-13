@@ -564,11 +564,10 @@ export default {
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
           }
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
-      }).catch(() => {
+      }).finally(() => {
         this.tableLoading = false
       })
     },

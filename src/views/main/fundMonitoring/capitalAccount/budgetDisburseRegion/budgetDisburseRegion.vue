@@ -533,10 +533,11 @@ export default {
           this.tableData = res.data.data
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
