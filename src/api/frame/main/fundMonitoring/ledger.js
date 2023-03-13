@@ -24,5 +24,9 @@ export default {
   // ETL数据同步
   etlDataSync (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/etlDataSync', params, null, 'multipart/form-data;charset=UTF-8')
+  },
+  // 手动执行KETTLE增量
+  doIncrementSync () {
+    return get('dfr-monitor-service/dfr/zdzjledger/doIncrementSync')
   }
 }
