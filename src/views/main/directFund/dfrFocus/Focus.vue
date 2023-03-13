@@ -228,7 +228,7 @@ export default {
       payeeAcctName: '',
       xpayDate: '',
       setModeName: '',
-      year: this.$store.state.userInfo.year,
+      year: '',
       agencyCode: '',
       mofdivcode: '',
       codeList: []
@@ -567,7 +567,7 @@ export default {
         payAcctName: this.payAcctName,
         xpayDate: this.xpayDate,
         payeeAcctName: this.payeeAcctName,
-        year: this.year,
+        fiscalYear: this.searchDataList.fiscalYear,
         setModeName: this.setModeName,
         agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,

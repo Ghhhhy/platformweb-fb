@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -189,7 +189,10 @@ export let proconf = {
   // ],
   highQueryData: {
     dataSourceName: '',
-    businessModuleName: ''
+    businessModuleName: '',
+    fiscalYear: store.state.userInfo.year,
+    mofDivCodes: '',
+    endTime: ''
   },
   PoliciesTableColumns: [
     {
