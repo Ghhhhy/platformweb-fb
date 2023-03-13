@@ -57,7 +57,7 @@ export default {
         param5,
         // code必填，但是值随便都起作用
         code: code || this.$XEUtils.uniqueId(),
-        url: url?.startsWith('/') ? url : `/${url}`
+        url
       }
       this.$store.commit('setCurMenuObj', curMenuObj)
     }

@@ -73,6 +73,10 @@ export default {
   components: {
     AddDialog
   },
+  activated() {
+    this.param5 = this.transJson(this.$store.state.curNavModule?.param5)
+    this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
+  },
   watch: {
     queryConfig() {
       this.getSearchDataList()
@@ -83,13 +87,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    '$store.state.curNavModule': {
-      handler() {
-        this.param5 = this.transJson(this.$store.state.curMenuObj?.param5)
-        this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
-      },
-      deep: true
     }
   },
   data() {
@@ -202,7 +199,7 @@ export default {
       addTableData: [],
       // 请求 & 角色权限相关配置
       menuName: '监控问询单列表',
-      params5: '',
+      param5: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -246,7 +243,6 @@ export default {
         readonly: true,
         clearable: true
       },
-      param5: '',
       fiRuleCode: '',
       warningCode: '',
       dealNo: '',
@@ -937,7 +933,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
-    this.param5 = this.transJson(this.$store.state.curMenuObj.param5)
+    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     // this.queryTableDatas()
     this.initButtons(this.param5)
 

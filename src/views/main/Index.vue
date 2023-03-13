@@ -525,9 +525,13 @@ export default {
   watch: {
     curMenuObj: {
       handler(newValue) {
+        let curKeepAlive = this.tabListCp.find(item => item.url === newValue.url)
+        if (curKeepAlive) {
+          Object.assign(curKeepAlive, newValue)
+        }
         if (newValue && Object.keys(newValue).length) {
           this.registTabComs(newValue, true)
-          // this.$store.commit('setCurMenuObj', {})
+          this.$store.commit('setCurMenuObj', {})
         }
       },
       deep: true,
