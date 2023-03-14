@@ -397,7 +397,46 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, trackProCode) {
+    handleDetail(type, trackProCode, column) {
+      let condition = ''
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'shbjfpaAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'sbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          // 支出明细
+          case 'shbjfpaAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'sbjfpaAmount':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
+      }
+      let isBj = ''
+      switch (column) {
+        case 'shbjfpaAmount':
+          isBj = '1'
+          break
+        case 'sbjfpaAmount':
+          isBj = '2'
+          break
+        case 'xyfpaAmount':
+          isBj = '3'
+          break
+      }
       let isCz = ''
       if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
         isCz = '2'
@@ -406,11 +445,13 @@ export default {
       }
       let params = {
         isCz: isCz,
+        isBj: isBj,
         reportCode: type,
         proCode: trackProCode,
         mofDivCode: '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        condition: condition
       }
       this.detailQueryParam = params
       this.detailType = type
@@ -435,13 +476,13 @@ export default {
 
       switch (key) {
         case 'jOut':
-          this.handleDetail('jOut', obj.row.speTypeCode)
+          this.handleDetail('jOut', obj.row.speTypeCode, key)
           this.detailTitle = '支出明细'
           break
         case 'sbjfpaAmount':
         case 'shbjfpaAmount':
         case 'xyfpaAmount':
-          this.handleDetail('zdzjxmmx_dfap', obj.row.code)
+          this.handleDetail('zdzjxmmx_dfap', obj.row.code, key)
           this.detailTitle = '直达资金项目明细'
       }
     },
@@ -475,7 +516,7 @@ export default {
       let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
-          mofDivCodes.push(item.split('-')[0])
+          mofDivCodes.push(item.split('##')[0])
         })
       }
       return mofDivCodes
@@ -493,10 +534,11 @@ export default {
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
-          this.reportTime = res.data.reportTime || ''
-          this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
+          if (res.data) {
+            this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+          }
         } else {
           this.$message.error(res.message)
         }

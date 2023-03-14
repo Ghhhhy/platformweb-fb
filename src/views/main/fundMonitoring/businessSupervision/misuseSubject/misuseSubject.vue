@@ -27,6 +27,7 @@
           id="1001"
           ref="bsTableRef"
           row-id="id"
+          :show-zero="false"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
@@ -67,13 +68,24 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-total-count="detailTotalCount"
+      :detail-data="detailData"
+    />
   </div>
 </template>
 
 <script>
 import getFormData from './misuseSubject.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/suspectedWrongSubjects.js'
+import DetailDialog from '../children/detailDialog.vue'
 export default {
+  components: {
+    DetailDialog
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -154,10 +166,9 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
-        autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 50
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -206,6 +217,7 @@ export default {
       searchDataList: getFormData('highQueryData'),
       detailVisible: false,
       detailType: '',
+      detailTotalCount: '',
       detailTitle: '',
       detailData: []
     }
@@ -341,17 +353,23 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
+    handleDetail(type, recDivCode, key) {
       let params = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year,
+        mofDivCode: recDivCode,
+        expFuncCode: key,
+        reportCode: type,
+        page: this.pagerConfig.currentPage,
+        pageSize: this.pagerConfig.pageSize
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(params).then((res) => {
+      HttpModule.queryTableDeatilDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.detailData = res.data
+          this.detailData = res.results
           this.detailVisible = true
           this.detailType = type
+          this.detailTotalCount = res.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -364,17 +382,17 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
       switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.recDivCode)
-          this.detailTitle = '支出明细'
-          break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
-          this.detailTitle = '直达资金项目明细'
+        case 'amount202':
+        case 'amount203':
+        case 'amount204':
+        case 'amount227':
+        case 'amount230':
+        case 'amount232':
+        case 'amount233':
+        case 'amountnull':
+          this.handleDetail('yscykm_mx', obj.row.code, key)
+          this.detailTitle = '直达机制资金按功能科目明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

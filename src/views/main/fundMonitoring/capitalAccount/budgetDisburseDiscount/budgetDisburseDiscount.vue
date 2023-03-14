@@ -483,10 +483,11 @@ export default {
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
-          this.reportTime = res.data.reportTime || ''
-          this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
+          if (res.data) {
+            this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+          }
         } else {
           this.$message.error(res.message)
         }
