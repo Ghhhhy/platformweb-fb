@@ -96,7 +96,7 @@
                   :default-checked-keys="defaultCheckedKeysIn"
                   :current-node-key="currentNodeKeyIn"
                   :filter-node-method="filterNode"
-                  @node-click="selectOnNodeClick || !configIn.expandOnClickNode ? onNodeDblClick : () => {} "
+                  @node-click="configIn.selectOnNodeClick || !configIn.expandOnClickNode ? onNodeDblClick : () => {} "
                   @dblclick.native="onNodeDblClick"
                   @check="onCheckChange"
                   @check-change="onNodeCheckChange"
@@ -868,7 +868,8 @@ export default {
           this.$refs.tree.setCheckedKeys([])
           this.$refs.tree.setCurrentKey('')
         }
-        this.value = ''
+        // this.value = ''
+        this.$emit('input', '')
         this.setTreeValue()
         this.setTitleTip(this.treeOptionDataArr)
         this.$emit('onClearClick', this)
@@ -970,7 +971,7 @@ export default {
             return arr.join('##')
           })
           .join(',')
-        this.value = this.valueOut
+        // this.value = this.valueOut
         this.$emit('input', this.valueOut)
         if (multiple) {
           this.$emit(

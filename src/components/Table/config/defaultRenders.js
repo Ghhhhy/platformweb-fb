@@ -542,7 +542,7 @@ const defaultPublicRenders = {
                 data[property] = value
               },
               onTreeLoaded({ treeData, tree }, bsTree) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
+                $form.$parent?.itemOption?.({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
               },
               onNodeClick({ node, treeData, value }) {
                 if (node !== null) {
@@ -1106,10 +1106,10 @@ const defaultPublicRenders = {
                 itemChange({ $form, property, itemValue: data[property], data, renderOpts })
               },
               prefixClick({ value, $event }) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'prefixClick', renderOpts })
+                $form.$parent?.itemOption({ $form, property, itemValue: data[property], optionType: 'prefixClick', renderOpts })
               },
               suffixClick({ value, $event }) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'suffixClick', renderOpts })
+                $form.$parent?.itemOption({ $form, property, itemValue: data[property], optionType: 'suffixClick', renderOpts })
               }
             }
           })
