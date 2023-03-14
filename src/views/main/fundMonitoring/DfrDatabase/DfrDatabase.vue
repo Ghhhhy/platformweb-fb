@@ -1,11 +1,10 @@
 <template>
   <div v-loading="showLoading" class="pay-according-to-income">
-    <BsMainFormListLayout :left-visible.sync="undefined">
-      <template v-slot:topTap></template>
+    <BsMainFormListLayout :left-visible="false">
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          is-open
+          :is-hide-query="true"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
@@ -25,7 +24,6 @@
       <template v-slot:mainForm>
         <BsTable
           ref="addTableRef"
-          :footer-config="false"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
@@ -136,7 +134,7 @@ export default {
             curValue: '2'
           }
         ],
-        buttonsInfo: {
+        buttonsInfo: this.transJson(this.$store.state.curNavModule?.param5).isShowTabButtons ? {
           '1': [
             { code: 'toolbar-upload', label: '上传文件' },
             { code: 'toolbar-deleteFile', label: '删除文件' }
@@ -145,7 +143,7 @@ export default {
             { code: 'toolbar-upload', label: '上传文件' },
             { code: 'toolbar-deleteFile', label: '删除文件' }
           ]
-        },
+        } : false,
         methods: {
           bsToolbarClickEvent: self.onStatusTabClick
         }

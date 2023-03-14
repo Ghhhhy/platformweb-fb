@@ -125,7 +125,8 @@ const componentsLib = {
   BsEmpty,
   BsTreeTitle,
   BsTableTitle,
-  BsFilePreview
+  BsFilePreview,
+  FilePreview: BsFilePreview
 }
 const utilsLib = {
   LoadingMark,
