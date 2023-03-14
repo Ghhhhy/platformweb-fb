@@ -200,10 +200,6 @@ export let proconf = {
         label: '企业补贴导入',
         code: 'company-import'
       },
-      // {
-      //   label: '导入',
-      //   code: 'import'
-      // },
       {
         label: '删除',
         code: 'delete'

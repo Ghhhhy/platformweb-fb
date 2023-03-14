@@ -145,15 +145,15 @@
 </template>
 
 <script>
-import { proconf, getDateString } from './benefitPeople'
+import { proconf } from './benefitPeople'
 import FilterTreeInput from './FilterTreeInput.vue'
 import AddDialog from './children/AddDialog'
 import ImportModel from '@/components/Table/import/import.vue'
-import { Import } from '@/components/Table/import/import/import.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
-import { Export } from '@/components/Table/export/export/export'
+
 import { readLocalFile } from '@/utils/readLocalFile'
 import { checkRscode } from '@/utils/checkRscode'
+import { downloadByUrl } from '@/utils/download'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -188,6 +188,7 @@ export default {
       importModalVisible: false, // 导入弹框
       fileConfig: {
         fileName: '',
+        file: null,
         maxSize: 1024 * 1024 * 10
       }, // 导入文件配置
       row1: {},
@@ -398,82 +399,34 @@ export default {
   mounted() {
   },
   methods: {
-    onImportClick() {
-      // 导入提交
-      if (!this.importData.length) {
-        this.$XModal.message({ status: 'error', message: '无数据导入请重新导入数据！' })
-      } else {
-        this.importModalVisible = false
-        if (typeof (this.importConfig.importSuccessCallback) === 'function') {
-          this.importConfig.importSuccessCallback(this.importData)
-        } else {
-          this.$emit('importSuccessCallback', this.importData)
-        }
+    async onImportClick() {
+      if (!this.fileConfig?.file) {
+        this.$message.warning('请先选择导入文件')
+        return
       }
+      checkRscode(
+        await HttpModule.importPersonAndCompany(this.fileConfig)
+      )
+      this.$message.success('导入成功')
+      this.dtos = []
+      this.importModalVisible = false
+
+      this.queryTableDatas()
+      this.queryTableDatas1()
     },
     async onImportFileClick() {
-      // 导入文件
-      this.$Import = new Import()
-      await this.$Import.importExcel({
-      }, (result, filename) => {
-        // this.tableDataIn = result
-        this.importData = result
-        this.fileConfig.fileName = filename
+      const { file } = await readLocalFile({
+        types: ['xlsx', 'xls']
       })
+      this.fileConfig.file = file
+      this.fileConfig.fileName = file.name
     },
-    onDownloadTemplateClick(obj) {
-      // 下载模版
-      if (typeof (this.importConfig.downloadTemplateCallback) === 'function') {
-        this.importConfig.downloadTemplateCallback(this.importData)
-      } else {
-        this.importData = []
-        const columns = this.tableColumnsConfig
-        const selection = this.selection
-        let defaultConfig = {
-          isExportTree: !!self.treeConfigIn,
-          saveType: '.xlsx',
-          fileName: 'importTempplate', // 文件名
-          dataType: 'fullData',
-          isExportOnlySourceField: true, // 是否只导出数据源表头字段，
-          isExportOnlyViewTitle: false, // 是否只导出数据表头名称，
-          isExportHead: true, // 是否导出表头
-          exportViewTitleType: 'nestTitle',
-          isExportFooter: false, // 是否导出表尾部
-          isExportOriginalData: true, // 是否导出源数据
-          isExportData: true, // 是否导出数据
-          columns: columns, // 表头配置
-          datas: [], // 源数据,
-          selection: selection, // 选中数据
-          index: true, // 是否添加序号,
-          ignoreColsTypes: [
-            'dragSort',
-            'seq',
-            'checkbox',
-            'radio',
-            'optionRow',
-            'expand',
-            'attach',
-            'ach',
-            'list',
-            'attachlist'
-          ] // 忽略导出的列类型
-        }
-        this.$Export.exportExcel(obj ? Object.assign(defaultConfig, obj) : obj, this)
-      }
-    },
-    downLoadImportTemplates() {
-      // 下载导入模版
-      const tableColumnsConfig = this.tableColumnsConfig
-      // const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
-      this.$Export = new Export({ unit: '元' })
-      this.$Export.exportExcel({
-        saveType: '.xlsx',
-        fileName: '导入模版', // 文件名
-        dataType: 'fullData',
-        isExportOnlyViewTitle: true, // 是否只导出数据源表头字段，
-        columns: tableColumnsConfig, // 表头配置
-        index: false // 是否添加序号,
-      }, this)
+    onDownloadTemplateClick() {
+      const fileName = this.fileConfig.fileType === '1' ? '到人到户资金发放明细表模板' : '企业补贴发放明细表模板'
+      downloadByUrl(
+        `/static/files/${fileName}.xls`,
+        fileName
+      )
     },
     triggerImportOption(config = {}) {
       // 触发导入
@@ -684,7 +637,6 @@ export default {
     },
     // 切换操作按钮
     async operationToolbarButtonClickEvent(obj, context, e) {
-      let self = this
       let datas1 = this.$refs.mainTableRef.getSelectionData()
       let datas2 = this.$refs.mainTableRef1.getSelectionData()
       switch (obj.code) {
@@ -736,53 +688,14 @@ export default {
           }
           this.notHook(datas2)
           break
-        // 导入
-        case 'import':
-          this.triggerImportOption(
-            {
-              downloadTemplateCallback(Cb) {
-                self.downLoadImportTemplates()
-              },
-              importSuccessCallback(res) {
-                self.$refs.mainTableRef.deaImportViewData(
-                  {
-                    conlums: proconf.PoliciesTableColumns,
-                    viewData: res
-                  }
-                )
-                // 将导入的支付时间格式化
-                res?.forEach(row => {
-                  const timestamp = self.$Import.getExcelTimestamp(row.xpayDate)
-                  row.xpayDate = timestamp ? getDateString(timestamp) : row.xpayDate
-                })
-                self.importSuccessCallback(res)
-              }
-            }
-          )
-          break
         case 'person-import':
         case 'company-import':
-          // const selectionData = this.$refs.mainTableRef1.getSelectionData()
-          // if (selectionData?.length !== 1) {
-          //   this.$message.warning('请选择一条支付凭证信息')
-          //   return
-          // }
-          const { file } = await readLocalFile({
-            types: ['xlsx', 'xls']
-          })
-          const params = {
-            file,
+          this.importModalVisible = true
+          this.fileConfig = {
+            fileName: '',
+            file: null,
             fileType: obj.code === 'person-import' ? '1' : '2'
-            // payCertNo: selectionData[0].payCertNo,
-            // payApplyId: selectionData[0].payAppId
           }
-          checkRscode(
-            await HttpModule.importPersonAndCompany(params)
-          )
-          this.$message.success('导入成功')
-          this.dtos = []
-          this.queryTableDatas()
-          this.queryTableDatas1()
           break
         default:
           break
@@ -802,15 +715,8 @@ export default {
       this.addDialogVisible = true
       this.dialogTitle = '修改'
     },
-    importSuccessCallback(res) {
-      HttpModule.importBenefit(res).then(res => {
-        if (res.code === '000000') {
-          this.$message.success('导入成功')
-        } else {
-          this.$message.error(res.result)
-        }
-      })
-      this.refresh()
+    async importSuccessCallback(file) {
+
     },
     hook(datas1, datas2) {
       const param = {
