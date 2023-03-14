@@ -8,11 +8,15 @@
         class="menu-todo-item"
         @click="todoClick(item)"
       >
-        <span class="content" :title="`${item.menuName}${item.menuTabName}`">
-          {{ item.menuName }}
-          <span v-if="item.menuTabName || item.menuTabCode" class="status">（{{ item.menuTabName }}）</span>
-        </span>
-        <span class="number">{{ item.todoCount }}条</span>
+        <el-tooltip :content="`${item.menuName}${item.menuTabName || ''}`">
+          <div class="menu-todo-item-wrapper">
+            <span class="content">
+              {{ item.menuName }}
+              <span v-if="item.menuTabName || item.menuTabCode" class="status">（{{ item.menuTabName }}）</span>
+            </span>
+            <span class="number">{{ item.todoCount }}条</span>
+          </div>
+        </el-tooltip>
       </div>
     </div>
   </section>
@@ -86,17 +90,21 @@ export default {
     flex-wrap: wrap;
 
     .menu-todo-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 24px;
-      width: 25%;
       flex-shrink: 0;
+      width: 25%;
       color: var(--primary-color);
       cursor: pointer;
-      box-sizing: border-box;
+
+      .menu-todo-item-wrapper {
+        display: flex;
+        align-items: center;
+        padding: 8px 24px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+      }
 
       .content {
-        max-width: 80%;
+        max-width: 70%;
         text-decoration: underline;
         display: inline-block;
         white-space: nowrap;
@@ -109,6 +117,7 @@ export default {
       .number {
         margin-left: 16px;
         color: #FFA522;
+        flex-shrink: 0;
       }
       &:hover {
         color: var(--secondary-color-anamorphism);
