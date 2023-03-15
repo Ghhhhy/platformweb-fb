@@ -83,5 +83,10 @@ export default [
     path: '/directFundsChart', // 直达资金图表
     name: 'DirectFundsChart',
     component: () => import('@/views/px-to-vw-page/directFunds/index.vue')
+  },
+  {
+    path: '/directFundsDetail', // 直达资金明细
+    name: 'DirectFundsDetail',
+    component: () => import('@/views/main/directFund/directFundsDetail/index.vue')
   }
 ]
