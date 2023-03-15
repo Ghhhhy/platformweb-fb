@@ -59,7 +59,7 @@ import useForm from '@/hooks/useForm'
 import useTabPlanel from './hooks/useTabPlanel'
 import { getUnregisteredColumns, getHaveRegisteredColumns, getFormSchemas } from './model/data'
 import { TabEnum } from './model/enum'
-import { queryDetail } from '@/api/frame/main/directFund/directFundsDetail.js'
+import { queryDetail, jstreedata } from '@/api/frame/main/directFund/directFundsDetail.js'
 
 export default defineComponent({
   setup() {
@@ -79,9 +79,23 @@ export default defineComponent({
      * 生成搜索表单
      * */
     function generateFormShemas(isUnregistered) {
-      const formShemas = getFormSchemas()
-      return isUnregistered ? formShemas.filter(item => !item.isHaveRegistered) : formShemas
+      const formSchemas = getFormSchemas()
+      const schema = unref(formSchemas).find(item => item.field === 'isDirCode')
+      schema && (schema.itemRender.options = unref(isDirCodeOptions))
+      return isUnregistered ? formSchemas.filter(item => !item.isHaveRegistered) : formSchemas
     }
+
+    const isDirCodeOptions = ref([])
+    /**
+     * 获取直达资金标识
+     * */
+    async function getIsDirCode() {
+      const { data } = await jstreedata()
+      if (Array.isArray(data)) {
+        isDirCodeOptions.value = data
+      }
+    }
+    getIsDirCode()
 
     /**
      * 搜索表单
@@ -97,6 +111,7 @@ export default defineComponent({
     ] = useForm(
       generateFormShemas(true)
     )
+
     /**
      * 搜索
      * @param val
