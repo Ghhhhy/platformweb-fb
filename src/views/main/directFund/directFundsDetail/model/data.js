@@ -148,6 +148,7 @@ export function getFormSchemas() {
       itemRender: {
         name: '$vxeTree',
         options: [],
+        defaultValue: [],
         props: {
           config: {
             selectOnNodeClick: false,
