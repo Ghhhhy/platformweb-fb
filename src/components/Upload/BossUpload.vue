@@ -14,6 +14,7 @@
       :on-progress="onProgress"
       :before-upload="onbeforeUpload"
       :on-exceed="onExceed"
+      :http-request="() => {}"
       style="display: inline-block;"
     >
       <el-button size="small" type="primary" :class="className">上传</el-button>
@@ -192,6 +193,8 @@ export default {
       }).catch(err => {
         console.log(err)
         this.openLoading && comUi.utilsLib.LoadingMark.removeLoadingMark()
+      }).finally(() => {
+        this.$refs.uploadFile?.clearFiles()
       })
     },
 
