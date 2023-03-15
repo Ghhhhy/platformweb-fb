@@ -260,7 +260,7 @@ export function getFormSchemas() {
       itemRender: {
         name: '$input',
         props: {
-          type: 'date',
+          type: 'datetime',
           placeholder: '下达起始'
         }
       }
@@ -271,7 +271,7 @@ export function getFormSchemas() {
       itemRender: {
         name: '$input',
         props: {
-          type: 'date',
+          type: 'datetime',
           placeholder: '下达截至'
         }
       }
@@ -282,7 +282,7 @@ export function getFormSchemas() {
       itemRender: {
         name: '$input',
         props: {
-          type: 'date',
+          type: 'datetime',
           placeholder: '登记起始'
         }
       },
@@ -294,7 +294,7 @@ export function getFormSchemas() {
       itemRender: {
         name: '$input',
         props: {
-          type: 'date',
+          type: 'datetime',
           placeholder: '登记截至'
         }
       },
