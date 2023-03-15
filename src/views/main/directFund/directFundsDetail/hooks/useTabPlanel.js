@@ -21,7 +21,7 @@ function useTabPlanel(
    * 附件查看
    */
   async function previewHandle() {
-    Message.warning('此功能待开发~')
+    Message.info('此功能待开发')
     // const tableInstance = await getTable()
     // const checkedRows = tableInstance.getCheckboxRecords?.(true)
     // if (checkedRows.length !== 1) {
@@ -54,13 +54,15 @@ function useTabPlanel(
     changeBtns: false,
     buttons: tabs,
     curButton: tabs[0],
-    buttonsInfo: [
-      {
-        label: '查看附件',
-        status: 'primary',
-        callback: previewHandle
-      }
-    ]
+    buttonsInfo: {
+      [tabs[0].code]: [
+        {
+          label: '查看附件',
+          status: 'primary',
+          callback: previewHandle
+        }
+      ]
+    }
   })
 
   return {
