@@ -63,15 +63,16 @@ import { queryDetail } from '@/api/frame/main/directFund/directFundsDetail.js'
 
 export default defineComponent({
   setup() {
-    const currentTab = ref(null)
+    const currentTabCode = ref(TabEnum.UNREGISTERED)
     /**
      * tab点击切换
      * */
     function onTabClick(tab) {
-      currentTab.value = tab
+      currentTabCode.value = tab.code
       const isUnregistered = tab.code === TabEnum.UNREGISTERED
       columns.value = isUnregistered ? getUnregisteredColumns() : getHaveRegisteredColumns()
       formSchemas.value = generateFormShemas(isUnregistered)
+      resetFetchTableData()
     }
 
     /**
@@ -101,11 +102,23 @@ export default defineComponent({
      * @param val
      */
     function search(val) {
-      setSubmitFormData({
-        ...(val || {}),
-        mofDivCode: val?.mofDivCode_code || '',
-        projectCode: val?.projectCode_code__multiple || ''
-      })
+      const params = unref(formSchemas).reduce((obj, item) => {
+        if (Reflect.has(val, item.field)) {
+          let key = item.field
+          if (item.itemRender?.name === '$vxeTree') {
+            key += '_code'
+          }
+          if (item.itemRender?.props?.config?.multiple) {
+            key += '__multiple'
+          }
+          Reflect.set(obj, item.field, val[key])
+        } else {
+          Reflect.set(obj, item.field, undefined)
+        }
+        return obj
+      }, {})
+
+      setSubmitFormData(params)
       resetFetchTableData()
     }
 
@@ -131,7 +144,7 @@ export default defineComponent({
       beforeFetch: params => {
         return {
           ...params,
-          statusCode: unref(currentTab).code
+          statusCode: unref(currentTabCode)
         }
       },
       getSubmitFormData,

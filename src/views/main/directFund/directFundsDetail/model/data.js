@@ -247,9 +247,9 @@ export function getFormSchemas() {
       title: '直达资金标识',
       itemRender: {
         name: '$vxeSelect',
+        options: directFundOptions,
         props: {
-          placeholder: '直达资金标识',
-          options: directFundOptions
+          placeholder: '直达资金标识'
         }
       }
     },
