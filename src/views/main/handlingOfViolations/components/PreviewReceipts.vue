@@ -125,12 +125,14 @@ export default defineComponent({
       fetch: billPage,
       getSubmitFormData,
       beforeFetch: params => {
+        const { ruleCode, fiRuleCode, businessNo, payCertNo, id } = props.currentNode
         return {
           ...params,
           // 规则编码
-          fiRuleCode: props.currentNode.ruleCode || props.currentNode.fiRuleCode,
+          fiRuleCode: ruleCode || fiRuleCode,
           // 凭证id
-          payCertId: props.currentNode.businessNo || props.currentNode.payCertNo
+          payCertId: businessNo || payCertNo,
+          id
         }
       },
       dataKey: 'data.results',
