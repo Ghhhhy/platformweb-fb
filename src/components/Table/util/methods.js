@@ -79,14 +79,23 @@ const sortMethods = {
     return data
   },
   arrSortNumberSuffix({ $table, data, column, property, order, rTypeSuffix }) {
-    // 通用 排序 new
-    data.sort(function (a, b) {
-      if (order === 'asc') {
-        return parseFloat(a[property]) - parseFloat(b[property])
-      } else {
-        return parseFloat(b[property]) - parseFloat(a[property])
-      }
-    })
+    // 兼容树形表格 => 递归排序后代节点
+    function sortInner(data) {
+      // 通用 排序 new
+      data.sort(function (a, b) {
+        if (order === 'asc') {
+          return parseFloat(a[property]) - parseFloat(b[property])
+        } else {
+          return parseFloat(b[property]) - parseFloat(a[property])
+        }
+      })
+      $table.treeConfig && data.forEach(item => {
+        if (item?.children?.length) {
+          sortInner(item.children)
+        }
+      })
+    }
+    sortInner(data)
     return data
   },
   arrSort({ $table, data, column, property, order }) {
