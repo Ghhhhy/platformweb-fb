@@ -511,7 +511,8 @@ export default {
         pageSize: this.pagerConfig.pageSize, // 每页条数
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
         fiscalYear: this.fiscalYear,
-        trackProCodes: this.trackProCodes
+        trackProCodes: this.trackProCodes,
+        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions
       }
       this.tableLoading = true
       // this.dialogVisibles = false

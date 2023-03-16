@@ -366,10 +366,10 @@ export default {
       HttpModule.queryTableDeatilDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.detailData = res.results
+          this.detailData = res.data.results
           this.detailVisible = true
           this.detailType = type
-          this.detailTotalCount = res.totalCount
+          this.detailTotalCount = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }

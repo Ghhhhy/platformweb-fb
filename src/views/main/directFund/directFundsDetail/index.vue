@@ -125,10 +125,11 @@ export default defineComponent({
           }
           if (item.itemRender?.props?.config?.multiple) {
             key += '__multiple'
+            console.log(key, val[key])
           }
           Reflect.set(obj, item.field, val[key])
         } else {
-          Reflect.set(obj, item.field, undefined)
+          Reflect.set(obj, item.field, item.itemRender?.props?.config?.multiple ? [] : undefined)
         }
         return obj
       }, {})

@@ -401,10 +401,10 @@ export default {
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
         switch (column) {
-          case 'shbjfpaAmount':
+          case 'sbjfpaAmount':
             condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
             break
-          case 'sbjfpaAmount':
+          case 'shbjfpaAmount':
             condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
             break
           case 'xyfpaAmount':
@@ -414,11 +414,11 @@ export default {
       } else {
         switch (column) {
           // 支出明细
-          case 'shbjfpaAmount':
+          case 'sbjfpaAmount':
             condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
             break
-          case 'sbjfpaAmount':
-            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          case 'shbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
             break
           case 'xyfpaAmount':
             condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '

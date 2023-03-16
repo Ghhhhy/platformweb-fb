@@ -353,7 +353,7 @@ export default {
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
 
-      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      this.fiscalYear = this.searchDataList.fiscalYear
       switch (key) {
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
@@ -433,9 +433,6 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
