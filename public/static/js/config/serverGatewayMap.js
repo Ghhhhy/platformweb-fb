@@ -86,16 +86,12 @@ window.gloableToolFn.serverGatewayMap = {
     isLoginOutToPortal: true,
     // 准生产门户
     // portalLoginUrl: 'http://10.77.18.155:8081/ezweb/portal/main1/loginNew.jsp?max=1',
-    // 福建准生产门户
-    // portalLoginUrl: 'http://10.100.32.125:9007/'
-    // 福建生产
-    portalLoginUrl: 'http://10.100.59.193:7001/'
-  },
-  globalConfig: {
-    // 是否展示待办
-    todoOpen: true
+    // 生产门户
+    portalLoginUrl: 'http://10.77.18.66/ezweb/portal/main1/loginNew.jsp?max=1',
+    fileservicePrefix: 'openapi/'
   }
 }
+window.gloableToolFn.enableWaterMark = true
 window.gloableToolFn.getReportUrl = () => {
   return reportService
 }
