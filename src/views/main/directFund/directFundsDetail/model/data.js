@@ -242,7 +242,12 @@ export function getFormSchemas() {
         name: '$vxeSelect',
         options: directFundOptions,
         props: {
-          placeholder: '直达资金标识'
+          placeholder: '直达资金标识',
+          valueKey: 'code',
+          optionProps: {
+            label: 'name',
+            value: 'code'
+          }
         }
       }
     },
