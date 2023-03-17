@@ -493,6 +493,8 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
       let key = obj.column.property
 
       // 无效的cellValue
@@ -623,6 +625,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {

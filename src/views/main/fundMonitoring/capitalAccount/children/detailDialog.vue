@@ -327,6 +327,7 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountpayzyap'].includes(column.property)) {
@@ -338,6 +339,8 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
       let key = obj.column.property
 
       // 无效的cellValue
