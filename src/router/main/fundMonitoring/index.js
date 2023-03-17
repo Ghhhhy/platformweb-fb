@@ -457,6 +457,11 @@ const routers = [
     path: '/dfrDatabase', //  直达资金资料库
     name: 'dfrDatabase',
     component: () => import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
+  },
+  {
+    path: '/dfrDatabaseView', //  直达资金资料库查看
+    name: 'dfrDatabase',
+    component: () => import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
   }
 ]
 

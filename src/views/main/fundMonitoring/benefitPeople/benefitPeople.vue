@@ -79,7 +79,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">支付凭证信息</span>
                 <i class="fn-inline"></i>
@@ -113,7 +113,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left" style="display: flex; align-items: center">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
               <div class="table-toolbar-left-title left-title-clear-float">
                 <span class="fn-inline">惠民支付明细数据</span>
                 <i class="fn-inline"></i>
@@ -231,7 +231,7 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
-      leftTreeVisible: true,
+      leftTreeVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         buttons: proconf.statusButtons,
