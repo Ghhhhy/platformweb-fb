@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -47,7 +47,7 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: store.state.userInfo.year
   },
   basicInfo: {
     type: 'form',

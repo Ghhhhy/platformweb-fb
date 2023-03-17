@@ -235,6 +235,24 @@ const routers = [
       import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
   },
   {
+    path: '/WarningResultHandleRegionProvince',
+    name: 'WarningResultHandleRegionProvince',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警处理_地区(全省)
+  },
+  {
+    path: '/WarningResultHandleRuleProvince',
+    name: 'WarningResultHandleRuleProvince',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则（全省）
+  },
+  {
     path: '/NotImportBgtDetail', // 未导入指标明细查询
     name: 'NotImportBgtDetail',
     component: () => import('../../../views/main/fundMonitoring/businessSupervision/notImportBgtDetail/notImportBgtDetail.vue')

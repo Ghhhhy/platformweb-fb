@@ -306,7 +306,7 @@ export default {
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
 
-      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
       switch (key) {
         case 'numbernofileNum':
@@ -397,8 +397,9 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : '',
-        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+        fiscalYear: this.searchDataList.fiscalYear,
+        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
+        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -419,9 +420,6 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

@@ -395,7 +395,33 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, trackProCode, recDivCode) {
+    handleDetail(type, trackProCode, column) {
+      let condition = ''
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'sapAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'shapAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'xapAmount':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          case 'sapAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'shapAmount':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'xapAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
+      }
       let isCz = ''
       if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
         isCz = '2'
@@ -403,10 +429,10 @@ export default {
         isCz = '1'
       }
       let params = {
+        condition: condition,
         reportCode: type,
         isCz: isCz,
         trackProCode: trackProCode,
-        mofDivCode: recDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
@@ -437,7 +463,7 @@ export default {
         case 'sapAmount':
         case 'shapAmount':
         case 'xapAmount':
-          this.handleDetail('zdzjzcmx_fzj', obj.row.code)
+          this.handleDetail('zdzjzcmx_fzj', obj.row.code, key)
           this.detailTitle = '支出明细'
           break
       }

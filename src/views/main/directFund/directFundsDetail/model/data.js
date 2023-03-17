@@ -21,7 +21,7 @@ export function getUnregisteredColumns() {
       title: '上级文号'
     },
     {
-      field: 'expFunc',
+      field: 'expFuncName',
       title: '支出功能分科科目'
     },
     {
@@ -42,12 +42,8 @@ export function getUnregisteredColumns() {
       }
     },
     {
-      field: 'isDir',
-      title: '直达资金标识',
-      cellRender: {
-        name: '$vxeSelect',
-        options: directFundOptions
-      }
+      field: 'isDirName',
+      title: '直达资金标识'
     },
     {
       field: 'tpFuncName',
@@ -58,7 +54,7 @@ export function getUnregisteredColumns() {
       title: '支出功能分类'
     },
     {
-      field: 'fundType',
+      field: 'fundTypeName',
       title: '资金性质'
     }
   ]
@@ -114,12 +110,8 @@ export function getHaveRegisteredColumns() {
       }
     },
     {
-      field: 'isDir',
-      title: '直达资金标识',
-      cellRender: {
-        name: '$vxeSelect',
-        options: directFundOptions
-      }
+      field: 'isDirName',
+      title: '直达资金标识'
     },
     {
       field: 'tpFuncName',
@@ -130,7 +122,7 @@ export function getHaveRegisteredColumns() {
       title: '支出功能分类'
     },
     {
-      field: 'fundType',
+      field: 'fundTypeName',
       title: '资金性质'
     }
   ]

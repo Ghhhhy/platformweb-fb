@@ -88,11 +88,11 @@ export default {
         }
       ],
       tabListCp: [
-      //   {
-      //   code: 'FormTemplate',
-      //   name: '模版',
-      //   url: 'FormTemplate'
-      // }
+        //   {
+        //   code: 'FormTemplate',
+        //   name: '模版',
+        //   url: 'FormTemplate'
+        // }
       ],
       value: '',
       defaultActiveMenu: {
@@ -391,6 +391,20 @@ export default {
         })
       }
     },
+    updateUrl(url) {
+      let tokenid = this.$store.getters.getLoginAuthentication.tokenid
+      let roleguid = this.$store.state.curNavModule.roleguid
+      let menuId = this.$store.state.curNavModule.guid
+      let userInfo = this.$store.state.userInfo
+      if (url.indexOf('.cpt') === -1) {
+        url = url + '.cpt'
+      }
+      url = window.gloableToolFn.getReportUrl() + url +
+        '&x=1' + '&menuguid=' + menuId +
+        '&roleguid=' + roleguid + '&tokenid=' + tokenid + '&userguid=' + userInfo.guid + '&fiscal_year=' + userInfo.year + '&mof_div_code=' + userInfo.province
+      return url
+    },
+
     // 是否收藏
     isCollection() {
       let self = this
@@ -462,6 +476,9 @@ export default {
         if (Array.isArray(item.children) && item.children.length) {
           self.recursiveChangeUrl(item.children, reuseRouts)
         } else {
+          if (item.url.indexOf('pay0') !== -1 || item.url.indexOf('pay1') !== -1 || item.url.indexOf('pay2') !== -1 || item.url.indexOf('.cpt') !== -1) {
+            item.url = this.updateUrl(item.url)
+          }
           if (item.url && item.url.indexOf('ReuseRoute') >= 0) {
             reuseRouts.push(Object.assign({}, item))
             item.url = '/' + item.code + item.url

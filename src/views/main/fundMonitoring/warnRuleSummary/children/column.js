@@ -1188,7 +1188,7 @@ const proconf = {
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
       width: 140,
       filters: false,
       sortable: false,
@@ -1250,7 +1250,7 @@ const proconf = {
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
       width: 140,
       filters: false,
       sortable: false,
