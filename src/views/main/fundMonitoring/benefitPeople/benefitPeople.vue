@@ -422,10 +422,20 @@ export default {
       this.fileConfig.fileName = file.name
     },
     onDownloadTemplateClick() {
-      const fileName = this.fileConfig.fileType === '1' ? '到人到户资金发放明细表模板' : '企业补贴发放明细表模板'
+      const fileMap = {
+        1: {
+          localFileName: 'benefitPeopleByPerson.xls',
+          downloadFileName: '到人到户资金发放明细表模板.xls'
+        },
+        2: {
+          localFileName: 'benefitPeopleByCompany.xls',
+          downloadFileName: '企业补贴发放明细表模板.xls'
+        }
+      }
+      const { localFileName, downloadFileName } = fileMap[this.fileConfig.fileType] || fileMap[1]
       downloadByUrl(
-        `/static/files/${fileName}.xls`,
-        fileName
+        `/static/files/${localFileName}`,
+        downloadFileName
       )
     },
     triggerImportOption(config = {}) {
