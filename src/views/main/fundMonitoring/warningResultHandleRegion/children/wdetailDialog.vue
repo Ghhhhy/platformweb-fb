@@ -512,7 +512,8 @@ export default {
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
         fiscalYear: this.fiscalYear,
         trackProCodes: this.trackProCodes,
-        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions
+        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
       }
       this.tableLoading = true
       // this.dialogVisibles = false

@@ -413,7 +413,8 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.searchDataList.fiscalYear
+        fiscalYear: this.searchDataList.fiscalYear,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
