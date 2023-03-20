@@ -376,7 +376,33 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, trackProCode) {
+    handleDetail(type, trackProCode, column) {
+      let condition = ''
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'amountSnjfpAll':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjfpbjAll':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'amountXjfpAll':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          case 'amountSnjfpAll':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjfpbjAll':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjfpAll':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
+      }
       let isCz = ''
       if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
         isCz = '2'
@@ -384,6 +410,7 @@ export default {
         isCz = '1'
       }
       let params = {
+        condition: condition,
         isCz: isCz,
         reportCode: type,
         proCode: trackProCode,
@@ -417,13 +444,13 @@ export default {
 
       switch (key) {
         case 'amountSnjfpbjDfap':
-          this.handleDetail('zdzjxmmx', obj.row.code)
+          this.handleDetail('zdzjxmmx', obj.row.code, key)
           this.detailTitle = '地方安排明细'
           break
         case 'amountSnjfpAll':
         case 'amountSjfpbjAll':
         case 'amountXjfpAll':
-          this.handleDetail('zdzjxmmx_dfap', obj.row.code)
+          this.handleDetail('zdzjxmmx_dfap', obj.row.code, key)
           this.detailTitle = '直达资金项目明细'
           break
       }

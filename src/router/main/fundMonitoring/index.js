@@ -12,6 +12,17 @@ const routers = [
     name: 'BudgetImplementationRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
+  // 福建增加专项监督台账
+  {
+    path: '/SpecialSupervisionCapital', // 专项监督_分资金
+    name: 'SpecialSupervisionCapital',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+  },
+  {
+    path: '/SpecialSupervisionRegion', // 专项监督_分地区
+    name: 'SpecialSupervisionCapital',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
+  },
   {
     path: '/BudgetImplementationCapitalCZ', // 中央参照直达资金预算执行情况_分资金
     name: 'BudgetImplementationCapitalCZ',
@@ -207,6 +218,17 @@ const routers = [
     name: 'WarnRuleSummary',
     component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
   },
+  // 福建 专项监督预警结果汇总
+  {
+    path: '/SproWarnRegionSummary', // 地方监控预警汇总
+    name: 'SproWarnRegionSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRegionSummary/warnRegionSummary.vue')
+  },
+  {
+    path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
+    name: 'SproWarnRuleSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+  },
   {
     path: '/WarningResult',
     name: 'WarningResult',
@@ -234,6 +256,26 @@ const routers = [
     component: () =>
       import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
   },
+  // 福建专项监督预警数据处理
+  {
+    path: '/SproWarningResultHandleRegion',
+    name: 'SproWarningResultHandleRegion',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警处理_地区
+  },
+  {
+    path: '/SproWarningResultHandleRule',
+    name: 'SproWarningResultHandleRule',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
+  },
+  // 全辖处理
   {
     path: '/WarningResultHandleRegionProvince',
     name: 'WarningResultHandleRegionProvince',
