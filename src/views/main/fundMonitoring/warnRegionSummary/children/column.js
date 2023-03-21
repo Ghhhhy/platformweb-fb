@@ -39,7 +39,7 @@ const proconf = {
       title: '专项资金',
       field: 'speTypeName',
       width: '8',
-      align: 'left',
+      align: 'center',
       formula: '',
       name: '$vxeInput',
       itemRender: {
@@ -67,7 +67,7 @@ const proconf = {
       title: '处室名称',
       field: 'businessOffice',
       width: '8',
-      align: 'left',
+      align: 'center',
       formula: '',
       name: '$vxeInput',
       itemRender: {
@@ -304,7 +304,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'center',
       formula: '',
       cellRender: {
         name: '$vxeInput',
@@ -324,7 +324,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'center',
       formula: ''
     },
     {
@@ -377,7 +377,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'center',
       formula: '',
       cellRender: {
         name: '$vxeInput',
@@ -397,7 +397,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'center',
       formula: ''
     },
     {
@@ -495,7 +495,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '指标文号',
@@ -567,7 +567,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '指标文号',
@@ -682,7 +682,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '项目名称',
@@ -838,7 +838,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '项目名称',
@@ -1030,7 +1030,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '项目名称',
@@ -1192,7 +1192,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '项目',
@@ -1254,7 +1254,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '项目',
