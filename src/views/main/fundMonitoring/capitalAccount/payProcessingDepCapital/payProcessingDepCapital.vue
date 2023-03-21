@@ -23,7 +23,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTreeTable
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -31,11 +31,11 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :scroll-y="scrollConfig"
+          :high-config="{ scrollY: scrollConfig }"
           :cell-style="cellStyle"
           :show-zero="false"
           @editClosed="onEditClosed"
@@ -55,7 +55,7 @@
               </div>
             </div>
           </template>
-          <template v-slot:tools-before>
+          <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
@@ -65,7 +65,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable>
+        </BsTreeTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -101,7 +101,9 @@ export default {
       radioShow: true,
       breakRuleVisible: false,
       scrollConfig: {
-        gt: 20
+        enabled: true,
+        gt: 30,
+        scrollToTopOnChange: false
       },
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
@@ -390,6 +392,14 @@ export default {
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
+    eachTree(treeData, parentId, level) {
+      treeData.forEach(item => {
+        item.id = item.id || this.$XEUtils.uniqueId('tree_row_')
+        item.level = level
+        item['parentId'] = parentId
+        if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
+      })
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
@@ -400,15 +410,23 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true
+
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          const rows = res.data?.data || []
+          if (rows?.length && Array.isArray(rows)) {
+            // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
+            this.eachTree(rows, '', 1)
+            // 将树形结构转数组
+            this.tableData = this.$XEUtils.toTreeArray(rows)
+          }
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     cellDblclick(obj) {
