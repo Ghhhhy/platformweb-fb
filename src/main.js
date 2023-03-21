@@ -28,6 +28,7 @@ import BSUI from './components/index.js'
 import TableConfig from './mixin/tableConf/index'
 import VideoPlayer from 'vue-video-player'
 import transJson from '@/utils/transformMenuQuery'
+import TreeTable from './components/TreeTable/index'
 import {
   get,
   post,
@@ -69,7 +70,7 @@ setupElementUI(Vue)
 setupVueAwesomerSwiper(Vue)
 setupVueQuillEditor(Vue)
 setupVuePrint(Vue)
-
+Vue.use(TreeTable)
 Vue.prototype.transJson = transJson
 Vue.prototype.useOptionChain = useOptionChain
 Vue.prototype.$http = {
