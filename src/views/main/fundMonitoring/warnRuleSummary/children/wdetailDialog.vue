@@ -156,7 +156,8 @@ export default {
         speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : '',
         mofDivName: this.condition.mofDivName ? this.condition.mofDivName[0] : '',
         levels: this.condition.levels ? this.condition.levels[0] : '',
-        fiscalYear: this.fiscalYear
+        fiscalYear: this.fiscalYear,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {

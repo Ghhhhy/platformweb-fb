@@ -399,7 +399,8 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
-        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions
+        isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

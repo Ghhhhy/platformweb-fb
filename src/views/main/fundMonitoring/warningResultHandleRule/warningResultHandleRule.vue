@@ -176,7 +176,8 @@ export default {
       code: '',
       fiscalYear: '',
       trackProCodes: [],
-      isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions
+      isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
+      regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
     }
   },
   mounted() {
@@ -399,7 +400,8 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
-        isSuperPermissions: this.isSuperPermissions
+        isSuperPermissions: this.isSuperPermissions,
+        regulationClass: this.regulationClass
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
