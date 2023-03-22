@@ -107,6 +107,7 @@ import ImportModel from '../../../../components/Table/import/import.vue'
 import { Import } from '../../../../components/Table/import/import/import.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeopleConfirm.js'
 import { Export } from '../../../../components/Table/export/export/export'
+import { repairExcelTimestamp } from '@/utils/excel'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -624,7 +625,7 @@ export default {
                 )
                 // 将导入的支付时间格式化
                 res?.forEach(row => {
-                  const timestamp = self.$Import.getExcelTimestamp(row.xpayDate)
+                  const timestamp = repairExcelTimestamp(row.xpayDate)
                   row.xpayDate = timestamp ? getDateString(timestamp) : row.xpayDate
                 })
                 self.importSuccessCallback(res)
