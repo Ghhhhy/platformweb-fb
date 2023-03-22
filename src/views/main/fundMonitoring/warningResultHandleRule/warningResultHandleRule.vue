@@ -395,21 +395,13 @@ export default {
       })
       return datas
     },
-    getRegulationClass() {
-      let regulationClass
-      regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
-      console.info('regulationClass==' + regulationClass)
-      regulationClass = (regulationClass === undefined) ? '09' : regulationClass
-      console.info('regulationClass==' + regulationClass)
-      return regulationClass
-    },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: this.isSuperPermissions,
-        regulationClass: this.getRegulationClass()
+        regulationClass: this.regulationClass
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
