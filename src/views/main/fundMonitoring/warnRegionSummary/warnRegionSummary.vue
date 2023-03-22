@@ -414,7 +414,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

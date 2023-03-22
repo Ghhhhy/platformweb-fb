@@ -400,7 +400,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

@@ -177,7 +177,7 @@ export default {
       fiscalYear: '',
       trackProCodes: [],
       isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
-      regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
     }
   },
   mounted() {
