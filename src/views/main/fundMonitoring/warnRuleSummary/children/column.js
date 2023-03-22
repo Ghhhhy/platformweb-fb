@@ -6,12 +6,24 @@ const proconf = {
       field: 'mofDivName',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '区划名称'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'name',
+              children: 'children'
+            },
+            placeholder: '区划名称',
+            multiple: true,
+            readonly: false,
+            isleaf: false
+          }
         }
       }
     },
@@ -40,12 +52,24 @@ const proconf = {
       field: 'speTypeName',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '专项资金'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'name',
+              children: 'children'
+            },
+            placeholder: '专项资金',
+            multiple: true,
+            readonly: false,
+            isleaf: false
+          }
         }
       }
     },

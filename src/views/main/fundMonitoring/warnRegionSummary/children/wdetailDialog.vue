@@ -41,6 +41,7 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import HttpModuleMof from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -112,6 +113,20 @@ export default {
     }
   },
   methods: {
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModuleMof.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          this.queryConfig[0].itemRender.options = res.data || []
+        }
+      })
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModuleMof.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          this.queryConfig[2].itemRender.options = res.data || []
+        }
+      })
+    },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
       this.pagerConfig.pageSize = pageSize
@@ -153,8 +168,8 @@ export default {
         pageSize: this.pagerConfig.pageSize, // 每页条数
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
         projectName: this.condition.projectName ? this.condition.projectName[0] : '',
-        speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : '',
-        mofDivName: this.condition.mofDivName ? this.condition.mofDivName[0] : '',
+        speTypeCodes: this.searchDataList.speTypeName_code__multiple || [],
+        mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
@@ -261,6 +276,7 @@ export default {
   },
   mounted() {
     this.showInfo()
+    Promise.all([this.getMofDiv(), this.getPro()])
   },
   watch: {
     queryConfig() {
