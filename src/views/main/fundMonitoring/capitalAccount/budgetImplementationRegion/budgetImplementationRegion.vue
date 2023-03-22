@@ -56,6 +56,23 @@
               </div>
             </div>
           </template>
+          <template v-slot:toolbar-custom-slot>
+            <vxe-button
+              v-if="transJson($store.state.curNavModule.param5).incrementUpdateBtnVisible !== false"
+              :loading="dataSourceAddLoading"
+              style="margin-right: 8px;"
+              @click="incrementHandle"
+            >
+              数据增量同步
+            </vxe-button>
+            <vxe-button
+              v-if="transJson($store.state.curNavModule.param5).otherSysImportBtnVisible !== false"
+              style="margin-right: 8px;"
+              @click="otherSysImportModal = true"
+            >
+              华青数据导入
+            </vxe-button>
+          </template>
           <template v-slot:tools-before>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
