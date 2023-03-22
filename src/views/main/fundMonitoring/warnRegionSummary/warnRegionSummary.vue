@@ -410,11 +410,17 @@ export default {
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
+    getRegulationClass() {
+      let regulationClass
+      regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      regulationClass = (regulationClass === undefined) ? '09' : regulationClass
+      return regulationClass
+    },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.getRegulationClass()
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

@@ -394,13 +394,19 @@ export default {
       })
       return datas
     },
+    getRegulationClass() {
+      let regulationClass
+      regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      regulationClass = (regulationClass === undefined) ? '09' : regulationClass
+      return regulationClass
+    },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.getRegulationClass()
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -429,6 +435,7 @@ export default {
     this.getPro()
     this.queryTableDatas()
   }
+
 }
 </script>
 <style scoped>

@@ -20,7 +20,7 @@ const routers = [
   },
   {
     path: '/SpecialSupervisionRegion', // 专项监督_分地区
-    name: 'SpecialSupervisionCapital',
+    name: 'SpecialSupervisionRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
   {
