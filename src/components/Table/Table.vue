@@ -187,8 +187,6 @@
             <i class="vxe-button--icon ri-upload-2-line"></i>
           </vxe-button>
           <!-- </vxe-tooltip> -->
-          <!--扩展：工具栏前置插槽-->
-          <slot name="tools-before"></slot>
           <vxe-button
             v-if="toolbarConfigInCopy.refresh"
             name="refreshbtn"

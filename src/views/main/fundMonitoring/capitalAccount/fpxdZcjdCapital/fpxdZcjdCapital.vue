@@ -46,7 +46,7 @@
               </div>
             </div>
           </template>
-          <template v-slot:tools-before>
+          <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">

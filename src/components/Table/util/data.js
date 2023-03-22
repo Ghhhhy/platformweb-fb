@@ -5,6 +5,7 @@ export default function () {
   let self = this
   return {
     expendAllLoading: false, // 全部展开、全部折叠操作新增loading状态
+    expandAllState: false, // 树表格 -> 是否展开全部
     caliberDeclareVisible: false, // 口径说明弹窗显隐状态
     showRowDropHelpTip: false,
     scrollLoading: false,
@@ -366,8 +367,6 @@ export default function () {
         gt: -1
       }
     },
-    completeMoneyFilter: false,
-    // 树表格 -> 是否展开全部
-    expandAllState: false
+    completeMoneyFilter: false
   }
 }
