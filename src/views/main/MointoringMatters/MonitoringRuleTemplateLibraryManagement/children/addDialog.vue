@@ -761,7 +761,7 @@ export default {
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {
-              this.mountTableData.splice(index)
+              this.mountTableData.splice(index, 1)
             }
           })
         })
