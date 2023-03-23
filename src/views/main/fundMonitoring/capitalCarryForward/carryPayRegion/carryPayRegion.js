@@ -79,7 +79,7 @@ const proconf = {
             field: 'all1',
             sortable: false,
             filters: false,
-            formula: '{amountProvince}+{amountCity}+{amountCounty}',
+            formula: '{amountSnjJz}+{amountSjAll}+{amountXjAll}',
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
@@ -91,7 +91,7 @@ const proconf = {
             filters: false,
             width: 100,
             align: 'right',
-            formula: '{amountPayProvince}+{amountPayCity}+{amountPayCounty}',
+            formula: '{amountSnjJzPay}+{amountPayAll}+{amountXjPayAll}',
             cellRender: { name: '$vxeMoney' }
           },
           {
