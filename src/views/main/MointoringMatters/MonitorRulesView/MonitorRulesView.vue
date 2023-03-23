@@ -601,7 +601,7 @@ export default {
     },
     onClickmethod(node) {
       if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
-        this.regulationClass = '09'
+        this.regulationClass = '09,08'
         this.warningLevel = node.node.code === '0' ? '' : node.node.code
       }
       if (this.treeType === '1') {
@@ -744,7 +744,7 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
-        this.regulationClass = '09'
+        this.regulationClass = '09,08'
       }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码

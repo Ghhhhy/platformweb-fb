@@ -511,7 +511,12 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
+      let xmSource = 'zdzjxmmx'
+      let zcSource = 'zdzjzcmx_fzj'
+      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj') {
+        xmSource = 'zxjdxmmx_fzj'
+        zcSource = 'zxjdzcmx_fzj'
+      }
       switch (key) {
         // case 'amountSnjxd':
         // case 'amountSjxd':
@@ -575,12 +580,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail('zdzjxmmx', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
+          this.handleDetail(xmSource, obj.row.code, key)
+          this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fzj', obj.row.code, key)
+          this.handleDetail(zcSource, obj.row.code, key)
           this.detailTitle = '支出明细'
           break
       }

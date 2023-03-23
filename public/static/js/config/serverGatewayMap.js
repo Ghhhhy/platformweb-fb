@@ -31,12 +31,12 @@ window.gloableToolFn.serverGatewayMap = {
   },
   development: { // 新版
     // 基础数据服务
-    'mp-b-basedata-service': 'http://10.100.32.125:7914/apaas/api/mp-b-basedata-service/',
-    // 开发服务映射地址
-    'mp-b-sso-service': 'http://10.100.32.125:7914/apaas/api/mp-b-sso-service/',
-    // 权限服务
-    'mp-b-user-service': 'http://10.100.32.125:7914/apaas/api/mp-b-user-service/',
-    'mp-b-perm-service': 'http://10.100.32.125:7914/apaas/api/mp-b-perm-service',
+    // 'mp-b-basedata-service': 'http://10.100.32.125:7914/apaas/api/mp-b-basedata-service/',
+    // // 开发服务映射地址
+    // 'mp-b-sso-service': 'http://10.100.32.125:7914/apaas/api/mp-b-sso-service/',
+    // // 权限服务
+    // 'mp-b-user-service': 'http://10.100.32.125:7914/apaas/api/mp-b-user-service/',
+    // 'mp-b-perm-service': 'http://10.100.32.125:7914/apaas/api/mp-b-perm-service',
     // 'mp-b-basedata-service': 'http:///apaas/api/mp-b-basedata-service/',
     // // 开发服务映射地址
     // 'mp-b-sso-service': 'http:///apaas/api/mp-b-sso-service/',
@@ -46,11 +46,11 @@ window.gloableToolFn.serverGatewayMap = {
     // // 指标管理服务
     // 'mp-b-budget-service': 'http://10.77.18.172:34405',
     // // 开发服务映射地址
-    // 'mp-b-sso-service': 'http://223.223.190.114:12218/apaas/api/mp-b-sso-service/',
-    // // 权限服务
-    // 'mp-b-user-service': 'http://223.223.190.114:12218/apaas/api/mp-b-user-service/',
-    // 'mp-b-perm-service': 'http://223.223.190.114:12218/apaas/api/mp-b-perm-service',
-    // 'mp-b-basedata-service': 'http://223.223.190.114:12218/apaas/api/mp-b-basedata-service/',
+    'mp-b-sso-service': 'http://223.223.190.114:12218/apaas/api/mp-b-sso-service/',
+    // 权限服务
+    'mp-b-user-service': 'http://223.223.190.114:12218/apaas/api/mp-b-user-service/',
+    'mp-b-perm-service': 'http://223.223.190.114:12218/apaas/api/mp-b-perm-service',
+    'mp-b-basedata-service': 'http://223.223.190.114:12218/apaas/api/mp-b-basedata-service/',
     // 监控
     'large-monitor-platform': 'http://127.0.0.1:6602/',
     // 'large-monitor-platform': 'http:///lmp/',
