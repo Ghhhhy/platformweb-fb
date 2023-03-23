@@ -250,7 +250,7 @@ export default {
       return condition
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
@@ -271,7 +271,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -306,15 +306,16 @@ export default {
       this.queryTableDatas(node.guid)
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      // this.queryTableDatas(true)
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = true) {
       const param = {
         reportCode: 'jzzjysxd_fdq',
-        isFlush: true,
+        isFlush,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.userInfo.year
       }
       this.tableLoading = true
@@ -342,7 +343,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.queryTableDatas()
+    this.queryTableDatas(false)
   }
 }
 </script>
