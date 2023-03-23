@@ -517,19 +517,24 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
+      let xmSource = 'zdzjxmmx'
+      let zcSource = 'zdzjzcmx_fdq'
+      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
+        xmSource = 'zxjdxmmx_fdq'
+        zcSource = 'zxjdzcmx_fdq'
+      }
       switch (key) {
         // 省本级分配走直达资金项目明细
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail('zdzjxmmx', obj.row.code, key)
-          this.detailTitle = '直达资金项目明细'
+          this.handleDetail(xmSource, obj.row.code, key)
+          this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
-          this.detailTitle = obj.row.name + '直达资金支出明细'
+          this.handleDetail(zcSource, obj.row.code, key)
+          this.detailTitle = obj.row.name + '支出明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

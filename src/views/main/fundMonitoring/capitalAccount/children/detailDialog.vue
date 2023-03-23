@@ -349,8 +349,12 @@ export default {
 
       switch (key) {
         case 'amountZdzjFp':
+          let zcSource = 'zdzjzbmx_fzjfp'
+          if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj') {
+            zcSource = 'zxjdzbmx_fzjfp'
+          }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap') {
-            this.handleDetail('zdzjzbmx_fzjfp', obj.row)
+            this.handleDetail(zcSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
