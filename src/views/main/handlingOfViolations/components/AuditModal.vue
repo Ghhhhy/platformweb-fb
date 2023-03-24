@@ -1,154 +1,169 @@
 <template>
-  <vxe-modal
-    v-model="visible"
-    :destroy-on-close="true"
-    :title="modalTitle"
-    width="80%"
-    height="80%"
-    resize
-    show-footer
-  >
-    <template #footer>
-      <!--查看-->
-      <div v-if="modalType === ModalTypeEnum.PREVIEW">
-        <vxe-button size="small" @click="visible = false">取消</vxe-button>
-        <vxe-button :loading="printLoading" type="primary" size="small" @click="printHandle">打印</vxe-button>
-      </div>
-      <!--处理-->
-      <div v-if="modalType === ModalTypeEnum.AUDIT">
-        <vxe-button
-          size="small"
-          @click="visible = false"
+  <div>
+    <vxe-modal
+      v-model="visible"
+      :destroy-on-close="true"
+      :title="modalTitle"
+      width="80%"
+      height="80%"
+      resize
+      show-footer
+    >
+      <template #footer>
+        <!--查看-->
+        <div v-if="modalType === ModalTypeEnum.PREVIEW">
+          <vxe-button size="small" @click="visible = false">取消</vxe-button>
+          <vxe-button :loading="printLoading" type="primary" size="small" @click="printHandle">打印</vxe-button>
+        </div>
+        <!--处理-->
+        <div v-if="modalType === ModalTypeEnum.AUDIT">
+          <vxe-button
+            size="small"
+            @click="visible = false"
+          >
+            取消
+          </vxe-button>
+          <vxe-button
+            v-if="!isUnitFeedbackPage"
+            :disabled="auditButLoading"
+            size="small"
+            @click="submitFetch(ActionTypeEnum.ACTION_RETURN)"
+          >
+            退回
+          </vxe-button>
+          <vxe-button
+            v-if="isAllowDisabled"
+            :disabled="auditButLoading"
+            size="small"
+            @click="submitFetch(ActionTypeEnum.ACTION_DISABLED, 1)"
+          >
+            禁止
+          </vxe-button>
+          <vxe-button
+            :disabled="auditButLoading"
+            type="primary"
+            size="small"
+            @click="submitFetch(ActionTypeEnum.ACTION_AUDIT)"
+          >
+            {{ btnTitle }}
+          </vxe-button>
+        </div>
+      </template>
+      <div class="modal-content" :style="{ height: `calc(100% - ${modalType === ModalTypeEnum.AUDIT ? 6 : 20}px)` }">
+        <BsSplitPane
+          :default-percent="20"
+          split="vertical"
+          :style="{
+            height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel ? 110 : 0}px)`,
+          }"
         >
-          取消
-        </vxe-button>
-        <vxe-button
-          v-if="!isUnitFeedbackPage"
-          :disabled="auditButLoading"
-          size="small"
-          @click="submitFetch(ActionTypeEnum.ACTION_RETURN)"
-        >
-          退回
-        </vxe-button>
-        <vxe-button
-          v-if="isAllowDisabled"
-          :disabled="auditButLoading"
-          size="small"
-          @click="submitFetch(ActionTypeEnum.ACTION_DISABLED, 1)"
-        >
-          禁止
-        </vxe-button>
-        <vxe-button
-          :disabled="auditButLoading"
-          type="primary"
-          size="small"
-          @click="submitFetch(ActionTypeEnum.ACTION_AUDIT)"
-        >
-          {{ btnTitle }}
-        </vxe-button>
-      </div>
-    </template>
-    <div class="modal-content" :style="{ height: `calc(100% - ${modalType === ModalTypeEnum.AUDIT ? 6 : 20}px)` }">
-      <BsSplitPane
-        :default-percent="20"
-        split="vertical"
-        :style="{
-          height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel ? 110 : 0}px)`,
-        }"
-      >
-        <!--左侧处理单信息-->
-        <template #paneL>
-          <div class="left-items">
-            <el-checkbox
-              v-model="checkedAll"
-              :indeterminate="isIndeterminate"
-              class="dfr-custom-check-all"
-              @change="handleCheckAllChange"
-            >
-              全部监控处理单（{{ cloneRecords.length }}）
-            </el-checkbox>
-            <div class="items-detail">
-              <el-checkbox-group
-                v-model="checkedItemsKey"
-                @change="handleCheckedItemsKeyChange"
+          <!--左侧处理单信息-->
+          <template #paneL>
+            <div class="left-items">
+              <el-checkbox
+                v-model="checkedAll"
+                :indeterminate="isIndeterminate"
+                class="dfr-custom-check-all"
+                @change="handleCheckAllChange"
               >
-                <div
-                  v-for="item in cloneRecords"
-                  :key="item.warningCode"
-                  :class="['dfr-custom-checkbox', (currentNode && item.warningCode === currentNode.warningCode) && 'is-active']"
-                  data-valid="true"
-                  @click="nodeClick(item, $event)"
+                全部监控处理单（{{ cloneRecords.length }}）
+              </el-checkbox>
+              <div class="items-detail">
+                <el-checkbox-group
+                  v-model="checkedItemsKey"
+                  @change="handleCheckedItemsKeyChange"
                 >
-                  <el-checkbox
-                    :label="item.warningCode"
-                  />
-                  <span
+                  <div
+                    v-for="item in cloneRecords"
+                    :key="item.warningCode"
+                    :class="['dfr-custom-checkbox', (currentNode && item.warningCode === currentNode.warningCode) && 'is-active']"
                     data-valid="true"
-                    class="dfr-custom-checkbox-label"
+                    @click="nodeClick(item, $event)"
                   >
-                    <i :class="['warning-icon',...getWarnLevelOption(item.warnLevel).iconClass]" :style="{ ...getWarnLevelOption(item.warnLevel).iconStyle }"></i>
-                    {{ item.warningCode }}
-                  </span>
-                </div>
-              </el-checkbox-group>
+                    <el-checkbox
+                      :label="item.warningCode"
+                    />
+                    <span
+                      data-valid="true"
+                      class="dfr-custom-checkbox-label"
+                    >
+                      <i :class="['warning-icon',...getWarnLevelOption(item.warnLevel).iconClass]" :style="{ ...getWarnLevelOption(item.warnLevel).iconStyle }"></i>
+                      {{ item.warningCode }}
+                    </span>
+                  </div>
+                </el-checkbox-group>
+              </div>
             </div>
-          </div>
-        </template>
-        <!--右侧当前选中的处理单信息-->
-        <template #paneR>
-          <div class="right-info" style="height: 100%; overflow-y: auto">
-            <!--规则信息-->
-            <RuleInfo :rule-info="currentWarnDetail.ruleResVO">
-              <template #header>
-                <bs-table-title title="违规单信息">
-                  <vxe-button
-                    size="mini"
-                    @click="changeReceiptsModalVisible(true)"
-                  >
-                    业务单据查看
-                  </vxe-button>
-                </bs-table-title>
-              </template>
-            </RuleInfo>
-            <!--处理进度-->
-            <AuditProgress
-              v-if="currentWarnDetail.processResultList"
-              :table-data="currentWarnDetail.processResultList"
-            />
-            <!--附件信息-->
-            <AttachmentInfo
-              v-if="!isBlueWarnLevel"
-              :loading="fileLoading"
-              :required="currentNode.uploadFile"
-              :file-list="currentNode.attachFiles"
-              :billguid="currentNode.warningCode"
-              @uploadAfter="uploadAfter"
-              @deleteFile="deleteFileHandle"
-            />
-          </div>
-        </template>
-      </BsSplitPane>
-      <!--处理表单：非处理单查看 | 非蓝色预警 => 显示-->
-      <AuditForm
-        v-if="modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel"
-        ref="auditFormRef"
+          </template>
+          <!--右侧当前选中的处理单信息-->
+          <template #paneR>
+            <div class="right-info" style="height: 100%; overflow-y: auto">
+              <!--规则信息-->
+              <RuleInfo :rule-info="currentWarnDetail.ruleResVO">
+                <template #header>
+                  <bs-table-title title="违规单信息">
+                    <div>
+                      <vxe-button
+                        size="mini"
+                        @click="changeDialogVisible(true)"
+                      >
+                        规则查看
+                      </vxe-button>
+                      <vxe-button
+                        size="mini"
+                        @click="changeReceiptsModalVisible(true)"
+                      >
+                        业务单据查看
+                      </vxe-button>
+                    </div>
+                  </bs-table-title>
+                </template>
+              </RuleInfo>
+              <!--处理进度-->
+              <AuditProgress
+                v-if="currentWarnDetail.processResultList"
+                :table-data="currentWarnDetail.processResultList"
+              />
+              <!--附件信息-->
+              <AttachmentInfo
+                v-if="!isBlueWarnLevel"
+                :loading="fileLoading"
+                :required="currentNode.uploadFile"
+                :file-list="currentNode.attachFiles"
+                :billguid="currentNode.warningCode"
+                @uploadAfter="uploadAfter"
+                @deleteFile="deleteFileHandle"
+              />
+            </div>
+          </template>
+        </BsSplitPane>
+        <!--处理表单：非处理单查看 | 非蓝色预警 => 显示-->
+        <AuditForm
+          v-if="modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel"
+          ref="auditFormRef"
+        />
+      </div>
+      <!--业务单据查看弹窗-->
+      <PreviewReceipts
+        v-if="receiptsModalVisible"
+        v-model="receiptsModalVisible"
+        :current-node="currentNode"
       />
-    </div>
-    <!--业务单据查看弹窗-->
-    <PreviewReceipts
-      v-if="receiptsModalVisible"
-      v-model="receiptsModalVisible"
-      :current-node="currentNode"
+      <!--打印组件-->
+      <div class="dfr-print-page-wrapper">
+        <PrintHtmlNode
+          ref="printHtmlNodeRef"
+          :list="printData"
+          @open="openPrintCallback"
+        />
+      </div>
+    </vxe-modal>
+    <!--规则查看-->
+    <RulePreview
+      v-if="dialogVisible"
+      :title="dialogTitle"
     />
-    <!--打印组件-->
-    <div class="dfr-print-page-wrapper">
-      <PrintHtmlNode
-        ref="printHtmlNodeRef"
-        :list="printData"
-        @open="openPrintCallback"
-      />
-    </div>
-  </vxe-modal>
+  </div>
 </template>
 
 <script>
@@ -159,6 +174,7 @@ import AttachmentInfo from './AttachmentInfo'
 import AuditForm from './AuditForm'
 import PreviewReceipts from './PreviewReceipts'
 import PrintHtmlNode from './PrintHtmlNode'
+import RulePreview from '@/views/main/MointoringMatters/SystemLevelRules/children/addDialog.vue'
 
 import useLoadingState from '@/hooks/useLoadingState'
 import useAttachFiles from '../hooks/useAttachFiles'
@@ -166,6 +182,7 @@ import useIs from '../hooks/useIs'
 import useInjectState from '../hooks/useInjectState'
 import usePrint from '../hooks/usePrint'
 import useWarnInfo from '../hooks/useWarnInfo'
+import useRulePreviewModal from '../hooks/useRulePreviewModal'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
 import store from '@/store'
 
@@ -187,7 +204,8 @@ export default defineComponent({
     AttachmentInfo,
     AuditForm,
     PreviewReceipts,
-    PrintHtmlNode
+    PrintHtmlNode,
+    RulePreview
   },
   props: {
     // 弹窗显隐
@@ -242,6 +260,16 @@ export default defineComponent({
 
     // 单据弹窗显隐
     const [receiptsModalVisible, changeReceiptsModalVisible] = useModal()
+
+    /**
+     * 规则详情弹窗模块
+     * */
+    const {
+      dialogTitle,
+      dialogVisible,
+      changeDialogVisible,
+      DetailData
+    } = useRulePreviewModal(currentNode)
 
     /**
      * 判断相关
@@ -464,7 +492,12 @@ export default defineComponent({
       handleCheckAllChange,
       handleCheckedItemsKeyChange,
       receiptsModalVisible,
-      changeReceiptsModalVisible
+      changeReceiptsModalVisible,
+
+      changeDialogVisible,
+      dialogVisible,
+      DetailData,
+      dialogTitle
     }
   }
 })

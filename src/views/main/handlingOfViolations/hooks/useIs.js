@@ -19,18 +19,23 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
     return unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK
   })
 
+  // 是否是单位页面（单位反馈、单位审核）
+  const isUnitMenu = computed(() => {
+    return !![RouterPathEnum.UNIT_FEEDBACK, RouterPathEnum.UNIT_AUDIT].includes(unref(pagePath))
+  })
+
   // 是否蓝色预警
   const isBlueWarnLevel = computed(() => {
     return unref(currentNode)?.warnLevel === WarnLevelEnum.BLUE
   })
 
   // 是否允许禁止操作
-  // 终审 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
+  // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
     const hasOrangeLevel = unref(checkedItemsObj).length
       ? unref(checkedItemsObj).some(item => item.warnLevel === WarnLevelEnum.ORANGE)
       : unref(currentNode).warnLevel === WarnLevelEnum.ORANGE
-    return unref(isDivisionReAudit) && hasOrangeLevel
+    return !unref(isUnitMenu) && hasOrangeLevel
   })
 
   return {

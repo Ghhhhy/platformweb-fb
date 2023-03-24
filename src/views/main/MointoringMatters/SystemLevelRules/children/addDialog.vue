@@ -1144,7 +1144,7 @@ export default {
       })
       this.$parent.dialogVisible = false
       this.$parent.dialogVisibleRules = false
-      this.$parent.queryTableDatas()
+      this.$parent?.queryTableDatas?.()
     },
     // 处理字符串
     dealwithStr(str) {
@@ -1229,7 +1229,7 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
         param.elementCode = 'AGENCY'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
@@ -1261,7 +1261,7 @@ export default {
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
           // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
-          this.$parent.DetailData.regulationScope.forEach(item => {
+          this.$parent.DetailData.regulationScope?.forEach(item => {
             let str = item.mofDivId.toString()
             // if (regulationType === '部门级') {
             //   str = item.mofDivId.toString()
@@ -1437,7 +1437,7 @@ export default {
           return
         }
       }
-      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       console.log(that.scope)
       let isFull = 0
       if (regulationType === '系统级') {
@@ -1742,7 +1742,7 @@ export default {
       this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
     } else if (this.$parent.dialogTitle === '查看详情') {
       this.warnType = this.$parent.DetailData.warnType
-      this.uploadFile = this.$parent.DetailData.uploadFile
+      this.uploadFile = this.$parent.DetailData?.uploadFile
 
       this.ruleSetShow = false
       this.ruleDesShow = true
@@ -1878,7 +1878,7 @@ export default {
         item.itemRender.props.disabled = true
       })
     }
-    this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+    this.regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
     this.getSysLists()
     this.getDepLists()
     this.getRegulation()
