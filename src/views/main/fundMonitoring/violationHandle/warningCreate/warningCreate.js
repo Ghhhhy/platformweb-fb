@@ -282,6 +282,16 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
+    },
+    {
+      title: '是否配套资金',
+      field: 'isMatCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '是否配套资金' }
+      }
     }
   ],
   incomeMsgData: {
@@ -311,7 +321,8 @@ const proconf = {
     isThrExp: '',
     directFund: '',
     createTime: '',
-    fiDate: ''
+    fiDate: '',
+    isMatCode: ''
   },
   highQueryConfig: [
     {
