@@ -516,7 +516,21 @@ export default {
             // handledata.createTime = res.data.warningCode
             // handledata.createTime=res.data.createTime
             // this.supplyDataList = handledata
-            this.supplyDataList = { ...res.data, ...res.data.executeData }
+            this.supplyDataList = { ...res.data, ...res.data.executeData, ...res.data.baBgtInfoDataEntity }
+            if (res.data.baBgtInfoDataEntity !== null) {
+              this.supplyDataList.agencyName = res.data.baBgtInfoDataEntity?.agencyCode + '-' + res.data.baBgtInfoDataEntity?.agencyName
+              this.supplyDataList.proName = res.data.baBgtInfoDataEntity?.proCode + '-' + res.data.baBgtInfoDataEntity?.proName
+              this.supplyDataList.proCatName = res.data.baBgtInfoDataEntity?.proCatCode + '-' + res.data.baBgtInfoDataEntity?.proCatName
+              this.supplyDataList.deptEconomyType = res.data.baBgtInfoDataEntity?.depBgtEcoCode + '-' + res.data.baBgtInfoDataEntity?.depBgtEcoName
+              this.supplyDataList.govEconomyType = res.data.baBgtInfoDataEntity?.govBgtEcoCode + '-' + res.data.baBgtInfoDataEntity?.govBgtEcoName
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoDataEntity?.setModeCode + '-' + res.data.baBgtInfoDataEntity?.setModeName
+              this.supplyDataList.directFund = res.data.baBgtInfoDataEntity?.isDirCode + '-' + res.data.baBgtInfoDataEntity?.isDirName || ''
+              this.supplyDataList.isUnionFunds = res.data.baBgtInfoDataEntity?.isFunCode + '-' + (res.data.baBgtInfoDataEntity?.isFunCode === 1 ? '是' : '否')
+              this.supplyDataList.funcType = res.data.baBgtInfoDataEntity?.expFuncCode + '-' + res.data.baBgtInfoDataEntity?.expFuncName
+              this.supplyDataList.businessOffice = res.data.baBgtInfoDataEntity?.manageMofDepCode + '-' + res.data.baBgtInfoDataEntity?.manageMofDepName
+              this.supplyDataList.isThrExp = res.data.baBgtInfoDataEntity?.thrExpCode + (res.data.baBgtInfoDataEntity?.thrExpName === null ? '' : '-' + res.data.baBgtInfoDataEntity?.thrExpName)
+              this.supplyDataList.isMatCode = res.data.baBgtInfoDataEntity?.isMatCode === 2 ? '是' : '否'
+            }
             if (res.data.executeData !== null) {
               this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
               this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
@@ -533,6 +547,7 @@ export default {
               this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
               this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
               this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
+              this.supplyDataList.isMatCode = res.data.executeData?.isMatCode + '-' + (res.data.executeData?.isMatCode === 2 ? '是' : '否')
             }
             this.handletableData = res.data?.regulationList
           } else {

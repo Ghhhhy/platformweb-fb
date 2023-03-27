@@ -335,6 +335,24 @@ export let proconf = {
       }
     },
     {
+      title: '业务处室',
+      field: 'manageMofDepName',
+      span: 8,
+      titleWidth: 180,
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{manageMofDepCode}-{manageMofDepName}'
+        }
+      },
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '{manageMofDepCode}-{manageMofDepname}' }
+      }
+    },
+    {
       title: '预算单位',
       width: 180,
       field: 'agencyName',
@@ -2090,6 +2108,16 @@ export let proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
+    },
+    {
+      title: '是否配套资金',
+      field: 'isMatCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '是否配套资金' }
+      }
     }
   ],
   incomeMsgData: {
@@ -2119,7 +2147,8 @@ export let proconf = {
     isThrExp: '',
     directFund: '',
     createTime: '',
-    fiDate: ''
+    fiDate: '',
+    isMatCode: ''
   },
   // 生成时部分字段可编辑
   createConfig: [
