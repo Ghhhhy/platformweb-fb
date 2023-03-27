@@ -240,6 +240,8 @@ export default {
           break
         case 'zdzjzcmx_fdq':
         case 'zdzjzcmx_fzj':
+        case 'zxjdzcmx_fzj':
+        case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -288,6 +290,8 @@ export default {
           this.tableColumnsConfig = proconf.zdzjprojectColumn
           break
         case 'zdzjxmmx':
+        case 'zxjdxmmx_fzj':
+        case 'zxjdxmmx_fdq':
           this.tableColumnsConfig = proconf.projectColumn
           break
         default:
@@ -353,7 +357,7 @@ export default {
           if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj') {
             zcSource = 'zxjdzbmx_fzjfp'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap') {
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap'|| this.detailType === 'zxjdxmmx_fzj') {
             this.handleDetail(zcSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
