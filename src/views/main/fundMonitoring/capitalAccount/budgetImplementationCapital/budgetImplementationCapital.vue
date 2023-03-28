@@ -517,6 +517,7 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
+
       switch (key) {
         // case 'amountSnjxd':
         // case 'amountSjxd':
