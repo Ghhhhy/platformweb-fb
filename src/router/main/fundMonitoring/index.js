@@ -230,6 +230,11 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
   },
   {
+    path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则
+    name: 'DepartmentWarnRuleSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+  },
+  {
     path: '/WarningResult',
     name: 'WarningResult',
     meta: {
@@ -274,6 +279,15 @@ const routers = [
     },
     component: () =>
       import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
+  },
+  {
+    path: '/DepartmentWarningResultHandleRule',
+    name: 'DepartmentWarningResultHandleRule',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 部门监控预警处理_分规则
   },
   // 全辖处理
   {
