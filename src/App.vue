@@ -11,6 +11,8 @@
 <script>
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
+import MenuModule from '@/api/frame/common/menu.js'
+
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -81,6 +83,10 @@ export default {
       } else {
         this.ifrouteractive = true
       }
+      // iframe形式嵌入不用重置到首页
+      if (window.self !== window.top) {
+        return
+      }
       // 缓存url参数后更新URL
       window.history.pushState({}, '', window.location.pathname + '#/')
     },
@@ -102,9 +108,15 @@ export default {
             } else {
               this.$store.commit('setUserInfo', res.data)
               this.$store.dispatch('asyncUserRoles')
+              console.log('userInfo----------', res.data)
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
+              // iframe
+              if (window.self !== window.top) {
+                this.ifrouteractive = true
+                return
+              }
               this.$router.push({
                 name: 'Main',
                 params: {
@@ -170,25 +182,40 @@ export default {
         }
       }
       return false
+    },
+    async getMenus() {
+      try {
+        const res = await MenuModule.getMenuInfo()
+        this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
-  created() {
+  async created() {
     this.getUrlSearchToken()
+    // 其他项目通过iframe嵌入 由于工作流用到了menuguid，因此需要拉取菜单信息
+    if (window.self !== window.top) {
+      console.log('*************当前处于iframe*************')
+      await this.getMenus()
+    }
     this.authentication()
     // 获取预警信息
     this.$store.dispatch('warnInfo/getWarnInfo')
   },
 
   mounted() {
-    let self = this
+    let that = this
     this.logOutPopInterval = setInterval(() => {
-      self.intervalQuest()
+      that.intervalQuest()
     }, 300000)
     window.onunload = () => {
       localStorage.removeItem('bsSxczyAccessToken')
       localStorage.removeItem('bsSxczyAppguid')
-      self.setCookie('appguid', self.$store.getters.getLoginAuthentication.appguid, 10)
-      self.setCookie('tokenid', self.$store.getters.getLoginAuthentication.tokenid, 10)
+      if (window.self === window.top) {
+        that.setCookie('appguid', that.$store.getters.getLoginAuthentication.appguid, 10)
+        that.setCookie('tokenid', that.$store.getters.getLoginAuthentication.tokenid, 10)
+      }
     }
     this.showLogo()
   },

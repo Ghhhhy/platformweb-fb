@@ -6,19 +6,16 @@ import store from '@/store/index'
  * 对接平台
  */
 
-const {
-  year,
-  app: { guid: appid },
-  province,
-  guid: userguid
-} = store.state.userInfo
-
 /**
  * 获取文件信息
  * @param params
  * @return {Promise | Promise<unknown>}
  */
 export function getFiles(billguid = '') {
+  const {
+    year,
+    province
+  } = store.state.userInfo
   const params = {
     year,
     province,
@@ -33,6 +30,9 @@ export function getFiles(billguid = '') {
  * @return {Promise | Promise<unknown>}
  */
 export function deleteFile(fileguids) {
+  const {
+    app: { guid: appid } = {}
+  } = store.state.userInfo
   return del(`fileservice/v2/files?fileguids=${fileguids}&appid=${appid}`)
 }
 
@@ -42,6 +42,13 @@ export function deleteFile(fileguids) {
  * @return {Promise | Promise<unknown>}
  */
 export function uploadFile(params) {
+  const {
+    year,
+    app: { guid: appid } = {},
+    province,
+    guid: userguid
+  } = store.state.userInfo
+
   const formData = new FormData()
   formData.append('year', year)
   formData.append('appid', appid)
@@ -58,6 +65,9 @@ export function uploadFile(params) {
  * @param fileguid
  */
 export function downloadFile(fileguid) {
+  const {
+    app: { guid: appid } = {}
+  } = store.state.userInfo
   const params = {
     appid,
     fileguid
