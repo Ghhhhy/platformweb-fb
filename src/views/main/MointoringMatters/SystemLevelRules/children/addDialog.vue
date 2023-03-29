@@ -381,6 +381,7 @@
                       type="textarea"
                       :disabled="disabled"
                       :rows="2"
+                      :maxlength="200"
                       placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
                       style=" width:90%"
                     />
@@ -1364,8 +1365,8 @@ export default {
         this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于50位' })
         return
       }
-      if (this.policiesDescription.length > 100) {
-        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于100位' })
+      if (this.policiesDescription.length > 200) {
+        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于200位' })
         return
       }
       if (!this.crTemplate) {

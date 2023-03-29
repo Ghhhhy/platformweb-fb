@@ -297,7 +297,6 @@ export default {
       // 下拉树
       let searchDataObj = {}
       this.queryConfig.forEach(item => {
-        debugger
         if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''

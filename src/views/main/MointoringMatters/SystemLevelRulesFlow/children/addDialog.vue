@@ -352,6 +352,7 @@
                         type="textarea"
                         :disabled="disabled"
                         :rows="2"
+                        :maxlength="200"
                         placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
                         style=" width:90%"
                       />

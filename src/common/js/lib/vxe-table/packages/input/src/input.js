@@ -1325,7 +1325,6 @@ export default {
       this.$emit('next-number', { $event: evnt })
     },
     numberChange(isPlus, evnt) {
-      debugger
       const { type, digitsValue, value, stepValue } = this
       const inputValue = type === 'integer' ? XEUtils.toInteger(value) : XEUtils.toNumber(value)
       const newValue = isPlus ? XEUtils.add(inputValue, stepValue) : XEUtils.subtract(inputValue, stepValue)

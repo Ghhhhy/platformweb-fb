@@ -254,7 +254,6 @@ export default {
         HttpModule.changePolicies1(param).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
-            debugger
             this.$message.success('修改成功')
             this.$parent.updateVisible = false
             this.$parent.queryTableDatas1()

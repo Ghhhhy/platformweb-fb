@@ -358,6 +358,7 @@
                         v-model="policiesDescription"
                         type="textarea"
                         :disabled="disabled"
+                        :maxlength="200"
                         :rows="2"
                         placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
                         style=" width:90%"

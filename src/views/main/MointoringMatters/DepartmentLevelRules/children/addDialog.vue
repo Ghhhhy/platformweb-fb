@@ -188,6 +188,7 @@
                   v-model="policiesDescription"
                   type="textarea"
                   :rows="2"
+                  :maxlength="200"
                   placeholder="请输入预警提示"
                   style=" width:90%"
                 />

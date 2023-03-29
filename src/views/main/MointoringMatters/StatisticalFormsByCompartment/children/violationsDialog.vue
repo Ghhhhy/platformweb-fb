@@ -387,7 +387,6 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      debugger
       let key = obj.column.property
       if (
         key !== 'mofDivName' &&
