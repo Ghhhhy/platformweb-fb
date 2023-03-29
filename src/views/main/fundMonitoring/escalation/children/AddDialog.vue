@@ -204,34 +204,35 @@ export default {
       this.$parent.queryTableDatas()
     },
     getProvince(data) {
-      data.children.forEach(item => {
-        if (item.code === this.$store.state.userInfo.province) {
-          if (this.$store.state.userInfo.province === '610000000') {
-            let arr = []
-            arr.push(data)
-            this.treeData = this.getChildrenNewData(arr)
-            let dataArr = []
-            this.getCheckData(dataArr, this.treeData)
-            this.scope = dataArr
-            console.log('scope', this.scope)
-          } else {
-            let arr = []
-            arr.push(item)
-            this.treeData = this.getChildrenNewData(arr)
-          }
-        } else {
-          if (item.children) {
-            // let arr = []
-            // arr.push(item)
-            this.getProvince(item)
-          }
-        }
-      })
+      this.treeData = this.getChildrenNewData(data)
+      // data.forEach(item => {
+      //   if (item.code === this.$store.state.userInfo.province) {
+      //     if (this.$store.state.userInfo.province === '610000000') {
+      //       let arr = []
+      //       arr.push(data)
+      //       this.treeData = this.getChildrenNewData(arr)
+      //       let dataArr = []
+      //       this.getCheckData(dataArr, this.treeData)
+      //       this.scope = dataArr
+      //       console.log('scope', this.scope)
+      //     } else {
+      //       let arr = []
+      //       arr.push(item)
+      //       this.treeData = this.getChildrenNewData(arr)
+      //     }
+      //   } else {
+      //     if (item.children) {
+      //       // let arr = []
+      //       // arr.push(item)
+      //       this.getProvince(item.children)
+      //     }
+      //   }
+      // })
     },
     getChildrenNewData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.code + '-' + item.name
+        item.label = item.codeFragment + '-' + item.name
         if (item.children) {
           that.getChildrenNewData(item.children)
         }
@@ -243,7 +244,7 @@ export default {
       HttpModule.getMofTreeData().then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
-          this.getProvince(res.data[0])
+          this.getProvince(res.data)
           // let treeResdata = this.getChildrenNewData1(res.data)
           // this.treeData = treeResdata
           // let dataArr = []
