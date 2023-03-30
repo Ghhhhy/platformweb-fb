@@ -1,11 +1,11 @@
 <template>
   <div class="boss-main app-main">
-    <div class="app-main-header-line" @mouseenter="showHeader($event)"></div>
-    <div class="app-main-header" :class="isShowHeader ? isInited ? 'show' : '' : 'hide'" @mouseleave="contorHeaderShow($event)">
+    <div v-if="!isIframe()" class="app-main-header-line" @mouseenter="showHeader($event)"></div>
+    <div v-if="!isIframe()" class="app-main-header" :class="isShowHeader ? isInited ? 'show' : '' : 'hide'" @mouseleave="contorHeaderShow($event)">
       <BsAppHeader :default-active-menu="defaultActiveMenu" @onMenuSelectChange="onMenuSelectChange" />
     </div>
     <div class="app-main-body">
-      <div class="app-main-body-tab-router" :style="{ 'background': isShowHeader ? '#fff' : 'var(--primary-color)' }">
+      <div v-if="!isIframe()" class="app-main-body-tab-router" :style="{ 'background': isShowHeader ? '#fff' : 'var(--primary-color)' }">
         <BsTabKeepRouter
           v-model="value"
           :tab-class="tabClass"
@@ -33,7 +33,7 @@
           </template>
         </BsTabKeepRouter>
       </div>
-      <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
+      <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ height: isIframe() ? 'calc(100% - 8px) !important' : '', 'marginLeft': leftNavWidth + 'px' }">
         <BsKeepAlive ref="keepAlive" :include="includedComponents">
           <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.name" />
         </BsKeepAlive>
@@ -48,7 +48,7 @@
           :src="iframeSrc"
         ></iframe>
       </div>
-      <div class="main-modulebox-quick-nav" :class="isShowHeader ? 'top60' : 'top0'">
+      <div v-if="!isIframe()" class="main-modulebox-quick-nav" :class="isShowHeader ? 'top60' : 'top0'">
         <BsQuickNav :nav-data="menuData" @onNavClick="onQuickNavClick" @fixedNavChange="onFixedNavChange" />
       </div>
       <GlobalSetting />
@@ -125,6 +125,9 @@ export default {
     }
   },
   methods: {
+    isIframe() {
+      return window.self !== window.top
+    },
     getDataType(obj) {
       // 获取数据类型
       return Object.prototype.toString.call(obj).slice(8, -1)
@@ -271,6 +274,7 @@ export default {
       }
     },
     routerToHome(homeShowType) {
+      if (window.self !== window.top) return
       if (homeShowType === 'Home-card') {
         this.$router.push({
           name: 'HomeCard',

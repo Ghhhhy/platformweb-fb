@@ -11,7 +11,6 @@
 <script>
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
-import MenuModule from '@/api/frame/common/menu.js'
 
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
@@ -108,7 +107,6 @@ export default {
             } else {
               this.$store.commit('setUserInfo', res.data)
               this.$store.dispatch('asyncUserRoles')
-              console.log('userInfo----------', res.data)
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
@@ -182,26 +180,16 @@ export default {
         }
       }
       return false
-    },
-    async getMenus() {
-      try {
-        const res = await MenuModule.getMenuInfo()
-        this.$store.commit('setSystemMenu', res) // 将菜单存储到store
-      } catch (err) {
-        console.log(err)
-      }
     }
   },
   async created() {
     this.getUrlSearchToken()
-    // 其他项目通过iframe嵌入 由于工作流用到了menuguid，因此需要拉取菜单信息
-    if (window.self !== window.top) {
-      console.log('*************当前处于iframe*************')
-      await this.getMenus()
-    }
     this.authentication()
-    // 获取预警信息
-    this.$store.dispatch('warnInfo/getWarnInfo')
+    if (window.self === window.top) {
+      console.log('=========处于非iframe环境=============')
+      // 获取预警信息
+      this.$store.dispatch('warnInfo/getWarnInfo')
+    }
   },
 
   mounted() {

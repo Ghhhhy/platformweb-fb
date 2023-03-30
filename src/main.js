@@ -3,6 +3,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
+import { setupProjectPreoperation } from './plugin/setupProjectPreoperation'
 // element-ui
 // import ElementUI from 'element-ui'
 import { setupElementUI } from './plugin/setupElementUI'
@@ -85,10 +86,19 @@ Vue.prototype.$http = {
   smSecretUtils,
   globalGatewayAgentConfig
 }
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   BSUI.utilsLib.LoadingMark.showLoadingMark()
   setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
   const { tokenid } = store.getters.getLoginAuthentication
+
+  if (window.self !== window.top) {
+    try {
+      await setupProjectPreoperation()
+    } finally {
+      next()
+    }
+    return
+  }
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (tokenid) { // 判断是否已经登录
       if (to.name !== 'Login' && !Object.keys(store.state.userInfo).length) {

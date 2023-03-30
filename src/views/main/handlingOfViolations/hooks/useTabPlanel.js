@@ -5,7 +5,7 @@ import { allTab, returnTab, disabledTab, sendAuditTabs, doAuditTabs } from '../m
 import { billInvalid } from '@/api/frame/main/handlingOfViolations/index.js'
 import { checkRscode } from '@/utils/checkRscode'
 import store from '@/store'
-import getMenuByPath from '../utils/getMenuByPath'
+import { getCurMenuObjByIframe } from '@/plugin/setupProjectPreoperation.js'
 
 function useTabPlanel(
   auditVisible, // 弹窗状态
@@ -58,7 +58,7 @@ function useTabPlanel(
       type: 'warning',
       callback: async action => {
         if (action === 'confirm') {
-          const menuId = getMenuByPath()?.guid || store.state.curNavModule?.guid || ''
+          const menuId = getCurMenuObjByIframe()?.guid || store.state.curNavModule?.guid || ''
           const params = {
             menuId,
             data: unref(checkedRecords)

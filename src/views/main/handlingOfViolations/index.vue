@@ -95,7 +95,7 @@ import {
   getStatusCodeOptions
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
-import getMenuByPath from './utils/getMenuByPath.js'
+import { getCurMenuObjByIframe } from '@/plugin/setupProjectPreoperation.js'
 
 export default defineComponent({
   components: {
@@ -218,7 +218,7 @@ export default defineComponent({
           // 全部页签
           params.isAll = true
         }
-        const menuId = getMenuByPath()?.guid || store.state.curNavModule?.guid || ''
+        const menuId = getCurMenuObjByIframe()?.guid || store.state.curNavModule?.guid || ''
         return {
           ...params,
           nodeType: pagePathMapNodeType[unref(pagePath)],
