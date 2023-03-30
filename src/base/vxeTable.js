@@ -20,7 +20,6 @@ import jsoneditor from 'jsoneditor'
 // Boss-UI发版引入方式
 import globleRenders from '@bszx/boss-ui/packages/Table/src/config/render/index'
 
-
 // Vue.use(VXETable)
 // VXETable.use(VXETablePluginExcel)
 const vxeTable = {

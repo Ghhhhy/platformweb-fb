@@ -1,10 +1,3 @@
-/*
- * @Description: 
- * @Author: Comer
- * @Date: 2023-03-30 11:33:20
- * @LastEditors: Comer
- * @LastEditTime: 2023-03-30 14:26:06
- */
 import './base/css'
 import Vue from 'vue'
 import App from './App.vue'
@@ -63,7 +56,6 @@ setupVuePrint(Vue)
 Vue.use(TreeTable)
 Vue.prototype.transJson = transJson
 Vue.prototype.useOptionChain = useOptionChain
-
 
 new Vue({
   router,
