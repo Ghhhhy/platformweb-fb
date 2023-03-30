@@ -107,8 +107,8 @@ export default {
           if (res.data.executeData !== null) {
             this.supplyDataList.payAppAmt = this.moneyFormat(this.supplyDataList.payAppAmt)
             this.supplyDataList.agencyName = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
-            this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
-            this.supplyDataList.proName = res.data.executeData.proCatCode + '-' + res.data.executeData.proName
+            this.supplyDataList.proName = res.data.executeData.proName
+            this.supplyDataList.proName = res.data.executeData.proName
             this.supplyDataList.payTypeName = res.data.executeData.payTypeCode + '-' + res.data.executeData.payTypeName
             this.supplyDataList.isFunName = res.data.executeData.isFunName === 1 ? '是' : '否'
             this.supplyDataList.expFuncName = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
