@@ -11,7 +11,15 @@ import VXETablePluginElement from 'vxe-table-plugin-element'
 import VXETablePluginMenus from 'vxe-table-plugin-menus'
 import Sortable from 'sortablejs'
 import jsoneditor from 'jsoneditor'
-import globleRenders from '../components/Table/config/defaultRenders.js'
+// 本地渲染器引入
+// import globleRenders from '../components/Table/config/defaultRenders.js'
+
+// Boss-UI本地自测试引入方式
+// import globleRenders from '../../.yalc/@bszx/boss-ui/packages/Table/src/config/render/index'
+
+// Boss-UI发版引入方式
+import globleRenders from '@bszx/boss-ui/packages/Table/src/config/render/index'
+
 
 // Vue.use(VXETable)
 // VXETable.use(VXETablePluginExcel)
