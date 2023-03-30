@@ -4,7 +4,6 @@ const api = 'http://223.223.190.114:12218'
 let reportService = 'http://10.100.59.193:48000/boss/ReportServer?reportlet='
 
 window.gloableToolFn = {
-  ...(window?.gloableToolFn || {}),
   serverGatewayMap: {
     production: {
       // --------------------------- apass服务 ---------------------------------//
