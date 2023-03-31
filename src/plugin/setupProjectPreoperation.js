@@ -25,10 +25,14 @@ export function setTokenByIframe () {
 }
 
 export function getCurMenuObjByIframe () {
-  const hash = window.location.hash
+  // 获取hash 去掉# 或 /
+  const hash = window.location.hash.replace(/(#|\/)*/, '')
 
   return findTree(store.state.systemMenu || [], item => {
-    return (item.url !== '#' && item.url !== '/' && hash.includes(item.url))
+    if (item.url === '#' || item.url === '/' || item.isleaf === '0') return false
+
+    const itemHash = item.url.replace(/(#|\/)*/, '')
+    return itemHash === hash
   })?.item || {}
 }
 
