@@ -333,7 +333,8 @@ export let proconf = {
           { value: '1', label: '文本' },
           { value: '2', label: '数字' },
           { value: '3', label: '值域' },
-          { value: '4', label: '值集' }
+          { value: '4', label: '值集' },
+          { value: '5', label: '函数' }
         ],
         props: {
           placeholder: '关系'
@@ -345,8 +346,12 @@ export let proconf = {
       sortable: false,
       field: 'param',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      // formula: '',
+      // name: '$vxeInput',
+      slots: {
+        edit: 'editParam',
+        default: 'defaultParam'
+      },
       editRender: {
         name: '$vxeInput',
         options: [],

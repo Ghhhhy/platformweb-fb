@@ -20,3 +20,10 @@ export function getTreeData(params) {
 export function getWarnInfo(params) {
   return post('large-monitor-platform/lmp/warnSummary/querySummaryWarn', params)
 }
+
+/**
+ * 获取函数
+ */
+export function getMRuleFuncReg(params) {
+  return get('large-monitor-platform/lmp/warn/MRuleFuncReg', params)
+}
