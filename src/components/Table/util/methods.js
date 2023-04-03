@@ -757,6 +757,11 @@ const initMethods = {
   }
 }
 const tableOptionFn = {
+  replaceColumnSlotKey(key) {
+    if (!key) return ''
+    console.log(key?.replace?.(/column-/, '') ?? '')
+    return key?.replace?.(/column-/, '') ?? ''
+  },
   // 获取传入表头数据
   transTableCloumnToSource(cloumn) {
     if (!cloumn) return []
