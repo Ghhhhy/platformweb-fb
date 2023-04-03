@@ -25,7 +25,7 @@ export function setTokenByIframe () {
 }
 
 export function getCurMenuObjByIframe () {
-  // 获取hash 去掉# 或 /
+  // 获取hash 去掉#/
   const hash = window.location.hash.replace(/(#|\/)*/, '')
 
   return findTree(store.state.systemMenu || [], item => {
