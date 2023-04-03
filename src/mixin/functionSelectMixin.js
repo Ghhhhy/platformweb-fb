@@ -8,8 +8,10 @@ export default {
   methods: {
     async getFunctionSelectOptions() {
       const { province: mofDivCode, year: fiscalYear } = this.$store.state.userInfo
-      const { data } = await getMRuleFuncReg({ mofDivCode, fiscalYear })
-      this.functionSelectOptions = data
+      const { data, code } = await getMRuleFuncReg({ mofDivCode, fiscalYear })
+      if (code === '200') {
+        this.functionSelectOptions = data
+      }
     },
     getFunctionLabel(value) {
       return this.functionSelectOptions?.find(item => item.regId === value)?.value || value
