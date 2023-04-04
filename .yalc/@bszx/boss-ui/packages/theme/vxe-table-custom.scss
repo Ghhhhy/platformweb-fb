@@ -1,0 +1,19 @@
+// 引入变量
+@import './variables';
+@import 'vxe-table/styles/variable.scss';
+// 修改样式变量
+$vxe-table-border-color: $color-table-boder;
+
+
+
+
+
+// 用修改的样式变量重新覆盖之前的样式， 这块可以按需引入
+// @import 'vxe-table/styles/modules.scss'; //全局引入
+
+// 按需引入
+@import 'vxe-table/styles/table.scss';
+@import 'vxe-table/styles/column.scss';
+@import 'vxe-table/styles/header.scss';
+@import 'vxe-table/styles/body.scss';
+@import 'vxe-table/styles/footer.scss';

@@ -1,0 +1,88 @@
+{
+  "name": "@bszx/boss-ui",
+  "version": "0.7.0-beta.5",
+  "description": "feat: 融合软件产品自测问题修复",
+  "author": "Ljd",
+  "keywords": [
+    "boss-ui",
+    "bs-ui",
+    "Bs-UI",
+    "Boss-UI",
+    "Bs-ui"
+  ],
+  "main": "lib/boss-ui.common.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "dev": "npm run serve",
+    "build": "vue-cli-service build",
+    "build:common": "webpack --config build/webpack.common.js",
+    "lint": "eslint --fix --ext .js,.vue packages",
+    "clean": "rimraf lib && rimraf packages/*/lib",
+    "async": "npm run clean && npm run build:common && npm run push",
+    "push": "yalc push",
+    "commit": "git-cz",
+    "pub": "sh ./autoDeploy/deploy.sh",
+    "pub:reback": "sh ./autoDeploy/reback.sh",
+    "genlog": "conventional-changelog -p angular -i .github/CHANGELOG.md -s -r 0 && git add .github/CHANGELOG.md"
+  },
+  "gitHooks": {
+    "commit-msg": "node .github/verify-commit-msg.js"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@bszx/bs-vxe-table": "^2.10.2-0.3",
+    "async-validator": "^1.11.5",
+    "element-ui": "2.13.2",
+    "file-saver": "^2.0.5",
+    "jsoneditor": "^9.7.2",
+    "jszip": "^3.5.0",
+    "lodash": "^4.17.21",
+    "sortablejs": "^1.14.0",
+    "vue": "2.6.10",
+    "vue-aplayer": "^1.6.1",
+    "vue-splitpane": "^1.0.6",
+    "vue-template-compiler": "2.6.10",
+    "vue-virtual-scroller": "1.0.10",
+    "vxe-table": "2.10.4",
+    "vxe-table-plugin-element": "1.8.10",
+    "vxe-table-plugin-excel": "1.4.1",
+    "vxe-table-plugin-export-xlsx": "1.6.0",
+    "vxe-table-plugin-menus": "1.4.0",
+    "xe-utils": "2.8.3",
+    "xlsx": "0.16.8"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "yalcSig": "a4d8c833a2aad3821a157f61738f76a2"
+}

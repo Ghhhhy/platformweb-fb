@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@bszx/boss-ui": {
+      "signature": "a4d8c833a2aad3821a157f61738f76a2",
+      "file": true,
+      "replaced": "^0.7.0-beta.2"
+    }
+  }
+}

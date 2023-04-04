@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="32px" viewBox="0 0 33 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>预览</title>
+    <defs>
+        <filter x="-3.6%" y="-1.6%" width="107.2%" height="103.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="-2" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="规范典型页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="典型页面备份-3" transform="translate(-1651.000000, -528.000000)">
+            <g id="操作备份" filter="url(#filter-1)" transform="translate(1587.000000, 283.000000)">
+                <g id="预览" transform="translate(73.340524, 254.000000)">
+                    <path d="M1.12,8.96 L1.12,12.32 C1.12,12.5949151 1.31810018,12.8235614 1.57933929,12.8709777 L1.68,12.88 L5.04,12.88 L5.04,14 L1.68,14 C0.806740349,14 0.0890974804,13.3337253 0.00769056743,12.4817952 L0,12.32 L0,8.96 L1.12,8.96 Z" id="路径" fill="#F4B600" fill-rule="nonzero"></path>
+                    <path d="M1.12,0 L1.12,3.36 C1.12,3.63491508 1.31810018,3.86356137 1.57933929,3.91097765 L1.68,3.92 L5.04,3.92 L5.04,5.04 L1.68,5.04 C0.806740349,5.04 0.0890974804,4.37372535 0.00769056743,3.52179521 L0,3.36 L0,0 L1.12,0 Z" id="路径备份-2" fill="#F4B600" fill-rule="nonzero" transform="translate(2.520000, 2.520000) scale(1, -1) translate(-2.520000, -2.520000) "></path>
+                    <path d="M10.08,8.96 L10.08,12.32 C10.08,12.5949151 10.2781002,12.8235614 10.5393393,12.8709777 L10.64,12.88 L14,12.88 L14,14 L10.64,14 C9.76674035,14 9.04909748,13.3337253 8.96769057,12.4817952 L8.96,12.32 L8.96,8.96 L10.08,8.96 Z" id="路径备份" fill="#F4B600" fill-rule="nonzero" transform="translate(11.480000, 11.480000) scale(-1, 1) translate(-11.480000, -11.480000) "></path>
+                    <path d="M10.08,0 L10.08,3.36 C10.08,3.63491508 10.2781002,3.86356137 10.5393393,3.91097765 L10.64,3.92 L14,3.92 L14,5.04 L10.64,5.04 C9.76674035,5.04 9.04909748,4.37372535 8.96769057,3.52179521 L8.96,3.36 L8.96,0 L10.08,0 Z" id="路径备份-3" fill="#F4B600" fill-rule="nonzero" transform="translate(11.480000, 2.520000) scale(-1, -1) translate(-11.480000, -2.520000) "></path>
+                    <rect id="矩形备份-9" fill="#F4B600" x="1.97061327" y="2.016" width="10.08" height="10.08" rx="1"></rect>
+                    <g id="编组-5" transform="translate(3.920000, 3.920000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <path d="M2.8,0 C4.3463973,0 5.6,1.2536027 5.6,2.8 C5.6,3.35916369 5.43609369,3.880045 5.15370558,4.31721944 L6.14443222,5.24530567 C6.37014079,5.4567517 6.38170286,5.81113553 6.17025683,6.0368441 C5.9823048,6.23747395 5.68141427,6.26890161 5.45834776,6.12490332 L5.3787184,6.06266872 L4.37017805,5.11864118 C3.92238024,5.42248056 3.38192106,5.6 2.8,5.6 C1.2536027,5.6 0,4.3463973 0,2.8 C0,1.2536027 1.2536027,0 2.8,0 Z M2.8,1.12 C1.87216162,1.12 1.12,1.87216162 1.12,2.8 C1.12,3.72783838 1.87216162,4.48 2.8,4.48 C3.72783838,4.48 4.48,3.72783838 4.48,2.8 C4.48,1.87216162 3.72783838,1.12 2.8,1.12 Z" id="形状结合"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
