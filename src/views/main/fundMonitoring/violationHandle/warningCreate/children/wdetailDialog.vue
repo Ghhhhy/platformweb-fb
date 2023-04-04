@@ -30,6 +30,7 @@
       :toolbar-config="tableToolbarConfig"
       :cell-style="cellStyle"
       :pager-config="pagerConfig"
+      style="height: calc(100% - 108px)"
       @ajaxData="ajaxTableData"
       @cellClick="cellClick"
       @onOptionRowClick="onOptionRowClick"

@@ -297,9 +297,10 @@ const proconf = {
       title: '查看详情',
       field: 'gloableOptionRowDetial',
       align: 'center',
+      fixed: 'right',
       sortable: false,
       filters: false,
-      width: 180,
+      width: 120,
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
@@ -959,7 +960,8 @@ const proconf = {
       align: 'center',
       sortable: false,
       filters: false,
-      width: 180,
+      width: 120,
+      fixed: 'right',
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
