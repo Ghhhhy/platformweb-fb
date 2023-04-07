@@ -249,8 +249,9 @@ export default {
       }
       this.code = this.selectData.code
       this.name = this.selectData.name
+      console.log(this.selectData, Number(this.selectData.levelNo))
       this.enable = Number(this.selectData.enable)
-      this.levelNo = this.selectData.levelNo
+      this.levelNo = Number(this.selectData.levelNo)
       this.parentName = this.selectData.parentName
       this.guid = this.selectData.guid
       this.content = this.selectData.content
