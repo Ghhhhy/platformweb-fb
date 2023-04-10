@@ -37,7 +37,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :show-zero="false"
-          :export-modal-config="{ fileName: '中央和地方预算支出_分地区' }"
+          title="中央和地方预算支出_分地区"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"

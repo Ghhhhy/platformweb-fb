@@ -34,7 +34,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :export-modal-config="{ fileName: menuName }"
+          :title="menuName"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"

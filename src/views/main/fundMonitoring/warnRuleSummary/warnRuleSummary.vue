@@ -26,7 +26,7 @@
           id="1001"
           ref="bsTableRef"
           row-id="id"
-          :export-modal-config="{ fileName: menuName }"
+          :title="menuName"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"

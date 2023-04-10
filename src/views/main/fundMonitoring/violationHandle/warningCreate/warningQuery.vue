@@ -32,7 +32,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
-          :export-modal-config="{ fileName: menuName }"
+          :title="menuName"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"

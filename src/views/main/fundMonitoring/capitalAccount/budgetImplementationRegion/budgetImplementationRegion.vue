@@ -35,7 +35,7 @@
           :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :export-modal-config="{ fileName: menuName }"
+          :title="menuName"
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :show-zero="false"

@@ -26,7 +26,7 @@
       :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
       :pager-config="pagerConfig"
       :default-money-unit="unit"
-      :export-modal-config="{ fileName: title + '(' + amountUnit + ')' }"
+      :title="title + '(' + amountUnit + ')'"
       @cellClick="cellClick"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
