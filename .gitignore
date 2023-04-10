@@ -30,3 +30,6 @@ yarn-error.log*
 # /src/config/devUrlConfig.js
 # /src/api/serverGatewayMap.js
 # src/api/serverGatewayMap.js
+
+# yalc
+/.yalc
