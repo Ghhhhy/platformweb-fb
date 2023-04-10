@@ -56,7 +56,6 @@ setupVuePrint(Vue)
 Vue.use(TreeTable)
 Vue.prototype.transJson = transJson
 Vue.prototype.useOptionChain = useOptionChain
-
 new Vue({
   router,
   store,

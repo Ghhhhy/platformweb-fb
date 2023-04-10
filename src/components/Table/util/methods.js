@@ -16,7 +16,7 @@ export const rowUniqueLevelKey = '__BOSS_TREE_NODE_LEVEL'
 
 // 设置树形表格唯一键
 const setRowUuidKey = (rows, instance, level = 0) => {
-  if (typeof row !== 'object') return
+  if (typeof rows !== 'object') return
   for (let row of Array.isArray(rows) ? rows : [rows]) {
     // 设置唯一标识
     !row[rowUuidKeyName] && Reflect.set(row, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
@@ -757,6 +757,11 @@ const initMethods = {
   }
 }
 const tableOptionFn = {
+  replaceColumnSlotKey(key) {
+    if (!key) return ''
+    console.log(key?.replace?.(/column-/, '') ?? '')
+    return key?.replace?.(/column-/, '') ?? ''
+  },
   // 获取传入表头数据
   transTableCloumnToSource(cloumn) {
     if (!cloumn) return []

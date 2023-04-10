@@ -191,7 +191,6 @@ import { ModalTypeEnum, RouterPathEnum, ActionTypeEnum } from '../model/enum'
 import { checkRscode } from '@/utils/checkRscode'
 import { bpmFlow } from '@/api/frame/main/handlingOfViolations/index.js'
 import { pagePathMapNodeType, warnLevelOptions } from '../model/data'
-import getMenuByPath from '../utils/getMenuByPath'
 
 // 自定义双向绑定
 const model = {
@@ -382,7 +381,7 @@ export default defineComponent({
           await auditFormRef.value?.validate?.()
         }
 
-        const menuId = getMenuByPath()?.guid || store.state.curNavModule?.guid || ''
+        const menuId = store.state.curNavModule?.guid || ''
         const params = {
           ...auditFormData,
           actionType,

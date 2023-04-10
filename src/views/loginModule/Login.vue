@@ -3,7 +3,7 @@
   <div class="login flex">
     <!-- <czy-header /> -->
     <div class="loginHeader flex">
-      <div class="title flex">陕西省财政云</div>
+      <div class="title flex">预算管理一体化系统</div>
       <div class="content">
         <p class="contentTitle">用户登录</p>
         <div class="user-select flex">

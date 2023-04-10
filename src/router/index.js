@@ -2,16 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import main from './main/main.js'
 import test from './test.js'
-import handlingOfViolations from '@/router/main/handlingOfViolations/index.js'
 Vue.use(VueRouter)
 
-const handlingOfViolationsRouters = []
-// iframe环境（因项目存在嵌入到其他系统，因此把这块路由提到顶级）
-if (window.self !== window.top) {
-  handlingOfViolationsRouters.push(...handlingOfViolations)
-} else {
-  main.children.push(...handlingOfViolations)
-}
 const routes = [
   ...test,
   {
@@ -31,7 +23,6 @@ const routes = [
   {
     ...main
   },
-  ...handlingOfViolationsRouters,
   {
     path: '/Template', // test--template:Titans
     name: 'Template',

@@ -12,11 +12,21 @@ import relyComponent from '../base/relyComponent.js'
 import store from '../store/index'
 import vxeTable from '../base/vxeTable.js'
 import customConfig from '../config/customConfig.js'
+import { setupProjectPreoperation } from './setupProjectPreoperation.js'
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   BSUI.utilsLib.LoadingMark.showLoadingMark()
   setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
   const { tokenid } = store.getters.getLoginAuthentication
+  // iframe环境下
+  if (window.self !== window.top) {
+    try {
+      await setupProjectPreoperation()
+    } finally {
+      next()
+    }
+    return
+  }
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (tokenid) { // 判断是否已经登录
       if (to.name !== 'Login' && !Object.keys(store.state.userInfo).length) {

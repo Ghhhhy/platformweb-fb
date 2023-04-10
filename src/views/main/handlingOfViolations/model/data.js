@@ -108,6 +108,8 @@ export const controlTypeOptions = store.state.warnInfo.warnControlTypeOptions.ma
   }
 })
 
+console.log(store.state.warnInfo, controlTypeOptions)
+
 warnLevelOptions.forEach(option => {
   const storeWarn = store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === option.value)
   if (storeWarn) {

@@ -573,6 +573,7 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
+      console.log(this.transJson(this.params5 || ''), this.transJson(this.params5 || '')?.reportCode)
       const param = {
         isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode,
@@ -659,6 +660,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$store.state.curNavModule.param5, this.$store.state.curMenuObj)
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
