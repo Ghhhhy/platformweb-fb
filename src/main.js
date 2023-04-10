@@ -23,7 +23,6 @@ import setupVuePrint from './plugin/setupVuePrint.js'
 import TableConfig from './mixin/tableConf/index'
 import VideoPlayer from 'vue-video-player'
 import transJson from '@/utils/transformMenuQuery'
-import TreeTable from './components/TreeTable/index'
 // axios Request
 import useOptionChain from '@/utils/useOptionChain.js'
 import html2canvasDirective from './directive/html2canvasDirective'
@@ -53,7 +52,6 @@ setupElementUI(Vue)
 setupVueAwesomerSwiper(Vue)
 setupVueQuillEditor(Vue)
 setupVuePrint(Vue)
-Vue.use(TreeTable)
 Vue.prototype.transJson = transJson
 Vue.prototype.useOptionChain = useOptionChain
 new Vue({
