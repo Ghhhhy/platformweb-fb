@@ -3,6 +3,7 @@ node_modules
 /node_modules
 /dist
 /public/dll/
+/public/static/js/config/serverGatewayMap.js
 /tests/e2e/reports/
 selenium-debug.log
 chromedriver.log

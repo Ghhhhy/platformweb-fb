@@ -30,6 +30,7 @@
       :toolbar-config="tableToolbarConfig"
       :cell-style="cellStyle"
       :pager-config="pagerConfig"
+      style="height: calc(100% - 108px)"
       @ajaxData="ajaxTableData"
       @cellClick="cellClick"
       @onOptionRowClick="onOptionRowClick"
@@ -75,6 +76,7 @@ import proconf, {
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
+import transJson from '@/utils/transformMenuQuery'
 
 export default {
   name: 'DetailDialogs',
@@ -895,6 +897,11 @@ export default {
     }
   },
   mounted() {
+    // 如果菜单参数有主题 当前模块就使用该主题查询
+    if (transJson(this.$store.state.curNavModule.param5)?.regulationClassName) {
+      const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
+      index > -1 && this.queryConfig?.splice(index, 1)
+    }
     this.detailType = this.detailData[0]
     this.getAgency()
     this.showInfo()

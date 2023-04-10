@@ -433,8 +433,9 @@ export default {
         }
       }
       const { localFileName, downloadFileName } = fileMap[this.fileConfig.fileType] || fileMap[1]
+      console.log(window.location)
       downloadByUrl(
-        `/static/files/${localFileName}`,
+        `./static/files/${localFileName}`,
         downloadFileName
       )
     },

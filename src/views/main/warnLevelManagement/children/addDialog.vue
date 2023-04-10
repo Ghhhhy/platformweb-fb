@@ -121,6 +121,9 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    curRuleLevel() {
+      return (this.$XEUtils.findTree(this.parentRuleoptions, item => item.id === this.parentId)?.item?.ruleLevel || 0) + 1
     }
   },
   props: {
@@ -282,7 +285,7 @@ export default {
           isEnable: this.isEnable,
           ruleName: this.ruleName,
           description: this.description,
-          ruleLevel: this.ruleLevel,
+          ruleLevel: this.curRuleLevel,
           menuName: this.$store.state.curNavModule.name
         }
         this.addLoading = true

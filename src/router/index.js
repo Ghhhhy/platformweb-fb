@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import main from './main/main.js'
 import test from './test.js'
 Vue.use(VueRouter)
+
 const routes = [
   ...test,
   {
@@ -63,6 +64,7 @@ const routes = [
     component: () => import('../views/test/table/test.vue')
   }
 ]
+
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)

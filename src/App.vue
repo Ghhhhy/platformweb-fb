@@ -11,6 +11,7 @@
 <script>
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
+
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -81,6 +82,10 @@ export default {
       } else {
         this.ifrouteractive = true
       }
+      // iframe形式嵌入不用重置到首页
+      if (window.self !== window.top) {
+        return
+      }
       // 缓存url参数后更新URL
       window.history.pushState({}, '', window.location.pathname + '#/')
     },
@@ -105,6 +110,11 @@ export default {
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
+              // iframe
+              if (window.self !== window.top) {
+                this.ifrouteractive = true
+                return
+              }
               this.$router.push({
                 name: 'Main',
                 params: {
@@ -172,23 +182,28 @@ export default {
       return false
     }
   },
-  created() {
+  async created() {
     this.getUrlSearchToken()
     this.authentication()
-    // 获取预警信息
-    this.$store.dispatch('warnInfo/getWarnInfo')
+    if (window.self === window.top) {
+      console.log('=========处于非iframe环境=============')
+      // 获取预警信息
+      this.$store.dispatch('warnInfo/getWarnInfo')
+    }
   },
 
   mounted() {
-    let self = this
+    let that = this
     this.logOutPopInterval = setInterval(() => {
-      self.intervalQuest()
+      that.intervalQuest()
     }, 300000)
     window.onunload = () => {
       localStorage.removeItem('bsSxczyAccessToken')
       localStorage.removeItem('bsSxczyAppguid')
-      self.setCookie('appguid', self.$store.getters.getLoginAuthentication.appguid, 10)
-      self.setCookie('tokenid', self.$store.getters.getLoginAuthentication.tokenid, 10)
+      if (window.self === window.top) {
+        that.setCookie('appguid', that.$store.getters.getLoginAuthentication.appguid, 10)
+        that.setCookie('tokenid', that.$store.getters.getLoginAuthentication.tokenid, 10)
+      }
     }
     this.showLogo()
   },

@@ -381,6 +381,7 @@ export default defineComponent({
           await auditFormRef.value?.validate?.()
         }
 
+        const menuId = store.state.curNavModule?.guid || ''
         const params = {
           ...auditFormData,
           actionType,
@@ -395,7 +396,7 @@ export default defineComponent({
             }
           }),
           statusCode: warningCodeAndFilesList[0]?.statusCode,
-          menuId: store.state.curNavModule.guid
+          menuId
         }
         // 禁止额外参数标识
         if (forbidStatus) {

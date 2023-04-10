@@ -297,9 +297,10 @@ const proconf = {
       title: '查看详情',
       field: 'gloableOptionRowDetial',
       align: 'center',
+      fixed: 'right',
       sortable: false,
       filters: false,
-      width: 180,
+      width: 120,
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
@@ -566,6 +567,16 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
+      }
+    },
+    {
+      title: '是否配套资金',
+      field: 'isMatCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '是否配套资金' }
       }
     }
   ],
@@ -949,7 +960,8 @@ const proconf = {
       align: 'center',
       sortable: false,
       filters: false,
-      width: 180,
+      width: 120,
+      fixed: 'right',
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
@@ -982,7 +994,8 @@ const proconf = {
     isThrExp: '',
     directFund: '',
     createTime: '',
-    fiDate: ''
+    fiDate: '',
+    isMatCode: ''
   },
   handletableColumnsConfig: [
     {

@@ -383,7 +383,6 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      debugger
       console.log('查看附件')
       if (!row.attachmentid || row.attachmentid === null || row.attachmentid === '') {
         this.$message.warning('该数据无附件')

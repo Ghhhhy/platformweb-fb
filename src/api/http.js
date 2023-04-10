@@ -39,106 +39,37 @@ axios.interceptors.request.use(function(config) {
 // }
 // 全局网关
 const globalGatewayAgent = (url, Origin) => { // 注册全局网关
-  axios.defaults.baseURL = Origin || oldUrl
-  let serveUrl = url.split('/').filter((item, index) => {
-    return !!item
-  })
-  let serverName = serveUrl[0]
-  if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(window.gloableToolFn.serverGatewayMap.development).indexOf(serverName) >= 0) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-      axios.defaults.baseURL = window.gloableToolFn.serverGatewayMap.development[serverName]
-    } else {
-      axios.defaults.baseURL = oldUrl
-    }
-  } else {
-    axios.defaults.baseURL = oldUrl
-    // if (Object.keys(window.gloableToolFn.serverGatewayMap.production).indexOf(serverName) >= 0) {
-    //   serveUrl.splice(0, 1)
-    //   url = serveUrl.join('/')
-    //   axios.defaults.baseURL = window.gloableToolFn.serverGatewayMap.production[serverName]
-    // } else {
-    //   axios.defaults.baseURL = oldUrl
-    // }
-    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,mp-b-project-lifecycle'
-    let filePreviewService = 'mp-b-file-preview'
-    let fileservice = 'fileservice'
-    let apaas1 = 'large-monitor-platform,dfr-monitor-service'
-    let tempUrl = url.split('/')[0]
-    if (tempUrl.length === 0) {
-      tempUrl = url.split('/')[1]
-    }
+  const serveUrl = url.split('/').filter(item => !!item)
+  const serverName = serveUrl[0]
+  const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
 
-    if (apaas.indexOf(tempUrl) > -1) {
-      // return url
-      url = 'apaas/api/' + url
-    } else if (filePreviewService === tempUrl) {
-      return url
-    } else if (fileservice === tempUrl) {
-      if (process.env.VUE_APP_CONF_ISHB) {
-        return url.replace(
-          tempUrl,
-          window.gloableToolFn.serverGatewayMap.production[fileservice]
-        )
-      }
-      // 附件使用openapi接口
-      return (window.gloableToolFn.serverGatewayMap.gloableUrl.fileservicePrefix || 'openapi/') + url
-    } else if (apaas1.indexOf(tempUrl) > -1) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-    } else {
-      return url
-      // url = 'api/budget/' + url
-    }
+  axios.defaults.baseURL = Origin || process.env.NODE_ENV === 'development'
+    ? Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName)
+  if (Reflect.has(envProxy, serverName)) {
+    // 删除url代理前缀
+    serveUrl.splice(0, 1)
+    url = serveUrl.join('/')
   }
-
   return url
 }
 
 // 外部通过全局网关获取baseURL  url
 export const httpGlobalGatewayAgent = (url, Origin) => { // 注册全局网关
-  axios.defaults.baseURL = Origin || oldUrl
-  let serveUrl = url.split('/').filter((item, index) => {
-    return !!item
-  })
-  let serverName = serveUrl[0]
-  let baseURL = ''
-  if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(window.gloableToolFn.serverGatewayMap.development).indexOf(serverName) >= 0) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-      baseURL = window.gloableToolFn.serverGatewayMap.development[serverName]
-    } else {
-      baseURL = oldUrl
-    }
-  } else {
-    // if (Object.keys(window.gloableToolFn.serverGatewayMap.production).indexOf(serverName) >= 0) {
-    //   serveUrl.splice(0, 1)
-    //   url = serveUrl.join('/')
-    //   baseURL = window.gloableToolFn.serverGatewayMap.production[serverName]
-    // } else {
-    //   baseURL = oldUrl
-    // }
-    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,fileservice,mp-b-project-lifecycle'
-    let apaas1 = 'large-monitor-platform'
-    let tempUrl = url.split('/')[0]
-    if (tempUrl.length === 0) {
-      tempUrl = url.split('/')[1]
-    }
+  const serveUrl = url.split('/').filter(item => !!item)
+  const serverName = serveUrl[0]
+  const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
 
-    if (apaas.indexOf(tempUrl) > -1) {
-      // return url
-      url = 'apaas/api/' + url
-    } else if (apaas1.indexOf(tempUrl) > -1) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-    } else {
-      return url
-      // url = 'api/budget/' + url
-    }
+  const baseURL = Origin || process.env.NODE_ENV === 'development'
+    ? Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName)
+  axios.defaults.baseURL = baseURL
+
+  if (Reflect.has(envProxy, serverName)) {
+    // 删除url代理前缀
+    serveUrl.splice(0, 1)
+    url = serveUrl.join('/')
   }
-
   return {
     baseURL,
     url

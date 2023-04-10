@@ -63,6 +63,7 @@
 import getFormData from './warningQuery.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
+import transJson from '@/utils/transformMenuQuery'
 export default {
   components: {
     DetailDialog
@@ -414,6 +415,12 @@ export default {
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '09'
       }
+
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+
       this.tableLoading = true
       HttpModule.queryWarningByMof(param).then((res) => {
         this.tableLoading = false

@@ -88,7 +88,7 @@ export let proconf = {
       sortable: false,
       align: 'left',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
         options: [
           { value: '1', label: '是' },

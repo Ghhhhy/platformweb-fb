@@ -217,11 +217,12 @@ export default defineComponent({
           // 全部页签
           params.isAll = true
         }
+        const menuId = store.state.curNavModule?.guid || ''
         return {
           ...params,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           elementCode: unref(currentTreeNode)?.code,
-          menuId: store.state.curNavModule.guid
+          menuId
         }
       },
       columns: [],

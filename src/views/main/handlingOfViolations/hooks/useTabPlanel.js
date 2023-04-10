@@ -57,8 +57,9 @@ function useTabPlanel(
       type: 'warning',
       callback: async action => {
         if (action === 'confirm') {
+          const menuId = store.state.curNavModule?.guid || ''
           const params = {
-            menuId: store.state.curNavModule.guid,
+            menuId,
             data: unref(checkedRecords)
           }
           checkRscode(await billInvalid(params))

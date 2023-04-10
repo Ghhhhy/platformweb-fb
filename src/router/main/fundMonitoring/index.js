@@ -230,6 +230,11 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
   },
   {
+    path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则
+    name: 'DepartmentWarnRuleSummary',
+    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+  },
+  {
     path: '/WarningResult',
     name: 'WarningResult',
     meta: {
@@ -274,6 +279,15 @@ const routers = [
     },
     component: () =>
       import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
+  },
+  {
+    path: '/DepartmentWarningResultHandleRule',
+    name: 'DepartmentWarningResultHandleRule',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 部门监控预警处理_分规则
   },
   // 全辖处理
   {
@@ -504,6 +518,31 @@ const routers = [
     path: '/dfrDatabaseView', //  直达资金资料库查看
     name: 'dfrDatabaseView',
     component: () => import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
+  },
+  {
+    path: '/QueryProcessingBySpecial', // 违规单查看-专项
+    name: 'QueryProcessingBySpecial',
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+  },
+  {
+    path: '/WarnRegionBySpecial', // 违规单查看（全辖）-专项
+    name: 'WarnRegionBySpecial',
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue')
+  },
+  {
+    path: '/CreateProcessingBySpecial', // 违规生成-专项
+    name: 'CreateProcessingBySpecial',
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+  },
+  {
+    path: '/DepartmentRetroactBySpecial', // 违规处理（处室）-专项
+    name: 'DepartmentRetroactBySpecial',
+    component: () => import('@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue')
+  },
+  {
+    path: '/CompanyRetroactBySpecial', // 违规处理（单位）-专项
+    name: 'CompanyRetroactBySpecial',
+    component: () => import('@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue')
   }
 ]
 

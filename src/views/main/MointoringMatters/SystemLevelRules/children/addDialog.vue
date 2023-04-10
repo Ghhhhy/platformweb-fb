@@ -381,6 +381,7 @@
                       type="textarea"
                       :disabled="disabled"
                       :rows="2"
+                      :maxlength="200"
                       placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
                       style=" width:90%"
                     />
@@ -455,7 +456,30 @@
           :table-data="mountTableData"
           :toolbar-config="false"
           :pager-config="false"
-        />
+        >
+          <template
+            v-slot:column-editParam="{ row, column }"
+          >
+            <div class="custom-cell" style="font-size: 14px">
+              <div v-if="row.paramType !== '5'">
+                <vxe-input v-model="row.param" />
+              </div>
+              <div v-else>
+                <vxe-select
+                  v-model="row.param"
+                  :options="functionSelectOptions"
+                  :option-props="{ label: 'value', value: 'regId' }"
+                  :placeholder="column.title"
+                />
+              </div>
+            </div>
+          </template>
+          <template
+            v-slot:column-defaultParam="{ row }"
+          >
+            <span>{{ getFunctionLabel(row.param) }}</span>
+          </template>
+        </BsTable>
       </div>
     </div>
     <!--应用设置-->
@@ -530,10 +554,11 @@
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
+import functionSelectMixin from '@/mixin/functionSelectMixin.js'
 
 export default {
   name: 'AddDialog',
-  mixins: [queryTreedElementByCodeMixin],
+  mixins: [queryTreedElementByCodeMixin, functionSelectMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -1364,8 +1389,8 @@ export default {
         this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于50位' })
         return
       }
-      if (this.policiesDescription.length > 100) {
-        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于100位' })
+      if (this.policiesDescription.length > 200) {
+        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于200位' })
         return
       }
       if (!this.crTemplate) {

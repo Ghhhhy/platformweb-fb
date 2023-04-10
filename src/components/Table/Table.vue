@@ -75,6 +75,9 @@
       @scroll="scroll"
       @toggle-tree-expand="toggleRowExpand"
     >
+      <template v-for="item in getColumnSlotKeys" v-slot:[replaceColumnSlotKey(item)]="data">
+        <slot :name="item" v-bind="data || {}"></slot>
+      </template>
       <template v-slot:expand="slotData">
         <div class="f10">
           <slot :data="slotData" name="expandContent"></slot>
@@ -304,6 +307,14 @@ export default {
     this.initCreated()
   },
   computed: {
+    getColumnSlotKeys() {
+      const keys = Object.keys(this.$scopedSlots)
+      const columnSlots = keys
+        .map((item) => (item.startsWith('column-') ? item : null))
+        .filter((item) => !!item)
+      console.log(columnSlots)
+      return columnSlots
+    }
   },
   mounted() {
     const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
