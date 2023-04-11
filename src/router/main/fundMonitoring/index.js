@@ -12,17 +12,16 @@ const routers = [
     name: 'BudgetImplementationRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
-
   // 福建增加专项监督台账
   {
     path: '/SpecialSupervisionCapital', // 专项监督_分资金
     name: 'SpecialSupervisionCapital',
-    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/specialSupervisionCapital/specialSupervisionCapital.vue')
   },
   {
     path: '/SpecialSupervisionRegion', // 专项监督_分地区
     name: 'SpecialSupervisionRegion',
-    component: () => import('../../../views/main/fundMonitoring/capitalAccount/specialRegion/specialRegion.vue')
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue')
   },
   {
     path: '/BudgetImplementationCapitalCZ', // 中央参照直达资金预算执行情况_分资金
@@ -229,11 +228,6 @@ const routers = [
     path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
     name: 'SproWarnRuleSummary',
     component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
-  },
-  {
-    path: '/WarnCapitalSummaryLevel', // 专项监督预警汇总-分资金
-    name: 'WarnCapitalSummaryLevel',
-    component: () => import('../../../views/main/fundMonitoring/warnCapitalSummaryLevel/warnCapitalSummaryLevel.vue')
   },
   {
     path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则
