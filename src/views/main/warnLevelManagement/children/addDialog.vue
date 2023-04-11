@@ -146,6 +146,7 @@ export default {
     return {
       parentRule: '',
       parentRuleName: '',
+      parentCode: '',
       parentId: '',
       parentRuleoptions: [],
       isEnable: '',
@@ -195,15 +196,17 @@ export default {
       }
       this.getSysLists()
       this.parentId = this.selectData.parentId == null ? '' : this.selectData.parentId
+      this.parentCode = this.selectData.parentCode == null ? '' : this.selectData.parentCode
       this.parentRuleName = this.selectData.parentRuleName == null ? '' : this.selectData.parentRuleName
-      this.parentRule = this.parentId + '##' + this.parentId + '##' + this.parentRuleName
+      this.parentRule = this.parentId + '##' + this.parentCode + '##' + this.parentRuleName
     },
     selectRule(val) {
       let valArr = val.split('##')
       this.parentRuleName = valArr[2]
+      this.parentCode = valArr[1]
       this.parentId = valArr[0]
       let busName = this.ruleList.find(item => {
-        return item.code === Number(this.parentId)
+        return item.id === this.parentId
       })
       if (busName !== undefined && busName !== 'undefined') {
         this.ruleLevel = Number(busName.ruleLevel + 1)
@@ -278,6 +281,7 @@ export default {
           code: this.code,
           parentRuleName: this.parentRuleName,
           parentId: this.parentId,
+          parentCode: this.parentCode,
           isEnable: this.isEnable,
           ruleName: this.ruleName,
           description: this.description,
@@ -302,6 +306,7 @@ export default {
           code: this.code,
           parentRuleName: this.parentRuleName,
           parentId: this.parentId,
+          parentCode: this.parentCode,
           isEnable: this.isEnable,
           ruleName: this.ruleName,
           description: this.description,
