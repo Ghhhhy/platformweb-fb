@@ -108,7 +108,7 @@
 import getFormData from './specialSupervisionRegion.js'
 import DetailDialog from '../children/zxdetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import regionMixin from '../mixins/regionMixin'
 export default {
   mixins: [regionMixin],
@@ -543,7 +543,7 @@ export default {
       // this.queryTableDatasCount()
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+      HttpModule.getCapitalTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[1].itemRender.options = treeResdata

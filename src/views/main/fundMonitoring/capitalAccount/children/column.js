@@ -193,6 +193,51 @@ const proconf = {
       align: 'center'
     }
   ],
+
+  // 专项监督项目明细
+  projectZXColumn: [
+    {
+      title: '资金名称',
+      field: 'trackProName',
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      field: 'agencyName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '支出功能科目',
+      field: 'xjExpFuncName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '预算金额',
+      align: 'center',
+      field: 'amountAllfp',
+      sortable: false
+    },
+    {
+      title: '支付金额',
+      align: 'center',
+      field: 'amountPayAll',
+      sortable: false
+    },
+    {
+      title: '惠企利民',
+      field: 'hqlm',
+      sortable: false,
+      align: 'center'
+    }
+  ],
   // 直达资金项目明细
   zdzjprojectColumn: [
     {
