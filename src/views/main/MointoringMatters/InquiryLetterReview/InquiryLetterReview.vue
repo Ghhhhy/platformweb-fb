@@ -230,6 +230,9 @@ export default {
       this.askType = val.askType_name
       this.createTime = val.createTime.substring(0, 10)
       this.provinceCode = val.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -432,7 +435,7 @@ export default {
       }
       this.modifyData = row[0]
       this.dialogVisible = true
-      this.dialogTitle = '问询函回复'
+      this.dialogTitle = '问询函复核'
     },
     // 撤销
     revoke(obj, context, e) {
@@ -548,6 +551,11 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
