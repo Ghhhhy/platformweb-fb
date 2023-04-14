@@ -386,6 +386,14 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '规则类型',
+      'width': 180,
+      field: 'fiRuleTypeName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
       'title': '管理级次',
       'width': 180,
       'field': 'regulationType',

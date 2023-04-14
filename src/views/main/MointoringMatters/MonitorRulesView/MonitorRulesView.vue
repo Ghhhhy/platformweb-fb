@@ -661,11 +661,11 @@ export default {
         if (code.length === 2) {
           regulationClass = node.node.code
         } else if (node.node.code.length === 4) {
-          regulationClass = node.node.superguid
-          regulationType = node.node.code.substr(-1, 1)
+          regulationClass = node.node.code
+          regulationType = this.regulationType
         } else {
-          regulationClass = node.node.superguid
-          regulationType = node.node.bsTreePid.substr(-1, 1)
+          regulationClass = node.node.code
+          regulationType = this.regulationType
           regulationCode = node.node.code
         }
         const param = {

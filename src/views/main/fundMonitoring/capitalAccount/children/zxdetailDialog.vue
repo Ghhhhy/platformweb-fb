@@ -45,7 +45,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -290,9 +290,12 @@ export default {
           this.tableColumnsConfig = proconf.zdzjprojectColumn
           break
         case 'zdzjxmmx':
+          this.tableColumnsConfig = proconf.projectColumn
+          break
+        // 专项监督项目明细
         case 'zxjdxmmx_fzj':
         case 'zxjdxmmx_fdq':
-          this.tableColumnsConfig = proconf.projectColumn
+          this.tableColumnsConfig = proconf.projectZXColumn
           break
         default:
           break
@@ -354,10 +357,10 @@ export default {
       switch (key) {
         case 'amountAllfp':
           let zcSource = 'zdzjzbmx_fzjfp'
-          if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
+          if (this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
             zcSource = 'zxjdzbmx_fzjfp'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj') {
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
             this.handleDetail(zcSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
