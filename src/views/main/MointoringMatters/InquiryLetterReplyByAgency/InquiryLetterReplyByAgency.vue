@@ -205,6 +205,7 @@ export default {
       DetailData: {},
       ruleFlowOpinion: '',
       askName: '',
+      daily: '',
       askType: '',
       createTime: '',
       provinceCode: [],
@@ -230,6 +231,10 @@ export default {
       this.askType = val.askType_name
       this.createTime = val.createTime.substring(0, 10)
       this.provinceCode = val.province_code__multiple
+      this.daily = val.daily
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -299,6 +304,17 @@ export default {
       this.regulationStatus = obj.curValue
       this.queryTableDatas()
     },
+    check(obj, context, e) {
+      let row = []
+      row = this.$refs.mainTableRef.getSelectionData()
+      if (row.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.modifyData = row[0]
+      this.dialogVisible = true
+      this.dialogTitle = '查看详情'
+    },
     // 送审
     audieData(param) {
       HttpModule.audieData(param).then(res => {
@@ -323,6 +339,10 @@ export default {
         // 撤销
         case 'revoke':
           this.revoke(obj, context, e)
+          break
+        // 查看详情
+        case 'check':
+          this.check(obj, context, e)
           break
         default:
           break
@@ -457,7 +477,7 @@ export default {
       }
       this.modifyData = row[0]
       this.dialogVisible = true
-      this.dialogTitle = '问询函回复'
+      this.dialogTitle = '问询函复核'
     },
     queryTableDatasCount() {
       const params = {
@@ -480,6 +500,7 @@ export default {
         status: this.toolBarStatusSelect.curValue,
         menuId: this.menuId,
         askName: this.askName,
+        daily: this.daily,
         askType: this.askType,
         createTime: this.createTime,
         provinceCode: this.provinceCode
@@ -490,6 +511,13 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
+          this.tableData.forEach(item => {
+            if (item.agencyFlag === 1) {
+              item.agencyFlag = '<i class="el-icon-message-solid" style="color:yellow;font-size:25px;border:1px solid yellow;"></i>'
+            } else {
+              item.agencyFlag = ''
+            }
+          })
         } else {
           this.$message.error(res.result)
         }
@@ -548,6 +576,11 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

@@ -323,7 +323,7 @@ export default {
       }
       HttpModule.pass(params).then(res => {
         if (res.code === '000000') {
-          this.$message.success('回复成功')
+          this.$message.success('复核成功')
           this.dialogClose()
         } else {
           this.$message.error(res.result)
