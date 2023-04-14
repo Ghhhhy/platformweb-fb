@@ -267,6 +267,7 @@ export default {
       billguid: '',
       condition: {},
       handleType: '',
+      fiRuleTypeCode: '',
       isEnable: '',
       regulationType: '',
       warningLevel: '',
@@ -351,6 +352,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
+      this.fiRuleTypeCode = obj.fiRuleTypeCode
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -759,6 +761,7 @@ export default {
         'regulationName': this.regulationName,
         'regulationClass': this.regulationClass,
         'regulationModelName': this.regulationModelName,
+        'fiRuleTypeCode': this.fiRuleTypeCode,
         id: this.condition.agency_code,
         menuType: 1
       }
