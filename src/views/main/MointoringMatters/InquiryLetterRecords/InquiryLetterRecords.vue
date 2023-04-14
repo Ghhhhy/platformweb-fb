@@ -59,6 +59,12 @@
       :title="dialogTitle"
       :modify-data="modifyData"
     />
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
   </div>
 </template>
 
@@ -67,10 +73,12 @@ import { proconf } from './InquiryLetterRecords'
 import AddDialog from './children/addDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/InquiryLetterRecords.js'
 import GlAttachment from '../common/GlAttachment'
+import FilePreview from './children/filePreview.vue'
 export default {
   components: {
     AddDialog,
-    GlAttachment
+    GlAttachment,
+    FilePreview
   },
   watch: {
     queryConfig() {
@@ -207,7 +215,9 @@ export default {
       askType: '',
       createTime: '',
       provinceCode: [],
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' }
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      filePreviewDialogVisible: false,
+      fileGuid: ''
     }
   },
   mounted() {
@@ -229,6 +239,9 @@ export default {
       this.askType = val.askType_name
       this.createTime = val.createTime.substring(0, 10)
       this.provinceCode = val.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -327,9 +340,31 @@ export default {
         case 'check':
           this.check(obj, context, e)
           break
+        // 打印
+        case 'print':
+          this.print()
+          break
         default:
           break
       }
+    },
+    print() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      const params = {
+        askCode: selection[0].askCode
+      }
+      HttpModule.print(params).then(res => {
+        if (res.code === '000000') {
+          this.filePreviewDialogVisible = true
+          this.fileGuid = res.data
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     check(obj, context, e) {
       let row = []
@@ -360,7 +395,7 @@ export default {
       }
       HttpModule.revoke(params).then(res => {
         if (res.code === '000000') {
-          this.$message.success('撤销成功')
+          this.$message.success('退回成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         } else {
@@ -471,7 +506,7 @@ export default {
       }
       this.modifyData = row[0]
       this.dialogVisible = true
-      this.dialogTitle = '问询函回复'
+      this.dialogTitle = '问询函复核'
     },
     // queryTableDatasCount() {
     //   const params = {
@@ -575,6 +610,11 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

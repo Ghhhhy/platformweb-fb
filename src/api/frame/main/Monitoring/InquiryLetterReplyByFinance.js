@@ -23,7 +23,7 @@ export default {
   },
   // 获取左侧树
   getLeftTree(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   getTypeList(params) {
     return post('large-monitor-platform/lmp/ask/getTypeList', params)
