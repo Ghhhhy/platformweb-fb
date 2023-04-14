@@ -222,7 +222,7 @@ const routers = [
   {
     path: '/SproWarnRegionSummary', // 地方监控预警汇总_分地区
     name: 'SproWarnRegionSummary',
-    component: () => import('../../../views/main/fundMonitoring/warnRegionSummary/warnRegionSummary.vue')
+    component: () => import('../../../views/main/fundMonitoring/specialWarnRegionSummary/specialWarnRegionSummary.vue')
   },
   {
     path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
@@ -269,7 +269,7 @@ const routers = [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警处理_地区
+      import('../../../views/main/fundMonitoring/specialWarningResultHandleRegion/specialWarningResultHandleRegion.vue') // 直达资金监控预警处理_地区
   },
   // 福建专项监督预警数据处理_分规则
   {
@@ -279,7 +279,7 @@ const routers = [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
+      import('../../../views/main/fundMonitoring/specialWarningResultHandleRule/specialWarningResultHandleRule.vue')
   },
   {
     path: '/DepartmentWarningResultHandleRule',

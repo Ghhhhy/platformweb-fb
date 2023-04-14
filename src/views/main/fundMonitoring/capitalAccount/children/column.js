@@ -223,13 +223,15 @@ const proconf = {
       title: '预算金额',
       align: 'center',
       field: 'amountAllfp',
-      sortable: false
+      sortable: false,
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '支付金额',
       align: 'center',
       field: 'amountPayAll',
-      sortable: false
+      sortable: false,
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '惠企利民',
