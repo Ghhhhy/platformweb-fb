@@ -8,6 +8,9 @@ node_modules
 selenium-debug.log
 chromedriver.log
 geckodriver.log
+.yalc
+.yalc/
+yalc.lock
 
 # local env files
 .env.local
