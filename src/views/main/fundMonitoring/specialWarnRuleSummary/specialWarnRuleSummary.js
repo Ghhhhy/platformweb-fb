@@ -44,38 +44,10 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
-    },
-    {
-      title: '资金名称',
-      field: 'proCodes',
-      width: '8',
-      align: 'left',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        props: {
-          config: {
-            valueKeys: ['code', 'name', 'id'],
-            format: '{name}',
-            treeProps: {
-              labelFormat: '{code}-{name}', // {code}-{name}
-              nodeKey: 'id',
-              label: 'label',
-              children: 'children'
-            },
-            placeholder: '资金名称',
-            multiple: true,
-            readonly: false,
-            isleaf: true
-          }
-        }
-      }
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year,
-    proCodes: ''
+    fiscalYear: store.state.userInfo.year
   },
   basicInfo: {
     type: 'form',
@@ -87,7 +59,7 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '地区名称',
+        title: '规则名称',
         treeNode: true,
         align: 'left',
         width: 260,

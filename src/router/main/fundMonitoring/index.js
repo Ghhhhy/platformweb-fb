@@ -227,7 +227,7 @@ const routers = [
   {
     path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
     name: 'SproWarnRuleSummary',
-    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+    component: () => import('../../../views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue')
   },
   {
     path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则

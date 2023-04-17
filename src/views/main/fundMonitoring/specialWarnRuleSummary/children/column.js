@@ -51,7 +51,7 @@ const proconf = {
       title: '专项资金',
       field: 'speTypeName',
       width: '8',
-      align: 'center',
+      align: 'left',
       itemRender: {
         name: '$vxeTree',
         options: [],
@@ -91,7 +91,7 @@ const proconf = {
       title: '处室名称',
       field: 'businessOffice',
       width: '8',
-      align: 'center',
+      align: 'left',
       formula: '',
       name: '$vxeInput',
       itemRender: {
@@ -323,26 +323,6 @@ const proconf = {
       }
     },
     {
-      title: '处室名称',
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
-    },
-    {
       title: '逾期天数',
       field: 'yqDay',
       sortable: false,
@@ -471,26 +451,6 @@ const proconf = {
       },
       props: {
         format: '{code}-{name}'
-      }
-    },
-    {
-      title: '处室名称',
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
       }
     },
     {
@@ -675,7 +635,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '指标文号',
@@ -747,7 +707,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '指标文号',
@@ -797,7 +757,6 @@ const proconf = {
       width: 140,
       align: 'right'
     }
-
   ],
   // 支出预警-未处理明细
   notpayColumn: [
@@ -871,7 +830,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '项目名称',
@@ -1027,7 +986,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '项目名称',
@@ -1219,7 +1178,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '项目名称',
@@ -1381,7 +1340,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '项目',
@@ -1443,7 +1402,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'right'
     },
     {
       title: '项目',

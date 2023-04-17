@@ -167,6 +167,14 @@ const proconf = {
       field: 'rectifyTime',
       sortable: false,
       align: 'right'
+    },
+    {
+      title: '逾期天数',
+      filters: false,
+      width: 140,
+      field: 'yqDay',
+      sortable: false,
+      align: 'right'
     }
   ],
   redDoneNum: [
@@ -282,6 +290,14 @@ const proconf = {
       filters: false,
       width: 140,
       field: 'rectifyTime',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '逾期天数',
+      filters: false,
+      width: 140,
+      field: 'yqDay',
       sortable: false,
       align: 'right'
     }
@@ -989,6 +1005,14 @@ const proconf = {
       field: 'rectifyTime',
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '逾期天数',
+      field: 'yqDay',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
     }
   ],
   yellowDoneNum: [
@@ -1475,6 +1499,14 @@ const proconf = {
       field: 'rectifyTime',
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '逾期天数',
+      field: 'yqDay',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
     }
   ],
   yellowDoneNumw: [
