@@ -122,7 +122,8 @@ export default {
       // this.$store.commit('setLoginAuthentication', { appguid: this.optionsRes[this.value].guid || 'fiscal', tokenid: undefined })
       var formData = new FormData()
       formData.append('username', this.username)
-      formData.append('password', this.$AESEAD.CryptoJS.SHA256(this.password).toString())
+      // formData.append('password', this.$AESEAD.CryptoJS.SHA256(this.password).toString())
+      formData.append('password', this.password)
       formData.append('captcha', this.usernum)
       let self = this
       // var formData = this.$http.smSecretUtils.encryptLogin({ isSecret: true, params: { username: self.username, password: self.password, usernum: self.usernum } })
