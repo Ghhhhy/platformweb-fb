@@ -40,7 +40,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
 import HttpModuleMof from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
 export default {
@@ -160,10 +160,10 @@ export default {
       this.condition = condition
       this.queryTableDatas(this.detailType, this.code)
     },
-    queryTableDatas(type, mofDivCode) {
+    queryTableDatas(type, fiRuleCode) {
       let params = {
         field: type,
-        mofDivCode: mofDivCode,
+        fiRuleCode: fiRuleCode,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
