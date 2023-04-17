@@ -28,11 +28,11 @@
     border-left: 3px solid var(--primary-color) !important;
   }
 }
-// .TabKeepRouter-con.model2 .tab-option-content {
-//   width: 212px;
-// }
+.TabKeepRouter-con.model2 .tab-option-content {
+  width: 310px;
+}
 .TabKeepRouter-con.model2 .tab-con-main {
-  width: calc(100% - 215px);
+  width: calc(100% - 310px);
 }
 .tab-con-main {
   li {
@@ -60,6 +60,7 @@
     width: 74px;
   }
   .el-dropdown {
+    color: unset;
     font-size: 13px !important;
   }
 }

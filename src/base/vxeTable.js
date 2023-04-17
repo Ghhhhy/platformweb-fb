@@ -14,14 +14,13 @@ import jsoneditor from 'jsoneditor'
 // 本地渲染器引入
 // import globleRenders from '../components/Table/config/defaultRenders.js'
 
-
 // Vue.use(VXETable)
 // VXETable.use(VXETablePluginExcel)
 const vxeTable = {
   install: function (Vue) {
-    for (let i in globleRenders) {
-      VXETable.renderer.add(i, globleRenders[i])
-    }
+    // for (let i in globleRenders) {
+    //   VXETable.renderer.add(i, globleRenders[i])
+    // }
     VXETable.setup({
       icon: {
         TOOLBAR_TOOLS_CUSTOM: 'ri-apps-2-line',
