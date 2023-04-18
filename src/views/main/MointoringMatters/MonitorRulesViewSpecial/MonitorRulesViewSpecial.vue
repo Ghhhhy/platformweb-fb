@@ -639,7 +639,7 @@ export default {
           param.businessFeaturesCode = this.leftNode.code
         }
         this.tableLoading = true
-        HttpModule.queryMonitorTableDatas(param).then(res => {
+        HttpModule.querySpecialTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -771,7 +771,7 @@ export default {
         param.businessFeaturesCode = this.leftNode.code
       }
       this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
+      HttpModule.querySpecialTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -858,7 +858,7 @@ export default {
         that.treeData = proconf.leftYjjbData
         return
       }
-      HttpModule.getLeftTree1().then(res => {
+      HttpModule.querySpecialRuleTree().then(res => {
         if (res.code === '000000') {
           let arr = []
           // if (this.params5 === 'dfr') {
