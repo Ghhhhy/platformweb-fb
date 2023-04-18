@@ -21,6 +21,10 @@ export default {
   getLeftTree1(params) {
     return post('large-monitor-platform/lmp/regulation/queryRuleTree', params)
   },
+  // 获取08主题树
+  querySpecialRuleTree(params) {
+    return post('large-monitor-platform/lmp/regulation/querySpecialRuleTree', params)
+  },
   // 获取用户的角色
   getUserRoles(params) {
     return get('mp-b-perm-service/v2/userroles', params)
