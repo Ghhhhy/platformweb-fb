@@ -507,7 +507,7 @@
   </vxe-modal>
 </template>
 <script>
-import { proconf } from '../MonitorRulesView.js'
+import { proconf } from '../MonitorRulesViewSpecial.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
 import functionSelectMixin from '@/mixin/functionSelectMixin.js'
