@@ -104,6 +104,7 @@
                   <bs-table-title title="违规单信息">
                     <div>
                       <vxe-button
+                        v-if="isDivisionPage"
                         size="mini"
                         @click="changeDialogVisible(true)"
                       >
@@ -277,7 +278,8 @@ export default defineComponent({
     const {
       isAllowDisabled,
       isUnitFeedbackPage,
-      isBlueWarnLevel
+      isBlueWarnLevel,
+      isDivisionPage
     } = useIs(currentNode, pagePath, checkedItemsObj)
 
     // // 是否显示表单
@@ -466,6 +468,7 @@ export default defineComponent({
 
       isAllowDisabled,
       isUnitFeedbackPage,
+      isDivisionPage,
 
       printLoading,
       printData,

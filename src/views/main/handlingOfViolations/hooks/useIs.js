@@ -38,10 +38,16 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
     return !unref(isUnitMenu) && hasOrangeLevel
   })
 
+  // 是否是处室
+  const isDivisionPage = computed(() => {
+    return [RouterPathEnum.DIVISION_REAUDIT, RouterPathEnum.DIVISION_AUDIT].includes(unref(pagePath))
+  })
+
   return {
     isDivisionReAudit,
     isUnitFeedbackPage,
     isBlueWarnLevel,
-    isAllowDisabled
+    isAllowDisabled,
+    isDivisionPage
   }
 }
