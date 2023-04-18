@@ -55,22 +55,10 @@ const proconf = {
   redUndoNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -82,43 +70,19 @@ const proconf = {
     },
     {
       title: '地区',
-      field: 'dq',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'left'
     },
     {
       title: '单位(处室)',
-      field: 'dwcs',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      align: 'left'
     },
     {
       title: '问题明细',
@@ -172,22 +136,9 @@ const proconf = {
   redDoneNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
-      align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      align: 'center'
     },
     {
       title: '年度',
@@ -199,43 +150,17 @@ const proconf = {
     },
     {
       title: '地区',
-      field: 'dq',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
-      width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      width: 140
     },
     {
       title: '单位(处室)',
-      field: 'dwvc',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
-      width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      width: 140
     },
     {
       title: '问题明细',
@@ -289,22 +214,10 @@ const proconf = {
   orangeUndoNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -316,43 +229,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -524,22 +413,10 @@ const proconf = {
   orangeDoneNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -551,43 +428,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -759,22 +612,10 @@ const proconf = {
   yellowUndoNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -786,43 +627,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -994,22 +811,10 @@ const proconf = {
   yellowDoneNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -1021,43 +826,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1237,22 +1018,10 @@ const proconf = {
   yellowUndoNumw: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -1264,43 +1033,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1480,22 +1225,10 @@ const proconf = {
   yellowDoneNumw: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -1507,43 +1240,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1723,22 +1432,10 @@ const proconf = {
   blueUndoNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -1750,43 +1447,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1958,22 +1631,10 @@ const proconf = {
   blueDoneNum: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -1985,43 +1646,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -2201,22 +1838,10 @@ const proconf = {
   blueUndoNumw: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -2228,43 +1853,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qhmc',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -2444,22 +2045,10 @@ const proconf = {
   blueDoneNumw: [
     {
       title: '预警规则',
-      field: 'yjgz',
+      field: 'fiRuleName',
       width: 140,
       align: 'center',
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fiRuleCode}-{fiRuleName}'
-        }
-      },
-      props: {
-        format: '{fiRuleCode}-{fiRuleName}'
-      }
+      filters: false
     },
     {
       title: '年度',
@@ -2471,43 +2060,19 @@ const proconf = {
     },
     {
       title: '区划名称',
-      field: 'qh',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
+      align: 'center'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
