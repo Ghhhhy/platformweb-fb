@@ -134,7 +134,7 @@ const proconf = {
       title: '其中：中央直达资金',
       field: 'payAppAmt',
       sortable: false,
-      align: 'right',
+      align: 'left',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -307,40 +307,17 @@ const proconf = {
   redUndoNum: [
     {
       title: '地区名称',
-      field: 'mofDivCode',
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'agencyName',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -348,8 +325,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: ''
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -357,7 +333,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'left',
       formula: ''
     },
     {
@@ -366,7 +342,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -374,46 +350,23 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     }
   ],
   redDoneNum: [
     {
       title: '地区名称',
-      field: 'mofDivCode',
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'agencyName',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -421,7 +374,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'left',
       formula: ''
     },
     {
@@ -430,7 +383,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
+      align: 'left',
       formula: ''
     },
     {
@@ -439,7 +392,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -447,7 +400,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '处理结果',
@@ -455,7 +408,7 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改意见',
@@ -463,7 +416,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -471,47 +424,24 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     }
   ],
   // 支出预警-未处理明细
   notuploadColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
-      width: 140,
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'csmc',
-      align: 'center',
-      width: 140,
+      field: 'businessOffice',
+      sortable: false,
       filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      width: 140,
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -519,7 +449,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -535,7 +465,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -543,47 +473,24 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     }
   ],
   // 是否上传附件-已整改明细
   uploadColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
-      width: 140,
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'csmc',
-      align: 'center',
-      width: 140,
+      field: 'businessOffice',
+      sortable: false,
       filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      width: 140,
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -591,7 +498,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -607,7 +514,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -615,7 +522,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改意见',
@@ -623,7 +530,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -631,29 +538,16 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     }
   ],
   // 支出预警-未处理明细
   notpayColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
-      align: 'center',
-      width: 140,
-      formula: 'dqmc',
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      field: 'name',
+      sortable: false,
+      filters: false
     },
     {
       title: '规则名称',
@@ -664,41 +558,18 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
-      align: 'center',
-      width: 140,
+      field: 'businessOffice',
+      sortable: false,
       filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      width: 140,
+      align: 'left'
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       align: 'center',
       width: 140,
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      filters: false
     },
     {
       title: '专项资金',
@@ -706,7 +577,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -794,22 +665,9 @@ const proconf = {
   payokColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
-      width: 140,
-      formula: 'dqmc',
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      width: 140
     },
     {
       title: '规则名称',
@@ -820,41 +678,17 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'gzmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      filters: false
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       filters: false,
       width: 140,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -862,7 +696,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -986,22 +820,10 @@ const proconf = {
   payedColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '规则名称',
@@ -1012,41 +834,17 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      filters: false
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       width: 140,
       filters: false,
-      align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '专项资金',
@@ -1054,7 +852,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -1166,41 +964,17 @@ const proconf = {
   notgetColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      filters: false
     },
     {
       title: '指标文号',
@@ -1216,7 +990,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目',
@@ -1247,22 +1021,10 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
-      filters: false,
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      filters: false
     },
     {
       title: '指标文号',
@@ -1278,7 +1040,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目',
