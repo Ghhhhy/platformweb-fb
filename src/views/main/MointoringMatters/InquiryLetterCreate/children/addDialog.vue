@@ -101,7 +101,6 @@
                     <el-select
                       v-model="askTypeName"
                       style="width:45%"
-                      @change="changeAskTypeName"
                     >
                       <el-option
                         v-for="item in askTypeNameOptions"
@@ -130,7 +129,6 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
           </el-row>
         </div>
       </div>
@@ -335,6 +333,7 @@ export default {
       this.askProvinceName = valArr[2]
       this.askProvinceCode = valArr[1]
       this.askProvinceId = valArr[0]
+      this.getWhereTree()
     },
     selectAgency(val) {
       let valArr = val.split('##')
@@ -396,11 +395,16 @@ export default {
         elementCode: 'AGENCY',
         // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        province: this.askProvinceCode ? this.askProvinceCode : this.$store.state.userInfo.province
+      }
+      if (this.askProvinceCode) {
+        param.wheresql = 'and province =' + this.askProvinceCode
       }
       HttpModule.getTreewhere(param).then(res => {
-        let treeData = this.getChildrenNewData(res.data)
-        this.askAgencyOptions = treeData
+        if (res?.data) {
+          let treeData = this.getChildrenNewData(res.data)
+          this.askAgencyOptions = treeData
+        }
       })
     },
     getTypeList() {
