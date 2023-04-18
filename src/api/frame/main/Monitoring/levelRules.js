@@ -108,6 +108,12 @@ export default {
   queryMonitorTableDatas(params) {
     return post('large-monitor-platform/lmp/regulation/view', params)
   },
+
+  // 专项监控规则查看列表
+  querySpecialTableDatas(params) {
+    return post('large-monitor-platform/lmp/regulation/viewSpecial', params)
+  },
+
   // 业务下拉列表
   getbusLists(params) {
     return post('large-monitor-platform/lmp/businessFunctions/list', params)
