@@ -252,6 +252,50 @@ export let proconf = {
           placeholder: '业务模块'
         }
       }
+    },
+    {
+      title: '规则类型',
+      field: 'fiRuleTypeCode',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeTree',
+        options: [
+          { value: '1',
+            label: '中央监控规则',
+            children: [
+              { value: '11', label: '通用类监控规则' },
+              { value: '12', label: '专项类监控规则' },
+              { value: '19', label: '其他监控规则' }
+            ]
+          },
+          { value: '2',
+            label: '地方监控规则',
+            children: [
+              { value: '21', label: '通用类监控规则' },
+              { value: '22', label: '专项类监控规则' },
+              { value: '29', label: '其他监控规则' }
+            ]
+          }
+        ],
+        props: {
+          config: {
+            valueKeys: ['label', 'value'],
+            treeProps: {
+              labelFormat: '{label}', // {code}-{name}
+              nodeKey: 'value',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '规则类型',
+            multiple: false,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {

@@ -89,7 +89,14 @@ export let proconf = {
               { value: '19', label: '其他监控规则' }
             ]
           },
-          { value: '2', label: '地方监控规则' }
+          { value: '2',
+            label: '地方监控规则',
+            children: [
+              { value: '21', label: '通用类监控规则' },
+              { value: '22', label: '专项类监控规则' },
+              { value: '29', label: '其他监控规则' }
+            ]
+          }
         ],
         props: {
           config: {
