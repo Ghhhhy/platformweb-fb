@@ -252,12 +252,34 @@ export let proconf = {
           placeholder: '业务模块'
         }
       }
+    },
+    {
+      title: '规则类型',
+      field: 'fiRuleTypeCode',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '中央监控规则' },
+          { value: '11', label: '通用类监控规则' },
+          { value: '12', label: '专项类监控规则' },
+          { value: '19', label: '其他监控规则' },
+          { value: '2', label: '地方监控规则' }
+        ],
+        props: {
+          placeholder: '规则类型'
+        }
+      }
     }
   ],
   highQueryData: {
     ruleTemplateName: '',
     businessModuleName: '',
-    functionName: ''
+    functionName: '',
+    fiRuleTypeCode: ''
   },
   funchighQueryConfig: [
     {
