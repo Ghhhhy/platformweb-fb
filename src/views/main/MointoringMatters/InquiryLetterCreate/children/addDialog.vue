@@ -191,7 +191,8 @@ export default {
       askProvinceOptions: [],
       askAgency: '',
       askAgencyOptions: [],
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      // treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       askProvinceCode: '',
       askProvinceId: '',
       askProvinceName: '',
@@ -379,7 +380,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        if (item.children) {
+        if (item.children && item.children.length > 0) {
           that.getChildrenNewData(item.children)
           item.leaf = false
         } else {
@@ -401,10 +402,8 @@ export default {
         param.wheresql = 'and province =' + this.askProvinceCode
       }
       HttpModule.getTreewhere(param).then(res => {
-        if (res?.data) {
-          let treeData = this.getChildrenNewData(res.data)
-          this.askAgencyOptions = treeData
-        }
+        let treeData = this.getChildrenNewData(res.data)
+        this.askAgencyOptions = treeData
       })
     },
     getTypeList() {

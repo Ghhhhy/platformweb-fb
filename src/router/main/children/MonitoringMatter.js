@@ -613,5 +613,53 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/FinancialBasicTableEntry/FinancialBasicTableEntry.vue')
+  },
+  {
+    path: '/StatisticalFormsByRuleSpe',
+    name: 'StatisticalFormsByRuleSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  // 统计分析报表（按预警级别） 专项
+  {
+    path: '/StatisticalFormsByRankSpe',
+    name: 'StatisticalFormsByRankSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  // 预警明细查询（按规则）
+  {
+    path: '/WarningDetailsByRuleSpe',
+    name: 'WarningDetailsByRuleSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  // 预警明细查询（按区划）
+  {
+    path: '/WarningDetailsByCompartmentSpe',
+    name: 'WarningDetailsByCompartmentSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
+  },
+  {
+    path: '/BgtPaySummary',
+    name: 'BgtPaySummary',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/ThreeGuarantees/BgtPaySummary.vue')
   }
 ]

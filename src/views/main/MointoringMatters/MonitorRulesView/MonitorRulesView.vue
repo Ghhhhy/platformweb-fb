@@ -345,6 +345,7 @@ export default {
       // }
     },
     search(obj) {
+      this.searchDataList = obj
       console.log(obj)
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
@@ -352,7 +353,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
-      this.fiRuleTypeCode = obj.fiRuleTypeCode
+      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -748,6 +749,7 @@ export default {
       if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
         this.regulationClass = '09,08,07'
       }
+      console.log('-------', this.searchDataList)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
