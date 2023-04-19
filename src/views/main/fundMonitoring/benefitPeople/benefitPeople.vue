@@ -1,7 +1,7 @@
 <!--支付数据规范性检查-->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <BsMainFormListLayout>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
@@ -11,47 +11,6 @@
         />
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
-        <FilterTreeInput
-          :filter-text="treeFilterText"
-          :expend.sync="leftTreeVisible"
-          @search="searchTreeHandle"
-        />
-        <!-- <BsTreeSet
-          ref="treeSet"
-          v-model="leftTreeVisible"
-          :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
-          @onAsideChange="asideChange"
-          @onConfrimData="treeSetConfrimData"
-        /> -->
-        <BsBossTree
-          ref="leftTree"
-          v-loading="treeLoadingState"
-          :defaultexpandedkeys="['root']"
-          style="overflow: hidden"
-          :is-server="false"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
-        />
-        <div class="block">
-          <el-pagination
-            background
-            small
-            :pager-count="5"
-            :current-page="treeCurrentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="treePageSize"
-            layout="total, prev, pager, next"
-            :total="proTotal"
-            @current-change="handleCurrentChange"
-          />
-        </div>
-      </template>
       <template v-slot:mainForm>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
@@ -146,7 +105,6 @@
 
 <script>
 import { proconf } from './benefitPeople'
-import FilterTreeInput from './FilterTreeInput.vue'
 import AddDialog from './children/AddDialog'
 import ImportModel from '@/components/Table/import/import.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
@@ -158,7 +116,6 @@ import { downloadByUrl } from '@/utils/download'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
-    FilterTreeInput,
     ImportModel,
     AddDialog
     // AddDialog
@@ -985,25 +942,25 @@ export default {
       this.wheresql && (params.wheresql = this.wheresql)
 
       HttpModule.getTreeData1(params).then(res => {
-        if (res.code === '000000') {
-          let treeResdata = res.data
-          treeResdata.forEach(item => {
-            item.label = item.code + '-' + item.name
-          })
-          const result = [
-            {
-              id: 'root',
-              label: '全部',
-              code: 'root',
-              isleaf: '0',
-              children: treeResdata
-            }
-          ]
-          that.treeData = result
-          that.proTotal = res.data.length
-        } else {
-          this.$message.error('左侧树加载失败')
-        }
+        // if (res.code === '000000') {
+        //   let treeResdata = res.data
+        //   treeResdata.forEach(item => {
+        //     item.label = item.code + '-' + item.name
+        //   })
+        //   const result = [
+        //     {
+        //       id: 'root',
+        //       label: '全部',
+        //       code: 'root',
+        //       isleaf: '0',
+        //       children: treeResdata
+        //     }
+        //   ]
+        //   that.treeData = result
+        //   that.proTotal = res.data.length
+        // } else {
+        //   this.$message.error('左侧树加载失败')
+        // }
       }).finally(() => {
         this.treeLoadingState = false
       })
