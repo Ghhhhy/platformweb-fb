@@ -78,6 +78,7 @@ import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
+import useIs from './hooks/useIs'
 import store from '@/store'
 
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
@@ -105,6 +106,8 @@ export default defineComponent({
 
     // 页面路由
     const pagePath = ref(route.path)
+
+    const { isDivisionPage } = useIs({}, pagePath)
 
     // 是否是单位页面（单位反馈、单位审核）
     const isUnitMenu = computed(() => {
@@ -161,6 +164,12 @@ export default defineComponent({
           nodeKey: 'code'
         },
         fetch: elementTreeApi.getAgencyTree,
+        beforeFetch: params => {
+          return {
+            ...params,
+            isUnit: unref(isDivisionPage) ? 'department' : 'company'
+          }
+        },
         afterFetch: data => {
           return [
             {
@@ -220,6 +229,7 @@ export default defineComponent({
         const menuId = store.state.curNavModule?.guid || ''
         return {
           ...params,
+          isUnit: unref(isDivisionPage) ? 'department' : 'company',
           nodeType: pagePathMapNodeType[unref(pagePath)],
           elementCode: unref(currentTreeNode)?.code,
           menuId
