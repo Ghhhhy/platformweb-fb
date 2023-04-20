@@ -171,16 +171,40 @@ export let proconf = {
       formula: '',
       name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
+        name: '$vxeTree',
         options: [
-          { value: '1', label: '中央监控规则' },
-          { value: '11', label: '通用类监控规则' },
-          { value: '12', label: '专项类监控规则' },
-          { value: '19', label: '其他监控规则' },
-          { value: '2', label: '地方监控规则' }
+          { value: '1',
+            label: '中央监控规则',
+            children: [
+              { value: '11', label: '通用类监控规则' },
+              { value: '12', label: '专项类监控规则' },
+              { value: '19', label: '其他监控规则' }
+            ]
+          },
+          { value: '2',
+            label: '地方监控规则',
+            children: [
+              { value: '21', label: '通用类监控规则' },
+              { value: '22', label: '专项类监控规则' },
+              { value: '29', label: '其他监控规则' }
+            ]
+          }
         ],
         props: {
-          placeholder: '规则类型'
+          config: {
+            valueKeys: ['value', 'label', 'value'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{value}-{label}', // {code}-{name}
+              nodeKey: 'value',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '规则类型',
+            multiple: false,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     }

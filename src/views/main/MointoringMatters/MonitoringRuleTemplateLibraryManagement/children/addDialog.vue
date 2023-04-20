@@ -41,7 +41,6 @@
               :toolbar-config="false"
               :pager-config="false"
               @ajaxData="ajaxTableData"
-              @cellClick="onCellClick"
             />
           </div>
         </div>
@@ -72,15 +71,12 @@
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则类型</div>
                       <BsTreeInput
                         ref="tree"
-                        :value="fiRuleTypeValue"
-                        :props="{
-                          value: 'value', // ID字段名
-                          label: 'label', // 显示名称
-                          children: 'children' }"
+                        v-model="fiRuleTypeValue"
                         :datas="fiRuleTypeList"
                         :isleaf="true"
                         style="width:45%"
                         formatter="#name"
+                        :open-format-label="true"
                         @input="setFiRuleType"
                       />
                     </el-row>
@@ -369,26 +365,28 @@ export default {
       operationVisible: false,
       buttonName: '修改',
       fiRuleTypeList: [
-        { value: '1',
+        { id: '1',
           label: '中央监控规则',
           children: [
-            { value: '11', label: '通用类监控规则' },
-            { value: '12', label: '专项类监控规则' },
-            { value: '19', label: '其他监控规则' }
+            { id: '11', label: '通用类监控规则' },
+            { id: '12', label: '专项类监控规则' },
+            { id: '19', label: '其他监控规则' }
           ]
         },
-        { value: '2',
+        { id: '2',
           label: '地方监控规则',
           children: [
-            { value: '21', label: '通用类监控规则' },
-            { value: '22', label: '专项类监控规则' },
-            { value: '29', label: '其他监控规则' }
+            { id: '21', label: '通用类监控规则' },
+            { id: '22', label: '专项类监控规则' },
+            { id: '29', label: '其他监控规则' }
           ]
         }
       ],
       fiRuleTypeCode: '',
+      fiRuleTypeName: '',
       selectVal: '',
-      selectName: ''
+      selectName: '',
+      fiRuleTypeValue: ''
     }
   },
   methods: {
@@ -732,7 +730,12 @@ export default {
           this.ruleTemplateName = res.data.ruleTemplateName
           this.ruleRemark = res.data.ruleRemark
           this.ruleAccord = res.data.ruleAccord
-          this.fiRuleTypeValue = res.data.fiRuleTypeValue
+          this.fiRuleTypeValue = res.data.fiRuleTypeCode
+          this.fiRuleTypeCode = res.data.fiRuleTypeCode
+          this.fiRuleTypeName = res.data.fiRuleTypeName
+          this.$nextTick(() => {
+            this.$refs.tree.setTreeData()
+          })
           if (res.data.declareInfo.declareCode) {
             this.tableData = [res.data.declareInfo]
             console.log(this.$refs.operationTableRef)
