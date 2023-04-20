@@ -29,18 +29,15 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
+          :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
-          @onConfrimData="treeSetConfrimData"
         />
         <BsTree
           ref="leftTree"
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
-          :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -123,8 +120,9 @@ export default {
         inputVal: ''
       },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
+      // treeServerUri: 'pay-clear-service/v2/lefttree',
+      treeServerUri: '',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -480,14 +478,8 @@ export default {
       })
     },
     treeSetConfrimData(curTree) {
-      console.log(curTree)
-      if (curTree.code === '1') {
-        this.treeType = '1'
-        this.getLeftTreeData()
-      } else {
-        this.treeType = '2'
-        this.getLeftTreeData1()
-      }
+      this.treeQueryparams.elementCode = curTree.code
+      this.$refs.leftTree.refreshTree()
     },
     asideChange() {
       this.leftTreeVisible = false
