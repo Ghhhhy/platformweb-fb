@@ -730,7 +730,7 @@ export default {
           this.ruleTemplateName = res.data.ruleTemplateName
           this.ruleRemark = res.data.ruleRemark
           this.ruleAccord = res.data.ruleAccord
-          this.fiRuleTypeValue = res.data.fiRuleTypeCode
+          this.fiRuleTypeValue = String(res.data.fiRuleTypeCode)
           this.fiRuleTypeCode = res.data.fiRuleTypeCode
           this.fiRuleTypeName = res.data.fiRuleTypeName
           this.$nextTick(() => {
@@ -996,7 +996,7 @@ export default {
     setFiRuleType(val) {
       let valArr = val.split('##')
       this.fiRuleTypeName = valArr[2]
-      this.fiRuleTypeCode = valArr[0]
+      this.fiRuleTypeCode = Number(valArr[0])
     }
   },
   created() {
