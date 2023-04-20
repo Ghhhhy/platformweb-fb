@@ -353,11 +353,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
-<<<<<<< HEAD
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
-=======
       this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
->>>>>>> 89dfd639ae38dbe6b3e10044d457ca32d263728c
       this.queryTableDatas()
     },
     // 初始化高级查询data
