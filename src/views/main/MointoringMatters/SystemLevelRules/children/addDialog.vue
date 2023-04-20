@@ -542,8 +542,8 @@
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="end">
           <div style="width:100%">
-            <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="doInsert">确定</vxe-button>
-            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+            <el-button id="savebutton" :loading="submitLoading" style="float:right;margin-right:20px" type="primary" @click="doInsert">确定</el-button>
+            <el-button style="float:right;margin-right:20px" @click="dialogClose">取消</el-button>
           </div>
         </div>
       </div>
@@ -573,6 +573,7 @@ export default {
   },
   data() {
     return {
+      submitLoading: false,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -1537,6 +1538,7 @@ export default {
         warnType: this.warnType, // 预警类别
         uploadFile: this.uploadFile // 是否上传附件
       }
+      this.submitLoading = true
       if (this.$parent.dialogTitle === '修改') {
         console.log(this.formDatas)
         param.regulationCode = this.$parent.DetailData.regulationCode
@@ -1558,6 +1560,7 @@ export default {
             that.$message.error(res.message)
           }
         }).finally(() => {
+          this.submitLoading = false
           // that.$parent.dialogVisible = false
         })
       } else {
@@ -1579,6 +1582,7 @@ export default {
             that.$message.error(res.message)
           }
         }).finally(() => {
+          this.submitLoading = false
           // that.$parent.dialogVisible = false
         })
       }

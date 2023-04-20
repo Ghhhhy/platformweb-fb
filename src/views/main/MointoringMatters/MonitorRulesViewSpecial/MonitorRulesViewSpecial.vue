@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { proconf } from './MonitorRulesView'
+import { proconf } from './MonitorRulesViewSpecial'
 import AddDialog from './children/addDialog'
 import RulesAddModal from '../SystemLevelRules/children/addDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
@@ -345,7 +345,6 @@ export default {
       // }
     },
     search(obj) {
-      this.searchDataList = obj
       console.log(obj)
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
@@ -353,11 +352,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
-<<<<<<< HEAD
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
-=======
-      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
->>>>>>> 89dfd639ae38dbe6b3e10044d457ca32d263728c
+      this.fiRuleTypeCode = obj.fiRuleTypeCode
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -644,7 +639,7 @@ export default {
           param.businessFeaturesCode = this.leftNode.code
         }
         this.tableLoading = true
-        HttpModule.queryMonitorTableDatas(param).then(res => {
+        HttpModule.querySpecialTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -699,7 +694,7 @@ export default {
           param.businessFeaturesCode = this.leftNode.code
         }
         this.tableLoading = true
-        HttpModule.queryMonitorTableDatas(param).then(res => {
+        HttpModule.querySpecialTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -753,7 +748,6 @@ export default {
       if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
         this.regulationClass = '09,08,07'
       }
-      console.log('-------', this.searchDataList)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -777,7 +771,7 @@ export default {
         param.businessFeaturesCode = this.leftNode.code
       }
       this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
+      HttpModule.querySpecialTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -864,7 +858,7 @@ export default {
         that.treeData = proconf.leftYjjbData
         return
       }
-      HttpModule.getLeftTree1().then(res => {
+      HttpModule.querySpecialRuleTree().then(res => {
         if (res.code === '000000') {
           let arr = []
           // if (this.params5 === 'dfr') {

@@ -198,6 +198,16 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue')
   },
+  // 专项监控规则查看
+  {
+    path: '/MonitorRulesViewSpecial',
+    name: 'MonitorRulesViewSpecial',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorRulesViewSpecial/MonitorRulesViewSpecial.vue')
+  },
   // 同户名转账统计
   {
     path: '/SameNameTransferStatistics',

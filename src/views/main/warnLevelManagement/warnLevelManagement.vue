@@ -7,6 +7,7 @@
         <BsTabPanel
           ref="tabPanel"
           :is-open="isShowQueryConditions"
+          :is-hide-query="true"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -134,7 +135,9 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton,
+        // 去掉编辑按钮
+        // buttonsInfo: proconf.statusRightToolBarButton,
+        buttonsInfo: {},
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }

@@ -41,7 +41,6 @@
               :toolbar-config="false"
               :pager-config="false"
               @ajaxData="ajaxTableData"
-              @cellClick="onCellClick"
             />
           </div>
         </div>
@@ -60,6 +59,25 @@
                         v-model="ruleTemplateName"
                         placeholder="请输入规则模板名称"
                         style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="12">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则类型</div>
+                      <BsTreeInput
+                        ref="tree"
+                        v-model="fiRuleTypeValue"
+                        :datas="fiRuleTypeList"
+                        :isleaf="true"
+                        style="width:45%"
+                        formatter="#name"
+                        :open-format-label="true"
+                        @input="setFiRuleType"
                       />
                     </el-row>
                   </el-main>
@@ -345,7 +363,30 @@ export default {
       functionTableData: [],
       tableData: [],
       operationVisible: false,
-      buttonName: '修改'
+      buttonName: '修改',
+      fiRuleTypeList: [
+        { id: '1',
+          label: '中央监控规则',
+          children: [
+            { id: '11', label: '通用类监控规则' },
+            { id: '12', label: '专项类监控规则' },
+            { id: '19', label: '其他监控规则' }
+          ]
+        },
+        { id: '2',
+          label: '地方监控规则',
+          children: [
+            { id: '21', label: '通用类监控规则' },
+            { id: '22', label: '专项类监控规则' },
+            { id: '29', label: '其他监控规则' }
+          ]
+        }
+      ],
+      fiRuleTypeCode: '',
+      fiRuleTypeName: '',
+      selectVal: '',
+      selectName: '',
+      fiRuleTypeValue: ''
     }
   },
   methods: {
@@ -689,6 +730,12 @@ export default {
           this.ruleTemplateName = res.data.ruleTemplateName
           this.ruleRemark = res.data.ruleRemark
           this.ruleAccord = res.data.ruleAccord
+          this.fiRuleTypeValue = String(res.data.fiRuleTypeCode)
+          this.fiRuleTypeCode = res.data.fiRuleTypeCode
+          this.fiRuleTypeName = res.data.fiRuleTypeName
+          this.$nextTick(() => {
+            this.$refs.tree.setTreeData()
+          })
           if (res.data.declareInfo.declareCode) {
             this.tableData = [res.data.declareInfo]
             console.log(this.$refs.operationTableRef)
@@ -806,6 +853,10 @@ export default {
         this.$message.warning('请输入规则模板名称')
         return
       }
+      if (this.fiRuleTypeCode === undefined) {
+        this.$message.warning('请选择规则类型')
+        return
+      }
       // if (this.businessSystemCode === undefined) {
       //   this.$message.warning('请选择业务系统')
       //   return
@@ -877,7 +928,9 @@ export default {
             'businessSystemName': businessSystemNames[0],
             'businessModuleName': businessModuleNames[0],
             'businessSystemCode': businessSystemCodes[0],
-            'businessModuleCode': businessModuleCodes[0]
+            'businessModuleCode': businessModuleCodes[0],
+            'fiRuleTypeCode': this.fiRuleTypeCode,
+            'fiRuleTypeName': this.fiRuleTypeName
 
           }
         } else {
@@ -891,7 +944,9 @@ export default {
             'businessModuleName': businessModuleNames[0],
             'businessSystemCode': businessSystemCodes[0],
             'businessModuleCode': businessModuleCodes[0],
-            menuName: this.$store.state.curNavModule.name
+            menuName: this.$store.state.curNavModule.name,
+            'fiRuleTypeCode': this.fiRuleTypeCode,
+            'fiRuleTypeName': this.fiRuleTypeName
           }
         }
         HttpModule.addTemplate(params).then(res => {
@@ -911,7 +966,9 @@ export default {
             'ruleTemplateName': this.ruleTemplateName,
             'ruleRemark': this.ruleRemark,
             'ruleAccord': this.ruleAccord,
-            'functionCodeList': functionCodes
+            'functionCodeList': functionCodes,
+            'fiRuleTypeCode': this.fiRuleTypeCode,
+            'fiRuleTypeName': this.fiRuleTypeName
           }
         } else {
           params = {
@@ -920,7 +977,9 @@ export default {
             'ruleTemplateName': this.ruleTemplateName,
             'ruleRemark': this.ruleRemark,
             'ruleAccord': this.ruleAccord,
-            'functionCodeList': functionCodes
+            'functionCodeList': functionCodes,
+            'fiRuleTypeCode': this.fiRuleTypeCode,
+            'fiRuleTypeName': this.fiRuleTypeName
           }
         }
         HttpModule.changeTemplate(params).then(res => {
@@ -933,6 +992,11 @@ export default {
           }
         })
       }
+    },
+    setFiRuleType(val) {
+      let valArr = val.split('##')
+      this.fiRuleTypeName = valArr[2]
+      this.fiRuleTypeCode = Number(valArr[0])
     }
   },
   created() {
