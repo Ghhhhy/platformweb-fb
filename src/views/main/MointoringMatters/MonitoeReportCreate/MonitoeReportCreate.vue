@@ -29,15 +29,18 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="treeTypeConfig"
+          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
+          @onConfrimData="treeSetConfrimData"
         />
         <BsTree
           ref="leftTree"
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :default-expanded-keys="defaultExpandedKeysIn"
+          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -70,7 +73,6 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
-      :node="node"
     />
     <GlAttachment
       v-if="showGlAttachmentDialog"
@@ -88,8 +90,7 @@
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
-      :preview-code="previewCode"
-      :preview-name="previewName"
+      :province-name-list="provinceNameList"
     />
   </div>
 </template>
@@ -119,7 +120,6 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
@@ -260,7 +260,8 @@ export default {
       previewStartMonth: '',
       previewEndMonth: '',
       previewCode: '',
-      previewName: ''
+      previewName: '',
+      provinceNameList: ''
     }
   },
   mounted() {
@@ -275,6 +276,9 @@ export default {
       this.createTime = obj.createTime.substring(0, 10)
       this.fileName = obj.fileName
       this.createPerson = obj.createPerson
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -343,11 +347,6 @@ export default {
       }
     },
     create() {
-      if (!this.node.code) {
-        this.$message.warning('请先选择左侧树')
-        return
-      }
-      console.log(this.node)
       this.dialogVisible = true
     },
     delete() {
@@ -596,14 +595,14 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
@@ -630,6 +629,13 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.year = year
+    this.searchDataList.createTime = year + '-' + month + '-' + day
+    this.searchDataList.endMonth = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
