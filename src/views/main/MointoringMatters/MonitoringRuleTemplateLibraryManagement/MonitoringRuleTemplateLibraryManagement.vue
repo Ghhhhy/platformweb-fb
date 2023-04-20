@@ -191,7 +191,7 @@ export default {
       console.log(obj)
       this.ruleTemplateName = obj.ruleTemplateName
       this.businessModuleName = obj.businessModuleName
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
+      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.functionName = obj.functionName
       this.queryTableDatas()
     },

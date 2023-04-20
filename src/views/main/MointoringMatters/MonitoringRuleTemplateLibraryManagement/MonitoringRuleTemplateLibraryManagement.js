@@ -42,6 +42,26 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '规则类型',
+      field: 'fiRuleTypeCode',
+      sortable: false,
+      filters: false,
+      align: 'left',
+      width: 150,
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: 11, label: '通用类监控规则' },
+          { value: 12, label: '专项类监控规则' },
+          { value: 19, label: '其他监控规则' },
+          { value: 21, label: '通用类监控规则' },
+          { value: 22, label: '专项类监控规则' },
+          { value: 29, label: '其他监控规则' }
+        ]
+      }
+    },
+    {
       title: '事项名称',
       field: 'declareName',
       sortable: false,
