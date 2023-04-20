@@ -1,13 +1,12 @@
-<!-- 监控规则查看 -->
+<!-- 问询函类型设置 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <BsMainFormListLayout>
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
           show-zero
-          :show-num="true"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
@@ -24,7 +23,6 @@
           />
         </div>
       </template>
-      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <template v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
@@ -70,23 +68,29 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
-    <GlAttachment
-      v-if="showGlAttachmentDialog"
+    <AddDialog
+      v-if="dialogVisible"
+      :title="dialogTitle"
+      :data-id="dataId"
+      :modify-data="modifyData"
+    />
+    <!-- 附件弹框 -->
+    <BsAttachment
+      v-if="showAttachmentDialog"
+      refs="attachmentboss"
       :user-info="userInfo"
       :billguid="billguid"
     />
-    <!-- 附件弹框 -->
-    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
 </template>
 
 <script>
-import { proconf } from './MonitoeReportQuery'
-import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportQuery.js'
-import GlAttachment from '../common/GlAttachment'
+import { proconf } from './BgtPaySummary'
+import AddDialog from './children/addDialog'
+import HttpModule from '@/api/frame/main/baseConfigManage/BgtPaySummary.js'
 export default {
   components: {
-    GlAttachment
+    AddDialog
   },
   watch: {
     queryConfig() {
@@ -95,115 +99,10 @@ export default {
   },
   data() {
     return {
-      // BsQuery 查询栏
-      queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
+      isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      treeGlobalConfig: {
-        inputVal: ''
-      },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
-      // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeServerUri: '',
-      treeAjaxType: 'get',
-      treeData: [],
       leftTreeVisible: true,
-      // 头部工具栏 BsTabPanel config
-      toolBarStatusBtnConfig: {
-        changeBtns: true,
-        buttons: proconf.toolBarStatusButtons,
-        curButton: {
-          type: 'button',
-          iconName: 'base-all.png',
-          iconNameActive: 'base-all-active.png',
-          iconUrl: '',
-          label: '全部',
-          code: '1',
-          curValue: '1'
-        },
-        buttonsInfo: proconf.statusRightToolBarButton,
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        }
-      },
-      buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
-      tabStatusNumConfig: {
-        '1': 0
-      },
-      isShowQueryConditions: true,
-      toolBarStatusSelect: {
-        type: 'button',
-        iconName: 'base-all.png',
-        iconNameActive: 'base-all-active.png',
-        iconUrl: '',
-        label: '全部',
-        code: '1',
-        curValue: '1'
-      },
-      // table 相关配置
-      tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
-      tableData: [],
-      tableToolbarConfig: {
-        // table工具栏配置
-        disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
-        import: false, // 导入
-        export: true, // 导出
-        print: false, // 打印
-        zoom: true, // 缩放
-        custom: true, // 选配展示列
-        slots: {
-          tools: 'toolbarTools',
-          buttons: 'toolbarSlots'
-        }
-      },
-      leftNode: {},
-      regulationStatus: '1',
-      mainPagerConfig: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 20
-      },
-      tableConfig: {
-        renderers: {
-          // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
-        },
-        methods: {
-          onOptionRowClick: this.onOptionRowClick
-        }
-      },
-      tableFooterConfig: {
-        showFooter: false
-      },
-      // 操作日志
-      logData: [],
-      showLogView: false,
-      // 新增弹窗
-      dialogVisible: false,
-      dialogTitle: '新增',
-      addTableData: [],
-      // 请求 & 角色权限相关配置
-      menuName: '监控规则列表',
-      params5: '',
-      menuId: '',
-      tokenid: '',
-      userInfo: {},
-      roleguid: this.$store.state.curNavModule.roleguid,
-      appId: 'pay_voucher',
-      isHaveZero: '0',
-      // 文件
-      showAttachmentDialog: false,
-      billguid: '',
-      condition: {},
-      handleType: '',
-      isEnable: '',
-      regulationType: '',
-      warningLevel: '',
-      regulationModelName: '',
-      DetailData: {},
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
@@ -226,46 +125,130 @@ export default {
         readonly: true,
         clearable: true
       },
-      treeType: '1',
-      codeList: [],
-      showGlAttachmentDialog: false,
-      node: {},
-      filePreviewDialogVisible: false,
-      fileGuid: '',
-      delId: '',
-      year: '',
-      startMonth: '',
-      endMonth: '',
-      createTime: '',
-      fileName: '',
-      createPerson: '',
-      provinceCode: []
+      treeData: [],
+      // 头部工具栏 BsTabPanel config
+      toolBarStatusBtnConfig: {
+        changeBtns: true,
+        buttons: proconf.toolBarStatusButtons,
+        curButton: {
+          type: 'button',
+          iconName: 'base-all.png',
+          iconNameActive: 'base-all-active.png',
+          iconUrl: '',
+          label: '全部',
+          code: '1',
+          curValue: '1'
+        },
+        buttonsInfo: proconf.statusRightToolBarButton,
+        methods: {
+          bsToolbarClickEvent: this.onStatusTabClick
+        }
+      },
+      buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
+      tabStatusNumConfig: {
+        1: 0
+      },
+      // BsQuery 查询栏
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      toolBarStatusSelect: {
+        type: 'button',
+        iconName: 'base-all.png',
+        iconNameActive: 'base-all-active.png',
+        iconUrl: '',
+        label: '全部',
+        code: '1',
+        curValue: '1'
+      },
+      // table 相关配置
+      tableLoading: false,
+      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableData: [],
+      tableToolbarConfig: {
+        // table工具栏配置
+        disabledMoneyConversion: false,
+        moneyConversion: false, // 是否有金额转换
+        search: false, // 是否有search
+        import: false, // 导入
+        export: true, // 导出
+        print: false, // 打印
+        zoom: true, // 缩放
+        custom: true, // 选配展示列
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
+      },
+      mainPagerConfig: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20
+      },
+      tableConfig: {
+        renderers: {
+          // 编辑 附件 操作日志
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+        },
+        methods: {
+          onOptionRowClick: this.onOptionRowClick
+        }
+      },
+      tableFooterConfig: {
+        totalObj: {
+          zhibiao: 0,
+          yizhifu: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
+      },
+      // 操作日志
+      logData: [],
+      showLogView: false,
+      // 新增弹窗
+      dialogVisible: false,
+      dialogTitle: '新增',
+      addTableData: [],
+      modifyData: {},
+      // 请求 & 角色权限相关配置
+      menuName: '',
+      params5: '',
+      menuId: '',
+      tokenid: '',
+      userInfo: {},
+      roleguid: this.$store.state.curNavModule.roleguid,
+      appId: 'pay_voucher',
+      isHaveZero: '0',
+      // 文件
+      showAttachmentDialog: false,
+      billguid: '',
+      condition: {},
+      proCode: '',
+      proName: '',
+      proCatCode: '',
+      proCatName: '',
+      corBgtDocNo: '',
+      agencyCodeList: [],
+      mofdivcodelist: [],
+      param: '',
+      dataId: '',
+      provinceTreeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' }
     }
   },
-  mounted() {
-  },
-
+  mounted() {},
   methods: {
-    search(obj) {
-      console.log(obj)
-      this.year = Number(obj.year)
-      this.startMonth = Number(obj.startMonth)
-      this.endMonth = Number(obj.endMonth)
-      this.createTime = obj.createTime.substring(0, 10)
-      this.fileName = obj.fileName
-      this.createPerson = obj.createPerson
-      this.provinceCode = obj.province_code__multiple
-      if (this.createTime) {
-        this.createTime = this.createTime + ' 00:00:00'
-      }
-      this.queryTableDatas()
+    // 展开折叠查询框
+    onQueryConditionsClick(isOpen) {
+      this.isShowQueryConditions = isOpen
     },
     // 初始化高级查询data
     getSearchDataList() {
       // 下拉树
       let searchDataObj = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''
           }
@@ -280,8 +263,11 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             if (item.field === 'cor_bgt_doc_no_') {
               condition[item.field + 'name'] = []
@@ -291,7 +277,7 @@ export default {
           }
         } else {
           if (item.field) {
-            condition[item.field] = []
+            condition[item.field] = ''
           }
         }
       })
@@ -304,69 +290,175 @@ export default {
         return
       }
       this.toolBarStatusSelect = obj
-      switch (obj.code) {
+      switch (obj.curValue) {
         // 全部
-        case 'check':
+        case '1':
+          this.menuName = '预算指标下达执行情况监控预警查询'
+          this.radioShow = true
           break
       }
-      this.regulationStatus = obj.curValue
-      this.queryTableDatas()
+      this.condition = {}
+      this.mainPagerConfig.currentPage = 1
+      this.refresh()
+      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
+    // 搜索
+    search(val) {
+      console.log(val)
+      this.agencyCodeList = val.agencyCodeList_code__multiple
+      this.mofdivcodelist = val.province_code__multiple
+      this.searchDataList = val
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          }
+        }
+      }
+      if (this.searchDataList.proCode && this.searchDataList.proCode.trim() !== '') {
+        condition.proCode = this.searchDataList.proCode
+      }
+      if (this.searchDataList.proName && this.searchDataList.proName.trim() !== '') {
+        condition.proName = this.searchDataList.proName
+      }
+      if (this.searchDataList.proCatCode && this.searchDataList.proCatCode.trim() !== '') {
+        condition.proCatCode = this.searchDataList.proCatCode
+      }
+      if (this.searchDataList.proCatName && this.searchDataList.proCatName.trim() !== '') {
+        condition.proCatName = this.searchDataList.proCatName
+      }
+      if (this.searchDataList.corBgtDocNo && this.searchDataList.corBgtDocNo.trim() !== '') {
+        condition.corBgtDocNo = this.searchDataList.corBgtDocNo
+      }
+      this.condition = condition
+      console.log(this.condition)
+      const param = {
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        proCode: this.condition.proCode,
+        proName: this.condition.proName,
+        proCatCode: this.condition.proCatCode,
+        proCatName: this.condition.proCatName,
+        agencyCodeList: this.agencyCodeList,
+        corBgtDocNo: this.condition.corBgtDocNo,
+        mofDivCodeList: this.mofdivcodelist
+      }
+      this.tableLoading = true
+      HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          let zhibiao = 0
+          let yizhifu = 0
+          this.tableData.forEach((item) => {
+            item.agency = item.agencyCode + '-' + item.agencyName
+            if (item.zhibiao) {
+              zhibiao += item.zhibiao
+            }
+            if (item.yizhifu) {
+              yizhifu += item.yizhifu
+            }
+          })
+          this.tableFooterConfig.totalObj.zhibiao = zhibiao
+          this.tableFooterConfig.totalObj.yizhifu = yizhifu
+          this.mainPagerConfig.total = res.data.totalCount
+          // this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
+      console.log(obj.code)
       switch (obj.code) {
-        case 'create':
-          this.create()
+        // 新增
+        case 'add':
+          this.onAddToolbarClickAdd(obj, context, e)
           break
-        case 'delete':
-          this.delete()
+        // 修改
+        case 'change':
+          this.changePolices()
+          break
+        // 删除
+        case 'del':
+          this.delPolicies(obj, context, e)
+          break
+        // 刷新
+        case 'add-toolbar-refresh':
+          this.refresh()
+          break
+        // 刷新
+        case 'operation-toolbar-refresh':
+          this.refresh()
           break
         default:
           break
       }
     },
-    create() {
-      if (!this.node.code) {
-        this.$message.warning('请先选择左侧树')
-        return
-      }
-      console.log(this.node)
-      this.dialogVisible = true
-    },
-    delete() {
+    // 删除
+    delPolicies() {
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length === 0) {
         this.$message.warning('请选择数据')
         return
       }
+      let askTypeCode = []
+      selection.forEach((item) => {
+        askTypeCode.push(item.askTypeCode)
+      })
+      let param = {
+        askTypeCode: askTypeCode
+      }
       this.$confirm('是否确定删除 ?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        let ids = []
-        selection.forEach(item => {
-          ids.push(item.id)
-        })
-        const params = {
-          ids: ids
-        }
-        this.tableLoading = true
-        HttpModule.delete(params).then(res => {
-          this.tableLoading = false
-          if (res.code === '000000') {
-            this.$message.success('删除成功')
-            this.queryTableDatas()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
       })
+        .then(() => {
+          this.tableLoading = true
+          HttpModule.delPolicies(param).then((res) => {
+            this.tableLoading = false
+            if (res.code === '000000') {
+              this.$message.success('删除成功')
+              this.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          })
+        })
+    },
+    // 修改
+    changePolices() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.dataId = selection[0].id
+      this.modifyData = selection[0]
+      this.dialogVisible = true
+      this.dialogTitle = '修改'
+    },
+    // 新增
+    onAddToolbarClickAdd() {
+      this.dialogVisible = true
+      this.dialogTitle = '新增'
+    },
+    changeVisible(val) {
+      console.log(val, '输出')
+      this.breakRuleVisible = val
     },
     // table 右侧操作按钮
     onOptionRowClick({ row, optionType }, context) {
@@ -400,6 +492,43 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
+    onClickmethod(node) {
+      this.node = node.node
+      let code = node.node.code
+      console.log(node)
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
+      console.log(this.codeList)
+      const param = {
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: this.codeList
+      }
+      HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          let zhibiao = 0
+          let yizhifu = 0
+          this.tableData.forEach((item) => {
+            item.agency = item.agencyCode + '-' + item.agencyName
+            if (item.zhibiao) {
+              zhibiao += item.zhibiao
+            }
+            if (item.yizhifu) {
+              yizhifu += item.yizhifu
+            }
+          })
+          this.tableFooterConfig.totalObj.zhibiao = zhibiao
+          this.tableFooterConfig.totalObj.yizhifu = yizhifu
+          this.mainPagerConfig.total = res.data.totalCount
+          // this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     getItem(code, data) {
       data.forEach(item => {
         if (code === item.code) {
@@ -419,64 +548,23 @@ export default {
         }
       })
     },
-    onClickmethod(node) {
-      this.node = node.node
-      let code = node.node.code
-      console.log(node)
-      this.codeList = []
-      let treeData = node.treeData
-      this.getItem(code, treeData)
-      console.log(this.codeList)
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        'regulationModelName': this.regulationModelName,
-        id: this.condition.agency_code,
-        menuType: 1,
-        province: '',
-        mofDivCodeList: this.codeList
-      }
-      if (this.leftNode.businessType === 2) {
-        param.businessModelCode = this.leftNode.code
-      } else if (this.leftNode.businessType === 3) {
-        param.businessFeaturesCode = this.leftNode.code
-      }
-      this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
-    },
     treeSetConfrimData(curTree) {
-      this.treeQueryparams.elementCode = curTree.code
-      this.$refs.leftTree.refreshTree()
+      console.log(curTree)
+      if (curTree.code === '1') {
+        this.treeType = '1'
+        this.getLeftTreeData()
+      } else {
+        this.treeType = '2'
+        this.getLeftTreeData1()
+      }
     },
     asideChange() {
       this.leftTreeVisible = false
     },
     // 查看附件
     showAttachment(row) {
-      console.log('查看附件')
-      if (row.regulationsCode === null || row.regulationsCode === '') {
-        this.$message.warning('该数据无附件')
-        return
-      }
-      this.billguid = row.attachmentId
-      // this.showAttachmentDialog = true
-      this.showGlAttachmentDialog = true
+      this.billguid = row.attachment_id
+      this.showAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -488,45 +576,86 @@ export default {
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       this.queryTableDatas()
+      // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
-    // 展开折叠查询框
-    onQueryConditionsClick(isOpen) {
-      this.isShowQueryConditions = isOpen
+    queryTableDatasCount() {
+      // const params = {
+      //   statusCodeArr: ['1'],
+      //   menuId: this.menuId,
+      //   isHaveZero: this.isHaveZero,
+      //   appId: 'pay_voucher',
+      //   roleId: this.$store.state.curNavModule.roleguid,
+      //   params: this.params5,
+      //   isInput: '9',
+      //   condition: this.differConditon
+      // }
+      // HttpModule.queryTableDatasCount(params).then(res => {
+      //   if (res.rscode === '200') {
+      //     this.tabStatusNumConfig = res.data
+      //     this.tabStatusNumConfig = Object.assign(res.data)
+      //   }
+      // })
     },
     // 查询 table 数据
     queryTableDatas() {
       const param = {
-        year: this.year,
-        startMonth: this.startMonth,
-        endMonth: this.endMonth,
-        createTime: this.createTime,
-        fileName: this.fileName,
-        createPerson: this.createPerson,
-        provinceCodes: this.provinceCode,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize // 每页条数
-      }
-      if (this.leftNode.businessType === 2) {
-        param.businessModelCode = this.leftNode.code
-      } else if (this.leftNode.businessType === 3) {
-        param.businessFeaturesCode = this.leftNode.code
+        // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
+        // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
       this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
+      HttpModule.queryTableDatas(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          let zhibiao = 0
+          let yizhifu = 0
+          this.tableData.forEach((item) => {
+            if (item.zhibiao) {
+              zhibiao += item.zhibiao
+            }
+            if (item.yizhifu) {
+              yizhifu += item.yizhifu
+            }
+          })
+          this.tableFooterConfig.totalObj.zhibiao = zhibiao
+          this.tableFooterConfig.totalObj.yizhifu = yizhifu
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then((res) => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[5].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach((item) => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     },
     // 操作日志
     queryActionLog(row) {
@@ -538,19 +667,10 @@ export default {
           appId: 'pay_voucher'
         }
       }
-      HttpModule.queryActionLog(data).then(res => {
+      HttpModule.queryActionLog(data).then((res) => {
         this.logData = res.data
         console.log(this.logData)
         this.showLogView = true
-      })
-    },
-    // 送审
-    audieData(param) {
-      HttpModule.audieData(param).then(res => {
-        if (res.code === '000000') {
-          this.$message.warning('操作成功')
-          this.queryTableDatas()
-        }
       })
     },
     getLeftTreeData() {
@@ -596,7 +716,6 @@ export default {
         if (res.rscode === '100000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
-          this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -612,39 +731,46 @@ export default {
       })
 
       return datas
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    let month = date.toLocaleDateString().split('/')[1]
-    let day = date.toLocaleDateString().split('/')[2]
-    this.searchDataList.year = year
-    this.searchDataList.createTime = year + '-' + month + '-' + day
-    this.searchDataList.endMonth = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getAgency()
     this.getLeftTreeData()
-    this.queryTableDatas()
   }
 }
 </script>
 <style scoped>
-.radio-right{
-float: right;
+.radio-right {
+  float: right;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-yellow {
+.Titans-table ::v-deep .vxe-body--row.row-yellow {
   background-color: yellow;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-blue {
+.Titans-table ::v-deep .vxe-body--row.row-blue {
   background-color: blue;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-red {
+.Titans-table ::v-deep .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
 }
