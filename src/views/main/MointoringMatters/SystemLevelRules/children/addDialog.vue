@@ -192,15 +192,14 @@
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
                     <BsTree
-                      ref="businessFunctionCodeModalRef"
-                      v-model="regulationClass"
+                      ref="regulationTreeRef"
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
                       class="businessFunctionTree"
                       style="display: inline-block;"
-                      @onNodeClick="({ node }) => regulationClass = node.code"
+                      @onNodeClick="regulationNodeClick"
                     />
                     <!-- <el-select
                       v-model="regulationClass"
@@ -1732,14 +1731,23 @@ export default {
       // this.regulationClassName = busName.regulationClassName
       // this.regulationClass = busName.regulationClass
     },
+    regulationNodeClick({ node }) {
+      if (node.children?.length) {
+        this.regulationClass = ''
+        this.$refs.regulationTreeRef.treeOptionValue = ''
+        this.$XModal.message({ status: 'warning', message: '该节点不可选择，请选择叶子节点' })
+        return
+      }
+      this.regulationClass = node.code
+    },
     getRegulation() {
       HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getRegulationChildrenData(res.data)
-          this.regulationClassoptions = treeResdata
-          this.regulationClassoptions.forEach(item => {
-            item.regulationName = item.code + '-' + item.ruleName
+          this.$XEUtils.eachTree(res.data, item => {
+            item.name = item.ruleName
+            item.disabled = !!item.children?.length
           })
+          this.regulationClassoptions = res.data
         } else {
           this.$message.error('下拉树加载失败')
         }
