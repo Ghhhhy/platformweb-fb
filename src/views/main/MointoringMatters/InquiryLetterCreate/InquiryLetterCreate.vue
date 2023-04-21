@@ -89,6 +89,7 @@ export default {
   },
   data() {
     return {
+      regulationClass: '',
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -555,7 +556,8 @@ export default {
         askName: this.askName,
         askType: this.askType,
         createTime: this.createTime,
-        provinceCode: this.provinceCode
+        provinceCode: this.provinceCode,
+        regulationClass: this.regulationClass
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
@@ -634,6 +636,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.params5 = this.$store.state.curNavModule.param5
+    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
     this.getLeftTreeData()
     this.getTypeList()
   }
