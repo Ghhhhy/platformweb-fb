@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      fiRuleTypeCode: '',
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -191,7 +192,9 @@ export default {
       console.log(obj)
       this.ruleTemplateName = obj.ruleTemplateName
       this.businessModuleName = obj.businessModuleName
+      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.functionName = obj.functionName
+      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -396,7 +399,8 @@ export default {
         'businessFunctionCode': this.businessFunctionCode,
         'ruleTemplateName': this.ruleTemplateName,
         'functionName': this.functionName,
-        businessModuleName: this.businessModuleName
+        businessModuleName: this.businessModuleName,
+        fiRuleTypeCode: this.fiRuleTypeCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

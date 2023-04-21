@@ -42,15 +42,14 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTreeTable
           id="1001"
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus',
-                          iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="mainPagerConfig"
           :default-money-unit="10000"
@@ -68,7 +67,7 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </BsTreeTable>
       </template>
       <template v-slot:toolbar-custom-slot>
         <div class="dfr-report-time-wrapper">
@@ -442,6 +441,14 @@ export default {
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
     },
+    eachTree(treeData, parentId, level) {
+      treeData.forEach(item => {
+        item.id = item.id || this.$XEUtils.uniqueId('tree_row_')
+        item.level = level
+        item['parentId'] = parentId
+        if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
+      })
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
       const param = {
@@ -458,7 +465,13 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          const rows = res.data?.data || []
+          if (rows?.length && Array.isArray(rows)) {
+            // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
+            this.eachTree(rows, '', 1)
+            // 将树形结构转数组
+            this.tableData = this.$XEUtils.toTreeArray(rows)
+          }
           this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount

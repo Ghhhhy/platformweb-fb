@@ -47,5 +47,8 @@ export default {
   // 查询附件
   getFile(params) {
     return get('fileservice/v2/files', params)
+  },
+  print(params) {
+    return post('large-monitor-platform/lmp/ask/upload', params)
   }
 }

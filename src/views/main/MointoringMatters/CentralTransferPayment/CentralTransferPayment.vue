@@ -171,7 +171,9 @@ export default {
       billguid: '',
       condition: {},
       dataSourceCode: '',
-      param: ''
+      param: '',
+      leftTreeVisible: false,
+      regulationClass: ''
     }
   },
   mounted() {
@@ -225,13 +227,13 @@ export default {
         return
       }
       this.toolBarStatusSelect = obj
-      switch (obj.curValue) {
-        // 全部
-        case '1':
-          this.menuName = '中央转移支付项目列表'
-          this.radioShow = true
-          break
-      }
+      // switch (obj.curValue) {
+      //   // 全部
+      //   case '1':
+      //     this.menuName = '中央转移支付项目列表'
+      //     this.radioShow = true
+      //     break
+      // }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.refresh()
@@ -449,7 +451,8 @@ export default {
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        regulationClass: this.regulationClass
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
@@ -488,6 +491,9 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
+    this.params5 = this.$store.state.curNavModule.param5
+    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
   }
 }
 </script>

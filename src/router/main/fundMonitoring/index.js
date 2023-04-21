@@ -12,16 +12,26 @@ const routers = [
     name: 'BudgetImplementationRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
+  {
+    path: '/BudgetImplementationCapitalBySpe', // 中央直达资金预算执行情况_分资金
+    name: 'BudgetImplementationCapitalBySpe',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+  },
+  {
+    path: '/BudgetImplementationRegionBySpe', // 中央直达资金预算执行情况_分地区
+    name: 'BudgetImplementationRegionBySpe',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
+  },
   // 福建增加专项监督台账
   {
     path: '/SpecialSupervisionCapital', // 专项监督_分资金
     name: 'SpecialSupervisionCapital',
-    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/specialSupervisionCapital/specialSupervisionCapital.vue')
   },
   {
     path: '/SpecialSupervisionRegion', // 专项监督_分地区
     name: 'SpecialSupervisionRegion',
-    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue')
   },
   {
     path: '/BudgetImplementationCapitalCZ', // 中央参照直达资金预算执行情况_分资金
@@ -220,14 +230,14 @@ const routers = [
   },
   // 福建 专项监督预警结果汇总
   {
-    path: '/SproWarnRegionSummary', // 地方监控预警汇总
+    path: '/SproWarnRegionSummary', // 地方监控预警汇总_分地区
     name: 'SproWarnRegionSummary',
-    component: () => import('../../../views/main/fundMonitoring/warnRegionSummary/warnRegionSummary.vue')
+    component: () => import('../../../views/main/fundMonitoring/specialWarnRegionSummary/specialWarnRegionSummary.vue')
   },
   {
     path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
     name: 'SproWarnRuleSummary',
-    component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
+    component: () => import('../../../views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue')
   },
   {
     path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则
@@ -261,7 +271,7 @@ const routers = [
     component: () =>
       import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
   },
-  // 福建专项监督预警数据处理
+  // 福建专项监督预警数据处理_分地区
   {
     path: '/SproWarningResultHandleRegion',
     name: 'SproWarningResultHandleRegion',
@@ -269,8 +279,9 @@ const routers = [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/fundMonitoring/warningResultHandleRegion/warningResultHandleRegion.vue') // 直达资金监控预警处理_地区
+      import('../../../views/main/fundMonitoring/specialWarningResultHandleRegion/specialWarningResultHandleRegion.vue') // 直达资金监控预警处理_地区
   },
+  // 福建专项监督预警数据处理_分规则
   {
     path: '/SproWarningResultHandleRule',
     name: 'SproWarningResultHandleRule',
@@ -278,7 +289,7 @@ const routers = [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue') // 直达资金监控预警处理_分规则
+      import('../../../views/main/fundMonitoring/specialWarningResultHandleRule/specialWarningResultHandleRule.vue')
   },
   {
     path: '/DepartmentWarningResultHandleRule',

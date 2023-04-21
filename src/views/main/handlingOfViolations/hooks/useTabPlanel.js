@@ -111,6 +111,7 @@ function useTabPlanel(
   }
   patchTabMapButton()
 
+  console.log(unref(pagePath), RouterPathEnum())
   /**
    * 右上角tab对应的操作按钮
    * */

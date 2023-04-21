@@ -519,12 +519,15 @@ export default {
     queryTableDatasCount() {
       let that = this
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      console.log('regulationType-------' + regulationType)
       if (regulationType === '系统级') {
         regulationType = '1'
       } else if (regulationType === '部门级') {
         regulationType = '3'
       } else if (regulationType === '财政级') {
         regulationType = '2'
+      } else {
+        regulationType = '1'
       }
       const params = {
         menuType: 1,
@@ -548,6 +551,8 @@ export default {
         regulationType = '3'
       } else if (regulationType === '财政级') {
         regulationType = '2'
+      } else {
+        regulationType = '1'
       }
 
       const param = {
@@ -661,7 +666,7 @@ export default {
         item.name = item.ruleName
         item.label = item.code + '-' + item.ruleName
         if (item.children.length > 0) {
-          that.getRegulationChildrenData(item.children)
+          that.getRegulationChildrenData1(item.children)
           item.leaf = false
         } else {
           item.leaf = true

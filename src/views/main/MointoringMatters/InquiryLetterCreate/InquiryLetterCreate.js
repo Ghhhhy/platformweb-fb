@@ -4,8 +4,8 @@ export let proconf = {
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待送审',
       code: '0',
@@ -13,8 +13,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已送审',
       code: '1',
@@ -22,8 +22,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '被退回',
       code: '9',
@@ -45,16 +45,19 @@ export let proconf = {
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'approval', label: '送审' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'print', label: '打印' }
     ],
     '9': [
       { code: 'approval', label: '送审' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'print', label: '打印' }
     ],
     '1': [
       // { code: 'check', label: '查看详情', status: 'primary' },
-      { code: 'revoke', label: '撤销', status: 'primary' }
+      { code: 'revoke', label: '撤销', status: 'primary' },
+      { code: 'print', label: '打印' }
     ]
   },
   highQueryConfig: [
@@ -141,7 +144,8 @@ export let proconf = {
   ],
   highQueryData: {
     askType: '',
-    businessModuleName: ''
+    businessModuleName: '',
+    createTime: ''
   },
   PoliciesTableColumns: [
     {

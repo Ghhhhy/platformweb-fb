@@ -445,6 +445,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.params5 = this.$store.state.curNavModule.param5
+    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
     this.queryTableDatas()
   }
 }
