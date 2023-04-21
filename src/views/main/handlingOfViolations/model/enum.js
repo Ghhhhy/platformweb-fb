@@ -33,7 +33,7 @@ export const RouterPathEnum = () => {
     DIVISION_REAUDIT: '/divisionReAudit'
   }
 
-  const regulationClass = transJson(store.state?.curNavModule?.params5)?.regulationClass
+  const regulationClass = transJson(store.state?.curNavModule?.param5)?.regulationClass
   Object.keys(enumMap).forEach(key => {
     enumMap[key] += regulationClassOptions.find(item => item.code === regulationClass)?.suffix || ''
   })

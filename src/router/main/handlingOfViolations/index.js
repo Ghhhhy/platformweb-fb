@@ -56,8 +56,8 @@ const routers = regulationClassOptions.reduce((preVal, curVal) => {
     ...templateRouters.map(item => {
       return {
         ...item,
-        path: RouterPathEnum().UNIT_FEEDBACK + curVal.suffix,
-        name: 'UnitFeedback' + curVal.suffix
+        path: item.path + curVal.suffix,
+        name: item.name + curVal.suffix
       }
     })
   )
