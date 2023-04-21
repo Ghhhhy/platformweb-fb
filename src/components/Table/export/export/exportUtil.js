@@ -337,20 +337,20 @@ export function getCellValueAlign(column) {
   }
 }
 
-export function getCellViewTitle(column, unit = '元') {
+export function getCellViewTitle(column, unit = '元', ignoreUnit = false) {
   let render = column.editRender || column.cellRender
   switch (column.type) {
     case 'money':
-      return column.title + `(${unit})`
+      return column.title + (ignoreUnit ? '' : `(${unit})`)
     case 'seqIndex':
       return '序号'
     default:
       if (render && render.name) {
         switch (render.name) {
           case '$vxeMoney':
-            return column.title + `(${unit})`
+            return column.title + (ignoreUnit ? '' : `(${unit})`)
           case '$vxeCalculate':
-            return column.title + `(${unit})`
+            return column.title + (ignoreUnit ? '' : `(${unit})`)
             // case '$moneyRender':
             //   return column.title + '(元)'
             // case '$calculateRender':

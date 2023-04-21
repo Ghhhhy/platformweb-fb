@@ -12,6 +12,16 @@ const routers = [
     name: 'BudgetImplementationRegion',
     component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
   },
+  {
+    path: '/BudgetImplementationCapitalBySpe', // 中央直达资金预算执行情况_分资金
+    name: 'BudgetImplementationCapitalBySpe',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue')
+  },
+  {
+    path: '/BudgetImplementationRegionBySpe', // 中央直达资金预算执行情况_分地区
+    name: 'BudgetImplementationRegionBySpe',
+    component: () => import('../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue')
+  },
   // 福建增加专项监督台账
   {
     path: '/SpecialSupervisionCapital', // 专项监督_分资金

@@ -120,6 +120,35 @@ export class Export {
     this.curExportConfig.columns = this.curExportConfig.columns.filter((item) => {
       return self.curExportConfig.ignoreColsTypes.indexOf(item.type) < 0
     })
+    const { addReportTitleColumn, addUnitColumn, fileName, unit } = this.curExportConfig
+    // 表头添加表名
+    if (addReportTitleColumn) {
+      this.curExportConfig.columns = [
+        {
+          title: fileName,
+          exportStyle: {
+            font: {
+              size: '24'
+            }
+          },
+          // 添加单位列
+          children: addUnitColumn ? [
+            {
+              title: `单位：${unit}`,
+              exportStyle: {
+                align: {
+                  h: 'right'
+                },
+                font: {
+                  bold: false
+                }
+              },
+              children: this.curExportConfig.columns
+            }
+          ] : this.curExportConfig.columns
+        }
+      ]
+    }
   }
   generateExportRowsMap(columns, curRowIndex = 1, pcCount) {
     // 生成视图数据导出元数据 列映射数据
@@ -154,7 +183,7 @@ export class Export {
       cell.value = column[type]
       cell.hMerge = 0
       cell.vMerge = 0
-      self.generateCellVisibletitleStyle(cell)
+      self.generateCellVisibletitleStyle(cell, column)
     })
   }
   generateExportViewDataSource() {
@@ -270,24 +299,24 @@ export class Export {
       for (let i = 0; i < floorLength; i++) {
         let cell = row.addCell()
         if (i === 0) {
-          cell.value = getCellViewTitle(column, this.moneyUnit)
+          cell.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
           cell.hMerge = floorLength - 1
           cell.vMerge = 0
           cell0 = cell
         } else {
-          cell.value = getCellViewTitle(column, this.moneyUnit)
+          cell.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
           cell.hMerge = 0
           cell.vMerge = 0
         }
-        this.generateCellVisibletitleStyle(cell)
+        this.generateCellVisibletitleStyle(cell, column)
       }
     } else {
       let cellSing = row.addCell()
-      cellSing.value = getCellViewTitle(column, this.moneyUnit)
+      cellSing.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
       cellSing.hMerge = 0
       cellSing.vMerge = this.curExportConfig.exportViewTitleType === 'nestTitle' ? this.headerRows - curRows : 0
       cell0 = cellSing
-      this.generateCellVisibletitleStyle(cellSing)
+      this.generateCellVisibletitleStyle(cellSing, column)
       if (this.curExportConfig.exportViewTitleType === 'nestTitle') {
         this.supplementHeaderVMergeCells(row, column, curRows, pCell)
       }
@@ -380,7 +409,8 @@ export class Export {
     return this.curExportConfig.viewValueFormat(item[column.field], item, column, this)
     // item[column.field]
   }
-  generateCellVisibletitleStyle(cell) {
+  generateCellVisibletitleStyle(cell, column) {
+    const { align = {}, border = {}, font = {}, fill = {} } = column?.exportStyle || {}
     // 生成表头样式
     cell.style.align = {
       indent: 0,
@@ -388,7 +418,8 @@ export class Export {
       textRotation: 0,
       wrapText: false,
       h: 'center',
-      v: 'center'
+      v: 'center',
+      ...align
     }
     cell.style.border = {
       left: 'thin',
@@ -398,7 +429,8 @@ export class Export {
       leftColor: 'FF000000',
       rightColor: 'FF000000',
       topColor: 'FF000000',
-      bottomColor: 'FF000000'
+      bottomColor: 'FF000000',
+      ...border
     }
     cell.style.font = {
       color: '00000000',
@@ -408,12 +440,14 @@ export class Export {
       italic: false,
       underline: false,
       size: 12,
-      name: 'Verdana'
+      name: 'Verdana',
+      ...font
     }
     cell.style.fill = {
       bgColor: 'ffffffff',
       fgColor: 'ffD2E9FF',
-      patternType: 'solid'
+      patternType: 'solid',
+      ...fill
     }
   }
   generateCellViewValueStyle(cell, column, indent) {

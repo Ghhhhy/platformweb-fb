@@ -192,6 +192,7 @@ export default {
       console.log(obj)
       this.ruleTemplateName = obj.ruleTemplateName
       this.businessModuleName = obj.businessModuleName
+      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.functionName = obj.functionName
       this.fiRuleTypeCode = obj.fiRuleTypeCode_name
       this.queryTableDatas()
@@ -398,8 +399,8 @@ export default {
         'businessFunctionCode': this.businessFunctionCode,
         'ruleTemplateName': this.ruleTemplateName,
         'functionName': this.functionName,
-        'fiRuleTypeCode': this.fiRuleTypeCode,
-        businessModuleName: this.businessModuleName
+        businessModuleName: this.businessModuleName,
+        fiRuleTypeCode: this.fiRuleTypeCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

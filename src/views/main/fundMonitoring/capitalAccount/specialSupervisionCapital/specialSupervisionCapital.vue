@@ -26,7 +26,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :export-modal-config="{ fileName: menuName }"
+          :export-modal-config="{ fileName: menuName, addReportTitleColumn: true, addUnitColumn: true }"
           :cell-style="cellStyle"
           :show-zero="false"
           @editClosed="onEditClosed"

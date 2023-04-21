@@ -48,6 +48,15 @@ export default [
     component: () => import('../../../views/main/MointoringMatters/CentralTransferPayment/CentralTransferPayment.vue')
   },
   {
+    path: '/CentralTransferPaymentBySpecial',
+    name: 'CentralTransferPaymentBySpecial',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/CentralTransferPayment/CentralTransferPayment.vue')
+  },
+  {
     path: '/UserRegulationRelation', // 用户资金权限配置
     name: 'UserRegulationRelation',
     meta: {

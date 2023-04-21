@@ -308,6 +308,16 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
   },
+  // 预警数据审核（专项监控）
+  {
+    path: '/BudgetAccountingWarningDataMagerBySpe',
+    name: 'BudgetAccountingWarningDataMagerBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+  },
   // 单位核算预警数据管理
   {
     path: '/AgencyBusinessAccountingWarningDataMager',
@@ -532,6 +542,56 @@ export default [
   {
     path: '/InquiryLetterRecords',
     name: 'InquiryLetterRecords',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue')
+  },
+  // 问询函生成
+  {
+    path: '/InquiryLetterCreateBySpe',
+    name: 'InquiryLetterCreateBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue')
+  },
+  // 问询函复核
+  {
+    path: '/InquiryLetterReviewBySpe',
+    name: 'InquiryLetterReviewBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue')
+  },
+  // 问询函回复（单位）
+  {
+    path: '/InquiryLetterReplyByAgencyBySpe',
+    name: 'InquiryLetterReplyByAgencyBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue')
+  },
+  // 问询函回复（财政）
+  {
+    path: '/InquiryLetterReplyByFinanceBySpe',
+    name: 'InquiryLetterReplyByFinanceBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue')
+  },
+  // 问询函备案
+  {
+    path: '/InquiryLetterRecordsBySpe',
+    name: 'InquiryLetterRecordsBySpe',
     meta: {
       keepAlive: true,
       requireAuth: true
