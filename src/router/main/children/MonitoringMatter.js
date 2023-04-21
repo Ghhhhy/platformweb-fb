@@ -119,6 +119,15 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
   },
+  {
+    path: '/SystemLevelRulesBySpe',
+    name: 'SystemLevelRulesBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
+  },
   // 系统级规则审核
   {
     path: '/SystemLevelRulesFlow',
