@@ -741,7 +741,8 @@ export default {
         payeeAcctNo: '',
         payeeAcctName: '',
         des: '',
-        basis: ''
+        basis: '',
+        payment: []
       },
       formValidationConfigMessage: proconf.formValidationConfigMessage
     }
