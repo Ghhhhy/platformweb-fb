@@ -105,7 +105,7 @@ export default defineComponent({
           0,
           getAuditDescriptionColumn({ title: '处理说明' })
         )
-      } else if (unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK) {
+      } else if (unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK) {
         common.splice(
           common.length - 1,
           0,
