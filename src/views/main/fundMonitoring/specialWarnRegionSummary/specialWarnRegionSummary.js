@@ -71,11 +71,39 @@ const proconf = {
           }
         }
       }
+    },
+    {
+      title: '规则',
+      field: 'ruleCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '规则',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
-    proCodes: ''
+    proCodes: '',
+    ruleCodes: ''
   },
   basicInfo: {
     type: 'form',

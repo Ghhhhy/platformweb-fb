@@ -11,5 +11,8 @@ export default {
   },
   getCapitalTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryCapital', params)
+  },
+  getRuleTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
   }
 }

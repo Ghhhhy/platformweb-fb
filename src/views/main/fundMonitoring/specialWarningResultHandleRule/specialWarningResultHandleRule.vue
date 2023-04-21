@@ -61,8 +61,14 @@
     <sDetailDialog
       v-if="sdetailVisible"
       :title="sdetailTitle"
-      :s-detail-query-param="sdetailQueryParam"
+      :s-detail-query-param="sDetailQueryParam"
       :detail-data="sDetailData"
+    />
+    <bgtDetailDialog
+      v-if="bgtdetailVisible"
+      :title="bgtdetailTitle"
+      :bgt-detail-query-param="bgtDetailQueryParam"
+      :detail-data="bgtDetailData"
     />
   </div>
 </template>
@@ -71,11 +77,13 @@
 import getFormData from './specialWarningResultHandleRule.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import sDetailDialog from './children/detailDialog.vue'
+import bgtDetailDialog from './children/bgtdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResultHandleRule.js'
 export default {
   components: {
     DetailDialog,
-    sDetailDialog
+    sDetailDialog,
+    bgtDetailDialog
   },
   watch: {
     $refs: {
@@ -91,10 +99,14 @@ export default {
   data() {
     return {
       sDetailQueryParam: {},
+      bgtDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
+      bgtDetailVisible: false,
       sDetailTitle: '',
+      bgtDetailTitle: '',
       sDetailData: [],
+      bgtDetailData: [],
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -169,9 +181,12 @@ export default {
       detailType: '',
       detailTitle: '',
       sdetailVisible: false,
+      bgtdetailVisible: false,
       sdetailType: '',
       sdetailTitle: '',
+      bgtdetailTitle: '',
       sdetailData: [],
+      bgtdetailData: [],
       detailData: [],
       code: '',
       fiscalYear: '',
