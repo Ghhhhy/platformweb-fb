@@ -3,7 +3,7 @@
 // import VXETablePluginExcel from 'vxe-table-plugin-excel'
 // import 'vxe-table-plugin-excel/dist/style.css'
 import XEUtils from 'xe-utils'
-import VXETable from 'vxe-table'
+import VXETable from '@bszx/bs-vxe-table'
 // import VXETable from '../common/js/lib/vxe-table/packages/vxe-table.js'
 import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx'
 import XEClipboard from 'xe-clipboard'
