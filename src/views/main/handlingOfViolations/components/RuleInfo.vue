@@ -98,7 +98,7 @@ export default defineComponent({
 
     // 是否处室
     const isDivision = computed(() => {
-      return [RouterPathEnum.DIVISION_AUDIT, RouterPathEnum.divisionReAudit].includes(unref(pagePath))
+      return [RouterPathEnum().DIVISION_AUDIT, RouterPathEnum().divisionReAudit].includes(unref(pagePath))
     })
     return {
       formatterThousands,

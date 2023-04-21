@@ -9,17 +9,17 @@ import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
  */
 export const pagePathMapNodeType = {
   // 监控预警单位反馈
-  [RouterPathEnum.UNIT_FEEDBACK]: 2001,
+  [RouterPathEnum().UNIT_FEEDBACK]: 2001,
   // 监控预警单位审核
-  [RouterPathEnum.UNIT_AUDIT]: 2002,
+  [RouterPathEnum().UNIT_AUDIT]: 2002,
   // 监控预警主管部门初审
-  [RouterPathEnum.DEPARTMENT_AUDIT]: 2003,
+  [RouterPathEnum().DEPARTMENT_AUDIT]: 2003,
   // 监控预警主管部门复审
-  [RouterPathEnum.DEPARTMENT_REAUDIT]: 2004,
+  [RouterPathEnum().DEPARTMENT_REAUDIT]: 2004,
   // 监控预警处室初审
-  [RouterPathEnum.DIVISION_AUDIT]: 2005,
+  [RouterPathEnum().DIVISION_AUDIT]: 2005,
   // 监控预警处室复审
-  [RouterPathEnum.DIVISION_REAUDIT]: 2006
+  [RouterPathEnum().DIVISION_REAUDIT]: 2006
 }
 
 // 全部-tab
@@ -141,10 +141,10 @@ export const getStatusCodeOptions = () => {
     { value: TabEnum.RETURN_SELF, label: '已退回' },
     { value: TabEnum.DISABLED_SELF, label: '已禁止' }
   ]
-  if (RouterPathEnum.UNIT_FEEDBACK === router.currentRoute.path) {
+  if (RouterPathEnum().UNIT_FEEDBACK === router.currentRoute.path) {
     // 单位反馈
     options.unshift(...[{ value: TabEnum.NO_SEND, label: '待送审' }, { value: TabEnum.SENDED, label: '已送审' }])
-  } else if (Object.keys(RouterPathEnum).includes(router.currentRoute.path)) {
+  } else if (Object.keys(RouterPathEnum()).includes(router.currentRoute.path)) {
     // 除开单位反馈的所有违规处理菜单
     options.unshift(...[{ value: TabEnum.NO_AUDIT, label: '待审核' }, { value: TabEnum.AUDITED, label: '已审核' }])
   } else {

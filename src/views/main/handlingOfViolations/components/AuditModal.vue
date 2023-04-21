@@ -297,7 +297,7 @@ export default defineComponent({
     // 确认、送审按钮文案
     const btnTitle = computed(() => {
       // 非单位反馈 && 非蓝色预警
-      return unref(pagePath) !== RouterPathEnum.UNIT_FEEDBACK || unref(isBlueWarnLevel)
+      return unref(pagePath) !== RouterPathEnum().UNIT_FEEDBACK || unref(isBlueWarnLevel)
         ? '确认'
         : '送审'
     })

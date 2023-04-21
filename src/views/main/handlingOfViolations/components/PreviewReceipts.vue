@@ -5,7 +5,7 @@
     title="业务单据查看"
     width="80%"
     height="80%"
-    :show-footer="pagePath === RouterPathEnum.RULE_STATISTIC"
+    :show-footer="pagePath === RouterPathEnum().RULE_STATISTIC"
   >
     <template #footer>
       <vxe-button size="small" @click="visible = false">返回</vxe-button>
