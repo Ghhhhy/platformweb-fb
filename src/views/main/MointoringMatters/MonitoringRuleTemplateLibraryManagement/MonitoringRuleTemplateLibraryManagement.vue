@@ -194,7 +194,7 @@ export default {
       this.businessModuleName = obj.businessModuleName
       this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.functionName = obj.functionName
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
+      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
       this.queryTableDatas()
     },
     // 初始化高级查询data
