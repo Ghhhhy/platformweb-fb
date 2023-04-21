@@ -191,7 +191,18 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
-                    <el-select
+                    <BsTree
+                      ref="businessFunctionCodeModalRef"
+                      v-model="regulationClass"
+                      :is-drop-select-tree="true"
+                      :editable="true"
+                      :tree-data="regulationClassoptions"
+                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+                      class="businessFunctionTree"
+                      style="display: inline-block;"
+                      @onNodeClick="({ node }) => regulationClass = node.code"
+                    />
+                    <!-- <el-select
                       v-model="regulationClass"
                       :disabled="disabled || $parent.dialogVisibleRules"
                       placeholder="请选择监控主题"
@@ -204,7 +215,7 @@
                         :label="item.regulationName"
                         :value="item.regulationName"
                       />
-                    </el-select>
+                    </el-select> -->
                   </el-row>
                 </el-main>
               </el-container>
@@ -1481,12 +1492,12 @@ export default {
       }
       let ruleId = ''
       let ruleName = ''
-      if (that.regulationClass) {
-        let valArr = that.regulationClass.split('-')
-        ruleName = valArr[1]
-        ruleId = valArr[0]
-      }
-      console.log(this.formDatas)
+      // if (that.regulationClass) {
+      //   let valArr = that.regulationClass.split('-')
+      //   ruleName = valArr[1]
+      //   ruleId = valArr[0]
+      // }
+      console.log(this.regulationClass)
       let param = {
         'regulationClass': ruleId,
         'regulationClassName': ruleName,
