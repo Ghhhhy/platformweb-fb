@@ -3,7 +3,8 @@
 // import VXETablePluginExcel from 'vxe-table-plugin-excel'
 // import 'vxe-table-plugin-excel/dist/style.css'
 import XEUtils from 'xe-utils'
-import VXETable from '@bszx/bs-vxe-table'
+import VXETable from 'vxe-table'
+// import VXETable from '@bszx/bs-vxe-table'
 // import VXETable from '../common/js/lib/vxe-table/packages/vxe-table.js'
 import VXETablePluginExportXLSX from 'vxe-table-plugin-export-xlsx'
 import XEClipboard from 'xe-clipboard'
@@ -13,14 +14,15 @@ import Sortable from 'sortablejs'
 import jsoneditor from 'jsoneditor'
 // 本地渲染器引入
 // import globleRenders from '../components/Table/config/defaultRenders.js'
+import globleRenders from '@bszx/boss-ui/packages/Table/src/config/render/index'
+// import globleRenders from '../../.yalc/@bszx/boss-ui/packages/Table/src/config/render/index'
 
-// Vue.use(VXETable)
-// VXETable.use(VXETablePluginExcel)
+
 const vxeTable = {
   install: function (Vue) {
-    // for (let i in globleRenders) {
-    //   VXETable.renderer.add(i, globleRenders[i])
-    // }
+    for (let i in globleRenders) {
+      VXETable.renderer.add(i, globleRenders[i])
+    }
     VXETable.setup({
       icon: {
         TOOLBAR_TOOLS_CUSTOM: 'ri-apps-2-line',
