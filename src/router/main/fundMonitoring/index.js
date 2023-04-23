@@ -228,16 +228,21 @@ const routers = [
     name: 'WarnRuleSummary',
     component: () => import('../../../views/main/fundMonitoring/warnRuleSummary/warnRuleSummary.vue')
   },
-  // 福建 专项监督预警结果汇总
+  // 福建 专项监督预警汇总
   {
-    path: '/SproWarnRegionSummary', // 地方监控预警汇总_分地区
+    path: '/SproWarnRegionSummary', // 专项监督预警汇总_分地区
     name: 'SproWarnRegionSummary',
     component: () => import('../../../views/main/fundMonitoring/specialWarnRegionSummary/specialWarnRegionSummary.vue')
   },
   {
-    path: '/SproWarnRuleSummary', // 地方监控预警汇总-分规则
+    path: '/SproWarnRuleSummary', // 专项监督预警汇总-分规则
     name: 'SproWarnRuleSummary',
     component: () => import('../../../views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue')
+  },
+  {
+    path: '/SpecialWarnCapitalSummaryLevel', // 专项监督预警汇总-分资金钻取
+    name: 'SpecialWarnCapitalSummaryLevel',
+    component: () => import('../../../views/main/fundMonitoring/specialWarnCapitalSummaryLevel/specialWarnCapitalSummaryLevel.vue')
   },
   {
     path: '/DepartmentWarnRuleSummary', // 部门监控预警汇总-分规则

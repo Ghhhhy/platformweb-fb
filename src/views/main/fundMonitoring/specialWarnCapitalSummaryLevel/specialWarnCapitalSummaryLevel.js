@@ -46,8 +46,8 @@ const proconf = {
       }
     },
     {
-      title: '资金名称',
-      field: 'proCodes',
+      title: '地区',
+      field: 'mofDivCodes',
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -56,15 +56,15 @@ const proconf = {
         options: [],
         props: {
           config: {
-            valueKeys: ['code', 'name', 'id'],
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{code}-{name}', // {code}-{name}
+              labelFormat: '{codeFragment}-{name}', // {code}-{name}
               nodeKey: 'id',
               label: 'label',
               children: 'children'
             },
-            placeholder: '资金名称',
+            placeholder: '地区',
             multiple: true,
             readonly: false,
             isleaf: true
@@ -102,7 +102,7 @@ const proconf = {
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
-    proCodes: '',
+    mofDivCodes: '',
     ruleCodes: ''
   },
   basicInfo: {
@@ -115,7 +115,7 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '地区名称',
+        title: '资金名称',
         treeNode: true,
         align: 'left',
         width: 260,
@@ -126,7 +126,7 @@ const proconf = {
         }
       },
       {
-        title: '指标预警',
+        title: '是否上传附件',
         field: '',
         width: 140,
         sortable: false,
