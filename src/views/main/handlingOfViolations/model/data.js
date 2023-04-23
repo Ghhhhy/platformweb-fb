@@ -415,6 +415,7 @@ export const getRuleNameColumn = (params = {}) => {
   return {
     title: '预警名称',
     field: 'ruleName',
+    align: 'left',
     width: 260,
     ...params
   }

@@ -103,13 +103,14 @@
                 <template #header>
                   <bs-table-title title="违规单信息">
                     <div>
-                      <vxe-button
-                        v-if="isDivisionPage"
-                        size="mini"
-                        @click="changeDialogVisible(true)"
-                      >
-                        规则查看
-                      </vxe-button>
+                      <!--2023-04-21提出暂时隐藏-->
+                      <!--<vxe-button-->
+                      <!--  v-if="isDivisionPage"-->
+                      <!--  size="mini"-->
+                      <!--  @click="changeDialogVisible(true)"-->
+                      <!--&gt;-->
+                      <!--  规则查看-->
+                      <!--</vxe-button>-->
                       <vxe-button
                         size="mini"
                         @click="changeReceiptsModalVisible(true)"
