@@ -282,8 +282,141 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
+    },
+    {
+      title: '上级项目名称',
+      field: 'trackProName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '上级项目名称' }
+      }
+    },
+    {
+      title: '预算级次',
+      field: 'budgetLevelName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '预算级次' }
+      }
+    },
+    {
+      title: '指标下达时间',
+      field: 'createTime',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
+      }
+    },
+    {
+      title: '未分配金额',
+      field: 'curAmt',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '未分配金额' }
+      }
     }
   ],
+  bgtMsgConfig: [
+    {
+      field: 'trcakProName',
+      title: '上级项目名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '上级项目名称', disabled: true }
+      }
+    },
+    {
+      field: 'supBgtDocNo',
+      title: '上级指标文号 ',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '上级指标文号 ', disabled: true }
+      }
+    },
+    {
+      field: 'budgetLevelName',
+      title: '预算级次',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '预算级次', disabled: true }
+      }
+    },
+    {
+      field: 'proName',
+      title: '本级项目 ',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '本级项目 ', disabled: true }
+      }
+    },
+    {
+      title: '支出功能科目编码',
+      field: 'expFuncCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '支出功能科目编码' }
+      }
+    },
+    {
+      title: '支出功能科目名称',
+      field: 'expFuncName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '支出功能科目名称' }
+      }
+    },
+    {
+      title: '指标下达时间',
+      field: 'createTime',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
+      }
+    },
+    {
+      title: '金额',
+      field: 'amount',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '金额' }
+      }
+    },
+    {
+      title: '未分配金额',
+      field: 'curAmt',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '未分配金额' }
+      }
+    }
+  ],
+
   incomeMsgData: {
     warningCode: '',
     payApplyNumber: '',
@@ -312,6 +445,17 @@ const proconf = {
     directFund: '',
     createTime: '',
     fiDate: ''
+  },
+  bgtMsgData: {
+    trcakProName: '',
+    supBgtDocNo: '',
+    budgetLevelName: '',
+    proName: '',
+    expFuncCode: '',
+    expFuncName: '',
+    createTime: '',
+    amount: '',
+    curAmt: ''
   },
   highQueryConfig: [
     {

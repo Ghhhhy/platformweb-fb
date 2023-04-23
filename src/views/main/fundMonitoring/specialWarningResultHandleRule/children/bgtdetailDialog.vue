@@ -2,8 +2,8 @@
 <template>
   <div>
     <vxe-modal
-      v-model="sdetailVisible"
-      title="详细信息"
+      v-model="bgtdetailVisible"
+      title="指标详细信息"
       width="96%"
       height="90%"
       :show-footer="true"
@@ -12,8 +12,8 @@
       <div v-loading="addLoading" class="payVoucherInput">
         <div>
           <BsForm
-            ref="incomeMsgRef"
-            :form-items-config="incomeMsgConfig"
+            ref="bgtMsgRef"
+            :form-items-config="bgtMsgConfig"
             :form-data-list="supplyDataList"
           />
         </div>
@@ -34,18 +34,18 @@
 import getFormData from '../specialWarningResultHandleRule.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResultHandleRule.js'
 export default {
-  name: 'SDetailDialog',
+  name: 'BgtDetailDialog',
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
     }
   },
   props: {
-    sdetailTitle: {
+    bgtdetailTitle: {
       type: String,
       default: ''
     },
-    sDetailQueryParam: {
+    bgtDetailQueryParam: {
       type: Object,
       default() {
         return {}
@@ -63,9 +63,9 @@ export default {
       handleTime: '',
       handleDesc: '',
       handletableHsData: [],
-      incomeMsgConfig: getFormData('incomeMsgConfig'),
+      bgtMsgConfig: getFormData('bgtMsgConfig'),
       supplyDataList: getFormData('supplyDataList'),
-      sdetailVisible: true,
+      bgtdetailVisible: true,
       addLoading: false,
       token: '',
       isContinuity: false,
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     dialogClose() {
-      this.$parent.sdetailVisible = false
+      this.$parent.bgtdetailVisible = false
     },
     moneyFormat(amt) {
       const num = Math.round(amt * 100) / 100
@@ -98,33 +98,19 @@ export default {
     // 回显
     showInfo() {
       this.addLoading = true
-      let params = this.sDetailQueryParam
-      HttpModule.detailQuery(params).then(res => {
+      let params = this.bgtDetailQueryParam
+      console.info('bgtDetailQueryParam ==' + this.bgtDetailQueryParam)
+      HttpModule.detailQueryBgt(params).then(res => {
         this.addLoading = false
         if (res.code === '000000') {
-          this.supplyDataList = { ...res.data, ...res.data.executeData }
+          this.supplyDataList = { ...res.data, ...res.data.execData }
           this.warnMsg = res.data.warnMsg
-          if (res.data.executeData !== null) {
-            this.supplyDataList.payAppAmt = this.moneyFormat(this.supplyDataList.payAppAmt)
-            this.supplyDataList.agencyName = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
-            this.supplyDataList.proName = res.data.executeData.proName
-            this.supplyDataList.proName = res.data.executeData.proName
-            this.supplyDataList.payTypeName = res.data.executeData.payTypeCode + '-' + res.data.executeData.payTypeName
-            this.supplyDataList.isFunName = res.data.executeData.isFunName === 1 ? '是' : '否'
-            this.supplyDataList.expFuncName = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
-            this.supplyDataList.depBgtEcoName = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
-            this.supplyDataList.govBgtEcoName = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName
-            this.supplyDataList.setModeName = res.data.executeData.setModeCode + '-' + res.data.executeData.setModeName
-            this.supplyDataList.isDirName = (res.data.executeData.isDirCode === null ? '' : res.data.executeData.isDirCode) + '-' + (res.data.executeData.isDirName === null ? '' : res.data.executeData.isDirName)
-            this.supplyDataList.isSalName = res.data.executeData.isSalCode + '-' + res.data.executeData.isSalName
-            this.supplyDataList.manageMofDepName = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
-            this.supplyDataList.isUnionFunds = res.data.executeData.isUnionFunds + '-' + (res.data.executeData.isUnionFunds === 1 ? '是' : '否')
-            this.supplyDataList.fiDate = res.data.executeData.fiDate
-            this.supplyDataList.thrExpName = res.data.executeData.thrExpCode + (res.data.executeData.thrExpName === null ? '' : '-' + res.data.executeData.thrExpName)
-            this.supplyDataList.trackProName = res.data.executeData.trackProName
-            this.supplyDataList.budgetLevelName = res.data.executeData.budgetLevelName
-            this.supplyDataList.createTime = res.data.executeData.createTime
-            this.supplyDataList.curAmt = this.moneyFormat(res.data.executeData.curAmt)
+          if (res.data.execData !== null) {
+            this.supplyDataList.trackProName = res.data.execData.trackProName
+            this.supplyDataList.budgetLevelName = res.data.execData.budgetLevelName
+            this.supplyDataList.createTime = res.data.execData.createTime
+            this.supplyDataList.curAmt = this.moneyFormat(res.data.execData.curAmt)
+            this.supplyDataList.amount = this.moneyFormat(res.data.execData.amount)
           }
         } else {
           this.$message.error(res.message)

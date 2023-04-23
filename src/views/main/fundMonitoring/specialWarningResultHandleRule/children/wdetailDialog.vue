@@ -193,6 +193,9 @@ export default {
       sDetailTitle: '',
       sDetailVisible: false,
       sDetailData: [],
+      bgtDetailTitle: '',
+      bgtDetailVisible: false,
+      bgtDetailData: [],
       detailType: '',
       fiRuleCode: '',
       tableLoading: false,
@@ -527,12 +530,22 @@ export default {
       })
     },
     handleDetail(type, diBillId, fiRuleCode) {
-      this.$parent.sdetailQueryParam = {
-        diBillId: diBillId,
-        fiscalYear: this.fiscalYear,
-        fiRuleCode: fiRuleCode
+      console.info('this.detailType ==' + this.detailType)
+      if (this.detailType === 'numbernofileNum' || this.detailType === 'numberfileNum') {
+        this.$parent.bgtDetailQueryParam = {
+          diBillId: diBillId,
+          fiscalYear: this.fiscalYear,
+          fiRuleCode: fiRuleCode
+        }
+        this.$parent.bgtdetailVisible = true
+      } else {
+        this.$parent.sDetailQueryParam = {
+          diBillId: diBillId,
+          fiscalYear: this.fiscalYear,
+          fiRuleCode: fiRuleCode
+        }
+        this.$parent.sdetailVisible = true
       }
-      this.$parent.sdetailVisible = true
     },
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue

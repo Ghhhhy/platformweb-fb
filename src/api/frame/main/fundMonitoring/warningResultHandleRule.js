@@ -22,6 +22,9 @@ export default {
   detailQuery(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/detailQuery', params)
   },
+  detailQueryBgt(params) {
+    return post('dfr-monitor-service/dfr/warningResultHandleRule/detailQueryBgt', params)
+  },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   },

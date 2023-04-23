@@ -57,16 +57,22 @@
       :title="detailTitle"
       :detail-data="detailData"
     />
+    <warnRuleSummaryDialog
+      v-if="ruleVisible"
+      :title="ruleTitle"
+    />
   </div>
 </template>
 
 <script>
-import getFormData from './specialWarnRegionSummary.js'
+import getFormData from './specialWarnCapitalSummaryLevel.js'
 import DetailDialog from './children/wdetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
+import warnRuleSummaryDialog from './warnRuleSummary/warnRuleSummary.vue'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    warnRuleSummaryDialog
   },
   watch: {
     $refs: {
@@ -214,8 +220,10 @@ export default {
       detailTitle: '',
       fiscalYear: '',
       detailData: [],
-      proCodes: [],
-      ruleCodes: []
+      mofDivCodes: [],
+      ruleCodes: [],
+      ruleVisible: false,
+      ruledialogTitle: '新增'
     }
   },
   mounted() {
@@ -279,7 +287,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '专项资金地方预警汇总'
+          this.menuName = '直达资金地方预警汇总'
           this.radioShow = true
           break
       }
@@ -309,7 +317,7 @@ export default {
           }
         }
       }
-      condition.proCodes = condition.proCodes?.split('##')[0]
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       this.condition = condition
       this.queryTableDatas()
@@ -358,53 +366,51 @@ export default {
       if (isInvalidCellValue) return
 
       this.fiscalYear = this.searchDataList.fiscalYear
-      this.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
-      this.ruleCodes = this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
       switch (key) {
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '指标预警-未处理明细'
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '是否上传附件-未处理明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '指标预警-已整改明细'
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '是否上传附件-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
@@ -421,8 +427,8 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
-        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getTreeRule(this.searchDataList.ruleCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -440,46 +446,37 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
-    getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getCapitalTreeData({ fiscalYear }).then(res => {
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getChildrenNewData1(res.data)
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData(res.data)
           this.queryConfig[1].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
         }
       })
     },
-    getRules(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getRuleTreeData({ fiscalYear }).then(res => {
-        if (res.code === '000000') {
-          let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[2].itemRender.options = treeResdata
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
-    getChildrenNewData1(datas) {
+    getChildrenNewData(datas) {
       let that = this
       datas.forEach(item => {
         item.label = item.name
         if (item.children) {
-          that.getChildrenNewData1(item.children)
+          that.getChildrenNewData(item.children)
         }
       })
       return datas
     },
     getTrees(val) {
-      let proCodes = []
+      let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
-          proCodes.push(item.split('##')[0])
+          mofDivCodes.push(item.split('##')[0])
         })
       }
-      return proCodes
+      return mofDivCodes
     },
-    getRuleTrees(val) {
+    getTreeRule(val) {
       let ruleCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
@@ -487,6 +484,17 @@ export default {
         })
       }
       return ruleCodes
+    },
+    getRuleCode(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getRuleTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     }
   },
   created() {
@@ -495,8 +503,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.getPro()
-    this.getRules()
+    this.getMofDiv()
+    this.getRuleCode()
     this.queryTableDatas()
   }
 }
