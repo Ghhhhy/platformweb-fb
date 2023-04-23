@@ -113,7 +113,7 @@ const proconf = {
           {
             title: '未处理',
             field: 'numberwarnUndoNum',
-            width: 140,
+            width: 210,
             align: 'center',
             filters: false,
             cellRender: {
@@ -126,7 +126,7 @@ const proconf = {
           {
             title: '认定正常',
             field: 'numberwarndoNum',
-            width: 140,
+            width: 210,
             align: 'center',
             filters: false,
             cellRender: {
@@ -145,7 +145,7 @@ const proconf = {
               {
                 title: '未处理',
                 field: 'numberwarnUndoNoNum',
-                width: 140,
+                width: 210,
                 filters: false,
                 align: 'center',
                 cellRender: {
@@ -158,7 +158,7 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'numberwarndidNum',
-                width: 140,
+                width: 200,
                 align: 'center',
                 filters: false,
                 cellRender: {
@@ -171,7 +171,8 @@ const proconf = {
             ]
           }
         ]
-      },
+      }
+      /*
       {
         title: '未导入惠企利民明细',
         field: '',
@@ -206,6 +207,7 @@ const proconf = {
           }
         ]
       }
+      */
     ],
     tableData: []
   }

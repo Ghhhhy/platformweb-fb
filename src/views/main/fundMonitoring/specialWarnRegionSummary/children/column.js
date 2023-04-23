@@ -1127,6 +1127,7 @@ const proconf = {
       align: 'center'
     }
   ],
+
   // 未导入惠企利民-未处理明细
   notgetColumn: [
     {
@@ -1178,6 +1179,7 @@ const proconf = {
     }
   ],
   // 未导入惠企利民-已整改明细
+
   getColumn: [
     {
       title: '地区名称',
@@ -1227,5 +1229,6 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ]
+
 }
 export default proconf
