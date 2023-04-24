@@ -267,6 +267,7 @@ export default {
       billguid: '',
       condition: {},
       handleType: '',
+      fiRuleTypeCode: '',
       isEnable: '',
       regulationType: '',
       warningLevel: '',
@@ -351,6 +352,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
+      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -661,11 +663,11 @@ export default {
         if (code.length === 2) {
           regulationClass = node.node.code
         } else if (node.node.code.length === 4) {
-          regulationClass = node.node.superguid
-          regulationType = node.node.code.substr(-1, 1)
+          regulationClass = node.node.code
+          regulationType = this.regulationType
         } else {
-          regulationClass = node.node.superguid
-          regulationType = node.node.bsTreePid.substr(-1, 1)
+          regulationClass = node.node.code
+          regulationType = this.regulationType
           regulationCode = node.node.code
         }
         const param = {
@@ -759,6 +761,7 @@ export default {
         'regulationName': this.regulationName,
         'regulationClass': this.regulationClass,
         'regulationModelName': this.regulationModelName,
+        'fiRuleTypeCode': this.fiRuleTypeCode,
         id: this.condition.agency_code,
         menuType: 1
       }

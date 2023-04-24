@@ -104,6 +104,7 @@
                   <bs-table-title title="违规单信息">
                     <div>
                       <vxe-button
+                        v-if="isDivisionPage"
                         size="mini"
                         @click="changeDialogVisible(true)"
                       >
@@ -277,7 +278,8 @@ export default defineComponent({
     const {
       isAllowDisabled,
       isUnitFeedbackPage,
-      isBlueWarnLevel
+      isBlueWarnLevel,
+      isDivisionPage
     } = useIs(currentNode, pagePath, checkedItemsObj)
 
     // // 是否显示表单
@@ -295,7 +297,7 @@ export default defineComponent({
     // 确认、送审按钮文案
     const btnTitle = computed(() => {
       // 非单位反馈 && 非蓝色预警
-      return unref(pagePath) !== RouterPathEnum.UNIT_FEEDBACK || unref(isBlueWarnLevel)
+      return unref(pagePath) !== RouterPathEnum().UNIT_FEEDBACK || unref(isBlueWarnLevel)
         ? '确认'
         : '送审'
     })
@@ -466,6 +468,7 @@ export default defineComponent({
 
       isAllowDisabled,
       isUnitFeedbackPage,
+      isDivisionPage,
 
       printLoading,
       printData,

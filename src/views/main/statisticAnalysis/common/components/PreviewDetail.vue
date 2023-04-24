@@ -125,11 +125,11 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? queryRuleData : queryDepData,
+      fetch: unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? queryRuleData : queryDepData,
       beforeFetch: params => {
         const { fiRuleCode, agencyCode } = props.currentRow
-        const property = unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? 'fiRuleCode' : 'agencyCode'
-        const value = unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? fiRuleCode : agencyCode
+        const property = unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? 'fiRuleCode' : 'agencyCode'
+        const value = unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? fiRuleCode : agencyCode
         return {
           ...params,
           [property]: value
@@ -139,7 +139,7 @@ export default defineComponent({
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
       columns: [
-        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
+        ...(unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
         getWarnLevelColumn(),
         getControlTypeColumn(),
         getWarnTypeColumn(),

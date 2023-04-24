@@ -362,7 +362,8 @@ export default {
           reportCode: reportCode,
           mofDivCode: row.code,
           escalationStatus: this.detailQueryParam.escalationStatus,
-          version: this.detailQueryParam.version
+          version: this.detailQueryParam.version,
+          jeType: column
         }
       } else if (this.detailType === 'zyzdzjyszxqkfzj') {
         params = {
@@ -370,7 +371,8 @@ export default {
           reportCode: reportCode,
           cenTraProCode: row.code,
           escalationStatus: this.detailQueryParam.escalationStatus,
-          version: this.detailQueryParam.version
+          version: this.detailQueryParam.version,
+          jeType: column
         }
       }
       this.$parent.sDetailQueryParam = params

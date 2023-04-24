@@ -94,7 +94,7 @@ export default defineComponent({
 
     // 是否是单位反馈页面
     const isUnitFeedbackPage = computed(() => {
-      return unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK
+      return unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK
     })
 
     const [loadingState, setLoadingState] = useLoadingState()

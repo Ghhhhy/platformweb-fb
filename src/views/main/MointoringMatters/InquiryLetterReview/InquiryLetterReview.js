@@ -4,8 +4,8 @@ export let proconf = {
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待复核',
       code: '1',
@@ -13,8 +13,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已复核',
       code: '2',
@@ -127,7 +127,7 @@ export let proconf = {
     warningLevel: '',
     handleType: '',
     isEnable: '',
-    create_time: ''
+    createTime: ''
   },
   // 新增弹窗列表
   monitorSetTableColumnsConfig: [

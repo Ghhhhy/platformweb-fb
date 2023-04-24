@@ -15,7 +15,9 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '4': [
-      { code: 'check', label: '查看详情', status: 'primary' }
+      { code: 'revoke', label: '退回', status: 'primary' },
+      { code: 'check', label: '查看详情' },
+      { code: 'print', label: '打印' }
     ]
   },
   highQueryConfig: [
@@ -104,7 +106,8 @@ export let proconf = {
     regulationType: '',
     warningLevel: '',
     handleType: '',
-    isEnable: ''
+    isEnable: '',
+    createTime: ''
   },
   // 新增弹窗列表
   monitorSetTableColumnsConfig: [

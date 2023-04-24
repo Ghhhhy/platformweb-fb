@@ -4,8 +4,8 @@ export let proconf = {
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待回复',
       code: '2',
@@ -13,8 +13,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已回复',
       code: '4',
@@ -33,10 +33,11 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '2': [
-      { code: 'approval', label: '回复', status: 'primary' }
+      { code: 'approval', label: '回复', status: 'primary' },
+      { code: 'check', label: '查看详情', status: 'primary' }
     ],
     '4': [
-      // { code: 'check', label: '查看详情', status: 'primary' },
+      { code: 'check', label: '查看详情', status: 'primary' },
       { code: 'revoke', label: '撤销', status: 'primary' }
     ]
   },
@@ -120,13 +121,30 @@ export let proconf = {
           'placeholder': '生成日期'
         }
       }
+    },
+    {
+      title: '延迟天数',
+      field: 'daily',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeFormDays',
+      itemRender: {
+        name: '$vxeFormDays',
+        options: [],
+        props: {
+          placeholder: '延迟天数'
+        }
+      }
     }
   ],
   highQueryData: {
     regulationType: '',
     warningLevel: '',
     handleType: '',
-    isEnable: ''
+    isEnable: '',
+    daily: '',
+    createTime: ''
   },
   // 新增弹窗列表
   monitorSetTableColumnsConfig: [
@@ -247,6 +265,27 @@ export let proconf = {
   ],
   PoliciesTableColumns: [
     {
+      'title': '回复提醒',
+      'field': 'financeFlag',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
+      },
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    },
+    {
       title: '问询函编码',
       field: 'askCode',
       sortable: false,
@@ -279,6 +318,20 @@ export let proconf = {
       title: '问询函类型',
       'width': 180,
       field: 'askTypeName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '下发时间',
+      'width': 180,
+      field: 'sendTime',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '延迟天数',
+      'width': 180,
+      field: 'daily',
       sortable: false,
       align: 'center'
     },

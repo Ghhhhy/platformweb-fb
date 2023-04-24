@@ -1,24 +1,44 @@
+import store from '@/store'
+import transJson from '@/utils/transformMenuQuery.js'
 /**
  * 由于该项目未接入ts，以下内容为模拟枚举
  */
 
 /**
+ * 主题列表
+ * @type {[{code: string, label: string, suffix: string}, {code: string, label: string, suffix: string}]}
+ */
+export const regulationClassOptions = [
+  { code: '', suffix: '', label: '通用主题' },
+  { code: '0207', suffix: 'BySpe', label: '专项主题' }
+]
+
+/**
  * 页面（路由）来源枚举
  * @type {{DIVISION_AUDIT: string, DEPARTMENT_AUDIT: string, UNIT_FEEDBACK: string, UNIT_AUDIT: string, DEPARTMENT_REAUDIT: string, DIVISION_REAUDIT: string}}
  */
-export const RouterPathEnum = {
-  // 监控预警单位反馈
-  UNIT_FEEDBACK: '/unitFeedback',
-  // 监控预警单位审核
-  UNIT_AUDIT: '/unitAudit',
-  // 监控预警主管部门初审
-  DEPARTMENT_AUDIT: '/departmentAudit',
-  // 监控预警主管部门复审
-  DEPARTMENT_REAUDIT: '/departmentReAudit',
-  // 监控预警处室初审
-  DIVISION_AUDIT: '/divisionAudit',
-  // 监控预警处室复审
-  DIVISION_REAUDIT: '/divisionReAudit'
+export const RouterPathEnum = () => {
+  const enumMap = {
+    // 监控预警单位反馈
+    UNIT_FEEDBACK: '/unitFeedback',
+    // 监控预警单位审核
+    UNIT_AUDIT: '/unitAudit',
+    // 监控预警主管部门初审
+    DEPARTMENT_AUDIT: '/departmentAudit',
+    // 监控预警主管部门复审
+    DEPARTMENT_REAUDIT: '/departmentReAudit',
+    // 监控预警处室初审
+    DIVISION_AUDIT: '/divisionAudit',
+    // 监控预警处室复审
+    DIVISION_REAUDIT: '/divisionReAudit'
+  }
+
+  const regulationClass = transJson(store.state?.curNavModule?.param5)?.regulationClass
+  Object.keys(enumMap).forEach(key => {
+    enumMap[key] += regulationClassOptions.find(item => item.code === regulationClass)?.suffix || ''
+  })
+
+  return enumMap
 }
 
 /**

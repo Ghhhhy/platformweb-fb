@@ -78,6 +78,7 @@ import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
+import useIs from './hooks/useIs'
 import store from '@/store'
 
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
@@ -95,6 +96,7 @@ import {
   getStatusCodeOptions
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
+import transJson from '@/utils/transformMenuQuery.js'
 
 export default defineComponent({
   components: {
@@ -106,14 +108,16 @@ export default defineComponent({
     // 页面路由
     const pagePath = ref(route.path)
 
+    const { isDivisionPage } = useIs({}, pagePath)
+
     // 是否是单位页面（单位反馈、单位审核）
     const isUnitMenu = computed(() => {
-      return [RouterPathEnum.UNIT_FEEDBACK, RouterPathEnum.UNIT_AUDIT].includes(pagePath.value)
+      return [RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(pagePath.value)
     })
 
     // 是否是单位反馈
     const isUnitFeedbackMenu = computed(() => {
-      return pagePath.value === RouterPathEnum.UNIT_FEEDBACK
+      return pagePath.value === RouterPathEnum().UNIT_FEEDBACK
     })
 
     // 左侧区划树显隐
@@ -161,6 +165,12 @@ export default defineComponent({
           nodeKey: 'code'
         },
         fetch: elementTreeApi.getAgencyTree,
+        beforeFetch: params => {
+          return {
+            ...params,
+            isUnit: unref(isDivisionPage) ? 'department' : 'company'
+          }
+        },
         afterFetch: data => {
           return [
             {
@@ -185,7 +195,7 @@ export default defineComponent({
 
     // 当前选中的tab
     const currentTab = ref(
-      unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK
+      unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK
         ? sendAuditTabs[0]
         : doAuditTabs[0]
     )
@@ -220,6 +230,7 @@ export default defineComponent({
         const menuId = store.state.curNavModule?.guid || ''
         return {
           ...params,
+          regulationClass: transJson(store.state.curNavModule.param5)?.regulationClass,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           elementCode: unref(currentTreeNode)?.code,
           menuId
@@ -253,7 +264,7 @@ export default defineComponent({
       } else if (unref(currentTab).code === TabEnum.ALL) {
         // 全部
         initColumns.splice(2, 0, getStatusCodeColumn(unref(isUnitMenu)))
-        if (unref(pagePath) === RouterPathEnum.UNIT_FEEDBACK) {
+        if (unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK) {
           initColumns.splice(
             initColumns.length - 2,
             0,

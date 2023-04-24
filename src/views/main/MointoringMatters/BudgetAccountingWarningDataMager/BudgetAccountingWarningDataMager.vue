@@ -340,7 +340,8 @@ export default {
       fiRuleCode: '',
       showGlAttachmentDialog: false,
       agencyCodeList: [],
-      selectData: {}
+      selectData: {},
+      regulationClass: ''
     }
   },
   methods: {
@@ -450,7 +451,8 @@ export default {
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList),
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          businessFunctionName: this.currentTreeNode?.businessName
+          businessFunctionName: this.currentTreeNode?.businessName,
+          regulationClass: this.regulationClass
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
@@ -719,7 +721,8 @@ export default {
         page: this.totalPagerConfig.currentPage, // 页码
         pageSize: this.totalPagerConfig.pageSize, // 每页条数
         handleResult: this.toolBarStatusSelect.curValue,
-        businessId: this.businessId
+        businessId: this.businessId,
+        regulationClass: this.regulationClass
       }
       this.tableLoading = true
       HttpModule.getTotalTableData(param).then(res => {
@@ -806,11 +809,12 @@ export default {
   mounted() {
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
     this.getAllTotalTableData()
     this.getAgency()
   }
