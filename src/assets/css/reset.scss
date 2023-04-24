@@ -133,9 +133,29 @@ input::placeholder {
 
 .ri-apps-2-line:before {
   color: unset;
+  margin-bottom: 6px;
 }
 .Titans-table .vxe-table .vxe-cell:not([class*="c--tooltip"]) {
   height: 100% !important;
   padding: 5px !important;
   line-height: calc(1em + 6px) !important;
+}
+.payVoucherInput {
+  .detail-title {
+    color: var(--primary-color) !important;
+  }
+  .fundPlanBody {
+    background: var(--hightlight-color) !important;
+  }
+  .attachment {
+    background-color: unset;
+  }
+}
+.vxe-modal--content {
+  .T-search {
+    background: var(--hightlight-color) !important;
+  }
+}
+.vxe-toolbar .vxe-custom--wrapper.is--active>.vxe-button {
+  border-radius: unset;
 }
