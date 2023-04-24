@@ -441,7 +441,9 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getCapitalTreeData({ fiscalYear }).then(res => {
+      HttpModule.getCapitalTreeData({
+        fiscalYear: fiscalYear
+      }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[1].itemRender.options = treeResdata
@@ -451,7 +453,10 @@ export default {
       })
     },
     getRules(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getRuleTreeData({ fiscalYear }).then(res => {
+      HttpModule.getRuleTreeData({
+        fiscalYear: fiscalYear,
+        regulationClass: '08'
+      }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[2].itemRender.options = treeResdata

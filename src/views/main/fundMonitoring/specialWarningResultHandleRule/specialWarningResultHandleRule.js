@@ -326,7 +326,7 @@ const proconf = {
   ],
   bgtMsgConfig: [
     {
-      field: 'trcakProName',
+      field: 'trackProName',
       title: '上级项目名称',
       titleWidth: '180',
       span: 8,
@@ -447,7 +447,7 @@ const proconf = {
     fiDate: ''
   },
   bgtMsgData: {
-    trcakProName: '',
+    trackProName: '',
     supBgtDocNo: '',
     budgetLevelName: '',
     proName: '',
