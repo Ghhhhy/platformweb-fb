@@ -193,6 +193,7 @@
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
                     <BsTree
                       ref="regulationTreeRef"
+                      v-model="regulationClass"
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
@@ -1491,11 +1492,11 @@ export default {
       }
       let ruleId = ''
       let ruleName = ''
-      // if (that.regulationClass) {
-      //   let valArr = that.regulationClass.split('-')
-      //   ruleName = valArr[1]
-      //   ruleId = valArr[0]
-      // }
+      if (that.regulationClass) {
+        let valArr = that.regulationClass.split('-')
+        ruleName = valArr[1]
+        ruleId = valArr[0]
+      }
       console.log(this.regulationClass)
       let param = {
         'regulationClass': ruleId,
@@ -1738,7 +1739,7 @@ export default {
         this.$XModal.message({ status: 'warning', message: '该节点不可选择，请选择叶子节点' })
         return
       }
-      this.regulationClass = node.code
+      this.regulationClass = node.code + '-' + node.name
     },
     getRegulation() {
       HttpModule.getTree(0).then(res => {
@@ -1834,7 +1835,6 @@ export default {
     } else if (this.$parent.dialogTitle === '修改') {
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
-
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       // this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
