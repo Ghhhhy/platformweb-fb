@@ -3,7 +3,7 @@ import { post, get } from '@/api/http'
 export default {
   // 获取表格数据
   queryTableDatas(params) {
-    return post('large-monitor-platform/lmp/warn/rpt/queryRpt2ByRule', params)
+    return post('large-monitor-platform/lmp/warn/rpt/queryRpt2ByMof', params)
   },
   // 获取违规明细
   getViolationsDetailDatas(params) {
