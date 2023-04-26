@@ -8,7 +8,7 @@
 import './lock'
 import Vue from 'vue'
 
-// import BsUi from '@bszx/boss-ui'
-import BsUi from '../../.yalc/@bszx/boss-ui/packages/index.js'
+import BsUi from '@bszx/boss-ui'
+// import BsUi from '../../.yalc/@bszx/boss-ui/packages/index.js'
 
 Vue.use(BsUi)

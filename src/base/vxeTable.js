@@ -17,7 +17,6 @@ import jsoneditor from 'jsoneditor'
 import globleRenders from '@bszx/boss-ui/packages/Table/src/config/render/index'
 // import globleRenders from '../../.yalc/@bszx/boss-ui/packages/Table/src/config/render/index'
 
-
 const vxeTable = {
   install: function (Vue) {
     for (let i in globleRenders) {
