@@ -100,7 +100,7 @@
             toggleMethod: toggleContentMethod,
             loadMethod: loadContentMethod,
           }"
-          :tree-config="{ dblExpandAll: true, dblExpand: true }"
+          :tree-config="{ dblExpandAll: true, accordion: false, dblExpand: true }"
           :edit-config="{}"
           :toolbar-config="toolbarConfig"
           :edit-rules="editRules"

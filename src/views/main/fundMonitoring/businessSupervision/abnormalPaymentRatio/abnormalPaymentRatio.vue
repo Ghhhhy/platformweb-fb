@@ -49,7 +49,7 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus',
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', accordion: false,
                           iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="mainPagerConfig"
