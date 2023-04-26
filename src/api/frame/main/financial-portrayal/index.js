@@ -2,11 +2,11 @@ import { post } from '@/api/http'
 
 const API_URLS = {
   // 获取财政画像xmind数据url
-  GET_FIN_OPERA_DATA: 'lmp/portrait/getFinOperaData',
+  GET_FIN_OPERA_DATA: 'large-monitor-platform/lmp/portrait/getFinOperaData',
   // 获取财政明细
-  GET_FIN_OPERA_INFO: 'lmp/portrait/getFinOperaInfo',
+  GET_FIN_OPERA_INFO: 'large-monitor-platform/lmp/portrait/getFinOperaInfo',
   // 基础信息
-  GET_BASE_INFO: 'lmp/portraitBaseInfo/getBaseInfo'
+  GET_BASE_INFO: 'large-monitor-platform/lmp/portraitBaseInfo/getBaseInfo'
 }
 // 财政运行情况
 export const getFinOperaData = (params) => {

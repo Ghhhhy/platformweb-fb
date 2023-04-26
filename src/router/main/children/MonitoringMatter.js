@@ -317,6 +317,26 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
   },
+  // 预警数据审核（直达资金）
+  {
+    path: '/BudgetAccountingWarningDataMagerByZd',
+    name: 'BudgetAccountingWarningDataMagerByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+  },
+  // 预警数据审核（财政专户资金）
+  {
+    path: '/BudgetAccountingWarningDataMagerByZh',
+    name: 'BudgetAccountingWarningDataMagerByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+  },
   // 预警数据审核（专项监控）
   {
     path: '/BudgetAccountingWarningDataMagerBySpe',
