@@ -1491,11 +1491,11 @@ export default {
       }
       let ruleId = ''
       let ruleName = ''
-      // if (that.regulationClass) {
-      //   let valArr = that.regulationClass.split('-')
-      //   ruleName = valArr[1]
-      //   ruleId = valArr[0]
-      // }
+      if (that.regulationClass) {
+        let valArr = that.regulationClass.split('-')
+        ruleName = valArr[1]
+        ruleId = valArr[0]
+      }
       console.log(this.regulationClass)
       let param = {
         'regulationClass': ruleId,
