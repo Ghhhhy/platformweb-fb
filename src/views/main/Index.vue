@@ -232,7 +232,9 @@ export default {
         ) {
           let indexOf = this.getIndexof(this.tabListCp, value, 'url')
 
-          this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+          if (window.self === window.top) {
+            this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+          }
           // if (indexOf === -1) {
           //   this.onRefreshClick()
           // }

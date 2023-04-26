@@ -102,7 +102,9 @@ export default {
       this.$router.push({ name: obj.remark })
       if (this.getDataType(this.curRouteTabObj) === 'Object' && this.curRouteTabObj.name !== obj.name) {
         this.defaultTabObj = obj
-        this.$store.commit('setCurNavModule', obj)
+        if (window.self === window.top) {
+          this.$store.commit('setCurNavModule', obj)
+        }
       }
     },
     refeshTabComs(obj, indexOf) {
