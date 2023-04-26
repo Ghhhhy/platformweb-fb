@@ -83,7 +83,9 @@ export default {
         this.$router.push({ name: value })
         if (this.getDataType(this.curRouteTabObj) === 'Object' && this.curRouteTabObj.remark !== value) {
           let indexOf = this.getIndexof(this.tabListCp, value, 'remark')
-          this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+          if (window.self === window.top) {
+            this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+          }
         }
       }
     },
