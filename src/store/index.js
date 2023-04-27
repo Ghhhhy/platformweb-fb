@@ -6,6 +6,7 @@ import { state, mutations, actions, getters } from './global.js'
 import basicInfo from './modules/basicInfo.js'
 import warnInfo from './modules/warnInfo'
 import todoInfo from './modules/todoInfo'
+import mapInfo from './modules/mapInfo'
 Vue.use(Vuex)
 // global process
 const debug = process.env.NODE_ENV !== 'production'
@@ -18,7 +19,8 @@ export default new Vuex.Store({
   modules: {
     basicInfo,
     warnInfo,
-    todoInfo
+    todoInfo,
+    mapInfo
   },
   strict: debug
 })

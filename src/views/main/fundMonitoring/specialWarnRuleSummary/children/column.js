@@ -413,7 +413,8 @@ const proconf = {
       width: 140,
       field: 'amount',
       sortable: false,
-      align: 'right'
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '未分配金额',
@@ -421,7 +422,8 @@ const proconf = {
       width: 140,
       field: 'curAmt',
       sortable: false,
-      align: 'right'
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     }
   ],
   redDoneNum: [
@@ -557,7 +559,8 @@ const proconf = {
       width: 140,
       field: 'amount',
       sortable: false,
-      align: 'right'
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '未分配金额',
@@ -565,7 +568,8 @@ const proconf = {
       width: 140,
       field: 'curAmt',
       sortable: false,
-      align: 'right'
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     }
   ],
   // 支出预警-未处理明细

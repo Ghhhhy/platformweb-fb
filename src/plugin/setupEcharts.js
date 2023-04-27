@@ -7,6 +7,7 @@ import shanxi from '@/assets/map/shanxi.json'
 echarts.registerMap('shanxi', shanxi)
 // echarts.registerMap('china', china)
 // const VueECharts = () => import('vue-echarts')
+
 const ECharts = {
   install: function (Vue) {
     // Vue.component('v-chart', VueECharts)

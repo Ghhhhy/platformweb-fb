@@ -63,6 +63,7 @@ import { defineComponent, ref, unref, onMounted, watch } from '@vue/composition-
 import SelectTree from '@/components/SelectTree'
 import httpHandles from '@/api/frame/main/Monitoring/Declaration.js'
 import { moduleTabs } from '../model/data'
+import store from '@/store'
 export default defineComponent({
   components: {
     SelectTree
@@ -91,12 +92,13 @@ export default defineComponent({
     const treeProps = {
       label: 'text'
     }
+    const province = store.state.userInfo.province
     // 请求区划树的属性
     const getTreeQuery = {
       elementcode: 'admdiv',
-      province: '610000000',
+      province,
       year: '2021',
-      wheresql: 'and code like \'' + 61 + '%\''
+      wheresql: 'and code like \'' + province.slice(0, 2) + '%\''
     }
 
     // 区划树选中值<=>select值

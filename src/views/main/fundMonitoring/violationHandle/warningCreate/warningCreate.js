@@ -368,45 +368,29 @@ const proconf = {
         align: 'center',
         children: [
           {
-            title: '疑点信息',
+            title: '预警数据',
             field: 'redUndoNum',
-            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
-              name: '$vxeIcon1',
+              name: '$vxeIcon6',
               props: {
                 $refs: this
               }
             }
           },
           {
-            title: '认定正常',
-            field: 'redNormalNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '认定违规',
-            field: '',
+            title: '生成问询单',
             sortable: false,
             align: 'center',
             children: [
               {
-                title: '待整改',
-                field: 'redNotRectifiedNum',
-                width: 140,
-                filters: false,
+                title: '认定正常',
+                field: 'redNormalNum',
                 align: 'center',
+                filters: false,
                 cellRender: {
-                  name: '$vxeIcon1',
+                  name: '$vxeIcon3',
                   props: {
                     $refs: this
                   }
@@ -415,11 +399,22 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'redDoneNum',
-                width: 140,
                 filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '未完成',
+                field: 'redNotRectifiedNum',
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon6',
                   props: {
                     $refs: this
                   }
@@ -432,14 +427,12 @@ const proconf = {
       {
         title: '橙色预警',
         field: '',
-        width: 140,
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '疑点信息',
+            title: '预警数据',
             field: 'orangeUndoNum',
-            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
@@ -450,32 +443,17 @@ const proconf = {
             }
           },
           {
-            title: '认定正常',
-            field: 'orangeNormalNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '认定违规',
-            field: '',
+            title: '生成问询单',
             sortable: false,
             align: 'center',
             children: [
               {
-                title: '待整改',
-                field: 'orangeNotRectifiedNum',
-                width: 140,
-                filters: false,
+                title: '认定正常',
+                field: 'orangeNormalNum',
                 align: 'center',
+                filters: false,
                 cellRender: {
-                  name: '$vxeIcon6',
+                  name: '$vxeIcon3',
                   props: {
                     $refs: this
                   }
@@ -484,11 +462,22 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'orangeDoneNum',
-                width: 140,
                 filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '未完成',
+                field: 'orangeNotRectifiedNum',
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon6',
                   props: {
                     $refs: this
                   }
@@ -501,14 +490,12 @@ const proconf = {
       {
         title: '黄色预警',
         field: '',
-        width: 140,
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '疑点信息',
+            title: '预警数据',
             field: 'yellowUndoNum',
-            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
@@ -519,32 +506,17 @@ const proconf = {
             }
           },
           {
-            title: '认定正常',
-            field: 'yellowNormalNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '认定违规',
-            field: '',
+            title: '生成问询单',
             sortable: false,
             align: 'center',
             children: [
               {
-                title: '待整改',
-                field: 'yellowNotRectifiedNum',
-                width: 140,
-                filters: false,
+                title: '认定正常',
+                field: 'yellowNormalNum',
                 align: 'center',
+                filters: false,
                 cellRender: {
-                  name: '$vxeIcon2',
+                  name: '$vxeIcon3',
                   props: {
                     $refs: this
                   }
@@ -553,11 +525,22 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'yellowDoneNum',
-                width: 140,
                 filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '未完成',
+                field: 'yellowNotRectifiedNum',
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon2',
                   props: {
                     $refs: this
                   }
@@ -567,86 +550,15 @@ const proconf = {
           }
         ]
       },
-      // {
-      //   title: '灰色预警',
-      //   field: '',
-      //   width: 140,
-      //   sortable: false,
-      //   align: 'center',
-      //   children: [
-      //     {
-      //       title: '疑点信息',
-      //       field: 'greyUndoNum',
-      //       width: 140,
-      //       filters: false,
-      //       align: 'center',
-      //       cellRender: {
-      //         name: '$vxeIcon8',
-      //         props: {
-      //           $refs: this
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: '认定正常',
-      //       field: 'greyNormalNum',
-      //       width: 140,
-      //       align: 'center',
-      //       filters: false,
-      //       cellRender: {
-      //         name: '$vxeIcon3',
-      //         props: {
-      //           $refs: this
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: '认定违规',
-      //       field: '',
-      //       sortable: false,
-      //       align: 'center',
-      //       children: [
-      //         {
-      //           title: '待整改',
-      //           field: 'greyNotRectifiedNum',
-      //           width: 140,
-      //           filters: false,
-      //           align: 'center',
-      //           cellRender: {
-      //             name: '$vxeIcon8',
-      //             props: {
-      //               $refs: this
-      //             }
-      //           }
-      //         },
-      //         {
-      //           title: '已整改',
-      //           field: 'greyDoneNum',
-      //           width: 140,
-      //           filters: false,
-      //           align: 'center',
-      //           cellRender: {
-      //             name: '$vxeIcon3',
-      //             props: {
-      //               $refs: this
-      //             }
-      //           }
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
         title: '蓝色预警',
         field: '',
-        width: 140,
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '疑点信息',
+            title: '预警数据',
             field: 'blueUndoNum',
-            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
@@ -657,32 +569,17 @@ const proconf = {
             }
           },
           {
-            title: '认定正常',
-            field: 'blueNormalNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '认定违规',
-            field: '',
+            title: '生成问询单',
             sortable: false,
             align: 'center',
             children: [
               {
-                title: '待整改',
-                field: 'blueNotRectifiedNum',
-                width: 140,
-                filters: false,
+                title: '认定正常',
+                field: 'blueNormalNum',
                 align: 'center',
+                filters: false,
                 cellRender: {
-                  name: '$vxeIcon7',
+                  name: '$vxeIcon3',
                   props: {
                     $refs: this
                   }
@@ -691,11 +588,22 @@ const proconf = {
               {
                 title: '已整改',
                 field: 'blueDoneNum',
-                width: 140,
                 filters: false,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '未完成',
+                field: 'blueNotRectifiedNum',
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon7',
                   props: {
                     $refs: this
                   }
