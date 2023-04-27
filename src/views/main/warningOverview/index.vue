@@ -1,7 +1,7 @@
 <template>
   <div class="warning-overview">
     <div class="warning-overview-body">
-      <header class="warning-overview-header">陕西监控管理预警总览</header>
+      <header class="warning-overview-header">{{ $store.state.userInfo.admdivname }}监控管理预警总览</header>
       <main>
         <!--顶部规则和地图-->
         <div class="warning-overview-top">

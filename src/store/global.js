@@ -1,4 +1,5 @@
 import { getUserRoles } from '@/api/frame/common/userroles.js'
+import store from '@/store'
 
 export const state = { // 实时监听state值的变化(最新状态)
   loading: false,
@@ -78,6 +79,7 @@ export const mutations = {
     }
 
     state.userInfo = userInfoobj
+    store.dispatch('mapInfo/getMapJson')
   },
   setJixiao(state, obj) {
     state.jixiao = obj
