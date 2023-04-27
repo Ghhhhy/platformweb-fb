@@ -39,7 +39,7 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
-import { useMap } from '../hooks/useMap'
+import useMap from '@/hooks/useMap/index.js'
 
 export default defineComponent({
   setup() {
