@@ -2,6 +2,7 @@ import MenuModule from '@/api/frame/common/menu.js'
 import store from '@/store'
 import { findTree } from 'xe-utils'
 
+// iframe环境下是否已经完成项目前置请求标识
 let flag = false
 
 async function getMenus() {
