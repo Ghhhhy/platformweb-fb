@@ -1,7 +1,7 @@
 <!--  formList模版   Author:Titans@2396757591@qq.com -->
 <template>
   <div class="height-all">
-    <BsMainFormListLayout ref="summaryTable":left-visible.sync="leftVisible">
+    <BsMainFormListLayout ref="summaryTable" :left-visible.sync="leftVisible">
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <template v-slot:topTabPane>
         <BsTabPanel

@@ -26,7 +26,7 @@
         :toolbar-config="tableToolbarConfig"
         :cell-style="cellStyle"
         :pager-config="pagerConfig"
-        :export-modal-config="{ fileName: title }"
+        :title="title"
         :default-money-unit="10000"
         @cellClick="cellClick"
         @onToolbarBtnClick="onToolbarBtnClick"

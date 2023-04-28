@@ -1,7 +1,8 @@
 <!-- 预警明细查询（按规则） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <!-- <BsMainFormListLayout :left-visible.sync="leftTreeVisible"> -->
+    <BsMainFormListLayout>
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -33,18 +34,14 @@
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
           open-loading
-          :defaultexpandedkeys="['0']"
-          style="overflow: hidden"
-          :is-server="false"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          :filter-text="leftTreeFilterText"
+          :config="leftTreeConfig"
+          :tree-data="treeData"
+          :default-expanded-keys="defaultExpandedKeysIn"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -91,12 +88,6 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
-    <HandleDialog
-      v-if="handleDialogVisible"
-      :title="dialogTitle"
-      :warning-code="warningCode"
-      :fi-rule-code="fiRuleCode"
-    />
     <GlAttachment
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
@@ -110,15 +101,13 @@ import { proconf } from './WarningDetailsByRule'
 // import AddDialog from './children/addDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
-import HandleDialog from '../../monitor/children/HandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByRule.js'
 import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
     HsDetailDialog,
-    GlAttachment,
-    HandleDialog
+    GlAttachment
   },
   watch: {
     queryConfig() {
@@ -129,9 +118,7 @@ export default {
     return {
       // BsQuery 查询栏
       dialogHsVisible: false,
-      handleDialogVisible: false,
       warningCode: '',
-      fiRuleCode: '',
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
@@ -148,8 +135,20 @@ export default {
         text: '全部'
       }],
       treeTypeConfig: {
-        curRadio: 'AGENCY'
+        curRadio: '2',
+        radioGroup: [
+          {
+            code: '1',
+            label: '区划树'
+          },
+          {
+            code: '2',
+            label: '规则树'
+          }
+        ]
       },
+      codeList: [],
+      treeType: '2',
       treeGlobalConfig: {
         inputVal: ''
       },
@@ -220,7 +219,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $warningDetailsByRuleOptionRow: proconf.gloableOptionRow
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -257,7 +256,37 @@ export default {
       DetailData: {},
       regulationclass: '',
       firulename: '',
-      showGlAttachmentDialog: false
+      fiRuleCode: '',
+      businessTime: '',
+      endTime: '',
+      showGlAttachmentDialog: false,
+      regulation_type: '',
+      regulation_code: '',
+      useDes: '',
+      defaultExpandedKeysIn: ['0'],
+      leftTreeConfig: { // 左侧单位树配置
+        showFilter: false, // 是否显示过滤
+        isInitLoadData: false,
+        scrollLoad: false, // 是否开启滚动加载
+        isleaf: 0, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
+        levelno: -1, // 可选层级
+        valueKeys: ['code', 'name', 'id'],
+        format: '{code}-{name}',
+        placeholder: '请选择',
+        multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
+        treeProps: {
+          // 树配置选项
+          labelFormat: '{label}', // {code}-{name}
+          nodeKey: 'code', // 树的主键
+          label: 'name', // 树的显示lalel字段
+          children: 'children' // 树的嵌套字段
+        },
+        multiple: false, // 是否多选,
+        isLazeLoad: false, // 是否调用接口远程懒加载数据
+        readonly: true,
+        clearable: true,
+        leftTreeFilterText: ''
+      }
     }
   },
   mounted() {
@@ -267,8 +296,20 @@ export default {
       console.log(obj)
       this.warningLevel = obj.warningLevel
       this.regulationType = obj.regulationType
+      this.regulation_type = obj.regulationType
       this.firulename = obj.firulename
+      this.triggerClass = obj.triggerClass
+      this.isSign = obj.isSign
       this.regulation_class = obj.regulation_class
+      this.businessTime = obj.businessTime
+      this.endTime = obj.endTime
+      this.useDes = obj.useDes
+      if (this.endTime) {
+        this.endTime = this.endTime + ' 23:59:59'
+      }
+      if (this.businessTime) {
+        this.businessTime = this.businessTime + ' 00:00:00'
+      }
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -436,16 +477,14 @@ export default {
             return
           }
           this.selectData = selection[0]
-          if (this.selectData.regulationClass === '07') {
+          if (this.selectData.regulationClass === '0107') {
             this.dialogHsVisible = true
-          } else if (this.selectData.regulationClass === '10') {
-            this.handleDialogVisible = true
           } else {
             this.dialogVisible = true
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.fiRuleCode
+          this.fiRuleCode = this.selectData.firulecode
           // this.mainPagerConfig.currentPage = 1
           break
         case 'violation':
@@ -505,36 +544,66 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
-      if (node.id !== '0') {
-        let key =
-          this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.code
-        if (node.id === '01') {
-          this.regulationType = 1
-          this.fiRuleCode = ''
-        } else if (node.id === '02') {
-          this.fiRuleCode = ''
-          this.regulationType = 2
-        } else if (node.id === '03') {
-          this.fiRuleCode = ''
-          this.regulationType = 3
-        } else {
-          this.fiRuleCode = node.code
-          this.regulationType = ''
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
         }
-        this.mainPagerConfig.currentPage = 1
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
+    },
+    onClickmethod(node) {
+      if (this.treeType === '1') {
+        // if (node.node.code === '') {
+        //   return
+        // }
+        let code = node.node.code
+        this.codeList = []
+        let treeData = node.treeData
+        this.getItem(code, treeData)
+        console.log(this.codeList)
+        this.queryTableDatas()
       } else {
-        this.condition = {}
+        let code = node.node.code
+        let regulationClass = ''
+        let regulationType = ''
+        let regulationCode = ''
+        if (code.length === 4) {
+          regulationClass = node.node.code
+        } else if (node.node.code.length === 6) {
+          regulationClass = node.node.superguid
+          regulationType = node.node.code.substr(-1, 1)
+        } else {
+          regulationClass = node.node.superguid
+          regulationType = node.node.bsTreePid.substr(-1, 1)
+          regulationCode = node.node.code
+        }
+        this.regulation_class = regulationClass
+        this.regulation_type = regulationType
+        this.regulation_code = regulationCode
+        this.queryTableDatas()
       }
-      this.queryTableDatas()
     },
     treeSetConfrimData(curTree) {
-      this.treeQueryparams.elementCode = curTree.code
-      this.$refs.leftTree.refreshTree()
+      console.log(curTree)
+      if (curTree.code === '1') {
+        this.treeType = '1'
+        this.getLeftTreeData()
+      } else {
+        this.treeType = '2'
+        this.getLeftTreeData1()
+      }
     },
     asideChange() {
       this.leftTreeVisible = false
@@ -555,7 +624,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -651,12 +720,20 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         warn_level: this.warningLevel, // 预警级别
-        regulation_type: this.regulationType,
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        // regulationClass: this.params5,
-        fiRuleCode: this.fiRuleCode
+        regulationClass: this.params5,
+        firulecode: this.regulation_code,
+        triggerClass: this.triggerClass,
+        isSign: this.isSign,
+        businessTime: this.businessTime,
+        endTime: this.endTime,
+        mofDivCodeList: this.codeList,
+        regulation_code: this.regulation_code,
+        regulation_class: this.regulation_class,
+        regulation_type: this.regulation_type,
+        useDes: this.useDes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -666,6 +743,17 @@ export default {
           this.tableData.forEach(item => {
             if (item.handleTime === null) {
               item.handleTime = '-'
+            }
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
             }
           })
           this.mainPagerConfig.total = res.data.totalCount
@@ -700,43 +788,6 @@ export default {
         }
       })
     },
-    getChildrenData(datas) {
-      let that = this
-      datas.forEach(item => {
-        item.label = item.text
-        if (item.children) {
-          that.getChildrenData(item.children)
-        }
-      })
-
-      return datas
-    },
-    getLeftTreeData() {
-      let that = this
-      let param = {
-        regulationClass: this.params5
-      }
-      HttpModule.getTreeDataNew(param).then(res => {
-        if (res.code === '000000') {
-          let treeResdata = that.getChildrenData(res.data.children)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData[0].children = treeResdata
-        } else {
-          this.$message.error('左侧树加载失败')
-        }
-      })
-    },
     violation() {
       this.$message.info('疑似违规')
     },
@@ -764,9 +815,101 @@ export default {
           that.$message.error('下拉树加载失败')
         }
       })
+    },
+    getLeftTreeData() {
+      console.log(this.userInfo)
+      let params = {}
+      if (this.userInfo.province === '610000000') {
+        params = {
+          elementcode: 'admdiv',
+          province: '610000000',
+          year: '2021',
+          wheresql: 'and code like \'' + 61 + '%\''
+        }
+      } else if (
+        this.userInfo.province === '610100000' ||
+        this.userInfo.province === '610100000' ||
+        this.userInfo.province === '610200000' ||
+        this.userInfo.province === '610300000' ||
+        this.userInfo.province === '610400000' ||
+        this.userInfo.province === '610500000' ||
+        this.userInfo.province === '610600000' ||
+        this.userInfo.province === '610700000' ||
+        this.userInfo.province === '610800000' ||
+        this.userInfo.province === '610900000' ||
+        this.userInfo.province === '611000000' ||
+        this.userInfo.province === '611200000'
+      ) {
+        params = {
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+        }
+      } else {
+        params = {
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+        }
+      }
+      let that = this
+      HttpModule.getLeftTree(params).then(res => {
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
+          that.treeData = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getLeftTreeData1() {
+      let that = this
+      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库 显示预警级别树
+        that.treeData = proconf.leftYjjbData
+        return
+      }
+      HttpModule.getLeftTree1().then(res => {
+        if (res.code === '000000') {
+          let arr = []
+          // if (this.params5 === 'dfr') {
+          //   res.data.children.forEach(item1 => {
+          //     if (item1.code === '09') {
+          //       this.children = item1
+          //     }
+          //   })
+          //   arr.push(this.children)
+          //   let treeResdata = that.getChildrenData(arr)
+          //   that.treeData = treeResdata
+          // } else {
+          arr.push(res.data)
+          let treeResdata = that.getChildrenData(arr)
+          that.treeData = treeResdata
+          // }
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenData(item.children)
+        }
+      })
+
+      return datas
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.endTime = year + '-' + month + '-' + day
     // this.getTree()
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
@@ -778,10 +921,10 @@ export default {
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
-    if (this.params5 === '6' || this.params5 === '7' || this.params5 === '06' || this.params5 === '07') {
+    if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
       this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton
     }
-    this.getLeftTreeData()
+    this.getLeftTreeData1()
     this.queryTableDatas()
   }
 }

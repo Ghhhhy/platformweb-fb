@@ -9,7 +9,7 @@
     @close="dialogClose"
   >
     <div v-loading="addLoading" class="payVoucherInput">
-      <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">规则信息</div>
+      <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">规则信息</div>
       <BsTable
         ref="handleTableRef"
         height="200px"
@@ -21,7 +21,7 @@
         :pager-config="false"
       />
       <div>
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">明细信息</div>
         <BsForm
           ref="incomeMsgRef"
           :form-items-config="incomeMsgConfig"
@@ -30,7 +30,7 @@
         />
       </div>
       <div style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">处理信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">处理信息</div>
         <el-row>
           <el-col :span="12">
             <el-container>
