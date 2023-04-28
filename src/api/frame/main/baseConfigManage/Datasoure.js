@@ -57,7 +57,13 @@ export default {
   },
   // 获取合计
   fileUpload(params) {
-    return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+    return post(
+      'fileservice/v2/upload',
+      params,
+      null,
+      'multipart/form-data',
+      'openapi'
+    )
   },
   check(params) {
     return post('large-monitor-platform/lmp/dataSource/checkData/' + params)
