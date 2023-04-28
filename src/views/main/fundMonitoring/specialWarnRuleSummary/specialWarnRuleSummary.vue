@@ -374,9 +374,8 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
-          console.info('111111111111111')
-          this.regionData = ['name', obj.row.proCode, this.fiscalYear]
-          this.regionTitle = '专项监督预警汇总_分地区'
+          this.detailData = ['name', obj.row.proCode, this.fiscalYear]
+          this.detailTitle = '专项监督预警汇总_分地区'
           this.warnRegionSummaryVisible = true
           break
         case 'numbernofileNum':
