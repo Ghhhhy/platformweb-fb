@@ -88,7 +88,7 @@ module.exports = {
   // },
   // 声明需要编译（依赖）哪些包
   transpileDependencies: [
-    // 'bs-ui'
+    '@bszx/boss-ui'
   ],
   pluginOptions: {
     dll: {

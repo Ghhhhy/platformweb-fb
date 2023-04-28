@@ -9,7 +9,7 @@
     @close="dialogClose"
   >
     <div v-if="title === '查看详情信息'" v-loading="addLoading" class="payVoucherInput">
-      <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">规则信息</div>
+      <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">规则信息</div>
       <BsTable
         ref="handleTableRef"
         height="200px"
@@ -21,7 +21,7 @@
         :pager-config="false"
       />
       <div>
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">明细信息</div>
         <BsForm
           ref="incomeMsgRef"
           :form-items-config="incomeMsgConfig"
@@ -31,7 +31,7 @@
     </div>
     <div v-if="title === '监控问询单信息'" v-loading="addLoading" class="payVoucherInput">
       <div>
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">疑似违规信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">疑似违规信息</div>
         <BsForm
           ref="createRef"
           :form-items-config="createConfig"
@@ -58,7 +58,7 @@
         </el-container>
       </el-col>
       <div v-if="param5.retroact === 'department' || param5.retroact === 'company' || param5.isQuery === 'true' || status === 3 " style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室指导意见</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">主管处室指导意见</div>
         <el-row>
           <el-col :span="24">
             <el-container>
@@ -141,7 +141,7 @@
         </el-row>
       </div>
       <div v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) " style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">预算单位整改信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">预算单位整改信息</div>
         <el-row>
           <el-col :span="24">
             <el-container>
@@ -219,7 +219,7 @@
         />
       </div>
       <div v-if=" (param5.retroact === 'department' && status !== 3) || param5.isQuery === 'true'" style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室整改信息</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">主管处室整改信息</div>
         <el-row>
           <el-col :span="24">
             <el-container>
@@ -297,7 +297,7 @@
         />
       </div>
       <div v-if="status === '3' || status === 3 || status === '4' || param5.isQuery === 'true' || ((status === 2 || status === '2') && isReturn === '1')" style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室审核</div>
+        <div style="margin-bottom:5px;font-size:16px;font-weight:bold" class="detail-title">主管处室审核</div>
         <el-row>
           <el-col :span="6">
             <el-container>

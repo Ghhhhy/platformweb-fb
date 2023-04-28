@@ -24,7 +24,7 @@
       :table-data="tableData"
       :toolbar-config="tableToolbarConfig"
       :pager-config="pagerConfig"
-      :export-modal-config="{ fileName: title }"
+      :title="title"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
     >

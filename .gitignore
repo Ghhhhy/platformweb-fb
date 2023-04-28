@@ -8,6 +8,9 @@ node_modules
 selenium-debug.log
 chromedriver.log
 geckodriver.log
+.yalc
+.yalc/
+yalc.lock
 
 # local env files
 .env.local
@@ -30,3 +33,6 @@ yarn-error.log*
 # /src/config/devUrlConfig.js
 # /src/api/serverGatewayMap.js
 # src/api/serverGatewayMap.js
+
+# yalc
+/.yalc
