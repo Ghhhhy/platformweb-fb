@@ -29,7 +29,7 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"

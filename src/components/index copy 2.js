@@ -1,3 +1,10 @@
+/*
+ * @Description: 备份
+ * @Author: Comer
+ * @Date: 2023-03-30 14:43:35
+ * @LastEditors: Comer
+ * @LastEditTime: 2023-03-30 14:43:37
+ */
 // 全局组件注册   Author:Titans@2396757591@qq.com
 // component
 import BsBossTree from './bossTree/BossTree.vue' // 树组件  Comer

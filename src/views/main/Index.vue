@@ -16,21 +16,21 @@
           @onTabListChange="onTabListChange"
           @onCollectClick="onCollectClick"
         >
-          <template v-slot:tabKeepRouter-right>
-            <div class="tab-home-showtyle">
-              <label style="margin-bottom:4px;" :style="{ 'color': isShowHeader ? '#333' : '#fff' }" class="fn-inline">{{ homeShowType === 'Home-card' ? '卡片版' : '默认版' }}</label>
-              <span class="fn-inline">
-                <vxe-switch
-                  v-model="homeShowType"
-                  size="mini"
-                  on-label="是"
-                  on-value="Home-card"
-                  off-label="否"
-                  off-value="Home-default"
-                />
-              </span>
-            </div>
-          </template>
+          <!--<template v-slot:tabKeepRouter-right>-->
+          <!--  <div class="tab-home-showtyle">-->
+          <!--    <label style="margin-bottom:4px;" :style="{ 'color': isShowHeader ? '#333' : '#fff' }" class="fn-inline">{{ homeShowType === 'Home-card' ? '卡片版' : '默认版' }}</label>-->
+          <!--    <span class="fn-inline">-->
+          <!--      <vxe-switch-->
+          <!--        v-model="homeShowType"-->
+          <!--        size="mini"-->
+          <!--        on-label="是"-->
+          <!--        on-value="Home-card"-->
+          <!--        off-label="否"-->
+          <!--        off-value="Home-default"-->
+          <!--      />-->
+          <!--    </span>-->
+          <!--  </div>-->
+          <!--</template>-->
         </BsTabKeepRouter>
       </div>
       <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ height: isIframe() ? 'calc(100% - 8px) !important' : '', 'marginLeft': leftNavWidth + 'px' }">
