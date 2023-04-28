@@ -24,7 +24,7 @@
       :table-data="tableData"
       :toolbar-config="tableToolbarConfig"
       :pager-config="pagerConfig"
-      :export-modal-config="{ fileName: title + '(' + amtUnit + ')' }"
+      :title="title + '(' + amtUnit + ')'"
       :cell-style="cellStyle"
       @cellClick="cellClick"
       @onToolbarBtnClick="onToolbarBtnClick"

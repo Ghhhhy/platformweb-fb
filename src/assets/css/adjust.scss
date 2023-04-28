@@ -284,7 +284,7 @@
   color: var(--primary-color);
 }
 .vxe-switch.is--on .vxe-switch--button {
-  background-color: var(--secondary-color);
+  // background-color: var(--secondary-color);
 }
 .vxe-switch:not(.is--disabled) .vxe-switch--button:focus {
   box-shadow: 0 0 0.4em 0 var(--secondary-color);
