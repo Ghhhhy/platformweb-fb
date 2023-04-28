@@ -82,8 +82,9 @@ export default [
         '../../../views/main/fundMonitoring/UserRegulationRelation/UserRegulationRelation.vue'
       )
   },
+  //  三宝资金支出情况表
   {
-    path: '/ThreeGuaranteesDetail', //三宝资金支出情况表
+    path: '/ThreeGuaranteesDetail',
     name: 'ThreeGuaranteesDetail',
     meta: {
       keepAlive: true,
