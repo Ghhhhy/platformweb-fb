@@ -7,7 +7,10 @@ export default {
   },
   // 获取违规明细
   getViolationsDetailDatas(params) {
-    return post('large-monitor-platform/lmp/warn/rpt/queryRptInfoByRule', params)
+    return post(
+      'large-monitor-platform/lmp/warn/rpt/queryRptInfoByRule',
+      params
+    )
   },
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)

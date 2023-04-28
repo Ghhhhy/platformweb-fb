@@ -180,7 +180,7 @@ export default {
         elementcode: 'admdiv',
         province: '610000000',
         year: '2021',
-        wheresql: "and code like '" + 61 + "%'"
+        wheresql: 'and code like ' + 61 + '%'
       },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
@@ -840,7 +840,7 @@ export default {
           elementcode: 'admdiv',
           province: '610000000',
           year: '2021',
-          wheresql: "and code like '" + 61 + "%'"
+          wheresql: 'and code like ' + 61 + '%'
         }
       } else if (
         this.userInfo.province === '610100000' ||
@@ -861,7 +861,7 @@ export default {
           province: this.userInfo.province,
           year: '2021',
           wheresql:
-            "and code like '" + this.userInfo.province.substring(0, 4) + "%'"
+            'and code like ' + this.userInfo.province.substring(0, 4) + '%'
         }
       } else {
         params = {
@@ -869,7 +869,7 @@ export default {
           province: this.userInfo.province,
           year: '2021',
           wheresql:
-            "and code like '" + this.userInfo.province.substring(0, 6) + "%'"
+            'and code like ' + this.userInfo.province.substring(0, 6) + '%'
         }
       }
       let that = this
