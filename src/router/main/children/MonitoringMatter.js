@@ -760,5 +760,15 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/ThreeGuarantees/BgtPaySummary.vue')
+  },
+  // 三公预警明细查询（按规则）
+  {
+    path: '/sangongWarningDetailsByRule',
+    name: 'sangongWarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
   }
 ]
