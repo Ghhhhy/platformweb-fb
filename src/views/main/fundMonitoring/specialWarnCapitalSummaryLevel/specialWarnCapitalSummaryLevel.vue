@@ -57,10 +57,17 @@
       :title="detailTitle"
       :detail-data="detailData"
     />
-    <warnRuleSummaryDialog
-      v-if="ruleVisible"
+    <vxe-modal
+      v-if="warnRuleSummaryVisible"
+      v-model="warnRuleSummaryVisible"
       :title="ruleTitle"
-    />
+      width="96%"
+      height="90%"
+      :show-footer="false"
+      :rule-data="ruleData"
+    >
+      <SpecialWarnRuleSummary />
+    </vxe-modal>
   </div>
 </template>
 
@@ -68,11 +75,12 @@
 import getFormData from './specialWarnCapitalSummaryLevel.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
-import warnRuleSummaryDialog from './warnRuleSummary/warnRuleSummary.vue'
+import SpecialWarnRuleSummary from '@/views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue'
+
 export default {
   components: {
     DetailDialog,
-    warnRuleSummaryDialog
+    SpecialWarnRuleSummary
   },
   watch: {
     $refs: {
@@ -94,24 +102,6 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -218,12 +208,14 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
+      ruleTitle: '',
       fiscalYear: '',
       detailData: [],
+      ruleData: [],
       mofDivCodes: [],
       ruleCodes: [],
-      ruleVisible: false,
-      ruledialogTitle: '新增'
+      ruledialogTitle: '新增',
+      warnRuleSummaryVisible: false
     }
   },
   mounted() {
@@ -362,16 +354,22 @@ export default {
       let key = obj.column.property
 
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
 
       this.fiscalYear = this.searchDataList.fiscalYear
       switch (key) {
+        case 'name':
+          this.detailData = ['name', obj.row.proCode, this.fiscalYear]
+          this.ruleVisible = true
+          break
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
-          this.detailTitle = '是否上传附件-未处理明细'
-          this.detailType = 'numbernofileNum'
-          this.detailVisible = true
+          // this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          // this.detailTitle = '是否上传附件-未处理明细'
+          // this.detailType = 'numbernofileNum'
+          // this.detailVisible = true
+          this.ruleTitle = '专项监督预警汇总_分规则'
+          this.warnRuleSummaryVisible = true
           break
         case 'numberfileNum':
           this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
@@ -495,6 +493,20 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    toRulePath: function() {
+      this.warnRuleSummaryVisible = true
+      // let routeData = this.$router.resolve({ path: '/SproWarnRuleSummary', query: { id: 1 } })
+      // window.open(routeData.href, '_blank')
+
+      /*
+      this.$router.push({
+        name: 'SproWarnRuleSummary',
+        params: {
+          userInfo: ''
+        }
+      })
+    */
     }
   },
   created() {

@@ -122,7 +122,10 @@ const proconf = {
         field: 'name',
         filters: false,
         cellRender: {
-          name: '$vxeIcon'
+          name: '$vxeIcon',
+          props: {
+            $refs: this
+          }
         }
       },
       {
@@ -199,7 +202,7 @@ const proconf = {
             align: 'center',
             children: [
               {
-                title: '未认定',
+                title: '待整改',
                 field: 'numberwarnUndoNoNum',
                 width: 210,
                 filters: false,

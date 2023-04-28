@@ -57,6 +57,18 @@
       :title="detailTitle"
       :detail-data="detailData"
     />
+    <vxe-modal
+      v-if="warnRegionSummaryVisible"
+      v-model="warnRegionSummaryVisible"
+      :title="regionTitle"
+      width="96%"
+      height="90%"
+      :show-footer="false"
+      :region-data="regionData"
+    >
+      <SpecialWarnRegionSummary />
+    </vxe-modal>
+
   </div>
 </template>
 
@@ -64,9 +76,12 @@
 import getFormData from './specialWarnRuleSummary.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
+import SpecialWarnRegionSummary from '@/views/main/fundMonitoring/specialWarnRegionSummary/specialWarnRegionSummary.vue'
+
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    SpecialWarnRegionSummary
   },
   watch: {
     $refs: {
@@ -212,8 +227,11 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
+      regionTitle: '',
       fiscalYear: '',
-      detailData: []
+      detailData: [],
+      regionData: [],
+      warnRegionSummaryVisible: false
     }
   },
   mounted() {
@@ -355,6 +373,12 @@ export default {
 
       this.fiscalYear = this.searchDataList.fiscalYear
       switch (key) {
+        case 'name':
+          console.info('111111111111111')
+          this.regionData = ['name', obj.row.proCode, this.fiscalYear]
+          this.regionTitle = '专项监督预警汇总_分地区'
+          this.warnRegionSummaryVisible = true
+          break
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
           this.detailTitle = '指标预警-未处理明细'
@@ -431,6 +455,9 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    toRegionPath: function() {
+      this.warnRegionSummaryVisible = true
     }
   },
   created() {
