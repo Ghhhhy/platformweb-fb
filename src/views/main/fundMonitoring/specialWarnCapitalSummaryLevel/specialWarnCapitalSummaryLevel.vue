@@ -60,11 +60,11 @@
     <vxe-modal
       v-if="warnRuleSummaryVisible"
       v-model="warnRuleSummaryVisible"
-      :title="ruleTitle"
+      :title="detailTitle"
       width="96%"
       height="90%"
       :show-footer="false"
-      :rule-data="ruleData"
+      :detail-data="detailData"
     >
       <SpecialWarnRuleSummary />
     </vxe-modal>
@@ -361,15 +361,15 @@ export default {
       switch (key) {
         case 'name':
           this.detailData = ['name', obj.row.proCode, this.fiscalYear]
-          this.ruleVisible = true
+          this.detailTitle = '专项监督预警汇总_分规则'
+          this.warnRuleSummaryVisible = true
           break
         case 'numbernofileNum':
-          // this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
-          // this.detailTitle = '是否上传附件-未处理明细'
-          // this.detailType = 'numbernofileNum'
-          // this.detailVisible = true
-          this.ruleTitle = '专项监督预警汇总_分规则'
-          this.warnRuleSummaryVisible = true
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '是否上传附件-未处理明细'
+          this.detailType = 'numbernofileNum'
+          this.detailVisible = true
+
           break
         case 'numberfileNum':
           this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
