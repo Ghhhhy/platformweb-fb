@@ -38,7 +38,7 @@ export default {
       font-size: 14px;
       text-align: left;
       color: #555;
-      background: #E3F1FE;
+      background: var(--hightlight-color-hover);
     }
     &::after {
       font-size: 0;
@@ -48,7 +48,7 @@ export default {
       width: 0px;
       height: 0px;
       border-left-width: 20px;
-      border-left-color: #E3F1FE;
+      border-left-color: var(--hightlight-color-hover);
       content: '';
     }
   }

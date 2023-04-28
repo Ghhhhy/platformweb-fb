@@ -1,0 +1,24 @@
+body {
+  --primary-color: #4d77e7;
+  --primary-color-hover: #6287ea;
+  --primary-color-anamorphism: #7898ed;
+  --primary-color-shadow: #bfcef6;
+  --secondary-color: #4d77e7;
+  --secondary-color-hover: #6287ea;
+  --secondary-color-anamorphism: #7898ed;
+  --secondary-color-shadow: #bfcef6;
+  --tabbutton-color-active: #6287ea;
+  --common-background: #f1f4fd;
+  --hightlight-color-hover: #d4def9;
+  --hightlight-color: #eaeffc;
+  --tip-color-pass: #4d77e7;
+  --tip-color-ban: #ff4843;
+  --menu-item-color: #6863ce;
+  --zebra-color: #f1f4fd;
+  --bs-modal-background: var(--hightlight-color);
+  --bs-modal-close-hover: var(--primary-color);
+  --bs-scrollbar-width: 16px;
+  --bs-scrollbar-height: 18px;
+  --bs-table-head: var(--hightlight-color);
+  --bs-table-zebra: var(--zebra-color);
+}

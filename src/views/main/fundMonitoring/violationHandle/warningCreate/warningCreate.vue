@@ -31,7 +31,7 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :export-modal-config="{ fileName: menuName }"
+          :title="menuName"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
