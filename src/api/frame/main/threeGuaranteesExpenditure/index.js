@@ -5,7 +5,7 @@ import { post } from '@/api/http'
  * @return {*}
  */
 export const overallSituation = () => {
-  return post('lmp/threeSafeReport/overallSituation')
+  return post('large-monitor-platform/lmp/threeSafeReport/overallSituation')
 }
 
 /**
@@ -13,7 +13,7 @@ export const overallSituation = () => {
  * @return {*}
  */
 export const concernsByCapital = () => {
-  return post('lmp/threeSafeReport/concernsByCapital')
+  return post('large-monitor-platform/lmp/threeSafeReport/concernsByCapital')
 }
 
 /**
@@ -21,7 +21,7 @@ export const concernsByCapital = () => {
  * @return {*}
  */
 export const concernsByType = () => {
-  return post('lmp/threeSafeReport/concernsByType')
+  return post('large-monitor-platform/lmp/threeSafeReport/concernsByType')
 }
 
 /**
@@ -29,7 +29,7 @@ export const concernsByType = () => {
  * @return {*}
  */
 export const treasuryComparison = () => {
-  return post('lmp/threeSafeReport/treasuryComparison')
+  return post('large-monitor-platform/lmp/threeSafeReport/treasuryComparison')
 }
 
 /**

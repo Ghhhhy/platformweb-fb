@@ -16,6 +16,28 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;区划</div>
+                    <div style="width:70%;float:left;margin-top:2px">
+                      <BsTreeInput
+                        ref="ruleTree"
+                        v-model="askProvince"
+                        :datas="askProvinceOptions"
+                        :reloaddata="false"
+                        :isleaf="true"
+                        :showcheckbox="true"
+                        @input="selectProvince"
+                      />
+                    </div>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="20">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
                     <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;年份</div>
                     <el-select
                       v-model="year"
@@ -111,10 +133,6 @@ export default {
     title: {
       type: String,
       default: ''
-    },
-    node: {
-      type: Object,
-      default: null
     }
   },
   data() {
@@ -132,7 +150,8 @@ export default {
       year: '',
       yearOptions: [
         { value: 2021, label: '2021年' },
-        { value: 2022, label: '2022年' }
+        { value: 2022, label: '2022年' },
+        { value: 2023, label: '2023年' }
       ],
       startMonth: '',
       endMonth: '',
@@ -149,7 +168,11 @@ export default {
         { value: 10, label: '十月' },
         { value: 11, label: '十一月' },
         { value: 12, label: '十二月' }
-      ]
+      ],
+      askProvince: '',
+      askProvinceOptions: [],
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      provinceNameList: []
     }
   },
   methods: {
@@ -159,6 +182,7 @@ export default {
     },
     // 保存新增的计划信息
     doInsert() {
+      console.log(this.askProvince)
       if (this.year === '') {
         this.$message.warning('请选择年份')
         return
@@ -175,14 +199,11 @@ export default {
         this.$message.warning('开始月份不得大于结束月份')
         return
       }
-      let code = this.node.code
-      let name = this.node.name
       let param = {
         year: this.year,
         startMonth: this.startMonth,
         endMonth: this.endMonth,
-        provinceCode: code,
-        provinceName: name
+        provinceNameList: this.provinceNameList
       }
       this.addLoading = true
       HttpModule.look(param).then(res => {
@@ -194,17 +215,52 @@ export default {
           this.$parent.previewYear = this.year
           this.$parent.previewStartMonth = this.startMonth
           this.$parent.previewEndMonth = this.endMonth
-          this.$parent.previewCode = code
-          this.$parent.previewName = name
+          this.$parent.provinceNameList = this.provinceNameList
         } else {
           this.$message.error(res.message)
         }
       })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          that.askProvinceOptions = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    selectProvince(val) {
+      console.log(val)
+      let valArr = val.split(',')
+      let nameList = []
+      for (let i = 0; i < valArr.length; i++) {
+        nameList.push(valArr[i].split('##')[2])
+      }
+      this.provinceNameList = nameList
+      console.log(nameList)
     }
   },
   watch: {
   },
   created() {
+    this.getLeftTreeData()
   }
 }
 </script>
