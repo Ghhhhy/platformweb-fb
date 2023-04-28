@@ -66,7 +66,10 @@ const proconf = {
         field: 'name',
         filters: false,
         cellRender: {
-          name: '$vxeIcon'
+          name: '$vxeIcon',
+          props: {
+            $refs: this
+          }
         }
       },
       {
