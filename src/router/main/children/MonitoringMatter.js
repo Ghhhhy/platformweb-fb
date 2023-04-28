@@ -1041,5 +1041,118 @@ export default [
       import(
         '../../../views/main/MointoringMatters/MonitoeReportCreate/sanBaoMonitoeReportCreate.vue'
       )
+  }, // “三公”风险预警表
+  {
+    path: '/ThrExpReportRiskWarn',
+    name: 'ThrExpReportRiskWarn',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportRiskWarn.vue'
+      )
+  },
+  // “三公”执行情况表
+  {
+    path: '/ThrExpReportImplementation',
+    name: 'ThrExpReportImplementation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportImplementation.vue'
+      )
+  },
+  // “三公”经费监测表
+  {
+    path: '/ThrExpReportFundMonitor',
+    name: 'ThrExpReportFundMonitor',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportFundMonitor.vue'
+      )
+  },
+  // “三公”经费监测表
+  {
+    path: '/sangongVoucher',
+    name: 'sangongVoucher',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/sangongVoucher.vue'
+      )
+  },
+  {
+    path: '/threePublicExpensesTableEntry',
+    name: 'threePublicExpensesTableEntry',
+    meta: {
+      title: '“三公”经费月报明细表'
+    },
+    component: () =>
+      import(
+        '@/views/main/MointoringMatters/threePublicExpensesTableEntry/index.vue'
+      )
+  }, // 三公监控报告生成
+  {
+    path: '/sanGongMonitoeReportCreate',
+    name: 'sanGongMonitoeReportCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoeReportCreate/sanGongMonitoeReportCreate.vue'
+      )
+  },
+  // 统计分析报表（按区划）
+  {
+    path: '/sangongStatisticalFormsByCompartment',
+    name: 'sangongStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  // 三公统计分析报表（按规则）
+  {
+    path: '/sangongStatisticalFormsByRule',
+    name: 'sangongStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
+      )
+  },
+  // 三公统计分析报表（按预警级别）
+  {
+    path: '/sangongStatisticalFormsByRank',
+    name: 'sangongStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
   }
 ]

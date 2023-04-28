@@ -59,7 +59,11 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div
+                v-if="leftTreeVisible === false"
+                class="table-toolbar-contro-leftvisible"
+                @click="leftTreeVisible = true"
+              ></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -70,21 +74,16 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
-    <AddDialog
-      v-if="dialogVisible"
-      :title="dialogTitle"
-    />
-    <DescDialog
-      v-if="descVisible"
-      :title="descTitle"
-      :id-list="idList"
-    />
-    <RulesAddModal
-      v-if="dialogVisibleRules"
-      :title="dialogTitle"
-    />
+    <AddDialog v-if="dialogVisible" :title="dialogTitle" />
+    <DescDialog v-if="descVisible" :title="descTitle" :id-list="idList" />
+    <RulesAddModal v-if="dialogVisibleRules" :title="dialogTitle" />
     <!-- 附件弹框 -->
-    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <BsAttachment
+      v-if="showAttachmentDialog"
+      refs="attachmentboss"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -99,7 +98,9 @@ import { mapState } from 'vuex'
 // import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
-    AddDialog, DescDialog, RulesAddModal
+    AddDialog,
+    DescDialog,
+    RulesAddModal
   },
   watch: {
     queryConfig() {
@@ -109,7 +110,9 @@ export default {
       handler(newData) {
         if (newData) return
 
-        const index = this.toolBarStatusBtnConfig.buttonsInfo['1'].findIndex(item => item.code === 'set_rule')
+        const index = this.toolBarStatusBtnConfig.buttonsInfo['1'].findIndex(
+          (item) => item.code === 'set_rule'
+        )
         if (index === -1) return
         this.toolBarStatusBtnConfig.buttonsInfo['1'].splice(index, 1)
       },
@@ -120,13 +123,17 @@ export default {
     ...mapState(['userRolesData']),
     // 是否有直达资金以下dfrRoles权限
     isPermission() {
-      const dfrRoles = ['直达资金经办岗', '直达资金审核岗', '直达资金系统管理员']
+      const dfrRoles = [
+        '直达资金经办岗',
+        '直达资金审核岗',
+        '直达资金系统管理员'
+      ]
       const roleSet = new Set([
-        ...(this.userRolesData.map(item => item.name) || []),
+        ...(this.userRolesData.map((item) => item.name) || []),
         ...dfrRoles
       ])
       // 利用Set结构去重，并取并集后根据长度比较判断是否有包含关系
-      return roleSet.size < (this.userRolesData.length + dfrRoles.length)
+      return roleSet.size < this.userRolesData.length + dfrRoles.length
     }
   },
   data() {
@@ -169,7 +176,12 @@ export default {
         inputVal: ''
       },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: {
+        elementcode: 'admdiv',
+        province: '610000000',
+        year: '2021',
+        wheresql: "and code like '" + 61 + "%'"
+      },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
@@ -187,14 +199,17 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: this.$store.state.curNavModule.param5 === 'dfr' ? proconf.dfrStatusRightToolBarButton : proconf.statusRightToolBarButton,
+        buttonsInfo:
+          this.$store.state.curNavModule.param5 === 'dfr'
+            ? proconf.dfrStatusRightToolBarButton
+            : proconf.statusRightToolBarButton,
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
-        '1': 0
+        1: 0
       },
       isShowQueryConditions: true,
       toolBarStatusSelect: {
@@ -273,7 +288,8 @@ export default {
       warningLevel: '',
       regulationModelName: '',
       DetailData: {},
-      leftTreeConfig: { // 左侧单位树配置
+      leftTreeConfig: {
+        // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
         scrollLoad: false, // 是否开启滚动加载
@@ -305,8 +321,7 @@ export default {
       defaultExpandedKeysIn: ['0'] // 默认展开预警级别
     }
   },
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     itemChange(obj, form) {
@@ -359,8 +374,11 @@ export default {
     getSearchDataList() {
       // 下拉树
       let searchDataObj = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''
           }
@@ -375,8 +393,11 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             if (item.field === 'cor_bgt_doc_no_') {
               condition[item.field + 'name'] = []
@@ -408,7 +429,7 @@ export default {
       this.queryTableDatas()
     },
     getDetail(val) {
-      HttpModule.getDetailData(val).then(res => {
+      HttpModule.getDetailData(val).then((res) => {
         if (res.code === '000000') {
           this.DetailData = res.data
           this.dialogVisible = true
@@ -417,7 +438,7 @@ export default {
       })
     },
     update(val) {
-      HttpModule.getDetailData(val).then(res => {
+      HttpModule.getDetailData(val).then((res) => {
         if (res.code === '000000') {
           this.DetailData = res.data
           this.dialogVisible = true
@@ -498,7 +519,11 @@ export default {
     isRole(val) {
       let isPermission = false
       val.forEach((item) => {
-        if (item.name === '直达资金经办岗' || item.name === '直达资金审核岗' || item.name === '直达资金系统管理员') {
+        if (
+          item.name === '直达资金经办岗' ||
+          item.name === '直达资金审核岗' ||
+          item.name === '直达资金系统管理员'
+        ) {
           isPermission = true
         }
       })
@@ -518,7 +543,7 @@ export default {
     open(datas) {
       this.idList = []
       let isGo = true
-      datas.forEach(item => {
+      datas.forEach((item) => {
         this.idList.push(item.regulationCode)
         if (item.isEnable === '1') {
           isGo = false
@@ -534,7 +559,7 @@ export default {
     stop(datas) {
       this.idList = []
       let isGo = true
-      datas.forEach(item => {
+      datas.forEach((item) => {
         this.idList.push(item.regulationCode)
         if (item.isEnable === '0') {
           isGo = false
@@ -583,7 +608,7 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     getItem(code, data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         if (code === item.code) {
           let data = []
           data.push(item)
@@ -594,7 +619,7 @@ export default {
       })
     },
     getCodeList(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         this.codeList.push(item.code)
         if (item.children) {
           this.getCodeList(item.children)
@@ -602,7 +627,8 @@ export default {
       })
     },
     onClickmethod(node) {
-      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+      if (this.params5 === 'dfr') {
+        // 如果是直达资金监控规则库
         this.regulationClass = '09,08,07'
         this.warningLevel = node.node.code === '0' ? '' : node.node.code
       }
@@ -618,16 +644,16 @@ export default {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-          'warningLevel': this.warningLevel, // 预警级别
-          'handleType': this.handleType, // 处理方式
-          'businessModelCode': '', // 业务模块
-          'businessFeaturesCode': '', // 业务功能
-          'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-          'isEnable': this.isEnable,
-          'regulationClass': this.regulationClass,
-          'regulationName': this.regulationName,
-          'regulationModelName': this.regulationModelName,
+          regulationType: this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+          warningLevel: this.warningLevel, // 预警级别
+          handleType: this.handleType, // 处理方式
+          businessModelCode: '', // 业务模块
+          businessFeaturesCode: '', // 业务功能
+          regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+          isEnable: this.isEnable,
+          regulationClass: this.regulationClass,
+          regulationName: this.regulationName,
+          regulationModelName: this.regulationModelName,
           id: this.condition.agency_code,
           menuType: 1,
           province: '',
@@ -639,7 +665,7 @@ export default {
           param.businessFeaturesCode = this.leftNode.code
         }
         this.tableLoading = true
-        HttpModule.querySpecialTableDatas(param).then(res => {
+        HttpModule.querySpecialTableDatas(param).then((res) => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -652,7 +678,8 @@ export default {
         // if (node.node.code === '') {
         //   return
         // }
-        if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+        if (this.params5 === 'dfr') {
+          // 如果是直达资金监控规则库
           this.queryTableDatas()
           return
         }
@@ -673,15 +700,15 @@ export default {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-          'warningLevel': this.warningLevel, // 预警级别
-          'handleType': this.handleType, // 处理方式
-          'businessModelCode': '', // 业务模块
-          'businessFeaturesCode': '', // 业务功能
-          'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-          'isEnable': this.isEnable,
-          'regulationName': this.regulationName,
-          'regulationModelName': this.regulationModelName,
+          regulationType: this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+          warningLevel: this.warningLevel, // 预警级别
+          handleType: this.handleType, // 处理方式
+          businessModelCode: '', // 业务模块
+          businessFeaturesCode: '', // 业务功能
+          regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+          isEnable: this.isEnable,
+          regulationName: this.regulationName,
+          regulationModelName: this.regulationModelName,
           id: this.condition.agency_code,
           menuType: 1,
           regulation_class: regulationClass,
@@ -694,7 +721,7 @@ export default {
           param.businessFeaturesCode = this.leftNode.code
         }
         this.tableLoading = true
-        HttpModule.querySpecialTableDatas(param).then(res => {
+        HttpModule.querySpecialTableDatas(param).then((res) => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -745,23 +772,24 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+      if (this.params5 === 'dfr') {
+        // 如果是直达资金监控规则库
         this.regulationClass = '09,08,07'
       }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        'regulationClass': this.regulationClass,
-        'regulationModelName': this.regulationModelName,
-        'fiRuleTypeCode': this.fiRuleTypeCode,
+        regulationType: this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+        warningLevel: this.warningLevel, // 预警级别
+        handleType: this.handleType, // 处理方式
+        businessModelCode: '', // 业务模块
+        businessFeaturesCode: '', // 业务功能
+        regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        isEnable: this.isEnable,
+        regulationName: this.regulationName,
+        regulationClass: this.regulationClass,
+        regulationModelName: this.regulationModelName,
+        fiRuleTypeCode: this.fiRuleTypeCode,
         id: this.condition.agency_code,
         menuType: 1
       }
@@ -771,7 +799,7 @@ export default {
         param.businessFeaturesCode = this.leftNode.code
       }
       this.tableLoading = true
-      HttpModule.querySpecialTableDatas(param).then(res => {
+      HttpModule.querySpecialTableDatas(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -789,7 +817,7 @@ export default {
         menuName: this.$store.state.curNavModule.name,
         declareCode: row.regulationCode
       }
-      HttpModule.queryActionLog(param).then(res => {
+      HttpModule.queryActionLog(param).then((res) => {
         this.logData = res.data
         console.log(this.logData)
         this.showLogView = true
@@ -797,7 +825,7 @@ export default {
     },
     // 送审
     audieData(param) {
-      HttpModule.audieData(param).then(res => {
+      HttpModule.audieData(param).then((res) => {
         if (res.code === '000000') {
           this.$message.warning('操作成功')
           this.queryTableDatas()
@@ -812,7 +840,7 @@ export default {
           elementcode: 'admdiv',
           province: '610000000',
           year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
+          wheresql: "and code like '" + 61 + "%'"
         }
       } else if (
         this.userInfo.province === '610100000' ||
@@ -832,18 +860,20 @@ export default {
           elementcode: 'admdiv',
           province: this.userInfo.province,
           year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+          wheresql:
+            "and code like '" + this.userInfo.province.substring(0, 4) + "%'"
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
           year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+          wheresql:
+            "and code like '" + this.userInfo.province.substring(0, 6) + "%'"
         }
       }
       let that = this
-      HttpModule.getLeftTree(params).then(res => {
+      HttpModule.getLeftTree(params).then((res) => {
         if (res.code === '000000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
@@ -854,11 +884,12 @@ export default {
     },
     getLeftTreeData1() {
       let that = this
-      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库 显示预警级别树
+      if (this.params5 === 'dfr') {
+        // 如果是直达资金监控规则库 显示预警级别树
         that.treeData = proconf.leftYjjbData
         return
       }
-      HttpModule.querySpecialRuleTree().then(res => {
+      HttpModule.querySpecialRuleTree().then((res) => {
         if (res.code === '000000') {
           let arr = []
           // if (this.params5 === 'dfr') {
@@ -882,7 +913,7 @@ export default {
     },
     getChildrenData(datas) {
       let that = this
-      datas.forEach(item => {
+      datas.forEach((item) => {
         item.label = item.text
         if (item.children) {
           that.getChildrenData(item.children)
@@ -892,7 +923,8 @@ export default {
       return datas
     },
     getTreeType() {
-      if (this.params5 === 'dfr') { // 如果是直达资金监控规则库
+      if (this.params5 === 'dfr') {
+        // 如果是直达资金监控规则库
         this.treeTypeConfig = this.treeTypeConfig2
       } else {
         this.treeTypeConfig = this.treeTypeConfig1
@@ -912,18 +944,18 @@ export default {
 }
 </script>
 <style scoped>
-.radio-right{
-float: right;
+.radio-right {
+  float: right;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-yellow {
+.Titans-table ::v-deep .vxe-body--row.row-yellow {
   background-color: yellow;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-blue {
+.Titans-table ::v-deep .vxe-body--row.row-blue {
   background-color: blue;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-red {
+.Titans-table ::v-deep .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
 }
