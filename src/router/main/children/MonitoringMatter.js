@@ -7,7 +7,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
+      )
   },
   // 政策法规查询
   {
@@ -17,7 +20,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
+      )
   },
   // 监控规则函数管理
   {
@@ -27,7 +33,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitoringRuleFunctionManagement/MonitoringRuleFunctionManagement.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoringRuleFunctionManagement/MonitoringRuleFunctionManagement.vue'
+      )
   },
   // 监控事项申报-部门
   {
@@ -37,7 +46,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsDepartment/DeclarationOfMonitoringItemsDepartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsDepartment/DeclarationOfMonitoringItemsDepartment.vue'
+      )
   },
   // 监控事项申报-财政
   {
@@ -47,7 +59,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFinance/DeclarationOfMonitoringItemsFinance.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFinance/DeclarationOfMonitoringItemsFinance.vue'
+      )
   },
   // 监控事项申报-监控
   {
@@ -57,7 +72,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsMonitor/DeclarationOfMonitoringItemsMonitor.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsMonitor/DeclarationOfMonitoringItemsMonitor.vue'
+      )
   },
   // 监控事项审核-财政
   {
@@ -67,7 +85,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowFinance/DeclarationOfMonitoringItemsFlowFinance.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowFinance/DeclarationOfMonitoringItemsFlowFinance.vue'
+      )
   },
   // 监控事项审核-监控
   {
@@ -77,7 +98,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowMonitor/DeclarationOfMonitoringItemsFlowMonitor.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/DeclarationOfMonitoringItemsFlowMonitor/DeclarationOfMonitoringItemsFlowMonitor.vue'
+      )
   },
   // 监控事项批复
   {
@@ -87,7 +111,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue'
+      )
   },
   // 监控事项查看
   {
@@ -97,7 +124,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ApprovalOfMonitoringMatters/ApprovalOfMonitoringMatters.vue'
+      )
   },
   // 监控规则模板库管理
   {
@@ -107,7 +137,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitoringRuleTemplateLibraryManagement/MonitoringRuleTemplateLibraryManagement.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoringRuleTemplateLibraryManagement/MonitoringRuleTemplateLibraryManagement.vue'
+      )
   },
   // 系统级规则管理
   {
@@ -117,7 +150,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue'
+      )
   },
   {
     path: '/SystemLevelRulesBySpe',
@@ -126,7 +162,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue'
+      )
   },
   // 系统级规则审核
   {
@@ -136,7 +175,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue'
+      )
   },
   // 财政级规则管理
   {
@@ -146,7 +188,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue'
+      )
   },
   // 财政级规则审核
   {
@@ -156,7 +201,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue'
+      )
   },
   // 部门级规则管理
   {
@@ -166,7 +214,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRules/SystemLevelRules.vue'
+      )
   },
   // 部门级规则审核
   {
@@ -176,7 +227,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/SystemLevelRulesFlow/SystemLevelRulesFlow.vue'
+      )
   },
   // 监控规则查看
   {
@@ -186,7 +240,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
   },
   // 直达监控规则查看
   {
@@ -196,7 +253,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
   },
   {
     path: '/MonitorRulesViewFJ',
@@ -205,7 +265,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue'
+      )
   },
   // 专项监控规则查看
   {
@@ -215,7 +278,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorRulesViewSpecial/MonitorRulesViewSpecial.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesViewSpecial/MonitorRulesViewSpecial.vue'
+      )
   },
   // 同户名转账统计
   {
@@ -225,7 +291,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 其他监控统计
   {
@@ -235,7 +304,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 流程督办监控统计
   {
@@ -245,7 +317,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 超出大额支付统计
   {
@@ -255,7 +330,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 资金用途使用不规范统计
   {
@@ -265,7 +343,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 支出不规范统计
   {
@@ -275,7 +356,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 支付信息不规范统计
   {
@@ -285,7 +369,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 工资支出相关统计
   {
@@ -295,7 +382,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 禁止使用科目统计
   {
@@ -305,7 +395,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetImplementWarningDataMager/BudgetImplementWarningDataMager.vue'
+      )
   },
   // 预警数据审核（预算执行）
   {
@@ -315,7 +408,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
+      )
   },
   // 预警数据审核（直达资金）
   {
@@ -325,7 +421,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
+      )
   },
   // 预警数据审核（财政专户资金）
   {
@@ -335,7 +434,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
+      )
   },
   // 预警数据审核（专项监控）
   {
@@ -345,7 +447,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
+      )
   },
   // 单位核算预警数据管理
   {
@@ -355,7 +460,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/AgencyBusinessAccountingWarningDataMager/AgencyBusinessAccountingWarningDataMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/AgencyBusinessAccountingWarningDataMager/AgencyBusinessAccountingWarningDataMager.vue'
+      )
   },
   // 支付j监控规则
   {
@@ -365,7 +473,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/PayMonitorRulesMager/PayMonitorRulesMager.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/PayMonitorRulesMager/PayMonitorRulesMager.vue'
+      )
   },
   // 统计分析报表（按区划）
   {
@@ -375,7 +486,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
   },
   // 统计分析报表（按规则）
   {
@@ -385,7 +499,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
+      )
   },
   // 统计分析报表（按预警级别）
   {
@@ -395,7 +512,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
   },
   // 预警明细查询（按规则）
   {
@@ -405,7 +525,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
   },
   // 预警明细查询（按区划）
   {
@@ -415,7 +538,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue'
+      )
   },
   // 会计核算-统计分析报表（按区划）
   {
@@ -425,7 +551,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
   },
   // 会计核算-统计分析报表（按规则）
   {
@@ -435,7 +564,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
+      )
   },
   // 会计核算-统计分析报表（按预警级别）
   {
@@ -445,7 +577,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
   },
   // 会计核算-预警明细查询（按规则）
   {
@@ -455,7 +590,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
   },
   // 会计核算-预警明细查询（按区划）
   {
@@ -465,7 +603,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue'
+      )
   },
   // 枚举值设置
   {
@@ -475,7 +616,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/EnumerationSet/EnumerationSet.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/EnumerationSet/EnumerationSet.vue'
+      )
   },
   // 预警明细查询（按规则）
   {
@@ -485,7 +629,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
   },
   // 预警明细查询（按区划）
   {
@@ -495,7 +642,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue'
+      )
   },
   // 监控主题分析（按区划）
   {
@@ -505,7 +655,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByCompartment/MonitorThemeByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorThemeByCompartment/MonitorThemeByCompartment.vue'
+      )
   },
   // 监控主题分析（按规则）
   {
@@ -515,7 +668,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRule/MonitorThemeByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorThemeByRule/MonitorThemeByRule.vue'
+      )
   },
   // 监控主题分析（按预警级别）
   {
@@ -525,7 +681,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRank/MonitorThemeByRank.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorThemeByRank/MonitorThemeByRank.vue'
+      )
   },
   // 问询函生成
   {
@@ -535,7 +694,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue'
+      )
   },
   // 问询函复核
   {
@@ -545,7 +707,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue'
+      )
   },
   // 问询函回复（单位）
   {
@@ -555,7 +720,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue'
+      )
   },
   // 问询函回复（财政）
   {
@@ -565,7 +733,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue'
+      )
   },
   // 问询函备案
   {
@@ -575,7 +746,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue'
+      )
   },
   // 问询函生成
   {
@@ -585,7 +759,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterCreate/InquiryLetterCreate.vue'
+      )
   },
   // 问询函复核
   {
@@ -595,7 +772,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReview/InquiryLetterReview.vue'
+      )
   },
   // 问询函回复（单位）
   {
@@ -605,7 +785,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReplyByAgency/InquiryLetterReplyByAgency.vue'
+      )
   },
   // 问询函回复（财政）
   {
@@ -615,7 +798,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterReplyByFinance/InquiryLetterReplyByFinance.vue'
+      )
   },
   // 问询函备案
   {
@@ -625,7 +811,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/InquiryLetterRecords/InquiryLetterRecords.vue'
+      )
   },
   // 财政画像
   {
@@ -662,7 +851,8 @@ export default [
       title: '“三保”支出监控总览',
       requireAuth: true
     },
-    component: () => import('@/views/px-to-vw-page/threeGuaranteesExpenditure/index.vue')
+    component: () =>
+      import('@/views/px-to-vw-page/threeGuaranteesExpenditure/index.vue')
   },
   {
     path: '/threePublicExpenses',
@@ -671,7 +861,8 @@ export default [
       title: '“三公”经费监控总览',
       requireAuth: true
     },
-    component: () => import('@/views/px-to-vw-page/threePublicExpenses/index.vue')
+    component: () =>
+      import('@/views/px-to-vw-page/threePublicExpenses/index.vue')
   },
   // 监控报告生成
   {
@@ -681,7 +872,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitoeReportCreate/MonitoeReportCreate.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoeReportCreate/MonitoeReportCreate.vue'
+      )
   },
   // 监控报告查看
   {
@@ -691,7 +885,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/MonitoeReportQuery/MonitoeReportQuery.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoeReportQuery/MonitoeReportQuery.vue'
+      )
   },
   // 基础资料库维护
   {
@@ -701,7 +898,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/BasicDatabaseMaintenance/BasicDatabaseMaintenance.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BasicDatabaseMaintenance/BasicDatabaseMaintenance.vue'
+      )
   },
   // 财政运行基础表录入
   {
@@ -711,7 +911,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/FinancialBasicTableEntry/FinancialBasicTableEntry.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/FinancialBasicTableEntry/FinancialBasicTableEntry.vue'
+      )
   },
   {
     path: '/StatisticalFormsByRuleSpe',
@@ -720,7 +923,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
+      )
   },
   // 统计分析报表（按预警级别） 专项
   {
@@ -730,7 +936,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
   },
   // 预警明细查询（按规则）
   {
@@ -740,7 +949,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
   },
   // 预警明细查询（按区划）
   {
@@ -750,7 +962,10 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByCompartment/WarningDetailsByCompartment.vue'
+      )
   },
   {
     path: '/BgtPaySummary',
@@ -759,6 +974,185 @@ export default [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/MointoringMatters/ThreeGuarantees/BgtPaySummary.vue')
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThreeGuarantees/BgtPaySummary.vue'
+      )
+  },
+  // 高风险县
+  {
+    path: '/HighRiskCounty',
+    name: 'HighRiskCounty',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/HighRiskCounty/HighRiskCounty.vue'
+      )
+  }, // 三保-科目配置
+  {
+    path: '/ProjectConf',
+    name: 'ProjectConf',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ProjectConf/ProjectConf.vue'
+      )
+  }, // 库款保障水平预警表（按日）
+  {
+    path: '/TreasuryGuaranteeLevWarnDay',
+    name: 'TreasuryGuaranteeLevWarnDay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/TreasuryGuaranteeLevWarn/TreasuryGuaranteeLevWarnDay.vue'
+      )
+  },
+  // 库款保障水平预警表（按月）
+  {
+    path: '/TreasuryGuaranteeLevWarnMonth',
+    name: 'TreasuryGuaranteeLevWarnMonth',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/TreasuryGuaranteeLevWarn/TreasuryGuaranteeLevWarnMonth.vue'
+      )
+  },
+  // 三保监控报告生成
+  {
+    path: '/sanBaoMonitoeReportCreate',
+    name: 'sanBaoMonitoeReportCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoeReportCreate/sanBaoMonitoeReportCreate.vue'
+      )
+  }, // “三公”风险预警表
+  {
+    path: '/ThrExpReportRiskWarn',
+    name: 'ThrExpReportRiskWarn',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportRiskWarn.vue'
+      )
+  },
+  // “三公”执行情况表
+  {
+    path: '/ThrExpReportImplementation',
+    name: 'ThrExpReportImplementation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportImplementation.vue'
+      )
+  },
+  // “三公”经费监测表
+  {
+    path: '/ThrExpReportFundMonitor',
+    name: 'ThrExpReportFundMonitor',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/ThrExpReportFundMonitor.vue'
+      )
+  },
+  // “三公”经费监测表
+  {
+    path: '/sangongVoucher',
+    name: 'sangongVoucher',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/ThrExpReport/sangongVoucher.vue'
+      )
+  },
+  {
+    path: '/threePublicExpensesTableEntry',
+    name: 'threePublicExpensesTableEntry',
+    meta: {
+      title: '“三公”经费月报明细表'
+    },
+    component: () =>
+      import(
+        '@/views/main/MointoringMatters/threePublicExpensesTableEntry/index.vue'
+      )
+  }, // 三公监控报告生成
+  {
+    path: '/sanGongMonitoeReportCreate',
+    name: 'sanGongMonitoeReportCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitoeReportCreate/sanGongMonitoeReportCreate.vue'
+      )
+  },
+  // 统计分析报表（按区划）
+  {
+    path: '/sangongStatisticalFormsByCompartment',
+    name: 'sangongStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  // 三公统计分析报表（按规则）
+  {
+    path: '/sangongStatisticalFormsByRule',
+    name: 'sangongStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
+      )
+  },
+  // 三公统计分析报表（按预警级别）
+  {
+    path: '/sangongStatisticalFormsByRank',
+    name: 'sangongStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
   }
 ]
