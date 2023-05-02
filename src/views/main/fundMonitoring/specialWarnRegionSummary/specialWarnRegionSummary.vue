@@ -349,6 +349,10 @@ export default {
     },
     handleDetail(type, mofDivCode) {
     },
+    getYear() {
+      var myDate = new Date()
+      return myDate.getFullYear()
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
@@ -356,8 +360,7 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
-      this.fiscalYear = this.searchDataList.fiscalYear
+      this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       this.ruleCodes = this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
       switch (key) {
@@ -419,7 +422,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
         ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)

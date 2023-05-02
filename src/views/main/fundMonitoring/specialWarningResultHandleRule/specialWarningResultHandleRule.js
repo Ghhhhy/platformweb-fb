@@ -538,7 +538,7 @@ const proconf = {
         align: 'center',
         children: [
           {
-            title: '未认定',
+            title: '待整改',
             field: 'numbernofileNum',
             width: 140,
             filters: false,
@@ -640,7 +640,7 @@ const proconf = {
         align: 'center',
         children: [
           {
-            title: '未认定',
+            title: '待整改',
             field: 'numberhqlmUndoNum',
             width: 140,
             filters: false,
