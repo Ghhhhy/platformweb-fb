@@ -179,7 +179,7 @@ export default {
     // 修改回显
     showInfo() {
       this.rectifyDetail = this.selectData.rectifyDetail
-      this.warnType = this.selectData.fiRuleName
+      this.warnType = this.selectData.warnType
       this.returnAmt = this.selectData.returnAmt
       this.transferAmt = this.selectData.transferAmt
       this.otherAmt = this.selectData.otherAmt
