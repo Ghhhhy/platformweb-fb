@@ -370,8 +370,7 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
-      this.fiscalYear = this.searchDataList.fiscalYear
+      this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
           this.detailData = ['name', obj.row.proCode, this.fiscalYear]
@@ -436,7 +435,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
       }
       this.tableLoading = true
