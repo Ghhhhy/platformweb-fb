@@ -1,4 +1,5 @@
-import { get, post } from '@/api/http'
+import { get, post, del } from '@/api/http'
+import store from '@/store/index'
 export default {
   getUnitTree(params) {
     return post('fiscal-config/queryTreeAssistData', params)
@@ -33,7 +34,24 @@ export default {
   getOperationGuideDatas(params) {
     return get('fileservice/v2/files/billguid/pre', params)
   },
+  deleteAttachment(params) {
+    return del('fileservice/v2/files?' + params)
+  },
   getToDoDatas(params) {
     return get('pay-todo-service/todo/getToDoDatas', params)
+  },
+  // 获取支付菜单
+  getPayMenus(params = {}) {
+    const payload = {
+      appids: ['pay'],
+      year: store.state.userInfo.year,
+      province: store.state.userInfo.province,
+      ...params
+    }
+    return get('mp-b-perm-service/v1/menutreeinfo', payload)
+  },
+  // 根据菜单信息获取待办
+  getMenuTodoInfo(params) {
+    return post('large-monitor-platform/lmp/todo/getTodoInfo', params)
   }
 }

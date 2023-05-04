@@ -4,7 +4,7 @@
     :value="value"
     placeholder="财政区划"
     clearable
-    size="small"
+    :size="size"
     style="width: 100%;"
     @visible-change="visibleChange"
     @clear="clear"
@@ -31,7 +31,9 @@
         highlight-current
         :expand-on-click-node="false"
         :filter-node-method="filterNode"
+        v-bind="treeProps"
         @node-click="handleNodeClick"
+        v-on="$listeners"
       />
     </el-option>
   </el-select>
@@ -54,6 +56,10 @@ export default defineComponent({
         return []
       }
     },
+    size: {
+      type: String,
+      default: ''
+    },
     // 每个树节点用来作为唯一标识的属性
     nodeKey: {
       type: [String, Number],
@@ -72,6 +78,10 @@ export default defineComponent({
           children: 'children'
         }
       }
+    },
+    treeProps: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup(props, { emit }) {

@@ -6,6 +6,14 @@ export const useFinancialSupportBarChart = () => {
   // 直达资金 => 支出金额
   const financialSupportBarChart = reactive({
     detailTitle: '财政供养人员',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '财政供养人员'
+        }
+      }
+    },
     showDot: true,
     grid: getGrid({ top: 100, left: 40, right: 40, bottom: 16 }),
     tooltip: {

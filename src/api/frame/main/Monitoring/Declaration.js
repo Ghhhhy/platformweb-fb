@@ -51,6 +51,9 @@ export default {
   flowBack(params) {
     return post('large-monitor-platform/lmp/matter/flowBack', params)
   },
+  allBack(params) {
+    return post('large-monitor-platform/lmp/matter/allBack', params)
+  },
   // 获取表格数据
   queryTableDatasCount(params) {
     return post('large-monitor-platform/lmp/matter/getFlowCount', params)

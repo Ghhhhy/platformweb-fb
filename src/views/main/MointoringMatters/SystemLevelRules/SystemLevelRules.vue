@@ -199,6 +199,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
+      formDatas: {},
       dialogTitle: '新增',
       addTableData: [],
       // 请求 & 角色权限相关配置
@@ -231,8 +232,8 @@ export default {
       this.isEnable = obj.isEnable
       this.warningLevel = obj.warningLevel
       this.regulationName = obj.regulationName
+      this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
-      this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -351,7 +352,7 @@ export default {
             regulationCodes.push(datas3[i].regulationCode)
           }
           // this.auditByCheck(obj, context, e)// 经过监控的送审
-          this.audieData({ operate: 1, regulationCodes: regulationCodes })
+          this.audieData({ operate: 1, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
           break
         // 撤销
         case 'revoke':
@@ -363,7 +364,7 @@ export default {
             regulationCodes.push(datas3[i].regulationCode)
           }
           // this.auditByCheck(obj, context, e)// 经过监控的送审
-          this.audieData({ operate: 3, regulationCodes: regulationCodes })
+          this.audieData({ operate: 3, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
           break
         // 查看
         case 'check':
@@ -378,6 +379,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.formDatas = datas[0].ruleElement
           this.getDetail(datas[0].regulationCode)
           break
         // 修改
@@ -387,6 +389,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.formDatas = datas2[0].ruleElement
           this.changeData(datas2[0].regulationCode)
           break
         // 删除
@@ -516,12 +519,15 @@ export default {
     queryTableDatasCount() {
       let that = this
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      console.log('regulationType-------' + regulationType)
       if (regulationType === '系统级') {
         regulationType = '1'
       } else if (regulationType === '部门级') {
         regulationType = '3'
       } else if (regulationType === '财政级') {
         regulationType = '2'
+      } else {
+        regulationType = '1'
       }
       const params = {
         menuType: 1,
@@ -545,6 +551,8 @@ export default {
         regulationType = '3'
       } else if (regulationType === '财政级') {
         regulationType = '2'
+      } else {
+        regulationType = '1'
       }
 
       const param = {
@@ -558,6 +566,7 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
+        regulationClass: this.regulationClass,
         id: this.condition.agency_code,
         menuType: 1
       }
@@ -598,7 +607,7 @@ export default {
     audieData(param) {
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         }
@@ -639,6 +648,32 @@ export default {
           this.$message.error('左侧树加载失败')
         }
       })
+    },
+    getRegulation() {
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData1(res.data)
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData1(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -648,8 +683,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
+    this.getRegulation()
     this.getLeftTreeData()
-    this.queryTableDatas()
+    // this.queryTableDatas()
   }
 }
 </script>

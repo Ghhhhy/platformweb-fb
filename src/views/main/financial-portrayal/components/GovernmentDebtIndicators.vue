@@ -4,22 +4,22 @@
     <div class="chart-wrapper-debt-info">
       <CommonModultContainer title="债务基本情况">
         <div class="module-chart-container">
-          <div class="chart-wrapper" style="width: 388px; height: 254px;">
+          <div class="chart-wrapper">
             <BarChart1
               :option="governmentDebtlimitChartOption"
             />
           </div>
-          <div class="chart-wrapper" style="width: 388px; height: 254px;">
+          <div class="chart-wrapper">
             <BarChart1
               :option="governmentDebtAmountBarChart"
             />
           </div>
-          <div class="chart-wrapper" style="width: 388px; height: 254px;">
+          <div class="chart-wrapper">
             <BarChart1
               :option="governmentDebtNewlimitChartOption"
             />
           </div>
-          <div class="chart-wrapper" style="width: 388px; height: 254px;">
+          <div class="chart-wrapper">
             <BarChart1
               :option="issueBondsChartOption"
             />
@@ -34,7 +34,6 @@
             v-for="(item, key) in debtGaugeChartOption"
             :key="key"
             class="chart-wrapper gague-chart-wrapper"
-            style="width: 254px; height: 370px;"
           >
             <BarChart1
               :option="item"
@@ -90,8 +89,8 @@ export default defineComponent({
 .chart-wrapper {
   display: flex;
   flex-shrink: 0;
-  width: 392px;
-  height: 256px;
+  width: 434px;
+  height: 285px;
   margin: 0 16px 16px 0;
   background: #FFFFFF;
   border: 1px solid rgba(236, 236, 236, 1);
@@ -99,8 +98,8 @@ export default defineComponent({
   box-sizing: border-box;
 
   &.gague-chart-wrapper {
-    width: 256px;
-    height: 376px;
+    width: 284px;
+    height: 415px;
   }
 }
 

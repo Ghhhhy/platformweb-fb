@@ -1,4 +1,6 @@
 // import store from '@/store/index'
+import store from '@/store'
+
 export let proconf = {
   PoliciesTableColumns: [
     {
@@ -69,11 +71,7 @@ export let proconf = {
       align: 'left',
       'cellRender': {
         'name': '$vxeSelect',
-        options: [
-          { value: 1, label: '预警' },
-          { value: 2, label: '拦截' },
-          { value: 3, label: '冻结' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         'defaultValue': '',
         'props': {}
       },
@@ -185,12 +183,7 @@ export let proconf = {
       align: 'left',
       'cellRender': {
         'name': '$vxeSelect',
-        options: [
-          { value: 1, label: '预警' },
-          { value: 2, label: '拦截' },
-          { value: 3, label: '冻结' },
-          { value: 4, label: '记录' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         'defaultValue': '',
         'props': {}
       },

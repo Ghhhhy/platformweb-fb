@@ -129,7 +129,9 @@
                 </el-main>
               </el-container>
             </el-col>
-            <el-col :span="12">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -142,9 +144,8 @@
                     <el-input
                       v-model="content"
                       type="textarea"
-                      :rows="5"
                       placeholder="请输入违规类型说明"
-                      style="margin-bottom: 15px; width: 45%"
+                      style="margin-bottom: 15px; width: 73.5%"
                     />
                   </el-row>
                 </el-main>
@@ -248,8 +249,9 @@ export default {
       }
       this.code = this.selectData.code
       this.name = this.selectData.name
-      this.enable = this.selectData.enable
-      this.levelNo = this.selectData.levelNo
+      console.log(this.selectData, Number(this.selectData.levelNo))
+      this.enable = Number(this.selectData.enable)
+      this.levelNo = Number(this.selectData.levelNo)
       this.parentName = this.selectData.parentName
       this.guid = this.selectData.guid
       this.content = this.selectData.content
@@ -258,11 +260,19 @@ export default {
       this.parentRule = this.selectData.parentId + '##' + this.selectData.parentId + '##' + this.selectData.parentName
     },
     selectRule(val) {
+      // BossTreeInput组件封装有问题（未知人员封装），会清空时执行emitClearLineData将结果赋值为initId+当前时间戳
+      // 为了不给其他页面造成影响，暂时当前页面判断处理
+      if (val.includes('initId')) {
+        this.levelNo = 1
+        this.parentName = ''
+        this.parentId = ''
+        return
+      }
       let valArr = val.split('##')
       this.parentName = valArr[2]
       this.parentId = valArr[0]
       let busName = this.getSelect(this.parentRuleoptions, this.parentId)
-      console.log(this.parentId, busName)
+
       if (busName !== undefined && busName !== 'undefined') {
         this.levelNo = busName.levelNo + 1
       }
@@ -273,13 +283,6 @@ export default {
           this.levelNo = 1
         }
       }
-      let rand = Math.floor(Math.random() * 900) + 100
-      rand = ''
-      for (var i = 0; i < 3; i++) {
-        var r = Math.floor(Math.random() * 10)
-        rand += r
-      }
-      this.code = busName.code + rand
     },
     getChildrenData(datas) {
       let that = this

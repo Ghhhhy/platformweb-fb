@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="value-container" :style="valueWrapperStyle">
+      <span class="unit">{{ title }}&nbsp;&nbsp;</span>
       <div class="values">
         <!-- 四个角标 -->
         <i
@@ -8,7 +9,7 @@
           :key="`${index}-corner-mark`"
           class="corner-mark"
         ></i>
-        <template v-for="(item, index) in realCurrentValue">
+        <template v-for="(item, index) in value">
           <!-- 千分治符 -->
           <i
             v-if="item === ','"
@@ -22,18 +23,11 @@
       </div>
       <span class="unit">亿元</span>
     </div>
-    <div class="last-year">
-      <div class="last-year-title">上年同期</div>
-      <div class="last-year-content">
-        <span class="value">{{ realLastValue }}</span>
-        <span class="unit">亿元</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { formatterThousands, parseThousands } from '@/utils/thousands'
 export default defineComponent({
   props: {
@@ -41,25 +35,17 @@ export default defineComponent({
       type: Object,
       default: () => ({ marginBottom: '30px' })
     },
-    lastValue: {
-      type: [String, Number],
-      default: '9999999.99'
+    value: {
+      type: Array,
+      default: 0.00
     },
-    currentValue: {
-      type: [String, Number],
-      default: '9999999.99'
+    title: {
+      type: String,
+      default: '上年同期'
     }
   },
-  setup(props) {
-    const realLastValue = computed(() => {
-      return formatterThousands(props.lastValue)
-    })
-    const realCurrentValue = computed(() => {
-      return formatterThousands(props.currentValue).split('')
-    })
+  setup() {
     return {
-      realLastValue,
-      realCurrentValue,
       formatterThousands,
       parseThousands
     }
@@ -124,7 +110,6 @@ export default defineComponent({
       text-align: center;
       vertical-align: middle;
       font-weight: var(--font-weight-title);
-      font-family: var(--font-family-hyt);
       border-radius: 2px;
       background: linear-gradient(to bottom, var(--chart-theme) 0, var(--chart-theme) 50%, #2A8BFD 51%, #2A8BFD 100%);
     }

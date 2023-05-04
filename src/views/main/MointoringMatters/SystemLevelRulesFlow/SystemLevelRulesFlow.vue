@@ -223,7 +223,9 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      ruleFlowOpinion: ''
+      ruleFlowOpinion: '',
+      provinceList: [],
+      formDatas: {}
     }
   },
   mounted() {
@@ -244,8 +246,8 @@ export default {
       console.log(obj)
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
-      this.isEnable = obj.isEnable
       this.regulationName = obj.regulationName
+      this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -373,7 +375,8 @@ export default {
           if (datas3.length > 1) {
             let param = {
               regulationCodes: regulationCodes,
-              operate: 2
+              operate: 2,
+              menuName: this.$store.state.curNavModule.name
             }
             HttpModule.audieData(param).then(res => {
               if (res.code === '000000') {
@@ -383,6 +386,8 @@ export default {
               }
             })
           } else {
+            this.provinceList = datas3[0].codeList
+            this.formDatas = datas3[0].ruleElement
             this.getDetail(regulationCodes[0])
           }
           break
@@ -395,7 +400,7 @@ export default {
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
           }
-          this.audieData({ operate: 5, regulationCodes: regulationCodes })
+          this.audieData({ operate: 5, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
           break
         case 'sendBack':
           if (datas3.length === 0) {
@@ -407,7 +412,8 @@ export default {
           }
           let param = {
             regulationCodes: regulationCodes,
-            operate: 4
+            operate: 4,
+            menuName: this.$store.state.curNavModule.name
           }
           HttpModule.audieData(param).then(res => {
             if (res.code === '000000') {
@@ -430,6 +436,8 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.provinceList = datas3[0].codeList
+          this.formDatas = datas3[0].ruleElement
           this.ruleFlowOpinion = datas3[0].ruleFlowOpinion
           this.getDetail(datas[0].regulationCode)
           break
@@ -589,7 +597,8 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
-        id: this.condition.agency_code,
+        regulationClass: this.regulationClass,
+        code: this.condition.agency_code,
         menuType: 2
       }
       if (this.leftNode.businessType === 2) {
@@ -623,6 +632,32 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getRegulation() {
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData1(res.data)
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -632,6 +667,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
+    this.getRegulation()
     this.queryTableDatasCount()
   }
 }

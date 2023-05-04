@@ -1,11 +1,11 @@
 <template>
   <div class="boss-main app-main">
-    <div class="app-main-header-line" @mouseenter="showHeader($event)"></div>
-    <div class="app-main-header" :class="isShowHeader ? isInited ? 'show' : '' : 'hide'" @mouseleave="contorHeaderShow($event)">
+    <div v-if="!isIframe()" class="app-main-header-line" @mouseenter="showHeader($event)"></div>
+    <div v-if="!isIframe()" class="app-main-header" :class="isShowHeader ? isInited ? 'show' : '' : 'hide'" @mouseleave="contorHeaderShow($event)">
       <BsAppHeader :default-active-menu="defaultActiveMenu" @onMenuSelectChange="onMenuSelectChange" />
     </div>
     <div class="app-main-body">
-      <div class="app-main-body-tab-router" :style="{ 'background': isShowHeader ? '#fff' : 'var(--primary-color)' }">
+      <div v-if="!isIframe()" class="app-main-body-tab-router" :style="{ 'background': isShowHeader ? '#fff' : 'var(--primary-color)' }">
         <BsTabKeepRouter
           v-model="value"
           :tab-class="tabClass"
@@ -16,29 +16,28 @@
           @onTabListChange="onTabListChange"
           @onCollectClick="onCollectClick"
         >
-          <template v-slot:tabKeepRouter-right>
-            <div class="tab-home-showtyle">
-              <label style="margin-bottom:4px;" :style="{ 'color': isShowHeader ? '#333' : '#fff' }" class="fn-inline">{{ homeShowType === 'Home-card' ? '卡片版' : '默认版' }}</label>
-              <span class="fn-inline">
-                <vxe-switch
-                  v-model="homeShowType"
-                  size="mini"
-                  on-label="是"
-                  on-value="Home-card"
-                  off-label="否"
-                  off-value="Home-default"
-                />
-              </span>
-            </div>
-          </template>
+          <!--<template v-slot:tabKeepRouter-right>-->
+          <!--  <div class="tab-home-showtyle">-->
+          <!--    <label style="margin-bottom:4px;" :style="{ 'color': isShowHeader ? '#333' : '#fff' }" class="fn-inline">{{ homeShowType === 'Home-card' ? '卡片版' : '默认版' }}</label>-->
+          <!--    <span class="fn-inline">-->
+          <!--      <vxe-switch-->
+          <!--        v-model="homeShowType"-->
+          <!--        size="mini"-->
+          <!--        on-label="是"-->
+          <!--        on-value="Home-card"-->
+          <!--        off-label="否"-->
+          <!--        off-value="Home-default"-->
+          <!--      />-->
+          <!--    </span>-->
+          <!--  </div>-->
+          <!--</template>-->
         </BsTabKeepRouter>
       </div>
-      <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
-        <!-- :include="includedComponents"  -->
-        <BsKeepAlive ref="keepAlive">
-          <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.fullPath" />
+      <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ height: isIframe() ? 'calc(100% - 8px) !important' : '', 'marginLeft': leftNavWidth + 'px' }">
+        <BsKeepAlive ref="keepAlive" :include="includedComponents">
+          <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.name" />
         </BsKeepAlive>
-        <router-view v-if="!$route.meta.keepAlive && ifrouteractive" :key="$route.fullPath" />
+        <router-view v-if="!$route.meta.keepAlive && ifrouteractive" :key="$route.name" />
       </div>
       <div v-show="showType === 'iframe'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
         <iframe
@@ -49,7 +48,7 @@
           :src="iframeSrc"
         ></iframe>
       </div>
-      <div class="main-modulebox-quick-nav" :class="isShowHeader ? 'top60' : 'top0'">
+      <div v-if="!isIframe()" class="main-modulebox-quick-nav" :class="isShowHeader ? 'top60' : 'top0'">
         <BsQuickNav :nav-data="menuData" @onNavClick="onQuickNavClick" @fixedNavChange="onFixedNavChange" />
       </div>
       <GlobalSetting />
@@ -60,6 +59,7 @@
 <script>
 import MenuModule from '@/api/frame/common/menu.js'
 import GlobalSetting from '@/views/main/GlobalSetting'
+import { generateDefaultWaterPrint } from '@/hb/waterMark.js'
 export default {
   name: 'Main',
   components: {
@@ -88,11 +88,11 @@ export default {
         }
       ],
       tabListCp: [
-      //   {
-      //   code: 'FormTemplate',
-      //   name: '模版',
-      //   url: 'FormTemplate'
-      // }
+        //   {
+        //   code: 'FormTemplate',
+        //   name: '模版',
+        //   url: 'FormTemplate'
+        // }
       ],
       value: '',
       defaultActiveMenu: {
@@ -103,7 +103,8 @@ export default {
         noClear: true
       },
       showType: 'router',
-      menuData: []
+      menuData: [],
+      list: []
     }
   },
   computed: {
@@ -124,6 +125,9 @@ export default {
     }
   },
   methods: {
+    isIframe() {
+      return window.self !== window.top
+    },
     getDataType(obj) {
       // 获取数据类型
       return Object.prototype.toString.call(obj).slice(8, -1)
@@ -227,7 +231,10 @@ export default {
           this.curRouteTabObj.url !== value
         ) {
           let indexOf = this.getIndexof(this.tabListCp, value, 'url')
-          this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+
+          if (window.self === window.top) {
+            this.$store.commit('setCurNavModule', this.tabListCp[indexOf])
+          }
           // if (indexOf === -1) {
           //   this.onRefreshClick()
           // }
@@ -269,6 +276,7 @@ export default {
       }
     },
     routerToHome(homeShowType) {
+      if (window.self !== window.top) return
       if (homeShowType === 'Home-card') {
         this.$router.push({
           name: 'HomeCard',
@@ -300,6 +308,7 @@ export default {
       })
     },
     onTabListChange(tabList) {
+      this.list = tabList
       this.tabListCp = JSON.parse(JSON.stringify(tabList))
       this.registIncludedComponents()
     },
@@ -330,6 +339,7 @@ export default {
           self.$error('error')
         })
       } else {
+        self.$refs.keepAlive.destroy(obj.url)
         this.$store.commit('setCurMenuObj', obj)
         // this.registTabComs(obj)
       }
@@ -387,6 +397,20 @@ export default {
         })
       }
     },
+    updateUrl(url) {
+      let tokenid = this.$store.getters.getLoginAuthentication.tokenid
+      let roleguid = this.$store.state.curNavModule.roleguid
+      let menuId = this.$store.state.curNavModule.guid
+      let userInfo = this.$store.state.userInfo
+      if (url.indexOf('.cpt') === -1) {
+        url = url + '.cpt'
+      }
+      url = window.gloableToolFn.getReportUrl() + url +
+        '&x=1' + '&menuguid=' + menuId +
+        '&roleguid=' + roleguid + '&tokenid=' + tokenid + '&userguid=' + userInfo.guid + '&fiscal_year=' + userInfo.year + '&mof_div_code=' + userInfo.province
+      return url
+    },
+
     // 是否收藏
     isCollection() {
       let self = this
@@ -394,7 +418,7 @@ export default {
       let menuInfo = self.$store.state.curNavModule
       let param = {
         menuguid: menuInfo.guid,
-        roleguid: menuInfo.roleguid,
+        roleguid: menuInfo.roleguid || self.userInfo.guid,
         userguid: self.userInfo.guid,
         year: self.userInfo.year,
         province: self.userInfo.province,
@@ -439,6 +463,8 @@ export default {
             this.addDynamicRoutingRoute(this.recursiveChangeUrl(res))
             this.onMenuSelectChange(this.defaultActiveMenu)
             this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            // 根据菜单信息获取待办
+            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
           } else {
             // this.$message({
             //   dangerouslyUseHTMLString: true,
@@ -456,6 +482,9 @@ export default {
         if (Array.isArray(item.children) && item.children.length) {
           self.recursiveChangeUrl(item.children, reuseRouts)
         } else {
+          if (item.url.indexOf('pay0') !== -1 || item.url.indexOf('pay1') !== -1 || item.url.indexOf('pay2') !== -1 || item.url.indexOf('.cpt') !== -1) {
+            item.url = this.updateUrl(item.url)
+          }
           if (item.url && item.url.indexOf('ReuseRoute') >= 0) {
             reuseRouts.push(Object.assign({}, item))
             item.url = '/' + item.code + item.url
@@ -511,10 +540,18 @@ export default {
       window.history.forward()
     })
     this.getMenus()
+    if (window.gloableToolFn.enableWaterMark) {
+      let { userInfo, loginData } = this.$store.state
+      generateDefaultWaterPrint(userInfo.code, loginData)
+    }
   },
   watch: {
     curMenuObj: {
       handler(newValue) {
+        let curKeepAlive = this.tabListCp.find(item => item.url === newValue.url)
+        if (curKeepAlive) {
+          Object.assign(curKeepAlive, newValue)
+        }
         if (newValue && Object.keys(newValue).length) {
           this.registTabComs(newValue, true)
           this.$store.commit('setCurMenuObj', {})

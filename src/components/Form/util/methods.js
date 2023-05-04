@@ -1,129 +1,104 @@
 // methods   Author:Titans@2396757591@qq.com
-/* eslint-disable no-new-func */
-/* eslint-disable no-eval */
-/* eslint-disable  no-useless-call */
-import evalCalcUtil from '../../tool/eval/index.js'
 import { defaultRenderers } from '../config/formDefaultConfig.js'
-import util from '../tool/util.js'
+// import { typeConf, basicConf, pullConf } from '../../../gloabalDataSource/pullDownDataSource.js'
+const util = {
+  getbasicDataType(obj) {
+    // 获取数据类型
+    return Object.prototype.toString.call(obj).slice(8, -1)
+  },
+  deepCopy(obj) {
+    // 深拷贝通用方法
+    let me = this
+    if (typeof obj !== 'object' || obj === null) return obj
+    let newObj = obj instanceof Array ? [] : {}
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        newObj[key] =
+           typeof obj[key] === 'object' ? me.deepCopy(obj[key]) : obj[key]
+      }
+    }
+    return newObj
+  },
+  debounce(fn, delay) {
+    // 利用闭包保存定时器
+    let timer = null
+    return function() {
+      let context = this
+      let arg = arguments
+      // 在规定时间内再次触发会先清除定时器后再重设定时器
+      clearTimeout(timer)
+      timer = setTimeout(function() {
+        fn.apply(context, arg)
+      }, delay)
+    }
+  }
+}
 const initMethods = {
-  initCreated() { // 初始化Created
-    this.itemChangeTimer = this.debounce(() => { }, 200)
+  initCreated() {
+    // 初始化Created
   },
-  initMounted() { // 初始化Mounted
+  initMounted() {
+    this.itemChangeTimer = null
     this.initFirst()
+    // 初始化Mounted
   },
-  initFirst() { // 组件初始化
-    // this.moneyUnit = this.defaultMoneyUnit
-    this.initMoneyUnit(this.defaultMoneyUnit)
+  initFirst() {
+    // 组件初始化
+    this.itemChangeTimer = this.debounce(() => {}, 200)
     this.registFormItemRender(defaultRenderers)
+    this.initFormInitGloabalData()
     this.initFormConfig()
     this.initFormItemsConfig()
+    this.registFormItemRender(this.formConfigCp.renderers)
     this.initFormGloabalConfig()
-    // this.registFormItemRender(this.formConfigCp.renderers)
-    // this.registRenderers(this.formItemsConfigIn)
+    this.registRenderers(this.formItemsConfigIn)
     this.initFormValidationConfig()
     this.initFormDataList()
   },
-  initMoneyUnit(moneyUnit) {
-    this.moneyUnit = moneyUnit
-    let self = this
-    this.moneyUnitOptions.forEach((item, index) => {
-      if (item.value === moneyUnit) {
-        self.curSelectMoneyUnitOption = item
-      }
-    })
-    let form = this.$refs.form
-    if (!form) {
-      return
-    }
-    form.$forceUpdate()
-  },
-  initFormConfig() {
-    this.formConfigCp = Object.assign({}, this.formConfigCp, this.formConfig)
-  },
-  initFormItemsConfig(newVal) { // 初始化标格项配置
-    this.formItemsConfigIn = this.formItemsConfig
-    this.itemsAllMap = this.generateItemsAllMap(this.formItemsConfigIn)
-  },
-  initFormGloabalConfig(newVal) { // 初始化表格配置
-    this.formGloabalConfigIn = Object.assign(
-      this.formGloabalConfigIn,
-      this.formGloabalConfig
-    )
-  },
-  initFormValidationConfig(newVal) { // 初始化表格校验
-    this.formValidationConfigIn = this.formValidationConfig
-  },
-  initFormDataList(newVal) { // 初始化表单数据
-    this.formDataListInit = this.initDefaultFormDataList(this.deepCopy(this.formDataList))
-    this.formDataListIn = Object.assign({}, this.formDataList, this.formDataListInit)
-    return this.formDataListIn
-  },
-  initDefaultFormDataList(obj) { // 初始化表格数据
-    // Object.keys(this.formDataListIn).forEach(item => {
-    //   this.formDataListIn[item] = this.formDataListIn[item] === undefined || this.formDataListIn[item] === null ? '' : this.formDataListIn[item]
-    // })
-    let self = this
-    let moneyInputSwich = self.moneyInputSwich || false
-    let moneyUnit = moneyInputSwich ? (self.moneyUnit || 1) : 1
-    this.formItemsConfigIn.forEach((item, index) => {
-      if (item.field) {
-        let render = item.itemRender
-        obj[item.field] = typeof obj[item.field] !== 'object' ? (obj[item.field] === undefined ? '' : obj[item.field]) : (obj[item.field] === null ? '' : obj[item.field])
-        if (render && render.props && render.props.multiple) {
-          if (Array.isArray(obj[item.field])) {
-            obj[item.field + '__multiple'] = [...obj[item.field]]
-          } else if (typeof obj[item.field] === 'string') {
-            obj[item.field + '__multiple'] = obj[item.field].split(',')
-          } else if (typeof obj[item.field] === 'number') {
-            // obj[item.field] = obj[item.field]
-            obj[item.field + '__multiple'] = String(obj[item.field]).split(',')
-          } else {
-            obj[item.field] = ''
-            obj[item.field + '__multiple'] = []
-          }
-        } else if (render && render.name === '$vxeMoney') {
-          obj[item.field + '__moneySwitchinput'] = self.accurateChuFa((obj[item.field] + '').replace(/null|undefined|NaN/ig, ''), moneyUnit) + ''
-        } else if (item.field === 'moneyUnit') {
-          obj[item.field] = obj[item.field] || this.defaultMoneyUnit
-        }
-      }
-    })
-    return obj
-  },
-  generateItemsAllMap(items, obj = {
-    fieldMap: {},
-    titleFieldMap: {},
-    formulaConfig: {},
-    titleMap: {}
-  }) {
-    // 生成导入view映射数据
-    let self = this
-    items.forEach((item, index) => {
-      if (Array.isArray(item.children) && item.children.length) {
-        self.generateItemsAllMap(item.children, obj)
-      } else {
-        if (item.formula) {
-          obj.formulaConfig[item.field] = item.formula
-          obj.titleMap[item.title] = item
-        }
-        if (item.field) {
-          obj.fieldMap[item.field] = item
-          obj.titleFieldMap[item.title] = item.field
-        }
-      }
-    })
-    return obj
-  },
-  initFormInitGloabalData() { // 废弃
-    this.formInitGloabalDataIn = Object.assign(
+  initFormInitGloabalData() {
+    this.formInitGloabalDataCp = Object.assign(
       {},
       this.formInitGloabalDataCp,
       this.formInitGloabalData
     )
+  },
+  initFormConfig() {
+    this.formConfigCp = Object.assign({}, this.formConfigCp, this.formConfig)
+  },
+  initFormGloabalConfig(newVal) {
+    // 初始化工具栏
+    this.formGloabalConfigIn = Object.assign(
+      {},
+      this.formGloabalConfigIn,
+      this.formGloabalConfig
+    )
+  },
+  initFormDataList(newVal) {
+    this.formDataListIn = this.formDataList
+    this.initDefaultFormDataList()
+  },
+  initFormValidationConfig(newVal) {
+    this.formValidationConfigIn = Object.assign({}, this.addTreeReg({ ...this.formValidationConfig }))
+  },
+  initFormItemsConfig(newVal) {
+    this.formItemsConfigIn = JSON.parse(JSON.stringify(this.formItemsConfig))
+    this.initDefaultFormDataList(this.formItemsConfig)
+  },
+  initDefaultFormDataList(arr) {
+    let self = this
+    // Object.keys(this.formDataListIn).forEach(item => {
+    //   this.formDataListIn[item] = this.formDataListIn[item] === undefined || this.formDataListIn[item] === null ? '' : this.formDataListIn[item]
+    // })
+    let obj = self.formDataListIn
+    this.formItemsConfigIn.forEach((item, index) => {
+      if (item.field) {
+        obj[item.field] = typeof obj[item.field] !== 'object' ? (obj[item.field] === undefined ? '' : obj[item.field]) : (obj[item.field] === null ? '' : obj[item.field])
+        // self.formDataListIn[item.field] = (typeof (self.formDataListIn[item.field]) !== 'object' && self.getbasicDataType(self.formDataListIn[item.field]) !== 'Null') ? (self.formDataListIn[item.field] + '').replace(/null|undefined/ig, '') : self.formDataListIn[item.field]
+      }
+    })
   }
 }
-const registFn = { // 废弃
+const registFn = {
   registSingelItemRenderer(item) {
     // 绑定每个数据项渲染器配置
     // let self = this
@@ -220,63 +195,83 @@ const axiosEvent = {
   }
 }
 const formOptionFn = {
-  itemOption(obj) { // 项其他事件
-    this.$emit('itemOption', obj, this)
-  },
-  itemChange(obj) { // 项改变事件
+  itemChange(obj) {
+    let self = this
+    // this.$emit('submitInvalid', obj, self, this.$refs.form)
     if (!this.$refs.form) {
       return
     }
-    switch (obj.property) {
-      case 'moneyUnit':
-        this.moneyUnit = obj.itemValue
-        this.initMoneyUnit(this.moneyUnit)
-        break
+    // this.$refs.form.validItemRules('change', property, itemValue)
+    //   .then(() => {
+    //     self.$refs.form.clearValidate(property)
+    //   })
+    //   .catch(({ rule, rules }) => {
+    //     // console.log({ rule, rules })
+    //     // const rest = window.XEUtils.find(this.invalids, rest => rest.property === property)
+    //     // if (rest) {
+    //     //   rest.rule = rule
+    //     //   rest.rules = rules
+    //     // } else {
+    //     //   this.$refs.form.invalids.push({ rule, rules, property })
+    //     // }
+    //   })
+
+    // this.$refs.form.validate().then(res => {
+    //   if (res) {
+    //     console.log('校验通过')
+    //   } else {
+    //     console.log('校验失败')
+    //   }
+    // })
+    self.$nextTick(() => {
+      clearTimeout(this.itemChangeTimer)
+      this.itemChangeTimer = setTimeout(() => {
+        self.$emit('itemChange', obj, self)
+      }, 300)
+    })
+  },
+  itemBlur({ $form, property, itemValue, data, renderOpts }) {
+    console.log('blur')
+    let self = this
+    if (!this.$refs.form) {
+      return
     }
-    this.performanCalc(obj.data)
-    this.performConstraintAndRerender()
-    this.$nextTick(() => {
-      this.$emit('itemChange', obj, this)
+    self.$nextTick(() => {
+      clearTimeout(this.itemChangeTimer)
+      this.itemChangeTimer = setTimeout(() => {
+        self.$emit('itemBlur', { $form, property, itemValue, data, renderOpts }, self)
+      }, 300)
     })
-  },
-  getPureFormData(data) {
-    let obj = data || this.getFormData()
-    Object.keys(obj).forEach((key, ki) => {
-      if (key.indexOf('__') >= 0) {
-        delete obj[key]
-      }
-    })
-    return obj
-  },
-  getFormData() { // 获取表单数据
-    return this.deepCopy(this.$refs.form.data)
   },
   reset() {
     // 重置表单
-    let self = this
-    return new Promise((resolve, reject) => {
-      self.formDataListIn = Object.assign({}, self.formDataListInit)
-      self.$emit('reset', self.formDataListIn, self, this.$refs.form)
-      resolve(self.formDataListIn)
-    })
+    return this.$refs.form.reset()
   },
-  clearValidate(field) { // 手动清除校验状态
+  clearValidate(field) {
+    // 手动清除校验状态
     return this.$refs.form.clearValidate(field)
   },
-  updateStatus(scope) { // 更新项状态（当使用自定义渲染时可能会用到）
+  updateStatus(scope) {
+    // 更新项状态（当使用自定义渲染时可能会用到）
     return this.$refs.form.updateStatus(scope)
   },
-  formOptionsFn() { // vxeForm操作
+  formOptionsFn() {
     return this.$refs.form
   },
-  toggleCollapse(obj) { // 当折叠按钮被手动点击时会触发该事件 { collapse, data, $event }
-    this.$emit('toggleCollapse', obj, self, this.$refs.form)
+  resetData({ nosetFields }) {
+    let nosetFieldsCp = Array.isArray(nosetFields) ? nosetFields : []
+    let self = this
+    Object.keys(self.formDataListIn).forEach((item, index) => {
+      if (nosetFieldsCp.indexOf(item) === -1) {
+        self.formDataListIn[item] = null
+      }
+    })
   }
+
 }
-const otherFn = { // 废弃
+const optionEvent = {
   onFormSubmit(obj) {
     // 表单提交时会触发该事件 { data, $event }
-    // debugger
     let self = this
     this.$emit('onSubmitClick', obj, self, this.$refs.form)
     let axiosDatas = self.formConfigCp.axiosDatas
@@ -293,50 +288,21 @@ const otherFn = { // 废弃
     // 表单提交时如果校验不通过会触发该事件 { data, errMap, $event }
     this.$emit('submitInvalid', obj, self, this.$refs.form)
   },
-  clearFormData(formData, needClearFieldS) {
-    // 清空表单数据
-    this.formItemsConfigIn.forEach((item, index) => {
-      if ((!needClearFieldS || needClearFieldS.indexOf(item.field) >= 0) && item.field) {
-        let render = item.itemRender
-        if (item.itemRender.name === '$vxeTree') {
-          const { props } = item.itemRender
-          let { multiple, showField, isHump } = (props && props.config) || { multiple: false, showField: '', isHump: false }
-          if (showField) {
-            formData[showField] = ''
-          } else {
-            formData[item.field + (isHump ? 'Id' : 'id')] = ''
-            formData[item.field + (isHump ? 'Code' : 'code')] = ''
-            formData[item.field + (isHump ? 'Name' : 'name')] = ''
-            if (multiple) {
-              formData[item.field + (isHump ? 'Id__multiple' : 'id__multiple')] = []
-              formData[item.field + (isHump ? 'Code__multiple' : 'code__multiple')] = []
-              formData[item.field + (isHump ? 'Name__multiple' : 'name__multiple')] = []
-            }
-          }
-        } else if (render && render.props && render.props.multiple) {
-          if (Array.isArray(formData[item.field])) {
-            formData[item.field] = []
-          } else {
-            formData[item.field] = ''
-          }
-          formData[item.field + '__multiple'] = []
-        } else {
-          formData[item.field] = typeof formData[item.field] !== 'object' ? ((formData[item.field] === undefined || isNaN(formData[item.field])) ? '' : formData[item.field]) : (formData[item.field] === null ? '' : formData[item.field])
-          // formData[item.field] = (typeof (formData[item.field]) === 'object' && self.getbasicDataType(formData[item.field]) !== 'Null') ? formData[item.field] : (formData[item.field] === null || formData[item.field] === undefined ? '' : formData[item.field])
-        }
-      }
-    })
-    return formData
+  reset(obj) {
+    // 表单重置时会触发该事件 { data, $event }
+    this.$emit('reset', obj, self, this.$refs.form)
   },
-  resetData({ nosetFields }) { // 废弃
-    let nosetFieldsCp = Array.isArray(nosetFields) ? nosetFields : []
+  toggleCollapse(obj) {
+    // 当折叠按钮被手动点击时会触发该事件 { collapse, data, $event }
+    this.$emit('toggleCollapse', obj, self, this.$refs.form)
+  },
+  formDataChange(obj) {
     let self = this
-    Object.keys(self.formDataListIn).forEach((item, index) => {
-      if (nosetFieldsCp.indexOf(item) === -1) {
-        self.formDataListIn[item] = null
-      }
-    })
-  },
+    let axiosDatas = self.formConfigCp.axiosDatas
+    typeof axiosDatas.formDataChange === 'function' && axiosDatas.formDataChange(obj, self)
+  }
+}
+const otherFn = {
   validItemRules(type, property, val) {
     let self = this
     const { data, editRules } = this
@@ -397,181 +363,41 @@ const otherFn = { // 废弃
     })
   },
   validate(cb) {
-    let self = this
-    return new Promise((resolve, reject) => {
-      self.$refs.form.validate(cb).then((res) => {
-        resolve(res)
-      }).catch((errMap) => {
-        let errorInfor = []
-        self.each(errMap, (item, key) => {
-          errorInfor.push(errMap[item][0].rule.$options.message)
-        })
-        self.$XModal.message({ status: 'error', message: `错误：[${errorInfor[0]}]` })
-        reject(errMap)
-      })
-    })
-  }
-}
-const calculateTool = { // 计算部分
-  performanCalc(data) { // 执行计算
-    let { formulaConfig } = this.itemsAllMap
-    let formulaConfigCp = Object.assign({}, this.calculateConstraintConfigIn.itemFormulaConfig, formulaConfig)
-    this.reductionFormula(formulaConfigCp, data || this.getFormData())
+    console.log('验证' + cb)
+    return this.$refs.form.validate(cb)
   },
-  reductionFormula(formulaMap, obj) { // 执行计算
-    // objFormulaMap= { "colfield":"{colfield}[运算符]" }
-    let formulaMapCp = this.deepCopy(formulaMap)
-    let hasCalcFormulaMap = {}
-    let i = 0
-    let ifDoWhile = true
-    try {
-      while (ifDoWhile) {
-        let formulaMapArr = Object.keys(formulaMapCp)
-        if (formulaMapArr.length) {
-          for (let cmai = 0; cmai < formulaMapArr.length; cmai++) {
-            i++
-            let item = formulaMapArr[cmai]
-            let formula = formulaMapCp[item]
-            let regR = new RegExp('({[a-zA-Z0-9_]*})', 'ig')
-            let objsKey = formula.match(regR) === null ? [] : formula.match(regR)
-            if (objsKey.length) {
-              for (let keyCF in objsKey) {
-                let keyC = objsKey[keyCF].replace(/\{|\}/g, '')
-                let reg = new RegExp('({' + keyC + '})', 'ig')
-                if (obj[keyC] !== undefined && !(hasCalcFormulaMap[keyC] !== undefined || formulaMapCp[keyC])) {
-                  formulaMapCp[item] = formula.replace(reg, isNaN(parseFloat(obj[keyC])) ? 0 : parseFloat(obj[keyC]))
-                } else if (hasCalcFormulaMap[keyC] !== undefined) {
-                  formulaMapCp[item] = formula.replace(reg, hasCalcFormulaMap[keyC])
-                } else if (!formulaMapCp[keyC]) {
-                  formulaMapCp[item] = formula.replace(reg, 0)
-                }
-              }
-            } else {
-              let calcResult = evalCalcUtil.eval(formula)
-              hasCalcFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) ? '' : calcResult
-              delete formulaMapCp[item]
-            }
-          }
-        } else {
-          ifDoWhile = false
-        }
-        if (i === 100000) {
-          console.log(formulaMap, hasCalcFormulaMap)
-          console.error('请核查公式')
-        }
-      }
-    } catch (e) {
-      // console.log(i)
-      console.log(formulaMap, hasCalcFormulaMap)
-      console.error('请核查公式')
-    }
-    return Object.assign(obj, hasCalcFormulaMap)
-  }
-}
-const calculateConstraintTool = { // 约束部分
-  genarateConstraintMap(constraintConfig, row) {
-    // 生成约束map
-    this.constrainDataMap = this.genarateRowConstraintMap(this.deepCopy(constraintConfig || {}), row, this.constrainDataMap)
+  getFormData() {
+    // 获取表单数据
+    const data = this.$refs.form.data
+    // console.log('save', this.dealData(data))
+    return this.deepCopy(this.dealData(data))
   },
-  genarateRowConstraintMap(rowConstraintConfig, row, dataMap) {
-    // 生成单条数据约束map
-    let self = this
-    this.each(rowConstraintConfig, (key, item) => {
-      let regR = new RegExp('({[a-zA-Z0-9_]*})', 'ig')
-      let rowsKey = rowConstraintConfig[key].match(regR) || []
-      rowsKey = [...new Set(rowsKey)]
-      if (rowsKey.length) {
-        for (let keyC in rowsKey) {
-          let reg = new RegExp('(' + rowsKey[keyC] + ')', 'ig')
-          let keyF = rowsKey[keyC].replace(/\{|\}/g, '')
-          rowConstraintConfig[key] = rowConstraintConfig[key].replace(reg, row[keyF] === null || row[keyF] === undefined ? '' : row[keyF])
-        }
-      }
-      self.parsingRowConstraintConfigToMapData(rowConstraintConfig[key], dataMap)
-    })
-    return dataMap
-  },
-  parsingRowConstraintConfigToMapData(rowConstraintConfig, dataMap) {
-    // 生成单条数据约束map
-    let self = this
-    rowConstraintConfig.split('--&&--').forEach((item, index) => {
-      let rowConstraintArr = item.split('::')
-      dataMap[rowConstraintArr[0]] = dataMap[rowConstraintArr[0]] || {}
-      dataMap[rowConstraintArr[0]][rowConstraintArr[1]] = self.parsingRowConstraintConfigToValueData(rowConstraintArr[2], rowConstraintArr[1])
-    })
-  },
-  evalEpression(expression) {
-    // 执行表达式
-    // eslint-disable-next-line no-new-func
-    return new Function('return ' + expression)()
-  },
-  pasingExpression(expression) {
-    let str = ''
-    this.each(expression.split('--+--'), (index, item) => {
-      if (index === 0) {
-        str += 'if(' + item.split('--??--')[0] + '){return "' + item.split('--??--')[1] + '"}'
-      } else {
-        str += 'else if(' + item.split('--??--')[0] + '){return "' + item.split('--??--')[1] + '"}'
+  dealData(data) {
+    Object.keys(data).map((item) => {
+      let value = String(data[item]) || ''
+      if (value.includes('initId')) {
+        const prefix = item.substr(0, item.indexOf('id'))
+        data[item] = ''
+        data[prefix + 'code'] = ''
+        data[prefix + 'name'] = ''
+        data[prefix + 'id'] = ''
       }
     })
-    str += 'else{return ""}'
-    return new Function(str)()
+    return data
   },
-  transExpressionToObject(value) {
-    // 获取全部参数,并转换成json对象
-    let valueArr = value.split('&')
-    let len = valueArr.length
-    let result = {}
-    for (let i = 0; i < len; i++) {
-      let pos = valueArr[i].indexOf('=')
-      if (pos === -1) {
-        continue
+  regTreePrefix(item) {
+    const reg = /\w*_$/g
+    return reg.test(item)
+  },
+  // 遍历正则对象，给树统一自动添加正则
+  addTreeReg(formValidationConfig) {
+    const reg = /^(?!initId)/g
+    Object.keys(formValidationConfig).forEach((item) => {
+      if (this.regTreePrefix(item)) {
+        formValidationConfig[item][0].pattern = reg
       }
-      let name = valueArr[i].substring(0, pos)
-      result[name] = valueArr[i].substring(pos + 1).match(new RegExp('({[a-zA-Z0-9_]*})', 'ig')) ? this.evalEpression(valueArr[i].substring(pos + 1)) : valueArr[i].substring(pos + 1)
-    }
-    return result
-  },
-  parsingRowConstraintConfigToValueData(expression, type) {
-    // 生成当条
-    // type: visible editble clear style value getData
-    let value = null
-    switch (type) {
-      case 'visible':
-        value = !!this.evalEpression(expression)
-        break
-      case 'disabled':
-        value = !!this.evalEpression(expression)
-        break
-      case 'editable':
-        value = !!this.evalEpression(expression)
-        break
-      case 'clear':
-        value = !!this.evalEpression(expression)
-        break
-      case 'value':
-        value = this.evalEpression(expression)
-        break
-      case 'style':
-        value = this.transExpressionToObject(this.pasingExpression(expression))
-        break
-      case 'getData':
-        value = {}
-        break
-    }
-    return value
-  },
-  performConstraintAndRerender() {
-    // 执行约束并重新渲染
-    this.constrainRowDataMap = {}
-    this.genarateConstraintMap(this.calculateConstraintConfigIn.constraintConfig, this.getFormData())
-  },
-  reRenderForm() {
-    // 重新渲染表单
-    this.ifRenderForm = false
-    this.$nextTick(() => {
-      this.ifRenderForm = true
     })
+    return formValidationConfig
   }
 }
 export default {
@@ -580,7 +406,6 @@ export default {
   ...formOptionFn,
   ...initMethods,
   ...registFn,
-  ...calculateTool,
-  ...calculateConstraintTool,
+  ...optionEvent,
   ...otherFn
 }

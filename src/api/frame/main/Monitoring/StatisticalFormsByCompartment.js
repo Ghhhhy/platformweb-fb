@@ -1,5 +1,5 @@
 //  监控函数api
-import { post } from '@/api/http'
+import { post, get } from '@/api/http'
 export default {
   // 获取表格数据
   queryTableDatas(params) {
@@ -12,5 +12,15 @@ export default {
   // 疑似违规标记
   doMark(params) {
     return post('large-monitor-platform/lmp/warn/rpt/marking', params)
+  },
+  getTreewhere(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  // 获取左侧树
+  getLeftTree(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }

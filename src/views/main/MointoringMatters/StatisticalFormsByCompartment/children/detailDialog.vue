@@ -2,10 +2,11 @@
   <div v-loading="tableLoading" style="height: 100%">
     <vxe-modal
       v-model="showViolations"
+      v-loading="tableLoading"
       :title="title"
       width="96%"
       height="90%"
-      :show-footer="true"
+      :show-footer="false"
       @close="dialogClose"
     >
       <div v-loading="tableLoading" style="height: 100%">
@@ -40,7 +41,7 @@
               :table-data="tableData"
               :table-config="tableConfig"
               :pager-config="mainPagerConfig"
-              :toolbar-config="tableToolbarConfig"
+              :toolbar-config="false"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
               @cellClick="cellClick"
@@ -57,10 +58,6 @@
           </template>
         </BsMainFormListLayout>
       </div>
-      <div slot="footer" style="height: 80px;margin:0 15px">
-        <div type="flex" justify="space-around">
-        </div>
-      </div>
     </vxe-modal>
     <DetailDialog
       v-if="dialogVisible"
@@ -72,7 +69,7 @@
 </template>
 
 <script>
-import { proconf, statusMap } from './detailDialog.js'
+import { proconf } from './detailDialog.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRule.js'
 export default {
@@ -84,13 +81,33 @@ export default {
       type: String,
       default: ''
     },
+    warnLevel: {
+      type: String,
+      default: ''
+    },
+    status: {
+      type: String,
+      default: ''
+    },
+    regulationType: {
+      type: String,
+      default: ''
+    },
+    mofDivCode: {
+      type: String,
+      default: ''
+    },
     fiRuleCode: {
       type: String,
       default: ''
     },
-    curStatusLable: {
+    fiscalYear: {
       type: String,
       default: ''
+    },
+    agencyCodeList: {
+      type: Array,
+      default: null
     }
   },
   watch: {
@@ -171,8 +188,13 @@ export default {
           onOptionRowClick: this.onOptionRowClick
         }
       },
+      // 表格尾部合计配置
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          paymentAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -323,9 +345,9 @@ export default {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
       this.condition = condition
-      console.log(this.condition)
-      let fiscalYear = this.condition.fiscalYear[0]
-      this.queryTableDatas(fiscalYear)
+      this.payApplyNumber = val.payApplyNumber
+      this.fiRuleName = val.fiRuleName
+      this.queryTableDatas()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -416,22 +438,35 @@ export default {
       this.queryTableDatas()
     },
     // 查询 table 数据
-    queryTableDatas(fiscalYear) {
+    queryTableDatas() {
       console.log(this.fiRuleCode)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: this.fiscalYear || '2022',
         fiRuleCode: this.fiRuleCode,
-        status: statusMap[this.curStatusLable] || ''
+        warnLevel: this.warnLevel,
+        status: this.status,
+        regulationType: this.regulationType,
+        mofDivCode: this.mofDivCode,
+        agencyCodeList: this.agencyCodeList,
+        regulationClass: this.params5,
+        fiRuleName: this.fiRuleName,
+        businessNo: this.payApplyNumber
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.agencyCode && item.agencyName) {
+              item.agency = item.agencyCode + '-' + item.agencyName
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.tableFooterConfig.totalObj.paymentAmount = res.data.amountSum
         } else {
           this.$message.error(res.message)
         }
@@ -455,7 +490,7 @@ export default {
     }
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
@@ -478,5 +513,8 @@ float: right;
 .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
+}
+.T-mainFormListLayout-modulebox {
+  padding: 0 !important
 }
 </style>

@@ -59,18 +59,26 @@
       :title="dialogTitle"
       :modify-data="modifyData"
     />
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
   </div>
 </template>
 
 <script>
 import { proconf } from './InquiryLetterRecords'
 import AddDialog from './children/addDialog.vue'
-import HttpModule from '@/api/frame/main/Monitoring/InquiryLetterReplyByFinance.js'
+import HttpModule from '@/api/frame/main/Monitoring/InquiryLetterRecords.js'
 import GlAttachment from '../common/GlAttachment'
+import FilePreview from './children/filePreview.vue'
 export default {
   components: {
     AddDialog,
-    GlAttachment
+    GlAttachment,
+    FilePreview
   },
   watch: {
     queryConfig() {
@@ -103,7 +111,6 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'AGENCY' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -203,7 +210,14 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      ruleFlowOpinion: ''
+      ruleFlowOpinion: '',
+      askName: '',
+      askType: '',
+      createTime: '',
+      provinceCode: [],
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      filePreviewDialogVisible: false,
+      fileGuid: ''
     }
   },
   mounted() {
@@ -219,12 +233,15 @@ export default {
         }
       })
     },
-    search(obj) {
-      console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.handleType = obj.handleType
-      this.isEnable = obj.isEnable
-      this.regulationName = obj.regulationName
+    search(val) {
+      console.log(val)
+      this.askName = val.askName
+      this.askType = val.askType_name
+      this.createTime = val.createTime.substring(0, 10)
+      this.provinceCode = val.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -323,9 +340,31 @@ export default {
         case 'check':
           this.check(obj, context, e)
           break
+        // 打印
+        case 'print':
+          this.print()
+          break
         default:
           break
       }
+    },
+    print() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      const params = {
+        askCode: selection[0].askCode
+      }
+      HttpModule.print(params).then(res => {
+        if (res.code === '000000') {
+          this.filePreviewDialogVisible = true
+          this.fileGuid = res.data
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     check(obj, context, e) {
       let row = []
@@ -356,7 +395,7 @@ export default {
       }
       HttpModule.revoke(params).then(res => {
         if (res.code === '000000') {
-          this.$message.success('撤销成功')
+          this.$message.success('退回成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         } else {
@@ -419,7 +458,7 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件')
-      if (row.regulationsCode === null || row.regulationsCode === '') {
+      if (row.attachmentId === null || row.attachmentId === '') {
         this.$message.warning('该数据无附件')
         return
       }
@@ -467,7 +506,7 @@ export default {
       }
       this.modifyData = row[0]
       this.dialogVisible = true
-      this.dialogTitle = '问询函回复'
+      this.dialogTitle = '问询函复核'
     },
     // queryTableDatasCount() {
     //   const params = {
@@ -482,12 +521,29 @@ export default {
     //     }
     //   })
     // },
+    queryTableDatasCount() {
+      const params = {
+        statusCodeArr: ['1', '2', '1,2'],
+        menuId: this.menuId
+      }
+      HttpModule.queryTableDatasCount(params).then(res => {
+        if (res.code === '000000') {
+          this.tabStatusNumConfig['1'] = res.data.unHandle
+          this.tabStatusNumConfig['2'] = res.data.handle
+          this.tabStatusNumConfig['1,2'] = res.data.allCount
+        }
+      })
+    },
     // 查询 table 数据
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        status: this.toolBarStatusSelect.curValue
+        status: this.toolBarStatusSelect.curValue,
+        askName: this.askName,
+        askType: this.askType,
+        createTime: this.createTime,
+        provinceCode: this.provinceCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -516,15 +572,57 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          console.log(this.queryConfig)
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
+    },
+    getTypeList() {
+      HttpModule.getTypeList().then(res => {
+        res.data.forEach(item => {
+          item.label = item.askTypeName
+          item.name = item.askTypeName
+        })
+        this.queryConfig[1].itemRender.options = res.data
+      })
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.queryTableDatasCount()
+    this.getLeftTreeData()
+    this.getTypeList()
   }
 }
 </script>

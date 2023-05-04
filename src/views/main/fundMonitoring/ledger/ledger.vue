@@ -61,6 +61,8 @@
 import { proconf } from './ledger'
 import AddDialog from './children/AddDialog'
 import HttpModule from '@/api/frame/main/fundMonitoring/ledger.js'
+import { readLocalFile } from '@/utils/readLocalFile.js'
+import { checkRscode } from '@/utils/checkRscode'
 export default {
   components: {
     AddDialog
@@ -138,7 +140,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          $ledgerInputGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -292,13 +294,90 @@ export default {
           }
           var deleteCodes = []
           selectionRow1.forEach(function(item, index) {
-            deleteCodes.push(item.reportCode)
+            deleteCodes.push(item.ledgerId)
           })
           this.delete(deleteCodes)
+          break
+        case 'dirDataSourceSync':
+          this.dirDataSourceSync()
+          break
+        case 'etlDataSync':
+          this.etlDataSync()
+          break
+        case 'doIncrementSync':
+          this.doIncrementSync()
           break
         default:
           break
       }
+    },
+    async doIncrementSync() {
+      this.$confirm('将执行一次增量数据同步, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          this.tableLoading = true
+          checkRscode(await HttpModule.doIncrementSync())
+          this.$message({
+            type: 'success',
+            message: '同步结束!'
+          })
+        } finally {
+          this.tableLoading = false
+        }
+      })
+    },
+    async etlDataSync() {
+      const { file } = await readLocalFile({
+        types: ['kjb', 'ktr']
+      })
+      const formData = new window.FormData()
+      formData.append('file', file)
+      this.$confirm('将通过上传的文件转换数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          this.tableLoading = true
+          checkRscode(await HttpModule.etlDataSync(formData))
+          this.$message({
+            type: 'success',
+            message: '同步结束!'
+          })
+        } finally {
+          this.tableLoading = false
+        }
+      })
+    },
+    dirDataSourceSync() {
+      this.$confirm('此操作将删除之前的数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableLoading = true
+        HttpModule
+          .dirDataSourceSync()
+          .then(res => {
+            if (res.code === '000000') {
+              this.$message({
+                type: 'success',
+                message: '同步成功!'
+              })
+            }
+          })
+          .finally(() => {
+            this.tableLoading = false
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     delete(reportCodes) {
       this.$confirm('此操作将永久删除选中数据, 是否继续?', '提示', {
@@ -306,12 +385,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.showLoading = true
+        this.tableLoading = true
         var _this = this
         HttpModule
           .deleteLedger(reportCodes)
           .then(res => {
-            _this.showLoading = false
+            _this.tableLoading = false
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
@@ -320,7 +399,9 @@ export default {
               _this.queryTableDatas()
             }
           })
-          .catch()
+          .finally(() => {
+            this.tableLoading = false
+          })
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -402,6 +483,11 @@ export default {
     cellClick(obj, context, e) {
       console.log(obj)
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'fiRuleName':
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
@@ -454,8 +540,8 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        reportCode: this.condition.reportCode ? this.condition.reportCode[0] : '',
-        reportName: this.condition.reportName ? this.condition.reportName[0] : ''
+        reportCode: this.searchDataList.reportCode || '',
+        reportName: this.searchDataList.reportName || ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

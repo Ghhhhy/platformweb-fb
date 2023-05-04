@@ -64,7 +64,7 @@ export default {
   },
   defaultMoneyUnit: {
     handler(newVal, oldVal) {
-      this.initMoneyUnit(newVal)
+      this.initMoneyUnit?.(newVal)
     },
     immediate: true
   },

@@ -172,7 +172,29 @@
             :table-data="mountTableData"
             :toolbar-config="false"
             :pager-config="false"
-          />
+          >
+            <template
+              v-slot:column-editParam="{ row }"
+            >
+              <div class="custom-cell" style="font-size: 14px">
+                <div v-if="row.paramType !== '5'">
+                  <vxe-input v-model="row.param" />
+                </div>
+                <div v-else>
+                  <vxe-select
+                    v-model="row.param"
+                    :options="functionSelectOptions"
+                    :option-props="{ label: 'value', value: 'regId' }"
+                  />
+                </div>
+              </div>
+            </template>
+            <template
+              v-slot:column-defaultParam="{ row }"
+            >
+              <span>{{ getFunctionLabel(row.param) }}</span>
+            </template>
+          </BsTable>
         </div>
       </div>
     </div>
@@ -188,6 +210,7 @@
                   v-model="policiesDescription"
                   type="textarea"
                   :rows="2"
+                  :maxlength="200"
                   placeholder="请输入预警提示"
                   style=" width:90%"
                 />
@@ -335,11 +358,12 @@ export default {
         { value: '3', label: '三级' }
       ],
       handleType: '',
-      handleTypeoptions: [
-        { value: '1', label: '预警' },
-        { value: '2', label: '拦截' },
-        { value: '3', label: '冻结' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions.map(item => {
+        return {
+          ...item,
+          value: String(item.value)
+        }
+      }),
       isEnable: '',
       isEnableoptions: [
         { value: '0', label: '否' },

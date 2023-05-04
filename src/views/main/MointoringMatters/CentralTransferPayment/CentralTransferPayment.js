@@ -15,7 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      // { code: 'add', label: '新增', status: 'primary' },
+      { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' }
       // { code: 'del', label: '删除' }
     ]
@@ -65,13 +65,13 @@ export let proconf = {
   },
   PoliciesTableColumns: [
     {
-      title: '项目编码',
+      title: '中央项目编码',
       field: 'proCode',
       sortable: false,
       align: 'left'
     },
     {
-      title: '项目名称',
+      title: '中央项目名称',
       field: 'proName',
       sortable: false,
       align: 'left'
@@ -97,6 +97,18 @@ export let proconf = {
     {
       title: '热点分类名称',
       field: 'cfsHotTopicCateName',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '父级项目编码',
+      field: 'proFundCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '父级项目名称',
+      field: 'proFundName',
       sortable: false,
       align: 'left'
     }

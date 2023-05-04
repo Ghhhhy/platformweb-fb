@@ -102,7 +102,34 @@ export let proconf = {
           placeholder: '资金用途'
         }
       }
+    },
+    {
+      title: '预警数据创建时间',
+      field: 'businessTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '预警数据创建时间'
+        }
+      }
     }
+    // ,
+    // {
+    //   title: '支付数据结束时间',
+    //   field: 'endTime',
+    //   itemRender: {
+    //     name: '$vxeTime',
+    //     defaultValue: '',
+    //     props: {
+    //       format: 'YYYY-MM-DD',
+    //       type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+    //       placeholder: '支付数据结束时间'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     regulationType: '',
@@ -250,7 +277,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofdivname',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -258,7 +285,7 @@ export let proconf = {
     {
       title: '预警级别',
       'width': 180,
-      field: 'warnlevel',
+      field: 'warnLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -266,7 +293,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationtype',
+      field: 'regulationType',
       sortable: false,
       filters: false,
       align: 'center'
@@ -274,7 +301,7 @@ export let proconf = {
     {
       title: '预算单位编码',
       'width': 180,
-      field: 'agencycode',
+      field: 'agencyCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -282,7 +309,7 @@ export let proconf = {
     {
       title: '预算单位名称',
       'width': 180,
-      field: 'agencyname',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -290,7 +317,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -298,7 +325,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'firulename',
+      field: 'fiRuleName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -325,15 +352,15 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    /* {
-      title: '支付申请编码',
+    {
+      title: '业务单号',
       'width': 180,
-      field: 'fivouno',
+      field: 'businessNo',
       sortable: false,
       filters: false,
       align: 'center'
     },
-    {
+    /* {
       'title': '支付申请金额',
       'field': 'paymentamount',
       'width': '200',
@@ -375,7 +402,15 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '违规处理时间',
+      title: '预警数据创建时间',
+      'width': 180,
+      field: 'businessTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预警处理时间',
       'width': 180,
       field: 'handleTime',
       sortable: false,

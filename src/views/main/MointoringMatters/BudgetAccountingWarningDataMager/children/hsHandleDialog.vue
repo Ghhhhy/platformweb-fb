@@ -206,7 +206,7 @@ export default {
     dialogClose() {
       this.$parent.dialogHsVisible = false
       this.$parent.fiRuleCode = ''
-      this.$parent.queryTableDatas()
+      // this.$parent.queryTableDatas()
     },
     // 回显
     showInfo() {
@@ -229,7 +229,7 @@ export default {
             this.supplyDataList.type = res.data.glaVouHead.vouSrcCode
             this.supplyDataList.agencyAcctVoucherType = res.data.glaVouHead.agencyAcctVoucherType + '-' + res.data.glaVouHead.agencyAcctVoucherTypeName
             this.supplyDataList.voucherNo = res.data.glaVouHead.voucherNo
-            this.supplyDataList.voucherDate = res.data.voucherDate
+            this.supplyDataList.voucherDate = res.data.glaVouHead.voucherDate
             this.supplyDataList.voucherAbs = res.data.glaVouHead.voucherAbs
             this.supplyDataList.vouCnt = res.data.glaVouHead.vouCnt
           }

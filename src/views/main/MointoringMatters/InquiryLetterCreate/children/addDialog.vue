@@ -101,7 +101,6 @@
                     <el-select
                       v-model="askTypeName"
                       style="width:45%"
-                      @change="changeAskTypeName"
                     >
                       <el-option
                         v-for="item in askTypeNameOptions"
@@ -130,7 +129,6 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
           </el-row>
         </div>
       </div>
@@ -194,6 +192,7 @@ export default {
       askAgency: '',
       askAgencyOptions: [],
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      // treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       askProvinceCode: '',
       askProvinceId: '',
       askProvinceName: '',
@@ -228,6 +227,19 @@ export default {
       this.askProvinceId = this.modifyData.askProvinceId
       this.askProvinceName = this.modifyData.askProvinceName
       this.attachmentId = this.modifyData.attachmentId
+      const param = {
+        billguid: this.attachmentId,
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getFile(param).then(res => {
+        if (res.rscode === '100000') {
+          // 获取附件信息
+          this.fileData = JSON.parse(res.data)
+        } else {
+          this.$message.error(res.result)
+        }
+      })
     },
     // 选择业务系统
     changeSysCode(val) {
@@ -322,6 +334,7 @@ export default {
       this.askProvinceName = valArr[2]
       this.askProvinceCode = valArr[1]
       this.askProvinceId = valArr[0]
+      this.getWhereTree()
     },
     selectAgency(val) {
       let valArr = val.split('##')
@@ -367,7 +380,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        if (item.children) {
+        if (item.children && item.children.length > 0) {
           that.getChildrenNewData(item.children)
           item.leaf = false
         } else {
@@ -383,7 +396,10 @@ export default {
         elementCode: 'AGENCY',
         // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        province: this.askProvinceCode ? this.askProvinceCode : this.$store.state.userInfo.province
+      }
+      if (this.askProvinceCode) {
+        param.wheresql = 'and province =' + this.askProvinceCode
       }
       HttpModule.getTreewhere(param).then(res => {
         let treeData = this.getChildrenNewData(res.data)

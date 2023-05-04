@@ -16,7 +16,10 @@ export let proconf = {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'dirDataSourceSync', label: '标准数据源数据同步' },
+      { code: 'etlDataSync', label: '执行KETTLE转换' },
+      { code: 'doIncrementSync', label: '手动执行KETTLE增量' }
     ]
   },
   highQueryConfig: [
@@ -85,6 +88,13 @@ export let proconf = {
       width: 270
     },
     {
+      title: '口径说明',
+      field: 'description',
+      sortable: false,
+      align: 'center',
+      width: 270
+    },
+    {
       title: '操作',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
@@ -94,7 +104,7 @@ export let proconf = {
       filters: false,
       width: 140,
       cellRender: {
-        name: '$payVoucherInputGloableOptionRow'
+        name: '$ledgerInputGloableOptionRow'
       }
     }]
 }

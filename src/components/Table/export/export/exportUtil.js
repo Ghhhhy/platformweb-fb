@@ -103,16 +103,18 @@ export function defaultViewValueFormat(value, row, column) {
       case '$vxeCalculate':
         if (val) {
           val = util.transToNumber(val, props.digits || 2)
-          return util.transToNumberLocalString(val, props.digits || 2)
+          return val * 1
+          // return util.transToNumberLocalString(val, props.digits || 2)
         } else {
-          return ''
+          return 0
         }
       case '$vxeMoney':
         if (val) {
           val = util.transToNumber(val, props.digits || 2)
-          return util.transToNumberLocalString(val, props.digits || 2)
+          return val * 1
+          // return util.transToNumberLocalString(val, props.digits || 2)
         } else {
-          return '0.00'
+          return 0.00
         }
       case '$EditDownConditions':
         return val
@@ -335,20 +337,20 @@ export function getCellValueAlign(column) {
   }
 }
 
-export function getCellViewTitle(column) {
+export function getCellViewTitle(column, unit = '元', ignoreUnit = false) {
   let render = column.editRender || column.cellRender
   switch (column.type) {
     case 'money':
-      return column.title + '(元)'
+      return column.title + (ignoreUnit ? '' : `(${unit})`)
     case 'seqIndex':
       return '序号'
     default:
       if (render && render.name) {
         switch (render.name) {
           case '$vxeMoney':
-            return column.title + '(元)'
+            return column.title + (ignoreUnit ? '' : `(${unit})`)
           case '$vxeCalculate':
-            return column.title + '(元)'
+            return column.title + (ignoreUnit ? '' : `(${unit})`)
             // case '$moneyRender':
             //   return column.title + '(元)'
             // case '$calculateRender':

@@ -108,6 +108,7 @@
       <el-divider style="color:#E7EBF0" />
       <div type="flex" justify="space-around">
         <div>
+          <vxe-button id="savebutton" @click="showAttachmentMask">附件预览</vxe-button>
           <vxe-button @click="dialogClose">取消</vxe-button>
           <vxe-button v-if="showbtn === true" id="savebutton" status="primary" @click="doInsert">确定</vxe-button>
         </div>
@@ -240,6 +241,10 @@ export default {
           }
         })
       }
+    },
+    // 附件预览
+    showAttachmentMask() {
+      this.$parent.showAttachment(this.$parent.selectData)
     }
   },
   watch: {

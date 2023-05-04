@@ -5,42 +5,44 @@
     class="ledger"
     :title="title"
     width="60%"
-    height="60%"
+    height="80%"
     position="top"
     :show-footer="true"
     @close="dialogClose"
   >
-    <div v-loading="addLoading">
+    <div style="padding-bottom: 10px;">
       <BsForm
         ref="addForm"
         :form-items-config="addFormItemsConfig"
         :form-data-list="formData"
         :form-validation-config="formValidationConfig"
+        :title-width="100"
+        :form-gloabal-config="{ titleWidth: 100 }"
         @itemChange="itemChange"
       />
+      <div style="display: flex; padding: 0.5em 0.8em 0.5em 0;">
+        <span style="width: 100px; padding-right: 10px; text-align: right; box-sizing: border-box">口径说明</span>
+        <VueQuillEditor
+          :content.sync="formData.description"
+          style="height: 100px; flex: 1"
+        />
+      </div>
     </div>
-    <div slot="footer" class="vxeModalUnique" style="height: 80px;">
-      <el-divider style="color:#E7EBF0" />
-      <el-row type="flex" justify="space-around" style="margin-bottom:14px;margin-top:0px;">
-        <el-col :span="8" style="margin-top:10px;" />
-        <el-col :span="4" />
-        <el-col :span="12" style="margin-top:0px;float:right;">
-          <div>
-            <el-button @click="dialogClose">取消</el-button>
-            <el-button type="primary" style="margin-right:0px;" @click="addOrUpdate">保存</el-button>
-          </div>
-        </el-col>
-      </el-row>
+    <div slot="footer" class="vxeModalUnique">
+      <el-button size="mini" @click="dialogClose">取消</el-button>
+      <el-button :loading="addLoading" size="mini" type="primary" style="margin-right:0px;" @click="addOrUpdate">保存</el-button>
     </div>
   </vxe-modal>
 </template>
 <script>
 // import { proconf } from '../PoliciesAndRegulationsManagement.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/ledger.js'
+import VueQuillEditor from '@/components/vueQuillEditor/index.vue'
 
 export default {
   name: 'AddDialog',
   components: {
+    VueQuillEditor
   },
   computed: {
     curNavModule() {
@@ -61,12 +63,13 @@ export default {
   },
   data() {
     return {
+      content: '',
       formValidationConfig: {
         reportName: [
-          { required: true, message: '报表名不能为空', trigger: 'blur' }
+          { required: true, message: '报表名不能为空', trigger: 'change' }
         ],
         sqlCode: [
-          { required: true, message: '数据源sql不能为空', trigger: 'blur' }
+          { required: true, message: '数据源sql不能为空', trigger: 'change' }
         ]
       },
       mofShow: false,
@@ -78,7 +81,8 @@ export default {
       },
       formData: {
         reportName: '',
-        sqlCode: ''
+        sqlCode: '',
+        description: ''
       },
       tableConfig: {},
       addFormItemsConfig: [
@@ -91,7 +95,7 @@ export default {
         {
           title: '数据源sql',
           field: 'sqlCode',
-          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false } },
+          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false, rows: 3 } },
           span: 24
         }
       ],
@@ -103,7 +107,7 @@ export default {
       functionParameter: '',
       description: '',
       dialogVisible: true,
-      addLoading: true,
+      addLoading: false,
       token: '',
       isContinuity: false,
       // 文件上传相关参数
@@ -139,33 +143,44 @@ export default {
       this.formData.ledgerId = this.selectData.ledgerId
       this.formData.reportName = this.selectData.reportName
       this.formData.sqlCode = this.selectData.sqlCode
+      this.formData.description = this.selectData.description || ''
     },
     // 保存新增的计划信息
     addOrUpdate() {
       if (this.title === '新增') {
         this.addLoading = true
-        HttpModule.addLedger(this.formData).then((res) => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('新增成功')
-            this.$parent.addDialogVisible = false
-            this.$parent.queryTableDatas()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+        this.$refs.addForm.validate().then(res =>
+          HttpModule.addLedger(this.formData)
+            .then((res) => {
+              if (res.code === '000000') {
+                this.$message.success('新增成功')
+                this.$parent.addDialogVisible = false
+                this.$parent.queryTableDatas()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+            .finally(() => {
+              this.addLoading = false
+            })
+        )
       } else {
         this.addLoading = true
-        HttpModule.updateLedger(this.formData).then((res) => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('编辑成功')
-            this.$parent.addDialogVisible = false
-            this.$parent.queryTableDatas()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+        this.$refs.addForm.validate().then(res =>
+          HttpModule.updateLedger(this.formData)
+            .then((res) => {
+              if (res.code === '000000') {
+                this.$message.success('编辑成功')
+                this.$parent.addDialogVisible = false
+                this.$parent.queryTableDatas()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+            .finally(() => {
+              this.addLoading = false
+            })
+        )
       }
     }
   },
@@ -191,9 +206,11 @@ export default {
 .vxe-modal--wrapper .vxe-modal--box {
   z-index: 0;
 }
+
 .ledger .vxe-textarea {
-   height:250px
+  height: 150px
 }
+
 #bigbox {
   width: 100%;
   height: 100%;

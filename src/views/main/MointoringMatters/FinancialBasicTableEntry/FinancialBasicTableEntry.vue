@@ -41,22 +41,26 @@
       </template>
       <template v-slot:mainForm>
         <div style="width:100%;height:45px;float:left;">
+          <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
           <div v-for="(item,index) in tabbtn" :key="index" class="setbtn">
             <div :id="index" class="tabone" :class="activeIndex === index ? 'tabone1' : ''" @click="tabClick(index)">
               {{ item }}
             </div>
           </div>
+          <div class="title">
+            <p v-show="basicTable" style="marginLeft:150px;font-weight:700">{{ provinceName }}财政运行基础情况表<span style="color:red;font-size:12px">{{ hint }}</span></p>
+            <p v-show="targetTable" style="marginLeft:150px;font-weight:700">{{ provinceName }}财政运行分析表</p>
+          </div>
           <!--基础表-->
-          <div v-show="basicTable" class="payVoucherInput" style="margin-top:50px;">
-            <div class="body" style="font-size:10px;height:400px;overflow:auto;">
-              <p style="width:100%;textAlign:center;font-size:20px;margin-bottom:5px;font-weight:700">陕西省XX市XX县（区）财政运行基础情况表</p>
+          <div v-show="basicTable" id="printDiv1" class="payVoucherInput" style="margin-top:50px;">
+            <div class="body" style="font-size:16px;height:430px;overflow:auto;">
               <table class="basicTable">
-                <tbody style="backgroundColor:#c9c9c9">
+                <tbody style="backgroundColor:#c6e0b4">
                   <tr>
-                    <td rowspan="80" style="font-weight:600;textAlign:center;">一、综合类指标</td>
-                    <td rowspan="2" style="font-weight:600">1.户籍人口（万人）</td>
-                    <td class="period">上年同期</td>
-                    <td style="width:20%"><el-input v-model="datas.registeredResidencePeriod" :disabled="disabled" /></td>
+                    <td rowspan="80" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px;width:15%">一、综合类指标</td>
+                    <td rowspan="2" style="font-weight:600;width:20%">1.户籍人口（万人）</td>
+                    <td class="period" style="width:15%">上年同期</td>
+                    <td style="width:50%"><el-input v-model="datas.registeredResidencePeriod" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
@@ -65,11 +69,11 @@
                   <tr>
                     <td rowspan="2" style="font-weight:600">2.常住人口（万人）</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.residentPopulation" :disabled="disabled" /></td>
+                    <td><el-input v-model="datas.residentPopulationPeriod" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
-                    <td><el-input v-model="datas.residentPopulationPeriod" :disabled="disabled" /></td>
+                    <td><el-input v-model="datas.residentPopulation" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td rowspan="2" style="font-weight:600">3.国民生产总值（亿元）和增速</td>
@@ -80,41 +84,41 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">3.1 第一产业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.gdpFirst" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.gdpFirstPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.gdpFirst" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">3.2 第二产业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.gdpSecond" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.gdpSecondPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.gdpSecond" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">3.3 第三产业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.gdpThird" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.gdpThirdPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.gdpThird" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">3.4 国内生产总值增速（%）</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.gdpGrowth" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.gdpGrowthPeriod" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.gdpGrowth" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td rowspan="2" style="font-weight:600">4.工业增加值（亿元）</td>
@@ -125,23 +129,23 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">4.1 规上工业增加值</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.industrialOutput" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.industrialOutputPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.industrialOutput" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">4.2 战略性新兴产业增加值</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.risingOutput" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.risingOutputPeriod" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.risingOutput" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td rowspan="2" style="font-weight:600">5.主要行业增加值（填写当地前三位经济支柱行业）</td>
@@ -152,41 +156,41 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">5.1 煤炭开采和洗选业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.coalMining" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.coalMiningPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.coalMining" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">5.2 石油和天然气开采业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.oilGasExtraction" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.oilGasExtractionPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.oilGasExtraction" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">5.3 装备制造业</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.equipmentManufacturing" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.equipmentManufacturingPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.equipmentManufacturing" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">5.4 不在上述行业的经济支柱行业，自行添加</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.otherIndustry" :disabled="disabled" /></td>
-                  </tr>
-                  <tr style="backgroundColor:#dbdbdb">
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.otherIndustryPeriod" :disabled="disabled" /></td>
+                  </tr>
+                  <tr style="backgroundColor:#e2efda">
+                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td><el-input v-model="datas.otherIndustry" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td rowspan="2" style="font-weight:600">6.固定资产投资增速（%）和增加额（亿元）</td>
@@ -197,111 +201,111 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.1 第一产业增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsFirstGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsFirstGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.2 第二产业增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsSecondGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsSecondGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.3 第三产业增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsThirdGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsThirdGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.4 基础设施投资增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsInfrastructureGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsInfrastructureGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.5 民间投资增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsPrivateInvestmentGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsPrivateInvestmentGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.6 房地产开发投资增速</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsRealEstateGrowthPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsRealEstateGrowth" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.7 第一产业增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsFirstPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsFirst" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.8 第二产业增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsSecondPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsSecond" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.9 第三产业增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsThirdPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsThird" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.10 基础设施投资增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsInfrastructurePeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsInfrastructure" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.11 民间投资增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsPrivateInvestmentPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsPrivateInvestment" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">6.12 房地产开发投资增加额</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.fixedAssetsRealEstatePeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.fixedAssetsRealEstate" :disabled="disabled" /></td>
                   </tr>
@@ -323,21 +327,21 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">8.1 进口总值（亿元）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.exportTotalPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.exportTotal" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">8.2 出口总值（亿元）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.importTotalPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.importTotal" :disabled="disabled" /></td>
                   </tr>
@@ -350,39 +354,39 @@
                     <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">9.1 用电量（千瓦时）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.electricityConsumptionPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.electricityConsumption" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">9.2 金融机构人民币存款余额（亿元）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.depositBalancePeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.depositBalance" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">9.3 金融机构人民币贷款余额（亿元）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.loanBalancePeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.loanBalance" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td rowspan="2" style="padding-left:20px;">9.4 采购经理指数MPI（%）</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.pmiIndexPeriod" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#dbdbdb">
+                  <tr style="backgroundColor:#e2efda">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.pmiIndex" :disabled="disabled" /></td>
                   </tr>
@@ -416,7 +420,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#8497b0">
                   <tr>
-                    <td rowspan="102" style="font-weight:600;textAlign:center;">二、财政收入类指标</td>
+                    <td rowspan="102" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">二、财政收入类指标</td>
                     <td rowspan="2" style="font-weight:600">1.一般公共预算</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -878,7 +882,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#ffd966">
                   <tr>
-                    <td rowspan="50" style="font-weight:600;textAlign:center;">三、财政支出类指标</td>
+                    <td rowspan="50" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">三、财政支出类指标</td>
                     <td rowspan="2" style="font-weight:600">1.一般公共预算</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -1025,7 +1029,7 @@
                   <tr style="backgroundColor:#ffe699">
                     <td rowspan="2" style="font-weight:600;padding-left:20px;">1.4 安排预算稳定调节基金</td>
                     <td class="period">上年同期</td>
-                    <td><el-input v-model="datas.param120" :disabled="disabled" /></td>
+                    <td><el-input v-model="datas.param129" :disabled="disabled" /></td>
                   </tr>
                   <tr style="backgroundColor:#ffe699">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
@@ -1106,13 +1110,13 @@
                 </tbody>
                 <tbody style="backgroundColor:#a9d08e">
                   <tr>
-                    <td rowspan="56" style="font-weight:600;textAlign:center;">四、运行保障类指标</td>
+                    <td rowspan="56" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">四、运行保障类指标</td>
                     <td rowspan="2" style="font-weight:600">1.刚性支出</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
                   </tr>
                   <tr>
-                    <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
+                    <td class="period"></td>
                     <td><el-input :disabled="true" /></td>
                   </tr>
                   <tr style="backgroundColor:#c6e0b4">
@@ -1352,7 +1356,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#9bc2e6">
                   <tr>
-                    <td rowspan="24" style="font-weight:600;textAlign:center;">五、直达资金类指标</td>
+                    <td rowspan="24" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">五、直达资金类指标</td>
                     <td rowspan="2" style="font-weight:600">1.上级下达直达资金金额</td>
                     <td class="period">上年同期</td>
                     <td style="width:20%"><el-input v-model="datas.param197" :disabled="disabled" /></td>
@@ -1361,21 +1365,21 @@
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param198" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">1.1 中央下达</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param199" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param200" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">1.2 地方安排</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param201" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param202" :disabled="disabled" /></td>
                   </tr>
@@ -1388,21 +1392,21 @@
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param204" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">2.1 中央下达资金分配进度</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param205" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param206" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">2.2 地方安排资金分配进度</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param207" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param208" :disabled="disabled" /></td>
                   </tr>
@@ -1411,25 +1415,25 @@
                     <td class="period">上年同期</td>
                     <td style="width:20%"><el-input v-model="datas.param209" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr>
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param210" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">3.1 中央下达</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param211" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param212" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">3.2 地方安排</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param213" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param214" :disabled="disabled" /></td>
                   </tr>
@@ -1442,28 +1446,28 @@
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param216" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">4.1 中央下达资金支出进度</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param217" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param218" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td rowspan="2" style="padding-left:20px;">4.2 地方安排资金支出进度</td>
                     <td class="period">上年同期</td>
                     <td><el-input v-model="datas.param219" :disabled="disabled" /></td>
                   </tr>
-                  <tr style="backgroundColor:#d6dce4">
+                  <tr style="backgroundColor:#bdd7ee">
                     <td class="period">本&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期</td>
                     <td><el-input v-model="datas.param220" :disabled="disabled" /></td>
                   </tr>
                 </tbody>
                 <tbody style="backgroundColor:#ffd966">
                   <tr>
-                    <td rowspan="30" style="font-weight:600;textAlign:center;">六、政府债务类指标</td>
+                    <td rowspan="30" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">六、政府债务类指标</td>
                     <td rowspan="2" style="font-weight:600">1.政府债务限额</td>
                     <td class="period">上年同期</td>
                     <td style="width:20%"><el-input v-model="datas.param336" :disabled="disabled" /></td>
@@ -1601,7 +1605,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#c9c9c9">
                   <tr>
-                    <td rowspan="44" style="font-weight:600;textAlign:center;">七、预算管理类指标</td>
+                    <td rowspan="44" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">七、预算管理类指标</td>
                     <td rowspan="2" style="font-weight:600">1.预算执行进度</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -1775,7 +1779,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#c6e0b4">
                   <tr>
-                    <td rowspan="54" style="font-weight:600;textAlign:center;">八、社会保险类指标</td>
+                    <td rowspan="54" valign="top" style="font-weight:600;textAlign:center;paddingTop:10px">八、社会保险类指标</td>
                     <td rowspan="2" style="font-weight:600">1.城乡居民养老保险基金</td>
                     <td class="period"></td>
                     <td style="width:20%"><el-input :disabled="true" /></td>
@@ -2023,15 +2027,14 @@
             </div>
           </div>
           <!--指标表-->
-          <div v-show="targetTable" class="payVoucherInput" style="margin-top:50px;">
-            <div class="body" style="font-size:10px;height:400px;overflow:auto;">
-              <p style="width:100%;textAlign:center;font-size:20px;margin-bottom:5px;font-weight:700">陕西省XX市XX县（区）财政运行分析表</p>
+          <div v-show="targetTable" id="printDiv2" class="payVoucherInput" style="margin-top:50px;">
+            <div class="body" style="font-size:20px;height:400px;overflow:auto;">
               <table class="basicTable">
                 <tbody style="backgroundColor:#f2f2f2">
                   <tr>
                     <td rowspan="9" style="width:20%;font-weight:600;textAlign:center;">一、财政收入稳健指数</td>
-                    <td class="period">财政依存度</td>
-                    <td><el-input v-model="datas.param297" :disabled="disabled" /></td>
+                    <td class="period" style="width:20%">财政依存度</td>
+                    <td style="width:60%"><el-input v-model="datas.param297" :disabled="disabled" /></td>
                   </tr>
                   <tr>
                     <td class="period">收入弹性</td>
@@ -2176,7 +2179,7 @@
                 </tbody>
                 <tbody style="backgroundColor:#e2efda">
                   <tr>
-                    <td rowspan="5s" style="width:20%;font-weight:600;textAlign:center;">六、财政保障指数</td>
+                    <td rowspan="6" style="width:20%;font-weight:600;textAlign:center;">六、财政保障指数</td>
                     <td class="period">“三保”预算占比</td>
                     <td><el-input v-model="datas.param322" :disabled="disabled" /></td>
                   </tr>
@@ -2215,6 +2218,13 @@
       :user-info="userInfo"
       :billguid="billguid"
     />
+    <ImportModel
+      :file-config="fileConfig"
+      :import-modal-visible.sync="importModalVisible"
+      @onDownloadTemplateClick="onDownloadTemplateClick"
+      @onImportClick="onImportClick"
+      @onImportFileClick="onImportFileClick"
+    />
   </div>
 </template>
 
@@ -2222,14 +2232,21 @@
 import { proconf } from './FinancialBasicTableEntry'
 import HttpModule from '@/api/frame/main/Monitoring/FinancialBasicTableEntry.js'
 import GlAttachment from '../common/GlAttachment'
+import { Export } from '@/components/Table/export/export/export.js'
+import { Import } from '@/components/Table/import/import/import.js'
+import $print from './print.js'
+import ImportModel from '@/components/Table/import/import.vue'
+import importFunction from './function.js'
 export default {
   components: {
-    GlAttachment
-  },
-  watch: {
+    GlAttachment, ImportModel
   },
   data() {
     return {
+      importModalVisible: false,
+      fileConfig: {},
+      hint: '',
+      importData: '',
       askName: '',
       activeIndex: 0,
       tabbtn: ['基础表', '指标表'],
@@ -2807,7 +2824,8 @@ export default {
         param333: '',
         param334: '',
         param335: ''
-      }
+      },
+      provinceName: ''
     }
   },
   mounted() {
@@ -2815,8 +2833,11 @@ export default {
     this.month = Number(date.getMonth()) + 1
     this.searchDataList.month = this.month
     this.datas = this.datas1
+    this.$Export = new Export({ unit: '元' })
+    this.$Import = new Import()
   },
   methods: {
+    ...importFunction,
     // 初始化高级查询data
     getSearchDataList() {
       // 下拉树
@@ -2925,14 +2946,14 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
@@ -2990,8 +3011,88 @@ export default {
         case 'confirm':
           this.confirm()
           break
+        case 'revoke':
+          this.revoke()
+          break
+        case 'export':
+          this.export()
+          break
+        case 'import':
+          this.import()
+          break
+        case 'print':
+          this.print()
+          break
         default:
           break
+      }
+    },
+    print() {
+      let divNode = ''
+      if (this.basicTable) {
+        divNode = document.getElementById('printDiv1')
+      } else {
+        divNode = document.getElementById('printDiv2')
+      }
+      $print(divNode)
+    },
+    export() {
+      let exportModalFormData = {
+        saveType: '.xlsx',
+        fileName: 'export', // 文件名
+        dataType: 'fullData',
+        isExportOnlySourceField: false, // 是否只导出数据源表头字段，
+        isExportOnlyViewTitle: false, // 是否只导出数据表头名称，
+        isExportHead: true, // 是否导出表头
+        exportViewTitleType: 'nestTitle',
+        isExportFooter: false, // 是否导出表尾部
+        isExportOriginalData: true, // 是否导出源数据
+        isExportData: true, // 是否导出数据
+        columns: proconf.columns, // 表头配置
+        fullData: [],
+        datas: [],
+        selection: [], // 选中数据
+        isExportTree: true, // 是否是树形数据
+        index: true, // 是否添加序号,
+        ignoreColsTypes: [], // 忽略导出的列类型
+        viewValueFormat(value, row, column) {
+          // 视图数据格式化方法
+          // return value
+        }
+      }
+      exportModalFormData.fullData.push(this.datas)
+      exportModalFormData.datas.push(this.datas)
+      this.$Export.exportExcel(exportModalFormData, this)
+    },
+    import() {
+      this.importModalVisible = true
+    },
+    onDownloadTemplateClick() {
+      this.export()
+    },
+    async onImportFileClick() {
+      // 导入文件
+      let self = this
+      await this.$Import.importExcel({
+      }, (result, filename) => {
+        // this.tableDataIn = result
+        this.$message.success('导入成功,请点击导入按钮保存')
+        self.importData = result
+        self.fileConfig.fileName = filename
+        console.log(result)
+      })
+    },
+    onImportClick() {
+      // 导入提交
+      if (this.importData === '') {
+        this.$XModal.message({ status: 'error', message: '无数据导入请重新导入数据！' })
+      } else {
+        this.importModalVisible = false
+        console.log(importFunction)
+        Object.assign(this.datas, this.getImportData(this.importData['视图数据'][3]))
+        console.log(this.datas)
+        this.importData = ''
+        this.fileConfig = {}
       }
     },
     changeVisible(val) {
@@ -3053,6 +3154,7 @@ export default {
       if (node.id !== '0') {
         console.log(node)
         this.mofDivCode = code
+        this.provinceName = node.node.name
       } else {
         this.condition = {}
       }
@@ -3149,7 +3251,33 @@ export default {
         HttpModule.confirm(params).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
-            this.$message.success('保存成功')
+            this.$message.success('提交成功')
+            this.queryTableDatas()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    revoke() {
+      const params = {
+        id: this.datas.id
+      }
+      this.$confirm('是否确定撤回 ?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableLoading = true
+        HttpModule.revoke(params).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.$message.success('撤回成功')
             this.queryTableDatas()
           } else {
             this.$message.error(res.message)
@@ -3175,16 +3303,20 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           if (res.data === null) {
-            this.datas = this.datas1
+            this.datas = {}
+            console.log(this.datas)
             return
           }
-          Object.assign(this.datas, res.data)
+          this.datas = res.data.portraitBaseInfoEntity
+          this.hint = res.data.hint
           console.log(this.datas)
           // this.datas = res.data
           if (res.data.status === 0) {
             this.disabled = false
-          } else {
-            this.$message.warning('当前数据已提交')
+          } else if (res.data.status === 1) {
+            if (this.toolBarStatusSelect.curValue === '0') {
+              this.$message.warning('当前数据已提交')
+            }
             this.disabled = true
           }
         } else {
@@ -3207,16 +3339,26 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let month = date.toLocaleDateString().split('/')[1]
+    this.searchDataList.month = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    console.log(this.userInfo)
+    this.provinceName = this.$store.state.userInfo.admdivname
     this.getLeftTreeData()
+  },
+  watch: {
+    queryConfig() {
+      this.getSearchDataList()
+    }
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .radio-right{
 float: right;
 }
@@ -3233,23 +3375,27 @@ float: right;
   color: #fff;
 }
 .setbtn{
-    width:100px;
+    width:10%;
     height:45px;
     float:left;
     margin-right:20px;
   }
   .tabone{
-    width:100px;
+    width:100%;
     height:40px;
     text-align:center;
     line-height:40px;
     float:left;
     border:1px solid #ccc;
     border-radius:4px;
-    font-size: 10px;
+    font-size: 16px;
+  }
+  .title{
+    float:left;
+    width:70%;
   }
   .tabone1{
-    width:100px;
+    width:100%;
     height:40px;
     text-align:center;
     line-height:40px;
@@ -3257,12 +3403,12 @@ float: right;
     border:1px solid #ccc;
     background-color:#f2f2f2;
     border-radius:4px;
-    font-size: 10px;
+    font-size: 16px;
   }
   .basicTable{
     width: 100%;
     height: 300px;
-    font-size: 10px;
+    font-size: 16px;
     border-collapse: collapse;
     border: 1px solid #000000;
   }
@@ -3274,11 +3420,29 @@ float: right;
       text-align: left
     }
   .period {
-    width:20%;
     text-align:center;
   }
-  /deep/.el-input__inner {
+/deep/.el-input__inner {
   background-color: transparent !important;
   color: #606266 !important;
+}
+.table-toolbar-contro-leftvisible {
+      line-height: 45px;
+      float: left;
+      margin-right: 16px;
+      height: 45px;
+      width: 32px;
+      cursor: pointer;
+      border-radius: 2px;
+      background-color: var(--primary-color);
+      font-family: 'remixicon' !important;
+      font-style: normal;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      background-size: 100% 100%;
+}
+.table-toolbar-contro-leftvisible::before {
+  content: '\ee55';
 }
 </style>

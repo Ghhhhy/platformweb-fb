@@ -103,9 +103,9 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
+      treeServerUri: '',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -167,13 +167,6 @@ export default {
         pageSize: 20
       },
       tableConfig: {
-        renderers: {
-          // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
-        },
-        methods: {
-          onOptionRowClick: this.onOptionRowClick
-        }
       },
       tableFooterConfig: {
         showFooter: false
@@ -238,7 +231,8 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
-      createPerson: ''
+      createPerson: '',
+      provinceCode: []
     }
   },
   mounted() {
@@ -253,6 +247,10 @@ export default {
       this.createTime = obj.createTime.substring(0, 10)
       this.fileName = obj.fileName
       this.createPerson = obj.createPerson
+      this.provinceCode = obj.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -363,26 +361,6 @@ export default {
         })
       })
     },
-    // table 右侧操作按钮
-    onOptionRowClick({ row, optionType }, context) {
-      // console.log(context.$parent.$parent.$parent)
-      console.log(row.attachment_id)
-      switch (optionType) {
-        // 新增
-        case 'add':
-          this.clickAddBtn(row)
-          break
-        // 操作日志
-        case 'report':
-          this.queryActionLog(row)
-          break
-        // 附件
-        case 'attachment':
-          this.showAttachment(row)
-          break
-        default:
-      }
-    },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         // 刷新
@@ -456,14 +434,8 @@ export default {
       })
     },
     treeSetConfrimData(curTree) {
-      console.log(curTree)
-      if (curTree.code === '1') {
-        this.treeType = '1'
-        this.getLeftTreeData()
-      } else {
-        this.treeType = '2'
-        this.getLeftTreeData1()
-      }
+      this.treeQueryparams.elementCode = curTree.code
+      this.$refs.leftTree.refreshTree()
     },
     asideChange() {
       this.leftTreeVisible = false
@@ -508,6 +480,7 @@ export default {
         createTime: this.createTime,
         fileName: this.fileName,
         createPerson: this.createPerson,
+        provinceCodes: this.provinceCode,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize // 每页条数
       }
@@ -544,15 +517,6 @@ export default {
         this.showLogView = true
       })
     },
-    // 送审
-    audieData(param) {
-      HttpModule.audieData(param).then(res => {
-        if (res.code === '000000') {
-          this.$message.warning('操作成功')
-          this.queryTableDatas()
-        }
-      })
-    },
     getLeftTreeData() {
       console.log(this.userInfo)
       let params = {}
@@ -580,14 +544,14 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
@@ -596,6 +560,7 @@ export default {
         if (res.rscode === '100000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
+          this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -614,6 +579,13 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.year = year
+    this.searchDataList.createTime = year + '-' + month + '-' + day
+    this.searchDataList.endMonth = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

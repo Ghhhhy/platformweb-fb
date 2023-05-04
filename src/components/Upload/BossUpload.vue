@@ -14,6 +14,7 @@
       :on-progress="onProgress"
       :before-upload="onbeforeUpload"
       :on-exceed="onExceed"
+      :http-request="() => {}"
       style="display: inline-block;"
     >
       <el-button size="small" type="primary" :class="className">上传</el-button>
@@ -192,11 +193,13 @@ export default {
       }).catch(err => {
         console.log(err)
         this.openLoading && comUi.utilsLib.LoadingMark.removeLoadingMark()
+      }).finally(() => {
+        this.$refs.uploadFile?.clearFiles()
       })
     },
 
     checkAccept(file) {
-      var fileSuffix = file.name.substring(file.name.lastIndexOf('.'))
+      var fileSuffix = file.name.substring(file.name.lastIndexOf('.') + 1)
       if (this.accept === '*/*') {
         return true
       }
@@ -266,9 +269,31 @@ export default {
         if (res.rscode === '100000') {
           // console.log(555, this.$http.httpGlobalGatewayAgent(this.serverUri.download.serverUri))
           // const urlObj = this.$gloableToolFn.getFileUrl() + '/v2/stream/download'
-          const urlObj = 'http://10.77.18.172:32306/v2/stream/download'
-          const downLoadUrl = `${urlObj}?appid=${this.appid}&fileguid=${this.downparams.fileguid}`
+          // const urlObj = 'http://10.77.18.172:32306/v2/stream/download'
+          const urlObj = this.$http.httpGlobalGatewayAgent('fileservice/v2/stream/download')
+          const downLoadUrl = `${urlObj.baseURL}/${urlObj.url}?appid=${this.appid}&fileguid=${this.downparams.fileguid}`
 
+          // 通过JS打开新窗口会被拦截，换一种实现方式: 先打开页面, 后更改页面地址
+          let tempwindow = window.open('_blank')
+          tempwindow.location = downLoadUrl
+          // window.open(downLoadUrl)
+        } else {
+          this.$message({ showClose: true, message: '文件不存在!', type: 'error' })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    downloadMoreFile() {
+      const params = {
+        appid: this.appid,
+        fileguid: this.downparams.fileguid
+      }
+      this.$http[this.serverUri.fileExist.ajaxType](this.serverUri.fileExist.serverUri, params).then(res => {
+        if (res.rscode === '100000') {
+          // console.log(555, this.$http.httpGlobalGatewayAgent(this.serverUri.download.serverUri))
+          const urlObj = window.gloableToolFn.serverGatewayMap.development.fileservice + '/v2/stream/download'
+          const downLoadUrl = `${urlObj}?appid=${this.appid}&fileguid=${params.fileguid}`
           // 通过JS打开新窗口会被拦截，换一种实现方式: 先打开页面, 后更改页面地址
           let tempwindow = window.open('_blank')
           tempwindow.location = downLoadUrl

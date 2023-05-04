@@ -188,6 +188,7 @@
                   v-model="policiesDescription"
                   type="textarea"
                   :rows="2"
+                  :maxlength="200"
                   placeholder="请输入预警提示"
                   style=" width:90%"
                 />
@@ -358,11 +359,12 @@ export default {
         { value: '3', label: '三级' }
       ],
       handleType: '',
-      handleTypeoptions: [
-        { value: '1', label: '预警' },
-        { value: '2', label: '拦截' },
-        { value: '3', label: '冻结' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions.map(item => {
+        return {
+          ...item,
+          value: String(item.value)
+        }
+      }),
       isEnable: '',
       isEnableoptions: [
         { value: '0', label: '否' },

@@ -170,7 +170,7 @@ export default {
       let dones = []
       let operationGuides = []
       if (status === '0') {
-        toDos = await this.getToDoDatas(status, menu)
+        // toDos = await this.getToDoDatas(status, menu)
       } else if (status === '1') {
         dones = await this.getToDoDatas(status, menu)
       } else if (status === '2') {
@@ -205,6 +205,7 @@ export default {
       })
 
       this.cardBtns = cardBtnsTemp
+
       let att = []
       att = Object.keys(this.countGroup)
       // 修改待办和已办的数量

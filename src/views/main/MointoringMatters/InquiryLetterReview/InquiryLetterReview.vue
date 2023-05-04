@@ -102,7 +102,6 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'AGENCY' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -128,7 +127,7 @@ export default {
       regulationStatus: 2,
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
-        '1': 2,
+        '1': 0,
         '2': 0,
         '3': 0
       },
@@ -204,7 +203,12 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      ruleFlowOpinion: ''
+      ruleFlowOpinion: '',
+      askName: '',
+      askType: '',
+      createTime: '',
+      provinceCode: [],
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' }
     }
   },
   mounted() {
@@ -220,12 +224,15 @@ export default {
         }
       })
     },
-    search(obj) {
-      console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.handleType = obj.handleType
-      this.isEnable = obj.isEnable
-      this.regulationName = obj.regulationName
+    search(val) {
+      console.log(val)
+      this.askName = val.askName
+      this.askType = val.askType_name
+      this.createTime = val.createTime.substring(0, 10)
+      this.provinceCode = val.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
+      }
       this.queryTableDatas()
     },
     getChildrenData(datas) {
@@ -294,6 +301,7 @@ export default {
       }
       this.regulationStatus = obj.curValue
       this.queryTableDatas()
+      this.queryTableDatasCount()
     },
     // 送审
     audieData(param) {
@@ -379,7 +387,7 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件')
-      if (row.regulationsCode === null || row.regulationsCode === '') {
+      if (row.attachmentId === null || row.attachmentId === '') {
         this.$message.warning('该数据无附件')
         return
       }
@@ -427,7 +435,7 @@ export default {
       }
       this.modifyData = row[0]
       this.dialogVisible = true
-      this.dialogTitle = '问询函回复'
+      this.dialogTitle = '问询函复核'
     },
     // 撤销
     revoke(obj, context, e) {
@@ -473,7 +481,11 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        status: this.toolBarStatusSelect.curValue
+        status: this.toolBarStatusSelect.curValue,
+        askName: this.askName,
+        askType: this.askType,
+        createTime: this.createTime,
+        provinceCode: this.provinceCode
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -501,15 +513,56 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          console.log(this.queryConfig)
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
+    },
+    getTypeList() {
+      HttpModule.getTypeList().then(res => {
+        res.data.forEach(item => {
+          item.label = item.askTypeName
+          item.name = item.askTypeName
+        })
+        this.queryConfig[1].itemRender.options = res.data
+      })
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.queryTableDatasCount()
+    this.getLeftTreeData()
+    this.getTypeList()
   }
 }
 </script>

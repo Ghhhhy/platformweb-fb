@@ -3,7 +3,7 @@
   <div class="login flex">
     <!-- <czy-header /> -->
     <div class="loginHeader flex">
-      <div class="title flex">陕西省财政云</div>
+      <div class="title flex">预算管理一体化系统</div>
       <div class="content">
         <p class="contentTitle">用户登录</p>
         <div class="user-select flex">
@@ -122,7 +122,8 @@ export default {
       // this.$store.commit('setLoginAuthentication', { appguid: this.optionsRes[this.value].guid || 'fiscal', tokenid: undefined })
       var formData = new FormData()
       formData.append('username', this.username)
-      formData.append('password', this.$AESEAD.CryptoJS.SHA256(this.password).toString())
+      // formData.append('password', this.$AESEAD.CryptoJS.SHA256(this.password).toString())
+      formData.append('password', this.password)
       formData.append('captcha', this.usernum)
       let self = this
       // var formData = this.$http.smSecretUtils.encryptLogin({ isSecret: true, params: { username: self.username, password: self.password, usernum: self.usernum } })
@@ -178,6 +179,7 @@ export default {
             })
           } else {
             this.$store.commit('setUserInfo', res.data)
+            this.$store.dispatch('getUserRoles')
             this.$router.push({
               name: 'Main',
               params: {

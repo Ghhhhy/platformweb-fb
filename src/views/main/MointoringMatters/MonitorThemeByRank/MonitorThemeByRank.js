@@ -37,52 +37,101 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '管理级次',
+      field: 'regulationType',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '系统级' },
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
+        ],
+        props: {
+          placeholder: '管理级次'
+        }
+      }
     }
-    // {
-    //   title: '监控规则名称',
-    //   field: 'fiRuleName',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeInput',
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     options: [],
-    //     props: {
-    //       placeholder: '监控规则名称'
-    //     }
-    //   }
-    // }
-    // {
-    //   title: '区划',
-    //   field: 'businessModuleCode',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeTree',
-    //   itemRender: {
-    //     name: '$vxeTree',
-    //     options: [],
-    //     'props': {
-    //       'config': {
-    //         treeData: [],
-    //         'placeholder': '区划',
-    //         'multiple': true,
-    //         'readonly': true,
-    //         'isleaf': false
-    //         // 'axiosConfig': {
-    //         //   'method': 'get',
-    //         //   'url': 'large-monitor-platform/lmp/mofDivTree'
-    //         // }
-    //       }
-    //       // 'queryparams': {
-    //       //   'elementCode': 'admdiv',
-    //       //   year: '2022',
-    //       //   province: '610000000'
-    //       // }
-    //     }
-    //   }
-    // }
   ],
   highQueryData: {
     fiscalYear: ''

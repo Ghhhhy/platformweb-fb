@@ -4,8 +4,8 @@ export let proconf = {
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待送审',
       code: '0',
@@ -13,8 +13,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已送审',
       code: '1',
@@ -22,10 +22,10 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
-      label: '退回',
+      label: '被退回',
       code: '9',
       curValue: '9'
     },
@@ -45,12 +45,19 @@ export let proconf = {
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'approval', label: '送审' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'print', label: '打印' }
     ],
     '9': [
       { code: 'approval', label: '送审' },
       { code: 'change', label: '修改' },
-      { code: 'del', label: '删除' }
+      { code: 'del', label: '删除' },
+      { code: 'print', label: '打印' }
+    ],
+    '1': [
+      // { code: 'check', label: '查看详情', status: 'primary' },
+      { code: 'revoke', label: '撤销', status: 'primary' },
+      { code: 'print', label: '打印' }
     ]
   },
   highQueryConfig: [
@@ -70,47 +77,75 @@ export let proconf = {
       }
     },
     {
-      title: '被问询区划',
-      field: 'askProvinceCode',
+      title: '问询函类型',
+      field: 'askType',
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '系统级' },
-          { value: '2', label: '财政级' },
-          { value: '3', label: '部门级' }
-        ],
-        props: {
-          placeholder: '被问询区划'
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '问询函类型',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
         }
       }
     },
     {
-      title: '问询函类型',
-      field: 'askTypeName',
+      title: '区划',
+      field: 'province',
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '系统级' },
-          { value: '2', label: '财政级' },
-          { value: '3', label: '部门级' }
-        ],
-        props: {
-          placeholder: '问询函类型'
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      'title': '生成日期',
+      'field': 'createTime',
+      'width': '8',
+      'align': 'left',
+      'formula': '',
+      'name': '$vxeTime',
+      'itemRender': {
+        'name': '$vxeTime',
+        'options': [],
+        'props': {
+          'placeholder': '生成日期'
         }
       }
     }
   ],
   highQueryData: {
-    dataSourceName: '',
-    businessModuleName: ''
+    askType: '',
+    businessModuleName: '',
+    createTime: ''
   },
   PoliciesTableColumns: [
     {

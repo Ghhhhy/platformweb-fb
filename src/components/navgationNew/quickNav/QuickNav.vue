@@ -6,7 +6,7 @@
       :class="isShowNavIn ? 'active' : ''"
       @click.stop="setIsShowNav(undefined)"
     >
-      <i class="fn-inline el-icon-menu"></i>
+      <i class="fn-inline"></i>
       <span class="fn-inline">菜单</span>
     </div>
     <div v-show="isShowNavIn" id="quickNavAll" class="quick-nav" @click="setIsShowNav(false)">
@@ -34,24 +34,15 @@
                     ? 'list-group-item-level1-twoline'
                     : 'list-group-item-level1-oneline'
                 "
-                @click="onRightNavClick(item1, index1)"
+                @click.stop="onRightNavClick(item1, index1)"
               >
                 <i v-if="item1.isTitle" class="fn-inline"></i>
-                <el-tooltip v-if="item1.name.length > 16" class="item" effect="dark" :content="item1.name" placement="top-end">
-                  <span v-if="item1.isTitle" class="fn-inline line-ellipsis">
-                    {{ item1.name }}
-                  </span>
-                </el-tooltip>
-                <span v-else class="fn-inline line-ellipsis">
-                  <span v-if="item1.isTitle">
-                    {{ item1.name }}
-                  </span>
-                </span>
+                <span v-if="item1.isTitle" class="fn-inline">{{ item1.name }}</span>
                 <dl v-if="!item1.isTitle" class="list-group-level2">
                   <dd
                     id="right-quick-navgation1"
                     class="list-group-level2-item pointer"
-                    @click="onRightNavClick(item1, index1)"
+                    @click.stop="onRightNavClick(item1, index1)"
                   >
                     {{ item1.name }}
                   </dd>
@@ -384,10 +375,6 @@ export default {
     i {
       height: 24px;
       width: 24px;
-      top: 4px;
-      font-size: 20px;
-      color: var(--primary-color);
-      position: relative;
       // background: url('./img/icon-menu-btn-df.svg');
       background-size: 100% 100%;
     }

@@ -1,15 +1,22 @@
-import { reactive, onMounted } from '@vue/composition-api'
+import { reactive, unref } from '@vue/composition-api'
 import {
   getColor,
   getPieTitle,
-  getPolar,
-  getPolarBarSeries,
-  getDataStyle
+  getGaugeSeries
 } from '../model/getEchartsConfig'
+import { useWatchOriginDataChange } from './useWatchOriginDataChange'
 
-export const useCIPPieChart = () => {
+export const useCIPPieChart = (originData) => {
   const CIPCommonChartOption = reactive({
     detailTitle: '居民消费价格指数',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '居民消费价格指数'
+        }
+      }
+    },
     customLegend: [
       {
         label: '本期',
@@ -24,80 +31,116 @@ export const useCIPPieChart = () => {
   // 区域基本情况 => 居民消费价格指数(本期)
   const CIPCurrentChartOption = reactive({
     title: [
-      getPieTitle({ left: '50%', bottom: '20px', text: 'CIP', subtext: '本期' }),
-      getPieTitle({ left: '50%', top: '55%', text: '80%', ...getDataStyle() })
+      getPieTitle({ left: '50%', bottom: '20px', text: '本期' })
     ],
-    polar: getPolar({
-      center: ['50%', '60%'],
-      radius: ['40%', '55%']
-    }),
-    angleAxis: {
-      clockwise: true,
-      startAngle: 225,
-      max: 360 / 270 * 100
-    },
     series: []
   })
   // 区域基本情况 => 居民消费价格指数(上年同期)
   const CIPLastChartOption = reactive({
     title: [
-      getPieTitle({ left: '50%', bottom: '20px', text: 'CIP', subtext: '上年同期' }),
-      getPieTitle({ left: '50%', top: '55%', text: '50%', ...getDataStyle() })
+      getPieTitle({ left: '50%', bottom: '20px', text: '上年同期' })
     ],
-    polar: getPolar({
-      center: ['50%', '60%'],
-      radius: ['40%', '55%']
-    }),
-    angleAxis: {
-      clockwise: true,
-      startAngle: 225,
-      max: 360 / 270 * 100
-    },
     series: []
   })
-  onMounted(() => {
-    // 模拟异步请求 后续改为接口赋值
-    setTimeout(() => {
-      CIPCurrentChartOption.series = [
-        // 灰色背景
-        getPolarBarSeries({
-          data: [100],
-          itemStyle: {
-            color: getColor('gray')
-          },
-          barGap: '-100%',
-          z: 1
-        }),
-        // 实际值
-        getPolarBarSeries({
-          data: [80],
+  const updataSeries = (currentData) => {
+    CIPCurrentChartOption.series = [
+      getGaugeSeries({
+        clockwise: true,
+        radius: '58%',
+        center: ['50%', '60%'],
+        axisLabel: {
+          show: false
+        },
+        axisLine: {
+          show: true,
+          roundCap: true,
+          lineStyle: {
+            width: 12,
+            color: [[0, '#f1f1f1'], [1, '#f1f1f1']]
+          }
+        },
+        progress: {
+          show: true,
+          width: 12,
+          roundCap: true,
           itemStyle: {
             color: getColor('blue')
-          },
-          z: 2
-        })
-      ]
-      CIPLastChartOption.series = [
-        // 灰色背景
-        getPolarBarSeries({
-          data: [100],
-          itemStyle: {
-            color: getColor('gray')
-          },
-          barGap: '-100%',
-          z: 1
-        }),
-        // 实际值
-        getPolarBarSeries({
-          data: [50],
+          }
+        },
+        data: [
+          {
+            value: unref(currentData).cpiIndex || 0,
+            name: 'CPI'
+          }
+        ],
+        detail: {
+          formatter: '{value}%',
+          color: '#666',
+          fontSize: 24,
+          fontWeight: 500,
+          offsetCenter: [0, 0]
+        },
+        title: {
+          show: true,
+          offsetCenter: [0, '70%'],
+          color: '#666',
+          fontSize: 14
+        }
+      })
+    ]
+    CIPLastChartOption.series = [
+      getGaugeSeries({
+        z: 1,
+        clockwise: true,
+        startAngle: 225,
+        endAngle: -45,
+        radius: '58%',
+        center: ['50%', '60%'],
+        axisLabel: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        },
+        axisLine: {
+          show: true,
+          roundCap: true,
+          lineStyle: {
+            width: 12,
+            color: [[0, '#f1f1f1'], [1, '#f1f1f1']]
+          }
+        },
+        progress: {
+          show: true,
+          width: 12,
+          roundCap: true,
           itemStyle: {
             color: getColor('green')
-          },
-          z: 2
-        })
-      ]
-    })
-  })
+          }
+        },
+        data: [
+          {
+            value: unref(currentData).cpiIndexPeriod || 0,
+            name: 'CPI'
+          }
+        ],
+        detail: {
+          formatter: '{value}%',
+          color: '#666',
+          fontSize: 24,
+          fontWeight: 500,
+          offsetCenter: [0, 0]
+        },
+        title: {
+          show: true,
+          offsetCenter: [0, '70%'],
+          color: '#666',
+          fontSize: 14
+        }
+      })
+    ]
+  }
+  useWatchOriginDataChange(originData, updataSeries)
   return {
     CIPCommonChartOption,
     CIPCurrentChartOption,

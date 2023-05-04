@@ -41,7 +41,6 @@
           :tree-data="treeData"
           :global-config="treeGlobalConfig"
           :defaultexpandedkeys="['0']"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -89,6 +88,17 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <HandleDialog
+      v-if="handleDialogVisible"
+      :title="dialogTitle"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+    />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -97,11 +107,15 @@ import { proconf } from './WarningDetailsByCompartment'
 // import AddDialog from './children/addDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
+import HandleDialog from '../../monitor/children/HandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
-    HsDetailDialog
+    HsDetailDialog,
+    HandleDialog,
+    GlAttachment
   },
   watch: {
     queryConfig() {
@@ -112,6 +126,7 @@ export default {
     return {
       // BsQuery 查询栏
       dialogHsVisible: false,
+      handleDialogVisible: false,
       warningCode: '',
       fiRuleCode: '',
       queryConfig: proconf.highQueryConfig,
@@ -133,10 +148,9 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: 'large-monitor-platform/lmp/businessFunctions/tree',
       treeAjaxType: 'get',
@@ -263,7 +277,9 @@ export default {
         clearable: true
       },
       leftTreeFilterText: '',
-      codeList: []
+      codeList: [],
+      regulation_class: '',
+      showGlAttachmentDialog: false
     }
   },
   mounted() {
@@ -274,6 +290,9 @@ export default {
       this.warningLevel = obj.warningLevel
       this.regulationtype = obj.regulationType
       this.firulename = obj.firulename
+      this.regulation_class = obj.regulation_class
+      this.triggerClass = obj.triggerClass
+      this.businessNo = obj.businessNo
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -330,35 +349,6 @@ export default {
       }
       this.regulationStatus = obj.curValue
       this.queryTableDatas()
-    },
-    onTabPanelBtnClick(obj) { // 按钮点击
-      let temp = this.$refs.mainTableRef.getSelectionData()
-      let warnids = []
-      let param = {
-        warnids
-      }
-      switch (obj.code) {
-        case 'sign': // 生成
-          if (temp.length >= 1) {
-            temp.forEach(v => {
-              warnids.push(v.warnid)
-            })
-            HttpModule.doMark(param).then(res => {
-              this.tableLoading = false
-              if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
-                this.refresh()
-              } else {
-                this.$message.error(res.message)
-              }
-            })
-          } else {
-            this.$message.warning('请至少选择一条数据')
-          }
-          break
-        default:
-          console.log('default fallback')
-      }
     },
     deleteList() {
       let datas = this.$refs.mainTableRef.getSelectionData()
@@ -472,12 +462,14 @@ export default {
           this.selectData = selection[0]
           if (this.selectData.regulationClass === '07') {
             this.dialogHsVisible = true
+          } else if (this.selectData.regulationClass === '10') {
+            this.handleDialogVisible = true
           } else {
             this.dialogVisible = true
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.firulecode
+          this.fiRuleCode = this.selectData.fiRuleCode
           break
         case 'violation':
           let selectionData = this.$refs.mainTableRef.getSelectionData()
@@ -487,6 +479,30 @@ export default {
           }
           this.selectData = selectionData[0]
           this.violation()
+          break
+        case 'sign': // 生成
+          let temp = this.$refs.mainTableRef.getSelectionData()
+          let warnids = []
+          let param = {
+            warnids
+          }
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            this.tableLoading = true
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
           break
         // // 刷新
         // case 'add-toolbar-refresh':
@@ -578,8 +594,14 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
+      console.log('查看附件')
+      if (row.attachmentId === null || row.attachmentId === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentId
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -656,9 +678,11 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulation_class: this.params5,
+        // regulationClass: this.params5,
         mofDivCodeList: this.codeList,
-        mofdivcode: this.mofdivcode || ''
+        mofdivcode: this.mofdivcode || '',
+        triggerClass: this.triggerClass,
+        businessNo: this.businessNo
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -703,7 +727,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementCode: 'admdiv',
+          elementcode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
@@ -723,16 +747,16 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementCode: 'admdiv',
+          elementcode: 'admdiv',
           province: this.userInfo.province,
           year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: '2021',
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
@@ -758,9 +782,35 @@ export default {
     },
     violation() {
       this.$message.info('疑似违规')
+    },
+    getChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.code + '-' + item.ruleName
+        // item.code = item.code
+        item.value = item.code
+        if (item.children) {
+          that.getChildrenData1(item.children)
+        }
+      })
+
+      return datas
+    },
+    getTree() {
+      let that = this
+      HttpModule.getTree(3).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = that.getChildrenData1(res.data)
+          that.queryConfig[3].itemRender.options = treeResdata
+          console.log(treeResdata)
+        } else {
+          that.$message.error('下拉树加载失败')
+        }
+      })
     }
   },
   created() {
+    // this.getTree()
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

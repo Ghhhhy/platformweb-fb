@@ -207,7 +207,7 @@ export default {
   methods: {
     dialogClose() {
       this.$parent.violationsView = false
-      this.$parent.queryTableDatas()
+      // this.$parent.queryTableDatas()
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -323,6 +323,30 @@ export default {
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
+          break
+        case 'sign': // 生成
+          let temp = this.$refs.mainTableRef.getSelectionData()
+          let warnids = []
+          let param = {
+            warnids
+          }
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            this.tableLoading = true
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
           break
         default:
           break

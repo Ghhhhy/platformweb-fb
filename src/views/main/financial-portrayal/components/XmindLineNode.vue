@@ -2,7 +2,7 @@
   <div class="xmind-line-node" :style="{ borderColor: info.color }">
     <svg-icon
       v-if="info.ableSpread"
-      :name="showChild ? 'reduce' : 'add'"
+      :name="info.showChild ? 'reduce' : 'add'"
       :class-name="['next-child-icon', `child-icon-position-${type}`]"
       @click="showChildChange"
     />
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 export default defineComponent({
   props: {
     info: {
@@ -25,18 +25,15 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const showChild = ref(false)
     // 展开下级或者收起
     const showChildChange = () => {
-      showChild.value = !showChild.value
       emit('change', {
-        status: showChild.value,
+        status: !props.info.showChild,
         type: props.type,
         currentInfo: props.info
       })
     }
     return {
-      showChild,
       showChildChange
     }
   }

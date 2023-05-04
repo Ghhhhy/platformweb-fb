@@ -28,21 +28,17 @@
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          open-loading
+          :filter-text="leftTreeFilterText"
+          :tree-data="treeData"
+          :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -58,6 +54,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -83,6 +83,7 @@
 <script>
 import { proconf } from './prjDataCheck'
 import HttpModule from '@/api/frame/main/fundMonitoring/prjDataCheck.js'
+import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -97,10 +98,13 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,
+      codeList: [],
+      leftTreeFilterText: '',
       treeData: [{
         children: [],
         code: 0,
@@ -118,7 +122,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -237,7 +241,7 @@ export default {
       regulationclass: '',
       firulename: '',
       mofdivcode: '',
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       proNameRule: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -459,16 +463,35 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
-        this.mofdivcode = node.code
+        this.mofdivcode = node.node.code
       } else {
         this.condition = {}
       }
       this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -533,7 +556,7 @@ export default {
         reportCode: 'xmsjgfxjc',
         fiscalYear: this.fiscalYear,
         proNameRule: this.proNameRule,
-        mofDivCode: this.mofdivcode || ''
+        mofDivCodeList: this.codeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -542,6 +565,7 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
@@ -574,8 +598,8 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getTreeData(that.treeQueryparams).then(res => {
-        if (res.rscode === '100000') {
+      getMofDivTree(that.treeQueryparams).then(res => {
+        if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
@@ -598,7 +622,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || name
         if (item.children) {
           that.getChildrenData(item.children)
         }

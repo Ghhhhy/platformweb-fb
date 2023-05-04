@@ -29,7 +29,6 @@
           :config="leftTreeConfig"
           :tree-data="treeData"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -266,13 +265,13 @@ export default {
       } else {
         params = {
           elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       HttpModule.getLeftTree(params).then(res => {
-        if (res.rscode === '100000') {
+        if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
         } else {
@@ -283,7 +282,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || `${item.code}-${item.name}`
         if (item.children) {
           that.getChildrenData(item.children)
         }

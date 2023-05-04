@@ -12,6 +12,16 @@
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
+      <template v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+      </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <!-- <template v-slot:mainTree>
         <BsTreeSet
@@ -113,7 +123,7 @@ export default {
         inputVal: ''
       },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303//lmp/mofDivTree',
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -210,12 +220,57 @@ export default {
       billguid: '',
       condition: {},
       mofDivCodes: [],
-      mofDivCode: ''
+      mofDivCode: '',
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      declareName: ''
     }
   },
   mounted() {
   },
   methods: {
+    search(obj) {
+      console.log(obj)
+      this.declareName = obj.declareName
+      this.queryTableDatas()
+    },
+    // 初始化高级查询data
+    getSearchDataList() {
+      // 下拉树
+      let searchDataObj = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            searchDataObj[item.field + 'code'] = ''
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = ''
+          }
+        }
+      })
+      this.searchDataList = searchDataObj
+    },
+    // 初始化高级查询参数condition
+    getConditionList() {
+      let condition = {}
+      this.queryConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            if (item.field === 'cor_bgt_doc_no_') {
+              condition[item.field + 'name'] = []
+            } else {
+              condition[item.field + 'code'] = []
+            }
+          }
+        } else {
+          if (item.field) {
+            condition[item.field] = []
+          }
+        }
+      })
+      return condition
+    },
     getLeftTreeData() {
       console.log('getLeftTreeData')
       let that = this
@@ -285,6 +340,9 @@ export default {
         // 审核
         case 'audit':
           this.onAddToolbarClickAdd(obj, context, e)
+          break
+        case 'allBack':
+          this.allBack(obj, context, e)
           break
         // 退回
         case 'returnData':
@@ -549,6 +607,31 @@ export default {
         }
       })
     },
+    allBack() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length < 1) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let declareCodes = []
+      selection.forEach(item => {
+        declareCodes.push(item.declareCode)
+      })
+      const params = {
+        menuId: this.$store.state.curNavModule.guid,
+        declareCodes: declareCodes,
+        menuName: this.$store.state.curNavModule.name
+      }
+      HttpModule.allBack(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('退回录入岗成功')
+          this.queryTableDatas()
+          this.queryTableDatasCount()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     queryTableDatasCount() {
       const params = {
         menuId: this.$store.state.curNavModule.guid
@@ -568,7 +651,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        declareName: '',
+        declareName: this.declareName,
         agencyCodes: [],
         manageMofCodes: [],
         mofDivCodes: this.mofDivCodes,
@@ -606,7 +689,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getLeftTreeData()
+    // this.getLeftTreeData()
   }
 }
 </script>

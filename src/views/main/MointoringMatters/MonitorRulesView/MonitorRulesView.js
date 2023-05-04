@@ -1,4 +1,6 @@
 // import store from '@/store/index'
+import store from '@/store'
+
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -39,6 +41,15 @@ export let proconf = {
       { code: 'check', label: '查看详情' }
     ]
   },
+  dfrStatusRightToolBarButton: {
+    '1': [
+      { code: 'set_rule', label: '设置规则' },
+      { code: 'open', label: '启用', status: 'primary' },
+      { code: 'stop', label: '停用' },
+      { code: 'update', label: '修改' },
+      { code: 'check', label: '查看详情' }
+    ]
+  },
   statusRightToolBarButtonByBusDept: {
     '1': [
       { code: 'check', label: '查看详情' }
@@ -57,6 +68,50 @@ export let proconf = {
         options: [],
         props: {
           placeholder: '监控规则名称'
+        }
+      }
+    },
+    {
+      title: '规则类型',
+      field: 'fiRuleTypeCode',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeTree',
+        options: [
+          { value: '1',
+            label: '中央监控规则',
+            children: [
+              { value: '11', label: '通用类监控规则' },
+              { value: '12', label: '专项类监控规则' },
+              { value: '19', label: '其他监控规则' }
+            ]
+          },
+          { value: '2',
+            label: '地方监控规则',
+            children: [
+              { value: '21', label: '通用类监控规则' },
+              { value: '22', label: '专项类监控规则' },
+              { value: '29', label: '其他监控规则' }
+            ]
+          }
+        ],
+        props: {
+          config: {
+            valueKeys: ['label', 'value'],
+            treeProps: {
+              labelFormat: '{label}', // {code}-{name}
+              nodeKey: 'value',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '规则类型',
+            multiple: false,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -88,12 +143,12 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '人工处理蓝色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions?.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
         props: {
           placeholder: '预警级别'
         }
@@ -108,12 +163,12 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '预警（无需上传附件）' },
-          { value: '2', label: '预警（需上传附件）' },
-          { value: '3', label: '拦截' },
-          { value: '4', label: '记录' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
         props: {
           placeholder: '处理方式'
         }
@@ -331,7 +386,8 @@ export let proconf = {
           { value: '1', label: '文本' },
           { value: '2', label: '数字' },
           { value: '3', label: '值域' },
-          { value: '4', label: '值集' }
+          { value: '4', label: '值集' },
+          { value: '5', label: '参照' }
         ],
         props: {
           placeholder: '关系'
@@ -343,8 +399,10 @@ export let proconf = {
       sortable: false,
       field: 'param',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      slots: {
+        edit: 'editParam',
+        default: 'defaultParam'
+      },
       editRender: {
         name: '$vxeInput',
         options: [],
@@ -355,18 +413,26 @@ export let proconf = {
     }
   ],
   PoliciesTableColumns: [
+    // {
+    //   title: '区划',
+    //   'width': 180,
+    //   field: 'mofDivName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'left'
+    // },
     {
-      title: '区划',
+      title: '监控主题',
       'width': 180,
-      field: 'mofDivName',
+      field: 'regulationClassName',
       sortable: false,
       filters: false,
       align: 'left'
     },
     {
-      title: '监控主题',
+      title: '规则类型',
       'width': 180,
-      field: 'regulationClassName',
+      field: 'fiRuleTypeName',
       sortable: false,
       filters: false,
       align: 'left'
@@ -420,14 +486,9 @@ export let proconf = {
       align: 'left',
       formula: '',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
-        options: [
-          { value: 1, label: '黄色预警' },
-          { value: 2, label: '橙色预警' },
-          { value: 3, label: '红色预警' },
-          { value: 4, label: '蓝色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions,
         props: {
           placeholder: '预警级别'
         }
@@ -439,14 +500,9 @@ export let proconf = {
       'width': 180,
       align: 'left',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
-        options: [
-          { value: 1, label: '预警（无需上传附件）' },
-          { value: 2, label: '预警（需上传附件）' },
-          { value: 3, label: '拦截' },
-          { value: 4, label: '记录' }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         props: {
           placeholder: '处理方式'
         }
@@ -491,13 +547,13 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '启用人',
-      'width': 180,
-      field: 'createPersonName',
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '启用人',
+    //   'width': 180,
+    //   field: 'createPersonName',
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '规则说明',
       'width': 180,
@@ -525,6 +581,193 @@ export let proconf = {
       width: 180,
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '白名单说明',
+      field: 'ruleElementDesc',
+      width: 180,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '操作',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableOptionRowMonitorRulesView'
+      }
+    }
+  ],
+  formItemsConfigMessage: [
+    {
+      field: 'payment',
+      title: '基础要素',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      itemRender: {
+        name: '$vxeSelect',
+        props: {
+          placeholder: '请选择基础要素',
+          multiple: true,
+          disabled: false
+        },
+        options: [
+          {
+            value: 0,
+            label: '预算单位',
+            urlC: 'AGENCY',
+            name: 'agency'
+          },
+          {
+            value: 1,
+            label: '预算项目',
+            urlC: 'PRO',
+            name: 'pro'
+          },
+          {
+            value: 2,
+            label: '功能分类',
+            urlC: 'EXPFUNC',
+            name: 'exp_func'
+          },
+          {
+            value: 3,
+            label: '政府支出经济分类',
+            urlC: 'DEPBGTECO',
+            name: 'dep_bgt_eco'
+          },
+          {
+            value: 4,
+            label: '部门支出经济分类',
+            urlC: 'GOVBGTECO',
+            name: 'gov_bgt_eco'
+          },
+          {
+            value: 5,
+            label: '指标文号',
+            urlC: 'BGTDOCNO',
+            name: 'cor_bgt_doc_no'
+          }
+        ]
+      }
+    },
+    {
+      field: 'payeeAcctName',
+      title: '收款人名称',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写收款人名称',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'payeeAcctNo',
+      title: '收款人账号',
+      titleAlign: 'center',
+      span: '20',
+      titleWidth: '100px',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写收款人账号',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'useDes',
+      title: '资金用途',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '请填写资金用途',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'des',
+      title: '白名单描述',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单描述',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'basis',
+      title: '白名单依据',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单依据',
+          disabled: false
+        }
+      }
+    }
+  ],
+  formValidationConfigMessage: {
+    // payment: [
+    //   { required: true, message: '支付要素不能为空', trigger: 'change' }
+    // ]
+  },
+  // table 操作按钮
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      // const main = self.$parent.$parent.$parent.$parent
+      // let status = main._data.toolBarStatusSelect.curValue
+      return [
+        // <el-tooltip content="附件" placement="top" effect="light">
+        //   <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+        // </el-tooltip>,
+        <el-tooltip content="操作日志" placement="top" effect="light">
+          <a class="gloable-option-row-optionlog gloable-option-row  fn-inline"
+            onClick={() => self.onOptionRowClick({ row, column, optionType: 'report' })}
+          >操作日志</a>
+        </el-tooltip>
+      ]
+    }
+  },
+  leftYjjbData: [
+    {
+      code: '0',
+      id: '0',
+      label: '预警级别',
+      name: '预警级别',
+      text: '预警级别',
+      children: store.state.warnInfo.warnLevelOptions.map(item => {
+        return {
+          ...item,
+          code: String(item.value),
+          id: String(item.value),
+          name: item.label,
+          text: item.label,
+          children: []
+        }
+      })
     }
   ]
 }

@@ -1,7 +1,7 @@
-import { reactive, onMounted, toRaw, inject, watch } from '@vue/composition-api'
+import { reactive, onMounted, toRaw, inject, watch, unref } from '@vue/composition-api'
 import { getLiquidFillSeries, getPieTitle, getGaugeSeries } from '../model/getEchartsConfig'
 export const useFiscalExpendSteady = () => {
-  const activeNav = inject('activeNav')
+  const currentRenderComponent = inject('currentRenderComponent')
   // 获取公共配置
   const getCommonOption = (detailTitle = '', option = {}) => {
     return {
@@ -54,9 +54,9 @@ export const useFiscalExpendSteady = () => {
       })
   }
 
-  watch(activeNav, (index) => {
+  watch(currentRenderComponent, (index) => {
     // 1 => 财政运行情况
-    resetWave(index === 1)
+    resetWave(unref(currentRenderComponent) === 'FinancialOperation')
   })
 
   onMounted(() => {

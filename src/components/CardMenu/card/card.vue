@@ -26,7 +26,8 @@
           :class="[item.icon, cardMenuIn.iconColorName]"
         ></i>
         <span>{{ item.title }}</span>
-        <span v-if="item.num" class="btn-num">{{ item.num }}条</span>
+        <span v-if="item.code === 'agentItem' && getTodoCount(cardMenu)" class="btn-num todo-num-bg">{{ getTodoCount(cardMenu) > 99 ? '99+' : getTodoCount(cardMenu) }}</span>
+        <span v-else-if="item.code !== 'agentItem' && item.num" class="btn-num">{{ item.num > 99 ? '99+' : item.num }}</span>
       </el-button>
     </div>
   </div>
@@ -86,7 +87,10 @@ export default {
 
   },
   methods: {
-
+    // 获取待办数量
+    getTodoCount(cardMenu) {
+      return this.$store.getters['todoInfo/getMenuTodoInfo'](cardMenu?.menu?.guid)?.totalCount || 0
+    },
     // card按钮点击事件
     onClickBtn(obj = {}, index) {
       // 按钮触发，事件回调
@@ -244,8 +248,22 @@ export default {
         .btn-num{
           position: absolute;
           right: 10px;
-          font-size: 10px;
-          line-height: 19px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+
+          &.todo-num-bg {
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            padding: 4px;
+            box-sizing: border-box;
+            background: #ED411E;
+            color: #fff;
+          }
         }
       }
       .icon-class{

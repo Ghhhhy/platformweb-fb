@@ -121,6 +121,9 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    curRuleLevel() {
+      return (this.$XEUtils.findTree(this.parentRuleoptions, item => item.id === this.parentId)?.item?.ruleLevel || 0) + 1
     }
   },
   props: {
@@ -143,6 +146,7 @@ export default {
     return {
       parentRule: '',
       parentRuleName: '',
+      parentCode: '',
       parentId: '',
       parentRuleoptions: [],
       isEnable: '',
@@ -183,7 +187,8 @@ export default {
       }
       this.code = this.selectData.code
       this.ruleName = this.selectData.ruleName
-      this.isEnable = this.selectData.isEnable
+      // isEnable：String => Number
+      this.isEnable = this.selectData.isEnable * 1
       this.description = this.selectData.description
       this.ruleLevel = this.selectData.ruleLevel
       if (this.ruleLevel === 1) {
@@ -191,15 +196,17 @@ export default {
       }
       this.getSysLists()
       this.parentId = this.selectData.parentId == null ? '' : this.selectData.parentId
+      this.parentCode = this.selectData.parentCode == null ? '' : this.selectData.parentCode
       this.parentRuleName = this.selectData.parentRuleName == null ? '' : this.selectData.parentRuleName
-      this.parentRule = this.parentId + '##' + this.parentId + '##' + this.parentRuleName
+      this.parentRule = this.parentId + '##' + this.parentCode + '##' + this.parentRuleName
     },
     selectRule(val) {
       let valArr = val.split('##')
       this.parentRuleName = valArr[2]
+      this.parentCode = valArr[1]
       this.parentId = valArr[0]
       let busName = this.ruleList.find(item => {
-        return item.code === Number(this.parentId)
+        return item.id === this.parentId
       })
       if (busName !== undefined && busName !== 'undefined') {
         this.ruleLevel = Number(busName.ruleLevel + 1)
@@ -274,10 +281,11 @@ export default {
           code: this.code,
           parentRuleName: this.parentRuleName,
           parentId: this.parentId,
+          parentCode: this.parentCode,
           isEnable: this.isEnable,
           ruleName: this.ruleName,
           description: this.description,
-          ruleLevel: this.ruleLevel,
+          ruleLevel: this.curRuleLevel,
           menuName: this.$store.state.curNavModule.name
         }
         this.addLoading = true
@@ -298,6 +306,7 @@ export default {
           code: this.code,
           parentRuleName: this.parentRuleName,
           parentId: this.parentId,
+          parentCode: this.parentCode,
           isEnable: this.isEnable,
           ruleName: this.ruleName,
           description: this.description,

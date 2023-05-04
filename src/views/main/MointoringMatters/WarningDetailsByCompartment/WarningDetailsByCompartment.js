@@ -1,4 +1,6 @@
 // import store from '@/store/index'
+import store from '@/store'
+
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -15,13 +17,13 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      { code: 'sign', label: '疑似违规', status: 'primary' },
+      // { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
   statusRightToolBarButton1: {
     '1': [
-      // { code: 'violation', label: '疑似违规', status: 'primary' },
+      // { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
@@ -54,12 +56,12 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
         props: {
           placeholder: '预警级别'
         }
@@ -77,6 +79,55 @@ export let proconf = {
         options: [],
         props: {
           placeholder: '规则名称'
+        }
+      }
+    // },
+    // {
+    //   title: '主题',
+    //   field: 'regulation_class',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //     ],
+    //     props: {
+    //       placeholder: '主题'
+    //     }
+    //   }
+    },
+    {
+      title: '支付编号',
+      field: 'businessNo',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支付编号'
+        }
+      }
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '2', label: '实时' },
+          { value: '1', label: '定时' }
+        ],
+        props: {
+          placeholder: '监控类型'
         }
       }
     }
@@ -227,7 +278,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -235,7 +286,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'firulename',
+      field: 'fiRuleName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -243,7 +294,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofdivcode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -251,7 +302,7 @@ export let proconf = {
     {
       title: '预警级别',
       'width': 180,
-      field: 'warnlevel',
+      field: 'warnLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -259,7 +310,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationtype',
+      field: 'regulationType',
       sortable: false,
       filters: false,
       align: 'center'
@@ -267,7 +318,7 @@ export let proconf = {
     {
       title: '预算单位编码',
       'width': 180,
-      field: 'agencycode',
+      field: 'agencyCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -275,7 +326,7 @@ export let proconf = {
     {
       title: '预算单位名称',
       'width': 180,
-      field: 'agencyname',
+      field: 'agencyName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -302,47 +353,47 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    {
-      title: '支付申请编码',
-      'width': 180,
-      field: 'fivouno',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      'title': '支付申请金额',
-      'field': 'paymentamount',
-      'width': '200',
-      'align': 'right',
-      'filters': '[object Object]',
-      'filterRender': {
-        'name': 'FilterNumberCompare'
-      },
-      'combinedType': 'average,subTotal,total,totalAll',
-      'cellRender': {
-        'name': '$moneyRender',
-        'options': [],
-        'defaultValue': '',
-        'props': {}
-      },
-      'name': '$moneyRender',
-      'fixed': '',
-      'formula': '',
-      'constraint': '',
-      'sortable': 'true',
-      'associatedQuery': '',
-      'className': '',
-      'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
-    },
-    {
-      title: '资金用途',
-      'width': 180,
-      field: 'useoffunds',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '支付申请编码',
+    //   'width': 180,
+    //   field: 'fivouno',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   'title': '支付申请金额',
+    //   'field': 'paymentamount',
+    //   'width': '200',
+    //   'align': 'right',
+    //   'filters': '[object Object]',
+    //   'filterRender': {
+    //     'name': 'FilterNumberCompare'
+    //   },
+    //   'combinedType': 'average,subTotal,total,totalAll',
+    //   'cellRender': {
+    //     'name': '$moneyRender',
+    //     'options': [],
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   'name': '$moneyRender',
+    //   'fixed': '',
+    //   'formula': '',
+    //   'constraint': '',
+    //   'sortable': 'true',
+    //   'associatedQuery': '',
+    //   'className': '',
+    //   'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
+    // },
+    // {
+    //   title: '资金用途',
+    //   'width': 180,
+    //   field: 'useoffunds',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '监控拦截时间',
       'width': 180,
@@ -358,13 +409,35 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     }
   ],
   PoliciesTableColumns1: [
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -372,7 +445,23 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'firulename',
+      field: 'fiRuleName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '业务编号',
+      'width': 180,
+      field: 'businessNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控拦截时间',
+      'width': 180,
+      field: 'createTime',
       sortable: false,
       filters: false,
       align: 'center'
@@ -380,7 +469,7 @@ export let proconf = {
     {
       title: '区划',
       'width': 180,
-      field: 'mofdivcode',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -388,7 +477,7 @@ export let proconf = {
     {
       title: '预警级别',
       'width': 180,
-      field: 'warnlevel',
+      field: 'warnLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -396,27 +485,27 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationtype',
+      field: 'regulationType',
       sortable: false,
       filters: false,
       align: 'center'
     },
     {
-      title: '预算单位编码',
+      title: '预算单位',
       'width': 180,
-      field: 'agencycode',
+      field: 'agency',
       sortable: false,
       filters: false,
       align: 'center'
     },
-    {
-      title: '预算单位名称',
-      'width': 180,
-      field: 'agencyname',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '预算单位名称',
+    //   'width': 180,
+    //   field: 'agencyname',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       'title': '处理情况',
       'field': 'status',
@@ -440,20 +529,51 @@ export let proconf = {
       'name': '$vxeSelect'
     },
     {
-      title: '监控拦截时间',
-      'width': 180,
-      field: 'createTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
       title: '违规处理时间',
       'width': 180,
       field: 'handleTime',
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     }
-  ]
+  ],
+  // table 操作按钮
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      // const main = self.$parent.$parent.$parent.$parent
+      // let status = main._data.toolBarStatusSelect.curValue
+      return [
+        // <el-tooltip content="修改" placement="top" effect="light">
+        //   <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'uodate' })}>修改</a>
+        // </el-tooltip>,
+        <el-tooltip content="附件" placement="top" effect="light">
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+        </el-tooltip>
+      ]
+    }
+  }
 }

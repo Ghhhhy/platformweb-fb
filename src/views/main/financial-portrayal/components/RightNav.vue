@@ -1,62 +1,76 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="nav-item">
+  <!--支持两级. 8.4改版:一级nav改成顶部tab切换;此处目前渲染二级nav-->
+  <div
+    v-if="computedModuleTabs.children"
+    class="nav-wrapper"
+  >
+    <!--一级nav-->
+    <div
+      v-for="(parentItem, parentIndex) in computedModuleTabs.children"
+      :key="parentItem.value"
+      class="nav-item"
+    >
       <div class="top-title">
-        <span :class="['circle', { 'circle-exceed': activeNav > 0, 'circle-actived': activeNav === 0 }]"></span>
-        <span :class="['main-title', { actived: activeNav === 0 }]" @click="navClick(0)">区域基本情况</span>
+        <span
+          :class="['circle', { 'circle-exceed': activeNav > parentIndex, 'circle-actived': activeNav === parentIndex }]"
+        >
+        </span>
+        <span
+          :class="['main-title', { actived: activeNav === parentIndex }]"
+          @click="navClick(parentIndex)"
+        >
+          {{ parentItem.label }}
+        </span>
       </div>
-      <div :class="['bottom-detail', { actived: activeNav > 0 }]">
-      </div>
-    </div>
-    <div class="nav-item">
-      <div class="top-title">
-        <span :class="['circle', { 'circle-exceed': activeNav > 1, 'circle-actived': activeNav === 1 }]"></span>
-        <span :class="['main-title', { actived: activeNav === 1 }]" @click="navClick(1)">财政运行情况</span>
-      </div>
-      <div :class="['bottom-detail', { actived: activeNav > 1 }]">
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 0 }]" @click="navClick(1, 0)">财政收支</span>
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 1 }]" @click="navClick(1, 1)">收入稳健指数</span>
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 2 }]" @click="navClick(1, 2)">支出结构指数</span>
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 3 }]" @click="navClick(1, 3)">预算管理</span>
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 4 }]" @click="navClick(1, 4)">运行保障</span>
-        <span :class="['detail-title', { actived: activeNav === 1 && activeNavChid === 5 }]" @click="navClick(1, 5)">直达资金</span>
-      </div>
-    </div>
-    <div class="nav-item">
-      <div class="top-title">
-        <span :class="['circle', { 'circle-exceed': activeNav > 2, 'circle-actived': activeNav === 2 }]"></span>
-        <span :class="['main-title', { actived: activeNav === 2 }]" @click="navClick(2)">政府债务情况</span>
-      </div>
-      <div :class="['bottom-detail', { actived: activeNav > 2 }]">
-      </div>
-    </div>
-    <div class="nav-item">
-      <div class="top-title">
-        <span :class="['circle', { 'circle-exceed': activeNav > 3, 'circle-actived': activeNav === 3 }]"></span>
-        <span :class="['main-title', { actived: activeNav === 3 }]" @click="navClick(3)">社会保险情况</span>
+      <div
+        v-if="parentIndex !== computedModuleTabs.children.length - 1"
+        :class="['bottom-detail', { actived: activeNav > parentIndex }]"
+      >
+        <!--二级nav-->
+        <span
+          v-for="(childItem, childIndex) in parentItem.children"
+          :key="childItem.value"
+          :class="['detail-title', { actived: activeNav === parentIndex && activeNavChid === childIndex }]"
+          @click="navClick(parentIndex, childIndex)"
+        >
+          {{ childItem.label }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
+import { moduleTabs } from '../model/data'
 export default defineComponent({
   props: {
+    // 激活的一级nav
     activeNav: {
       type: Number,
       default: 1
     },
+    // 激活的二级nav
     activeNavChid: {
       type: Number,
       default: 0
+    },
+    // 当前所渲染的组件option： {label, value}
+    currentRenderComponent: {
+      type: Object,
+      default: () => ({})
     }
   },
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const navClick = (parentIndex, childIndex) => {
       emit('navClick', { parentIndex, childIndex: childIndex })
     }
+    // 只有财政运行情况显示
+    const computedModuleTabs = computed(() => {
+      return moduleTabs.find(item => item.value === props.currentRenderComponent?.value)
+    })
     return {
-      navClick
+      navClick,
+      computedModuleTabs
     }
   }
 })

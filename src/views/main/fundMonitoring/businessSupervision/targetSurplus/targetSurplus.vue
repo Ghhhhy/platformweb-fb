@@ -31,7 +31,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
@@ -41,25 +41,50 @@
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">待分指标余额情况(单位:万元)</span>
+                <span class="fn-inline">待分指标余额情况</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
   </div>
 </template>
 
 <script>
 import getFormData from './targetSurplus.js'
+import DetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/targetSurplus.js'
 export default {
+  components: {
+    DetailDialog
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -73,6 +98,8 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -160,14 +187,14 @@ export default {
       ifRenderExpandContentTable: true,
       pagerConfig: {
         autoHidden: true,
-        total: 1,
+        totalCount: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -286,28 +313,13 @@ export default {
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
-      this.searchDataList = val
-      console.log(val)
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof this.searchDataList[key] === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
-      }
-      this.condition = condition
+    search(obj) {
+      console.log(obj)
+      this.fiscalYear = obj.fiscalYear
+      this.proNameRule = obj.proNameRule
+      this.searchDataList = obj
       this.queryTableDatas()
+      // this.queryTableDatasCount()
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -324,7 +336,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -342,42 +358,80 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
+    handleDetail(reportCode, mofDivCode, column) {
+      let params = {
+        reportCode: reportCode,
+        mofDivCodeList: mofDivCode,
+        fiscalYear: this.searchDataList.fiscalYear,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        pageSize: this.pagerConfig.pageSize,
+        page: this.pagerConfig.currentPage,
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+      // this.tableLoading = true
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
+    },
+    getTrees(val) {
+      let mofDivCodes = []
+      if (val?.trim() !== '') {
+        val?.split(',')?.forEach((item) => {
+          mofDivCodes.push(item?.split('##')?.[0])
+        })
+      }
+      return mofDivCodes
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.recDivCode)
-          this.detailTitle = '支出明细'
+        case 'amountz':
+          this.handleDetail('zdzjdfjemx', obj.row.code)
+          this.detailTitle = '直达资金待分指标明细'
           break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
-          this.detailTitle = '直达资金项目明细'
+        case 'amountc':
+          this.handleDetail('czzdzjdfjemx', obj.row.code)
+          this.detailTitle = '参照直达资金待分指标明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = true) {
       const param = {
+        isFlush,
         reportCode: 'dfzbyecx',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.tableLoading = false
+          this.tableData = res.data.data
+          this.caliberDeclareContent = res.data.description || ''
+          this.reportTime = res.data.reportTime || ''
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
@@ -417,12 +471,12 @@ export default {
       return this.tableData
     },
     getNewData() {
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-        // this.tableData = getFormData('basicInfo', 'tableData')
-        this.initTableData(getFormData('basicInfo', 'tableData'))
-      }, 2000)
+      // this.tableLoading = true
+      // setTimeout(() => {
+      //   this.tableLoading = false
+      //   // this.tableData = getFormData('basicInfo', 'tableData')
+      //   this.initTableData(getFormData('basicInfo', 'tableData'))
+      // }, 2000)
       // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {
@@ -432,10 +486,13 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
         return {
           color: '#4293F4',
-          textDecoration: 'underline'
+          textDecoration: 'underline',
+          cursor: 'pinter'
         }
       }
     }

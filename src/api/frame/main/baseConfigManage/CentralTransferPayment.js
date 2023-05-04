@@ -5,10 +5,10 @@ export default {
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/central/pageQuery', params)
   },
-  // // 新增
-  // addPolicies(params) {
-  //   return post('large-monitor-platform/lmp/askType/add', params)
-  // },
+  // 新增
+  addPolicies(params) {
+    return post('large-monitor-platform/lmp/central/add', params)
+  },
   // // 回显修改信息
   // getDetail(params) {
   //   return get('large-monitor-platform/lmp/askType/detail/' + params)

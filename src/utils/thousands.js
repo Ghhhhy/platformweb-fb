@@ -1,5 +1,6 @@
 // 将常规数值转为千制符
 export const formatterThousands = (num) => {
+  if (!num) return '0'
   // 将数字通过split用小数点分隔为数组对象
   const numpart = String(num).split('.')
   numpart[0] = numpart[0].replace(/(?=\B(\d{3})+$)/g, ',')
@@ -10,6 +11,6 @@ export const formatterThousands = (num) => {
 
 // 将千制符解析为常规数值
 export const parseThousands = (s) => {
-  if (s === '') return 0
+  if (s === '') return '0'
   return s.replace(/,/g, '')
 }

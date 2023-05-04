@@ -31,11 +31,13 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :show-zero="false"
+          title="中央和地方预算支出_分地区"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -47,6 +49,16 @@
                 <span class="fn-inline">中央和地方预算支出_分地区(单位:万元)</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -89,6 +101,7 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -298,11 +311,11 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.refresh()
+      this.queryTableDatas()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
@@ -323,7 +336,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -340,7 +353,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -359,10 +376,17 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(type, recDivCode) {
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
       let params = {
         reportCode: type === 'jOut' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
         mofDivCode: recDivCode,
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        isCz: isCz,
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       // this.tableLoading = true
@@ -3857,7 +3881,14 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'jOut':
           this.handleDetail('jOut', obj.row.recDivCode)
@@ -3871,20 +3902,23 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = false) {
       const param = {
+        isFlush,
         reportCode: 'zyzdzjyszxqkfdq',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data
+          this.reportTime = res.reportTime || ''
           this.tableLoading = false
         } else {
           this.$message.error(res.message)
@@ -3943,7 +3977,10 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

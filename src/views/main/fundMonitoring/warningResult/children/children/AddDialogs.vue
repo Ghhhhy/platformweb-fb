@@ -1,0 +1,298 @@
+<template>
+  <vxe-modal
+    v-model="dialogVisibles"
+    :title="title"
+    width="40%"
+    height="80%"
+    :show-footer="true"
+    @close="dialogClose"
+  >
+    <div v-loading="addLoading" class="payVoucherInput">
+      <div>
+        <div>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:15px"><font color="red">*</font>&nbsp;整改情况</div>
+                    <el-input
+                      v-model="rectifyDetail"
+                      type="textarea"
+                      :rows="5"
+                      placeholder="请输入整改情况"
+                      style="margin-bottom: 15px; width: 80%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:8px">&nbsp;违规类型</div>
+                    <el-input
+                      v-model="warnType"
+                      :disabled="true"
+                      placeholder="请输入违规类型"
+                      style="width:80%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:8px">&nbsp;退回金额</div>
+                    <el-input
+                      v-model="returnAmt"
+                      placeholder="请输入退回金额"
+                      style="width:80%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:8px">&nbsp;调帐金额</div>
+                    <el-input
+                      v-model="transferAmt"
+                      placeholder="请输入调帐金额"
+                      style="width:80%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:8px">&nbsp;其他金额</div>
+                    <el-input
+                      v-model="otherAmt"
+                      placeholder="请输入其他金额"
+                      style="width:80%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </div>
+    <BsUploadBak ref="myUpload" :attachment-id="attachmentId" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" />
+    <div slot="footer" style="height: 80px;margin:0 15px">
+      <div v-if="showbox" id="bigbox"></div>
+      <el-divider style="color:#E7EBF0" />
+      <div type="flex" justify="space-around">
+        <div>
+          <vxe-button @click="dialogClose">取消</vxe-button>
+          <vxe-button id="savebutton" status="primary" @click="doInsert">保存</vxe-button>
+        </div>
+      </div>
+    </div>
+  </vxe-modal>
+</template>
+<script>
+import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
+export default {
+  name: 'AddDialogs',
+  components: {},
+  computed: {
+    curNavModule() {
+      return this.$store.state.curNavModule
+    }
+  },
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    selectData: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      diBillId: '',
+      rectifyDetail: '',
+      warnType: '',
+      returnAmt: '',
+      transferAmt: '',
+      otherAmt: '',
+      dfrFileCode: '',
+      askCode: '',
+      askName: '',
+      askDesc: '',
+      dialogVisibles: true,
+      addLoading: false,
+      token: '',
+      isContinuity: false,
+      attachmentId: '',
+      showbox: false,
+      // 文件上传相关参数
+      fileList: [],
+      fileData: [],
+      fileDataBakDel: [],
+      declareCode: '',
+      askProvince: '',
+      askProvinceOptions: [],
+      askAgency: '',
+      askAgencyOptions: [],
+      askProvinceCode: '',
+      askProvinceId: '',
+      askProvinceName: '',
+      askAgencyCode: '',
+      askAgencyId: '',
+      askAgencyName: '',
+      askTypeName: '',
+      detailType: '',
+      fiRuleCode: '',
+      askTypeNameOptions: []
+    }
+  },
+  methods: {
+    dialogClose() {
+      this.$emit('close')
+      // this.$parent.showInfo()
+      // this.$parent.dialogVisibles = false
+    },
+    // 修改回显
+    showInfo() {
+      this.rectifyDetail = this.selectData.rectifyDetail
+      this.warnType = this.selectData.warnType
+      this.returnAmt = this.selectData.returnAmt
+      this.transferAmt = this.selectData.transferAmt
+      this.otherAmt = this.selectData.otherAmt
+      this.dfrFileCode = this.selectData.dfrFileCode
+      this.diBillId = this.selectData.diBillId
+      if (this.title === '整改处理单') {
+        this.attachmentId = this.$ToolFn.utilFn.getUuid()
+      } else {
+        this.attachmentId = this.selectData.dfrFileCode
+      }
+      if (this.attachmentId != null) {
+        const param = {
+          billguid: this.attachmentId,
+          year: this.$store.state.userInfo.year,
+          province: this.$store.state.userInfo.province
+        }
+        HttpModule.getFile(param).then(res => {
+          if (res.rscode === '100000') {
+            // 获取附件信息
+            this.fileData = JSON.parse(res.data)
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+      }
+    },
+    // 保存新增的计划信息
+    doInsert() {
+      if (this.rectifyDetail === '') {
+        this.$message.warning('请输入整改情况')
+        return
+      }
+      if (this.title === '整改处理单' || this.title === '修改整改处理单') {
+        if (this.dfrFileCode === '') {
+          this.$message.warning('请上传附件')
+          return
+        }
+        let param = {
+          rectifyDetail: this.rectifyDetail,
+          warnType: this.warnType,
+          returnAmt: this.returnAmt || 0,
+          transferAmt: this.transferAmt || 0,
+          otherAmt: this.otherAmt || 0,
+          diBillId: this.diBillId,
+          dfrFileCode: this.attachmentId
+        }
+        this.addLoading = true
+        HttpModule.update(param).then(res => {
+          this.addLoading = false
+          if (res.code === '000000') {
+            this.$message.success('新增成功')
+            this.dialogClose()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        let param = {
+          askProvinceCode: this.askProvinceCode,
+          askProvinceName: this.askProvinceName,
+          askProvinceId: this.askProvinceId,
+          askAgencyName: this.askAgencyName,
+          askAgencyCode: this.askAgencyCode,
+          askAgencyId: this.askAgencyId,
+          askCode: this.askCode,
+          askName: this.askName,
+          askDesc: this.askDesc,
+          askTypeName: this.askTypeName,
+          attachmentId: this.attachmentId
+        }
+        this.addLoading = true
+        HttpModule.changePolicies(param).then(res => {
+          this.addLoading = false
+          if (res.code === '000000') {
+            this.$message.success('修改成功')
+            this.dialogClose()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+    }
+  },
+  watch: {
+  },
+  created() {
+    this.showInfo()
+  }
+}
+</script>
+<style lang="scss">
+.payVoucherInput {
+  margin: 15px;
+  .el-card {
+    margin-top: 0
+  }
+}
+.vxe-modal--wrapper .vxe-modal--box {
+  z-index: 0;
+}
+#bigbox {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: .3;
+}
+.el-row-item .font-set-small .hline{
+  width:72px;
+}
+</style>

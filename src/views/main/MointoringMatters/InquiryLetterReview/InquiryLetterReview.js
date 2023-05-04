@@ -4,8 +4,8 @@ export let proconf = {
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待复核',
       code: '1',
@@ -13,8 +13,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已复核',
       code: '2',
@@ -42,8 +42,8 @@ export let proconf = {
   },
   highQueryConfig: [
     {
-      title: '关键字',
-      field: 'regulationName',
+      title: '问询事项',
+      field: 'askName',
       width: '8',
       align: 'left',
       formula: '',
@@ -52,13 +52,63 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '关键字'
+          placeholder: '问询事项'
         }
       }
     },
     {
-      'title': '生成时间',
-      'field': 'create_time',
+      title: '问询函类型',
+      field: 'askType',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '问询函类型',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'province',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      'title': '生成日期',
+      'field': 'createTime',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -67,7 +117,7 @@ export let proconf = {
         'name': '$vxeTime',
         'options': [],
         'props': {
-          'placeholder': '生成时间'
+          'placeholder': '生成日期'
         }
       }
     }
@@ -77,7 +127,7 @@ export let proconf = {
     warningLevel: '',
     handleType: '',
     isEnable: '',
-    create_time: ''
+    createTime: ''
   },
   // 新增弹窗列表
   monitorSetTableColumnsConfig: [

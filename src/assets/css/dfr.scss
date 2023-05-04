@@ -1,0 +1,24 @@
+$namespace: dfr;
+
+.#{$namespace} {
+  &-report-time-wrapper {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 8px;
+    font-size: 14px;
+    margin-right: 8px;
+    background: #edf2fc;
+    border-radius: 2px;
+    vertical-align: bottom;
+    color: #4d77e7;
+  }
+  &-report-time-content {
+    display: flex;
+    align-items: center;
+  }
+
+  &-report-time {
+    margin-left: 6px;
+  }
+}

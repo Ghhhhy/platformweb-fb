@@ -36,6 +36,7 @@
             <vxe-select v-model="exportModalFormData.dataType" placeholder="要导出的数据" clearable>
               <vxe-option value="fullData" label="当前页数据" />
               <vxe-option value="selection" label="选中数据" />
+              <vxe-option value="treeExpandData" label="当前展开数据" />
               <!-- <vxe-option value="allData" label="所有数据" /> -->
             </vxe-select>
           </template>
@@ -389,6 +390,7 @@ export default {
       ).sort((a, b) => {
         return a.sortIndex - b.sortIndex
       })
+
       let exportModalFormData = Object.assign({}, this.exportModalFormData, {
         columns: exportColumns
       })
@@ -404,6 +406,7 @@ export default {
       ).sort((a, b) => {
         return a.sortIndex - b.sortIndex
       })
+
       let exportModalFormData = Object.assign({}, this.exportModalFormData, {
         columns: exportColumns
       })

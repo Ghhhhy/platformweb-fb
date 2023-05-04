@@ -25,15 +25,17 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
+          type: 'year',
+          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
@@ -85,39 +87,45 @@ export let proconf = {
     {
       title: '地区名称',
       width: 180,
-      field: 'agencyName',
+      field: '',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
     },
     {
       title: '处室',
       width: 180,
-      field: 'agencyName',
+      field: '',
       sortable: false,
       filters: false,
-      align: 'center'
-    },
-    {
-      title: '上级文号',
-      width: 180,
-      field: 'targetAmount',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '上级专项资金',
-      width: 180,
-      field: 'realPay',
-      sortable: false,
-      filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{manageMofDepCode}-{manageMofDepName}'
+        }
+      },
+      props: {
+        format: '{manageMofDepCode}-{manageMofDepName}'
+      }
     },
     {
       title: '本级文号',
       width: 180,
-      field: 'cortargetAmount',
+      field: 'corBgtDocNoName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -125,7 +133,23 @@ export let proconf = {
     {
       title: '本级专项资金',
       width: 180,
-      field: 'correalPay',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '上级文号',
+      width: 180,
+      field: 'supBgtDocNoName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '上级专项资金',
+      width: 180,
+      field: 'supSpeTypeName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -133,7 +157,7 @@ export let proconf = {
     {
       title: '下级地区',
       width: 180,
-      field: 'xjdq',
+      field: 'recDivCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -141,7 +165,7 @@ export let proconf = {
     {
       title: '下级地区名称',
       width: 180,
-      field: 'xjdqmc',
+      field: 'recDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -149,10 +173,10 @@ export let proconf = {
     {
       title: '未发送金额',
       width: 180,
-      field: 'payLoad',
+      field: 'curAmt',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'right',
       cellRender: {
         name: '$vxeMoney'
       }
@@ -160,7 +184,7 @@ export let proconf = {
     {
       title: '制单人姓名',
       width: 180,
-      field: 'zdrxm',
+      field: 'creater',
       sortable: false,
       filters: false,
       align: 'center'

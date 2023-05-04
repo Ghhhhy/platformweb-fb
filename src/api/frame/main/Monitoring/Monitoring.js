@@ -37,9 +37,9 @@ export default {
   querygetTableDatas(params) {
     return get('large-monitor-platform/v2/payvoucher/loadtabledatas', params)
   },
-  // 获取合计
+  // 附近上传
   fileUpload(params) {
-    return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+    return post('fileservice/v2/upload', params, null, 'multipart/form-data')
   },
   // 获取表格数据
   queryDataSourceDatas(params) {
@@ -68,5 +68,20 @@ export default {
   // 函数接口类型
   getFunctionApiType(params) {
     return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
+  },
+  deleteData(params) {
+    return post('large-monitor-platform/lmp/warnLog/deleteWarn', params)
+  },
+  getSql(params) {
+    return post('large-monitor-platform/lmp/function/sqlDetail', params)
+  },
+  checkSql(params) {
+    return post('large-monitor-platform/lmp/function/checkSql', params)
+  },
+  getLeftTree(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  deleteWarnByLogId(params) {
+    return post('large-monitor-platform/lmp/warnLog/deleteWarnByLogId', params)
   }
 }

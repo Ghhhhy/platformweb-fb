@@ -61,7 +61,6 @@
               v-for="(item, key) in budgetGaugeChartOption"
               :key="key"
               class="chart-wrapper"
-              style="width: 216px; height: 226px;"
             >
               <BarChart1
                 :option="item"
@@ -147,8 +146,8 @@ export default defineComponent({
 .chart-wrapper {
   display: flex;
   flex-shrink: 0;
-  width: 217px;
-  height: 228px;
+  width: 240px;
+  height: 253px;
   margin: 0 16px 16px 0;
   background: #FFFFFF;
   border: 1px solid rgba(236,236,236,1);

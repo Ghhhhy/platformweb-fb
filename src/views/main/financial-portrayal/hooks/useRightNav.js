@@ -1,6 +1,7 @@
-import { onMounted, ref, onBeforeUnmount } from '@vue/composition-api'
+import { onMounted, ref, onBeforeUnmount, watch, nextTick } from '@vue/composition-api'
 import { throttle } from '@/utils/throttle'
-export const useRightNav = () => {
+
+export const useRightNav = (currentRenderComponent) => {
   // 存储导航节点
   const nodeMap = ref([])
   // 当前选中一级导航
@@ -12,29 +13,30 @@ export const useRightNav = () => {
   // 头部高度
   const headerHeight = 100
   // 搜索栏的高度
-  const searchHeight = 118
+  const searchHeight = 124
   // 滚动定时器
   let scrollTimer = null
-  // 可视区高度
-  // const clientHeight = document.documentElement.clientHeight
+
   /**
-   * 跟新导航节点信息
+   * 更新新导航节点信息
   */
   const updateNavList = () => {
-    const parentNodes = document.querySelectorAll('.financial-content-container > .nav')
-    const childNodes = document.querySelectorAll('.nav-child')
-    nodeMap.value = [...parentNodes].map(item => {
-      const navItem = {
-        node: item,
-        children: []
-      }
-      if (item.dataset.title === '财政运行情况') {
-        navItem.children = [...childNodes]
-      }
-      return navItem
+    nextTick(() => {
+      // const parentNodes = document.querySelectorAll('.financial-content-container > .nav')
+      const childNodes = document.querySelectorAll('.nav-child')
+      nodeMap.value = [...childNodes].map(item => {
+        const navItem = {
+          node: item,
+          children: []
+        }
+        // if (item.dataset.title === '财政运行情况') {
+        //   navItem.children = [...childNodes]
+        // }
+        return navItem
+      })
     })
   }
-  const throttleUpdateNavList = throttle(updateNavList, 500)
+  const throttleUpdateNavList = throttle(updateNavList, 1000)
   /**
    * 右侧导航点击回调
    * @params parentIndex：父节点index childIndex：父节点下的子节点index
@@ -46,7 +48,7 @@ export const useRightNav = () => {
     const currentParent = nodeMap.value[parentIndex]
     const parentNode = currentParent.node
     const childNode = currentParent.children[childIndex]
-    const scrollTop = childNode ? childNode.offsetTop : parentNode.offsetTop
+    const scrollTop = (childNode ? childNode.offsetTop : parentNode.offsetTop)
     // 由于顶部搜索定位，滚动后需要适当偏移；因此换为scroll滚动
     pageScrollContainer.scroll({ top: scrollTop - searchHeight, behavior: 'smooth' })
     // childNode ? childNode.scrollIntoView({ behavior: 'smooth' }) : parentNode.scrollIntoView({ behavior: 'smooth' })
@@ -55,8 +57,9 @@ export const useRightNav = () => {
     // 继续监听容器滚动（这里设置延迟是为了粗略估量滚动结束）
     scrollTimer = setTimeout(() => {
       addEventListener()
-    }, 800)
+    }, 1000)
   }
+
   /**
    * 滚动监听回调
   */
@@ -75,7 +78,7 @@ export const useRightNav = () => {
       }
     })
   }
-  const throttlePageScrollHandle = throttle(pageScrollHandle, 500)
+  const throttlePageScrollHandle = throttle(pageScrollHandle, 1000)
   const removeEventListener = () => {
     pageScrollContainer.removeEventListener('scroll', throttlePageScrollHandle)
   }
@@ -88,17 +91,38 @@ export const useRightNav = () => {
   const removeOnResize = () => {
     window.removeEventListener('resize', throttleUpdateNavList)
   }
-  onMounted(() => {
-    // 滚动容器
-    pageScrollContainer = document.querySelector('.main-modulebox-contain')
+
+  // 重置
+  const reset = () => {
+    activeNav.value = 0
+    activeNavChid.value = -1
     updateNavList()
     addEventListener()
     onResize()
-  })
-  onBeforeUnmount(() => {
+    pageScrollContainer.scroll({ top: 0, behavior: 'smooth' })
+  }
+
+  // 取消监听
+  const stop = () => {
     removeEventListener()
     removeOnResize()
+  }
+
+  onMounted(() => {
+    // 滚动容器
+    pageScrollContainer = document.querySelector('.main-modulebox-contain')
+    reset()
   })
+  onBeforeUnmount(() => {
+    stop()
+  })
+
+  watch(currentRenderComponent, async (nowValue) => {
+    stop()
+    await nextTick()
+    reset()
+  })
+
   return {
     nodeMap,
     activeNav,

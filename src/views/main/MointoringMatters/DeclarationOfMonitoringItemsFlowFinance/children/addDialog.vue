@@ -20,6 +20,7 @@
                     <el-input
                       v-model="declareName"
                       :disabled="edit"
+                      :title="declareName"
                       placeholder="请输入申报名称"
                       style="width:45%"
                     />
@@ -42,6 +43,7 @@
                         v-for="item in regulationsCodeoptions"
                         :key="item.regulationsCode"
                         :label="item.regulationsName"
+                        :title="item.regulationsName"
                         :value="item.regulationsCode"
                       />
                     </el-select>
@@ -58,6 +60,7 @@
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;申报事项</div>
                     <el-input
                       v-model="declareMatter"
+                      :title="declareMatter"
                       type="textarea"
                       :disabled="edit"
                       placeholder="请输入申报事项"
@@ -75,6 +78,7 @@
                     <el-input
                       v-model="declareTarget"
                       type="textarea"
+                      :title="declareTarget"
                       :disabled="edit"
                       placeholder="请输入申报目的"
                       style="width:45%"

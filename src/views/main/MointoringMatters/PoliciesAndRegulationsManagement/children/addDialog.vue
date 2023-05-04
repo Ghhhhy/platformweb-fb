@@ -39,9 +39,9 @@
                     >
                       <el-option
                         v-for="item in provinceOptions"
-                        :key="item.id"
-                        :label="item.rule_name"
-                        :value="item.rule_name"
+                        :key="item.id || item.ID"
+                        :label="item.dictInfoName || item.rule_name || item.RULE_NAME"
+                        :value="item.dictInfoName || item.rule_name || item.RULE_NAME"
                       />
                     </el-select>
                   </el-row>
@@ -50,17 +50,15 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;政策法规描述</div>
                     <el-input
                       v-model="description"
-                      type="textarea"
-                      :rows="5"
                       placeholder="请输入政策法规描述"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73.5%"
                     />
                   </el-row>
                 </el-main>
@@ -231,10 +229,10 @@ export default {
     },
     getProvince() {
       this.addLoading = true
-      HttpModule.getProvince().then(res => {
+      HttpModule.getProvince({ dictType: 'province' }).then(res => {
         this.addLoading = false
         if (res.code === '000000') {
-          this.provinceOptions = res.data
+          this.provinceOptions = res.data.results
         } else {
           this.$message.error(res.message)
         }

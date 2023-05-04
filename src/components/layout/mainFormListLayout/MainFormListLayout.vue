@@ -1,6 +1,6 @@
 <!--  主列表页面布局组件   Author:Titans@2396757591@qq.com -->
 <template>
-  <div class="T-mainFormListLayout-modulebox mainFormListLayout-modulebox">
+  <div class="T-mainFormListLayout-modulebox mainFormListLayout-modulebox" :class="!$slots.topTabPane ? 'T-mainFormListLayout-modulebox-notTopTabPane' : ''">
     <div class="mmc">
       <slot name="topTap"></slot>
       <div v-show="$slots.topTabPane || $slots.query" class="mmc-toolbar-search">
@@ -74,7 +74,7 @@ export default {
     defaultSplitPaneLeftWidth: {
       type: Number,
       default() {
-        return 20
+        return 15
       }
     }
   },
@@ -89,6 +89,7 @@ export default {
   methods: {
     asideChange() {},
     onSplitPaneResize(leftWidth) {
+      console.log(leftWidth)
       // if (leftWidth > 0) {
       //   this.leftVisible = true
       // }
@@ -126,7 +127,7 @@ export default {
   height: 100%;
   box-sizing: border-box;
   font-size: 0;
-  padding: 8px;
+  padding: 4px;
   flex-flow: column;
   .mmc {
     background: #FFF;
@@ -136,12 +137,8 @@ export default {
   }
   .mmc-toolbar-search {
     background: #fff;
-    padding: 8px 8px 8px 8px;
     .mmc-toolbar {
       background: #fff;
-    }
-    .mmc-search>div{
-      margin-top: 10px;
     }
   }
   .vxe-grid--toolbar-wrapper .vxe-button--wrapper {
@@ -156,7 +153,6 @@ export default {
   }
 
   .mmc-formlist {
-    margin-top: 8px;
     flex: 1;
     background: #fff;
     padding:0 8px;
@@ -227,7 +223,7 @@ export default {
       display: flex;
       flex-flow: column;
       height: 100%;
-      padding: 0 0px 0 15px;
+      padding: 0 0px 0 8px;
     }
   }
   .mmc-formlist.hide-mmc-left {
@@ -243,5 +239,9 @@ export default {
   .hide-fmc-left-hidden-btn {
     display: none;
   }
+}
+.T-mainFormListLayout-modulebox-notTopTabPane .T-search .basicsearch-form .vxe-form--item,
+.T-mainFormListLayout-modulebox-notTopTabPane .T-search .basicsearch-btngroups{
+  padding-top: 0px !important;
 }
 </style>

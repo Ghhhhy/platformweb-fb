@@ -1,11 +1,31 @@
 // import store from '@/store/index'
 export let proconf = {
+  highQueryConfig: [
+    {
+      title: '监控事项名称',
+      field: 'declareName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '监控事项名称'
+        }
+      }
+    }
+  ],
+  highQueryData: {
+    declareName: ''
+  },
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-daiban.png',
+      iconNameActive: 'base-daiban-active.png',
       iconUrl: '',
       label: '待审核',
       code: '1',
@@ -13,8 +33,8 @@ export let proconf = {
     },
     {
       type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
+      iconName: 'base-yiban.png',
+      iconNameActive: 'base-yiban-active.png',
       iconUrl: '',
       label: '已送审',
       code: '2',
@@ -35,7 +55,8 @@ export let proconf = {
     '1': [
       { code: 'audit', label: '审核', status: 'primary' },
       { code: 'returnData', label: '退回' },
-      { code: 'check', label: '查看' }
+      { code: 'check', label: '查看' },
+      { code: 'allBack', label: '退回录入岗' }
       // { code: 'del', label: '删除' }
     ],
     '2': [
@@ -94,6 +115,12 @@ export let proconf = {
     {
       title: '状态',
       field: 'flowStatusName',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '规则依据',
+      field: 'ruleAccord',
       sortable: false,
       align: 'left'
     },

@@ -14,7 +14,7 @@
     >
       <div class="fn-inline extend-title">
         <div class="title-tip fn-inline olh pointer" :title="item.name" @click.stop="onClickBtn(item)">{{ item.name }}</div>
-        <div v-if="item.num" class="num-color fn-inline">{{ item.num }}个</div>
+        <div v-if="item.num" class="num-color fn-inline">{{ item.num }}条</div>
       </div>
       <button v-if="item.button" class="extend-btn" @click.stop="onClickBtn(item)">{{ item.button.label }}</button>
     </div>
@@ -103,7 +103,6 @@ export default {
 
   },
   mounted() {
-    console.log(this.cardBtns, '2222222222222222')
   },
   watch: {
     cardBtns: {
@@ -157,6 +156,8 @@ export default {
         margin-top: 2px;
         .title-tip{
           max-width: 280px;
+          text-decoration: underline;
+          color: var(--primary-color)
         }
         .num-color{
           color: #FFA522;

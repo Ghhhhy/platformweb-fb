@@ -31,7 +31,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
@@ -121,7 +121,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
+      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
       calculateConstraintConfig: {
         enabled: true,
@@ -3841,7 +3841,7 @@ export default {
         reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
         speTypeCode: speTypeCode,
         mofDivCode: '',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.detailVisible = true
       this.tableLoading = true
@@ -3858,6 +3858,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
         case 'jOut':
           this.handleDetail('jOut', obj.row.speTypeCode)
@@ -3879,7 +3884,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         reportCode: 'zyzdzjyszxqkfzj',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -3902,7 +3907,9 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

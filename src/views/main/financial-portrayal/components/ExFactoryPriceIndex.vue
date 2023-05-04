@@ -11,7 +11,7 @@
       </div>
       <div class="value-container">
         <span class="price-index-value" :style="{ color: item.color }">{{ item.value }}</span>
-        <span class="price-index-unit">%PPI</span>
+        <span class="price-index-unit">PPI</span>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default defineComponent({
   flex-shrink: 0;
   width: 200px;
   height: 254px;
-  padding: 112px 28px 60px;
+  padding: 100px 28px 80px;
   box-sizing: border-box;
 
   .price-index-item {

@@ -59,9 +59,9 @@ export default {
       type: Object,
       default() {
         return {
-          size: 40,
-          page: 1,
-          keywords: ''
+          limit: 40,
+          offset: 0,
+          province: this.$store.state.userInfo.province
         }
       }
     },
@@ -71,9 +71,9 @@ export default {
       default() {
         return {
           isServer: true,
-          ajaxType: 'post',
+          ajaxType: 'get',
           // serverUri: 'plan-service/queryTreeAssistData'
-          serverUri: 'mp-b-epay-rule/v1/userList'
+          serverUri: 'mp-b-user-service/v2/users/fuzzy/page'
         }
       }
     },
@@ -160,19 +160,32 @@ export default {
       if (!value) return true
       return data.label.indexOf(value) !== -1
     },
+    // 格式化树形结构
+    treeFormat(treeArray) {
+      treeArray.forEach(item => {
+        this.$set(item, 'children', [])
+        this.$set(item, 'id', item.guid)
+        this.$set(item, 'label', item.code + '-' + item.name)
+      })
+      return treeArray
+    },
     // 左侧树模糊搜索
     searchTreeList(val) {
       let self = this
       this.params = {
-        size: 40,
-        page: 1,
-        keywords: val
+        limit: 40,
+        offset: 0,
+        province: this.$store.state.userInfo.province,
+        fiscalYear: this.$store.state.userInfo.fiscalYear,
+        strReg: val
       }
       this.data = []
-      this.$http.post('mp-b-epay-rule/v1/userList', this.params).then(res => {
-        if (res.data.length) {
-          self.data = res.data
-          self.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(self.data)
+      this.$http.get('mp-b-user-service/v2/users/fuzzy/page', this.params).then(res => {
+        let result = res
+        if (result.data.length) {
+          this.data = this.treeFormat(result.data)
+          console.log('self.data', self.data)
+          this.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(this.data)
         }
       })
     },
@@ -181,10 +194,11 @@ export default {
       let self = this
       await this.$http[this.server.ajaxType](this.server.serverUri, this.params).then(res => {
         self.treeLoading = false
-        if (res.rscode === '200') {
-          if (res.data.length) {
-            self.data = self.data.concat(res.data)
-            self.params.page += 1
+        let result = res
+        if (result.rscode === '100000') {
+          if (result.data.length) {
+            self.data = self.data.concat(this.treeFormat(result.data))
+            self.params.offset += 40
             self.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(self.data)
             $state.loaded()
           } else {
@@ -273,7 +287,7 @@ export default {
     }
   },
   created() {
-    this.initTree()
+    // this.initTree()
   },
   mounted() {
   }

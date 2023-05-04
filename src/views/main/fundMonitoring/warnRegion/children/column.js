@@ -2,8 +2,8 @@
 const proconf = {
   highQueryConfig: [
     {
-      title: '区划',
-      field: 'mofDivCode',
+      title: '区划名称',
+      field: 'mofDivName',
       width: '8',
       align: 'left',
       formula: '',
@@ -11,7 +11,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '区划'
+          placeholder: '区划名称'
         }
       }
     },
@@ -25,10 +25,10 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '全部', label: '全部' },
-          { value: '省本级', label: '省本级' },
-          { value: '市本级', label: '市本级' },
-          { value: '县级', label: '县级' }
+          { value: '0', label: '全部' },
+          { value: '1', label: '省本级' },
+          { value: '2', label: '市本级' },
+          { value: '3', label: '县级' }
         ],
         props: {
           placeholder: '级次'
@@ -51,7 +51,7 @@ const proconf = {
     },
     {
       title: '项目名称',
-      field: 'proCodeName',
+      field: 'projectName',
       width: '8',
       align: 'left',
       formula: '',
@@ -65,7 +65,7 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'bgtMofDepName',
+      field: 'businessOffice',
       width: '8',
       align: 'left',
       formula: '',
@@ -79,11 +79,11 @@ const proconf = {
     }
   ],
   highQueryData: {
-    mofDivCode: '',
-    bgtMofDepName: '',
-    speTypeName: '',
+    mofDivName: '',
+    speTypeCode: '',
+    projectName: '',
     levels: '',
-    proCodeName: ''
+    businessOffice: ''
   },
   // 支出明细
   expenditureColumn: [
@@ -102,6 +102,7 @@ const proconf = {
       title: '金额（单位:万元）',
       field: 'amount',
       sortable: false,
+      filters: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
@@ -279,93 +280,256 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
-  // 是否上传附件-未处理明细
-  notuploadColumn: [
+  redUndoNum: [
     {
       title: '地区名称',
-      field: 'agency',
-      align: 'center'
-    },
-    {
-      title: '处室名称',
-      field: 'bgtMofDepName',
+      field: 'name',
       sortable: false,
+      filters: false
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
-      title: '专项资金',
-      field: 'sSpeTypeName',
+      title: '单位(处室)',
+      field: 'businessOffice',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
+    },
+    {
+      title: '问题明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon1',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
       sortable: false,
       align: 'right'
     },
     {
-      title: '指标文号',
-      field: 'corBgtDocNo',
+      title: '处理结果',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
       sortable: false,
+      align: 'right'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'right'
+    }
+  ],
+  redDoneNum: [
+    {
+      title: '地区名称',
+      field: 'name',
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '年度',
+      field: 'fiscalYear',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
+      title: '单位(处室)',
+      field: 'businessOffice',
+      sortable: false,
+      filters: false,
+      width: 140
+    },
+    {
+      title: '问题明细',
+      field: 'matterDetail',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
+    },
+    {
+      title: '预警结果',
+      field: 'warnResult',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon3',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '预警时间',
+      field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '处理结果',
+      filters: false,
+      width: 140,
+      field: 'rectifyDetail',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '整改时间',
+      filters: false,
+      width: 140,
+      field: 'rectifyTime',
+      sortable: false,
+      align: 'right'
+    }
+  ],
+  // 是否上传附件-未处理明细
+  notuploadColumn: [
+    {
+      title: '地区名称',
+      field: 'name',
+      width: 140,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      align: 'center',
+      width: 140,
+      filters: false
+    },
+    {
+      title: '专项资金',
+      field: 'speTypeName',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
+    },
+    {
+      title: '指标文号',
+      field: 'targetDocNum',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '制单人',
-      field: 'makePerson',
+      field: 'checkPerson',
       sortable: false,
-      align: 'right',
-      cellRender: { name: '$vxeMoney' }
+      filters: false,
+      width: 140,
+      align: 'right'
     },
     {
       title: '预警时间',
       field: 'warnTime',
       sortable: false,
-      align: 'right',
-      cellRender: { name: '$vxeMoney' }
+      filters: false,
+      width: 140,
+      align: 'right'
     }
   ],
   // 是否上传附件-已整改明细
   uploadColumn: [
     {
       title: '地区名称',
-      field: 'agency',
-      align: 'center'
+      field: 'name',
+      width: 140,
+      sortable: false,
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'bgtMofDepName',
-      sortable: false,
-      align: 'center'
+      field: 'businessOffice',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'right'
     },
     {
       title: '指标文号',
-      field: 'corBgtDocNo',
+      field: 'targetDocNum',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '制单人',
-      field: 'makePerson',
+      field: 'checkPerson',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'right'
     },
     {
       title: '预警时间',
       field: 'warnTime',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'right'
     },
     {
       title: '整改意见',
-      field: 'agreeInfo',
+      field: 'rectifyAsk',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'right'
     },
     {
       title: '整改时间',
-      field: 'agreeTime',
+      field: 'rectifyTime',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'right'
     }
   ],
@@ -373,84 +537,119 @@ const proconf = {
   notpayColumn: [
     {
       title: '地区名称',
-      field: 'agencyCodeName',
-      align: 'center'
+      field: 'name',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '规则名称',
-      field: 'ruleName',
-      align: 'center'
+      field: 'fiRuleName',
+      align: 'center',
+      filters: false,
+      width: 140
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '单位名称',
       field: 'agencyName',
-      align: 'center'
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'right'
     },
     {
       title: '项目名称',
-      field: 'proCodeName',
+      field: 'projectName',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '金额（单位:万元）',
-      field: 'amount',
+      field: 'paymentAmount',
+      width: 140,
       sortable: false,
+      filters: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '用途',
-      field: 'useDes',
+      field: 'useOfFunds',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '付款方账户名称',
-      field: 'payAcctName',
+      field: 'payer',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '收款方账户名称',
-      field: 'payeeAcctName',
+      field: 'payee',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '指标文号',
-      field: 'corBgtDocNo',
+      field: 'targetDocNum',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '收款方账号',
-      field: 'payeeAcctNo',
+      field: 'receiveAccount',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '付款方账号',
-      field: 'payAcctNo',
+      field: 'payAccount',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '付款日期',
       field: 'xpayDate',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '预警时间',
       field: 'warnTime',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     }
   ],
@@ -458,96 +657,147 @@ const proconf = {
   payokColumn: [
     {
       title: '地区名称',
-      field: 'agencyCodeName',
-      align: 'center'
+      field: 'name',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '规则名称',
-      field: 'ruleName',
+      field: 'fiRuleName',
+      filters: false,
+      width: 140,
       align: 'center'
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '单位名称',
       field: 'agencyName',
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
+      filters: false,
+      width: 140,
       sortable: false,
       align: 'right'
     },
     {
       title: '项目名称',
-      field: 'proCodeName',
+      field: 'projectName',
+      filters: false,
+      width: 140,
       sortable: false,
       align: 'center'
     },
     {
       title: '金额（单位:万元）',
-      field: 'amount',
+      filters: false,
+      field: 'paymentAmount',
+      width: 140,
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '用途',
-      field: 'useDes',
+      field: 'useOfFunds',
+      width: 140,
       sortable: false,
+      filters: false,
       align: 'center'
     },
     {
       title: '认定结果',
-      field: 'result',
+      field: 'affirmResult',
+      width: 140,
       sortable: false,
-      align: 'center'
+      filters: false,
+      align: 'center',
+      formula: '',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '正常' },
+          { value: '2', label: '违规' }
+        ],
+        props: {
+          placeholder: '认定结果'
+        }
+      }
     },
     {
       title: '认定意见',
-      field: 'aggresult',
+      field: 'matterDetail',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '认定人',
-      field: 'useResult',
+      field: 'createPersonName',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '认定时间',
-      field: 'resultTime',
+      field: 'affirmTime',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '付款方账户名称',
-      field: 'payAcctName',
+      field: 'payer',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '收款方账户名称',
-      field: 'payeeAcctName',
+      field: 'payee',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '指标文号',
-      field: 'corBgtDocNo',
+      field: 'targetDocNum',
       sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
       title: '收款方账号',
-      field: 'payeeAcctNo',
+      field: 'receiveAccount',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '付款方账号',
-      field: 'payAcctNo',
+      field: 'payAccount',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     }
   ],
@@ -555,101 +805,142 @@ const proconf = {
   payedColumn: [
     {
       title: '地区名称',
-      field: 'agencyCodeName',
-      align: 'center'
+      field: 'name',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '规则名称',
-      field: 'ruleName',
+      field: 'fiRuleName',
+      width: 140,
+      filters: false,
       align: 'center'
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '单位名称',
       field: 'agencyName',
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '专项资金',
-      field: 'sSpeTypeName',
+      field: 'speTypeName',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'right'
     },
     {
       title: '项目名称',
-      field: 'proCodeName',
+      field: 'projectName',
       sortable: false,
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '金额（单位:万元）',
-      field: 'amount',
+      field: 'paymentAmount',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '用途',
-      field: 'useDes',
+      field: 'useOfFunds',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '认定意见',
-      field: 'agg',
+      field: 'matterDetail',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '整改结果',
-      field: 'result',
+      field: 'rectifyDetail',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '整改意见',
-      field: 'aggResult',
+      field: 'rectifyAsk',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '整改时间',
-      field: 'resultTime',
+      field: 'rectifyTime',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '支付日期',
-      field: 'payTime',
+      field: 'xpayDate',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '付款方账户名称',
-      field: 'payAcctName',
+      field: 'payer',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '收款方账户名称',
-      field: 'payeeAcctName',
+      field: 'payee',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '指标文号',
-      field: 'corBgtDocNo',
+      field: 'targetDocNum',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '收款方账号',
-      field: 'payeeAcctNo',
+      field: 'receiveAccount',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '付款方账号',
-      field: 'payAcctNo',
+      width: 140,
+      filters: false,
+      field: 'payAccount',
       sortable: false,
       align: 'center'
     }
@@ -658,34 +949,46 @@ const proconf = {
   notgetColumn: [
     {
       title: '地区名称',
-      field: 'agencyCodeName',
-      align: 'center'
+      field: 'name',
+      align: 'center',
+      width: 140,
+      filters: false
     },
     {
       title: '处室名称',
       field: 'cName',
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '指标文号',
       field: 'corBgtDocNo',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '专项资金',
       field: 'sSpeTypeName',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'right'
     },
     {
       title: '项目',
       field: 'proCodeName',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '金额（单位:万元）',
+      width: 140,
+      filters: false,
       field: 'amount',
       sortable: false,
       align: 'right',
@@ -697,33 +1000,45 @@ const proconf = {
     {
       title: '地区名称',
       field: 'agencyCodeName',
+      width: 140,
+      filters: false,
       align: 'center'
     },
     {
       title: '处室名称',
+      width: 140,
+      filters: false,
       field: 'cName',
       align: 'center'
     },
     {
       title: '指标文号',
       field: 'corBgtDocNo',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '专项资金',
       field: 'sSpeTypeName',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'right'
     },
     {
       title: '项目',
       field: 'proCodeName',
+      width: 140,
+      filters: false,
       sortable: false,
       align: 'center'
     },
     {
       title: '金额（单位:万元）',
+      width: 140,
+      filters: false,
       field: 'amount',
       sortable: false,
       align: 'right',

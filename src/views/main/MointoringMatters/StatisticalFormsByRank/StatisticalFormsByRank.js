@@ -37,6 +37,71 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '监控规则名称',
+      field: 'fiRuleName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '监控规则名称'
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
     }
   ],
   highQueryData: {
@@ -60,19 +125,37 @@ export let proconf = {
           title: '累计预警',
           field: 'redWholeCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon1',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '已处理',
           field: 'redWholeHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '未处理',
           field: 'redWholeNoHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon1',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '处理进度',
@@ -92,19 +175,37 @@ export let proconf = {
           title: '累计预警',
           field: 'orangeWholeCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon6',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '已处理',
           field: 'orangeWholeHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '未处理',
           field: 'orangeWholeNoHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon6',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '处理进度',
@@ -124,19 +225,37 @@ export let proconf = {
           title: '累计预警',
           field: 'yellowWholeCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon2',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '已处理',
           field: 'yellowWholeHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '未处理',
           field: 'yellowWholeNoHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon2',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '处理进度',
@@ -156,19 +275,37 @@ export let proconf = {
           title: '累计预警',
           field: 'blueWholeCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon7',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '已处理',
           field: 'blueWholeHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '未处理',
           field: 'blueWholeNoHandleCount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon7',
+            props: {
+              $refs: this
+            }
+          }
         },
         {
           title: '处理进度',

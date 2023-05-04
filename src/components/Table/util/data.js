@@ -4,6 +4,9 @@ import GlobalConfig from '../../GlobalConfig/index.js'
 export default function () {
   let self = this
   return {
+    expendAllLoading: false, // 全部展开、全部折叠操作新增loading状态
+    expandAllState: false, // 树表格 -> 是否展开全部
+    caliberDeclareVisible: false, // 口径说明弹窗显隐状态
     showRowDropHelpTip: false,
     scrollLoading: false,
     scrollLoadConfigCp: {
@@ -149,6 +152,7 @@ export default function () {
       }
     },
     expandConfigIn: { // 展开配置
+      expandAll: true
     },
     tableConfigCp: { // 表格渲染配置
       globalConfig: { // 全局默认渲染列配置
@@ -195,6 +199,7 @@ export default function () {
       print: false, // 打印
       zoom: true, // 缩放
       custom: true, // 选配展示列
+      expandAll: false, // 树形表格展开全部功能
       moneyUnitOptions: [ // 金额单位配置
         {
           value: 1,
@@ -361,6 +366,7 @@ export default function () {
       scrollX: {
         gt: -1
       }
-    }
+    },
+    completeMoneyFilter: false
   }
 }

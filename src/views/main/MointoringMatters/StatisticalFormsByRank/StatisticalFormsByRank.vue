@@ -56,6 +56,9 @@
       :fi-rule-code="fiRuleCode"
       :warn-level="warnLevel"
       :status="status"
+      :mof-div-code-list="mofDivCodeList"
+      :fiscal-year="fiscalYear"
+      :agency-code-list="agencyCodeList"
     />
   </div>
 </template>
@@ -76,6 +79,7 @@ export default {
   },
   data() {
     return {
+      currentRow: null, // 当前点击的单元格属于的行
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -173,7 +177,12 @@ export default {
       dialogTitle: '违规明细查看',
       showViolations: false,
       fiRuleCode: '',
-      status: ''
+      status: '',
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      fiscalYear: '',
+      fiRuleName: '',
+      mofDivCodeList: [],
+      agencyCodeList: []
     }
   },
   mounted() {
@@ -279,9 +288,16 @@ export default {
       if (this.searchDataList.businessModuleCode && this.searchDataList.businessModuleCode.trim() !== '') {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
+      if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
+        this.fiRuleName = this.searchDataList.fiRuleName
+      }
       this.condition = condition
       console.log(this.condition)
       let fiscalYear = this.condition.fiscalYear[0]
+
+      this.agencyCodeList = val.agencyCodeList_code__multiple
+      this.fiscalYear = val.fiscalYear
+      this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.queryTableDatas(fiscalYear)
     },
     // 切换操作按钮
@@ -363,8 +379,13 @@ export default {
         if (key.substring(0, 4) === 'blue') {
           this.warnLevel = '4'
         }
-        this.showViolations = true
-        this.fiRuleCode = obj.row.fiRuleCode
+        if (obj.row.fiRuleCode === '' || obj.row.fiRuleCode === null) {
+          this.$message.info('请选择具体的规则行去查看明细')
+        } else {
+          this.showViolations = true
+          this.fiRuleCode = obj.row.fiRuleCode
+          this.currentRow = obj.row
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -383,7 +404,10 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
-        regulationClass: this.params5
+        regulationClass: this.params5,
+        agencyCodeList: this.agencyCodeList,
+        mofDivCodeList: this.mofDivCodeList,
+        fiRuleName: this.fiRuleName
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -422,6 +446,55 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.data) {
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -431,6 +504,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.state.curNavModule.param5
+    this.getLeftTreeData()
+    this.getAgency()
   }
 }
 </script>

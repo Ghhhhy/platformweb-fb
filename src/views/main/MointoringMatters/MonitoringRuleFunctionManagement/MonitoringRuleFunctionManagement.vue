@@ -53,6 +53,12 @@
       :title="dialogTitle"
       :function-code="functionCode"
     />
+    <PreviewDialog
+      v-if="previewDialogVisible"
+      :title="previewTitle"
+      :function-code="functionCode"
+      :business-module-code="businessModuleCode"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
@@ -63,9 +69,10 @@ import { proconf } from './MonitoringRuleFunctionManagement'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/Monitoring.js'
 import api from '@/api/frame/main/Monitoring/levelRules.js'
+import PreviewDialog from './children/previewDialog'
 export default {
   components: {
-    AddDialog
+    AddDialog, PreviewDialog
   },
   watch: {
     queryConfig() {
@@ -168,7 +175,10 @@ export default {
       showAttachmentDialog: false,
       billguid: '',
       condition: {},
-      functionCode: ''
+      functionCode: '',
+      businessModuleCode: '',
+      previewDialogVisible: false,
+      previewTitle: ''
     }
   },
   mounted() {
@@ -291,6 +301,10 @@ export default {
         case 'add-toolbar-refresh':
           this.refresh()
           break
+        // 预览
+        case 'preview' :
+          this.preview()
+          break
         // 刷新
         case 'operation-toolbar-refresh':
           this.refresh()
@@ -298,6 +312,17 @@ export default {
         default:
           break
       }
+    },
+    preview() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.functionCode = selection[0].functionCode
+      this.businessModuleCode = selection[0].businessModuleCode
+      this.previewTitle = '预览'
+      this.previewDialogVisible = true
     },
     // 删除
     delPolicies() {

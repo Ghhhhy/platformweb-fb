@@ -6,6 +6,14 @@ export const useExpenditureAmountBarChart = () => {
   // 直达资金 => 支出金额
   const expenditureAmountBarChart = reactive({
     detailTitle: '支出金额',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '支出金额'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

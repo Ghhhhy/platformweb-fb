@@ -15,13 +15,15 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '4': [
-      { code: 'check', label: '查看详情', status: 'primary' }
+      { code: 'revoke', label: '退回', status: 'primary' },
+      { code: 'check', label: '查看详情' },
+      { code: 'print', label: '打印' }
     ]
   },
   highQueryConfig: [
     {
-      title: '监控规则名称',
-      field: 'regulationName',
+      title: '问询事项',
+      field: 'askName',
       width: '8',
       align: 'left',
       formula: '',
@@ -30,7 +32,72 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '监控规则名称'
+          placeholder: '问询事项'
+        }
+      }
+    },
+    {
+      title: '问询函类型',
+      field: 'askType',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '问询函类型',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'province',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      'title': '生成日期',
+      'field': 'createTime',
+      'width': '8',
+      'align': 'left',
+      'formula': '',
+      'name': '$vxeTime',
+      'itemRender': {
+        'name': '$vxeTime',
+        'options': [],
+        'props': {
+          'placeholder': '生成日期'
         }
       }
     }
@@ -39,7 +106,8 @@ export let proconf = {
     regulationType: '',
     warningLevel: '',
     handleType: '',
-    isEnable: ''
+    isEnable: '',
+    createTime: ''
   },
   // 新增弹窗列表
   monitorSetTableColumnsConfig: [

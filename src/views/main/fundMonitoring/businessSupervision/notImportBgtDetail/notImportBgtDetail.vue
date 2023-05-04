@@ -28,21 +28,17 @@
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
-        <BsBossTree
+        <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
-          :is-server="true"
-          :ajax-type="treeAjaxType"
-          :server-uri="treeServerUri"
-          :datas="treeData"
-          :queryparams="treeQueryparams"
-          :global-config="treeGlobalConfig"
-          :clickmethod="onClickmethod"
+          open-loading
+          :filter-text="leftTreeFilterText"
+          :tree-data="treeData"
+          :config="treeGlobalConfig.treeConfig"
+          @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
@@ -58,6 +54,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -81,8 +81,9 @@
 </template>
 
 <script>
-import { proconf } from './notImportBgtDetail'
-import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+import getFormData from './notImportBgtDetail.js'
+// import { proconf } from './notImportBgtDetail'
+import HttpModule from '@/api/frame/main/fundMonitoring/notImportBgtDetail.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -97,8 +98,9 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
-      queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
+      caliberDeclareContent: '', // 口径说明
+      queryConfig: getFormData('highQueryConfig'),
+      searchDataList: getFormData('highQueryData'),
       radioShow: true,
       breakRuleVisible: false,
       treeData: [{
@@ -116,9 +118,10 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: ''
+        inputVal: '',
+        treeConfig: { rootName: '全部', showFilter: false, disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
       },
-      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -159,7 +162,7 @@ export default {
           ]
         }
       },
-      buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
+      // buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
         '1': 2,
         '2': 0,
@@ -177,12 +180,12 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: getFormData('PoliciesTableColumns'),
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         import: false, // 导入
         export: true, // 导出
         print: false, // 打印
@@ -203,7 +206,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+          // $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
         }
       },
       tableFooterConfig: {
@@ -220,6 +223,8 @@ export default {
       menuName: '系统级监控规则',
       params5: '',
       menuId: '',
+      codeList: [],
+      leftTreeFilterText: '',
       tokenid: '',
       userInfo: {},
       roleguid: this.$store.state.curNavModule.roleguid,
@@ -264,13 +269,28 @@ export default {
   mounted() {
   },
   methods: {
-    search(obj) {
-      console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.regulationtype = obj.regulationType
-      this.firulename = obj.firulename
+    search(val) {
+      this.searchDataList = val
+      let condition = this.getConditionList()
+      for (let key in condition) {
+        if (
+          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== null)
+        ) {
+          if (Array.isArray(this.searchDataList[key])) {
+            condition[key] = this.searchDataList[key]
+          } else if (typeof this.searchDataList[key] === 'string') {
+            if (this.searchDataList[key].trim() !== '') {
+              this.searchDataList[key].split(',').forEach((item) => {
+                condition[key].push(item)
+              })
+            }
+          }
+        }
+      }
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      this.condition = condition
       this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -458,16 +478,35 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
         this.mofdivcode = node.node.code
       } else {
         this.condition = {}
       }
       this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -526,28 +565,24 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      // const param = {
-      //   page: this.mainPagerConfig.currentPage, // 页码
-      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
-      //   warn_level: this.warningLevel, // 预警级别
-      //   regulation_type: this.regulationtype,
-      //   mofdivname: this.mofdivname,
-      //   agencycode: this.agencycode,
-      //   firulename: this.firulename,
-      //   regulation_class: this.regulationclass,
-      //   mofdivcode: this.mofdivcode || ''
-      // }
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(param).then(res => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.tableData = res.data.results
-      //     this.mainPagerConfig.total = res.data.totalCount
-      //     this.tabStatusNumConfig['1'] = res.data.totalCount
-      //   } else {
-      //     this.$message.error(res.result)
-      //   }
-      // })
+      const param = {
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCodeList: this.codeList
+      }
+      this.tableLoading = true
+      HttpModule.queryTableDatas(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.caliberDeclareContent = res.data.description || ''
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
+        } else {
+          this.$message.error(res.result)
+        }
+      })
     },
     // 操作日志
     queryActionLog(row) {
@@ -577,8 +612,8 @@ export default {
     getLeftTreeData() {
       let that = this
       HttpModule.getTreeData(that.treeQueryparams).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
+        if (res.data) {
+          // let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -591,7 +626,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = treeResdata
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -600,7 +635,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || item.name
         if (item.children) {
           that.getChildrenData(item.children)
         }

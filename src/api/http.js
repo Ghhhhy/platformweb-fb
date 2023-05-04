@@ -1,16 +1,14 @@
 // 本文件不允许私自修改，环保除引用第三方接口外一律使用post请求方式，接口定义请参考接口规范书写，这里只做全局http请求状态拦截，其他用户状态一律放行，页面内部做判断自行处理
 import axios from 'axios'
-import globalGatewayAgentConf from './serverGatewayMap.js'
+// import globalGatewayAgentConf from '../../public/static/js/config/serverGatewayMap.js'
 import {
   baseUrl
 } from './url'
 import Qs from 'qs'
-import Router from '@/router/index.js'
 import store from '../store/index'
 import Encrypt from './smSecret/smSecret.js'
-import { Message } from 'element-ui'
-
-window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
+import goLogin from '../utils/goLogin'
+// window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
 const elink = document.createElement('a')
 axios.defaults.timeout = 300000
 axios.defaults.baseURL = baseUrl
@@ -41,102 +39,43 @@ axios.interceptors.request.use(function(config) {
 // }
 // 全局网关
 const globalGatewayAgent = (url, Origin) => { // 注册全局网关
-  axios.defaults.baseURL = Origin || oldUrl
-  let serveUrl = url.split('/').filter((item, index) => {
-    return !!item
-  })
-  let serverName = serveUrl[0]
-  if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(globalGatewayAgentConf.development).indexOf(serverName) >= 0) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-      axios.defaults.baseURL = globalGatewayAgentConf.development[serverName]
-    } else {
-      axios.defaults.baseURL = oldUrl
-    }
-  } else {
-    axios.defaults.baseURL = oldUrl
-    // if (Object.keys(globalGatewayAgentConf.production).indexOf(serverName) >= 0) {
-    //   serveUrl.splice(0, 1)
-    //   url = serveUrl.join('/')
-    //   axios.defaults.baseURL = globalGatewayAgentConf.production[serverName]
-    // } else {
-    //   axios.defaults.baseURL = oldUrl
-    // }
-    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,fileservice,mp-b-project-lifecycle'
-    let filePreviewService = 'mp-b-file-preview'
-    let monitor = 'large-monitor-platform,dfr-monitor-service'
-    let tempUrl = url.split('/')[0]
-    if (tempUrl.length === 0) {
-      tempUrl = url.split('/')[1]
-    }
+  const serveUrl = url.split('/').filter(item => !!item)
+  const serverName = serveUrl[0]
+  const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
 
-    if (apaas.indexOf(tempUrl) > -1) {
-      // return url
-      url = 'apaas/api/' + url
-    } else if (filePreviewService === tempUrl) {
-      return url
-    } else if (monitor.indexOf(tempUrl) > -1) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-    } else {
-      return url
-      // url = 'api/budget/' + url
-    }
+  axios.defaults.baseURL = Origin || process.env.NODE_ENV === 'development'
+    ? Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName)
+  if (Reflect.has(envProxy, serverName)) {
+    // 删除url代理前缀
+    serveUrl.splice(0, 1)
+    url = serveUrl.join('/')
   }
-
   return url
 }
 
 // 外部通过全局网关获取baseURL  url
 export const httpGlobalGatewayAgent = (url, Origin) => { // 注册全局网关
-  axios.defaults.baseURL = Origin || oldUrl
-  let serveUrl = url.split('/').filter((item, index) => {
-    return !!item
-  })
-  let serverName = serveUrl[0]
-  let baseURL = ''
-  if (process.env.NODE_ENV === 'development') {
-    if (Object.keys(globalGatewayAgentConf.development).indexOf(serverName) >= 0) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-      baseURL = globalGatewayAgentConf.development[serverName]
-    } else {
-      baseURL = oldUrl
-    }
-  } else {
-    // if (Object.keys(globalGatewayAgentConf.production).indexOf(serverName) >= 0) {
-    //   serveUrl.splice(0, 1)
-    //   url = serveUrl.join('/')
-    //   baseURL = globalGatewayAgentConf.production[serverName]
-    // } else {
-    //   baseURL = oldUrl
-    // }
-    let apaas = 'mp-b-perm-service,mp-b-sso-service,mp-b-user-service,mp-b-basedata-service,mp-b-configure-service,fileservice,mp-b-project-lifecycle'
-    let apaas1 = 'large-monitor-platform'
-    let tempUrl = url.split('/')[0]
-    if (tempUrl.length === 0) {
-      tempUrl = url.split('/')[1]
-    }
+  const serveUrl = url.split('/').filter(item => !!item)
+  const serverName = serveUrl[0]
+  const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
 
-    if (apaas.indexOf(tempUrl) > -1) {
-      // return url
-      url = 'apaas/api/' + url
-    } else if (apaas1.indexOf(tempUrl) > -1) {
-      serveUrl.splice(0, 1)
-      url = serveUrl.join('/')
-    } else {
-      return url
-      // url = 'api/budget/' + url
-    }
+  const baseURL = Origin || process.env.NODE_ENV === 'development'
+    ? Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName)
+  axios.defaults.baseURL = baseURL
+
+  if (Reflect.has(envProxy, serverName)) {
+    // 删除url代理前缀
+    serveUrl.splice(0, 1)
+    url = serveUrl.join('/')
   }
-
   return {
     baseURL,
     url
   }
 }
-export const globalGatewayAgentConfig = globalGatewayAgentConf
+export const globalGatewayAgentConfig = window.gloableToolFn.serverGatewayMap
 export const smSecretUtils = Encrypt
 axios.interceptors.response.use(function(response) {
   if (response.status === 200) {
@@ -150,13 +89,13 @@ axios.interceptors.response.use(function(response) {
       let r = confirm('用户信息失效，请前往平台重新登录。点击确认返回首页')
       if (r) {
         localStorage.removeItem('__boss_cache__bsSxczyAccessToken')
-        window.location.href = document.referrer || '/'
+        window.location.href = window.gloableToolFn.serverGatewayMap?.gloableUrl?.portalLoginUrl || (document.referrer || '/')
       }
     }
     switch (response.data.code) {
       case (401):
         console.log('Unauthorized,表示用户没有权限(令牌、用户名、密码错误)')
-        Router.push('/Login')
+        goLogin()
         break
       case (400):
         console.log('Invalid Request,用户发出的请求有错误')
@@ -182,15 +121,6 @@ axios.interceptors.response.use(function(response) {
   }
   return response
 }, function(error) {
-  console.log(error.response)
-  if (error?.response?.status) {
-    switch (error?.response?.status) {
-      case '504':
-        Message.error('网络超时，请重试！')
-    }
-  } else {
-    Message.error('网络错误，请重试！')
-  }
   // 对响应错误做处理
   return {
     data: {
@@ -211,7 +141,6 @@ export function get(url, params, Origin, contentType) {
         params: params
       })
       .then(response => {
-        // console.log('get', '\n', url, '\n', params, '\n', response)
         resolve(response.data)
       })
       .catch(error => {
@@ -230,6 +159,27 @@ export function post(url, data = {}, Origin, contentType) {
       .post(globalGatewayAgent(url, Origin), data)
       .then(response => {
         // console.log('post', '\n', url, 'response', response, '\n', data, '\n', response)
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+// 封装axios的post-formData请求，避免每次都要用post调用时要new FormData
+export function postFormData(url, data = {}, Origin) {
+  // axios.defaults.headers.post['Content-Type'] = 'application/json' || 'application/x-www-form-urlencoded
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+  axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
+  const formData = new FormData()
+  Object.entries(data || {}).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+  return new Promise((resolve, reject) => {
+    axios
+      .post(globalGatewayAgent(url, Origin), formData)
+      .then(response => {
         resolve(response.data)
       })
       .catch(error => {

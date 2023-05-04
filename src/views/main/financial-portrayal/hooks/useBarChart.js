@@ -9,7 +9,16 @@ import {
   getTitle,
   getAxisLabel
 } from '../model/getEchartsConfig'
-export const useBarChart = (echarts, config) => {
+import { throttle } from '@/utils/throttle'
+
+/**
+ * 图表
+ * @param echarts
+ * @param config
+ * @param observeNode 需要监听的节点变化 resize图表
+ * @returns {{setOption: setOption, getChartInstance: (function(): null), resize: (function(): void)}}
+ */
+export const useBarChart = (echarts, config, observeNode = null) => {
   const { selecterId } = config
   let chartInstance = null
   const options = {
@@ -55,12 +64,37 @@ export const useBarChart = (echarts, config) => {
     chartInstance?.setOption(option)
   }
 
+  const resize = throttle(() => {
+    chartInstance?.resize()
+  }, 1000)
+
+  /**
+   * 监听节点style
+   */
+  const observeResize = () => {
+    // console.log(document.querySelector(observeNode))
+    const selecter = observeNode
+      ? document.querySelector(observeNode)
+      : document.querySelector('.nav')
+    if (!selecter) return
+    const observer = new MutationObserver(resize)
+    observer.observe(selecter, {
+      attributes: true,
+      attributeFilter: ['style']
+    })
+  }
+
   onMounted(() => {
     init()
+    observeResize()
+    setTimeout(() => {
+      chartInstance?.resize()
+    })
   })
 
   return {
     getChartInstance,
-    setOption
+    setOption,
+    resize
   }
 }

@@ -2,10 +2,11 @@
   <div>
     <vxe-modal
       v-model="violationsView"
+      v-loading="tableLoading"
       :title="title"
       width="96%"
       height="90%"
-      :show-footer="true"
+      :show-footer="false"
       @close="dialogClose"
     >
       <div v-loading="tableLoading" style="height: 100%">
@@ -62,7 +63,6 @@
       v-if="showViolations"
       :title="dialogTitle"
       :fi-rule-code="fiRuleCode"
-      :cur-status-lable="curStatusLable"
     />
   </div>
 </template>
@@ -199,9 +199,7 @@ export default {
       condition: {},
       violationsView: true,
       showViolations: false,
-      fiRuleCode: '',
-      // 当前点击单元格对应列的title  查看明细过滤使用
-      curStatusLable: ''
+      fiRuleCode: ''
     }
   },
   mounted() {
@@ -221,7 +219,7 @@ export default {
     },
     dialogClose() {
       this.$parent.violationsView = false
-      this.$parent.queryTableDatas()
+      // this.$parent.queryTableDatas()
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -326,6 +324,30 @@ export default {
         case 'operation-toolbar-refresh':
           this.refresh()
           break
+        case 'sign': // 生成
+          let temp = this.$refs.mainTableRef.getSelectionData()
+          let warnids = []
+          let param = {
+            warnids
+          }
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            this.tableLoading = true
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
+          break
         default:
           break
       }
@@ -372,9 +394,9 @@ export default {
         key !== 'wholeHandleCount' &&
         key !== 'wholeNoHandleCount'
       ) {
-        this.curStatusLable = obj.column.title || ''
         this.showViolations = true
         this.fiRuleCode = key.split('-')[0]
+        console.log(key)
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -394,7 +416,7 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: fiscalYear || '2022',
         warnLevel: this.warnLevel,
-        // status: this.status,
+        status: this.status,
         regulationType: this.regulationType,
         mofDivCode: this.mofDivCode,
         regulationClass: this.params5
@@ -404,7 +426,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           if (res.data.titleList.length !== 0) {
-            this.tableColumnsConfig = [...proconf.PoliciesTableColumns]
             res.data.titleList.forEach(item => {
               this.tableColumnsConfig.push({
                 title: item.fiRuleName,
@@ -500,5 +521,8 @@ float: right;
 .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
+}
+.T-mainFormListLayout-modulebox {
+  padding: 0 !important
 }
 </style>

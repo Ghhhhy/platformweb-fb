@@ -9,7 +9,9 @@ export default [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/directFund/violationProcessing/dfrViolationProcessingBill.vue') // 违规处理
+      import(
+        '../../../views/main/directFund/violationProcessing/dfrViolationProcessingBill.vue'
+      ) // 违规处理
   },
   {
     path: '/dfrViolationProcessingAudit',
@@ -18,7 +20,9 @@ export default [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/directFund/violationProcessing/dfrViolationProcessingBillAudit.vue') // 违规处理
+      import(
+        '../../../views/main/directFund/violationProcessing/dfrViolationProcessingBillAudit.vue'
+      ) // 违规处理
   },
   {
     path: '/dfrViolationProcessingUnitAudit',
@@ -27,7 +31,9 @@ export default [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/directFund/violationProcessing/dfrViolationProcessingBillUnitAudit.vue') // 违规处理
+      import(
+        '../../../views/main/directFund/violationProcessing/dfrViolationProcessingBillUnitAudit.vue'
+      ) // 违规处理
   },
   {
     path: '/dfrViolationProcessingResult',
@@ -36,7 +42,9 @@ export default [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/directFund/violationProcessing/dfrViolationProcessingResult.vue') // 违规处理
+      import(
+        '../../../views/main/directFund/violationProcessing/dfrViolationProcessingResult.vue'
+      ) // 违规处理
   },
   {
     path: '/dfrViolationProcessingResultAudit',
@@ -45,7 +53,9 @@ export default [
       keepAlive: true
     },
     component: () =>
-      import('../../../views/main/directFund/violationProcessing/dfrViolationProcessingResultAudit.vue') // 违规处理
+      import(
+        '../../../views/main/directFund/violationProcessing/dfrViolationProcessingResultAudit.vue'
+      ) // 违规处理
   },
   {
     path: '/dfrReportData',
@@ -53,8 +63,7 @@ export default [
     meta: {
       keepAlive: true
     },
-    component: () =>
-      import('../../../views/main/directFund/report/index.vue') // 直达资金报表-输出表 参照政府预算汇总
+    component: () => import('../../../views/main/directFund/report/index.vue') // 直达资金报表-输出表 参照政府预算汇总
   },
   {
     path: '/dfrReportDataAudit',
@@ -62,7 +71,31 @@ export default [
     meta: {
       keepAlive: true
     },
+    component: () => import('../../../views/main/directFund/report/index.vue') // 本级报表编制审核
+  },
+  {
+    path: '/Focus',
+    name: 'Focus',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/directFund/dfrFocus/Focus.vue')
+  },
+  {
+    path: '/indexFind', // 指标查询
+    name: 'IndexFind',
+    component: () => import('@/views/main/directFund/indexFind/index.vue')
+  },
+  {
+    path: '/directFundsChart', // 直达资金图表
+    name: 'DirectFundsChart',
+    component: () => import('@/views/px-to-vw-page/directFunds/index.vue')
+  },
+  {
+    path: '/directFundsDetail', // 直达资金明细
+    name: 'DirectFundsDetail',
     component: () =>
-      import('../../../views/main/directFund/report/index.vue') // 本级报表编制审核
+      import('@/views/main/directFund/directFundsDetail/index.vue')
   }
 ]

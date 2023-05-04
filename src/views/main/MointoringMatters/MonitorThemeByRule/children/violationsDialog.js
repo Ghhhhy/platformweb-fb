@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -15,6 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
+      // { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
@@ -57,11 +58,7 @@ export let proconf = {
       align: 'center',
       'cellRender': {
         'name': '$vxeSelect',
-        options: [
-          { value: 1, label: '黄色预警' },
-          { value: 2, label: '橙色预警' },
-          { value: 3, label: '红色预警' }
-        ],
+        options: store.state.warnInfo.warnLevelOptions,
         'defaultValue': '',
         'props': {}
       },

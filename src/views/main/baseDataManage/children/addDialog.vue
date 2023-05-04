@@ -114,7 +114,25 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">&nbsp;查询SQL</div>
+                    <el-input
+                      v-model="selectSql"
+                      type="textarea"
+                      :rows="2"
+                      placeholder="请输入查询SQL段"
+                      style="margin-bottom:15px; width:73%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -122,15 +140,17 @@
                     <el-input
                       v-model="sqlParam"
                       type="textarea"
-                      :rows="5"
+                      :rows="2"
                       placeholder="请输入拼接SQL段"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73%"
                     />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
-            <el-col :span="12">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -138,9 +158,9 @@
                     <el-input
                       v-model="dataSourceDesc"
                       type="textarea"
-                      :rows="5"
+                      :rows="2"
                       placeholder="请输入数据源描述"
-                      style="margin-bottom:15px; width:45%"
+                      style="margin-bottom:15px; width:73%"
                     />
                   </el-row>
                 </el-main>
@@ -186,6 +206,7 @@ export default {
   data() {
     return {
       sqlParam: '',
+      selectSql: '',
       tableName: '',
       businessSystemCode: '',
       businessSystemName: '',
@@ -223,16 +244,17 @@ export default {
       HttpModule.getDetail(this.dataSourceCode).then(res => {
         if (res.code === '000000') {
           this.dataSourceName = res.data.dataSourceName
-          this.businessSystemCode = parseInt(res.data.businessSystemCode)
+          this.businessSystemCode = res.data.businessSystemCode
           this.SysparentId = this.businessSystemCode
           this.getModLists()
           this.businessSystemName = res.data.businessSystemName
-          this.businessModuleCode = parseInt(res.data.businessModuleCode)
+          this.businessModuleCode = res.data.businessModuleCode
           this.businessModuleName = res.data.businessModuleName
           this.adapterAddr = res.data.adapterAddr
           this.dataSourceDesc = res.data.dataSourceDesc
           this.tableName = res.data.tableName
           this.sqlParam = res.data.sqlParam
+          this.selectSql = res.data.selectSql
           this.databaseName = res.data.databaseName
         } else {
           this.$message.error(res.message)
@@ -351,6 +373,7 @@ export default {
           menuName: this.$store.state.curNavModule.name,
           tableName: this.tableName,
           sqlParam: this.sqlParam,
+          selectSql: this.selectSql,
           databaseName: this.databaseName
         }
         this.addLoading = true
@@ -376,6 +399,7 @@ export default {
           dataSourceDesc: this.dataSourceDesc,
           tableName: this.tableName,
           sqlParam: this.sqlParam,
+          selectSql: this.selectSql,
           databaseName: this.databaseName
         }
         this.addLoading = true

@@ -33,11 +33,6 @@ export default defineComponent({
         return { label: '', value: '' }
       }
     },
-    // 趋势类型（上升/下降 => up/dowm）
-    trendType: {
-      type: String,
-      default: 'up'
-    },
     // 是否显示图标
     showIcon: {
       type: Boolean,
@@ -66,6 +61,7 @@ export default defineComponent({
       }
       return {}
     })
+    // 趋势类型（上升/下降 => up/dowm）
     const valueStyle = computed(() => {
       if (props.algin === 'center') {
         return {
@@ -76,9 +72,13 @@ export default defineComponent({
       }
       return {}
     })
+    const trendType = computed(() => {
+      return parseInt(props.option?.value) < 0 ? 'down' : 'up'
+    })
     return {
       containerStyle,
-      valueStyle
+      valueStyle,
+      trendType
     }
   }
 })
@@ -96,7 +96,7 @@ export default defineComponent({
       margin-right: 6px;
       font-family: var(--font-family-hyt);
       font-size: 18px;
-      font-weight: var(--font-weight-title);
+      font-weight: bold;
       color: #4CC494;
       line-height: 18px;
 

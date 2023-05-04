@@ -15,7 +15,8 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      { code: 'Export', label: '导出', status: 'primary' }
+      // { code: 'sign', label: '疑似违规', status: 'primary' }
+      // { code: 'Export', label: '导出', status: 'primary' }
     ]
   },
   highQueryConfig: [

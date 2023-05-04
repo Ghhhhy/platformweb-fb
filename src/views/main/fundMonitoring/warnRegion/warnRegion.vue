@@ -31,11 +31,10 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
-          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -213,11 +212,12 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
+      fiscalYear: '',
       detailData: []
     }
   },
   mounted() {
-    this.getNewData()
+    // this.getNewData()
   },
   methods: {
     // 展开折叠查询框
@@ -343,153 +343,89 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
-      // let params = {
-      //   reportCode: type === 'beAmount' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
-      //   mofDivCode: recDivCode,
-      //   fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
-      // }
-      // this.tableLoading = true
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-      }, 2000)
-      type === 'beAmount' ? this.detailData = [
-        {
-          businessName: '西北妇女儿童医院',
-          bzAmount: 864642328,
-          creditCode: '611301032018160011912'
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050000344',
-          bzAmount: 864634
-        },
-        {
-          businessName: '陕西省医疗保障局',
-          creditCode: '129910435745410803',
-          bzAmount: 864642398
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050450319',
-          bzAmount: 86434498
-        },
-        {
-          businessName: '陕西省地方病防治研究所',
-          creditCode: '61001711100058011254',
-          bzAmount: 8646498
-        },
-        {
-          businessName: '渭南九州通正元医药有限公司',
-          creditCode: '61001647508050000319',
-          bzAmount: 86422498
-        }
-      ] : this.detailData = [
-        {
-          card: 500383199204062383,
-          name: '张三',
-          bzAmount: 1461123
-        },
-        {
-          card: 500383199204062364,
-          name: '李四',
-          bzAmount: 755439
-        },
-        {
-          card: 50038319920532383,
-          name: '王五',
-          bzAmount: 447512300
-        },
-        {
-          card: 50038319920432383,
-          name: '安其',
-          bzAmount: 8042000
-        },
-        {
-          card: 500384642204062383,
-          name: '刘均',
-          bzAmount: 5610000
-        },
-        {
-          card: 500383199204062341,
-          name: '丰能',
-          bzAmount: 58350000
-        },
-        {
-          card: 500383199204067643,
-          name: '乔东',
-          bzAmount: 10020000
-        },
-        {
-          card: 500383199204074345,
-          name: '李太华',
-          bzAmount: 980000
-        },
-        {
-          card: 500383199204095859,
-          name: '张起灵',
-          bzAmount: 39670000
-        },
-        {
-          card: 500383199204064444,
-          name: '吴勇',
-          bzAmount: 7000000
-        },
-        {
-          card: 500383199204061111,
-          name: '邓伦',
-          bzAmount: 10000000
-        }
-      ]
-      this.detailVisible = true
-      this.detailType = type
-      // HttpModule.queryTableDatas(params).then((res) => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.detailData = res.data
-      //     this.detailVisible = true
-      //     this.detailType = type
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
+    handleDetail(type, mofDivCode) {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
+      this.fiscalYear = this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       switch (key) {
-        case 'notHandle':
-          this.handleDetail('notHandle', obj.row.recDivCode)
-          this.detailTitle = '是否上传附件-未处理明细'
+        case 'numberredUndoNum':
+          this.detailData = ['numberredUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '红色预警-未处理明细'
+          this.detailType = 'numberredUndoNum'
+          this.detailVisible = true
           break
-        case 'handled':
-          this.handleDetail('handled', obj.row.recDivCode)
-          this.detailTitle = '是否上传附件-已整改明细'
+        case 'numberredDoneNum':
+          this.detailData = ['numberredDoneNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '红色预警-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberredDoneNum'
           break
-        case 'znotHandle':
-          this.handleDetail('znotHandle', obj.row.recDivCode)
-          this.detailTitle = '支出预警-未处理明细'
+        case 'numberorangeUndoNum':
+          this.detailData = ['numberorangeUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '橙色预警-未上传附件明细'
+          this.detailVisible = true
+          this.detailType = 'numberorangeUndoNum'
           break
-        case 'zhandled':
-          this.handleDetail('zhandled', obj.row.recDivCode)
-          this.detailTitle = '支出预警-未处理明细'
+        case 'numberorangeDoneNum':
+          this.detailData = ['numberorangeDoneNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '橙色预警-已上传附件明细'
+          this.detailVisible = true
+          this.detailType = 'numberorangeDoneNum'
           break
-        case 'wnotHandle':
-          this.handleDetail('wnothandled', obj.row.recDivCode)
-          this.detailTitle = '支出预警-已整改明细'
+        case 'numberyellowUndoNum':
+          this.detailData = ['numberyellowUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '黄色预警-疑点信息明细'
+          this.detailVisible = true
+          this.detailType = 'numberyellowUndoNum'
           break
-        case 'whandled':
-          this.handleDetail('whandled', obj.row.recDivCode)
-          this.detailTitle = '支出预警-已整改明细'
+        case 'numberyellowDoneNum':
+          this.detailData = ['numberyellowDoneNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定正常明细'
+          this.detailVisible = true
+          this.detailType = 'numberyellowDoneNum'
           break
-        case 'dnotHandle':
-          this.handleDetail('dnotHandle', obj.row.recDivCode)
-          this.detailTitle = '未导入惠企利民-未处理明细'
+        case 'numberyellowUndoNumw':
+          this.detailData = ['numberyellowUndoNumw', obj.row.code, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberyellowUndoNumw'
           break
-        case 'dhandled':
-          this.handleDetail('dhandled', obj.row.recDivCode)
-          this.detailTitle = '未导入惠企利民-已整改明细'
+        case 'numberyellowDoneNumw':
+          this.detailData = ['numberyellowDoneNumw', obj.row.code, this.fiscalYear]
+          this.detailTitle = '黄色预警-认定违规-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberyellowDoneNumw'
+          break
+        case 'numberblueUndoNum':
+          this.detailData = ['numberblueUndoNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
+          this.detailType = 'numberblueUndoNum'
+          this.detailVisible = true
+          break
+        case 'numberblueDoneNum':
+          this.detailData = ['numberblueDoneNum', obj.row.code, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定正常明细'
+          this.detailVisible = true
+          this.detailType = 'numberblueDoneNum'
+          break
+        case 'numberblueUndoNumw':
+          this.detailData = ['numberblueUndoNumw', obj.row.code, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberblueUndoNumw'
+          break
+        case 'numberblueDoneNumw':
+          this.detailData = ['numberblueDoneNumw', obj.row.code, this.fiscalYear]
+          this.detailTitle = '非人工干预蓝色预警-认定违规-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberblueDoneNumw'
           break
       }
     },
@@ -501,77 +437,23 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: 'zyzdzjyszxqkfdq',
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
       })
-    },
-    initTableData(tableDataTest) {
-      let arr = JSON.parse(JSON.stringify(tableDataTest))
-      arr.map(v => {
-        if ((parseFloat(v.recDivCode) / 10000000).toString().length === 2) {
-          v.type = 1
-        } else if ((parseFloat(v.recDivCode) / 10000000).toString().length === 5) {
-          v.type = 2
-        } else if ((parseFloat(v.recDivCode) / 10000000).toString().length === 7) {
-          v.type = 3
-        }
-      })
-      this.obj = {}
-      arr.forEach(item => {
-        if (item.type === 1) {
-          this.obj[item.recDivCode.substring(0, 2)] = item
-          item.children = []
-          this.tableData.push(item)
-        } else if (item.type === 2) {
-          this.obj[item.recDivCode.substring(0, 5)] = item
-          item.children = []
-          this.tableData[0].children.push(item)
-        } else if (item.type === 3) {
-          this.obj[item.recDivCode.substring(0, 7)] = item
-        }
-      })
-      for (const key in this.obj) {
-        // const i = key.length - 2
-        // const pkey = key.substring(0, i)
-        for (var a = 0; a < this.tableData[0].children.length; a++) {
-          if (this.tableData[0].children[a] !== this.obj[key] && this.tableData[0].children[a].recDivCode.substring(0, 4) === this.obj[key].recDivCode.substring(0, 4) && this.tableData[0].children[a].type < this.obj[key].type) {
-            this.tableData[0].children[a].children.push(this.obj[key])
-          }
-        }
-      }
-      return this.tableData
-    },
-    getNewData() {
-      this.tableLoading = true
-      setTimeout(() => {
-        this.tableLoading = false
-        // this.initTableData(getFormData('basicInfo', 'tableData'))
-        this.tableData = getFormData('basicInfo', 'tableData')
-      }, 2000)
-      // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (['bpAmount', 'beAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
     }
   },
   created() {
@@ -579,7 +461,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.queryTableDatas()
+    this.queryTableDatas()
   }
 }
 </script>

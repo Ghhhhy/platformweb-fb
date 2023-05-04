@@ -53,6 +53,12 @@ export default {
       default() {
         return []
       }
+    },
+    detailQueryParam: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
@@ -64,10 +70,9 @@ export default {
       tableColumnsConfig: [
       ],
       pagerConfig: {
-        autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableData: [],
       tableToolbarConfig: {
@@ -109,6 +114,9 @@ export default {
           break
       }
     },
+    refresh() {
+      this.queryTableDatas()
+    },
     showInfo() {
       this.tableData = this.detailData
       console.log(proconf)
@@ -122,6 +130,32 @@ export default {
         default:
           break
       }
+      this.queryTableDatas()
+    },
+    queryTableDatas() {
+      let params = this.detailQueryParam
+      params.page = this.pagerConfig.currentPage // 页码
+      params.pageSize = this.pagerConfig.pageSize // 每页条数
+      // params.proName = this.condition.proName ? this.condition.proName[0] : ''
+      // params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
+      // params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
+      // params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
+      // params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
+      // params.payAcctNo = this.condition.payAcctNo ? this.condition.payAcctNo[0] : ''
+      // params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
+      // params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
+      // params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
+      // params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
+      this.$parent.tableLoading = true
+      HttpModule.detailPageQuery(params).then((res) => {
+        this.$parent.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.pagerConfig.total = res.data.totalCount
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     handleDetail(type, speTypeCode, mofDivCode) {
       let params = {
@@ -130,61 +164,8 @@ export default {
         mofDivCode: mofDivCode,
         fiscalYear: this.$parent.condition.fiscalYear ? this.$parent.condition.fiscalYear[0] : ''
       }
-      // this.$parent.sDetailVisible = true
-      // this.$parent.sDetailType = type
       this.tableLoading = true
-      // setTimeout(() => {
-      //   this.tableLoading = false
-      // }, 2000)
-      // this.$parent.sDetailData = [
-      //   {
-      //     bgtMofDepName: '事业股',
-      //     agencyName: '城固县水磨中心学校',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '初中教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '城财事〔2022〕6号',
-      //     fpAmount: 44937.5,
-      //     payAppAmt: 44937.5,
-      //     sspeTypeName: '城乡义务教育补助经费_教育体育局',
-      //     sSpeTypeName: '城乡义务教育补助经费_教育体育局'
-      //   },
-      //   {
-      //     bgtMofDepName: '事业股',
-      //     agencyName: '城固县原公镇中心学校',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '小学教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '城财事〔2022〕8号',
-      //     fpAmount: 317790,
-      //     payAppAmt: null,
-      //     sspeTypeName: '城乡义务教育补助经费_教育体育局',
-      //     sSpeTypeName: '城乡义务教育补助经费_教育体育局'
-      //   },
-      //   {
-      //     bgtMofDepName: '教科文股',
-      //     agencyName: '扶风县天度镇天度初级中学',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '其他普通教育支出',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '扶财办教〔2022〕003号',
-      //     fpAmount: 240000,
-      //     payAppAmt: null,
-      //     sspeTypeName: '城乡义务教育补助经费',
-      //     sSpeTypeName: '城乡义务教育补助经费'
-      //   },
-      //   {
-      //     bgtMofDepName: '文教政法股',
-      //     agencyName: '洛川县交口河镇京兆社区中心小学',
-      //     speTypeName: '城乡义务教育补助经费',
-      //     xjExpFuncName: '小学教育',
-      //     corBgtDocNo: '陕财办教〔2021〕202号',
-      //     xjCorBgtDocNo: '洛财办教〔2022〕12号',
-      //     fpAmount: 1250,
-      //     payAppAmt: 1250,
-      //     sspeTypeName: '城乡义务教育补助经费',
-      //     sSpeTypeName: '城乡义务教育补助经费'
-      //   }]
+
       HttpModule.queryTableDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
@@ -197,7 +178,9 @@ export default {
       })
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['fpAmount', 'payAppAmt'].includes(column.property) && column.title === '总金额') {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['fpAmount', 'payAppAmt'].includes(column.property) && column.title === '总金额') {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -207,6 +190,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       if (this.title === '直达资金项目明细') {
         switch (key) {
           case 'fpAmount':

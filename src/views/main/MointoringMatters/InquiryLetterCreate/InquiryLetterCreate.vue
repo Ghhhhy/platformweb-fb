@@ -61,6 +61,12 @@
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
   </div>
 </template>
 
@@ -69,10 +75,12 @@ import { proconf } from './InquiryLetterCreate'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/InquiryLetter.js'
 import GlAttachment from '../common/GlAttachment'
+import FilePreview from './children/filePreview.vue'
 export default {
   components: {
     AddDialog,
-    GlAttachment
+    GlAttachment,
+    FilePreview
   },
   watch: {
     queryConfig() {
@@ -81,6 +89,7 @@ export default {
   },
   data() {
     return {
+      regulationClass: '',
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -180,7 +189,15 @@ export default {
       showGlAttachmentDialog: false,
       condition: {},
       dataSourceCode: '',
-      param: ''
+      param: '',
+      askName: '',
+      askType: '',
+      createTime: '',
+      provinceCode: [],
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      // treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      filePreviewDialogVisible: false,
+      fileGuid: ''
     }
   },
   mounted() {
@@ -249,32 +266,33 @@ export default {
     // 搜索
     search(val) {
       console.log(val)
-      this.searchDataList = val
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof (this.searchDataList[key]) === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach(item => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
+      this.askName = val.askName
+      this.askType = val.askType_name
+      this.createTime = val.createTime.substring(0, 10)
+      this.provinceCode = val.province_code__multiple
+      if (this.createTime) {
+        this.createTime = this.createTime + ' 00:00:00'
       }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
-      }
-      if (this.searchDataList.businessModuleName && this.searchDataList.businessModuleName.trim() !== '') {
-        condition.businessModuleName = this.searchDataList.businessModuleName
-      }
-      this.condition = condition
-      console.log(this.condition)
+      // this.searchDataList = val
+      // let condition = this.getConditionList()
+      // for (let key in condition) {
+      //   if (
+      //     (this.searchDataList[key] !== undefined) &
+      //     (this.searchDataList[key] !== null)
+      //   ) {
+      //     if (Array.isArray(this.searchDataList[key])) {
+      //       condition[key] = this.searchDataList[key]
+      //     } else if (typeof (this.searchDataList[key]) === 'string') {
+      //       if (this.searchDataList[key].trim() !== '') {
+      //         this.searchDataList[key].split(',').forEach(item => {
+      //           condition[key].push(item)
+      //         })
+      //       }
+      //     }
+      //   }
+      // }
+      // this.condition = condition
+      // console.log(this.condition)
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -292,6 +310,9 @@ export default {
         case 'approval':
           this.approval(obj, context, e)
           break
+        case 'revoke':
+          this.revoke(obj, context, e)
+          break
         // 删除
         case 'del':
           this.delPolicies(obj, context, e)
@@ -304,9 +325,31 @@ export default {
         case 'operation-toolbar-refresh':
           this.refresh()
           break
+        // 打印
+        case 'print':
+          this.print()
+          break
         default:
           break
       }
+    },
+    print() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      const params = {
+        askCode: selection[0].askCode
+      }
+      HttpModule.print(params).then(res => {
+        if (res.code === '000000') {
+          this.filePreviewDialogVisible = true
+          this.fileGuid = res.data
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     approval(obj, context, e) {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -324,6 +367,31 @@ export default {
           this.queryTableDatas()
         } else {
           this.$message.error(res.message)
+        }
+      })
+    },
+    revoke(obj, context, e) {
+      let row = []
+      row = this.$refs.mainTableRef.getSelectionData()
+      if (row.length < 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let askCodes = []
+      row.forEach(item => {
+        askCodes.push(item.askCode)
+      })
+      const params = {
+        menuId: this.menuId,
+        askCodes: askCodes
+      }
+      HttpModule.revoke(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('撤销成功')
+          this.queryTableDatas()
+          this.queryTableDatasCount()
+        } else {
+          this.$message.error(res.result)
         }
       })
     },
@@ -439,7 +507,7 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件')
-      if (row.regulationsCode === null || row.regulationsCode === '') {
+      if (row.attachmentId === null || row.attachmentId === '') {
         this.$message.warning('该数据无附件')
         return
       }
@@ -484,7 +552,12 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        status: this.toolBarStatusSelect.curValue
+        status: this.toolBarStatusSelect.curValue,
+        askName: this.askName,
+        askType: this.askType,
+        createTime: this.createTime,
+        provinceCode: this.provinceCode,
+        regulationClass: this.regulationClass
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
@@ -514,14 +587,59 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
+    },
+    getTypeList() {
+      HttpModule.getTypeList().then(res => {
+        if (res.data) {
+          res.data.forEach(item => {
+            item.label = item.askTypeName
+            item.name = item.askTypeName
+          })
+          this.queryConfig[1].itemRender.options = res.data
+        }
+      })
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.createTime = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.params5 = this.$store.state.curNavModule.param5
+    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
+    this.getLeftTreeData()
+    this.getTypeList()
   }
 }
 </script>

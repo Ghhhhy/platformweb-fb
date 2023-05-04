@@ -6,6 +6,14 @@ export const useGovernmentDebtAddlimitBarChart = () => {
   // 政府债务类指标 => 年内新增政府债券限额
   const governmentDebtNewlimitChartOption = reactive({
     detailTitle: '年内新增政府债券限额',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '年内新增政府债券限额'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

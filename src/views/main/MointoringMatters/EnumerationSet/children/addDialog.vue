@@ -154,7 +154,6 @@ export default {
     },
     // 修改回显
     showInfo() {
-      debugger
       if (this.title === '新增') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
         return

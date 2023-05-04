@@ -6,6 +6,27 @@ import { tableColumns, filterTypeMap } from '../config/tableDefaultConfig'
 import formatters from './formatter'
 import util from '../tool/util.js'
 import evalCalcUtil from '../../tool/eval/index.js'
+import { getColumnMoneyFilterConfig } from '../tool/tableColumnMoneyFilter'
+import XEUtils from 'xe-utils'
+
+// 唯一行id属性名称
+export const rowUuidKeyName = '__BOSS_UUID'
+// 树形节点深度
+export const rowUniqueLevelKey = '__BOSS_TREE_NODE_LEVEL'
+
+// 设置树形表格唯一键
+const setRowUuidKey = (rows, instance, level = 0) => {
+  if (typeof rows !== 'object') return
+  for (let row of Array.isArray(rows) ? rows : [rows]) {
+    // 设置唯一标识
+    !row[rowUuidKeyName] && Reflect.set(row, rowUuidKeyName, XEUtils.uniqueId(`${rowUuidKeyName}_`))
+    // 设置节点层级
+    !row[rowUniqueLevelKey] && Reflect.set(row, rowUniqueLevelKey, level)
+    if (row?.children && row?.children?.length) {
+      setRowUuidKey(row.children, instance, level + 1)
+    }
+  }
+}
 
 const sortMethods = {
   arrSortGloabal(data, property, type, order = 'asc') {
@@ -59,14 +80,23 @@ const sortMethods = {
     return data
   },
   arrSortNumberSuffix({ $table, data, column, property, order, rTypeSuffix }) {
-    // 通用 排序 new
-    data.sort(function (a, b) {
-      if (order === 'asc') {
-        return parseFloat(a[property]) - parseFloat(b[property])
-      } else {
-        return parseFloat(b[property]) - parseFloat(a[property])
-      }
-    })
+    // 兼容树形表格 => 递归排序后代节点
+    function sortInner(data) {
+      // 通用 排序 new
+      data.sort(function (a, b) {
+        if (order === 'asc') {
+          return parseFloat(a[property]) - parseFloat(b[property])
+        } else {
+          return parseFloat(b[property]) - parseFloat(a[property])
+        }
+      })
+      $table.treeConfig && data.forEach(item => {
+        if (item?.children?.length) {
+          sortInner(item.children)
+        }
+      })
+    }
+    sortInner(data)
     return data
   },
   arrSort({ $table, data, column, property, order }) {
@@ -395,6 +425,8 @@ const registFn = {
 }
 const initMethods = {
   initCreated() {
+    this.initColumnMoneyFilter()
+
     // 初始化Created
     // 即将废弃
     // this.registTableRender(defaultRenderers)
@@ -430,6 +462,11 @@ const initMethods = {
     this.initTableConlums()
     this.setPagerConfig()
   },
+  initColumnMoneyFilter() {
+    // 金额过滤
+    this.setColumnMoneyFilter(this.tableColumnsConfig)
+    this.completeMoneyFilter = true
+  },
   initTableGlobalConfig() {
     // 初始化全局配置
     this.tableGlobalConfigIn = Object.assign({}, this.tableGlobalConfigIn, this.tableGlobalConfig)
@@ -444,6 +481,8 @@ const initMethods = {
         sortable: false
       }
     }, this.tableConfig || this.tableGlobalConfigIn.tableConfig)
+    this.initTableConlums()
+
     this.registTableRender(this.tableConfigCp.renderers)
   },
   initCacheColumn() {
@@ -580,6 +619,10 @@ const initMethods = {
     this.initCalculateConstraintConfig()
     this.selection = []
     data = Array.isArray(data || this.tableData) ? (data || this.tableData) : []
+
+    // 为树形数据设置唯一属性
+    setRowUuidKey(data, this)
+
     return new Promise((resolve, reject) => {
       this.rePerformAllCalcAndConstraintByData(self.unidirectionalData ? self.deepCopy(data) : data, true).then(({ dataCodeRowMap, dataCodeRowArr, afterCalcData }) => {
         self.tableDataMap = dataCodeRowMap
@@ -612,13 +655,29 @@ const initMethods = {
   initSeqConfig(startIndex = 0) {
     // 初始化序号配置项
     let self = this
+
     this.seqConfig = {
       startIndex: 1, // 设置序号的起始值 number0
-      seqMethod({ row, $rowIndex, rowIndex, column, columnIndex, seq, $seq }) {
+      seqMethod(data) {
+        const { seq, $seq, row } = data
+
         if (self.pagerConfigIn && !self.treeConfig) {
           return (self.pagerConfigIn.pageSize > 0 ? self.pagerConfigIn.pageSize : 20) * ((self.pagerConfigIn.currentPage > 0 ? self.pagerConfigIn.currentPage : 1) - 1) + seq
         } else {
-          return $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          let finalSeq = $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          if (self.isTreeSeqToFlat) {
+            const arr = XEUtils.toTreeArray(self.getTableData().treeExpandData)
+            const index = arr.findIndex(item => item[rowUuidKeyName] === row[rowUuidKeyName])
+            // 根据第一行是否是合计行判断
+            if (arr[0]?.id === '#') {
+              finalSeq = row.id === '#' ? '#' : index
+            } else {
+              finalSeq = index + 1
+            }
+          }
+
+          // return $seq === '' || $seq === undefined ? seq : $seq + '.' + seq
+          return finalSeq
         }
       }
     }
@@ -682,7 +741,8 @@ const initMethods = {
         onlyDblTreeNodeExpand: false, // 在不允许编辑模式下是否仅仅双击树列才允许执行展开
         dblExpand: false, // 是否执行双击展开树形数据
         children: 'children',
-        accordion: true
+        // 是否为手风琴效果
+        accordion: false
       }, this.treeConfig)
     }
   },
@@ -697,6 +757,11 @@ const initMethods = {
   }
 }
 const tableOptionFn = {
+  replaceColumnSlotKey(key) {
+    if (!key) return ''
+    console.log(key?.replace?.(/column-/, '') ?? '')
+    return key?.replace?.(/column-/, '') ?? ''
+  },
   // 获取传入表头数据
   transTableCloumnToSource(cloumn) {
     if (!cloumn) return []
@@ -750,11 +815,7 @@ const tableOptionFn = {
   removeCheckboxRow() {
     // 删除选中行操作
     let self = this
-    this.$XModal.confirm('您确定要删除所选中数据吗?').then(type => {
-      if (type === 'confirm') {
-        self.$refs.xGrid.removeCheckboxRow()
-      }
-    })
+    self.$refs.xGrid.removeCheckboxRow()
   },
   revertEvent() {
     // 撤销操作
@@ -964,6 +1025,22 @@ const tableOptionFn = {
       return itemN
     })
   },
+  /**
+   * 根据列表展开情况过滤导出数据
+   * @param fullData
+   * @param cloneFullData
+   * @returns {*}
+   */
+  fliterTableDataUnexpand(fullData, cloneFullData = this.$XEUtils.clone(fullData, true)) {
+    fullData.forEach((row, rowIndex) => {
+      if (!this.$refs.xGrid?.isTreeExpandByRow(row)) {
+        Reflect.deleteProperty(cloneFullData[rowIndex], 'children')
+      } else {
+        this.fliterTableDataUnexpand(row.children, cloneFullData[rowIndex].children)
+      }
+    })
+    return cloneFullData
+  },
   getTableData() {
     // 获取表格数据
     // const listData = this.getListData()
@@ -972,11 +1049,13 @@ const tableOptionFn = {
     const removeRecords = this.$refs.xGrid.getRemoveRecords()
     const { keepSource, tableSourceData } = this.$refs.xGrid.$refs.xTable
     const { fullData, visibleData, tableData, footerData } = this.$refs.xGrid.getTableData()
-    const selection = this.$refs.xGrid.getCheckboxRecords()
+    const treeExpandData = this.fliterTableDataUnexpand(fullData)
+
+    const selection = this.$refs.xGrid.getCheckboxRecords(true)
     const { tableColumnsConfig, editRules } = this
     // const combinedData = this.getCombinedData(fullData, tableColumnsConfig)
     const combinedData = []
-    return { combinedData, keepSource, tableSourceData, fullData, visibleData, tableData, footerData, tableColumnsConfig, selection, editRules, insertRecords, removeRecords, updateRecords }
+    return { combinedData, keepSource, tableSourceData, fullData, visibleData, tableData, footerData, tableColumnsConfig, selection, editRules, insertRecords, removeRecords, updateRecords, treeExpandData }
   },
   getCombinedData(data, tableColumnsConfig, combinedData = {}) {
     let self = this
@@ -1438,6 +1517,20 @@ const toolBarEvent = {
           }
         )
         break
+      case 'expandAll':
+        this.expendAllLoading = true
+        // 设置宏任务，延迟执行避免js进程同步运行大量操作导致渲染进程loading假死
+        setTimeout(() => {
+          const handle = this.expandAllState
+            ? () => this.$refs.xGrid?.clearTreeExpand?.()
+            : () => this.$refs.xGrid?.setAllTreeExpand?.(true)
+          handle()
+            .finally(() => {
+              this.expandAllState = !this.expandAllState
+              this.expendAllLoading = false
+            })
+        }, 16.67)
+        break
     }
   },
   setMoneyUnit(Unitlevel, oldUnitlevel) { // 设置金额单位
@@ -1452,6 +1545,12 @@ const toolBarEvent = {
     }
     xGrid.$forceUpdate()
     xGrid.updateFooter().then(() => { }).catch(() => { })
+  },
+  /**
+   * 口径说明点击（显示弹窗）
+   */
+  caliberDeclareHandle() {
+    this.caliberDeclareVisible = !this.caliberDeclareVisible
   }
 }
 const pageEvent = { // 分页事件
@@ -1782,6 +1881,9 @@ const tableEvent = {
     this.$emit('ProxyEvent', 'resizableChange', obj, this, this.$refs.xGrid)
   }, // 当列宽拖动发生变化时会触发该事件 { $rowIndex, column, columnIndex, $columnIndex, $event }
   toggleRowExpand(obj) {
+    // 懒加载子节点需要给子节点设置唯一键
+    setRowUuidKey(obj.row, this)
+
     this.$emit('toggleRowExpand', obj, this, this.$refs.xGrid)
     this.$emit('ProxyEvent', 'toggleRowExpand', obj, this, this.$refs.xGrid)
   }, // 当行展开或收起时会触发该事件 { expanded, row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, $event }
@@ -1973,10 +2075,19 @@ const calculateTool = {
             } else {
               // let calcResult = eval(formula)
               let calcResult = evalCalcUtil.eval(formula)
-              hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) ? '' : util.accurateFixed(calcResult, 2)
+              hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) || calcResult === null ? '' : util.accurateFixed(calcResult, 2)
               // 列单独配置元和万元单位
               if (visibleColumnObj[item] && visibleColumnObj[item].params && visibleColumnObj[item].params.moneyUnit) {
                 hasCalcColFormulaMap[item] = this.accurateFixed(this.transToNumber(this.accurateChuFa(hasCalcColFormulaMap[item], visibleColumnObj[item].params.moneyUnit), visibleColumnObj[item].params.digits || 2), 2)
+              }
+              // feat：对于$vxeRatio渲染的百分比 可根据配置保留小数位
+              if (visibleColumnObj[item]?.cellRender?.name === '$vxeRatio') {
+                // 保留小数位数支持：外部单列配置 || 全局配置 || 默认配置
+                const digits = visibleColumnObj[item]?.params?.digits || this.formulaDigits || 2
+                // XEUtils.round四舍五入
+                hasCalcColFormulaMap[item] = calcResult === Infinity || calcResult === -Infinity || isNaN(calcResult) || calcResult === null
+                  ? ''
+                  : XEUtils.round(calcResult, digits)
               }
               delete colFormulaMapCp[item]
             }
@@ -1991,8 +2102,8 @@ const calculateTool = {
       }
     } catch (e) {
       // console.log(i)
-      console.log(colFormulaMap, hasCalcColFormulaMap)
-      console.error('请核查公式')
+      // console.log(colFormulaMap, hasCalcColFormulaMap)
+      // console.error('请核查公式')
     }
     // console.log(hasCalcColFormulaMap)
     // debugger
@@ -3157,6 +3268,23 @@ const batchModify = { // 批量修改
   }
 }
 const exportAndImportFn = {
+  /**
+   * 导出数据行相关数据字段计算
+   * @description 金额列根据单位计算；进度百分比列添加'%'
+   * @params row {Object} 当前行数据
+   * @params moneyKeys {Array} 金额列field数组
+   * @params ratioKeys {Array} 进度列field数组
+   * */
+  computedExportRow(row, moneyKeys, ratioKeys) {
+    // 金额列根据单位进行计算
+    moneyKeys.forEach(key => {
+      row[key] = (row[key] && this.moneyUnit) ? (row[key] / this.moneyUnit) : ''
+    })
+    // 进度列增加%
+    // ratioKeys.forEach(key => {
+    //   row[key] = row[key] ? Number.prototype.toFixed.call(row[key], 1) : ''
+    // })
+  },
   getPrintOption(exportModalFormData) {
     const checkColumns = []
     this.$XEUtils.eachTree(exportModalFormData.columns, column => {
@@ -3179,13 +3307,57 @@ const exportAndImportFn = {
     // 触发导出动作
     let self = this
     const columns = this.deepCopy(this.tableColumnsConfig)
-    const { tableData, fullData } = this.getTableData()
-    const selection = this.selection
+    const { tableData, fullData, treeExpandData, selection } = this.getTableData()
+
+    // 获取金额、进度特殊字段列表
+    const [moneyKeys, ratioKeys] = [[], []]
+    this.$XEUtils.eachTree(columns, item => {
+      if (item?.type === 'money' || item.cellRender?.name === '$vxeMoney') {
+        moneyKeys.push(item.field)
+      } else if (item.cellRender?.name === '$vxeRatio') {
+        ratioKeys.push(item.field)
+      }
+    })
+    // 深拷贝，为后续计算真实值做准备
+    const [
+      computedFullData,
+      computedExpandData
+    ] = [
+      this.$XEUtils.clone(fullData, true),
+      this.$XEUtils.clone(treeExpandData, true)
+    ]
+    const fullDataTreeArr = XEUtils.toTreeArray(computedFullData)
+    const treeExpandDataTreeArr = XEUtils.toTreeArray(computedExpandData)
+
+    this.$XEUtils.eachTree(computedFullData, item => {
+      if (self.isTreeSeqToFlat) {
+        const findIndex = fullDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
+        item.seqIndex = fullDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
+      }
+
+      this.computedExportRow(item, moneyKeys, ratioKeys)
+    })
+
+    this.$XEUtils.eachTree(computedExpandData, item => {
+      if (self.isTreeSeqToFlat) {
+        const findIndex = treeExpandDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
+        item.seqIndex = treeExpandDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
+      }
+      this.computedExportRow(item, moneyKeys, ratioKeys)
+    })
+
+    const latestTableData = {
+      columns, // 表头配置
+      fullData: computedFullData, // 使用计算后的fullData
+      tableData,
+      treeExpandData: computedExpandData, // 使用计算后的expendData
+      selection
+    }
     this.exportModalData = Object.assign({
       isExportTree: !!self.treeConfigIn,
       saveType: '.xlsx',
       fileName: 'export', // 文件名
-      dataType: 'fullData', // fullData || selection
+      dataType: !self.treeConfigIn ? 'fullData' : 'treeExpandData',
       isExportHead: true, // 是否导出表头
       isExportFooter: false, // 是否导出表尾部
       isExportOnlySourceField: false, // 是否只导出数据源表头字段，
@@ -3195,6 +3367,7 @@ const exportAndImportFn = {
       columns: columns, // 表头配置
       fullData: fullData,
       tableData: tableData,
+      treeExpandData: treeExpandData,
       datas: [], // 源数据, 如果胃空数组则取dataType 对应的数据，否则直接以datas导出
       selection: selection, // 选中数据
       index: true, // 是否添加序号,
@@ -3214,7 +3387,7 @@ const exportAndImportFn = {
         // 视图数据格式化方法
         // return value
       }
-    }, this.tableGlobalConfig.customExportConfig, obj || {})
+    }, this.tableGlobalConfig.customExportConfig, this.exportModalData || {}, obj || {}, latestTableData)
     this.exportModalVisible = true
   },
   onExportClick(obj, ec) {
@@ -3225,6 +3398,7 @@ const exportAndImportFn = {
     if (obj.onlyConfigExport) {
       this.$emit('onExportClick', obj, ec)
     } else {
+      console.log(obj)
       this.$Export.exportExcel(obj, this)
     }
   },
@@ -3253,17 +3427,91 @@ const exportAndImportFn = {
     let { viewToSourceMap, tableColumnsTitleFieldMap, tableColumnsFieldMap, rowsObjTemp, colFormulaConfig } = this.generateColumnsAllMap(obj.conlums)
     let validResult = true
     let validResultFieldTitle = []
+    let formatData = false
     // let valiRule = []
+    if (process.env.VUE_APP_CONF_ISHB) {
+      let valiRule = {}
+      obj.viewData.map((row, rowIndex) => {
+        for (let key in tableColumnsFieldMap) {
+          let column = tableColumnsFieldMap[key]
+          let flag = false
+          // 每一列不重复校验
+          let fieldValue = row[column.title]
+          let field = column.field
+          if (column.required) {
+            // 必填
+            if (field === 'pay_amt' || field === 'pay_app_amt' || field === 'xpay_amt') {
+              // 金额需大于0
+              if (!fieldValue || isNaN(fieldValue) || row[field] * 1 < 0) {
+                flag = true
+                let msg = `第${rowIndex + 1}行${column.title}需为大于0的数字`
+                this.collectValidError(valiRule, rowIndex, field, column, msg)
+              }
+            } else {
+              if (!fieldValue) {
+                flag = true
+                this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${column.title}为必填项`)
+              }
+            }
+          }
+          if (column.reg && !flag) {
+            let value = fieldValue
+            if (!column.reg.test(value)) {
+              flag = true
+              this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${column.msg}`)
+            }
+          }
+          if (column.validator && typeof (column.validator) === 'function' && !flag) {
+            let data = row
+            let res = column.validator.call(this, data)
+            if (!res.result) {
+              this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${res.msg}`)
+            }
+          }
+          // 校验规则
+          if (obj.valiRules) {
+            let valiRules = Object.keys(obj.valiRules)
+            if (valiRules && valiRules.length > 0) {
+              if (fieldValue) {
+                valiRules.forEach(ruleField => {
+                  if (ruleField === field) {
+                    let reg = obj.valiRules[ruleField]
+                    if (reg instanceof RegExp) {
+                      let r = new RegExp(reg)
+                      if (!r.test(fieldValue)) {
+                        this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${obj.valiRules[ruleField + '_msg']}`)
+                      }
+                    } else if (reg instanceof Function) {
+                      let res = reg.call(this, fieldValue, row, column.title)
+                      if (res && !res.result) {
+                        this.collectValidError(valiRule, rowIndex, field, column, `第${rowIndex + 1}行${res.msg}`)
+                      }
+                    }
+                  }
+                })
+              }
+            }
+          }
+        }
+      })
+      if (Object.keys(valiRule).length > 0) {
+        return {
+          result: false,
+          valiRule: valiRule
+        }
+      }
+      this.importModalVisible = false
+    }
     let viewData = obj.viewData.map((row, rowIndex) => {
       Object.keys(row).forEach((key, keyIndex) => {
         let parseViewValue = self.reverseParseViewDataTosource(viewToSourceMap[tableColumnsTitleFieldMap[key]], row[key])
         // const customVal = String(parseViewValue).replace(/null|undefined|\s+/ig, '') !== ''
-        if (tableColumnsFieldMap[tableColumnsTitleFieldMap[key.replace('(元)', '')]]) {
+        if (tableColumnsFieldMap[tableColumnsTitleFieldMap[key]]) {
           // self.validCellRules({ type: 'all', row, column: tableColumnsFieldMap[tableColumnsTitleFieldMap[key]], val: parseViewValue, valiRules: obj.valiRules })
           //   .then(() => {
           //     if (customVal) {
-          row[tableColumnsTitleFieldMap[key.replace('(元)', '')]] = parseViewValue
-          if (tableColumnsTitleFieldMap[key.replace('(元)', '')] === 'iname') {
+          row[tableColumnsTitleFieldMap[key]] = parseViewValue
+          if (tableColumnsTitleFieldMap[key] === 'iname') {
             row['itemcode'] = parseViewValue.split('-')[0].replace(/\s+/ig, '')
           }
           //   }
@@ -3282,8 +3530,10 @@ const exportAndImportFn = {
         }
       })
       row = Object.assign({}, rowsObjTemp, row)
+      formatData = true
       return this.reductionColFormula(colFormulaConfig, self.reductionColFormula(colFormulaConfig, row))
     })
+    if (formatData) return viewData
     self.reductionRowCodeFormula(this.calculateConstraintConfigIn.rowCodeFormulaConfig, viewData, self.id)
     return validResult && !validResultFieldTitle.length && viewData
   },
@@ -3516,6 +3766,23 @@ const exportAndImportFn = {
     }
   }
 }
+
+// 设置column金额过滤
+const useMoneyFilter = {
+  setColumnMoneyFilter (columns) {
+    columns?.forEach(column => {
+      const flag = column.cellRender?.name === '$vxeMoney' || column.type === 'money'
+        ? (this.tableConfig.globalConfig?.useMoneyFilter && column.useMoneyFilter !== false) || column.useMoneyFilter
+        : false
+
+      if (flag) {
+        Object.assign(column, getColumnMoneyFilterConfig(column))
+      }
+      column.children && this.setColumnMoneyFilter(column.children)
+    })
+  }
+}
+
 export default {
   ...util, // 工具类
   ...sortMethods, // 排序
@@ -3534,5 +3801,6 @@ export default {
   ...calculateTool, // 单元格计算
   ...calcAndConstraint, // 计算约束部分
   ...constraintTool, // 约束解析
-  ...exportAndImportFn// 导入导出工具类
+  ...exportAndImportFn, // 导入导出工具类
+  ...useMoneyFilter // 金额筛选
 }

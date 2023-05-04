@@ -3,11 +3,11 @@ import { get, post } from '@/api/http'
 export default {
   // 获取左侧树
   getLeftTree(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   // 列表
   queryMonitorTableDatas(params) {
-    return post('large-monitor-platform/lmp/report/pageQueryByUser', params)
+    return post('large-monitor-platform/lmp/report/pageQuery', params)
   },
   // 预览
   look(params) {

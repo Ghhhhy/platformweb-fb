@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -30,29 +30,48 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
+          type: 'year',
+          valueFormat: 'yyyy',
           placeholder: '业务年度'
+        }
+      }
+    },
+    {
+      title: '截止日期',
+      field: 'endTime',
+      width: 100,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '截止日期'
         }
       }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: store.state.userInfo.year,
+    endTime: ''
   },
   basicInfo: {
     type: 'form',
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        seq: true, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [
@@ -67,27 +86,27 @@ const proconf = {
       },
       {
         title: '待分指标结转',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '指标金额',
             field: 'indexAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转金额',
             field: 'carryAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转进度',
             field: 'carryPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'
@@ -98,27 +117,27 @@ const proconf = {
       },
       {
         title: '国库集中支付结余',
-        width: 200,
+        width: 100,
         align: 'center',
         children: [
           {
             title: '指标金额',
             field: 'gindexAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转金额',
             field: 'gcarryAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '结转进度',
             field: 'gcarryPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'
@@ -128,14 +147,14 @@ const proconf = {
           {
             title: '支出金额',
             field: 'payAmount',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出进度',
             field: 'payPro',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: {
               name: '$vxeRatio'

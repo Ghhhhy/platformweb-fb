@@ -11,6 +11,7 @@
         action="#"
         :show-file-list="false"
         :data="uploadDFileParams"
+        :disabled="disabled"
         :on-remove="handleRemove"
         :http-request="handelUploadDebugfile"
       >
@@ -56,23 +57,37 @@
                 <span class="sp-my-thr">{{ file['filename'] }}</span>
               </div>
               <div class="fn-inline enclosure-css4">
-                <button @click="handleRemove(index, file)"><img src="@/assets/img/upload/deleteicon@2x.png" alt="" class="img-my-two"></button>
+                <button v-if="allowDelete" :disabled="disabled" @click="handleRemove(index, file)"><img src="@/assets/img/upload/deleteicon@2x.png" alt="" class="img-my-two"></button>
+                <i v-if="allowDownload" class="ri-file-download-fill cursor" @click="handleDownload(file)"></i>
+                <i v-if="allowPreview" class="ri-eye-fill cursor" @click="handleFilePreview(file)"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <bs-file-preview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="currentFile.fileguid"
+      :app-id="$store.getters.getLoginAuthentication.appguid"
+    />
   </div>
   <!-- </div> -->
 </template>
 <script>
 import HttpModule from '@/api/frame/main/Monitoring/Monitoring.js'
+import { downloadByFileId } from '@/utils/download'
+
 export default {
   props: {
     isUpload: {
       type: Boolean,
       default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     attachmentId: {
       type: String,
@@ -89,14 +104,37 @@ export default {
       default() {
         return []
       }
+    },
+    // 允许被删除
+    allowDelete: {
+      type: Boolean,
+      default: true
+    },
+    // 允许下载
+    allowDownload: {
+      type: Boolean,
+      default: false
+    },
+    // 允许预览
+    allowPreview: {
+      type: Boolean,
+      default: false
+    },
+    // 文件大小
+    sizeNum: {
+      type: Number,
+      default: 10
     }
   },
   data() {
     return {
+      // 当前操作的file
+      currentFile: null,
+      // 文件预览弹窗显隐
+      filePreviewDialogVisible: false,
       isChange: true,
       uploadDFileParams: {},
-      fileDataBakAdd: [],
-      sizeNum: 1
+      fileDataBakAdd: []
     }
   },
   watch: {
@@ -241,7 +279,7 @@ export default {
       // 文件对象
       form.append('file', e.file)
       form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
+      form.append('appid', '4564CC930A9F45BAAEC7ADF7F6B7C6E5')
       temp.push(e.file.name)
       form.append('doctype', '')
       form.append('year', this.$store.state.userInfo.year)
@@ -281,16 +319,31 @@ export default {
           this.$emit('update:fileData', this.fileData)
           this.$message.success('上传成功')
         } else {
-          this.$message.error('上传失败')
+          this.$message.error(res?.result || '上传失败')
         }
-      }).catch()
-    }
+      }).catch((res) => {
+        this.$message.error(res?.result || '上传失败')
+      })
+    },
     // 点击表格行触发事件
-  },
-  created() {
-    this.sizeNum = 1
+    /**
+     * 根据fileId下载文件
+     */
+    handleDownload(file) {
+      if (!file.fileguid) {
+        this.$message.error('未知的文件id')
+        return
+      }
+      downloadByFileId(file.fileguid)
+    },
+    /**
+     * 预览
+     */
+    handleFilePreview(file) {
+      this.currentFile = file
+      this.filePreviewDialogVisible = true
+    }
   }
-
 }
 </script>
 <style  lang="scss">

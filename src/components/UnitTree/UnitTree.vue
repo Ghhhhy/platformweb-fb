@@ -28,6 +28,7 @@
                 :style="selectStyle"
                 :readonly="configIn.readonly"
                 :placeholder="configIn.placeholder"
+                :disabled="configIn.disabled"
                 :clearable="configIn.clearStyleType === 'filterBtn' ? false : configIn.clearable"
                 @blur="onEntryBlur"
                 @focus="onEntryFocus"
@@ -95,7 +96,7 @@
                   :default-checked-keys="defaultCheckedKeysIn"
                   :current-node-key="currentNodeKeyIn"
                   :filter-node-method="filterNode"
-                  @node-click="selectOnNodeClick || !configIn.expandOnClickNode ? onNodeDblClick : () => {} "
+                  @node-click="configIn.selectOnNodeClick || !configIn.expandOnClickNode ? onNodeDblClick : () => {} "
                   @dblclick.native="onNodeDblClick"
                   @check="onCheckChange"
                   @check-change="onNodeCheckChange"
@@ -402,6 +403,9 @@ export default {
       treeDataInList: [],
       filterTextInCp: null
     }
+  },
+  mounted() {
+    this.$emit('register', this.$refs.tree || this)
   },
   methods: {
     filterNode(value, data) {
@@ -864,7 +868,8 @@ export default {
           this.$refs.tree.setCheckedKeys([])
           this.$refs.tree.setCurrentKey('')
         }
-        this.value = ''
+        // this.value = ''
+        this.$emit('input', '')
         this.setTreeValue()
         this.setTitleTip(this.treeOptionDataArr)
         this.$emit('onClearClick', this)
@@ -966,7 +971,7 @@ export default {
             return arr.join('##')
           })
           .join(',')
-        this.value = this.valueOut
+        // this.value = this.valueOut
         this.$emit('input', this.valueOut)
         if (multiple) {
           this.$emit(
@@ -1258,14 +1263,17 @@ export default {
             false,
             ajaxContentType
           ).then((res) => {
-            let resData = null
+            let resData = []
             if (self.getDataType(res) === 'Array') {
               resData = res
             } else if (self.getDataType(res) === 'Object') {
               if (
                 res[axiosConfig.statusField || 'rscode'] ===
-                (axiosConfig.successCode || '200')
+                (axiosConfig.successCode || '100000')
               ) {
+                if (self.getDataType(res.data) === 'Object') {
+                  res.data = res.data.data
+                }
                 dataFieldArr.forEach((item, index) => {
                   if (index === 0) {
                     resData = res[item]
@@ -1529,7 +1537,6 @@ export default {
     }
   },
   created() {},
-  mounted() {},
   watch: {
     fieldName: {
       handler() {}
@@ -1578,8 +1585,19 @@ export default {
     filterTextIn: {
       // 树 过滤
       handler(val) {
+        let self = this
+        // if (self.queryparams.elementcode === 'pro') {
+        //   clearTimeout(self.itemTimer)
+        //   self.itemTimer = setTimeout(function() {
+        //     self.queryparams.condition = val
+        //     self.initTreeData(true)
+        //   }, 3000)
+        // } else {
+        //   this.filterTextInCp = null
+        //   self.$refs.tree && this.$refs.tree.filter(val)
+        // }
         this.filterTextInCp = null
-        this.$refs.tree && this.$refs.tree.filter(val)
+        self.$refs.tree && this.$refs.tree.filter(val)
       },
       immediate: true
     },
@@ -1739,7 +1757,7 @@ export default {
 }
 .unit-tree-main.unit-tree-main-nodrop {
   box-sizing: border-box;
-  height: 100%;
+  height: calc(100% - 48px);
   padding: 10px;
   .selection-tree-nodrop {
     height: 100%;

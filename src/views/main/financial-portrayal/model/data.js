@@ -1,8 +1,12 @@
+import { nextTick, unref } from '@vue/composition-api'
 import { getColor } from './getEchartsConfig'
 import { formatterThousands } from '@/utils/thousands'
 
 export const periodXAxis = () => {
   return ['本期', '上年同期']
+}
+export const populationXAxis = () => {
+  return ['户籍人口', '常住人口']
 }
 
 export const industrialAddedXAxis = () => {
@@ -26,7 +30,7 @@ export const importAndExportXAxis = () => {
 }
 
 export const leadingIndicatorXAxis = () => {
-  return [...periodXAxis(), '采购经理指数']
+  return ['存款余额', '贷款余额', '采购经理指数']
 }
 
 // 先行指数右侧y轴
@@ -63,7 +67,8 @@ export const financialSupportXAxis = () => {
 const common = {
   formatter: (row, column, cellValue) => formatterThousands(cellValue),
   align: 'right',
-  headerAlign: 'center'
+  headerAlign: 'center',
+  showOverflowTooltip: true
 }
 
 // 社保table-column
@@ -172,6 +177,7 @@ export const suspensePaymentColumn = () => {
   ]
 }
 
+// 表格属性
 export const tableProps = () => {
   return {
     border: true,
@@ -193,4 +199,69 @@ export const beforeMonthArr = () => {
 
 export const rigidSpendingXaxis = () => {
   return ['“三保”支出', '企业职工养老保险', '债券付息支出', '债券发行费支出', '自有财力偿还债券', '招商引资支出', '支持中小企业发展', '财力安排用于暂存']
+}
+
+// 模块tab
+export const moduleTabs = [
+  {
+    label: '区域基本情况',
+    value: 'BaseInfo'
+  },
+  {
+    label: '财政运行情况',
+    value: 'FinancialOperation',
+    children: [
+      {
+        label: '财政收支',
+        value: 0
+      },
+      {
+        label: '收入稳健指数',
+        value: 1
+      },
+      {
+        label: '支出结构指数',
+        value: 2
+      },
+      {
+        label: '预算管理',
+        value: 3
+      },
+      {
+        label: '运行保障',
+        value: 4
+      },
+      {
+        label: '直达资金',
+        value: 5
+      }
+    ]
+  },
+  {
+    label: '政府债务指标',
+    value: 'GovernmentDebtIndicators'
+  },
+  {
+    label: '社会保险情况',
+    value: 'SocialSecurity'
+  }
+]
+
+/**
+ * 获取当前需要缩放的zoom 以设计图1920为基准
+ * @param currentRenderComponent
+ * @returns {Promise<number>}
+ */
+export const getZoom = async (currentRenderComponent) => {
+  await nextTick()
+  const originWidth = 1920
+  const clientWidth = document.documentElement.clientWidth || document.body.clientWidth
+  let ratio = clientWidth / originWidth
+  if (clientWidth < 1920) {
+    ratio -= 0.02
+    if (unref(currentRenderComponent)?.value === 'FinancialOperation') {
+      ratio -= 0.03
+    }
+  }
+  return ratio
 }

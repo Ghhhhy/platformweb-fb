@@ -3,7 +3,7 @@ import { get, post } from '@/api/http'
 export default {
   // 获取左侧树
   getLeftTree(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   // 列表
   queryMonitorTableDatas(params) {
@@ -16,5 +16,21 @@ export default {
   // 删除
   delete(params) {
     return post('large-monitor-platform/lmp/report/delete', params)
+  },
+  // 确认生成
+  confirmCreate(params) {
+    return post('large-monitor-platform/lmp/report/confirmCreate', params)
+  },
+  // 三保监控报告预览
+  sanbaolook(params) {
+    return post('large-monitor-platform/lmp/report/sanbaoCreate', params)
+  },
+  // 三公监控报告预览
+  sangonglook(params) {
+    return post('large-monitor-platform/lmp/report/sangongCreate', params)
+  },
+  // 动态监控报告预览
+  dynamiclook(params) {
+    return post('large-monitor-platform/lmp/report/dynamicCreate', params)
   }
 }

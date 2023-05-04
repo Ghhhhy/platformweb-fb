@@ -25,15 +25,17 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
+          type: 'year',
+          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
@@ -87,7 +89,7 @@ export let proconf = {
       width: 180,
       field: 'agencyCodeName',
       treeNode: true,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon5'
       }

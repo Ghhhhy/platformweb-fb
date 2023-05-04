@@ -58,6 +58,7 @@ export default {
   },
   mounted() {
     this.initMounted()
+    this.$emit('register', this.$refs.form || this)
   },
   watch: {
     ...watch

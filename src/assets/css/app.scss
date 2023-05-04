@@ -1,4 +1,5 @@
 body {
+  --font-family-hyt: 站酷庆科黄油体;
   margin: 0;
   padding: 0;
   background-color: #f1f2f7;
@@ -14,6 +15,30 @@ body {
     .boss-app {
       filter: blur(20px);
     }
+  }
+
+  .ui-selectable-helper {
+    border: 1px dashed #d1d1d1;
+    background-color: rgba(236, 218, 218, .1);
+  }
+
+  .cursor {
+    cursor: pointer;
+    color: var(--primary-color) !important;
+    &:hover {
+      color: rgba(var(--primary-color), 0.7);
+    }
+  }
+
+  .cursor-underline {
+    @extend .cursor;
+    text-decoration: underline;
+  }
+
+  .f-c-c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ui-selectable-helper {

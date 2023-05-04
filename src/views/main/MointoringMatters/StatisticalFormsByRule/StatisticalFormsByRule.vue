@@ -54,6 +54,8 @@
       :status="status"
       :regulation-type="regulationType"
       :mof-div-name="mofDivName"
+      :fiscal-year="fiscalYear"
+      :agency-code-list="agencyCodeList"
     />
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <!-- 附件弹框 -->
@@ -173,7 +175,11 @@ export default {
       fiRuleName: '',
       mofDivName: '',
       regulationType: '',
-      status: ''
+      status: '',
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      fiscalYear: '',
+      mofDivCodeList: [],
+      agencyCodeList: []
     }
   },
   mounted() {
@@ -281,15 +287,21 @@ export default {
       if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
         condition.dataSourceName = this.searchDataList.dataSourceName
       }
-      if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
-        this.fiRuleName = this.searchDataList.fiRuleName
-      }
+      // if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
+      //   this.fiRuleName = this.searchDataList.fiRuleName
+      // }
+      this.fiRuleName = this.searchDataList?.fiRuleName
       if (this.searchDataList.businessModuleCode && this.searchDataList.businessModuleCode.trim() !== '') {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
       this.condition = condition
       console.log(this.condition)
       let fiscalYear = this.condition.fiscalYear[0]
+
+      this.agencyCodeList = val.agencyCodeList_code__multiple
+      this.fiscalYear = val.fiscalYear
+      this.mofDivCodeList = val.mofDivCodeList_code__multiple
+
       this.queryTableDatas(fiscalYear)
     },
     // 切换操作按钮
@@ -372,7 +384,7 @@ export default {
         } else {
           this.regulationType = ''
         }
-        if (obj.column.title === '累计违规') {
+        if (obj.column.title === '累计违规' || obj.column.title === '累计预警') {
           this.status = ''
         } else if (obj.column.title === '已处理') {
           this.status = '2'
@@ -402,7 +414,9 @@ export default {
         page: this.mainPagerConfig.currentPage,
         pageSize: this.mainPagerConfig.pageSize,
         regulationClass: this.params5,
-        fiRuleName: this.fiRuleName
+        fiRuleName: this.fiRuleName,
+        agencyCodeList: this.agencyCodeList,
+        mofDivCodeList: this.mofDivCodeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -441,7 +455,7 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
-    }
+    },
     // // 获取生效范围
     // getWhereTree() {
     //   let that = this
@@ -470,6 +484,56 @@ export default {
 
     //   return datas
     // }
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
+    },
+    getLeftTreeData() {
+      let that = this
+      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
+        if (res.data && Array.isArray(res.data)) {
+          console.log(this.queryConfig)
+          let treeResdata = that.getRegulationChildrenData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
+    }
   },
   created() {
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
@@ -478,6 +542,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.state.curNavModule.param5
+    this.getLeftTreeData()
+    this.getAgency()
   }
 }
 </script>

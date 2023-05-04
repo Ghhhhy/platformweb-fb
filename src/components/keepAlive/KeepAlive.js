@@ -129,7 +129,7 @@ export default {
         ? componentOptions.Ctor.cid + (componentOptions.tag ? `::${componentOptions.tag}` : '')
         : vnode.key
       if (this.cacheKeyType === 'routerName') {
-        key = this.$route.fullPath
+        key = this.$route.name
       }
       if (ifCache) {
         if (cache[key]) {

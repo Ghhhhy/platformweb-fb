@@ -25,15 +25,17 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2020', label: '2020年' },
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
         props: {
+          type: 'year',
+          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
@@ -307,22 +309,22 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '支付日期明细',
-      width: 180,
-      field: 'payDateDetail',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '支付确认日期明细',
-      width: 180,
-      field: 'xpayDate',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '支付日期明细',
+    //   width: 180,
+    //   field: 'payDateDetail',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '支付确认日期明细',
+    //   width: 180,
+    //   field: 'xpayDate',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '金额',
       width: 180,

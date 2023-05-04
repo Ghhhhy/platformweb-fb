@@ -13,6 +13,14 @@ export const useDirectFundsBarChart = () => {
   // 直达资金 => 上级下达
   const directFundsBarChart = reactive({
     detailTitle: '上级下达',
+    toolbox: {
+      show: false,
+      feature: {
+        saveAsImage: {
+          name: '上级下达'
+        }
+      }
+    },
     showDot: true,
     tooltip: {
       ...getTooltip(),

@@ -11,8 +11,14 @@
 import { defaultViewValueFormat, defaultViewValueFormatType, getCellValueAlign, getCellViewTitle } from './exportUtil.js'
 import XlsxTool from 'xlsx'
 import FileSaver from 'file-saver'
+import { rowUniqueLevelKey } from '../../util/methods'
 export class Export {
-  constructor(gloabelConfig = {}) {
+  constructor(gloabelConfig = {}, tableComponentInstance) {
+    // 当前表格组件实例
+    this.tableComponentInstance = tableComponentInstance
+    // 导出时对金额涉及到单位的需要加对应的单位
+    this.moneyUnit = gloabelConfig.unit || '元'
+
     this.XlsxTool = XlsxTool
     this.xlsx = window.xlsx
     this.aTag = document.createElement('a')
@@ -114,6 +120,35 @@ export class Export {
     this.curExportConfig.columns = this.curExportConfig.columns.filter((item) => {
       return self.curExportConfig.ignoreColsTypes.indexOf(item.type) < 0
     })
+    const { addReportTitleColumn, addUnitColumn, fileName, unit } = this.curExportConfig
+    // 表头添加表名
+    if (addReportTitleColumn) {
+      this.curExportConfig.columns = [
+        {
+          title: fileName,
+          exportStyle: {
+            font: {
+              size: '24'
+            }
+          },
+          // 添加单位列
+          children: addUnitColumn ? [
+            {
+              title: `单位：${unit}`,
+              exportStyle: {
+                align: {
+                  h: 'right'
+                },
+                font: {
+                  bold: false
+                }
+              },
+              children: this.curExportConfig.columns
+            }
+          ] : this.curExportConfig.columns
+        }
+      ]
+    }
   }
   generateExportRowsMap(columns, curRowIndex = 1, pcCount) {
     // 生成视图数据导出元数据 列映射数据
@@ -148,7 +183,7 @@ export class Export {
       cell.value = column[type]
       cell.hMerge = 0
       cell.vMerge = 0
-      self.generateCellVisibletitleStyle(cell)
+      self.generateCellVisibletitleStyle(cell, column)
     })
   }
   generateExportViewDataSource() {
@@ -264,24 +299,24 @@ export class Export {
       for (let i = 0; i < floorLength; i++) {
         let cell = row.addCell()
         if (i === 0) {
-          cell.value = getCellViewTitle(column)
+          cell.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
           cell.hMerge = floorLength - 1
           cell.vMerge = 0
           cell0 = cell
         } else {
-          cell.value = getCellViewTitle(column)
+          cell.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
           cell.hMerge = 0
           cell.vMerge = 0
         }
-        this.generateCellVisibletitleStyle(cell)
+        this.generateCellVisibletitleStyle(cell, column)
       }
     } else {
       let cellSing = row.addCell()
-      cellSing.value = getCellViewTitle(column)
+      cellSing.value = getCellViewTitle(column, this.moneyUnit, this.curExportConfig?.addUnitColumn)
       cellSing.hMerge = 0
       cellSing.vMerge = this.curExportConfig.exportViewTitleType === 'nestTitle' ? this.headerRows - curRows : 0
       cell0 = cellSing
-      this.generateCellVisibletitleStyle(cellSing)
+      this.generateCellVisibletitleStyle(cellSing, column)
       if (this.curExportConfig.exportViewTitleType === 'nestTitle') {
         this.supplementHeaderVMergeCells(row, column, curRows, pCell)
       }
@@ -328,7 +363,9 @@ export class Export {
     let self = this
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetVisibleData.addRow()
-      row.seqIndex = pRowIndex === undefined ? rowIndex + 1 : pRowIndex + '.' + (+rowIndex + 1)
+
+      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : self.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
+
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
         self.generateCellViewValue(cell, row, column, rowIndex + 1, pRowIndex)
@@ -350,12 +387,14 @@ export class Export {
   generateCellViewValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = pRowIndex !== undefined ? pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = this.getViewCellValue(item, column)
-      // cell.cellType = this.getViewCellValueType(item, column)
     }
-    this.generateCellViewValueStyle(cell, column)
+
+    // 树形表格设置缩进
+    const indent = !column.treeNode || !pRowIndex ? 0 : (item[rowUniqueLevelKey] || 0) * 2
+    this.generateCellViewValueStyle(cell, column, indent)
   }
   generateFooterCellViewValue(cell, value, column) {
     // 生成footer单元格数据
@@ -370,7 +409,8 @@ export class Export {
     return this.curExportConfig.viewValueFormat(item[column.field], item, column, this)
     // item[column.field]
   }
-  generateCellVisibletitleStyle(cell) {
+  generateCellVisibletitleStyle(cell, column) {
+    const { align = {}, border = {}, font = {}, fill = {} } = column?.exportStyle || {}
     // 生成表头样式
     cell.style.align = {
       indent: 0,
@@ -378,7 +418,8 @@ export class Export {
       textRotation: 0,
       wrapText: false,
       h: 'center',
-      v: 'center'
+      v: 'center',
+      ...align
     }
     cell.style.border = {
       left: 'thin',
@@ -388,7 +429,8 @@ export class Export {
       leftColor: 'FF000000',
       rightColor: 'FF000000',
       topColor: 'FF000000',
-      bottomColor: 'FF000000'
+      bottomColor: 'FF000000',
+      ...border
     }
     cell.style.font = {
       color: '00000000',
@@ -398,15 +440,23 @@ export class Export {
       italic: false,
       underline: false,
       size: 12,
-      name: 'Verdana'
+      name: 'Verdana',
+      ...font
     }
     cell.style.fill = {
       bgColor: 'ffffffff',
       fgColor: 'ffD2E9FF',
-      patternType: 'solid'
+      patternType: 'solid',
+      ...fill
     }
   }
-  generateCellViewValueStyle(cell, column) {
+  generateCellViewValueStyle(cell, column, indent) {
+    if (column.cellRender?.name === '$vxeRatio') {
+      cell.value = cell.value ? cell.value / 100 : cell.value
+      cell.numFmt = '0.0%'
+    } else if (column.cellRender?.name === '$vxeMoney') {
+      cell.numFmt = '0.00'
+    }
     cell.style.border = {
       left: 'thin',
       right: 'thin',
@@ -418,7 +468,7 @@ export class Export {
       bottomColor: 'FF000000'
     }
     cell.style.align = {
-      indent: 0,
+      indent: indent || 0,
       shrinkToFit: false,
       textRotation: 0,
       wrapText: false,
@@ -467,7 +517,7 @@ export class Export {
     let self = this
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetOriginalData.addRow()
-      row.seqIndex = pRowIndex === undefined ? rowIndex + 1 : pRowIndex + '.' + (+rowIndex + 1)
+      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : this.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
         self.generateCellOrangeValue(cell, row, column, rowIndex + 1, pRowIndex)
@@ -480,11 +530,17 @@ export class Export {
   generateCellOrangeValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = pRowIndex !== undefined ? pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = item[column.field] === undefined ? '' : item[column.field]
     }
-    this.generateCellViewValueStyle(cell, column)
+    if (column.cellRender?.name === '$vxeRatio') {
+      cell.value = cell.value ? cell.value * 1 : cell.value
+      cell.numFmt = '.0%'
+    }
+    // 树形表格设置缩进
+    const indent = !column.treeNode || !pRowIndex ? 0 : (item[rowUniqueLevelKey] || 0) * 2
+    this.generateCellViewValueStyle(cell, column, indent)
   }
   toBuffer(wbout) {
     const buf = new ArrayBuffer(wbout.length)

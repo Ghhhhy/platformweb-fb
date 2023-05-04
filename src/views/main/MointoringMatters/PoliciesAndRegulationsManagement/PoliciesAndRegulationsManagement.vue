@@ -379,10 +379,12 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-        return
-      }
-      let province = node.name
+      const province = node.name === '全部分类' ? '' : node.name
+      // let province = ''
+      // province = node.name
+      // if (node.children && node.children.length !== 0 && node.id !== '0') {
+      //   province = ''
+      // }
       this.queryTableDatas(province)
     },
     treeSetConfrimData(curTree) {
@@ -432,12 +434,16 @@ export default {
     // 删除
     delPolicies() {
       let selection = this.$refs.mainTableRef.getSelectionData()
-      if (selection.length !== 1) {
-        this.$message.warning('请选择一条数据')
+      if (selection.length < 1) {
+        this.$message.warning('请选择数据')
         return
       }
+      let regulationsCodes = []
+      selection.forEach(item => {
+        regulationsCodes.push(item.regulationsCode)
+      })
       let param = {
-        regulationsCode: selection[0].regulationsCode
+        regulationsCodes: regulationsCodes
       }
       this.$confirm('是否确定删除 ?', '提示', {
         confirmButtonText: '确定',
@@ -504,9 +510,9 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.code + '-' + item.ruleName
+        item.label = item.sort + '-' + item.dictInfoName
         // item.code = item.code
-        item.name = item.ruleName
+        item.name = item.dictInfoName
         if (item.children) {
           that.getChildrenData(item.children)
         }
@@ -516,9 +522,9 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getTreeData().then(res => {
+      HttpModule.getTreeData({ dictType: 'province' }).then(res => {
         if (res.code === '000000') {
-          let treeResdata = that.getChildrenData(res.data)
+          let treeResdata = that.getChildrenData(res.data.results)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })

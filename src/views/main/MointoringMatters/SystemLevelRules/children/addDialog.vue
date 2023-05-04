@@ -140,21 +140,33 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;业务菜单</div>
-                    <el-select
-                      v-model="businessFunctionCode"
-                      :disabled="disabled"
-                      placeholder="请选择业务菜单"
-                      style="width:45%"
-                      @change="changeFunCode"
-                    >
-                      <el-option
-                        v-for="item in businessFunctionCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;业务菜单</div>
+                    <!--<el-select-->
+                    <!--  v-model="businessFunctionCode"-->
+                    <!--  :disabled="disabled"-->
+                    <!--  multiple="true"-->
+                    <!--  placeholder="请选择业务菜单"-->
+                    <!--  style="width:45%"-->
+                    <!--  @change="changeFunCode"-->
+                    <!--&gt;-->
+                    <!--  <el-option-->
+                    <!--    v-for="item in businessFunctionCodeoptions"-->
+                    <!--    :key="item.id"-->
+                    <!--    :label="item.businessName"-->
+                    <!--    :value="item.id"-->
+                    <!--  />-->
+                    <!--</el-select>-->
+                    <BsTree
+                      ref="businessFunctionCodeModalRef"
+                      v-model="businessFunctionCodeModal"
+                      :is-drop-select-tree="true"
+                      :editable="true"
+                      :tree-data="businessFunctionTreeData"
+                      :default-checked-keys="businessFunctionCode"
+                      v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                      class="businessFunctionTree"
+                      style="display: inline-block;"
+                    />
                   </el-row>
                 </el-main>
               </el-container>
@@ -179,17 +191,31 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控主题</div>
-                    <div style="width:193px;float:left;margin-top:2px">
-                      <BsTreeInput
-                        ref="ruleTree"
-                        v-model="regulationClass"
-                        :disabled="disabled"
-                        :datas="regulationClassoptions"
-                        :reloaddata="false"
-                        :isleaf="true"
-                        @input="selectRule"
+                    <BsTree
+                      ref="regulationTreeRef"
+                      v-model="regulationClass"
+                      :is-drop-select-tree="true"
+                      :editable="true"
+                      :tree-data="regulationClassoptions"
+                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
+                      class="businessFunctionTree"
+                      style="display: inline-block;"
+                      @onNodeClick="regulationNodeClick"
+                    />
+                    <!-- <el-select
+                      v-model="regulationClass"
+                      :disabled="disabled || $parent.dialogVisibleRules"
+                      placeholder="请选择监控主题"
+                      style="width:45%"
+                      @change="selectRule"
+                    >
+                      <el-option
+                        v-for="item in regulationClassoptions"
+                        :key="item.id"
+                        :label="item.regulationName"
+                        :value="item.regulationName"
                       />
-                    </div>
+                    </el-select> -->
                   </el-row>
                 </el-main>
               </el-container>
@@ -287,7 +313,6 @@
                 </el-main>
               </el-container>
             </el-col>
-            <!--陕西专用-->
             <!--<el-col :span="8">-->
             <!--  <el-container>-->
             <!--    <el-main width="100%">-->
@@ -310,6 +335,71 @@
             <!--    </el-main>-->
             <!--  </el-container>-->
             <!--</el-col>-->
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">预警类别</div>
+                    <el-select
+                      v-model="warnType"
+                      :disabled="disabled"
+                      placeholder="请选择预警类别"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
+                    <el-select
+                      v-model="uploadFile"
+                      :disabled="disabled"
+                      placeholder="请选择是否必传附件"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in uploadFileOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
+                    <el-input
+                      v-model="policiesDescription"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      :maxlength="200"
+                      placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
+                      style=" width:90%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
           </el-row>
           <!-- <el-row>
             <el-col :span="8">
@@ -362,13 +452,14 @@
       <div style="margin-bottom: 10px; color: red">
         <p>注意：</p>
         <p>1.【主管部门】和【业务处室】默认全部，不进行处室过滤，只有少数规则需要根据处室过滤权限时才使用此字段 ！</p>
-        <p>2.预警级别与处理方式对应关系统一为：一级黄色预警（预警，无需上传附件）、二级橙色预警（预警，需上传附件）、三级红色预警（拦截）、非人工干预蓝色预警（记录）</p>
+        <p>2.预警级别与处理方式对应关系统一为：{{ $store.state.warnInfo.warnLevelOptions.map(item => `${item.label}（${item.warnTips}）`).join('、') }}</p>
         <p>3.触发类型中“实时触发”指的是事中监控，“定时触发”指的是事后监控，定时触发需要设置触发时间和频率才能生效，比如：每月1次，定时触发的监控规则【处理方式】必须选择“记录”。</p>
       </div>
       <div class="header-table">
         <BsTable
           ref="mountTableRef"
           height="300px"
+          :table-global-config="{ showOverflow: false }"
           :footer-config="{ showFooter: false }"
           :edit-config="editConfig"
           :edit-rules="editRulesIn"
@@ -376,30 +467,47 @@
           :table-data="mountTableData"
           :toolbar-config="false"
           :pager-config="false"
-        />
+        >
+          <template
+            v-slot:column-editParam="{ row, column }"
+          >
+            <div class="custom-cell" style="font-size: 14px">
+              <div v-if="row.paramType !== '5'">
+                <vxe-input v-model="row.param" />
+              </div>
+              <div v-else>
+                <vxe-select
+                  v-model="row.param"
+                  :options="functionSelectOptions"
+                  :option-props="{ label: 'value', value: 'regId' }"
+                  :placeholder="column.title"
+                />
+              </div>
+            </div>
+          </template>
+          <template
+            v-slot:column-defaultParam="{ row }"
+          >
+            <span>{{ getFunctionLabel(row.param) }}</span>
+          </template>
+        </BsTable>
       </div>
     </div>
     <!--应用设置-->
     <div v-show="appSetShow" class="payVoucherInput" style="margin-top:50px;">
-      <el-row>
-        <el-col :span="24">
-          <el-container>
-            <el-main width="100%">
-              <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预警提示</div>
-                <el-input
-                  v-model="policiesDescription"
-                  type="textarea"
-                  :disabled="disabled"
-                  :rows="2"
-                  placeholder="请输入预警提示"
-                  style=" width:90%"
-                />
-              </el-row>
-            </el-main>
-          </el-container>
-        </el-col>
-      </el-row>
+      <BsForm
+        ref="messageForm"
+        :is-editable="true"
+        :form-items-config="formItemsConfigMessage"
+        :form-data-list.sync="formDatas"
+        :form-validation-config="formValidationConfigMessage"
+        @itemChange="formItemChange"
+      />
+      <div style="margin-bottom: 10px; color: red; margin-top:100px">
+        <p>注意：</p>
+        <p>1.当收款人名称和资金用途的关键字为多个时，请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；</p>
+        <p>2.若业务数据满足上述条件任意一项就跳过该规则校验，即不预警</p>
+      </div>
     </div>
     <!--生效范围-->
     <div v-show="effectiveShow" class="payVoucherInput" style="margin-top:50px;">
@@ -431,7 +539,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -445,8 +553,8 @@
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="end">
           <div style="width:100%">
-            <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="doInsert">确定</vxe-button>
-            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+            <el-button id="savebutton" :loading="submitLoading" style="float:right;margin-right:20px" type="primary" @click="doInsert">确定</el-button>
+            <el-button style="float:right;margin-right:20px" @click="dialogClose">取消</el-button>
           </div>
         </div>
       </div>
@@ -456,8 +564,12 @@
 <script>
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
+import functionSelectMixin from '@/mixin/functionSelectMixin.js'
+
 export default {
   name: 'AddDialog',
+  mixins: [queryTreedElementByCodeMixin, functionSelectMixin],
   components: {},
   computed: {
     curNavModule() {
@@ -472,6 +584,7 @@ export default {
   },
   data() {
     return {
+      submitLoading: false,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -510,7 +623,7 @@ export default {
       tableLoading: false,
       monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
       operationTableData: [],
-      tabbtn: ['模板信息', '规则定义', '应用设置', '生效范围'],
+      tabbtn: ['模板信息', '规则定义', '白名单', '生效范围'],
       ruleSetShow: true,
       ruleDesShow: false,
       appSetShow: false,
@@ -550,19 +663,9 @@ export default {
         { value: '4', label: '610102998-新城区辖区' }
       ],
       warningLevel: 1,
-      warningLeveloptions: [
-        { value: 1, label: '黄色预警' },
-        { value: 2, label: '橙色预警' },
-        { value: 3, label: '红色预警' },
-        { value: 4, label: '非人工干预蓝色预警' }
-      ],
+      warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
       handleType: 1,
-      handleTypeoptions: [
-        { value: 1, label: '预警，无需上传附件' },
-        { value: 2, label: '预警，需上传附件' },
-        { value: 3, label: '拦截' },
-        { value: 4, label: '记录' }
-      ],
+      handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       triggerClass: 1,
       triggerClassoptions: [
         { value: 1, label: '实时触发' },
@@ -583,6 +686,18 @@ export default {
         { value: 1, label: '门户' },
         { value: 2, label: '核算' },
         { value: 3, label: '不提示' }
+      ],
+      warnType: '',
+      warnTypeOptions: [
+        { value: '1', label: '流向' },
+        { value: '2', label: '流速' },
+        { value: '3', label: '流量' },
+        { value: '4', label: '其他' }
+      ],
+      uploadFile: '',
+      uploadFileOptions: [
+        { value: '1', label: '是' },
+        { value: '0', label: '否' }
       ],
       regulationClass: '',
       regulationClassName: '',
@@ -622,19 +737,152 @@ export default {
       businessModuleCode: '',
       businessModuleName: '',
       businessModuleCodeoptions: [],
-      // businessFunctionCode: [],
-      // businessFunctionName: [],
-      businessFunctionCode: '',
-      businessFunctionName: '',
+      businessFunctionCode: [],
+      businessFunctionName: [],
       businessFunctionCodeoptions: [],
       departmentCode: '',
       departmentName: '',
       departmentCodeoptions: [],
       SysparentId: 0,
-      ModparentId: 0
+      ModparentId: 0,
+      formItemsConfigMessage: proconf.formItemsConfigMessage,
+      paymentLen: 0,
+      paymentData: [],
+      formDatas: {
+        useDes: '',
+        payeeAcctNo: '',
+        payeeAcctName: '',
+        des: '',
+        basis: '',
+        payment: []
+      },
+      formValidationConfigMessage: proconf.formValidationConfigMessage
     }
   },
   methods: {
+    formItemChange(obj) {
+      if (obj.property === 'payment') {
+        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let content = this.formItemsConfigMessage[0].itemRender.options
+        this.formItemsConfigMessage.splice(1, this.paymentLen)
+        if (this.paymentData) {
+          if (data.length < this.paymentLen) {
+            this.paymentData.forEach(item => {
+              if (data.indexOf(item) === -1) {
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + '__viewSort'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'id__multiple'] = []
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = ''
+                this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name__multiple'] = []
+              }
+            })
+          }
+        }
+        this.paymentData = data
+        this.paymentLen = data.length
+        let datas = {}
+        data.forEach((item, index) => {
+          if (item === '1') {
+            datas = this.createPro(content[item], false)
+          } else {
+            datas = this.createObj(content[item], false)
+          }
+          this.formItemsConfigMessage.splice(1 + index, 0, datas)
+        })
+      }
+    },
+    createPro(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                labelFormat: '{code}-{name}',
+                nodeKey: 'code',
+                label: 'name',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              multiple: true,
+              disabled,
+              isleaf: false,
+              axiosConfig: {
+                method: 'post',
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
+              }
+            },
+            queryparams: {
+              condition: '',
+              elementCode: 'pro',
+              year: this.$store.state.userInfo.year,
+              province: this.$store.state.userInfo.province,
+              limit: 2000,
+              offset: 1
+            }
+          }
+        }
+      }
+    },
+    createObj(obj, disabled) {
+      return {
+        insertMark: obj.label,
+        isNew: true,
+        title: obj.label,
+        field: obj.name,
+        align: 'left',
+        title__viewSort: obj.label,
+        field__viewSort: obj.name,
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          props: {
+            config: {
+              treeProps: {
+                nodeKey: 'id',
+                label: '{name}',
+                labelFormat: '{code}-{name}',
+                children: 'children' // 子级字段名
+              },
+              placeholder: `请选择${obj.label}`,
+              disabled,
+              multiple: true,
+              isleaf: false,
+              axiosConfig: {
+                method: 'post',
+                // url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+                url: 'large-monitor-platform/lmp/elementQuery/elementtree',
+                successCode: '000000', // 成功code
+                statusField: 'code'
+              }
+            },
+            queryparams: {
+              elementCode: obj.urlC,
+              date: this.$store.state.userInfo.year,
+              tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+              appguid: 'apaas',
+              year: this.$store.state.userInfo.year,
+              mofDivCode: this.$store.state.userInfo.province,
+              parameters: {}
+            }
+          }
+        }
+      }
+    },
     chooseWarningLevel(val) {
       if (val === 1) {
         this.handleType = 1
@@ -688,6 +936,7 @@ export default {
       this.activeIndex = 1
       this.businessSystemCode = datas[0].businessSystemCode
       this.changeSysCode(this.businessSystemCode)
+
       this.businessModuleCode = datas[0].businessModuleCode
       this.changeModCode(this.businessModuleCode)
       let datas1 = this.$refs.mountTableRef.getSelectionData()
@@ -767,6 +1016,7 @@ export default {
       })
     },
     onNodeCheckClick(data) {
+      console.log(data.nodes)
       let arr = []
 
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
@@ -802,7 +1052,7 @@ export default {
               agencyCode: ''
             }
             obj.mofDivId = item.id
-            obj.mofDivCode = item.code
+            obj.agencyCode = item.code
             arr.push(obj)
           }
         })
@@ -813,10 +1063,10 @@ export default {
     getChildrenNewData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        item.label = item.name
+        // item.code = item.id
+        // item.guid = item.id
+        // item.name = item.text || item.name
         if (item.children) {
           that.getChildrenNewData(item.children)
         }
@@ -900,9 +1150,39 @@ export default {
         }
       })
     },
+    resetFormDataListMessage() {
+      let paymentsArr = ['monitore', 'agency_code', 'pro_name', 'bgt_type_code', 'bgt_source_code', 'gov_bgt_eco_code', 'exp_func_code', 'cor_bgt_doc_no_name']
+      paymentsArr.forEach(item => {
+        this.formDatas[item + '__viewSort'] = ''
+        this.formDatas[item + 'code'] = ''
+        this.formDatas[item + 'code__multiple'] = []
+        this.formDatas[item + 'id'] = ''
+        this.formDatas[item + 'id__multiple'] = []
+        this.formDatas[item + 'name'] = ''
+        this.formDatas[item + 'name__multiple'] = []
+      })
+      this.formDatas.payment = []
+      this.formDatas.payment__multiple = []
+      this.formDatas.agency_code = []
+      this.formDatas.pro_name = []
+      this.formDatas.gov_bgt_eco_code = []
+      this.formDatas.exp_func_code = []
+      this.formDatas.cor_bgt_doc_no_name = []
+      this.formDatas.dep_bgt_eco_code = []
+    },
     dialogClose() {
+      console.log(this.paymentLen)
+      this.formItemsConfigMessage.splice(1, this.paymentLen)
+      this.paymentLen = 0
+      let form = this.$refs.messageForm
+      form.clearValidate()
+      this.resetFormDataListMessage()
+      this.formItemsConfigMessage.forEach(item => {
+        item.itemRender.props.disabled = false
+      })
       this.$parent.dialogVisible = false
-      this.$parent.queryTableDatas()
+      this.$parent.dialogVisibleRules = false
+      this.$parent?.queryTableDatas?.()
     },
     // 处理字符串
     dealwithStr(str) {
@@ -987,7 +1267,7 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
         param.elementCode = 'AGENCY'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
@@ -999,6 +1279,7 @@ export default {
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
         // this.treeData = this.getChildrenNewData(res.data)
+        console.log(res.data, regulationType)
         if (regulationType === '部门级' || regulationType === '财政级') {
           // let treeResdata = this.getChildrenNewData1(res.data)
           const result = [
@@ -1008,18 +1289,17 @@ export default {
               code: 'root',
               isleaf: '0',
               name: '全部',
-              children: res.data
+              children: this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = res.data
-          // this.getProvince(res.data[0])
+          this.treeData = this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
           // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
-          this.$parent.DetailData.regulationScope.forEach(item => {
+          this.$parent.DetailData.regulationScope?.forEach(item => {
             let str = item.mofDivId.toString()
             // if (regulationType === '部门级') {
             //   str = item.mofDivId.toString()
@@ -1033,6 +1313,7 @@ export default {
           //   let str = item.mofDivCode.toString()
           //   tempArr.push(str)
           // })
+          console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
         } else {
           let tempArr = []
@@ -1043,31 +1324,68 @@ export default {
     },
     // 保存新增的计划信息
     doInsert() {
-      console.log(this.scope)
       // 校验判断
       let datas = this.$refs.monitorTableRef.getSelectionData()
       if (this.$parent.dialogTitle !== '修改' && datas.length !== 1) {
         this.$XModal.message({ status: 'warning', message: '请选择一条模板信息！' })
         return
       }
-
+      // if (this.formDatas.payment === '') {
+      //   this.$message.warning('请选择基础要素')
+      //   return
+      // }
+      // if (this.formDatas.payeeAcctName === '') {
+      //   this.$message.warning('请输入收款人名称')
+      //   return
+      // }
+      // if (this.formDatas.payeeAcctNo === '') {
+      //   this.$message.warning('请输入收款人账号')
+      //   return
+      // }
+      // if (this.formDatas.useDes === '') {
+      //   this.$message.warning('请输入资金用途')
+      //   return
+      // }
+      // console.log(this.formDatas)
+      // let isGo = true
+      // this.formDatas.payment.split(',').forEach(item => {
+      //   if (!this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name]) {
+      //     this.$message.warning('请选择' + this.formItemsConfigMessage[0].itemRender.options[item].label)
+      //     isGo = false
+      //   }
+      // })
+      // if (isGo === false) {
+      //   return
+      // }
       if (!this.monitorRuleName) {
         this.$XModal.message({ status: 'warning', message: '请输入规则名称！' })
         return
       }
 
-      if (!this.businessSystemCode || !this.businessSystemName) {
+      if (this.businessSystemCode === undefined) {
         this.$message.warning('请选择业务系统')
         return
       }
-      if (!this.businessModuleCode || !this.businessModuleName) {
+      if (this.businessSystemName === null) {
+        this.$message.warning('请选择业务系统')
+        return
+      }
+      if (this.businessModuleCode === undefined) {
         this.$message.warning('请选择业务模块')
         return
       }
-      if (!this.businessFunctionCode || !this.businessFunctionName) {
-        this.$message.warning('请选择业务功能')
+      if (this.businessModuleName === null) {
+        this.$message.warning('请选择业务模块')
         return
       }
+      if (this.triggerClass === 1 && (this.businessFunctionCode === undefined || this.businessFunctionCode.length === 0)) {
+        this.$message.warning('请选择业务菜单')
+        return
+      }
+      // if (this.businessFunctionName === null) {
+      //   this.$message.warning('请选择业务菜单')
+      //   return
+      // }
       if (this.ruleFlag !== 0 && !this.ruleFlag) {
         this.$message.warning('请选择函数逻辑')
         return
@@ -1077,15 +1395,15 @@ export default {
       //   return
       // }
       if (!this.policiesDescription) {
-        this.$XModal.message({ status: 'warning', message: '请输入预警提示！' })
+        this.$XModal.message({ status: 'warning', message: '请选择预警提示！' })
         return
       }
       if (this.monitorRuleName.length > 50) {
         this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于50位' })
         return
       }
-      if (this.policiesDescription.length > 100) {
-        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于100位' })
+      if (this.policiesDescription.length > 200) {
+        this.$XModal.message({ status: 'warning', message: '预警提示长度应小于等于200位' })
         return
       }
       if (!this.crTemplate) {
@@ -1100,10 +1418,10 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择业务模块' })
         return
       }
-      if (!this.businessFunctionCode) {
-        this.$XModal.message({ status: 'warning', message: '请选择业务菜单' })
-        return
-      }
+      // if (!this.businessFunctionCode && this.triggerClass === 1) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择业务菜单' })
+      //   return
+      // }
       if (!this.monitorRuleName) {
         this.$XModal.message({ status: 'warning', message: '请输入监控规则名称' })
         return
@@ -1124,8 +1442,20 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择触发类型' })
         return
       }
-      if (!this.warnLocation) {
-        this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
+      // if (!this.warnLocation) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
+      //   return
+      // }
+      // if (!this.warnType) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择预警类别' })
+      //   return
+      // }
+      // if (!this.uploadFile) {
+      //   this.$XModal.message({ status: 'warning', message: '请选择是否上传附件' })
+      //   return
+      // }
+      if (!this.scope?.length) {
+        this.$XModal.message({ status: 'warning', message: '请选择生效范围' })
         return
       }
       this.$refs.mountTableRef.validate().then((res) => {
@@ -1145,7 +1475,7 @@ export default {
           return
         }
       }
-      let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+      let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       console.log(that.scope)
       let isFull = 0
       if (regulationType === '系统级') {
@@ -1164,10 +1494,11 @@ export default {
       let ruleId = ''
       let ruleName = ''
       if (that.regulationClass) {
-        let valArr = that.regulationClass.split('##')
-        ruleName = valArr[2]
+        let valArr = that.regulationClass.split('-')
+        ruleName = valArr[1]
         ruleId = valArr[0]
       }
+      console.log(this.regulationClass)
       let param = {
         'regulationClass': ruleId,
         'regulationClassName': ruleName,
@@ -1176,10 +1507,12 @@ export default {
         'businessSystemName': that.businessSystemName,
         'businessModuleCode': that.businessModuleCode,
         'businessModuleName': that.businessModuleName,
-        'businessFunctionCode': that.businessFunctionCode,
+        'menuIdList': that.businessFunctionCode.toString(), // 多菜单
+        'menuNameList': that.businessFunctionName.toString(),
+        // 'businessFunctionCode': that.businessFunctionCode,
         'departmentCode': that.departmentCode,
         'departmentName': that.departmentName,
-        'businessFunctionName': that.businessFunctionName,
+        // 'businessFunctionName': that.businessFunctionName,
         'regulationName': that.monitorRuleName, // 规则名称
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
         'warningLevel': that.warningLevel, // 预警级别
@@ -1192,33 +1525,76 @@ export default {
         'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
         menuName: this.$store.state.curNavModule.name,
         'ruleFlag': that.ruleFlag,
-        'warnLocation': that.warnLocation,
-        isFull: isFull
+        // 'warnLocation': that.warnLocation,
+        isFull: isFull,
+        ruleElement: {
+          payment: this.formDatas.payment,
+          agencyCode: this.formDatas.agency_code,
+          agencyName: this.formDatas.agency_name,
+          proCode: this.formDatas.pro_code,
+          proName: this.formDatas.pro_name,
+          govBgtEcoCode: this.formDatas.gov_bgt_eco_code,
+          govBgtEcoName: this.formDatas.gov_bgt_eco_name,
+          expFunCode: this.formDatas.exp_func_code,
+          expFunName: this.formDatas.exp_func_name,
+          depBgtEcoCode: this.formDatas.dep_bgt_eco_code,
+          depBgtEcoName: this.formDatas.dep_bgt_eco_name,
+          corBgtDocNoName: this.formDatas.cor_bgt_doc_no_name,
+          corBgtDocNoCode: this.formDatas.cor_bgt_doc_no_code,
+          payeeAcctName: this.formDatas.payeeAcctName,
+          payeeAcctNo: this.formDatas.payeeAcctNo,
+          useDes: this.formDatas.useDes,
+          des: this.formDatas.des,
+          basis: this.formDatas.basis
+        },
+        warnType: this.warnType, // 预警类别
+        uploadFile: this.uploadFile // 是否上传附件
       }
-      console.log('debugger')
+      this.submitLoading = true
       if (this.$parent.dialogTitle === '修改') {
+        console.log(this.formDatas)
         param.regulationCode = this.$parent.DetailData.regulationCode
         HttpModule.updateData(param).then(res => {
           if (res.code === '000000') {
             that.$message.success('修改成功')
+            this.formItemsConfigMessage.splice(1, this.paymentLen)
+            this.paymentLen = 0
+            let form = this.$refs.messageForm
+            form.clearValidate()
+            this.resetFormDataListMessage()
+            this.formItemsConfigMessage.forEach(item => {
+              item.itemRender.props.disabled = false
+            })
             that.$parent.dialogVisible = false
+            this.$parent.dialogVisibleRules = false
             this.$parent.queryTableDatas()
           } else {
             that.$message.error(res.message)
           }
         }).finally(() => {
+          this.submitLoading = false
           // that.$parent.dialogVisible = false
         })
       } else {
         HttpModule.addData(param).then(res => {
           if (res.code === '000000') {
             that.$message.success('新增成功')
+            this.formItemsConfigMessage.splice(1, this.paymentLen)
+            this.paymentLen = 0
+            let form = this.$refs.messageForm
+            form.clearValidate()
+            this.resetFormDataListMessage()
+            this.formItemsConfigMessage.forEach(item => {
+              item.itemRender.props.disabled = false
+            })
             that.$parent.dialogVisible = false
+            this.$parent.dialogVisibleRules = false
             this.$parent.queryTableDatas()
           } else {
             that.$message.error(res.message)
           }
         }).finally(() => {
+          this.submitLoading = false
           // that.$parent.dialogVisible = false
         })
       }
@@ -1236,23 +1612,27 @@ export default {
     },
     // 选择业务模块
     changeModCode(val) {
-      console.log(val)
       this.ModparentId = val
-      this.businessFunctionCode = ''
+      this.businessFunctionCodeModal = ''
+      this.$refs.businessFunctionCodeModalRef.reset?.()
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
       this.businessModuleName = busName.businessName
-      this.getFunLists()
+      // this.getFunLists()
     },
     changeFunCode(val) {
       console.log(val)
       this.businessFunctionCode = val
-      this.businessFunctionName = []
-      let busName = this.businessFunctionCodeoptions.find(item => {
-        return item.id === val
-      })
-      this.businessFunctionName = busName.businessName
+      this.businessFunctionName = this.businessFunctionCodeoptions
+        ?.filter(item => {
+          return this.businessFunctionCode.includes(item.guid)
+        })
+        ?.map(item => item.name)
+      // let busName = this.businessFunctionCodeoptions.find(item => {
+      //   return item.id === val
+      // })
+      // this.businessFunctionName = busName.businessName
       // let busName = []
       // for (let i = 0; i < val.length; i++) {
       //   busName.push(this.businessFunctionCodeoptions.find(item => {
@@ -1260,7 +1640,6 @@ export default {
       //   }))
       // }
       // for (let i = 0; i < busName.length; i++) {
-      //   debugger
       //   this.businessFunctionName.push(busName[i].businessName)
       // }
     },
@@ -1300,7 +1679,7 @@ export default {
         }
       })
     },
-    // 业务功能下拉树
+    // 业务菜单下拉树
     getFunLists() {
       const param = {
         businessType: 3,
@@ -1309,11 +1688,7 @@ export default {
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
-        if (res.code === '000000') {
-          this.businessFunctionCodeoptions = res.data.results
-        } else {
-          this.$message.error(res.message)
-        }
+        this.businessFunctionCodeoptions = res.data.results
       })
     },
     // 主管部门下拉树
@@ -1358,11 +1733,23 @@ export default {
       // this.regulationClassName = busName.regulationClassName
       // this.regulationClass = busName.regulationClass
     },
+    regulationNodeClick({ node }) {
+      if (node.children?.length) {
+        this.regulationClass = ''
+        this.$refs.regulationTreeRef.treeOptionValue = ''
+        this.$XModal.message({ status: 'warning', message: '该节点不可选择，请选择叶子节点' })
+        return
+      }
+      this.regulationClass = node.code + '-' + node.name
+    },
     getRegulation() {
       HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getRegulationChildrenData(res.data)
-          this.regulationClassoptions = treeResdata
+          this.$XEUtils.eachTree(res.data, item => {
+            item.name = item.ruleName
+            item.disabled = !!item.children?.length
+          })
+          this.regulationClassoptions = res.data
         } else {
           this.$message.error('下拉树加载失败')
         }
@@ -1397,13 +1784,16 @@ export default {
   mounted() {
   },
   created() {
-    console.log(this.$parent.DetailData)
-    console.log(this.$store.state.userInfo.orgCode)
     this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
       this.getTableData()
+      // 直达资金新增规则
+      this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
     } else if (this.$parent.dialogTitle === '查看详情') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData?.uploadFile
+
       this.ruleSetShow = false
       this.ruleDesShow = true
       this.appSetShow = false
@@ -1413,7 +1803,7 @@ export default {
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
@@ -1426,30 +1816,33 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
+
+      // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = this.$parent.DetailData.businessFunctionCode + ''
+      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      this.warnLocation = this.$parent.DetailData.warnLocation
+      // this.warnLocation = this.$parent.DetailData.warnLocation
       this.policiesDescription = this.$parent.DetailData.warningTips
       // 不可编辑
       // this.buttonConfig = {}
       this.disabled = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改') {
+      this.warnType = this.$parent.DetailData.warnType
+      this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      this.warnLocation = this.$parent.DetailData.warnLocation
+      // this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClass + '##' + this.$parent.DetailData.regulationClassName
+      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
@@ -1457,26 +1850,84 @@ export default {
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
       // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
-      this.businessSystemCode = parseInt(this.$parent.DetailData.businessSystemCode)
+      this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
       this.SysparentId = this.businessSystemCode
       this.getModLists()
-      this.businessModuleCode = parseInt(this.$parent.DetailData.businessModuleCode)
+      this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-      this.getFunLists()
+
+      // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      this.businessFunctionCode = parseInt(this.$parent.DetailData.businessFunctionCode)
+      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      this.businessFunctionName = this.$parent.DetailData.businessFunctionName
+      // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
 
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.scope = this.$parent.DetailData.regulationScope
     }
-
-    this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
+    if (this.$parent.dialogTitle !== '新增') {
+      if (this.$parent.formDatas) {
+        this.formDatas = this.$parent.formDatas
+        if (this.formDatas.payment !== '') {
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+          this.paymentLen = this.formDatas.payment__multiple.length
+          this.formDatas.payment__multiple.forEach((item, index) => {
+            let datas = {}
+            if (item === '1') {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            } else {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            }
+            this.formItemsConfigMessage.splice(1 + index, 0, datas)
+            if (this.$parent.dialogTitle === '查看详情') {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = true
+              })
+            } else {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = false
+              })
+            }
+            // this.formDatas.agency_code = '000,000001,000002'
+            // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
+            this.formDatas.agency_code = this.formDatas.agencyCode
+            this.formDatas.agency_name = this.formDatas.agencyName
+            this.formDatas.pro_code = this.formDatas.proCode
+            this.formDatas.pro_name = this.formDatas.proName
+            this.formDatas.exp_func_code = this.formDatas.expFunCode
+            this.formDatas.exp_func_name = this.formDatas.expFunName
+            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+          // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
+          // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
+          // let paramsCodes = ''
+          // let paramsNames = ''
+          // formDataParams.forEach(item => {
+          //   item = item.split('-')
+          //   paramsCodes += item[0]
+          //   paramsNames += item[1]
+          // })
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
+          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
+          })
+          console.log(this.formDatas)
+        }
+      }
+    }
+    if (this.$parent.dialogTitle === '查看详情') {
+      this.formItemsConfigMessage.forEach(item => {
+        item.itemRender.props.disabled = true
+      })
+    }
+    this.regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
     this.getSysLists()
     this.getDepLists()
     this.getRegulation()

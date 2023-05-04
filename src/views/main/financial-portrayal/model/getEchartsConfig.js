@@ -51,13 +51,19 @@ export const getTooltip = (axisPointerType = 'shadow') => {
 }
 
 // 图表Tooltip显示内容配置 params内容参考echarts-tooltip-formatter
-export const getTooltipFormatter = (nameKey = 'name') => {
+export const getTooltipFormatter = (nameKey = 'name', isShowSeriesName = false) => {
   return function (params = {}) {
-    return params.reduce((sum, item) => {
+    let startSrt = isShowSeriesName
+      ? `<div style="text-align: center; margin-bottom: 10px;">${getAxisLabelFormatter(12, { joinSymbol: '<br/>' })(params[0]?.name)}</div>`
+      : ''
+    return params?.reduce((sum, item) => {
+      const value = item.value
+      const realValue = Array.isArray(value) ? value[value.length - 1] : value
+
       return `
         ${sum}
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <div style="display: flex; align-items: center; margin-right: 10px">
+          <div style="display: flex; align-items: center; margin-right: 10px; flex: 1; flex-shrink: 0">
             <span style="
               display: inline-block;
               width: 8px;
@@ -67,10 +73,10 @@ export const getTooltipFormatter = (nameKey = 'name') => {
             ></span>
             ${item[nameKey] || item?.name || ''}
           </div>
-          <span>${item.value}</span>
+          <span style="flex-shrink: 0">${realValue}</span>
         </div>
       `
-    }, '')
+    }, startSrt)
   }
 }
 
@@ -86,8 +92,8 @@ export const getColor = (name) => {
     thirdFadeBlue: '#CFDEFC',
     green: '#69D9AC',
     fadeGreen: '#CDF3E4',
-    yellow: '#FF9D4F',
-    fadeYellow: '#FFE0C7',
+    yellow: '#FAAD14',
+    fadeYellow: '#FCEBB9',
     red: '#E86452',
     fadeRed: '#F8D0CB',
     orange: '#FF9D4F',
@@ -111,7 +117,7 @@ export const getColor = (name) => {
   return colors.white
 }
 // 获取图例配置
-export const getLegend = () => {
+export const getLegend = (option) => {
   return {
     show: true,
     // 不响应鼠标点击改变现实状态
@@ -126,7 +132,8 @@ export const getLegend = () => {
     itemWidth: 6,
     itemHeight: 10,
     itemGap: 16,
-    borderRadius: 0
+    borderRadius: 0,
+    ...option
   }
 }
 
@@ -175,6 +182,7 @@ export const getAxisLabel = (formatter = (value) => value) => {
   return {
     color: '#8C8C8C',
     fontSize: 12,
+    lineHeight: 18,
     // 强制显示所有
     interval: 0,
     hideOverlap: false,
@@ -183,17 +191,21 @@ export const getAxisLabel = (formatter = (value) => value) => {
 }
 
 // axisLabel超过某长度换行
-export const getAxisLabelFormatter = (maxLength = 4) => {
+export const getAxisLabelFormatter = (maxLength = 4, config = { isSlice: false, suffix: '...', joinSymbol: '\n' }) => {
   return function(value) {
     const length = value.length
     if (!value) return ''
     if (value && length < maxLength) return value
+
+    if (config.isSlice) {
+      return `${value.substr(0, maxLength)}${config.suffix || '...'}`
+    }
     const sliceArr = []
     for (let i = 0; i < length; i = i + maxLength) {
       const startIndex = Math.min(i, value.length - 1)
       sliceArr.push(value.substr(startIndex, maxLength))
     }
-    return sliceArr.join('\n')
+    return sliceArr.join(config.joinSymbol || '\n')
   }
 }
 
@@ -617,4 +629,51 @@ export const getProgress = (option = {}) => {
     },
     ...option
   }
+}
+
+/**
+ * 获取dataZoom
+ * @param option
+ * @returns {{maxValueSpan: number, minValueSpan: number, orient: string, type: string, zoomLock: boolean, height: number}}
+ */
+export const getDataZoom = (option = {}) => {
+  return {
+    type: 'inside',
+    minValueSpan: 6,
+    maxValueSpan: 6,
+    orient: 'horizontal',
+    // 上锁：只能拖动不能缩放
+    zoomLock: true,
+    // 是否开启刷选功能
+    brushSelect: false,
+    height: 20,
+    ...option
+  }
+}
+
+export const getScatterSeries = (option) => {
+  return {
+    type: 'scatter',
+    itemStyle: {
+      opacity: 0.4
+    },
+    ...option
+  }
+}
+
+export const getChartColors = () => {
+  return [
+    '#F98B8B',
+    '#25A5A1',
+    '#FE805D',
+    '#71DBB0',
+    '#FF457A',
+    '#4CAF51',
+    '#475FFF',
+    '#DC48FD',
+    '#6BEEEB',
+    '#9E00FF',
+    '#4EACFF',
+    '#FFC800'
+  ]
 }

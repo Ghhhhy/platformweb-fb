@@ -10,6 +10,8 @@
 </template>
 <script>
 import Store from '@/utils/store'
+import goLogin from './utils/goLogin'
+
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -60,6 +62,7 @@ export default {
           // await this.$http.get('mp-b-sso-service/v1/user/app/message' + tokenid).then((res) => {
           if (res.rscode === '100000') {
             this.$store.commit('setUserInfo', res.data)
+            this.$store.dispatch('asyncUserRoles')
           }
         })
         .catch((err) => {
@@ -79,6 +82,10 @@ export default {
       } else {
         this.ifrouteractive = true
       }
+      // iframe形式嵌入不用重置到首页
+      if (window.self !== window.top) {
+        return
+      }
       // 缓存url参数后更新URL
       window.history.pushState({}, '', window.location.pathname + '#/')
     },
@@ -86,9 +93,7 @@ export default {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.ifrouteractive = true
-        this.$router.push({
-          name: 'Login'
-        })
+        goLogin()
       } else {
         await this.$http
           .get('mp-b-user-service/v1/user/app/message', { appguid: appguid })
@@ -98,14 +103,18 @@ export default {
               res = JSON.parse(res)
             }
             if (res.rscode === '118000') {
-              this.$router.push({
-                name: 'Login'
-              })
+              goLogin()
             } else {
               this.$store.commit('setUserInfo', res.data)
+              this.$store.dispatch('asyncUserRoles')
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
+              // iframe
+              if (window.self !== window.top) {
+                this.ifrouteractive = true
+                return
+              }
               this.$router.push({
                 name: 'Main',
                 params: {
@@ -117,9 +126,7 @@ export default {
           .catch((e) => {
             console.log(e)
             this.ifrouteractive = true
-            this.$router.push({
-              name: 'Login'
-            })
+            goLogin()
           })
       }
     },
@@ -136,7 +143,7 @@ export default {
                 .then((type) => {
                   if (type === 'confirm') {
                     localStorage.removeItem('__boss_cache__bsSxczyAccessToken')
-                    window.location.href = document.referrer || '/'
+                    goLogin()
                   }
                 })
             }
@@ -175,21 +182,28 @@ export default {
       return false
     }
   },
-  created() {
+  async created() {
     this.getUrlSearchToken()
     this.authentication()
+    if (window.self === window.top) {
+      console.log('=========处于非iframe环境=============')
+      // 获取预警信息
+      this.$store.dispatch('warnInfo/getWarnInfo')
+    }
   },
 
   mounted() {
-    let self = this
+    let that = this
     this.logOutPopInterval = setInterval(() => {
-      self.intervalQuest()
+      that.intervalQuest()
     }, 300000)
     window.onunload = () => {
       localStorage.removeItem('bsSxczyAccessToken')
       localStorage.removeItem('bsSxczyAppguid')
-      self.setCookie('appguid', self.$store.getters.getLoginAuthentication.appguid, 10)
-      self.setCookie('tokenid', self.$store.getters.getLoginAuthentication.tokenid, 10)
+      if (window.self === window.top) {
+        that.setCookie('appguid', that.$store.getters.getLoginAuthentication.appguid, 10)
+        that.setCookie('tokenid', that.$store.getters.getLoginAuthentication.tokenid, 10)
+      }
     }
     this.showLogo()
   },
@@ -237,5 +251,9 @@ export default {
 }
 .app-main .boss-main .el-tab-pane {
   height: 82.5vh;
+}
+/*遮罩层中message层级问题*/
+.modal-layout-message {
+  z-index: 3105 !important;
 }
 </style>

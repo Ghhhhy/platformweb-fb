@@ -69,14 +69,14 @@
   width: 22px!important;
 }
 .T-mainFormListLayout-modulebox {
-  padding: 12px 24px!important;
+  padding: 8px 8px!important;
 }
 .T-mainFormListLayout-modulebox .mmc-formlist .mmc-right {
   height: calc(100% - 0px)!important;
-  padding: 0 24px 0 20px!important;
+  padding: 0 8px 0 8px!important;
 }
 .T-mainFormListLayout-modulebox .mmc-formlist {
-  padding: 0 8px 8px 8px!important;
+  padding: 0 0 8px 0!important;
 }
 .T-mainFormListLayout-modulebox .mmc-toolbar-search {
   padding-bottom: 0px!important;
@@ -284,7 +284,7 @@
   color: var(--primary-color);
 }
 .vxe-switch.is--on .vxe-switch--button {
-  background-color: var(--secondary-color);
+  // background-color: var(--secondary-color);
 }
 .vxe-switch:not(.is--disabled) .vxe-switch--button:focus {
   box-shadow: 0 0 0.4em 0 var(--secondary-color);
@@ -338,8 +338,8 @@
   box-shadow: 0 0 0.2em 0 var(--secondary-color);
 }
 .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: var(--secondary-color);
-  border-color: var(--secondary-color);
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 .is--checked.vxe-custom--option .vxe-checkbox--icon:before, .is--checked.vxe-export--panel-column-option .vxe-checkbox--icon:before, .is--checked.vxe-table--filter-option .vxe-checkbox--icon:before, .is--indeterminate.vxe-custom--option .vxe-checkbox--icon:before, .is--indeterminate.vxe-export--panel-column-option .vxe-checkbox--icon:before, .is--indeterminate.vxe-table--filter-option .vxe-checkbox--icon:before, .vxe-table .is--checked.vxe-cell--checkbox .vxe-checkbox--icon:before, .vxe-table .is--indeterminate.vxe-cell--checkbox .vxe-checkbox--icon:before {
   border-color: var(--secondary-color);

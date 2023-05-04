@@ -28,35 +28,37 @@
           ref="treeSet"
           v-model="leftTreeVisible"
           :tree-config="treeTypeConfig"
-          @onChangeInput="changeInput"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
         <BsTree
           ref="leftTree"
-          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
-          style="overflow: hidden"
+          open-loading
+          :filter-text="leftTreeFilterText"
           :tree-data="treeData"
-          :filter-text="treeGlobalConfig.inputVal"
-          :config="treeGlobalConfig.treeConfig"
+          :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
           @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTreeTable
           id="1001"
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus',
-                          iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="mainPagerConfig"
           :default-money-unit="10000"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
@@ -65,7 +67,17 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </BsTreeTable>
+      </template>
+      <template v-slot:toolbar-custom-slot>
+        <div class="dfr-report-time-wrapper">
+          <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+            <div class="dfr-report-time-content">
+              <i class="ri-history-fill"></i>
+              <span class="dfr-report-time">{{ reportTime }}</span>
+            </div>
+          </el-tooltip>
+        </div>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -80,6 +92,8 @@
 <script>
 import { proconf } from './unitPayment'
 import HttpModule from '@/api/frame/main/fundMonitoring/unitPayment.js'
+import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
+
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -93,11 +107,15 @@ export default {
   },
   data() {
     return {
+      reportTime: '', // 拉取支付报表的最新时间
       // BsQuery 查询栏
+      caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,
+      codeList: [],
+      leftTreeFilterText: '',
       treeData: [{
         children: [],
         code: 0,
@@ -113,8 +131,7 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
@@ -215,7 +232,7 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      fiscalYear: '',
+      fiscalYear: this.$store.state.userInfo.year,
       mofDivCode: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -326,7 +343,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -334,17 +355,36 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    onClickmethod({ node }) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
+    onClickmethod(node) {
+      let code = node.node.code
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
       if (node.id !== '0') {
-        console.log(node)
-        this.mofdivcode = node.code
+        this.mofdivcode = node.node.code
       } else {
         this.condition = {}
       }
       this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -366,8 +406,8 @@ export default {
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
@@ -401,14 +441,23 @@ export default {
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
     },
+    eachTree(treeData, parentId, level) {
+      treeData.forEach(item => {
+        item.id = item.id || this.$XEUtils.uniqueId('tree_row_')
+        item.level = level
+        item['parentId'] = parentId
+        if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
+      })
+    },
     // 查询 table 数据
-    queryTableDatas() {
+    queryTableDatas(isFlush = true) {
       const param = {
+        isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         reportCode: 'dwzfqk',
         fiscalYear: this.fiscalYear,
-        mofDivCode: this.mofdivcode || '',
+        mofDivCodeList: this.codeList,
         agencyCode: '',
         agencyName: ''
       }
@@ -416,12 +465,22 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
+          const rows = res.data?.data || []
+          if (rows?.length && Array.isArray(rows)) {
+            // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
+            this.eachTree(rows, '', 1)
+            // 将树形结构转数组
+            this.tableData = this.$XEUtils.toTreeArray(rows)
+          }
+          this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     loadChildrenMethod ({ row }) {
@@ -433,13 +492,13 @@ export default {
             pageSize: this.mainPagerConfig.pageSize, // 每页条数
             reportCode: 'dwzfqk',
             fiscalYear: this.fiscalYear,
-            mofDivCode: this.mofdivcode || '',
+            mofDivCodeList: this.codeList,
             agencyCode: row.agencyCode,
             agencyName: row.agencyName
           }
           HttpModule.queryTableDatas(param).then(res => {
             if (res.code === '000000') {
-              const childs = res.data
+              const childs = res.data.data
               resolve(childs)
             } else {
               this.$message.error(res.result)
@@ -475,9 +534,9 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getTreeData(that.treeQueryparams).then(res => {
+      getMofDivTree(that.treeQueryparams).then(res => {
         if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
+          let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -490,7 +549,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = res.data
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -499,7 +558,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.text || item.name
         if (item.children) {
           that.getChildrenData(item.children)
         }

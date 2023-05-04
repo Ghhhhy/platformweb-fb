@@ -10,7 +10,7 @@
       border
       import-config
       sync-resize
-      auto-resize
+      :auto-resize="autoResize"
       :stripe="tableGlobalConfigIn.stripe"
       keep-source
       header-align="center"
@@ -25,7 +25,7 @@
       :cell-class-name="cellClassName"
       :checkbox-config="checkboxConfig"
       :sort-config="sortConfigIn"
-      :loading="loading"
+      :loading="loading || expendAllLoading"
       :pager-config="pagerConfigIn"
       :columns="tableColumnsConfigIn"
       :form-config="tableFormConfigIn"
@@ -58,6 +58,7 @@
       :scroll-x="highConfigIn.scrollX || tableGlobalConfigIn.scrollX"
       :span-method="spanMethod"
       :filter-config="highConfigIn.filterConfig || tableGlobalConfigIn.filterConfig"
+      v-bind="$attrs"
       @radio-change="radioChange"
       @edit-closed="editClosed"
       @edit-actived="editActived"
@@ -74,6 +75,9 @@
       @scroll="scroll"
       @toggle-tree-expand="toggleRowExpand"
     >
+      <template v-for="item in getColumnSlotKeys" v-slot:[replaceColumnSlotKey(item)]="data">
+        <slot :name="item" v-bind="data || {}"></slot>
+      </template>
       <template v-slot:expand="slotData">
         <div class="f10">
           <slot :data="slotData" name="expandContent"></slot>
@@ -104,6 +108,16 @@
         </div>
         <div v-if="toolbarConfigInCopy.batchModify" class="batch-modify-slot fn-inline">
           <BatchModify :batch-modify-item-config="tableColumnsConfigIn" :batch-modify-fields="batchModifyFields" @onBatchModifyItemChange="onBatchModifyItemChange" @onSureClick="omBatchModifySureClick" />
+        </div>
+        <!--口径说明：直接根据是否传入相关插槽判断按钮显示状态；点击按钮弹窗内容为插槽内容-->
+        <div class="custom-table-tips-actions">
+          <vxe-button
+            v-if="$scopedSlots.caliberDeclare"
+            title="口径说明"
+            @click="caliberDeclareHandle"
+          >
+            口径说明
+          </vxe-button>
         </div>
         <div class="fn-inline toolbarTools-select">
           <div
@@ -208,6 +222,15 @@
           >
             <i class="vxe-button--icon ri-download-2-line"></i>
           </vxe-button>
+          <vxe-button
+            v-if="treeConfig || toolbarConfigInCopy.expandAll"
+            name="expandbtn"
+            :loading="expendAllLoading"
+            :title="expandAllState ? '收起全部' : '展开全部'"
+            @click="onToolbarOperrateClick('expandAll')"
+          >
+            <i :class="expandAllState ? 'ri-checkbox-indeterminate-line' : 'ri-add-box-line'" class="vxe-button--icon"></i>
+          </vxe-button>
           <!-- <vxe-button v-if="toolbarConfigInCopy.custom" name="custombtn" @click="onToolbarOperrateClick('custom')">
             <i class="vxe-button--icon custom-ico custom"></i>
           </vxe-button> -->
@@ -231,6 +254,17 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
+    <!--口径说明弹窗-->
+    <CaliberDeclare
+      :dialog-visible.sync="caliberDeclareVisible"
+    >
+      <template
+        v-if="$scopedSlots.caliberDeclare"
+        #default
+      >
+        <slot name="caliberDeclare"></slot>
+      </template>
+    </CaliberDeclare>
   </div>
 </template>
 <script>
@@ -244,6 +278,7 @@ import { Export } from './export/export/export.js'
 import ExportModel from './export/Export.vue'
 import ImportModel from './import/import.vue'
 import BatchModify from './batchModify/BatchModify.vue'
+import CaliberDeclare from './caliberDeclare/CaliberDeclare.vue'
 export default {
   name: 'Table',
   directives: {
@@ -257,7 +292,8 @@ export default {
   components: {
     ExportModel,
     ImportModel,
-    BatchModify
+    BatchModify,
+    CaliberDeclare
   },
   props: {
     ...props
@@ -271,11 +307,21 @@ export default {
     this.initCreated()
   },
   computed: {
+    getColumnSlotKeys() {
+      const keys = Object.keys(this.$scopedSlots)
+      const columnSlots = keys
+        .map((item) => (item.startsWith('column-') ? item : null))
+        .filter((item) => !!item)
+      console.log(columnSlots)
+      return columnSlots
+    }
   },
   mounted() {
+    const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
     this.$Import = new Import()
-    this.$Export = new Export()
+    this.$Export = new Export({ unit: unitLabel || '元' }, this)
     this.initMounted()
+    this.$emit('register', this.$refs.xGrid || this)
   },
   watch: {
     ...watch
@@ -498,9 +544,36 @@ export default {
   display: inline-block;
   background-size: 120% 120%;
 }
+.result-orange{
+  background-image:url(./assets/img/orange.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
+.result-blue{
+  background-image:url(./assets/img/blue.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
+.result-grey{
+  background-image:url(./assets/img/grey.svg) ;
+  display: inline-block;
+  background-size: 120% 120%;
+}
 .result-yellow-bell{
   background-image:url(./assets/img/yellowBell.svg) ;
   display: inline-block;
   background-size: 120% 120%;
+}
+.custom-table-tips-actions {
+  display: flex;
+  align-items: center;
+  .vxe-button {
+    margin-right: 8px;
+  }
+}
+.Titans-table .vxe-table .vxe-cell:not([class*="c--tooltip"]) {
+  height: 100% !important;
+  padding: 5px !important;
+  line-height: calc(1em + 6px) !important;
 }
 </style>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="276px" height="138px" viewBox="0 0 276 138" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Clipped</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="276" height="138"></rect>
+        <linearGradient x1="0%" y1="99.8799145%" x2="99.7598231%" y2="99.8799145%" id="linearGradient-3">
+            <stop stop-color="#4E98F4" offset="0%"></stop>
+            <stop stop-color="#62BBF6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="0%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="100%" y2="0%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" stop-opacity="9.99999975e-05" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="三保支出监控总览2" transform="translate(-48.000000, -403.000000)">
+            <g id="Clipped" transform="translate(48.000000, 403.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="矩形"></g>
+                <g id="编组" mask="url(#mask-2)">
+                    <g transform="translate(-16.625000, 0.000000)">
+                        <rect id="矩形" fill="url(#linearGradient-3)" fill-rule="nonzero" x="17" y="0" width="276" height="138"></rect>
+                        <g id="编组" opacity="0.0500000007" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0.000000, 79.949999)">
+                            <path d="M0,38.525446 C0,38.525446 33.4663,7.18684707 64.8963,7.18684707 C96.326125,7.18684707 119.126,17.3558281 132.367375,18.9034317 C145.609625,20.4511231 193.2105,21.1808646 219.324,7.18684707 C245.4375,-6.80717043 282.24875,3.26193465 288.332625,7.18684707 C294.417375,11.1117331 288.332625,57.3765139 288.332625,57.3765139 C288.332625,57.3765139 0,54.2587274 0,54.2587274 C0,54.2587274 0,38.525446 0,38.525446 C0,38.525446 0,38.525446 0,38.525446 Z" id="路径" fill="url(#linearGradient-4)"></path>
+                        </g>
+                        <g id="编组" opacity="0.100000001" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(1.750000, 84.203080)">
+                            <path d="M0,36.87786 C0,36.87786 16.1494375,0 40.2273375,0 C64.30515,0 93.627625,17.2911643 115.9515,20.0719307 C138.27625,22.8526971 144.263,2.99506757 171.028375,1.89691479 C197.794625,0.798765514 219.828,13.2973543 237.552,13.2973543 C255.275125,13.2973543 296.898875,4.27490014 302.449,6.620352 C308,8.96582143 302.449,66.9422229 302.449,66.9422229 C302.449,66.9422229 0,66.9422229 0,66.9422229 C0,66.9422229 0,36.87786 0,36.87786 C0,36.87786 0,36.87786 0,36.87786 Z" id="路径" fill="url(#linearGradient-5)"></path>
+                        </g>
+                        <g id="编组" opacity="0.149999991" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(188.000000, 0.000000)">
+                            <path d="M0,0 C0,0 0,0 0,0 L101.5,0 C103.432997,0 105,1.76527727 105,3.94285714 L105,134.057143 C105,136.234723 103.432997,138 101.5,138 L0,138 C0,138 0,138 0,138 L0,0 Z" id="路径" fill="url(#linearGradient-6)" fill-rule="nonzero"></path>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(68.250000, 48.321429)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.75" cy="1.75714286" rx="1.75" ry="1.75714286"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(152.250000, 55.350000)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="2.625" cy="2.63571429" rx="2.625" ry="2.63571429"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(151.375000, 14.057143)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.3125" cy="1.31785714" rx="1.3125" ry="1.31785714"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(84.875000, 20.207143)">
+                            <circle id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="0.5" cy="0.5" r="1"></circle>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(30.625000, 14.057143)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.75" cy="1.75714286" rx="1.75" ry="1.75714286"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(26.250000, 69.407143)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.75" cy="1.75714286" rx="1.75" ry="1.75714286"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(34.125000, 49.200000)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="1.3125" cy="1.31785714" rx="1.3125" ry="1.31785714"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(66.500000, 55.350000)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="0.875" cy="0.878571429" rx="1" ry="1"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(108.500000, 55.350000)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="0.875" cy="0.878571429" rx="1" ry="1"></ellipse>
+                        </g>
+                        <g id="编组" opacity="0.200000003" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(129.500000, 93.128571)">
+                            <ellipse id="椭圆形" fill="#FFFFFF" fill-rule="nonzero" cx="0.875" cy="0.878571429" rx="1" ry="1"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

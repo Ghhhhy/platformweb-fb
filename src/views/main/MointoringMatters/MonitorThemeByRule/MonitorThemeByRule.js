@@ -37,52 +37,71 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '监控规则',
+      field: 'fiRuleName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '监控规则'
+        }
+      }
     }
-    // {
-    //   title: '监控规则名称',
-    //   field: 'fiRuleName',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeInput',
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     options: [],
-    //     props: {
-    //       placeholder: '监控规则名称'
-    //     }
-    //   }
-    // }
-    // {
-    //   title: '区划',
-    //   field: 'businessModuleCode',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeTree',
-    //   itemRender: {
-    //     name: '$vxeTree',
-    //     options: [],
-    //     'props': {
-    //       'config': {
-    //         treeData: [],
-    //         'placeholder': '区划',
-    //         'multiple': true,
-    //         'readonly': true,
-    //         'isleaf': false
-    //         // 'axiosConfig': {
-    //         //   'method': 'get',
-    //         //   'url': 'large-monitor-platform/lmp/mofDivTree'
-    //         // }
-    //       }
-    //       // 'queryparams': {
-    //       //   'elementCode': 'admdiv',
-    //       //   year: '2022',
-    //       //   province: '610000000'
-    //       // }
-    //     }
-    //   }
-    // }
   ],
   highQueryData: {
     fiscalYear: ''
@@ -96,13 +115,13 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '整体违规情况',
+      title: '整体预警情况',
       field: 'totals',
       sortable: false,
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'wholeCount',
           width: '150',
           align: 'center'
@@ -134,7 +153,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'sxCount',
           width: '150',
           align: 'center'
@@ -166,7 +185,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'xaCount',
           width: '150',
           align: 'center'
@@ -198,7 +217,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'tcCount',
           width: '150',
           align: 'center'
@@ -230,7 +249,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'bjCount',
           width: '150',
           align: 'center'
@@ -262,7 +281,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'xyCount',
           width: '150',
           align: 'center'
@@ -294,7 +313,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'wnCount',
           width: '150',
           align: 'center'
@@ -326,7 +345,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'yaCount',
           width: '150',
           align: 'center'
@@ -358,7 +377,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'hzCount',
           width: '150',
           align: 'center'
@@ -390,7 +409,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'ylCount',
           width: '150',
           align: 'center'
@@ -422,7 +441,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'akCount',
           width: '150',
           align: 'center'
@@ -454,7 +473,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'slCount',
           width: '150',
           align: 'center'
@@ -486,7 +505,7 @@ export let proconf = {
       align: 'left',
       children: [
         {
-          title: '累计违规',
+          title: '累计预警',
           field: 'ylqCount',
           width: '150',
           align: 'center'

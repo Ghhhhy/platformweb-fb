@@ -39,8 +39,6 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
-          :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -111,8 +109,8 @@ export default {
         inputVal: ''
       },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
+      treeQueryparams: { elementCode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
+      treeServerUri: 'http://10.77.18.172:32303/lmp/mofDivTree',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -237,7 +235,11 @@ export default {
       codeList: [],
       showGlAttachmentDialog: false,
       modifyData: {},
-      node: {}
+      node: {},
+      year: '',
+      typeName: '',
+      basicName: '',
+      createPerson: ''
     }
   },
   mounted() {
@@ -246,12 +248,10 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
-      this.handleType = obj.handleType
-      this.regulationName = obj.regulationName
-      this.regulationType = obj.regulationType
-      this.regulationModelName = obj.regulationModelName
-      this.isEnable = obj.isEnable
+      this.year = Number(obj.year)
+      this.typeName = obj.typeName
+      this.basicName = obj.basicName
+      this.createPerson = obj.createPerson
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -516,7 +516,11 @@ export default {
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        year: this.year,
+        createPerson: this.createPerson,
+        basicName: this.basicName,
+        typeName: this.typeName
       }
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
@@ -600,9 +604,9 @@ export default {
       }
       let that = this
       HttpModule.getLeftTree(params).then(res => {
-        if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
-          that.treeData = treeResdata
+        if (res.data) {
+          // let treeResdata = that.getChildrenData(res.data)
+          that.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }

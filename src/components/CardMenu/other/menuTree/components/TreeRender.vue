@@ -142,8 +142,10 @@ export default {
       display: flex;
       .left{
         width: 150px;
+        padding-right: 16px;
         font-size: 14px;
         font-weight: 700;
+        box-sizing: border-box;
       }
       strong, i{
         font-style: normal;

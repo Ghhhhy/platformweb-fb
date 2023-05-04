@@ -9,6 +9,7 @@
 // editCellExportMethod(params) 单元格导出函数
 // footerCellExportMethod(params) 表尾单元格导出函数
 import { filterTypeMap } from './tableDefaultConfig'
+import FilterNumberRange from '@/components/renderers/tableFilters/FilterNumberRange'
 // let itemConfig = {
 //   orderIndex: '', // 嵌套数据结构
 //   orderPIndex: '', // 嵌套数据结构
@@ -541,7 +542,7 @@ const defaultPublicRenders = {
                 data[property] = value
               },
               onTreeLoaded({ treeData, tree }, bsTree) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
+                $form.$parent?.itemOption?.({ $form, property, itemValue: data[property], optionType: 'onTreeLoaded', treeData, tree, bsTree, renderOpts })
               },
               onNodeClick({ node, treeData, value }) {
                 if (node !== null) {
@@ -587,6 +588,8 @@ const defaultPublicRenders = {
   $vxeSelect: {
     // 下拉选择
     renderDefault(h, { props = {}, options }, { row, column }, context) {
+      const labelField = props.label || 'label'
+      const valueField = props.value || 'value'
       row[column.property] = (row[column.property] + '').replace(/null|undefined/ig, '')
       // // row[column.property] = typeof (row[column.property]) === 'string' ? row[column.property] : (Array.isArray(row[column.property]) ? row[column.property].join(',') : '')
       let arrValue = []
@@ -595,16 +598,16 @@ const defaultPublicRenders = {
         if (props.optgroup) {
           options.forEach((itemP, indexP) => {
             itemP.children.forEach((item, index) => {
-              if (row[column.property + '__multiple'].split(',').indexOf(item.value + '') >= 0) {
-                arrValue.push(item.label)
+              if (row[column.property + '__multiple'].split(',').indexOf(item[valueField] + '') >= 0) {
+                arrValue.push(item[labelField])
               }
             })
           })
         } else {
           row[column.property + '__multiple'] = (row[column.property] === '') ? [] : row[column.property].split(',')
           options.forEach((item, index) => {
-            if (row[column.property + '__multiple'].split(',').indexOf(item.value + '') >= 0) {
-              arrValue.push(item.label)
+            if (row[column.property + '__multiple'].split(',').indexOf(item[valueField] + '') >= 0) {
+              arrValue.push(item[labelField])
             }
           })
         }
@@ -612,15 +615,15 @@ const defaultPublicRenders = {
         if (props.optgroup) {
           options.forEach((itemP, indexP) => {
             itemP.children.forEach((item, index) => {
-              if (row[column.property] + '' === item.value + '') {
-                arrValue.push(item.label)
+              if (row[column.property] + '' === item[valueField] + '') {
+                arrValue.push(item[labelField])
               }
             })
           })
         } else {
           options.forEach((item, index) => {
-            if (row[column.property] + '' === item.value + '') {
-              arrValue.push(item.label)
+            if (row[column.property] + '' === item[valueField] + '') {
+              arrValue.push(item[labelField])
             }
           })
         }
@@ -1103,10 +1106,10 @@ const defaultPublicRenders = {
                 itemChange({ $form, property, itemValue: data[property], data, renderOpts })
               },
               prefixClick({ value, $event }) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'prefixClick', renderOpts })
+                $form.$parent?.itemOption({ $form, property, itemValue: data[property], optionType: 'prefixClick', renderOpts })
               },
               suffixClick({ value, $event }) {
-                $form.$parent.itemOption({ $form, property, itemValue: data[property], optionType: 'suffixClick', renderOpts })
+                $form.$parent?.itemOption({ $form, property, itemValue: data[property], optionType: 'suffixClick', renderOpts })
               }
             }
           })
@@ -1195,9 +1198,10 @@ const defaultPublicRenders = {
       let viewDigits = props.digits || bsTable.curSelectMoneyUnitOption.viewDigits
       let zero = bsTable.transToNumber('', viewDigits)
       let val = bsTable.transToNumber(row[column.property], viewDigits)
+
       if (val === zero && showZero) {
         val = '0.00'
-      } else if (val === zero && !showZero) {
+      } else if ((val === zero || Number(val) === Number(zero)) && !showZero) {
         return [<span class="text"></span>]
       } else if (bsTable.toolbarConfigInCopy.moneyInputSwich) {
         val = bsTable.transToNumber(bsTable.accurateChuFa(val, moneyUnit), viewDigits)
@@ -2846,6 +2850,27 @@ const defaultTableRenderers = {
   //     return [<span>{row[column.property]}</span>]
   //   }
   // }
+  $customIcon: {
+    // 增加icon图标展示
+    renderDefault(h, cellRender, params) {
+      const { renderProps, options, props } = cellRender
+      let { row, column } = params
+      const cellValue = row[column.property]
+      const currentOption = options.find(option => String(option.value) === String(cellValue))
+      if (renderProps?.render && typeof renderProps?.render === 'function') {
+        return renderProps.render(h, { row, column, cellRender, params })
+      } else if (currentOption?.iconClass) {
+        return [
+          <i class={currentOption?.iconClass} style={{ ...(currentOption?.iconStyle || {}), fontSize: '18px', verticalAlign: 'middle' }}></i>,
+          props?.showLabel ? <span style={{ ...(currentOption?.iconStyle || {}), verticalAlign: 'middle' }}>{currentOption?.label || currentOption?.value}</span> : ''
+        ]
+      } else {
+        return [
+          <span>{currentOption?.label || currentOption?.value}</span>
+        ]
+      }
+    }
+  },
   $vxeIcon: {
     // 增加icon图标展示
     renderDefault(h, cellRander, params) {
@@ -2855,7 +2880,7 @@ const defaultTableRenderers = {
           { (row.children?.length < 1 || !row.children) && <i class='el-icon-document' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='el-icon-folder' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='el-icon-folder-opened' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
@@ -2863,13 +2888,14 @@ const defaultTableRenderers = {
   $vxeIcon1: {
     // 增加icon图标展示 红灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
-        <div style="algin: center">
+        <div class="waring-icon-render-wrapper" style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-red' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2877,13 +2903,14 @@ const defaultTableRenderers = {
   $vxeIcon2: {
     // 增加icon图标展示 黄灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
-        <div style="algin: center">
+        <div class="waring-icon-render-wrapper" style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-yellow' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2891,13 +2918,14 @@ const defaultTableRenderers = {
   $vxeIcon3: {
     // 增加icon图标展示 绿灯
     renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
       let { row, column, $table } = params
       return [
-        <div style="algin: center">
+        <div class="waring-icon-render-wrapper" style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-green' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          { showValue && <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
         </div>
       ]
     }
@@ -2907,11 +2935,55 @@ const defaultTableRenderers = {
     renderDefault(h, cellRander, params) {
       let { row, column, $table } = params
       return [
-        <div style="algin: center">
+        <div class="waring-icon-render-wrapper" style="algin: center">
           { (row.children?.length < 1 || !row.children) && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px" />}
           { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-yellow-bell' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
+        </div>
+      ]
+    }
+  },
+  $vxeIcon6: {
+    // 增加icon图标展示 橙色
+    renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
+      let { row, column, $table } = params
+      return [
+        <div class="waring-icon-render-wrapper" style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-orange' style="margin-right: 10px;line-height:32px"></i>}
+          { showValue && <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
+        </div>
+      ]
+    }
+  },
+  $vxeIcon7: {
+    // 增加icon图标展示 蓝色
+    renderDefault(h, cellRander, params) {
+      const showValue = cellRander.props?.showValue !== undefined ? !!cellRander.props?.showValue : true
+      let { row, column, $table } = params
+      return [
+        <div class="waring-icon-render-wrapper" style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-blue' style="margin-right: 10px;line-height:32px"></i>}
+          { showValue && <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>}
+        </div>
+      ]
+    }
+  },
+  $vxeIcon8: {
+    // 增加icon图标展示 灰色
+    renderDefault(h, cellRander, params) {
+      let { row, column, $table } = params
+      return [
+        <div class="waring-icon-render-wrapper" style="algin: center">
+          { (row.children?.length < 1 || !row.children) && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px"></i>}
+          { $table.treeExpandeds.indexOf(row) === -1 && row.children?.length > 0 && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px" />}
+          { $table.treeExpandeds.indexOf(row) > -1 && row.children?.length > 0 && <i class='result-icon result-grey' style="margin-right: 10px;line-height:32px"></i>}
+          <span class="waring-icon-render-content" style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property] || 0}</span>
         </div>
       ]
     }
@@ -2921,11 +2993,11 @@ const defaultTableRenderers = {
     renderDefault(h, cellRander, params) {
       let { row, column, $table } = params
       return [
-        <div style="margin-left:10px;display:flex">
+        <div>
           { (row.hasChild === false) && <i class='el-icon-document' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) === -1 && row.hasChild === true && <i class='el-icon-folder' style="margin-right: 10px;line-height:32px"></i>}
           { $table.treeExpandeds.indexOf(row) > -1 && row.hasChild === true && <i class='el-icon-folder-opened' style="margin-right: 10px;line-height:32px"></i>}
-          <span style="overflow: hidden;text-overflow:ellipsis;flex:1;">{row[column.property]}</span>
+          <span>{row[column.property] || 0}</span>
         </div>
       ]
     }
@@ -2933,9 +3005,13 @@ const defaultTableRenderers = {
   // 单值
   $vxeRatio: {
     renderDefault(h, cellRander, params) {
-      let { row, column } = params
+      let { row, column, $table: { $parent } } = params
+      const showZero = $parent?.$parent?._props?.showZero
+      const value = Number(row[column.property]) || 0
+      // 设置转换后的值供导出所用
+      row[column.property + '__viewRatio'] = value > 0 ? `${value?.toFixed(1)}%` : showZero ? '0%' : ''
       return [
-        <span>{row[column.property]}%</span>
+        <span>{value > 0 ? `${value?.toFixed(1)}%` : showZero ? '0%' : ''}</span>
       ]
     }
   }
@@ -3148,6 +3224,7 @@ const tablefilterRenderers = {
     },
     // 筛选方法
     filterMethod({ option, row, column }) {
+      console.log(option, row, column)
       const { data } = option
       let cellValue = row[column.property]
       return String(cellValue).toLowerCase().indexOf(data.toLowerCase()) > -1
@@ -3186,6 +3263,34 @@ const tablefilterRenderers = {
       } else {
         return true
       }
+    }
+  },
+  // 金额范围过滤渲染器
+  FilterNumberRange: {
+    /// 不显示底部按钮，使用自定义的按钮
+    isFooter: false,
+    renderFilter(h, renderOpts, params) {
+      return [
+        <FilterNumberRange params={params}></FilterNumberRange>
+      ]
+    },
+    // 筛选方法
+    filterMethod({ option, row, column }) {
+      const { min, max } = option.data
+      const property = column.property
+      const sortProperty = `${property}__viewSort`
+
+      let value = row[sortProperty] || row[property] || 0
+      if (typeof value === 'string') {
+        value = Number(value?.replace(/,/g, ''))
+      }
+      return min <= value && value <= max
+    },
+    // 重置
+    filterResetMethod({ options }) {
+      options.forEach(option => {
+        option.data = { min: '', max: '' }
+      })
     }
   }
 }

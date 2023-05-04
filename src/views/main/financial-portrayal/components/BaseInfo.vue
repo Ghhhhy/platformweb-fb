@@ -1,14 +1,18 @@
 <template>
   <div class="modelu-wrapper">
+    <!-- title -->
+    <div class="financial-title">
+      <span class="financial-title-text">{{ originData.mofDivName }}财政画像</span>
+    </div>
     <ModuleTitle title="区域基本情况" />
     <!-- 区域基本情况 -->
     <div class="module-chart-container">
       <!-- 人口 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="populationChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="populationChartOption" />
       </div>
       <!-- 国民GDP -->
-      <div class="chart-wrapper gdp-chart-wrapper">
+      <div v-html2canvas="gdpChartOption.detailTitle" class="chart-wrapper gdp-chart-wrapper">
         <BarChart1 :option="gdpChartOption" :chart-width="'90%'" />
         <div class="gdp-speed-container">
           <Trend
@@ -19,39 +23,44 @@
         </div>
       </div>
       <!-- 工业增加值 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="industrialAddedChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="industrialAddedChartOption" />
       </div>
       <!-- 主要行业增加值 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="mainIndustrialChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="mainIndustrialChartOption" />
       </div>
       <!-- 固定资产投入增速 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="fixedAssetsSpeedChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="fixedAssetsSpeedChartOption" />
       </div>
       <!-- 固定资产投入增加额 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="fixedAssetsValueChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="fixedAssetsValueChartOption" />
       </div>
       <!-- 社会消费品零售总额(亿元) -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="'社会消费品零售总额(亿元)'" class="chart-wrapper">
         <DetailContainer title="社会消费品零售总额(亿元)">
-          <SaleAmount />
+          <SaleAmount
+            :current-value="saleAmount.retailTotal"
+            :last-value="saleAmount.retailTotalPeriod"
+            :show-ratio="true"
+            :ratio="saleAmount.retailTotalRatio"
+          />
         </DetailContainer>
       </div>
       <!-- 进出口总值（亿元） -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="importAndExportChartOption.detailTitle" class="chart-wrapper">
         <BarChart1 :option="importAndExportChartOption" />
       </div>
       <!-- 先行指标 -->
-      <div class="chart-wrapper leading-Indicator-wrapper">
+      <div v-html2canvas="leadingIndicatorChartOption.detailTitle" class="chart-wrapper leading-Indicator-wrapper">
         <div class="trend-container">
           <Trend
-            v-for="(item, index) in leadingIndicatorValues"
+            v-for="(item, key) in leadingIndicatorValues"
             :key="item.lable"
             :option="item"
-            :show-icon="index < 1"
+            :show-icon="key === 'increase'"
             algin="center"
             custom-color="#2A8BFD"
           />
@@ -62,7 +71,7 @@
         />
       </div>
       <!-- 居民消费价格指数 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="CIPCommonChartOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="CIPCommonChartOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="CIPCurrentChartOption" />
@@ -71,7 +80,7 @@
         </CommonChartContainer>
       </div>
       <!-- 工业品出厂价格指数 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="exFactoryPriceCommonOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="exFactoryPriceCommonOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="exFactoryPriceChartOption" />
@@ -80,7 +89,7 @@
         </CommonChartContainer>
       </div>
       <!-- 失业率 -->
-      <div class="chart-wrapper">
+      <div v-html2canvas="unemploymentRateCommonOption.detailTitle" class="chart-wrapper">
         <CommonChartContainer :option="unemploymentRateCommonOption">
           <div class="unemployment-rate-container">
             <PolarBarChart :option="unemploymentRateCurrentChartOption" />
@@ -114,6 +123,8 @@ import { useLeadingIndicatorBarChart } from '../hooks/useLeadingIndicatorBarChar
 import { useCIPPieChart } from '../hooks/useCIPPieChart'
 import { useUnemploymentRatePieChart } from '../hooks/useUnemploymentRatePieChart'
 import { useExFactoryPricePieChart } from '../hooks/useExFactoryPricePieChart'
+import { useBaseInfo } from '../hooks/useBaseInfo'
+import { useSaleAmount } from '../hooks/useSaleAmount'
 
 export default defineComponent({
   components: {
@@ -127,17 +138,19 @@ export default defineComponent({
     ExFactoryPriceIndex
   },
   setup() {
-    const { populationChartOption } = usePopulationBarChart()
-    const { industrialAddedChartOption } = useIndustrialAddedBarChart()
-    const { mainIndustrialChartOption } = useMainIndustrialBarChart()
-    const { gdpChartOption, gdpSpeedValues } = useGdpBarChart()
-    const { fixedAssetsSpeedChartOption } = useFixedAssetsSpeedLineChart()
-    const { fixedAssetsValueChartOption } = useFixedAssetsValueLineChart()
-    const { importAndExportChartOption } = useImportAndExportBarChart()
-    const { leadingIndicatorChartOption, leadingIndicatorValues } = useLeadingIndicatorBarChart()
-    const { CIPCommonChartOption, CIPCurrentChartOption, CIPLastChartOption } = useCIPPieChart()
-    const { unemploymentRateCommonOption, unemploymentRateCurrentChartOption, unemploymentRateLastChartOption } = useUnemploymentRatePieChart()
-    const { exFactoryPriceCommonOption, exFactoryPriceChartOption } = useExFactoryPricePieChart()
+    const { originData } = useBaseInfo()
+    const { populationChartOption } = usePopulationBarChart(originData)
+    const { industrialAddedChartOption } = useIndustrialAddedBarChart(originData)
+    const { mainIndustrialChartOption } = useMainIndustrialBarChart(originData)
+    const { gdpChartOption, gdpSpeedValues } = useGdpBarChart(originData)
+    const { fixedAssetsSpeedChartOption } = useFixedAssetsSpeedLineChart(originData)
+    const { fixedAssetsValueChartOption } = useFixedAssetsValueLineChart(originData)
+    const { importAndExportChartOption } = useImportAndExportBarChart(originData)
+    const { leadingIndicatorChartOption, leadingIndicatorValues } = useLeadingIndicatorBarChart(originData)
+    const { CIPCommonChartOption, CIPCurrentChartOption, CIPLastChartOption } = useCIPPieChart(originData)
+    const { unemploymentRateCommonOption, unemploymentRateCurrentChartOption, unemploymentRateLastChartOption } = useUnemploymentRatePieChart(originData)
+    const { exFactoryPriceCommonOption, exFactoryPriceChartOption } = useExFactoryPricePieChart(originData)
+    const { saleAmount } = useSaleAmount(originData)
 
     return {
       populationChartOption,
@@ -157,7 +170,9 @@ export default defineComponent({
       unemploymentRateCurrentChartOption,
       unemploymentRateLastChartOption,
       exFactoryPriceCommonOption,
-      exFactoryPriceChartOption
+      exFactoryPriceChartOption,
+      saleAmount,
+      originData
     }
   }
 })
@@ -166,6 +181,18 @@ export default defineComponent({
 <style lang="scss" scoped>
   .modelu-wrapper {
     margin: auto;
+
+    .financial-title {
+      .financial-title-text {
+        display: block;
+        font-size: 22px;
+        color: #595959;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 34px;
+        font-weight: 600;
+      }
+    }
   }
   .gdp-chart-wrapper {
     background: #fff;
@@ -190,8 +217,8 @@ export default defineComponent({
     .chart-wrapper {
       display: flex;
       flex-shrink: 0;
-      width: 398px;
-      height: 254px;
+      width: 440px;
+      height: 280px;
       margin: 0 16px 16px 0;
       background: #FFFFFF;
       border: 1px solid rgba(236,236,236,1);

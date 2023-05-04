@@ -68,7 +68,7 @@ export default defineComponent({
     })
 
     watch(() => props.option, (newOption) => {
-      setOption?.(newOption)
+      setOption?.(newOption || {})
     }, { deep: true })
 
     return {
@@ -116,7 +116,7 @@ export default defineComponent({
   left: 0;
   padding: 16px 16px 0 16px;
   box-sizing: border-box;
-  width: 100%;
+  width: 80%;
   z-index: 5;
 }
 </style>

@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -31,22 +32,37 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">直达资金惠企利民发放明细(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -56,7 +72,9 @@
     <DetailDialog
       v-if="detailVisible"
       :title="detailTitle"
+      :detail-type="detailType"
       :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
@@ -71,7 +89,9 @@ import getFormData from './budgetDisburseDiscount.js'
 import DetailDialog from '../children/qdetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import regionMixin from '../mixins/regionMixin'
 export default {
+  mixins: [regionMixin],
   components: {
     DetailDialog,
     SDetailDialog
@@ -89,6 +109,7 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -130,26 +151,26 @@ export default {
         // gradedSummaryFields: ['bonus', 'income'],
         calcAndConstraintItemCodeField: 'itemCode',
         // 示例中1001为tableId
-        rowCodeFormulaConfig: {
-          // 单元格交叉计算
-          // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
-          '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
-          // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
-          // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
-        },
+        // rowCodeFormulaConfig: {
+        //   // 单元格交叉计算
+        //   // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
+        //   '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
+        //   // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
+        //   // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
+        // },
         cellDataConfig: [// 提取和计算
 
         ],
-        colFormulaConfig: {
-          jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
-          jLoad: '{jOut}/{jAmount}*100',
-          sUnassigned: '{jAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
-          sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{jAmount}*100',
-          aUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
-          aLoad: '({sbjfpAmount}+{sxjfpAmount})/{jAmount}*100',
-          xUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
-          xLoad: '{xbjfpAmount}/{jAmount}*100'
-        },
+        // colFormulaConfig: {
+        //   jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
+        //   jLoad: '{jOut}/{jAmount}*100',
+        //   sUnassigned: '{jAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
+        //   sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{jAmount}*100',
+        //   aUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
+        //   aLoad: '({sbjfpAmount}+{sxjfpAmount})/{jAmount}*100',
+        //   xUnassigned: '{jAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
+        //   xLoad: '{xbjfpAmount}/{jAmount}*100'
+        // },
         getDataAxiosConfig: { // 跨表提取请求配置
           dataField: 'data', // 数据字段
           successCode: '100000', // 成功code
@@ -183,7 +204,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -203,6 +224,7 @@ export default {
       tableFooterConfig: {
         showFooter: false
       },
+      reportTime: '', // 上次取数时间
       // 操作日志
       logData: [],
       showLogView: false,
@@ -228,11 +250,12 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      detailQueryParam: {}
     }
   },
   mounted() {
-    this.getNewData()
+    // this.getNewData()
   },
   methods: {
     // 展开折叠查询框
@@ -298,11 +321,11 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.refresh()
+      this.queryTableDatas()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
-    search(val) {
+    search(val, multipleValue = {}, isFlush = false) {
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
@@ -323,7 +346,7 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(isFlush)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -340,7 +363,11 @@ export default {
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -358,107 +385,27 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
-      // let params = {
-      //   reportCode: type === 'beAmount' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
-      //   mofDivCode: recDivCode,
-      //   fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
-      // }
-      // this.tableLoading = true
+    handleDetail(reportCode, recDivCode) {
+      let isCz = ''
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
+      } else {
+        isCz = '1'
+      }
+      let params = {
+        mofDivCode: recDivCode,
+        isCz: isCz,
+        fiscalYear: this.searchDataList.fiscalYear,
+        reportCode: reportCode,
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
       this.tableLoading = true
       setTimeout(() => {
         this.tableLoading = false
       }, 2000)
-      type === 'beAmount' ? this.detailData = [
-        {
-          businessName: '西北妇女儿童医院',
-          bzAmount: 864642328,
-          creditCode: '611301032018160011912'
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050000344',
-          bzAmount: 864634
-        },
-        {
-          businessName: '陕西省医疗保障局',
-          creditCode: '129910435745410803',
-          bzAmount: 864642398
-        },
-        {
-          businessName: '陕西省荣誉军人康复医院',
-          creditCode: '61001647508050450319',
-          bzAmount: 86434498
-        },
-        {
-          businessName: '陕西省地方病防治研究所',
-          creditCode: '61001711100058011254',
-          bzAmount: 8646498
-        },
-        {
-          businessName: '渭南九州通正元医药有限公司',
-          creditCode: '61001647508050000319',
-          bzAmount: 86422498
-        }
-      ] : this.detailData = [
-        {
-          card: 500383199204062383,
-          name: '张三',
-          bzAmount: 1461123
-        },
-        {
-          card: 500383199204062364,
-          name: '李四',
-          bzAmount: 755439
-        },
-        {
-          card: 50038319920532383,
-          name: '王五',
-          bzAmount: 447512300
-        },
-        {
-          card: 50038319920432383,
-          name: '安其',
-          bzAmount: 8042000
-        },
-        {
-          card: 500384642204062383,
-          name: '刘均',
-          bzAmount: 5610000
-        },
-        {
-          card: 500383199204062341,
-          name: '丰能',
-          bzAmount: 58350000
-        },
-        {
-          card: 500383199204067643,
-          name: '乔东',
-          bzAmount: 10020000
-        },
-        {
-          card: 500383199204074345,
-          name: '李太华',
-          bzAmount: 980000
-        },
-        {
-          card: 500383199204095859,
-          name: '张起灵',
-          bzAmount: 39670000
-        },
-        {
-          card: 500383199204064444,
-          name: '吴勇',
-          bzAmount: 7000000
-        },
-        {
-          card: 500383199204061111,
-          name: '邓伦',
-          bzAmount: 10000000
-        }
-      ]
+      this.detailQueryParam = params
+      this.detailType = reportCode
       this.detailVisible = true
-      this.detailType = type
       // HttpModule.queryTableDatas(params).then((res) => {
       //   this.tableLoading = false
       //   if (res.code === '000000') {
@@ -472,36 +419,82 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
       let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
       switch (key) {
-        case 'beAmount':
-          this.handleDetail('beAmount', obj.row.recDivCode)
+        case 'amountHqpay':
+          this.handleDetail('hjqybzje', obj.row.code)
           this.detailTitle = '项目惠及企业台账明细'
           break
-        case 'bpAmount':
-          this.handleDetail('bpAmount', obj.row.recDivCode)
+        case 'amountLmpay':
+          this.handleDetail('hjrybzje', obj.row.code)
           this.detailTitle = '项目惠及人员台账明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = true) {
+      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = false) {
       const param = {
-        reportCode: 'zyzdzjyszxqkfdq',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        isFlush,
+        // reportCode: 'zdzjhqlmffmx',
+        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        fiscalYear: this.searchDataList.fiscalYear,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.tableLoading = false
+          if (res.data) {
+            this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+          }
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
@@ -556,7 +549,10 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (['bpAmount', 'beAmount'].includes(column.property)) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountHqpay', 'amountLmpay'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -565,11 +561,14 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
+    this.menuName = this.$store.state.curNavModule.name
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.queryTableDatas()
+    this.getPro()
+    this.queryTableDatas()
   }
 }
 </script>
