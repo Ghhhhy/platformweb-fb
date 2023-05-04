@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { proconf } from './MonitoringProjectManagement'
+import { proconf } from './MonitoringProjectManagement.js'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 export default {
