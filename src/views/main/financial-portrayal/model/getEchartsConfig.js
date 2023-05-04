@@ -56,7 +56,7 @@ export const getTooltipFormatter = (nameKey = 'name', isShowSeriesName = false) 
     let startSrt = isShowSeriesName
       ? `<div style="text-align: center; margin-bottom: 10px;">${getAxisLabelFormatter(12, { joinSymbol: '<br/>' })(params[0]?.name)}</div>`
       : ''
-    return params.reduce((sum, item) => {
+    return params?.reduce((sum, item) => {
       const value = item.value
       const realValue = Array.isArray(value) ? value[value.length - 1] : value
 

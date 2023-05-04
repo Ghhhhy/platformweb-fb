@@ -1757,7 +1757,7 @@ export default {
 }
 .unit-tree-main.unit-tree-main-nodrop {
   box-sizing: border-box;
-  height: 100%;
+  height: calc(100% - 48px);
   padding: 10px;
   .selection-tree-nodrop {
     height: 100%;

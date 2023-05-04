@@ -136,7 +136,7 @@ export default {
     }
   },
   height: {
-    type: [String],
+    type: [String, Number],
     default () {
       return 'auto'
     }

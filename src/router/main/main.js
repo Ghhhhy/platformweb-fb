@@ -15,6 +15,7 @@ importAll(require.context('./fujianLedge', false, /.js$/))
 importAll(require.context('./handlingOfViolations', false, /.js$/))
 importAll(require.context('./statisticAnalysis', false, /.js$/))
 importAll(require.context('./monitoringSubjectAnalysis', false, /.js$/))
+importAll(require.context('./specialMonitor', false, /.js$/))
 
 const MainRoute = {
   path: '/Main',

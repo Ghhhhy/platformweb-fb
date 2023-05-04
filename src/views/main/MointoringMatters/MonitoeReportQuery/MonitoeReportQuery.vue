@@ -167,13 +167,6 @@ export default {
         pageSize: 20
       },
       tableConfig: {
-        renderers: {
-          // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
-        },
-        methods: {
-          onOptionRowClick: this.onOptionRowClick
-        }
       },
       tableFooterConfig: {
         showFooter: false
@@ -368,26 +361,6 @@ export default {
         })
       })
     },
-    // table 右侧操作按钮
-    onOptionRowClick({ row, optionType }, context) {
-      // console.log(context.$parent.$parent.$parent)
-      console.log(row.attachment_id)
-      switch (optionType) {
-        // 新增
-        case 'add':
-          this.clickAddBtn(row)
-          break
-        // 操作日志
-        case 'report':
-          this.queryActionLog(row)
-          break
-        // 附件
-        case 'attachment':
-          this.showAttachment(row)
-          break
-        default:
-      }
-    },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         // 刷新
@@ -542,15 +515,6 @@ export default {
         this.logData = res.data
         console.log(this.logData)
         this.showLogView = true
-      })
-    },
-    // 送审
-    audieData(param) {
-      HttpModule.audieData(param).then(res => {
-        if (res.code === '000000') {
-          this.$message.warning('操作成功')
-          this.queryTableDatas()
-        }
       })
     },
     getLeftTreeData() {
