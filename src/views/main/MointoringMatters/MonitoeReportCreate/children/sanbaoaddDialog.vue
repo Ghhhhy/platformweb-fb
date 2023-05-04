@@ -234,7 +234,7 @@ export default {
     },
     getRegulationChildrenData(datas) {
       let that = this
-      datas.forEach((item) => {
+      datas.forEach(item => {
         item.label = item.text
         if (item.children && item.children.length > 0) {
           that.getRegulationChildrenData(item.children)
@@ -248,7 +248,23 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getLeftTree(that.treeQueryparams).then((res) => {
+      let params = {}
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
+        params = {
+          elementcode: 'admdiv',
+          province: '610000000',
+          year: '2021',
+          wheresql: 'and code like \'' + 61 + '%\''
+        }
+      } else {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
+        }
+      }
+      HttpModule.getLeftTree(params).then((res) => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
           that.askProvinceOptions = treeResdata
