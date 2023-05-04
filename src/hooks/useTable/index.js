@@ -1,5 +1,10 @@
 import { reactive, ref, unref, nextTick } from '@vue/composition-api'
-import { getActionLabel, getClass, fliterActions, transformFetchData } from './utils'
+import {
+  getActionLabel,
+  getClass,
+  fliterActions,
+  transformFetchData
+} from './utils'
 import { checkRscode } from '@/utils/checkRscode'
 
 function useTable(
@@ -15,8 +20,10 @@ function useTable(
     afterFetch: config?.afterFetch, // 后置钩子
     finallyFetch: config?.finallyFetch, // 赋值完成的钩子
     getSubmitFormData: config?.getSubmitFormData, // 获取搜索栏form表单值
-    openPager: typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
-    dataKey: typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records' // 深层取值字段
+    openPager:
+      typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
+    dataKey:
+      typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records' // 深层取值字段
   }
   // 表格所有列
   const columns = ref(configIn?.columns || [])
@@ -67,7 +74,7 @@ function useTable(
     renderDefault(h, cellRender, params, context) {
       const actions = fliterActions(columnActions, params)
 
-      return actions?.map(item => {
+      return actions?.map((item) => {
         const handle = item.handle
         const classList = getClass(item, params)
         const label = getActionLabel(item, params)
@@ -76,14 +83,16 @@ function useTable(
         // const render = item.render || {}
         // const renderType = render?.tagType || 'text'
 
-        return <el-tooltip content={tips} placement="top" effect="light">
-          <a
-            class={classList.join(' ') + ' gloable-option-row fn-inline'}
-            onClick={() => handle(params)}
-          >
-            {label}
-          </a>
-        </el-tooltip>
+        return (
+          <el-tooltip content={tips} placement="top" effect="light">
+            <a
+              class={classList.join(' ') + ' gloable-option-row fn-inline'}
+              onClick={() => handle(params)}
+            >
+              {label}
+            </a>
+          </el-tooltip>
+        )
       })
     }
   }
@@ -92,10 +101,13 @@ function useTable(
    * 更新操作列
    */
   function updateActions() {
-    const actionItem = unref(columns)
-      ?.find(item => {
-        return item.field === 'columnAction' && item.title === '操作' && !item.slots?.default
-      })
+    const actionItem = unref(columns)?.find((item) => {
+      return (
+        item.field === 'columnAction' &&
+        item.title === '操作' &&
+        !item.slots?.default
+      )
+    })
     if (actionItem) {
       const renderName = `$column-action}-${new Date().getTime()}`
       columnActionRenderSymbol = renderName
@@ -172,7 +184,10 @@ function useTable(
       tableData.value = transformFetchData(res, configIn.dataKey) || []
 
       // 后置钩子（提供返回数据处理）
-      if (configIn.finallyFetch && typeof configIn.finallyFetch === 'function') {
+      if (
+        configIn.finallyFetch &&
+        typeof configIn.finallyFetch === 'function'
+      ) {
         setTimeout(() => {
           configIn.finallyFetch(data)
         })
@@ -243,6 +258,7 @@ function useTable(
       tableConfig,
       tableLoadingState,
       tableData,
+      tableRef,
       getTable,
       fetchTableData,
       resetFetchTableData,
