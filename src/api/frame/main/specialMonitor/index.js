@@ -21,7 +21,7 @@ export const myWarningPresentStation = (params) => {
  * @return {*}
  */
 export const concernsByType = (params) => {
-  return post('lmp/threeSafeReport/concernsByType', params)
+  return post('large-monitor-platform/lmp/threeSafeReport/concernsByType', params)
 }
 
 /**
@@ -29,7 +29,7 @@ export const concernsByType = (params) => {
  * @return {*}
  */
 export const treasuryComparison = () => {
-  return post('lmp/threeSafeReport/treasuryComparison')
+  return post('large-monitor-platform/lmp/threeSafeReport/treasuryComparison')
 }
 
 /**
