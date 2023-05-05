@@ -390,7 +390,7 @@ export default {
       return proCodes
     },
     getPro() {
-      HttpModule.getCapitalTreeData().then(res => {
+      HttpModule.getProSpeTreeData().then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
           let treeResdata = this.getChildrenNewData1(res.data)

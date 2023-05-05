@@ -8,5 +8,11 @@ export default {
   // 获取表格数据
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/warnRule/querySummaryDetail', params)
+  },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/query', params)
+  },
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
   }
 }
