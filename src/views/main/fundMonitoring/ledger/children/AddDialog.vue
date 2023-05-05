@@ -22,10 +22,7 @@
       />
       <div style="display: flex; padding: 0.5em 0.8em 0.5em 0;">
         <span style="width: 100px; padding-right: 10px; text-align: right; box-sizing: border-box">口径说明</span>
-        <VueQuillEditor
-          :content.sync="formData.description"
-          style="height: 100px; flex: 1"
-        />
+        <VueQuillEditor :content.sync="formData.description" style="height: 100px; flex: 1" />
       </div>
     </div>
     <div slot="footer" class="vxeModalUnique">
@@ -45,7 +42,7 @@ export default {
     VueQuillEditor
   },
   computed: {
-    curNavModule() {
+    curNavModule () {
       return this.$store.state.curNavModule
     }
   },
@@ -61,7 +58,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       content: '',
       formValidationConfig: {
@@ -95,7 +92,7 @@ export default {
         {
           title: '数据源sql',
           field: 'sqlCode',
-          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false, rows: 3 } },
+          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false, rows: 3, maxlength: 10000 } },
           span: 24
         }
       ],
@@ -122,20 +119,20 @@ export default {
     }
   },
   methods: {
-    itemChange(property, value, dataList, itemsConfig) {
+    itemChange (property, value, dataList, itemsConfig) {
       this.formData = property.data
     },
-    ajaxTableData({ params, currentPage, pageSize }) {
+    ajaxTableData ({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
-    dialogClose() {
+    dialogClose () {
       this.$parent.addDialogVisible = false
       this.$parent.queryTableDatas()
     },
     // 修改回显
-    showInfo() {
+    showInfo () {
       if (this.title === '新增') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
         return
@@ -146,7 +143,7 @@ export default {
       this.formData.description = this.selectData.description || ''
     },
     // 保存新增的计划信息
-    addOrUpdate() {
+    addOrUpdate () {
       if (this.title === '新增') {
         this.addLoading = true
         this.$refs.addForm.validate().then(res =>
@@ -186,7 +183,7 @@ export default {
   },
   watch: {
   },
-  created() {
+  created () {
     /* if (this.userInfo.province === '610000000') {
       this.btnShow = false
     } */
@@ -208,7 +205,7 @@ export default {
 }
 
 .ledger .vxe-textarea {
-  height: 150px
+  height: 150px;
 }
 
 #bigbox {

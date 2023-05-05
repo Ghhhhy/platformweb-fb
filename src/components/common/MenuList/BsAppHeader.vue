@@ -7,7 +7,7 @@
           <div class="MenuList-header header-left flex">
             <div class="header-left header-left-title flex">
               <img src="./img/logo-new.png" alt="">
-            <!-- <div class="header-img"></div>
+              <!-- <div class="header-img"></div>
             <div class="header-title">预算管理</div> -->
             </div>
             <!-- <div class="header-left header-left-menu flex">
@@ -66,12 +66,7 @@
                 </span>
               </div>
               <el-dropdown-menu slot="dropdown" class="yearUl">
-                <el-dropdown-item
-                  v-for="(item,ite) in yearList"
-                  :key="ite"
-                  @click.native="chooseYear(item)"
-                  v-text="item"
-                />
+                <el-dropdown-item v-for="(item,ite) in yearList" :key="ite" @click.native="chooseYear(item)" v-text="item" />
               </el-dropdown-menu>
             </el-dropdown>
             <div class="divider"></div>
@@ -130,12 +125,12 @@
             </div>
           </div>
         </div>
-      <!-- <div v-if="showOn" class="showPopup"> -->
-      <!-- <p class="showPopup-exit" @click="exitUser"><i class="el-icon-switch-button icon"></i> 安全退出</p> -->
-      <!-- <p class="showPopup-exit"><i class="el-icon-setting icon"></i> 修改密码</p> -->
-      <!-- </div> -->
+        <!-- <div v-if="showOn" class="showPopup"> -->
+        <!-- <p class="showPopup-exit" @click="exitUser"><i class="el-icon-switch-button icon"></i> 安全退出</p> -->
+        <!-- <p class="showPopup-exit"><i class="el-icon-setting icon"></i> 修改密码</p> -->
+        <!-- </div> -->
       </div>
-    <!--<div style="height: 9.5vh;"></div>-->
+      <!--<div style="height: 9.5vh;"></div>-->
     </div>
     <div>
       <vxe-modal
@@ -194,7 +189,7 @@ export default {
     // MyFavorite
     // Chat
   },
-  data() {
+  data () {
     return {
       // 是否开启暗黑模式
       darkMode: false,
@@ -246,7 +241,7 @@ export default {
   },
   computed: {
   },
-  mounted() {
+  mounted () {
     this.darkMode = localStorage.getItem('__boss__darkmode__') === 'true' || false
     this.supportChrome = this.getChomeVersion()
     this.getFoundData()
@@ -262,7 +257,7 @@ export default {
   },
   watch: {
     darkMode: {
-      handler(newval) {
+      handler (newval) {
         if (this.supportChrome) {
           localStorage.setItem('__boss__darkmode__', newval)
           if (newval) {
@@ -280,7 +275,7 @@ export default {
   },
   methods: {
     ...mapMutations('basicInfo', ['clearBossTree']),
-    handleCommand(obj) {
+    handleCommand (obj) {
       if (obj === 'a') {
         this.pwdVisible = true
       } else if (obj === 'b') {
@@ -290,7 +285,7 @@ export default {
         })
       }
     },
-    getChomeVersion() {
+    getChomeVersion () {
       let arr = navigator.userAgent.split(' ')
       let chromeVersion = false
       for (let i = 0; i < arr.length; i++) {
@@ -305,19 +300,19 @@ export default {
         return false
       }
     },
-    OnShowSelectSearch(e) {
+    OnShowSelectSearch (e) {
       // 点击搜索图标显示选择框以及搜索输入框
       this.show = !this.show
     },
-    onMenuSelectChange(obj) {
+    onMenuSelectChange (obj) {
       this.$emit('onMenuSelectChange', obj)
     },
     // 展示退出弹出框
-    showPop() {
+    showPop () {
       this.showOn = !this.showOn
     },
     // 展示退出弹出框
-    async chooseYear(year) {
+    async chooseYear (year) {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.$router.push({
@@ -355,12 +350,12 @@ export default {
       }
     },
     // 退出
-    exitUser() {
+    exitUser () {
       this.clearUserData()
       if (this.gloableUrl.isLoginOutToPortal) {
         window.location.href = this.gloableUrl.portalLoginUrl
       } else {
-        window.location.href = window.location.origin + window.location.pathname
+        window.location.href = +window.location.pathname
       }
       // window.location.reload()
       // this.$router.push({
@@ -368,7 +363,7 @@ export default {
       // })
     },
     // 清空用户缓存数据
-    clearUserData() {
+    clearUserData () {
       // 清除localStorage数据
       this.$store.commit('setLoginAuthentication', {})
       // 清除store中数据
@@ -376,7 +371,7 @@ export default {
       this.clearBossTree()
     },
     // 菜单搜索
-    getNewDataColumns(dataColums) {
+    getNewDataColumns (dataColums) {
       dataColums.map(item => {
         // this.$delete(item, 'width')
         if (item.children) {
@@ -395,22 +390,22 @@ export default {
       })
       return dataColums
     },
-    getFoundData() {
+    getFoundData () {
       // 递归调整数据结构
       MenuModule.getMenuInfo().then(res => {
         this.getNewDataColumns(res)
       }).catch()
     },
-    getData(value) {
+    getData (value) {
       const valueNum = value.slice(2, value.length + 1)
       this.searchData[valueNum].name = this.searchData[valueNum].label
       this.$emit('onMenuSelectChange', this.searchData[valueNum])
       this.show = !this.show
     },
-    openPwdDialog() {
+    openPwdDialog () {
       this.pwdVisible = true
     },
-    toggleFullScreen(isFullscreen) {
+    toggleFullScreen (isFullscreen) {
       isFullscreen = isFullscreen === undefined ? !(document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen) : isFullscreen
       this.fullScreen = isFullscreen
       let de = document.documentElement
@@ -433,7 +428,7 @@ export default {
         }
       }
     },
-    async updatePwd() {
+    async updatePwd () {
       /*
       if (!(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ig.test(this.oldPwd))) {
         this.$XModal.message({ status: 'error', message: '旧密码长度必须是8位，只能是数字加字母！' })
@@ -476,54 +471,58 @@ export default {
           console.log(e)
         })
     },
-    cancelDialog() {
+    cancelDialog () {
       this.pwdVisible = false
     }
   }
 }
 </script>
 <style lang="scss">
-  /*.BsAppHeader{*/
-  /*  position: fixed;*/
-  /*  top: 0;*/
-  /*  left: 0;*/
-  /*  right: 0;*/
-  /*  z-index: 99999;*/
-  /*}*/
-  .el-icon-zoom-in{
-    cursor:hand
-  }
-  .auto{
-    width: 100px;
-    text-align: center;
-  }
-  .header-name{
-    font-size: 13px;
-    height: 50px;
-    line-height: 50px;
-  }
-  .layout-table{
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-  .layout-table tr{
-    height:40px;
-    width:100%;
-  }
-  .layout-table .label{
-    width:100px;
-    text-align: right;
-  }
-  .layout-table .vxe-input{width: 220px;}
-  .center{text-align: center;}
-  .divider {
-    height: 16px;
-    width: 1px;
-    background-color: rgb(255, 255, 255);
-    margin-bottom: -3px;
+/*.BsAppHeader{*/
+/*  position: fixed;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 99999;*/
+/*}*/
+.el-icon-zoom-in {
+  cursor: hand;
 }
-.el-popper[x-placement^=bottom]{
+.auto {
+  width: 100px;
+  text-align: center;
+}
+.header-name {
+  font-size: 13px;
+  height: 50px;
+  line-height: 50px;
+}
+.layout-table {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.layout-table tr {
+  height: 40px;
+  width: 100%;
+}
+.layout-table .label {
+  width: 100px;
+  text-align: right;
+}
+.layout-table .vxe-input {
+  width: 220px;
+}
+.center {
+  text-align: center;
+}
+.divider {
+  height: 16px;
+  width: 1px;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: -3px;
+}
+.el-popper[x-placement^='bottom'] {
   margin-top: 5px !important;
 }
 </style>
