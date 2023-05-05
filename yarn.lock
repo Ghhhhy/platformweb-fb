@@ -1274,7 +1274,7 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@bszx/boss-ui@^2.1.2-beta.1":
+"@bszx/boss-ui@^2.1.2-beta.3":
   version "2.1.2"
   resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2.tgz#eedb45f18c086e5f35ddee1ff12453934d06d850"
   integrity sha512-5mIYQw2SZVTiLwTS/N6WzqVN/GRk0TNqik3N3Sl1S83gXS51sV2bwrsoH6cFV2QbZzJje4sxo685bZGsu8JYUw==
