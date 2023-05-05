@@ -1,9 +1,25 @@
 <!--监控规则函数管理新增页面弹框-->
 <template>
-  <vxe-modal v-model="dialogVisible" class="ledger" :title="title" width="60%" height="80%" position="top" :show-footer="true" @close="dialogClose">
+  <vxe-modal
+    v-model="dialogVisible"
+    class="ledger"
+    :title="title"
+    width="60%"
+    height="80%"
+    position="top"
+    :show-footer="true"
+    @close="dialogClose"
+  >
     <div style="padding-bottom: 10px;">
-      <BsForm ref="addForm" :form-items-config="addFormItemsConfig" :form-data-list="formData" :form-validation-config="formValidationConfig" :title-width="100"
-        :form-gloabal-config="{ titleWidth: 100 }" @itemChange="itemChange" />
+      <BsForm
+        ref="addForm"
+        :form-items-config="addFormItemsConfig"
+        :form-data-list="formData"
+        :form-validation-config="formValidationConfig"
+        :title-width="100"
+        :form-gloabal-config="{ titleWidth: 100 }"
+        @itemChange="itemChange"
+      />
       <div style="display: flex; padding: 0.5em 0.8em 0.5em 0;">
         <span style="width: 100px; padding-right: 10px; text-align: right; box-sizing: border-box">口径说明</span>
         <VueQuillEditor :content.sync="formData.description" style="height: 100px; flex: 1" />

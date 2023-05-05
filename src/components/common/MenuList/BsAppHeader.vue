@@ -133,7 +133,15 @@
       <!--<div style="height: 9.5vh;"></div>-->
     </div>
     <div>
-      <vxe-modal ref="template" v-model="pwdVisible" title="修改密码" width="420px" height="260px" transfer @close="cancelDialog">
+      <vxe-modal
+        ref="template"
+        v-model="pwdVisible"
+        title="修改密码"
+        width="420px"
+        height="260px"
+        transfer
+        @close="cancelDialog"
+      >
         <div>
           <vxe-form>
             <table class="layout-table">
@@ -347,7 +355,7 @@ export default {
       if (this.gloableUrl.isLoginOutToPortal) {
         window.location.href = this.gloableUrl.portalLoginUrl
       } else {
-        window.location.href = + window.location.pathname
+        window.location.href = +window.location.pathname
       }
       // window.location.reload()
       // this.$router.push({
