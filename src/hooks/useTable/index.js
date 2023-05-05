@@ -243,6 +243,7 @@ function useTable(
       tableConfig,
       tableLoadingState,
       tableData,
+      tableRef,
       getTable,
       fetchTableData,
       resetFetchTableData,
