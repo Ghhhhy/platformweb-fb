@@ -2,15 +2,15 @@ import { post } from '@/api/http'
 
 const API_URLS = {
   // 规则启用情况
-  RULE_ACTIVATION_URL: 'lmp/warn/statistics/ruleActivation',
+  RULE_ACTIVATION_URL: 'large-monitor-platform/lmp/warn/statistics/ruleActivation',
   // 业务量统计
-  BUSINESS_STATISTICS: 'lmp/warn/statistics/businessStatistics',
+  BUSINESS_STATISTICS: 'large-monitor-platform/lmp/warn/statistics/businessStatistics',
   // 规则实时滚动
-  GET_LATEST_DATA: 'lmp/warn/statistics/getLatestData',
+  GET_LATEST_DATA: 'large-monitor-platform/lmp/warn/statistics/getLatestData',
   // 监控处理情况
-  MONITOR_PROCESSING: 'lmp/warn/statistics/monitorProcessing',
+  MONITOR_PROCESSING: 'large-monitor-platform/lmp/warn/statistics/monitorProcessing',
   // 按区划、月份查看所有违规情况
-  GET_WARN_BY_MOFDIV_CODE: 'lmp/warn/statistics/getWarnByMofDivCode'
+  GET_WARN_BY_MOFDIV_CODE: 'large-monitor-platform/lmp/warn/statistics/getWarnByMofDivCode'
 
 }
 /**

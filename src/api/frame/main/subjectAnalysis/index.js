@@ -2,13 +2,13 @@ import { post } from '@/api/http'
 
 const API_URLS = {
   // 统计分析查询（按区划汇总）
-  QUERY_ANALYSIS_BY_MOFSUMMARY: 'lmp/warn/statistics/queryAnalysisByMofSummary',
+  QUERY_ANALYSIS_BY_MOFSUMMARY: 'large-monitor-platform/lmp/warn/statistics/queryAnalysisByMofSummary',
   // 统计分析查询（按预警级别）
-  QUERY_ANALYSIS_BY_WARNLEVEL: 'lmp/warn/statistics/queryAnalysisByWarnLevel',
+  QUERY_ANALYSIS_BY_WARNLEVEL: 'large-monitor-platform/lmp/warn/statistics/queryAnalysisByWarnLevel',
   // 统计分析查询（按区划-bar图）
-  QUERY_ANALYSIS_BY_RULE: 'lmp/warn/statistics/queryAnalysisByRule',
+  QUERY_ANALYSIS_BY_RULE: 'large-monitor-platform/lmp/warn/statistics/queryAnalysisByRule',
   // 统计分析查询（按区划-散点图）
-  QUERY_ANALYSIS_BY_MOF: 'lmp/warn/statistics/queryAnalysisByMof'
+  QUERY_ANALYSIS_BY_MOF: 'large-monitor-platform/lmp/warn/statistics/queryAnalysisByMof'
 
 }
 /**
