@@ -40,8 +40,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
-import HttpModuleMof from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -109,19 +108,20 @@ export default {
       sDetailTitle: '',
       sDetailVisible: false,
       sDetailData: [],
-      fiscalYear: ''
+      fiscalYear: '',
+      proCodes: []
     }
   },
   methods: {
     getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModuleMof.getMofTreeData({ fiscalYear }).then(res => {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           this.queryConfig[0].itemRender.options = res.data || []
         }
       })
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModuleMof.getProTreeData({ fiscalYear }).then(res => {
+      HttpModule.getProSpeTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           this.queryConfig[2].itemRender.options = res.data || []
         }
@@ -163,7 +163,6 @@ export default {
     queryTableDatas(type, fiRuleCode) {
       let params = {
         field: type,
-        fiRuleCode: fiRuleCode,
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
@@ -172,7 +171,8 @@ export default {
         mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        proCodes: this.proCodes
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -244,10 +244,11 @@ export default {
       }
     },
     showInfo() {
-      // this.tableData = this.detailData
       this.detailType = this.detailData[0]
       this.code = this.detailData[1]
       this.fiscalYear = this.detailData[2]
+      this.proCodes.push(this.detailData[1])
+
       console.log(proconf)
       switch (this.title) {
         case '是否上传附件-未处理明细':

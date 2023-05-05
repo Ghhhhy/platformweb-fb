@@ -68,6 +68,18 @@ export default {
   components: {
     DetailDialog
   },
+  props: {
+    regionTitle: {
+      type: String,
+      default: ''
+    },
+    regionData: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -219,6 +231,7 @@ export default {
     }
   },
   mounted() {
+    this.showInfo()
     // this.getNewData()
   },
   methods: {
@@ -424,8 +437,8 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
-        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+        proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
+        ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -444,7 +457,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getCapitalTreeData({
+      HttpModule.getProSpeTreeData({
         fiscalYear: fiscalYear
       }).then(res => {
         if (res.code === '000000') {
@@ -495,6 +508,14 @@ export default {
         })
       }
       return ruleCodes
+    },
+    showInfo() {
+      if (this.regionData && this.regionData.length > 0) {
+        this.menuName = this.regionTitle
+        console.info(this.regionData[3])
+        this.ruleCodes.push(this.regionData[1])
+        this.proCodes.push(this.regionData[3][0])
+      }
     }
   },
   created() {

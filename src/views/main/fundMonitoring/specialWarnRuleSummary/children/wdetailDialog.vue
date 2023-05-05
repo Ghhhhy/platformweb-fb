@@ -41,7 +41,6 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
-import HttpModuleMof from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -114,14 +113,14 @@ export default {
   },
   methods: {
     getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModuleMof.getMofTreeData({ fiscalYear }).then(res => {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           this.queryConfig[0].itemRender.options = res.data || []
         }
       })
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModuleMof.getCapitalTreeData({ fiscalYear }).then(res => {
+      HttpModule.getProSpeTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           this.queryConfig[2].itemRender.options = res.data || []
         }
