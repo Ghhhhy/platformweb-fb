@@ -638,10 +638,9 @@ const proconf = {
   notpayColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
       filters: false,
       cellRender: {
         name: '$vxeInput',
@@ -664,7 +663,7 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
       filters: false,
@@ -683,7 +682,7 @@ const proconf = {
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       align: 'center',
       width: 140,
       filters: false,
@@ -794,10 +793,9 @@ const proconf = {
   payokColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
       filters: false,
       cellRender: {
         name: '$vxeInput',
@@ -820,7 +818,7 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'gzmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
       filters: false,
@@ -839,7 +837,7 @@ const proconf = {
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       filters: false,
       width: 140,
       align: 'center',
@@ -1166,10 +1164,9 @@ const proconf = {
   notgetColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
       filters: false,
       cellRender: {
         name: '$vxeInput',
@@ -1185,7 +1182,7 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
       filters: false,

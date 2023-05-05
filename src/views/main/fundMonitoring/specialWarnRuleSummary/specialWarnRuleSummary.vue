@@ -60,13 +60,15 @@
     <vxe-modal
       v-if="warnRegionSummaryVisible"
       v-model="warnRegionSummaryVisible"
-      :title="regionTitle"
-      width="96%"
+      width="100%"
       height="90%"
       :show-footer="false"
-      :region-data="regionData"
+      :title="regionTitle"
     >
-      <SpecialWarnRegionSummary />
+      <SpecialWarnRegionSummary
+        :region-title="regionTitle"
+        :region-data="regionData"
+      />
     </vxe-modal>
 
   </div>
@@ -82,6 +84,18 @@ export default {
   components: {
     DetailDialog,
     SpecialWarnRegionSummary
+  },
+  props: {
+    ruleTitle: {
+      type: String,
+      default: ''
+    },
+    ruleData: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
   },
   watch: {
     $refs: {
@@ -231,10 +245,12 @@ export default {
       fiscalYear: '',
       detailData: [],
       regionData: [],
-      warnRegionSummaryVisible: false
+      warnRegionSummaryVisible: false,
+      proCodes: []
     }
   },
   mounted() {
+    this.showInfo()
     // this.getNewData()
   },
   methods: {
@@ -368,13 +384,14 @@ export default {
       let key = obj.column.property
 
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
+
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
-          this.detailData = ['name', obj.row.proCode, this.fiscalYear]
-          this.detailTitle = '专项监督预警汇总_分地区'
+          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes]
+          this.regionTitle = '专项监督预警汇总_分地区'
           this.warnRegionSummaryVisible = true
           break
         case 'numbernofileNum':
@@ -436,7 +453,8 @@ export default {
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
+        proCodes: this.proCodes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -454,8 +472,11 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
-    toRegionPath: function() {
-      this.warnRegionSummaryVisible = true
+    showInfo() {
+      if (this.ruleData && this.ruleData.length > 0) {
+        this.menuName = this.ruleTitle
+        this.proCodes.push(this.ruleData[1])
+      }
     }
   },
   created() {

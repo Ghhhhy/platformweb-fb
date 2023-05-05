@@ -31,7 +31,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
@@ -60,13 +60,17 @@
     <vxe-modal
       v-if="warnRuleSummaryVisible"
       v-model="warnRuleSummaryVisible"
-      :title="detailTitle"
-      width="96%"
+      width="100%"
       height="90%"
+      :title="ruleTitle"
       :show-footer="false"
-      :detail-data="detailData"
     >
-      <SpecialWarnRuleSummary />
+      <SpecialWarnRuleSummary
+        width="96%"
+        height="90%"
+        :rule-title="ruleTitle"
+        :rule-data="ruleData"
+      />
     </vxe-modal>
   </div>
 </template>
@@ -209,6 +213,7 @@ export default {
       detailType: '',
       detailTitle: '',
       ruleTitle: '',
+      modalTitle: '',
       fiscalYear: '',
       detailData: [],
       ruleData: [],
@@ -360,9 +365,12 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
-          this.detailData = ['name', obj.row.proCode, this.fiscalYear]
-          this.detailTitle = '专项监督预警汇总_分规则'
-          this.warnRuleSummaryVisible = true
+          console.info(obj.row.id.length)
+          if (obj.row.id.length > 4) {
+            this.ruleData = ['name', obj.row.code, this.fiscalYear]
+            this.ruleTitle = '专项监督预警汇总_分规则'
+            this.warnRuleSummaryVisible = true
+          }
           break
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
