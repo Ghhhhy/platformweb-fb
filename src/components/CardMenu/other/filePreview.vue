@@ -113,11 +113,12 @@ export default {
     },
     // 将word等文件转成pdf进行预览
     toPdf() {
-      let self = this
-      self.url = ''
-      self.$axios('get', '/api/storage/nologin/toPdfFile', { serviceId: 'duke-storage', fileId: self.file.id }).then(data => {
-        self.url = backHost + '/api/storage/' + data.data
-      })
+      window.open('/fileView.html?fileguid=' + this.fileGuid + '&appid=' + this.appId)
+      // let self = this
+      // self.url = ''
+      // self.$axios('get', '/api/storage/nologin/toPdfFile', { serviceId: 'duke-storage', fileId: self.file.id }).then(data => {
+      //   self.url = backHost + '/api/storage/' + data.data
+      // })
     },
     viewZip() {
       JSZipUtils.getBinaryContent(backHost + '/api/storage/nologin/duke-storage/2020/10/21/test.zip', function(err, data) {
