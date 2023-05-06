@@ -317,7 +317,20 @@ export default {
     onStatusTabClick(obj) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
+        return
       }
+      this.toolBarStatusSelect = obj
+      switch (obj.curValue) {
+        // 全部
+        case '1':
+          this.menuName = '主题分类列表'
+          this.radioShow = true
+          break
+      }
+      this.condition = {}
+      this.mainPagerConfig.currentPage = 1
+      this.refresh()
+      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
