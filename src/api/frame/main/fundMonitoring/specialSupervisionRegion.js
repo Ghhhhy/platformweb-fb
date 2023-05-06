@@ -37,6 +37,9 @@ export default {
   getManageMofDepTreeData() {
     return get('large-monitor-platform/lmp/manageMofDep/')
   },
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
   // 华青数据导入
   importHuaqing(params) {
     const formData = new FormData()

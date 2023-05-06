@@ -109,7 +109,9 @@ export default {
       sDetailVisible: false,
       sDetailData: [],
       fiscalYear: '',
-      proCodes: []
+      proCodes: [],
+      mofDivCodes: [],
+      ruleCodes: []
     }
   },
   methods: {
@@ -168,11 +170,13 @@ export default {
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
         projectName: this.condition.projectName ? this.condition.projectName[0] : '',
         speTypeCodes: this.searchDataList.speTypeName_code__multiple || [],
-        mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
+        subMofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
-        proCodes: this.proCodes
+        proCodes: this.proCodes,
+        mofDivCodes: this.mofDivCodes,
+        ruleCodes: this.ruleCodes
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -248,7 +252,8 @@ export default {
       this.code = this.detailData[1]
       this.fiscalYear = this.detailData[2]
       this.proCodes.push(this.detailData[1])
-
+      this.mofDivCodes = this.detailData[3]
+      this.ruleCodes = this.detailData[4]
       console.log(proconf)
       switch (this.title) {
         case '是否上传附件-未处理明细':
