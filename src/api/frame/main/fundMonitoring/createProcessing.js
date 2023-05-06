@@ -75,5 +75,8 @@ export default {
   },
   handleNormal(params) {
     return post('large-monitor-platform/lmp/totalWarn/handleNormal', params)
+  },
+  doBack(params) {
+    return post('large-monitor-platform/lmp/totalWarn/back', params)
   }
 }

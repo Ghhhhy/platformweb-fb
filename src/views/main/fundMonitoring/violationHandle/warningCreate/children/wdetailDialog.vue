@@ -13,7 +13,14 @@
       :tab-status-btn-config="tabStatusBtnConfig"
       :tab-status-num-config="tabStatusNumConfig"
       @onQueryConditionsClick="onQueryConditionsClick1"
-    />
+    >
+      <template v-if="(tabSelect === '3' || tabSelect === '4')" v-slot:preBtns>
+        <vxe-button
+          size="medium"
+          @click="doBack"
+        >退回</vxe-button>
+      </template>
+    </BsTabPanel>
     <BsQuery
       ref="queryFrom"
       :query-form-item-config="queryConfig"
@@ -146,7 +153,7 @@ export default {
           paymentAmount: 0
         },
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: false
       },
       tableColumnsConfig: [
       ],
@@ -894,6 +901,46 @@ export default {
           this.$parent.sDetailTitle = '详细信息'
           break
       }
+    },
+    doBack() {
+      let selection = this.$refs.mainTableRef.selection
+      if (selection.length === 0) {
+        this.$message.success('请至少选择一条数据')
+        return
+      }
+      var backIds = []
+      selection.forEach(function(item, index) {
+        backIds.push({ warnid: item.warnid, dealNo: item.dealNo })
+      })
+      this.$confirm('确定退回选中数据?', '提示', {
+        confirmButtonText: '退回',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.tableLoading = true
+        HttpModule
+          .doBack(backIds)
+          .then(res => {
+            this.tableLoading = false
+            if (res.code === '000000') {
+              this.$message({
+                type: 'success',
+                message: '退回成功!'
+              })
+              this.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+          .finally(() => {
+            this.tableLoading = false
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退回'
+        })
+      })
     }
   },
   mounted() {
