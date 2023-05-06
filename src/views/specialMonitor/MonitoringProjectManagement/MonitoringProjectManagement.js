@@ -1,4 +1,5 @@
 // import store from '@/store/index'
+import { padStart } from 'xe-utils/methods'
 export let proconf = {
   highQueryConfig: [
     {
@@ -54,8 +55,12 @@ export let proconf = {
       formula: '',
       name: '$vxeInput',
       itemRender: {
-        name: '$vxeInput',
-        options: [],
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '系统级' },
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
+        ],
         props: {
           placeholder: '管理级次'
         }
@@ -111,23 +116,55 @@ export let proconf = {
       title: '监控业务分类',
       field: 'bizType',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '01', label: '中央转移支付专项' },
+          { value: '02', label: '直达资金监控' },
+          { value: '03', label: '中央本级监控' }
+        ],
+        props: {
+          placeholder: '监控业务分类'
+        }
+      }
     },
     {
       title: '是否私有',
       field: 'pubFlag',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '私有' },
+          { value: '1', label: '公有' }
+        ],
+        props: {
+          placeholder: '是否私有'
+        }
+      }
     },
     {
       title: '管理级次',
       field: 'objLevel',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '系统级' },
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
+        ],
+        props: {
+          placeholder: '管理级次'
+        }
+      }
     },
     {
       title: '显示顺序',
-      field: '',
+      field: 'orderNum',
       sortable: false,
       align: 'left'
     },
@@ -141,7 +178,32 @@ export let proconf = {
       title: '失效日期',
       field: 'endDate',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      editRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '失效日期'
+        }
+      }
     }
   ]
+}
+
+/**
+ * 将时间戳转dateString
+ * @param timestamp
+ * @returns {string}
+ */
+export function getDateString(timestamp) {
+  const curDate = new Date(timestamp)
+  const year = curDate.getFullYear()
+  const month = padStart((curDate.getMonth() + 1).toString(), 2, '0')
+  const day = padStart(curDate.getDate().toString(), 2, '0')
+  const hh = padStart(curDate.getHours().toString(), 2, '0')
+  const mm = padStart(curDate.getMinutes().toString(), 2, '0')
+  const ss = padStart(curDate.getSeconds().toString(), 2, '0')
+  return `${year}-${month}-${day} ${hh}:${mm}:${ss}`
 }
