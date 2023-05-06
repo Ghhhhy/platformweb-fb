@@ -482,7 +482,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           res.data.records?.map((v) => {
-            v.beginDate = getDateString(v.beginDate)
+            v.beginDate = v.beginDate ? getDateString(v.beginDate) : ''
             v.endDate = v.endDate ? getDateString(v.endDate) : ''
           })
           this.tableData = res.data.records
