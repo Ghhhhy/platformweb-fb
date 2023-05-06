@@ -175,7 +175,16 @@ export let proconf = {
       title: '生效日期',
       field: 'beginDate',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      editRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '生效日期'
+        }
+      }
     },
     {
       title: '失效日期',
