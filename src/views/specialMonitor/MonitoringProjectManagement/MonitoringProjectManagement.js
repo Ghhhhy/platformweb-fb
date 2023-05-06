@@ -3,7 +3,7 @@ export let proconf = {
   highQueryConfig: [
     {
       title: '项目编码',
-      field: 'itemCode',
+      field: 'objCode',
       width: '8',
       align: 'left',
       formula: '',
@@ -18,7 +18,7 @@ export let proconf = {
     },
     {
       title: '项目名称',
-      field: 'itemName',
+      field: 'objName',
       width: '8',
       align: 'left',
       formula: '',
@@ -33,7 +33,7 @@ export let proconf = {
     },
     {
       title: '业务主管处室',
-      field: 'department',
+      field: 'manageMofDepCode',
       width: '8',
       align: 'left',
       formula: '',
@@ -48,7 +48,7 @@ export let proconf = {
     },
     {
       title: '管理级次',
-      field: 'level',
+      field: 'objLevel',
       width: '8',
       align: 'left',
       formula: '',
@@ -63,10 +63,10 @@ export let proconf = {
     }
   ],
   highQueryData: {
-    itemCode: '',
-    itemName: '',
-    department: '',
-    level: ''
+    objCode: '',
+    objName: '',
+    manageMofDepCode: '',
+    objLevel: ''
   },
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -90,38 +90,38 @@ export let proconf = {
   PoliciesTableColumns: [
     {
       title: '项目编码',
-      field: '',
+      field: 'objCode',
       sortable: false,
       filters: false,
       align: 'left'
     },
     {
       title: '项目名称',
-      field: '',
+      field: 'objName',
       sortable: false,
       align: 'left'
     },
     {
       title: '业务主管处室',
-      field: '',
+      field: 'manageMofDepName',
       sortable: false,
       align: 'left'
     },
     {
       title: '监控业务分类',
-      field: '',
+      field: 'bizType',
       sortable: false,
       align: 'left'
     },
     {
       title: '是否私有',
-      field: '',
+      field: 'pubFlag',
       sortable: false,
       align: 'left'
     },
     {
       title: '管理级次',
-      field: '',
+      field: 'objLevel',
       sortable: false,
       align: 'left'
     },
