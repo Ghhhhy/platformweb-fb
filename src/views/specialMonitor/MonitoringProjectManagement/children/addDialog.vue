@@ -27,7 +27,7 @@
         <el-col :span="12" style="margin-top:0px;float:right;">
           <div>
             <el-button @click="closeAddDialog">取消</el-button>
-            <el-button type="primary" style="margin-right:0px;" @click="addOrUpdateTask">保存</el-button>
+            <el-button type="primary" style="margin-right:0px;" @click="addMonitoringProject">保存</el-button>
           </div>
         </el-col>
       </el-row>
@@ -73,7 +73,7 @@ export default {
           field: 'objCode',
           span: 24,
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           formula: '',
           name: '$vxeInput',
@@ -90,7 +90,7 @@ export default {
           field: 'objName',
           span: 24,
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           formula: '',
           name: '$vxeInput',
@@ -105,7 +105,7 @@ export default {
         {
           title: '业务主管处室名称',
           field: 'manageMofDepName',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
@@ -116,7 +116,7 @@ export default {
         {
           field: 'bizType',
           title: '监控业务分类',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
@@ -132,7 +132,7 @@ export default {
         {
           field: 'pubFlag',
           title: '是否私有',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
@@ -148,7 +148,7 @@ export default {
           title: '管理级次',
           field: 'objLevel',
           span: 24,
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           align: 'left',
           formula: '',
@@ -169,7 +169,7 @@ export default {
           title: '显示顺序',
           field: 'orderNum',
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
@@ -187,13 +187,13 @@ export default {
           field: 'remark',
           title: '备注',
           span: 24,
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           itemRender: { name: '$vxeNewInput', props: { required: true, clearable: true, placeholder: '请输入备注' } }
         }
       ],
       formValidationConfig: {
-        proCode: [
+        objCode: [
           {
             required: true,
             message: '请输入项目编码',
@@ -233,20 +233,20 @@ export default {
     ...resolveResult,
     reSetData() {
       this.formData = {
-        proCode: '',
-        orderNum: '',
-        regulationType: '',
-        department: '',
-        manageMofDepName: ''
+        objCode: '',
+        manageMofDepName: '',
+        bizType: '',
+        pubFlag: '',
+        objLevel: ''
       }
     },
     closeAddDialog() {
       this.formData = {
-        proCode: '',
-        orderNum: '',
-        regulationType: '',
-        department: '',
-        manageMofDepName: ''
+        objCode: '',
+        manageMofDepName: '',
+        bizType: '',
+        pubFlag: '',
+        objLevel: ''
       }
       this.visible = false
       this.$parent.dialogVisible = false
@@ -254,12 +254,13 @@ export default {
     getDate(value, frm) {
       return moment(new Date(value)).format(frm)
     },
-    addOrUpdateTask() {
+    addMonitoringProject() {
       this.showLoading = true
       var _this = this
       this.$refs.addForm
         .validate()
         .then(res => {
+          _this.showLoading = false
         })
         .catch(err => {
           _this.showLoading = false

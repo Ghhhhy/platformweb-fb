@@ -116,6 +116,7 @@ export let proconf = {
       title: '监控业务分类',
       field: 'bizType',
       sortable: false,
+      filters: false,
       align: 'left',
       cellRender: {
         name: '$vxeSelect',
@@ -133,6 +134,7 @@ export let proconf = {
       title: '是否私有',
       field: 'pubFlag',
       sortable: false,
+      filters: false,
       align: 'left',
       cellRender: {
         name: '$vxeSelect',
@@ -149,6 +151,7 @@ export let proconf = {
       title: '管理级次',
       field: 'objLevel',
       sortable: false,
+      filters: false,
       align: 'left',
       cellRender: {
         name: '$vxeSelect',
