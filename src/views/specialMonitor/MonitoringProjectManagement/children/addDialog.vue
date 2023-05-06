@@ -39,6 +39,7 @@
 
 import moment from 'moment'
 import resolveResult from '@/utils/result.js'
+import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 export default {
   name: 'AddDialog',
   props: {
@@ -49,6 +50,10 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: true
+    },
+    codeList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -56,16 +61,13 @@ export default {
       visible: true,
       showLoading: false,
       formData: {
-        taskId: '',
-        taskCode: '',
-        taskName: '',
-        taskType: '',
-        taskStartDate: '',
-        taskEndDate: '',
-        taskStatus: '1',
-        fileId: '',
-        reportType: '',
-        type: ''
+        mofDivCode: this.codeList[0],
+        objCode: '',
+        manageMofDepCode: this.$store.getters.getuserInfo.orgcode,
+        manageMofDepName: this.$store.getters.getuserInfo.orgname,
+        bizType: '',
+        pubFlag: '',
+        objLevel: ''
       },
       addFormItemsConfig: [
         {
@@ -110,7 +112,7 @@ export default {
           span: 24,
           itemRender: {
             name: '$vxeInput',
-            props: { placeholder: '业务主管处室名称' }
+            props: { placeholder: '业务主管处室名称', disabled: true }
           }
         },
         {
@@ -231,19 +233,12 @@ export default {
   },
   methods: {
     ...resolveResult,
-    reSetData() {
-      this.formData = {
-        objCode: '',
-        manageMofDepName: '',
-        bizType: '',
-        pubFlag: '',
-        objLevel: ''
-      }
-    },
     closeAddDialog() {
       this.formData = {
+        mofDivCode: this.codeList[0],
         objCode: '',
-        manageMofDepName: '',
+        manageMofDepCode: this.$store.getters.getuserInfo.orgcode,
+        manageMofDepName: this.$store.getters.getuserInfo.orgname,
         bizType: '',
         pubFlag: '',
         objLevel: ''
@@ -260,11 +255,16 @@ export default {
       this.$refs.addForm
         .validate()
         .then(res => {
-          _this.showLoading = false
+          HttpModule.doSave(this.formData).then(res => {
+            if (res.rscode === '100000') {
+              this.$message.error('保存成功')
+            } else {
+              this.$message.error('保存失败')
+            }
+          })
         })
-        .catch(err => {
+        .finally(() => {
           _this.showLoading = false
-          console.log(err)
         })
     },
     transJson(str) {
@@ -286,6 +286,9 @@ export default {
           break
       }
     }
+  },
+  created() {
+    console.log(this.$store.getters.getuserInfo)
   },
   watch: {
     dialogVisible(val) {

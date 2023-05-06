@@ -88,8 +88,8 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      { code: 'add', label: '添加', status: 'primary' },
-      { code: 'export', label: '导出' }
+      { code: 'add', label: '添加', status: 'primary' }
+      // { code: 'export', label: '导出' }
     ]
   },
   PoliciesTableColumns: [
