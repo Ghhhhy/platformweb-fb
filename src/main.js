@@ -47,7 +47,7 @@ import {
 // axios Request
 import useOptionChain from '@/utils/useOptionChain.js'
 import html2canvasDirective from './directive/html2canvasDirective'
-
+import BehaviorCollector from '@/utils/behaviorcollector.js'
 BSUI.ConfigOption.setConfig(customConfig)
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
@@ -87,6 +87,7 @@ Vue.prototype.$http = {
   globalGatewayAgentConfig
 }
 router.beforeEach(async (to, from, next) => {
+  BehaviorCollector.initRouteMonitor({ to, from, state: store.state })
   BSUI.utilsLib.LoadingMark.showLoadingMark()
   setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
   const { tokenid } = store.getters.getLoginAuthentication
