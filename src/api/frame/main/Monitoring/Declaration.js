@@ -74,5 +74,8 @@ export default {
   // 获取区划树
   getLeftTree2(params) {
     return post('large-monitor-platform/lmp/regulation/queryMofTree', params)
+  },
+  doSave(params) {
+    return post('large-monitor-platform/lmp/warn/mMcObj/save', params)
   }
 }
