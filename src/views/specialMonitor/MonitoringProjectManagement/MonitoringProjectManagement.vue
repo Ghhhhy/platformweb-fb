@@ -68,6 +68,7 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
+      :code-list="codeList"
     />
   </div>
 </template>
@@ -201,12 +202,12 @@ export default {
         multiple: false, // 是否多选,
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
-        clearable: true,
-        codeList: []
+        clearable: true
       },
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
-      declareName: ''
+      declareName: '',
+      codeList: []
     }
   },
   mounted() {
@@ -411,8 +412,8 @@ export default {
     },
     // 新增或修改弹框
     clickAddBtn(row) {
-      if (this.addTableData.length > 0) {
-        this.addTableData = []
+      if (this.codeList?.length === 0) {
+        return this.$message.error('请先选择左侧区划')
       }
       this.dialogTitle = '新增'
       this.dialogVisible = true

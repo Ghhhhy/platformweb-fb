@@ -56,9 +56,9 @@ export const RightEnum = {
 }
 export const getViewRightSelectOption = () => {
   return [
-    { label: '全辖', value: RightEnum.BY_ALL },
-    { label: '按部门', value: RightEnum.BY_DEPARTMENT },
-    { label: '按单位', value: RightEnum.BY_UNIT }
+    { label: '2021', value: RightEnum.BY_ALL },
+    { label: '2022', value: RightEnum.BY_DEPARTMENT },
+    { label: '2023', value: RightEnum.BY_UNIT }
   ]
 }
 // 监控预警多维度分析
