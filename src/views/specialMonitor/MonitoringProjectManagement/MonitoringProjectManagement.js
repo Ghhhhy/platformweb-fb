@@ -133,13 +133,13 @@ export let proconf = {
     },
     {
       title: '生效日期',
-      field: '',
+      field: 'beginDate',
       sortable: false,
       align: 'left'
     },
     {
       title: '失效日期',
-      field: '',
+      field: 'endDate',
       sortable: false,
       align: 'left'
     }
