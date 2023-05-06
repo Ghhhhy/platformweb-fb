@@ -108,7 +108,10 @@ export default {
       sDetailTitle: '',
       sDetailVisible: false,
       sDetailData: [],
-      fiscalYear: ''
+      fiscalYear: '',
+      proCodes: [],
+      mofDivCodes: [],
+      ruleCodes: []
     }
   },
   methods: {
@@ -168,10 +171,12 @@ export default {
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
         projectName: this.condition.projectName ? this.condition.projectName[0] : '',
         speTypeCodes: this.searchDataList.speTypeName_code__multiple || [],
-        mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
+        submofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        proCodes: this.proCodes,
+        mofDivCodes: this.mofDivCodes
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -247,6 +252,8 @@ export default {
       this.detailType = this.detailData[0]
       this.code = this.detailData[1]
       this.fiscalYear = this.detailData[2]
+      this.proCodes = this.detailData[3]
+      this.mofDivCodes = this.detailData[4]
       console.log(proconf)
       switch (this.title) {
         case '指标预警-未处理明细':
