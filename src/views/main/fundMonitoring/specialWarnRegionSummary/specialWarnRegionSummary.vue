@@ -227,11 +227,12 @@ export default {
       fiscalYear: '',
       detailData: [],
       proCodes: [],
-      ruleCodes: []
+      ruleCodes: [],
+      mofDivCodes: []
     }
   },
   mounted() {
-    this.showInfo()
+    // this.showInfo()
     // this.getNewData()
   },
   methods: {
@@ -362,10 +363,6 @@ export default {
     },
     handleDetail(type, mofDivCode) {
     },
-    getYear() {
-      var myDate = new Date()
-      return myDate.getFullYear()
-    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
@@ -374,8 +371,9 @@ export default {
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
-      this.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
-      this.ruleCodes = this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+      this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
+      this.ruleCodes = this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes)
+
       switch (key) {
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
@@ -438,7 +436,8 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
-        ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes)
+        ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
+        mofDivCodes: this.mofDivCodes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -512,9 +511,15 @@ export default {
     showInfo() {
       if (this.regionData && this.regionData.length > 0) {
         this.menuName = this.regionTitle
-        console.info(this.regionData[3])
+        this.fiscalYear = this.regionData[2]
         this.ruleCodes.push(this.regionData[1])
-        this.proCodes.push(this.regionData[3][0])
+        this.proCodes = this.regionData[3]
+        this.mofDivCodes = this.regionData[4]
+        this.isShowQueryConditions = false
+        console.info(this.regionData[3])
+        // console.info(this.regionData[4])
+        console.info(this.proCodes)
+        // console.info(this.mofDivCodes)
       }
     }
   },
@@ -526,6 +531,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getPro()
     this.getRules()
+    this.showInfo()
     this.queryTableDatas()
   }
 }

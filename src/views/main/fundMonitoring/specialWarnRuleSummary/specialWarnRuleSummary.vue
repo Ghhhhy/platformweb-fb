@@ -246,11 +246,13 @@ export default {
       detailData: [],
       regionData: [],
       warnRegionSummaryVisible: false,
-      proCodes: []
+      proCodes: [],
+      mofDivCodes: [],
+      ruleCodes: []
     }
   },
   mounted() {
-    this.showInfo()
+    // this.showInfo()
     // this.getNewData()
   },
   methods: {
@@ -390,54 +392,54 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
-          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes]
+          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.regionTitle = '专项监督预警汇总_分地区'
           this.warnRegionSummaryVisible = true
           break
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '指标预警-未处理明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '指标预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
@@ -454,7 +456,9 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
-        proCodes: this.proCodes
+        proCodes: this.proCodes,
+        mofDivCodes: this.mofDivCodes,
+        ruleCodes: this.ruleCodes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -476,6 +480,8 @@ export default {
       if (this.ruleData && this.ruleData.length > 0) {
         this.menuName = this.ruleTitle
         this.proCodes.push(this.ruleData[1])
+        this.mofDivCodes = this.ruleData[3]
+        this.ruleCodes = this.ruleData[4]
       }
     }
   },
@@ -485,6 +491,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.showInfo()
     this.queryTableDatas()
   }
 }
