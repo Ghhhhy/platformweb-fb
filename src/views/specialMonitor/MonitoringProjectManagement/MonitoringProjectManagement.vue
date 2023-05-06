@@ -317,20 +317,7 @@ export default {
     onStatusTabClick(obj) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
-        return
       }
-      this.toolBarStatusSelect = obj
-      switch (obj.curValue) {
-        // 全部
-        case '1':
-          this.menuName = '主题分类列表'
-          this.radioShow = true
-          break
-      }
-      this.condition = {}
-      this.mainPagerConfig.currentPage = 1
-      this.refresh()
-      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -481,8 +468,8 @@ export default {
       HttpModule.queryTableDatasRule(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.records
-          this.mainPagerConfig.total = res.data.total
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
