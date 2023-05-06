@@ -11,7 +11,12 @@ export default {
   },
   // 获取表格数据
   queryTableDatas(params) {
+    // return post('large-monitor-platform/lmp/warn/MRuleFuncRegPage', params)
     return post('large-monitor-platform/lmp/matter/pageQuery', params)
+  },
+  // 获取项目管理表格数据
+  queryTableDatasRule(params) {
+    return post('large-monitor-platform/lmp/warn/mMcObj/queryPage', params)
   },
   // 获取左侧树
   getLeftTree(params) {

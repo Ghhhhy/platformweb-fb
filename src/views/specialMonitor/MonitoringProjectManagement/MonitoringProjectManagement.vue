@@ -452,19 +452,24 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         declareName: this.declareName,
-        agencyCodes: [],
+        pubFlag: '',
         manageMofCodes: [],
-        mofDivCode: this.mofDivCode,
-        mofDivCodeList: this.codeList,
+        mofDivCode: this.codeList[0],
+        objCode: this.objCode,
+        objName: this.objName,
+        // bizType: '',
+        objLevel: this.objLevel,
+        // mofDivCodeList: this.codeList,
         menuId: this.$store.state.curNavModule.guid,
-        flowStatus: this.toolBarStatusSelect.curValue
+        // flowStatus: this.toolBarStatusSelect.curValue,
+        fiscalYear: this.userInfo.year
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      HttpModule.queryTableDatasRule(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
+          this.tableData = res.data.records
+          this.mainPagerConfig.total = res.data.total
         } else {
           this.$message.error(res.message)
         }
