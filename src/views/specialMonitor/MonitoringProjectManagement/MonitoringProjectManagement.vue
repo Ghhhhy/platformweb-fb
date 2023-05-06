@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { proconf } from './MonitoringProjectManagement.js'
+import { proconf, getDateString } from './MonitoringProjectManagement.js'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 export default {
@@ -213,8 +213,7 @@ export default {
   },
   methods: {
     search(obj) {
-      console.log(obj)
-      this.declareName = obj.declareName
+      this.searchDataList = obj
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -453,12 +452,12 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         declareName: this.declareName,
         pubFlag: '',
-        manageMofCodes: [],
-        mofDivCode: this.codeList[0],
-        objCode: this.objCode,
-        objName: this.objName,
+        manageMofDepCode: this.searchDataList.manageMofDepCode,
+        mofDivCode: this.codeList ? this.codeList[0] : '',
+        objCode: this.searchDataList.objCode,
+        objName: this.searchDataList.objName,
         // bizType: '',
-        objLevel: this.objLevel,
+        objLevel: this.searchDataList.objLevel,
         // mofDivCodeList: this.codeList,
         menuId: this.$store.state.curNavModule.guid,
         // flowStatus: this.toolBarStatusSelect.curValue,
@@ -468,8 +467,12 @@ export default {
       HttpModule.queryTableDatasRule(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
+          res.data.records?.map((v) => {
+            v.beginDate = getDateString(v.beginDate)
+            v.endDate = v.endDate ? getDateString(v.endDate) : ''
+          })
+          this.tableData = res.data.records
+          this.mainPagerConfig.total = res.data.total
         } else {
           this.$message.error(res.message)
         }

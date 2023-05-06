@@ -70,7 +70,7 @@ export default {
       addFormItemsConfig: [
         {
           title: '项目编码',
-          field: 'proCode',
+          field: 'objCode',
           span: 24,
           align: 'left',
           titleWidth: 100,
@@ -87,7 +87,7 @@ export default {
         },
         {
           title: '项目名称',
-          field: 'proName',
+          field: 'objName',
           span: 24,
           align: 'left',
           titleWidth: 100,
@@ -114,7 +114,7 @@ export default {
           }
         },
         {
-          field: 'department',
+          field: 'bizType',
           title: '监控业务分类',
           titleWidth: 100,
           titleAlign: 'left',
@@ -122,20 +122,15 @@ export default {
           itemRender: {
             name: '$vxeSelect',
             options: [
-              {
-                value: '1',
-                label: '启用'
-              },
-              {
-                value: '0',
-                label: '停用'
-              }
+              { value: '01', label: '中央转移支付专项' },
+              { value: '02', label: '直达资金监控' },
+              { value: '03', label: '中央本级监控' }
             ],
             props: { required: true }
           }
         },
         {
-          field: 'department',
+          field: 'pubFlag',
           title: '是否私有',
           titleWidth: 100,
           titleAlign: 'left',
@@ -143,21 +138,15 @@ export default {
           itemRender: {
             name: '$vxeSelect',
             options: [
-              {
-                value: '1',
-                label: '是'
-              },
-              {
-                value: '0',
-                label: '否'
-              }
+              { value: '0', label: '私有' },
+              { value: '1', label: '公有' }
             ],
             props: { required: true }
           }
         },
         {
           title: '管理级次',
-          field: 'regulationType',
+          field: 'objLevel',
           span: 24,
           titleWidth: 100,
           titleAlign: 'left',
@@ -195,7 +184,7 @@ export default {
           }
         },
         {
-          field: '',
+          field: 'remark',
           title: '备注',
           span: 24,
           titleWidth: 100,
@@ -204,46 +193,35 @@ export default {
         }
       ],
       formValidationConfig: {
-        taskCode: [
+        proCode: [
           {
             required: true,
-            message: '请输入任务编码',
-            trigger: 'change'
-          },
-          {
-            required: true,
-            min: 0,
-            max: 15,
-            message: '任务编码最大不可超过15个字符',
+            message: '请输入项目编码',
             trigger: 'change'
           }
         ],
-        reportDetailType: [
+        manageMofDepName: [
           {
             required: true,
-            message: '请选择报表类型',
+            message: '请输入业务主管处室名称',
             trigger: 'change'
           }
         ],
-        taskName: [
+        bizType: [
           {
             required: true,
-            message: '请输入任务名称',
-            trigger: 'change'
-          },
-          {
-            required: true,
-            min: 0,
-            max: 20,
-            message() {
-              return '任务名称最大不可超过20个字符'
-            },
+            message: '请选择监控业务分类',
             trigger: 'change'
           }
         ],
-        taskType: [{
+        pubFlag: [{
           required: true,
-          message: '请选择任务类型',
+          message: '请选择是否私有',
+          trigger: 'change'
+        }],
+        objLevel: [{
+          required: true,
+          message: '请选择管理级次',
           trigger: 'change'
         }]
       }
