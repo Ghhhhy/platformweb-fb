@@ -2,8 +2,8 @@
  * @Description: 本地组件注册
  * @Author: Comer
  * @Date: 2023-03-30 16:40:33
- * @LastEditors: Comer
- * @LastEditTime: 2023-03-30 14:26:27
+ * @LastEditors: 罗景丹 luojingdan@bosssoft.com.cn
+ * @LastEditTime: 2023-05-06 11:00:39
  */
 import Vue from 'vue'
 import BSUI from '../components/index'
@@ -13,8 +13,10 @@ import store from '../store/index'
 import vxeTable from '../base/vxeTable.js'
 import customConfig from '../config/customConfig.js'
 import { setupProjectPreoperation } from './setupProjectPreoperation.js'
+import BehaviorCollector from '@/utils/behaviorcollector.js'
 
 router.beforeEach(async (to, from, next) => {
+  BehaviorCollector.initRouteMonitor({ to, from, state: store.state })
   BSUI.utilsLib.LoadingMark.showLoadingMark()
   setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)
   const { tokenid } = store.getters.getLoginAuthentication

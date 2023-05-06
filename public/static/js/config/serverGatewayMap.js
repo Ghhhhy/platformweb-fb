@@ -11,6 +11,7 @@ window.gloableToolFn = {
       'mp-b-user-service': '/apaas/api/mp-b-user-service',
       'mp-b-perm-service': '/apaas/api/mp-b-perm-service/',
       'mp-b-basedata-service': '/apaas/api/mp-b-basedata-service/',
+      'mp-d-aggregation-service': '/apaas/api/mp-d-aggregation-service',
       // --------------------------- 文件相关服务 --------------------------------//
       fileservice: '/apaas/api/fileservice/',
       filePreviewService: '/apaas/api/filePreviewService/',
@@ -24,6 +25,7 @@ window.gloableToolFn = {
       'mp-b-user-service': api + '/apaas/api/mp-b-user-service/',
       'mp-b-perm-service': api + '/apaas/api/mp-b-perm-service/',
       'mp-b-basedata-service': api + '/apaas/api/mp-b-basedata-service/',
+      'mp-d-aggregation-service': api + '/apaas/api/mp-d-aggregation-service',
       // --------------------------- 文件服务 ----------------------------------//
       fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
