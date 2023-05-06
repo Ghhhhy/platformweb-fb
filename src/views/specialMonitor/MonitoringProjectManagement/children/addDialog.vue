@@ -256,7 +256,7 @@ export default {
         .validate()
         .then(res => {
           HttpModule.doSave(this.formData).then(res => {
-            if (res.rscode === '100000') {
+            if (res.rscode === '000000') {
               this.$message.error('保存成功')
             } else {
               this.$message.error('保存失败')
