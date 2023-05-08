@@ -257,8 +257,7 @@ export default {
         .then(res => {
           HttpModule.doSave(this.formData).then(res => {
             if (res.code === '000000') {
-              this.$message.success('保存成功')
-              this.closeAddDialog()
+              this.$message.error('保存成功')
             } else {
               this.$message.error('保存失败')
             }

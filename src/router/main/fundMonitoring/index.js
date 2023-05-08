@@ -807,10 +807,11 @@ const routers = [
   {
     path: '/WarnRegionBySpecial', // 违规单查看（全辖）-专项
     name: 'WarnRegionBySpecial',
-    component: () =>
-      import(
-        '@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue'
-      )
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue')
   },
   {
     path: '/CreateProcessingBySpecial', // 违规生成-专项

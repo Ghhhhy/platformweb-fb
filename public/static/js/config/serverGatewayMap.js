@@ -30,7 +30,8 @@ window.gloableToolFn = {
       fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
       // --------------------------- 后台服务 ----------------------------------//
-      'large-monitor-platform': api,
+      // 'large-monitor-platform': api,
+      'large-monitor-platform': 'http://127.0.0.1:6602',
       'dfr-monitor-service': api
     },
     gloableUrl: {

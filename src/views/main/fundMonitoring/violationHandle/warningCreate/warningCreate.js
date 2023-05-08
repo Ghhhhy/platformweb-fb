@@ -282,16 +282,6 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
-    },
-    {
-      title: '是否配套资金',
-      field: 'isMatCode',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '是否配套资金' }
-      }
     }
   ],
   incomeMsgData: {
@@ -321,10 +311,34 @@ const proconf = {
     isThrExp: '',
     directFund: '',
     createTime: '',
-    fiDate: '',
-    isMatCode: ''
+    fiDate: ''
   },
   highQueryConfig: [
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
     {
       title: '监控规则',
       field: 'fiRuleName',
@@ -342,6 +356,7 @@ const proconf = {
     }
   ],
   highQueryData: {
+    regulationClass: '',
     fiRuleName: ''
   },
   basicInfo: {
@@ -359,70 +374,6 @@ const proconf = {
         sortable: true,
         align: 'center',
         width: 200
-      },
-      {
-        title: '红色预警',
-        field: '',
-        width: 140,
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '预警数据',
-            field: 'redUndoNum',
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon6',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            children: [
-              {
-                title: '认定正常',
-                field: 'redNormalNum',
-                align: 'center',
-                filters: false,
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '已整改',
-                field: 'redDoneNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '未完成',
-                field: 'redNotRectifiedNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon6',
-                  props: {
-                    $refs: this
-                  }
-                }
-              }
-            ]
-          }
-        ]
       },
       {
         title: '橙色预警',
