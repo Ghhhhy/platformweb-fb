@@ -1,44 +1,23 @@
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
-      <template v-slot:topTap></template>
-      <!-- <template v-slot:topTabPane>
-        <BsTabPanel
-          ref='tabPanel'
-          :is-open='isShowQueryConditions'
-          :tab-status-btn-config='toolBarStatusBtnConfig'
-          :tab-status-num-config='tabStatusNumConfig'
-          @onQueryConditionsClick='onQueryConditionsClick'
-        />
-      </template> -->
-      <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
-      </template>
       <template v-slot:mainForm>
         <BsTable
           id="1001"
           ref="bsTableRef"
           row-id="id"
-          :export-modal-config="{ fileName: menuName }"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
+          :table-global-config="{ showOverflow: false }"
           :table-data="tableData"
-          :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :title="menuName"
+          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
-          @onToolbarBtnClick="onToolbarBtnClick"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -55,48 +34,30 @@
     <DetailDialog
       v-if="detailVisible"
       :title="detailTitle"
+      :detail-type="detailType"
       :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
     />
-    <vxe-modal
-      v-if="warnRegionSummaryVisible"
-      v-model="warnRegionSummaryVisible"
-      width="100%"
-      height="90%"
-      :show-footer="false"
-      :title="regionTitle"
-    >
-      <SpecialWarnRegionSummary
-        :region-title="regionTitle"
-        :region-data="regionData"
-      />
-    </vxe-modal>
-
+    <SDetailDialog
+      v-if="sDetailVisible"
+      :title="sDetailTitle"
+      :s-detail-data="sDetailData"
+      :s-detail-query-param="sDetailQueryParam"
+      :s-detail-type="sDetailType"
+    />
   </div>
 </template>
 
 <script>
-import getFormData from './specialWarnRuleSummary.js'
-import DetailDialog from './children/wdetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
-import SpecialWarnRegionSummary from '@/views/main/fundMonitoring/specialWarnRegionSummary/specialWarnRegionSummary.vue'
-
+import getFormData from './MonitorRulesViewFJSpecial.js'
+import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+import { checkRscode } from '@/utils/checkRscode'
+// import proconf from '../children/column'
 export default {
-  components: {
-    DetailDialog,
-    SpecialWarnRegionSummary
-  },
-  props: {
-    ruleTitle: {
-      type: String,
-      default: ''
-    },
-    ruleData: {
-      type: Array,
-      default() {
-        return []
-      }
-    }
-  },
+  // components: {
+  //   DetailDialog,
+  //   SDetailDialog
+  // },
   watch: {
     $refs: {
       handler(newval) {
@@ -110,6 +71,8 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
+      reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -117,24 +80,8 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
+      // 头部工具栏 BsTabPanel config
+      dataSourceAddLoading: false,
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -142,34 +89,41 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
+      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
-      obj: {},
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
         // gradedSummaryFields: ['bonus', 'income'],
         calcAndConstraintItemCodeField: 'itemCode',
         // 示例中1001为tableId
-        rowCodeFormulaConfig: {
-          // 单元格交叉计算
-          // rowFormulaMap= { 'colField:itemcode':'{tableId:colField:itemcode}[运算符]' }
-          '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
-          // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
-          // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
-        },
+        // rowCodeFormulaConfig: {
+        //   // 单元格交叉计算
+        //   // rowFormulaMap= { "colField:itemcode":"{tableId:colField:itemcode}[运算符]" }
+        //   '00:jOut': '{00:sbpayAppAmt}+{00:spayAppAmt}+{00:xpayAppAmt}'
+        //   // '10:bonus': '{1001:income:10}+{1001:bonus:10}',
+        //   // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
+        // },
         cellDataConfig: [// 提取和计算
 
         ],
-        colFormulaConfig: {
-        },
+        // colFormulaConfig: {
+        //   jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
+        //   jLoad: '{jOut}/{sbjAmount}*100',
+        //   sUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbxjfpAmount}',
+        //   sLoad: '({sbbjfpAmount}+{sbxjfpAmount})/{sbjAmount}*100',
+        //   aUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbjfpAmount}-{sxjfpAmount}',
+        //   aLoad: '({sbjfpAmount}+{sxjfpAmount})/{sbjAmount}*100',
+        //   xUnassigned: '{sbjAmount}-{sbbjfpAmount}-{sbjfpAmount}-{xbjfpAmount}',
+        //   xLoad: '{xbjfpAmount}/{sbjAmount}*100'
+        // },
         getDataAxiosConfig: { // 跨表提取请求配置
           dataField: 'data', // 数据字段
           successCode: '100000', // 成功code
           statusField: 'rscode',
           method: 'get', // 请求方式
           url: '' // 'queryTreeAssistData', //
-          //  [{ itemCode: '002', colField: 'f005', value: '1500.0' }, { itemCode: '002001', colField: 'f005', value: '500.0' }]
+          //  [{ itemCode: "002", colField: "f005", value: "1500.0" }, { itemCode: "002001", colField: "f005", value: "500.0" }]
         },
         getDataParams: { // 提取公共参数
 
@@ -200,9 +154,12 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: false, // 展开所有
         print: false, // 打印
-        zoom: true, // 缩放
-        custom: true, // 选配展示列
+        zoom: false, // 缩放
+        custom: false, // 选配展示列
+        calculator: false,
+        refresh: false,
         slots: {
           tools: 'toolbarTools',
           buttons: 'toolbarSlots'
@@ -240,22 +197,33 @@ export default {
       searchDataList: getFormData('highQueryData'),
       detailVisible: false,
       detailType: '',
+      sDetailType: '',
       detailTitle: '',
-      regionTitle: '',
-      fiscalYear: '',
-      detailData: [],
-      regionData: [],
-      warnRegionSummaryVisible: false,
-      proCodes: [],
       mofDivCodes: [],
-      ruleCodes: []
+      detailData: [],
+      detailQueryParam: {},
+      sDetailQueryParam: {}
     }
   },
   mounted() {
-    // this.showInfo()
-    // this.getNewData()
+    // this.tableLoading = true
+    // setTimeout(() => {
+    //   this.tableLoading = false
+    //   this.initTableData()
+    // }, 2000)
+    // this.initTableData()
   },
   methods: {
+    // 增量同步
+    async incrementHandle() {
+      this.dataSourceAddLoading = true
+      try {
+        checkRscode(await HttpModule.doDataSourceAdd())
+        this.$message.success('同步成功')
+      } finally {
+        this.dataSourceAddLoading = false
+      }
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
@@ -313,7 +281,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '直达资金地方预警汇总'
+          this.menuName = '直达资金预算下达_分资金(单位:万元)'
           this.radioShow = true
           break
       }
@@ -343,155 +311,52 @@ export default {
           }
         }
       }
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
       this.condition = condition
-      this.queryTableDatas()
-    },
-    // 切换操作按钮
-    // operationToolbarButtonClickEvent(obj, context, e) {
-    //   switch (obj.code) {
-    //     // 导出
-    //     case 'export':
-    //       this.exportPolicies(obj, context, e)
-    //       break
-    //     default:
-    //       break
-    //   }
-    // },
-    onToolbarBtnClick({ context, table, code }) {
-      switch (code) {
-        // 刷新
-        case 'refresh':
-          this.refresh()
-          break
-      }
+      this.queryTableDatas(true)
     },
     changeVisible(val) {
       this.breakRuleVisible = val
     },
-    onClickmethod(node) {
-      if (node.id !== '0') {
-        let key =
-          this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.id
-      } else {
-        this.condition = {}
-      }
-
-      this.queryTableDatas(node.guid)
-    },
-    handleDetail(type, mofDivCode) {
-    },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-
-      // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
-
-      this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
-      switch (key) {
-        case 'name':
-          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.regionTitle = '专项监督预警汇总_分地区'
-          this.warnRegionSummaryVisible = true
-          break
-        case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '指标预警-待整改明细'
-          this.detailType = 'numbernofileNum'
-          this.detailVisible = true
-          break
-        case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '指标预警-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'numberfileNum'
-          break
-        case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-未认定明细'
-          this.detailVisible = true
-          this.detailType = 'numberwarnUndoNum'
-          break
-        case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-已认定明细'
-          this.detailVisible = true
-          this.detailType = 'numberwarndoNum'
-          break
-        case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-待整改明细'
-          this.detailVisible = true
-          this.detailType = 'numberwarnUndoNoNum'
-          break
-        case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'numberwarndidNum'
-          break
-        case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '未导入惠企利民明细-未处理明细'
-          this.detailVisible = true
-          this.detailType = 'numberhqlmUndoNum'
-          break
-        case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '未导入惠企利民明细-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'numberhqlmdoNum'
-          break
-      }
-    },
-    // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh() {
-      this.queryTableDatas()
+    refresh(isFlush = false) {
+      this.queryTableDatas(isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(val) {
+    queryTableDatas(isFlush = false) {
       const param = {
-        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
-        proCodes: this.proCodes,
-        mofDivCodes: this.mofDivCodes,
-        ruleCodes: this.ruleCodes
+        fiscalYear: this.$store.state.userInfo.curyear,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
-        this.tableLoading = false
+      HttpModule.queryRuleSpecial(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data
+          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
       })
+    },
+    initTableData() {
+      // let tableDataTest = getFormData('basicInfo', 'tableData')
+      // this.tableData = tableDataTest
+      // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
-    },
-    showInfo() {
-      if (this.ruleData && this.ruleData.length > 0) {
-        this.menuName = this.ruleTitle
-        this.proCodes.push(this.ruleData[1])
-        this.mofDivCodes = this.ruleData[3]
-        this.ruleCodes = this.ruleData[4]
-      }
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
+    this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.menuName = this.$store.state.curNavModule.name
-    this.showInfo()
     this.queryTableDatas()
   }
 }

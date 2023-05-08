@@ -377,7 +377,7 @@ export default {
       switch (key) {
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '指标预警-未处理明细'
+          this.detailTitle = '指标预警-待整改明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
@@ -389,7 +389,7 @@ export default {
           break
         case 'numberwarnUndoNum':
           this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '支出预警-未处理明细'
+          this.detailTitle = '支出预警-未认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
@@ -401,13 +401,13 @@ export default {
           break
         case 'numberwarnUndoNoNum':
           this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '支出预警-未处理明细'
+          this.detailTitle = '支出预警-待整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
           this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.ruleCodes]
-          this.detailTitle = '支出预警-已认定明细'
+          this.detailTitle = '支出预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break

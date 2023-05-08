@@ -984,10 +984,9 @@ const proconf = {
   payedColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'dqmc',
       filters: false,
       cellRender: {
         name: '$vxeInput',
@@ -1010,7 +1009,7 @@ const proconf = {
     },
     {
       title: '处室名称',
-      field: 'csmc',
+      field: 'businessOffice',
       align: 'center',
       width: 140,
       filters: false,
@@ -1029,7 +1028,7 @@ const proconf = {
     },
     {
       title: '单位名称',
-      field: 'dwmc',
+      field: 'agencyName',
       width: 140,
       filters: false,
       align: 'center',
@@ -1088,7 +1087,15 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改结果',
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改情况',
       field: 'rectifyDetail',
       width: 140,
       filters: false,

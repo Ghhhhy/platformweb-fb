@@ -304,6 +304,7 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  // 指标预警未处理明细
   redUndoNum: [
     {
       title: '地区名称',
@@ -434,6 +435,7 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  // 指标预警已处理明细
   redDoneNum: [
     {
       title: '地区名称',
@@ -711,7 +713,7 @@ const proconf = {
     }
 
   ],
-  // 支出预警-未处理明细
+  // 支出预警-未认定明细
   notpayColumn: [
     {
       title: '地区名称',
@@ -1059,7 +1061,15 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改结果',
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改情况',
       field: 'rectifyDetail',
       width: 140,
       filters: false,
