@@ -17,17 +17,22 @@
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
+            :query-config="queryConfigIn"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
-          />
+          >
+            <template #action-button-before>
+              <vxe-button size="medium" status="primary" @click="onSearchClick">搜索</vxe-button>
+              <vxe-button size="medium" status="primary" @click="onSearchResetClick">重置</vxe-button>
+            </template>
+          </BsQuery>
         </div>
       </template>
       <template v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -109,17 +114,6 @@ export default {
         //   label: 'name', // 树的显示lalel字段
         //   children: 'children' // 树的嵌套字段
         // },
-        treeData: [{
-          children: [],
-          code: 0,
-          id: 0,
-          label: '0-全部分类',
-          name: '全部分类',
-          parentId: null,
-          parentRuleName: null,
-          ruleLevel: 0,
-          ruleName: '全部分类'
-        }],
         multiple: false, // 是否多选,
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
@@ -222,6 +216,7 @@ export default {
       dataSourceCode: '',
       leftTreeVisible: true,
       proName: '',
+      proCodeList: [],
       param: '',
       useDes: '',
       payAcctName: '',
@@ -231,7 +226,23 @@ export default {
       year: '',
       agencyCode: '',
       mofdivcode: '',
-      codeList: []
+      codeList: [],
+      queryConfigIn: {
+        searchBtnText: '',
+        resetBtnText: '',
+        moreBtnText: '更多查询'
+      },
+      treeData: [{
+        children: [],
+        code: 0,
+        id: 0,
+        label: '0-全部分类',
+        name: '全部分类',
+        parentId: null,
+        parentRuleName: null,
+        ruleLevel: 0,
+        ruleName: '全部分类'
+      }]
     }
   },
   mounted() {
@@ -301,7 +312,6 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
-      this.proName = val.proName
       this.useDes = val.useDes
       this.payAcctName = val.payAcctName
       this.payeeAcctName = val.payeeAcctName
@@ -309,6 +319,7 @@ export default {
       this.setModeName = val.setModeName
       this.year = Number(val.year)
       this.agencyCode = val.agencyCode_code
+      this.proCodeList = val.proName_code__multiple
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -347,6 +358,7 @@ export default {
       HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
         this.queryConfig[1].itemRender.options = treeResdata
+        this.searchDataList = { ...this.searchDataList }
       })
     },
     getChildrenNewData1(datas) {
@@ -571,7 +583,8 @@ export default {
         setModeName: this.setModeName,
         agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,
-        sqlCode: 'zdzj_zfmx'
+        sqlCode: 'zdzj_zfmx',
+        proCodeList: this.proCodeList
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
@@ -673,6 +686,53 @@ export default {
       })
 
       return datas
+    },
+    reset() {
+      // 重置
+      let self = this.$refs.queryFrom
+      self.defaultQueryFormData.fiscalYear = this.searchDataList.fiscalYear
+      return new Promise((resolve, reject) => {
+        self.queryFormDataIn = self.resetMultipleData(Object.assign(self.$refs.queryForm.getFormData(), self.defaultQueryFormData))
+        self.queryFormItemConfigIn = []
+        self.$nextTick().then(() => {
+          self.onMoreSearchClick(self.isMoreSearch)
+          resolve(self.queryFormDataIn)
+        })
+      })
+    },
+    onSearchClick() {
+      this.$refs.queryFrom.onSearchClick()
+    },
+    onSearchResetClick() {
+      let self = this.$refs.queryFrom
+      this.reset().then((res) => {
+        if (self.$listeners.onSearchResetClick) {
+          self.$emit('onSearchResetClick', self.queryFormDataIn)
+        } else {
+          self.$emit('onSearchClick', self.queryFormDataIn, self.getMultipleValue(self.queryFormItemConfig, self.queryFormDataIn), false)
+        }
+      })
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+          this.searchDataList = { ...this.searchDataList }
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     }
   },
   created() {
@@ -683,6 +743,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getLeftTreeData()
     this.getAgency()
+    this.getPro()
   }
 }
 </script>
