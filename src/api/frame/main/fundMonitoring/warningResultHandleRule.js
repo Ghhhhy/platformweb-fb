@@ -30,5 +30,9 @@ export default {
   },
   getProSpeTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
+  // 获取违规类型枚举
+  queryViolationType(params) {
+    return get('large-monitor-platform/lmp/violationType/pageQuery', params)
   }
 }
