@@ -452,6 +452,17 @@ const routers = [
       )
   },
   {
+    path: '/SproWarningResultHandleRuleProvince',
+    name: 'SproWarningResultHandleRuleProvince',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/specialWarningResultHandleRule/specialWarningResultHandleRule.vue'
+      )
+  },
+  {
     path: '/DepartmentWarningResultHandleRule',
     name: 'DepartmentWarningResultHandleRule',
     meta: {
