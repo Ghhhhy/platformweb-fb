@@ -375,75 +375,75 @@ const proconf = {
         align: 'center',
         width: 200
       },
-      {
-        title: '红色预警',
-        field: '',
-        width: 500,
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '预警数据',
-            field: 'redUndoNum',
-            filters: false,
-            align: 'center',
-            width: 200,
-            cellRender: {
-              name: '$vxeIcon6',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            width: 300,
-            children: [
-              {
-                title: '认定正常',
-                field: 'redNormalNum',
-                align: 'center',
-                filters: false,
-                width: 100,
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '已整改',
-                field: 'redDoneNum',
-                filters: false,
-                align: 'center',
-                width: 100,
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '未完成',
-                field: 'redNotRectifiedNum',
-                filters: false,
-                align: 'center',
-                width: 100,
-                cellRender: {
-                  name: '$vxeIcon6',
-                  props: {
-                    $refs: this
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   title: '红色预警',
+      //   field: '',
+      //   width: 500,
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '预警数据',
+      //       field: 'redUndoNum',
+      //       filters: false,
+      //       align: 'center',
+      //       width: 200,
+      //       cellRender: {
+      //         name: '$vxeIcon6',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '生成问询单',
+      //       sortable: false,
+      //       align: 'center',
+      //       width: 300,
+      //       children: [
+      //         {
+      //           title: '认定正常',
+      //           field: 'redNormalNum',
+      //           align: 'center',
+      //           filters: false,
+      //           width: 100,
+      //           cellRender: {
+      //             name: '$vxeIcon3',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         },
+      //         {
+      //           title: '已整改',
+      //           field: 'redDoneNum',
+      //           filters: false,
+      //           align: 'center',
+      //           width: 100,
+      //           cellRender: {
+      //             name: '$vxeIcon3',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         },
+      //         {
+      //           title: '未完成',
+      //           field: 'redNotRectifiedNum',
+      //           filters: false,
+      //           align: 'center',
+      //           width: 100,
+      //           cellRender: {
+      //             name: '$vxeIcon6',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         title: '橙色预警',
         field: '',
