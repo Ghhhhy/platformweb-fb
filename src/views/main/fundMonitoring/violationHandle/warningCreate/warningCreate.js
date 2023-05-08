@@ -282,16 +282,6 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
-    },
-    {
-      title: '是否配套资金',
-      field: 'isMatCode',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '是否配套资金' }
-      }
     }
   ],
   incomeMsgData: {
@@ -321,10 +311,34 @@ const proconf = {
     isThrExp: '',
     directFund: '',
     createTime: '',
-    fiDate: '',
-    isMatCode: ''
+    fiDate: ''
   },
   highQueryConfig: [
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
     {
       title: '监控规则',
       field: 'fiRuleName',
@@ -342,6 +356,7 @@ const proconf = {
     }
   ],
   highQueryData: {
+    regulationClass: '',
     fiRuleName: ''
   },
   basicInfo: {

@@ -550,6 +550,7 @@ export default {
             this.tabStatusNumConfig['rdzc'] = res.data.totalCount
           } else if (this.status === 3) {
             this.tabStatusNumConfig['yxf'] = res.data.totalCount
+            this.tabStatusNumConfig['dhs'] = res.data.totalCount
           } else if (this.status === 4) {
             this.tabStatusNumConfig['hsww'] = res.data.totalCount
           } else if (this.status === 5) {
@@ -564,6 +565,7 @@ export default {
           }
           if (this.isAgencyDone) {
             this.tabStatusNumConfig['dsh'] = res.data.totalCount
+            this.tabStatusNumConfig['dcszg'] = res.data.totalCount
           }
           if (this.isNormalDone) {
             this.tabStatusNumConfig['rdzc'] = res.data.totalCount
