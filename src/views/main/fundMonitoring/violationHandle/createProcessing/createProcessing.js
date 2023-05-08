@@ -337,8 +337,9 @@ export let proconf = {
     {
       title: '业务处室',
       field: 'manageMofDepName',
-      span: 8,
-      titleWidth: 180,
+      width: 120,
+      titleWidth: '180',
+      align: 'center',
       cellRender: {
         name: '$vxeInput',
         options: [],
@@ -2052,7 +2053,7 @@ export let proconf = {
     {
       title: '业务处室',
       field: 'businessOffice',
-      span: 8,
+      width: 120,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
