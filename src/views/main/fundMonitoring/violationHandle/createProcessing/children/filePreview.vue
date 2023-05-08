@@ -123,6 +123,7 @@
 
 <script>
 import Aplayer from 'vue-aplayer'
+// import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 export default {
   name: 'FilePreview',
   components: { Aplayer },
@@ -142,13 +143,19 @@ export default {
     appId: {
       type: String,
       default() {
-        return 'pay_voucher'
+        return ''
       }
     },
     topTitle: {
       type: String,
       default() {
-        return '查看'
+        return '预览'
+      }
+    },
+    previewYear: {
+      type: String,
+      default() {
+        return ''
       }
     }
   },
@@ -217,6 +224,9 @@ export default {
     }
   },
   methods: {
+    dialogClose() {
+      this.$parent.filePreviewDialogVisible = false
+    },
     mountedInit() {
       this.toPdf()
     },
