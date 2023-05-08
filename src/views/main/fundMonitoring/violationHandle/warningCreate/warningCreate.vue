@@ -462,4 +462,8 @@ export default {
   background-color: red;
   color: #fff;
 }
+.vxe-toolbar .vxe-button--wrapper{
+  justify-content: flex-start;
+}
+
 </style>
