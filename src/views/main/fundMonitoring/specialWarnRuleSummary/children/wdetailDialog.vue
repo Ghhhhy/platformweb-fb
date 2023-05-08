@@ -171,7 +171,7 @@ export default {
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
         projectName: this.condition.projectName ? this.condition.projectName[0] : '',
         speTypeCodes: this.searchDataList.speTypeName_code__multiple || [],
-        submofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
+        subMofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
