@@ -45,7 +45,7 @@
               <i @click="OnShowSelectSearch"><img src="~@/assets/img/basic/search.svg"> </i>
             </div> -->
           </div>
-          <div v-for="(it,ids) in menuData" :key="ids" class="MenuList-header header-right flex">
+          <div v-for="(it,ids) in menuData" :key="ids" :class="[province.slice(0, 2) === '31' ? 'shHeader' : 'xmHeader', 'MenuList-header header-right flex']">
             <div class="header-right-title flex">
               <!-- <i class="el-icon-position"></i> -->
               <div v-if="it.unit && (it.unit.length + unit.length < 10)" class="header-marquee">{{ it.unit }}&nbsp;{{ unit }}</div>
@@ -93,6 +93,22 @@
                 <div class="block-plan-supper-user" @click="showPop">{{ name }}</div>
               </div>
               -->
+            </div>
+            <!-- 上海-我要提问 -->
+            <div v-if="province.slice(0, 2) === '31'" class="divider"></div>
+            <div v-if="province.slice(0, 2) === '31'" class="header-right-block-plan flex">
+              <div class="block-plan flex">
+                <i class="issue icons" style="width: 14px; height: 14px;margin-right: 8px"></i>
+                <div class="block-plan-desc issueText" @click="handleIssue">我要提问</div>
+              </div>
+            </div>
+            <!-- 上海-BBS论坛 -->
+            <div v-if="province.slice(0, 2) === '31'" class="divider"></div>
+            <div v-if="province.slice(0, 2) === '31'" class="header-right-block-plan flex" @click="handleBbs">
+              <div class="block-plan flex">
+                <i class="bbs icons" style="width: 14px; height: 14px;margin-right: 8px"></i>
+                <div class="block-plan-desc">BBS论坛</div>
+              </div>
             </div>
             <!--用户-->
             <div class="divider"></div>
@@ -168,11 +184,19 @@
         </div>
       </vxe-modal>
     </div>
+    <BBS
+      v-if="addDialogVisible"
+      ref="bbsDialog"
+      :dialog-visible.sync="addDialogVisible"
+      title="BBS论坛"
+    />
   </div>
 </template>
 
 <script>
 import MenuModule from '../../../api/frame/common/menu.js'
+import store from '@/store/index'
+import BBS from './children/BBS.vue'
 // import {
 //   enable as enableDarkMode,
 //   disable as disableDarkMode
@@ -188,6 +212,7 @@ export default {
     // LevelMenu
     // MyFavorite
     // Chat
+    BBS
   },
   data () {
     return {
@@ -236,7 +261,8 @@ export default {
       oldPwd: '',
       newPwd: '',
       confirmPwd: '',
-      audLoading: false
+      audLoading: false,
+      addDialogVisible: false
     }
   },
   computed: {
@@ -473,6 +499,12 @@ export default {
     },
     cancelDialog () {
       this.pwdVisible = false
+    },
+    handleIssue() {
+      window.open(`${window.gloableToolFn.getIssueUrl()}?tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=${store.getters.getLoginAuthentication.appguid}`)
+    },
+    handleBbs() {
+      this.addDialogVisible = true
     }
   }
 }
@@ -524,5 +556,32 @@ export default {
 }
 .el-popper[x-placement^='bottom'] {
   margin-top: 5px !important;
+}
+.shHeader {
+  width: 1000px !important
+}
+.xmHeader {
+  width: 580px !important
+}
+i.icons:before {
+  content: '';
+  height: 14px !important;
+  width: 14px !important;
+  display: inline-block
+}
+i.issue:before {
+  background: url(./img/issue.svg);
+  background-size: 100% 100%;
+}
+i.bbs::before {
+  background: url(./img/link.svg);
+  background-size: 100% 100%;
+}
+.issueText {
+  color: #6fe78d;
+  cursor: pointer;
+}
+.issueText:hover {
+  text-decoration: underline;
 }
 </style>

@@ -30,8 +30,7 @@ window.gloableToolFn = {
       fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
       // --------------------------- 后台服务 ----------------------------------//
-      // 'large-monitor-platform': api,
-      'large-monitor-platform': 'http://192.168.0.113:6602',
+      'large-monitor-platform': api,
       'dfr-monitor-service': api
     },
     gloableUrl: {
@@ -43,5 +42,11 @@ window.gloableToolFn = {
   },
   // 是否开启水印
   enableWaterMark: false,
-  getReportUrl: () => reportService
+  getReportUrl: () => reportService,
+  getBbsUrl: () => { // 上海BBS
+    return 'https://yth.czj.sh.cegn.cn/shbbs/'
+  },
+  getIssueUrl: () => { // 上海我要提问
+    return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
+  }
 }
