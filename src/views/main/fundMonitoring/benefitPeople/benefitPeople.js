@@ -85,11 +85,22 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
+        options: [],
         props: {
-          placeholder: '预算单位'
+          config: {
+            treeProps: {
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '预算单位',
+            multiple: true,
+            readonly: true,
+            isleaf: true
+          }
         }
       }
     },

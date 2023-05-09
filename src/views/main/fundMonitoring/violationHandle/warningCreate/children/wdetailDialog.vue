@@ -76,7 +76,6 @@ import proconf, {
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
-import transJson from '@/utils/transformMenuQuery'
 
 export default {
   name: 'DetailDialogs',
@@ -111,8 +110,11 @@ export default {
       isCreate: false,
       isDone: false,
       warnLevel: '',
-      isSign: '',
-      status: '',
+      isSign: null,
+      status: null,
+      isHandle: false,
+      isNormal: false,
+      isProcessed: false,
       userInfo: {},
       billguid: '',
       showGlAttachmentDialog: false,
@@ -194,6 +196,7 @@ export default {
       sDetailData: [],
       detailType: '',
       fiRuleCode: '',
+      fiRuleCode1: '',
       mofDivCode: '',
       warningCode: '',
       tableLoading: false,
@@ -293,12 +296,6 @@ export default {
           case '2':
             this.detailType = 'orangeUndoNum'
             break
-          case '3':
-            this.detailType = 'redUndoNum'
-            break
-          case '4':
-            this.detailType = 'greyUndoNum'
-            break
           case '5':
             this.detailType = 'blueUndoNum'
             break
@@ -315,12 +312,6 @@ export default {
           case '2':
             this.detailType = 'orangeNormalNum'
             break
-          case '3':
-            this.detailType = 'redNormalNum'
-            break
-          case '4':
-            this.detailType = 'greyNormalNum'
-            break
           case '5':
             this.detailType = 'blueNormalNum'
             break
@@ -328,30 +319,8 @@ export default {
             break
         }
       } else if (this.tabSelect === '3') {
-        this.tableColumnsConfig = proconf.notRectifiedNum
-        this.tabStatusBtnConfig.curButton = curStatusButton2
-        switch (this.colourType) {
-          case '1':
-            this.detailType = 'yellowNotRectifiedNum'
-            break
-          case '2':
-            this.detailType = 'orangeNotRectifiedNum'
-            break
-          case '3':
-            this.detailType = 'redNotRectifiedNum'
-            break
-          case '4':
-            this.detailType = 'greyNotRectifiedNum'
-            break
-          case '5':
-            this.detailType = 'blueNotRectifiedNum'
-            break
-          default :
-            break
-        }
-      } else if (this.tabSelect === '4') {
         this.tableColumnsConfig = proconf.doneNum
-        this.tabStatusBtnConfig.curButton = curStatusButton3
+        this.tabStatusBtnConfig.curButton = curStatusButton2
         switch (this.colourType) {
           case '1':
             this.detailType = 'yellowDoneNum'
@@ -359,14 +328,24 @@ export default {
           case '2':
             this.detailType = 'orangeDoneNum'
             break
-          case '3':
-            this.detailType = 'redDoneNum'
-            break
-          case '4':
-            this.detailType = 'greyDoneNum'
-            break
           case '5':
             this.detailType = 'blueDoneNum'
+            break
+          default :
+            break
+        }
+      } else if (this.tabSelect === '4') {
+        this.tableColumnsConfig = proconf.notRectifiedNum
+        this.tabStatusBtnConfig.curButton = curStatusButton3
+        switch (this.colourType) {
+          case '1':
+            this.detailType = 'yellowNotRectifiedNum'
+            break
+          case '2':
+            this.detailType = 'orangeNotRectifiedNum'
+            break
+          case '5':
+            this.detailType = 'blueNotRectifiedNum'
             break
           default :
             break
@@ -389,6 +368,9 @@ export default {
         case 'normal': //
           self.handleNormal(obj)
           break
+        case 'queryBusinessData': // 联查业务数据
+          self.queryBusinessData(obj)
+          break
         // 查看详情
         case 'show_detail':
           this.showDetail()
@@ -396,6 +378,16 @@ export default {
         default:
           break
       }
+    },
+    queryBusinessData() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.showDetailData = selection
+      this.showDialogVisible = true
+      this.showDialogTitle = '业务数据信息'
     },
     showDetail() {
       let selection = this.$refs.mainTableRef.selection
@@ -416,11 +408,60 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
-      this.isDone = false
-      this.isCreate = true
-      this.showDetailData = selection
-      this.showDialogVisible = true
-      this.showDialogTitle = '监控问询单信息'
+      this.fiRuleCode = selection[0].fiRuleCode || ''
+      this.warningCode = selection[0].warningCode || ''
+      let code = this.warningCode + '/' + this.fiRuleCode
+      HttpModule.budgetgetDetail(code).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          if (res.data.payVoucherVo !== null) {
+            if (res.data.payVoucherVo.voidOrNot === '是') {
+              this.$confirm('此操作将生成并下发已作废的数据, 是否继续?', '提示', {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                this.isDone = false
+                this.isCreate = true
+                this.showDetailData = selection
+                this.showDialogVisible = true
+                this.showDialogTitle = '监控问询单信息'
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消'
+                })
+              })
+            } else {
+              this.isDone = false
+              this.isCreate = true
+              this.showDetailData = selection
+              this.showDialogVisible = true
+              this.showDialogTitle = '监控问询单信息'
+            }
+          } else {
+            this.$confirm('此操作将生成并下发作废字段为空的数据, 是否继续?', '提示', {
+              confirmButtonText: '确认',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.isDone = false
+              this.isCreate = true
+              this.showDetailData = selection
+              this.showDialogVisible = true
+              this.showDialogTitle = '监控问询单信息'
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消'
+              })
+            })
+          }
+          this.handletableData = res.data?.regulationList
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     handleNormal() {
       let selection = this.$refs.mainTableRef.selection
@@ -539,59 +580,31 @@ export default {
       this.fiRuleCode = this.detailData[1]
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
+      this.fiRuleCode1 = this.detailData[4]
+      console.log('this.detailType', this.detailType)
       switch (this.detailType) {
-        case 'redUndoNum':
-          this.tableColumnsConfig = proconf.undoNum
-          this.tabStatusBtnConfig.curButton = curStatusButton
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
-          this.isSign = '0'
-          this.status = ''
-          this.title = '疑点信息明细'
-          break
-        case 'redNormalNum':
-          this.tableColumnsConfig = proconf.undoNum
-          this.tabStatusBtnConfig.curButton = curStatusButton1
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
-          this.isSign = '1'
-          this.status = ''
-          this.title = '认定正常明细'
-          break
-        case 'redNotRectifiedNum':
-          this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
-          this.isSign = '2'
-          this.status = '1'
-          this.title = '认定违规-待整改明细'
-          break
-        case 'redDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
-          this.isSign = '2'
-          this.status = '4'
-          this.title = '认定违规-已整改明细'
-          break
         case 'orangeUndoNum':
           this.tableColumnsConfig = proconf.undoNum
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = '0'
-          this.status = ''
-          this.title = '疑点信息明细'
+          this.isSign = 0
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
+          this.title = '预警数据明细'
           break
         case 'orangeNormalNum':
-          this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.normalNum
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = '1'
-          this.status = ''
+          this.isSign = 2
+          this.isNormal = true
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
           this.title = '认定正常明细'
           break
         case 'orangeNotRectifiedNum':
@@ -599,143 +612,131 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = '2'
-          this.status = '1'
-          this.title = '认定违规-待整改明细'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = true
+          this.isProcessed = false
+          this.status = null
+          this.title = '未完成明细'
           break
         case 'orangeDoneNum':
           this.tableColumnsConfig = proconf.doneNum
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = '2'
-          this.status = '4'
-          this.title = '认定违规-已整改明细'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = 7
+          this.title = '已整改明细'
           break
         case 'yellowUndoNum':
           this.tableColumnsConfig = proconf.undoNum
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
-          this.isSign = '0'
-          this.status = ''
-          this.title = '疑点信息明细'
+          this.warnLevel = '3'
+          this.isSign = 0
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
+          this.title = '预警数据明细'
           break
         case 'yellowNormalNum':
-          this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.normalNum
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
-          this.isSign = '1'
-          this.status = ''
+          this.warnLevel = '3'
+          this.isSign = '2'
+          this.isNormal = true
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
           this.title = '认定正常明细'
           break
         case 'yellowNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
-          this.isSign = '2'
-          this.status = '1'
-          this.title = '认定违规-待整改明细'
+          this.warnLevel = '3'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = true
+          this.isProcessed = false
+          this.status = null
+          this.title = '未完成明细'
           break
         case 'yellowDoneNum':
           this.tableColumnsConfig = proconf.doneNum
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
-          this.isSign = '2'
-          this.status = '4'
-          this.title = '认定违规-已整改明细'
+          this.warnLevel = '3'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = 7
+          this.title = '已整改明细'
           break
-        // case 'greyUndoNum':
-        //   this.tableColumnsConfig = proconf.undoNum
-        //   this.tabStatusBtnConfig.curButton = curStatusButton
-        //   this.tabStatusBtnConfig.buttons = statusButtons
-        //   this.warnLevel = '4'
-        //   this.isSign = '0'
-        //   this.status = ''
-        //   this.title = '疑点信息明细'
-        //   break
-        // case 'greyNormalNum':
-        //   this.tableColumnsConfig = proconf.undoNum
-        //   this.tabStatusBtnConfig.curButton = curStatusButton1
-        //   this.tabStatusBtnConfig.buttons = statusButtons
-        //   this.warnLevel = '4'
-        //   this.isSign = '1'
-        //   this.status = ''
-        //   this.title = '认定正常明细'
-        //   break
-        // case 'greyNotRectifiedNum':
-        //   this.tableColumnsConfig = proconf.notRectifiedNum
-        //   this.tabStatusBtnConfig.curButton = curStatusButton2
-        //   this.tabStatusBtnConfig.buttons = statusButtons
-        //   this.warnLevel = '4'
-        //   this.isSign = '2'
-        //   this.status = '1'
-        //   this.title = '认定违规-待整改明细'
-        //   break
-        // case 'greyDoneNum':
-        //   this.tableColumnsConfig = proconf.doneNum
-        //   this.tabStatusBtnConfig.curButton = curStatusButton3
-        //   this.tabStatusBtnConfig.buttons = statusButtons
-        //   this.warnLevel = '4'
-        //   this.isSign = '2'
-        //   this.status = '2'
-        //   this.title = '认定违规-已整改明细'
-        //   break
         case 'blueUndoNum':
           this.tableColumnsConfig = proconf.undoNum
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = '0'
-          this.status = ''
-          this.title = '疑点信息明细'
+          this.isSign = 0
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
+          this.title = '预警数据明细'
           break
         case 'blueNormalNum':
-          this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.normalNum
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = '1'
-          this.status = ''
+          this.isSign = 2
+          this.isNormal = true
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = null
           this.title = '认定正常明细'
           break
         case 'blueNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
-          this.isSign = '2'
-          this.status = '1'
-          this.title = '认定违规-待整改明细'
-          break
-        case 'blueDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = '2'
-          this.status = '4'
-          this.title = '认定违规-已整改明细'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = true
+          this.isProcessed = false
+          this.status = null
+          this.title = '未完成明细'
+          break
+        case 'blueDoneNum':
+          this.tableColumnsConfig = proconf.doneNum
+          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.buttons = statusButtons
+          this.warnLevel = '4'
+          this.isSign = 2
+          this.isNormal = false
+          this.isHandle = false
+          this.isProcessed = false
+          this.status = 7
+          this.title = '已整改明细'
           break
         default:
           break
       }
       switch (this.warnLevel) {
-        case '1':
-          this.title = '红色预警-' + this.title
-          break
         case '2':
           this.title = '橙色预警-' + this.title
           break
         case '3':
           this.title = '黄色预警-' + this.title
           break
-        // case '4':
-        //   this.title = '灰色预警-' + this.title
-        //   break
         case '4':
           this.title = '蓝色预警-' + this.title
           break
@@ -751,19 +752,28 @@ export default {
         isSign: this.isSign,
         agencyCodeList: this.agencyCodeList,
         status: this.status,
+        isNormal: this.isNormal,
+        isHandle: this.isHandle,
         regulationClassName: this.condition.regulationClassName ? this.condition.regulationClassName[0] : '',
         warnTime: this.condition.warnTime ? this.condition.warnTime[0] : '',
         triggerClass: this.condition.triggerClass ? this.condition.triggerClass[0] : '',
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : ''
       }
-      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
-        params.regulationClass = '09'
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        params.regulationClass = '0201'
       }
+
+      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        params.regulationClass = regulationClass
+      }
+
       console.log('fiRuleCode:', this.fiRuleCode)
       console.log('mofDivCode:', this.mofDivCode)
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
+        params.fiRuleCode = this.fiRuleCode1
         params.fiscalYear = this.fiscalYear
         this.tableLoadingState = true
         HttpModule.querySumByMof(params).then(res => {
@@ -786,6 +796,8 @@ export default {
                 item.warnLevel = '<span style="color:red">红色预警</span>'
               } else if (item.warnLevel === 4) {
                 item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 5) {
+                item.warnLevel = '<span style="color:gray">灰色预警</span>'
               }
             })
             this.pagerConfig.total = res.data.totalCount
@@ -816,6 +828,8 @@ export default {
                 item.warnLevel = '<span style="color:red">红色预警</span>'
               } else if (item.warnLevel === 4) {
                 item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 5) {
+                item.warnLevel = '<span style="color:gray">灰色预警</span>'
               }
             })
             this.pagerConfig.total = res.data.totalCount
@@ -827,16 +841,14 @@ export default {
     },
     getAgency() {
       const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
         elementCode: 'AGENCY',
-        date: this.$store.state.userInfo.year,
-        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
-        appguid: 'apaas',
+        // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        mofDivCode: this.$store.state.userInfo.province,
-        parameters: {}
+        province: this.$store.state.userInfo.province
       }
       HttpModule.getTreewhere(param).then(res => {
-        let treeResdata = res.data
+        let treeResdata = this.getChildrenNewData1(res.data)
         this.queryConfig[0].itemRender.options = treeResdata
       })
     },
@@ -859,9 +871,7 @@ export default {
       this.$parent.sdetailVisible = true
     },
     cellStyle({ row, rowIndex, column }) {
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['detail'].includes(column.property)) {
+      if (['detail'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -883,11 +893,6 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-
       switch (key) {
         case 'detail':
           this.handleDetail('detail', obj.row.diBillId, obj.row.mofDivCode)
@@ -897,11 +902,6 @@ export default {
     }
   },
   mounted() {
-    // 如果菜单参数有主题 当前模块就使用该主题查询
-    if (transJson(this.$store.state.curNavModule.param5)?.regulationClassName) {
-      const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
-      index > -1 && this.queryConfig?.splice(index, 1)
-    }
     this.detailType = this.detailData[0]
     this.getAgency()
     this.showInfo()

@@ -159,3 +159,6 @@ input::placeholder {
 .vxe-toolbar .vxe-custom--wrapper.is--active>.vxe-button {
   border-radius: unset;
 }
+.main-modulebox-contain {
+  overflow-y: auto !important;
+}

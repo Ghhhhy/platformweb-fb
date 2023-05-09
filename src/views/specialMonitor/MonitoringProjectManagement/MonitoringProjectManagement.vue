@@ -68,12 +68,13 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
+      :code-list="codeList"
     />
   </div>
 </template>
 
 <script>
-import { proconf } from './MonitoringProjectManagement'
+import { proconf, getDateString } from './MonitoringProjectManagement.js'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 export default {
@@ -201,20 +202,19 @@ export default {
         multiple: false, // 是否多选,
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
-        clearable: true,
-        codeList: []
+        clearable: true
       },
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
-      declareName: ''
+      declareName: '',
+      codeList: []
     }
   },
   mounted() {
   },
   methods: {
     search(obj) {
-      console.log(obj)
-      this.declareName = obj.declareName
+      this.searchDataList = obj
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -412,8 +412,8 @@ export default {
     },
     // 新增或修改弹框
     clickAddBtn(row) {
-      if (this.addTableData.length > 0) {
-        this.addTableData = []
+      if (this.codeList?.length === 0) {
+        return this.$message.error('请先选择左侧区划')
       }
       this.dialogTitle = '新增'
       this.dialogVisible = true
@@ -452,19 +452,28 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         declareName: this.declareName,
-        agencyCodes: [],
-        manageMofCodes: [],
-        mofDivCode: this.mofDivCode,
-        mofDivCodeList: this.codeList,
+        pubFlag: '',
+        manageMofDepCode: this.searchDataList.manageMofDepCode,
+        mofDivCode: this.codeList ? this.codeList[0] : '',
+        objCode: this.searchDataList.objCode,
+        objName: this.searchDataList.objName,
+        // bizType: '',
+        objLevel: this.searchDataList.objLevel,
+        // mofDivCodeList: this.codeList,
         menuId: this.$store.state.curNavModule.guid,
-        flowStatus: this.toolBarStatusSelect.curValue
+        // flowStatus: this.toolBarStatusSelect.curValue,
+        fiscalYear: this.userInfo.year
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      HttpModule.queryTableDatasRule(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
+          res.data.records?.map((v) => {
+            v.beginDate = v.beginDate ? getDateString(v.beginDate) : ''
+            v.endDate = v.endDate ? getDateString(v.endDate) : ''
+          })
+          this.tableData = res.data.records
+          this.mainPagerConfig.total = res.data.total
         } else {
           this.$message.error(res.message)
         }

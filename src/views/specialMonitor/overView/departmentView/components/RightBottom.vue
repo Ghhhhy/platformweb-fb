@@ -48,6 +48,7 @@ export default defineComponent({
         field: 'year',
         title: '资金类型',
         treeNode: true,
+        width: 200,
         align: 'center',
         cellRender: {
           name: '$vxeIcon',

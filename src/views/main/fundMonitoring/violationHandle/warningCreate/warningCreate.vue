@@ -22,6 +22,12 @@
         </div>
       </template>
       <template v-slot:mainForm>
+        <div style="width: 100%; color: red; font-size: 16px">
+          预警级别说明：
+          1.橙色预警--预警（需上传附件）
+          2.黄色预警--预警（无需上传附件）
+          3.蓝色预警--记录
+        </div>
         <BsTable
           id="1001"
           ref="bsTableRef"
@@ -31,7 +37,7 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :title="menuName"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
@@ -166,7 +172,8 @@ export default {
       sdetailData: [],
       detailData: [],
       code: '',
-      fiscalYear: ''
+      fiscalYear: '',
+      regulationClass: ''
     }
   },
   mounted() {
@@ -245,6 +252,7 @@ export default {
     },
     // 搜索
     search(val) {
+      this.regulationClass = val.regulationClass_code
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
@@ -292,32 +300,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-
       switch (key) {
-        case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'redNormalNum':
-          this.detailData = ['redNormalNum', obj.row.fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'redNotRectifiedNum':
-          this.detailData = ['redNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
           this.colourType = '2'
@@ -340,42 +323,22 @@ export default {
           break
         case 'yellowUndoNum':
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowNormalNum':
           this.detailData = ['yellowNormalNum', obj.row.fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowNotRectifiedNum':
           this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowDoneNum':
           this.detailData = ['yellowDoneNum', obj.row.fiRuleCode]
           this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'greyUndoNum':
-          this.detailData = ['greyUndoNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'greyNormalNum':
-          this.detailData = ['greyNormalNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'greyNotRectifiedNum':
-          this.detailData = ['greyNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'greyDoneNum':
-          this.detailData = ['greyDoneNum', obj.row.fiRuleCode]
-          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueUndoNum':
@@ -410,10 +373,11 @@ export default {
       const param = {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
-        fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : ''
+        fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
+        regulationClass: this.regulationClass
       }
-      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
-        param.regulationClass = '09'
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '0201'
       }
 
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
@@ -437,6 +401,38 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    getRegulation() {
+      // 如果菜单参数有主题 当前模块就使用该主题查询
+      if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
+        const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
+        index > -1 && this.queryConfig?.splice(index, 1)
+        return
+      }
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData1(res.data)
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData1(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -445,9 +441,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.params5 = this.$store.state.curNavModule.param5
-    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
     this.queryTableDatas()
+    this.getRegulation()
   }
 }
 </script>
@@ -467,4 +462,8 @@ export default {
   background-color: red;
   color: #fff;
 }
+.vxe-toolbar .vxe-button--wrapper{
+  justify-content: flex-start;
+}
+
 </style>

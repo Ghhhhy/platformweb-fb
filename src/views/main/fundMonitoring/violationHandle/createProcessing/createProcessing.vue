@@ -30,7 +30,6 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
-          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -57,6 +56,12 @@
       :detail-data="detailData"
       :is-create="isCreate"
     />
+    <FilePreview
+      v-if="filePreviewDialogVisible"
+      :visible.sync="filePreviewDialogVisible"
+      :file-guid="fileGuid"
+      :app-id="appId"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
@@ -67,14 +72,10 @@ import { proconf } from './createProcessing'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
-import transJson from '@/utils/transformMenuQuery'
+import FilePreview from './children/filePreview'
 export default {
   components: {
-    AddDialog
-  },
-  activated() {
-    this.param5 = this.transJson(this.$store.state.curNavModule?.param5)
-    this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
+    AddDialog, FilePreview
   },
   watch: {
     queryConfig() {
@@ -111,10 +112,9 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: '610000000', year: '2022', wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -127,15 +127,17 @@ export default {
       },
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
-        'unIssue': 0,
-        'issued': 0,
-        'rectify': 0,
-        'rectifyUnit': 0,
-        'rectifiedUnit': 0,
-        'rectified': 0,
-        'archive': 0,
-        'archived': 0,
-        'search': 0
+        'dcl': 0,
+        'yxf': 0,
+        'dsh': 0,
+        'yth': 0,
+        'rdzc': 0,
+        'yzg': 0,
+        'dhs': 0,
+        'bth': 0,
+        'hsww': 0,
+        'dcszg': 0,
+        'csysh': 0
       },
       isShowQueryConditions: true,
       toolBarStatusSelect: {
@@ -180,7 +182,7 @@ export default {
       tableConfig: {
         renderers: {
           // 修改 配置 下发 删除
-          $ReportTaskGloableOptionRow: proconf.gloableOptionRow
+          $CreateProcessingGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.handleCheck
@@ -198,7 +200,7 @@ export default {
       addTableData: [],
       // 请求 & 角色权限相关配置
       menuName: '监控问询单列表',
-      param5: '',
+      params5: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -242,6 +244,7 @@ export default {
         readonly: true,
         clearable: true
       },
+      param5: '',
       fiRuleCode: '',
       warningCode: '',
       dealNo: '',
@@ -256,6 +259,9 @@ export default {
       isArchive: false,
       codeList: [],
       violateType: '',
+      isAgencyDone: false,
+      isNormalDone: false,
+      isProcessed: false,
       regulationClassName: '',
       warnTime: '',
       triggerClass: '',
@@ -264,9 +270,17 @@ export default {
       fileGuid: ''
     }
   },
-  mounted() {
+  activated() {
+    this.updateRegulationClassNameFormConfig()
   },
   methods: {
+    updateRegulationClassNameFormConfig () {
+      // 如果菜单参数有主题 当前模块就使用该主题查询
+      if (this.transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
+        const index = this.queryConfig.findIndex(item => item.field === 'regulationClassName')
+        index > -1 && this.queryConfig?.splice(index, 1)
+      }
+    },
     search(obj) {
       console.log(obj)
       this.dealNo = obj.dealNo
@@ -370,7 +384,7 @@ export default {
       //   return
       // }
       console.log('node', node)
-      let code = node.node.code
+      let code = node.code
       this.codeList = []
       this.getItem(code, this.treeData)
       console.log(this.codeList)
@@ -443,10 +457,10 @@ export default {
         mofDivCode: this.mofDivCode || ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '09'
+        param.regulationClass = '0201'
       }
 
-      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
@@ -478,6 +492,7 @@ export default {
       })
     },
     getdata() {
+      console.log('status1', this.status)
       let param = {
         page: this.mainPagerConfig.currentPage, // unitStatus页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -491,18 +506,23 @@ export default {
         roleId: this.roleId,
         mofDivCodeList: this.codeList,
         dealNo: this.dealNo,
+        isNormalDone: this.isNormalDone,
+        isProcessed: this.isProcessed,
+        isAgencyDone: this.isAgencyDone,
         regulationClassName: this.regulationClassName,
         warnTime: this.warnTime,
         triggerClass: this.triggerClass,
         warningLevel: this.warningLevel
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '09'
+        param.regulationClass = '0201'
       }
-      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+
+      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
+
       this.tableLoading = true
       api.getDetail(param).then(res => {
         this.tableLoading = false
@@ -523,16 +543,33 @@ export default {
           })
           this.mainPagerConfig.total = res.data.totalCount
           if (this.status === 1) {
-            this.tabStatusNumConfig['rectify'] = res.data.totalCount
-            this.tabStatusNumConfig['issued'] = res.data.totalCount
+            this.tabStatusNumConfig['dcl'] = res.data.totalCount
           } else if (this.status === 2) {
-            this.tabStatusNumConfig['rectifyUnit'] = res.data.totalCount
+            this.tabStatusNumConfig['rdzc'] = res.data.totalCount
           } else if (this.status === 3) {
-            this.tabStatusNumConfig['rectifiedUnit'] = res.data.totalCount
+            this.tabStatusNumConfig['yxf'] = res.data.totalCount
+            this.tabStatusNumConfig['dhs'] = res.data.totalCount
           } else if (this.status === 4) {
-            this.tabStatusNumConfig['rectified'] = res.data.totalCount
-          } else {
-            this.tabStatusNumConfig['search'] = res.data.totalCount
+            this.tabStatusNumConfig['hsww'] = res.data.totalCount
+          } else if (this.status === 5) {
+            this.tabStatusNumConfig['yzg'] = res.data.totalCount
+          } else if (this.status === 6) {
+            this.tabStatusNumConfig['hsww'] = res.data.totalCount
+          } else if (this.status === 7) {
+            this.tabStatusNumConfig['yzg'] = res.data.totalCount
+          } else if (this.status === 8) {
+            this.tabStatusNumConfig['bth'] = res.data.totalCount
+            this.tabStatusNumConfig['yth'] = res.data.totalCount
+          }
+          if (this.isAgencyDone) {
+            this.tabStatusNumConfig['dsh'] = res.data.totalCount
+            this.tabStatusNumConfig['dcszg'] = res.data.totalCount
+          }
+          if (this.isNormalDone) {
+            this.tabStatusNumConfig['rdzc'] = res.data.totalCount
+          }
+          if (this.isProcessed) {
+            this.tabStatusNumConfig['csysh'] = res.data.totalCount
           }
         } else {
           this.$message.error(res.message)
@@ -596,6 +633,7 @@ export default {
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
+      console.log('status', this.status)
     },
     handleProcess() {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -606,6 +644,17 @@ export default {
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
+      console.log('isAgencyDonesh', this.isAgencyDone)
+    },
+    queryBusinessData() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.detailData = selection
+      this.dialogVisible = true
+      this.dialogTitle = '业务数据信息'
     },
     handleArchiving() {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -634,10 +683,15 @@ export default {
           self.handleCreate(obj)
           break
         case 'feedback': // 整改反馈
+        case 'bth':
+        case 'dcl':
           self.handleFeedback(obj)
           break
         case 'process': // 审核
           self.handleProcess(obj)
+          break
+        case 'queryBusinessData': // 联查业务数据
+          self.queryBusinessData(obj)
           break
         case 'archiving': // 归档
           self.handleArchiving(obj)
@@ -648,6 +702,9 @@ export default {
         case 'check': // 校验
           self.check(obj)
           break
+        case 'print': // 打印
+          self.print(obj)
+          break
         default:
           console.log('default fallback')
       }
@@ -655,44 +712,33 @@ export default {
     getLeftTreeData() {
       let that = this
       let params = {}
-      if (this.userInfo.province === '610000000') {
+      if (this.userInfo.province.substring(2, 9) === '0000000') {
         params = {
-          elementCode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
         }
       } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
+        this.userInfo.province.substring(4, 9) === '00000' && this.userInfo.province.substring(2, 9) !== '0000000'
       ) {
         params = {
-          elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+          elementcode: 'admdiv',
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
         }
       } else {
         params = {
-          elementCode: 'admdiv',
+          elementcode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
         }
       }
       HttpModule.getTreeData(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -705,8 +751,7 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = res.data
-          console.log(that.treeData)
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -728,17 +773,15 @@ export default {
       console.log(param5)
       if (param5.isRetroact === 'true' && param5.retroact === 'department') { // 主管处室反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactMofBtnConfig }
-        obj.code = 'rectify'
+        obj.code = 'dcl'
       } else if (param5.isRetroact === 'true' && param5.retroact === 'company') { // 单位反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactBtnConfig }
-        obj.code = 'rectifyUnit'
+        obj.code = 'dhs'
       }
       //   } else {
       //     self.$message.error('区划配置信息初始化失败!')
       //   }
       // })
-      // 待办跳转会携带menuTabCode参数，根据参数初始化对应tab选中
-      this.param5?.menuTabCode && this.initTabByMenuParams(this.param5.menuTabCode)
     },
     transJson(str) {
       if (!str) return
@@ -781,6 +824,23 @@ export default {
       this.isStatus = false // 未整改标识
       this.isIssue = false // 已整改标识
       this.isArchive = false // 归档标识
+      // 切换页签清空搜索栏
+      this.$refs.queryFrom.reset()
+      this.dealNo = ''
+      this.regulationClassName = ''
+      this.warnTime = ''
+      this.triggerClass = ''
+      this.warningLevel = ''
+      this.agencyName = ''
+      this.issueTime = ''
+      this.fiRuleName = ''
+      this.violateType = ''
+      this.status = null
+      this.isAgencyDone = false
+      this.isNormalDone = false
+      this.isProcessed = false
+      console.log('ssss', this)
+      console.log('ssss1', obj.code)
       switch (obj.code) {
         // 预警明细列表
         case 'warnList':
@@ -802,38 +862,21 @@ export default {
           this.menuName = '监控问询单列表'
           this.queryTableDatas()
           break
+        // 待处理
+        case 'dcl':
+          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 1
+          this.menuName = '监控问询单列表'
+          this.getdata()
+          break
         // 已下发
-        case 'issued':
-          this.tableColumnsConfig = proconf.policiesTableColumns
-          this.queryConfig = proconf.highQueryConfig
-          this.searchDataList = proconf.highQueryData
-          this.status = 1
-          this.menuName = '监控问询单列表'
-          this.getdata()
-          break
-        // 待整改
-        case 'rectify':
-          this.tableColumnsConfig = proconf.policiesTableColumns
-          this.queryConfig = proconf.highQueryConfig
-          this.searchDataList = proconf.highQueryData
-          this.status = 1
-          this.menuName = '监控问询单列表'
-          this.tableData = []
-          this.getdata()
-          break
-        // 已下发单位
-        case 'rectifyUnit':
+        // 待核实
+        case 'yxf':
+        case 'dhs':
+        case 'feedback':
           this.tableColumnsConfig = proconf.policiesTableColumns1
-          this.queryConfig = proconf.highQueryConfig
-          this.searchDataList = proconf.highQueryData
-          this.status = 2
-          this.menuName = '监控问询单列表'
-          this.tableData = []
-          this.getdata()
-          break
-        // 单位反馈待审核
-        case 'rectifiedUnit':
-          this.tableColumnsConfig = proconf.policiesTableColumns2
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 3
@@ -841,12 +884,55 @@ export default {
           this.tableData = []
           this.getdata()
           break
-        // 已整改
-        case 'rectified':
+        // 单位反馈待审核
+        case 'dsh':
+        case 'dcszg':
+        case 'process':
+        case 'queryBusinessData': // 联查业务数据
+          this.tableColumnsConfig = proconf.policiesTableColumns2
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.isAgencyDone = true
+          this.menuName = '监控问询单列表'
+          this.tableData = []
+          this.getdata()
+          break
+        // 已退回、被退回
+        case 'bth':
+        case 'yth':
+          this.tableColumnsConfig = proconf.policiesTableColumnsbtu
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 8
+          this.menuName = '监控问询单列表'
+          this.tableData = []
+          this.getdata()
+          break
+        // 认定正常
+        case 'rdzc':
           this.tableColumnsConfig = proconf.policiesTableColumns3
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
-          this.status = 4
+          this.isNormalDone = true
+          this.menuName = '监控问询单列表'
+          this.tableData = []
+          this.getdata()
+          break
+        // 已整改
+        case 'yzg':
+          this.tableColumnsConfig = proconf.policiesTableColumns3
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 7
+          this.menuName = '监控问询单列表'
+          this.tableData = []
+          this.getdata()
+          break
+        case 'csysh':
+          this.tableColumnsConfig = proconf.policiesTableColumns3
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.isProcessed = true
           this.menuName = '监控问询单列表'
           this.tableData = []
           this.getdata()
@@ -890,15 +976,28 @@ export default {
         roleId: this.$store.state.curNavModule.roleguid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '09'
+        param.regulationClass = '0201'
       }
+
+      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+
       api.getCount(param).then(res => {
         if (res.code === '000000') {
-          this.tabStatusNumConfig['issued'] = res.data.issue
-          this.tabStatusNumConfig['rectify'] = res.data.issue
-          this.tabStatusNumConfig['rectifyUnit'] = res.data.unitCount
-          this.tabStatusNumConfig['rectifiedUnit'] = res.data.officeProcessCount
-          this.tabStatusNumConfig['rectified'] = res.data.rectifiedCount
+          // 主管处室
+          this.tabStatusNumConfig['dcl'] = res.data.dcl
+          this.tabStatusNumConfig['yxf'] = res.data.yxf
+          this.tabStatusNumConfig['dsh'] = res.data.dsh
+          this.tabStatusNumConfig['yth'] = res.data.yth
+          this.tabStatusNumConfig['rdzc'] = res.data.rdzc
+          this.tabStatusNumConfig['yzg'] = res.data.yzg
+          // 单位
+          this.tabStatusNumConfig['dhs'] = res.data.dhs
+          this.tabStatusNumConfig['dcszg'] = res.data.dcszg
+          this.tabStatusNumConfig['csysh'] = res.data.csysh
+          this.tabStatusNumConfig['bth'] = res.data.bth
         }
       })
     },
@@ -918,22 +1017,26 @@ export default {
         }
       })
     },
-    cellStyle({ row, rowIndex, column }) {
-      if (['isReturn'].includes(column.property)) {
-        return {
-          color: '#fa0101'
+    print() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      const params = {
+        dealNo: selection[0].dealNo
+      }
+      this.tableLoading = true
+      HttpModule.getReport(params).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          debugger
+          this.fileGuid = res.data
+          this.filePreviewDialogVisible = true
+        } else {
+          this.$message.error(res.message)
         }
-      }
-    },
-    /**
-     * 根据菜单参数初始化tab默认项
-     */
-    initTabByMenuParams(val) {
-      // 浅拷贝改变引用地址（tab组件未深度监听）
-      this.toolBarStatusBtnConfig = {
-        ...this.toolBarStatusBtnConfig,
-        curButton: this.toolBarStatusBtnConfig?.buttons?.find(item => item.code === val)
-      }
+      })
     }
   },
   created() {
@@ -945,9 +1048,8 @@ export default {
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     // this.queryTableDatas()
     this.initButtons(this.param5)
-
     this.getViolationType()
-    this.getCount()
+    // this.getCount()
   }
 }
 </script>

@@ -5,7 +5,7 @@ import { post } from '@/api/http'
  * @return {*}
  */
 export const overallSituation = () => {
-  return post('lmp/thrExpReport/overallSituation')
+  return post('large-monitor-platform/lmp/thrExpReport/overallSituation')
 }
 
 /**
@@ -13,7 +13,7 @@ export const overallSituation = () => {
  * @return {*}
  */
 export const monitoringByRuleType = () => {
-  return post('lmp/thrExpReport/monitoringByRuleType')
+  return post('large-monitor-platform/lmp/thrExpReport/monitoringByRuleType')
 }
 
 /**
@@ -21,7 +21,7 @@ export const monitoringByRuleType = () => {
  * @return {*}
  */
 export const getLatestData = (params) => {
-  return post('lmp/warn/statistics/getLatestData', params)
+  return post('large-monitor-platform/lmp/warn/statistics/getLatestData', params)
 }
 
 /**
@@ -29,7 +29,7 @@ export const getLatestData = (params) => {
  * @return {*}
  */
 export const businessStatistics = (params) => {
-  return post('lmp/warn/statistics/businessStatistics', params)
+  return post('large-monitor-platform/lmp/warn/statistics/businessStatistics', params)
 }
 
 /**
@@ -37,7 +37,7 @@ export const businessStatistics = (params) => {
  * @return {*}
  */
 export const expenditure = (params) => {
-  return post('lmp/thrExpReport/expenditure', params)
+  return post('large-monitor-platform/lmp/thrExpReport/expenditure', params)
 }
 
 /**
@@ -45,7 +45,7 @@ export const expenditure = (params) => {
  * @return {*}
  */
 export const monitoringBySubject = (params) => {
-  return post('lmp/thrExpReport/monitoringBySubject', params)
+  return post('large-monitor-platform/lmp/thrExpReport/monitoringBySubject', params)
 }
 
 /**
@@ -53,7 +53,7 @@ export const monitoringBySubject = (params) => {
  * @return {*}
  */
 export const monitoringByMof = (params) => {
-  return post('lmp/thrExpReport/monitoringByMof', params)
+  return post('large-monitor-platform/lmp/thrExpReport/monitoringByMof', params)
 }
 
 /**
@@ -61,5 +61,5 @@ export const monitoringByMof = (params) => {
  * @return {*}
  */
 export const comparison = () => {
-  return post('lmp/thrExpReport/comparison')
+  return post('large-monitor-platform/lmp/thrExpReport/comparison')
 }

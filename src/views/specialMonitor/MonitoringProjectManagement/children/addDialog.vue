@@ -27,7 +27,7 @@
         <el-col :span="12" style="margin-top:0px;float:right;">
           <div>
             <el-button @click="closeAddDialog">取消</el-button>
-            <el-button type="primary" style="margin-right:0px;" @click="addOrUpdateTask">保存</el-button>
+            <el-button type="primary" style="margin-right:0px;" @click="addMonitoringProject">保存</el-button>
           </div>
         </el-col>
       </el-row>
@@ -39,6 +39,7 @@
 
 import moment from 'moment'
 import resolveResult from '@/utils/result.js'
+import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 export default {
   name: 'AddDialog',
   props: {
@@ -49,6 +50,10 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: true
+    },
+    codeList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -56,24 +61,21 @@ export default {
       visible: true,
       showLoading: false,
       formData: {
-        taskId: '',
-        taskCode: '',
-        taskName: '',
-        taskType: '',
-        taskStartDate: '',
-        taskEndDate: '',
-        taskStatus: '1',
-        fileId: '',
-        reportType: '',
-        type: ''
+        mofDivCode: this.codeList[0],
+        objCode: '',
+        manageMofDepCode: this.$store.getters.getuserInfo.orgcode,
+        manageMofDepName: this.$store.getters.getuserInfo.orgname,
+        bizType: '',
+        pubFlag: '',
+        objLevel: ''
       },
       addFormItemsConfig: [
         {
           title: '项目编码',
-          field: 'proCode',
+          field: 'objCode',
           span: 24,
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           formula: '',
           name: '$vxeInput',
@@ -87,10 +89,10 @@ export default {
         },
         {
           title: '项目名称',
-          field: 'proName',
+          field: 'objName',
           span: 24,
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           formula: '',
           name: '$vxeInput',
@@ -105,61 +107,50 @@ export default {
         {
           title: '业务主管处室名称',
           field: 'manageMofDepName',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
             name: '$vxeInput',
-            props: { placeholder: '业务主管处室名称' }
+            props: { placeholder: '业务主管处室名称', disabled: true }
           }
         },
         {
-          field: 'department',
+          field: 'bizType',
           title: '监控业务分类',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
             name: '$vxeSelect',
             options: [
-              {
-                value: '1',
-                label: '启用'
-              },
-              {
-                value: '0',
-                label: '停用'
-              }
+              { value: '01', label: '中央转移支付专项' },
+              { value: '02', label: '直达资金监控' },
+              { value: '03', label: '中央本级监控' }
             ],
             props: { required: true }
           }
         },
         {
-          field: 'department',
+          field: 'pubFlag',
           title: '是否私有',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
             name: '$vxeSelect',
             options: [
-              {
-                value: '1',
-                label: '是'
-              },
-              {
-                value: '0',
-                label: '否'
-              }
+              { value: '0', label: '私有' },
+              { value: '1', label: '公有' }
             ],
             props: { required: true }
           }
         },
         {
           title: '管理级次',
-          field: 'regulationType',
+          field: 'objLevel',
           span: 24,
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           align: 'left',
           formula: '',
@@ -180,7 +171,7 @@ export default {
           title: '显示顺序',
           field: 'orderNum',
           align: 'left',
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           span: 24,
           itemRender: {
@@ -195,55 +186,44 @@ export default {
           }
         },
         {
-          field: '',
+          field: 'remark',
           title: '备注',
           span: 24,
-          titleWidth: 100,
+          titleWidth: 140,
           titleAlign: 'left',
           itemRender: { name: '$vxeNewInput', props: { required: true, clearable: true, placeholder: '请输入备注' } }
         }
       ],
       formValidationConfig: {
-        taskCode: [
+        objCode: [
           {
             required: true,
-            message: '请输入任务编码',
-            trigger: 'change'
-          },
-          {
-            required: true,
-            min: 0,
-            max: 15,
-            message: '任务编码最大不可超过15个字符',
+            message: '请输入项目编码',
             trigger: 'change'
           }
         ],
-        reportDetailType: [
+        manageMofDepName: [
           {
             required: true,
-            message: '请选择报表类型',
+            message: '请输入业务主管处室名称',
             trigger: 'change'
           }
         ],
-        taskName: [
+        bizType: [
           {
             required: true,
-            message: '请输入任务名称',
-            trigger: 'change'
-          },
-          {
-            required: true,
-            min: 0,
-            max: 20,
-            message() {
-              return '任务名称最大不可超过20个字符'
-            },
+            message: '请选择监控业务分类',
             trigger: 'change'
           }
         ],
-        taskType: [{
+        pubFlag: [{
           required: true,
-          message: '请选择任务类型',
+          message: '请选择是否私有',
+          trigger: 'change'
+        }],
+        objLevel: [{
+          required: true,
+          message: '请选择管理级次',
           trigger: 'change'
         }]
       }
@@ -253,22 +233,15 @@ export default {
   },
   methods: {
     ...resolveResult,
-    reSetData() {
-      this.formData = {
-        proCode: '',
-        orderNum: '',
-        regulationType: '',
-        department: '',
-        manageMofDepName: ''
-      }
-    },
     closeAddDialog() {
       this.formData = {
-        proCode: '',
-        orderNum: '',
-        regulationType: '',
-        department: '',
-        manageMofDepName: ''
+        mofDivCode: this.codeList[0],
+        objCode: '',
+        manageMofDepCode: this.$store.getters.getuserInfo.orgcode,
+        manageMofDepName: this.$store.getters.getuserInfo.orgname,
+        bizType: '',
+        pubFlag: '',
+        objLevel: ''
       }
       this.visible = false
       this.$parent.dialogVisible = false
@@ -276,16 +249,22 @@ export default {
     getDate(value, frm) {
       return moment(new Date(value)).format(frm)
     },
-    addOrUpdateTask() {
+    addMonitoringProject() {
       this.showLoading = true
       var _this = this
       this.$refs.addForm
         .validate()
         .then(res => {
+          HttpModule.doSave(this.formData).then(res => {
+            if (res.code === '000000') {
+              this.$message.error('保存成功')
+            } else {
+              this.$message.error('保存失败')
+            }
+          })
         })
-        .catch(err => {
+        .finally(() => {
           _this.showLoading = false
-          console.log(err)
         })
     },
     transJson(str) {
@@ -307,6 +286,9 @@ export default {
           break
       }
     }
+  },
+  created() {
+    console.log(this.$store.getters.getuserInfo)
   },
   watch: {
     dialogVisible(val) {

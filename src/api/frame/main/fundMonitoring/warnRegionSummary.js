@@ -9,10 +9,14 @@ export default {
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/warnRegion/querySummaryDetail', params)
   },
-  getCapitalTreeData(params) {
-    return post('dfr-monitor-service/dfr/mofDivList/queryCapital', params)
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
   },
   getRuleTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
+  },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/query', params)
   }
+
 }

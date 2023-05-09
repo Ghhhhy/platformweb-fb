@@ -175,37 +175,7 @@ export default {
   data() {
     return {
       affirmResult: '1',
-      options: [{
-        value: '预算下达不及时',
-        label: '预算下达不及时'
-      }, {
-        value: '滞留闲置直达资金',
-        label: '滞留闲置直达资金'
-      }, {
-        value: '挤占挪用直达资金',
-        label: '挤占挪用直达资金'
-      }, {
-        value: '违反规定扩大开支范围、提高开展标准',
-        label: '违反规定扩大开支范围、提高开展标准'
-      }, {
-        value: '违规将直达资金划转至财政专户、单位或乡镇实有资金账户',
-        label: '违规将直达资金划转至财政专户、单位或乡镇实有资金账户'
-      }, {
-        value: '以拨代支、虚列支出',
-        label: '以拨代支、虚列支出'
-      }, {
-        value: '虚报、冒领、套取直达资金',
-        label: '虚报、冒领、套取直达资金'
-      }, {
-        value: '违规发放工资、奖金、津补贴',
-        label: '违规发放工资、奖金、津补贴'
-      }, {
-        value: '监控平台数据不完整、不真实',
-        label: '监控平台数据不完整、不真实'
-      }, {
-        value: '其他',
-        label: '其他'
-      }],
+      options: [],
       options1: [{
         value: '正常',
         label: '正常'
@@ -290,6 +260,7 @@ export default {
           }
         })
       }
+      this.getViolationType()
     },
     // 保存新增的计划信息
     doInsert() {
@@ -352,6 +323,22 @@ export default {
           }
         })
       }
+    },
+    // 获取违规类型  lll 2023/5/8
+    getViolationType() {
+      let params = {
+        page: 1,
+        size: 99999
+      }
+      HttpModule.queryViolationType(params).then(res => {
+        if (res.code === '000000') {
+          res.data.results.map(v => {
+            v.value = v.name
+            v.label = v.name
+          })
+          this.options = res.data.results
+        }
+      })
     }
   },
   watch: {

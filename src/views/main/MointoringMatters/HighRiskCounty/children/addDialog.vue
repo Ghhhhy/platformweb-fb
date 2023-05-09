@@ -77,8 +77,8 @@ export default {
       this.$parent.queryTableDatas()
     },
     onClickmethod(node) {
-      if (node.id !== '0') {
-        this.mofDivCode = node.node.province
+      if (node.children?.length < 1) {
+        this.mofDivCode = node.node.code
         this.mofDivName = node.node.name.split('-')[1]
       }
     },
@@ -131,8 +131,8 @@ export default {
     },
     getProvince(data) {
       data.children.forEach(item => {
-        if (item.province === this.$store.state.userInfo.province) {
-          if (this.$store.state.userInfo.province === '610000000') {
+        if (item.code === this.$store.state.userInfo.province) {
+          if (this.$store.state.userInfo.province.substring(2) === '0000000') {
             let arr = []
             arr.push(data)
             this.treeData = this.getChildrenNewData(arr)

@@ -12,7 +12,7 @@ export default {
     return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   queryTableDatasTotal(params) {
     return post('large-monitor-platform/lmp/three/threeGuaranteesDay', params)
