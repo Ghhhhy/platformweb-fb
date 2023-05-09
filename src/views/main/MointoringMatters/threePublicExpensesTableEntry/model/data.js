@@ -46,6 +46,10 @@ export const tableTabs = [
     label: '监控基本情况'
   },
   {
+    value: TableTabsEnum.BUDGET_MONITOR,
+    label: '“三公”预算执行监控发现问题整改进展调度统计总表'
+  },
+  {
     value: TableTabsEnum.NO_BUDGET,
     label: '无预算、超预算列支'
   },
@@ -274,7 +278,8 @@ export const tableColumnsByFundsIsNotStandardized = [
       },
       {
         field: 'fundTypeName',
-        title: '资金性质（一般公共预算、政府性基金预算、国有资金预算及自有资金）',
+        title:
+          '资金性质（一般公共预算、政府性基金预算、国有资金预算及自有资金）',
         minWidth: 120
       },
       {
@@ -342,22 +347,192 @@ export const tableColumnsByFundsIsNotStandardized = [
     minWidth: 160
   }
 ]
-eachTree([...tableColumnsByMonitorBasicInfo, ...tableColumnsByNoBudget, ...tableColumnsByFundsIsNotStandardized], (item) => {
-  item.resizable = true
-  if (!item.children?.length) {
-    item.editRender = item.editRender || {
-      name: '$input',
-      props: {
-        placeholder: '请输入',
-        clearable: true
+// “三公”预算执行监控发现问题整改进展调度统计总表
+export const tableColumnsByBudgetExecuteMonitor = [
+  checkboxColumn,
+  seqIndexColumn,
+  {
+    title: '财政区划',
+    minWidth: 800,
+    children: [
+      {
+        title: '所属地市',
+        minWidth: 400,
+        children: [
+          {
+            title: '所属地市编码',
+            minWidth: 200,
+            field: 'cityCode'
+          },
+          {
+            title: '所属地市名称',
+            minWidth: 200,
+            field: 'cityName'
+          }
+        ]
+      },
+      {
+        title: '所属区县',
+        minWidth: 400,
+        children: [
+          {
+            title: '所属县区财政区划编码',
+            minWidth: 200,
+            field: 'financialDivisionCode'
+          },
+          {
+            title: '所属县区财政区划名称',
+            minWidth: 200,
+            field: 'financialDivisionName'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: '项目',
+    minWidth: 1000,
+    children: [
+      {
+        title: '本级财政有效支付笔数总数',
+        field: 'totalEffectivePayments',
+        minWidth: 240,
+        editRender: {
+          name: '$input',
+          immediate: true,
+          props: {
+            type: 'number',
+            placeholder: '请输入',
+            clearable: true
+          }
+        }
+      },
+      {
+        field: 'numberSuspiciousMonitoring',
+        title: '本级财政监控发现疑点笔数',
+        minWidth: 240,
+        editRender: {
+          name: '$input',
+          immediate: true,
+          props: {
+            type: 'number',
+            placeholder: '请输入',
+            clearable: true
+          }
+        }
+      },
+      {
+        field: 'numberVerifiedTransactions',
+        title: '已经进行核实笔数',
+        minWidth: 200,
+        editRender: {
+          name: '$input',
+          immediate: true,
+          props: {
+            type: 'number',
+            placeholder: '请输入',
+            clearable: true
+          }
+        }
+      },
+      {
+        field: 'numberAfterVerification',
+        title: '核实后确属需要整改笔数',
+        minWidth: 240,
+        editRender: {
+          name: '$input',
+          immediate: true,
+          props: {
+            type: 'number',
+            placeholder: '请输入',
+            clearable: true
+          }
+        }
+      },
+      {
+        field: 'numberRectification',
+        title: '已经进行整改笔数',
+        minWidth: 200,
+        editRender: {
+          name: '$input',
+          immediate: true,
+          props: {
+            type: 'number',
+            placeholder: '请输入',
+            clearable: true
+          }
+        }
+      },
+      {
+        title: '进度一览及问题占比',
+        minWidth: 2000,
+        children: [
+          {
+            field: 'ratioSuspiciousTransactions',
+            title: '发现疑点笔数占有效支付笔数总数占比',
+            minWidth: 200
+          },
+          {
+            field: 'ratioVerifiedTransactions',
+            title: '已经进行核实笔数占本级财政监控发现疑点笔数占比',
+            minWidth: 400
+          },
+          {
+            field: 'ratioRequireRectification',
+            title: '核实后确属需要整改笔数占已经进行核实笔数占比',
+            minWidth: 400
+          },
+          {
+            field: 'ratioRectifiedCases',
+            title: '已经进行整改笔数占核实后确属需要整改笔数占比',
+            minWidth: 400
+          },
+          {
+            field: 'ratioAfterVerification',
+            title: '核实后确属需要整改笔数占有效支付笔数总数占比',
+            minWidth: 400
+          }
+        ]
+      },
+      {
+        field: 'verifyReasons',
+        title: '核实整改无进展及进度不为100%原因',
+        minWidth: 240
+      }
+    ]
+  },
+  {
+    title: '备注',
+    field: 'notes',
+    minWidth: 120
+  }
+]
+eachTree(
+  [
+    ...tableColumnsByMonitorBasicInfo,
+    ...tableColumnsByNoBudget,
+    ...tableColumnsByFundsIsNotStandardized,
+    ...tableColumnsByBudgetExecuteMonitor
+  ],
+  (item) => {
+    item.resizable = true
+    if (!item.children?.length) {
+      item.editRender = item.editRender || {
+        name: '$input',
+        props: {
+          placeholder: '请输入',
+          clearable: true
+        }
       }
     }
+    item.align = item.align || 'center'
   }
-  item.align = item.align || 'center'
-})
+)
 
 // 表格底部提示
 export const tableFooterTips = {
-  [TableTabsEnum.NO_BUDGET]: '注：1、无预算是指预算和指标处理不规范，指标无法对应预算时产生的情况。2、超预算是指有预算时，支出超过预算的情况。',
-  [TableTabsEnum.FUNDS_IS_NOT_STANDARDIZED]: '注：1、违规类型分为超标准列支，应列未列，年底突击列支，违反中央有关规定列支及其他。2、资金性质难以分清三本预算的，填报为财政拨款/专户管理资金/自有资金。'
+  [TableTabsEnum.NO_BUDGET]:
+    '注：1、无预算是指预算和指标处理不规范，指标无法对应预算时产生的情况。2、超预算是指有预算时，支出超过预算的情况。',
+  [TableTabsEnum.FUNDS_IS_NOT_STANDARDIZED]:
+    '注：1、违规类型分为超标准列支，应列未列，年底突击列支，违反中央有关规定列支及其他。2、资金性质难以分清三本预算的，填报为财政拨款/专户管理资金/自有资金。'
 }
