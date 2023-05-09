@@ -42,7 +42,8 @@ function useTabPlanel(
     checkRscode(
       await addThreePublicTable({
         ...unref(requestPayload),
-        datas: unref(tableData)
+        datas: unref(tableData),
+        dataSummary: requestPayload.value.reportType === 4 ? unref(tableData) : undefined
       })
     )
     fetchTableData()
@@ -57,7 +58,8 @@ function useTabPlanel(
     checkRscode(
       await updateThreePublicTable({
         ...unref(requestPayload),
-        datas: unref(tableData)
+        datas: unref(tableData),
+        dataSummary: requestPayload.value.reportType === 4 ? unref(tableData) : undefined
       })
     )
     Message.success('提交成功！')
