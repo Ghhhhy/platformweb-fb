@@ -39,7 +39,6 @@
         </div>
       </div>
     </div>
-    </div>
   </vxe-modal>
 </template>
 <script>
@@ -172,7 +171,6 @@ export default {
   .vxe-toolbar{
     .vxe-button--wrapper{
       display:flex;
-          justify-Content: end;
     }
   }
 </style>
