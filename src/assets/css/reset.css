@@ -173,3 +173,7 @@ input::placeholder {
 .main-modulebox-contain {
   overflow-y: auto !important;
 }
+
+.unit-tree-main.unit-tree-main-nodrop {
+  height: calc(100% - 48px) !important;
+}
