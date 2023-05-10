@@ -1496,7 +1496,6 @@ export default {
   .vxe-toolbar{
     .vxe-button--wrapper{
       display:flex;
-          justify-Content: end;
     }
   }
 </style>

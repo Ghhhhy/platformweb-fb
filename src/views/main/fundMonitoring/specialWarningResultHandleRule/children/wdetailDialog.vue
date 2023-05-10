@@ -57,6 +57,7 @@
       v-if="affirmDialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <GlAttachment
@@ -87,7 +88,10 @@ import proconf, {
   // curStatusButton15,
   // curStatusButton14,
   // curStatusButton13,
-  curStatusButton11, curStatusButton5, curStatusButton6
+  curStatusButton11,
+  curStatusButton5,
+  curStatusButton6
+
 } from './column.js'
 import AddDialogs from './children/AddDialogs'
 import AffirmDialogs from './children/AffirmDialogs'
@@ -204,6 +208,7 @@ export default {
       dialogTitle1: '整改意见',
       fiscalYear: '',
       selectData: {},
+      selectIds: [],
       trackProCodes: []
     }
   },
@@ -362,8 +367,16 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          var title = '认定处理单'
+          if (selectionRow.length > 1) {
+            title = '批量认定处理单'
+          }
           this.selectData = selectionRow[0]
-          this.affirm()
+          this.selectIds = selectionRow.map(function(item, index, array) {
+            return item.diBillId
+          })
+          console.info(this.selectIds)
+          this.affirm(title)
           break
         // 人工认定
         case 'peo_set_update':
@@ -373,6 +386,15 @@ export default {
             return
           }
           this.selectData = selectionRow4[0]
+          this.affirmUpdate()
+          break
+        case 'rectify_repeal':
+          var selRow = this.$refs.mainTableRef.selection
+          if (selRow.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.selectData = selRow[0]
           this.affirmUpdate()
           break
         default:
@@ -387,13 +409,17 @@ export default {
       this.dialogVisibles = true
       this.dialogTitle1 = '修改整改处理单'
     },
-    affirm() {
+    affirm(title) {
       this.affirmDialogVisibles = true
-      this.dialogTitle1 = '认定处理单'
+      this.dialogTitle1 = title
     },
     affirmUpdate() {
       this.affirmDialogVisibles = true
       this.dialogTitle1 = '修改认定处理单'
+    },
+    batchAffirmUpdate() {
+      this.batchAffirmDialogVisibles = true
+      this.dialogTitle1 = '批量认定'
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {

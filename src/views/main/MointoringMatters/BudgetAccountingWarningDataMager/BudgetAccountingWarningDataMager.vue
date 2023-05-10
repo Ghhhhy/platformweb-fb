@@ -744,6 +744,7 @@ export default {
         businessId: this.businessId,
         fiRuleCode: this.fiRuleCode,
         handleResult: this.toolBarStatusSelect.curValue,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         'status': this.condition.status ? this.condition.status.toString() : '',
         'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
         'createTime': this.condition.createTime ? this.condition.createTime.toString() : null

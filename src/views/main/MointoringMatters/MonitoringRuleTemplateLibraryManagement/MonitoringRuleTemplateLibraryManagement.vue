@@ -6,6 +6,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="false"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -400,6 +401,7 @@ export default {
         'ruleTemplateName': this.ruleTemplateName,
         'functionName': this.functionName,
         businessModuleName: this.businessModuleName,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         fiRuleTypeCode: this.fiRuleTypeCode
       }
       this.tableLoading = true
