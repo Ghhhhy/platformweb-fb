@@ -6,6 +6,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
           @btnClick="onTabPanelBtnClick"
