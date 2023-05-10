@@ -288,8 +288,8 @@ export default defineComponent({
           if (!data?.datas?.length && isUncommitted && isMonitorBasicInfo) {
             data.datas = generateRows(1, unref(currentColumns))
           }
-          if (requestPayload.value.reportType === 4) {
-            data.datas = data.dataSummary
+          if (unref(requestPayload).reportType === 4) {
+            data.datas = unref(data.dataSummary)
           }
           // 表格tips信息
           tableTips.value = data?.hint || ''

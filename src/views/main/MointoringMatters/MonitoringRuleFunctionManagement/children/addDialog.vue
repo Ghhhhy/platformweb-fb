@@ -106,6 +106,29 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;查询类型</div>
+                    <el-select
+                      v-model="queryType"
+                      placeholder="请选择查询类型"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in queryTypeOptions"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="24">
               <el-container>
                 <el-main width="100%">
@@ -189,6 +212,11 @@ export default {
         { value: '3', label: '自定义接口' },
         { value: '4', label: '自定义校验接口' }
       ],
+      queryType: '',
+      queryTypeOptions: [
+        { id: 'inTable', label: '表内', value: '1' },
+        { id: 'outTable', label: '表间', value: '2' }
+      ],
       functionName: '',
       functionApi: '',
       functionApiType: '',
@@ -257,6 +285,7 @@ export default {
           this.description = res.data.description
           this.dataSourceName = res.data.dataSourceName
           this.dataSourceCode = res.data.dataSourceCode
+          this.queryType = res.data.queryType || ''
         } else {
           this.$message.error(res.message)
         }
@@ -333,7 +362,8 @@ export default {
           functionParameter: this.functionParameter,
           description: this.description,
           dataSourceCode: this.dataSourceCode,
-          menuName: this.$store.state.curNavModule.name
+          menuName: this.$store.state.curNavModule.name,
+          queryType: this.queryType || undefined
         }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {
@@ -355,7 +385,8 @@ export default {
           functionApiType: this.functionApiType,
           functionParameter: this.functionParameter,
           description: this.description,
-          dataSourceCode: this.dataSourceCode
+          dataSourceCode: this.dataSourceCode,
+          queryType: this.queryType
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {

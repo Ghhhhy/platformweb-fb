@@ -400,6 +400,7 @@ export default {
         'ruleTemplateName': this.ruleTemplateName,
         'functionName': this.functionName,
         businessModuleName: this.businessModuleName,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         fiRuleTypeCode: this.fiRuleTypeCode
       }
       this.tableLoading = true
