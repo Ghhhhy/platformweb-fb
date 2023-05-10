@@ -285,6 +285,7 @@ export default {
       proName: '',
       proName1: '',
       agencyName: '',
+      agencyCodeList: [],
       corBgtDocNoName: '',
       useDes: '',
       dtos: [],
@@ -437,6 +438,7 @@ export default {
           this.payAmt = ''
           this.mofdivName = ''
           this.agencyName = ''
+          this.agencyCodeList = []
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
@@ -451,6 +453,7 @@ export default {
           this.payAmt = ''
           this.mofdivName = ''
           this.agencyName = ''
+          this.agencyCodeList = []
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
@@ -479,9 +482,9 @@ export default {
     search1(obj) {
       this.payCertNo = obj.payCertNo
       this.proName = obj.proName
-      this.agencyName = obj.agencyName
       this.corBgtDocNoName = obj.corBgtDocNoName
       this.useDes = obj.useDes
+      this.agencyCodeList = obj.agencyName_code__multiple
       this.queryTableDatas1()
       // this.queryTableDatasCount()
     },
@@ -714,6 +717,7 @@ export default {
           this.payAmt = ''
           this.mofdivName = ''
           this.agencyName = ''
+          this.agencyCodeList = []
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
@@ -880,7 +884,8 @@ export default {
         isHook: this.isHook,
         roleId: this.roleId,
         mofDivName: this.mofdivName,
-        dtos: this.dtos
+        dtos: this.dtos,
+        agencyCodeList: this.agencyCodeList
       }
       this.tableLoading2 = true
       HttpModule.pagePayQuery(param).then(res => {
@@ -981,6 +986,30 @@ export default {
       })
 
       return datas
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig1[2].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.code + '-' + item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -992,6 +1021,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.roleId = this.$store.state.curNavModule.roleguid
     this.getLeftTreeData()
+    this.getAgency()
     // this.queryTableDatas()
     // this.queryTableDatas1()
   }

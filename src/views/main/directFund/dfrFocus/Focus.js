@@ -64,13 +64,25 @@ export let proconf = {
       field: 'proName',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          placeholder: '项目名称'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '项目名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -192,7 +204,14 @@ export let proconf = {
     businessModuleName: '',
     fiscalYear: store.state.userInfo.year,
     mofDivCodes: '',
-    endTime: ''
+    endTime: '',
+    xpayDate: '',
+    setModeName: '',
+    payeeAcctName: '',
+    payAcctName: '',
+    useDes: '',
+    proName: '',
+    agencyCode: ''
   },
   PoliciesTableColumns: [
     {

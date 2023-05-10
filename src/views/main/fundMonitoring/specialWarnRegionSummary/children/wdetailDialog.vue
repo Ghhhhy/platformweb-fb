@@ -108,7 +108,9 @@ export default {
       sDetailTitle: '',
       sDetailVisible: false,
       sDetailData: [],
-      fiscalYear: ''
+      fiscalYear: '',
+      proCodes: [],
+      ruleCodes: []
     }
   },
   methods: {
@@ -168,10 +170,14 @@ export default {
         businessOffice: this.condition.businessOffice ? this.condition.businessOffice[0] : '',
         projectName: this.condition.projectName ? this.condition.projectName[0] : '',
         speTypeCodes: this.searchDataList.speTypeName_code__multiple || [],
-        mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
+        subMofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        proCodes: this.proCodes,
+        ruleCodes: this.ruleCodes,
+        mofDivCodes: this.mofDivCodes
+
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -247,19 +253,26 @@ export default {
       this.detailType = this.detailData[0]
       this.code = this.detailData[1]
       this.fiscalYear = this.detailData[2]
-      console.log(proconf)
+      this.proCodes = this.detailData[3]
+      this.ruleCodes = this.detailData[4]
       switch (this.title) {
-        case '指标预警-未处理明细':
+        case '指标预警-待整改明细':
           this.tableColumnsConfig = proconf.redUndoNum
           break
         case '指标预警-已整改明细':
           this.tableColumnsConfig = proconf.redDoneNum
           break
-        case '支出预警-未处理明细':
+        case '支出预警-未认定明细':
           this.tableColumnsConfig = proconf.notpayColumn
           break
         case '支出预警-已认定明细':
           this.tableColumnsConfig = proconf.payokColumn
+          break
+        case '支出预警-待整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
+          break
+        case '支出预警-已整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
           break
         case '未导入惠企利民明细-未处理明细':
           this.tableColumnsConfig = proconf.notgetColumn

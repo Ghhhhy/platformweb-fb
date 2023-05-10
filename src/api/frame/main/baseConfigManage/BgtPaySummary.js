@@ -6,7 +6,7 @@ export default {
     return post('large-monitor-platform/lmp/warn/rpt/bgtPaySummary', params)
   },
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   },
   // 获取左侧树
   getLeftTree(params) {

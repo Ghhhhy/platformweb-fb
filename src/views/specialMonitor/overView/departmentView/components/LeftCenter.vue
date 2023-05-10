@@ -1,3 +1,11 @@
+<!--
+ * @Author: 罗景丹 luojingdan@bosssoft.com.cn
+ * @Date: 2023-05-06 16:46:49
+ * @LastEditors: 罗景丹 luojingdan@bosssoft.com.cn
+ * @LastEditTime: 2023-05-06 17:10:59
+ * @FilePath: \platformWeb-fb\src\views\specialMonitor\overView\departmentView\components\LeftCenter.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="module-wrapper title-position-container" :style="overviewType === '3' ? 'width: 66%' : 'width: 32%'">
     <p class="module-title">“三保”监控情况-按地区</p>
@@ -33,7 +41,7 @@ export default defineComponent({
   setup(props) {
     const { selectValue, selectOption } = useSelect({
       option: props.overviewType === '1' ? getViewClassifySelectOption() : props.overviewType === '2' ? getViewClassifyMainSelectOption() : getViewClassifyUnitSelectOption(),
-      defaultValue: props.overviewType === '1' ? SelectEnum.BY_DEPARTMENT : props.overviewType === '2' ? SelectMainEnum.BY_SECTION : SelectUnitEnum.BY_RULE
+      defaultValue: props.overviewType === '1' ? SelectEnum.BY_UNIT : props.overviewType === '2' ? SelectMainEnum.BY_UNIT : SelectUnitEnum.BY_UNIT
     })
     const { chartOption } = useRightCenter(selectValue)
     const { chartId } = useChart(chartOption)

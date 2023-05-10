@@ -175,7 +175,10 @@ export default {
       detailData: [],
       code: '',
       fiscalYear: '',
-      trackProCodes: []
+      trackProCodes: [],
+      proCodes: [],
+      mofDivCodes: [],
+      ruleCodes: []
     }
   },
   mounted() {
@@ -400,7 +403,10 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
+        proCodes: this.proCodes,
+        mofDivCodes: this.mofDivCodes,
+        ruleCodes: this.ruleCodes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

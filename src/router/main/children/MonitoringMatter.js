@@ -16,10 +16,6 @@ export default [
   {
     path: '/PoliciesAndRegulationsSelect',
     name: 'PoliciesAndRegulationsSelect',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
     component: () =>
       import(
         '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
@@ -121,8 +117,8 @@ export default [
     path: '/ApprovalOfMonitoringSelectMatters',
     name: 'ApprovalOfMonitoringSelectMatters',
     meta: {
-      keepAlive: true,
-      requireAuth: true
+      // keepAlive: true,
+      // requireAuth: true
     },
     component: () =>
       import(
@@ -268,6 +264,19 @@ export default [
     component: () =>
       import(
         '../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue'
+      )
+  },
+  // 专项监控规则业务人员查看
+  {
+    path: '/MonitorRulesViewFJSpecial',
+    name: 'MonitorRulesViewFJSpecial',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesViewFJSpecial/MonitorRulesViewFJSpecial.vue'
       )
   },
   // 专项监控规则查看

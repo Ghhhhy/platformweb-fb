@@ -381,7 +381,6 @@ export default {
     // 单元格点击事件
     cellClick(obj, context, e) {
       console.log(obj)
-      debugger
       let key = obj.column.property
       console.log(key, obj.row, obj.row[key])
       if (

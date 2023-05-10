@@ -11,7 +11,7 @@ import { monitoringBySubject } from '@/api/frame/main/threePublicExpenses/index.
 export const useRightTop = (regulationClass) => {
   // serise列表
   const serisesList = [
-    { name: '预警数', color: getColor('blue') }
+    { name: '', color: getColor('blue') }
   ]
 
   // 横坐标最多显示格式
@@ -85,51 +85,51 @@ export const useRightTop = (regulationClass) => {
       data = [
         {
           'warnCount': 10,
-          'depBgtEcoName': '保工资'
+          'depBgtEcoName': 'Jan'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保运转'
+          'depBgtEcoName': 'Feb'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保民生'
+          'depBgtEcoName': 'Mar'
         },
         {
           'warnCount': 10,
-          'depBgtEcoName': '保工资'
+          'depBgtEcoName': 'Apr'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保运转'
+          'depBgtEcoName': 'May'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保民生'
+          'depBgtEcoName': 'Jun'
         },
         {
           'warnCount': 10,
-          'depBgtEcoName': '保工资'
+          'depBgtEcoName': 'Jul'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保运转'
+          'depBgtEcoName': 'Aug'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保民生'
+          'depBgtEcoName': 'Sep'
         },
         {
           'warnCount': 10,
-          'depBgtEcoName': '保工资'
+          'depBgtEcoName': 'Oct'
         },
         {
           'warnCount': 0,
-          'depBgtEcoName': '保运转'
+          'depBgtEcoName': 'Nov'
         },
         {
           'warnCount': 10,
-          'depBgtEcoName': '保工资'
+          'depBgtEcoName': 'Dec'
         }
       ]
     }

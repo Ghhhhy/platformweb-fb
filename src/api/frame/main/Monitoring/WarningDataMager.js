@@ -48,6 +48,6 @@ export default {
     return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
   },
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   }
 }
