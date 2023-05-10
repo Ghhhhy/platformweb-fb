@@ -266,10 +266,23 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue'
       )
   },
-  // 专项监控规则业务人员查看
+  // 中央专项监控规则业务人员查看
   {
     path: '/MonitorRulesViewFJSpecial',
     name: 'MonitorRulesViewFJSpecial',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesViewFJSpecial/MonitorRulesViewFJSpecial.vue'
+      )
+  },
+  // 地方专项监控规则业务人员查看
+  {
+    path: '/MonitorRulesViewFJLocal',
+    name: 'MonitorRulesViewFJLocal',
     meta: {
       keepAlive: true,
       requireAuth: true

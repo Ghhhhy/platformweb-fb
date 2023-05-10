@@ -172,7 +172,7 @@ export default {
         mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass || '09'
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
