@@ -364,7 +364,7 @@ export class Export {
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetVisibleData.addRow()
 
-      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : self.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
+      row.seqIndex = !self?.tableComponentInstance?.treeConfig ? rowIndex + 1 : self.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
 
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()

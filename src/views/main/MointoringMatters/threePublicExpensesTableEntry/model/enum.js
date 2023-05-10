@@ -13,5 +13,7 @@ export const TableTabsEnum = {
   // 无预算、超预算列支
   NO_BUDGET: 2,
   // 资金使用不规范、不到位
-  FUNDS_IS_NOT_STANDARDIZED: 3
+  FUNDS_IS_NOT_STANDARDIZED: 3,
+  // 三公”预算执行监控发现问题整改进展调度统计总表
+  BUDGET_MONITOR: 4
 }
