@@ -3,10 +3,6 @@ export default [
   {
     path: '/PoliciesAndRegulationsManagement',
     name: 'PoliciesAndRegulationsManagement',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
     component: () =>
       import(
         '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
@@ -16,6 +12,10 @@ export default [
   {
     path: '/PoliciesAndRegulationsSelect',
     name: 'PoliciesAndRegulationsSelect',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
     component: () =>
       import(
         '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
@@ -117,8 +117,8 @@ export default [
     path: '/ApprovalOfMonitoringSelectMatters',
     name: 'ApprovalOfMonitoringSelectMatters',
     meta: {
-      // keepAlive: true,
-      // requireAuth: true
+      keepAlive: true,
+      requireAuth: true
     },
     component: () =>
       import(
