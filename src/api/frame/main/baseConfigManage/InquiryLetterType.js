@@ -39,5 +39,8 @@ export default {
   },
   getTypeList(params) {
     return post('large-monitor-platform/lmp/ask/getTypeList', params)
+  },
+  getProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   }
 }

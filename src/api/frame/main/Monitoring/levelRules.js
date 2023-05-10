@@ -136,5 +136,8 @@ export default {
   },
   queryWarningRule(params) {
     return post('dfr-monitor-service/dfr/warningRule/view', params)
+  },
+  queryRuleSpecial(params) {
+    return post('dfr-monitor-service/dfr/warningRule/viewSpecial', params)
   }
 }

@@ -46,5 +46,8 @@ export default {
   // 到人到户导入 | 企业补贴导入
   importPersonAndCompany (params) {
     return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/savePayDetailExcel', params)
+  },
+  getTreewhere(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   }
 }

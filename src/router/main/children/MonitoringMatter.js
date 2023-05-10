@@ -270,6 +270,19 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesViewFJ/MonitorRulesViewFJ.vue'
       )
   },
+  // 专项监控规则业务人员查看
+  {
+    path: '/MonitorRulesViewFJSpecial',
+    name: 'MonitorRulesViewFJSpecial',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesViewFJSpecial/MonitorRulesViewFJSpecial.vue'
+      )
+  },
   // 专项监控规则查看
   {
     path: '/MonitorRulesViewSpecial',

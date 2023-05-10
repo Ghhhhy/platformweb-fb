@@ -78,5 +78,12 @@ export default {
   },
   doBack(params) {
     return post('large-monitor-platform/lmp/totalWarn/back', params)
+  },
+  getFiRule(params) {
+    return post('large-monitor-platform/lmp/totalWarn/getFiRule', params)
+  },
+  // 规则校验
+  ruleTest(params) {
+    return post('large-monitor-platform/lmp/totalWarn/checkBusinessData', params)
   }
 }
