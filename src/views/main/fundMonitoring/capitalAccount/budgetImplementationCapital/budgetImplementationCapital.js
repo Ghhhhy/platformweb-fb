@@ -412,6 +412,7 @@ const proconf = {
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             width: 200,
+            sortable: true,
             field: 'amountPayAll',
             formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
           },
