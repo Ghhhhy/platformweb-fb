@@ -119,7 +119,7 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发菜单</div>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;触发菜单</div>
                       <!--<el-select-->
                       <!--  v-model="businessFunctionName"-->
                       <!--  :disabled="disabled"-->
@@ -140,7 +140,7 @@
                         :editable="true"
                         :tree-data="businessFunctionTreeData"
                         :default-checked-keys="businessFunctionCode"
-                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
                         class="businessFunctionTree"
                         style="display: inline-block;"
                       />
@@ -1192,7 +1192,9 @@ export default {
           triggerClass: this.triggerClass,
           handleType: this.handleType,
           menuName: this.$store.state.curNavModule.name,
-          regulationClass: classCode
+          regulationClass: classCode,
+          'menuIdList': this.businessFunctionCode.toString(), // 多菜单
+          'menuNameList': this.businessFunctionName.toString()
         }
         HttpModule.updateData(params).then(res => {
           if (res.code === '000000') {

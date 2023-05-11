@@ -449,14 +449,14 @@ const proconf = {
         field: '',
         sortable: false,
         align: 'center',
-        width: 400,
+        // width: 400,
         children: [
           {
             title: '预警数据',
             field: 'orangeUndoNum',
             filters: false,
             align: 'center',
-            width: 100,
+            // width: 100,
             cellRender: {
               name: '$vxeIcon6',
               props: {
@@ -468,7 +468,7 @@ const proconf = {
             title: '生成问询单',
             sortable: false,
             align: 'center',
-            width: 300,
+            // width: 300,
             children: [
               {
                 title: '认定正常',
@@ -488,7 +488,7 @@ const proconf = {
                 field: 'orangeDoneNum',
                 filters: false,
                 align: 'center',
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon3',
                   props: {
@@ -501,7 +501,7 @@ const proconf = {
                 field: 'orangeNotRectifiedNum',
                 filters: false,
                 align: 'center',
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon6',
                   props: {
@@ -516,7 +516,7 @@ const proconf = {
       {
         title: '黄色预警',
         field: '',
-        width: 400,
+        // width: 400,
         sortable: false,
         align: 'center',
         children: [
@@ -525,7 +525,7 @@ const proconf = {
             field: 'yellowUndoNum',
             filters: false,
             align: 'center',
-            width: 100,
+            // width: 100,
             cellRender: {
               name: '$vxeIcon2',
               props: {
@@ -537,7 +537,7 @@ const proconf = {
             title: '生成问询单',
             sortable: false,
             align: 'center',
-            width: 300,
+            // width: 300,
             children: [
               {
                 title: '认定正常',
@@ -557,7 +557,7 @@ const proconf = {
                 field: 'yellowDoneNum',
                 filters: false,
                 align: 'center',
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon3',
                   props: {
@@ -569,7 +569,7 @@ const proconf = {
                 title: '未完成',
                 field: 'yellowNotRectifiedNum',
                 filters: false,
-                width: 100,
+                // width: 100,
                 align: 'center',
                 cellRender: {
                   name: '$vxeIcon2',
@@ -586,7 +586,7 @@ const proconf = {
         title: '蓝色预警',
         field: '',
         sortable: false,
-        width: 500,
+        // width: 500,
         align: 'center',
         children: [
           {
@@ -594,7 +594,7 @@ const proconf = {
             field: 'blueUndoNum',
             filters: false,
             align: 'center',
-            width: 100,
+            // width: 100,
             cellRender: {
               name: '$vxeIcon7',
               props: {
@@ -606,14 +606,14 @@ const proconf = {
             title: '生成问询单',
             sortable: false,
             align: 'center',
-            width: 300,
+            // width: 300,
             children: [
               {
                 title: '认定正常',
                 field: 'blueNormalNum',
                 align: 'center',
                 filters: false,
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon3',
                   props: {
@@ -626,7 +626,7 @@ const proconf = {
                 field: 'blueDoneNum',
                 filters: false,
                 align: 'center',
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon3',
                   props: {
@@ -639,7 +639,7 @@ const proconf = {
                 field: 'blueNotRectifiedNum',
                 filters: false,
                 align: 'center',
-                width: 100,
+                // width: 100,
                 cellRender: {
                   name: '$vxeIcon7',
                   props: {
