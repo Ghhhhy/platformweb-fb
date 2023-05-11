@@ -454,7 +454,7 @@ export let proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      formatter: ({row}) => {
+      formatter: ({ row }) => {
         return row.proCode + '-' + row.proName
       }
     },
@@ -466,7 +466,7 @@ export let proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      formatter: ({row}) => {
+      formatter: ({ row }) => {
         return row.agencyCode + '-' + row.agencyName
       }
     },

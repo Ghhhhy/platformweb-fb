@@ -12,10 +12,6 @@ export default [
   {
     path: '/PoliciesAndRegulationsSelect',
     name: 'PoliciesAndRegulationsSelect',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
     component: () =>
       import(
         '../../../views/main/MointoringMatters/PoliciesAndRegulationsManagement/PoliciesAndRegulationsManagement.vue'
