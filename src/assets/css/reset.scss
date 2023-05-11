@@ -165,3 +165,22 @@ input::placeholder {
 .unit-tree-main.unit-tree-main-nodrop {
   height: calc(100% - 48px) !important;
 }
+.vxe-pager.is--background .vxe-pager--jump-next:not(.is--disabled):hover,
+.vxe-pager.is--background .vxe-pager--jump-prev:not(.is--disabled):hover,
+.vxe-pager.is--background .vxe-pager--num-btn:not(.is--disabled):hover,
+.vxe-pager.is--perfect .vxe-pager--jump-next:not(.is--disabled):hover,
+.vxe-pager.is--perfect .vxe-pager--jump-prev:not(.is--disabled):hover,
+.vxe-pager.is--perfect .vxe-pager--num-btn:not(.is--disabled):hover {
+  color: var(--hightlight-color-hover) !important;
+}
+.vxe-pager .vxe-pager--jump-next:not(.is--disabled):hover,
+.vxe-pager .vxe-pager--jump-prev:not(.is--disabled):hover,
+.vxe-pager .vxe-pager--next-btn:not(.is--disabled):hover,
+.vxe-pager .vxe-pager--num-btn:not(.is--disabled):hover,
+.vxe-pager .vxe-pager--prev-btn:not(.is--disabled):hover {
+  color: var(--hightlight-color-hover) !important;
+}
+.vxe-input:not(.is--disabled):not(.is--readonly) .vxe-input--number-next:active,
+.vxe-input:not(.is--disabled):not(.is--readonly) .vxe-input--number-prev:active {
+  color: var(--hightlight-color-hover) !important;
+}
