@@ -5,6 +5,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           show-zero
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="tabStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @tabClick="onTabPaneltabClick"
@@ -93,7 +94,7 @@
           @onOptionRowClick="onOptionRowClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
-          <template v-if="ifRenderExpandContentTable" v-slot:expandContent="{ row, $rowIndex, rowIndex ,fixed },">
+          <template v-if="ifRenderExpandContentTable" v-slot:expandContent="{ row ,fixed },">
             <div :style="{ 'height': 60 + row.childData.length * 32 + 'px' }">
               <BsTable
                 :id="'sbsTable' + row.id"

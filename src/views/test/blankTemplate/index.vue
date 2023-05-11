@@ -5,7 +5,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           :show-zero="false"
-          is-open
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="tabStatusBtnConfig"
           :is-hide-query="false"
           @tabClick="onTabPaneltabClick"

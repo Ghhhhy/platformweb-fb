@@ -441,7 +441,7 @@ export let proconf = {
     {
       title: '指标文号',
       width: 180,
-      field: 'corBgtDocNoCode',
+      field: 'corBgtDocNoName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -454,16 +454,8 @@ export let proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{proCode}-{proName}'
-        }
-      },
-      props: {
-        format: '{proCode}-{proName}'
+      formatter: ({ row }) => {
+        return row.proCode + '-' + row.proName
       }
     },
     {
@@ -474,16 +466,8 @@ export let proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter: ({ row }) => {
+        return row.agencyCode + '-' + row.agencyName
       }
     },
     {

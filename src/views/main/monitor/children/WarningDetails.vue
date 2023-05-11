@@ -16,6 +16,7 @@
             <BsTabPanel
               ref="tabPanel"
               show-zero
+              :is-open="isShowQueryConditions"
               :tab-status-btn-config="toolBarStatusBtnConfig"
               :tab-status-num-config="tabStatusNumConfig"
               @onQueryConditionsClick="onQueryConditionsClick"

@@ -86,7 +86,7 @@ const proconf = {
             valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              labelFormat: '{code}-{name}', // {code}-{name}
               nodeKey: 'id',
               label: 'label',
               children: 'children'
