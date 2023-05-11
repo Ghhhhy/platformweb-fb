@@ -140,7 +140,7 @@
                         :editable="true"
                         :tree-data="businessFunctionTreeData"
                         :default-checked-keys="businessFunctionCode"
-                        v-bind="{ config: { ...businessFunctionTreeConfig, disabledUpdate } }"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
                         class="businessFunctionTree"
                         style="display: inline-block;"
                       />
