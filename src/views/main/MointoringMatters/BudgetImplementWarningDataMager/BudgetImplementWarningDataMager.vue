@@ -435,7 +435,7 @@ export default {
       color:#fff;
       line-height: 40px;
       height:40px;
-      background:linear-gradient(to right,#41bbeb,#3734bb);
+      background:linear-gradient(to right,var(--primary-color),var(--primary-color-shadow));
       width:100%;
       p{
         font-size:14px;
@@ -454,7 +454,7 @@ export default {
       color:#fff;
       line-height: 40px;
       height:40px;
-      background:linear-gradient(to right,#41bbeb,#3734bb);
+      background:linear-gradient(to right,var(--primary-color),var(--primary-color-shadow));
       width:100%;
       p{
         font-size:14px;
