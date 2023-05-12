@@ -44,14 +44,18 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
+          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
+          :default-money-unit="10000"
+          :title="menuName"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -179,6 +183,13 @@ export default {
         curValue: '1'
       },
       // table 相关配置
+      tableGlobalConfig: {
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       tableLoading: false,
       tableColumnsConfig: proconf[`PoliciesTableColumns${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`],
       // tableData: [],
@@ -355,6 +366,9 @@ export default {
   mounted() {
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     search(obj) {
       console.log(obj)
       this.searchDataList = obj

@@ -337,10 +337,11 @@ export default {
         this.$message.warning('请输入函数描述')
         return
       }
-      if (this.functionName.length > 20) {
-        this.$message.warning('函数名称长度应小于等于20位')
-        return
-      }
+      // 去掉限制
+      // if (this.functionName.length > 20) {
+      //   this.$message.warning('函数名称长度应小于等于20位')
+      //   return
+      // }
       // if (this.functionApi.length > 500) {
       //   this.$message.warning('函数接口长度应小于等于500位')
       //   return
