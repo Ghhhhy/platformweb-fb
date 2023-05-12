@@ -340,7 +340,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{codeFragment}-{name}', // {code}-{name}
+          labelFormat: '{code}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
