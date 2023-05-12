@@ -93,7 +93,7 @@ export default defineComponent({
         cursor: pointer;
         &.actived {
           font-size: 16px;
-          color: #2A8BFD;
+          color: var(--primary-color);
           font-weight: 500;
         }
       }
@@ -106,11 +106,11 @@ export default defineComponent({
         background: #FFFFFF;
         border: 1px solid rgba(217,217,217,1);
         &.circle-exceed {
-          border-color: #2A8BFD;
+          border-color: var(--primary-color);
         }
         &.circle-actived {
-          border-color: #2A8BFD;
-          background: #2A8BFD;
+          border-color: var(--primary-color);
+          background: var(--primary-color);
         }
       }
     }
@@ -122,7 +122,7 @@ export default defineComponent({
       box-sizing: border-box;
 
       &.actived {
-        border-left-color: #2A8BFD;
+        border-left-color: var(--primary-color);
       }
       .detail-title {
         display: block;
@@ -132,7 +132,7 @@ export default defineComponent({
         color: #595959;
         cursor: pointer;
         &.actived {
-          color: #2A8BFD;
+          color: var(--primary-color);
         }
       }
     }
