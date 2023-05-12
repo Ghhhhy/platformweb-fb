@@ -7,6 +7,7 @@ import BsUpload from './Upload/BossUpload.vue' // 上传组件  Comer
 import BsToolBar from './Toolbar/toolbar.vue' // 工具条：Comer
 import BsUploadBak from './UploadBak/BossUploadBak.vue' // 上传组件
 import BsFilePreview from './filePreview/filePreview'
+import FilterNumberRange from './renderers/tableFilters/FilterNumberRange/index.vue' // 数值范围过滤器
 // import FilterNumberCompare from './renderers/tableFilters/FilterNumberCompare/FilterNumberCompare.vue' // 内容过滤器:Jigsaw
 import BsTableBak from './TableBak/Table.vue' // table:Titans
 import BsAnchorNav from './anchorNav/AnchorNav.vue' // 锚点组件:Titans
@@ -80,7 +81,8 @@ const componentsLib = {
   BsTableTitle,
   BsFilePreview,
   FilePreview: BsFilePreview,
-  BsThemePicker
+  BsThemePicker,
+  FilterNumberRange
 }
 const utilsLib = {
   LoadingMark,

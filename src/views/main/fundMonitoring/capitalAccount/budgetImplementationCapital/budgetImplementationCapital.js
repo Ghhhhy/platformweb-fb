@@ -388,6 +388,7 @@ const proconf = {
         field: 'amountZyxd',
         align: 'right',
         type: 'amountSnjxd',
+        sortable: true,
         cellRender: { name: '$vxeMoney' }
       },
       {

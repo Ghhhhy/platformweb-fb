@@ -175,7 +175,7 @@ export default defineComponent({
     }
     &.is-active /deep/.el-radio-button__inner{
       color: #fff;
-      background-color: #2A8BFD;
+      background-color: var(--primary-color);
     }
     &:first-child /deep/.el-radio-button__inner {
       border-radius: 2px 0 0 2px;
@@ -219,10 +219,10 @@ export default defineComponent({
 
       &.search-btn {
         color: #fff;
-        background: #2A8BFD;
+        background: var(--primary-color);
 
         &:hover {
-          background: rgba(#2A8BFD, 0.8);
+          background: rgba(var(--primary-color), 0.8);
         }
       }
 
@@ -241,5 +241,12 @@ export default defineComponent({
   .deta-wrapper {
     margin-left: 16px;
   }
+}
+
+/deep/.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  -webkit-box-shadow: -1px 0 0 0 var(--primary-color);
+  box-shadow: -1px 0 0 0 var(--primary-color);
 }
 </style>
