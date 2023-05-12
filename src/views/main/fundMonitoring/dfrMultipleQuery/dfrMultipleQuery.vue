@@ -69,7 +69,13 @@
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
-        />
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+            </div>
+          </template>
+        </BsTable>
         <BsTable
           ref="mainTableRef1"
           v-loading="tableLoading2"
