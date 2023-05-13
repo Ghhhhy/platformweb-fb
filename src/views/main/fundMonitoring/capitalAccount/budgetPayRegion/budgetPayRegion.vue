@@ -30,18 +30,21 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
+          :table-global-config="tableGlobalConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :title="menuName"
           :cell-style="cellStyle"
           :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -147,6 +150,13 @@ export default {
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
+      tableGlobalConfig: {
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -261,6 +271,9 @@ export default {
     // this.getNewData()
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen

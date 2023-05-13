@@ -187,7 +187,7 @@ const proconf = {
           {
             title: '合计',
             align: 'right',
-            formula: '{amountYshj}-0==0?0:{amountZchj}/{amountYshj}*100',
+            formula: '{amountYshj}-0==0?0:Math.round({amountZchj}/{amountYshj}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             },
@@ -197,7 +197,7 @@ const proconf = {
           {
             title: '中央',
             align: 'right',
-            formula: '{amountZykzx}-0==0?0:{amountZypay}/{amountZykzx}*100',
+            formula: '{amountZykzx}-0==0?0:Math.round({amountZypay}/{amountZykzx}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             },
@@ -209,7 +209,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'dfptZcjd',
-            formula: '{amountDfkzx}-0==0?0:{amountDfpay}/{amountDfkzx}*100',
+            formula: '{amountDfkzx}-0==0?0:Math.round({amountDfpay}/{amountDfkzx}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }

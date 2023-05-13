@@ -99,7 +99,12 @@ const proconf = {
       globalConfig: {
         // 全局配置
         seq: true, // 序号列
-        useMoneyFilter: true
+        useMoneyFilter: true,
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
       }
     },
     tableColumnsConfig: [
@@ -162,7 +167,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'jLoad',
-            formula: '({amountZyxd}-0==0)?0:({amountPayAll}/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round({amountPayAll}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -225,7 +230,7 @@ const proconf = {
             field: 'sLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSnjxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100)',
+            formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -288,7 +293,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
+            formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -344,7 +349,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
+            formula: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -421,7 +426,7 @@ const proconf = {
             align: 'right',
             width: 200,
             field: 'jLoad',
-            formula: '({amountZyxd2}-0==0)?0:({amountPayAll}/{amountZyxd2}*100)',
+            formula: '({amountZyxd2}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd2}*100)*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -484,7 +489,7 @@ const proconf = {
             field: 'sLoad',
             width: 200,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -547,7 +552,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -603,7 +608,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:({amountXjfp}/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
