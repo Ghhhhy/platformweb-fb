@@ -304,150 +304,153 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+
+  // 指标预警未处理明细
   redUndoNum: [
     {
       title: '地区名称',
-      field: 'mofDivCode',
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'agencyName',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
+      align: 'center'
     },
     {
-      title: '专项资金',
-      field: 'speTypeName',
+      title: '逾期天数',
+      field: 'yqDay',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: ''
+      align: 'right'
     },
     {
-      title: '指标文号',
-      field: 'targetDocNum',
-      sortable: false,
+      title: '上级项目名称',
       filters: false,
       width: 140,
-      align: 'right',
-      formula: ''
-    },
-    {
-      title: '制单人',
-      field: 'createUser',
-      filters: false,
-      width: 140,
+      field: 'trackProName',
       sortable: false,
       align: 'right'
     },
     {
-      title: '预警时间',
-      field: 'fiDate',
+      title: '预算级次',
       filters: false,
       width: 140,
+      field: 'budgetLevelName',
       sortable: false,
       align: 'right'
+    },
+    {
+      title: '上级指标文号',
+      filters: false,
+      width: 140,
+      field: 'supBgtDocNo',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '资金主管处室编码',
+      filters: false,
+      width: 140,
+      field: 'bgtMofDepCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '资金主管处室名称',
+      filters: false,
+      width: 140,
+      field: 'bgtMofDepName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '本级指标文号',
+      filters: false,
+      width: 140,
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支出功能科目编码',
+      filters: false,
+      width: 140,
+      field: 'expFuncCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支出功能科目名称',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '本级项目名称',
+      filters: false,
+      width: 140,
+      field: 'proName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '直达资金标识编码',
+      filters: false,
+      width: 140,
+      field: 'isDirCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '直达资金标识名称',
+      filters: false,
+      width: 140,
+      field: 'isDirName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '接收金额',
+      filters: false,
+      width: 140,
+      field: 'amount',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '未分配金额',
+      filters: false,
+      width: 140,
+      field: 'curAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     }
   ],
+  // 指标预警已处理明细
   redDoneNum: [
     {
       title: '地区名称',
-      field: 'mofDivCode',
+      field: 'name',
       sortable: false,
-      filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
-      }
+      filters: false
     },
     {
       title: '处室名称',
-      field: 'agencyName',
+      field: 'businessOffice',
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
-      }
-    },
-    {
-      title: '专项资金',
-      field: 'speTypeName',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'right',
-      formula: ''
-    },
-    {
-      title: '指标文号',
-      field: 'targetDocNum',
-      sortable: false,
-      filters: false,
-      width: 140,
-      align: 'right',
-      formula: ''
-    },
-    {
-      title: '制单人',
-      field: 'createUser',
-      filters: false,
-      width: 140,
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '预警时间',
-      field: 'fiDate',
-      filters: false,
-      width: 140,
-      sortable: false,
-      align: 'right'
+      align: 'center'
     },
     {
       title: '处理结果',
@@ -472,8 +475,123 @@ const proconf = {
       filters: false,
       width: 140,
       align: 'right'
+    },
+    {
+      title: '逾期天数',
+      field: 'yqDay',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'right'
+    },
+    {
+      title: '上级项目名称',
+      filters: false,
+      width: 140,
+      field: 'trackProName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '预算级次',
+      filters: false,
+      width: 140,
+      field: 'budgetLevelName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '上级指标文号',
+      filters: false,
+      width: 140,
+      field: 'supBgtDocNo',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '资金主管处室编码',
+      filters: false,
+      width: 140,
+      field: 'bgtMofDepCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '资金主管处室名称',
+      filters: false,
+      width: 140,
+      field: 'bgtMofDepName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '本级指标文号',
+      filters: false,
+      width: 140,
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支出功能科目编码',
+      filters: false,
+      width: 140,
+      field: 'expFuncCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支出功能科目名称',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '本级项目名称',
+      filters: false,
+      width: 140,
+      field: 'proName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '直达资金标识编码',
+      filters: false,
+      width: 140,
+      field: 'isDirCode',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '直达资金标识名称',
+      filters: false,
+      width: 140,
+      field: 'isDirName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '接收金额',
+      filters: false,
+      width: 140,
+      field: 'amount',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '未分配金额',
+      filters: false,
+      width: 140,
+      field: 'curAmt',
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     }
   ],
+
   // 支出预警-未处理明细
   notuploadColumn: [
     {

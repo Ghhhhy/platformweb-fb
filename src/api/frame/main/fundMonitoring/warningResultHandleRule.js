@@ -19,6 +19,9 @@ export default {
   updateYellow(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/updateYellow', params)
   },
+  batchUpdateYellow(params) {
+    return post('dfr-monitor-service/dfr/warningResultHandleRule/batchUpdateYellow', params)
+  },
   detailQuery(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/detailQuery', params)
   },
