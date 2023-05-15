@@ -90,7 +90,7 @@ class BehaviorCollector {
     return post(`mp-d-aggregation-service/v1/collector/behavior?${+new Date()}`,
       {
         source: 'behavior',
-        params,
+        ...params,
         contentType: 'application/x-www-form-urlencoded'
       })
   }

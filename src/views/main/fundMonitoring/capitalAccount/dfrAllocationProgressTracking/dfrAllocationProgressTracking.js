@@ -123,7 +123,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'jLoad',
-            formula: '({amountZyxd}-0==0)?0:({jOut}/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round({jOut}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -170,7 +170,7 @@ const proconf = {
             field: 'sLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSnjxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100)',
+            formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -187,7 +187,7 @@ const proconf = {
             field: 'snpayLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSnjbjfp}-0==0)?0:({amountSnjpay}/{amountSnjbjfp}*100)',
+            formula: '({amountSnjbjfp}-0==0)?0:Math.round({amountSnjpay}/{amountSnjbjfp}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -234,7 +234,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)',
+            formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -251,7 +251,7 @@ const proconf = {
             field: 'spayLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSbjfp}-0==0)?0:({amountSjpay}/{amountSbjfp}*100)',
+            formula: '({amountSbjfp}-0==0)?0:Math.round({amountSjpay}/{amountSbjfp}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -291,7 +291,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
+            formula: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -308,7 +308,7 @@ const proconf = {
             field: 'xpayLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjfp}-0==0)?0:({amountXjpay}/{amountXjfp}*100)',
+            formula: '({amountXjfp}-0==0)?0:Math.round({amountXjpay}/{amountXjfp}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -365,7 +365,7 @@ const proconf = {
             align: 'right',
             width: 200,
             field: 'jLoad',
-            formula: '({amountZyxd}-0==0)?0:({jOut}/{amountZyxd}*100)',
+            formula: '({amountZyxd}-0==0)?0:Math.round({jOut}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -412,7 +412,7 @@ const proconf = {
             field: 'sLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSnjxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100)',
+            formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -429,7 +429,7 @@ const proconf = {
             field: 'snpayLoad',
             width: 200,
             align: 'right',
-            formula: '({amountSnjbjfp}-0==0)?0:({amountSnjpay}/{amountSnjbjfp}*100)',
+            formula: '({amountSnjbjfp}-0==0)?0:Math.round({amountSnjpay}/{amountSnjbjfp}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -469,7 +469,7 @@ const proconf = {
             field: 'xLoad',
             width: 200,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)',
+            formula: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -486,7 +486,7 @@ const proconf = {
             field: 'xpayLoad',
             width: 200,
             align: 'right',
-            formula: '({amountXjfp}-0==0)?0:({amountXjpay}/{amountXjfp}*100)',
+            formula: '({amountXjfp}-0==0)?0:Math.round({amountXjpay}/{amountXjfp}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }

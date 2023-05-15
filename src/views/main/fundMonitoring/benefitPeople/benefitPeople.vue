@@ -1036,6 +1036,9 @@ export default {
   float: none;
   margin-bottom: 4px;
 }
+/deep/.T-search{
+  background-color: var(--hightlight-color) !important;
+}
 </style>
 <style scoped>
 .radio-right{
@@ -1053,4 +1056,5 @@ export default {
   background-color: red;
   color: #fff;
 }
+
 </style>
