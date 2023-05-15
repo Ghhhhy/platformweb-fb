@@ -85,5 +85,13 @@ export default {
   // 规则校验
   ruleTest(params) {
     return post('large-monitor-platform/lmp/totalWarn/checkBusinessData', params)
+  },
+  // 获取下拉树
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  // 联查业务数据
+  queryBusinessData(params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryBusinessData', params)
   }
 }
