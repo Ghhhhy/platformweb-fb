@@ -426,6 +426,22 @@ const proconf = {
       filters: false,
       width: 140,
       align: 'right'
+    },
+    {
+      title: '整改情况',
+      field: 'rectifyDetail',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '违规类型',
+      field: 'warnType',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
     }
   ],
   // 支出预警-未处理明细
@@ -816,6 +832,22 @@ const proconf = {
       width: 140,
       filters: false,
       align: 'center'
+    },
+    {
+      title: '整改情况',
+      field: 'rectifyDetail',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '违规类型',
+      field: 'warnType',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
     }
   ],
   // 支出预警-已整改明细
@@ -1060,6 +1092,22 @@ const proconf = {
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '整改情况',
+      field: 'rectifyDetail',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '违规类型',
+      field: 'warnType',
+      width: 140,
+      filters: false,
+      sortable: false,
+      align: 'center'
     }
   ]
 }
