@@ -7,6 +7,7 @@
         <BsTabPanel
           ref="tabPanel"
           show-zero
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -566,7 +567,7 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
-        regulationClass: this.regulationClass,
+        regulationClass: this.regulationClass || this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         id: this.condition.agency_code,
         menuType: 1
       }

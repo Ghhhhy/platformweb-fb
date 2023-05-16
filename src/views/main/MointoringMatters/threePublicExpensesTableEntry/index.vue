@@ -4,6 +4,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           :tab-status-btn-config="tabStatusBtnConfig"
+          :is-open="isShowSearchForm"
           @tabClick="onTabClick"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
@@ -40,7 +41,7 @@
             <div
               v-if="!leftTreeVisible"
               class="ri-indent-wrapper"
-              style="marginRight: 8px;"
+              style="marginright: 8px"
               @click="setLeftTreeVisible"
             >
               <i class="ri-indent-decrease"></i>
@@ -74,9 +75,17 @@
             :edit-config="editConfig"
             :valid-config="validConfig"
             :edit-rules="editRules"
-            :footer-method="currentTableTab !== TableTabsEnum.MONITOR_BASIC_INFORMATION ? footerMethod : () => []"
+            :footer-method="
+              currentTableTab !== TableTabsEnum.MONITOR_BASIC_INFORMATION
+                ? footerMethod
+                : () => []
+            "
             size="mini"
-            :empty-text="currentTab === TabEnum.UNSUBMIT ? '暂无数据，如需录入数据请新增行' : '暂无数据'"
+            :empty-text="
+              currentTab === TabEnum.UNSUBMIT
+                ? '暂无数据，如需录入数据请新增行'
+                : '暂无数据'
+            "
             auto-resize
             sync-resize
             show-footer
@@ -85,7 +94,9 @@
             height="auto"
           >
             <template v-if="tableFooterTips[currentTableTab]" #bottom>
-              <p class="table-bottom-tips">{{ tableFooterTips[currentTableTab] }}</p>
+              <p class="table-bottom-tips">
+                {{ tableFooterTips[currentTableTab] }}
+              </p>
             </template>
           </vxe-grid>
         </div>
@@ -107,7 +118,13 @@
 </template>
 
 <script>
-import { defineComponent, ref, unref, computed, watch } from '@vue/composition-api'
+import {
+  defineComponent,
+  ref,
+  unref,
+  computed,
+  watch
+} from '@vue/composition-api'
 import AddRowsModal from './components/AddRowsModal'
 import ImportModel from '@/components/Table/import/import.vue'
 
@@ -124,7 +141,8 @@ import {
   tableColumnsByNoBudget,
   tableColumnsByFundsIsNotStandardized,
   tableFooterTips,
-  tableColumnsByMonitorBasicInfo
+  tableColumnsByMonitorBasicInfo,
+  tableColumnsByBudgetExecuteMonitor
 } from './model/data'
 import { TabEnum, TableTabsEnum } from './model/enum'
 import HttpModule from '@/api/frame/main/Monitoring/FinancialBasicTableEntry.js'
@@ -144,16 +162,8 @@ export default defineComponent({
     /**
      * 搜索表单
      */
-    const [
-      {
-        formData,
-        formSchemas,
-        setSubmitFormData
-      },
-      registerForm
-    ] = useForm(
-      formSchemasOrigin
-    )
+    const [{ formData, formSchemas, setSubmitFormData }, registerForm] =
+      useForm(formSchemasOrigin)
 
     /**
      * 获取区划wheresql参数
@@ -184,14 +194,14 @@ export default defineComponent({
       register: treeRegister
     } = useTree({
       fetch: HttpModule.getLeftTree,
-      beforeFetch: params => {
+      beforeFetch: (params) => {
         const { province, year } = store.state.userInfo
         return {
           ...params,
           elementcode: 'admdiv',
           province,
           year,
-          wheresql: 'and code like \'' + getWheresql(province) + '%\''
+          wheresql: 'and code like ' + getWheresql(province) + '%'
         }
       },
       treeProps: {
@@ -219,17 +229,16 @@ export default defineComponent({
     /**
      * 表格顶部tab
      */
-    const {
-      tableTabs,
-      currentTableTab,
-      changeTableTab
-    } = useTableTab()
+    const { tableTabs, currentTableTab, changeTableTab } = useTableTab()
     // 当前显示的列
     const currentColumns = computed(() => {
       const columnsMap = {
-        [TableTabsEnum.MONITOR_BASIC_INFORMATION]: tableColumnsByMonitorBasicInfo,
+        [TableTabsEnum.MONITOR_BASIC_INFORMATION]:
+          tableColumnsByMonitorBasicInfo,
         [TableTabsEnum.NO_BUDGET]: tableColumnsByNoBudget,
-        [TableTabsEnum.FUNDS_IS_NOT_STANDARDIZED]: tableColumnsByFundsIsNotStandardized
+        [TableTabsEnum.FUNDS_IS_NOT_STANDARDIZED]:
+          tableColumnsByFundsIsNotStandardized,
+        [TableTabsEnum.BUDGET_MONITOR]: tableColumnsByBudgetExecuteMonitor
       }
       return columnsMap[unref(currentTableTab)]
     })
@@ -258,48 +267,42 @@ export default defineComponent({
     })
 
     const tableTips = ref('')
-    const [
-      {
-        tableData,
-        tableRef,
-        fetchTableData,
-        tableLoadingState
-      }
-    ] = useFetchTable({
-      dataKey: 'data.datas',
-      openPager: false,
-      fetch: getThreePublicTable,
-      // 请求前置钩子
-      beforeFetch(params) {
-        return {
-          ...params,
-          ...unref(requestPayload)
+    const [{ tableData, tableRef, fetchTableData, tableLoadingState }] =
+      useFetchTable({
+        dataKey: requestPayload.value.reportType === 4 ? 'data.dataSummary' : 'data.datas',
+        openPager: false,
+        fetch: getThreePublicTable,
+        // 请求前置钩子
+        beforeFetch(params) {
+          return {
+            ...params,
+            ...unref(requestPayload)
+          }
+        },
+        // 请求后置钩子
+        afterFetch(data) {
+          // 未提交页卡
+          const isUncommitted = unref(currentTab) === TabEnum.UNSUBMIT
+          // 监控基础信息表
+          const isMonitorBasicInfo =
+            unref(currentTableTab) === TableTabsEnum.MONITOR_BASIC_INFORMATION
+          if (!data?.datas?.length && isUncommitted && isMonitorBasicInfo) {
+            data.datas = generateRows(1, unref(currentColumns))
+          }
+          if (unref(requestPayload).reportType === 4) {
+            data.datas = unref(data.dataSummary)
+          }
+          // 表格tips信息
+          tableTips.value = data?.hint || ''
+          return data
         }
-      },
-      // 请求后置钩子
-      afterFetch(data) {
-        // 未提交页卡
-        const isUncommitted = unref(currentTab) === TabEnum.UNSUBMIT
-        // 监控基础信息表
-        const isMonitorBasicInfo = unref(currentTableTab) === TableTabsEnum.MONITOR_BASIC_INFORMATION
-        if (!data?.datas?.length && isUncommitted && isMonitorBasicInfo) {
-          data.datas = generateRows(1, unref(currentColumns))
-        }
-        // 表格tips信息
-        tableTips.value = data?.hint || ''
-        return data
-      }
-    })
+      })
 
     /**
      * 文件导入
      * */
-    const {
-      fileConfig,
-      importModalVisible,
-      onImportClick,
-      onImportFileClick
-    } = useImport(currentColumns, tableData)
+    const { fileConfig, importModalVisible, onImportClick, onImportFileClick } =
+      useImport(currentColumns, tableData)
 
     /**
      * tab区域
@@ -326,33 +329,27 @@ export default defineComponent({
     /**
      * 监听报表tab切换
      */
-    watch(
-      currentTableTab,
-      (curVal, preVal) => {
-        if (curVal === preVal) return
-        // 更新表格校验规则
-        editRules.value = generateEditorRules(unref(currentColumns))
-        // 更新按钮
-        updateButtons(curVal)
-        // 重置表格数据 重新请求
-        tableData.value = []
-        fetchTableData()
-      }
-    )
+    watch(currentTableTab, (curVal, preVal) => {
+      if (curVal === preVal) return
+      // 更新表格校验规则
+      editRules.value = generateEditorRules(unref(currentColumns))
+      // 更新按钮
+      updateButtons(curVal)
+      // 重置表格数据 重新请求
+      tableData.value = []
+      fetchTableData()
+    })
 
     /**
      * 监听顶部页卡切换
      */
-    watch(
-      currentTab,
-      (val) => {
-        // 设置表格编辑状态
-        setTableEditorState(val === TabEnum.UNSUBMIT)
-        // 重置表格数据 重新请求
-        tableData.value = []
-        fetchTableData()
-      }
-    )
+    watch(currentTab, (val) => {
+      // 设置表格编辑状态
+      setTableEditorState(val === TabEnum.UNSUBMIT)
+      // 重置表格数据 重新请求
+      tableData.value = []
+      fetchTableData()
+    })
 
     return {
       leftTreeVisible,
@@ -439,12 +436,14 @@ export default defineComponent({
   /deep/ .T-mainFormListLayout-modulebox .mmc-formlist {
     margin-left: 0;
   }
-  /deep/.vxe-table .vxe-body--column.col--ellipsis:not(.col--actived) > .vxe-cell {
-    white-space: nowrap !important
+  /deep/.vxe-table
+    .vxe-body--column.col--ellipsis:not(.col--actived)
+    > .vxe-cell {
+    white-space: nowrap !important;
   }
   /deep/.vxe-table .vxe-table--empty-content {
     font-size: 16px;
-    color: #666
+    color: #666;
   }
 }
 .table-bottom-tips {
@@ -455,7 +454,7 @@ export default defineComponent({
 .table-top-tips {
   font-size: 1em;
   margin-left: 16px;
-  color: #ED411E;
+  color: #ed411e;
 }
 </style>
 

@@ -41,11 +41,11 @@
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
-                <div
+                <!-- <div
                   v-if="leftVisible === false"
                   class="table-toolbar-contro-leftvisible"
                   @click="leftVisible = true"
-                ></div>
+                ></div> -->
                 <div class="table-toolbar-left-title">
                   <span class="fn-inline">{{ curTable.name }}</span>
                   <i class="fn-inline"></i>
@@ -753,8 +753,7 @@ export default {
         payeeAcctNo: '',
         payeeAcctName: '',
         des: '',
-        basis: '',
-        payment: []
+        basis: ''
       },
       formValidationConfigMessage: proconf.formValidationConfigMessage
     }
@@ -1987,7 +1986,6 @@ export default {
   .vxe-toolbar{
     .vxe-button--wrapper{
       display:flex;
-          justify-Content: end;
     }
   }
 </style>

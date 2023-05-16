@@ -29,12 +29,14 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
+          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
+          :export-modal-config="{ fileName: menuName, addReportTitleColumn: true , addUnitColumn: true }"
           :title="menuName"
           :default-money-unit="10000"
           :cell-style="cellStyle"
@@ -43,6 +45,7 @@
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @cellClick="cellClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -138,6 +141,13 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
+      tableGlobalConfig: {
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       // // 头部工具栏 BsTabPanel config
       // toolBarStatusBtnConfig: {
       //   changeBtns: true,
@@ -287,6 +297,9 @@ export default {
     this.getNewData()
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen

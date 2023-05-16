@@ -8,7 +8,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          is-open
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -69,7 +69,13 @@
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
-        />
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+            </div>
+          </template>
+        </BsTable>
         <BsTable
           ref="mainTableRef1"
           v-loading="tableLoading2"

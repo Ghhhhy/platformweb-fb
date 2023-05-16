@@ -174,6 +174,7 @@ const proconf = {
     {
       title: '问题明细',
       field: 'detail',
+      formula: '查看',
       sortable: false,
       filters: false,
       width: 400,
@@ -2417,6 +2418,7 @@ const curStatusButton3 = {
   type: 'button',
   curValue: '5'
 }
+
 const curStatusButton4 = {
   label: '已整改',
   code: '6',
@@ -2489,6 +2491,13 @@ const curStatusButton15 = {
   type: 'button',
   curValue: '12'
 }
+const curStatusButton16 = {
+  label: '待认定',
+  code: '16',
+  type: 'button',
+  curValue: '16'
+}
+
 const buttons1 = {
   1: [
     {
@@ -2534,6 +2543,11 @@ const buttons1 = {
   ],
   7: [
     {
+      label: '认定撤销',
+      code: 'rectify_repeal',
+      status: 'primary'
+    },
+    {
       label: '整改意见',
       code: 'rectify_ask',
       status: 'primary'
@@ -2560,6 +2574,7 @@ const buttons1 = {
       status: 'primary'
     }
   ]
+
 }
 const buttons2 = {
   1: [
@@ -2608,6 +2623,7 @@ export {
   curStatusButton13,
   curStatusButton14,
   curStatusButton15,
+  curStatusButton16,
   buttons2,
   statusButtons3,
   curStatusButton7,

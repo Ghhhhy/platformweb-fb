@@ -75,5 +75,23 @@ export default {
   },
   handleNormal(params) {
     return post('large-monitor-platform/lmp/totalWarn/handleNormal', params)
+  },
+  doBack(params) {
+    return post('large-monitor-platform/lmp/totalWarn/back', params)
+  },
+  getFiRule(params) {
+    return post('large-monitor-platform/lmp/totalWarn/getFiRule', params)
+  },
+  // 规则校验
+  ruleTest(params) {
+    return post('large-monitor-platform/lmp/totalWarn/checkBusinessData', params)
+  },
+  // 获取下拉树
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  // 联查业务数据
+  queryBusinessData(params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryBusinessData', params)
   }
 }

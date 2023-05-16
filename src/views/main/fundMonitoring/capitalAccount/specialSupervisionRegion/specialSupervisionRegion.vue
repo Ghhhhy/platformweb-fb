@@ -30,6 +30,7 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
+          :table-global-config="tableGlobalConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
@@ -38,11 +39,13 @@
           :export-modal-config="{ fileName: menuName, addReportTitleColumn: true, addUnitColumn: true }"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :title="menuName"
           :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @cellClick="cellClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -161,6 +164,13 @@ export default {
         1: 0
       },
       // table 相关配置
+      tableGlobalConfig: {
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
@@ -287,6 +297,9 @@ export default {
     this.getNewData()
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
@@ -543,7 +556,7 @@ export default {
       // this.queryTableDatasCount()
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getCapitalTreeData({ fiscalYear }).then(res => {
+      HttpModule.getProSpeTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[1].itemRender.options = treeResdata

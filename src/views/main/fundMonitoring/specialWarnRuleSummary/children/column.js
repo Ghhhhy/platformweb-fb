@@ -304,12 +304,21 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  // 指标预警未处理明细
   redUndoNum: [
     {
       title: '地区名称',
       field: 'name',
       sortable: false,
       filters: false
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '逾期天数',
@@ -426,12 +435,21 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  // 指标预警已处理明细
   redDoneNum: [
     {
       title: '地区名称',
       field: 'name',
       sortable: false,
       filters: false
+    },
+    {
+      title: '处室名称',
+      field: 'businessOffice',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
     },
     {
       title: '处理结果',
@@ -572,6 +590,7 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+
   // 支出预警-未处理明细
   notuploadColumn: [
     {
@@ -974,10 +993,9 @@ const proconf = {
   payedColumn: [
     {
       title: '地区名称',
-      field: 'dqmc',
+      field: 'name',
       align: 'center',
       width: 140,
-      formula: 'name',
       filters: false
     },
     {
@@ -1043,7 +1061,15 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改结果',
+      title: '违规类型',
+      filters: false,
+      width: 140,
+      field: 'warnType',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改情况',
       field: 'rectifyDetail',
       width: 140,
       filters: false,

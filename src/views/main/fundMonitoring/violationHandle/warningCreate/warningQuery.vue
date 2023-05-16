@@ -31,8 +31,8 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
-          :title="menuName"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
@@ -121,6 +121,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -266,6 +267,7 @@ export default {
           }
         }
       }
+      condition.fiRuleCode = val.fiRuleCode
       this.condition = condition
       this.queryTableDatas()
     },
@@ -294,109 +296,105 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-
+      let fiRuleCode = this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
       switch (key) {
         case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['redUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '3'
           this.detailVisible = true
           break
         case 'redNormalNum':
-          this.detailData = ['redNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['redNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '3'
           this.detailVisible = true
           break
         case 'redNotRectifiedNum':
-          this.detailData = ['redNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['redNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '3'
           this.detailVisible = true
           break
         case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['redDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '3'
           this.detailVisible = true
           break
         case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
           break
         case 'orangeNormalNum':
-          this.detailData = ['orangeNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['orangeNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
           break
         case 'orangeNotRectifiedNum':
-          this.detailData = ['orangeNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['orangeNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
           break
         case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
           break
         case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
           break
         case 'yellowNormalNum':
-          this.detailData = ['yellowNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['yellowNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
           break
         case 'yellowNotRectifiedNum':
-          this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
           break
         case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
           break
         case 'greyUndoNum':
-          this.detailData = ['greyUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['greyUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '4'
           this.detailVisible = true
           break
         case 'greyNormalNum':
-          this.detailData = ['greyNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['greyNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '4'
           this.detailVisible = true
           break
         case 'greyNotRectifiedNum':
-          this.detailData = ['greyNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['greyNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '4'
           this.detailVisible = true
           break
         case 'greyDoneNum':
-          this.detailData = ['greyDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['greyDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
           break
         case 'blueNormalNum':
-          this.detailData = ['blueNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['blueNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
           break
         case 'blueNotRectifiedNum':
-          this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
           break
         case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
           break
@@ -407,26 +405,44 @@ export default {
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
-    // 查询 table 数据
-    queryTableDatas(val) {
+    getFiRule() {
       const param = {
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+        fiscalYear: this.$store.state.userInfo.year
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '09'
+        param.regulationClass = '0201'
       }
-
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
-
+      HttpModule.getFiRule(param).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = res.data
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    // 查询 table 数据
+    queryTableDatas(val) {
+      const param = {
+        fiRuleCode: this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
+      }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '0201'
+      }
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
       this.tableLoading = true
       HttpModule.queryWarningByMof(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data
-          this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -445,6 +461,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.getFiRule()
     this.queryTableDatas()
   }
 }

@@ -65,18 +65,18 @@ export let proconf = {
   },
   PoliciesTableColumns: [
     {
-      'title': '规则分类编码',
+      'title': '主题分类编码',
       'field': 'code',
       'align': 'center'
     },
     {
-      title: '规则分类名称',
+      title: '主题分类名称',
       field: 'ruleName',
       sortable: false,
       align: 'center'
     },
     {
-      title: '父级规则分类',
+      title: '父级主题分类',
       field: 'parentRuleName',
       sortable: false,
       align: 'center'
@@ -100,7 +100,7 @@ export let proconf = {
       }
     },
     {
-      title: '规则分类说明',
+      title: '主题分类说明',
       field: 'description',
       sortable: false,
       align: 'center'

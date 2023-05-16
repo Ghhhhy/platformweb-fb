@@ -5,7 +5,7 @@
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
-          is-open
+          :is-open="isShowQueryConditions"
           is-hide-query
           :tab-status-btn-config="tabStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"

@@ -16,6 +16,7 @@
             <BsTabPanel
               ref="tabPanel"
               show-zero
+              :is-open="isShowQueryConditions"
               :tab-status-btn-config="toolBarStatusBtnConfig"
               :tab-status-num-config="tabStatusNumConfig"
               @onQueryConditionsClick="onQueryConditionsClick"
@@ -70,12 +71,12 @@
             >
               <template v-slot:toolbarSlots>
                 <div class="table-toolbar-left">
-                  <div
+                  <!-- <div
                     v-if="leftTreeVisible === false"
                     class="table-toolbar-contro-leftvisible"
                     @click="leftTreeVisible = true"
                   >
-                  </div>
+                  </div> -->
                   <div class="table-toolbar-left-title">
                     <span class="fn-inline">预警数据明细</span>
                     <i class="fn-inline"></i>

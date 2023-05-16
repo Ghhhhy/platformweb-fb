@@ -19,6 +19,9 @@ export default {
   updateYellow(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/updateYellow', params)
   },
+  batchUpdateYellow(params) {
+    return post('dfr-monitor-service/dfr/warningResultHandleRule/batchUpdateYellow', params)
+  },
   detailQuery(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/detailQuery', params)
   },
@@ -28,7 +31,11 @@ export default {
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   },
-  getCapitalTreeData(params) {
-    return post('dfr-monitor-service/dfr/mofDivList/queryCapital', params)
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
+  // 获取违规类型枚举
+  queryViolationType(params) {
+    return get('large-monitor-platform/lmp/violationType/pageQuery', params)
   }
 }

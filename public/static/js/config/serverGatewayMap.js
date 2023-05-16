@@ -11,6 +11,7 @@ window.gloableToolFn = {
       'mp-b-user-service': '/apaas/api/mp-b-user-service',
       'mp-b-perm-service': '/apaas/api/mp-b-perm-service/',
       'mp-b-basedata-service': '/apaas/api/mp-b-basedata-service/',
+      'mp-d-aggregation-service': '/apaas/api/mp-d-aggregation-service',
       // --------------------------- 文件相关服务 --------------------------------//
       fileservice: '/apaas/api/fileservice/',
       filePreviewService: '/apaas/api/filePreviewService/',
@@ -24,6 +25,7 @@ window.gloableToolFn = {
       'mp-b-user-service': api + '/apaas/api/mp-b-user-service/',
       'mp-b-perm-service': api + '/apaas/api/mp-b-perm-service/',
       'mp-b-basedata-service': api + '/apaas/api/mp-b-basedata-service/',
+      'mp-d-aggregation-service': api + '/apaas/api/mp-d-aggregation-service',
       // --------------------------- 文件服务 ----------------------------------//
       fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
@@ -40,5 +42,11 @@ window.gloableToolFn = {
   },
   // 是否开启水印
   enableWaterMark: false,
-  getReportUrl: () => reportService
+  getReportUrl: () => reportService,
+  getBbsUrl: () => { // 上海BBS
+    return 'https://yth.czj.sh.cegn.cn/shbbs/'
+  },
+  getIssueUrl: () => { // 上海我要提问
+    return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
+  }
 }

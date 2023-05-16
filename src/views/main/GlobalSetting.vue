@@ -238,7 +238,7 @@ export default {
               break
             case 'deep':
               document.body.style.setProperty('--bs-modal-background', 'var(--primary-color)')
-              document.body.style.setProperty('--bs-modal-font-color', '#ffffff')
+              document.body.style.setProperty('--bs-modal-font-color', '#333333')
               document.body.style.setProperty('--bs-modal-close-hover', 'rgba(255, 255, 255, 0.8)')
               break
           }

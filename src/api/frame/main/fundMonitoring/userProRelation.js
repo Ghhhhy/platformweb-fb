@@ -20,6 +20,6 @@ export default {
   },
   // 获取处室信息树
   getTreewhere(params) {
-    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   }
 }

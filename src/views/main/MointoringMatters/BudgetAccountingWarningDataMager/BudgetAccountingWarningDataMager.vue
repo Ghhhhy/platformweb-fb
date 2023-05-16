@@ -614,7 +614,7 @@ export default {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          businessId: this.businessId,
+          businessId: node.id,
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
@@ -744,6 +744,7 @@ export default {
         businessId: this.businessId,
         fiRuleCode: this.fiRuleCode,
         handleResult: this.toolBarStatusSelect.curValue,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         'status': this.condition.status ? this.condition.status.toString() : '',
         'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
         'createTime': this.condition.createTime ? this.condition.createTime.toString() : null
