@@ -300,22 +300,22 @@ export default {
       switch (key) {
         case 'redUndoNum':
           this.detailData = ['redUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
+          this.colourType = '1'
           this.detailVisible = true
           break
         case 'redNormalNum':
           this.detailData = ['redNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
+          this.colourType = '1'
           this.detailVisible = true
           break
         case 'redNotRectifiedNum':
           this.detailData = ['redNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
+          this.colourType = '1'
           this.detailVisible = true
           break
         case 'redDoneNum':
           this.detailData = ['redDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
+          this.colourType = '1'
           this.detailVisible = true
           break
         case 'orangeUndoNum':
@@ -340,62 +340,62 @@ export default {
           break
         case 'yellowUndoNum':
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowNormalNum':
           this.detailData = ['yellowNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowNotRectifiedNum':
           this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'yellowDoneNum':
           this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'greyUndoNum':
           this.detailData = ['greyUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
+          this.colourType = '5'
           this.detailVisible = true
           break
         case 'greyNormalNum':
           this.detailData = ['greyNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
+          this.colourType = '5'
           this.detailVisible = true
           break
         case 'greyNotRectifiedNum':
           this.detailData = ['greyNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
+          this.colourType = '5'
           this.detailVisible = true
           break
         case 'greyDoneNum':
           this.detailData = ['greyDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
+          this.colourType = '5'
           this.detailVisible = true
           break
         case 'blueUndoNum':
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueNormalNum':
           this.detailData = ['blueNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueNotRectifiedNum':
           this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueDoneNum':
           this.detailData = ['blueDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
       }
