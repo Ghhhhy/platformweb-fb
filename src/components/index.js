@@ -45,7 +45,7 @@ import BsEmpty from './empty/index'
 import BsTreeTitle from './treeTitle/index.vue' // 树组件头
 import BsTableTitle from './tableTitle/index.vue' // 表格标题
 import BsThemePicker from './ThemePicker/ThemePicker.vue'
-import BsTable from './Table/Table.vue' // table:Titans
+// import BsTable from './Table/Table.vue' // table:Titans
 const componentsLib = {
   BsBossTree,
   BsTreeInput,
@@ -82,8 +82,7 @@ const componentsLib = {
   BsFilePreview,
   FilePreview: BsFilePreview,
   BsThemePicker,
-  FilterNumberRange,
-  BsTable
+  FilterNumberRange
 }
 const utilsLib = {
   LoadingMark,
