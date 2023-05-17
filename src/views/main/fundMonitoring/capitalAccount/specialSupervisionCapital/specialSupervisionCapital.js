@@ -86,12 +86,32 @@ const proconf = {
           placeholder: '截止日期'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'isCentral',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '', label: '全部' },
+          { value: '1', label: '中央' },
+          { value: '2', label: '地区' }
+        ],
+        props: {
+          placeholder: '请选择',
+          clearable: true
+        }
+      }
     }
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     mofDivCodes: '',
-    endTime: ''
+    endTime: '',
+    isCentral: ''
   },
   basicInfo: {
     type: 'form',

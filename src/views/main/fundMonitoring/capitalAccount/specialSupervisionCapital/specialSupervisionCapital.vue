@@ -499,7 +499,8 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        isCentral: this.searchDataList.isCentral
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -625,7 +626,8 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        isCentral: this.searchDataList.isCentral || ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
