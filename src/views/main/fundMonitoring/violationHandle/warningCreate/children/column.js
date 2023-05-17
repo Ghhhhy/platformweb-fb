@@ -41,8 +41,8 @@ const proconf = {
         'props': {
           'config': {
             'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
+              'code': 'id',
+              'name': 'label',
               'children': 'children'
             },
             'placeholder': '预算单位',
@@ -315,6 +315,18 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow'
+      }
     }
   ],
   // 认定正常明细
@@ -575,6 +587,18 @@ const proconf = {
       fixed: 'right',
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
+      }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow'
       }
     }
   ],
@@ -1452,6 +1476,18 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow'
+      }
     }
   ],
   doneNum: [
@@ -1743,6 +1779,18 @@ const proconf = {
       fixed: 'right',
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
+      }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$payVoucherInputGloableOptionRow'
       }
     }
   ],

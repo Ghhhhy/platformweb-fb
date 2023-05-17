@@ -290,6 +290,7 @@ const proconf = {
             width: 100,
             align: 'right',
             formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
+            // formula: '({amountSjxd}-0==0)?0:Number(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100).toFixed(1)',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -346,6 +347,7 @@ const proconf = {
             width: 100,
             align: 'right',
             formula: '({amountXjxd}-0==0)?0:Math.round(({amountXjfp}/{amountXjxd}*100)*10)/10',
+            // formula: '({amountXjxd}-0==0)?0:Number({amountXjfp}/{amountXjxd}*100).toFixed(1)',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -486,6 +488,7 @@ const proconf = {
             width: 200,
             align: 'right',
             formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
+            // formula: '({amountZyxd}-0==0)?0:Number(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100).toFixed(1)',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -5417,7 +5420,201 @@ const proconf = {
     //     ]
     //   }
     // ]
-  }
+  },
+  mockData: [
+    {
+      'amountZyxd2': '0',
+      'amountXjxd': '811',
+      'code': '',
+      'amountSnjxd': '1000',
+      'amountXjfp': '890',
+      'amountSnjxjfp': '900',
+      'amountSjxd': '980',
+      'amountSbjfp': '140',
+      'amountSnjwfp': '0',
+      'parentId': '',
+      'amountXjpay': '700',
+      'amountSnjpay': '110',
+      'children': [
+        {
+          'amountZyxd2': '0',
+          'amountXjxd': '800',
+          'code': '159900000',
+          'amountSnjxd': '1000',
+          'amountXjfp': '800',
+          'amountSnjxjfp': '900',
+          'amountSjxd': '900',
+          'amountSbjfp': '100',
+          'parentId': 'B5BBAB08B0704532B6DE3E296DCD579D',
+          'amountSnjwfp': '0',
+          'amountXjpay': '800',
+          'amountSnjpay': '100',
+          'children': [
+            {
+              'amountXjxd': '0',
+              'code': '150000000',
+              'amountSnjxd': '1000',
+              'amountXjfp': '0',
+              'amountSnjxjfp': '900',
+              'amountSjxd': '0',
+              'amountSbjfp': '0',
+              'parentId': '16DC5F3D19A842B48CEF05A9674537E5',
+              'amountXjpay': '0',
+              'amountSnjpay': '100',
+              'amountZyxd': '100',
+              'name': '内蒙古自治区本级',
+              'amountSnjbjfp': '100',
+              'id': 'F96373484285450AB83DC29B20CD18B9',
+              'amountSxjfp': '0',
+              'amountSjpay': '0'
+            },
+            {
+              'amountZyxd2': '0',
+              'amountXjxd': '800',
+              'code': '159800000',
+              'amountSnjxd': '0',
+              'amountXjfp': '800',
+              'amountSnjxjfp': '0',
+              'amountSjxd': '900',
+              'amountSbjfp': '100',
+              'parentId': '16DC5F3D19A842B48CEF05A9674537E5',
+              'amountSnjwfp': '0',
+              'amountXjpay': '800',
+              'amountSnjpay': '0',
+              'children': [
+                {
+                  'amountZyxd2': '0',
+                  'amountXjxd': '800',
+                  'code': '150199000',
+                  'amountSnjxd': '0',
+                  'amountXjfp': '800',
+                  'amountSnjxjfp': '0',
+                  'amountSjxd': '900',
+                  'amountSbjfp': '100',
+                  'parentId': '1A17DC00E5F54B0AB08D5F791B0F5FC5',
+                  'amountSnjwfp': '0',
+                  'amountXjpay': '800',
+                  'amountSnjpay': '0',
+                  'children': [
+                    {
+                      'amountXjxd': '0',
+                      'code': '150100000',
+                      'amountSnjxd': '0',
+                      'amountXjfp': '0',
+                      'amountSnjxjfp': '0',
+                      'amountSjxd': '900',
+                      'amountSbjfp': '100',
+                      'parentId': '1D18853BA10549128361629DDFD3033C',
+                      'amountXjpay': '0',
+                      'amountSnjpay': '0',
+                      'amountZyxd': '100',
+                      'name': '呼和浩特市本级',
+                      'amountSnjbjfp': '0',
+                      'id': '6E9E07AAD55A4E6CAE7FD05323C7E49E',
+                      'amountSxjfp': '800',
+                      'amountSjpay': '100'
+                    },
+                    {
+                      'amountZyxd2': '0',
+                      'amountXjxd': '800',
+                      'code': '150198000',
+                      'amountSnjxd': '0',
+                      'amountXjfp': '800',
+                      'amountSnjxjfp': '0',
+                      'amountSjxd': '0',
+                      'amountSbjfp': '0',
+                      'parentId': '1D18853BA10549128361629DDFD3033C',
+                      'amountSnjwfp': '0',
+                      'amountXjpay': '800',
+                      'amountSnjpay': '0',
+                      'children': [
+                        {
+                          'amountXjxd': '500',
+                          'code': '150103000',
+                          'amountSnjxd': '0',
+                          'amountXjfp': '500',
+                          'amountSnjxjfp': '0',
+                          'amountSjxd': '0',
+                          'amountSbjfp': '0',
+                          'parentId': '3A6EB9A8F39A44759F682774246E38FE',
+                          'amountXjpay': '500',
+                          'amountSnjpay': '0',
+                          'amountZyxd': '500',
+                          'name': '回民区',
+                          'amountSnjbjfp': '0',
+                          'id': '310F8244D58546358F25AFA699CEB2FA',
+                          'amountSxjfp': '0',
+                          'amountSjpay': '0'
+                        },
+                        {
+                          'amountXjxd': '300',
+                          'code': '150105000',
+                          'amountSnjxd': '0',
+                          'amountXjfp': '304',
+                          'amountSnjxjfp': '0',
+                          'amountSjxd': '0',
+                          'amountSbjfp': '0',
+                          'parentId': '3A6EB9A8F39A44759F682774246E38FE',
+                          'amountXjpay': '300',
+                          'amountSnjpay': '0',
+                          'amountZyxd': '304',
+                          'name': '赛罕区',
+                          'amountSnjbjfp': '0',
+                          'id': '9F635F689500451FB9D8C11795DC6C7E',
+                          'amountSxjfp': '0',
+                          'amountSjpay': '0'
+                        }
+                      ],
+                      'amountZyxd': '800',
+                      'amountSjwfp': '0',
+                      'name': '呼和浩特市辖区',
+                      'amountSnjbjfp': '0',
+                      'id': '3A6EB9A8F39A44759F682774246E38FE',
+                      'amountXjwfp': '0',
+                      'amountSxjfp': '0',
+                      'amountSjpay': '0'
+                    }
+                  ],
+                  'amountZyxd': '900',
+                  'amountSjwfp': '0',
+                  'name': '呼和浩特市全辖',
+                  'amountSnjbjfp': '0',
+                  'id': '1D18853BA10549128361629DDFD3033C',
+                  'amountXjwfp': '0',
+                  'amountSxjfp': '800',
+                  'amountSjpay': '100'
+                }
+              ],
+              'amountZyxd': '900',
+              'amountSjwfp': '0',
+              'name': '内蒙古自治区辖区',
+              'amountSnjbjfp': '0',
+              'id': '1A17DC00E5F54B0AB08D5F791B0F5FC5',
+              'amountXjwfp': '0',
+              'amountSxjfp': '800',
+              'amountSjpay': '100'
+            }
+          ],
+          'amountZyxd': '1000',
+          'amountSjwfp': '0',
+          'name': '内蒙古自治区全辖',
+          'amountSnjbjfp': '100',
+          'id': '16DC5F3D19A842B48CEF05A9674537E5',
+          'amountXjwfp': '0',
+          'amountSxjfp': '800',
+          'amountSjpay': '100'
+        }
+      ],
+      'amountZyxd': '1090',
+      'amountSjwfp': '0',
+      'amountSnjbjfp': '103',
+      'name': '合计',
+      'amountXjwfp': '0',
+      'id': '#',
+      'amountSxjfp': '800',
+      'amountSjpay': '197'
+    }
+  ]
 }
 export default function (tableType, configType) {
   if (tableType && configType) {

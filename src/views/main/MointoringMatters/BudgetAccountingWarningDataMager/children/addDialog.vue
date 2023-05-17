@@ -578,11 +578,11 @@ export default {
       ],
       warningLevel: 1,
       warningLeveloptions: [
-        { value: 1, label: '黄色预警' },
+        { value: 3, label: '黄色预警' },
         { value: 2, label: '橙色预警' },
-        { value: 3, label: '红色预警' },
-        { value: 4, label: '灰色预警' },
-        { value: 5, label: '蓝色预警' }
+        { value: 1, label: '红色预警' },
+        { value: 5, label: '灰色预警' },
+        { value: 4, label: '蓝色预警' }
       ],
       handleType: 1,
       handleTypeoptions: [
