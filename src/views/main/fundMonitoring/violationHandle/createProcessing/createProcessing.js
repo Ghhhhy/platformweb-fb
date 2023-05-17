@@ -462,6 +462,17 @@ export let proconf = {
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
+      }
     }
   ],
   policiesTableColumns1: [
@@ -675,6 +686,18 @@ export let proconf = {
       width: 180,
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
+      }
+    },
+    {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
       }
     }
   ],
@@ -936,6 +959,17 @@ export let proconf = {
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
+      }
     }
   ],
   policiesTableColumns3: [
@@ -1196,6 +1230,17 @@ export let proconf = {
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
+      }
     }
   ],
   policiesTableColumns4: [
@@ -1371,6 +1416,17 @@ export let proconf = {
       width: 180,
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
+      }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
       }
     }
   ],
@@ -1640,6 +1696,17 @@ export let proconf = {
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
       }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
+      }
     }
   ],
   logoTableColumns: [
@@ -1719,6 +1786,17 @@ export let proconf = {
       width: 180,
       cellRender: {
         name: '$CreateProcessingGloableOptionRow'
+      }
+    }, {
+      title: '附件',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableAttach'
       }
     }
   ],
@@ -2134,7 +2212,18 @@ export let proconf = {
       let { row, column } = params
       return [
         <el-tooltip content="" placement="" effect="light">
-          <span style="color: #4293F4; text-decoration: underline" onClick={() => self.onOptionRowClick({ row, column })}>查看</span>
+          <span style="color: #4293F4; text-decoration: underline" onClick={() => self.onOptionRowClick({ row, column, type: 'view' })}>查看</span>
+        </el-tooltip>
+      ]
+    }
+  },
+  gloableAttach: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      return [
+        <el-tooltip content="附件" placement="top" effect="light">
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, type: 'attach' })}>附件</a>,
         </el-tooltip>
       ]
     }
