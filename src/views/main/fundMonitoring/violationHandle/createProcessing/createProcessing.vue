@@ -31,6 +31,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -497,19 +498,6 @@ export default {
         if (res.code === '000000') {
           console.log(res.data.results)
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['unIssue'] = res.data.totalCount
         } else {
@@ -554,19 +542,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           if (this.status === 1) {
             this.tabStatusNumConfig['dcl'] = res.data.totalCount
@@ -617,19 +592,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['archive'] = res.data.totalCount
         } else {
@@ -1066,6 +1028,34 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (['warnLevel'].includes(column.property)) {
+        switch (row.warnLevel) {
+          case 3:
+            return {
+              color: '#BBBB00'
+            }
+          case 2:
+            return {
+              color: 'orange'
+            }
+          case 1:
+            return {
+              color: 'red'
+            }
+          case 4:
+            return {
+              color: 'blue'
+            }
+          case 5:
+            return {
+              color: 'gray'
+            }
+          default:
+            break
+        }
+      }
     }
   },
   created() {

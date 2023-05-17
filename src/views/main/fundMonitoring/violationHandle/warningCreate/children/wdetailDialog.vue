@@ -841,17 +841,6 @@ export default {
           this.tableLoadingState = false
           if (res.code === '000000') {
             this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              if (item.warnLevel === 3) {
-                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                item.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 1) {
-                item.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 4) {
-                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              }
-            })
             this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
@@ -871,17 +860,6 @@ export default {
           this.tableLoadingState = false
           if (res.code === '000000') {
             this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              if (item.warnLevel === 3) {
-                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                item.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 1) {
-                item.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 4) {
-                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              }
-            })
             this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
@@ -924,13 +902,33 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
+      const style = {}
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['detail'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+        style.color = '#4293F4'
+        style.textDecoration = 'underline'
+      } else if (['warnLevel'].includes(column.property)) {
+        switch (row.warnLevel) {
+          case 3:
+            style.color = '#BBBB00'
+            break
+          case 2:
+            style.color = 'orange'
+            break
+          case 1:
+            style.color = 'red'
+            break
+          case 4:
+            style.color = 'blue'
+            break
+          case 5:
+            style.color = 'gray'
+            break
+          default:
+            break
         }
       }
+      return style
     },
     transJson(str) {
       if (!str) return
