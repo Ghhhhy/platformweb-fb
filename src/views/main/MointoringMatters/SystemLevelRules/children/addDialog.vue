@@ -785,7 +785,7 @@ export default {
         data.forEach((item, index) => {
           if (item === '1') {
             datas = this.createPro(content[item], false)
-          } else {
+          } else if (item) {
             datas = this.createObj(content[item], false)
           }
           this.formItemsConfigMessage.splice(1 + index, 0, datas)
