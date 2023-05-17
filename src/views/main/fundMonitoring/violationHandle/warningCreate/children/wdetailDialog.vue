@@ -211,6 +211,7 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
+      tabSelect: '',
       selectData: {}
     }
   },

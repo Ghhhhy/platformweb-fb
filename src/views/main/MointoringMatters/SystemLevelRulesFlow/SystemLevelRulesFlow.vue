@@ -24,7 +24,7 @@
         </div>
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
+      <template v-if="showMonitorTree" v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
@@ -62,7 +62,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div v-if="leftTreeVisible === false && showMonitorTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -226,13 +226,30 @@ export default {
       DetailData: {},
       ruleFlowOpinion: '',
       provinceList: [],
-      formDatas: {}
+      formDatas: {},
+      showMonitorTree: true // 控制树的展示隐藏
     }
   },
   mounted() {
-    this.getLeftTreeData()
   },
   methods: {
+    /**
+     * 动态控制监控主题是树的显示  regulationClass
+     * regulationClass 可由页面参数传入
+     * 有传入则不展示左侧主题树和监控主题筛选下拉框
+     */
+    setMonitorThemeTreeShow() {
+      let regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      if (regulationClass) {
+        this.showMonitorTree = false
+        this.leftTreeVisible = false
+        this.queryConfig = proconf.highQueryConfig.filter(item => item.field !== 'regulationClass')
+        this.regulationClass = regulationClass
+      } else {
+        this.getRegulation()
+        this.getLeftTreeData()
+      }
+    },
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
@@ -668,7 +685,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
-    this.getRegulation()
+    this.setMonitorThemeTreeShow()
+    // this.getRegulation()
     this.queryTableDatasCount()
   }
 }

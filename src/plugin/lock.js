@@ -34,7 +34,7 @@
 
 window.__BS_UI_GLOBAL_CONFIG__ = {
   include: [],
-  exclude: ['BsTable'],
+  exclude: [],
   project: {
     name: 'rh-dfr', // fiscal | pay | projectlib | baseinfo | gl | rh
     province: 'ShanXi' // ShanXi | FuJian | HeiLongJiang | NeiMengGu
