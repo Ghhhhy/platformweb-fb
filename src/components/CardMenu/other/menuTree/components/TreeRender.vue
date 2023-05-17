@@ -6,7 +6,7 @@
         <div class="tree-list-box">
           <div
             class="left"
-            :style="{ width: `${150 - item.level * 10}px` }"
+            :style="{ width: `${206 - item.level * 10}px` }"
           >{{ item.name }}</div>
           <div
             v-if="item.subList"
@@ -141,7 +141,7 @@ export default {
       line-height: 25px;
       display: flex;
       .left{
-        width: 150px;
+        width: 206px;
         padding-right: 16px;
         font-size: 14px;
         font-weight: 700;
