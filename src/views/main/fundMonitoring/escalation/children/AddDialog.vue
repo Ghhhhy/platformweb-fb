@@ -4,7 +4,7 @@
     v-model="dialogVisible"
     class="ledger"
     :title="title"
-    width="35%"
+    width="800"
     height="80%"
     position="top"
     :show-footer="true"
@@ -16,7 +16,7 @@
           <el-container>
             <el-main width="100%">
               <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;选择年度</div>
+                <div class="sub-title-add" style="width:80px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;选择年度</div>
                 <el-select v-model="fiscalYear" placeholder="年度">
                   <el-option
                     v-for="item in options"
@@ -35,7 +35,7 @@
           <el-container>
             <el-main width="100%">
               <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;起始日期</div>
+                <div class="sub-title-add" style="width:80px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;起始日期</div>
                 <el-date-picker
                   v-model="form.startTime"
                   type="date"
@@ -50,7 +50,7 @@
           <el-container>
             <el-main width="100%">
               <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;截止日期</div>
+                <div class="sub-title-add" style="width:80px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;截止日期</div>
                 <el-date-picker
                   v-model="form.endTime"
                   type="date"
@@ -67,7 +67,7 @@
           <el-container>
             <el-main width="100%">
               <el-row>
-                <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生成范围</div>
+                <div class="sub-title-add" style="width:80px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生成范围</div>
                 <BsTree
                   ref="rightTree"
                   style="height: calc(100%)"

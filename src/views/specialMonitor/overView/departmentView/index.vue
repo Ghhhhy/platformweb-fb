@@ -117,6 +117,20 @@ export default defineComponent({
     box-sizing: border-box;
   }
 }
+/deep/.vxe-table .vxe-body--column.col--selected:not(.col--checked) {
+  -webkit-box-shadow: inset 0 0 0 2px #4d77e7 !important;
+  box-shadow: inset 0 0 0 2px #4d77e7 !important;
+}
+/deep/.vxe-table .vxe-body--row.row--current {
+  background-color: #eaeffc !important;
+}
+/deep/.vxe-table .vxe-table--body tr:hover {
+  background-color: #eaeffc !important;
+}
+/deep/.vxe-table.border--default .vxe-table--header-wrapper, /deep/.vxe-table.border--full .vxe-table--header-wrapper, /deep/.vxe-table.border--outer .vxe-table--header-wrapper {
+  background: #d4def9 !important;
+  box-shadow: 1px 0 0 #d4def9 !important;
+}
 </style>
 <style>
 .three-guarantees-expenditure {
