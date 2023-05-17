@@ -1301,7 +1301,7 @@
     xe-utils "2.8.3"
     xlsx "0.16.8"
 
-"@bszx/bs-vxe-table@2.10.2-0.3":
+"@bszx/bs-vxe-table@^2.10.2-0.3":
   version "2.10.2-0.3"
   resolved "http://223.223.190.114:60409/@bszx%2fbs-vxe-table/-/bs-vxe-table-2.10.2-0.3.tgz#c241718ee46b987602971be5d5bb057a0423fa11"
   integrity sha512-+u0lb4HiwCaGzlRs+0W8T24sm/+22ghhQ263aQAK+djQlLAcS0v0u5ecLaqIe3Uf3NXWsqh9dOOgHbTyOAJzaQ==

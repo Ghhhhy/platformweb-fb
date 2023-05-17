@@ -40,7 +40,6 @@
       style="height: calc(100% - 108px)"
       @ajaxData="ajaxTableData"
       @cellClick="cellClick"
-      @onOptionRowClick="onOptionRowClick"
       @onToolbarBtnClick="onToolbarBtnClick"
     >
       <template v-slot:toolbarSlots>
@@ -186,6 +185,7 @@ export default {
           // 编辑 附件 操作日志
           $payVoucherInputGloableOptionRow: proconf.gloableOptionRow,
           $ReportTaskGloableOptionRow: proconf.gloableOptionRowDetial
+          // $gloableAttach: proconf.gloableAttach
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -226,6 +226,7 @@ export default {
           this.show(row)
           break
         default:
+          break
       }
     },
     // 查看附件
