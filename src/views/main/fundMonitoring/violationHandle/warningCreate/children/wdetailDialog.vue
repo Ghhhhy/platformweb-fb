@@ -211,6 +211,7 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
+      tabSelect: '',
       selectData: {}
     }
   },
@@ -338,7 +339,7 @@ export default {
           default :
             break
         }
-      } else if (this.tabSelect === '3') {
+      } else if (this.tabSelect === '4') {
         this.tableColumnsConfig = proconf.notRectifiedNum
         this.tabStatusBtnConfig.curButton = curStatusButton2
         switch (this.colourType) {
@@ -360,7 +361,7 @@ export default {
           default :
             break
         }
-      } else if (this.tabSelect === '4') {
+      } else if (this.tabSelect === '3') {
         this.tableColumnsConfig = proconf.doneNum
         this.tabStatusBtnConfig.curButton = curStatusButton3
         switch (this.colourType) {
@@ -579,7 +580,7 @@ export default {
           break
         case 'redNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
           this.isHandle = true
@@ -587,19 +588,19 @@ export default {
           this.status = null
           this.warnLevel = '1'
           this.isSign = '2'
+          this.status = 7
           this.title = '认定违规-待整改明细'
           break
         case 'redDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
           this.isSign = '2'
-          // this.status = '4'
+          this.status = null
           this.isNormal = false
-          this.isHandle = false
+          this.isHandle = true
           this.isProcessed = false
-          this.status = 7
           this.title = '认定违规-已整改明细'
           break
         case 'orangeUndoNum':
@@ -628,7 +629,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -636,11 +637,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'orangeDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -648,7 +649,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         case 'yellowUndoNum':
           this.tableColumnsConfig = proconf.undoNum
@@ -676,7 +677,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
           this.isSign = 2
@@ -684,11 +685,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'yellowDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
           this.isSign = 2
@@ -696,7 +697,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         case 'blueUndoNum':
           this.tableColumnsConfig = proconf.undoNum
@@ -722,9 +723,9 @@ export default {
           this.status = null
           this.title = '认定正常明细'
           break
-        case 'blueNotRectifiedNum':
+        case 'blueNotRectifiedNum':// 未完成
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
           this.isSign = 2
@@ -732,11 +733,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'blueDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
           this.isSign = 2
@@ -744,7 +745,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         default:
           break

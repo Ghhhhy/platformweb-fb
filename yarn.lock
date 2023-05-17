@@ -1278,8 +1278,8 @@
 
 "@bszx/boss-ui@2.1.2":
   version "2.1.2"
-  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2.tgz#9f59d6c522ee910f8c21b1ff46541f4aa9512acf"
-  integrity sha512-GqyQe1olE8ZPNjqYrKHXcFHm4NaKEXrKR8RTSMGvloNW+AwSr6Z+giZWLRURMmnSp+tR4uO5V5PIo8+O8oSDXA==
+  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2.tgz#6254a1cc6eb40933a6fe0999b3bf8961ff21e34b"
+  integrity sha512-557fw1DB9m9kTsuLOPtXy/Q2/8FPbMviYMNhKTPbxyZjJkZoa5PSC9ctTTodoYx+4/PxZnZVQTDBgMBIgfqxEQ==
   dependencies:
     async-validator "^1.11.5"
     element-ui "2.13.2"
@@ -1301,7 +1301,7 @@
     xe-utils "2.8.3"
     xlsx "0.16.8"
 
-"@bszx/bs-vxe-table@^2.10.2-0.3":
+"@bszx/bs-vxe-table@2.10.2-0.3":
   version "2.10.2-0.3"
   resolved "http://223.223.190.114:60409/@bszx%2fbs-vxe-table/-/bs-vxe-table-2.10.2-0.3.tgz#c241718ee46b987602971be5d5bb057a0423fa11"
   integrity sha512-+u0lb4HiwCaGzlRs+0W8T24sm/+22ghhQ263aQAK+djQlLAcS0v0u5ecLaqIe3Uf3NXWsqh9dOOgHbTyOAJzaQ==
@@ -13037,9 +13037,9 @@ tar@^4:
     yallist "^3.1.1"
 
 tar@^6.0.2:
-  version "6.1.14"
-  resolved "https://registry.npmmirror.com/tar/-/tar-6.1.14.tgz#e87926bec1cfe7c9e783a77a79f3e81c1cfa3b66"
-  integrity sha512-piERznXu0U7/pW7cdSn7hjqySIVTYT6F76icmFk7ptU7dDYlXTm5r9A6K04R2vU3olYgoKeo1Cg3eeu5nhftAw==
+  version "6.1.15"
+  resolved "https://registry.npmmirror.com/tar/-/tar-6.1.15.tgz#c9738b0b98845a3b344d334b8fa3041aaba53a69"
+  integrity sha512-/zKt9UyngnxIT/EAGYuxaMYgOIJiP81ab9ZfkILq4oNLPFX50qyYmu7jRj9qeXoxmJHjGlbH0+cm2uy1WCs10A==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
