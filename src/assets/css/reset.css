@@ -190,3 +190,9 @@ input::placeholder {
 .vxe-input:not(.is--disabled):not(.is--readonly) .vxe-input--number-prev:active {
   color: var(--hightlight-color-hover) !important;
 }
+
+.el-button:active, .el-button:focus, .el-button:hover {
+  color: var(--secondary-color) !important;
+  background-color: var(--hightlight-color) !important;
+  border-color: var(--secondary-color-hover) !important;
+}

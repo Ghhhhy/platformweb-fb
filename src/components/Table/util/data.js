@@ -91,7 +91,7 @@ export default function () {
                 return String(row[column.property + '__viewSort']).length > 8 ? row[column.property + '__viewSort'] : ''
               } else if (row[filedViewSort] !== undefined) {
                 return String(row[filedViewSort]).length > 8 ? row[filedViewSort] : ''
-              } else if (row && column.property) {
+              } else if (row && column.property && column.type !== 'html') {
                 return row[column.property] && (row[column.property]).toString().length > 8 ? row[column.property] || cell.innerText : ''
               } else {
                 return column.own.title.length > 8 ? column.own.title : ''

@@ -253,7 +253,8 @@ export default {
     // 将word等文件转成pdf进行预览
     toPdf() {
       window.open('/fileView.html?fileguid=' + this.fileGuid + '&appid=' + this.appId)
-      // this.loading = true
+      this.dialogVisible = false
+      // his.loading = true
       // let filePreviewService = ''
       // if (process.env.NODE_ENV === 'development') {
       //   filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService

@@ -63,6 +63,12 @@
       :file-guid="fileGuid"
       :app-id="appId"
     />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+      @close="closeAttachment"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
@@ -74,9 +80,12 @@ import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import FilePreview from './children/filePreview'
+import GlAttachment from './children/common/GlAttachment'
 export default {
   components: {
-    AddDialog, FilePreview
+    AddDialog,
+    FilePreview,
+    GlAttachment
   },
   watch: {
     queryConfig() {
@@ -183,10 +192,12 @@ export default {
       tableConfig: {
         renderers: {
           // 修改 配置 下发 删除
-          $CreateProcessingGloableOptionRow: proconf.gloableOptionRow
+          $CreateProcessingGloableOptionRow: proconf.gloableOptionRow,
+          $gloableAttach: proconf.gloableAttach
         },
         methods: {
           onOptionRowClick: this.handleCheck
+
         }
       },
       tableFooterConfig: {
@@ -210,6 +221,7 @@ export default {
       isHaveZero: '0',
       // 文件
       showAttachmentDialog: false,
+      showGlAttachmentDialog: false,
       billguid: '',
       condition: {},
       handleType: '',
@@ -336,14 +348,18 @@ export default {
       })
       return condition
     },
-    handleCheck(val) {
-      console.log(val)
-      this.fiRuleCode = val.row.fiRuleCode || ''
-      this.warningCode = val.row.warningCode || ''
-      this.dialogVisible = true
-      this.dialogTitle = '查看详情信息'
-      //   }
-      // })
+    handleCheck({ row, type }) {
+      switch (type) {
+        case 'view':
+          this.fiRuleCode = row.fiRuleCode || ''
+          this.warningCode = row.warningCode || ''
+          this.dialogVisible = true
+          this.dialogTitle = '查看详情信息'
+          break
+        case 'attach':
+          this.showAttachment(row)
+          break
+      }
     },
     changeVisible(val) {
       console.log(val, '输出')
@@ -409,8 +425,14 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
+      console.log('查看附件', row)
+      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -428,6 +450,9 @@ export default {
       } else {
         this.getWarnData()
       }
+    },
+    closeAttachment() {
+      this.showGlAttachmentDialog = false
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
@@ -842,6 +867,7 @@ export default {
       this.isProcessed = false
       console.log('ssss', this)
       console.log('ssss1', obj.code)
+
       switch (obj.code) {
         // 预警明细列表
         case 'warnList':
@@ -877,6 +903,7 @@ export default {
         case 'yxf':
         case 'dhs':
         case 'feedback':
+          // this.tableColumnsConfig = [...proconf.policiesTableColumns1, attachOption]
           this.tableColumnsConfig = proconf.policiesTableColumns1
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
@@ -890,6 +917,7 @@ export default {
         case 'dcszg':
         case 'process':
         case 'queryBusinessData': // 联查业务数据
+          // this.tableColumnsConfig = [...proconf.policiesTableColumns2, attachOption]
           this.tableColumnsConfig = proconf.policiesTableColumns2
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData

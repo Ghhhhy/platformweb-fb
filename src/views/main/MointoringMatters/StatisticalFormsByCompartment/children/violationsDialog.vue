@@ -487,7 +487,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.state.curNavModule.param5
-    if (this.warnLevel === '1') {
+    if (this.warnLevel === '3') {
       this.menuName = '预算执行监控统计(黄色预警)_按区划'
       this.tableColumnsConfig[1].title = '黄色预警整体违规情况'
     }
@@ -495,7 +495,7 @@ export default {
       this.menuName = '预算执行监控统计(橙色预警)_按区划'
       this.tableColumnsConfig[1].title = '橙色预警整体违规情况'
     }
-    if (this.warnLevel === '3') {
+    if (this.warnLevel === '1') {
       this.menuName = '预算执行监控统计(红色预警)_按区划'
       this.tableColumnsConfig[1].title = '红色预警整体违规情况'
     }
