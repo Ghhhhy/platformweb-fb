@@ -525,6 +525,7 @@ export let proconf = {
       title: '基础要素',
       titleAlign: 'center',
       titleWidth: '100px',
+      span: '20',
       itemRender: {
         name: '$vxeSelect',
         props: {
