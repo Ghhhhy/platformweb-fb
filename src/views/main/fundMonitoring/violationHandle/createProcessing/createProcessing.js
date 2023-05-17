@@ -130,7 +130,7 @@ export let proconf = {
         options: [
           { value: '1', label: '黄色预警' },
           { value: '2', label: '橙色预警' },
-          { value: '5', label: '蓝色预警' }
+          { value: '4', label: '蓝色预警' }
         ],
         props: {
           placeholder: '预警级别'
@@ -2166,7 +2166,7 @@ export let proconf = {
             'label': '橙色预警'
           },
           {
-            'value': '5',
+            'value': '4',
             'label': '蓝色预警'
           }
         ],
@@ -2898,11 +2898,11 @@ export let proconf = {
             label: '红色预警'
           },
           {
-            value: '5',
+            value: '4',
             label: '蓝色预警'
           },
           {
-            value: '4',
+            value: '5',
             label: '灰色预警'
           }
         ],
@@ -3273,11 +3273,11 @@ export let proconf = {
             label: '红色预警'
           },
           {
-            value: '4',
+            value: '5',
             label: '灰色预警'
           },
           {
-            value: '5',
+            value: '4',
             label: '蓝色预警'
           }
         ],
