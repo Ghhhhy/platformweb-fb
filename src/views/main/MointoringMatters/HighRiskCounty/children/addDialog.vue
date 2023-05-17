@@ -19,7 +19,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: false, rootName: '全部', treeProps: { nodeKey: 'code', label: 'name' } }"
+                    :config="{ valueKeys: ['code', 'name', 'code'], multiple: false, rootName: '全部', treeProps: { labelFormat: '{name}', children: 'children', nodeKey: 'code', label: 'name' } }"
                     @onNodeClick="onClickmethod"
                   />
                 </el-row>
@@ -77,7 +77,7 @@ export default {
       this.$parent.queryTableDatas()
     },
     onClickmethod(node) {
-      if (node.children?.length < 1) {
+      if (node.node.children?.length < 1) {
         this.mofDivCode = node.node.code
         this.mofDivName = node.node.name.split('-')[1]
       }
@@ -157,7 +157,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
+        // item.code = item.id
         item.guid = item.id
         item.name = item.text
         if (item.children) {
