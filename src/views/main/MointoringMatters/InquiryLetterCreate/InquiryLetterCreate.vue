@@ -549,6 +549,9 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       this.queryTableDatasCount()
+      if (this.provinceCode == null || this.provinceCode.length === 0) {
+        this.provinceCode = []
+      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数

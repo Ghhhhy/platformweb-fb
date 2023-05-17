@@ -211,14 +211,14 @@ export default defineComponent({
   }
 }
 .col {
-    background: var(--secondary-color-shadow);
+    background: #bfcef6;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--primary-color);
+    color: #4d77e7;
     position: relative;
   }
 .icon-bg {

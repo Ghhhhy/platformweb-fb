@@ -338,27 +338,27 @@ export default {
           break
         case 'yellowDoneNum':
           this.detailData = ['yellowDoneNum', obj.row.fiRuleCode]
-          this.colourType = '1'
+          this.colourType = '3'
           this.detailVisible = true
           break
         case 'blueUndoNum':
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueNormalNum':
           this.detailData = ['blueNormalNum', obj.row.fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueNotRectifiedNum':
           this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
         case 'blueDoneNum':
           this.detailData = ['blueDoneNum', obj.row.fiRuleCode]
-          this.colourType = '5'
+          this.colourType = '4'
           this.detailVisible = true
           break
       }

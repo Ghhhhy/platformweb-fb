@@ -190,3 +190,22 @@ input::placeholder {
 .vxe-input:not(.is--disabled):not(.is--readonly) .vxe-input--number-prev:active {
   color: var(--hightlight-color-hover) !important;
 }
+
+.el-button:active, .el-button:focus, .el-button:hover {
+  color: var(--secondary-color) !important;
+  background-color: var(--hightlight-color) !important;
+  border-color: var(--secondary-color-hover) !important;
+}
+
+.el-date-table td.current:not(.disabled) span, .el-month-table td.current:not(.disabled) .cell {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.el-date-table td.today span, .el-month-table td.today .cell {
+  color: var(--primary-color) !important;
+}
+
+.el-date-table td.available:hover, .el-month-table td .cell:hover {
+  color: var(--primary-color) !important;
+}

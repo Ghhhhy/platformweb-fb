@@ -29,6 +29,7 @@
       <template v-slot:mainForm>
         <div style="height: 100%">
           <BsTable
+            ref="tableRef"
             v-loading="tableLoadingState"
             :table-config="tableConfig"
             :table-columns-config="columns"

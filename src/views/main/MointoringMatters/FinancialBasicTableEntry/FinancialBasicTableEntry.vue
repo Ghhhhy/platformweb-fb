@@ -3424,7 +3424,6 @@ float: right;
     text-align:center;
   }
 /deep/.el-input__inner {
-  background-color: transparent !important;
   color: #606266 !important;
 }
 .table-toolbar-contro-leftvisible {
