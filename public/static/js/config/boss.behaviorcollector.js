@@ -446,7 +446,7 @@ var userBehaviorMonitor = {
 			return false;
 		}
 		 $.ajax({
-			url: `${window.gloableToolFn.serverGatewayMap['production']['mp-d-aggregation-service']}/v1/collector/behavior?${new Date().getTime()}`,
+			url: `${window.location.origin}/${window.gloableToolFn.serverGatewayMap['production']['mp-d-aggregation-service']}/v1/collector/behavior?${new Date().getTime()}`,
 			data:{
 				tokenid: JSON.parse(localStorage.getItem("__boss_cache__bsSxczyAccessToken")),
         parameters: JSON.stringify({"data":datas})

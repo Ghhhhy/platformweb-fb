@@ -222,7 +222,7 @@ export default defineComponent({
         background: var(--primary-color);
 
         &:hover {
-          background: rgba(var(--primary-color), 0.8);
+          background: var(--primary-color-hover);
         }
       }
 

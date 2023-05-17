@@ -614,7 +614,7 @@ export default {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          businessId: this.businessId,
+          businessId: node.id,
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
