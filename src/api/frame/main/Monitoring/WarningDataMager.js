@@ -28,12 +28,25 @@ export default {
   getTotalTableData(params) {
     return post('large-monitor-platform/lmp/executeWarn/summary', params)
   },
+  summarySum(params) {
+    return post('large-monitor-platform/lmp/executeWarn/summarySum', params)
+  },
+  getTotalTableData1(params) {
+    return post('large-monitor-platform/lmp/executeWarn/zdSummary', params)
+  },
   getAllTotalTableData(params) {
     return post('large-monitor-platform/lmp/executeWarn/summaryCount', params)
+  },
+  getAllTotalTableData1(params) {
+    return post('large-monitor-platform/lmp/executeWarn/zdSummaryCount', params)
   },
   // 预算回显信息
   budgetgetDetail(params) {
     return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params)
+  },
+  // 预算批复回显信息
+  budgetpayDetail(params) {
+    return get('large-monitor-platform/lmp/executeWarn/getDetailExp/' + params)
   },
   // 预算处理
   budgethandleDetail(params) {
@@ -46,6 +59,9 @@ export default {
   // 获取合计
   fileUpload(params) {
     return post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+  },
+  getDetailData(params) {
+    return get('large-monitor-platform/lmp/regulation/detail/' + params)
   },
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
