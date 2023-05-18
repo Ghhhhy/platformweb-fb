@@ -392,9 +392,12 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       switch (key) {
         case 'name':
+          console.info(obj.row.id.length)
+          if (obj.row.id.length > 4) {
           this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.regionTitle = '专项监督预警汇总_分地区'
           this.warnRegionSummaryVisible = true
+          }
           break
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
