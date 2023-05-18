@@ -373,7 +373,20 @@ export let proconf = {
       'dragSort': null,
       'className': '',
       'combinedType_select_sort': '',
-      'filters': ''
+      'filters': '',
+      formatter: ({ row }) => {
+        if (row.warnLevel === 3) {
+          return '黄色预警'
+        } else if (row.warnLevel === 2) {
+          return '橙色预警'
+        } else if (row.warnLevel === 1) {
+          return '红色预警'
+        } else if (row.warnLevel === 4) {
+          return '蓝色预警'
+        } else if (row.warnLevel === 5) {
+          return '灰色预警'
+        }
+      }
     },
     {
       title: '管理级次',
@@ -580,7 +593,20 @@ export let proconf = {
       'dragSort': null,
       'className': '',
       'combinedType_select_sort': '',
-      'filters': ''
+      'filters': '',
+      formatter: ({ row }) => {
+        if (row.warnLevel === 3) {
+          return '黄色预警'
+        } else if (row.warnLevel === 2) {
+          return '橙色预警'
+        } else if (row.warnLevel === 1) {
+          return '红色预警'
+        } else if (row.warnLevel === 4) {
+          return '蓝色预警'
+        } else if (row.warnLevel === 5) {
+          return '灰色预警'
+        }
+      }
     },
     {
       title: '管理级次',

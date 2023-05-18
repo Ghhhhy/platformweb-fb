@@ -749,6 +749,7 @@ export default {
       paymentLen: 0,
       paymentData: [],
       formDatas: {
+        payment: '',
         useDes: '',
         payeeAcctNo: '',
         payeeAcctName: '',
@@ -761,7 +762,7 @@ export default {
   methods: {
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : ''
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
@@ -785,11 +786,13 @@ export default {
         data.forEach((item, index) => {
           if (item === '1') {
             datas = this.createPro(content[item], false)
-          } else {
+          } else if (item) {
             datas = this.createObj(content[item], false)
           }
           this.formItemsConfigMessage.splice(1 + index, 0, datas)
         })
+      } else {
+        this.formDatas = Object.assign(this.formDatas, obj.data)
       }
     },
     createPro(obj, disabled) {
@@ -1498,6 +1501,7 @@ export default {
         ruleId = valArr[0]
       }
       console.log(this.regulationClass)
+      let formDatas = this.$refs.messageForm.formDataListIn
       let param = {
         'regulationClass': ruleId,
         'regulationClassName': ruleName,
@@ -1527,24 +1531,24 @@ export default {
         // 'warnLocation': that.warnLocation,
         isFull: isFull,
         ruleElement: {
-          payment: this.formDatas.payment,
-          agencyCode: this.formDatas.agency_code,
-          agencyName: this.formDatas.agency_name,
-          proCode: this.formDatas.pro_code,
-          proName: this.formDatas.pro_name,
-          govBgtEcoCode: this.formDatas.gov_bgt_eco_code,
-          govBgtEcoName: this.formDatas.gov_bgt_eco_name,
-          expFunCode: this.formDatas.exp_func_code,
-          expFunName: this.formDatas.exp_func_name,
-          depBgtEcoCode: this.formDatas.dep_bgt_eco_code,
-          depBgtEcoName: this.formDatas.dep_bgt_eco_name,
-          corBgtDocNoName: this.formDatas.cor_bgt_doc_no_name,
-          corBgtDocNoCode: this.formDatas.cor_bgt_doc_no_code,
-          payeeAcctName: this.formDatas.payeeAcctName,
-          payeeAcctNo: this.formDatas.payeeAcctNo,
-          useDes: this.formDatas.useDes,
-          des: this.formDatas.des,
-          basis: this.formDatas.basis
+          payment: formDatas.payment,
+          agencyCode: formDatas.agency_code,
+          agencyName: formDatas.agency_name,
+          proCode: formDatas.pro_code,
+          proName: formDatas.pro_name,
+          govBgtEcoCode: formDatas.gov_bgt_eco_code,
+          govBgtEcoName: formDatas.gov_bgt_eco_name,
+          expFunCode: formDatas.exp_func_code,
+          expFunName: formDatas.exp_func_name,
+          depBgtEcoCode: formDatas.dep_bgt_eco_code,
+          depBgtEcoName: formDatas.dep_bgt_eco_name,
+          corBgtDocNoName: formDatas.cor_bgt_doc_no_name,
+          corBgtDocNoCode: formDatas.cor_bgt_doc_no_code,
+          payeeAcctName: formDatas.payeeAcctName,
+          payeeAcctNo: formDatas.payeeAcctNo,
+          useDes: formDatas.useDes,
+          des: formDatas.des,
+          basis: formDatas.basis
         },
         warnType: this.warnType, // 预警类别
         uploadFile: this.uploadFile // 是否上传附件
@@ -1872,7 +1876,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
         if (this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}

@@ -339,7 +339,7 @@ export default {
           default :
             break
         }
-      } else if (this.tabSelect === '3') {
+      } else if (this.tabSelect === '4') {
         this.tableColumnsConfig = proconf.notRectifiedNum
         this.tabStatusBtnConfig.curButton = curStatusButton2
         switch (this.colourType) {
@@ -361,7 +361,7 @@ export default {
           default :
             break
         }
-      } else if (this.tabSelect === '4') {
+      } else if (this.tabSelect === '3') {
         this.tableColumnsConfig = proconf.doneNum
         this.tabStatusBtnConfig.curButton = curStatusButton3
         switch (this.colourType) {
@@ -580,7 +580,7 @@ export default {
           break
         case 'redNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
           this.isHandle = true
@@ -588,19 +588,19 @@ export default {
           this.status = null
           this.warnLevel = '1'
           this.isSign = '2'
+          this.status = 7
           this.title = '认定违规-待整改明细'
           break
         case 'redDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
           this.isSign = '2'
-          // this.status = '4'
+          this.status = null
           this.isNormal = false
-          this.isHandle = false
+          this.isHandle = true
           this.isProcessed = false
-          this.status = 7
           this.title = '认定违规-已整改明细'
           break
         case 'orangeUndoNum':
@@ -629,7 +629,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -637,11 +637,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'orangeDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -649,7 +649,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         case 'yellowUndoNum':
           this.tableColumnsConfig = proconf.undoNum
@@ -677,7 +677,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
           this.isSign = 2
@@ -685,11 +685,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'yellowDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
           this.isSign = 2
@@ -697,7 +697,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         case 'blueUndoNum':
           this.tableColumnsConfig = proconf.undoNum
@@ -723,9 +723,9 @@ export default {
           this.status = null
           this.title = '认定正常明细'
           break
-        case 'blueNotRectifiedNum':
+        case 'blueNotRectifiedNum':// 未完成
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
           this.isSign = 2
@@ -733,11 +733,11 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = '未完成明细'
           break
         case 'blueDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
           this.isSign = 2
@@ -745,7 +745,7 @@ export default {
           this.isHandle = true
           this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = '已整改明细'
           break
         default:
           break
@@ -820,7 +820,8 @@ export default {
         warnTime: this.condition.warnTime ? this.condition.warnTime[0] : '',
         triggerClass: this.condition.triggerClass ? this.condition.triggerClass[0] : '',
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-        businessNo: this.condition.businessNo ? this.condition.businessNo[0] : ''
+        businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
+        isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         params.regulationClass = '0207'
@@ -842,17 +843,6 @@ export default {
           this.tableLoadingState = false
           if (res.code === '000000') {
             this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              if (item.warnLevel === 3) {
-                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                item.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 1) {
-                item.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 4) {
-                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              }
-            })
             this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
@@ -872,17 +862,6 @@ export default {
           this.tableLoadingState = false
           if (res.code === '000000') {
             this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              if (item.warnLevel === 3) {
-                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                item.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 1) {
-                item.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 4) {
-                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              }
-            })
             this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
@@ -925,13 +904,33 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
+      const style = {}
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['detail'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+        style.color = '#4293F4'
+        style.textDecoration = 'underline'
+      } else if (['warnLevel'].includes(column.property)) {
+        switch (row.warnLevel) {
+          case 3:
+            style.color = '#BBBB00'
+            break
+          case 2:
+            style.color = 'orange'
+            break
+          case 1:
+            style.color = 'red'
+            break
+          case 4:
+            style.color = 'blue'
+            break
+          case 5:
+            style.color = 'gray'
+            break
+          default:
+            break
         }
       }
+      return style
     },
     transJson(str) {
       if (!str) return

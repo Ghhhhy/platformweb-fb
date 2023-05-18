@@ -456,6 +456,17 @@ export default defineComponent({
   margin-left: 16px;
   color: #ed411e;
 }
+/deep/.splitter-pane .el-button--primary.el-button:hover {
+  color: #fff !important;
+  background-color: var(--secondary-color-hover) !important;
+  border-color: var(--secondary-color-hover) !important;
+}
+/deep/.splitter-pane .el-button:hover {
+  color: var(--secondary-color) !important;
+  background-color: var(--hightlight-color) !important;
+  border-color: var(--secondary-color-hover) !important;
+}
+
 </style>
 
 <style lang="scss">
