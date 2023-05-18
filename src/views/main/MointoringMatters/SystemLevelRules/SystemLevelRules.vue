@@ -475,6 +475,7 @@ export default {
         let key =
           this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
         this.condition[key] = node.code
+        this.regulationClass = node.code
       } else {
         this.condition = {}
       }
