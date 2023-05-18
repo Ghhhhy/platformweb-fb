@@ -96,12 +96,28 @@ const proconf = {
       itemRender: {
         name: '$vxeSelect',
         options: [
-          { value: '', label: '全部' },
           { value: '1', label: '中央' },
           { value: '2', label: '地区' }
         ],
         props: {
           placeholder: '请选择',
+          clearable: true
+        }
+      }
+    }, {
+      title: '直达资金',
+      field: 'isZd',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '否' },
+          { value: '1', label: '是' }
+        ],
+        props: {
+          placeholder: '是否直达资金',
           clearable: true
         }
       }
@@ -111,7 +127,8 @@ const proconf = {
     fiscalYear: store.state.userInfo.year,
     mofDivCodes: '',
     endTime: '',
-    isCentral: ''
+    isCentral: '',
+    isZd: ''
   },
   basicInfo: {
     type: 'form',
@@ -154,6 +171,16 @@ const proconf = {
         align: 'right',
         type: 'amountSnjxd',
         cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '是否直达资金',
+        width: 150,
+        field: 'isZd',
+        align: 'right',
+        formatter: (value, column) => {
+          let { row } = value
+          return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
+        }
       },
       {
         title: '整合',

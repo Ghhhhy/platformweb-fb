@@ -172,7 +172,6 @@ export default {
         //   // '20:bonus': '{1001:income:30}*{1001:age:30}+{1001:bonus:40}'
         // },
         cellDataConfig: [// 提取和计算
-
         ],
         // colFormulaConfig: {
         //   jOut: '{sbpayAppAmt}+{spayAppAmt}+{xpayAppAmt}',
@@ -500,7 +499,8 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        isCentral: this.searchDataList.isCentral
+        isCentral: this.searchDataList.isCentral || '',
+        isZd: this.searchDataList.isZd || ''
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -627,7 +627,8 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        isCentral: this.searchDataList.isCentral || ''
+        isCentral: this.searchDataList.isCentral || '',
+        isZd: this.searchDataList.isZd || ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
