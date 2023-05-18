@@ -86,13 +86,31 @@ const proconf = {
           placeholder: '截止日期'
         }
       }
+    }, {
+      title: '直达资金',
+      field: 'isZd',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '否' },
+          { value: '1', label: '是' }
+        ],
+        props: {
+          placeholder: '是否直达资金',
+          clearable: true
+        }
+      }
     }
 
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     proCodes: '',
-    endTime: ''
+    endTime: '',
+    isZd: ''
   },
   basicInfo: {
     type: 'form',
@@ -135,6 +153,16 @@ const proconf = {
         align: 'right',
         type: 'amountZyxd',
         cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '是否直达资金',
+        width: 150,
+        field: 'isZd',
+        align: 'right',
+        formatter: (value, column) => {
+          let { row } = value
+          return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
+        }
       },
       {
         title: '整合',
