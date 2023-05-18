@@ -820,7 +820,8 @@ export default {
         warnTime: this.condition.warnTime ? this.condition.warnTime[0] : '',
         triggerClass: this.condition.triggerClass ? this.condition.triggerClass[0] : '',
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-        businessNo: this.condition.businessNo ? this.condition.businessNo[0] : ''
+        businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
+        isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         params.regulationClass = '0207'
