@@ -583,9 +583,8 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
-          this.isHandle = true
+          this.isHandle = false
           this.isProcessed = false
-          this.status = null
           this.warnLevel = '1'
           this.isSign = '2'
           this.status = 7
@@ -599,8 +598,9 @@ export default {
           this.isSign = '2'
           this.status = null
           this.isNormal = false
-          this.isHandle = true
+          this.isHandle = false
           this.isProcessed = false
+          this.status = 7
           this.title = '认定违规-已整改明细'
           break
         case 'orangeUndoNum':
@@ -632,11 +632,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = false
+          this.isHandle = true
           this.isProcessed = false
-          this.status = 7
+          this.status = null
           this.title = '未完成明细'
           break
         case 'orangeDoneNum':
@@ -644,11 +644,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = true
+          this.isHandle = false
           this.isProcessed = false
-          this.status = null
+          this.status = 7
           this.title = '已整改明细'
           break
         case 'yellowUndoNum':
@@ -656,7 +656,7 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
-          this.isSign = 0
+          this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
           this.isProcessed = false
@@ -680,11 +680,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = false
+          this.isHandle = true
           this.isProcessed = false
-          this.status = 7
+          this.status = null
           this.title = '未完成明细'
           break
         case 'yellowDoneNum':
@@ -692,11 +692,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = true
+          this.isHandle = false
           this.isProcessed = false
-          this.status = null
+          this.status = 7
           this.title = '已整改明细'
           break
         case 'blueUndoNum':
@@ -704,7 +704,7 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = 0
+          this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
           this.isProcessed = false
@@ -716,7 +716,7 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
           this.isProcessed = false
@@ -728,11 +728,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = false
+          this.isHandle = true
           this.isProcessed = false
-          this.status = 7
+          this.status = null
           this.title = '未完成明细'
           break
         case 'blueDoneNum':
@@ -740,11 +740,11 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
-          this.isSign = 2
+          this.isSign = '2'
           this.isNormal = false
-          this.isHandle = true
+          this.isHandle = false
           this.isProcessed = false
-          this.status = null
+          this.status = 7
           this.title = '已整改明细'
           break
         default:

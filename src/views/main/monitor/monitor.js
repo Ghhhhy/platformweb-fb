@@ -65,14 +65,25 @@ export let proconf = {
     {
       title: '监控主题',
       field: 'regulationClass',
+      width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeSelect',
+        name: '$vxeTree',
         options: [],
-        props: {
-          placeholder: '监控主题'
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': false
+          }
         }
       }
     },

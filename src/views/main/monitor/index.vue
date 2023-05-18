@@ -275,6 +275,7 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
+      this.regulationClass = val.regulationClass_code
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -504,8 +505,8 @@ export default {
         exStatus: this.condition.exStatus
           ? this.condition.exStatus.toString()
           : '', // 执行状态  0 执行中  1 异常停止 2 执行结束
-        regulationClass: this.condition.regulationClass
-          ? this.condition.regulationClass.toString()
+        regulationClass: this.regulationClass
+          ? this.regulationClass.toString()
           : '', // 监控主题名称
         exStartTime: this.condition.exStartTime
           ? this.condition.exStartTime.toString()
@@ -562,6 +563,7 @@ export default {
     getRegulationChildrenData(datas) {
       let that = this
       datas.forEach(item => {
+        item.name = item.ruleName ? item.ruleName : item.name
         item.label = item.text || `${item.code}-${item.name}`
         if (item.children && item.children.length > 0) {
           that.getRegulationChildrenData(item.children)
@@ -583,14 +585,9 @@ export default {
     this.getLeftTreeData()
   },
   mounted() {
-    HttpModule.monitorTheme().then((res) => {
+    HttpModule.monitorTheme(0).then((res) => {
       if (res.code === '000000') {
-        let resData = res.data.map((item) => {
-          return {
-            value: item.id,
-            label: item.ruleName
-          }
-        })
+        let resData = this.getRegulationChildrenData(res.data)
         proconf.highQueryConfig[2].itemRender.options = resData
       } else {
         this.$message.error(res.message)
