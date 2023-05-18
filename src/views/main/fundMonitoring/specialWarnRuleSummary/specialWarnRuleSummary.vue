@@ -394,9 +394,9 @@ export default {
         case 'name':
           console.info(obj.row.id.length)
           if (obj.row.id.length > 4) {
-          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.regionTitle = '专项监督预警汇总_分地区'
-          this.warnRegionSummaryVisible = true
+            this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
+            this.regionTitle = '专项监督预警汇总_分地区'
+            this.warnRegionSummaryVisible = true
           }
           break
         case 'numbernofileNum':
