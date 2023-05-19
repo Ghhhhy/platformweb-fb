@@ -94,7 +94,7 @@ export let proconf = {
         name: '$vxeIcon5'
       },
       formatter: ({ row }) => {
-        return row.agencyCodeName ? row.agencyCodeName : (row.agencyCode + '-' + row.agencyName)
+        return row.agencyCodeName ? row.agencyCodeName : `${row.agencyCode} + '-' +${row.agencyName}`
       }
     },
     {
