@@ -120,11 +120,11 @@ export let proconf = {
       title: '执行开始时间',
       field: 'exStartTime',
       itemRender: {
-        name: '$vxeTime',
+        name: '$vxeInput',
         defaultValue: '',
         props: {
-          format: 'YYYY-MM-DD',
-          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          format: 'hh:mm:ss:c',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '执行开始时间'
         }
       }
@@ -133,11 +133,11 @@ export let proconf = {
       title: '执行结束时间',
       field: 'exEndTime',
       itemRender: {
-        name: '$vxeTime',
+        name: '$vxeInput',
         defaultValue: '',
         props: {
-          format: 'YYYY-MM-DD hh:mm:ss',
-          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          format: 'hh:mm:ss',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '执行结束时间'
         }
       }

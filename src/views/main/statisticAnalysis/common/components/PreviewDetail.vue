@@ -139,7 +139,7 @@ export default defineComponent({
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
       columns: [
-        ...(unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
+        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
         getWarnLevelColumn(),
         getControlTypeColumn(),
         getWarnTypeColumn(),
