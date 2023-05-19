@@ -45,8 +45,8 @@
       </template>
     </BsMainFormListLayout>
     <PreviewDetail
-      v-if="ruleModalVisible"
-      v-model="ruleModalVisible"
+      v-if="visibleState"
+      v-model="visibleState"
       :current-row="currentRow"
       @closeAll="closeAllHandle"
     />
@@ -95,7 +95,7 @@ export default defineComponent({
     provide('modalType', '')
 
     // 规则弹窗显隐
-    const [ruleModalVisible, changeRuleModalVisibleVisible] = useModal()
+    const [visibleState, setVisibleState] = useModal()
 
     // 当前操作行
     const currentRow = ref(null)
@@ -127,7 +127,7 @@ export default defineComponent({
      * 关闭所有弹窗
      * */
     function closeAllHandle() {
-      changeRuleModalVisibleVisible(false)
+      setVisibleState(false)
     }
 
     const { footerConfig } = useFooter()
@@ -177,7 +177,7 @@ export default defineComponent({
      * */
     function cellDblclick({ row }) {
       currentRow.value = row
-      changeRuleModalVisibleVisible(true)
+      setVisibleState(true)
     }
 
     /**
@@ -187,10 +187,10 @@ export default defineComponent({
       tabStatusBtnConfig,
       isShowSearchForm,
       onQueryConditionsClick
-    } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
+    } = useTabPlanel(setVisibleState, getTable, currentRow)
 
     return {
-      ruleModalVisible,
+      visibleState,
 
       cellDblclick,
       footerConfig,
