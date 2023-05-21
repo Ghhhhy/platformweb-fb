@@ -2333,7 +2333,7 @@ const proconf = {
     console.log(budgetManagementColumns)
     // 6和1 代表 支付
     // 8和2  代表 指标[]
-    const isIndex = ['6', 2, '2'].includes(business)
+    const isIndex = [6, '6', 2, '2'].includes(business)
     let columns = business && isIndex ? budgetManagementColumns : budgetImpColumns
     if (status.indexOf('UndoNum') > 0) {
       return [

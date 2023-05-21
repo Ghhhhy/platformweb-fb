@@ -100,6 +100,6 @@ export default {
   },
   // 获取日志
   getLogs(param) {
-    return get('large-monitor-platform/lmp/totalWarn/log' + param)
+    return get('large-monitor-platform/lmp/totalWarn/log/' + param)
   }
 }

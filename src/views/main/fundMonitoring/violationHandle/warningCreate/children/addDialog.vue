@@ -781,7 +781,7 @@ export default {
     console.log('this.isDone', this.isDone)
     console.log('this.isCreate', this.isCreate)
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
-    if (this.title === '查看详情信息' && ['WarnRegionBySpecial'].includes(this.$route.name)) {
+    if (this.title === '查看详情信息' && ['WarnRegionBySpecial', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial'].includes(this.$route.name)) {
       this.setFormItem()
     }
     this.showInfo()

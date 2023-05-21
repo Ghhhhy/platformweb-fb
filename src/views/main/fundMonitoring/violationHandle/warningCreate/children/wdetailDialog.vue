@@ -200,6 +200,10 @@ export default {
       default() {
         return []
       }
+    },
+    selectBid: {
+      type: String,
+      default: '7'
     }
   },
   data() {
@@ -366,7 +370,7 @@ export default {
         this.condition = {}
         this.currentNodeKey = node.code
         // 根据业务渲染列表
-        this.bussnessId = node.code
+        this.bussnessId = node.code.toString()
         this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId)
         this.queryTableDatas()
       }
@@ -1209,7 +1213,7 @@ export default {
       index > -1 && this.queryConfig?.splice(index, 1)
     }
     this.detailType = this.detailData[0]
-    this.bussnessId = this.detailData[0].businessModelCode
+    this.bussnessId = this.selectBid.toString()
     this.getAgency()
     this.showInfo()
   },

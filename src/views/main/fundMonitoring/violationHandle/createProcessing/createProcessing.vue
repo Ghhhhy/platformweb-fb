@@ -377,7 +377,7 @@ export default {
       // })
       // this.logData = tempData
       api.getLogs(row.dealNo).then(res => {
-        if (res.data.code === '000000') {
+        if (res.code === '000000') {
           let tempData = res.data.map(item => {
             return {
               logid: item['OPERATION_TYPE_CODE'],
