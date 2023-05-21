@@ -365,6 +365,10 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
     }
   },
   data() {
@@ -1029,6 +1033,15 @@ export default {
           this.createConfig[0].itemRender.options = res.data.results
         }
       })
+    },
+    setFormItem() {
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.indexMsgConfig
+        this.supplyDataList = proconf.indexMsgData
+      } else {
+        this.incomeMsgConfig = proconf.incomeMsgConfig
+        this.supplyDataList = proconf.incomeMsgData
+      }
     }
   },
   watch: {
@@ -1043,6 +1056,10 @@ export default {
     }
   },
   created() {
+    // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+    if (this.title === '查看详情信息' && ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'].includes(this.$route.name)) {
+      this.setFormItem()
+    }
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true

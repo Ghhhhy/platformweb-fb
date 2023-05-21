@@ -157,6 +157,14 @@ const budgetImpColumns = [
 // 预算管理表头
 const budgetManagementColumns = [
   {
+    title: '超时下达类型',
+    width: 180,
+    field: 'timeoutIssueType',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '指标文号',
     width: 180,
     field: 'corBgtDocNo',
@@ -1603,6 +1611,135 @@ export const proconf = {
       }
     }
   ],
+  indexMsgConfig: [
+    {
+      field: 'timeoutIssueType',
+      title: '超时下达类型',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达类型', disabled: true }
+      }
+    },
+    {
+      field: 'corBgtDocNo',
+      title: '指标文号',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标文号', disabled: true }
+      }
+    },
+    {
+      field: 'fiscalYear',
+      title: '预算年度',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '预算年度', disabled: true }
+      }
+    }, {
+      field: 'recDivName',
+      title: '上级财政',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '上级财政', disabled: true }
+      }
+    }, {
+      field: 'mofDivName',
+      title: '下级财政',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '下级财政', disabled: true }
+      }
+    }, {
+      field: 'violateType5',
+      title: '项目类别',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '项目类别', disabled: true }
+      }
+    }, {
+      field: 'proName',
+      title: '项目名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '项目名称', disabled: true }
+      }
+    }, {
+      field: 'recTime',
+      title: '指标接受时间',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标接受时间', disabled: true }
+      }
+    }, {
+      field: 'recAmount',
+      title: '接受金额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '接受金额', disabled: true }
+      }
+    }, {
+      field: 'allocationAmount',
+      title: '分配金额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '分配金额', disabled: true }
+      }
+    }, {
+      field: 'fiRuleName',
+      title: '监控规则',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '监控规则', disabled: true }
+      }
+    },
+    {
+      field: 'violateType11',
+      title: '违规责任单位',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '违规责任单位', disabled: true }
+      }
+    }
+
+  ],
+  indexMsgData: {
+    timeoutIssueType: '',
+    corBgtDocNo: '',
+    fiscalYear: '',
+    recDivName: '',
+    mofDivName: '',
+    violateType5: '', // 项目类别
+    proName: '',
+    recTime: '',
+    recAmount: '',
+    allocationAmount: '',
+    fiRuleName: '',
+    violateType11: ''// 违规责任单位
+  },
   incomeMsgData: {
     warningCode: '',
     payApplyNumber: '',
@@ -2466,7 +2603,7 @@ export const proconf = {
    * @param {*} business  所属业务 0 预算执行  1 预算管理
    */
   getColumns(status, business, showLog) {
-    const isIndex = [8, 2].includes(business)
+    const isIndex = ['6', 2, '2'].includes(business)
     const columns = business && isIndex ? budgetManagementColumns : budgetImpColumns
     const tempOperatorColumns = [...operatorColumns]
     if (showLog) {

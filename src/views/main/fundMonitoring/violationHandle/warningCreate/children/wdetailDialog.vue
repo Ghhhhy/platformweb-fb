@@ -153,6 +153,7 @@
       :is-create="isCreate"
       :is-done="isDone"
       :detail-data="showDetailData"
+      :bussness-id="bussnessId"
       @close="closeHandle"
     />
     <GlAttachment
@@ -313,7 +314,7 @@ export default {
       treeData: [],
       bussnessId: '',
       treeTypeConfig: {},
-      currentNodeKey: 6
+      currentNodeKey: '7'
       // {
       //   children: [],
       //   code: '0',
@@ -393,7 +394,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.code = item.sort
+        item.code = item.id
         item.label = item.businessName
         item.children = item.children || []
         if (item.children && item.children.length > 0) {

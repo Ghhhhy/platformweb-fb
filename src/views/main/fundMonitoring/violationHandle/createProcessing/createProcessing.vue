@@ -78,6 +78,7 @@
       :deal-no="dealNo"
       :detail-data="detailData"
       :is-create="isCreate"
+      :bussness-id="bussnessId"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
@@ -295,7 +296,7 @@ export default {
       leftTreeFilterText: '', // 展示左侧树 只有某些页面才展示
       selectBtnType: '',
       showLog: false,
-      currentNodeKey: 6
+      currentNodeKey: '7'
     }
   },
   activated() {
@@ -310,6 +311,8 @@ export default {
       const showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
       if (showRouters.includes(this.$route.name)) {
         this.showLog = true
+      }
+      if (this.$route.name === 'DepartmentRetroactBySpecial') {
         this.showBuinessTree = true
         this.leftTreeVisible = true
         // 去发请求获取左侧数据
@@ -322,59 +325,47 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      let data = [
-        {
-          'OPERATION_TYPE_CODE': '4',
+      // let data = [
+      //   {
+      //     'OPERATION_TYPE_CODE': '4',
 
-          'DEAL_NO': '1500000002023819858935716802560',
+      //     'DEAL_NO': '1500000002023819858935716802560',
 
-          'OPERATION_TYPE_NAME': '生成违规数据'
+      //     'OPERATION_TYPE_NAME': '生成违规数据'
 
-        },
-        {
-          'OPERATION_TYPE_CODE': '3',
+      //   },
+      //   {
+      //     'OPERATION_TYPE_CODE': '3',
 
-          'DEAL_NO': '1500000002023819858935716802560',
+      //     'DEAL_NO': '1500000002023819858935716802560',
 
-          'OPERATION_TYPE_NAME': '主管处室核实-下发给单位',
+      //     'OPERATION_TYPE_NAME': '主管处室核实-下发给单位',
 
-          'OPERATION_USER': '财政监控'
+      //     'OPERATION_USER': '财政监控'
 
-        },
-        {
-          'DEAL_NO': '1500000002023819858935716802560',
+      //   },
+      //   {
+      //     'DEAL_NO': '1500000002023819858935716802560',
 
-          'OPERATION_TYPE_NAME': '主管处室审核',
+      //     'OPERATION_TYPE_NAME': '主管处室审核',
 
-          'OPERATION_USER': '财政监控'
+      //     'OPERATION_USER': '财政监控'
 
-        },
-        {
-          'OPERATION_TYPE_CODE': '1',
+      //   },
+      //   {
+      //     'OPERATION_TYPE_CODE': '1',
 
-          'DEAL_NO': '1500000002023819858935716802560',
+      //     'DEAL_NO': '1500000002023819858935716802560',
 
-          'OPERATION_TYPE_NAME': '单位核实无误',
+      //     'OPERATION_TYPE_NAME': '单位核实无误',
 
-          'OPERATION_USER': '财政监控',
+      //     'OPERATION_USER': '财政监控',
 
-          'OPERATION_COMMENT': '没得问题'
+      //     'OPERATION_COMMENT': '没得问题'
 
-        }
-      ]
-      let tempData = data.map(item => {
-        return {
-          logid: item['OPERATION_TYPE_CODE'],
-          nodeName: item['OPERATION_TYPE_NAME'],
-          actionUser: item['OPERATION_USER'],
-          actionName: item['OPERATION_TYPE_NAME'],
-          actionTime: '',
-          message: item['OPERATION_COMMENT']
-        }
-      })
-      this.logData = tempData
-      // api.getLogs().then(res => {
-      //   let tempData = res.data.datas.map(item => {
+      //   }
+      // ]
+      // let tempData = data.map(item => {
       //   return {
       //     logid: item['OPERATION_TYPE_CODE'],
       //     nodeName: item['OPERATION_TYPE_NAME'],
@@ -384,10 +375,26 @@ export default {
       //     message: item['OPERATION_COMMENT']
       //   }
       // })
-      //   this.logData = res.data
-      //   console.log(this.logData)
-      //   this.showLogView = true
-      // })
+      // this.logData = tempData
+      api.getLogs(row.dealNo).then(res => {
+        if (res.data.code === '000000') {
+          let tempData = res.data.map(item => {
+            return {
+              logid: item['OPERATION_TYPE_CODE'],
+              nodeName: item['OPERATION_TYPE_NAME'],
+              actionUser: item['OPERATION_USER'],
+              actionName: item['OPERATION_TYPE_NAME'],
+              actionTime: '',
+              message: item['OPERATION_COMMENT']
+            }
+          })
+          this.logData = tempData
+          console.log(this.logData)
+          this.showLogView = true
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     updateRegulationClassNameFormConfig () {
       // 如果菜单参数有主题 当前模块就使用该主题查询
@@ -826,7 +833,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.code = item.sort
+        item.code = item.id
         item.label = item.businessName
         item.children = item.children || []
         if (item.children && item.children.length > 0) {

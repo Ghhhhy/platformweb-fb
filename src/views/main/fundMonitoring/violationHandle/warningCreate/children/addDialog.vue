@@ -363,6 +363,10 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
     }
   },
   data() {
@@ -760,6 +764,15 @@ export default {
           this.createConfig[0].itemRender.options = res.data.results
         }
       })
+    },
+    setFormItem() {
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.indexMsgConfig
+        this.supplyDataList = proconf.indexMsgData
+      } else {
+        this.incomeMsgConfig = proconf.msgConfig
+        this.supplyDataList = proconf.msgData
+      }
     }
   },
   watch: {
@@ -767,6 +780,10 @@ export default {
   created() {
     console.log('this.isDone', this.isDone)
     console.log('this.isCreate', this.isCreate)
+    // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+    if (this.title === '查看详情信息' && ['WarnRegionBySpecial'].includes(this.$route.name)) {
+      this.setFormItem()
+    }
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true
