@@ -175,7 +175,7 @@ export default {
       code: '',
       fiscalYear: '',
       regulationClass: '',
-      bussnessId:''
+      bussnessId: ''
     }
   },
   mounted() {

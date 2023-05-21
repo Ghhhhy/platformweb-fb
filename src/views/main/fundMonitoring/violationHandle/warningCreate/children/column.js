@@ -214,7 +214,7 @@ const budgetManagementColumns = [
   {
     title: '项目类别',
     width: 180,
-    field: 'violateType5',
+    field: 'proCode',
     sortable: false,
     filters: false,
     align: 'center'

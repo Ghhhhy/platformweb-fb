@@ -1171,4 +1171,13 @@ float: right;
 .createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
   background-color: transparent !important;
 }
+.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-paneL{
+  width: 14% !important;
+}
+.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-pane-resizer.vertical{
+  left: 14% !important;
+}
+.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-paneR{
+  width: 86% !important;
+}
 </style>

@@ -563,6 +563,23 @@ export default {
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.fiRuleName = fiRuleName || ''
+              this.supplyDataList.violateType11 = ''// 违规责任单位
+            }
             this.handletableData = res.data?.regulationList
           } else {
             this.$message.error(res.message)
