@@ -213,14 +213,6 @@ const budgetManagementColumns = [
     align: 'center'
   },
   {
-    title: '超时下达类型',
-    width: 180,
-    field: 'timeoutIssueType',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
     title: '指标接收时间',
     width: 180,
     field: 'recTime',
