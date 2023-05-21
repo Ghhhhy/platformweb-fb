@@ -302,7 +302,8 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      this.bussnessId = obj.row.businessModuleCode.toString() || '7'
+      // '7' 默认预算执行
+      this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       switch (key) {
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]

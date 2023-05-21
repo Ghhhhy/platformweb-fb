@@ -1,7 +1,7 @@
 <!-- 预警明细查询（按规则） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%" class="createProcessing">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible" :default-split-pane-left-width="14">
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -1168,16 +1168,8 @@ float: right;
   background-color: red;
   color: #fff;
 }
-.createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
+ .createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
   background-color: transparent !important;
 }
-.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-paneL{
-  width: 14% !important;
-}
-.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-pane-resizer.vertical{
-  left: 14% !important;
-}
-.createProcessing .T-mainFormListLayout-modulebox .mmc-formlist .vue-splitter-container .splitter-paneR{
-  width: 86% !important;
-}
+
 </style>
