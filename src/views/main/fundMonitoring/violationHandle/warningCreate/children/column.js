@@ -1,4 +1,412 @@
 // import store from '@/store/index'
+// 预算执行表头
+const budgetImpColumns = [
+  {
+    title: '区划',
+    width: 180,
+    field: 'mofDivName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    cellRender: {
+      name: '$vxeInput',
+      options: [],
+      defaultValue: '',
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
+      }
+    },
+    props: {
+      format: '{mofDivCode}-{mofDivName}'
+    }
+  },
+  {
+    title: '预算单位',
+    width: 180,
+    field: 'agencyName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    cellRender: {
+      name: '$vxeInput',
+      options: [],
+      defaultValue: '',
+      props: {
+        format: '{agencyCode}-{agencyName}'
+      }
+    },
+    props: {
+      format: '{agencyCode}-{agencyName}'
+    }
+  },
+  {
+    title: '业务数据单号',
+    width: 180,
+    field: 'businessNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '主题',
+    width: 180,
+    field: 'regulationClassName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '违规时间',
+    width: 180,
+    field: 'warnTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '监控类型',
+    field: 'triggerClass',
+    align: 'center',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: 1,
+          label: '事中触发'
+        },
+        {
+          value: 2,
+          label: '定时触发'
+        }
+      ],
+      defaultValue: '',
+      props: {}
+    },
+    name: '$vxeSelect'
+  },
+  {
+    title: '监控规则',
+    width: 180,
+    field: 'fiRuleName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    'title': '预警级别',
+    'field': 'warnLevel',
+    'fixed': '',
+    'width': '100',
+    'type': 'html',
+    'align': 'center',
+    'formula': '',
+    'constraint': '',
+    'combinedType': '',
+    'sortable': '1',
+    'associatedQuery': {
+      'queryMethods': '',
+      'queryUrl': '',
+      'params': {}
+    },
+    'dragSort': null,
+    'className': '',
+    'combinedType_select_sort': '',
+    'filters': '',
+    formatter: ({ row }) => {
+      if (row.warnLevel === 3) {
+        return '黄色预警'
+      } else if (row.warnLevel === 2) {
+        return '橙色预警'
+      } else if (row.warnLevel === 1) {
+        return '红色预警'
+      } else if (row.warnLevel === 4) {
+        return '蓝色预警'
+      } else if (row.warnLevel === 5) {
+        return '灰色预警'
+      }
+    }
+  },
+  {
+    title: '处理方式',
+    field: 'handleType',
+    align: 'center',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: 1,
+          label: '预警，无需上传附件'
+        },
+        {
+          value: 2,
+          label: '预警，需上传附件'
+        },
+        {
+          value: 5,
+          label: '记录'
+        }
+      ],
+      defaultValue: '',
+      props: {}
+    },
+    name: '$vxeSelect'
+  },
+  {
+    title: '支付金额',
+    field: 'paymentAmount',
+    sortable: false,
+    filters: false,
+    align: 'right',
+    width: 180,
+    combinedType: [
+      'average',
+      'subTotal',
+      'total',
+      'totalAll'
+    ],
+    cellRender: { name: '$vxeMoney' }
+  }
+]
+// 预算管理表头
+const budgetManagementColumns = [
+  {
+    title: '指标文号',
+    width: 180,
+    field: 'corBgtDocNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '预算年度',
+    width: 180,
+    field: 'fiscalYear',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '上级财政',
+    width: 180,
+    field: 'recDivName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '下级财政',
+    width: 180,
+    field: 'mofDivName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '项目类别',
+    width: 180,
+    field: 'violateType5',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '项目名称',
+    width: 180,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '超时下达类型',
+    width: 180,
+    field: 'timeoutIssueType',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '指标接收时间',
+    width: 180,
+    field: 'recTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }, {
+    title: '接收金额',
+    width: 180,
+    field: 'recAmount',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }, {
+    title: '分配金额',
+    width: 180,
+    field: 'allocationAmount',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }, {
+    title: '监控规则',
+    width: 180,
+    field: 'fiRuleName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '违规责任单位',
+    width: 180,
+    field: 'violateType11',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }
+]
+// 违规类型
+const violationColumn = [
+  {
+    title: '违规类型',
+    width: 180,
+    field: 'violateType',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '疑似违规说明',
+    width: 180,
+    field: 'doubtViolateExplain',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }
+]
+// 其他类型列
+const otherColumns = [
+  {
+    title: '处室意见',
+    field: 'departmentStatus',
+    align: 'center',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: '2',
+          label: '认定正常'
+        },
+        {
+          value: '3',
+          label: '需要核实（下发单位）'
+        }
+      ],
+      defaultValue: '',
+      props: {}
+    },
+    name: '$vxeSelect'
+  },
+  {
+    title: '处室联系方式',
+    width: 180,
+    field: 'phone2',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '处室下发人',
+    width: 180,
+    field: 'handler2',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '处室指导意见',
+    width: 180,
+    field: 'information2',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '预算单位核实意见',
+    field: 'agencyStatus',
+    align: 'center',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: '1',
+          label: '已整改'
+        },
+        {
+          value: '2',
+          label: '核实无误'
+        }
+      ],
+      defaultValue: '',
+      props: {}
+    },
+    name: '$vxeSelect'
+  },
+  {
+    title: '预算单位联系方式',
+    width: 180,
+    field: 'phone1',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '预算单位处理人',
+    width: 180,
+    field: 'handler1',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '预算单位核实意见说明',
+    width: 180,
+    field: 'information1',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  }
+]
+// 操作列
+const operatorColumns = [
+  {
+    title: '违规详情',
+    field: 'gloableOptionRowDetial',
+    align: 'center',
+    sortable: false,
+    filters: false,
+    width: 120,
+    fixed: 'right',
+    cellRender: {
+      name: '$ReportTaskGloableOptionRow'
+    }
+  },
+  {
+    title: '附件',
+    field: 'gloableOptionRow',
+    className: 'gloableOptionRow',
+    align: 'center',
+    fixed: 'right',
+    sortable: false,
+    filters: false,
+    width: 100,
+    cellRender: {
+      name: '$payVoucherInputGloableOptionRow'
+    }
+  }
+]
 const proconf = {
   gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
@@ -344,173 +752,7 @@ const proconf = {
   ],
   // 认定正常明细
   normalNum: [
-    {
-      title: '区划',
-      width: 180,
-      field: 'mofDivName',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
-    },
-    {
-      title: '预算单位',
-      width: 180,
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
-    },
-    {
-      title: '业务数据单号',
-      width: 180,
-      field: 'businessNo',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '主题',
-      width: 180,
-      field: 'regulationClassName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '违规时间',
-      width: 180,
-      field: 'warnTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '监控类型',
-      field: 'triggerClass',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '事中触发'
-          },
-          {
-            value: 2,
-            label: '定时触发'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '监控规则',
-      width: 180,
-      field: 'fiRuleName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
-    },
-    {
-      title: '处理方式',
-      field: 'handleType',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 5,
-            label: '记录'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '支付金额',
-      field: 'paymentAmount',
-      sortable: false,
-      filters: false,
-      align: 'right',
-      width: 180,
-      combinedType: [
-        'average',
-        'subTotal',
-        'total',
-        'totalAll'
-      ],
-      cellRender: { name: '$vxeMoney' }
-    },
+    ...budgetImpColumns,
     {
       title: '处室意见',
       field: 'departmentStatus',
@@ -614,7 +856,8 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
-    }, {
+    },
+    {
       title: '附件',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
@@ -1229,305 +1472,10 @@ const proconf = {
     voidOrNot: ''
   },
   notRectifiedNum: [
-    {
-      title: '违规类型',
-      width: 180,
-      field: 'violateType',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '疑似违规说明',
-      width: 180,
-      field: 'doubtViolateExplain',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '区划',
-      width: 180,
-      field: 'mofDivName',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
-    },
-    {
-      title: '预算单位',
-      width: 180,
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
-    },
-    {
-      title: '业务数据单号',
-      width: 180,
-      field: 'businessNo',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '主题',
-      width: 180,
-      field: 'regulationClassName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '违规时间',
-      width: 180,
-      field: 'warnTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '监控类型',
-      field: 'triggerClass',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '事中触发'
-          },
-          {
-            value: 2,
-            label: '定时触发'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '监控规则',
-      width: 180,
-      field: 'fiRuleName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
-    },
-    {
-      title: '处理方式',
-      field: 'handleType',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 5,
-            label: '记录'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '支付金额',
-      field: 'paymentAmount',
-      sortable: false,
-      filters: false,
-      align: 'right',
-      width: 180,
-      combinedType: [
-        'average',
-        'subTotal',
-        'total',
-        'totalAll'
-      ],
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '处室意见',
-      field: 'departmentStatus',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: '2',
-            label: '认定正常'
-          },
-          {
-            value: '3',
-            label: '需要核实（下发单位）'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '处室联系方式',
-      width: 180,
-      field: 'phone2',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '处室下发人',
-      width: 180,
-      field: 'handler2',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '处室指导意见',
-      width: 180,
-      field: 'information2',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位核实意见',
-      field: 'agencyStatus',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: '1',
-            label: '已整改'
-          },
-          {
-            value: '2',
-            label: '核实无误'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
-    {
-      title: '预算单位联系方式',
-      width: 180,
-      field: 'phone1',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位处理人',
-      width: 180,
-      field: 'handler1',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预算单位核实意见说明',
-      width: 180,
-      field: 'information1',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '违规详情',
-      field: 'gloableOptionRowDetial',
-      align: 'center',
-      sortable: false,
-      filters: false,
-      width: 120,
-      fixed: 'right',
-      cellRender: {
-        name: '$ReportTaskGloableOptionRow'
-      }
-    }, {
-      title: '附件',
-      field: 'gloableOptionRow',
-      className: 'gloableOptionRow',
-      align: 'center',
-      fixed: 'right',
-      sortable: false,
-      filters: false,
-      width: 100,
-      cellRender: {
-        name: '$payVoucherInputGloableOptionRow'
-      }
-    }
+    ...violationColumn,
+    ...budgetImpColumns,
+    ...otherColumns,
+    ...operatorColumns
   ],
   doneNum: [
     {
@@ -2245,6 +2193,40 @@ const proconf = {
     warnLevel: '',
     violateType: '',
     fiRuleName: ''
+  },
+  /**
+   * 根据传入的参数去动态生成表头数据
+   * @param {*} status  数据的状态
+   * @param {*} business  所属业务
+   */
+  getColumns(status, business) {
+    // 根据business拿到具体的column
+    console.log(budgetManagementColumns)
+    // 6和1 代表 支付
+    // 8和2  代表 指标[]
+    const isIndex = [8, 2].includes(business)
+    let columns = business && isIndex ? budgetManagementColumns : budgetImpColumns
+    if (status.indexOf('UndoNum') > 0) {
+      return [
+        ...columns,
+        ...operatorColumns
+      ]
+    }
+    if (status.indexOf('NormalNum') > 0) {
+      return [
+        ...columns,
+        ...otherColumns,
+        ...operatorColumns
+      ]
+    }
+    if (status.indexOf('DoneNum') > 0 || status.indexOf('NotRectifiedNum') > 0) {
+      return [
+        ...violationColumn,
+        ...columns,
+        ...otherColumns,
+        ...operatorColumns
+      ]
+    }
   }
 }
 const statusButtons = [
