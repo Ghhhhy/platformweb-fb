@@ -247,10 +247,10 @@ export default defineComponent({
           }
         })
         if (nullNum === data.results.length) {
-          let index = columns.findIndex(item => {
+          let index = columns.value.findIndex(item => {
             return item.field === 'businessNo'
           })
-          columns.splice(index, 1)
+          columns.value.splice(index, 1)
         }
         return data
       },
