@@ -1053,7 +1053,6 @@ export default {
     },
     setFormItem() {
       if ([6, '6', 2, '2'].includes(this.bussnessId)) {
-        this.options = this.options.filter(item => item.value === '2')
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
@@ -1078,6 +1077,16 @@ export default {
     if (this.title === '查看详情信息' && ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'].includes(this.$route.name)) {
       this.setFormItem()
     }
+    if (this.title === '监控问询单信息' && ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'].includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)) {
+      this.options = [{
+        value: '2',
+        label: '认定正常'
+      }, {
+        value: '7',
+        label: '已整改'
+      }]
+    }
+
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true
