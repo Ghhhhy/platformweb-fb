@@ -1052,7 +1052,8 @@ export default {
       })
     },
     setFormItem() {
-      if (['6', 2, '2'].includes(this.bussnessId)) {
+      if ([6, '6', 2, '2'].includes(this.bussnessId)) {
+        this.options = this.options.filter(item => item.value === '2')
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {

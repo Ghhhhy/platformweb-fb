@@ -2595,7 +2595,7 @@ export const proconf = {
    * @param {*} business  所属业务 0 预算执行  1 预算管理
    */
   getColumns(status, business, showLog) {
-    const isIndex = [6,'6', 2, '2'].includes(business)
+    const isIndex = [6, '6', 2, '2'].includes(business)
     const columns = business && isIndex ? budgetManagementColumns : budgetImpColumns
     const tempOperatorColumns = [...operatorColumns]
     if (showLog) {
