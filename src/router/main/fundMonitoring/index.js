@@ -116,6 +116,14 @@ const routers = [
       )
   },
   {
+    path: '/BudgetDisburseObjectSpecial', // 专项监督项目查询
+    name: 'BudgetDisburseObjectSpecial',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetDisburseObjectSpecial/budgetDisburseObjectSpecial.vue'
+      )
+  },
+  {
     path: '/BudgetDisburseObject', // 直达资金项目查询
     name: 'BudgetDisburseObject',
     component: () =>
