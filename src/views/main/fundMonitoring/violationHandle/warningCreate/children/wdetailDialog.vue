@@ -1025,7 +1025,7 @@ export default {
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
-        businessModelCode: this.bussnessId || undefined
+        businessModuleCode: this.bussnessId || undefined
       }
       // 有菜单有主题参数则 则用主题参数
       if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
