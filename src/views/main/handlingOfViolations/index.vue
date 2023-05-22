@@ -236,24 +236,24 @@ export default defineComponent({
           menuId
         }
       },
-      // // 请求后置钩子
-      // afterFetch(data) {
-      //   // 未提交页卡
-      //   // 处理业务编号
-      //   let nullNum = 0
-      //   data.results.forEach(item => {
-      //     if (item.businessNo === null) {
-      //       nullNum++
-      //     }
-      //   })
-      //   if (nullNum === data.results.length) {
-      //     let index = columns.value.findIndex(item => {
-      //       return item.field === 'businessNo'
-      //     })
-      //     columns.value.splice(index, 1)
-      //   }
-      //   return data
-      // },
+      // 请求后置钩子
+      afterFetch(data) {
+        // 未提交页卡
+        // 处理业务编号
+        let nullNum = 0
+        data.results.forEach(item => {
+          if (item.businessNo === null) {
+            nullNum++
+          }
+        })
+        if (nullNum === data.results.length) {
+          let index = columns.value.findIndex(item => {
+            return item.field === 'businessNo'
+          })
+          columns.value.splice(index, 1)
+        }
+        return data
+      },
       columns: [],
       getSubmitFormData,
       dataKey: 'data.results'
