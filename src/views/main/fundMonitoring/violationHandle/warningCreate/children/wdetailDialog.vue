@@ -316,7 +316,7 @@ export default {
       leftTreeVisible: false,
       leftTreeFilterText: '',
       treeData: [],
-      bussnessId: '',
+      bussnessId: '7',
       treeTypeConfig: {},
       currentNodeKey: '7'
       // {

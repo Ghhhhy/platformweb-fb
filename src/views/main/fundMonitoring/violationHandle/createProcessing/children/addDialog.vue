@@ -384,6 +384,13 @@ export default {
         value: '3',
         label: '需要核实（下发单位）'
       }],
+      options2: [{
+        value: '2',
+        label: '认定正常'
+      }, {
+        value: '7',
+        label: '已整改'
+      }],
       value: '',
       value1: '',
       options1: [{
@@ -476,7 +483,9 @@ export default {
       showbox: false,
       showbtn: false,
       commentDept: 1,
-      newWarn: ''
+      newWarn: '',
+      routes: ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'],
+      isManagement: false
     }
   },
   methods: {
@@ -640,14 +649,18 @@ export default {
           }
           if (this.detailData[0].status === '2') {
             this.value = '2'
+          } else if (this.isManagement) {
+            this.value = '7'
           } else {
             this.value = '3'
           }
+
           if (this.detailData[0].status === '8') {
             this.value1 = '8'
           } else {
             this.value1 = '9'
           }
+
           if (this.attachmentid1 != null) {
             const param = {
               billguid: this.attachmentid1,
@@ -775,6 +788,9 @@ export default {
                   this.$message.error(res.result)
                 }
               })
+            }
+            if (this.isManagement) {
+              this.value = '7'
             }
             break
           default:
@@ -989,6 +1005,10 @@ export default {
         this.commentDept = '4'
         this.status = this.hsValue === '4' ? '6' : '7'
       }
+      if (this.isManagement && this.param5.retroact === 'department' && this.value === '7') {
+        this.commentDept = '7'
+        this.status = 7
+      }
       let param = {
         information1: this.information1,
         updateTime1: this.updateTime1,
@@ -1074,19 +1094,14 @@ export default {
   },
   created() {
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
-    if (this.title === '查看详情信息' && ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'].includes(this.$route.name)) {
+
+    if (this.title === '查看详情信息' && this.routes.includes(this.$route.name)) {
       this.setFormItem()
     }
-    if (this.title === '监控问询单信息' && ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'].includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)) {
-      this.options = [{
-        value: '2',
-        label: '认定正常'
-      }, {
-        value: '7',
-        label: '已整改'
-      }]
+    this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
+    if (this.isManagement) {
+      this.options = this.options2
     }
-
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true
