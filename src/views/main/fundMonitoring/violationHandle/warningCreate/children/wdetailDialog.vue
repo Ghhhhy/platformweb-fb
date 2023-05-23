@@ -3,11 +3,12 @@
     v-model="detailVisible"
     :title="title"
     width="96%"
+    class="wdetailDialop"
     height="90%"
     :show-footer="false"
     @close="dialogClose"
   >
-    <BsTabPanel
+    <!-- <BsTabPanel
       is-open
       is-hide-query
       :tab-status-btn-config="tabStatusBtnConfig"
@@ -27,6 +28,24 @@
       :query-form-data="searchDataList"
       @onSearchClick="search"
     />
+    <div v-if="showBuinessTree">
+      <BsTreeSet
+        ref="treeSet"
+        v-model="leftTreeVisible"
+        :tree-config="treeTypeConfig"
+        @onChangeInput="(val) => { leftTreeFilterText = val }"
+        @onAsideChange="asideChange"
+        @onConfrimData="treeSetConfrimData"
+      />
+      <BsTree
+        ref="leftTree"
+        open-loading
+        :filter-text="leftTreeFilterText"
+        :tree-data="treeData"
+        :config="{ showFilter: false, treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
+        @onNodeClick="onClickmethod"
+      />
+    </div>
     <BsTable
       ref="mainTableRef"
       v-loading="tableLoadingState"
@@ -44,13 +63,88 @@
     >
       <template v-slot:toolbarSlots>
         <div class="table-toolbar-left">
+          <div v-if="leftTreeVisible === false && showBuinessTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
           <div class="table-toolbar-left-title">
             <span class="fn-inline">{{ title }}</span>
             <i class="fn-inline"></i>
           </div>
         </div>
       </template>
-    </BsTable>
+    </BsTable> -->
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+
+      <template v-slot:topTabPane>
+        <BsTabPanel
+          is-open
+          is-hide-query
+          :tab-status-btn-config="tabStatusBtnConfig"
+          :tab-status-num-config="tabStatusNumConfig"
+          @onQueryConditionsClick="onQueryConditionsClick1"
+        >
+          <template v-if="(tabSelect === '3' || tabSelect === '4')" v-slot:preBtns>
+            <vxe-button
+              size="medium"
+              @click="doBack"
+            >退回</vxe-button>
+          </template>
+        </BsTabPanel>
+      </template>
+      <template v-slot:query>
+        <div class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+      </template>
+      <template v-if="showBuinessTree" v-slot:mainTree>
+        <BsTreeSet
+          ref="treeSet"
+          v-model="leftTreeVisible"
+          :tree-config="treeTypeConfig"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
+          @onAsideChange="asideChange"
+          @onConfrimData="treeSetConfrimData"
+        />
+        <BsTree
+          ref="leftTree"
+          open-loading
+          :filter-text="leftTreeFilterText"
+          :tree-data="treeData"
+          :current-node-key="currentNodeKey"
+          :config="{ showFilter: false, treeProps: { nodeKey: 'code', label: 'label',children: 'children' } }"
+          @onNodeClick="onClickmethod"
+        />
+      </template>
+      <template v-slot:mainForm>
+        <BsTable
+          ref="mainTableRef"
+          v-loading="tableLoadingState"
+          :footer-config="tableFooterConfig"
+          :table-config="tableConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
+          :pager-config="pagerConfig"
+          @ajaxData="ajaxTableData"
+          @cellClick="cellClick"
+          @onToolbarBtnClick="onToolbarBtnClick"
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false && showBuinessTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">{{ title }}</span>
+                <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+        </BsTable>
+      </template>
+    </BsMainFormListLayout>
     <ShowDialog
       v-if="showDialogVisible"
       :title="showDialogTitle"
@@ -59,6 +153,7 @@
       :is-create="isCreate"
       :is-done="isDone"
       :detail-data="showDetailData"
+      :bussness-id="bussnessId"
       @close="closeHandle"
     />
     <GlAttachment
@@ -105,6 +200,10 @@ export default {
       default() {
         return []
       }
+    },
+    selectBid: {
+      type: String,
+      default: '7'
     }
   },
   data() {
@@ -212,11 +311,102 @@ export default {
       dialogTitle1: '整改意见',
       fiscalYear: '',
       tabSelect: '',
-      selectData: {}
+      selectData: {},
+      showBuinessTree: false,
+      leftTreeVisible: false,
+      leftTreeFilterText: '',
+      treeData: [],
+      bussnessId: '7',
+      treeTypeConfig: {},
+      currentNodeKey: '7'
+      // {
+      //   children: [],
+      //   code: '0',
+      //   id: '0',
+      //   label: '预算执行',
+      //   name: '预算执行',
+      //   parentId: null,
+      //   parentRuleName: null,
+      //   ruleLevel: 0,
+      //   ruleName: '预算执行'
+      // }, {
+      //   children: [],
+      //   code: '1',
+      //   id: '1',
+      //   label: '预算管理',
+      //   name: '预算管理',
+      //   parentId: null,
+      //   parentRuleName: null,
+      //   ruleLevel: 0,
+      //   ruleName: '预算管理'
+      // }
     }
   },
   methods: {
+    /**
+     *动态控制左侧树的显示  只有特定的路由才显示
+     */
+    setShowBusinesTree() {
+      // 可显示是左侧业务树的路由
+      const showRouters = ['WarnRegionBySpecial']
+      if (showRouters.includes(this.$route.name)) {
+        this.showBuinessTree = true
+        this.leftTreeVisible = true
+        // 去发请求获取左侧数据
+        this.getLeftTreeData()
+      }
+    },
     // table 右侧操作按钮
+    asideChange() {
+      this.leftTreeVisible = false
+    },
+    treeSetConfrimData(curTree) {
+      this.treeQueryparams.elementCode = curTree.code
+      this.$refs.leftTree.refreshTree()
+    },
+    onClickmethod({ node }) {
+      if (node.code) {
+        this.$refs.queryFrom.reset()
+        this.condition = {}
+        this.currentNodeKey = node.code
+        // 根据业务渲染列表
+        this.bussnessId = node.code.toString()
+        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId)
+        this.queryTableDatas()
+      }
+    },
+    /**
+     * 获取左侧树
+     */
+    getLeftTreeData() {
+      let that = this
+      const param = {
+        businessType: 2,
+        parentId: '1'// 预算管理一体化系统
+      }
+      HttpModule.getbusLists(param).then(res => {
+        if (res.rscode === '100000') {
+          let resData = res.data.results.filter(item => item.id !== '8')
+          let treeResdata = that.getChildrenData(resData)
+          that.treeData = treeResdata
+          console.log(that.treeData)
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.code = item.id
+        item.label = item.businessName
+        item.children = item.children || []
+        if (item.children && item.children.length > 0) {
+          that.getChildrenData(item.children)
+        }
+      })
+      return datas
+    },
     onOptionRowClick({ row, optionType }, context) {
       switch (optionType) {
         // 附件
@@ -294,9 +484,7 @@ export default {
       }
       this.tabSelect = obj.curValue
       if (this.tabSelect === '1') {
-        // this.title = '红色预警-未处理明细'
-        // this.detailType = 'redUndoNum'
-        this.tableColumnsConfig = proconf.undoNum
+        // this.tableColumnsConfig = proconf.undoNum
         this.tabStatusBtnConfig.curButton = curStatusButton
         switch (this.colourType) {
           case '3':
@@ -318,7 +506,7 @@ export default {
             break
         }
       } else if (this.tabSelect === '2') {
-        this.tableColumnsConfig = proconf.undoNum
+        // this.tableColumnsConfig = proconf.undoNum
         this.tabStatusBtnConfig.curButton = curStatusButton1
         switch (this.colourType) {
           case '3':
@@ -340,7 +528,7 @@ export default {
             break
         }
       } else if (this.tabSelect === '4') {
-        this.tableColumnsConfig = proconf.notRectifiedNum
+        // this.tableColumnsConfig = proconf.notRectifiedNum
         this.tabStatusBtnConfig.curButton = curStatusButton2
         switch (this.colourType) {
           case '3':
@@ -362,7 +550,7 @@ export default {
             break
         }
       } else if (this.tabSelect === '3') {
-        this.tableColumnsConfig = proconf.doneNum
+        // this.tableColumnsConfig = proconf.doneNum
         this.tabStatusBtnConfig.curButton = curStatusButton3
         switch (this.colourType) {
           case '3':
@@ -551,10 +739,11 @@ export default {
       this.fiRuleCode = this.detailData[1]
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
+      // 这里在获取一个业务类型 然后依据业务类型和具体的状态去动态构造表头数据
       console.log('detailType:' + this.detailType)
       switch (this.detailType) {
         case 'redUndoNum':
-          this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -566,7 +755,7 @@ export default {
           this.title = '疑点信息明细'
           break
         case 'redNormalNum':
-          this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -579,7 +768,8 @@ export default {
           this.title = '认定正常明细'
           break
         case 'redNotRectifiedNum':
-          this.tableColumnsConfig = proconf.notRectifiedNum
+          // this.tableColumnsConfig = proconf.notRectifiedNum
+          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
@@ -591,7 +781,8 @@ export default {
           this.title = '认定违规-待整改明细'
           break
         case 'redDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
+          // this.tableColumnsConfig = proconf.doneNum
+          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -604,7 +795,8 @@ export default {
           this.title = '认定违规-已整改明细'
           break
         case 'orangeUndoNum':
-          this.tableColumnsConfig = proconf.undoNum
+          //  this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -616,7 +808,8 @@ export default {
           this.title = '预警数据明细'
           break
         case 'orangeNormalNum':
-          this.tableColumnsConfig = proconf.normalNum
+          // this.tableColumnsConfig = proconf.normalNum
+          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -628,7 +821,8 @@ export default {
           this.title = '认定正常明细'
           break
         case 'orangeNotRectifiedNum':
-          this.tableColumnsConfig = proconf.notRectifiedNum
+          // this.tableColumnsConfig = proconf.notRectifiedNum
+          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -640,7 +834,8 @@ export default {
           this.title = '未完成明细'
           break
         case 'orangeDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
+          // this.tableColumnsConfig = proconf.doneNum
+          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -652,7 +847,8 @@ export default {
           this.title = '已整改明细'
           break
         case 'yellowUndoNum':
-          this.tableColumnsConfig = proconf.undoNum
+          // this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -664,7 +860,8 @@ export default {
           this.title = '预警数据明细'
           break
         case 'yellowNormalNum':
-          this.tableColumnsConfig = proconf.normalNum
+          // this.tableColumnsConfig = proconf.normalNum
+          this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -676,7 +873,8 @@ export default {
           this.title = '认定正常明细'
           break
         case 'yellowNotRectifiedNum':
-          this.tableColumnsConfig = proconf.notRectifiedNum
+          // this.tableColumnsConfig = proconf.notRectifiedNum
+          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -688,7 +886,8 @@ export default {
           this.title = '未完成明细'
           break
         case 'yellowDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
+          // this.tableColumnsConfig = proconf.doneNum
+          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -700,7 +899,8 @@ export default {
           this.title = '已整改明细'
           break
         case 'blueUndoNum':
-          this.tableColumnsConfig = proconf.undoNum
+          // this.tableColumnsConfig = proconf.undoNum
+          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -712,7 +912,8 @@ export default {
           this.title = '预警数据明细'
           break
         case 'blueNormalNum':
-          this.tableColumnsConfig = proconf.normalNum
+          // this.tableColumnsConfig = proconf.normalNum
+          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -724,7 +925,8 @@ export default {
           this.title = '认定正常明细'
           break
         case 'blueNotRectifiedNum':// 未完成
-          this.tableColumnsConfig = proconf.notRectifiedNum
+          // this.tableColumnsConfig = proconf.notRectifiedNum
+          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -736,7 +938,8 @@ export default {
           this.title = '未完成明细'
           break
         case 'blueDoneNum':
-          this.tableColumnsConfig = proconf.doneNum
+          // this.tableColumnsConfig = proconf.doneNum
+          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -821,13 +1024,16 @@ export default {
         triggerClass: this.condition.triggerClass ? this.condition.triggerClass[0] : '',
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
-        isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm
+        isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
+        businessModuleCode: this.bussnessId || undefined
+      }
+      // 有菜单有主题参数则 则用主题参数
+      if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
+        params.regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         params.regulationClass = '0207'
       }
-      console.log('fiRuleCode:', this.fiRuleCode)
-      console.log('mofDivCode:', this.mofDivCode)
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
         params.fiscalYear = this.fiscalYear
@@ -1007,6 +1213,7 @@ export default {
       index > -1 && this.queryConfig?.splice(index, 1)
     }
     this.detailType = this.detailData[0]
+    this.bussnessId = this.selectBid.toString()
     this.getAgency()
     this.showInfo()
   },
@@ -1019,10 +1226,11 @@ export default {
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
+    this.setShowBusinesTree()
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" >
 .payVoucherInput {
   margin: 15px;
   .el-card {
@@ -1046,5 +1254,14 @@ export default {
 }
 .el-row-item .font-set-small .hline {
   width: 72px;
+}
+.wdetailDialop .T-mainFormListLayout-modulebox .mmc-formlist .mmc-right{
+  padding: 0;
+}
+.wdetailDialop .T-mainFormListLayout-modulebox{
+  padding-top: 0 !important;
+}
+.wdetailDialop .unit-tree-main .el-tree-node__content .custom-node-bg{
+  background-color: transparent;
 }
 </style>
