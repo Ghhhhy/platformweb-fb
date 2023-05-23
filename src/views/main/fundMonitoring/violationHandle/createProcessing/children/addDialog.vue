@@ -365,6 +365,10 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
     }
   },
   data() {
@@ -379,6 +383,13 @@ export default {
       }, {
         value: '3',
         label: '需要核实（下发单位）'
+      }],
+      options2: [{
+        value: '2',
+        label: '认定正常'
+      }, {
+        value: '7',
+        label: '已整改'
       }],
       value: '',
       value1: '',
@@ -472,7 +483,9 @@ export default {
       showbox: false,
       showbtn: false,
       commentDept: 1,
-      newWarn: ''
+      newWarn: '',
+      routes: ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'],
+      isManagement: false
     }
   },
   methods: {
@@ -562,6 +575,23 @@ export default {
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.fiRuleName = fiRuleName || ''
+              this.supplyDataList.violateType11 = ''// 违规责任单位
+            }
             this.handletableData = res.data?.regulationList
           } else {
             this.$message.error(res.message)
@@ -619,14 +649,18 @@ export default {
           }
           if (this.detailData[0].status === '2') {
             this.value = '2'
+          } else if (this.isManagement) {
+            this.value = '7'
           } else {
             this.value = '3'
           }
+
           if (this.detailData[0].status === '8') {
             this.value1 = '8'
           } else {
             this.value1 = '9'
           }
+
           if (this.attachmentid1 != null) {
             const param = {
               billguid: this.attachmentid1,
@@ -754,6 +788,9 @@ export default {
                   this.$message.error(res.result)
                 }
               })
+            }
+            if (this.isManagement) {
+              this.value = '7'
             }
             break
           default:
@@ -968,6 +1005,10 @@ export default {
         this.commentDept = '4'
         this.status = this.hsValue === '4' ? '6' : '7'
       }
+      if (this.isManagement && this.param5.retroact === 'department' && this.value === '7') {
+        this.commentDept = '7'
+        this.status = 7
+      }
       let param = {
         information1: this.information1,
         updateTime1: this.updateTime1,
@@ -1029,6 +1070,15 @@ export default {
           this.createConfig[0].itemRender.options = res.data.results
         }
       })
+    },
+    setFormItem() {
+      if ([6, '6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.indexMsgConfig
+        this.supplyDataList = proconf.indexMsgData
+      } else {
+        this.incomeMsgConfig = proconf.incomeMsgConfig
+        this.supplyDataList = proconf.incomeMsgData
+      }
     }
   },
   watch: {
@@ -1043,6 +1093,15 @@ export default {
     }
   },
   created() {
+    // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+
+    if (this.title === '查看详情信息' && this.routes.includes(this.$route.name)) {
+      this.setFormItem()
+    }
+    this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
+    if (this.isManagement) {
+      this.options = this.options2
+    }
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true
