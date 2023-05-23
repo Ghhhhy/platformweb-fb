@@ -1276,11 +1276,12 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@bszx/boss-ui@2.1.2":
-  version "2.1.2"
-  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2.tgz#6254a1cc6eb40933a6fe0999b3bf8961ff21e34b"
-  integrity sha512-557fw1DB9m9kTsuLOPtXy/Q2/8FPbMviYMNhKTPbxyZjJkZoa5PSC9ctTTodoYx+4/PxZnZVQTDBgMBIgfqxEQ==
+"@bszx/boss-ui@2.1.2-beta.6":
+  version "2.1.2-beta.6"
+  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2-beta.6.tgz#4159a2c04986cc104f9683b265c4cc79171ab4a9"
+  integrity sha512-WMRNrUt0gBlgwLnQXhNUfJAYWmMXy+BkmFLpJPQ3XfUyJXVFu+IPvmnu8BQiKTmhrErI07G3fTeFxAQGn6YwjA==
   dependencies:
+    "@bszx/bs-vxe-table" "^2.10.2-0.3"
     async-validator "^1.11.5"
     element-ui "2.13.2"
     file-saver "^2.0.5"
@@ -1301,7 +1302,7 @@
     xe-utils "2.8.3"
     xlsx "0.16.8"
 
-"@bszx/bs-vxe-table@2.10.2-0.3":
+"@bszx/bs-vxe-table@2.10.2-0.3", "@bszx/bs-vxe-table@^2.10.2-0.3":
   version "2.10.2-0.3"
   resolved "http://223.223.190.114:60409/@bszx%2fbs-vxe-table/-/bs-vxe-table-2.10.2-0.3.tgz#c241718ee46b987602971be5d5bb057a0423fa11"
   integrity sha512-+u0lb4HiwCaGzlRs+0W8T24sm/+22ghhQ263aQAK+djQlLAcS0v0u5ecLaqIe3Uf3NXWsqh9dOOgHbTyOAJzaQ==
