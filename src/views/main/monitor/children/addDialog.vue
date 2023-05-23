@@ -21,7 +21,7 @@
         <BsTable
           ref="addTableRef"
           height="400"
-          :footer-config="false"
+          :footer-config="{}"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
@@ -227,14 +227,26 @@ export default {
         {
           title: '监控主题',
           field: 'regulationClass',
+          width: '8',
           align: 'left',
           formula: '',
-          name: '$vxeSelect',
+          name: '$vxeTree',
           itemRender: {
-            name: '$vxeSelect',
+            name: '$vxeTree',
             options: [],
-            props: {
-              placeholder: '监控主题'
+            'props': {
+              'selectOnNodeClick': false,
+              'config': {
+                'treeProps': {
+                  'nodeKey': 'id',
+                  'label': 'label',
+                  'children': 'children'
+                },
+                'placeholder': '监控主题',
+                'multiple': false,
+                'readonly': true,
+                'isleaf': false
+              }
             }
           }
         },
@@ -326,7 +338,7 @@ export default {
       }
       this.condition = condition
       // this.regulationClassName = this.condition.regulationClassName[0]
-      this.regulationClass = this.condition.regulationClass[0]
+      this.regulationClass = val.regulationClass_code
       this.fiRuleName = this.condition.fiRuleName[0]
       this.getDataSourceInfo()
     },
@@ -374,7 +386,6 @@ export default {
     showInfo() {
       if (this.title === '新增') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
-        return
       }
       /* HttpModule.getDetail(params).then((res) => {
         if (res.code === '000000') {
@@ -389,10 +400,10 @@ export default {
           this.$message.error(res.message)
         }
       }) */
-      this.attachmentId =
-        this.modifyData.attachment_id != null
-          ? this.modifyData.attachment_id
-          : this.$ToolFn.utilFn.getUuid()
+      // this.attachmentId =
+      //   this.modifyData.attachment_id != null
+      //     ? this.modifyData.attachment_id
+      //     : this.$ToolFn.utilFn.getUuid()
       // let param = 'attachmentId=' + this.attachmentId
       /* HttpModule.getFiles(param).then((res) => {
         if (res.rscode === '200') {
@@ -478,6 +489,21 @@ export default {
         return
       }
       this.mofShow = true
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.name = item.ruleName ? item.ruleName : item.name
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   watch: {
@@ -495,12 +521,7 @@ export default {
   mounted() {
     HttpModule.monitorTheme().then((res) => {
       if (res.code === '000000') {
-        let resData = res.data.map((item) => {
-          return {
-            value: item.code,
-            label: item.ruleName
-          }
-        })
+        let resData = this.getRegulationChildrenData(res.data)
         this.queryConfig[0].itemRender.options = resData
       } else {
         this.$message.error(res.message)

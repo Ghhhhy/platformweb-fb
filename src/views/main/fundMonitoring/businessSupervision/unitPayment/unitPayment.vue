@@ -444,6 +444,7 @@ export default {
     eachTree(treeData, parentId, level) {
       treeData.forEach(item => {
         item.id = item.id || this.$XEUtils.uniqueId('tree_row_')
+        item.agencyCodeName = item.agencyCodeName !== null ? item.agencyCodeName : `${item.agencyCode}-${item.agencyName}`
         item.level = level
         item['parentId'] = parentId
         if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
@@ -466,7 +467,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           const rows = res.data?.data || []
-          if (rows?.length && Array.isArray(rows)) {
+          if (Array.isArray(rows)) {
             // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
             this.eachTree(rows, '', 1)
             // 将树形结构转数组
