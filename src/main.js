@@ -26,7 +26,11 @@ import transJson from '@/utils/transformMenuQuery'
 // axios Request
 import useOptionChain from '@/utils/useOptionChain.js'
 import html2canvasDirective from './directive/html2canvasDirective'
-
+// 报表工具
+import Report from '@platform/report'
+import GridLayout from '@platform/charts-grid-layout'
+import BossInteractive from '@platform/boss-interactive'
+import BossCharts from '@platform/boss-charts'
 // 以下三个插件顺序不可乱
 import './plugin/http'
 import './plugin/UI'
@@ -46,6 +50,10 @@ Vue.use(html2canvasDirective)
 Vue.use(Echarts)
 Vue.use(TableConfig)
 Vue.use(VideoPlayer)
+Vue.use(Report)
+Vue.use(GridLayout)
+Vue.use(BossInteractive)
+Vue.use(BossCharts)
 setupCompositionApi(Vue)
 setupSvg(Vue)
 setupElementUI(Vue)
