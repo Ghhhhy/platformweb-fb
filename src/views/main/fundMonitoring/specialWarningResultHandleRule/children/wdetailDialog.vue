@@ -363,8 +363,8 @@ export default {
         // 人工认定
         case 'peo_set':
           var selectionRow = this.$refs.mainTableRef.selection
-          if (selectionRow.length !== 1) {
-            this.$message.warning('请选择一条数据')
+          if (selectionRow.length < 1) {
+            this.$message.warning('请至少选择一条数据')
             return
           }
           var title = '认定处理单'

@@ -214,6 +214,7 @@ export default {
           break
         case 'zdzjzcmx_fdq':
         case 'zxjdzcmx_fdq':
+        case 'zxjdzcmx_fzj':
           this.tableColumnsConfig = proconf.payColumn
           break
         case 'zjzcmx_fzj':
