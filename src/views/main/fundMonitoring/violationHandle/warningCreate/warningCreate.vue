@@ -60,6 +60,7 @@
       v-if="detailVisible"
       :detail-data="detailData"
       :colour-type="colourType"
+      :select-bid="bussnessId"
     />
   </div>
 </template>
@@ -173,7 +174,8 @@ export default {
       detailData: [],
       code: '',
       fiscalYear: '',
-      regulationClass: ''
+      regulationClass: '',
+      bussnessId: ''
     }
   },
   mounted() {
@@ -300,6 +302,8 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      // '7' 默认预算执行
+      this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       switch (key) {
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]

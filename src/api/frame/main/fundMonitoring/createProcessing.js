@@ -93,5 +93,13 @@ export default {
   // 联查业务数据
   queryBusinessData(params) {
     return post('large-monitor-platform/lmp/totalWarn/queryBusinessData', params)
+  },
+  // 业务下拉列表
+  getbusLists(params) {
+    return post('large-monitor-platform/lmp/businessFunctions/list', params)
+  },
+  // 获取日志
+  getLogs(param) {
+    return get('large-monitor-platform/lmp/totalWarn/log/' + param)
   }
 }

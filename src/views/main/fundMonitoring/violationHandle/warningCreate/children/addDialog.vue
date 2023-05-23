@@ -363,6 +363,10 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
     }
   },
   data() {
@@ -558,6 +562,23 @@ export default {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
+            }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.fiRuleName = fiRuleName || ''
+              this.supplyDataList.violateType11 = ''// 违规责任单位
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -760,6 +781,15 @@ export default {
           this.createConfig[0].itemRender.options = res.data.results
         }
       })
+    },
+    setFormItem() {
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.indexMsgConfig
+        this.supplyDataList = proconf.indexMsgData
+      } else {
+        this.incomeMsgConfig = proconf.msgConfig
+        this.supplyDataList = proconf.msgData
+      }
     }
   },
   watch: {
@@ -767,6 +797,10 @@ export default {
   created() {
     console.log('this.isDone', this.isDone)
     console.log('this.isCreate', this.isCreate)
+    // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+    if (this.title === '查看详情信息' && ['WarnRegionBySpecial', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial'].includes(this.$route.name)) {
+      this.setFormItem()
+    }
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true
