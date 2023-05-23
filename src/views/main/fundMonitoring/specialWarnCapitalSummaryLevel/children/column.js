@@ -867,6 +867,14 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '指标文号',
       field: 'targetDocNum',
       sortable: false,
@@ -1051,7 +1059,7 @@ const proconf = {
     },
     {
       title: '支付时间',
-      field: 'xPatyTime',
+      field: 'xpayDate',
       sortable: false,
       width: 140,
       filters: false,
@@ -1071,6 +1079,14 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
+      align: 'center'
+    },
+    {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {
@@ -1258,6 +1274,14 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {

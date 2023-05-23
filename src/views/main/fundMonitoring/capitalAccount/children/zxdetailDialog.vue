@@ -356,17 +356,24 @@ export default {
 
       switch (key) {
         case 'amountAllfp':
-          let zcSource = 'zdzjzbmx_fzjfp'
+          let zpSource = 'zdzjzbmx_fzjfp'
           if (this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
-            zcSource = 'zxjdzbmx_fzjfp'
+            zpSource = 'zxjdzbmx_fzjfp'
           }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
-            this.handleDetail(zcSource, obj.row)
+            this.handleDetail(zpSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fdq', obj.row)
+          let paySource = 'zdzjzcmx_fdq'
+          if (this.detailType === 'zxjdxmmx_fdq') {
+            paySource = 'zxjdzcmx_fdq'
+          }
+          if (this.detailType === 'zxjdxmmx_fzj') {
+            paySource = 'zxjdzcmx_fzj'
+          }
+          this.handleDetail(paySource, obj.row)
           this.$parent.sDetailTitle = '支出明细'
           break
         case 'amountbjfpsnjap':

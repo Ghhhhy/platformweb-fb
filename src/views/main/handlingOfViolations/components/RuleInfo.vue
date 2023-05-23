@@ -39,7 +39,7 @@
             </span>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col v-if="ruleInfo.businessNo !== null" :span="8">
           <div class="info-item">
             <span class="label">业务编号</span>
             <span class="content">
