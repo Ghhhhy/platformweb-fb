@@ -1689,21 +1689,21 @@ export const proconf = {
       }
     }, {
       field: 'recTime',
-      title: '指标接受时间',
+      title: '指标接收时间',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '指标接受时间', disabled: true }
+        props: { placeholder: '指标接收时间', disabled: true }
       }
     }, {
       field: 'recAmount',
-      title: '接受金额',
+      title: '接收金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '接受金额', disabled: true }
+        props: { placeholder: '接收金额', disabled: true }
       }
     }, {
       field: 'allocationAmount',
