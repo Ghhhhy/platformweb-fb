@@ -2,8 +2,8 @@
  * @Author: Comer
  * @Mail: xinlai@bosssoft.com.cn
  * @Date: 2021-12-16 10:22:56
- * @LastEditors: ghy
- * @LastEditTime: 2022-11-12 15:45:50
+ * @LastEditors: 罗景丹 luojingdan@bosssoft.com.cn
+ * @LastEditTime: 2023-05-24 17:24:19
  * @Description:
 -->
 <template>
@@ -235,7 +235,7 @@ export default {
     }
   },
   mounted() {
-    window.bossJS.init()
+    window.bossJS.init && window.bossJS.init()
   }
 }
 </script>

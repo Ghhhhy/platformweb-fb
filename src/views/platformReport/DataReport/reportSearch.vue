@@ -444,7 +444,7 @@ export default {
       this.delarLoading = true
       console.log(arguments)
       console.log(this.$refs.agencyTree.curCheckednodes)
-      let agencies = this.$refs.agencyTree.getCheckedNodes()
+      let agencies = this.$refs.agencyTree.curCheckednodes
       if (!agencies || agencies.length === 0 || (agencies.length === 1 && agencies[0].code === 'root' && agencies[0].children.length === 0)) {
         // this.$XModal.message({ status: 'info', message: '请' })
         this.checkedAgencys.agencyCodes = ''
