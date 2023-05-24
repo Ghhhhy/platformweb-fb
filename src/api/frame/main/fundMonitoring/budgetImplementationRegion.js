@@ -27,7 +27,9 @@ export default {
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   },
-
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
   getCapitalTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryCapital', params)
   },
