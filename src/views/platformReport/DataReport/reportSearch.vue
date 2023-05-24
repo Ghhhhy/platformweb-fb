@@ -170,7 +170,7 @@ export default {
           successCode: '100000', // 成功code
           statusField: 'code',
           method: 'get', // 请求方式
-          url: '/bisBudget/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree' // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
+          url: '' // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
         },
         defaultSelectFirstLeafNode: true,
         multiple: true, // 是否多选,
@@ -497,6 +497,18 @@ export default {
         self.showLoading = false
       })
     },
+    getTreeData() {
+      let self = this
+      self.$http.get('/bisBudget/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree', self.agencyTreeQueryparams).then((res) => {
+        self.showLoading = false
+        self.resolveResult(data => {
+          self.agencyTreeData = data
+        }, res)
+      }).catch((e) => {
+        self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
+        self.showLoading = false
+      })
+    },
     getQueryFormData() {
       let param = {
         eleCode: 'SHFUND_TYPE'
@@ -643,6 +655,7 @@ export default {
     this.getreportParams()
     this.agencyTreeQueryparams.eleCode = this.params5.eleCode
     this.getReportData()
+    this.getTreeData()
   },
   created() {
     this.getreportParams()
