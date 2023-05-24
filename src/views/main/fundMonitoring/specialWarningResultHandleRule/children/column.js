@@ -174,7 +174,6 @@ const proconf = {
     {
       title: '问题明细',
       field: 'detail',
-      formula: '查看',
       sortable: false,
       filters: false,
       width: 400,
