@@ -629,7 +629,7 @@ export default {
       })
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+      HttpModule.getProSpeTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[2].itemRender.options = treeResdata

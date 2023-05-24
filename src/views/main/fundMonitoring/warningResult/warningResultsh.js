@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -282,141 +282,8 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
       }
-    },
-    {
-      title: '上级项目名称',
-      field: 'trackProName',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '上级项目名称' }
-      }
-    },
-    {
-      title: '预算级次',
-      field: 'budgetLevelName',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '预算级次' }
-      }
-    },
-    {
-      title: '指标下达时间',
-      field: 'createTime',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
-      }
-    },
-    {
-      title: '未分配金额',
-      field: 'curAmt',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '未分配金额' }
-      }
     }
   ],
-  bgtMsgConfig: [
-    {
-      field: 'trackProName',
-      title: '上级项目名称',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '上级项目名称', disabled: true }
-      }
-    },
-    {
-      field: 'supBgtDocNo',
-      title: '上级指标文号 ',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '上级指标文号 ', disabled: true }
-      }
-    },
-    {
-      field: 'budgetLevelName',
-      title: '预算级次',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '预算级次', disabled: true }
-      }
-    },
-    {
-      field: 'proName',
-      title: '本级项目 ',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '本级项目 ', disabled: true }
-      }
-    },
-    {
-      title: '支出功能科目编码',
-      field: 'expFuncCode',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '支出功能科目编码' }
-      }
-    },
-    {
-      title: '支出功能科目名称',
-      field: 'expFuncName',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '支出功能科目名称' }
-      }
-    },
-    {
-      title: '指标下达时间',
-      field: 'createTime',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
-      }
-    },
-    {
-      title: '金额',
-      field: 'amount',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '金额' }
-      }
-    },
-    {
-      title: '未分配金额',
-      field: 'curAmt',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '未分配金额' }
-      }
-    }
-  ],
-
   incomeMsgData: {
     warningCode: '',
     payApplyNumber: '',
@@ -446,17 +313,6 @@ const proconf = {
     createTime: '',
     fiDate: ''
   },
-  bgtMsgData: {
-    trackProName: '',
-    supBgtDocNo: '',
-    budgetLevelName: '',
-    proName: '',
-    expFuncCode: '',
-    expFuncName: '',
-    createTime: '',
-    amount: '',
-    curAmt: ''
-  },
   highQueryConfig: [
     {
       title: '业务年度',
@@ -464,17 +320,15 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
+        name: '$vxeSelect',
+        options: [
+          { value: '2021', label: '2021年' },
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
+        ],
         props: {
-          type: 'year',
-          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
@@ -508,7 +362,7 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year,
+    fiscalYear: '',
     trackProCode: ''
   },
   basicInfo: {
@@ -522,64 +376,237 @@ const proconf = {
     tableColumnsConfig: [
       {
         title: '规则名称',
-        treeNode: true,
-        align: 'left',
-        width: 260,
-        field: 'name',
-        filters: false,
-        cellRender: {
-          name: '$vxeIcon'
-        }
+        field: 'fiRuleName',
+        sortable: true,
+        align: 'center',
+        minWidth: 300,
+        width: 'auto'
       },
+      // 上海临时去掉
+      // {
+      //   title: '红色预警',
+      //   field: '',
+      //   width: 140,
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '未处理',
+      //       field: 'redUndoNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon1',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已整改',
+      //       field: 'redDoneNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      //   ]
+      // },
+      // {
+      //   title: '橙色预警',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '未处理',
+      //       field: 'orangeTodoNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon1',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已通过',
+      //       field: 'orangePassNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已禁止',
+      //       field: 'orangeForbidNum',
+      //       width: 140,
+      //       align: 'center',
+      //       filters: false,
+      //       cellRender: {
+      //         name: '$vxeIcon8',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      // {
+      //   title: '未上传附件',
+      //   field: 'orangeUndoNum',
+      //   width: 140,
+      //   align: 'center',
+      //   filters: false,
+      //   cellRender: {
+      //     name: '$vxeIcon6',
+      //     props: {
+      //       $refs: this
+      //     }
+      //   }
+      // },
+      // {
+      //   title: '已上传附件',
+      //   field: 'orangeDoneNum',
+      //   width: 140,
+      //   align: 'center',
+      //   filters: false,
+      //   cellRender: {
+      //     name: '$vxeIcon3',
+      //     props: {
+      //       $refs: this
+      //     }
+      //   }
+      // }
+      // {
+      //   title: '认定违规',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   'children': [
+      //     {
+      //       title: '未处理',
+      //       field: 'orangeUndoNumw',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon1',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已整改',
+      //       field: 'orangeDoneNumw',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      //   ]
+      // }
+      //   ]
+      // },
+      // {
+      //   title: '黄色预警',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '疑点信息',
+      //       field: 'yellowUndoNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon2',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '认定正常',
+      //       field: 'yellowDoneNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '认定违规',
+      //       field: '',
+      //       sortable: false,
+      //       align: 'center',
+      //       children: [
+      //         {
+      //           title: '未处理',
+      //           field: 'yellowUndoNumw',
+      //           width: 140,
+      //           filters: false,
+      //           align: 'center',
+      //           cellRender: {
+      //             name: '$vxeIcon1',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         },
+      //         {
+      //           title: '已整改',
+      //           field: 'yellowDoneNumw',
+      //           width: 140,
+      //           filters: false,
+      //           align: 'center',
+      //           cellRender: {
+      //             name: '$vxeIcon3',
+      //             props: {
+      //               $refs: this
+      //             }
+      //           }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
-        title: '红灯',
+        title: '蓝色预警', // 非人工干预蓝色预警
         field: '',
-        width: 140,
         sortable: false,
         align: 'center',
-        children: [
-          {
-            title: '待整改',
-            field: 'numbernofileNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon1',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已整改',
-            field: 'numberfileNum',
-            width: 140,
-            align: 'center',
-            filters: false,
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          }
-        ]
-      },
-      {
-        title: '黄灯',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
+        'children': [
           {
             title: '疑点信息',
-            field: 'numberwarnUndoNum',
+            field: 'blueUndoNum',
             width: 140,
-            align: 'center',
             filters: false,
+            align: 'center',
             cellRender: {
-              name: '$vxeIcon6',
+              name: '$vxeIcon7',
               props: {
                 $refs: this
               }
@@ -587,10 +614,10 @@ const proconf = {
           },
           {
             title: '认定正常',
-            field: 'numberwarndoNum',
+            field: 'blueDoneNum',
             width: 140,
-            align: 'center',
             filters: false,
+            align: 'center',
             cellRender: {
               name: '$vxeIcon3',
               props: {
@@ -600,13 +627,13 @@ const proconf = {
           },
           {
             title: '认定违规',
-            field: 'numberwarndoNoNum',
-            width: 140,
+            field: '',
+            sortable: false,
             align: 'center',
             children: [
               {
-                title: '待整改',
-                field: 'numberwarnUndoNoNum',
+                title: '未处理',
+                field: 'blueUndoNumw',
                 width: 140,
                 filters: false,
                 align: 'center',
@@ -619,10 +646,10 @@ const proconf = {
               },
               {
                 title: '已整改',
-                field: 'numberwarndidNum',
+                field: 'blueDoneNumw',
                 width: 140,
-                align: 'center',
                 filters: false,
+                align: 'center',
                 cellRender: {
                   name: '$vxeIcon3',
                   props: {
@@ -631,40 +658,6 @@ const proconf = {
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        title: '黄色警铃',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '待整改',
-            field: 'numberhqlmUndoNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon2',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已整改',
-            field: 'numberhqlmdoNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
           }
         ]
       }
