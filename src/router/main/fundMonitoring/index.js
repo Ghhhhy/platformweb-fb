@@ -414,6 +414,39 @@ const routers = [
       ) // 直达资金监控预警结果(全省)
   },
   {
+    path: '/warningResultAgency',
+    name: 'warningResultAgency',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(单位)
+  },
+  {
+    path: '/warningResultMdept',
+    name: 'warningResultMdept',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(处室)
+  },
+  {
+    path: '/warningResultFSD',
+    name: 'warningResultFSD',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(非试点)
+  },
+  {
     path: '/WarningResultHandleRegion',
     name: 'WarningResultHandleRegion',
     meta: {
