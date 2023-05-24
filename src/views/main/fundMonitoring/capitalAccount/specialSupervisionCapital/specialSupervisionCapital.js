@@ -155,16 +155,16 @@ const proconf = {
         type: 'amountSnjxd',
         cellRender: { name: '$vxeMoney' }
       },
-      {
-        title: '是否直达资金',
-        width: 150,
-        field: 'isZd',
-        align: 'right',
-        formatter: (value, column) => {
-          let { row } = value
-          return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
-        }
-      },
+      // {
+      //   title: '是否直达资金',
+      //   width: 150,
+      //   field: 'isZd',
+      //   align: 'right',
+      //   formatter: (value, column) => {
+      //     let { row } = value
+      //     return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
+      //   }
+      // },
       {
         title: '整合',
         width: 100,
