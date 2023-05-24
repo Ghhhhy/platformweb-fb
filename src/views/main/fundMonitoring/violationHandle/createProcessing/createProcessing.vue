@@ -380,12 +380,12 @@ export default {
         if (res.code === '000000') {
           let tempData = res.data.map(item => {
             return {
-              logid: item['OPERATION_TYPE_CODE'],
-              nodeName: item['OPERATION_TYPE_NAME'],
-              actionUser: item['OPERATION_USER'],
-              actionName: item['OPERATION_TYPE_NAME'],
+              logid: item['operationTypeCode'],
+              nodeName: item['operationTypeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
               actionTime: '',
-              message: item['OPERATION_COMMENT']
+              message: item['operationComment']
             }
           })
           this.logData = tempData

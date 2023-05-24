@@ -157,6 +157,14 @@ const budgetImpColumns = [
 // 预算管理表头
 const budgetManagementColumns = [
   {
+    title: '监控规则',
+    width: 180,
+    field: 'fiRuleName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '超时下达类型',
     width: 180,
     field: 'timeoutIssueType',
@@ -196,14 +204,14 @@ const budgetManagementColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '项目类别',
-    width: 180,
-    field: 'violateType5',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '项目类别',
+  //   width: 180,
+  //   field: 'violateType5',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '项目名称',
     width: 180,
@@ -233,18 +241,27 @@ const budgetManagementColumns = [
     sortable: false,
     filters: false,
     align: 'center'
-  }, {
-    title: '监控规则',
+  },
+  {
+    title: '指标余额',
     width: 180,
-    field: 'fiRuleName',
+    field: 'curAmt',
     sortable: false,
     filters: false,
     align: 'center'
   },
   {
-    title: '违规责任单位',
+    title: '超时下达金额',
     width: 180,
-    field: 'violateType11',
+    field: 'timeoutIssueAmount',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '超时下达时间',
+    width: 180,
+    field: 'timeoutIssueTime',
     sortable: false,
     filters: false,
     align: 'center'
@@ -1605,6 +1622,16 @@ export const proconf = {
   ],
   indexMsgConfig: [
     {
+      field: 'fiRuleName',
+      title: '监控规则',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '监控规则', disabled: true }
+      }
+    },
+    {
       field: 'timeoutIssueType',
       title: '超时下达类型',
       titleWidth: '180',
@@ -1652,15 +1679,6 @@ export const proconf = {
         props: { placeholder: '下级财政', disabled: true }
       }
     }, {
-      field: 'violateType5',
-      title: '项目类别',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '项目类别', disabled: true }
-      }
-    }, {
       field: 'proName',
       title: '项目名称',
       titleWidth: '180',
@@ -1696,27 +1714,37 @@ export const proconf = {
         name: '$vxeInput',
         props: { placeholder: '分配金额', disabled: true }
       }
-    }, {
-      field: 'fiRuleName',
-      title: '监控规则',
+    },
+    {
+      field: 'curAmt',
+      title: '指标余额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '监控规则', disabled: true }
+        props: { placeholder: '指标余额', disabled: true }
       }
     },
     {
-      field: 'violateType11',
-      title: '违规责任单位',
+      field: 'timeoutIssueAmount',
+      title: '超时下达金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '违规责任单位', disabled: true }
+        props: { placeholder: '超时下达金额', disabled: true }
+      }
+    },
+    {
+      field: 'timeoutIssueTime',
+      title: '超时下达时间',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达时间', disabled: true }
       }
     }
-
   ],
   indexMsgData: {
     timeoutIssueType: '',
@@ -1729,6 +1757,8 @@ export const proconf = {
     recTime: '',
     recAmount: '',
     allocationAmount: '',
+    timeoutIssueAmount: '',
+    timeoutIssueTime: '',
     fiRuleName: '',
     violateType11: ''// 违规责任单位
   },

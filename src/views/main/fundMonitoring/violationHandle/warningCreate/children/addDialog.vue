@@ -564,7 +564,7 @@ export default {
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
             if (res.data.baBgtInfoEntity !== null) {
-              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
               this.supplyDataList.agencyName = agencyCode + '-' + agencyName
               this.supplyDataList.proName = proCode + '-' + proName
               this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
@@ -577,8 +577,9 @@ export default {
               this.supplyDataList.recTime = recTime || ''
               this.supplyDataList.recAmount = recAmount || ''
               this.supplyDataList.allocationAmount = allocationAmount || ''
-              this.supplyDataList.fiRuleName = fiRuleName || ''
-              this.supplyDataList.violateType11 = ''// 违规责任单位
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
+              this.supplyDataList.curAmt = curAmt || ''
             }
             this.handletableData = res.data?.regulationList
           } else {
