@@ -162,7 +162,7 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="businessFunctionTreeData"
-                      :config="{ valueKeys: ['guid', 'name'],format: '{name}',treeProps: { labelFormat: '{name}', nodeKey: 'guid', label: 'name',children: 'children', disabled: 'disabled' }, multiple: true, readonly: false, isleaf: true }"
+                      :config="{ treeProps: { labelFormat: '{name}', nodeKey: 'guid', label: 'name',children: 'children', disabled: 'disabled' }, multiple: true, readonly: false, isleaf: true }"
                       class="businessFunctionTree"
                       style="display: inline-block;"
                     />
@@ -563,16 +563,20 @@
 <script>
 import { proconf } from '../SystemLevelRules.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
-import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
+// import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
 import functionSelectMixin from '@/mixin/functionSelectMixin.js'
 
 export default {
   name: 'AddDialog',
-  mixins: [queryTreedElementByCodeMixin, functionSelectMixin],
+  mixins: [functionSelectMixin],
   components: {},
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    // 当前业务模块
+    currentBusinessModule() {
+      return this.businessModuleCodeoptions.find(item => item.id === this.ModparentId)
     }
   },
   props: {
@@ -583,6 +587,7 @@ export default {
   },
   data() {
     return {
+      businessFunctionTreeData: [],
       submitLoading: false,
       treeData: [],
       editConfig: {
@@ -1765,6 +1770,12 @@ export default {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    async getBusinessFunctionTree() {
+      const { data } = await HttpModule.queryTreedElementByCod(this.currentBusinessModule?.code)
+      if (Array.isArray(data)) {
+        this.businessFunctionTreeData = data
+      }
     }
   },
   watch: {
@@ -1814,6 +1825,7 @@ export default {
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
+      this.getBusinessFunctionTree()
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
@@ -1853,6 +1865,7 @@ export default {
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
+      this.getBusinessFunctionTree()
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
@@ -1942,6 +1955,7 @@ export default {
     this.getSysLists()
     this.getDepLists()
     this.getRegulation()
+    this.getBusinessFunctionTree()
   }
 }
 </script>

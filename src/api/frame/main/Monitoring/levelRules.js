@@ -139,5 +139,10 @@ export default {
   },
   queryRuleSpecial(params) {
     return post('dfr-monitor-service/dfr/warningRule/viewSpecial', params)
+  },
+  queryTreedElementByCod(code = 'pay') {
+    const formData = new FormData()
+    formData.append('code', code || 'pay')
+    return post('large-monitor-platform/lmp/elementQuery/queryTreedElementByCode', formData, null, 'multipart/form-data')
   }
 }
