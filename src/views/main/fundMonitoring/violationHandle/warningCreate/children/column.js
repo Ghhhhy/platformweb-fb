@@ -137,11 +137,19 @@ const budgetImpColumns = [
       options: [
         {
           value: 1,
-          label: '预警，无需上传附件'
+          label: '拦截'
         },
         {
           value: 2,
           label: '预警，需上传附件'
+        },
+        {
+          value: 3,
+          label: '预警，无需上传附件'
+        },
+        {
+          value: 4,
+          label: '提醒'
         },
         {
           value: 5,
@@ -709,11 +717,19 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
             label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 4,
+            label: '提醒'
           },
           {
             value: 5,
@@ -1762,11 +1778,19 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
             label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 4,
+            label: '提醒'
           },
           {
             value: 5,
@@ -2027,24 +2051,24 @@ const proconf = {
         'name': '$vxeSelect',
         'options': [
           {
-            'value': '1',
-            'label': '预警，无需上传附件'
+            value: 1,
+            label: '拦截'
           },
           {
-            'value': '2',
-            'label': '预警，需上传附件'
+            value: 2,
+            label: '预警，需上传附件'
           },
           {
-            'value': '3',
-            'label': '拦截'
+            value: 3,
+            label: '预警，无需上传附件'
           },
           {
-            'value': '4',
-            'label': '禁止'
+            value: 4,
+            label: '提醒'
           },
           {
-            'value': '5',
-            'label': '记录'
+            value: 5,
+            label: '记录'
           }
         ],
         'defaultValue': '',
@@ -2123,7 +2147,7 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
@@ -2131,14 +2155,14 @@ const proconf = {
           },
           {
             value: 3,
-            label: '拦截'
+            label: '预警，无需上传附件'
           },
           {
             value: 4,
-            label: '禁止'
+            label: '提醒'
           },
           {
-            value: '5',
+            value: 5,
             label: '记录'
           }
         ],
@@ -2263,7 +2287,7 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
@@ -2271,14 +2295,14 @@ const proconf = {
           },
           {
             value: 3,
-            label: '拦截'
+            label: '预警，无需上传附件'
           },
           {
             value: 4,
-            label: '禁止'
+            label: '提醒'
           },
           {
-            value: '5',
+            value: 5,
             label: '记录'
           }
         ],

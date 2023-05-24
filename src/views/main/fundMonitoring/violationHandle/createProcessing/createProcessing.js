@@ -137,11 +137,19 @@ const budgetImpColumns = [
       options: [
         {
           value: 1,
-          label: '预警，无需上传附件'
+          label: '拦截'
         },
         {
           value: 2,
           label: '预警，需上传附件'
+        },
+        {
+          value: 3,
+          label: '预警，无需上传附件'
+        },
+        {
+          value: 4,
+          label: '提醒'
         },
         {
           value: 5,
@@ -1450,7 +1458,7 @@ export const proconf = {
       }
     },
     {
-      field: 'pay_app_amt',
+      field: 'paymentAmount',
       title: '支付金额',
       titleWidth: '180',
       span: 8,
@@ -1908,7 +1916,7 @@ export const proconf = {
       }
     },
     {
-      field: 'pay_app_amt',
+      field: 'paymentAmount',
       title: '支付金额',
       titleWidth: '180',
       span: 8,
@@ -2574,7 +2582,7 @@ export const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
@@ -2582,11 +2590,11 @@ export const proconf = {
           },
           {
             value: 3,
-            label: '拦截'
+            label: '预警，无需上传附件'
           },
           {
             value: 4,
-            label: '禁止'
+            label: '提醒'
           },
           {
             value: 5,
