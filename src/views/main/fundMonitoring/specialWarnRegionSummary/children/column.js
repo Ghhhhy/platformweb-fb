@@ -793,6 +793,14 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '指标文号',
       field: 'targetDocNum',
       sortable: false,
@@ -965,6 +973,14 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'center'
+    },
+    {
       title: '指标文号',
       field: 'targetDocNum',
       sortable: false,
@@ -1114,6 +1130,14 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级指标文号',
+      field: 'zfSupBgtDocNo',
+      sortable: false,
+      filters: false,
+      width: 140,
       align: 'center'
     },
     {

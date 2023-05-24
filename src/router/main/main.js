@@ -16,6 +16,7 @@ importAll(require.context('./handlingOfViolations', false, /.js$/))
 importAll(require.context('./statisticAnalysis', false, /.js$/))
 importAll(require.context('./monitoringSubjectAnalysis', false, /.js$/))
 importAll(require.context('./specialMonitor', false, /.js$/))
+importAll(require.context('./report', false, /.js$/))
 
 const MainRoute = {
   path: '/Main',

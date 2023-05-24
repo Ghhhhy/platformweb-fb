@@ -444,6 +444,7 @@ export default {
     eachTree(treeData, parentId, level) {
       treeData.forEach(item => {
         item.id = item.id || this.$XEUtils.uniqueId('tree_row_')
+        item.agencyCodeName = item.agencyCodeName !== null ? item.agencyCodeName : `${item.agencyCode}-${item.agencyName}`
         item.level = level
         item['parentId'] = parentId
         if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
