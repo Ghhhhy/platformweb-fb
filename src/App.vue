@@ -84,6 +84,7 @@ export default {
       }
       // iframe形式嵌入不用重置到首页
       if (window.self !== window.top) {
+        import('./appMain.css')
         return
       }
       // 缓存url参数后更新URL

@@ -751,6 +751,14 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
       }
+      if (this.doubtViolateExplain.length <= 5) {
+        this.$message.warning('疑似违规说明长度应大于等于5位')
+        return
+      }
+      if (this.doubtViolateExplain.length >= 200) {
+        this.$message.warning('疑似违规说明长度应小于等于200位')
+        return
+      }
       this.addLoading = true
       HttpModule.handleAdd(param)
         .then(res => {

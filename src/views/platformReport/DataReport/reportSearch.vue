@@ -170,7 +170,7 @@ export default {
           successCode: '100000', // 成功code
           statusField: 'code',
           method: 'get', // 请求方式
-          url: '/bisBudget/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree' // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
+          url: '' // 'queryTreeAssistData', // 是否调用接口直接获取数据，当此项有值时将会自动家数据
         },
         defaultSelectFirstLeafNode: true,
         multiple: true, // 是否多选,
@@ -444,7 +444,7 @@ export default {
       this.delarLoading = true
       console.log(arguments)
       console.log(this.$refs.agencyTree.curCheckednodes)
-      let agencies = this.$refs.agencyTree.getCheckedNodes()
+      let agencies = this.$refs.agencyTree.curCheckednodes
       if (!agencies || agencies.length === 0 || (agencies.length === 1 && agencies[0].code === 'root' && agencies[0].children.length === 0)) {
         // this.$XModal.message({ status: 'info', message: '请' })
         this.checkedAgencys.agencyCodes = ''
@@ -491,6 +491,18 @@ export default {
           self.inputTableTreeData.forEach(v => {
             v['isLoad'] = false
           })
+        }, res)
+      }).catch((e) => {
+        self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
+        self.showLoading = false
+      })
+    },
+    getTreeData() {
+      let self = this
+      self.$http.get('/bisBudget/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree', self.agencyTreeQueryparams).then((res) => {
+        self.showLoading = false
+        self.resolveResult(data => {
+          self.agencyTreeData = data
         }, res)
       }).catch((e) => {
         self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
@@ -643,6 +655,7 @@ export default {
     this.getreportParams()
     this.agencyTreeQueryparams.eleCode = this.params5.eleCode
     this.getReportData()
+    this.getTreeData()
   },
   created() {
     this.getreportParams()
