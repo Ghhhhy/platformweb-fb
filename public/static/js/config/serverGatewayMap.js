@@ -43,11 +43,11 @@ window.gloableToolFn = {
   },
   // 是否开启水印
   enableWaterMark: false,
-  getReportUrl: () => reportService
-}
-window.gloableToolFn.getIssueUrl = () => {
-  return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
-}
-window.gloableToolFn.getBbsUrl = () => {
-  return 'https://yth.czj.sh.cegn.cn/shbbs/'
+  getReportUrl: () => reportService,
+  getIssueUrl: () => {
+    return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
+  },
+  getBbsUrl: () => {
+    return 'https://yth.czj.sh.cegn.cn/shbbs/'
+  }
 }

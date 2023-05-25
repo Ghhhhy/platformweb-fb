@@ -175,6 +175,17 @@ const budgetImpColumns = [
       'totalAll'
     ],
     cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '追踪项目',
+    width: 180,
+    field: 'trackProCode',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
   }
 ]
 // 预算管理表头
@@ -568,6 +579,21 @@ const proconf = {
           placeholder: '监控规则'
         }
       }
+    },
+    {
+      title: '追踪项目',
+      field: 'trackProName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '追踪项目'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -577,7 +603,8 @@ const proconf = {
     warnTime: '',
     triggerClass: '',
     warningLevel: '',
-    fiRuleName: ''
+    fiRuleName: '',
+    trackProName: ''
   },
   // 预警数据明细
   undoNum: [
@@ -1193,6 +1220,15 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '是否作废' }
+      }
+    }, {
+      title: '追踪项目',
+      field: 'trackProName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '追踪项目' }
       }
     }
   ],
