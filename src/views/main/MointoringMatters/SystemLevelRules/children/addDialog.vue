@@ -162,7 +162,7 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="businessFunctionTreeData"
-                      :config="{ valueKeys: ['code', 'name', 'guid'], treeProps: { labelFormat: '{name}', nodeKey: 'guid', label: 'name',children: 'children' }, disabled: false ,multiple: true, readonly: false, isleaf: true }"
+                      :config="{ valueKeys: ['guid', 'name', 'code'], treeProps: { labelFormat: '{name}', nodeKey: 'guid', label: 'name',children: 'children' }, disabled: false ,multiple: true, readonly: false, isleaf: true }"
                       class="businessFunctionTree"
                       style="display: inline-block;"
                     />
