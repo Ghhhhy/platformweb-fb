@@ -26,7 +26,7 @@
             :input-value.sync="treeFilterText"
             label="导航"
           />
-          <div class="mmc-left-tree-body" style="height: calc(100% - 48px); overflow-y: auto">
+          <div class="mmc-left-tree-body" style="height: calc(100% - 8px); overflow-y: auto">
             <BsTree
               ref="mofDivTree"
               v-loading="treeLoading"
@@ -179,11 +179,11 @@ export default defineComponent({
         afterFetch: data => {
           return [
             {
-              id: '',
+              id: 'ALL',
               name: '全部',
-              customCode: '',
+              customCode: 'ALL',
               children: data || [],
-              code: ''
+              code: 'ALL'
             }
           ]
         }
@@ -274,7 +274,7 @@ export default defineComponent({
      * */
     function computedColumns() {
       // 未送审
-      const initColumns = getCommonColumns()
+      let initColumns = getCommonColumns()
 
       if (unref(currentTab).code === TabEnum.SENDED) {
         // 已送审
@@ -316,6 +316,12 @@ export default defineComponent({
           0,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
+      }
+      // 福建不要业务编码 以区划区分
+      if (store.state.userInfo.province.startsWith('35')) {
+        initColumns = initColumns.filter(item => {
+          return item.field !== 'businessNo'
+        })
       }
       columns.value = initColumns
     }
