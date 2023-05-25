@@ -267,7 +267,7 @@ export let proconf = {
       align: 'left'
     }, {
       field: 'to_peop_family',
-      title: '按户或按人补助*',
+      title: '按户或按人补助*（01到人 02到户）',
       width: 180,
       sortable: false,
       filters: false,
