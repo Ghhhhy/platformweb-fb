@@ -163,6 +163,7 @@ export default defineComponent({
     } = useTree(
       {
         treeProps: {
+          labelFormat: '{name}',
           id: 'code',
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
