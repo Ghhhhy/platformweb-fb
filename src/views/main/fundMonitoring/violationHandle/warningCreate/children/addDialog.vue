@@ -557,6 +557,7 @@ export default {
               this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
               this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
               this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
@@ -564,7 +565,7 @@ export default {
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
             if (res.data.baBgtInfoEntity !== null) {
-              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
               this.supplyDataList.agencyName = agencyCode + '-' + agencyName
               this.supplyDataList.proName = proCode + '-' + proName
               this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
@@ -577,8 +578,9 @@ export default {
               this.supplyDataList.recTime = recTime || ''
               this.supplyDataList.recAmount = recAmount || ''
               this.supplyDataList.allocationAmount = allocationAmount || ''
-              this.supplyDataList.fiRuleName = fiRuleName || ''
-              this.supplyDataList.violateType11 = ''// 违规责任单位
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
+              this.supplyDataList.curAmt = curAmt || ''
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -748,6 +750,14 @@ export default {
         warnid: this.detailData[0].warnid,
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
+      }
+      if (this.doubtViolateExplain.length <= 5) {
+        this.$message.warning('疑似违规说明长度应大于等于5位')
+        return
+      }
+      if (this.doubtViolateExplain.length >= 200) {
+        this.$message.warning('疑似违规说明长度应小于等于200位')
+        return
       }
       this.addLoading = true
       HttpModule.handleAdd(param)

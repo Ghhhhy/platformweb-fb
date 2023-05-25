@@ -569,6 +569,7 @@ export default {
               this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
               this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
               this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
@@ -576,7 +577,7 @@ export default {
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
             if (res.data.baBgtInfoEntity !== null) {
-              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName } = res.data.baBgtInfoEntity
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName, timeoutIssueAmount, timeoutIssueTime } = res.data.baBgtInfoEntity
               this.supplyDataList.agencyName = agencyCode + '-' + agencyName
               this.supplyDataList.proName = proCode + '-' + proName
               this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
@@ -589,6 +590,8 @@ export default {
               this.supplyDataList.recTime = recTime || ''
               this.supplyDataList.recAmount = recAmount || ''
               this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
               this.supplyDataList.fiRuleName = fiRuleName || ''
               this.supplyDataList.violateType11 = ''// 违规责任单位
             }

@@ -296,7 +296,8 @@ export default {
       leftTreeFilterText: '', // 展示左侧树 只有某些页面才展示
       selectBtnType: '',
       showLog: false,
-      currentNodeKey: '7'
+      currentNodeKey: '7',
+      trackProName: ''
     }
   },
   activated() {
@@ -380,12 +381,12 @@ export default {
         if (res.code === '000000') {
           let tempData = res.data.map(item => {
             return {
-              logid: item['OPERATION_TYPE_CODE'],
-              nodeName: item['OPERATION_TYPE_NAME'],
-              actionUser: item['OPERATION_USER'],
-              actionName: item['OPERATION_TYPE_NAME'],
+              logid: item['operationTypeCode'],
+              nodeName: item['operationTypeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
               actionTime: '',
-              message: item['OPERATION_COMMENT']
+              message: item['operationComment']
             }
           })
           this.logData = tempData
@@ -413,6 +414,7 @@ export default {
       this.agencyName = obj.agencyName
       this.issueTime = obj.issueTime
       this.fiRuleName = obj.fiRuleName
+      this.trackProName = obj.trackProName || ''
       this.violateType = obj.violateType
       if (this.menuName === '监控问询单列表' && this.status !== 0) {
         // this.status = obj.status === '' ? this.status : obj.status
@@ -522,6 +524,7 @@ export default {
       this.issueTime = ''
       this.fiRuleName = ''
       this.violateType = ''
+      this.trackProName = ''
     },
     onClickmethod({ node }) {
       if (node.code) {
@@ -597,7 +600,8 @@ export default {
         violateType: this.violateType,
         status: this.status,
         mofDivCodeList: this.codeList,
-        mofDivCode: this.mofDivCode || ''
+        mofDivCode: this.mofDivCode || '',
+        trackProName: this.trackProName || ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -643,7 +647,8 @@ export default {
         warnTime: this.warnTime,
         triggerClass: this.triggerClass,
         warningLevel: this.warningLevel,
-        businessModelCode: this.bussnessId || undefined
+        businessModelCode: this.bussnessId || undefined,
+        trackProName: this.trackProName || ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

@@ -158,11 +158,12 @@
                     <!--</el-select>-->
                     <BsTree
                       ref="businessFunctionCodeModalRef"
-                      v-model="businessFunctionCode"
+                      v-model="businessFunctionCodeModal"
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="businessFunctionTreeData"
-                      :config="{ valueKeys: ['guid', 'name'],format: '{name}',treeProps: { labelFormat: '{name}', nodeKey: 'guid', label: 'name',children: 'children', disabled: 'disabled' }, multiple: true, readonly: false, isleaf: true }"
+                      :default-checked-keys="businessFunctionCode"
+                      v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
                       class="businessFunctionTree"
                       style="display: inline-block;"
                     />
@@ -1443,7 +1444,6 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择触发类型' })
         return
       }
-      console.log(this.businessFunctionCode, 'businessFunctionCode')
       // if (!this.warnLocation) {
       //   this.$XModal.message({ status: 'warning', message: '请选择提醒位置' })
       //   return
@@ -1500,14 +1500,6 @@ export default {
         ruleName = valArr[1]
         ruleId = valArr[0]
       }
-      let businessFunctionId = []
-      let businessFunctionName = []
-      if (that.businessFunctionCode) {
-        that.businessFunctionCode?.split(',')?.map((v) => {
-          businessFunctionName.push(v.split('##')[1])
-          businessFunctionId.push(v.split('##')[0])
-        })
-      }
       console.log(this.regulationClass)
       let formDatas = this.$refs.messageForm.formDataListIn
       let param = {
@@ -1518,8 +1510,8 @@ export default {
         'businessSystemName': that.businessSystemName,
         'businessModuleCode': that.businessModuleCode,
         'businessModuleName': that.businessModuleName,
-        'menuIdList': businessFunctionId.join(','), // 多菜单
-        'menuNameList': businessFunctionName.join(','),
+        'menuIdList': that.businessFunctionCode.toString(), // 多菜单
+        'menuNameList': that.businessFunctionName.toString(),
         // 'businessFunctionCode': that.businessFunctionCode,
         'departmentCode': that.departmentCode,
         'departmentName': that.departmentName,
@@ -1699,7 +1691,7 @@ export default {
       this.addLoading = true
       HttpModule.getbusLists(param).then(res => {
         this.addLoading = false
-        this.businessFunctionTreeData = res.data.results
+        this.businessFunctionCodeoptions = res.data.results
       })
     },
     // 主管部门下拉树

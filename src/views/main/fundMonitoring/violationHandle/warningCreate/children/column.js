@@ -137,11 +137,19 @@ const budgetImpColumns = [
       options: [
         {
           value: 1,
-          label: '预警，无需上传附件'
+          label: '拦截'
         },
         {
           value: 2,
           label: '预警，需上传附件'
+        },
+        {
+          value: 3,
+          label: '预警，无需上传附件'
+        },
+        {
+          value: 4,
+          label: '提醒'
         },
         {
           value: 5,
@@ -167,10 +175,29 @@ const budgetImpColumns = [
       'totalAll'
     ],
     cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '追踪项目',
+    width: 180,
+    field: 'trackProCode',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
   }
 ]
 // 预算管理表头
 const budgetManagementColumns = [
+  {
+    title: '监控规则',
+    width: 180,
+    field: 'fiRuleName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
   {
     title: '超时下达类型',
     width: 180,
@@ -189,7 +216,7 @@ const budgetManagementColumns = [
   },
   {
     title: '预算年度',
-    width: 180,
+    width: 100,
     field: 'fiscalYear',
     sortable: false,
     filters: false,
@@ -207,14 +234,6 @@ const budgetManagementColumns = [
     title: '下级财政',
     width: 180,
     field: 'mofDivName',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
-    title: '项目类别',
-    width: 180,
-    field: 'proCode',
     sortable: false,
     filters: false,
     align: 'center'
@@ -248,21 +267,36 @@ const budgetManagementColumns = [
     sortable: false,
     filters: false,
     align: 'center'
-  }, {
-    title: '监控规则',
-    width: 180,
-    field: 'fiRuleName',
-    sortable: false,
-    filters: false,
-    align: 'center'
   },
   {
-    title: '违规责任单位',
-    width: 180,
-    field: 'violateType11',
-    sortable: false,
-    filters: false,
-    align: 'center'
+    field: 'curAmt',
+    title: '指标余额',
+    titleWidth: '180',
+    span: 8,
+    itemRender: {
+      name: '$vxeInput',
+      props: { placeholder: '指标余额', disabled: true }
+    }
+  },
+  {
+    field: 'timeoutIssueAmount',
+    title: '超时下达金额',
+    titleWidth: '180',
+    span: 8,
+    itemRender: {
+      name: '$vxeInput',
+      props: { placeholder: '超时下达金额', disabled: true }
+    }
+  },
+  {
+    field: 'timeoutIssueTime',
+    title: '超时下达时间',
+    titleWidth: '180',
+    span: 8,
+    itemRender: {
+      name: '$vxeInput',
+      props: { placeholder: '超时下达时间', disabled: true }
+    }
   }
 ]
 // 违规类型
@@ -545,6 +579,21 @@ const proconf = {
           placeholder: '监控规则'
         }
       }
+    },
+    {
+      title: '追踪项目',
+      field: 'trackProName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '追踪项目'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -554,7 +603,8 @@ const proconf = {
     warnTime: '',
     triggerClass: '',
     warningLevel: '',
-    fiRuleName: ''
+    fiRuleName: '',
+    trackProName: ''
   },
   // 预警数据明细
   undoNum: [
@@ -694,11 +744,19 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
             label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 4,
+            label: '提醒'
           },
           {
             value: 5,
@@ -1163,6 +1221,15 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '是否作废' }
       }
+    }, {
+      title: '追踪项目',
+      field: 'trackProName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '追踪项目' }
+      }
     }
   ],
   indexMsgConfig: [
@@ -1214,15 +1281,6 @@ const proconf = {
         props: { placeholder: '下级财政', disabled: true }
       }
     }, {
-      field: 'violateType5',
-      title: '项目类别',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '项目类别', disabled: true }
-      }
-    }, {
       field: 'proName',
       title: '项目名称',
       titleWidth: '180',
@@ -1233,21 +1291,21 @@ const proconf = {
       }
     }, {
       field: 'recTime',
-      title: '指标接受时间',
+      title: '指标接收时间',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '指标接受时间', disabled: true }
+        props: { placeholder: '指标接收时间', disabled: true }
       }
     }, {
       field: 'recAmount',
-      title: '接受金额',
+      title: '接收金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '接受金额', disabled: true }
+        props: { placeholder: '接收金额', disabled: true }
       }
     }, {
       field: 'allocationAmount',
@@ -1258,24 +1316,35 @@ const proconf = {
         name: '$vxeInput',
         props: { placeholder: '分配金额', disabled: true }
       }
-    }, {
-      field: 'fiRuleName',
-      title: '监控规则',
+    },
+    {
+      field: 'curAmt',
+      title: '指标余额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '监控规则', disabled: true }
+        props: { placeholder: '指标余额', disabled: true }
       }
     },
     {
-      field: 'violateType11',
-      title: '违规责任单位',
+      field: 'timeoutIssueAmount',
+      title: '超时下达金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '违规责任单位', disabled: true }
+        props: { placeholder: '超时下达金额', disabled: true }
+      }
+    },
+    {
+      field: 'timeoutIssueTime',
+      title: '超时下达时间',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达时间', disabled: true }
       }
     }
 
@@ -1745,11 +1814,19 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
             label: '预警，需上传附件'
+          },
+          {
+            value: 3,
+            label: '预警，无需上传附件'
+          },
+          {
+            value: 4,
+            label: '提醒'
           },
           {
             value: 5,
@@ -1953,7 +2030,10 @@ const proconf = {
     recAmount: '',
     allocationAmount: '',
     fiRuleName: '',
-    violateType11: ''// 违规责任单位
+    violateType11: '', // 违规责任单位
+    timeoutIssueAmount: '',
+    timeoutIssueTime: '',
+    curAmt: ''
   },
   handletableColumnsConfig: [
     {
@@ -2007,24 +2087,24 @@ const proconf = {
         'name': '$vxeSelect',
         'options': [
           {
-            'value': '1',
-            'label': '预警，无需上传附件'
+            value: 1,
+            label: '拦截'
           },
           {
-            'value': '2',
-            'label': '预警，需上传附件'
+            value: 2,
+            label: '预警，需上传附件'
           },
           {
-            'value': '3',
-            'label': '拦截'
+            value: 3,
+            label: '预警，无需上传附件'
           },
           {
-            'value': '4',
-            'label': '禁止'
+            value: 4,
+            label: '提醒'
           },
           {
-            'value': '5',
-            'label': '记录'
+            value: 5,
+            label: '记录'
           }
         ],
         'defaultValue': '',
@@ -2103,7 +2183,7 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
@@ -2111,14 +2191,14 @@ const proconf = {
           },
           {
             value: 3,
-            label: '拦截'
+            label: '预警，无需上传附件'
           },
           {
             value: 4,
-            label: '禁止'
+            label: '提醒'
           },
           {
-            value: '5',
+            value: 5,
             label: '记录'
           }
         ],
@@ -2243,7 +2323,7 @@ const proconf = {
         options: [
           {
             value: 1,
-            label: '预警，无需上传附件'
+            label: '拦截'
           },
           {
             value: 2,
@@ -2251,14 +2331,14 @@ const proconf = {
           },
           {
             value: 3,
-            label: '拦截'
+            label: '预警，无需上传附件'
           },
           {
             value: 4,
-            label: '禁止'
+            label: '提醒'
           },
           {
-            value: '5',
+            value: 5,
             label: '记录'
           }
         ],

@@ -5,6 +5,9 @@ export default {
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/warningResult/query', params)
   },
+  queryTableDatassh (params) {
+    return post('dfr-monitor-service/dfr/warningResult/sh/query', params)
+  },
   // 获取表格数据
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/warningResult/queryDetail', params)

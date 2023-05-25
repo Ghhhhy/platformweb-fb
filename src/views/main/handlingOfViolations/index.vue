@@ -111,9 +111,10 @@ export default defineComponent({
     const { isDivisionPage } = useIs({}, pagePath)
 
     // 是否是单位页面（单位反馈、单位审核）
-    const isUnitMenu = computed(() => {
-      return [RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(pagePath.value)
-    })
+    // const isUnitMenu = computed(() => {
+    //   return [RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(pagePath.value)
+    // })
+    const isUnitMenu = ref(false)
 
     // 是否是单位反馈
     const isUnitFeedbackMenu = computed(() => {
@@ -162,7 +163,10 @@ export default defineComponent({
     } = useTree(
       {
         treeProps: {
-          nodeKey: 'code'
+          id: 'code',
+          nodeKey: 'code', // 树的主键
+          label: 'name', // 树的显示lalel字段
+          children: 'children'
         },
         fetch: elementTreeApi.getAgencyTree,
         beforeFetch: params => {
@@ -174,9 +178,11 @@ export default defineComponent({
         afterFetch: data => {
           return [
             {
+              id: '',
               name: '全部',
-              customCode: 'ALL_NODE_CODE',
-              children: data || []
+              customCode: '',
+              children: data || [],
+              code: ''
             }
           ]
         }
