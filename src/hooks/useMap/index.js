@@ -1,7 +1,7 @@
 import { onMounted, onBeforeUnmount, ref, unref, reactive, watch } from '@vue/composition-api'
 import * as echarts from 'echarts'
 import store from '@/store'
-import { businessStatistics } from '@/api/frame/main/warningOverview'
+import { businessStatistics, mapJson } from '@/api/frame/main/warningOverview'
 import computedPx from '@/utils/computedPx'
 
 let mapGecJson = {}
@@ -31,9 +31,10 @@ const useMap = (regulationClass = '') => {
 
   // 获取地图geoData，并初始化地图
   const initMap = async () => {
-    const code = store.state.userInfo.province?.slice(0, 6)
-    mapGecJson = await fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`)
-      .then(res => res.json())
+    const code = store.state.userInfo.province
+    const { data } = await mapJson({ cityCode: code })
+    mapGecJson = data
+    echarts.registerMap(store.state.userInfo.province, { features: mapGecJson.features })
     mapData.value = mapGecJson.features.map((item) => {
       const adcode = item.properties.adcode
       return {

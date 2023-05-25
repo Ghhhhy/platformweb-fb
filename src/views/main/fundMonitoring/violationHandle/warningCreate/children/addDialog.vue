@@ -557,6 +557,7 @@ export default {
               this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
               this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
               this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
@@ -749,6 +750,14 @@ export default {
         warnid: this.detailData[0].warnid,
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
+      }
+      if (this.doubtViolateExplain.length <= 5) {
+        this.$message.warning('疑似违规说明长度应大于等于5位')
+        return
+      }
+      if (this.doubtViolateExplain.length >= 200) {
+        this.$message.warning('疑似违规说明长度应小于等于200位')
+        return
       }
       this.addLoading = true
       HttpModule.handleAdd(param)

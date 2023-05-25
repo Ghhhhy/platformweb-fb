@@ -569,6 +569,7 @@ export default {
               this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
               this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
               this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
