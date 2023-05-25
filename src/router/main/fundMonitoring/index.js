@@ -478,7 +478,7 @@ const routers = [
     },
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue'
+        '../../../views/main/fundMonitoring/departWarningResultHandleRule/departWarningResultHandleRule.vue'
       ) // 部门监控预警处理_分规则
   },
   // 全辖处理
