@@ -245,6 +245,7 @@ export default {
       }
       this.visible = false
       this.$parent.dialogVisible = false
+      this.$parent.queryTableDatas()
     },
     getDate(value, frm) {
       return moment(new Date(value)).format(frm)
@@ -259,7 +260,6 @@ export default {
             if (res.code === '000000') {
               this.$message.success('保存成功')
               this.closeAddDialog()
-              this.refresh()
             } else {
               this.$message.error('保存失败')
             }
