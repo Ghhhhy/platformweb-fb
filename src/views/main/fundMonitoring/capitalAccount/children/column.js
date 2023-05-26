@@ -95,19 +95,19 @@ const proconf = {
       sortable: true,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
-      title: '支出功能科目编码',
+      title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'zfExpFuncCode',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '支出功能科目名称',
-      filters: false,
-      width: 140,
-      field: 'zfExpFuncName',
+      field: 'expFuncName',
       sortable: false,
       align: 'right'
     },
