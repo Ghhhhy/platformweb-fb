@@ -378,7 +378,6 @@ const proconf = {
     tableColumnsConfig: [
       {
         title: '规则名称',
-        treeNode: true,
         align: 'left',
         width: 260,
         field: 'name',

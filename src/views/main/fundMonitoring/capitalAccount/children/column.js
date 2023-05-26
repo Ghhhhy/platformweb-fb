@@ -95,6 +95,42 @@ const proconf = {
       sortable: true,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账户名称',
       field: 'payeeAcctName',
@@ -424,6 +460,64 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  targetZXColumn: [
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      align: 'center'
+    },
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '转移支付资金名称',
+      field: 'speTypeName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '支出科目名称',
+      field: 'xjExpFuncName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级专项资金名称',
+      field: 'sSpeTypeName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级文号',
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级文号',
+      field: 'xjCorBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '预算金额',
+      field: 'fpAmount',
+      sortable: true,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支出金额',
+      field: 'payAppAmt',
+      sortable: true,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    }
+  ],
+
   // 企业明细
   businessColumn: [
     {
@@ -784,7 +878,7 @@ const proconf = {
       }
     },
     {
-      title: '中央直达资金名称',
+      title: '资金名称',
       field: 'speTypeName',
       width: 200,
       align: 'center',

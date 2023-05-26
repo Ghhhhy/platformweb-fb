@@ -225,8 +225,10 @@ export default {
         case 'zdzjzbmx_fdq':
         case 'czzdzjzbmx_fdq':
         case 'zdzjzbmx_fzjfp':
-        case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
+          break
+        case 'zxjdzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetZXColumn
           break
         default:
           break

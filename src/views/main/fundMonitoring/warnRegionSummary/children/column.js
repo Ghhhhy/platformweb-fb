@@ -645,6 +645,42 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账号',
       field: 'receiveAccount',
@@ -817,6 +853,42 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账号',
       field: 'receiveAccount',
@@ -976,6 +1048,42 @@ const proconf = {
       filters: false,
       sortable: false,
       align: 'center'
+    },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
     },
     {
       title: '收款方账号',

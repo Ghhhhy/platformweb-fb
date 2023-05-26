@@ -502,7 +502,8 @@ export default {
     },
     handleIssue() {
       console.log(window.gloableToolFn, 'window.gloableToolFn.getIssueUrl()')
-      window.open(`https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html?tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=${store.getters.getLoginAuthentication.appguid}`)
+      let url = window.gloableToolFn?.getIssueUrl || 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
+      window.open(`${url}?tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=${store.getters.getLoginAuthentication.appguid}`)
     },
     handleBbs() {
       this.addDialogVisible = true
