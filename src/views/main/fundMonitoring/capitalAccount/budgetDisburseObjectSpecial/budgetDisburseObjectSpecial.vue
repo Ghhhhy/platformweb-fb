@@ -713,7 +713,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         mofDivCode: this.mofDivCode, // 获取左侧树
         speTypeName: this.speTypeName,
         expFuncName: this.expFuncName,
