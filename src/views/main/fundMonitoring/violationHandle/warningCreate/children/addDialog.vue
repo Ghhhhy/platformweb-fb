@@ -751,6 +751,10 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
       }
+      if (!this.doubtViolateExplain) {
+        this.$message.warning('请填写疑似违规说明')
+        return
+      }
       if (this.doubtViolateExplain.length <= 5) {
         this.$message.warning('疑似违规说明长度应大于等于5位')
         return

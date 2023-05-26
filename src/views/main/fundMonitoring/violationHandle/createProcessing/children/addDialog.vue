@@ -958,9 +958,21 @@ export default {
         this.$message.warning('请选择核实意见')
         return
       }
+      if (this.param5.retroact === 'company' && this.hsValue.length && (flag === '3' || flag === 3)) {
+        if (this.hsValue.length >= 200) {
+          this.$message.warning('核实意见请小于等于200字')
+          return
+        }
+      }
       if (this.param5.retroact === 'company' && !this.information1) {
         this.$message.warning('请输入核实意见说明意见')
         return
+      }
+      if (this.param5.retroact === 'company' && this.information1.length) {
+        if (this.information1.length >= 200) {
+          this.$message.warning('核实意见说明意见请小于等于200字')
+          return
+        }
       }
       if (this.param5.retroact === 'company' && !this.phone1) {
         this.$message.warning('请输入联系电话')
@@ -974,9 +986,21 @@ export default {
         this.$message.warning('请输入指导意见')
         return
       }
+      if (this.param5.retroact === 'department' && this.value === '3' && this.information2) {
+        if (this.information2.length >= 200) {
+          this.$message.warning('指导意见请小于等于200字')
+          return
+        }
+      }
       if (this.param5.retroact === 'department' && !this.value && (flag === '1' || flag === 1)) {
         this.$message.warning('请选择处室意见!')
         return
+      }
+      if (this.param5.retroact === 'department' && (flag === '1' || flag === 1) && this.information2) {
+        if (this.information2.length >= 200) {
+          this.$message.warning('处室指导意见请小于等于200字')
+          return
+        }
       }
       if (this.param5.retroact === 'department' && !this.value1 && (flag === '4' || flag === 4 || flag === '5' || flag === 5)) {
         this.$message.warning('请选择审核意见')
@@ -985,6 +1009,12 @@ export default {
       if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
         this.$message.warning('请输入退回原因说明')
         return
+      }
+      if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
+        if (this.returnReason.length >= 200) {
+          this.$message.warning('退回原因说明请小于等于200字')
+          return
+        }
       }
       if (this.param5.retroact === 'company') {
         this.commentDept = '1'
