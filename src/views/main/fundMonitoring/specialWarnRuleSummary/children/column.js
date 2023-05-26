@@ -389,8 +389,12 @@ const proconf = {
       filters: false,
       width: 140,
       field: 'expFuncName',
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
+
     },
     {
       title: '本级项目名称',
@@ -544,8 +548,12 @@ const proconf = {
       filters: false,
       width: 140,
       field: 'expFuncName',
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
+
     },
     {
       title: '本级项目名称',
@@ -820,9 +828,13 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'zfExpFuncName',
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
+
     },
     {
       title: '支付方式',
@@ -1031,9 +1043,13 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'zfExpFuncName',
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
+
     },
     {
       title: '支付方式',
@@ -1222,9 +1238,13 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'zfExpFuncName',
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
+
     },
     {
       title: '支付方式',
