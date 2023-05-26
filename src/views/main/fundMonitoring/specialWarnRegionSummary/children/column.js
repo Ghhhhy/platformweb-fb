@@ -376,16 +376,16 @@ const proconf = {
       sortable: false,
       align: 'right'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
-      title: '支出功能科目编码',
-      filters: false,
-      width: 140,
-      field: 'expFuncCode',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '支出功能科目名称',
+      title: '支出功能科目',
       filters: false,
       width: 140,
       field: 'expFuncName',
@@ -531,16 +531,16 @@ const proconf = {
       sortable: false,
       align: 'right'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
-      title: '支出功能科目编码',
-      filters: false,
-      width: 140,
-      field: 'expFuncCode',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '支出功能科目名称',
+      title: '支出功能科目',
       filters: false,
       width: 140,
       field: 'expFuncName',
@@ -808,6 +808,14 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
       title: '支出功能科目',
       filters: false,
@@ -1012,6 +1020,14 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
       title: '支出功能科目',
       filters: false,
@@ -1196,6 +1212,14 @@ const proconf = {
       sortable: false,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
       title: '支出功能科目',
       filters: false,
