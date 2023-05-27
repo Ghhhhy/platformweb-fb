@@ -253,7 +253,7 @@ export default {
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
-          (this.searchDataList[key] !== undefined) &
+          (this.searchDataList[key] !== undefined) &&
           (this.searchDataList[key] !== null)
         ) {
           if (Array.isArray(this.searchDataList[key])) {
