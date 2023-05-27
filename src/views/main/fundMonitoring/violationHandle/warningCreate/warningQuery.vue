@@ -251,6 +251,7 @@ export default {
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
+      console.log(condition)
       for (let key in condition) {
         if (
           (this.searchDataList[key] !== undefined) &&
@@ -268,6 +269,10 @@ export default {
         }
       }
       condition.fiRuleCode = val.fiRuleCode
+      condition.xpayDateStart = val.xpayDateStart
+      condition.xpayDateEnd = val.xpayDateEnd
+      condition.triggerMonitorStart = val.triggerMonitorStart
+      condition.triggerMonitorEnd = val.triggerMonitorEnd
       this.condition = condition
       this.queryTableDatas()
     },
@@ -428,9 +433,10 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      const param = {
+      let param = {
         fiRuleCode: this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
       }
+      param = Object.assign({}, param, this.condition)
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }

@@ -395,7 +395,11 @@ const proconf = {
   highQueryData: {
     fiscalYear: '',
     fiRuleCode_code__multiple: '',
-    fiRuleCode: ''
+    fiRuleCode: '',
+    xpayDateStart: '',
+    xpayDateEnd: '',
+    triggerMonitorStart: '',
+    triggerMonitorEnd: ''
   },
   basicInfo: {
     type: 'form',
