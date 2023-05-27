@@ -621,7 +621,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shiaAmount}-0==0?0:({amountSjfpbjAll}+{shxjfpaAmount})/{shiaAmount})*100'
+                formula: '({shiaAmount}-0)==0?0:({amountSjfpbjAll}+{shxjfpaAmount})/{shiaAmount}*100'
               }
             ]
           }

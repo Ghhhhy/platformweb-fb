@@ -326,57 +326,6 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      // let data = [
-      //   {
-      //     'OPERATION_TYPE_CODE': '4',
-
-      //     'DEAL_NO': '1500000002023819858935716802560',
-
-      //     'OPERATION_TYPE_NAME': '生成违规数据'
-
-      //   },
-      //   {
-      //     'OPERATION_TYPE_CODE': '3',
-
-      //     'DEAL_NO': '1500000002023819858935716802560',
-
-      //     'OPERATION_TYPE_NAME': '主管处室核实-下发给单位',
-
-      //     'OPERATION_USER': '财政监控'
-
-      //   },
-      //   {
-      //     'DEAL_NO': '1500000002023819858935716802560',
-
-      //     'OPERATION_TYPE_NAME': '主管处室审核',
-
-      //     'OPERATION_USER': '财政监控'
-
-      //   },
-      //   {
-      //     'OPERATION_TYPE_CODE': '1',
-
-      //     'DEAL_NO': '1500000002023819858935716802560',
-
-      //     'OPERATION_TYPE_NAME': '单位核实无误',
-
-      //     'OPERATION_USER': '财政监控',
-
-      //     'OPERATION_COMMENT': '没得问题'
-
-      //   }
-      // ]
-      // let tempData = data.map(item => {
-      //   return {
-      //     logid: item['OPERATION_TYPE_CODE'],
-      //     nodeName: item['OPERATION_TYPE_NAME'],
-      //     actionUser: item['OPERATION_USER'],
-      //     actionName: item['OPERATION_TYPE_NAME'],
-      //     actionTime: '',
-      //     message: item['OPERATION_COMMENT']
-      //   }
-      // })
-      // this.logData = tempData
       api.getLogs(row.dealNo).then(res => {
         if (res.code === '000000') {
           let tempData = res.data.map(item => {

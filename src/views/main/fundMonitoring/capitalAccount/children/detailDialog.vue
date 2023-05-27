@@ -292,7 +292,17 @@ export default {
         case 'zdzjxmmx':
         case 'zxjdxmmx_fzj':
         case 'zxjdxmmx_fdq':
-          this.tableColumnsConfig = proconf.projectColumn
+          // 上海项目加一列分配时间
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.projectColumn.concat([{
+              title: '分配时间',
+              field: 'allocateTime',
+              sortable: false,
+              align: 'center'
+            }])
+          } else {
+            this.tableColumnsConfig = proconf.projectColumn
+          }
           break
         default:
           break

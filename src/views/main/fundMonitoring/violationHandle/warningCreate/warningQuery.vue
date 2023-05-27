@@ -175,7 +175,14 @@ export default {
   mounted() {
   },
   methods: {
-    ajaxTableData({ params, currentPage, pageSize }) {
+    // 黑龙江加查询条件
+    dynamicSetConfig() {
+      if (this.transJson(this.params5).projectCode === 'HLJ') {
+        this.queryConfig = getFormData('highQueryConfig').concat(getFormData('highQueryConfigHLJ'))
+        this.searchDataList = Object.assign(getFormData('highQueryData'), getFormData('highQueryDataHLJ'))
+      }
+    },
+     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
       this.pagerConfig.pageSize = pageSize
       this.queryTableDatas(this.detailType, this.code)
@@ -269,10 +276,6 @@ export default {
         }
       }
       condition.fiRuleCode = val.fiRuleCode
-      condition.xpayDateStart = val.xpayDateStart
-      condition.xpayDateEnd = val.xpayDateEnd
-      condition.triggerMonitorStart = val.triggerMonitorStart
-      condition.triggerMonitorEnd = val.triggerMonitorEnd
       this.condition = condition
       this.queryTableDatas()
     },
@@ -302,108 +305,27 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       let fiRuleCode = this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
-      switch (key) {
-        case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'redNormalNum':
-          this.detailData = ['redNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'redNotRectifiedNum':
-          this.detailData = ['redNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeNormalNum':
-          this.detailData = ['orangeNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeNotRectifiedNum':
-          this.detailData = ['orangeNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'yellowNormalNum':
-          this.detailData = ['yellowNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'yellowNotRectifiedNum':
-          this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '3'
-          this.detailVisible = true
-          break
-        case 'greyUndoNum':
-          this.detailData = ['greyUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
-          this.detailVisible = true
-          break
-        case 'greyNormalNum':
-          this.detailData = ['greyNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
-          this.detailVisible = true
-          break
-        case 'greyNotRectifiedNum':
-          this.detailData = ['greyNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
-          this.detailVisible = true
-          break
-        case 'greyDoneNum':
-          this.detailData = ['greyDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '5'
-          this.detailVisible = true
-          break
-        case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueNormalNum':
-          this.detailData = ['blueNormalNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueNotRectifiedNum':
-          this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
+      let { xpayDateEnd, xpayDateStart, triggerMonitorEnd, triggerMonitorStart } = this.condition
+      const timeRange = {
+        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
+        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
+        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
+        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
       }
+      this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode, timeRange]
+      if (key.startsWith('red')) {
+        this.colourType = '1'
+      } else if (key.startsWith('orange')) {
+        this.colourType = '2'
+      } else if (key.startsWith('yellow')) {
+        this.colourType = '3'
+      } else if (key.startsWith('blue')) {
+        this.colourType = '4'
+      } else {
+        // 灰色
+        this.colourType = '5'
+      }
+      this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
@@ -433,10 +355,15 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      let param = {
-        fiRuleCode: this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
+      const { fiRuleCode, xpayDateEnd, xpayDateStart, triggerMonitorStart, triggerMonitorEnd } = this.condition
+      const param = {
+        fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
+        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
+        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
+        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
+        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
+
       }
-      param = Object.assign({}, param, this.condition)
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
@@ -462,6 +389,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
@@ -469,6 +397,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getFiRule()
     this.queryTableDatas()
+    this.dynamicSetConfig()
   }
 }
 </script>
