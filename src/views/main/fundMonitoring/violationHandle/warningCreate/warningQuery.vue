@@ -182,7 +182,7 @@ export default {
         this.searchDataList = Object.assign(getFormData('highQueryData'), getFormData('highQueryDataHLJ'))
       }
     },
-     ajaxTableData({ params, currentPage, pageSize }) {
+    ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
       this.pagerConfig.pageSize = pageSize
       this.queryTableDatas(this.detailType, this.code)
@@ -305,12 +305,10 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       let fiRuleCode = this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
-      let { xpayDateEnd, xpayDateStart, triggerMonitorEnd, triggerMonitorStart } = this.condition
+      let { xpayDate, triggerMonitorDate } = this.condition
       const timeRange = {
-        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
-        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
-        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
-        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
+        xpayDate: xpayDate ? xpayDate[0] : '',
+        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
       }
       this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode, timeRange]
       if (key.startsWith('red')) {
@@ -355,14 +353,11 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      const { fiRuleCode, xpayDateEnd, xpayDateStart, triggerMonitorStart, triggerMonitorEnd } = this.condition
+      const { fiRuleCode, xpayDate, triggerMonitorDate } = this.condition
       const param = {
         fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
-        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
-        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
-        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
-        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
-
+        xpayDate: xpayDate ? xpayDate[0] : '',
+        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

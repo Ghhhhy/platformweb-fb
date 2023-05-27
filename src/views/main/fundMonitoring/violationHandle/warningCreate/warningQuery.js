@@ -341,61 +341,36 @@ const proconf = {
         }
       }
     }, {
-      title: '支付开始时间',
-      field: 'xpayDateStart',
+      title: '支付时间',
+      field: 'xpayDate',
       itemRender: {
         name: '$vxeInput',
         defaultValue: '',
         props: {
-          format: 'hh:mm:ss:c',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '支付开始时间'
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '支付时间'
         }
       }
     },
     {
-      title: '支付结束时间',
-      field: 'xpayDateEnd',
+      title: '触发监控时间',
+      field: 'triggerMonitorDate',
       itemRender: {
         name: '$vxeInput',
         defaultValue: '',
         props: {
-          format: 'hh:mm:ss',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '支付结束时间'
-        }
-      }
-    }, {
-      title: '监控开始时间',
-      field: 'triggerMonitorStart',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss:c',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '监控开始时间'
-        }
-      }
-    },
-    {
-      title: '监控结束时间',
-      field: 'triggerMonitorEnd',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '监控结束时间'
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '触发监控时间'
         }
       }
     }
   ],
   highQueryConfigHLJ: [
     {
-      title: '支付时间（开始）',
-      field: 'xpayDateStart',
+      title: '支付时间',
+      field: 'xpayDate',
       width: 200,
       itemRender: {
         name: '$vxeTime',
@@ -403,26 +378,12 @@ const proconf = {
         props: {
           format: 'YYYY-MM-DD',
           type: 'date',
-          placeholder: '支付时间（开始）'
-        }
-      }
-    },
-    {
-      title: '支付时间（结束）',
-      field: 'xpayDateEnd',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '支付时间（结束）'
+          placeholder: '支付时间'
         }
       }
     }, {
-      title: '触发监控（开始）',
-      field: 'triggerMonitorStart',
+      title: '触发监控时间',
+      field: 'triggerMonitorDate',
       width: 200,
       itemRender: {
         name: '$vxeTime',
@@ -430,21 +391,7 @@ const proconf = {
         props: {
           format: 'YYYY-MM-DD',
           type: 'date',
-          placeholder: '触发监控开始时间'
-        }
-      }
-    },
-    {
-      title: '触发监控（结束）',
-      field: 'triggerMonitorEnd',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '触发监控结束时间'
+          placeholder: '触发监控时间'
         }
       }
     }
@@ -453,16 +400,12 @@ const proconf = {
     fiscalYear: '',
     fiRuleCode_code__multiple: '',
     fiRuleCode: '',
-    xpayDateStart: '',
-    xpayDateEnd: '',
-    triggerMonitorStart: '',
-    triggerMonitorEnd: ''
+    xpayDate: '',
+    triggerMonitorDate: ''
   },
   highQueryDataHLJ: {
-    xpayDateStart: '',
-    xpayDateEnd: '',
-    triggerMonitorStart: '',
-    triggerMonitorEnd: ''
+    xpayDate: '',
+    triggerMonitorDate: ''
   },
   basicInfo: {
     type: 'form',
