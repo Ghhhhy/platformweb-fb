@@ -7,7 +7,7 @@ export default {
       businessFunctionTreeData: [],
       // 业务菜单树配置
       businessFunctionTreeConfig: {
-        valueKeys: ['guid', 'name'],
+        valueKeys: ['guid', 'name', 'code'],
         format: '{name}',
         treeProps: {
           labelFormat: '{name}', // {code}-{name}

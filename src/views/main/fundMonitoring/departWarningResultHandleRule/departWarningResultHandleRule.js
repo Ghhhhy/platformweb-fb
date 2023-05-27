@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -315,8 +315,29 @@ const proconf = {
   },
   highQueryConfig: [
     {
-      title: '预警规则',
-      field: 'fiRuleCode',
+      title: '业务年度',
+      field: 'fiscalYear',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
+        props: {
+          type: 'year',
+          valueFormat: 'yyyy',
+          placeholder: '业务年度'
+        }
+      }
+    },
+    {
+      title: '资金名称',
+      field: 'trackProCode',
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -328,137 +349,23 @@ const proconf = {
             valueKeys: ['code', 'name', 'id'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{name}', // {code}-{name}
-              nodeKey: 'code',
-              label: 'name',
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
               children: 'children'
             },
-            placeholder: '预警规则',
-            multiple: false,
+            placeholder: '资金名称',
+            multiple: true,
             readonly: false,
             isleaf: true
           }
         }
       }
-    }, {
-      title: '支付开始时间',
-      field: 'xpayDateStart',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss:c',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '支付开始时间'
-        }
-      }
-    },
-    {
-      title: '支付结束时间',
-      field: 'xpayDateEnd',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '支付结束时间'
-        }
-      }
-    }, {
-      title: '监控开始时间',
-      field: 'triggerMonitorStart',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss:c',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '监控开始时间'
-        }
-      }
-    },
-    {
-      title: '监控结束时间',
-      field: 'triggerMonitorEnd',
-      itemRender: {
-        name: '$vxeInput',
-        defaultValue: '',
-        props: {
-          format: 'hh:mm:ss',
-          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '监控结束时间'
-        }
-      }
-    }
-  ],
-  highQueryConfigHLJ: [
-    {
-      title: '支付时间（开始）',
-      field: 'xpayDateStart',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '支付时间（开始）'
-        }
-      }
-    },
-    {
-      title: '支付时间（结束）',
-      field: 'xpayDateEnd',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '支付时间（结束）'
-        }
-      }
-    }, {
-      title: '触发监控（开始）',
-      field: 'triggerMonitorStart',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '触发监控开始时间'
-        }
-      }
-    },
-    {
-      title: '触发监控（结束）',
-      field: 'triggerMonitorEnd',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '触发监控结束时间'
-        }
-      }
     }
   ],
   highQueryData: {
-    fiscalYear: '',
-    fiRuleCode_code__multiple: '',
-    fiRuleCode: ''
-  },
-  highQueryDataHLJ: {
-    xpayDateStart: '',
-    xpayDateEnd: '',
-    triggerMonitorStart: '',
-    triggerMonitorEnd: ''
+    fiscalYear: store.state.userInfo.year,
+    trackProCode: ''
   },
   basicInfo: {
     type: 'form',
@@ -470,8 +377,7 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '地区名称',
-        treeNode: true,
+        title: '规则名称',
         align: 'left',
         width: 260,
         field: 'name',
@@ -481,16 +387,52 @@ const proconf = {
         }
       },
       {
-        title: '橙色预警',
+        title: '红灯',
+        field: '',
+        width: 140,
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '未认定',
+            field: 'numbernofileNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon1',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '已整改',
+            field: 'numberfileNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          }
+        ]
+      },
+      {
+        title: '黄灯',
         field: '',
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '预警数据',
-            field: 'orangeUndoNum',
-            filters: false,
+            title: '疑点信息',
+            field: 'numberwarnUndoNum',
+            width: 140,
             align: 'center',
+            filters: false,
             cellRender: {
               name: '$vxeIcon6',
               props: {
@@ -499,17 +441,32 @@ const proconf = {
             }
           },
           {
-            title: '生成问询单',
-            sortable: false,
+            title: '认定正常',
+            field: 'numberwarndoNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '认定违规',
+            field: 'numberwarndoNoNum',
+            width: 140,
             align: 'center',
             children: [
               {
-                title: '认定正常',
-                field: 'orangeNormalNum',
-                align: 'center',
+                title: '待整改',
+                field: 'numberwarnUndoNoNum',
+                width: 140,
                 filters: false,
+                align: 'center',
                 cellRender: {
-                  name: '$vxeIcon3',
+                  name: '$vxeIcon1',
                   props: {
                     $refs: this
                   }
@@ -517,23 +474,12 @@ const proconf = {
               },
               {
                 title: '已整改',
-                field: 'orangeDoneNum',
-                filters: false,
+                field: 'numberwarndidNum',
+                width: 140,
                 align: 'center',
+                filters: false,
                 cellRender: {
                   name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '未完成',
-                field: 'orangeNotRectifiedNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon6',
                   props: {
                     $refs: this
                   }
@@ -544,14 +490,15 @@ const proconf = {
         ]
       },
       {
-        title: '黄色预警',
+        title: '黄色警铃',
         field: '',
         sortable: false,
         align: 'center',
         children: [
           {
-            title: '预警数据',
-            field: 'yellowUndoNum',
+            title: '未认定',
+            field: 'numberhqlmUndoNum',
+            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
@@ -562,110 +509,17 @@ const proconf = {
             }
           },
           {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            children: [
-              {
-                title: '认定正常',
-                field: 'yellowNormalNum',
-                align: 'center',
-                filters: false,
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '已整改',
-                field: 'yellowDoneNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '未完成',
-                field: 'yellowNotRectifiedNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon2',
-                  props: {
-                    $refs: this
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: '蓝色预警',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '预警数据',
-            field: 'blueUndoNum',
+            title: '已整改',
+            field: 'numberhqlmdoNum',
+            width: 140,
             filters: false,
             align: 'center',
             cellRender: {
-              name: '$vxeIcon7',
+              name: '$vxeIcon3',
               props: {
                 $refs: this
               }
             }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            children: [
-              {
-                title: '认定正常',
-                field: 'blueNormalNum',
-                align: 'center',
-                filters: false,
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '已整改',
-                field: 'blueDoneNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
-                }
-              },
-              {
-                title: '未完成',
-                field: 'blueNotRectifiedNum',
-                filters: false,
-                align: 'center',
-                cellRender: {
-                  name: '$vxeIcon7',
-                  props: {
-                    $refs: this
-                  }
-                }
-              }
-            ]
           }
         ]
       }

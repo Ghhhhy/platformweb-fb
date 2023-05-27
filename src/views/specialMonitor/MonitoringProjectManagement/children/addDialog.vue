@@ -245,6 +245,7 @@ export default {
       }
       this.visible = false
       this.$parent.dialogVisible = false
+      this.$parent.queryTableDatas()
     },
     getDate(value, frm) {
       return moment(new Date(value)).format(frm)
@@ -257,7 +258,8 @@ export default {
         .then(res => {
           HttpModule.doSave(this.formData).then(res => {
             if (res.code === '000000') {
-              this.$message.error('保存成功')
+              this.$message.success('保存成功')
+              this.closeAddDialog()
             } else {
               this.$message.error('保存失败')
             }

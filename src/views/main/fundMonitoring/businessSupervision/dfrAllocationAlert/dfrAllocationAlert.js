@@ -329,16 +329,16 @@ const proconf = {
         filters: false,
         align: 'center'
       },
+      // {
+      //   title: '支出功能科目编码',
+      //   field: 'expFuncCode',
+      //   width: 120,
+      //   sortable: false,
+      //   filters: false,
+      //   align: 'center'
+      // },
       {
-        title: '支出功能科目编码',
-        field: 'expFuncCode',
-        width: 120,
-        sortable: false,
-        filters: false,
-        align: 'center'
-      },
-      {
-        title: '支出功能科目名称',
+        title: '支出功能科目',
         field: 'expFuncName',
         width: 120,
         sortable: false,
