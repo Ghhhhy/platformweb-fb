@@ -8,69 +8,6 @@
     :show-footer="false"
     @close="dialogClose"
   >
-    <!-- <BsTabPanel
-      is-open
-      is-hide-query
-      :tab-status-btn-config="tabStatusBtnConfig"
-      :tab-status-num-config="tabStatusNumConfig"
-      @onQueryConditionsClick="onQueryConditionsClick1"
-    >
-      <template v-if="(tabSelect === '3' || tabSelect === '4')" v-slot:preBtns>
-        <vxe-button
-          size="medium"
-          @click="doBack"
-        >退回</vxe-button>
-      </template>
-    </BsTabPanel>
-    <BsQuery
-      ref="queryFrom"
-      :query-form-item-config="queryConfig"
-      :query-form-data="searchDataList"
-      @onSearchClick="search"
-    />
-    <div v-if="showBuinessTree">
-      <BsTreeSet
-        ref="treeSet"
-        v-model="leftTreeVisible"
-        :tree-config="treeTypeConfig"
-        @onChangeInput="(val) => { leftTreeFilterText = val }"
-        @onAsideChange="asideChange"
-        @onConfrimData="treeSetConfrimData"
-      />
-      <BsTree
-        ref="leftTree"
-        open-loading
-        :filter-text="leftTreeFilterText"
-        :tree-data="treeData"
-        :config="{ showFilter: false, treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
-        @onNodeClick="onClickmethod"
-      />
-    </div>
-    <BsTable
-      ref="mainTableRef"
-      v-loading="tableLoadingState"
-      :footer-config="tableFooterConfig"
-      :table-config="tableConfig"
-      :table-columns-config="tableColumnsConfig"
-      :table-data="tableData"
-      :toolbar-config="tableToolbarConfig"
-      :cell-style="cellStyle"
-      :pager-config="pagerConfig"
-      style="height: calc(100% - 108px)"
-      @ajaxData="ajaxTableData"
-      @cellClick="cellClick"
-      @onToolbarBtnClick="onToolbarBtnClick"
-    >
-      <template v-slot:toolbarSlots>
-        <div class="table-toolbar-left">
-          <div v-if="leftTreeVisible === false && showBuinessTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
-          <div class="table-toolbar-left-title">
-            <span class="fn-inline">{{ title }}</span>
-            <i class="fn-inline"></i>
-          </div>
-        </div>
-      </template>
-    </BsTable> -->
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
 
       <template v-slot:topTabPane>
@@ -1028,12 +965,22 @@ export default {
         businessModuleCode: this.bussnessId || undefined,
         trackProName: this.condition.trackProName ? this.condition.trackProName[0] : ''
       }
+
       // 有菜单有主题参数则 则用主题参数
       if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
         params.regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         params.regulationClass = '0207'
+      }
+      if (this.detailData.length > 5) {
+        let { xpayDateEnd, xpayDateStart, triggerMonitorEnd, triggerMonitorStart } = this.detailData[5]
+        params = Object.assign(params, {
+          xpayDateStart: xpayDateStart || undefined,
+          xpayDateEnd: xpayDateEnd || undefined,
+          triggerMonitorStart: triggerMonitorStart || undefined,
+          triggerMonitorEnd: triggerMonitorEnd || undefined
+        })
       }
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode

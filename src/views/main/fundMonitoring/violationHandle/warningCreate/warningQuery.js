@@ -342,10 +342,73 @@ const proconf = {
       }
     }
   ],
+  highQueryConfigHLJ: [
+    {
+      title: '支付时间（开始）',
+      field: 'xpayDateStart',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '支付时间（开始）'
+        }
+      }
+    },
+    {
+      title: '支付时间（结束）',
+      field: 'xpayDateEnd',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '支付时间（结束）'
+        }
+      }
+    }, {
+      title: '触发监控（开始）',
+      field: 'triggerMonitorStart',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '触发监控开始时间'
+        }
+      }
+    },
+    {
+      title: '触发监控（结束）',
+      field: 'triggerMonitorEnd',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '触发监控结束时间'
+        }
+      }
+    }
+  ],
   highQueryData: {
     fiscalYear: '',
     fiRuleCode_code__multiple: '',
     fiRuleCode: ''
+  },
+  highQueryDataHLJ: {
+    xpayDateStart: '',
+    xpayDateEnd: '',
+    triggerMonitorStart: '',
+    triggerMonitorEnd: ''
   },
   basicInfo: {
     type: 'form',

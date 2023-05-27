@@ -137,11 +137,11 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value === '3'" color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) " color="red">*</font>&nbsp;指导意见</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
-                      :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) || value === '2'"
+                      :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) "
                       placeholder="主管处室指导意见"
                       style="width:90%"
                     />
@@ -970,8 +970,8 @@ export default {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.param5.retroact === 'department' && !this.information2 && this.value === '3') {
-        this.$message.warning('请输入指导意见')
+      if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
+        this.$message.warning('请输入10-200的指导意见')
         return
       }
       if (this.param5.retroact === 'department' && !this.value && (flag === '1' || flag === 1)) {

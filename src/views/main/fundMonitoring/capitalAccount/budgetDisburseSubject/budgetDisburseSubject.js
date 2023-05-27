@@ -48,7 +48,7 @@ const proconf = {
     {
       title: '支出科目',
       field: 'expFuncCode',
-      width: 200,
+      // width: 200,
       name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
@@ -80,7 +80,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 100,
+      // width: 100,
       align: 'center',
       filters: false,
       itemRender: {
@@ -111,7 +111,7 @@ const proconf = {
       {
         title: '科目名称',
         align: 'left',
-        width: 160,
+        // width: 160,
         field: 'name',
         treeNode: true,
         cellRender: {
@@ -123,14 +123,14 @@ const proconf = {
       },
       {
         title: '预算数',
-        width: 100,
+        // width: 100,
         align: 'right',
         children: [
           {
             title: '合计',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 100,
+            // width: 100,
             field: 'amountYshj',
             formula: '{amountZykzx}+{amountDfkzx}'
           },
@@ -138,13 +138,13 @@ const proconf = {
             title: '中央',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 100,
+            // width: 100,
             field: 'amountZykzx'
           },
           {
             title: '地方配套',
             align: 'right',
-            width: 100,
+            // width: 100,
             field: 'amountDfkzx',
             cellRender: { name: '$vxeMoney' }
           }
@@ -152,14 +152,14 @@ const proconf = {
       },
       {
         title: '支出数',
-        width: 100,
+        // width: 100,
         align: 'right',
         children: [
           {
             title: '合计',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 100,
+            // width: 100,
             field: 'amountZchj',
             formula: '{amountZypay}+{amountDfpay}'
           },
@@ -167,13 +167,13 @@ const proconf = {
             title: '中央',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            width: 100,
+            // width: 100,
             field: 'amountZypay'
           },
           {
             title: '地方配套',
             align: 'right',
-            width: 100,
+            // width: 100,
             field: 'amountDfpay',
             cellRender: { name: '$vxeMoney' }
           }
@@ -181,7 +181,7 @@ const proconf = {
       },
       {
         title: '支出进度',
-        width: 100,
+        // width: 100,
         align: 'right',
         children: [
           {
@@ -191,7 +191,7 @@ const proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            width: 100,
+            // width: 100,
             field: 'hjZcjd'
           },
           {
@@ -201,13 +201,13 @@ const proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            width: 100,
+            // width: 100,
             field: 'zyZcjd'
           },
           {
             title: '地方配套',
             align: 'right',
-            width: 100,
+            // width: 100,
             field: 'dfptZcjd',
             formula: '{amountDfkzx}-0==0?0:Math.round({amountDfpay}/{amountDfkzx}*100*10)/10',
             cellRender: {
