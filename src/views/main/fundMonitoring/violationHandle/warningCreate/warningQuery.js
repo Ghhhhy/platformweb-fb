@@ -340,6 +340,56 @@ const proconf = {
           }
         }
       }
+    }, {
+      title: '支付开始时间',
+      field: 'xpayDateStart',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'hh:mm:ss:c',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '支付开始时间'
+        }
+      }
+    },
+    {
+      title: '支付结束时间',
+      field: 'xpayDateEnd',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'hh:mm:ss',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '支付结束时间'
+        }
+      }
+    }, {
+      title: '监控开始时间',
+      field: 'triggerMonitorStart',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'hh:mm:ss:c',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '监控开始时间'
+        }
+      }
+    },
+    {
+      title: '监控结束时间',
+      field: 'triggerMonitorEnd',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'hh:mm:ss',
+          type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '监控结束时间'
+        }
+      }
     }
   ],
   highQueryData: {
