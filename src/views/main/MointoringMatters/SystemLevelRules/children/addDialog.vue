@@ -762,7 +762,7 @@ export default {
   methods: {
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : ''
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : []
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
