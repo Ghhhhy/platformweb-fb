@@ -891,7 +891,7 @@ export default {
       }
       let funSelection = this.$refs.mountTableRef.getSelectionData()
       if (this.title === '修改') {
-        funSelection = this.mountTableData
+        // funSelection = this.mountTableData
       }
       if (funSelection.length < 1) {
         this.$message.warning('请选择挂接函数')
