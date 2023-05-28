@@ -1482,4 +1482,9 @@ export default {
   .el-row-item .font-set-small .hline{
     width:72px;
   }
+  .vxe-toolbar{
+    .vxe-button--wrapper{
+      display:flex;
+    }
+  }
 </style>

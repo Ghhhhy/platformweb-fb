@@ -197,7 +197,7 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
+                      :config="{ treeProps: { nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
                       class="businessFunctionTree"
                       style="display: inline-block;"
                       @onNodeClick="regulationNodeClick"
@@ -1247,9 +1247,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }

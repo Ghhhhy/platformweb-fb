@@ -513,6 +513,7 @@ export let proconf = {
     {
       field: 'payment',
       title: '基础要素',
+      span: '20',
       titleAlign: 'center',
       titleWidth: '100px',
       itemRender: {
