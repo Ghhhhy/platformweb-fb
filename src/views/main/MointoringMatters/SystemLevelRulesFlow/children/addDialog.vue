@@ -1283,90 +1283,68 @@ export default {
   },
   async created() {
     this.getWhereTree()
-    if (this.$parent.dialogTitle === '新增') {
-      this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
-      this.getTableData()
-      // 直达资金新增规则
-      this.$parent.dialogVisibleRules && (this.regulationClass = '09-直达资金')
-    } else if (this.$parent.dialogTitle === '查看详情') {
-      this.warnType = this.$parent.DetailData.warnType
-      this.uploadFile = this.$parent.DetailData?.uploadFile
-
+    if (this.buttonType === 'check') {
       this.ruleSetShow = false
       this.ruleDesShow = true
       this.appSetShow = false
       this.effectiveShow = false
       this.activeIndex = 1
-      this.monitorRuleName = this.$parent.DetailData.regulationName
-      this.warningLevel = this.$parent.DetailData.warningLevel
-      // this.regulationClass = this.$parent.DetailData.regulationClass
-      this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
-      this.triggerClass = this.$parent.DetailData.triggerClass
-      this.handleType = this.$parent.DetailData.handleType
-      this.operationTableData = [this.$parent.DetailData.ruleTemplate]
-
-      this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
-      // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
-      // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
-      this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
-      this.SysparentId = this.businessSystemCode
-      this.getModLists()
-      this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
-      this.ModparentId = this.businessModuleCode
-
-      // this.getFunLists()
-      // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
-      this.businessSystemName = this.$parent.DetailData.businessSystemName
-      this.businessModuleName = this.$parent.DetailData.businessModuleName
-      // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      // this.businessFunctionName = this.$parent.DetailData.menuNameList
-      this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
-      this.mountTableData = this.$parent.DetailData.regulationConfig
-      this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
-      this.policiesDescription = this.$parent.DetailData.warningTips
-      // 不可编辑
-      // this.buttonConfig = {}
+      this.ruleDisabled = true
       this.disabled = true
-      this.editConfig = false
-    } else if (this.$parent.dialogTitle === '修改') {
-      this.warnType = this.$parent.DetailData.warnType
-      this.uploadFile = this.$parent.DetailData.uploadFile
-      this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
-      this.monitorRuleName = this.$parent.DetailData.regulationName
-      this.warningLevel = this.$parent.DetailData.warningLevel
-      // this.regulationClass = this.$parent.DetailData.regulationClass
-      this.getRegulation()
-      this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
-      this.triggerClass = this.$parent.DetailData.triggerClass
-      this.handleType = this.$parent.DetailData.handleType
-      this.operationTableData = [this.$parent.DetailData.ruleTemplate]
-
-      this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
-      // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
-      // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
-      this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
-      this.SysparentId = this.businessSystemCode
-      this.getModLists()
-      this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
-      this.ModparentId = this.businessModuleCode
-
-      // this.getFunLists()
-      // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
-      // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
-      this.businessSystemName = this.$parent.DetailData.businessSystemName
-      this.businessModuleName = this.$parent.DetailData.businessModuleName
-      // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
-      // this.businessFunctionName = this.$parent.DetailData.menuNameList
-      this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
-      this.mountTableData = this.$parent.DetailData.regulationConfig
-
-      this.policiesDescription = this.$parent.DetailData.warningTips
-      this.scope = this.$parent.DetailData.regulationScope
+      this.showable = false
+    } else if (this.buttonType === 'approval' || this.buttonType === 'sendBack') {
+      this.ruleDisabled = false
+      this.disabled = true
+      this.showable = true
+    } else {
+      this.ruleDisabled = false
+      this.disabled = true
+      this.showable = false
     }
+
+    this.warnType = this.$parent.DetailData.warnType
+    this.uploadFile = this.$parent.DetailData?.uploadFile
+
+    this.ruleSetShow = false
+    this.ruleDesShow = true
+    this.appSetShow = false
+    this.effectiveShow = false
+    this.activeIndex = 1
+    this.monitorRuleName = this.$parent.DetailData.regulationName
+    this.warningLevel = this.$parent.DetailData.warningLevel
+    // this.regulationClass = this.$parent.DetailData.regulationClass
+    this.getRegulation()
+    this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
+    this.triggerClass = this.$parent.DetailData.triggerClass
+    this.handleType = this.$parent.DetailData.handleType
+    this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+
+    this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
+    // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
+    // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
+    this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
+    this.SysparentId = this.businessSystemCode
+    this.getModLists()
+    this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
+    this.ModparentId = this.businessModuleCode
+
+    // this.getFunLists()
+    // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
+    // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
+    this.businessSystemName = this.$parent.DetailData.businessSystemName
+    this.businessModuleName = this.$parent.DetailData.businessModuleName
+    // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
+    // this.businessFunctionName = this.$parent.DetailData.menuNameList
+    this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
+    this.mountTableData = this.$parent.DetailData.regulationConfig
+    this.ruleFlag = this.$parent.DetailData.ruleFlag
+    // this.warnLocation = this.$parent.DetailData.warnLocation
+    this.policiesDescription = this.$parent.DetailData.warningTips
+    // 不可编辑
+    // this.buttonConfig = {}
+    this.disabled = true
+    this.editConfig = false
+
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
