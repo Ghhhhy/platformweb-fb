@@ -1291,12 +1291,12 @@ export default {
               code: 'root',
               isleaf: '0',
               name: '全部',
-              children: this.getChildrenNewData(res.data)
+              children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = this.getChildrenNewData(res.data)
+          this.treeData = this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1875,7 +1875,7 @@ export default {
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
-        if (this.formDatas.payment !== '') {
+        if (this.formDatas.payment && this.formDatas.payment !== '') {
           this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
