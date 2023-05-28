@@ -804,7 +804,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$refs.mountTableRef.removeCheckboxRow()
+        // this.$refs.mountTableRef.removeCheckboxRow()
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {

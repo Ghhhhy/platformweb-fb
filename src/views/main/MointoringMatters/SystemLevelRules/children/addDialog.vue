@@ -197,7 +197,8 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ treeProps: { nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
+                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
+
                       class="businessFunctionTree"
                       style="display: inline-block;"
                       @onNodeClick="regulationNodeClick"
