@@ -452,10 +452,9 @@
                   <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生效范围</div>
                   <BsTree
                     ref="rightTree"
-                    v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'id', label: 'name' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
@@ -558,6 +557,9 @@ export default {
         trigger: 'dblclick',
         mode: 'cell'
       },
+      editRulesIn: {
+        param: [{ required: true, type: 'float', trigger: 'change', message: '请输入规则定义的参数值' }]
+      },
       monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
       operationTableData: [],
       tabbtn: ['模板信息', '规则定义', '白名单', '生效范围', '审核意见'],
@@ -649,10 +651,54 @@ export default {
         payeeAcctNo: '',
         payeeAcctName: ''
       },
-      formValidationConfigMessage: proconf.formValidationConfigMessage
+      formValidationConfigMessage: proconf.formValidationConfigMessage,
+      regulationClassName: '',
+      defaultCheckedKeys: []
     }
   },
   methods: {
+    chooseWarningLevel(val) {
+      if (val === 1) {
+        this.handleType = 1
+      } else if (val === 2) {
+        this.handleType = 2
+      } else if (val === 3) {
+        this.handleType = 3
+      } else if (val === 4) {
+        this.handleType = 4
+      }
+    },
+    chooseTriggerClass(val) {
+      if (val === 2) {
+        this.warningLevel = 4
+        this.handleType = 4
+      }
+      if (val === 1) {
+        this.warningLevel = 1
+        this.handleType = 1
+      }
+    },
+    choosehandleType(val) {
+      if (val === 1) {
+        this.warningLevel = 1
+      } else if (val === 2) {
+        this.warningLevel = 2
+      } else if (val === 3) {
+        this.warningLevel = 3
+      } else if (val === 4) {
+        this.warningLevel = 4
+      }
+    },
+    selectRule(val) {
+      let valArr = val.split('##')
+      this.regulationClassName = valArr[2]
+      // this.regulationClass = valArr[0]
+      // let busName = this.regulationClassoptions.find(item => {
+      //   return item.id === val
+      // })
+      // this.regulationClassName = busName.regulationClassName
+      // this.regulationClass = busName.regulationClass
+    },
     formItemChange(obj) {
       if (obj.property === 'payment') {
         let data = obj.itemValue ? obj.itemValue.split(',') : ''
@@ -808,9 +854,9 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        // item.code = item.ida
+        // item.guid = item.id
+        // item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData(item.children)
@@ -1035,6 +1081,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      let self = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
       let param = {
@@ -1056,13 +1103,23 @@ export default {
       }
       HttpModule.getTreewhere(param).then(res => {
         if (regulationType === '部门级' || regulationType === '财政级') {
-          this.treeData = res.data
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              name: '全部',
+              children: this.getChildrenNewData1(res.data)
+            }
+          ]
+          this.treeData = result
         } else {
-          this.treeData = res.data
+          this.treeData = self.getChildrenNewData1(res.data)
           // this.getProvince(res.data[0])
         }
         this.$nextTick(() => {
-          this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
+          self.$parent.provinceList && self.$refs.rightTree.treeOptionFn().setCheckedKeys(self.$parent.provinceList)
         })
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1082,6 +1139,7 @@ export default {
           //   tempArr.push(str)
           // })
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          console.log(this.treeData, 'ddddd')
         }
       })
     },
