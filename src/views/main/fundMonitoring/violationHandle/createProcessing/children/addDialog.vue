@@ -572,6 +572,7 @@ export default {
               this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
               this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
               this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
