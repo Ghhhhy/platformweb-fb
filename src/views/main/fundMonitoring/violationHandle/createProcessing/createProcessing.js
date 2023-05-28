@@ -1664,6 +1664,15 @@ export const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '追踪项目' }
       }
+    }, {
+      title: '支付日期',
+      field: 'xpayDate',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '支付日期' }
+      }
     }
   ],
   indexMsgConfig: [
@@ -1839,7 +1848,8 @@ export const proconf = {
     payBusType: '',
     todoName: '',
     voidOrNot: '',
-    trackProName: ''
+    trackProName: '',
+    xpayDate: ''
   },
   businessMsgConfig: [
     {
