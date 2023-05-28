@@ -513,6 +513,7 @@ export let proconf = {
     {
       field: 'payment',
       title: '基础要素',
+      span: '20',
       titleAlign: 'center',
       titleWidth: '100px',
       itemRender: {
@@ -600,6 +601,33 @@ export let proconf = {
         name: '$textarea',
         props: {
           placeholder: '请填写资金用途',
+          disabled: false
+        }
+      }
+    }, {
+      field: 'des',
+      title: '白名单描述',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单描述',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'basis',
+      title: '白名单依据',
+      titleAlign: 'center',
+      titleWidth: '100px',
+      span: '20',
+      itemRender: {
+        name: '$textarea',
+        props: {
+          placeholder: '白名单依据',
           disabled: false
         }
       }

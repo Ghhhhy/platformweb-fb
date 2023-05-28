@@ -452,10 +452,9 @@
                   <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;生效范围</div>
                   <BsTree
                     ref="rightTree"
-                    v-model="rightTreeValue"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: true, treeProps: { nodeKey: 'id', label: 'name' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
@@ -558,6 +557,9 @@ export default {
         trigger: 'dblclick',
         mode: 'cell'
       },
+      editRulesIn: {
+        param: [{ required: true, type: 'float', trigger: 'change', message: '请输入规则定义的参数值' }]
+      },
       monitorTableColumnsConfig: proconf.monitorSetTableColumnsConfig,
       operationTableData: [],
       tabbtn: ['模板信息', '规则定义', '白名单', '生效范围', '审核意见'],
@@ -647,12 +649,58 @@ export default {
       formDatas: {
         useDes: '',
         payeeAcctNo: '',
-        payeeAcctName: ''
+        payeeAcctName: '',
+        des: '',
+        basis: ''
       },
-      formValidationConfigMessage: proconf.formValidationConfigMessage
+      formValidationConfigMessage: proconf.formValidationConfigMessage,
+      regulationClassName: '',
+      defaultCheckedKeys: []
     }
   },
   methods: {
+    chooseWarningLevel(val) {
+      if (val === 1) {
+        this.handleType = 1
+      } else if (val === 2) {
+        this.handleType = 2
+      } else if (val === 3) {
+        this.handleType = 3
+      } else if (val === 4) {
+        this.handleType = 4
+      }
+    },
+    chooseTriggerClass(val) {
+      if (val === 2) {
+        this.warningLevel = 4
+        this.handleType = 4
+      }
+      if (val === 1) {
+        this.warningLevel = 1
+        this.handleType = 1
+      }
+    },
+    choosehandleType(val) {
+      if (val === 1) {
+        this.warningLevel = 1
+      } else if (val === 2) {
+        this.warningLevel = 2
+      } else if (val === 3) {
+        this.warningLevel = 3
+      } else if (val === 4) {
+        this.warningLevel = 4
+      }
+    },
+    selectRule(val) {
+      let valArr = val.split('##')
+      this.regulationClassName = valArr[2]
+      // this.regulationClass = valArr[0]
+      // let busName = this.regulationClassoptions.find(item => {
+      //   return item.id === val
+      // })
+      // this.regulationClassName = busName.regulationClassName
+      // this.regulationClass = busName.regulationClass
+    },
     formItemChange(obj) {
       if (obj.property === 'payment') {
         let data = obj.itemValue ? obj.itemValue.split(',') : ''
@@ -808,9 +856,9 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        // item.code = item.ida
+        // item.guid = item.id
+        // item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData(item.children)
@@ -1035,6 +1083,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      let self = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
       let param = {
@@ -1056,13 +1105,23 @@ export default {
       }
       HttpModule.getTreewhere(param).then(res => {
         if (regulationType === '部门级' || regulationType === '财政级') {
-          this.treeData = res.data
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              name: '全部',
+              children: this.getChildrenNewData1(res.data)
+            }
+          ]
+          this.treeData = result
         } else {
-          this.treeData = res.data
+          this.treeData = self.getChildrenNewData1(res.data)
           // this.getProvince(res.data[0])
         }
         this.$nextTick(() => {
-          this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
+          self.$parent.provinceList && self.$refs.rightTree.treeOptionFn().setCheckedKeys(self.$parent.provinceList)
         })
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1082,6 +1141,7 @@ export default {
           //   tempArr.push(str)
           // })
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          console.log(this.treeData, 'ddddd')
         }
       })
     },
@@ -1223,39 +1283,6 @@ export default {
   },
   async created() {
     this.getWhereTree()
-    this.warnType = this.$parent.DetailData.warnType
-    this.uploadFile = this.$parent.DetailData.uploadFile
-
-    this.monitorRuleName = this.$parent.DetailData.regulationName
-    this.warningLevel = this.$parent.DetailData.warningLevel
-    this.handleType = this.$parent.DetailData.handleType
-    this.operationTableData = [this.$parent.DetailData.ruleTemplate]
-
-    this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
-    this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
-    this.SysparentId = this.businessSystemCode
-    this.getModLists()
-    this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
-    this.ModparentId = this.businessModuleCode
-
-    // this.$parent.DetailData.businessFunctionCode == null ? '' : this.$parent.DetailData.businessFunctionCode + ''
-    this.businessSystemName = this.$parent.DetailData.businessSystemName
-    this.businessModuleName = this.$parent.DetailData.businessModuleName
-    // this.businessFunctionName = this.$parent.DetailData.businessFunctionName == null ? '' : this.$parent.DetailData.businessFunctionName
-    // this.regulationClass = this.$parent.DetailData.regulationClass
-    this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
-    this.triggerClass = this.$parent.DetailData.triggerClass
-    this.businessModule = this.$parent.DetailData.businessModuleName
-    this.businessFunction = this.$parent.DetailData.businessFunctionName
-    this.regulationModelCode = this.$parent.DetailData.ruleTemplate.ruleTemplateCode
-    this.mountTableData = this.$parent.DetailData.regulationConfig
-
-    this.policiesDescription = this.$parent.DetailData.warningTips
-    this.ruleFlowOpinion = this.$parent.DetailData.ruleFlowOpinion ? this.$parent.DetailData.ruleFlowOpinion : '审核通过'
-    this.scope = this.$parent.DetailData.regulationScope
-    // 不可编辑
-    this.buttonConfig = {}
-    console.log('------------', this.buttonType)
     if (this.buttonType === 'check') {
       this.ruleSetShow = false
       this.ruleDesShow = true
@@ -1274,46 +1301,87 @@ export default {
       this.disabled = true
       this.showable = false
     }
-    this.editConfig = false
-    this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
-    this.getSysLists()
+
+    this.warnType = this.$parent.DetailData.warnType
+    this.uploadFile = this.$parent.DetailData?.uploadFile
+
+    this.ruleSetShow = false
+    this.ruleDesShow = true
+    this.appSetShow = false
+    this.effectiveShow = false
+    this.activeIndex = 1
+    this.monitorRuleName = this.$parent.DetailData.regulationName
+    this.warningLevel = this.$parent.DetailData.warningLevel
+    // this.regulationClass = this.$parent.DetailData.regulationClass
     this.getRegulation()
-    if (this.$parent.formDatas) {
-      this.formDatas = this.$parent.formDatas
-      if (this.formDatas.payment !== '') {
-        this.formDatas.payment__multiple = this.formDatas.payment.split(',')
-        this.paymentLen = this.formDatas.payment__multiple.length
-        this.formDatas.payment__multiple.forEach((item, index) => {
-          let datas = {}
-          if (item === '1') {
-            datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
-          } else {
-            datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
-          }
-          this.formItemsConfigMessage.splice(1 + index, 0, datas)
-          if (this.$parent.dialogTitle === '查看详情') {
-            this.formItemsConfigMessage.forEach(item => {
-              item.itemRender.props.disabled = true
-            })
-          } else {
-            this.formItemsConfigMessage.forEach(item => {
-              item.itemRender.props.disabled = false
-            })
-          }
-          // this.formDatas.agency_code = '000,000001,000002'
-          // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
-          this.formDatas.agency_code = this.formDatas.agencyCode
-          this.formDatas.agency_name = this.formDatas.agencyName
-          this.formDatas.pro_code = this.formDatas.proCode
-          this.formDatas.pro_name = this.formDatas.proName
-          this.formDatas.exp_func_code = this.formDatas.expFunCode
-          this.formDatas.exp_func_name = this.formDatas.expFunName
-          this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
-          this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
-          this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
-          this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
-          this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
-          this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+    this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
+    this.triggerClass = this.$parent.DetailData.triggerClass
+    this.handleType = this.$parent.DetailData.handleType
+    this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+
+    this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
+    // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
+    // this.businessFunction = this.$parent.DetailData.ruleTemplate.businessFunctionName
+    this.businessSystemCode = this.$parent.DetailData.businessSystemCode + ''
+    this.SysparentId = this.businessSystemCode
+    this.getModLists()
+    this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
+    this.ModparentId = this.businessModuleCode
+
+    // this.getFunLists()
+    // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
+    // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
+    this.businessSystemName = this.$parent.DetailData.businessSystemName
+    this.businessModuleName = this.$parent.DetailData.businessModuleName
+    // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
+    // this.businessFunctionName = this.$parent.DetailData.menuNameList
+    this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
+    this.mountTableData = this.$parent.DetailData.regulationConfig
+    this.ruleFlag = this.$parent.DetailData.ruleFlag
+    // this.warnLocation = this.$parent.DetailData.warnLocation
+    this.policiesDescription = this.$parent.DetailData.warningTips
+    // 不可编辑
+    // this.buttonConfig = {}
+    this.disabled = true
+    this.editConfig = false
+
+    if (this.$parent.dialogTitle !== '新增') {
+      if (this.$parent.formDatas) {
+        this.formDatas = this.$parent.formDatas
+        if (this.formDatas.payment && this.formDatas.payment !== '') {
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
+          this.paymentLen = this.formDatas.payment__multiple.length
+          this.formDatas.payment__multiple.forEach((item, index) => {
+            let datas = {}
+            if (item === '1') {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            } else {
+              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            }
+            this.formItemsConfigMessage.splice(1 + index, 0, datas)
+            if (this.$parent.dialogTitle === '查看详情') {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = true
+              })
+            } else {
+              this.formItemsConfigMessage.forEach(item => {
+                item.itemRender.props.disabled = false
+              })
+            }
+            // this.formDatas.agency_code = '000,000001,000002'
+            // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
+            this.formDatas.agency_code = this.formDatas.agencyCode
+            this.formDatas.agency_name = this.formDatas.agencyName
+            this.formDatas.pro_code = this.formDatas.proCode
+            this.formDatas.pro_name = this.formDatas.proName
+            this.formDatas.exp_func_code = this.formDatas.expFunCode
+            this.formDatas.exp_func_name = this.formDatas.expFunName
+            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
           // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
           // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
           // let paramsCodes = ''
@@ -1325,8 +1393,9 @@ export default {
           // })
           // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
           // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
-        })
-        console.log(this.formDatas)
+          })
+          console.log(this.formDatas)
+        }
       }
     }
     if (this.$parent.dialogTitle === '查看详情') {
@@ -1334,6 +1403,10 @@ export default {
         item.itemRender.props.disabled = true
       })
     }
+    this.regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
+    this.getSysLists()
+    this.getDepLists()
+    this.getRegulation()
   }
 }
 </script>
@@ -1386,5 +1459,10 @@ export default {
   }
   .el-row-item .font-set-small .hline{
     width:72px;
+  }
+  .vxe-toolbar{
+    .vxe-button--wrapper{
+      display:flex;
+    }
   }
 </style>

@@ -197,7 +197,8 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
+                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
+
                       class="businessFunctionTree"
                       style="display: inline-block;"
                       @onNodeClick="regulationNodeClick"
@@ -762,7 +763,7 @@ export default {
   methods: {
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : ''
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : []
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
@@ -1247,9 +1248,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }
@@ -1291,12 +1290,12 @@ export default {
               code: 'root',
               isleaf: '0',
               name: '全部',
-              children: this.getChildrenNewData(res.data)
+              children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = this.getChildrenNewData(res.data)
+          this.treeData = this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1875,7 +1874,7 @@ export default {
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
-        if (this.formDatas.payment !== '') {
+        if (this.formDatas.payment && this.formDatas.payment !== '') {
           this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {

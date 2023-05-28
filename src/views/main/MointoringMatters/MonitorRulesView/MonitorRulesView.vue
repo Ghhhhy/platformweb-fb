@@ -428,6 +428,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = res.data
+          this.formDatas = this.DetailData.regulationElementEntitieList && this.DetailData.regulationElementEntitieList[0] ? this.DetailData.regulationElementEntitieList[0] : this.formDatas
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -437,6 +438,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = res.data
+          this.formDatas = this.DetailData.regulationElementEntitieList && this.DetailData.regulationElementEntitieList[0] ? this.DetailData.regulationElementEntitieList[0] : this.formDatas
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }
