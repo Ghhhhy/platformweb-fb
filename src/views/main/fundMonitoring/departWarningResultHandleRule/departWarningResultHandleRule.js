@@ -379,6 +379,7 @@ const proconf = {
       {
         title: '规则名称',
         align: 'left',
+        treeNode: true,
         width: 260,
         field: 'name',
         filters: false,
