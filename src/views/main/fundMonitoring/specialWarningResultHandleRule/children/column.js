@@ -116,7 +116,7 @@ const proconf = {
       align: 'right'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -204,7 +204,7 @@ const proconf = {
       align: 'right'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -395,7 +395,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -594,7 +594,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -793,7 +793,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -1008,7 +1008,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -1215,7 +1215,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -1430,7 +1430,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -1629,7 +1629,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -1836,7 +1836,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -2043,7 +2043,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
@@ -2250,7 +2250,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       filters: false,
       width: 140,
       field: 'rectifyDetail',
