@@ -113,7 +113,28 @@ const proconf = {
       },
       sortable: false,
       align: 'right'
-
+    },
+    {
+      title: '政府支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'govBgtEcoName',
+      formatter({ row }) {
+        return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '部门支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'depBgtEcoName',
+      formatter({ row }) {
+        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
     },
     {
       title: '支付方式',
