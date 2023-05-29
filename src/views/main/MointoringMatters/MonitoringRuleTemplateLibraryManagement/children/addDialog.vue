@@ -804,7 +804,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$refs.mountTableRef.removeCheckboxRow()
+        // this.$refs.mountTableRef.removeCheckboxRow()
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {
@@ -891,7 +891,7 @@ export default {
       }
       let funSelection = this.$refs.mountTableRef.getSelectionData()
       if (this.title === '修改') {
-        funSelection = this.mountTableData
+        // funSelection = this.mountTableData
       }
       if (funSelection.length < 1) {
         this.$message.warning('请选择挂接函数')

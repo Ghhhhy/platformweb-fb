@@ -44,10 +44,6 @@ window.gloableToolFn = {
   // 是否开启水印
   enableWaterMark: false,
   getReportUrl: () => reportService,
-  getIssueUrl: () => {
-    return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
-  },
-  getBbsUrl: () => {
-    return 'https://yth.czj.sh.cegn.cn/shbbs/'
-  }
+  getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
+  getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/'
 }

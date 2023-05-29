@@ -55,7 +55,7 @@
         <el-row>
           <el-col :span="24">
             <div style="display: flex; align-content: center">
-              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;疑似违规说明</span>
+              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;疑似违规说明</span>
               <el-input
                 v-model="doubtViolateExplain"
                 type="textarea"
@@ -542,22 +542,25 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agency_code + '-' + res.data.executeData?.agency_name
-              this.supplyDataList.proName = res.data.executeData?.pro_code + '-' + res.data.executeData?.pro_name
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fund_type_code + '-' + res.data.executeData?.fund_type_name
-              this.supplyDataList.proCatName = res.data.executeData?.pro_cat_code + '-' + res.data.executeData?.pro_cat_name
-              this.supplyDataList.deptEconomyType = res.data.executeData?.dep_bgt_eco_code + '-' + res.data.executeData?.dep_bgt_eco_name
-              this.supplyDataList.govEconomyType = res.data.executeData?.gov_bgt_eco_code + '-' + res.data.executeData?.gov_bgt_eco_name
-              this.supplyDataList.settlementMethod = res.data.executeData?.set_mode_code + '-' + res.data.executeData?.set_mode_name
-              this.supplyDataList.directFund = res.data.executeData?.is_dir_code === null ? '' : res.data.executeData?.is_dir_code + '-' + res.data.executeData?.is_dir_name || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.is_sal_code + '-' + res.data.executeData?.is_sal_name
-              this.supplyDataList.isUnionFunds = res.data.executeData?.is_fun_code + '-' + (res.data.executeData?.is_fun_code === 1 ? '是' : '否')
+              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+              this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+              this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+              this.supplyDataList.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
+              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+              this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+              this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+              this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
+              this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
               this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.funcType = res.data.executeData?.exp_func_code + '-' + res.data.executeData?.exp_func_name
-              this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
-              this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
-              this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+              this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+              this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+              this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
               this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+              this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
+              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
@@ -698,7 +701,7 @@ export default {
               this.businessDataList.businessOffice = res.data?.manage_mof_dep_code + '-' + res.data?.manage_mof_dep_name
               this.businessDataList.paymentMethod = res.data?.pay_type_code + '-' + res.data?.pay_type_name
               this.businessDataList.isThrExp = res.data?.thr_exp_code + (res.data?.thr_exp_name === null ? '' : '-' + res.data?.thr_exp_name)
-              this.businessDataList.payBusType = res.data?.pay_bus_type_code + '-' + res.data?.pay_bus_type_name
+              this.businessDataList.payBusType = res.data?.payBusTypeCode + '-' + res.data?.payBusTypeName
               this.businessDataList.todoName = res.data?.todo_name
               this.businessDataList.voidOrNot = res.data?.is_deleted + '-' + (res.data?.is_deleted === '2' ? '否' : '是')
             }
@@ -751,11 +754,15 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
       }
-      if (this.doubtViolateExplain.length <= 5) {
+      if (!this.doubtViolateExplain) {
+        this.$message.warning('请填写疑似违规说明')
+        return
+      }
+      if (this.doubtViolateExplain.length < 5) {
         this.$message.warning('疑似违规说明长度应大于等于5位')
         return
       }
-      if (this.doubtViolateExplain.length >= 200) {
+      if (this.doubtViolateExplain.length > 200) {
         this.$message.warning('疑似违规说明长度应小于等于200位')
         return
       }

@@ -377,16 +377,16 @@ const proconf = {
       sortable: false,
       align: 'right'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
-      title: '支出功能科目编码',
-      filters: false,
-      width: 140,
-      field: 'expFuncCode',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '支出功能科目名称',
+      title: '支出功能科目',
       filters: false,
       width: 140,
       field: 'expFuncName',
@@ -532,19 +532,22 @@ const proconf = {
       sortable: false,
       align: 'right'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'expFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
     {
-      title: '支出功能科目编码',
-      filters: false,
-      width: 140,
-      field: 'expFuncCode',
-      sortable: false,
-      align: 'right'
-    },
-    {
-      title: '支出功能科目名称',
+      title: '支出功能科目',
       filters: false,
       width: 140,
       field: 'expFuncName',
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      },
       sortable: false,
       align: 'right'
     },
@@ -883,6 +886,30 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'zfExpFuncName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
+    {
       title: '收款方账号',
       field: 'receiveAccount',
       sortable: false,
@@ -1098,6 +1125,30 @@ const proconf = {
       align: 'center'
     },
     {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'zfExpFuncName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
+    {
       title: '收款方账号',
       field: 'receiveAccount',
       sortable: false,
@@ -1291,6 +1342,30 @@ const proconf = {
       filters: false,
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'zfExpFuncName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
     },
     {
       title: '收款方账号',

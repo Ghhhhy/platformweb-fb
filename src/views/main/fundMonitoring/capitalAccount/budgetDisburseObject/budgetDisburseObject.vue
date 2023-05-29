@@ -86,6 +86,7 @@
 <script>
 import { proconf } from './budgetDisburseObject'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+// import store from '@/store/index'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import regionMixin from '../mixins/regionMixin'
@@ -372,7 +373,7 @@ export default {
     search(obj) {
       console.log(obj)
       this.searchDataList = obj
-      this.fiscalYear = obj.fiscalYear
+      this.fiscalYear = obj.fiscalYear ? this.$store.state.userInfo.year : obj.fiscalYear
       this.speTypeName = obj.speTypeName
       this.expFuncName = obj.expFuncName
       this.proName = obj.proName
@@ -715,7 +716,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         mofDivCode: this.mofDivCode, // 获取左侧树
         speTypeName: this.speTypeName,
         expFuncName: this.expFuncName,

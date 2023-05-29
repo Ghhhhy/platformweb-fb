@@ -267,6 +267,7 @@ export default {
       this.regulationName = obj.regulationName
       this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
+      this.queryTableDatasCount()
     },
     getChildrenData(datas) {
       let that = this
@@ -577,10 +578,25 @@ export default {
       } else if (regulationType === '财政级') {
         regulationType = '2'
       }
+      // const params = {
+      //   menuType: 2,
+      //   regulationType: regulationType,
+      //   id: this.condition.agency_code
+      // }
       const params = {
-        menuType: 2,
-        regulationType: regulationType,
-        id: this.condition.agency_code
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+        'warningLevel': this.warningLevel, // 预警级别
+        'handleType': this.handleType, // 处理方式
+        'businessModelCode': '', // 业务模块
+        'businessFeaturesCode': '', // 业务功能
+        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        'isEnable': this.isEnable,
+        'regulationName': this.regulationName,
+        regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        code: this.condition.agency_code,
+        menuType: 2
       }
       HttpModule.queryTableDatasCount(params).then(res => {
         that.tabStatusNumConfig['1'] = res.data.unHandle

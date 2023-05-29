@@ -1,3 +1,4 @@
+<!-- 直达资金监控预警结果（全省） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
@@ -28,11 +29,12 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
-          :export-modal-config="{ fileName: menuName }"
+          :default-money-unit="10000"
+          :title="menuName"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
@@ -53,20 +55,27 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <DetailDialog
       v-if="detailVisible"
+      :title="detailTitle"
       :detail-data="detailData"
-      :colour-type="colourType"
+    />
+    <sDetailDialog
+      v-if="sdetailVisible"
+      :title="sdetailTitle"
+      :s-detail-query-param="sdetailQueryParam"
+      :detail-data="sDetailData"
     />
   </div>
 </template>
 
 <script>
-import getFormData from './warningQuery.js'
+import getFormData from './departWarningResultHandleRule.js'
 import DetailDialog from './children/wdetailDialog.vue'
-import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
-import transJson from '@/utils/transformMenuQuery'
+import sDetailDialog from './children/detailDialog.vue'
+import HttpModule from '@/api/frame/main/fundMonitoring/warningResultHandleRule.js'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    sDetailDialog
   },
   watch: {
     $refs: {
@@ -81,9 +90,6 @@ export default {
   },
   data() {
     return {
-      colourType: '',
-      warningCode: '',
-      fiRuleCode: '',
       sDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -110,9 +116,9 @@ export default {
       ifRenderExpandContentTable: true,
       pagerConfig: {
         autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -121,7 +127,6 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
-        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -169,19 +174,15 @@ export default {
       sdetailData: [],
       detailData: [],
       code: '',
-      fiscalYear: ''
+      fiscalYear: '',
+      trackProCodes: [],
+      isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
+      regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
     }
   },
   mounted() {
   },
   methods: {
-    // 黑龙江加查询条件
-    dynamicSetConfig() {
-      if (this.transJson(this.params5).projectCode === 'HLJ') {
-        this.queryConfig = getFormData('highQueryConfig').concat(getFormData('highQueryConfigHLJ'))
-        this.searchDataList = Object.assign(getFormData('highQueryData'), getFormData('highQueryDataHLJ'))
-      }
-    },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
       this.pagerConfig.pageSize = pageSize
@@ -260,7 +261,7 @@ export default {
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
-          (this.searchDataList[key] !== undefined) &&
+          (this.searchDataList[key] !== undefined) &
           (this.searchDataList[key] !== null)
         ) {
           if (Array.isArray(this.searchDataList[key])) {
@@ -274,9 +275,8 @@ export default {
           }
         }
       }
-      condition.fiRuleCode = val.fiRuleCode
       this.condition = condition
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -303,78 +303,112 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      let fiRuleCode = this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
-      let { xpayDateEnd, xpayDateStart, triggerMonitorEnd, triggerMonitorStart } = this.condition
-      const timeRange = {
-        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
-        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
-        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
-        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+      this.fiscalYear = this.searchDataList.fiscalYear
+      this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+      switch (key) {
+        case 'numbernofileNum':
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-未处理明细'
+          this.detailType = 'numbernofileNum'
+          this.detailVisible = true
+          break
+        case 'numberfileNum':
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '红灯-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberfileNum'
+          break
+        case 'numberwarnUndoNum':
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNum'
+          break
+        case 'numberwarndoNum':
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndoNum'
+          break
+        case 'numberwarnUndoNoNum':
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarnUndoNoNum'
+          break
+        case 'numberwarndidNum':
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄灯-认定违规-已认定明细'
+          this.detailVisible = true
+          this.detailType = 'numberwarndidNum'
+          break
+        case 'numberhqlmUndoNum':
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-未处理明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmUndoNum'
+          break
+        case 'numberhqlmdoNum':
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailTitle = '黄色警铃-已整改明细'
+          this.detailVisible = true
+          this.detailType = 'numberhqlmdoNum'
+          break
       }
-      this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode, timeRange]
-      if (key.startsWith('red')) {
-        this.colourType = '1'
-      } else if (key.startsWith('orange')) {
-        this.colourType = '2'
-      } else if (key.startsWith('yellow')) {
-        this.colourType = '3'
-      } else if (key.startsWith('blue')) {
-        this.colourType = '4'
-      } else {
-        // 灰色
-        this.colourType = '5'
-      }
-      this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.queryTableDatas()
+      this.queryTableDatas(this.detailType, this.code)
       // this.queryTableDatasCount()
     },
-    getFiRule() {
-      const param = {
-        fiscalYear: this.$store.state.userInfo.year
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '0201'
-      }
-      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
-      if (regulationClass) {
-        param.regulationClass = regulationClass
-      }
-      HttpModule.getFiRule(param).then(res => {
+      return proCodes
+    },
+    getPro() {
+      HttpModule.queryProDepartTreeData().then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
-          let treeResdata = res.data
-          this.queryConfig[0].itemRender.options = treeResdata
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
         }
       })
     },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     // 查询 table 数据
     queryTableDatas(val) {
-      const { fiRuleCode, xpayDateEnd, xpayDateStart, triggerMonitorStart, triggerMonitorEnd } = this.condition
       const param = {
-        fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
-        xpayDateStart: xpayDateStart ? xpayDateStart[0] : '',
-        xpayDateEnd: xpayDateEnd ? xpayDateEnd[0] : '',
-        triggerMonitorStart: triggerMonitorStart ? triggerMonitorStart[0] : '',
-        triggerMonitorEnd: triggerMonitorEnd ? triggerMonitorEnd[0] : ''
-
-      }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '0201'
-      }
-      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
-      if (regulationClass) {
-        param.regulationClass = regulationClass
+        fiscalYear: this.searchDataList.fiscalYear,
+        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
+        isSuperPermissions: this.isSuperPermissions,
+        regulationClass: this.regulationClass
       }
       this.tableLoading = true
-      HttpModule.queryWarningByMof(param).then((res) => {
+      HttpModule.queryTableDatas(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data
+          // this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -388,15 +422,13 @@ export default {
     }
   },
   created() {
-    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.getFiRule()
+    this.getPro()
     this.queryTableDatas()
-    this.dynamicSetConfig()
   }
 }
 </script>

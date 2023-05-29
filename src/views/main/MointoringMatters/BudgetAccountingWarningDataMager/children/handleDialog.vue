@@ -230,31 +230,24 @@ export default {
           this.supplyDataList = { ...res.data, ...res.data.executeData }
 
           if (res.data.executeData !== null) {
-            this.supplyDataList.pay_app_amt = this.moneyFormat(this.supplyDataList.pay_app_amt)
-            this.supplyDataList.agency_name = res.data.executeData.agency_code + '-' + res.data.executeData.agency_name
-            this.supplyDataList.pro_name = res.data.executeData.pro_code + '-' + res.data.executeData.pro_name
-            this.supplyDataList.pay_type_name = res.data.executeData.payType_name
-            this.supplyDataList.manage_mof_dep_name = res.data.executeData.manage_mof_dep_code + '-' + res.data.executeData.manage_mof_dep_name
-            this.supplyDataList.exp_func_name = res.data.executeData.exp_func_code + '-' + res.data.executeData.exp_func_name
-            this.supplyDataList.dep_bgt_eco_name = res.data.executeData.dep_bgt_eco_code + '-' + res.data.executeData.dep_bgt_eco_name
-            this.supplyDataList.gov_bgt_eco_name = res.data.executeData.gov_bgt_eco_code + '-' + res.data.executeData.gov_bgt_eco_name
-            this.supplyDataList.set_mode_name = res.data.executeData.set_mode_code + '-' + res.data.executeData.set_mode_name
-            this.supplyDataList.is_dir_name = (res.data.executeData.is_dir_code === null ? '' : res.data.executeData.is_dir_code) + '-' + (res.data.executeData.is_dir_name === null ? '' : res.data.executeData.is_dir_name)
-            this.supplyDataList.is_sal_name = (res.data.executeData.is_sal_code === null ? '' : res.data.executeData.is_sal_code) + '-' + (res.data.executeData.is_sal_name === null ? '' : res.data.executeData.is_sal_name)
-            this.supplyDataList.is_fun_name = (res.data.executeData.is_fun_code === null ? '' : res.data.executeData.is_fun_code) + '-' + (res.data.executeData.is_fun_code === 1 ? '是' : '否')
-            this.supplyDataList.fiDate = res.data.executeData.fiDate
-            this.supplyDataList.thr_exp_name = (res.data.executeData.thr_exp_code === null ? '' : res.data.executeData.thr_exp_code) + (res.data.executeData.thrExpName === null ? '' : '-' + res.data.executeData.thrExpName)
-            this.supplyDataList.fund_type_name = res.data.executeData.fund_type_code + '-' + res.data.executeData.fund_type_name
-            this.supplyDataList.payee_acct_bank_name = res.data.executeData.payee_acct_bank_name
-            this.supplyDataList.payee_acct_no = res.data.executeData.payee_acct_no
-            this.supplyDataList.payee_acct_name = res.data.executeData.payee_acct_name
-            this.supplyDataList.pay_acct_bank_name = res.data.executeData.pay_acct_bank_name
-            this.supplyDataList.pay_acct_no = res.data.executeData.pay_acct_no
-            this.supplyDataList.pay_acct_name = res.data.executeData.pay_acct_name
-            this.supplyDataList.pro_cat_name = res.data.executeData.pro_cat_code + '-' + res.data.executeData.pro_cat_name
-            this.supplyDataList.cor_bgt_doc_no_name = (res.data.executeData.cor_bgt_doc_no_name === null ? '' : res.data.executeData.cor_bgt_doc_no_name)
-            this.supplyDataList.pay_app_no = res.data.executeData.pay_app_no
-            this.supplyDataList.use_des = res.data.executeData.use_des
+            this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+            this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+            this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+            this.supplyDataList.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
+            this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+            this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+            this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+            this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+            this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
+            this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
+            this.supplyDataList.fiDate = res.data.executeData?.fiDate
+            this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+            this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+            this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+            this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
+            this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+            this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
+            this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
           }
 
           this.handletableData = res.data.regulationList
