@@ -1170,11 +1170,11 @@ export const proconf = {
         }
       ],
       'dsh': [
-        {
-          label: '联查业务数据',
-          code: 'queryBusinessData',
-          status: 'primary'
-        },
+        // {
+        //   label: '联查业务数据',
+        //   code: 'queryBusinessData',
+        //   status: 'primary'
+        // },
         {
           label: '审核',
           code: 'process',

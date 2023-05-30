@@ -382,7 +382,7 @@ const proconf = {
         },
         {
           title: '中央安排',
-          field: 'amountpayzyap',
+          field: 'amountPayZdzj',
           sortable: false,
           align: 'right',
           cellRender: { name: '$vxeMoney' }

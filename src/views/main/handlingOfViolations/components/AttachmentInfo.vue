@@ -16,7 +16,7 @@
           <i :class="loadingState ? 'el-icon-loading' : 'el-icon-upload'"></i>
           上传
         </el-button>
-        <span class="upload-tip">支持png/jpg/pdf等，不超过1M</span>
+        <span class="upload-tip">支持png/jpg/pdf等，不超过10M</span>
       </div>
       <div class="file-list-container">
         <div
@@ -62,7 +62,7 @@ import { checkRscode } from '@/utils/checkRscode'
 import { downloadByFileId } from '@/utils/download'
 
 // 附件最大值(1M)
-const maxSize = 1024 * 1024
+const maxSize = 1024 * 1024 * 10
 export default defineComponent({
   props: {
     // 文件列表
