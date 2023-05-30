@@ -1057,7 +1057,7 @@ const proconf = {
     },
     {
       title: '支付时间',
-      field: 'xPatyTime',
+      field: 'xpayDate',
       sortable: false,
       width: 140,
       filters: false,
