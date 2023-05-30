@@ -545,9 +545,6 @@ const proconf = {
       filters: false,
       width: 140,
       field: 'expFuncName',
-      formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
-      },
       sortable: false,
       align: 'right'
     },

@@ -974,13 +974,14 @@ export default {
         params.regulationClass = '0207'
       }
       if (this.detailData.length > 5) {
-        let { xpayDateEnd, xpayDateStart, triggerMonitorEnd, triggerMonitorStart } = this.detailData[5]
+        let { xpayDate, triggerMonitorDate } = this.detailData[5]
         params = Object.assign(params, {
-          xpayDateStart: xpayDateStart || undefined,
-          xpayDateEnd: xpayDateEnd || undefined,
-          triggerMonitorStart: triggerMonitorStart || undefined,
-          triggerMonitorEnd: triggerMonitorEnd || undefined
+          xpayDate: xpayDate || undefined,
+          triggerMonitorDate: triggerMonitorDate || undefined
         })
+      }
+      if (!params.warnTime && params.triggerMonitorDate) {
+        params.warnTime = params.triggerMonitorDate
       }
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode

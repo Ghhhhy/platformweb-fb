@@ -366,6 +366,8 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
+      this.isDir = obj.isDir
+      this.isSpeType = obj.isSpeType
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
@@ -781,6 +783,8 @@ export default {
         'regulationClass': this.regulationClass || this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         'regulationModelName': this.regulationModelName,
         'fiRuleTypeCode': this.fiRuleTypeCode,
+        'isDir': this.isDir,
+        'isSpeType': this.isSpeType,
         id: this.condition.agency_code,
         menuType: 1
       }

@@ -339,27 +339,36 @@ const proconf = {
       // },
       {
         title: '支出功能科目',
+        filters: false,
+        width: 140,
         field: 'expFuncName',
-        width: 120,
+        formatter({ row }) {
+          return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+        },
         sortable: false,
-        filters: false,
-        align: 'center'
+        align: 'right'
       },
       {
-        title: '政府支出经济分类代码',
-        field: 'govBgtEcoCode',
-        width: 120,
-        sortable: false,
+        title: '政府支出经济分类',
         filters: false,
-        align: 'center'
-      },
-      {
-        title: '政府支出经济分类名称',
+        width: 140,
         field: 'govBgtEcoName',
-        width: 120,
+        formatter({ row }) {
+          return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
+        },
         sortable: false,
+        align: 'right'
+      },
+      {
+        title: '部门支出经济分类',
         filters: false,
-        align: 'center'
+        width: 140,
+        field: 'depBgtEcoName',
+        formatter({ row }) {
+          return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+        },
+        sortable: false,
+        align: 'right'
       },
       {
         title: '指标管理处室代码',
