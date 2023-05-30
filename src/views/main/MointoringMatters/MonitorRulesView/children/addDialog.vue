@@ -1220,7 +1220,7 @@ export default {
         classCode = valArr[0]
       }
 
-      if (this.triggerClass === 1 && (this.businessFunctionCode.length === 0 || this.businessFunctionCode[0] === 'undefined')) {
+      if (this.triggerClass === 1 && (this.businessFunctionName.length === 0 || this.businessFunctionName[0] === 'undefined')) {
         this.$XModal.message({ status: 'warning', message: '请选择触发菜单！' })
         return
       }

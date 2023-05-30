@@ -324,6 +324,7 @@ import { proconf } from '../createProcessing.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import moment from 'moment'
+import { checkPhone } from '@/utils/index.js'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
 export default {
   name: 'HandleDialog',
@@ -931,31 +932,17 @@ export default {
     // 反馈
     doFeedback() {
       let flag = this.status
-      let re = /^1\d{10}$/
-      let re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/
-      if (this.phone2) {
-        if (!re.test(this.phone2)) {
-          if (!re1.test(this.phone2)) {
-            this.$message.warning('请输入正确的电话号码')
-            return
-          }
-        }
+      if (this.phone2 && !checkPhone(this.phone2)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
-      if (this.phone3) {
-        if (!re.test(this.phone3)) {
-          if (!re1.test(this.phone3)) {
-            this.$message.warning('请输入正确的电话号码')
-            return
-          }
-        }
+      if (this.phone3 && !checkPhone(this.phone3)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
-      if (this.phone1) {
-        if (!re.test(this.phone1)) {
-          if (!re1.test(this.phone1)) {
-            this.$message.warning('请输入正确的电话号码')
-            return
-          }
-        }
+      if (this.phone1 && !checkPhone(this.phone1)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
       if (this.param5.retroact === 'company' && !this.hsValue && (flag === '3' || flag === 3)) {
         this.$message.warning('请选择核实意见')

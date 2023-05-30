@@ -221,6 +221,7 @@
 <script>
 import { proconf } from './addDialog.js'
 import HttpModule from '@/api/frame/main/Monitoring/InquiryLetterReplyByAgency.js'
+import { checkPhone } from '@/utils/index.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -305,13 +306,10 @@ export default {
         this.$message.warning('请输入函询事项单位回复情况')
         return
       }
-      let re = /^1\d{10}$/
-      let re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/
-      if (!re.test(this.askAgencyTel)) {
-        if (!re1.test(this.askAgencyTel)) {
-          this.$message.warning('请输入正确的电话号码')
-          return
-        }
+
+      if (!checkPhone(this.askAgencyTel)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
       const params = {
         askCode: this.modifyData.askCode,
