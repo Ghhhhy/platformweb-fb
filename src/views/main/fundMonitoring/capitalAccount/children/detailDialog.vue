@@ -308,12 +308,12 @@ export default {
           break
       }
       // 时间紧急 都加上了 后续看有的要不要去掉
-      this.tableColumnsConfig = this.tableColumnsConfig.concat([{
-        title: '分配时间',
-        field: 'allocateTime',
-        sortable: false,
-        align: 'center'
-      }])
+      // this.tableColumnsConfig = this.tableColumnsConfig.concat([{
+      //   title: '分配时间',
+      //   field: 'allocateTime',
+      //   sortable: false,
+      //   align: 'center'
+      // }])
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {

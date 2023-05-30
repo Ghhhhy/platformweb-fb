@@ -261,7 +261,7 @@ const budgetManagementColumns = [
     filters: false,
     align: 'center'
   }, {
-    title: '分配金额',
+    title: '已分配金额',
     width: 180,
     field: 'allocationAmount',
     sortable: false,
@@ -1319,12 +1319,12 @@ const proconf = {
       }
     }, {
       field: 'allocationAmount',
-      title: '分配金额',
+      title: '已分配金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '分配金额', disabled: true }
+        props: { placeholder: '已分配金额', disabled: true }
       }
     },
     {
