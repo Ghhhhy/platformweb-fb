@@ -18,7 +18,7 @@
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick1"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4')" v-slot:preBtns>
+          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2')" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"

@@ -1516,5 +1516,6 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ]
+
 }
 export default proconf
