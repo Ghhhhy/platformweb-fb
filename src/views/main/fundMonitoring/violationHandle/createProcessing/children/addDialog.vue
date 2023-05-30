@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold;">明细信息
-            <el-button type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-if="dialogVisibleKjsmBut" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -391,6 +391,7 @@ export default {
       DetailData: {},
       dialogVisibleShow: false,
       dialogVisibleKjsm: false,
+      dialogVisibleKjsmBut: false,
       dialogTitle: '查看详情',
       options: [{
         value: '2',
@@ -1115,9 +1116,11 @@ export default {
       if ([6, '6', 2, '2'].includes(this.bussnessId)) {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
+        this.dialogVisibleKjsmBut = true
       } else {
         this.incomeMsgConfig = proconf.incomeMsgConfig
         this.supplyDataList = proconf.incomeMsgData
+        this.dialogVisibleKjsmBut = false
       }
     }
   },
