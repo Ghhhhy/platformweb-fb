@@ -133,6 +133,7 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
+import { checkPhone } from '@/utils/index.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -258,13 +259,9 @@ export default {
         this.$message.warning('申报事项长度应小于等于200位')
         return
       }
-      let re = /^1\d{10}$/
-      let re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/
-      if (!re.test(this.declarePersonTel)) {
-        if (!re1.test(this.declarePersonTel)) {
-          this.$message.warning('请输入正确的电话号码')
-          return
-        }
+      if (!checkPhone(this.declarePersonTel)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
       if (this.title === '新增') {
         let param = {
