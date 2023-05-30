@@ -335,7 +335,7 @@ export default {
               nodeName: item['operationTypeName'],
               actionUser: item['operationUser'],
               actionName: item['operationTypeName'],
-              actionTime: '',
+              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
               message: item['operationComment']
             }
           })
