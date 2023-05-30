@@ -653,7 +653,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'
@@ -664,7 +664,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'
@@ -826,7 +826,7 @@ const proconf = {
     },
     {
       title: '支付时间',
-      field: 'xPatyTime',
+      field: 'xpayDate',
       sortable: false,
       width: 140,
       filters: false,
@@ -890,7 +890,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'
@@ -901,7 +901,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'
@@ -1083,7 +1083,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'
@@ -1094,7 +1094,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
       align: 'right'

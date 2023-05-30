@@ -292,14 +292,14 @@ export default {
         case 'zdzjxmmx':
           // 上海项目加一列分配时间
           // if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-          this.tableColumnsConfig = proconf.projectColumn.concat([{
-            title: '分配时间',
-            field: 'allocateTime',
-            sortable: false,
-            align: 'center'
-          }])
+          // this.tableColumnsConfig = proconf.projectColumn.concat([{
+          //   title: '分配时间',
+          //   field: 'allocateTime',
+          //   sortable: false,
+          //   align: 'center'
+          // }])
           // } else {
-          //   this.tableColumnsConfig = proconf.projectColumn
+          this.tableColumnsConfig = proconf.projectColumn
           // }
           break
         // 专项监督项目明细
@@ -310,6 +310,13 @@ export default {
         default:
           break
       }
+      // 时间紧急 都加上了 后续看有的要不要去掉
+      this.tableColumnsConfig = this.tableColumnsConfig.concat([{
+        title: '分配时间',
+        field: 'allocateTime',
+        sortable: false,
+        align: 'center'
+      }])
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {

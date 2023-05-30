@@ -104,6 +104,24 @@ const proconf = {
           clearable: true
         }
       }
+    },
+    {
+      title: '是否直达资金',
+      field: 'isZd',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '0', label: '否' }
+        ],
+        props: {
+          placeholder: '是否直达资金',
+          clearable: true
+        }
+      }
     }
   ],
   highQueryData: {

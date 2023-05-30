@@ -2520,11 +2520,11 @@ const buttons1 = {
   2: [
   ],
   3: [
-    {
-      label: '联查业务数据',
-      code: 'queryBusinessData',
-      status: 'primary'
-    },
+    // {
+    //   label: '联查业务数据',
+    //   code: 'queryBusinessData',
+    //   status: 'primary'
+    // },
     {
       label: '整改详情',
       code: 'show_detail',
@@ -2542,11 +2542,11 @@ const buttons2 = {
   4: [
   ],
   3: [
-    {
-      label: '联查业务数据',
-      code: 'queryBusinessData',
-      status: 'primary'
-    },
+    // {
+    //   label: '联查业务数据',
+    //   code: 'queryBusinessData',
+    //   status: 'primary'
+    // },
     {
       label: '整改详情',
       code: 'show_detail',
