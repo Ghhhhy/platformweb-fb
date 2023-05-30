@@ -132,6 +132,11 @@ export const isDirOptions = [
   { value: '1', label: '是' },
   { value: '0', label: '否' }
 ]
+// 是否专项监控isSpeType
+export const isSpeTypeOps = [
+  { value: '1', label: '是' },
+  { value: '0', label: '否' }
+]
 
 // 业务状态options
 export const getStatusCodeOptions = () => {
@@ -198,6 +203,19 @@ export const searchFormCommonSchemas = [
       props: {
         clearable: true,
         placeholder: '是否直达资金'
+      }
+    }
+  },
+  {
+    title: '是否专项主题',
+    field: 'isSpeType',
+    titleWidth: 0,
+    itemRender: {
+      name: '$select',
+      options: isSpeTypeOps,
+      props: {
+        clearable: true,
+        placeholder: '是否专项主题'
       }
     }
   },

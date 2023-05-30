@@ -291,16 +291,16 @@ export default {
           break
         case 'zdzjxmmx':
           // 上海项目加一列分配时间
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.tableColumnsConfig = proconf.projectColumn.concat([{
-              title: '分配时间',
-              field: 'allocateTime',
-              sortable: false,
-              align: 'center'
-            }])
-          } else {
-            this.tableColumnsConfig = proconf.projectColumn
-          }
+          // if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+          this.tableColumnsConfig = proconf.projectColumn.concat([{
+            title: '分配时间',
+            field: 'allocateTime',
+            sortable: false,
+            align: 'center'
+          }])
+          // } else {
+          //   this.tableColumnsConfig = proconf.projectColumn
+          // }
           break
         // 专项监督项目明细
         case 'zxjdxmmx_fzj':

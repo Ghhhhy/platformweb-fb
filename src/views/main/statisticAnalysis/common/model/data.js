@@ -7,6 +7,7 @@ import {
   warnLevelOptions,
   isDirOptions
 } from '@/views/main/handlingOfViolations/model/data'
+import { isSpeTypeOps } from '../../../handlingOfViolations/model/data'
 
 /**
  * 首页列表筛选表单
@@ -36,6 +37,19 @@ export const searchFormCommonSchemas = [
       props: {
         clearable: true,
         placeholder: '是否直达资金'
+      }
+    }
+  },
+  {
+    title: '是否专项监控',
+    field: 'isSpeType',
+    titleWidth: 0,
+    itemRender: {
+      name: '$select',
+      options: isSpeTypeOps,
+      props: {
+        clearable: true,
+        placeholder: '是否专项监控'
       }
     }
   },
