@@ -104,6 +104,7 @@ import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import FilePreview from './children/filePreview'
 import GlAttachment from './children/common/GlAttachment'
+
 export default {
   components: {
     AddDialog,
