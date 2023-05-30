@@ -319,6 +319,8 @@ export default {
         this.colourType = '3'
       } else if (key.startsWith('blue')) {
         this.colourType = '4'
+      } else if (key.startsWith('name')) {
+        return
       } else {
         // 灰色
         this.colourType = '5'
