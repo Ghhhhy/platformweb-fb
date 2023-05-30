@@ -899,7 +899,7 @@ const proconf = {
       }
     },
     {
-      title: '资金名称',
+      title: '中央直达资金名称',
       field: 'speTypeName',
       width: 200,
       align: 'center',
@@ -965,6 +965,75 @@ const proconf = {
     // }
 
   ],
+  highQueryConfigZx: [
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '单位名称'
+        }
+      }
+    },
+    {
+      title: '转移支付资金名称',
+      field: 'speTypeName',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '转移支付资金名称'
+        }
+      }
+    },
+    {
+      title: '支出科目名称',
+      field: 'xjExpFuncName',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '支出科目名称'
+        }
+      }
+    },
+    {
+      title: '本级专项资金名称',
+      field: 'sSpeTypeName',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '本级专项资金名称'
+        }
+      }
+    },
+    {
+      title: '上级文号',
+      field: 'corBgtDocNo',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '上级文号'
+        }
+      }
+    }
+
+  ],
+
   highQueryData1: {
     bgtMofDepName: '',
     agencyName: '',

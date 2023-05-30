@@ -213,10 +213,14 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+          this.tableColumnsConfig = proconf.payColumn
+          break
         case 'zxjdzcmx_fdq':
         case 'zxjdzcmx_fzj':
           this.tableColumnsConfig = proconf.payColumn
+          this.queryConfig = proconf.highQueryConfigZx
           break
+
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
           break
