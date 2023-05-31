@@ -457,7 +457,7 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-object-rest-spread" "^7.2.0"
 
-"@babel/plugin-proposal-object-rest-spread@^7.4.4":
+"@babel/plugin-proposal-object-rest-spread@^7.20.7", "@babel/plugin-proposal-object-rest-spread@^7.4.4":
   version "7.20.7"
   resolved "https://registry.npmmirror.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.20.7.tgz#aa662940ef425779c75534a5c41e9d936edc390a"
   integrity sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==
@@ -1375,10 +1375,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@bszx/boss-ui@2.1.2-beta.8":
-  version "2.1.2-beta.8"
-  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2-beta.8.tgz#b0f11a11b950e8b8785c6e38576ea496f753402b"
-  integrity sha512-v0MIRgUGhoVMc6/rD4uroJ74ub5/cp64nEZYzja6ItO7VV187ga8BPaAB0oLhihHW3B5Z55xpuxajpAoedcAkg==
+"@bszx/boss-ui@2.1.2-beta.9":
+  version "2.1.2-beta.9"
+  resolved "http://223.223.190.114:60409/@bszx%2fboss-ui/-/boss-ui-2.1.2-beta.9.tgz#59261cab2c466031b0a7fb466f2444849031fe5e"
+  integrity sha512-ImJ+pGVF4/oqiKxH1rSKzRy4gaFFnJIXIYHviDgB8PyRJjP1aRXOBEhG1tbiodTsa+zFK3cegIrDoU0fc194yg==
   dependencies:
     "@bszx/bs-vxe-table" "^2.10.2-0.3"
     async-validator "^1.11.5"
@@ -2745,9 +2745,9 @@
     "@xtuc/long" "4.2.2"
 
 "@xmldom/xmldom@^0.8.3":
-  version "0.8.7"
-  resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.7.tgz#8b1e39c547013941974d83ad5e9cf5042071a9a0"
-  integrity sha512-sI1Ly2cODlWStkINzqGrZ8K6n+MTSbAeQnAipGyL+KZCXuHaRlj2gyyy8B/9MvsFFqN7XHryQnB2QwhzvJXovg==
+  version "0.8.8"
+  resolved "https://registry.npmmirror.com/@xmldom/xmldom/-/xmldom-0.8.8.tgz#d0d11511cbc1de77e53342ad1546a4d487d6ea72"
+  integrity sha512-0LNz4EY8B/8xXY86wMrQ4tz6zEHZv9ehFMJPm8u2gq5lQ71cfRKdaKyxfJAx5aUoyzx0qzgURblTisPGgz3d+Q==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -4100,9 +4100,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001489:
-  version "1.0.30001491"
-  resolved "https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001491.tgz#eab0e0f392de6f7411751d148de9b5bd6b203e46"
-  integrity sha512-17EYIi4TLnPiTzVKMveIxU5ETlxbSO3B6iPvMbprqnKh4qJsQGk5Nh1Lp4jIMAE0XfrujsJuWZAM3oJdMHaKBA==
+  version "1.0.30001492"
+  resolved "https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001492.tgz#4a06861788a52b4c81fd3344573b68cc87fe062b"
+  integrity sha512-2efF8SAZwgAX1FJr87KWhvuJxnGJKOnctQa8xLOskAXNXq8oiuqgl6u1kk3fFpsp3GgvzlRjiK1sl63hNtFADw==
 
 canvas-exif-orientation@^0.4.0:
   version "0.4.0"
@@ -5826,9 +5826,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.411:
-  version "1.4.413"
-  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.413.tgz#0067c3122946ae234cbefb9401ecefde851cdcf2"
-  integrity sha512-Gd+/OAhRca06dkVxIQo/W7dr6Nmk9cx6lQdZ19GvFp51k5B/lUAokm6SJfNkdV8kFLsC3Z4sLTyEHWCnB1Efbw==
+  version "1.4.414"
+  resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.414.tgz#f9eedb6fb01b50439d8228d8ee3a6fa5e0108437"
+  integrity sha512-RRuCvP6ekngVh2SAJaOKT/hxqc9JAsK+Pe0hP5tGQIfonU2Zy9gMGdJ+mBdyl/vNucMG6gkXYtuM4H/1giws5w==
 
 element-resize-detector@^1.1.12, element-resize-detector@^1.1.15, element-resize-detector@^1.2.0:
   version "1.2.4"
