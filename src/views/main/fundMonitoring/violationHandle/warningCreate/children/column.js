@@ -222,22 +222,22 @@ const budgetManagementColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '上级财政',
-    width: 180,
-    field: 'recDivName',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
-    title: '下级财政',
-    width: 180,
-    field: 'mofDivName',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '上级财政',
+  //   width: 180,
+  //   field: 'recDivName',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
+  // {
+  //   title: '下级财政',
+  //   width: 180,
+  //   field: 'mofDivName',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '项目名称',
     width: 180,
@@ -261,7 +261,7 @@ const budgetManagementColumns = [
     filters: false,
     align: 'center'
   }, {
-    title: '分配金额',
+    title: '已分配金额',
     width: 180,
     field: 'allocationAmount',
     sortable: false,
@@ -1152,26 +1152,26 @@ const proconf = {
         props: { disabled: true, placeholder: '工资标识' }
       }
     },
-    {
-      title: '是否工会经费',
-      field: 'isUnionFunds',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '是否工会经费' }
-      }
-    },
-    {
-      title: '三公经费',
-      field: 'isThrExp',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '三公经费' }
-      }
-    },
+    // {
+    //   title: '是否工会经费',
+    //   field: 'isUnionFunds',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '是否工会经费' }
+    //   }
+    // },
+    // {
+    //   title: '三公经费',
+    //   field: 'isThrExp',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '三公经费' }
+    //   }
+    // },
     {
       title: '直达资金标识',
       field: 'directFund',
@@ -1272,25 +1272,27 @@ const proconf = {
         name: '$vxeInput',
         props: { placeholder: '预算年度', disabled: true }
       }
-    }, {
-      field: 'recDivName',
-      title: '上级财政',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '上级财政', disabled: true }
-      }
-    }, {
-      field: 'mofDivName',
-      title: '下级财政',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '下级财政', disabled: true }
-      }
-    }, {
+    },
+    // {
+    //   field: 'recDivName',
+    //   title: '上级财政',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '上级财政', disabled: true }
+    //   }
+    // }, {
+    //   field: 'mofDivName',
+    //   title: '下级财政',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '下级财政', disabled: true }
+    //   }
+    // },
+    {
       field: 'proName',
       title: '项目名称',
       titleWidth: '180',
@@ -1319,12 +1321,12 @@ const proconf = {
       }
     }, {
       field: 'allocationAmount',
-      title: '分配金额',
+      title: '已分配金额',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '分配金额', disabled: true }
+        props: { placeholder: '已分配金额', disabled: true }
       }
     },
     {
@@ -1582,26 +1584,26 @@ const proconf = {
         props: { disabled: true, placeholder: '是否工会经费' }
       }
     },
-    {
-      title: '三公经费',
-      field: 'isThrExp',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '三公经费' }
-      }
-    },
-    {
-      title: '直达资金标识',
-      field: 'directFund',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '直达资金标识' }
-      }
-    },
+    // {
+    //   title: '三公经费',
+    //   field: 'isThrExp',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '三公经费' }
+    //   }
+    // },
+    // {
+    //   title: '直达资金标识',
+    //   field: 'directFund',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '直达资金标识' }
+    //   }
+    // },
     {
       title: '业务类型',
       field: 'payBusType',
