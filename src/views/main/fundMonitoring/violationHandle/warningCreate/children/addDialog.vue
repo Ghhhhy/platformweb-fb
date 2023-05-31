@@ -32,7 +32,22 @@
           @cellClick="cellClick"
         />
         <div>
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息
+            <el-button v-if="dialogVisibleKjsmBut" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-dialog
+              :visible.sync="dialogVisibleKjsm"
+              width="50%"
+            >
+              <div style="font-size:14px;margin:15px 10px 10px 15px">
+                指标接收时间：上级转移支付指标登记日期。<br>
+                接收金额：上级转移支付下达金额。<br>
+                已分配金额：根据上级转移支付的待分预算已经形成可执行指标金额。<br>
+                指标余额：指标接收金额减去已分配金额。<br>
+                超时下达时间：指标接收时间后30天。<br>
+                超时下达金额：超时下达时间后已分配金额，及可执行指标的创建日期大于超时下达时间指标金额。
+              </div>
+            </el-dialog>
+          </div>
           <BsForm
             ref="incomeMsgRef"
             :form-items-config="incomeMsgConfig"
@@ -374,6 +389,8 @@ export default {
       // 规则详情信息
       DetailData: {},
       dialogVisibleShow: false,
+      dialogVisibleKjsm: false,
+      dialogVisibleKjsmBut: false,
       dialogTitle: '查看详情',
       options: [{
         value: '2',
@@ -803,9 +820,11 @@ export default {
       if (['6', 2, '2'].includes(this.bussnessId)) {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
+        this.dialogVisibleKjsmBut = true
       } else {
         this.incomeMsgConfig = proconf.msgConfig
         this.supplyDataList = proconf.msgData
+        this.dialogVisibleKjsmBut = true
       }
     }
   },
