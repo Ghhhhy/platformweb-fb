@@ -152,7 +152,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) " color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value !== '2' " color="red">*</font>&nbsp;指导意见</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
@@ -592,7 +592,7 @@ export default {
               this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
               this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
               this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
-              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
               this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
             }
             if (res.data.payVoucherVo !== null) {
@@ -969,7 +969,7 @@ export default {
         return
       }
       if (this.param5.retroact === 'company' && this.hsValue.length && (flag === '3' || flag === 3)) {
-        if (this.hsValue.length >= 200) {
+        if (this.hsValue.length > 200) {
           this.$message.warning('核实意见请小于等于200字')
           return
         }
@@ -978,8 +978,8 @@ export default {
         this.$message.warning('请输入核实意见说明意见')
         return
       }
-      if (this.param5.retroact === 'company' && this.information1.length) {
-        if (this.information1.length >= 200) {
+      if (this.param5.retroact === 'company' && this.information1) {
+        if (this.information1.length > 200) {
           this.$message.warning('核实意见说明意见请小于等于200字')
           return
         }
@@ -992,13 +992,18 @@ export default {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
-        this.$message.warning('请输入10-200的指导意见')
+      if (this.param5.retroact === 'department' && (this.value === '3' || this.value === '7') && !this.information2) {
+        this.$message.warning('请填写指导意见')
         return
       }
-      if (this.param5.retroact === 'department' && this.value === '3' && this.information2) {
-        if (this.information2.length >= 200) {
-          this.$message.warning('指导意见请小于等于200字')
+      // 直达资金下发单位为3 专项已整改为7，认定正常时不校验
+      if (this.value === '3' || this.value === '7') {
+        if (this.param5.retroact === 'department' && !this.information2) {
+          this.$message.warning('请填写指导意见')
+          return
+        }
+        if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
+          this.$message.warning('请输入10-200的指导意见')
           return
         }
       }
@@ -1007,7 +1012,7 @@ export default {
         return
       }
       if (this.param5.retroact === 'department' && (flag === '1' || flag === 1) && this.information2) {
-        if (this.information2.length >= 200) {
+        if (this.information2.length > 200) {
           this.$message.warning('处室指导意见请小于等于200字')
           return
         }
@@ -1021,7 +1026,7 @@ export default {
         return
       }
       if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
-        if (this.returnReason.length >= 200) {
+        if (this.returnReason.length > 200) {
           this.$message.warning('退回原因说明请小于等于200字')
           return
         }

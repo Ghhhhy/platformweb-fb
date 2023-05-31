@@ -559,11 +559,11 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
-              this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+              this.supplyDataList.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+              this.supplyDataList.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+              this.supplyDataList.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
               this.supplyDataList.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
-              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode === null ? '' : res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
               this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
               this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
               this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
@@ -576,7 +576,7 @@ export default {
               this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
               this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
               this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
-              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
               this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
             }
             if (res.data.payVoucherVo !== null) {
@@ -718,7 +718,7 @@ export default {
               this.businessDataList.businessOffice = res.data?.manage_mof_dep_code + '-' + res.data?.manage_mof_dep_name
               this.businessDataList.paymentMethod = res.data?.pay_type_code + '-' + res.data?.pay_type_name
               this.businessDataList.isThrExp = res.data?.thr_exp_code + (res.data?.thr_exp_name === null ? '' : '-' + res.data?.thr_exp_name)
-              this.businessDataList.payBusType = res.data?.payBusTypeCode + '-' + res.data?.payBusTypeName
+              this.businessDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data?.payBusTypeCode + '-' + res.data?.payBusTypeName
               this.businessDataList.todoName = res.data?.todo_name
               this.businessDataList.voidOrNot = res.data?.is_deleted + '-' + (res.data?.is_deleted === '2' ? '否' : '是')
             }
