@@ -8,6 +8,9 @@ export default {
   queryTableDatassh (params) {
     return post('dfr-monitor-service/dfr/warningResult/sh/query', params)
   },
+  queryTableDatasshAll (params) {
+    return post('dfr-monitor-service/dfr/warningResult/sh/queryAllLevel', params)
+  },
   // 获取表格数据
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/warningResult/queryDetail', params)
