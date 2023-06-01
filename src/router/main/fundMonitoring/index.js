@@ -436,6 +436,17 @@ const routers = [
       ) // 直达资金监控预警结果(处室)
   },
   {
+    path: '/warningResultAllMdept',
+    name: 'warningResultAllMdept',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultAllsh.vue'
+      ) // 专项行动预警(处室) - 上海专用
+  },
+  {
     path: '/warningResultFSD',
     name: 'warningResultFSD',
     meta: {

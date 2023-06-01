@@ -110,6 +110,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
 import capitalMixin from '../mixins/capitalMixin'
+
 export default {
   mixins: [capitalMixin],
   components: {
@@ -488,7 +489,7 @@ export default {
       } else {
         isCz = '1'
       }
-      let params = {
+      this.detailQueryParam = {
         condition: condition,
         reportCode: reportCode,
         // proCodes: [proCode],
@@ -502,7 +503,6 @@ export default {
         isCentral: this.searchDataList.isCentral || '',
         isZd: this.searchDataList.isZd || ''
       }
-      this.detailQueryParam = params
       this.detailType = reportCode
       this.detailVisible = true
       // this.tableLoading = true
@@ -603,6 +603,14 @@ export default {
           this.handleDetail(zcSource, obj.row.code, key)
           this.detailTitle = '支出明细'
           break
+        // 上海中央下达分资金钻取明细
+        case 'amountZyxd':
+          console.log(this.params5)
+          if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+            this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
+            this.detailTitle = '中央下达明细'
+          }
+          break
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -681,12 +689,37 @@ export default {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (validCellValue) {
+        console.log(column.property)
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+        console.log(this.params5)
+        console.log(sh)
+        console.log(this.transJson2(this.params5 || '')?.projectCode)
+        if (sh && column.property === 'amountZyxd') {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
+    },
+    transJson2(str) {
+      if (!str) return
+      let params = str.split(',')
+      let result = {}
+      if (params && params.length > 0) {
+        for (let i = 0; i < params.length; i++) {
+          let map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
     }
   },
   created() {
