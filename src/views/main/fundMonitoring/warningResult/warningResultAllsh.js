@@ -387,7 +387,13 @@ const proconf = {
         field: 'warnLevel',
         width: 180,
         align: 'left',
-        formula: ''
+        formatter: ({ row }) => {
+          if (row.warnLevel === '1') return '黄色预警'
+          else if (row.warnLevel === '2') return '橙色预警'
+          else if (row.warnLevel === '3') return '红色预警'
+          else if (row.warnLevel === '4') return '蓝色预警'
+          return ''
+        }
       },
       {
         title: '疑点信息',
