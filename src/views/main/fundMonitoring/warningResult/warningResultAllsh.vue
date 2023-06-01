@@ -306,6 +306,31 @@ export default {
 
       this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+      if (obj.row['warnLevel'] === '3') {
+        // 红色预警
+        if (key === 'undoNum') key = 'redUndoNum'
+        if (key === 'doneNum') key = 'redDoneNum'
+        if (key === 'undoNumw') key = ''
+        if (key === 'doneNumw') key = ''
+      } else if (obj.row['warnLevel'] === '2') {
+        // 橙色预警
+        if (key === 'undoNum') { key = 'orangeUndoNum' }
+        if (key === 'doneNum') key = 'orangeDoneNum'
+        if (key === 'undoNumw') key = ''
+        if (key === 'doneNumw') key = ''
+      } else if (obj.row['warnLevel'] === '4') {
+        // 蓝色预警
+        if (key === 'undoNum') key = 'blueUndoNum'
+        if (key === 'doneNum') key = 'blueDoneNum'
+        if (key === 'undoNumw') key = 'blueUndoNumw'
+        if (key === 'doneNumw') key = 'blueDoneNumw'
+      } else if (obj.row['warnLevel'] === '1') {
+        // 黄色预警
+        if (key === 'undoNum') key = 'yellowUndoNum'
+        if (key === 'doneNum') key = 'yellowDoneNum'
+        if (key === 'undoNumw') key = 'yellowUndoNumw'
+        if (key === 'doneNumw') key = 'yellowDoneNumw'
+      }
       switch (key) {
         case 'redUndoNum':
           this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
