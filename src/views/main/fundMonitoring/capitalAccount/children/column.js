@@ -332,6 +332,43 @@ const proconf = {
       align: 'center'
     }
   ],
+  // 中央下达项目明细
+  zyxdxmmfzjColumn: [
+    {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 260,
+      align: 'center'
+    },
+    {
+      title: '下达项目名称',
+      field: 'proName',
+      width: 260,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '指标文号',
+      field: 'corBgtDocNo',
+      width: 260,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '金额',
+      field: 'amount',
+      width: 260,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '下达时间',
+      field: 'sendDate',
+      width: 260,
+      sortable: false,
+      align: 'center'
+    }
+  ],
   // 直达资金项目明细
   zdzjprojectColumn: [
     {

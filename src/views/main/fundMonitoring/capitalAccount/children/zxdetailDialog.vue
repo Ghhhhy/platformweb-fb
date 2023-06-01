@@ -47,6 +47,7 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import proconf from './column.js'
+
 export default {
   name: 'DetailDialog',
   components: {
@@ -289,6 +290,9 @@ export default {
         case 'xyfpaAmount':
           this.tableColumnsConfig = proconf.zdzjprojectColumn
           break
+        case 'zyxdxmmx_fzj':
+          this.tableColumnsConfig = proconf.zyxdxmmfzjColumn
+          break
         case 'zdzjxmmx':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
@@ -323,7 +327,7 @@ export default {
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {
-      let params = {
+      this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
         trackProCode: row.trackProCode,
@@ -337,7 +341,6 @@ export default {
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.fiscalYear
       }
-      this.$parent.sDetailQueryParam = params
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     },
