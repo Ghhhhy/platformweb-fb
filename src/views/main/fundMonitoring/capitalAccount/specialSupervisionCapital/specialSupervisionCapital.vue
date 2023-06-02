@@ -421,7 +421,7 @@ export default {
     },
     handleDetail(reportCode, proCode, column) {
       let condition = ''
-      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
         switch (column) {
           case 'amountSnjwfp':
           case 'amountSnjxd':
