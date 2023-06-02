@@ -8,6 +8,22 @@ const routers = [
     component: () => import('@/views/main/statisticAnalysis/rulesStatistic/index.vue')
   },
   {
+    path: '/rulesStatisticGKC',
+    name: 'RulesStatisticGKC',
+    meta: {
+      title: '预警结果按规则统计（国库处）'
+    },
+    component: () => import('@/views/main/statisticAnalysis/rulesStatistic/index.vue')
+  },
+  {
+    path: '/rulesStatisticJGJ',
+    name: 'RulesStatisticJGJ',
+    meta: {
+      title: '预警结果按规则统计（监管局）'
+    },
+    component: () => import('@/views/main/statisticAnalysis/rulesStatistic/index.vue')
+  },
+  {
     path: '/unitStatistic',
     name: 'UnitStatistic',
     meta: {
