@@ -44,8 +44,24 @@ const routers = [
       )
   },
   {
+    path: '/SpecialSupervisionCapitalSh', // 专项监督_分资金
+    name: 'SpecialSupervisionCapitalSh',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionCapital/specialSupervisionCapital.vue'
+      )
+  },
+  {
     path: '/SpecialSupervisionRegion', // 专项监督_分地区
     name: 'SpecialSupervisionRegion',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue'
+      )
+  },
+  {
+    path: '/SpecialSupervisionRegionSh', // 专项监督_分地区
+    name: 'SpecialSupervisionRegionSh',
     component: () =>
       import(
         '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue'
