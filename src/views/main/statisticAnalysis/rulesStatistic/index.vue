@@ -75,6 +75,8 @@ import {
   getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
+import { transJson1, transJson2 } from '@/utils/params.js'
+import store from '@/store'
 
 export default defineComponent({
   components: {
@@ -151,6 +153,13 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
+      beforeFetch: params => {
+        return {
+          ...params,
+          ruleCodes: transJson2(store.state.curNavModule.param5 || '')?.ruleCodes,
+          paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode
+        }
+      },
       finallyFetch: data => {
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
