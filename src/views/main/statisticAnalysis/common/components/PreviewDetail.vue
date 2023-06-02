@@ -125,7 +125,7 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? queryRuleData : queryDepData,
+      fetch: unref(pagePath) === (RouterPathEnum.RULE_STATISTIC || RouterPathEnum.RULES_STATISTICGKC || RouterPathEnum.RULES_STATISTICJGJ) ? queryRuleData : queryDepData,
       beforeFetch: params => {
         const { fiRuleCode, agencyCode } = props.currentRow
         const property = unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? 'fiRuleCode' : 'agencyCode'
