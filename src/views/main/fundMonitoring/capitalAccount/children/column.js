@@ -340,13 +340,13 @@ const proconf = {
       width: 260,
       align: 'center'
     },
-    {
-      title: '下达项目名称',
-      field: 'proName',
-      width: 260,
-      sortable: false,
-      align: 'center'
-    },
+    // {
+    //   title: '下达项目名称',
+    //   field: 'proName',
+    //   width: 260,
+    //   sortable: false,
+    //   align: 'center'
+    // },
     {
       title: '指标文号',
       field: 'corBgtDocNo',
