@@ -112,7 +112,7 @@
                       v-model="phone2"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
                       placeholder="联系电话"
-                      style="width:45%"
+                      style="width:55%"
                     />
                   </el-row>
                 </el-main>
@@ -122,12 +122,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发人</div>
+                    <div class="sub-title-add" style="text-align: right;width:100px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发人</div>
                     <el-input
                       v-model="handler2"
                       disabled
                       placeholder="下发人"
-                      style="width:45%"
+                      style="width:50%"
                     />
                   </el-row>
                 </el-main>
@@ -137,12 +137,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发时间</div>
+                    <div class="sub-title-add" style="text-align: right;width:100px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;下发时间</div>
                     <el-input
                       v-model="updateTime2"
                       disabled
                       placeholder="处理时间"
-                      style="width:45%"
+                      style="width:60%"
                     />
                   </el-row>
                 </el-main>
