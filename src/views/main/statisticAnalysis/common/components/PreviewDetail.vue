@@ -57,7 +57,8 @@ import {
   getAgencyNameColumn,
   getWarnLevelColumn,
   getControlTypeColumn,
-  getWarnTypeColumn
+  getWarnTypeColumn,
+  getMofDivCodeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
@@ -102,8 +103,10 @@ export default defineComponent({
 
     const differentColumns = [
       getAgencyNameColumn(),
+      getMofDivCodeColumn(),
       getRuleNameColumn({
-        title: '规则名称'
+        title: '规则名称',
+        width: 140
       })
     ]
 

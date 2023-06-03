@@ -310,7 +310,7 @@ export const getIsDirColumn = (params = {}) => {
   return {
     title: '是否直达资金',
     field: 'isDir',
-    width: 160,
+    width: 100,
     filters: false,
     cellRender: {
       name: '$vxeSelect',
@@ -325,6 +325,17 @@ export const getAgencyNameColumn = (params = {}) => {
     title: '预算单位',
     field: 'agencyName',
     width: 200,
+    ...params
+  }
+}
+export const getMofDivCodeColumn = (params = {}) => {
+  return {
+    title: '财政区划',
+    field: 'mofDivCode',
+    width: 200,
+    formatter({ row }) {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+    },
     ...params
   }
 }
@@ -395,7 +406,7 @@ export const getControlTypeColumn = (params = {}) => {
     title: '监控处理方式',
     field: 'controlType',
     filters: false,
-    width: 160,
+    width: 140,
     cellRender: {
       name: '$vxeSelect',
       options: controlTypeOptions
@@ -408,7 +419,7 @@ export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
   return {
     title: '预警级别',
     field: 'warnLevel',
-    width: 120,
+    width: 160,
     filters: false,
     cellRender: {
       name: warnLevelRenderName,
@@ -434,7 +445,7 @@ export const getRuleNameColumn = (params = {}) => {
     title: '预警名称',
     field: 'ruleName',
     align: 'left',
-    width: 260,
+    width: 100,
     ...params
   }
 }
@@ -480,6 +491,7 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getControlTypeColumn(),
     getWarningCodeColumn(),
     getAgencyNameColumn(),
+    getMofDivCodeColumn(),
     getDeptNameColumn(),
     getManageMofDepNameColumn(),
     getBusinessNoColumn({
