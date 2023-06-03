@@ -166,15 +166,17 @@ export default defineComponent({
       columns: [
         getRuleNameColumn({
           title: '规则名称',
-          minWidth: 260,
+          minWidth: 100,
+          // width: 200
           width: 'auto'
         }),
         getWarnLevelColumn(),
         getControlTypeColumn(),
         ...getWarnCountColumns(),
         getIsDirColumn({
-          minWidth: 100,
-          width: 'auto'
+          // minWidth: 100
+          width: 120
+          // width: 'auto'
         })
       ],
       getSubmitFormData,

@@ -119,7 +119,7 @@ export const getWarnCountColumns = () => {
       title: '预警总数量',
       field: 'warnTotal',
       align: 'right',
-      width: 140,
+      width: 160,
       sortable: false,
       combinedType: [
         'subTotal',
@@ -137,7 +137,7 @@ export const getWarnCountColumns = () => {
     {
       title: '在途',
       field: 'onWay',
-      width: 140,
+      width: 160,
       align: 'right',
       combinedType: [
         'subTotal',
@@ -159,12 +159,12 @@ export const getWarnCountColumns = () => {
       align: 'left',
       sortable: false,
       filters: false,
-      width: 280,
+      width: 300,
       children: [
         {
           title: '放行',
           field: 'release',
-          width: 140,
+          width: 150,
           align: 'right',
           combinedType: [
             'subTotal',
@@ -183,7 +183,7 @@ export const getWarnCountColumns = () => {
         {
           title: '禁止',
           field: 'prohibit',
-          width: 140,
+          width: 150,
           align: 'right',
           combinedType: [
             'subTotal',
