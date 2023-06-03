@@ -359,7 +359,8 @@ const proconf = {
       field: 'amount',
       width: 260,
       sortable: false,
-      align: 'center'
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '下达时间',
@@ -541,7 +542,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '本级专项资金名称',
+      title: '本级项目名称',
       width: 140,
       field: 'sSpeTypeName',
       sortable: false,
@@ -607,7 +608,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '本级专项资金名称',
+      title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 140,
       sortable: false,
@@ -1059,7 +1060,7 @@ const proconf = {
       }
     },
     {
-      title: '本级专项资金名称',
+      title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 200,
       align: 'center',
@@ -1140,7 +1141,7 @@ const proconf = {
       }
     },
     {
-      title: '本级专项资金名称',
+      title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 200,
       align: 'center',
