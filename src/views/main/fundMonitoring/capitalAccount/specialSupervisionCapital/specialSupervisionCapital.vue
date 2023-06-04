@@ -531,86 +531,97 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-
-      switch (key) {
-        // case 'amountSnjxd':
-        // case 'amountSjxd':
-        //   switch (this.transJson(this.params5 || '')?.reportCode) {
-        //     case 'zyzdzjyszxqkfzj':
-        //       this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
-        //       break
-        //     case 'zyczzdzjyszxqk_fzj':
-        //       this.handleDetail('czzdzjxmmx_fzj_zyxd', obj.row.code, key)
-        //       break
-        //   }
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // case 'amountZyxd':
-        //   this.handleDetail('zdzjxmmx_fzj_zyxdh', obj.row.code, key)
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // case 'amountXjxd':
-        //   this.handleDetail('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // // case 'amountPayAll':
-        // case 'amountSnjpay':
-        // case 'amountSjpay':
-        // case 'amountXjpay':
-        //   this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
-        //   this.detailTitle = '直达资金支出明细'
-        //   break
-        // // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
-        // case 'amountSnjwfp':
-        // case 'amountSjwfp':
-        //   this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // case 'amountXjwfp':
-        //   this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
-        //   this.detailTitle = '直达资金项目明细'
-        //   break
-        // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
-        // case 'amountSnjbjfp':
-        // case 'amountSnjxjfp':
-        // case 'amountSbjfp':
-        // case 'amountSxjfp':
-        // case 'amountXjfp':
-        //   this.handleDetail('zdzjzbmx_fzjfp', obj.row.code, key)
-        //   this.detailTitle = '直达资金指标明细'
-        //   break
-        // case 'amountSnjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-        //   this.detailTitle = '支出明细'
-        //   break
-        // case 'amountSjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-        //   this.detailTitle = '支出明细'
-        //   break
-        // case 'amountXjpay':
-        //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-        //   this.detailTitle = '支出明细'
-        //   break
-        // 省本级分配走直达资金项目明细
-        case 'amountSnjbjfp':
-        case 'amountSbjfp':
-        case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key)
-          this.detailTitle = '项目明细'
-          break
-        // 支出走地区支付明细
-        case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
-          this.detailTitle = '支出明细'
-          break
-        // 上海中央下达分资金钻取明细
-        case 'amountZyxd':
-          console.log(this.params5)
-          if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
-            this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
-            this.detailTitle = '中央下达明细'
-          }
-          break
+      if (this.transJson2(this.params5 || '')?.isShow === 'false') {
+        switch (key) {
+          case 'amountZyxd':
+            console.log(this.params5)
+            if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+              this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
+              this.detailTitle = '中央下达明细'
+            }
+            break
+        }
+      } else {
+        switch (key) {
+          // case 'amountSnjxd':
+          // case 'amountSjxd':
+          //   switch (this.transJson(this.params5 || '')?.reportCode) {
+          //     case 'zyzdzjyszxqkfzj':
+          //       this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          //       break
+          //     case 'zyczzdzjyszxqk_fzj':
+          //       this.handleDetail('czzdzjxmmx_fzj_zyxd', obj.row.code, key)
+          //       break
+          //   }
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountZyxd':
+          //   this.handleDetail('zdzjxmmx_fzj_zyxdh', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountXjxd':
+          //   this.handleDetail('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // // case 'amountPayAll':
+          // case 'amountSnjpay':
+          // case 'amountSjpay':
+          // case 'amountXjpay':
+          //   this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
+          //   this.detailTitle = '直达资金支出明细'
+          //   break
+          // // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
+          // case 'amountSnjwfp':
+          // case 'amountSjwfp':
+          //   this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountXjwfp':
+          //   this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
+          // case 'amountSnjbjfp':
+          // case 'amountSnjxjfp':
+          // case 'amountSbjfp':
+          // case 'amountSxjfp':
+          // case 'amountXjfp':
+          //   this.handleDetail('zdzjzbmx_fzjfp', obj.row.code, key)
+          //   this.detailTitle = '直达资金指标明细'
+          //   break
+          // case 'amountSnjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // case 'amountSjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // case 'amountXjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // 省本级分配走直达资金项目明细
+          case 'amountSnjbjfp':
+          case 'amountSbjfp':
+          case 'amountXjfp':
+            this.handleDetail(xmSource, obj.row.code, key)
+            this.detailTitle = '项目明细'
+            break
+          // 支出走地区支付明细
+          case 'amountPayAll':
+            this.handleDetail(zcSource, obj.row.code, key)
+            this.detailTitle = '支出明细'
+            break
+          // 上海中央下达分资金钻取明细
+          case 'amountZyxd':
+            console.log(this.params5)
+            if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+              this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
+              this.detailTitle = '中央下达明细'
+            }
+            break
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -686,25 +697,35 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-      if (validCellValue) {
-        console.log(column.property)
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+      if (this.transJson2(this.params5 || '')?.isShow === 'false') {
+        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+        if (sh && column.property === 'amountZyxd') {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
-        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        console.log(this.params5)
-        console.log(sh)
-        console.log(this.transJson2(this.params5 || '')?.projectCode)
-        if (sh && column.property === 'amountZyxd') {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
+      } else {
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
+        if (validCellValue) {
+          console.log(column.property)
+          if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+            return {
+              color: '#4293F4',
+              textDecoration: 'underline'
+            }
+          }
+          const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+          console.log(this.params5)
+          console.log(sh)
+          console.log(this.transJson2(this.params5 || '')?.projectCode)
+          if (sh && column.property === 'amountZyxd') {
+            return {
+              color: '#4293F4',
+              textDecoration: 'underline'
+            }
           }
         }
       }

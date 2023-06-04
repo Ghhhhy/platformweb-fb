@@ -524,6 +524,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      if (this.transJson2(this.params5 || '')?.isShow === 'false') return
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
@@ -663,6 +664,7 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      if (this.transJson2(this.params5 || '')?.isShow === 'false') return
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
