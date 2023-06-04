@@ -13,7 +13,7 @@ argv.remain.forEach((item) => {
 })
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production' ? 'error' : false,
-  publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_CONF_PUBLIC_PATH || './') : (process.env.VUE_APP_CONF_PUBLIC_PATH || './'),
+  publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_CONF_PUBLIC_PATH || '/') : (process.env.VUE_APP_CONF_PUBLIC_PATH || '/'),
   chainWebpack: config => {
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')

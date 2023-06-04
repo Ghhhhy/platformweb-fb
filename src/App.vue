@@ -53,6 +53,7 @@ export default {
         let value = window.decodeURIComponent(searchArr[i].substring(pos + 1))
         result[name] = value
       }
+      console.log(result, 'UrlAllParams------------------')
       return result
     },
     async getUser(tokenid) {
@@ -94,6 +95,7 @@ export default {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.ifrouteractive = true
+        console.log(tokenid, 'tokenid------------------')
         goLogin()
       } else {
         await this.$http
@@ -104,6 +106,7 @@ export default {
               res = JSON.parse(res)
             }
             if (res.rscode === '118000') {
+              console.log('appMessage------------------')
               goLogin()
             } else {
               this.$store.commit('setUserInfo', res.data)
@@ -127,6 +130,7 @@ export default {
           .catch((e) => {
             console.log(e)
             this.ifrouteractive = true
+            console.log('http------------------')
             goLogin()
           })
       }
