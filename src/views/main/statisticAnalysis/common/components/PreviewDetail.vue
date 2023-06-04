@@ -28,6 +28,7 @@
           @ajaxData="pagerChange"
           @onToolbarBtnClick="onToolbarBtnClick"
           @cellDblclick="cellDblclick"
+          @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
             <bs-table-title title="按规则查看" />
@@ -87,6 +88,7 @@ export default defineComponent({
   },
   model,
   setup(props, { emit }) {
+    let type = ''
     /**
      * 弹窗内部状态
      * */
@@ -155,8 +157,27 @@ export default defineComponent({
     /**
      * 双击单元格
      * */
+    // function cellDblclick(a, b, e) {
     function cellDblclick({ row }) {
-      detailCurrentRow.value = row
+      // detailCurrentRow.value = row
+      // // console.log('log-------', a, b, e)
+      // changeHOVModelVisible(true)
+    }
+    function cellClick(obj, context, e) {
+      let key = obj.column.property
+      if (key === 'onWay') {
+        this.type = '3'
+      } else if (key === 'prohibit') {
+        this.type = '2'
+      } else if (key === 'release') {
+        this.type = '1'
+      } else {
+        this.type = ''
+      }
+      obj.row.type = this.type
+      detailCurrentRow.value = obj.row
+      console.log('---------------', obj.row.type)
+      console.log('---------------', obj.row)
       changeHOVModelVisible(true)
     }
 
@@ -164,9 +185,10 @@ export default defineComponent({
       visible,
       handlingOfViolationsModel,
       detailCurrentRow,
-
+      type,
       cellCursorUnderlineClassName,
       cellDblclick,
+      cellClick,
       footerConfig,
       columns,
       registerTable,
