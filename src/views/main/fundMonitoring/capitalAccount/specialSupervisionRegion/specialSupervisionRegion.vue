@@ -674,6 +674,18 @@ export default {
           textDecoration: 'underline'
         }
       }
+    },
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
     }
   },
   created() {
