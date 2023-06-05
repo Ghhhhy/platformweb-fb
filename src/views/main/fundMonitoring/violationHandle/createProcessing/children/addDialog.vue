@@ -24,7 +24,7 @@
           ref="handleTableRef"
           height="200px"
           :footer-config="{}"
-          :table-columns-config="handletableColumnsConfig"
+          :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
           :toolbar-config="false"
@@ -465,6 +465,7 @@ export default {
       businessDataList: proconf.businessMsgData,
       checkDataList: {},
       handletableColumnsConfig: proconf.handletableColumnsConfig,
+      compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       createValidate: {
@@ -507,6 +508,9 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
+      if (this.param5?.retroact === 'company') {
+        return
+      }
       let key = obj.column.property
       switch (key) {
         case 'regulationName':

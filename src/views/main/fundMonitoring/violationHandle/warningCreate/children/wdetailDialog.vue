@@ -18,7 +18,7 @@
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick1"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2')" v-slot:preBtns>
+          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true')" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"
@@ -963,7 +963,8 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
-        trackProName: this.condition.trackProName ? this.condition.trackProName[0] : ''
+        trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
+        roleguid: this.$store.state.curNavModule.roleguid
       }
 
       // 有菜单有主题参数则 则用主题参数
@@ -983,7 +984,8 @@ export default {
       if (!params.warnTime && params.triggerMonitorDate) {
         params.warnTime = params.triggerMonitorDate
       }
-      if (this.fiRuleCode === null || this.fiRuleCode === '') {
+      debugger
+      if (this.fiRuleCode === null || this.fiRuleCode === '' || this.param5?.isRegion === 'true') {
         params.mofDivCode = this.mofDivCode
         params.fiscalYear = this.fiscalYear
         this.tableLoadingState = true

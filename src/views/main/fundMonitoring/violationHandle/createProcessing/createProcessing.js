@@ -1362,6 +1362,69 @@ export const proconf = {
       'name': '$vxeSelect'
     }
   ],
+  compayHandletableColumnsConfig: [
+    {
+      title: '规则名称',
+      field: 'regulationName',
+      sortable: false,
+      align: 'left',
+      cellRender: {
+        // name: '$vxeTableHref'
+      }
+    },
+    {
+      'title': '预警级别',
+      'field': 'warningLevel',
+      'align': 'center',
+      'cellRender': {
+        'name': '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '黄色预警'
+          },
+          {
+            'value': '2',
+            'label': '橙色预警'
+          },
+          {
+            'value': '4',
+            'label': '蓝色预警'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'sortable': 'true',
+      'name': '$vxeSelect'
+    },
+    {
+      'title': '处理方式',
+      'field': 'handleType',
+      'align': 'center',
+      'cellRender': {
+        'name': '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '预警，无需上传附件'
+          },
+          {
+            'value': '2',
+            'label': '预警，需上传附件'
+          },
+          {
+            'value': '5',
+            'label': '记录'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'sortable': 'true',
+      'name': '$vxeSelect'
+    }
+  ],
   incomeMsgConfig: [
     {
       field: 'warningCode',
