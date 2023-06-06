@@ -586,7 +586,7 @@ export default {
               this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
               this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
               this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
+              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
               this.supplyDataList.isUnionFunds = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
               this.supplyDataList.fiDate = res.data.executeData?.fiDate
               this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
@@ -847,7 +847,7 @@ export default {
               this.businessDataList.govEconomyType = res.data?.gov_bgt_eco_code + '-' + res.data?.gov_bgt_eco_name
               this.businessDataList.settlementMethod = res.data?.set_mode_code + '-' + res.data?.set_mode_name
               this.businessDataList.directFund = res.data?.is_dir_code === null ? '' : res.data?.is_dir_code + '-' + res.data?.is_dir_name || ''
-              this.businessDataList.salaryMark = res.data?.is_sal_code + '-' + res.data?.is_sal_name
+              this.businessDataList.salaryMark = res.data?.is_sal_code === null ? '' : res.data?.is_sal_code + '-' + res.data?.is_sal_name === null ? '' : res.data?.is_sal_name
               this.businessDataList.isUnionFunds = res.data?.is_fun_code + '-' + (res.data?.is_fun_code === 1 ? '是' : '否')
               this.businessDataList.fiDate = res.data?.fiDate
               this.businessDataList.funcType = res.data?.exp_func_code + '-' + res.data?.exp_func_name

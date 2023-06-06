@@ -233,6 +233,7 @@ export default {
           break
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
+          this.queryConfig = proconf.highQueryConfigZx
           break
         default:
           break

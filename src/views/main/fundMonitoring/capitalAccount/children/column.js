@@ -6,14 +6,14 @@ const proconf = {
       title: '预算单位',
       field: 'agencyCodeName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proCodeName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额（单位:万元）',
@@ -36,42 +36,42 @@ const proconf = {
       field: 'useDes',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
       field: 'payAcctName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
       field: 'payAcctNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
       field: 'payeeAcctName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账号',
       field: 'payeeAcctNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款日期',
       field: 'xpayDate',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   payColumn: [
@@ -80,35 +80,35 @@ const proconf = {
       field: 'agencyName',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '用途',
       field: 'useDes',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
       field: 'payAcctName',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
       field: 'payAcctNo',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     // {
     //   title: '支出功能科目编码',
@@ -127,7 +127,7 @@ const proconf = {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '政府支出经济分类',
@@ -138,7 +138,7 @@ const proconf = {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -149,7 +149,7 @@ const proconf = {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '支付方式',
@@ -157,7 +157,7 @@ const proconf = {
       width: 140,
       field: 'payTypeName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款人银行',
@@ -165,21 +165,21 @@ const proconf = {
       width: 140,
       field: 'payeeAcctBankName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
       field: 'payeeAcctName',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账号',
       field: 'payeeAcctNo',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支付金额',
@@ -194,7 +194,7 @@ const proconf = {
       field: 'xpayDate',
       width: 140,
       sortable: true,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 项目明细
@@ -203,32 +203,32 @@ const proconf = {
       title: '资金名称',
       field: 'trackProName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算单位',
       field: 'agencyName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出功能科目',
       field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额（单位:万元）',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '金额',
@@ -250,7 +250,7 @@ const proconf = {
     },
     {
       title: '支付金额（单位:万元）',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '金额',
@@ -275,7 +275,7 @@ const proconf = {
       field: 'hqlm',
       sortable: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     }
   ],
 
@@ -285,32 +285,32 @@ const proconf = {
       title: '资金名称',
       field: 'trackProName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算单位',
       field: 'agencyName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出功能科目',
       field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额',
-      align: 'center',
+      align: 'right',
       field: 'amountAllfp',
       width: 140,
       sortable: false,
@@ -318,7 +318,7 @@ const proconf = {
     },
     {
       title: '支付金额',
-      align: 'center',
+      align: 'right',
       field: 'amountPayAll',
       width: 140,
       sortable: false,
@@ -329,7 +329,7 @@ const proconf = {
       field: 'hqlm',
       sortable: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 中央下达项目明细
@@ -376,38 +376,38 @@ const proconf = {
       title: '资金名称',
       field: 'trackProName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '处室名称',
       field: 'bgtMofDepName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算单位',
       field: 'agencyName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     // {
     //   title: '支出功能科目',
     //   field: 'xjExpFuncName',
     //   sortable: false,
-    //   align: 'center'
+    //   align: 'left'
     // },
     {
       title: '预算金额（单位:万元）',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '总金额',
@@ -453,7 +453,7 @@ const proconf = {
     },
     {
       title: '支付金额（单位:万元）',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '总金额',
@@ -502,14 +502,14 @@ const proconf = {
       field: 'hqlm',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '发放表',
       field: 'ffb',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 指标明细
@@ -518,49 +518,49 @@ const proconf = {
       title: '处室名称',
       field: 'bgtMofDepName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
       field: 'agencyName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央直达资金名称',
       width: 140,
       field: 'speTypeName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出科目名称',
       field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级项目名称',
       width: 140,
       field: 'sSpeTypeName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级文号',
       field: 'corBgtDocNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级文号',
       field: 'xjCorBgtDocNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额',
@@ -584,49 +584,49 @@ const proconf = {
       title: '处室名称',
       field: 'bgtMofDepName',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
       field: 'agencyName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '转移支付资金名称',
       field: 'speTypeName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出科目名称',
       field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级文号',
       field: 'corBgtDocNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级文号',
       field: 'xjCorBgtDocNo',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额',
@@ -652,14 +652,14 @@ const proconf = {
       title: '统一社会信用代码',
       field: 'creditCode',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '企业名称',
       field: 'businessName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '补助金额（单位:万元）',
@@ -676,14 +676,14 @@ const proconf = {
       title: '身份证号',
       field: 'card',
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '姓名',
       field: 'name',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '补助金额（单位:万元）',
@@ -700,14 +700,14 @@ const proconf = {
       title: '区划编码',
       field: 'mofDivCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       visible: false
     },
     {
       title: '项目编码',
       field: 'proCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       sortable: true
     },
     {
@@ -715,20 +715,20 @@ const proconf = {
       field: 'proName',
       sortable: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '主管处室',
       width: 140,
       field: 'manageMofDepName',
-      align: 'center'
+      align: 'left'
     },
     {
       title: '指标文号',
       width: 140,
       field: 'corBgtDocNo',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -745,7 +745,7 @@ const proconf = {
       title: '项目编码',
       field: 'proCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       sortable: true
     },
     {
@@ -753,7 +753,7 @@ const proconf = {
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央下达',
@@ -777,7 +777,7 @@ const proconf = {
       title: '项目编码',
       field: 'proCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       sortable: true
     },
     {
@@ -785,7 +785,7 @@ const proconf = {
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央下达',
@@ -801,7 +801,7 @@ const proconf = {
       title: '项目编码',
       field: 'proCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       sortable: true
     },
     {
@@ -809,7 +809,7 @@ const proconf = {
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央下达',
@@ -841,7 +841,7 @@ const proconf = {
       title: '项目编码',
       field: 'proCode',
       width: 140,
-      align: 'center',
+      align: 'left',
       sortable: true
     },
     {
@@ -849,7 +849,7 @@ const proconf = {
       field: 'proName',
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央下达',
@@ -873,7 +873,7 @@ const proconf = {
       title: '项目名称',
       field: 'proName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -892,7 +892,7 @@ const proconf = {
       title: '单位名称',
       field: 'agencyName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -905,7 +905,7 @@ const proconf = {
       title: '用途',
       field: 'useDes',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -918,7 +918,7 @@ const proconf = {
       title: '项目名称',
       field: 'proName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -931,7 +931,7 @@ const proconf = {
       title: '付款方账户名称',
       field: 'payAcctName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -944,7 +944,7 @@ const proconf = {
       title: '付款方账号',
       field: 'payAcctNo',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -957,7 +957,7 @@ const proconf = {
       title: '收款方账户名称',
       field: 'payeeAcctName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -970,7 +970,7 @@ const proconf = {
       title: '收款方账号',
       field: 'payeeAcctNo',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -983,7 +983,7 @@ const proconf = {
       title: '付款日期',
       field: 'xpayDate',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeTime',
@@ -1011,7 +1011,7 @@ const proconf = {
     //   title: '处室名称',
     //   field: 'bgtMofDepName',
     //   width: 200,
-    //   align: 'center',
+    //   align: 'left',
     //   filters: false,
     //   itemRender: {
     //     name: '$vxeInput',
@@ -1024,7 +1024,7 @@ const proconf = {
       title: '单位名称',
       field: 'agencyName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1037,7 +1037,7 @@ const proconf = {
       title: '中央直达资金名称',
       field: 'speTypeName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1050,7 +1050,7 @@ const proconf = {
       title: '支出科目名称',
       field: 'xjExpFuncName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1063,7 +1063,7 @@ const proconf = {
       title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1076,7 +1076,7 @@ const proconf = {
       title: '上级文号',
       field: 'corBgtDocNo',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1089,7 +1089,7 @@ const proconf = {
     //   title: '本级文号',
     //   field: 'xjCorBgtDocNo',
     //   width: 200,
-    //   align: 'center',
+    //   align: 'left',
     //   filters: false,
     //   itemRender: {
     //     name: '$vxeInput',
@@ -1105,7 +1105,7 @@ const proconf = {
       title: '单位名称',
       field: 'agencyName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1118,7 +1118,7 @@ const proconf = {
       title: '转移支付资金名称',
       field: 'speTypeName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1131,7 +1131,7 @@ const proconf = {
       title: '支出科目名称',
       field: 'xjExpFuncName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1144,7 +1144,7 @@ const proconf = {
       title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',
@@ -1157,7 +1157,7 @@ const proconf = {
       title: '上级文号',
       field: 'corBgtDocNo',
       width: 200,
-      align: 'center',
+      align: 'left',
       filters: false,
       itemRender: {
         name: '$vxeInput',

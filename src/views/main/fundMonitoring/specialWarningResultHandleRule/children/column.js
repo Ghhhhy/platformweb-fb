@@ -57,7 +57,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -66,7 +66,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '地区',
@@ -74,7 +74,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '单位(处室)',
@@ -89,7 +89,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -97,7 +97,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon1',
         props: {
@@ -113,7 +113,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -121,7 +121,7 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -129,7 +129,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -137,7 +137,7 @@ const proconf = {
       width: 140,
       field: 'yqDay',
       sortable: false,
-      align: 'right'
+      align: 'left'
     }
   ],
   redDoneNum: [
@@ -145,7 +145,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -154,7 +154,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '地区',
@@ -162,7 +162,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '单位(处室)',
@@ -177,7 +177,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -185,7 +185,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -201,7 +201,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -209,7 +209,7 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -217,7 +217,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -225,7 +225,7 @@ const proconf = {
       width: 140,
       field: 'yqDay',
       sortable: false,
-      align: 'right'
+      align: 'left'
     }
   ],
   orangeUndoNum: [
@@ -233,7 +233,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -242,7 +242,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -250,7 +250,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -258,7 +258,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -266,7 +266,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -274,7 +274,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -282,7 +282,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon6',
         props: {
@@ -298,7 +298,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -306,7 +306,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -325,7 +325,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -333,7 +333,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -341,14 +341,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -392,7 +392,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -400,14 +400,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -424,7 +424,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   orangeDoneNum: [
@@ -432,7 +432,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -441,7 +441,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -449,7 +449,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -457,7 +457,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -465,7 +465,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -473,7 +473,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -481,7 +481,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -497,7 +497,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -505,7 +505,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -524,7 +524,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -532,7 +532,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -540,14 +540,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -591,7 +591,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -599,14 +599,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -623,7 +623,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   yellowUndoNum: [
@@ -631,7 +631,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -640,7 +640,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -648,7 +648,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -656,7 +656,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -664,7 +664,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -672,7 +672,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -680,7 +680,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon2',
         props: {
@@ -696,7 +696,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -704,7 +704,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -723,7 +723,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -731,7 +731,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -739,14 +739,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -790,7 +790,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -798,14 +798,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -822,7 +822,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -838,7 +838,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -847,7 +847,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -855,7 +855,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -863,7 +863,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -871,7 +871,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -879,7 +879,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -887,7 +887,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -903,7 +903,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -911,7 +911,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -930,7 +930,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -938,7 +938,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -946,14 +946,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -997,7 +997,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定人',
@@ -1005,7 +1005,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1013,14 +1013,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -1037,7 +1037,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   yellowUndoNumw: [
@@ -1045,7 +1045,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1054,7 +1054,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -1062,7 +1062,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -1070,7 +1070,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1078,7 +1078,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -1086,7 +1086,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -1094,7 +1094,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon1',
         props: {
@@ -1110,7 +1110,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1118,7 +1118,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -1137,7 +1137,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -1145,7 +1145,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -1153,7 +1153,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -1161,14 +1161,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -1212,7 +1212,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1220,14 +1220,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -1244,7 +1244,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -1260,7 +1260,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1269,7 +1269,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -1277,7 +1277,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -1285,7 +1285,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1293,7 +1293,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -1301,7 +1301,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -1309,7 +1309,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -1325,7 +1325,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1333,7 +1333,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -1352,7 +1352,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -1360,7 +1360,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -1368,7 +1368,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -1376,14 +1376,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -1427,7 +1427,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1435,14 +1435,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -1459,7 +1459,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   blueUndoNum: [
@@ -1467,7 +1467,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1476,7 +1476,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -1484,7 +1484,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -1492,7 +1492,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1500,7 +1500,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -1508,7 +1508,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -1516,7 +1516,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon7',
         props: {
@@ -1532,7 +1532,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1540,7 +1540,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -1559,7 +1559,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -1567,7 +1567,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -1575,14 +1575,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -1626,7 +1626,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1634,14 +1634,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -1658,7 +1658,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   blueDoneNum: [
@@ -1666,7 +1666,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1675,7 +1675,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -1683,7 +1683,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -1691,7 +1691,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1699,7 +1699,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -1707,7 +1707,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -1715,7 +1715,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -1731,7 +1731,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1739,7 +1739,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -1758,7 +1758,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -1766,7 +1766,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -1774,7 +1774,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -1782,14 +1782,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -1833,7 +1833,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1841,14 +1841,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -1865,7 +1865,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   blueUndoNumw: [
@@ -1873,7 +1873,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1882,7 +1882,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -1890,7 +1890,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -1898,7 +1898,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1906,7 +1906,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -1914,7 +1914,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -1922,7 +1922,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon1',
         props: {
@@ -1938,7 +1938,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1946,7 +1946,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -1965,7 +1965,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -1973,7 +1973,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -1981,7 +1981,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -1989,14 +1989,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -2040,7 +2040,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -2048,14 +2048,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -2072,7 +2072,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   blueDoneNumw: [
@@ -2080,7 +2080,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -2089,7 +2089,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '区划名称',
@@ -2097,7 +2097,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
@@ -2105,7 +2105,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -2113,7 +2113,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '明细',
@@ -2121,7 +2121,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警结果',
@@ -2129,7 +2129,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center',
+      align: 'left',
       cellRender: {
         name: '$vxeIcon3',
         props: {
@@ -2145,7 +2145,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -2153,7 +2153,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
@@ -2172,7 +2172,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -2180,7 +2180,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '基本情况描述',
@@ -2188,7 +2188,7 @@ const proconf = {
       width: 140,
       field: 'matterDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改要求',
@@ -2196,14 +2196,14 @@ const proconf = {
       width: 140,
       field: 'rectifyAsk',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow1',
       className: 'gloableOptionRow1',
       cellRender: {
@@ -2247,7 +2247,7 @@ const proconf = {
       width: 140,
       field: 'affirmTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -2255,14 +2255,14 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改附件',
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center',
+      align: 'left',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',
       cellRender: {
@@ -2279,7 +2279,7 @@ const proconf = {
       width: 140,
       field: 'rectifyTime',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ]
 }

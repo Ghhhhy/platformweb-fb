@@ -315,8 +315,8 @@ const proconf = {
   },
   highQueryConfig: [
     {
-      title: '预警规则',
-      field: 'fiRuleCode',
+      title: '规则',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -325,16 +325,16 @@ const proconf = {
         options: [],
         props: {
           config: {
-            valueKeys: ['code', 'name', 'id'],
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{name}', // {code}-{name}
-              nodeKey: 'code',
-              label: 'name',
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
               children: 'children'
             },
-            placeholder: '预警规则',
-            multiple: false,
+            placeholder: '规则',
+            multiple: true,
             readonly: false,
             isleaf: true
           }
@@ -400,6 +400,7 @@ const proconf = {
     fiscalYear: '',
     fiRuleCode_code__multiple: '',
     fiRuleCode: '',
+    ruleCodes: '',
     xpayDate: '',
     triggerMonitorDate: ''
   },

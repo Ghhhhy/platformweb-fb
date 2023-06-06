@@ -713,7 +713,7 @@ export default {
               this.businessDataList.govEconomyType = res.data?.gov_bgt_eco_code + '-' + res.data?.gov_bgt_eco_name
               this.businessDataList.settlementMethod = res.data?.set_mode_code + '-' + res.data?.set_mode_name
               this.businessDataList.directFund = res.data?.is_dir_code === null ? '' : res.data?.is_dir_code + '-' + res.data?.is_dir_name || ''
-              this.businessDataList.salaryMark = res.data?.is_sal_code + '-' + res.data?.is_sal_name
+              this.businessDataList.salaryMark = res.data?.is_sal_code === null ? '' : res.data?.is_sal_code + '-' + res.data?.is_sal_name === null ? '' : res.data?.is_sal_name
               this.businessDataList.isUnionFunds = res.data?.is_fun_code + '-' + (res.data?.is_fun_code === 1 ? '是' : '否')
               this.businessDataList.fiDate = res.data?.fiDate
               this.businessDataList.funcType = res.data?.exp_func_code + '-' + res.data?.exp_func_name
