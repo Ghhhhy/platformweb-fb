@@ -86,7 +86,7 @@
       v-if="showDialogVisible"
       :title="showDialogTitle"
       :warning-code="warningCode"
-      :fi-rule-code="fiRuleCode"
+      :fi-rule-code="detailFiRuleCode"
       :is-create="isCreate"
       :is-done="isDone"
       :detail-data="showDetailData"
@@ -255,7 +255,8 @@ export default {
       treeData: [],
       bussnessId: '7',
       treeTypeConfig: {},
-      currentNodeKey: '7'
+      currentNodeKey: '7',
+      detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
       // {
       //   children: [],
       //   code: '0',
@@ -369,7 +370,7 @@ export default {
     },
     // 查看详情
     show(val) {
-      this.fiRuleCode = val.fiRuleCode || ''
+      this.detailFiRuleCode = val.fiRuleCode || ''
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
       this.showDialogTitle = '查看详情信息'
@@ -984,8 +985,7 @@ export default {
       if (!params.warnTime && params.triggerMonitorDate) {
         params.warnTime = params.triggerMonitorDate
       }
-      debugger
-      if (this.fiRuleCode === null || this.fiRuleCode === '' || this.param5?.isRegion === 'true') {
+      if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
         params.fiscalYear = this.fiscalYear
         this.tableLoadingState = true
