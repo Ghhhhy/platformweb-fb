@@ -314,6 +314,7 @@ const proconf = {
     fiDate: ''
   },
   highQueryConfig: [
+    /*
     {
       title: '监控主题',
       field: 'regulationClass',
@@ -339,25 +340,39 @@ const proconf = {
         }
       }
     },
+    */
     {
       title: '监控规则',
-      field: 'fiRuleName',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          placeholder: '监控规则'
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '监控规则',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     }
   ],
   highQueryData: {
     regulationClass: '',
-    fiRuleName: ''
+    fiRuleName: '',
+    ruleCodes: ''
   },
   basicInfo: {
     type: 'form',

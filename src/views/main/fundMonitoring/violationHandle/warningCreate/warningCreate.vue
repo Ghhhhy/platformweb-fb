@@ -90,6 +90,7 @@ export default {
       colourType: '',
       warningCode: '',
       fiRuleCode: '',
+      ruleCodes: [],
       sDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -256,7 +257,6 @@ export default {
     search(val) {
       this.regulationClass = val.regulationClass_code
       this.searchDataList = val
-      console.log(val)
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -274,6 +274,7 @@ export default {
           }
         }
       }
+      condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       this.condition = condition
       this.queryTableDatas()
     },
@@ -372,12 +373,44 @@ export default {
       this.queryTableDatas(this.detailType, this.code)
       // this.queryTableDatasCount()
     },
+    getFiRule() {
+      const param = {
+        fiscalYear: this.$store.state.userInfo.year
+      }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '0201'
+      }
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+      HttpModule.getRuleTreeData(param).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = res.data
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getRuleTrees(val) {
+      let ruleCodes = []
+      console.info(val)
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          ruleCodes.push(item.split('##')[0])
+        })
+      }
+      return ruleCodes
+    },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
+        ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         regulationClass: this.regulationClass,
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm
       }
@@ -446,8 +479,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.getFiRule()
     this.queryTableDatas()
-    this.getRegulation()
+    // this.getRegulation()
   }
 }
 </script>

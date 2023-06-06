@@ -15,12 +15,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:90px;float:left;margin-top:15px"><font color="red">*</font>&nbsp;整改情况</div>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:15px"><font color="red">*</font>&nbsp;整改结果</div>
                     <el-input
                       v-model="rectifyDetail"
                       type="textarea"
                       :rows="5"
-                      placeholder="请输入整改情况"
+                      placeholder="请输入整改结果"
                       style="margin-bottom: 15px; width: 80%"
                     />
                   </el-row>
@@ -209,7 +209,7 @@ export default {
     // 保存新增的计划信息
     doInsert() {
       if (this.rectifyDetail === '') {
-        this.$message.warning('请输入整改情况')
+        this.$message.warning('请输入整改结果')
         return
       }
       if (this.title === '整改处理单' || this.title === '修改整改处理单') {

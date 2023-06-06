@@ -1497,6 +1497,7 @@ const toolBarEvent = {
         this.$refs.xGrid.zoom().then(() => { }).catch(() => { })
         break
       case 'export':
+        console.info('toolbarConfigIn.exportCustom==' + this.toolbarConfigIn.exportCustom)
         if (this.toolbarConfigIn && this.toolbarConfigIn.exportCustom) {
           this.$emit('onToolbarBtnClick', { context: this, xGrid: this.$refs.xGrid, code: 'export' })
         } else {
@@ -3357,7 +3358,7 @@ const exportAndImportFn = {
       isExportTree: !!self.treeConfigIn,
       saveType: '.xlsx',
       fileName: 'export', // 文件名
-      dataType: !self.treeConfigIn ? 'fullData' : 'treeExpandData',
+      dataType: !self.treeConfigIn ? 'fullData' : 'fullData',
       isExportHead: true, // 是否导出表头
       isExportFooter: false, // 是否导出表尾部
       isExportOnlySourceField: false, // 是否只导出数据源表头字段，

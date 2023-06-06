@@ -428,7 +428,7 @@ const proconf = {
       align: 'right'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,
@@ -948,7 +948,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,
@@ -1266,7 +1266,7 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,

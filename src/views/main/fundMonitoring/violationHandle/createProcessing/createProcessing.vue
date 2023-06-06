@@ -298,7 +298,8 @@ export default {
       selectBtnType: '',
       showLog: false,
       currentNodeKey: '7',
-      trackProName: ''
+      trackProName: '',
+      agencyCodeList: []
     }
   },
   activated() {
@@ -366,11 +367,11 @@ export default {
       this.fiRuleName = obj.fiRuleName
       this.trackProName = obj.trackProName || ''
       this.violateType = obj.violateType
+      this.agencyCodeList = obj.agencyCodeList_code__multiple
       if (this.menuName === '监控问询单列表' && this.status !== 0) {
         // this.status = obj.status === '' ? this.status : obj.status
         this.getdata()
       }
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -544,7 +545,8 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        agencyName: this.agencyName,
+        // agencyName: this.agencyName,
+        agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
         violateType: this.violateType,
@@ -581,6 +583,7 @@ export default {
         page: this.mainPagerConfig.currentPage, // unitStatus页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         agencyName: this.agencyName,
+        agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
         violateType: this.violateType,
@@ -1089,7 +1092,25 @@ export default {
             break
         }
       }
+    },
+    getAgency() {
+      const param = {
+        elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
+        year: this.$store.state.userInfo.year,
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
+      }
+      api.getTreeAgency(param).then(res => {
+        let treeResdata = res.data
+        this.queryConfig[0].itemRender.options = treeResdata
+      })
     }
+  },
+  mounted() {
+
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
@@ -1103,6 +1124,7 @@ export default {
     // this.queryTableDatas()
     this.initButtons(this.param5)
     this.getViolationType()
+    this.getAgency()
     // this.getCount()
   }
 }

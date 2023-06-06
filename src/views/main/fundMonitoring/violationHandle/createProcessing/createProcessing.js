@@ -462,6 +462,31 @@ export const proconf = {
   },
   highQueryConfig: [
     {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'code': 'id',
+              'name': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
+    /*
+    {
       field: 'agencyName',
       title: '预算单位',
       width: '180',
@@ -475,6 +500,7 @@ export const proconf = {
         }
       }
     },
+    */
     {
       title: '违规类型',
       width: 180,
@@ -609,9 +635,9 @@ export const proconf = {
         }
       }
     }
-
   ],
   highQueryData: {
+    agencyCodeList: '',
     violateType: '',
     dealNo: '',
     regulationClassName: '',
