@@ -475,7 +475,6 @@ const proconf = {
       field: 'agencyCodeList',
       width: '8',
       align: 'left',
-      formula: '',
       name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',

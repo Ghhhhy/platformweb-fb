@@ -31,7 +31,7 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false,iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
@@ -84,6 +84,7 @@ export default {
       colourType: '',
       warningCode: '',
       fiRuleCode: '',
+      ruleCodes: [],
       sDetailQueryParam: {},
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -170,6 +171,7 @@ export default {
       detailData: [],
       code: '',
       fiscalYear: ''
+
     }
   },
   mounted() {
@@ -276,6 +278,7 @@ export default {
         }
       }
       condition.fiRuleCode = val.fiRuleCode
+      condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       this.condition = condition
       this.queryTableDatas()
     },
@@ -343,7 +346,7 @@ export default {
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
-      HttpModule.getFiRule(param).then(res => {
+      HttpModule.getRuleTreeData(param).then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
           let treeResdata = res.data
@@ -353,11 +356,23 @@ export default {
         }
       })
     },
+    getRuleTrees(val) {
+      let ruleCodes = []
+      console.info(val)
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          ruleCodes.push(item.split('##')[0])
+        })
+      }
+      return ruleCodes
+    },
     // 查询 table 数据
     queryTableDatas(val) {
       const { fiRuleCode, xpayDate, triggerMonitorDate } = this.condition
       const param = {
+        fiscalYear: this.$store.state.userInfo.year,
         fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
+        ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         xpayDate: xpayDate ? xpayDate[0] : '',
         triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
       }

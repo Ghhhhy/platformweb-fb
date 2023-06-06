@@ -114,13 +114,13 @@ const proconf = {
     {
       title: '预算单位',
       field: 'agencyCodeName',
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proCodeName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -141,37 +141,37 @@ const proconf = {
       title: '用途',
       field: 'useDes',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
       field: 'payAcctName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
       field: 'payAcctNo',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
       field: 'payeeAcctName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账号',
       field: 'payeeAcctNo',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款日期',
       field: 'xpayDate',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 项目明细
@@ -179,29 +179,29 @@ const proconf = {
     {
       title: '资金名称',
       field: 'speTypeName',
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算单位',
       field: 'agencyName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出功能科目',
       field: 'xjExpFuncName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '总金额',
@@ -221,7 +221,7 @@ const proconf = {
     },
     {
       title: '支付金额',
-      align: 'center',
+      align: 'left',
       children: [
         {
           title: '总金额',
@@ -243,7 +243,7 @@ const proconf = {
       title: '惠企利民',
       field: '',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 指标明细
@@ -251,43 +251,43 @@ const proconf = {
     {
       title: '处室名称',
       field: 'bgtMofDepName',
-      align: 'center'
+      align: 'left'
     },
     {
       title: '单位名称',
       field: 'agencyName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '中央直达资金名称',
       field: 'speTypeName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支出科目名称',
       field: 'xjExpFuncName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级专项资金名称',
       field: 'sSpeTypeName',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级文号',
       field: 'corBgtDocNo',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '本级文号',
       field: 'xjCorBgtDocNo',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预算金额',
@@ -318,7 +318,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -326,7 +326,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '上级项目名称',
@@ -334,7 +334,7 @@ const proconf = {
       width: 140,
       field: 'trackProName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预算级次',
@@ -342,7 +342,7 @@ const proconf = {
       width: 140,
       field: 'budgetLevelName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '上级指标文号',
@@ -350,7 +350,7 @@ const proconf = {
       width: 140,
       field: 'supBgtDocNo',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '资金主管处室编码',
@@ -358,7 +358,7 @@ const proconf = {
       width: 140,
       field: 'bgtMofDepCode',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '资金主管处室名称',
@@ -366,7 +366,7 @@ const proconf = {
       width: 140,
       field: 'bgtMofDepName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '本级指标文号',
@@ -374,7 +374,7 @@ const proconf = {
       width: 140,
       field: 'corBgtDocNo',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     // {
     //   title: '支出功能科目编码',
@@ -393,7 +393,7 @@ const proconf = {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '政府支出经济分类',
@@ -404,7 +404,7 @@ const proconf = {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -415,7 +415,7 @@ const proconf = {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '本级项目名称',
@@ -423,7 +423,7 @@ const proconf = {
       width: 140,
       field: 'proName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '直达资金标识编码',
@@ -431,7 +431,7 @@ const proconf = {
       width: 140,
       field: 'isDirCode',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '直达资金标识名称',
@@ -439,7 +439,7 @@ const proconf = {
       width: 140,
       field: 'isDirName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '接收金额',
@@ -474,7 +474,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '处理结果',
@@ -482,7 +482,7 @@ const proconf = {
       width: 140,
       field: 'rectifyDetail',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改意见',
@@ -490,7 +490,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -498,7 +498,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -506,7 +506,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '上级项目名称',
@@ -514,7 +514,7 @@ const proconf = {
       width: 140,
       field: 'trackProName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预算级次',
@@ -522,7 +522,7 @@ const proconf = {
       width: 140,
       field: 'budgetLevelName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '上级指标文号',
@@ -530,7 +530,7 @@ const proconf = {
       width: 140,
       field: 'supBgtDocNo',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '资金主管处室编码',
@@ -538,7 +538,7 @@ const proconf = {
       width: 140,
       field: 'bgtMofDepCode',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '资金主管处室名称',
@@ -546,7 +546,7 @@ const proconf = {
       width: 140,
       field: 'bgtMofDepName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '本级指标文号',
@@ -554,7 +554,7 @@ const proconf = {
       width: 140,
       field: 'corBgtDocNo',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     // {
     //   title: '支出功能科目编码',
@@ -573,7 +573,7 @@ const proconf = {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '政府支出经济分类',
@@ -584,7 +584,7 @@ const proconf = {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -595,7 +595,7 @@ const proconf = {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '本级项目名称',
@@ -603,7 +603,7 @@ const proconf = {
       width: 140,
       field: 'proName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '直达资金标识编码',
@@ -611,7 +611,7 @@ const proconf = {
       width: 140,
       field: 'isDirCode',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '直达资金标识名称',
@@ -619,7 +619,7 @@ const proconf = {
       width: 140,
       field: 'isDirName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '接收金额',
@@ -653,7 +653,7 @@ const proconf = {
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -663,7 +663,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -671,7 +671,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '制单人',
@@ -687,7 +687,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     }
   ],
   // 是否上传附件-已整改明细
@@ -702,7 +702,7 @@ const proconf = {
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -712,7 +712,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -720,7 +720,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '制单人',
@@ -728,7 +728,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -736,7 +736,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改意见',
@@ -744,7 +744,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -752,7 +752,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '逾期天数',
@@ -760,7 +760,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'right'
+      align: 'left'
     }
   ],
   // 支出预警-未处理明细
@@ -768,28 +768,28 @@ const proconf = {
     {
       title: '地区名称',
       field: 'name',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
     {
       title: '规则名称',
       field: 'fiRuleName',
-      align: 'center',
+      align: 'left',
       filters: false,
       width: 140
     },
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
     {
       title: '单位名称',
       field: 'agencyName',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -799,7 +799,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -807,7 +807,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -824,7 +824,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
@@ -832,7 +832,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
@@ -840,7 +840,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级指标文号',
@@ -848,7 +848,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -856,7 +856,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     // {
     //   title: '支出功能科目编码',
@@ -875,7 +875,7 @@ const proconf = {
         return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '政府支出经济分类',
@@ -886,7 +886,7 @@ const proconf = {
         return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -897,7 +897,7 @@ const proconf = {
         return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '支付方式',
@@ -905,7 +905,7 @@ const proconf = {
       width: 140,
       field: 'payTypeName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款人银行',
@@ -921,7 +921,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
@@ -929,7 +929,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款日期',
@@ -937,7 +937,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '预警时间',
@@ -945,7 +945,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 支出预警-已认定明细
@@ -953,7 +953,7 @@ const proconf = {
     {
       title: '地区名称',
       field: 'name',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -962,12 +962,12 @@ const proconf = {
       field: 'fiRuleName',
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -976,7 +976,7 @@ const proconf = {
       field: 'agencyName',
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -984,7 +984,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -992,7 +992,7 @@ const proconf = {
       filters: false,
       width: 140,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -1009,7 +1009,7 @@ const proconf = {
       width: 140,
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定结果',
@@ -1017,7 +1017,7 @@ const proconf = {
       width: 140,
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'left',
       formula: '',
       name: '$vxeSelect',
       cellRender: {
@@ -1037,7 +1037,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定人',
@@ -1045,7 +1045,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定时间',
@@ -1053,7 +1053,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支付时间',
@@ -1061,7 +1061,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
@@ -1069,7 +1069,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
@@ -1077,7 +1077,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级指标文号',
@@ -1085,7 +1085,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -1093,7 +1093,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     // }, {
     //   title: '支出功能科目编码',
     //   filters: false,
@@ -1111,7 +1111,7 @@ const proconf = {
         return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
 
     },
     {
@@ -1123,7 +1123,7 @@ const proconf = {
         return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -1134,7 +1134,7 @@ const proconf = {
         return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '支付方式',
@@ -1142,7 +1142,7 @@ const proconf = {
       width: 140,
       field: 'payTypeName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款人银行',
@@ -1150,7 +1150,7 @@ const proconf = {
       width: 140,
       field: 'payeeAcctBankName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款方账号',
@@ -1158,7 +1158,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
@@ -1166,7 +1166,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 支出预警-已整改明细
@@ -1174,7 +1174,7 @@ const proconf = {
     {
       title: '地区名称',
       field: 'name',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -1183,12 +1183,12 @@ const proconf = {
       field: 'fiRuleName',
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -1197,7 +1197,7 @@ const proconf = {
       field: 'agencyName',
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1205,7 +1205,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目名称',
@@ -1213,7 +1213,7 @@ const proconf = {
       sortable: false,
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -1230,7 +1230,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '认定意见',
@@ -1238,7 +1238,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '违规类型',
@@ -1246,7 +1246,7 @@ const proconf = {
       width: 140,
       field: 'warnType',
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改结果',
@@ -1254,7 +1254,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改意见',
@@ -1262,7 +1262,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '整改时间',
@@ -1270,7 +1270,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '支付日期',
@@ -1278,7 +1278,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账户名称',
@@ -1286,7 +1286,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '收款方账户名称',
@@ -1294,7 +1294,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '上级指标文号',
@@ -1302,7 +1302,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 140,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '指标文号',
@@ -1310,7 +1310,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     // }, {
     //   title: '支出功能科目编码',
     //   filters: false,
@@ -1328,7 +1328,7 @@ const proconf = {
         return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '政府支出经济分类',
@@ -1339,7 +1339,7 @@ const proconf = {
         return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '部门支出经济分类',
@@ -1350,7 +1350,7 @@ const proconf = {
         return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
       },
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '支付方式',
@@ -1358,7 +1358,7 @@ const proconf = {
       width: 140,
       field: 'payTypeName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款人银行',
@@ -1366,7 +1366,7 @@ const proconf = {
       width: 140,
       field: 'payeeAcctBankName',
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '收款方账号',
@@ -1374,7 +1374,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '付款方账号',
@@ -1382,7 +1382,7 @@ const proconf = {
       filters: false,
       field: 'payAccount',
       sortable: false,
-      align: 'center'
+      align: 'left'
     }
   ],
   // 未导入惠企利民-未处理明细
@@ -1390,14 +1390,14 @@ const proconf = {
     {
       title: '地区名称',
       field: 'name',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -1407,7 +1407,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1415,7 +1415,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目',
@@ -1423,7 +1423,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',
@@ -1442,12 +1442,12 @@ const proconf = {
       field: 'agencyCodeName',
       width: 140,
       filters: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '处室名称',
       field: 'businessOffice',
-      align: 'center',
+      align: 'left',
       width: 140,
       filters: false
     },
@@ -1457,7 +1457,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '专项资金',
@@ -1465,7 +1465,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'right'
+      align: 'left'
     },
     {
       title: '项目',
@@ -1473,7 +1473,7 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '金额',

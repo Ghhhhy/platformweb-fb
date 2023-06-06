@@ -73,6 +73,9 @@ export default {
   getTreewhere(params) {
     return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
   },
+  getTreeAgency(params) {
+    return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
+  },
   handleNormal(params) {
     return post('large-monitor-platform/lmp/totalWarn/handleNormal', params)
   },
@@ -81,6 +84,9 @@ export default {
   },
   getFiRule(params) {
     return post('large-monitor-platform/lmp/totalWarn/getFiRule', params)
+  },
+  getRuleTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
   },
   // 规则校验
   ruleTest(params) {
