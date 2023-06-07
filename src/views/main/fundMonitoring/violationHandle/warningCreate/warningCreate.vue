@@ -480,12 +480,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    // let mofDivCode = this.userInfo.province
-    let mofDivCode = '35011111'
-    console.log(mofDivCode.substring(0, 2) + '     ' + mofDivCode.substring(0, 4))
-    if (mofDivCode.substring(0, 2) === '35' && mofDivCode.substring(0, 4) !== '3502') {
-      this.getFiRule()
-    }
+    this.getFiRule()
     this.queryTableDatas()
     // this.getRegulation()
   }
