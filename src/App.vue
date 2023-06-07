@@ -189,7 +189,6 @@ export default {
     }
   },
   async created () {
-    //first commit  --jjh
   },
 
   async mounted() {
