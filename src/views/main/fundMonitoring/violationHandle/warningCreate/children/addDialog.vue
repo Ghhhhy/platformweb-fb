@@ -336,7 +336,7 @@
 import proconf from './column.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
-import moment from 'moment'
+// import moment from 'moment'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
 export default {
   name: 'HandleDialog',
@@ -621,7 +621,8 @@ export default {
         this.createDataList.handleType = this.detailData[0].handleType
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : moment().format('YYYY-MM-DD HH:mm:ss')
+        // this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : this.getCurrentServerTime()
+        this.getCurrentServerTime()
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -816,6 +817,11 @@ export default {
           })
           this.createConfig[0].itemRender.options = res.data.results
         }
+      })
+    },
+    getCurrentServerTime() {
+      HttpModule.getCurrentTime().then(res => {
+        res.code === '000000' && (this.createDataList.issueTime = this.detailData[0].issueTime || res.data)
       })
     },
     setFormItem() {

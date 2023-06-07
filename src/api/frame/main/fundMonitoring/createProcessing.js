@@ -107,5 +107,9 @@ export default {
   // 获取日志
   getLogs(param) {
     return get('large-monitor-platform/lmp/totalWarn/log/' + param)
+  },
+  // 获取服务器时间
+  getCurrentTime(params) {
+    return post('large-monitor-platform/lmp/commom/getCurrentTime', params)
   }
 }
