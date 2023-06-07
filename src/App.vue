@@ -38,6 +38,7 @@ export default {
     getUrlAllParams(url) {
       /* 获取全部url参数,并转换成json对象 */
       url = url || window.location.href
+      console.log(url, 'url-----------------')
       let search = url.substring(
         url.indexOf('?') + 1,
         url.indexOf('#/') >= 0 ? url.indexOf('#/') : url.length
@@ -187,17 +188,10 @@ export default {
       return false
     }
   },
-  async created() {
-    this.getUrlSearchToken()
-    this.authentication()
-    if (window.self === window.top) {
-      console.log('=========处于非iframe环境=============')
-      // 获取预警信息
-      this.$store.dispatch('warnInfo/getWarnInfo')
-    }
+  async created () {
   },
 
-  mounted() {
+  async mounted() {
     let that = this
     this.logOutPopInterval = setInterval(() => {
       that.intervalQuest()
@@ -211,6 +205,13 @@ export default {
       }
     }
     this.showLogo()
+    await this.getUrlSearchToken()
+    await this.authentication()
+    if (window.self === window.top) {
+      console.log('=========处于非iframe环境=============')
+      // 获取预警信息
+      this.$store.dispatch('warnInfo/getWarnInfo')
+    }
   },
   watch: {}
 }
