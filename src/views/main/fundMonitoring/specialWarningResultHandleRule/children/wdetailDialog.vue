@@ -565,7 +565,6 @@ export default {
       })
     },
     handleDetail(type, diBillId, fiRuleCode) {
-      console.info('this.detailType ==' + this.detailType)
       if (this.detailType === 'numbernofileNum' || this.detailType === 'numberfileNum') {
         this.$parent.bgtDetailQueryParam = {
           diBillId: diBillId,

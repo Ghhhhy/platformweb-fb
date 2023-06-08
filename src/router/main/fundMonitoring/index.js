@@ -875,6 +875,20 @@ const routers = [
     component: () =>
       import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
   },
+
+  {
+    path: '/dfrDatabaseSpecial', //  专项行动综合管理平台
+    name: 'dfrDatabaseSpecial',
+    component: () =>
+      import('../../../views/main/fundMonitoring/DfrDatabaseSpecial/DfrDatabaseSpecial.vue')
+  },
+  {
+    path: '/dfrDatabaseSpecialView', //  专项行动综合管理平台查看
+    name: 'dfrDatabaseSpecialView',
+    component: () =>
+      import('../../../views/main/fundMonitoring/DfrDatabaseSpecial/DfrDatabaseSpecial.vue')
+  },
+
   {
     path: '/QueryProcessingBySpecial', // 违规单查看-专项
     name: 'QueryProcessingBySpecial',

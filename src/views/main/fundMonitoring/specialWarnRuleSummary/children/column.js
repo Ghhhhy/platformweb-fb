@@ -352,6 +352,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    /*
     {
       title: '资金主管处室编码',
       filters: false,
@@ -360,6 +361,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    */
     {
       title: '资金主管处室名称',
       filters: false,
@@ -425,6 +427,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    /*
     {
       title: '直达资金标识编码',
       filters: false,
@@ -433,6 +436,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    */
     {
       title: '直达资金标识名称',
       filters: false,
@@ -532,6 +536,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    /*
     {
       title: '资金主管处室编码',
       filters: false,
@@ -540,6 +545,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    */
     {
       title: '资金主管处室名称',
       filters: false,
@@ -605,6 +611,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    /*
     {
       title: '直达资金标识编码',
       filters: false,
@@ -613,6 +620,7 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
+    */
     {
       title: '直达资金标识名称',
       filters: false,

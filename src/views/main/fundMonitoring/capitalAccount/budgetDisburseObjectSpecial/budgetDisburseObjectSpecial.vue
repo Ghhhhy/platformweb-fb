@@ -52,6 +52,7 @@
           :title="menuName"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -74,6 +75,13 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
     <!-- <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
@@ -81,16 +89,19 @@
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
   </div>
+
 </template>
 
 <script>
+
 import { proconf } from './budgetDisburseObjectSpecial'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import regionMixin from '../mixins/regionMixin'
+import DetailDialog from '../children/xmdetailDialog.vue'
 export default {
   mixins: [regionMixin],
   components: {
-    // AddDialog
+    DetailDialog
   },
   watch: {
     queryConfig() {
@@ -99,6 +110,8 @@ export default {
   },
   data() {
     return {
+      detailVisible: false,
+      detailData: [],
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
@@ -244,92 +257,6 @@ export default {
       regulationclass: '',
       firulename: '',
       tableData: [],
-      // tableData: [
-      //   {
-      //     mofDivName: '合计',
-      //     proCode: '',
-      //     proCodeName: '',
-      //     yaAmount: 1522615641.58,
-      //     yzyapAmount: 941648.5,
-      //     ysjapAmount: 949219.64,
-      //     yshjapAmount: 818,
-      //     yxjapAmount: 8597,
-      //     zaAmount: 7974456.95,
-      //     zzyapAmount: 9874,
-      //     zsjapAmount: 811874,
-      //     zshjapAmount: 5298,
-      //     zxjapAmount: 4819.85,
-      //     amountName: '',
-      //     agencyCodeName: '',
-      //     xjExpFuncName: '',
-      //     sfUseful: '',
-      //     grantFrom: '',
-      //     sfaccount: ''
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '610000000000021041340',
-      //     proCodeName: '优抚对象补助资金',
-      //     yaAmount: 1522615641.58,
-      //     yzyapAmount: 941648.5,
-      //     ysjapAmount: 949219.64,
-      //     yshjapAmount: 818,
-      //     yxjapAmount: 8597,
-      //     zaAmount: 7974456.95,
-      //     zzyapAmount: 9874,
-      //     zsjapAmount: 811874,
-      //     zshjapAmount: 5298,
-      //     zxjapAmount: 4819.85,
-      //     amountName: '学生资助补助经费',
-      //     agencyCodeName: '[208003]西安理工大学',
-      //     xjExpFuncName: '[2050299]其他普通教育支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '61000000000002116515',
-      //     proCodeName: '高校学生国家奖助学金',
-      //     yaAmount: 1525641.58,
-      //     yzyapAmount: 9648.5,
-      //     ysjapAmount: 94919.64,
-      //     yshjapAmount: 18,
-      //     yxjapAmount: 8497,
-      //     zaAmount: 79756.95,
-      //     zzyapAmount: 98754,
-      //     zsjapAmount: 8118474,
-      //     zshjapAmount: 52948,
-      //     zxjapAmount: 4819.5,
-      //     amountName: '优抚对象补助经费',
-      //     agencyCodeName: '[208001]省教育厅机关',
-      //     xjExpFuncName: '[2080899]其他优抚支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '610000000000021046440',
-      //     proCodeName: '家庭经济困难学生生活补助',
-      //     yaAmount: 1521.58,
-      //     yzyapAmount: 948.5,
-      //     ysjapAmount: 949.64,
-      //     yshjapAmount: 88,
-      //     yxjapAmount: 97,
-      //     zaAmount: 797.95,
-      //     zzyapAmount: 74,
-      //     zsjapAmount: 814,
-      //     zshjapAmount: 52,
-      //     zxjapAmount: 49.85,
-      //     amountName: '学生资助补助经费',
-      //     agencyCodeName: '[208007]陕西科技大学',
-      //     xjExpFuncName: '[2050299]其他普通教育支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   }
-      // ],
       mofDivCode: this.$store.state.userInfo.province,
       fiscalYear: '',
       speTypeName: '',
@@ -364,6 +291,71 @@ export default {
   mounted() {
   },
   methods: {
+    cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
+
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+      switch (key) {
+        case 'amountYszyap':
+          this.handleDetail('zxjdxmtz_ysmx', obj.row.budgetLevelCode, key)
+          this.detailTitle = '预算明细'
+          break
+        case 'amountZczyap':
+          this.handleDetail('zxjdxmtz_zcmx', obj.row.budgetLevelCode, key)
+          this.detailTitle = '支出明细'
+          break
+      }
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue) {
+        console.log(column.property)
+        // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
+        // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
+        if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
+    },
+    handleDetail(reportCode, budgetLevelCode, column) {
+      let condition = ''
+
+      switch (column) {
+        case 'amountSnjxjfp':
+          // condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSxjfp':
+        // condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+      }
+      this.detailQueryParam = {
+        condition: condition,
+        reportCode: reportCode,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
+        mofDivCode: this.mofDivCode, // 获取左侧树
+        speTypeName: this.speTypeName,
+        expFuncName: this.expFuncName,
+        proName: this.proName,
+        endTime: this.endTime,
+        hqlm: this.hqlm,
+        iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
+        mofDivCodes: this.codeList,
+        proCodes: this.proCodes === '' ? [] : this.proCodes,
+        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
+        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps,
+        budgetLevelCode: budgetLevelCode
+      }
+      this.detailType = reportCode
+      this.detailVisible = true
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -606,13 +598,7 @@ export default {
       this.billguid = row.attachment_id
       this.showAttachmentDialog = true
     },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-      console.log(key, obj.row)
-      switch (key) {
-      }
-    },
+
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       this.queryTableDatas()
