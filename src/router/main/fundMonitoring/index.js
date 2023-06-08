@@ -463,6 +463,17 @@ const routers = [
       ) // 专项行动预警(处室) - 上海专用
   },
   {
+    path: '/warningResultAllMdeptByMof',
+    name: 'warningResultAllMdeptByMof',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultAllsh.vue'
+      ) // 专项行动预警(处室) - 上海专用 全辖
+  },
+  {
     path: '/warningResultFSD',
     name: 'warningResultFSD',
     meta: {
