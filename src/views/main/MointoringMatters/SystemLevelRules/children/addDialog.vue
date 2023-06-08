@@ -719,6 +719,8 @@ export default {
         // { value: 14, label: '其他类规则' },
         // { value: 15, label: '分析类规则' }
       ],
+      fiRuleTypeCode: '',
+      fiRuleTypeName: '',
       policiesName: '',
       policiesDescription: '',
       dialogVisible: true,
@@ -931,6 +933,8 @@ export default {
       this.businessModule = datas[0].businessModuleName
       this.businessFunction = datas[0].businessFunctionName
       this.regulationModelCode = datas[0].ruleTemplateCode
+      this.fiRuleTypeCode = datas[0].fiRuleTypeCode
+      this.fiRuleTypeName = datas[0].fiRuleTypeName
       // this.regulationModelName = datas[0]
       this.ruleSetShow = false
       this.ruleDesShow = true
@@ -1509,6 +1513,8 @@ export default {
         'businessSystemName': that.businessSystemName,
         'businessModuleCode': that.businessModuleCode,
         'businessModuleName': that.businessModuleName,
+        'fiRuleTypeCode': that.fiRuleTypeCode,
+        'fiRuleTypeName': that.fiRuleTypeName,
         'menuIdList': that.businessFunctionCode.toString(), // 多菜单
         'menuNameList': that.businessFunctionName.toString(),
         // 'businessFunctionCode': that.businessFunctionCode,
@@ -1786,6 +1792,7 @@ export default {
   mounted() {
   },
   created() {
+    console.log(this.$parent.DetailData)
     this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
@@ -1824,6 +1831,8 @@ export default {
       // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
+      this.fiRuleTypeCode = this.$parent.DetailData.fiRuleTypeCode
+      this.fiRuleTypeName = this.$parent.DetailData.fiRuleTypeName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
@@ -1867,7 +1876,8 @@ export default {
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
-
+      this.fiRuleTypeCode = this.$parent.DetailData.fiRuleTypeCode
+      this.fiRuleTypeName = this.$parent.DetailData.fiRuleTypeName
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.scope = this.$parent.DetailData.regulationScope
     }

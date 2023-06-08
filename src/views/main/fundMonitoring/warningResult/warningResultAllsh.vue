@@ -152,6 +152,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '',
       params5: '',
+      param5: {},
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -306,7 +307,7 @@ export default {
 
       this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
-      if (obj.row['warnLevel'] === '3') {
+      if (obj.row['warnLevel'] === '1') {
         // 红色预警
         if (key === 'undoNum') key = 'redUndoNum'
         if (key === 'doneNum') key = 'redDoneNum'
@@ -324,7 +325,7 @@ export default {
         if (key === 'doneNum') key = 'blueDoneNum'
         if (key === 'undoNumw') key = 'blueUndoNumw'
         if (key === 'doneNumw') key = 'blueDoneNumw'
-      } else if (obj.row['warnLevel'] === '1') {
+      } else if (obj.row['warnLevel'] === '3') {
         // 黄色预警
         if (key === 'undoNum') key = 'yellowUndoNum'
         if (key === 'doneNum') key = 'yellowDoneNum'
@@ -417,7 +418,8 @@ export default {
       const param = {
         fiRuleCodes: this.transJson2(this.params5 || '')?.fiRuleCodes,
         fiscalYear: this.searchDataList.fiscalYear,
-        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+        trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
+        isRegion: this.param5.isRegion
       }
       this.tableLoading = true
       HttpModule.queryTableDatasshAll(param).then((res) => {
@@ -487,7 +489,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     this.params5 = this.$store.state.curNavModule.param5
+    console.log('是否全辖 isRegion ' + this.param5.isRegion)
     this.getPro()
     this.queryTableDatas()
   }

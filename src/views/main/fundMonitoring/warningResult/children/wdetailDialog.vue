@@ -118,6 +118,7 @@ export default {
   data() {
     return {
       userInfo: {},
+      params5: {},
       billguid: '',
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
@@ -545,6 +546,7 @@ export default {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         trackProCodes: this.trackProCodes,
+        isRegion: this.prarm5.isRegion,
         ...(this.searchDataList || {})
       }
       this.tableLoading = true
@@ -603,6 +605,8 @@ export default {
   },
   created() {
     this.userInfo = this.$store.state.userInfo
+    this.params5 = this.transJson(this.$store.state.curNavModule.param5)
+    console.log('是否全辖 isRegion ' + this.params5.isRegion)
   }
 }
 </script>
