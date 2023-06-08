@@ -277,6 +277,12 @@ export default {
     //   this.initTableData()
     // }, 2000)
     // this.initTableData()
+    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
+      let arr = this.queryConfig.filter(item => {
+        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
+      })
+      this.$set(this, 'queryConfig', arr)
+    }
   },
   methods: {
     switchMoneyUnit(level) {
