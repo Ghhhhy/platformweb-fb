@@ -416,52 +416,48 @@ export default {
     doInsert() {
       let selectData = this.$refs.addTableRef.getSelectionData()
       if (selectData.length > 0) {
-        if (selectData.length === 1) {
-          if (this.title === '删除预警数据') {
-            let param = {
-              regulationClass: selectData[0].regulationClass,
-              firulecode: selectData[0].fiRuleCode
+        if (this.title === '删除预警数据') {
+          let param = {
+            regulationClass: selectData[0].regulationClass,
+            firulecode: selectData[0].fiRuleCode
+          }
+          this.addLoading = true
+          HttpModule.deleteData(param).then((res) => {
+            this.addLoading = false
+            if (res.code === '000000') {
+              this.$message.success('删除成功')
+              this.$parent.addDialogVisible = false
+              this.$parent.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
             }
+          })
+        } else {
+          this.$confirm('确定要手动执行吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            let id = selectData.map((item) => {
+              return item.fiRuleCode
+            })
+            let param = {
+              ruleCodes: id,
+              menuName: this.$store.state.curNavModule.name
+            }
+            param.fullType = this.title === '增量查询' ? 'false' : 'true'
             this.addLoading = true
-            HttpModule.deleteData(param).then((res) => {
+            HttpModule.warnLogAdd(param).then((res) => {
               this.addLoading = false
               if (res.code === '000000') {
-                this.$message.success('删除成功')
+                this.$message.success('新增成功')
                 this.$parent.addDialogVisible = false
                 this.$parent.queryTableDatas()
               } else {
                 this.$message.error(res.message)
               }
             })
-          } else {
-            this.$confirm('确定要手动执行吗？', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              let id = selectData.map((item) => {
-                return item.fiRuleCode
-              })
-              let param = {
-                ruleCodes: id,
-                menuName: this.$store.state.curNavModule.name
-              }
-              param.fullType = this.title === '增量查询' ? 'false' : 'true'
-              this.addLoading = true
-              HttpModule.warnLogAdd(param).then((res) => {
-                this.addLoading = false
-                if (res.code === '000000') {
-                  this.$message.success('新增成功')
-                  this.$parent.addDialogVisible = false
-                  this.$parent.queryTableDatas()
-                } else {
-                  this.$message.error(res.message)
-                }
-              })
-            })
-          }
-        } else {
-          this.$message.warning('监控规则只能选择一条！')
+          })
         }
       } else {
         this.$message.warning('请选择监控规则！')
