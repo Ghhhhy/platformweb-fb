@@ -332,6 +332,73 @@ const proconf = {
       align: 'left'
     }
   ],
+  // 专项监督项目台账支出明细
+  projectZxZcmxColumn: [
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      width: 140,
+      align: 'left'
+    },
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '转移支付资金名称',
+      field: 'speTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '支出科目名称',
+      field: 'xjExpFuncName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '本级项目名称',
+      field: 'sSpeTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '上级文号',
+      field: 'corBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '本级文号',
+      field: 'xjCorBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '预算金额',
+      field: 'fpAmount',
+      sortable: true,
+      width: 140,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支出金额',
+      field: 'payAppAmt',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    }
+  ],
   // 中央下达项目明细
   zyxdxmmfzjColumn: [
     {
