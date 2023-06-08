@@ -86,8 +86,7 @@ const proconf = {
           placeholder: '截止日期'
         }
       }
-    }
-    /*,
+    },
     {
       title: '区划',
       field: 'isCentral',
@@ -123,6 +122,9 @@ const proconf = {
           clearable: true
         }
       }
+    }
+    /*,
+
     } */
   ],
   highQueryData: {
