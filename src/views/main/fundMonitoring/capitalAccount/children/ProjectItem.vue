@@ -37,7 +37,7 @@ export default {
     checkReport() {
       console.log(document.getElementById('projectId'), window?.gloableToolFn)
       let originUrl = window.gloableToolFn?.getProjectUrl?.length > 0 ? window.gloableToolFn?.getProjectUrl : window.location.origin
-      let url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=${store.getters.getLoginAuthentication.appguid}&proGuid=${this.proGuid}`
+      let url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
       let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
       if (document.getElementById('projectId')) {
         document.getElementById('projectId').innerHTML = src
