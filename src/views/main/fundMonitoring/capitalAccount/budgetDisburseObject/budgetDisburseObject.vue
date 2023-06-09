@@ -423,10 +423,7 @@ export default {
           } else {
             ip = 'http://10.100.59.194:7001'
           }
-          ip = 'http://10.100.32.125:9008'
-          console.info('tokenid==' + this.$store.getters.getLoginAuthentication.tokenid)
-          console.info('guid==' + obj.row.guid)
-          console.info('isgen==' + obj.row.isgen)
+
           this.frameSrc = ip + '/#/PersonProject/DirectProjectDetail/' +
             obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
             '&appguid=fiscal#/'
