@@ -42,15 +42,22 @@
         </template>
       </BsTable>
     </div>
+    <ProjectItem
+      v-if="addDialogVisible"
+      ref="projectDialog"
+      :dialog-visible.sync="addDialogVisible"
+      :pro-guid="proGuid"
+    />
   </vxe-modal>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import proconf from './column.js'
-
+import ProjectItem from './ProjectItem.vue'
 export default {
   name: 'DetailDialog',
   components: {
+    ProjectItem
   },
   computed: {
     curNavModule() {
@@ -132,7 +139,9 @@ export default {
       params: {},
       sDetailTitle: '',
       sDetailVisible: false,
-      sDetailData: []
+      sDetailData: [],
+      addDialogVisible: false, // 项目信息
+      proGuid: ''
     }
   },
   methods: {
@@ -357,6 +366,12 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
+      // if (['proCode', 'proName'].includes(column.property)) {
+      //   return {
+      //     color: '#4293F4',
+      //     textDecoration: 'underline'
+      //   }
+      // }
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -369,6 +384,14 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      // if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+      //   if (!obj.row.proGuid) {
+      //     this.$message.warning('未返proGuid,无法查看项目信息')
+      //     return
+      //   }
+      //   this.proGuid = obj.row.proGuid || ''
+      //   this.addDialogVisible = true
+      // }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property

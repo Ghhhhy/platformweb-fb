@@ -45,5 +45,6 @@ window.gloableToolFn = {
   enableWaterMark: false,
   getReportUrl: () => reportService,
   getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
-  getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/'
+  getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/',
+  getProjectUrl: ''
 }
