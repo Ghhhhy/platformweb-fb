@@ -88,6 +88,19 @@
     /> -->
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+
+    <vxe-modal
+      v-if="projectVisible"
+      v-model="projectVisible"
+      width="100%"
+      height="90%"
+      :title="projectTitle"
+      :show-footer="false"
+    >
+      <iframe :src="frameSrc" style="height:100%; width:100%;margin:0;border:0;"> </iframe>
+
+    </vxe-modal>
+
   </div>
 
 </template>
@@ -112,6 +125,9 @@ export default {
     return {
       detailVisible: false,
       detailData: [],
+      projectVisible: false,
+      projectTitle: '',
+      frameSrc: '',
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
@@ -297,34 +313,60 @@ export default {
       let key = obj.column.property
 
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
       switch (key) {
-        case 'amountYszyap':
+        case 'amountYszyap1':
           this.handleDetail('zxjdxmtz_ysmx', obj.row.budgetLevelCode, key)
           this.detailTitle = '预算明细'
           break
-        case 'amountZczyap':
+        case 'amountZczyap1':
           this.handleDetail('zxjdxmtz_zcmx', obj.row.budgetLevelCode, key)
           this.detailTitle = '支出明细'
+          break
+        case 'proName':
+          this.projectTitle = '项目明细'
+          this.projectVisible = true
+          // console.info('obj.row.proCode ==' + obj.row.proCode)
+          // console.info('userInfo ==' + this.$store.state.userInfo)
+          // this.frameSrc = 'http://10.100.32.125:9008/#/PersonProject?guid=' + obj.row.guid +
+          // '&userInfo=' + this.$store.state.userInfo + '&isgen=' + obj.row.isgen
+          let ip = ''
+          if (process.env.NODE_ENV === 'development') {
+            ip = 'http://10.100.32.125:9008'
+          } else {
+            ip = 'http://10.100.59.194:7001'
+          }
+          console.info('tokenid==' + this.$store.getters.getLoginAuthentication.tokenid)
+          console.info('guid==' + obj.row.guid)
+          console.info('isgen==' + obj.row.isgen)
+
+          this.frameSrc = ip + '/#/PersonProject/DirectProjectDetail/' +
+            obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
+            '&appguid=fiscal#/'
+
+          // this.frameSrc = 'http://10.52.5.89:8080/#/PersonProject/DirectProjectDetail/1/B2C1D2C306EC4541A53A6BFA795C84DB?tokenid=de108838da55418e17c2eb805a5b7d6f&appguid=fiscal#/'
+          console.info(this.frameSrc)
+
           break
       }
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue) {
-        console.log(column.property)
-        // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
-        // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
-        if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      // const validCellValue = (row[column.property] * 1)
+      //  if (validCellValue) {
+      console.log(column.property)
+      // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
+      // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
+      // if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
+      if (['proName'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
       }
+    //  }
     },
     handleDetail(reportCode, budgetLevelCode, column) {
       let condition = ''
