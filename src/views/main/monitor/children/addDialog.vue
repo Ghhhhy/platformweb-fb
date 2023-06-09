@@ -33,6 +33,7 @@
       <div slot="footer" style="height: 80px; margin: 0 15px">
         <div type="flex" justify="space-around">
           <div>
+            <vxe-button v-if="btnShShow" status="primary" @click="doInsert">执行工作流</vxe-button>
             <vxe-button v-if="btnShow" status="primary" @click="doInsert">执行</vxe-button>
             <vxe-button v-if="!btnShow" status="primary" @click="goNext">确认</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
@@ -81,6 +82,7 @@ export default {
     return {
       mofShow: false,
       btnShow: true,
+      btnShShow: false,
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -445,6 +447,9 @@ export default {
               ruleCodes: id,
               menuName: this.$store.state.curNavModule.name
             }
+            if (this.btnShShow) {
+              param.isFlow = '1'
+            }
             param.fullType = this.title === '增量查询' ? 'false' : 'true'
             this.addLoading = true
             HttpModule.warnLogAdd(param).then((res) => {
@@ -508,9 +513,6 @@ export default {
     }
   },
   created() {
-    /* if (this.userInfo.province === '610000000') {
-      this.btnShow = false
-    } */
     this.getDataSourceInfo()
     this.showInfo()
   },
@@ -523,6 +525,9 @@ export default {
         this.$message.error(res.message)
       }
     })
+    if (this.userInfo.province.substring(0, 2) === '31') {
+      this.btnShShow = true
+    }
   }
 }
 </script>
