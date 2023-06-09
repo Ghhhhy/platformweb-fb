@@ -60,6 +60,6 @@ export const getWarnByMofDivCode = (params) => {
  * 地图Json
  * @returns {Promise | Promise<unknown>}
  */
-export const mapJson = (params) => {
-  return post(API_URLS.MAP_JSON, params)
+export const MAP_JSON = (params) => {
+  // return post(API_URLS.MAP_JSON, params)
 }
