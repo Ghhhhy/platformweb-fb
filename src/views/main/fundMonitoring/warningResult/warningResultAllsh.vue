@@ -299,6 +299,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.log(123, obj)
       let key = obj.column.property
 
       // 无效的cellValue
@@ -335,7 +336,8 @@ export default {
       switch (key) {
         case 'redUndoNum':
           this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '红色预警-未处理明细'
+          // this.detailTitle = '红色预警-未处理明细'
+          this.detailTitle = '红色预警-疑点信息'
           this.detailType = 'redUndoNum'
           this.detailVisible = true
           break
@@ -347,7 +349,8 @@ export default {
           break
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '橙色预警-未上传附件明细'
+          this.detailTitle = '橙色预警-疑点信息'
+          // this.detailTitle = '橙色预警-未上传附件明细'
           this.detailVisible = true
           this.detailType = 'orangeUndoNum'
           break
@@ -359,7 +362,8 @@ export default {
           break
         case 'yellowUndoNum':
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-疑点信息明细'
+          // this.detailTitle = '黄色预警-疑点信息明细'
+          this.detailTitle = '黄色预警-疑点信息'
           this.detailVisible = true
           this.detailType = 'yellowUndoNum'
           break
@@ -383,7 +387,8 @@ export default {
           break
         case 'blueUndoNum':
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
+          // this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
+          this.detailTitle = '蓝色预警-疑点信息'
           this.detailType = 'blueUndoNum'
           this.detailVisible = true
           break
