@@ -33,7 +33,7 @@
       <div slot="footer" style="height: 80px; margin: 0 15px">
         <div type="flex" justify="space-around">
           <div>
-            <vxe-button v-if="btnShShow" status="primary" @click="doInsert">执行工作流</vxe-button>
+            <vxe-button v-if="btnShShow" status="primary" @click="doInsertFlow">执行工作流</vxe-button>
             <vxe-button v-if="btnShow" status="primary" @click="doInsert">执行</vxe-button>
             <vxe-button v-if="!btnShow" status="primary" @click="goNext">确认</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
@@ -83,6 +83,7 @@ export default {
       mofShow: false,
       btnShow: true,
       btnShShow: false,
+      isFlow: false,
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -414,6 +415,10 @@ export default {
         }
       }) */
     },
+    doInsertFlow() {
+      this.isFlow = true
+      this.doInsert()
+    },
     // 保存新增的计划信息
     doInsert() {
       let selectData = this.$refs.addTableRef.getSelectionData()
@@ -447,7 +452,7 @@ export default {
               ruleCodes: id,
               menuName: this.$store.state.curNavModule.name
             }
-            if (this.btnShShow) {
+            if (this.isFlow) {
               param.isFlow = '1'
             }
             param.fullType = this.title === '增量查询' ? 'false' : 'true'
@@ -458,6 +463,7 @@ export default {
                 this.$message.success('新增成功')
                 this.$parent.addDialogVisible = false
                 this.$parent.queryTableDatas()
+                this.isFlow = false
               } else {
                 this.$message.error(res.message)
               }
@@ -525,7 +531,7 @@ export default {
         this.$message.error(res.message)
       }
     })
-    if (this.userInfo.province.substring(0, 2) === '31') {
+    if (this.userInfo.province.substring(0, 2) === '15') {
       this.btnShShow = true
     }
   }

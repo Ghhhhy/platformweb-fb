@@ -388,9 +388,9 @@ const proconf = {
         width: 180,
         align: 'left',
         formatter: ({ row }) => {
-          if (row.warnLevel === '1') return '黄色预警'
+          if (row.warnLevel === '3') return '黄色预警'
           else if (row.warnLevel === '2') return '橙色预警'
-          else if (row.warnLevel === '3') return '红色预警'
+          else if (row.warnLevel === '1') return '红色预警'
           else if (row.warnLevel === '4') return '蓝色预警'
           return ''
         }
@@ -402,7 +402,7 @@ const proconf = {
         filters: false,
         align: 'center',
         cellRender: {
-          name: '$vxeIcon7',
+          // name: '$vxeIcon7',
           props: {
             $refs: this
           }

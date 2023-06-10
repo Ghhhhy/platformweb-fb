@@ -3,7 +3,7 @@
     v-model="dialogVisibles"
     :title="title"
     width="40%"
-    height="80%"
+    height="50%"
     :show-footer="true"
     @close="dialogClose"
   >
@@ -15,12 +15,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:90px;float:left;margin-top:15px"><font color="red">*</font>&nbsp;整改情况</div>
+                    <div class="sub-title-add" style="width:90px;float:left;margin-top:15px"><font color="red">*</font>&nbsp;意见填写</div>
                     <el-input
                       v-model="rectifyDetail"
                       type="textarea"
                       :rows="5"
-                      placeholder="请输入整改情况"
+                      placeholder="请输入意见"
                       style="margin-bottom: 15px; width: 80%"
                     />
                   </el-row>
@@ -28,7 +28,7 @@
               </el-container>
             </el-col>
           </el-row>
-          <el-row>
+          <!-- <el-row>
             <el-col :span="24">
               <el-container>
                 <el-main width="100%">
@@ -92,11 +92,11 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
+          </el-row> -->
         </div>
       </div>
     </div>
-    <BsUploadBak ref="myUpload" :attachment-id="attachmentId" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" />
+    <!-- <BsUploadBak ref="myUpload" :attachment-id="attachmentId" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" /> -->
     <div slot="footer" style="height: 80px;margin:0 15px">
       <div v-if="showbox" id="bigbox"></div>
       <el-divider style="color:#E7EBF0" />
@@ -179,10 +179,10 @@ export default {
     // 修改回显
     showInfo() {
       this.rectifyDetail = this.selectData.rectifyDetail
-      this.warnType = this.selectData.warnType
-      this.returnAmt = this.selectData.returnAmt
-      this.transferAmt = this.selectData.transferAmt
-      this.otherAmt = this.selectData.otherAmt
+      // this.warnType = this.selectData.warnType
+      // this.returnAmt = this.selectData.returnAmt
+      // this.transferAmt = this.selectData.transferAmt
+      // this.otherAmt = this.selectData.otherAmt
       this.dfrFileCode = this.selectData.dfrFileCode
       this.diBillId = this.selectData.diBillId
       if (this.title === '整改处理单') {
@@ -209,58 +209,58 @@ export default {
     // 保存新增的计划信息
     doInsert() {
       if (this.rectifyDetail === '') {
-        this.$message.warning('请输入整改情况')
+        this.$message.warning('请输入意见')
         return
       }
-      if (this.title === '整改处理单' || this.title === '修改整改处理单') {
-        if (this.dfrFileCode === '') {
-          this.$message.warning('请上传附件')
-          return
-        }
-        let param = {
-          rectifyDetail: this.rectifyDetail,
-          warnType: this.warnType,
-          returnAmt: this.returnAmt || 0,
-          transferAmt: this.transferAmt || 0,
-          otherAmt: this.otherAmt || 0,
-          diBillId: this.diBillId,
-          dfrFileCode: this.attachmentId
-        }
-        this.addLoading = true
-        HttpModule.update(param).then(res => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('新增成功')
-            this.dialogClose()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else {
-        let param = {
-          askProvinceCode: this.askProvinceCode,
-          askProvinceName: this.askProvinceName,
-          askProvinceId: this.askProvinceId,
-          askAgencyName: this.askAgencyName,
-          askAgencyCode: this.askAgencyCode,
-          askAgencyId: this.askAgencyId,
-          askCode: this.askCode,
-          askName: this.askName,
-          askDesc: this.askDesc,
-          askTypeName: this.askTypeName,
-          attachmentId: this.attachmentId
-        }
-        this.addLoading = true
-        HttpModule.changePolicies(param).then(res => {
-          this.addLoading = false
-          if (res.code === '000000') {
-            this.$message.success('修改成功')
-            this.dialogClose()
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+      // if (this.title === '整改处理单' || this.title === '修改整改处理单') {
+      // if (this.dfrFileCode === '') {
+      // this.$message.warning('请上传附件')
+      // return
+      // }
+      let param = {
+        rectifyDetail: this.rectifyDetail,
+        // warnType: this.warnType,
+        // returnAmt: this.returnAmt || 0,
+        // transferAmt: this.transferAmt || 0,
+        // otherAmt: this.otherAmt || 0,
+        diBillId: this.diBillId
+        // dfrFileCode: this.attachmentId
       }
+      this.addLoading = true
+      HttpModule.updateDetail(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.$message.success('新增成功')
+          this.dialogClose()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      // } else {
+      //   let param = {
+      //     askProvinceCode: this.askProvinceCode,
+      //     askProvinceName: this.askProvinceName,
+      //     askProvinceId: this.askProvinceId,
+      //     askAgencyName: this.askAgencyName,
+      //     askAgencyCode: this.askAgencyCode,
+      //     askAgencyId: this.askAgencyId,
+      //     askCode: this.askCode,
+      //     askName: this.askName,
+      //     askDesc: this.askDesc,
+      //     askTypeName: this.askTypeName,
+      //     attachmentId: this.attachmentId
+      //   }
+      //   this.addLoading = true
+      //   HttpModule.changePolicies(param).then(res => {
+      //     this.addLoading = false
+      //     if (res.code === '000000') {
+      //       this.$message.success('修改成功')
+      //       this.dialogClose()
+      //     } else {
+      //       this.$message.error(res.message)
+      //     }
+      //   })
+      // }
     }
   },
   watch: {
