@@ -552,7 +552,7 @@ export default {
       }
       this.tableLoading = true
       // this.dialogVisibles = false
-      HttpModule.queryDetailDatas(params).then((res) => {
+      HttpModule.queryqjDetailDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results

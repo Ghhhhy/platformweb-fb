@@ -15,6 +15,10 @@ export default {
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/warningResult/queryDetail', params)
   },
+  // 获取表格数据
+  queryqjDetailDatas (params) {
+    return post('dfr-monitor-service/dfr/warningResult/queryqjDetail', params)
+  },
   // 查询附件
   getFile(params) {
     return get('fileservice/v2/files', params)
