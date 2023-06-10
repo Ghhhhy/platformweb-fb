@@ -68,7 +68,7 @@
 
 <script>
 import getFormData from './warningResultAllsh.js'
-import DetailDialog from './children/wdetailDialog.vue'
+import DetailDialog from './children/wdetailAllshDialog.vue'
 import sDetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 export default {
@@ -388,7 +388,7 @@ export default {
         case 'blueUndoNum':
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
           // this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
-          this.detailTitle = '蓝色预警-疑点信息'
+          this.detailTitle = '疑点信息'
           this.detailType = 'blueUndoNum'
           this.detailVisible = true
           break
