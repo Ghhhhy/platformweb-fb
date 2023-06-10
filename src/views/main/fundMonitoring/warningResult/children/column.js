@@ -2379,22 +2379,22 @@ const statusButtons0 = [
   }
 ]
 const statusButtons1 = [
-  {
-    code: '5',
-    label: '待认定',
-    iconName: 'base-all.png',
-    iconNameActive: 'base-all-active.png',
-    type: 'button',
-    curValue: '5'
-  },
-  {
-    code: '6',
-    label: '已认定',
-    iconName: 'base-all.png',
-    iconNameActive: 'base-all-active.png',
-    type: 'button',
-    curValue: '6'
-  },
+  // {
+  //   code: '5',
+  //   label: '待认定',
+  //   iconName: 'base-all.png',
+  //   iconNameActive: 'base-all-active.png',
+  //   type: 'button',
+  //   curValue: '5'
+  // },
+  // {
+  //   code: '6',
+  //   label: '已认定',
+  //   iconName: 'base-all.png',
+  //   iconNameActive: 'base-all-active.png',
+  //   type: 'button',
+  //   curValue: '6'
+  // },
   {
     code: '7',
     label: '待整改',
@@ -2413,22 +2413,22 @@ const statusButtons1 = [
   }
 ]
 const statusButtons3 = [
-  {
-    code: '9',
-    label: '待认定',
-    iconName: 'base-all.png',
-    iconNameActive: 'base-all-active.png',
-    type: 'button',
-    curValue: '9'
-  },
-  {
-    code: '10',
-    label: '已认定',
-    iconName: 'base-all.png',
-    iconNameActive: 'base-all-active.png',
-    type: 'button',
-    curValue: '10'
-  },
+  // {
+  //   code: '9',
+  //   label: '待认定',
+  //   iconName: 'base-all.png',
+  //   iconNameActive: 'base-all-active.png',
+  //   type: 'button',
+  //   curValue: '9'
+  // },
+  // {
+  //   code: '10',
+  //   label: '已认定',
+  //   iconName: 'base-all.png',
+  //   iconNameActive: 'base-all-active.png',
+  //   type: 'button',
+  //   curValue: '10'
+  // },
   {
     code: '11',
     label: '待整改',
@@ -2555,7 +2555,7 @@ const buttons1 = {
   ],
   3: [
     {
-      label: '整改意见',
+      label: '意见修改',
       code: 'rectify_ask',
       status: 'primary'
     }
@@ -2583,7 +2583,7 @@ const buttons1 = {
   ],
   7: [
     {
-      label: '整改意见',
+      label: '意见修改',
       code: 'rectify_ask',
       status: 'primary'
     }
@@ -2611,7 +2611,7 @@ const buttons1 = {
   ],
   11: [
     {
-      label: '整改意见',
+      label: '意见修改',
       code: 'rectify_ask',
       status: 'primary'
     }

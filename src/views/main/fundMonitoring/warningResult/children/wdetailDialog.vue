@@ -198,7 +198,7 @@ export default {
       tableLoading: false,
       dialogVisibles: false,
       affirmDialogVisibles: false,
-      dialogTitle1: '整改意见',
+      dialogTitle1: '意见填写',
       fiscalYear: '',
       selectData: {},
       trackProCodes: []
