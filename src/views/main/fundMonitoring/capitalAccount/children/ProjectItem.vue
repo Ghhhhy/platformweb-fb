@@ -3,8 +3,8 @@
     v-model="visible"
     :title="title"
     :z-index="9999"
-    width="80%"
-    height="80%"
+    width="96%"
+    height="90%"
     position="center"
     :show-footer="false"
     :destroy-on-close="true"
@@ -25,6 +25,10 @@ export default {
     proGuid: {
       type: String,
       default: ''
+    },
+    mofDivCode: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -35,9 +39,15 @@ export default {
   },
   methods: {
     checkReport() {
-      console.log(document.getElementById('projectId'), window?.gloableToolFn)
       let originUrl = window.gloableToolFn?.getProjectUrl?.length > 0 ? window.gloableToolFn?.getProjectUrl : window.location.origin
-      let url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
+      const { tokenid } = store.getters.getLoginAuthentication
+      const { year, province } = store.state.userInfo
+      let url = ''
+      if (province?.slice(0, 2) === '35') {
+        url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
+      } else {
+        url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
+      }
       let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
       if (document.getElementById('projectId')) {
         document.getElementById('projectId').innerHTML = src
@@ -45,7 +55,7 @@ export default {
     },
     closeAddDialog() {
       this.visible = false
-      this.$parent.addDialogVisible = false
+      this.$emit('update:dialogVisible', false)
     }
   },
   created() {
@@ -56,7 +66,7 @@ export default {
   watch: {
     visible: {
       handler(newValue) {
-        this.$emit('update:visible', newValue)
+        this.$emit('update:dialogVisible', newValue)
       }
     }
   }
