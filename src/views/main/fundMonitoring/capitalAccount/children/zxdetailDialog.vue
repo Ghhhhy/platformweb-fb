@@ -368,7 +368,7 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '35') {
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (['proCode', 'proName'].includes(column.property)) {
           return {
             color: '#4293F4',
@@ -388,7 +388,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '35') {
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
             this.$message.warning('未返proGuid,无法查看项目信息')
