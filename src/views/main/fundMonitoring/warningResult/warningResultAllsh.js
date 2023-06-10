@@ -407,54 +407,54 @@ const proconf = {
             $refs: this
           }
         }
-      },
-      {
-        title: '认定正常',
-        field: 'doneNum',
-        width: 140,
-        filters: false,
-        align: 'center',
-        cellRender: {
-          name: '$vxeIcon3',
-          props: {
-            $refs: this
-          }
-        }
-      },
-      {
-        title: '认定违规',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '未处理',
-            field: 'undoNumw',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon1',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已整改',
-            field: 'doneNumw',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          }
-        ]
       }
+      // {
+      //   title: '认定正常',
+      //   field: 'doneNum',
+      //   width: 140,
+      //   filters: false,
+      //   align: 'center',
+      //   cellRender: {
+      //     name: '$vxeIcon3',
+      //     props: {
+      //       $refs: this
+      //     }
+      //   }
+      // },
+      // {
+      //   title: '认定违规',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '未处理',
+      //       field: 'undoNumw',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon1',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已整改',
+      //       field: 'doneNumw',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      //   ]
+      // }
 
     ],
     tableData: []
