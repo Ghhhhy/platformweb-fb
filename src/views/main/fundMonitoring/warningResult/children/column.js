@@ -2656,10 +2656,10 @@ const statusButtons2 = [
   }
 ]
 const curStatusButton = {
-  // label: '待整改',
-  // code: '1',
-  // type: 'button',
-  // curValue: '1'
+  label: '待整改',
+  code: '1',
+  type: 'button',
+  curValue: '1'
 }
 const curStatusButton0 = {
 }
