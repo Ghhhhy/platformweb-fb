@@ -47,6 +47,7 @@
       ref="projectDialog"
       :dialog-visible.sync="addDialogVisible"
       :pro-guid="proGuid"
+      :mof-div-code="mofDivCode"
     />
   </vxe-modal>
 </template>
@@ -141,7 +142,8 @@ export default {
       sDetailVisible: false,
       sDetailData: [],
       addDialogVisible: false, // 项目信息
-      proGuid: ''
+      proGuid: '',
+      mofDivCode: ''
     }
   },
   methods: {
@@ -366,12 +368,14 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
-      // if (['proCode', 'proName'].includes(column.property)) {
-      //   return {
-      //     color: '#4293F4',
-      //     textDecoration: 'underline'
-      //   }
-      // }
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '35') {
+        if (['proCode', 'proName'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -384,14 +388,17 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      // if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
-      //   if (!obj.row.proGuid) {
-      //     this.$message.warning('未返proGuid,无法查看项目信息')
-      //     return
-      //   }
-      //   this.proGuid = obj.row.proGuid || ''
-      //   this.addDialogVisible = true
-      // }
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '35') {
+        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          if (!obj.row.proGuid) {
+            this.$message.warning('未返proGuid,无法查看项目信息')
+            return
+          }
+          this.proGuid = obj.row.proGuid || ''
+          this.mofDivCode = obj.row.mofDivCode || ''
+          this.addDialogVisible = true
+        }
+      }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property

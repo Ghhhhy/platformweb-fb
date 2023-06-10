@@ -46,5 +46,5 @@ window.gloableToolFn = {
   getReportUrl: () => reportService,
   getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
   getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/',
-  getProjectUrl: ''
+  getProjectUrl: 'http://120.79.87.6:1995/'
 }
