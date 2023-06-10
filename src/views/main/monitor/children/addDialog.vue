@@ -531,7 +531,7 @@ export default {
         this.$message.error(res.message)
       }
     })
-    if (this.userInfo.province.substring(0, 2) === '15') {
+    if (this.userInfo.province.substring(0, 2) === '31') {
       this.btnShShow = true
     }
   }
