@@ -118,7 +118,6 @@ export default {
   data() {
     return {
       userInfo: {},
-      params5: {},
       billguid: '',
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
@@ -198,7 +197,7 @@ export default {
       tableLoading: false,
       dialogVisibles: false,
       affirmDialogVisibles: false,
-      dialogTitle1: '意见填写',
+      dialogTitle1: '整改意见',
       fiscalYear: '',
       selectData: {},
       trackProCodes: []
@@ -288,7 +287,7 @@ export default {
       }
       this.tabSelect = obj.curValue
       if (this.tabSelect === '1') {
-        this.title = '红色预警-疑点信息'
+        this.title = '红色预警-未处理明细'
         this.detailType = 'redUndoNum'
         this.tableColumnsConfig = proconf.redUndoNum
       } else if (this.tabSelect === '2') {
@@ -296,7 +295,7 @@ export default {
         this.detailType = 'redDoneNum'
         this.tableColumnsConfig = proconf.redDoneNum
       } else if (this.tabSelect === '3') {
-        this.title = '橙色预警-疑点信息'
+        this.title = '橙色预警-未上传附件明细'
         this.detailType = 'orangeUndoNum'
         this.tableColumnsConfig = proconf.orangeUndoNum
       } else if (this.tabSelect === '4') {
@@ -304,7 +303,7 @@ export default {
         this.detailType = 'orangeDoneNum'
         this.tableColumnsConfig = proconf.orangeDoneNum
       } else if (this.tabSelect === '5') {
-        this.title = '黄色预警-疑点信息'
+        this.title = '黄色预警-疑点信息明细'
         this.detailType = 'yellowUndoNum'
         this.tableColumnsConfig = proconf.yellowUndoNum
       } else if (this.tabSelect === '6') {
@@ -320,7 +319,7 @@ export default {
         this.detailType = 'yellowDoneNumw'
         this.tableColumnsConfig = proconf.yellowDoneNumw
       } else if (this.tabSelect === '9') {
-        this.title = '蓝色预警-疑点信息'
+        this.title = '非人工干预蓝色预警-疑点信息明细'
         this.detailType = 'blueUndoNum'
         this.tableColumnsConfig = proconf.blueUndoNum
       } else if (this.tabSelect === '10') {
@@ -359,7 +358,7 @@ export default {
           this.selectData = selectionRow1[0]
           this.updateRectifyAsk()
           break
-        // 意见填写
+        // 整改意见
         case 'rectify_ask_update':
           var selectionRow2 = this.$refs.mainTableRef.selection
           if (selectionRow2.length !== 1) {
@@ -399,8 +398,7 @@ export default {
     },
     updateRectifyAskup() {
       this.dialogVisibles = true
-      // this.dialogTitle1 = '修改整改处理单'
-      this.dialogTitle1 = '意见填写'
+      this.dialogTitle1 = '修改整改处理单'
     },
     affirm() {
       this.affirmDialogVisibles = true
@@ -478,7 +476,7 @@ export default {
       // this.getFiRuleHandle()
       this.trackProCodes = this.detailData[3]
       switch (this.title) {
-        case '红色预警-疑点信息':
+        case '红色预警-未处理明细':
           this.tableColumnsConfig = proconf.redUndoNum
           this.tabStatusBtnConfig.curButton = curStatusButton
           break
@@ -496,7 +494,7 @@ export default {
           this.tabStatusBtnConfig.buttons = statusButtons0
           this.tabStatusBtnConfig.curButton = curStatusButton4
           break
-        case '黄色预警-疑点信息':
+        case '黄色预警-疑点信息明细':
           this.tableColumnsConfig = proconf.yellowUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons1
           this.tabStatusBtnConfig.curButton = curStatusButton8
@@ -516,7 +514,7 @@ export default {
           this.tabStatusBtnConfig.curButton = curStatusButton11
           this.tabStatusBtnConfig.buttons = statusButtons1
           break
-        case '蓝色预警-疑点信息':
+        case '非人工干预蓝色预警-疑点信息明细':
           this.tableColumnsConfig = proconf.blueUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons3
           this.tabStatusBtnConfig.curButton = curStatusButton12
@@ -547,12 +545,11 @@ export default {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         trackProCodes: this.trackProCodes,
-        isRegion: this.params5.isRegion,
         ...(this.searchDataList || {})
       }
       this.tableLoading = true
       // this.dialogVisibles = false
-      HttpModule.queryqjDetailDatas(params).then((res) => {
+      HttpModule.queryDetailDatas(params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -598,7 +595,6 @@ export default {
   },
   mounted() {
     this.showInfo()
-    this.search(this.searchDataList)
   },
   watch: {
     queryConfig() {
@@ -607,8 +603,6 @@ export default {
   },
   created() {
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.transJson(this.$store.state.curNavModule.param5)
-    console.log('是否全辖 isRegion ' + this.params5)
   }
 }
 </script>

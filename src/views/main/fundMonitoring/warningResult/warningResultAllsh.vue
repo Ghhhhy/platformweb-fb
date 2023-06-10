@@ -300,117 +300,16 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       console.log(123, obj)
-      let key = obj.column.property
-
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
       this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
-      if (obj.row['warnLevel'] === '1') {
-        // 红色预警
-        if (key === 'undoNum') key = 'redUndoNum'
-        if (key === 'doneNum') key = 'redDoneNum'
-        if (key === 'undoNumw') key = ''
-        if (key === 'doneNumw') key = ''
-      } else if (obj.row['warnLevel'] === '2') {
-        // 橙色预警
-        if (key === 'undoNum') { key = 'orangeUndoNum' }
-        if (key === 'doneNum') key = 'orangeDoneNum'
-        if (key === 'undoNumw') key = ''
-        if (key === 'doneNumw') key = ''
-      } else if (obj.row['warnLevel'] === '4') {
-        // 蓝色预警
-        if (key === 'undoNum') key = 'blueUndoNum'
-        if (key === 'doneNum') key = 'blueDoneNum'
-        if (key === 'undoNumw') key = 'blueUndoNumw'
-        if (key === 'doneNumw') key = 'blueDoneNumw'
-      } else if (obj.row['warnLevel'] === '3') {
-        // 黄色预警
-        if (key === 'undoNum') key = 'yellowUndoNum'
-        if (key === 'doneNum') key = 'yellowDoneNum'
-        if (key === 'undoNumw') key = 'yellowUndoNumw'
-        if (key === 'doneNumw') key = 'yellowDoneNumw'
-      }
-      switch (key) {
-        case 'redUndoNum':
-          this.detailData = ['redUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          // this.detailTitle = '红色预警-未处理明细'
-          this.detailTitle = '红色预警-疑点信息'
-          this.detailType = 'redUndoNum'
-          this.detailVisible = true
-          break
-        case 'redDoneNum':
-          this.detailData = ['redDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '红色预警-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'redDoneNum'
-          break
-        case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '橙色预警-疑点信息'
-          // this.detailTitle = '橙色预警-未上传附件明细'
-          this.detailVisible = true
-          this.detailType = 'orangeUndoNum'
-          break
-        case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '橙色预警-已上传附件明细'
-          this.detailVisible = true
-          this.detailType = 'orangeDoneNum'
-          break
-        case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          // this.detailTitle = '黄色预警-疑点信息明细'
-          this.detailTitle = '黄色预警-疑点信息'
-          this.detailVisible = true
-          this.detailType = 'yellowUndoNum'
-          break
-        case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定正常明细'
-          this.detailVisible = true
-          this.detailType = 'yellowDoneNum'
-          break
-        case 'yellowUndoNumw':
-          this.detailData = ['yellowUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定违规-未处理明细'
-          this.detailVisible = true
-          this.detailType = 'yellowUndoNumw'
-          break
-        case 'yellowDoneNumw':
-          this.detailData = ['yellowDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '黄色预警-认定违规-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'yellowDoneNumw'
-          break
-        case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          // this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
-          this.detailTitle = '疑点信息'
-          this.detailType = 'blueUndoNum'
-          this.detailVisible = true
-          break
-        case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定正常明细'
-          this.detailVisible = true
-          this.detailType = 'blueDoneNum'
-          break
-        case 'blueUndoNumw':
-          this.detailData = ['blueUndoNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定违规-未处理明细'
-          this.detailVisible = true
-          this.detailType = 'blueUndoNumw'
-          break
-        case 'blueDoneNumw':
-          this.detailData = ['blueDoneNumw', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
-          this.detailTitle = '非人工干预蓝色预警-认定违规-已整改明细'
-          this.detailVisible = true
-          this.detailType = 'blueDoneNumw'
-          break
-      }
+      this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
+      // this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
+      this.detailTitle = '疑点信息'
+      this.detailType = 'blueUndoNum'
+      this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {

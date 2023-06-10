@@ -68,7 +68,7 @@
 
 <script>
 import getFormData from './warningResultsh.js'
-import DetailDialog from './children/wdetailDialog.vue'
+import DetailDialog from './children/wdetailshDialog.vue'
 import sDetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
 export default {
