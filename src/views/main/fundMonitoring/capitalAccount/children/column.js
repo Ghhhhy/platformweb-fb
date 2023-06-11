@@ -76,6 +76,22 @@ const proconf = {
   ],
   payColumn: [
     {
+      title: '区划名换',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        let str = row.mofDivName || ''
+        if (row.mofDivCode && row.mofDivName) {
+          str = `${row.mofDivCode}${row.mofDivName}`
+        }
+        return str
+      }
+    },
+    {
       title: '单位名称',
       field: 'agencyName',
       width: 140,
