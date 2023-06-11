@@ -413,7 +413,7 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
+      console.log(777, key)
       switch (key) {
         case 'amountAllfp':
           let zpSource = 'zdzjzbmx_fzjfp'
