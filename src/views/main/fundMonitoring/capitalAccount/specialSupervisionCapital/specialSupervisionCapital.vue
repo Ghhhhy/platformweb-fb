@@ -464,7 +464,7 @@ export default {
           case 'amountSjwfp':
           case 'amountSbjfp':
           case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and mof_div_code  like \'%35\' '
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
             break
           case 'amountXjxd':
           case 'amountXjpay':
@@ -518,6 +518,7 @@ export default {
       } else {
         isCz = '1'
       }
+      console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
       this.detailQueryParam = {
         condition: condition,
         reportCode: reportCode,
@@ -528,7 +529,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === 'undefined' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
         isCentral: this.searchDataList.isCentral || '',
         isZd: this.searchDataList.isZd || ''
       }

@@ -402,7 +402,7 @@ export default {
             return
           }
           this.proGuid = obj.row.proGuid || ''
-          this.mofDivCode = obj.row.mofDivCode || ''
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
       }

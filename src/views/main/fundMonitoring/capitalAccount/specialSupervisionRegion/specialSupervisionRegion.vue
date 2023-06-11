@@ -466,7 +466,7 @@ export default {
           case 'amountSjwfp':
           case 'amountSbjfp':
           case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and mof_div_code  like \'%35\' '
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
             break
           case 'amountXjxd':
           case 'amountXjpay':
