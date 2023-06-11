@@ -39,7 +39,7 @@
         <template v-slot:toolbarSlots>
           <div class="table-toolbar-left">
             <div class="table-toolbar-left-title">
-              <span class="fn-inline">{{ title }}(单位:元)</span>
+              <span class="fn-inline">{{ title }}</span>
               <i class="fn-inline"></i>
             </div>
           </div>

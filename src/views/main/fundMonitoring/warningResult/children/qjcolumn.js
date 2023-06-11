@@ -181,12 +181,14 @@ const proconf = {
       field: 'mofDivName',
       sortable: false,
       filters: false,
+      align: 'center',
       width: 140
     },
     {
       title: '预警级别',
       field: 'warnLevel',
       sortable: false,
+      align: 'center',
       filters: false,
       width: 140,
       formatter: ({ row }) => {
@@ -202,6 +204,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -209,6 +212,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -326,12 +330,13 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
       title: '财政区划',
       field: 'mofDivName',
+      align: 'left',
       sortable: false,
       filters: false,
       width: 140
@@ -340,6 +345,7 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140,
       formatter: ({ row }) => {
@@ -355,6 +361,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -362,6 +369,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -771,13 +779,14 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
       title: '财政区划',
       field: 'mofDivName',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140
     },
@@ -785,6 +794,7 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140,
       formatter: ({ row }) => {
@@ -800,16 +810,16 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      width: 400
-      // align: 'right'
+      width: 400,
+      align: 'left'
     },
     {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      filters: false
+      filters: false,
       // width: 140
-      // align: 'center',
+      align: 'left'
       // cellRender: {
       //   name: '$vxeIcon1',
       //   props: {
@@ -1223,7 +1233,7 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
@@ -1231,6 +1241,7 @@ const proconf = {
       field: 'mofDivName',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 140
     },
     {
@@ -1238,6 +1249,7 @@ const proconf = {
       field: 'warnLevel',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 140,
       formatter: ({ row }) => {
         if (row.warnLevel === '3') return '黄色预警'
@@ -1252,6 +1264,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1259,6 +1272,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -1683,13 +1697,14 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
       title: '财政区划',
       field: 'mofDivName',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140
     },
@@ -1697,6 +1712,7 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140,
       formatter: ({ row }) => {
@@ -1712,6 +1728,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1719,6 +1736,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -1930,13 +1948,14 @@ const proconf = {
       title: '预警规则',
       field: 'fiRuleName',
       width: 140,
-      align: 'center',
+      align: 'left',
       filters: false
     },
     {
       title: '财政区划',
       field: 'mofDivName',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140
     },
@@ -1944,6 +1963,7 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       sortable: false,
+      align: 'left',
       filters: false,
       width: 140,
       formatter: ({ row }) => {
@@ -1959,6 +1979,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1966,6 +1987,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -3043,7 +3065,7 @@ const buttons1 = {
   // ],
   9: [
     {
-      label: '意见修改',
+      label: '意见填写',
       code: 'rectify_ask_update',
       status: 'primary'
     }

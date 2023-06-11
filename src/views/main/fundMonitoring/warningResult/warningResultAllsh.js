@@ -379,9 +379,9 @@ const proconf = {
         title: '规则名称',
         field: 'fiRuleName',
         sortable: true,
-        align: 'center',
-        minWidth: 300,
-        width: 'auto'
+        align: 'left',
+        width: 800
+        // width: 'auto'
       },
       {
         title: '预警级别',
