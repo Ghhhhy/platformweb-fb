@@ -248,10 +248,29 @@ export default {
           break
       }
       this.queryTableDatas()
+    },
+    showInfoForVisible() {
+      switch (this.sDetailType) {
+        case 'zdzjzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+        case 'zxjdzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetZXColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+      }
     }
   },
   mounted() {
     // this.showInfo()
+    this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
   },
   watch: {
     sDetailType: {
