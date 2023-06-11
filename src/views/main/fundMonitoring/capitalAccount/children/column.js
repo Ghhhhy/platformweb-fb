@@ -88,7 +88,7 @@ const proconf = {
       }
     },
     {
-      title: '区划名换',
+      title: '区划名称',
       field: 'mofDivName',
       width: 140,
       sortable: true,
@@ -318,7 +318,7 @@ const proconf = {
       }
     },
     {
-      title: '区划名换',
+      title: '区划名称',
       field: 'mofDivName',
       width: 140,
       sortable: true,
@@ -642,7 +642,7 @@ const proconf = {
       }
     },
     {
-      title: '区划名换',
+      title: '区划名称',
       field: 'mofDivName',
       width: 140,
       sortable: true,
@@ -732,7 +732,7 @@ const proconf = {
       }
     },
     {
-      title: '区划名换',
+      title: '区划名称',
       field: 'mofDivName',
       width: 140,
       sortable: true,
