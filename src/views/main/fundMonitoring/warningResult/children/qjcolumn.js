@@ -361,7 +361,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -369,7 +369,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center',
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -811,7 +811,7 @@ const proconf = {
       sortable: false,
       filters: false,
       width: 400,
-      align: 'center'
+      align: 'left'
     },
     {
       title: '意见',
@@ -819,7 +819,7 @@ const proconf = {
       sortable: false,
       filters: false,
       // width: 140
-      align: 'center'
+      align: 'left'
       // cellRender: {
       //   name: '$vxeIcon1',
       //   props: {
@@ -1264,7 +1264,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1272,7 +1272,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center',
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -1728,7 +1728,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1736,7 +1736,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center',
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
@@ -1979,7 +1979,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      align: 'center',
+      align: 'left',
       width: 400
       // align: 'right'
     },
@@ -1987,7 +1987,7 @@ const proconf = {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      align: 'center',
+      align: 'left',
       filters: false
       // width: 140
       // align: 'center',
