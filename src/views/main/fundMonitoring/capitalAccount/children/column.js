@@ -630,6 +630,30 @@ const proconf = {
   // 指标明细
   targetColumn: [
     {
+      title: '区划代码',
+      field: 'mofDivCode',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivCode || ''
+      }
+    },
+    {
+      title: '区划名换',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivName || ''
+      }
+    },
+    {
       title: '处室名称',
       field: 'bgtMofDepName',
       width: 140,
@@ -695,6 +719,30 @@ const proconf = {
     }
   ],
   targetZXColumn: [
+    {
+      title: '区划代码',
+      field: 'mofDivCode',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivCode || ''
+      }
+    },
+    {
+      title: '区划名换',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivName || ''
+      }
+    },
     {
       title: '处室名称',
       field: 'bgtMofDepName',

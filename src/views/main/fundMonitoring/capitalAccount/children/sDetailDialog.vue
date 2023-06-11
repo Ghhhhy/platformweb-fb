@@ -82,6 +82,7 @@ export default {
       condition: {},
       tableColumnsConfig: [
       ],
+      params5: '',
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -230,9 +231,17 @@ export default {
         case 'czzdzjzbmx_fdq':
         case 'zdzjzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
           break
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
           this.queryConfig = proconf.highQueryConfigZx
           break
         default:
@@ -253,6 +262,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
   }
 }
 </script>
