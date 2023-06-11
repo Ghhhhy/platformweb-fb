@@ -231,17 +231,9 @@ export default {
         case 'czzdzjzbmx_fdq':
         case 'zdzjzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
-          }
           break
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
-          }
           this.queryConfig = proconf.highQueryConfigZx
           break
         default:
@@ -251,6 +243,22 @@ export default {
     },
     showInfoForVisible() {
       switch (this.sDetailType) {
+        case 'zdzjzcmx_fdq':
+          this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+        case 'zxjdzcmx_fdq':
+        case 'zxjdzcmx_fzj':
+          this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          this.queryConfig = proconf.highQueryConfigZx
+          break
         case 'zdzjzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
