@@ -379,15 +379,15 @@ const proconf = {
         title: '规则名称',
         field: 'fiRuleName',
         sortable: true,
-        align: 'center',
-        minWidth: 300,
-        width: 'auto'
+        align: 'left',
+        width: 800
+        // width: 'auto'
       },
       {
         title: '预警级别',
         field: 'warnLevel',
         width: 180,
-        align: 'left',
+        align: 'center',
         formatter: ({ row }) => {
           if (row.warnLevel === '3') return '黄色预警'
           else if (row.warnLevel === '2') return '橙色预警'

@@ -800,16 +800,16 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      width: 400
-      // align: 'right'
+      width: 400,
+      align: 'center'
     },
     {
       title: '意见',
       field: 'rectifyDetail',
       sortable: false,
-      filters: false
+      filters: false,
       // width: 140
-      // align: 'center',
+      align: 'center'
       // cellRender: {
       //   name: '$vxeIcon1',
       //   props: {
@@ -3043,7 +3043,7 @@ const buttons1 = {
   // ],
   9: [
     {
-      label: '意见修改',
+      label: '意见填写',
       code: 'rectify_ask_update',
       status: 'primary'
     }
