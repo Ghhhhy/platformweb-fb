@@ -529,7 +529,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === 'undefined' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
         isCentral: this.searchDataList.isCentral || '',
         isZd: this.searchDataList.isZd || ''
       }
