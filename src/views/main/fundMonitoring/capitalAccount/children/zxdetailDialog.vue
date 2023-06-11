@@ -137,6 +137,7 @@ export default {
           useMoneyFilter: true
         }
       },
+      params5: '',
       params: {},
       sDetailTitle: '',
       sDetailVisible: false,
@@ -255,6 +256,10 @@ export default {
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
           break
@@ -328,6 +333,8 @@ export default {
               sortable: false,
               align: 'center'
             }])
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
           } else {
             this.tableColumnsConfig = proconf.projectZXColumn
           }
@@ -444,6 +451,7 @@ export default {
   },
   watch: {},
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
   }
 }
 </script>
