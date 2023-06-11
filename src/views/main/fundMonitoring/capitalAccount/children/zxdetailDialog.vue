@@ -230,7 +230,6 @@ export default {
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
-        this.tableData = [{}]
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
@@ -258,22 +257,8 @@ export default {
         case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.tableColumnsConfig[0] = {
-              title: '区划名换',
-              field: 'mofDivName',
-              width: 140,
-              sortable: true,
-              align: 'left',
-              visible: true,
-              showOverflow: true,
-              slots: {
-                default: ({ row }) => {
-                  return [
-                    <div>{row.mofDivCode || ''}{row.mofDivName || ''}</div>
-                  ]
-                }
-              }
-            }
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
           }
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -348,6 +333,8 @@ export default {
               sortable: false,
               align: 'center'
             }])
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
           } else {
             this.tableColumnsConfig = proconf.projectZXColumn
           }
