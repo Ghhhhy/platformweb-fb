@@ -405,6 +405,10 @@ export default {
           this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
+        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          this.addDialogVisible = true
+        }
       }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return

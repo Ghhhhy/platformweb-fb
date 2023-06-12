@@ -45,6 +45,9 @@ export default {
       let url = ''
       if (province?.slice(0, 4) === '3502') {
         url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
+      } else if (province?.slice(0, 2) === '22') { // 吉林
+        console.log(777)
+        url = `http://59.198.244.87:8000/boss/project/demo/proCommonView.html?agency_id=C681ACD5A6F84216B8976C2C4220B139&pro_code=220000221000000000346&tokenid=${tokenid}&pro_type=001&pro_level=1`
       } else {
         url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
       }
