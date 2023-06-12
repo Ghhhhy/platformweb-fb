@@ -48,6 +48,7 @@
       :dialog-visible.sync="addDialogVisible"
       :pro-guid="proGuid"
       :mof-div-code="mofDivCode"
+      :click-row-data="clickRowData"
     />
   </vxe-modal>
 </template>
@@ -113,6 +114,7 @@ export default {
         currentPage: 1,
         pageSize: 20
       },
+      clickRowData: {},
       tableData: [],
       condition: {},
       tableToolbarConfig: {
@@ -407,6 +409,7 @@ export default {
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          this.clickRowData = obj.row
           this.addDialogVisible = true
         }
       }
