@@ -385,6 +385,14 @@ export default {
           }
         }
       }
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+        if (['proCode', 'proName'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -397,6 +405,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.log(obj.column.property, 777)
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
