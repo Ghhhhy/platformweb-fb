@@ -16,7 +16,7 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '金额（单位:万元）',
+      title: '金额',
       field: 'amount',
       sortable: false,
       width: 140,
@@ -227,7 +227,7 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '预算金额（单位:万元）',
+      title: '预算金额',
       align: 'left',
       children: [
         {
@@ -249,7 +249,7 @@ const proconf = {
       ]
     },
     {
-      title: '支付金额（单位:万元）',
+      title: '支付金额',
       align: 'left',
       children: [
         {
@@ -473,7 +473,7 @@ const proconf = {
     //   align: 'left'
     // },
     {
-      title: '预算金额（单位:万元）',
+      title: '预算金额',
       align: 'left',
       children: [
         {
@@ -519,7 +519,7 @@ const proconf = {
       ]
     },
     {
-      title: '支付金额（单位:万元）',
+      title: '支付金额',
       align: 'left',
       children: [
         {
@@ -729,7 +729,7 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '补助金额（单位:万元）',
+      title: '补助金额',
       field: 'businessAmount',
       width: 140,
       sortable: false,
@@ -753,7 +753,7 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '补助金额（单位:万元）',
+      title: '补助金额',
       field: 'peopleAmount',
       sortable: false,
       width: 140,

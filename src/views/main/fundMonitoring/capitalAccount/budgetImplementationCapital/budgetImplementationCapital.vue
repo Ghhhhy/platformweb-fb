@@ -524,7 +524,7 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-      let xmSource = 'zdzjxmmx'
+      let xmSource = 'zdzjxmmx_fzj'
       let zcSource = 'zdzjzcmx_fzj'
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj') {
         xmSource = 'zxjdxmmx_fzj'
