@@ -43,9 +43,10 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
         ? unref(checkedItemsObj).some(item => item.warnLevel !== WarnLevelEnum.YELLOW && item.warnLevel !== WarnLevelEnum.BLUE)
         : (unref(currentNode).warnLevel !== WarnLevelEnum.YELLOW && unref(currentNode).warnLevel !== WarnLevelEnum.BLUE)
     } else {
+      // 根据监控处理方式来判断是否显示禁止按钮
       return unref(checkedItemsObj).length
-        ? unref(checkedItemsObj).some(item => item.warnLevel === WarnLevelEnum.ORANGE)
-        : unref(currentNode).warnLevel === WarnLevelEnum.ORANGE
+        ? unref(checkedItemsObj).some(item => item.warnTips === '警示')
+        : unref(currentNode).warnTips === '警示'
     }
   })
 
