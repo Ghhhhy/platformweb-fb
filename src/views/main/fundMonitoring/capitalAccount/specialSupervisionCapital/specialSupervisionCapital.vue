@@ -524,6 +524,7 @@ export default {
         reportCode: reportCode,
         // proCodes: [proCode],
         proCode: proCode,
+        column: column,
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
@@ -635,6 +636,8 @@ export default {
           case 'amountSnjbjfp':
           case 'amountSbjfp':
           case 'amountXjfp':
+          case 'amountSnjxjfp':// 省级分配下级
+          case 'amountSxjfp':// 市级分配下级
             this.handleDetail(xmSource, obj.row.code, key)
             this.detailTitle = '项目明细'
             break
@@ -727,35 +730,34 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (!validCellValue) return
       if (this.transJson2(this.params5 || '')?.isShow === 'false') {
         const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        if (sh && column.property === 'amountZyxd') {
+        if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       } else {
-        // 有效的cellValue
-        const validCellValue = (row[column.property] * 1)
         // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-        if (validCellValue) {
-          console.log(column.property)
-          if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-            return {
-              color: '#4293F4',
-              textDecoration: 'underline'
-            }
+        console.log(column.property)
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
           }
-          const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-          console.log(this.params5)
-          console.log(sh)
-          console.log(this.transJson2(this.params5 || '')?.projectCode)
-          if (sh && column.property === 'amountZyxd') {
-            return {
-              color: '#4293F4',
-              textDecoration: 'underline'
-            }
+        }
+        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+        console.log(this.params5)
+        console.log(sh)
+        console.log(this.transJson2(this.params5 || '')?.projectCode)
+        if (sh && ['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
           }
         }
       }
