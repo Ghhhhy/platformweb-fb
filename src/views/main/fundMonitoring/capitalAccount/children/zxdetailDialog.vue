@@ -335,6 +335,9 @@ export default {
               sortable: false,
               align: 'center'
             }])
+            if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
+              this.tableColumnsConfig = proconf.targetColumnFPXJ
+            }
             this.$set(this.tableColumnsConfig[0], 'visible', true)
             this.$set(this.tableColumnsConfig[1], 'visible', true)
           } else {

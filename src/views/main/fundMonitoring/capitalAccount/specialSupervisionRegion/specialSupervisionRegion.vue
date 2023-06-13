@@ -525,6 +525,7 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
+        column: column,
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
@@ -551,7 +552,6 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
@@ -566,6 +566,8 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
+        case 'amountSnjxjfp':// 省级分配下级
+        case 'amountSxjfp':// 市级分配下级
           this.handleDetail(xmSource, obj.row.code, key)
           this.detailTitle = '项目明细'
           break
@@ -683,6 +685,18 @@ export default {
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
+    transJson2(str) {
+      if (!str) return
+      let params = str.split(',')
+      let result = {}
+      if (params && params.length > 0) {
+        for (let i = 0; i < params.length; i++) {
+          let map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
+    },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
@@ -691,7 +705,8 @@ export default {
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+      if (!validCellValue) return
+      if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'

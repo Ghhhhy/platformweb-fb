@@ -718,6 +718,76 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     }
   ],
+  targetColumnFPXJ: [// 点击分配下级
+    {
+      title: '区划代码',
+      field: 'mofDivCode',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivCode || ''
+      }
+    },
+    {
+      title: '区划名称',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivName || ''
+      }
+    },
+    {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 140,
+      align: 'left'
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeName',
+      width: 140,
+      align: 'left'
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      },
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '分配金额',
+      field: 'fpAmount',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '分配时间',
+      width: 140,
+      field: 'fpTime',
+      sortable: false,
+      align: 'left'
+    }
+  ],
   targetZXColumn: [
     {
       title: '区划代码',
