@@ -32,22 +32,72 @@ const proconf = {
       formula: '',
       itemRender: {
         name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
         props: {
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '资金名称',
+      field: 'proCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '资金名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year
+    fiscalYear: store.state.userInfo.year,
+    mofDivCodes: '',
+    proCodes: ''
   },
   basicInfo: {
     type: 'form',

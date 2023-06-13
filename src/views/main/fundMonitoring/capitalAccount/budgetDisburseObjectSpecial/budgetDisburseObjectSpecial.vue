@@ -327,27 +327,11 @@ export default {
         case 'proName':
           this.projectTitle = '项目明细'
           this.projectVisible = true
-          // console.info('obj.row.proCode ==' + obj.row.proCode)
-          // console.info('userInfo ==' + this.$store.state.userInfo)
-          // this.frameSrc = 'http://10.100.32.125:9008/#/PersonProject?guid=' + obj.row.guid +
-          // '&userInfo=' + this.$store.state.userInfo + '&isgen=' + obj.row.isgen
-          let ip = ''
-          if (process.env.NODE_ENV === 'development') {
-            ip = 'http://10.100.32.125:9008'
-          } else {
-            ip = 'http://10.100.59.194:7001'
-          }
-          console.info('tokenid==' + this.$store.getters.getLoginAuthentication.tokenid)
-          console.info('guid==' + obj.row.guid)
-          console.info('isgen==' + obj.row.isgen)
-
-          this.frameSrc = ip + '/#/PersonProject/DirectProjectDetail/' +
+          let url = '/fiscal/#/PersonProject/DirectProjectDetail/' +
             obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
             '&appguid=fiscal#/'
-
-          // this.frameSrc = 'http://10.52.5.89:8080/#/PersonProject/DirectProjectDetail/1/B2C1D2C306EC4541A53A6BFA795C84DB?tokenid=de108838da55418e17c2eb805a5b7d6f&appguid=fiscal#/'
-          console.info(this.frameSrc)
-
+          console.info(url)
+          this.frameSrc = url
           break
       }
     },

@@ -131,7 +131,8 @@ export default {
       params: {},
       sDetailTitle: '',
       sDetailVisible: false,
-      sDetailData: []
+      sDetailData: [],
+      reportType: ''
     }
   },
   methods: {
@@ -229,7 +230,12 @@ export default {
     },
     showInfo() {
       // this.tableData = this.detailData
-      console.log(proconf)
+      console.log(this.detailType)
+      // 区分直达资金分资金和分地区报表做个临时转换，不改动后端代码
+      if (this.detailType === 'zdzjxmmx_fzj' || this.detailType === 'zdzjxmmx_fdq') {
+        this.detailQueryParam.reportCode = 'zdzjxmmx'
+      }
+
       switch (this.detailType) {
         // 支出明细
         case 'zjzcmx_fdq':
@@ -344,7 +350,7 @@ export default {
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountpayzyap'].includes(column.property)) {
+      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountpayzyap', 'amountPayZdzj'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -373,10 +379,23 @@ export default {
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
+        case 'amountPayZdzj':
+          console.info(this.detailType)
+          let zcSource2 = 'zdzjzcmx_fdq'
+          if (this.detailType === 'zdzjxmmx_fzj') {
+            zcSource2 = 'zdzjzcmx_fzj'
+          }
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
+            this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
+            this.handleDetail(zcSource2, obj.row)
+            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+          }
+          break
         case 'amountpayzyap':
           this.handleDetail('zdzjzcmx_fdq', obj.row)
           this.$parent.sDetailTitle = '支出明细'
           break
+
         case 'amountbjfpsnjap':
         case 'amountbjfpzyap':
         case 'amountbjfpsjap':

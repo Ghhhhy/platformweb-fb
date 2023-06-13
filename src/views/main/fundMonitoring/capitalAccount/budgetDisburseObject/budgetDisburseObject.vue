@@ -397,7 +397,6 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
       // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       // if (isInvalidCellValue) return
@@ -413,20 +412,12 @@ export default {
         case 'proName':
           this.projectTitle = '项目明细'
           this.projectVisible = true
-          // console.info('obj.row.proCode ==' + obj.row.proCode)
-          // console.info('userInfo ==' + this.$store.state.userInfo)
-          // this.frameSrc = 'http://10.100.32.125:9008/#/PersonProject?guid=' + obj.row.guid +
-          // '&userInfo=' + this.$store.state.userInfo + '&isgen=' + obj.row.isgen
-          let ip = ''
-          if (process.env.NODE_ENV === 'development') {
-            ip = 'http://10.100.32.125:9008'
-          } else {
-            ip = 'http://10.100.59.194:7001'
-          }
-
-          this.frameSrc = ip + '/#/PersonProject/DirectProjectDetail/' +
+          let url = '/fiscal/#/PersonProject/DirectProjectDetail/' +
             obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
             '&appguid=fiscal#/'
+          console.info(url)
+          this.frameSrc = url
+          break
       }
     },
     cellStyle({ row, rowIndex, column }) {

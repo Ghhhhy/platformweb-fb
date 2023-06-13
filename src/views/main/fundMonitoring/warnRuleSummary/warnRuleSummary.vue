@@ -213,7 +213,10 @@ export default {
       detailType: '',
       detailTitle: '',
       fiscalYear: '',
-      detailData: []
+      detailData: [],
+      proCodes: [],
+      mofDivCodes: [],
+      ruleCodes: []
     }
   },
   mounted() {
@@ -307,6 +310,9 @@ export default {
           }
         }
       }
+      condition.proCodes = condition.proCodes?.split('##')[0]
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       this.condition = condition
       this.queryTableDatas()
     },
@@ -353,52 +359,54 @@ export default {
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
 
-      this.fiscalYear = this.searchDataList.fiscalYear
+      this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
+      this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+      this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
       switch (key) {
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '是否上传附件-未处理明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '是否上传附件-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
@@ -413,8 +421,11 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        fiscalYear: this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '0201',
+        proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getDivTrees(this.searchDataList.mofDivCodes),
+        ruleCodes: this.ruleCodes
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -431,6 +442,67 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData(item.children)
+        }
+      })
+      return datas
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({
+        fiscalYear: fiscalYear
+      }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getDivTrees(val) {
+      let mofDivCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          mofDivCodes.push(item.split('##')[0])
+        })
+      }
+      return mofDivCodes
     }
   },
   created() {
@@ -439,6 +511,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    this.getMofDiv()
+    this.getPro()
     this.queryTableDatas()
   }
 }
