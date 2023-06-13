@@ -53,7 +53,7 @@ export default {
         url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
       } else if (province?.slice(0, 2) === '22') { // 吉林
         const { agencyId = '', proCode = '', proType = '', proLevel = 1 } = this.clickRowData
-        url = `http://59.198.244.87:8000/boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}&pro_type=${proType}&pro_level=${proLevel}`
+        url = `${originUrl}/boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}&pro_type=${proType}&pro_level=${proLevel}`
       } else {
         url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
       }
