@@ -45,6 +45,7 @@
             size="small"
             @click="submitFetch(ActionTypeEnum.ACTION_AUDIT)"
           >
+            <!-- 需求变动 蓝色警告也是 送审按钮 2023 06 14-->
             {{ btnTitle }}
           </vxe-button>
         </div>
@@ -54,7 +55,7 @@
           :default-percent="20"
           split="vertical"
           :style="{
-            height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel ? 110 : 0}px)`,
+            height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW ? 110 : 0}px)`,
           }"
         >
           <!--左侧处理单信息-->
@@ -128,7 +129,7 @@
               />
               <!--附件信息-->
               <AttachmentInfo
-                v-if="!isBlueWarnLevel"
+                v-if="true"
                 :loading="fileLoading"
                 :required="currentNode.uploadFile"
                 :file-list="currentNode.attachFiles"
@@ -139,9 +140,9 @@
             </div>
           </template>
         </BsSplitPane>
-        <!--处理表单：非处理单查看 | 非蓝色预警 => 显示-->
+        <!--处理表单：非处理单查看 | 非蓝色预警 => 显示--> <!-- 需求变动 都需要显示input框 2023 06 14-->
         <AuditForm
-          v-if="modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel"
+          v-if="modalType !== ModalTypeEnum.PREVIEW "
           ref="auditFormRef"
         />
       </div>
@@ -297,8 +298,8 @@ export default defineComponent({
 
     // 确认、送审按钮文案
     const btnTitle = computed(() => {
-      // 非单位反馈 && 非蓝色预警
-      return unref(pagePath) !== RouterPathEnum().UNIT_FEEDBACK || unref(isBlueWarnLevel)
+      // 非单位反馈 && 非蓝色预警  || unref(isBlueWarnLevel)
+      return unref(pagePath) !== RouterPathEnum().UNIT_FEEDBACK
         ? '确认'
         : '送审'
     })

@@ -48,5 +48,13 @@ export default {
   // 新增下拉树
   getProvince(params) {
     return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
+  },
+  // 文件上传
+  reportImport(params) {
+    return post('large-monitor-platform/lmp/babgtinfo/updateAttach', params)
+  },
+  // 查询接口
+  getTableDate(params) {
+    return post('large-monitor-platform/lmp/babgtinfo/search', params)
   }
 }

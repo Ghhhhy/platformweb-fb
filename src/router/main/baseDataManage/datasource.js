@@ -10,6 +10,17 @@ export default [
     component: () =>
       import('../../../views/main/baseDataManage/DataSourceManagement.vue')
   },
+  // 转移支付指标下达明细（13区）
+  {
+    path: '/TransferPayGiveDetails',
+    name: 'TransferPayGiveDetails',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import('../../../views/main/TransferPayGiveDetails/TransferPayGiveDetails.vue')
+  },
   // 违规类型管理
   {
     path: '/ViolationTypeManagement',
