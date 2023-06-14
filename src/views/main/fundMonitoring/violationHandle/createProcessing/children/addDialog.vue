@@ -107,7 +107,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire()" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone2"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
@@ -341,6 +341,7 @@ import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import moment from 'moment'
 import { checkPhone } from '@/utils/index.js'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
+import store from '@/store/index'
 export default {
   name: 'HandleDialog',
   components: { AddDialog },
@@ -507,6 +508,15 @@ export default {
     }
   },
   methods: {
+    phoneIsRequire() {
+      const { province } = store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return false
+      } else {
+        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
+        return bool
+      }
+    },
     cellClick(obj, context, e) {
       if (this.param5?.retroact === 'company') {
         return
@@ -991,9 +1001,14 @@ export default {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.param5.retroact === 'department' && !this.phone2) {
-        this.$message.warning('请输入联系电话')
-        return
+      const { province } = store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        // 去掉厦门必填的校验
+      } else {
+        if (this.param5.retroact === 'department' && !this.phone2) {
+          this.$message.warning('请输入联系电话')
+          return
+        }
       }
       if (this.param5.retroact === 'department' && (this.value === '3' || this.value === '7') && !this.information2) {
         this.$message.warning('请填写指导意见')
