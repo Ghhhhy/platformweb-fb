@@ -55,9 +55,9 @@ export default {
       } else if (province?.slice(0, 2) === '22') { // 吉林
         const { agencyId = '', proCode = '' } = this.clickRowData
         let hash = location.hash.slice(0, 1)// 判断是否是hash模式 如果是 添加/#/分隔符
-        let seq = ''
+        let seq = '/'
         if (hash === '#') seq = '#/'
-        url = `${originUrl}/${seq}boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}`
+        url = `${originUrl}${seq}boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}`
       } else {
         url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
       }
