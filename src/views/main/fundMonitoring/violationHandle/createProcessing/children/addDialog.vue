@@ -304,7 +304,7 @@
                     <el-input
                       v-model="returnReason"
                       type="textarea"
-                      :disabled="param5.retroact !== 'department' || !(status === '4' || status === '5') || value1 !== '8'"
+                      :disabled="xmDisabledRule"
                       placeholder="退回原因说明"
                       style="width:90%"
                     />
@@ -341,13 +341,23 @@ import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import moment from 'moment'
 import { checkPhone } from '@/utils/index.js'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
-import store from '@/store/index'
 export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    xmDisabledRule() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        if (this.value1 === '9') { // 通过
+          return true
+        }
+        return false
+      } else {
+        return this.param5.retroact !== 'department' || !(this.status === '4' || this.status === '5') || this.value1 !== '8'
+      }
     }
   },
   props: {
@@ -390,6 +400,7 @@ export default {
   },
   data() {
     return {
+      xmDisabled: false,
       // 规则详情信息
       DetailData: {},
       dialogVisibleShow: false,
@@ -509,7 +520,7 @@ export default {
   },
   methods: {
     phoneIsRequire() {
-      const { province } = store.state.userInfo
+      const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
         return false
       } else {
@@ -1001,7 +1012,7 @@ export default {
         this.$message.warning('请输入联系电话')
         return
       }
-      const { province } = store.state.userInfo
+      const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
         // 去掉厦门必填的校验
       } else {
@@ -1039,11 +1050,11 @@ export default {
         this.$message.warning('请选择审核意见')
         return
       }
-      if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
+      if (!this.xmDisabledRule && !this.returnReason) { // 判断是否禁用 禁用规则采用xmDisabledRule（包含了厦门和非厦门的规则）禁用true 则不校验提示
         this.$message.warning('请输入退回原因说明')
         return
       }
-      if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
+      if (!this.xmDisabledRule && this.returnReason) { // 判断是否禁用 禁用规则采用xmDisabledRule（包含了厦门和非厦门的规则），禁用为true 则不校验提示
         if (this.returnReason.length > 200) {
           this.$message.warning('退回原因说明请小于等于200字')
           return
@@ -1153,6 +1164,19 @@ export default {
         if (curVal !== preVal && curVal === '4') {
           this.information2 = ''
           this.phone2 = ''
+        }
+      },
+      immediate: true
+    },
+    value1: {
+      handler(curVal, preVal) {
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') {
+          if (curVal === '9') { // 通过
+            this.xmDisabled = true
+          } else if (curVal === '8') { // 退回
+            this.xmDisabled = false
+          }
         }
       },
       immediate: true
