@@ -157,7 +157,8 @@ export default defineComponent({
         return {
           ...params,
           ruleCodes: transJson2(store.state.curNavModule.param5 || '')?.ruleCodes,
-          paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode
+          paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
+          isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm
         }
       },
       finallyFetch: data => {
