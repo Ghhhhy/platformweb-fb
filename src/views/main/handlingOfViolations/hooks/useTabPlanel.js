@@ -38,6 +38,16 @@ function useTabPlanel(
       Message.warning(`请勾选需要${type === ModalTypeEnum.AUDIT ? '处理' : '查看'}的数据`)
       return
     }
+    console.log(checkedRecords.value)
+    // SH 需求 若同时处理多种颜色的违规单，则提示不可操作多种颜色违规单
+    if (type === ModalTypeEnum.AUDIT && store.state.userInfo.province.startsWith('31')) {
+      const warnLevelArr = checkedRecords.value.map(item => item.warnLevel)
+      console.log(warnLevelArr)
+      if (Array.from(new Set(warnLevelArr)).length > 1) {
+        Message.warning('不能同时处理多种颜色的违规单，请重新勾选')
+        return
+      }
+    }
     modalType.value = type
     auditVisible.value = true
   }

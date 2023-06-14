@@ -45,8 +45,8 @@
       </template>
     </BsMainFormListLayout>
     <PreviewDetail
-      v-if="ruleModalVisible"
-      v-model="ruleModalVisible"
+      v-if="visibleState"
+      v-model="visibleState"
       :current-row="currentRow"
       @closeAll="closeAllHandle"
     />
@@ -75,6 +75,8 @@ import {
   getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
+import { transJson1, transJson2 } from '@/utils/params.js'
+import store from '@/store'
 
 export default defineComponent({
   components: {
@@ -95,7 +97,7 @@ export default defineComponent({
     provide('modalType', '')
 
     // 规则弹窗显隐
-    const [ruleModalVisible, changeRuleModalVisibleVisible] = useModal()
+    const [visibleState, setVisibleState] = useModal()
 
     // 当前操作行
     const currentRow = ref(null)
@@ -127,7 +129,7 @@ export default defineComponent({
      * 关闭所有弹窗
      * */
     function closeAllHandle() {
-      changeRuleModalVisibleVisible(false)
+      setVisibleState(false)
     }
 
     const { footerConfig } = useFooter()
@@ -151,21 +153,30 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
+      beforeFetch: params => {
+        return {
+          ...params,
+          ruleCodes: transJson2(store.state.curNavModule.param5 || '')?.ruleCodes,
+          paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode
+        }
+      },
       finallyFetch: data => {
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
       columns: [
         getRuleNameColumn({
           title: '规则名称',
-          minWidth: 260,
+          minWidth: 100,
+          // width: 200
           width: 'auto'
         }),
         getWarnLevelColumn(),
         getControlTypeColumn(),
         ...getWarnCountColumns(),
         getIsDirColumn({
-          minWidth: 100,
-          width: 'auto'
+          // minWidth: 100
+          width: 120
+          // width: 'auto'
         })
       ],
       getSubmitFormData,
@@ -177,7 +188,7 @@ export default defineComponent({
      * */
     function cellDblclick({ row }) {
       currentRow.value = row
-      changeRuleModalVisibleVisible(true)
+      setVisibleState(true)
     }
 
     /**
@@ -187,10 +198,10 @@ export default defineComponent({
       tabStatusBtnConfig,
       isShowSearchForm,
       onQueryConditionsClick
-    } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
+    } = useTabPlanel(setVisibleState, getTable, currentRow)
 
     return {
-      ruleModalVisible,
+      visibleState,
 
       cellDblclick,
       footerConfig,

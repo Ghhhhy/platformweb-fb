@@ -428,7 +428,7 @@ const proconf = {
       align: 'right'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,
@@ -645,6 +645,63 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '政府支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'govBgtEcoName',
+      formatter({ row }) {
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '部门支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'depBgtEcoName',
+      formatter({ row }) {
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账号',
       field: 'receiveAccount',
@@ -787,7 +844,7 @@ const proconf = {
     },
     {
       title: '支付时间',
-      field: 'xPatyTime',
+      field: 'xpayDate',
       sortable: false,
       width: 140,
       filters: false,
@@ -817,6 +874,63 @@ const proconf = {
       width: 140,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '政府支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'govBgtEcoName',
+      formatter({ row }) {
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '部门支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'depBgtEcoName',
+      formatter({ row }) {
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账号',
       field: 'receiveAccount',
@@ -834,7 +948,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,
@@ -977,6 +1091,64 @@ const proconf = {
       sortable: false,
       align: 'center'
     },
+    // {
+    //   title: '支出功能科目编码',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfExpFuncCode',
+    //   sortable: false,
+    //   align: 'right'
+    // },
+    {
+      title: '支出功能科目',
+      filters: false,
+      width: 140,
+      field: 'expFuncName',
+      formatter({ row }) {
+        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+
+    },
+    {
+      title: '政府支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'govBgtEcoName',
+      formatter({ row }) {
+        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '部门支出经济分类',
+      filters: false,
+      width: 140,
+      field: 'depBgtEcoName',
+      formatter({ row }) {
+        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+      },
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '支付方式',
+      filters: false,
+      width: 140,
+      field: 'payTypeName',
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '收款人银行',
+      filters: false,
+      width: 140,
+      field: 'payeeAcctBankName',
+      sortable: false,
+      align: 'right'
+    },
     {
       title: '收款方账号',
       field: 'receiveAccount',
@@ -1094,7 +1266,7 @@ const proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '整改情况',
+      title: '整改结果',
       field: 'rectifyDetail',
       width: 140,
       filters: false,

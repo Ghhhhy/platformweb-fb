@@ -429,7 +429,7 @@ export default {
     },
     handleDetail(reportCode, mofDivCode, column) {
       let condition = ''
-      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson(this.params5 || '')?.projectCode === 'SH') {
         switch (column) {
           case 'amountSnjwfp':
           case 'amountSnjxd':
@@ -450,6 +450,29 @@ export default {
           case 'amountXjwfp':
           case 'amountXjfp':
             condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        switch (column) {
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
             break
         }
       } else {
@@ -502,10 +525,12 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
+        column: column,
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
+        isZd: this.searchDataList.isZd || ''
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -523,10 +548,10 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      if (this.transJson(this.params5 || '')?.isShow === 'false') return
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
@@ -541,6 +566,8 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
+        case 'amountSnjxjfp':// 省级分配下级
+        case 'amountSxjfp':// 市级分配下级
           this.handleDetail(xmSource, obj.row.code, key)
           this.detailTitle = '项目明细'
           break
@@ -592,7 +619,8 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
+        isZd: this.searchDataList.isZd || ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -657,19 +685,45 @@ export default {
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
+    transJson2(str) {
+      if (!str) return
+      let params = str.split(',')
+      let result = {}
+      if (params && params.length > 0) {
+        for (let i = 0; i < params.length; i++) {
+          let map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
+    },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      if (this.transJson(this.params5 || '')?.isShow === 'false') return
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+      if (!validCellValue) return
+      if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
         }
       }
+    },
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
     }
   },
   created() {

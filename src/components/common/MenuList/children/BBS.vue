@@ -2,7 +2,7 @@
   <vxe-modal
     v-model="visible"
     :title="title"
-    z-index="9999"
+    :z-index="9999"
     width="80%"
     height="80%"
     position="center"
@@ -40,11 +40,10 @@ export default {
   },
   methods: {
     checkReport() {
-      console.log(document.getElementById('BbsId'), 'window.gloableToolFn.getBbsUrl()')
-      let url = window.gloableToolFn.getBbsUrl() || 'https://yth.czj.sh.cegn.cn/shbbs/'
+      console.log(document.getElementById('BbsId'), window?.gloableToolFn)
+      let url = window.gloableToolFn?.getBbsUrl || 'https://yth.czj.sh.cegn.cn/shbbs/'
       let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
       if (document.getElementById('BbsId')) {
-        console.log(11111)
         document.getElementById('BbsId').innerHTML = src
       }
     },

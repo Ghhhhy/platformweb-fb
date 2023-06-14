@@ -32,7 +32,22 @@
           @cellClick="cellClick"
         />
         <div>
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息
+            <el-button v-if="dialogVisibleKjsmBut" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-dialog
+              :visible.sync="dialogVisibleKjsm"
+              width="50%"
+            >
+              <div style="font-size:14px;margin:15px 10px 10px 15px">
+                指标接收时间：上级转移支付指标登记日期。<br>
+                接收金额：上级转移支付下达金额。<br>
+                已分配金额：根据上级转移支付的待分预算已经形成可执行指标金额。<br>
+                指标余额：指标接收金额减去已分配金额。<br>
+                超时下达时间：指标接收时间后30天。<br>
+                超时下达金额：超时下达时间后已分配金额，及可执行指标的创建日期大于超时下达时间指标金额。
+              </div>
+            </el-dialog>
+          </div>
           <BsForm
             ref="incomeMsgRef"
             :form-items-config="incomeMsgConfig"
@@ -55,7 +70,7 @@
         <el-row>
           <el-col :span="24">
             <div style="display: flex; align-content: center">
-              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;疑似违规说明</span>
+              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;疑似违规说明</span>
               <el-input
                 v-model="doubtViolateExplain"
                 type="textarea"
@@ -321,7 +336,8 @@
 import proconf from './column.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
-import moment from 'moment'
+// forktest
+// import moment from 'moment'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
 export default {
   name: 'HandleDialog',
@@ -363,6 +379,10 @@ export default {
     isCreate: {
       type: Boolean,
       default: false
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
     }
   },
   data() {
@@ -370,6 +390,8 @@ export default {
       // 规则详情信息
       DetailData: {},
       dialogVisibleShow: false,
+      dialogVisibleKjsm: false,
+      dialogVisibleKjsmBut: false,
       dialogTitle: '查看详情',
       options: [{
         value: '2',
@@ -512,6 +534,8 @@ export default {
     //   this.showInfo()
     // },
     dialogClose() {
+      console.log('==========')
+      this.fiRuleCode = ''
       this.$emit('close')
       this.$parent.showDialogVisible = false
       // if (this.param5.isCreate === 'true') {
@@ -538,26 +562,48 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agency_code + '-' + res.data.executeData?.agency_name
-              this.supplyDataList.proName = res.data.executeData?.pro_code + '-' + res.data.executeData?.pro_name
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fund_type_code + '-' + res.data.executeData?.fund_type_name
-              this.supplyDataList.proCatName = res.data.executeData?.pro_cat_code + '-' + res.data.executeData?.pro_cat_name
-              this.supplyDataList.deptEconomyType = res.data.executeData?.dep_bgt_eco_code + '-' + res.data.executeData?.dep_bgt_eco_name
-              this.supplyDataList.govEconomyType = res.data.executeData?.gov_bgt_eco_code + '-' + res.data.executeData?.gov_bgt_eco_name
-              this.supplyDataList.settlementMethod = res.data.executeData?.set_mode_code + '-' + res.data.executeData?.set_mode_name
-              this.supplyDataList.directFund = res.data.executeData?.is_dir_code === null ? '' : res.data.executeData?.is_dir_code + '-' + res.data.executeData?.is_dir_name || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.is_sal_code + '-' + res.data.executeData?.is_sal_name
-              this.supplyDataList.isUnionFunds = res.data.executeData?.is_fun_code + '-' + (res.data.executeData?.is_fun_code === 1 ? '是' : '否')
+              this.supplyDataList.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+              this.supplyDataList.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+              this.supplyDataList.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+              this.supplyDataList.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
+              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode === null ? '' : res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+              this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+              this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+              this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
+              this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
               this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.funcType = res.data.executeData?.exp_func_code + '-' + res.data.executeData?.exp_func_name
-              this.supplyDataList.businessOffice = res.data.executeData?.manage_mof_dep_code + '-' + res.data.executeData?.manage_mof_dep_name
-              this.supplyDataList.paymentMethod = res.data.executeData?.pay_type_code + '-' + res.data.executeData?.pay_type_name
-              this.supplyDataList.isThrExp = res.data.executeData?.thr_exp_code + (res.data.executeData?.thr_exp_name === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+              this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+              this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+              this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
+              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+              this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
+              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
+            }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
+              this.supplyDataList.curAmt = curAmt || ''
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -576,7 +622,8 @@ export default {
         this.createDataList.handleType = this.detailData[0].handleType
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : moment().format('YYYY-MM-DD HH:mm:ss')
+        // this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : this.getCurrentServerTime()
+        this.getCurrentServerTime()
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -668,14 +715,14 @@ export default {
               this.businessDataList.govEconomyType = res.data?.gov_bgt_eco_code + '-' + res.data?.gov_bgt_eco_name
               this.businessDataList.settlementMethod = res.data?.set_mode_code + '-' + res.data?.set_mode_name
               this.businessDataList.directFund = res.data?.is_dir_code === null ? '' : res.data?.is_dir_code + '-' + res.data?.is_dir_name || ''
-              this.businessDataList.salaryMark = res.data?.is_sal_code + '-' + res.data?.is_sal_name
+              this.businessDataList.salaryMark = res.data?.is_sal_code === null ? '' : res.data?.is_sal_code + '-' + res.data?.is_sal_name === null ? '' : res.data?.is_sal_name
               this.businessDataList.isUnionFunds = res.data?.is_fun_code + '-' + (res.data?.is_fun_code === 1 ? '是' : '否')
               this.businessDataList.fiDate = res.data?.fiDate
               this.businessDataList.funcType = res.data?.exp_func_code + '-' + res.data?.exp_func_name
               this.businessDataList.businessOffice = res.data?.manage_mof_dep_code + '-' + res.data?.manage_mof_dep_name
               this.businessDataList.paymentMethod = res.data?.pay_type_code + '-' + res.data?.pay_type_name
               this.businessDataList.isThrExp = res.data?.thr_exp_code + (res.data?.thr_exp_name === null ? '' : '-' + res.data?.thr_exp_name)
-              this.businessDataList.payBusType = res.data?.pay_bus_type_code + '-' + res.data?.pay_bus_type_name
+              this.businessDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data?.payBusTypeCode + '-' + res.data?.payBusTypeName
               this.businessDataList.todoName = res.data?.todo_name
               this.businessDataList.voidOrNot = res.data?.is_deleted + '-' + (res.data?.is_deleted === '2' ? '否' : '是')
             }
@@ -728,6 +775,18 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
       }
+      if (!this.doubtViolateExplain) {
+        this.$message.warning('请填写疑似违规说明')
+        return
+      }
+      if (this.doubtViolateExplain.length < 5) {
+        this.$message.warning('疑似违规说明长度应大于等于5位')
+        return
+      }
+      if (this.doubtViolateExplain.length > 200) {
+        this.$message.warning('疑似违规说明长度应小于等于200位')
+        return
+      }
       this.addLoading = true
       HttpModule.handleAdd(param)
         .then(res => {
@@ -760,6 +819,22 @@ export default {
           this.createConfig[0].itemRender.options = res.data.results
         }
       })
+    },
+    getCurrentServerTime() {
+      HttpModule.getCurrentTime().then(res => {
+        res.code === '000000' && (this.createDataList.issueTime = this.detailData[0].issueTime || res.data)
+      })
+    },
+    setFormItem() {
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.indexMsgConfig
+        this.supplyDataList = proconf.indexMsgData
+        this.dialogVisibleKjsmBut = true
+      } else {
+        this.incomeMsgConfig = proconf.msgConfig
+        this.supplyDataList = proconf.msgData
+        this.dialogVisibleKjsmBut = true
+      }
     }
   },
   watch: {
@@ -767,6 +842,10 @@ export default {
   created() {
     console.log('this.isDone', this.isDone)
     console.log('this.isCreate', this.isCreate)
+    // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+    if (this.title === '查看详情信息' && ['WarnRegionBySpecial', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial'].includes(this.$route.name)) {
+      this.setFormItem()
+    }
     this.showInfo()
     if (this.title === '处理') {
       this.showbtn = true

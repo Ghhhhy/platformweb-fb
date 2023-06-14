@@ -365,16 +365,16 @@ const proconf = {
         props: { placeholder: '本级项目 ', disabled: true }
       }
     },
-    {
-      title: '支出功能科目编码',
-      field: 'expFuncCode',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '支出功能科目编码' }
-      }
-    },
+    // {
+    //   title: '支出功能科目编码',
+    //   field: 'expFuncCode',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '支出功能科目编码' }
+    //   }
+    // },
     {
       title: '支出功能科目名称',
       field: 'expFuncName',
@@ -522,6 +522,7 @@ const proconf = {
     tableColumnsConfig: [
       {
         title: '规则名称',
+        treeNode: true,
         align: 'left',
         width: 260,
         field: 'name',

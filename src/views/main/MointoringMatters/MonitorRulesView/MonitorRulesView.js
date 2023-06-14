@@ -135,6 +135,42 @@ export let proconf = {
       }
     },
     {
+      title: '是否直达资金',
+      field: 'isDir',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '0', label: '否' }
+        ],
+        props: {
+          placeholder: '是否直达资金'
+        }
+      }
+    },
+    {
+      title: '是否专项主题',
+      field: 'isSpeType',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '0', label: '否' }
+        ],
+        props: {
+          placeholder: '是否专项主题'
+        }
+      }
+    },
+    {
       title: '预警级别',
       field: 'warningLevel',
       'width': 180,
@@ -609,6 +645,7 @@ export let proconf = {
       title: '基础要素',
       titleAlign: 'center',
       titleWidth: '100px',
+      span: '20',
       itemRender: {
         name: '$vxeSelect',
         props: {

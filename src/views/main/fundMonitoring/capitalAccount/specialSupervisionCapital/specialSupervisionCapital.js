@@ -86,12 +86,53 @@ const proconf = {
           placeholder: '截止日期'
         }
       }
+    },
+    {
+      title: '区划',
+      field: 'isCentral',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '中央' },
+          { value: '2', label: '地区' }
+        ],
+        props: {
+          placeholder: '请选择',
+          clearable: true
+        }
+      }
+    },
+    {
+      title: '是否直达资金',
+      field: 'isZd',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '0', label: '否' }
+        ],
+        props: {
+          placeholder: '是否直达资金',
+          clearable: true
+        }
+      }
     }
+    /*,
+
+    } */
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     mofDivCodes: '',
     endTime: ''
+    // isCentral: '',
+    // isZd: ''
   },
   basicInfo: {
     type: 'form',
@@ -135,6 +176,16 @@ const proconf = {
         type: 'amountSnjxd',
         cellRender: { name: '$vxeMoney' }
       },
+      // {
+      //   title: '是否直达资金',
+      //   width: 150,
+      //   field: 'isZd',
+      //   align: 'right',
+      //   formatter: (value, column) => {
+      //     let { row } = value
+      //     return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
+      //   }
+      // },
       {
         title: '整合',
         width: 100,

@@ -63,7 +63,7 @@ export default {
   },
   // 监控主题
   monitorTheme() {
-    return post('large-monitor-platform/lmp/ruleClassify/tree/2')
+    return post('large-monitor-platform/lmp/ruleClassify/tree/0')
   },
   // 函数接口类型
   getFunctionApiType(params) {

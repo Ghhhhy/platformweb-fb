@@ -38,6 +38,7 @@ export default {
     getUrlAllParams(url) {
       /* 获取全部url参数,并转换成json对象 */
       url = url || window.location.href
+      console.log(url, 'url-----------------')
       let search = url.substring(
         url.indexOf('?') + 1,
         url.indexOf('#/') >= 0 ? url.indexOf('#/') : url.length
@@ -53,6 +54,7 @@ export default {
         let value = window.decodeURIComponent(searchArr[i].substring(pos + 1))
         result[name] = value
       }
+      console.log(result, 'UrlAllParams------------------')
       return result
     },
     async getUser(tokenid) {
@@ -84,6 +86,7 @@ export default {
       }
       // iframe形式嵌入不用重置到首页
       if (window.self !== window.top) {
+        import('./appMain.css')
         return
       }
       // 缓存url参数后更新URL
@@ -93,6 +96,7 @@ export default {
       const { tokenid, appguid } = this.$store.getters.getLoginAuthentication
       if (!tokenid) {
         this.ifrouteractive = true
+        console.log(tokenid, 'tokenid------------------')
         goLogin()
       } else {
         await this.$http
@@ -103,6 +107,7 @@ export default {
               res = JSON.parse(res)
             }
             if (res.rscode === '118000') {
+              console.log('appMessage------------------')
               goLogin()
             } else {
               this.$store.commit('setUserInfo', res.data)
@@ -126,6 +131,7 @@ export default {
           .catch((e) => {
             console.log(e)
             this.ifrouteractive = true
+            console.log('http------------------')
             goLogin()
           })
       }
@@ -182,17 +188,10 @@ export default {
       return false
     }
   },
-  async created() {
-    this.getUrlSearchToken()
-    this.authentication()
-    if (window.self === window.top) {
-      console.log('=========处于非iframe环境=============')
-      // 获取预警信息
-      this.$store.dispatch('warnInfo/getWarnInfo')
-    }
+  async created () {
   },
 
-  mounted() {
+  async mounted() {
     let that = this
     this.logOutPopInterval = setInterval(() => {
       that.intervalQuest()
@@ -206,6 +205,13 @@ export default {
       }
     }
     this.showLogo()
+    await this.getUrlSearchToken()
+    await this.authentication()
+    if (window.self === window.top) {
+      console.log('=========处于非iframe环境=============')
+      // 获取预警信息
+      this.$store.dispatch('warnInfo/getWarnInfo')
+    }
   },
   watch: {}
 }

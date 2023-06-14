@@ -368,16 +368,25 @@ export default {
             return
           }
           var title = '认定处理单'
-          if (selectionRow.length > 1) {
-            title = '批量认定处理单'
-          }
           this.selectData = selectionRow[0]
-          this.selectIds = selectionRow.map(function(item, index, array) {
+          this.affirm(title)
+          break
+        // 批量认定
+        case 'batch_set':
+          var selecRow = this.$refs.mainTableRef.selection
+          if (selecRow.length < 1) {
+            this.$message.warning('请至少选择一条数据')
+            return
+          }
+          var stitle = '批量认定处理单'
+          this.selectData = selecRow[0]
+          this.selectIds = selecRow.map(function(item, index, array) {
             return item.diBillId
           })
           console.info(this.selectIds)
-          this.affirm(title)
+          this.affirm(stitle)
           break
+
         // 人工认定
         case 'peo_set_update':
           var selectionRow4 = this.$refs.mainTableRef.selection
@@ -556,7 +565,6 @@ export default {
       })
     },
     handleDetail(type, diBillId, fiRuleCode) {
-      console.info('this.detailType ==' + this.detailType)
       if (this.detailType === 'numbernofileNum' || this.detailType === 'numberfileNum') {
         this.$parent.bgtDetailQueryParam = {
           diBillId: diBillId,

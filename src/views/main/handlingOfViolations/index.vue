@@ -26,7 +26,7 @@
             :input-value.sync="treeFilterText"
             label="导航"
           />
-          <div class="mmc-left-tree-body" style="height: calc(100% - 48px); overflow-y: auto">
+          <div class="mmc-left-tree-body" style="height: calc(100% - 8px); overflow-y: auto">
             <BsTree
               ref="mofDivTree"
               v-loading="treeLoading"
@@ -111,9 +111,10 @@ export default defineComponent({
     const { isDivisionPage } = useIs({}, pagePath)
 
     // 是否是单位页面（单位反馈、单位审核）
-    const isUnitMenu = computed(() => {
-      return [RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(pagePath.value)
-    })
+    // const isUnitMenu = computed(() => {
+    //   return [RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(pagePath.value)
+    // })
+    const isUnitMenu = ref(false)
 
     // 是否是单位反馈
     const isUnitFeedbackMenu = computed(() => {
@@ -162,7 +163,11 @@ export default defineComponent({
     } = useTree(
       {
         treeProps: {
-          nodeKey: 'code'
+          labelFormat: '{name}',
+          id: 'code',
+          nodeKey: 'code', // 树的主键
+          label: 'name', // 树的显示lalel字段
+          children: 'children'
         },
         fetch: elementTreeApi.getAgencyTree,
         beforeFetch: params => {
@@ -174,9 +179,11 @@ export default defineComponent({
         afterFetch: data => {
           return [
             {
+              id: 'ALL',
               name: '全部',
-              customCode: 'ALL_NODE_CODE',
-              children: data || []
+              customCode: 'ALL',
+              children: data || [],
+              code: 'ALL'
             }
           ]
         }
@@ -236,6 +243,24 @@ export default defineComponent({
           menuId
         }
       },
+      // 请求后置钩子
+      afterFetch(data) {
+        // 未提交页卡
+        // 处理业务编号
+        let nullNum = 0
+        data.results.forEach(item => {
+          if (item.businessNo === null) {
+            nullNum++
+          }
+        })
+        if (nullNum === data.results.length) {
+          let index = columns.value.findIndex(item => {
+            return item.field === 'businessNo'
+          })
+          columns.value.splice(index, 1)
+        }
+        return data
+      },
       columns: [],
       getSubmitFormData,
       dataKey: 'data.results'
@@ -249,7 +274,7 @@ export default defineComponent({
      * */
     function computedColumns() {
       // 未送审
-      const initColumns = getCommonColumns()
+      let initColumns = getCommonColumns()
 
       if (unref(currentTab).code === TabEnum.SENDED) {
         // 已送审
@@ -291,6 +316,12 @@ export default defineComponent({
           0,
           getAuditDescriptionColumn({ title: '处理意见' })
         )
+      }
+      // 福建不要业务编码 以区划区分
+      if (store.state.userInfo.province.startsWith('35')) {
+        initColumns = initColumns.filter(item => {
+          return item.field !== 'businessNo'
+        })
       }
       columns.value = initColumns
     }

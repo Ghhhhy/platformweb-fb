@@ -41,6 +41,7 @@ axios.interceptors.request.use(function(config) {
 const globalGatewayAgent = (url, Origin) => { // 注册全局网关
   const serveUrl = url.split('/').filter(item => !!item)
   const serverName = serveUrl[0]
+  console.log(window, 'globalGatewayAgent')
   const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
 
   axios.defaults.baseURL = Origin || process.env.NODE_ENV === 'development'

@@ -87,12 +87,12 @@ const proconf = {
         }
       }
     }
-
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     proCodes: '',
-    endTime: ''
+    endTime: '',
+    isZd: ''
   },
   basicInfo: {
     type: 'form',
@@ -136,6 +136,16 @@ const proconf = {
         type: 'amountZyxd',
         cellRender: { name: '$vxeMoney' }
       },
+      // {
+      //   title: '是否直达资金',
+      //   width: 150,
+      //   field: 'isZd',
+      //   align: 'right',
+      //   formatter: (value, column) => {
+      //     let { row } = value
+      //     return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
+      //   }
+      // },
       {
         title: '整合',
         width: 100,

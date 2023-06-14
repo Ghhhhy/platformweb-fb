@@ -24,7 +24,7 @@
         </div>
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
+      <template v-if="showMonitorTree" v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
@@ -62,7 +62,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div v-if="leftTreeVisible === false && showMonitorTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -226,13 +226,30 @@ export default {
       DetailData: {},
       ruleFlowOpinion: '',
       provinceList: [],
-      formDatas: {}
+      formDatas: {},
+      showMonitorTree: true // 控制树的展示隐藏
     }
   },
   mounted() {
-    this.getLeftTreeData()
   },
   methods: {
+    /**
+     * 动态控制监控主题是树的显示  regulationClass
+     * regulationClass 可由页面参数传入
+     * 有传入则不展示左侧主题树和监控主题筛选下拉框
+     */
+    setMonitorThemeTreeShow() {
+      let regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      if (regulationClass) {
+        this.showMonitorTree = false
+        this.leftTreeVisible = false
+        this.queryConfig = proconf.highQueryConfig.filter(item => item.field !== 'regulationClass')
+        this.regulationClass = regulationClass
+      } else {
+        this.getRegulation()
+        this.getLeftTreeData()
+      }
+    },
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
@@ -250,6 +267,7 @@ export default {
       this.regulationName = obj.regulationName
       this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
+      this.queryTableDatasCount()
     },
     getChildrenData(datas) {
       let that = this
@@ -560,10 +578,25 @@ export default {
       } else if (regulationType === '财政级') {
         regulationType = '2'
       }
+      // const params = {
+      //   menuType: 2,
+      //   regulationType: regulationType,
+      //   id: this.condition.agency_code
+      // }
       const params = {
-        menuType: 2,
-        regulationType: regulationType,
-        id: this.condition.agency_code
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+        'warningLevel': this.warningLevel, // 预警级别
+        'handleType': this.handleType, // 处理方式
+        'businessModelCode': '', // 业务模块
+        'businessFeaturesCode': '', // 业务功能
+        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        'isEnable': this.isEnable,
+        'regulationName': this.regulationName,
+        regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        code: this.condition.agency_code,
+        menuType: 2
       }
       HttpModule.queryTableDatasCount(params).then(res => {
         that.tabStatusNumConfig['1'] = res.data.unHandle
@@ -668,7 +701,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
-    this.getRegulation()
+    this.setMonitorThemeTreeShow()
+    // this.getRegulation()
     this.queryTableDatasCount()
   }
 }

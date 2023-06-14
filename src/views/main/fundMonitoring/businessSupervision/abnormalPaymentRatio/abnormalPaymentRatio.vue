@@ -450,7 +450,7 @@ export default {
         isFlush,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        reportCode: 'dwzfqk',
+        reportCode: 'zjzfblycqkb',
         fiscalYear: this.fiscalYear,
         mofDivCodeList: this.codeList,
         agencyCode: '',

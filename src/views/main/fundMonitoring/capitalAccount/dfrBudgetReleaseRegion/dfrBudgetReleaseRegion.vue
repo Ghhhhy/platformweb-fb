@@ -415,6 +415,7 @@ export default {
       } else {
         isCz = '1'
       }
+      console.info('recDivCode==' + recDivCode)
       let params = {
         isCz: isCz,
         reportCode: type,
@@ -448,13 +449,13 @@ export default {
 
       switch (key) {
         case 'jOut':
-          this.handleDetail('jOut', obj.row.recDivCode)
+          this.handleDetail('jOut', obj.row.code)
           this.detailTitle = '支出明细'
           break
         case 'sbjfpaAmount':
         case 'shbjfpaAmount':
         case 'xyfpaAmount':
-          this.handleDetail('zdzjxmmx_dfap', obj.row.recDivCode)
+          this.handleDetail('zdzjxmmx_dfap', obj.row.code)
           this.detailTitle = '直达资金项目明细'
       }
     },

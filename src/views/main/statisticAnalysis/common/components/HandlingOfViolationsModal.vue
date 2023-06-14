@@ -118,11 +118,12 @@ export default defineComponent({
     ] = useTable({
       fetch: queryAuditTable,
       beforeFetch: params => {
-        const { fiRuleCode, agencyCode } = props.currentRow
+        const { fiRuleCode, agencyCode, type } = props.currentRow
         return {
           ...params,
           fiRuleCode,
-          agencyCode
+          agencyCode,
+          type
         }
       },
       columns: [

@@ -1,5 +1,6 @@
 import { computed, unref } from '@vue/composition-api'
 import { RouterPathEnum, WarnLevelEnum } from '../model/enum'
+import store from '@/store'
 
 /**
  * 判断相关hook
@@ -32,10 +33,21 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   // 是否允许禁止操作
   // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
-    const hasOrangeLevel = unref(checkedItemsObj).length
-      ? unref(checkedItemsObj).some(item => item.warnLevel === WarnLevelEnum.ORANGE)
-      : unref(currentNode).warnLevel === WarnLevelEnum.ORANGE
-    return !unref(isUnitMenu) && hasOrangeLevel
+    console.log('判断是否单位', unref(isUnitMenu))
+    if (unref(isUnitMenu)) {
+      return false
+    }
+    // SH 需求 黄色预警、蓝色预警在处理时，去掉“禁止“按钮
+    if (store.state.userInfo.province.startsWith('31')) {
+      return unref(checkedItemsObj).length
+        ? unref(checkedItemsObj).some(item => item.warnLevel !== WarnLevelEnum.YELLOW && item.warnLevel !== WarnLevelEnum.BLUE)
+        : (unref(currentNode).warnLevel !== WarnLevelEnum.YELLOW && unref(currentNode).warnLevel !== WarnLevelEnum.BLUE)
+    } else {
+      // 根据监控处理方式来判断是否显示禁止按钮
+      return unref(checkedItemsObj).length
+        ? unref(checkedItemsObj).some(item => item.warnTips === '警示')
+        : unref(currentNode).warnTips === '警示'
+    }
   })
 
   // 是否是处室

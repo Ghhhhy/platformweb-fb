@@ -44,10 +44,65 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
+    }, {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '资金名称',
+      field: 'proCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '资金名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year
+    fiscalYear: store.state.userInfo.year,
+    mofDivCodes: '',
+    proCodes: ''
   },
   basicInfo: {
     type: 'form',
@@ -171,41 +226,41 @@ const proconf = {
             ]
           }
         ]
-      },
-      {
-        title: '未导入惠企利民明细',
-        field: '',
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '未认定',
-            field: 'numberhqlmUndoNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon2',
-              props: {
-                $refs: this
-              }
-            }
-          },
-          {
-            title: '已整改',
-            field: 'numberhqlmdoNum',
-            width: 140,
-            filters: false,
-            align: 'center',
-            cellRender: {
-              name: '$vxeIcon3',
-              props: {
-                $refs: this
-              }
-            }
-          }
-        ]
       }
+      // {
+      //   title: '未导入惠企利民明细',
+      //   field: '',
+      //   sortable: false,
+      //   align: 'center',
+      //   children: [
+      //     {
+      //       title: '未认定',
+      //       field: 'numberhqlmUndoNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon2',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: '已整改',
+      //       field: 'numberhqlmdoNum',
+      //       width: 140,
+      //       filters: false,
+      //       align: 'center',
+      //       cellRender: {
+      //         name: '$vxeIcon3',
+      //         props: {
+      //           $refs: this
+      //         }
+      //       }
+      //     }
+      //   ]
+      // }
     ],
     tableData: []
   }

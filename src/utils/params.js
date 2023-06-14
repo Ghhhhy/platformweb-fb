@@ -56,6 +56,48 @@ export const setParams = (module, params) => {
   Store(CACHE_NAME, paramsCache)
 }
 
+/**
+ * 获取菜单参数
+ * @param {String} str
+ */
+export const transJson2 = (str) => {
+  if (!str) return
+  let params = str.split(';')
+  let result = {}
+  if (params && params.length > 0) {
+    for (let i = 0; i < params.length; i++) {
+      let map = params[i].split('=')
+      let arr = map[1].split(',')
+      result[map[0]] = arr
+    }
+  }
+  return result
+}
+/**
+ * 获取菜单参数
+ * @param {String} string
+ */
+export const transJson1 = (string) => {
+  if (string === null || !string?.trim()) return {}
+
+  // 兼容一个参数值（例如：czzd）
+  if (string?.indexOf('=') === -1) return string
+
+  const params = string?.split(';')
+    ?.reduce((obj, item) => {
+      if (!item) return obj
+
+      let [key, value = ''] = item?.split('=')
+      if (value === 'true') value = true
+      if (value === 'false') value = false
+      return {
+        ...obj,
+        [key]: value
+      }
+    }, {}) || {}
+  return params
+}
+
 export default {
   getParams,
   setParams

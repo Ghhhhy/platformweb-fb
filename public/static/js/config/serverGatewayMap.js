@@ -44,10 +44,7 @@ window.gloableToolFn = {
   // 是否开启水印
   enableWaterMark: false,
   getReportUrl: () => reportService,
-  getBbsUrl: () => { // 上海BBS
-    return 'https://yth.czj.sh.cegn.cn/shbbs/'
-  },
-  getIssueUrl: () => { // 上海我要提问
-    return 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
-  }
+  getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
+  getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/',
+  getProjectUrl: 'http://120.79.87.6:1995/'
 }

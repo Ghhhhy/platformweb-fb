@@ -25,7 +25,7 @@
         </div>
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
+      <template v-if="showMonitorTree" v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
@@ -59,7 +59,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div v-if="leftTreeVisible === false && showMonitorTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -302,13 +302,30 @@ export default {
       idList: [],
       provinceList: [],
       formDatas: {},
-      defaultExpandedKeysIn: ['0'] // 默认展开预警级别
+      defaultExpandedKeysIn: ['0'], // 默认展开预警级别
+      showMonitorTree: true // 控制树的展示隐藏
     }
   },
   mounted() {
   },
 
   methods: {
+    /**
+     * 动态控制监控主题是树的显示  regulationClass
+     * regulationClass 可由页面参数传入
+     * 有传入则不展示左侧主题树和监控主题筛选下拉框
+     */
+    setMonitorThemeTreeShow() {
+      let regulationClass = this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      if (regulationClass) {
+        this.showMonitorTree = false
+        this.leftTreeVisible = false
+        this.queryConfig = proconf.highQueryConfig.filter(item => item.field !== 'regulationClass')
+        this.regulationClass = regulationClass
+      } else {
+        this.getLeftTreeData1()
+      }
+    },
     itemChange(obj, form) {
       if (obj.data.warningLevel === '1') {
         this.warningLevel = '1'
@@ -349,6 +366,8 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
+      this.isDir = obj.isDir
+      this.isSpeType = obj.isSpeType
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
@@ -411,6 +430,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = res.data
+          this.formDatas = this.DetailData.regulationElementEntitieList && this.DetailData.regulationElementEntitieList[0] ? this.DetailData.regulationElementEntitieList[0] : this.formDatas
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -420,6 +440,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = res.data
+          this.formDatas = this.DetailData.regulationElementEntitieList && this.DetailData.regulationElementEntitieList[0] ? this.DetailData.regulationElementEntitieList[0] : this.formDatas
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }
@@ -759,9 +780,11 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
-        'regulationClass': this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        'regulationClass': this.regulationClass || this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         'regulationModelName': this.regulationModelName,
         'fiRuleTypeCode': this.fiRuleTypeCode,
+        'isDir': this.isDir,
+        'isSpeType': this.isSpeType,
         id: this.condition.agency_code,
         menuType: 1
       }
@@ -858,7 +881,10 @@ export default {
         that.treeData = proconf.leftYjjbData
         return
       }
-      HttpModule.getLeftTree1().then(res => {
+      let param = {
+        regulationClass: this.regulationClass || this.transJson(this.$store.state.curNavModule?.param5).regulationClass
+      }
+      HttpModule.getLeftTree1(param).then(res => {
         if (res.code === '000000') {
           let arr = []
           // if (this.params5 === 'dfr') {
@@ -905,6 +931,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.setMonitorThemeTreeShow()
     this.getLeftTreeData1()
     // this.queryTableDatas()
     this.getTreeType()

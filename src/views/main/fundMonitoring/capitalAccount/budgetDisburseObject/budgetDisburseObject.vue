@@ -51,6 +51,7 @@
           :default-money-unit="10000"
           :title="menuName"
           :pager-config="mainPagerConfig"
+          :cell-style="cellStyle"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
@@ -80,19 +81,40 @@
     /> -->
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
+    <vxe-modal
+      v-if="projectVisible"
+      v-model="projectVisible"
+      width="100%"
+      height="90%"
+      :title="projectTitle"
+      :show-footer="false"
+    >
+      <iframe :src="frameSrc" style="height:100%; width:100%;margin:0;border:0;"> </iframe>
+
+    </vxe-modal>
+
   </div>
 </template>
 
 <script>
 import { proconf } from './budgetDisburseObject'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+// import store from '@/store/index'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import regionMixin from '../mixins/regionMixin'
+import DetailDialog from '../children/xmdetailDialog.vue'
 export default {
   mixins: [regionMixin],
   components: {
-    // AddDialog
+    DetailDialog
   },
   watch: {
     queryConfig() {
@@ -101,6 +123,11 @@ export default {
   },
   data() {
     return {
+      detailVisible: false,
+      detailData: [],
+      projectVisible: false,
+      projectTitle: '',
+      frameSrc: '',
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
       queryConfig: proconf.highQueryConfig,
@@ -366,13 +393,87 @@ export default {
   mounted() {
   },
   methods: {
+    cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
+      // 无效的cellValue
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
+      switch (key) {
+        case 'amountYszyap1':
+          this.handleDetail('zxjdxmtz_ysmx', obj.row.budgetLevelCode, key)
+          this.detailTitle = '预算明细'
+          break
+        case 'amountZczyap1':
+          this.handleDetail('zxjdxmtz_zcmx', obj.row.budgetLevelCode, key)
+          this.detailTitle = '支出明细'
+          break
+        case 'proName':
+          this.projectTitle = '项目明细'
+          this.projectVisible = true
+          let url = '/fiscal/#/PersonProject/DirectProjectDetail/' +
+            obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
+            '&appguid=fiscal#/'
+          console.info(url)
+          this.frameSrc = url
+          break
+      }
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      // const validCellValue = (row[column.property] * 1)
+      //  if (validCellValue) {
+      // console.log(column.property)
+      // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
+      // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
+      // if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
+      if (['proName'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
+    //  }
+    },
+    handleDetail(reportCode, budgetLevelCode, column) {
+      let condition = ''
+
+      switch (column) {
+        case 'amountSnjxjfp':
+          // condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSxjfp':
+        // condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+      }
+      this.detailQueryParam = {
+        condition: condition,
+        reportCode: reportCode,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
+        mofDivCode: this.mofDivCode, // 获取左侧树
+        speTypeName: this.speTypeName,
+        expFuncName: this.expFuncName,
+        proName: this.proName,
+        endTime: this.endTime,
+        hqlm: this.hqlm,
+        iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
+        mofDivCodes: this.codeList,
+        proCodes: this.proCodes === '' ? [] : this.proCodes,
+        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
+        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps,
+        budgetLevelCode: budgetLevelCode
+      }
+      this.detailType = reportCode
+      this.detailVisible = true
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
     search(obj) {
       console.log(obj)
       this.searchDataList = obj
-      this.fiscalYear = obj.fiscalYear
+      this.fiscalYear = obj.fiscalYear ? this.$store.state.userInfo.year : obj.fiscalYear
       this.speTypeName = obj.speTypeName
       this.expFuncName = obj.expFuncName
       this.proName = obj.proName
@@ -608,13 +709,7 @@ export default {
       this.billguid = row.attachment_id
       this.showAttachmentDialog = true
     },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-      console.log(key, obj.row)
-      switch (key) {
-      }
-    },
+
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       this.queryTableDatas()
@@ -715,7 +810,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         mofDivCode: this.mofDivCode, // 获取左侧树
         speTypeName: this.speTypeName,
         expFuncName: this.expFuncName,

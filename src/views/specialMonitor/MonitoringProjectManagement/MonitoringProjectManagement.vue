@@ -68,6 +68,7 @@
     </BsMainFormListLayout>
     <AddDialog
       v-if="dialogVisible"
+      :ref="queryTableDatas"
       :title="dialogTitle"
       :code-list="codeList"
     />
@@ -414,7 +415,7 @@ export default {
     // 新增或修改弹框
     clickAddBtn(row) {
       if (this.codeList?.length === 0) {
-        return this.$message.error('请先选择左侧区划')
+        return this.$message.info('请先选择左侧区划')
       }
       this.dialogTitle = '新增'
       this.dialogVisible = true

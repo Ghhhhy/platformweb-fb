@@ -82,6 +82,7 @@ export default {
       condition: {},
       tableColumnsConfig: [
       ],
+      params5: '',
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -213,9 +214,14 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
-        case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           break
+        case 'zxjdzcmx_fdq':
+        case 'zxjdzcmx_fzj':
+          this.tableColumnsConfig = proconf.payColumn
+          this.queryConfig = proconf.highQueryConfigZx
+          break
+
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
           break
@@ -224,17 +230,58 @@ export default {
         case 'zdzjzbmx_fdq':
         case 'czzdzjzbmx_fdq':
         case 'zdzjzbmx_fzjfp':
-        case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
+          break
+        case 'zxjdzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetZXColumn
+          this.queryConfig = proconf.highQueryConfigZx
           break
         default:
           break
       }
       this.queryTableDatas()
+    },
+    showInfoForVisible() {
+      switch (this.sDetailType) {
+        case 'zdzjzcmx_fdq':
+          this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+        case 'zxjdzcmx_fdq':
+        case 'zxjdzcmx_fzj':
+          this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          this.queryConfig = proconf.highQueryConfigZx
+          break
+        case 'zdzjzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetColumn
+          if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
+            this.tableColumnsConfig = proconf.targetColumnFPXJ
+          }
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+        case 'zxjdzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetZXColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
+          break
+      }
     }
   },
   mounted() {
     // this.showInfo()
+    this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
   },
   watch: {
     sDetailType: {
@@ -245,6 +292,7 @@ export default {
     }
   },
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
   }
 }
 </script>

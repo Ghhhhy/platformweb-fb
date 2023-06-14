@@ -296,6 +296,7 @@
 </template>
 <script>
 import { proconf } from './addDialog.js'
+import { checkPhone } from '@/utils/index.js'
 import HttpModule from '@/api/frame/main/Monitoring/InquiryLetterReplyByFinance.js'
 export default {
   name: 'AddDialog',
@@ -384,13 +385,9 @@ export default {
         this.$message.warning('请输入函询事项单位回复情况')
         return
       }
-      let re = /^1\d{10}$/
-      let re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/
-      if (!re.test(this.askFinanceTel)) {
-        if (!re1.test(this.askFinanceTel)) {
-          this.$message.warning('请输入正确的电话号码')
-          return
-        }
+      if (!checkPhone(this.askFinanceTel)) {
+        this.$message.warning('请输入正确的电话号码')
+        return
       }
       const params = {
         askCode: this.modifyData.askCode,

@@ -14,5 +14,11 @@ export default {
   },
   getProSpeTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
+  getRuleTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
+  },
+  getProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   }
 }

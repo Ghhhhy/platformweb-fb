@@ -473,7 +473,7 @@ export default {
       this.fiRuleCode = this.detailData[1]
       this.fiscalYear = this.detailData[2] || this.$store.state.userInfo.year
       this.searchDataList.fiscalYear = this.detailData[2] || this.$store.state.userInfo.year
-      this.getFiRuleHandle()
+      // this.getFiRuleHandle()
       this.trackProCodes = this.detailData[3]
       switch (this.title) {
         case '红色预警-未处理明细':

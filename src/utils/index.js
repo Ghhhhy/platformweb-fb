@@ -383,6 +383,16 @@ const uuids = (len, radix) => {
   }
   return uuid.join('')
 }
+
+// 手机号校验
+const checkPhone = (phone) => {
+  const re = /^1\d{10}$/ // 手机号码
+  const re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/ // 座机号
+  const re2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/ // 固定号码
+  const isLegal = re.test(phone) || re1.test(phone) || re2.test(phone)
+  return isLegal
+}
+
 export {
   objectClone,
   uuid,
@@ -408,5 +418,6 @@ export {
   throttle,
   debounce,
   uuidFile,
-  uuids
+  uuids,
+  checkPhone
 }

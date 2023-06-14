@@ -28,6 +28,7 @@
           @ajaxData="pagerChange"
           @onToolbarBtnClick="onToolbarBtnClick"
           @cellDblclick="cellDblclick"
+          @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
             <bs-table-title title="按规则查看" />
@@ -57,7 +58,8 @@ import {
   getAgencyNameColumn,
   getWarnLevelColumn,
   getControlTypeColumn,
-  getWarnTypeColumn
+  getWarnTypeColumn,
+  getMofDivCodeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
@@ -86,6 +88,7 @@ export default defineComponent({
   },
   model,
   setup(props, { emit }) {
+    let type = ''
     /**
      * 弹窗内部状态
      * */
@@ -102,8 +105,10 @@ export default defineComponent({
 
     const differentColumns = [
       getAgencyNameColumn(),
+      getMofDivCodeColumn(),
       getRuleNameColumn({
-        title: '规则名称'
+        title: '规则名称',
+        width: 140
       })
     ]
 
@@ -125,11 +130,11 @@ export default defineComponent({
       },
       registerTable
     ] = useTable({
-      fetch: unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? queryRuleData : queryDepData,
+      fetch: unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? queryDepData : queryRuleData,
       beforeFetch: params => {
-        const { fiRuleCode, agencyCode } = props.currentRow
-        const property = unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? 'fiRuleCode' : 'agencyCode'
-        const value = unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? fiRuleCode : agencyCode
+        const { fiRuleCodes, agencyCode } = props.currentRow
+        const property = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? 'agencyCode' : 'fiRuleCodes'
+        const value = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? agencyCode : fiRuleCodes
         return {
           ...params,
           [property]: value
@@ -139,7 +144,7 @@ export default defineComponent({
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
       columns: [
-        ...(unref(pagePath) === RouterPathEnum().RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
+        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
         getWarnLevelColumn(),
         getControlTypeColumn(),
         getWarnTypeColumn(),
@@ -152,8 +157,27 @@ export default defineComponent({
     /**
      * 双击单元格
      * */
+    // function cellDblclick(a, b, e) {
     function cellDblclick({ row }) {
-      detailCurrentRow.value = row
+      // detailCurrentRow.value = row
+      // // console.log('log-------', a, b, e)
+      // changeHOVModelVisible(true)
+    }
+    function cellClick(obj, context, e) {
+      let key = obj.column.property
+      if (key === 'onWay') {
+        this.type = '3'
+      } else if (key === 'prohibit') {
+        this.type = '2'
+      } else if (key === 'release') {
+        this.type = '1'
+      } else {
+        this.type = ''
+      }
+      obj.row.type = this.type
+      detailCurrentRow.value = obj.row
+      console.log('---------------', obj.row.type)
+      console.log('---------------', obj.row)
       changeHOVModelVisible(true)
     }
 
@@ -161,9 +185,10 @@ export default defineComponent({
       visible,
       handlingOfViolationsModel,
       detailCurrentRow,
-
+      type,
       cellCursorUnderlineClassName,
       cellDblclick,
+      cellClick,
       footerConfig,
       columns,
       registerTable,

@@ -7,6 +7,7 @@ import {
   warnLevelOptions,
   isDirOptions
 } from '@/views/main/handlingOfViolations/model/data'
+import { isSpeTypeOps } from '../../../handlingOfViolations/model/data'
 
 /**
  * 首页列表筛选表单
@@ -36,6 +37,19 @@ export const searchFormCommonSchemas = [
       props: {
         clearable: true,
         placeholder: '是否直达资金'
+      }
+    }
+  },
+  {
+    title: '是否专项监控',
+    field: 'isSpeType',
+    titleWidth: 0,
+    itemRender: {
+      name: '$select',
+      options: isSpeTypeOps,
+      props: {
+        clearable: true,
+        placeholder: '是否专项监控'
       }
     }
   },
@@ -105,7 +119,7 @@ export const getWarnCountColumns = () => {
       title: '预警总数量',
       field: 'warnTotal',
       align: 'right',
-      width: 140,
+      width: 160,
       sortable: false,
       combinedType: [
         'subTotal',
@@ -123,7 +137,7 @@ export const getWarnCountColumns = () => {
     {
       title: '在途',
       field: 'onWay',
-      width: 140,
+      width: 160,
       align: 'right',
       combinedType: [
         'subTotal',
@@ -145,12 +159,12 @@ export const getWarnCountColumns = () => {
       align: 'left',
       sortable: false,
       filters: false,
-      width: 280,
+      width: 300,
       children: [
         {
           title: '放行',
           field: 'release',
-          width: 140,
+          width: 150,
           align: 'right',
           combinedType: [
             'subTotal',
@@ -169,7 +183,7 @@ export const getWarnCountColumns = () => {
         {
           title: '禁止',
           field: 'prohibit',
-          width: 140,
+          width: 150,
           align: 'right',
           combinedType: [
             'subTotal',

@@ -804,7 +804,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$refs.mountTableRef.removeCheckboxRow()
+        // this.$refs.mountTableRef.removeCheckboxRow()
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {
@@ -891,14 +891,14 @@ export default {
       }
       let funSelection = this.$refs.mountTableRef.getSelectionData()
       if (this.title === '修改') {
-        funSelection = this.mountTableData
+        // funSelection = this.mountTableData
       }
       if (funSelection.length < 1) {
         this.$message.warning('请选择挂接函数')
         return
       }
-      if (this.ruleTemplateName.length > 20) {
-        this.$message.warning('规则模板名称长度应小于等于20位')
+      if (this.ruleTemplateName.length > 100) {
+        this.$message.warning('规则模板名称长度应小于等于100位')
         return
       }
       if (this.ruleRemark.length > 100) {

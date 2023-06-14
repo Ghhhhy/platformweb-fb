@@ -250,6 +250,55 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
       )
   },
+  // 直达监控规则查看
+  {
+    path: '/MonitorRulesViewBySpe',
+    name: 'MonitorRulesViewBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
+  {
+    path: '/MonitorRulesViewThreeGuarantees',
+    name: 'MonitorRulesViewThreeGuarantees',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
+  {
+    path: '/MonitorRulesViewThreePublic',
+    name: 'MonitorRulesViewThreePublic',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
+  {
+    path: '/MonitorRulesViewDfr',
+    name: 'MonitorRulesViewDfr',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
   {
     path: '/MonitorRulesViewFJ',
     name: 'MonitorRulesViewFJ',

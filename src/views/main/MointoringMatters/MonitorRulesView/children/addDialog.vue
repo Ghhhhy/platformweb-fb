@@ -484,7 +484,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' } }"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -685,13 +685,50 @@ export default {
         payeeAcctNo: '',
         payeeAcctName: ''
       },
-      formValidationConfigMessage: proconf.formValidationConfigMessage
+      formValidationConfigMessage: proconf.formValidationConfigMessage,
+      regulationClassName: ''
     }
   },
   methods: {
+    chooseWarningLevel(val) {
+      if (val === 1) {
+        this.handleType = 1
+      } else if (val === 2) {
+        this.handleType = 2
+      } else if (val === 3) {
+        this.handleType = 3
+      } else if (val === 4) {
+        this.handleType = 4
+      }
+    },
+    chooseTriggerClass(val) {
+      if (val === 2) {
+        this.warningLevel = 4
+        this.handleType = 4
+      }
+      if (val === 1) {
+        this.warningLevel = 1
+        this.handleType = 1
+      }
+    },
+    choosehandleType(val) {
+      if (val === 1) {
+        this.warningLevel = 1
+      } else if (val === 2) {
+        this.warningLevel = 2
+      } else if (val === 3) {
+        this.warningLevel = 3
+      } else if (val === 4) {
+        this.warningLevel = 4
+      }
+    },
+    selectRule(val) {
+      let valArr = val.split('##')
+      this.regulationClassName = valArr[2]
+    },
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(0) : []
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
@@ -1099,7 +1136,7 @@ export default {
       }
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
-        that.treeData = res.data
+        that.treeData = that.getChildrenNewData(res.data)
         // this.$nextTick(() => {
         //   this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
         // })
@@ -1182,6 +1219,11 @@ export default {
         let valArr = that.regulationClass.split('-')
         classCode = valArr[0]
       }
+
+      if (this.triggerClass === 1 && (this.businessFunctionName.length === 0 || this.businessFunctionName[0] === 'undefined')) {
+        this.$XModal.message({ status: 'warning', message: '请选择触发菜单！' })
+        return
+      }
       console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         const params = {
@@ -1227,17 +1269,7 @@ export default {
         // })
       }
     },
-    chooseWarningLevel(val) {
-      if (val === 1) {
-        this.handleType = 1
-      } else if (val === 2) {
-        this.handleType = 2
-      } else if (val === 3) {
-        this.handleType = 3
-      } else if (val === 4) {
-        this.handleType = 4
-      }
-    },
+
     // 选择业务系统
     changeSysCode(val) {
       console.log(val)
@@ -1337,16 +1369,6 @@ export default {
           this.$message.error('下拉树加载失败')
         }
       })
-    },
-    chooseTriggerClass(val) {
-      if (val === 2) {
-        this.warningLevel = 4
-        this.handleType = 4
-      }
-      if (val === 1) {
-        this.warningLevel = 1
-        this.handleType = 1
-      }
     }
   },
   watch: {
@@ -1443,8 +1465,8 @@ export default {
     }
     if (this.$parent.formDatas) {
       this.formDatas = this.$parent.formDatas
-      if (this.formDatas.payment !== '') {
-        this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+      if (this.formDatas.payment) {
+        this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
         this.paymentLen = this.formDatas.payment__multiple.length
         this.formDatas.payment__multiple.forEach((item, index) => {
           let datas = {}

@@ -1,7 +1,7 @@
 <!-- 预警明细查询（按规则） -->
 <template>
-  <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+  <div v-loading="tableLoading" style="height: 100%" class="createProcessing">
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible" :default-split-pane-left-width="14">
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -22,6 +22,25 @@
           />
         </div>
       </template>
+      <template v-if="showBuinessTree" v-slot:mainTree>
+        <BsTreeSet
+          ref="treeSet"
+          v-model="leftTreeVisible"
+          :tree-config="treeTypeConfig"
+          @onChangeInput="(val) => { leftTreeFilterText = val }"
+          @onAsideChange="asideChange"
+          @onConfrimData="treeSetConfrimData"
+        />
+        <BsTree
+          ref="leftTree"
+          open-loading
+          :filter-text="leftTreeFilterText"
+          :tree-data="treeData"
+          :current-node-key="currentNodeKey"
+          :config="{ showFilter: false, treeProps: { nodeKey: 'code', label: 'label',children: 'children' } }"
+          @onNodeClick="onClickmethod"
+        />
+      </template>
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
@@ -31,18 +50,21 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false && showBuinessTree === true" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
           </template>
+
         </BsTable>
       </template>
     </BsMainFormListLayout>
@@ -56,6 +78,7 @@
       :deal-no="dealNo"
       :detail-data="detailData"
       :is-create="isCreate"
+      :bussness-id="bussnessId"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
@@ -81,6 +104,7 @@ import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import FilePreview from './children/filePreview'
 import GlAttachment from './children/common/GlAttachment'
+
 export default {
   components: {
     AddDialog,
@@ -107,17 +131,7 @@ export default {
       radioShow: true,
       roleId: '',
       breakRuleVisible: false,
-      treeData: [{
-        children: [],
-        code: 0,
-        id: 0,
-        label: '0-全部分类',
-        name: '全部分类',
-        parentId: null,
-        parentRuleName: null,
-        ruleLevel: 0,
-        ruleName: '全部分类'
-      }],
+      treeData: [],
       treeTypeConfig: {
         curRadio: 'AGENCY'
       },
@@ -162,10 +176,6 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableColumnsConfig: proconf.policiesTableColumns,
-      tableColumnsConfig1: proconf.policiesTableColumns1,
-      tableColumnsConfig2: proconf.policiesTableColumns2,
-      tableColumnsConfig3: proconf.policiesTableColumns3,
-      tableColumnsConfig4: proconf.policiesTableColumns4,
       tableData: [
       ],
       tableToolbarConfig: {
@@ -192,8 +202,9 @@ export default {
       tableConfig: {
         renderers: {
           // 修改 配置 下发 删除
-          $CreateProcessingGloableOptionRow: proconf.gloableOptionRow,
-          $gloableAttach: proconf.gloableAttach
+          $CreateProcessingGloableOptionRow: proconf.gloableOptionRowDetail,
+          $gloableAttach: proconf.gloableAttach,
+          $gloableOptionRowLog: proconf.gloableOptionRowLog
         },
         methods: {
           onOptionRowClick: this.handleCheck
@@ -280,13 +291,63 @@ export default {
       triggerClass: '',
       fiRuleName: '',
       filePreviewDialogVisible: false,
-      fileGuid: ''
+      fileGuid: '',
+      bussnessId: '',
+      showBuinessTree: false,
+      leftTreeFilterText: '', // 展示左侧树 只有某些页面才展示
+      selectBtnType: '',
+      showLog: false,
+      currentNodeKey: '7',
+      trackProName: '',
+      agencyCodeList: []
     }
   },
   activated() {
     this.updateRegulationClassNameFormConfig()
   },
   methods: {
+    /**
+     *动态控制左侧树的显示  只有特定的路由才显示
+     */
+    setShowBusinesTree() {
+      // 可显示是左侧业务树的路由
+      const showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      if (showRouters.includes(this.$route.name)) {
+        this.showLog = true
+      }
+      if (this.$route.name === 'DepartmentRetroactBySpecial') {
+        this.showBuinessTree = true
+        this.leftTreeVisible = true
+        // 去发请求获取左侧数据
+        this.getLeftTreeData()
+      }
+    },
+    showLogModel(row) {
+      this.showLogView = true
+      this.queryActionLog(row)
+    },
+    // 操作日志
+    queryActionLog(row) {
+      api.getLogs(row.dealNo).then(res => {
+        if (res.code === '000000') {
+          let tempData = res.data.map(item => {
+            return {
+              logid: item['operationTypeCode'],
+              nodeName: item['operationTypeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
+              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+              message: item['operationComment']
+            }
+          })
+          this.logData = tempData
+          console.log(this.logData)
+          this.showLogView = true
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     updateRegulationClassNameFormConfig () {
       // 如果菜单参数有主题 当前模块就使用该主题查询
       if (this.transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
@@ -304,12 +365,13 @@ export default {
       this.agencyName = obj.agencyName
       this.issueTime = obj.issueTime
       this.fiRuleName = obj.fiRuleName
+      this.trackProName = obj.trackProName || ''
       this.violateType = obj.violateType
+      this.agencyCodeList = obj.agencyCodeList_code__multiple
       if (this.menuName === '监控问询单列表' && this.status !== 0) {
         // this.status = obj.status === '' ? this.status : obj.status
         this.getdata()
       }
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -359,6 +421,9 @@ export default {
         case 'attach':
           this.showAttachment(row)
           break
+        case 'viewLog':
+          this.showLogModel(row)
+          break
       }
     },
     changeVisible(val) {
@@ -396,23 +461,29 @@ export default {
         }
       })
     },
-    onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
-      console.log('node', node)
-      let code = node.code
-      this.codeList = []
-      this.getItem(code, this.treeData)
-      console.log(this.codeList)
-      if (node.id !== '0') {
-        // this.mofdivcode = node.code
-      } else {
-        this.condition = {}
-      }
-      if (this.status === 0) {
-        this.queryTableDatas()
-      } else {
+    /**
+     * 重置查询条件
+     */
+    resetQuery() {
+      this.$refs.queryFrom.reset()
+      this.dealNo = ''
+      this.regulationClassName = ''
+      this.warnTime = ''
+      this.triggerClass = ''
+      this.warningLevel = ''
+      this.agencyName = ''
+      this.issueTime = ''
+      this.fiRuleName = ''
+      this.violateType = ''
+      this.trackProName = ''
+    },
+    onClickmethod({ node }) {
+      if (node.code) {
+        this.resetQuery()
+        // 根据业务渲染列表
+        this.currentNodeKey = node.code
+        this.bussnessId = node.code
+        this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog)
         this.getdata()
       }
     },
@@ -474,13 +545,16 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        agencyName: this.agencyName,
+        // agencyName: this.agencyName,
+        agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
         violateType: this.violateType,
         status: this.status,
         mofDivCodeList: this.codeList,
-        mofDivCode: this.mofDivCode || ''
+        mofDivCode: this.mofDivCode || '',
+        trackProName: this.trackProName || '',
+        roleguid: this.roleguid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -497,19 +571,6 @@ export default {
         if (res.code === '000000') {
           console.log(res.data.results)
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['unIssue'] = res.data.totalCount
         } else {
@@ -523,6 +584,7 @@ export default {
         page: this.mainPagerConfig.currentPage, // unitStatus页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         agencyName: this.agencyName,
+        agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
         violateType: this.violateType,
@@ -538,7 +600,9 @@ export default {
         regulationClassName: this.regulationClassName,
         warnTime: this.warnTime,
         triggerClass: this.triggerClass,
-        warningLevel: this.warningLevel
+        warningLevel: this.warningLevel,
+        businessModelCode: this.bussnessId || undefined,
+        trackProName: this.trackProName || ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -554,19 +618,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           if (this.status === 1) {
             this.tabStatusNumConfig['dcl'] = res.data.totalCount
@@ -617,19 +668,6 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['archive'] = res.data.totalCount
         } else {
@@ -737,46 +775,14 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.userInfo.province.substring(2, 9) === '0000000') {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
-        }
-      } else if (
-        this.userInfo.province.substring(4, 9) === '00000' && this.userInfo.province.substring(2, 9) !== '0000000'
-      ) {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
-        }
+      const param = {
+        businessType: 2,
+        parentId: '1'// 预算管理一体化系统
       }
-      HttpModule.getTreeData(params).then(res => {
+      api.getbusLists(param).then(res => {
         if (res.rscode === '100000') {
-          let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
+          let resData = res.data.results.filter(item => item.id !== '8')
+          let treeResdata = that.getChildrenData(resData)
           that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
@@ -786,12 +792,13 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
-        if (item.children) {
+        item.code = item.id
+        item.label = item.businessName
+        item.children = item.children || []
+        if (item.children && item.children.length > 0) {
           that.getChildrenData(item.children)
         }
       })
-
       return datas
     },
     initButtons(param5) {
@@ -851,20 +858,12 @@ export default {
       this.isIssue = false // 已整改标识
       this.isArchive = false // 归档标识
       // 切换页签清空搜索栏
-      this.$refs.queryFrom.reset()
-      this.dealNo = ''
-      this.regulationClassName = ''
-      this.warnTime = ''
-      this.triggerClass = ''
-      this.warningLevel = ''
-      this.agencyName = ''
-      this.issueTime = ''
-      this.fiRuleName = ''
-      this.violateType = ''
+      this.resetQuery()
       this.status = null
       this.isAgencyDone = false
       this.isNormalDone = false
       this.isProcessed = false
+      this.selectBtnType = obj.code
       console.log('ssss', this)
       console.log('ssss1', obj.code)
 
@@ -891,7 +890,7 @@ export default {
           break
         // 待处理
         case 'dcl':
-          this.tableColumnsConfig = proconf.policiesTableColumns
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 1
@@ -904,7 +903,7 @@ export default {
         case 'dhs':
         case 'feedback':
           // this.tableColumnsConfig = [...proconf.policiesTableColumns1, attachOption]
-          this.tableColumnsConfig = proconf.policiesTableColumns1
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 3
@@ -918,7 +917,7 @@ export default {
         case 'process':
         case 'queryBusinessData': // 联查业务数据
           // this.tableColumnsConfig = [...proconf.policiesTableColumns2, attachOption]
-          this.tableColumnsConfig = proconf.policiesTableColumns2
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isAgencyDone = true
@@ -929,7 +928,7 @@ export default {
         // 已退回、被退回
         case 'bth':
         case 'yth':
-          this.tableColumnsConfig = proconf.policiesTableColumnsbtu
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 8
@@ -939,7 +938,7 @@ export default {
           break
         // 认定正常
         case 'rdzc':
-          this.tableColumnsConfig = proconf.policiesTableColumns3
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isNormalDone = true
@@ -949,7 +948,7 @@ export default {
           break
         // 已整改
         case 'yzg':
-          this.tableColumnsConfig = proconf.policiesTableColumns3
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 7
@@ -958,7 +957,7 @@ export default {
           this.getdata()
           break
         case 'csysh':
-          this.tableColumnsConfig = proconf.policiesTableColumns3
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isProcessed = true
@@ -967,7 +966,7 @@ export default {
           this.getdata()
           break
         case 'search':
-          this.tableColumnsConfig = proconf.createTableColumns
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.menuName = '监控问询单列表'
@@ -1066,7 +1065,53 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (['warnLevel'].includes(column.property)) {
+        switch (row.warnLevel) {
+          case 3:
+            return {
+              color: '#BBBB00'
+            }
+          case 2:
+            return {
+              color: 'orange'
+            }
+          case 1:
+            return {
+              color: 'red'
+            }
+          case 4:
+            return {
+              color: 'blue'
+            }
+          case 5:
+            return {
+              color: 'gray'
+            }
+          default:
+            break
+        }
+      }
+    },
+    getAgency() {
+      const param = {
+        elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
+        year: this.$store.state.userInfo.year,
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
+      }
+      api.getTreeAgency(param).then(res => {
+        let treeResdata = res.data
+        this.queryConfig[0].itemRender.options = treeResdata
+      })
     }
+  },
+  mounted() {
+
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
@@ -1075,27 +1120,34 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+    // 动态控制是否展示树
+    this.setShowBusinesTree()
     // this.queryTableDatas()
     this.initButtons(this.param5)
     this.getViolationType()
+    this.getAgency()
     // this.getCount()
   }
 }
 </script>
-<style scoped>
-.radio-right{
+<style >
+.createProcessing .radio-right{
 float: right;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-yellow {
+.createProcessing .Titans-table ::v-deep  .vxe-body--row.row-yellow {
   background-color: yellow;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-blue {
+.createProcessing .Titans-table ::v-deep  .vxe-body--row.row-blue {
   background-color: blue;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-red {
+.createProcessing .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
 }
+ .createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
+  background-color: transparent !important;
+}
+
 </style>

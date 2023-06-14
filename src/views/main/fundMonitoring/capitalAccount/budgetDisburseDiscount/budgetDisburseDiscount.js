@@ -108,29 +108,29 @@ const proconf = {
         type: 'name',
         align: 'left',
         treeNode: true,
-        width: 260,
+        // width: 260,
         field: 'name',
         cellRender: { name: '$vxeIcon' }
       },
       {
         title: '惠企',
-        width: 100,
+        // width: 100,
         align: 'center',
         children: [
           {
             title: '惠及企业数',
-            field: 'numberQys',
-            width: 200
+            field: 'numberQys'
+            // width: 200
           },
           {
             title: '惠及企业次数',
-            field: 'numberQycs',
-            width: 200
+            field: 'numberQycs'
+            // width: 200
           },
           {
             title: '惠及企业补助金额',
             field: 'amountHqpay',
-            width: 100,
+            // width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }
@@ -143,18 +143,18 @@ const proconf = {
         children: [
           {
             title: '惠及人员数',
-            field: 'numberRys',
-            width: 200
+            field: 'numberRys'
+            // width: 200
           },
           {
             title: '惠及人次',
-            field: 'numberRycs',
-            width: 200
+            field: 'numberRycs'
+            // width: 200
           },
           {
             title: '惠及人员补助金额',
             field: 'amountLmpay',
-            width: 100,
+            // width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           }

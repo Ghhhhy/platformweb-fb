@@ -42,14 +42,24 @@
         </template>
       </BsTable>
     </div>
+    <ProjectItem
+      v-if="addDialogVisible"
+      ref="projectDialog"
+      :dialog-visible.sync="addDialogVisible"
+      :pro-guid="proGuid"
+      :mof-div-code="mofDivCode"
+      :click-row-data="clickRowData"
+    />
   </vxe-modal>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import proconf from './column.js'
+import ProjectItem from './ProjectItem.vue'
 export default {
   name: 'DetailDialog',
   components: {
+    ProjectItem
   },
   computed: {
     curNavModule() {
@@ -104,6 +114,7 @@ export default {
         currentPage: 1,
         pageSize: 20
       },
+      clickRowData: {},
       tableData: [],
       condition: {},
       tableToolbarConfig: {
@@ -128,10 +139,14 @@ export default {
           useMoneyFilter: true
         }
       },
+      params5: '',
       params: {},
       sDetailTitle: '',
       sDetailVisible: false,
-      sDetailData: []
+      sDetailData: [],
+      addDialogVisible: false, // 项目信息
+      proGuid: '',
+      mofDivCode: ''
     }
   },
   methods: {
@@ -243,6 +258,10 @@ export default {
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          }
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
           break
@@ -289,13 +308,41 @@ export default {
         case 'xyfpaAmount':
           this.tableColumnsConfig = proconf.zdzjprojectColumn
           break
+        case 'zyxdxmmx_fzj':
+          this.tableColumnsConfig = proconf.zyxdxmmfzjColumn
+          break
         case 'zdzjxmmx':
-          this.tableColumnsConfig = proconf.projectColumn
+          // 上海项目加一列分配时间
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.projectColumn.concat([{
+              title: '分配时间',
+              field: 'allocateTime',
+              sortable: false,
+              align: 'center'
+            }])
+          } else {
+            this.tableColumnsConfig = proconf.projectColumn
+          }
           break
         // 专项监督项目明细
         case 'zxjdxmmx_fzj':
         case 'zxjdxmmx_fdq':
-          this.tableColumnsConfig = proconf.projectZXColumn
+          // 上海项目加一列分配时间
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.projectZXColumn.concat([{
+              title: '分配时间',
+              field: 'allocateTime',
+              sortable: false,
+              align: 'center'
+            }])
+            if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
+              this.tableColumnsConfig = proconf.targetColumnFPXJ
+            }
+            this.$set(this.tableColumnsConfig[0], 'visible', true)
+            this.$set(this.tableColumnsConfig[1], 'visible', true)
+          } else {
+            this.tableColumnsConfig = proconf.projectZXColumn
+          }
           break
         default:
           break
@@ -303,7 +350,7 @@ export default {
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {
-      let params = {
+      this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
         trackProCode: row.trackProCode,
@@ -317,7 +364,6 @@ export default {
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.fiscalYear
       }
-      this.$parent.sDetailQueryParam = params
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     },
@@ -334,6 +380,22 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        if (['proCode', 'proName'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+        if (['proCode', 'proName'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -346,6 +408,23 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.log(obj.column.property, 777)
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          if (!obj.row.proGuid) {
+            this.$message.warning('未返proGuid,无法查看项目信息')
+            return
+          }
+          this.proGuid = obj.row.proGuid || ''
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+          this.addDialogVisible = true
+        }
+      } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
+        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          this.clickRowData = obj.row
+          this.addDialogVisible = true
+        }
+      }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
@@ -353,20 +432,27 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
+      console.log(777, key)
       switch (key) {
         case 'amountAllfp':
-          let zcSource = 'zdzjzbmx_fzjfp'
+          let zpSource = 'zdzjzbmx_fzjfp'
           if (this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
-            zcSource = 'zxjdzbmx_fzjfp'
+            zpSource = 'zxjdzbmx_fzjfp'
           }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
-            this.handleDetail(zcSource, obj.row)
+            this.handleDetail(zpSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountPayAll':
-          this.handleDetail('zdzjzcmx_fdq', obj.row)
+          let paySource = 'zdzjzcmx_fdq'
+          if (this.detailType === 'zxjdxmmx_fdq') {
+            paySource = 'zxjdzcmx_fdq'
+          }
+          if (this.detailType === 'zxjdxmmx_fzj') {
+            paySource = 'zxjdzcmx_fzj'
+          }
+          this.handleDetail(paySource, obj.row)
           this.$parent.sDetailTitle = '支出明细'
           break
         case 'amountbjfpsnjap':
@@ -384,6 +470,7 @@ export default {
   },
   watch: {},
   created() {
+    this.params5 = this.$store.state.curNavModule.param5
   }
 }
 </script>

@@ -315,8 +315,8 @@ const proconf = {
   },
   highQueryConfig: [
     {
-      title: '预警规则',
-      field: 'fiRuleCode',
+      title: '规则',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -325,19 +325,73 @@ const proconf = {
         options: [],
         props: {
           config: {
-            valueKeys: ['code', 'name', 'id'],
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{name}', // {code}-{name}
-              nodeKey: 'code',
-              label: 'name',
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
               children: 'children'
             },
-            placeholder: '预警规则',
-            multiple: false,
+            placeholder: '规则',
+            multiple: true,
             readonly: false,
             isleaf: true
           }
+        }
+      }
+    }, {
+      title: '支付时间',
+      field: 'xpayDate',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '支付时间'
+        }
+      }
+    },
+    {
+      title: '触发监控时间',
+      field: 'triggerMonitorDate',
+      itemRender: {
+        name: '$vxeInput',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '触发监控时间'
+        }
+      }
+    }
+  ],
+  highQueryConfigHLJ: [
+    {
+      title: '支付时间',
+      field: 'xpayDate',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '支付时间'
+        }
+      }
+    }, {
+      title: '触发监控时间',
+      field: 'triggerMonitorDate',
+      width: 200,
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date',
+          placeholder: '触发监控时间'
         }
       }
     }
@@ -345,7 +399,14 @@ const proconf = {
   highQueryData: {
     fiscalYear: '',
     fiRuleCode_code__multiple: '',
-    fiRuleCode: ''
+    fiRuleCode: '',
+    ruleCodes: '',
+    xpayDate: '',
+    triggerMonitorDate: ''
+  },
+  highQueryDataHLJ: {
+    xpayDate: '',
+    triggerMonitorDate: ''
   },
   basicInfo: {
     type: 'form',

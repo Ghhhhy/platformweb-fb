@@ -44,8 +44,24 @@ const routers = [
       )
   },
   {
+    path: '/SpecialSupervisionCapitalSh', // 专项监督_分资金
+    name: 'SpecialSupervisionCapitalSh',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionCapital/specialSupervisionCapital.vue'
+      )
+  },
+  {
     path: '/SpecialSupervisionRegion', // 专项监督_分地区
     name: 'SpecialSupervisionRegion',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue'
+      )
+  },
+  {
+    path: '/SpecialSupervisionRegionSh', // 专项监督_分地区
+    name: 'SpecialSupervisionRegionSh',
     component: () =>
       import(
         '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue'
@@ -113,6 +129,14 @@ const routers = [
     component: () =>
       import(
         '../../../views/main/fundMonitoring/capitalAccount/budgetDisburseDiscount/budgetDisburseDiscount.vue'
+      )
+  },
+  {
+    path: '/BudgetDisburseObjectSpecial', // 专项监督项目查询
+    name: 'BudgetDisburseObjectSpecial',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetDisburseObjectSpecial/budgetDisburseObjectSpecial.vue'
       )
   },
   {
@@ -406,6 +430,61 @@ const routers = [
       ) // 直达资金监控预警结果(全省)
   },
   {
+    path: '/warningResultAgency',
+    name: 'warningResultAgency',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(单位)
+  },
+  {
+    path: '/warningResultMdept',
+    name: 'warningResultMdept',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(处室)
+  },
+  {
+    path: '/warningResultAllMdept',
+    name: 'warningResultAllMdept',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultAllsh.vue'
+      ) // 专项行动预警(处室) - 上海专用
+  },
+  {
+    path: '/warningResultAllMdeptByMof',
+    name: 'warningResultAllMdeptByMof',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultAllsh.vue'
+      ) // 专项行动预警(处室) - 上海专用 全辖
+  },
+  {
+    path: '/warningResultFSD',
+    name: 'warningResultFSD',
+    meta: {
+      keepAlive: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/warningResult/warningResultsh.vue'
+      ) // 直达资金监控预警结果(非试点)
+  },
+  {
     path: '/WarningResultHandleRegion',
     name: 'WarningResultHandleRegion',
     meta: {
@@ -470,7 +549,7 @@ const routers = [
     },
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/warningResultHandleRule/warningResultHandleRule.vue'
+        '../../../views/main/fundMonitoring/departWarningResultHandleRule/departWarningResultHandleRule.vue'
       ) // 部门监控预警处理_分规则
   },
   // 全辖处理
@@ -807,6 +886,20 @@ const routers = [
     component: () =>
       import('../../../views/main/fundMonitoring/DfrDatabase/DfrDatabase.vue')
   },
+
+  {
+    path: '/dfrDatabaseSpecial', //  专项行动综合管理平台
+    name: 'dfrDatabaseSpecial',
+    component: () =>
+      import('../../../views/main/fundMonitoring/DfrDatabaseSpecial/DfrDatabaseSpecial.vue')
+  },
+  {
+    path: '/dfrDatabaseSpecialView', //  专项行动综合管理平台查看
+    name: 'dfrDatabaseSpecialView',
+    component: () =>
+      import('../../../views/main/fundMonitoring/DfrDatabaseSpecial/DfrDatabaseSpecial.vue')
+  },
+
   {
     path: '/QueryProcessingBySpecial', // 违规单查看-专项
     name: 'QueryProcessingBySpecial',

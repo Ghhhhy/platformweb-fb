@@ -434,7 +434,7 @@ export let proconf = {
       }
     },
     {
-      field: 'pay_app_no',
+      field: 'payAppNo',
       title: '支付申请编号',
       titleWidth: '180',
       span: 8,
@@ -444,7 +444,7 @@ export let proconf = {
       }
     },
     {
-      field: 'agency_name',
+      field: 'agencyName',
       title: '预算单位',
       titleWidth: '180',
       span: 8,
@@ -454,7 +454,7 @@ export let proconf = {
       }
     },
     {
-      field: 'cor_bgt_doc_no_name',
+      field: 'corBgtDocNoName',
       title: '指标文号',
       titleWidth: '180',
       span: 8,
@@ -465,7 +465,7 @@ export let proconf = {
     },
     {
       title: '预算项目',
-      field: 'pro_name',
+      field: 'proName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -484,7 +484,7 @@ export let proconf = {
     // },
     {
       title: '付款人',
-      field: 'pay_acct_name',
+      field: 'payAcctName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -494,7 +494,7 @@ export let proconf = {
     },
     {
       title: '付款人账号',
-      field: 'pay_acct_no',
+      field: 'payAcctNo',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -504,7 +504,7 @@ export let proconf = {
     },
     {
       title: '付款银行',
-      field: 'pay_acct_bank_name',
+      field: 'payAcctBankName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -514,7 +514,7 @@ export let proconf = {
     },
     {
       title: '收款人',
-      field: 'payee_acct_name',
+      field: 'payeeAcctName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -524,7 +524,7 @@ export let proconf = {
     },
     {
       title: '收款人账号',
-      field: 'payee_acct_no',
+      field: 'payeeAcctNo',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -534,7 +534,7 @@ export let proconf = {
     },
     {
       title: '收款银行',
-      field: 'payee_acct_bank_name',
+      field: 'payeeAcctBankName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -543,7 +543,7 @@ export let proconf = {
       }
     },
     {
-      field: 'pay_app_amt',
+      field: 'payAppAmt',
       title: '支付金额',
       titleWidth: '180',
       span: 8,
@@ -554,7 +554,7 @@ export let proconf = {
     },
     {
       title: '资金用途',
-      field: 'use_des',
+      field: 'useDes',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -564,7 +564,7 @@ export let proconf = {
     },
     {
       title: '政府经济分类',
-      field: 'gov_bgt_eco_name',
+      field: 'govBgtEcoName',
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -574,7 +574,7 @@ export let proconf = {
     },
     {
       title: '部门经济分类',
-      field: 'dep_bgt_eco_name',
+      field: 'depBgtEcoName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -584,7 +584,7 @@ export let proconf = {
     },
     {
       title: '资金性质',
-      field: 'fund_type_name',
+      field: 'fundTypeName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -594,7 +594,7 @@ export let proconf = {
     },
     {
       title: '功能分类',
-      field: 'exp_func_name',
+      field: 'expFuncName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -604,7 +604,7 @@ export let proconf = {
     },
     {
       title: '支付方式',
-      field: 'pay_type_name',
+      field: 'payTypeName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -614,7 +614,7 @@ export let proconf = {
     },
     {
       title: '结算方式',
-      field: 'set_mode_name',
+      field: 'setModeName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -624,7 +624,7 @@ export let proconf = {
     },
     {
       title: '业务处室',
-      field: 'manage_mof_dep_name',
+      field: 'manageMofDepName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -634,7 +634,7 @@ export let proconf = {
     },
     {
       title: '工资标识',
-      field: 'is_sal_name',
+      field: 'isSalName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -644,7 +644,7 @@ export let proconf = {
     },
     {
       title: '是否工会经费',
-      field: 'is_fun_name',
+      field: 'isFunName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -654,7 +654,7 @@ export let proconf = {
     },
     {
       title: '三公经费',
-      field: 'thr_exp_name',
+      field: 'thrExpName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -664,7 +664,7 @@ export let proconf = {
     },
     {
       title: '直达资金标识',
-      field: 'is_dir_name',
+      field: 'isDirName',
       span: 8,
       titleWidth: '180',
       itemRender: {

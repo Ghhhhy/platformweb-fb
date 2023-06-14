@@ -249,6 +249,7 @@ export default {
       proCodes: [],
       mofDivCodes: [],
       ruleCodes: []
+
     }
   },
   mounted() {
@@ -343,6 +344,9 @@ export default {
           }
         }
       }
+      condition.proCodes = condition.proCodes?.split('##')[0]
+      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       this.condition = condition
       this.queryTableDatas()
     },
@@ -390,11 +394,16 @@ export default {
       // if (isInvalidCellValue) return
 
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
+      this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+      this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
       switch (key) {
         case 'name':
-          this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.regionTitle = '专项监督预警汇总_分地区'
-          this.warnRegionSummaryVisible = true
+          console.info(obj.row.id.length)
+          if (obj.row.id.length > 4) {
+            this.regionData = ['name', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
+            this.regionTitle = '专项监督预警汇总_分地区'
+            this.warnRegionSummaryVisible = true
+          }
           break
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
@@ -456,8 +465,8 @@ export default {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
-        proCodes: this.proCodes,
-        mofDivCodes: this.mofDivCodes,
+        proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getDivTrees(this.searchDataList.mofDivCodes),
         ruleCodes: this.ruleCodes
       }
       this.tableLoading = true
@@ -483,6 +492,67 @@ export default {
         this.mofDivCodes = this.ruleData[3]
         this.ruleCodes = this.ruleData[4]
       }
+    },
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData(item.children)
+        }
+      })
+      return datas
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProSpeTreeData({
+        fiscalYear: fiscalYear
+      }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[2].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
+    getDivTrees(val) {
+      let mofDivCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          mofDivCodes.push(item.split('##')[0])
+        })
+      }
+      return mofDivCodes
     }
   },
   created() {
@@ -492,6 +562,8 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.showInfo()
+    this.getMofDiv()
+    this.getPro()
     this.queryTableDatas()
   }
 }

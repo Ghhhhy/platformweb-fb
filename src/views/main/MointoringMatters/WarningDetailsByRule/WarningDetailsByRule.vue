@@ -54,6 +54,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -745,17 +746,6 @@ export default {
             if (item.handleTime === null) {
               item.handleTime = '-'
             }
-            if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
           })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
@@ -903,6 +893,34 @@ export default {
       })
 
       return datas
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (['warnLevel'].includes(column.property)) {
+        switch (row.warnLevel) {
+          case 3:
+            return {
+              color: '#BBBB00'
+            }
+          case 2:
+            return {
+              color: 'orange'
+            }
+          case 1:
+            return {
+              color: 'red'
+            }
+          case 4:
+            return {
+              color: 'blue'
+            }
+          case 5:
+            return {
+              color: 'gray'
+            }
+          default:
+            break
+        }
+      }
     }
   },
   created() {

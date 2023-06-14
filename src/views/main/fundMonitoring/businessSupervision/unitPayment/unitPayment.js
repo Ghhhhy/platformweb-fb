@@ -92,6 +92,9 @@ export let proconf = {
       align: 'left',
       cellRender: {
         name: '$vxeIcon5'
+      },
+      formatter: ({ row }) => {
+        return row.agencyCodeName ? row.agencyCodeName : `${row.agencyCode} + '-' +${row.agencyName}`
       }
     },
     {

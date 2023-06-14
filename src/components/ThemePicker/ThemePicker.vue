@@ -33,7 +33,7 @@ export default {
     },
     getCSSString(url, variable, $message) {
       return new Promise((resolve, reject) => {
-        const adjustTheme = localStorage.getItem('__boss__adjust_theme__')
+        const adjustTheme = localStorage.getItem('__bossui__adjust_theme__')
         if (adjustTheme !== null) {
           this[variable] = adjustTheme
           resolve()
@@ -42,7 +42,7 @@ export default {
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4 && xhr.status === 200) {
             this[variable] = xhr.responseText.replace(/@font-face{[^}]+}/, '')
-            localStorage.setItem('__boss__adjust_theme__', this[variable])
+            localStorage.setItem('__bossui__adjust_theme__', this[variable])
             resolve()
           } else if (xhr.readyState === 4) {
             $message.close()
@@ -93,7 +93,7 @@ export default {
       return clusters
     },
     async changeTheme(primaryColor) {
-      // let oldTheme = localStorage.getItem('__boss__colortheme__') || ORIGINAL_THEME
+      // let oldTheme = localStorage.getItem('__bossui__colortheme__') || ORIGINAL_THEME
       // const oldVal = this.cachedStyle ? oldTheme : ORIGINAL_THEME
       if (typeof primaryColor !== 'string') return
       const themeCluster = this.getThemeCluster(primaryColor.replace('#', ''))
@@ -119,7 +119,7 @@ export default {
         }
       }
       if (!this.cachedStyle) {
-        const url = this.publicPath + '/static/css/variable.css'
+        const url = this.publicPath + '/static/css/defaultTheme.css'
         await this.getCSSString(url, 'cachedStyle', $message)
       }
       const chalkHandler = getHandler('cachedStyle', 'adjust-style-roy')
@@ -135,7 +135,7 @@ export default {
       //   style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
       // })
       this.$emit('change', primaryColor)
-      localStorage.setItem('__boss__colortheme__', primaryColor)
+      localStorage.setItem('__bossui__colortheme__', primaryColor)
       $message.close()
     },
     showPicker() {

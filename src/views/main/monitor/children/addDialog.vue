@@ -21,7 +21,7 @@
         <BsTable
           ref="addTableRef"
           height="400"
-          :footer-config="false"
+          :footer-config="{}"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
@@ -33,6 +33,7 @@
       <div slot="footer" style="height: 80px; margin: 0 15px">
         <div type="flex" justify="space-around">
           <div>
+            <vxe-button v-if="btnShShow" status="primary" @click="doInsertFlow">执行工作流</vxe-button>
             <vxe-button v-if="btnShow" status="primary" @click="doInsert">执行</vxe-button>
             <vxe-button v-if="!btnShow" status="primary" @click="goNext">确认</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
@@ -81,6 +82,8 @@ export default {
     return {
       mofShow: false,
       btnShow: true,
+      btnShShow: false,
+      isFlow: false,
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -227,14 +230,26 @@ export default {
         {
           title: '监控主题',
           field: 'regulationClass',
+          width: '8',
           align: 'left',
           formula: '',
-          name: '$vxeSelect',
+          name: '$vxeTree',
           itemRender: {
-            name: '$vxeSelect',
+            name: '$vxeTree',
             options: [],
-            props: {
-              placeholder: '监控主题'
+            'props': {
+              'selectOnNodeClick': false,
+              'config': {
+                'treeProps': {
+                  'nodeKey': 'id',
+                  'label': 'label',
+                  'children': 'children'
+                },
+                'placeholder': '监控主题',
+                'multiple': false,
+                'readonly': true,
+                'isleaf': false
+              }
             }
           }
         },
@@ -326,7 +341,7 @@ export default {
       }
       this.condition = condition
       // this.regulationClassName = this.condition.regulationClassName[0]
-      this.regulationClass = this.condition.regulationClass[0]
+      this.regulationClass = val.regulationClass_code
       this.fiRuleName = this.condition.fiRuleName[0]
       this.getDataSourceInfo()
     },
@@ -374,7 +389,6 @@ export default {
     showInfo() {
       if (this.title === '新增') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
-        return
       }
       /* HttpModule.getDetail(params).then((res) => {
         if (res.code === '000000') {
@@ -389,10 +403,10 @@ export default {
           this.$message.error(res.message)
         }
       }) */
-      this.attachmentId =
-        this.modifyData.attachment_id != null
-          ? this.modifyData.attachment_id
-          : this.$ToolFn.utilFn.getUuid()
+      // this.attachmentId =
+      //   this.modifyData.attachment_id != null
+      //     ? this.modifyData.attachment_id
+      //     : this.$ToolFn.utilFn.getUuid()
       // let param = 'attachmentId=' + this.attachmentId
       /* HttpModule.getFiles(param).then((res) => {
         if (res.rscode === '200') {
@@ -401,56 +415,60 @@ export default {
         }
       }) */
     },
+    doInsertFlow() {
+      this.isFlow = true
+      this.doInsert()
+    },
     // 保存新增的计划信息
     doInsert() {
       let selectData = this.$refs.addTableRef.getSelectionData()
       if (selectData.length > 0) {
-        if (selectData.length === 1) {
-          if (this.title === '删除预警数据') {
-            let param = {
-              regulationClass: selectData[0].regulationClass,
-              firulecode: selectData[0].fiRuleCode
+        if (this.title === '删除预警数据') {
+          let param = {
+            regulationClass: selectData[0].regulationClass,
+            firulecode: selectData[0].fiRuleCode
+          }
+          this.addLoading = true
+          HttpModule.deleteData(param).then((res) => {
+            this.addLoading = false
+            if (res.code === '000000') {
+              this.$message.success('删除成功')
+              this.$parent.addDialogVisible = false
+              this.$parent.queryTableDatas()
+            } else {
+              this.$message.error(res.message)
             }
+          })
+        } else {
+          this.$confirm('确定要手动执行吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            let id = selectData.map((item) => {
+              return item.fiRuleCode
+            })
+            let param = {
+              ruleCodes: id,
+              menuName: this.$store.state.curNavModule.name
+            }
+            if (this.isFlow) {
+              param.isFlow = '1'
+            }
+            param.fullType = this.title === '增量查询' ? 'false' : 'true'
             this.addLoading = true
-            HttpModule.deleteData(param).then((res) => {
+            HttpModule.warnLogAdd(param).then((res) => {
               this.addLoading = false
               if (res.code === '000000') {
-                this.$message.success('删除成功')
+                this.$message.success('新增成功')
                 this.$parent.addDialogVisible = false
                 this.$parent.queryTableDatas()
+                this.isFlow = false
               } else {
                 this.$message.error(res.message)
               }
             })
-          } else {
-            this.$confirm('确定要手动执行吗？', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              let id = selectData.map((item) => {
-                return item.fiRuleCode
-              })
-              let param = {
-                ruleCodes: id,
-                menuName: this.$store.state.curNavModule.name
-              }
-              param.fullType = this.title === '增量查询' ? 'false' : 'true'
-              this.addLoading = true
-              HttpModule.warnLogAdd(param).then((res) => {
-                this.addLoading = false
-                if (res.code === '000000') {
-                  this.$message.success('新增成功')
-                  this.$parent.addDialogVisible = false
-                  this.$parent.queryTableDatas()
-                } else {
-                  this.$message.error(res.message)
-                }
-              })
-            })
-          }
-        } else {
-          this.$message.warning('监控规则只能选择一条！')
+          })
         }
       } else {
         this.$message.warning('请选择监控规则！')
@@ -478,6 +496,21 @@ export default {
         return
       }
       this.mofShow = true
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.name = item.ruleName ? item.ruleName : item.name
+        item.label = item.text || `${item.code}-${item.name}`
+        if (item.children && item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   watch: {
@@ -486,26 +519,21 @@ export default {
     }
   },
   created() {
-    /* if (this.userInfo.province === '610000000') {
-      this.btnShow = false
-    } */
     this.getDataSourceInfo()
     this.showInfo()
   },
   mounted() {
     HttpModule.monitorTheme().then((res) => {
       if (res.code === '000000') {
-        let resData = res.data.map((item) => {
-          return {
-            value: item.code,
-            label: item.ruleName
-          }
-        })
+        let resData = this.getRegulationChildrenData(res.data)
         this.queryConfig[0].itemRender.options = resData
       } else {
         this.$message.error(res.message)
       }
     })
+    if (this.userInfo.province.substring(0, 2) === '31') {
+      this.btnShShow = true
+    }
   }
 }
 </script>

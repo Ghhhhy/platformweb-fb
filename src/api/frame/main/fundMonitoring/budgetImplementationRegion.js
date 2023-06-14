@@ -13,6 +13,10 @@ export default {
   xmPageQuery (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/XmPageQuery', params)
   },
+  // 专项监督项目台账
+  xmSpecialPageQuery(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/XmSpecialPageQuery', params)
+  },
   // 获取左侧树
   getTreeData(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
@@ -23,7 +27,9 @@ export default {
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   },
-
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
   getCapitalTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryCapital', params)
   },

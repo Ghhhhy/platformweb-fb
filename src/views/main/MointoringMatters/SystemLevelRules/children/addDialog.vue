@@ -197,7 +197,8 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children', disabled: 'disabled' } }"
+                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
+
                       class="businessFunctionTree"
                       style="display: inline-block;"
                       @onNodeClick="regulationNodeClick"
@@ -718,6 +719,8 @@ export default {
         // { value: 14, label: '其他类规则' },
         // { value: 15, label: '分析类规则' }
       ],
+      fiRuleTypeCode: '',
+      fiRuleTypeName: '',
       policiesName: '',
       policiesDescription: '',
       dialogVisible: true,
@@ -749,6 +752,7 @@ export default {
       paymentLen: 0,
       paymentData: [],
       formDatas: {
+        payment: '',
         useDes: '',
         payeeAcctNo: '',
         payeeAcctName: '',
@@ -761,7 +765,7 @@ export default {
   methods: {
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',') : ''
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : []
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
@@ -785,11 +789,13 @@ export default {
         data.forEach((item, index) => {
           if (item === '1') {
             datas = this.createPro(content[item], false)
-          } else {
+          } else if (item) {
             datas = this.createObj(content[item], false)
           }
           this.formItemsConfigMessage.splice(1 + index, 0, datas)
         })
+      } else {
+        this.formDatas = Object.assign(this.formDatas, obj.data)
       }
     },
     createPro(obj, disabled) {
@@ -927,6 +933,8 @@ export default {
       this.businessModule = datas[0].businessModuleName
       this.businessFunction = datas[0].businessFunctionName
       this.regulationModelCode = datas[0].ruleTemplateCode
+      this.fiRuleTypeCode = datas[0].fiRuleTypeCode
+      this.fiRuleTypeName = datas[0].fiRuleTypeName
       // this.regulationModelName = datas[0]
       this.ruleSetShow = false
       this.ruleDesShow = true
@@ -1244,9 +1252,7 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
-        item.code = item.id
-        item.guid = item.id
-        item.name = item.text
+        item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }
@@ -1288,12 +1294,12 @@ export default {
               code: 'root',
               isleaf: '0',
               name: '全部',
-              children: this.getChildrenNewData(res.data)
+              children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = this.getChildrenNewData(res.data)
+          this.treeData = this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
@@ -1498,6 +1504,7 @@ export default {
         ruleId = valArr[0]
       }
       console.log(this.regulationClass)
+      let formDatas = this.$refs.messageForm.formDataListIn
       let param = {
         'regulationClass': ruleId,
         'regulationClassName': ruleName,
@@ -1506,6 +1513,8 @@ export default {
         'businessSystemName': that.businessSystemName,
         'businessModuleCode': that.businessModuleCode,
         'businessModuleName': that.businessModuleName,
+        'fiRuleTypeCode': that.fiRuleTypeCode,
+        'fiRuleTypeName': that.fiRuleTypeName,
         'menuIdList': that.businessFunctionCode.toString(), // 多菜单
         'menuNameList': that.businessFunctionName.toString(),
         // 'businessFunctionCode': that.businessFunctionCode,
@@ -1527,24 +1536,24 @@ export default {
         // 'warnLocation': that.warnLocation,
         isFull: isFull,
         ruleElement: {
-          payment: this.formDatas.payment,
-          agencyCode: this.formDatas.agency_code,
-          agencyName: this.formDatas.agency_name,
-          proCode: this.formDatas.pro_code,
-          proName: this.formDatas.pro_name,
-          govBgtEcoCode: this.formDatas.gov_bgt_eco_code,
-          govBgtEcoName: this.formDatas.gov_bgt_eco_name,
-          expFunCode: this.formDatas.exp_func_code,
-          expFunName: this.formDatas.exp_func_name,
-          depBgtEcoCode: this.formDatas.dep_bgt_eco_code,
-          depBgtEcoName: this.formDatas.dep_bgt_eco_name,
-          corBgtDocNoName: this.formDatas.cor_bgt_doc_no_name,
-          corBgtDocNoCode: this.formDatas.cor_bgt_doc_no_code,
-          payeeAcctName: this.formDatas.payeeAcctName,
-          payeeAcctNo: this.formDatas.payeeAcctNo,
-          useDes: this.formDatas.useDes,
-          des: this.formDatas.des,
-          basis: this.formDatas.basis
+          payment: formDatas.payment,
+          agencyCode: formDatas.agency_code,
+          agencyName: formDatas.agency_name,
+          proCode: formDatas.pro_code,
+          proName: formDatas.pro_name,
+          govBgtEcoCode: formDatas.gov_bgt_eco_code,
+          govBgtEcoName: formDatas.gov_bgt_eco_name,
+          expFunCode: formDatas.exp_func_code,
+          expFunName: formDatas.exp_func_name,
+          depBgtEcoCode: formDatas.dep_bgt_eco_code,
+          depBgtEcoName: formDatas.dep_bgt_eco_name,
+          corBgtDocNoName: formDatas.cor_bgt_doc_no_name,
+          corBgtDocNoCode: formDatas.cor_bgt_doc_no_code,
+          payeeAcctName: formDatas.payeeAcctName,
+          payeeAcctNo: formDatas.payeeAcctNo,
+          useDes: formDatas.useDes,
+          des: formDatas.des,
+          basis: formDatas.basis
         },
         warnType: this.warnType, // 预警类别
         uploadFile: this.uploadFile // 是否上传附件
@@ -1783,6 +1792,7 @@ export default {
   mounted() {
   },
   created() {
+    console.log(this.$parent.DetailData)
     this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
@@ -1821,6 +1831,8 @@ export default {
       // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
+      this.fiRuleTypeCode = this.$parent.DetailData.fiRuleTypeCode
+      this.fiRuleTypeName = this.$parent.DetailData.fiRuleTypeName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
@@ -1864,15 +1876,16 @@ export default {
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
-
+      this.fiRuleTypeCode = this.$parent.DetailData.fiRuleTypeCode
+      this.fiRuleTypeName = this.$parent.DetailData.fiRuleTypeName
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.scope = this.$parent.DetailData.regulationScope
     }
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
-        if (this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+        if (this.formDatas.payment && this.formDatas.payment !== '') {
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}

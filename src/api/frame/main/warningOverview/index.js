@@ -10,8 +10,9 @@ const API_URLS = {
   // 监控处理情况
   MONITOR_PROCESSING: 'large-monitor-platform/lmp/warn/statistics/monitorProcessing',
   // 按区划、月份查看所有违规情况
-  GET_WARN_BY_MOFDIV_CODE: 'large-monitor-platform/lmp/warn/statistics/getWarnByMofDivCode'
-
+  GET_WARN_BY_MOFDIV_CODE: 'large-monitor-platform/lmp/warn/statistics/getWarnByMofDivCode',
+  // 地图json获取
+  MAP_JSON: 'large-monitor-platform/lmp/city/queryCityJson'
 }
 /**
  * 规则启用情况
@@ -53,4 +54,12 @@ export const monitorProcessing = () => {
  */
 export const getWarnByMofDivCode = (params) => {
   return post(API_URLS.GET_WARN_BY_MOFDIV_CODE, params)
+}
+
+/**
+ * 地图Json
+ * @returns {Promise | Promise<unknown>}
+ */
+export const MAP_JSON = (params) => {
+  // return post(API_URLS.MAP_JSON, params)
 }
