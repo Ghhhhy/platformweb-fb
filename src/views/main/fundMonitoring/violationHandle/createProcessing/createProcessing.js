@@ -289,6 +289,14 @@ const budgetManagementColumns = [
 // 违规类型
 const violationColumn = [
   {
+    title: '违规处理批次ID',
+    width: 180,
+    field: 'batchId',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '违规类型',
     width: 180,
     field: 'violateType',

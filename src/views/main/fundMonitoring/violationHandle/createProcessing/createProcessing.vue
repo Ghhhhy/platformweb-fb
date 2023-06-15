@@ -690,7 +690,7 @@ export default {
     // 整改
     handleFeedback() {
       let selection = this.$refs.mainTableRef.getSelectionData()
-      if (selection.length !== 1) {
+      if (selection.length === 0) {
         this.$message.warning('请选择一条数据')
         return
       }
