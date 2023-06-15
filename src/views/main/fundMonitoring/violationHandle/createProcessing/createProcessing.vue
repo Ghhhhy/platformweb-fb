@@ -694,6 +694,15 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      let batchIdObj = {}
+      selection.forEach(item => {
+        batchIdObj[item.batchId] = item.batchIdObj
+      })
+      console.log(77, batchIdObj)
+      if (Object.keys(batchIdObj).length > 1) {
+        this.$message.warning('请选择同一批次')
+        return
+      }
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
