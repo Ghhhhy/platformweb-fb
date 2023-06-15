@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-21 19:25:54
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-14 10:40:47
+ * @LastEditTime: 2023-06-15 10:35:17
 -->
 <template>
   <div v-loading="showLoading" style="height:100%" class="unit-dis">
@@ -351,17 +351,19 @@ export default {
     // 右侧按钮事件触发
     operationToolbarButtonClickEvent(obj) {
       switch (obj.code) {
-        case 'toolbar-suited':// 挂接指标
-          break
-        case 'toolbar-createbill':// 生成凭证
-          break
-        case 'toolbar-recallreim':// 取消凭证
-          break
-        case 'toolbar-sendvoucherbill':// 签名
-          break
-        case 'toolbar-recallbill':// 撤销生成
+        case 'toolbar-upLoad':// 挂接指标
+          this.upLoad()
           break
       }
+    },
+    upLoad() {
+      if (this.$refs.mainTableRef.getSelectionData().length !== 1) {
+        this.$message.warning('请选择一条数据进行附件的上传!')
+        return
+      }
+      this.attachmentId = ''
+      this.attachmentId = this.$refs.mainTableRef.getSelectionData()[0].bgtId
+      this.showAttachment()
     },
     // 搜索
     search() {
