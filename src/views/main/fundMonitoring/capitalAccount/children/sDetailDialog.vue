@@ -261,7 +261,7 @@ export default {
           break
         case 'zdzjzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
-          if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
+          if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam?.column)) {
             this.tableColumnsConfig = proconf.targetColumnFPXJ
           }
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
