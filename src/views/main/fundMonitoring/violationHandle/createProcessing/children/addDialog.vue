@@ -1086,25 +1086,30 @@ export default {
         this.commentDept = '7'
         this.status = 7
       }
+      let data = this.detailData.map(item => {
+        return {
+          information1: this.information1,
+          updateTime1: this.updateTime1,
+          handler1: this.handler1,
+          phone1: this.phone1,
+          attachmentid1: this.attachmentid1,
+          information2: this.information2,
+          updateTime2: this.updateTime2,
+          handler2: this.handler2,
+          phone2: this.phone2,
+          information3: this.information3,
+          updateTime3: this.updateTime3,
+          handler3: this.handler3,
+          phone3: this.phone3,
+          status: this.status,
+          attachmentid3: this.attachmentid3,
+          dealNo: item.dealNo,
+          returnReason: this.returnReason,
+          commentDept: this.commentDept
+        }
+      })
       let param = {
-        information1: this.information1,
-        updateTime1: this.updateTime1,
-        handler1: this.handler1,
-        phone1: this.phone1,
-        attachmentid1: this.attachmentid1,
-        information2: this.information2,
-        updateTime2: this.updateTime2,
-        handler2: this.handler2,
-        phone2: this.phone2,
-        information3: this.information3,
-        updateTime3: this.updateTime3,
-        handler3: this.handler3,
-        phone3: this.phone3,
-        status: this.status,
-        attachmentid3: this.attachmentid3,
-        dealNo: this.detailData[0].dealNo,
-        returnReason: this.returnReason,
-        commentDept: this.commentDept
+        data
       }
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
