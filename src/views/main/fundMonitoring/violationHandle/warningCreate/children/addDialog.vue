@@ -858,6 +858,15 @@ export default {
         this.supplyDataList = proconf.msgData
         this.dialogVisibleKjsmBut = true
       }
+    },
+    getisShowViolateType() { // 处理违规类型下拉框是否显示
+      HttpModule.getisShowViolateType().then(res => {
+        if (res.code === '000000' && res.data) {
+          this.createConfig[0].visible = true
+        } else {
+          this.createConfig[0].visible = false
+        }
+      })
     }
   },
   watch: {
@@ -870,6 +879,7 @@ export default {
       this.setFormItem()
     }
     this.showInfo()
+    this.getisShowViolateType()
     if (this.title === '处理') {
       this.showbtn = true
     }

@@ -2132,6 +2132,7 @@ const proconf = {
       field: 'violateType',
       title: '违规类型',
       titleWidth: '180',
+      visible: true,
       span: 8,
       itemRender: {
         name: '$vxeSelect',
