@@ -999,7 +999,7 @@ export default {
       if (!params.warnTime && params.triggerMonitorDate) {
         params.warnTime = params.triggerMonitorDate
       }
-      if (this.fiRuleCode === null || this.fiRuleCode === '') {
+      if (this.fiRuleCode === null || this.fiRuleCode === '' || this.param5?.isRegion === 'true') {
         params.mofDivCode = this.mofDivCode
         params.fiscalYear = this.fiscalYear
         this.tableLoadingState = true
