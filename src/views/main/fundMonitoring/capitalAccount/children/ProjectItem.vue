@@ -54,7 +54,7 @@ export default {
         url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
       } else if (province?.slice(0, 2) === '22') { // 吉林
         const { agencyId = '', proCode = '' } = this.clickRowData
-        url = `${window.location.origin}/fiscalweb/boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}`
+        url = `fiscalweb/boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}`
       } else {
         url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
       }
