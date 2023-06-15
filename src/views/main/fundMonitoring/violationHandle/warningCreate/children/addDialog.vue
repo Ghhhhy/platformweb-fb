@@ -864,6 +864,7 @@ export default {
         if (res.code === '000000' && res.data) {
           this.createConfig[0].visible = true
         } else {
+          delete this.createValidate.violateType
           this.createConfig[0].visible = false
         }
       })
