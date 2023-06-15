@@ -530,7 +530,7 @@ export default {
     phoneIsRequire() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
-        return false
+        return this.param5.retroact === 'department'
       } else {
         let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
         return bool
@@ -1016,18 +1016,14 @@ export default {
           return
         }
       }
+      const { province } = this.$store.state.userInfo
       if (this.param5.retroact === 'company' && !this.phone1) {
         this.$message.warning('请输入联系电话')
         return
       }
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') {
-        // 去掉厦门必填的校验
-      } else {
-        if (this.param5.retroact === 'department' && !this.phone2) {
-          this.$message.warning('请输入联系电话')
-          return
-        }
+      if (this.phoneIsRequire() && !this.phone2) {
+        this.$message.warning('请输入联系电话')
+        return
       }
       if (this.param5.retroact === 'department' && (this.value === '3' || this.value === '7') && !this.information2) {
         this.$message.warning('请填写指导意见')
