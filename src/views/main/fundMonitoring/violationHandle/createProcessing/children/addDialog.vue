@@ -300,7 +300,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="value1 === '8'" color="red">*</font>&nbsp;退回原因说明</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="xmReasonShow" color="red">*</font>&nbsp;退回原因说明</div>
                     <el-input
                       v-model="returnReason"
                       type="textarea"
@@ -352,11 +352,19 @@ export default {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
         if (this.value1 === '9') { // 通过
-          return true
+          return false
         }
-        return false
+        return true
       } else {
         return this.param5.retroact !== 'department' || !(this.status === '4' || this.status === '5') || this.value1 !== '8'
+      }
+    },
+    xmReasonShow() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        return false
+      } else {
+        return this.value1 === '8'
       }
     }
   },
@@ -1050,11 +1058,15 @@ export default {
         this.$message.warning('请选择审核意见')
         return
       }
-      if (!this.xmDisabledRule && !this.returnReason) { // 判断是否禁用 禁用规则采用xmDisabledRule（包含了厦门和非厦门的规则）禁用true 则不校验提示
-        this.$message.warning('请输入退回原因说明')
-        return
+      if (province?.slice(0, 4) === '3502') {
+        // 去掉厦门必填的校验
+      } else {
+        if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
+          this.$message.warning('请输入退回原因说明')
+          return
+        }
       }
-      if (!this.xmDisabledRule && this.returnReason) { // 判断是否禁用 禁用规则采用xmDisabledRule（包含了厦门和非厦门的规则），禁用为true 则不校验提示
+      if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
         if (this.returnReason.length > 200) {
           this.$message.warning('退回原因说明请小于等于200字')
           return
