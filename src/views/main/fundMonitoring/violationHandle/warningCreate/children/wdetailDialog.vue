@@ -550,8 +550,22 @@ export default {
     // 生成
     handleCreate() {
       let selection = this.$refs.mainTableRef.selection
-      if (selection.length !== 1) {
-        this.$message.warning('请选择一条数据')
+      // if (selection.length !== 1) {
+      //   this.$message.warning('请选择一条数据')
+      //   return
+      // }
+      console.log(123, selection)
+      if (selection.length === 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let mofDivCodeList = {}
+      selection.forEach(item => {
+        mofDivCodeList[item.mofDivCode] = item.mofDivName
+      })
+      console.log(77, mofDivCodeList)
+      if (Object.keys(mofDivCodeList).length > 1) {
+        this.$message.warning('请选择同一区划')
         return
       }
       this.isDone = false
