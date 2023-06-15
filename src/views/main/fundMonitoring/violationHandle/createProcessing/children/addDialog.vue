@@ -530,7 +530,7 @@ export default {
     phoneIsRequire() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
-        return this.param5.retroact === 'department'
+        return this.param5.phoneIsRequire === 'true'
       } else {
         let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
         return bool
