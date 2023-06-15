@@ -735,7 +735,7 @@ export default {
       if (!validCellValue) return
       if (this.transJson2(this.params5 || '')?.isShow === 'false') {
         const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+        if (sh && (['amountZyxd'].includes(column.property))) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
