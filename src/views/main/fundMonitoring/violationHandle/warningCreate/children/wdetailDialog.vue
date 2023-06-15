@@ -677,7 +677,13 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
-      this.$parent.queryTableDatas()
+      // 黑龙江查询菜单关闭详情页面不更新主界面数据
+      if (this.$store.state.userInfo.province?.slice(0, 2) === '23') {
+        if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') return
+        this.$parent.queryTableDatas()
+      } else {
+        this.$parent.queryTableDatas()
+      }
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -999,7 +1005,7 @@ export default {
       if (!params.warnTime && params.triggerMonitorDate) {
         params.warnTime = params.triggerMonitorDate
       }
-      if (this.fiRuleCode === null || this.fiRuleCode === '' || this.param5?.isRegion === 'true') {
+      if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
         params.fiscalYear = this.fiscalYear
         this.tableLoadingState = true
