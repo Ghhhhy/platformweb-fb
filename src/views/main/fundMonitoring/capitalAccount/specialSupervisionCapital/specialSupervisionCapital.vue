@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <!-- 直达资金预算下达_分资金 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
@@ -662,39 +663,59 @@ export default {
       })
       return datas
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
+      let that = this
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (!validCellValue) return
-      let key = column.property
-      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
-      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-      if (!zcjeShow && key === dictionary['支出-金额']) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
-      if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
-      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
+      // if (this.transJson2(this.params5 || '')?.isShow === 'false') {
+      //   const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      //   if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // } else {
+      // console.log(this.$store.state.curNavModule.param5, 'this.$store.state.userInfo', this.$store)
+
+      // const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      // if (sh && Arraya.includes(column.property)) {
+      //   return {
+      //     color: '#4293F4',
+      //     textDecoration: 'underline'
+      //   }
+      // }
+      // }
     },
     transJson2(str) {
       if (!str) return
