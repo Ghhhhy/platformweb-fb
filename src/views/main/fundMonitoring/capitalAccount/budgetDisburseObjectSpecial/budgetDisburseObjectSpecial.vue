@@ -327,12 +327,33 @@ export default {
         case 'proName':
           this.projectTitle = '项目明细'
           this.projectVisible = true
-          let url = '/fiscal/#/PersonProject/DirectProjectDetail/' +
-            obj.row.isgen + '/' + obj.row.guid + '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
-            '&appguid=fiscal#/'
+          let url = this.getFiscalServer(obj.row.proCode) + '/#/PersonProject/DirectProjectDetail' +
+            '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
+            '&appguid=fiscal&guid=' + obj.row.guid + '&mofDivCode=' + obj.row.mofDivCode +
+            '&fiscalYear=' + obj.row.fiscalYear + '#/'
           console.info(url)
           this.frameSrc = url
           break
+      }
+    },
+    getFiscalServer(proCode) {
+      let key = proCode.substring(0, 4)
+      console.info(key)
+      switch (key) {
+        case '3500':
+        case '3503':
+        case '3507':
+          return '/fiscal1'
+        case '3501':
+        case '3504':
+        case '3508':
+          return '/fiscal2'
+        case '3505':
+        case '3506':
+        case '3509':
+          return '/fiscal3'
+        default:
+          return '/fiscal1'
       }
     },
     cellStyle({ row, rowIndex, column }) {

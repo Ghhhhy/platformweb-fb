@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -107,7 +107,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire()" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone2"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
@@ -300,11 +300,11 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="value1 === '8'" color="red">*</font>&nbsp;退回原因说明</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="xmReasonShow" color="red">*</font>&nbsp;退回原因说明</div>
                     <el-input
                       v-model="returnReason"
                       type="textarea"
-                      :disabled="param5.retroact !== 'department' || !(status === '4' || status === '5') || value1 !== '8'"
+                      :disabled="xmDisabledRule"
                       placeholder="退回原因说明"
                       style="width:90%"
                     />
@@ -347,6 +347,39 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
+    },
+    xmDisabledRule() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        if (this.value1 === '9') { // 通过
+          return false
+        }
+        return true
+      } else {
+        return this.param5.retroact !== 'department' || !(this.status === '4' || this.status === '5') || this.value1 !== '8'
+      }
+    },
+    xmReasonShow() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        return false
+      } else {
+        return this.value1 === '8'
+      }
     }
   },
   props: {
@@ -389,6 +422,7 @@ export default {
   },
   data() {
     return {
+      xmDisabled: false,
       // 规则详情信息
       DetailData: {},
       dialogVisibleShow: false,
@@ -507,6 +541,15 @@ export default {
     }
   },
   methods: {
+    phoneIsRequire() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return this.param5.phoneIsRequire === 'true'
+      } else {
+        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
+        return bool
+      }
+    },
     cellClick(obj, context, e) {
       if (this.param5?.retroact === 'company') {
         return
@@ -987,11 +1030,12 @@ export default {
           return
         }
       }
+      const { province } = this.$store.state.userInfo
       if (this.param5.retroact === 'company' && !this.phone1) {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.param5.retroact === 'department' && !this.phone2) {
+      if (this.phoneIsRequire() && !this.phone2) {
         this.$message.warning('请输入联系电话')
         return
       }
@@ -1024,9 +1068,13 @@ export default {
         this.$message.warning('请选择审核意见')
         return
       }
-      if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
-        this.$message.warning('请输入退回原因说明')
-        return
+      if (province?.slice(0, 4) === '3502') {
+        // 去掉厦门必填的校验
+      } else {
+        if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
+          this.$message.warning('请输入退回原因说明')
+          return
+        }
       }
       if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
         if (this.returnReason.length > 200) {
@@ -1060,26 +1108,28 @@ export default {
         this.commentDept = '7'
         this.status = 7
       }
-      let param = {
-        information1: this.information1,
-        updateTime1: this.updateTime1,
-        handler1: this.handler1,
-        phone1: this.phone1,
-        attachmentid1: this.attachmentid1,
-        information2: this.information2,
-        updateTime2: this.updateTime2,
-        handler2: this.handler2,
-        phone2: this.phone2,
-        information3: this.information3,
-        updateTime3: this.updateTime3,
-        handler3: this.handler3,
-        phone3: this.phone3,
-        status: this.status,
-        attachmentid3: this.attachmentid3,
-        dealNo: this.detailData[0].dealNo,
-        returnReason: this.returnReason,
-        commentDept: this.commentDept
-      }
+      let param = this.detailData.map(item => {
+        return {
+          information1: this.information1,
+          updateTime1: this.updateTime1,
+          handler1: this.handler1,
+          phone1: this.phone1,
+          attachmentid1: this.attachmentid1,
+          information2: this.information2,
+          updateTime2: this.updateTime2,
+          handler2: this.handler2,
+          phone2: this.phone2,
+          information3: this.information3,
+          updateTime3: this.updateTime3,
+          handler3: this.handler3,
+          phone3: this.phone3,
+          status: this.status,
+          attachmentid3: this.attachmentid3,
+          dealNo: item.dealNo,
+          returnReason: this.returnReason,
+          commentDept: this.commentDept
+        }
+      })
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
         this.addLoading = false
@@ -1127,7 +1177,14 @@ export default {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
-        this.incomeMsgConfig = proconf.incomeMsgConfig
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.incomeMsgConfig
+        }
         this.supplyDataList = proconf.incomeMsgData
       }
     }
@@ -1138,6 +1195,19 @@ export default {
         if (curVal !== preVal && curVal === '4') {
           this.information2 = ''
           this.phone2 = ''
+        }
+      },
+      immediate: true
+    },
+    value1: {
+      handler(curVal, preVal) {
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') {
+          if (curVal === '9') { // 通过
+            this.xmDisabled = true
+          } else if (curVal === '8') { // 退回
+            this.xmDisabled = false
+          }
         }
       },
       immediate: true

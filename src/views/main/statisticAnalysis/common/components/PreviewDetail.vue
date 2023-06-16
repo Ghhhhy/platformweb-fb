@@ -65,6 +65,8 @@ import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import { RouterPathEnum } from '../model/enum'
 import { useFooter } from '../hooks/useFooter'
+import { transJson1 } from '@/utils/params.js'
+import store from '@/store'
 
 const model = {
   prop: 'value',
@@ -137,6 +139,8 @@ export default defineComponent({
         const value = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? agencyCode : fiRuleCodes
         return {
           ...params,
+          paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
+          isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           [property]: value
         }
       },

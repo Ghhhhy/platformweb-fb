@@ -186,6 +186,30 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
+  },
+  {
+    title: '凭证时间',
+    width: 180,
+    field: 'voucherTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '监控处室',
+    width: 180,
+    field: 'manageMofDepName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '单位编码',
+    width: 180,
+    field: 'unitCode',
+    sortable: false,
+    filters: false,
+    align: 'center'
   }
 ]
 // 预算管理表头
@@ -2132,6 +2156,7 @@ const proconf = {
       field: 'violateType',
       title: '违规类型',
       titleWidth: '180',
+      visible: true,
       span: 8,
       itemRender: {
         name: '$vxeSelect',

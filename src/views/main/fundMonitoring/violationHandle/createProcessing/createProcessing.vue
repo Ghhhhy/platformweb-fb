@@ -690,8 +690,17 @@ export default {
     // 整改
     handleFeedback() {
       let selection = this.$refs.mainTableRef.getSelectionData()
-      if (selection.length !== 1) {
+      if (selection.length === 0) {
         this.$message.warning('请选择一条数据')
+        return
+      }
+      let batchIdObj = {}
+      selection.forEach(item => {
+        batchIdObj[item.batchId] = item.batchIdObj
+      })
+      console.log(77, batchIdObj)
+      if (Object.keys(batchIdObj).length > 1) {
+        this.$message.warning('请选择同一批次')
         return
       }
       this.detailData = selection

@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -345,6 +345,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
     }
   },
   props: {
@@ -758,23 +772,46 @@ export default {
     // 生成下发
     async doIssue() {
       await this.$refs.createRef?.$refs?.form?.validate?.()
-      let param = {
-        agencyId: this.createDataList.agencyId,
-        manageMofDepId: this.createDataList.manageMofDepId,
-        agencyName: this.createDataList.agencyName,
-        agencyCode: this.createDataList.agencyCode,
-        violateType: this.createDataList.violateType, // 违规类型
-        fiRuleName: this.createDataList.fiRuleName, // 监控规则
-        warningLevel: this.createDataList.warnLevel, // 预警级别
-        handleType: this.createDataList.handleType, // 处理方式
-        mofDivCode: this.createDataList.mofDivCode, // 区划
-        handleResult: this.createDataList.handleResult, // 处理结果
-        issueTime: this.createDataList.issueTime,
-        doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
-        warnid: this.detailData[0].warnid,
-        fiRuleCode: this.detailData[0].fiRuleCode,
-        warningCode: this.detailData[0].warningCode
+      let dataList = this.detailData.map(item => {
+        return {
+          agencyId: this.createDataList.agencyId,
+          manageMofDepId: this.createDataList.manageMofDepId,
+          agencyName: this.createDataList.agencyName,
+          agencyCode: this.createDataList.agencyCode,
+          violateType: this.createDataList.violateType, // 违规类型
+          fiRuleName: this.createDataList.fiRuleName, // 监控规则
+          warningLevel: this.createDataList.warnLevel, // 预警级别
+          handleType: this.createDataList.handleType, // 处理方式
+          mofDivCode: this.createDataList.mofDivCode, // 区划
+          handleResult: this.createDataList.handleResult, // 处理结果
+          issueTime: this.createDataList.issueTime,
+          doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
+          warnid: item.warnid,
+          fiRuleCode: item.fiRuleCode,
+          warningCode: item.warningCode
+        }
+      })
+      let params = {
+        businessModuleCode: this.bussnessId,
+        dataList
       }
+      // let param = {
+      //   agencyId: this.createDataList.agencyId,
+      //   manageMofDepId: this.createDataList.manageMofDepId,
+      //   agencyName: this.createDataList.agencyName,
+      //   agencyCode: this.createDataList.agencyCode,
+      //   violateType: this.createDataList.violateType, // 违规类型
+      //   fiRuleName: this.createDataList.fiRuleName, // 监控规则
+      //   warningLevel: this.createDataList.warnLevel, // 预警级别
+      //   handleType: this.createDataList.handleType, // 处理方式
+      //   mofDivCode: this.createDataList.mofDivCode, // 区划
+      //   handleResult: this.createDataList.handleResult, // 处理结果
+      //   issueTime: this.createDataList.issueTime,
+      //   doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
+      //   warnid: this.detailData[0].warnid,
+      //   fiRuleCode: this.detailData[0].fiRuleCode,
+      //   warningCode: this.detailData[0].warningCode
+      // }
       if (!this.doubtViolateExplain) {
         this.$message.warning('请填写疑似违规说明')
         return
@@ -788,7 +825,7 @@ export default {
         return
       }
       this.addLoading = true
-      HttpModule.handleAdd(param)
+      HttpModule.handleAdd(params)
         .then(res => {
           if (res.code === '000000') {
             if (res.code === '000000') {
@@ -831,10 +868,26 @@ export default {
         this.supplyDataList = proconf.indexMsgData
         this.dialogVisibleKjsmBut = true
       } else {
-        this.incomeMsgConfig = proconf.msgConfig
+        if (this.isXmProject) { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.msgConfig
+        }
         this.supplyDataList = proconf.msgData
         this.dialogVisibleKjsmBut = true
       }
+    },
+    getisShowViolateType() { // 处理违规类型下拉框是否显示
+      HttpModule.getisShowViolateType().then(res => {
+        if (res.code === '000000' && res.data) {
+          this.createConfig[0].visible = true
+        } else {
+          delete this.createValidate.violateType
+          this.createConfig[0].visible = false
+        }
+      })
     }
   },
   watch: {
@@ -847,6 +900,7 @@ export default {
       this.setFormItem()
     }
     this.showInfo()
+    this.getisShowViolateType()
     if (this.title === '处理') {
       this.showbtn = true
     }
