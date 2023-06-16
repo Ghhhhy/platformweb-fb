@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -347,6 +347,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
     },
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo

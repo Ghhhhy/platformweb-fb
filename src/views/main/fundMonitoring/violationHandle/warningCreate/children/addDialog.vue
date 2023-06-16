@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -345,6 +345,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
     }
   },
   props: {
@@ -854,8 +868,7 @@ export default {
         this.supplyDataList = proconf.indexMsgData
         this.dialogVisibleKjsmBut = true
       } else {
-        const { province } = this.$store.state.userInfo
-        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        if (this.isXmProject) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.msgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })
