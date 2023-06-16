@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -347,6 +347,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
     },
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
@@ -1094,7 +1108,7 @@ export default {
         this.commentDept = '7'
         this.status = 7
       }
-      let data = this.detailData.map(item => {
+      let param = this.detailData.map(item => {
         return {
           information1: this.information1,
           updateTime1: this.updateTime1,
@@ -1116,9 +1130,6 @@ export default {
           commentDept: this.commentDept
         }
       })
-      let param = {
-        data
-      }
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
         this.addLoading = false
@@ -1166,7 +1177,14 @@ export default {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
-        this.incomeMsgConfig = proconf.incomeMsgConfig
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.incomeMsgConfig
+        }
         this.supplyDataList = proconf.incomeMsgData
       }
     }
