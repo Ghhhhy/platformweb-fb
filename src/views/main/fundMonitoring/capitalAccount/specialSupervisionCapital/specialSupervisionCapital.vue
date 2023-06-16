@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <!-- 直达资金预算下达_分资金 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
@@ -728,39 +729,59 @@ export default {
       })
       return datas
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
+      let that = this
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (!validCellValue) return
-      if (this.transJson2(this.params5 || '')?.isShow === 'false') {
-        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       } else {
-        // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-        console.log(column.property)
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        console.log(this.params5)
-        console.log(sh)
-        console.log(this.transJson2(this.params5 || '')?.projectCode)
-        if (sh && ['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       }
+      // if (this.transJson2(this.params5 || '')?.isShow === 'false') {
+      //   const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      //   if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // } else {
+      // console.log(this.$store.state.curNavModule.param5, 'this.$store.state.userInfo', this.$store)
+
+      // const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      // if (sh && Arraya.includes(column.property)) {
+      //   return {
+      //     color: '#4293F4',
+      //     textDecoration: 'underline'
+      //   }
+      // }
+      // }
     },
     transJson2(str) {
       if (!str) return
