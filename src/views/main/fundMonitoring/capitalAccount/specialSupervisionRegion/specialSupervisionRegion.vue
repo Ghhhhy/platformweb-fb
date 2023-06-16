@@ -577,7 +577,8 @@ export default {
       }
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      if (key === dictionary['支出-金额']) {
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key)
         this.detailTitle = '支出明细'
         return
@@ -722,7 +723,8 @@ export default {
       let key = column.property
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      if (key === dictionary['支出-金额']) {
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
