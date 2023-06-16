@@ -290,12 +290,7 @@ export default {
     //   this.initTableData()
     // }, 2000)
     // this.initTableData()
-    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
-      let arr = this.queryConfig.filter(item => {
-        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
-      })
-      this.$set(this, 'queryConfig', arr)
-    }
+
   },
   methods: {
     switchMoneyUnit(level) {
@@ -577,7 +572,8 @@ export default {
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      if (key === dictionary['支出-金额']) {
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key)
         this.detailTitle = '支出明细'
         return
@@ -675,7 +671,8 @@ export default {
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      if (key === dictionary['支出-金额']) {
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -721,6 +718,12 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
+    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
+      let arr = this.queryConfig.filter(item => {
+        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
+      })
+      this.$set(this, 'queryConfig', arr)
+    }
   }
 }
 </script>
