@@ -1108,7 +1108,7 @@ export default {
         this.commentDept = '7'
         this.status = 7
       }
-      let data = this.detailData.map(item => {
+      let param = this.detailData.map(item => {
         return {
           information1: this.information1,
           updateTime1: this.updateTime1,
@@ -1130,9 +1130,6 @@ export default {
           commentDept: this.commentDept
         }
       })
-      let param = {
-        data
-      }
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
         this.addLoading = false
