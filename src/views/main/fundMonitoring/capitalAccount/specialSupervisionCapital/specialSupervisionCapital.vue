@@ -574,7 +574,7 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-      const isSH = this.menuSettingConfig[['projectCode']] === 'SH'// 判断上海项目
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       if (key === dictionary['支出-金额']) {
@@ -672,7 +672,7 @@ export default {
       const validCellValue = (row[column.property] * 1)
       if (!validCellValue) return
       let key = column.property
-      const isSH = this.menuSettingConfig[['projectCode']] === 'SH'// 判断上海项目
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       if (key === dictionary['支出-金额']) {
