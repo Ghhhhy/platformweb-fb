@@ -217,7 +217,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSnjpay',
-            width: 100,
+            width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -280,7 +280,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 100,
+            width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -542,7 +542,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 100,
+            width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
