@@ -854,7 +854,14 @@ export default {
         this.supplyDataList = proconf.indexMsgData
         this.dialogVisibleKjsmBut = true
       } else {
-        this.incomeMsgConfig = proconf.msgConfig
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.msgConfig
+        }
         this.supplyDataList = proconf.msgData
         this.dialogVisibleKjsmBut = true
       }
