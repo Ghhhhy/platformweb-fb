@@ -1166,7 +1166,14 @@ export default {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
-        this.incomeMsgConfig = proconf.incomeMsgConfig
+        const { province } = this.$store.state.userInfo
+        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.incomeMsgConfig
+        }
         this.supplyDataList = proconf.incomeMsgData
       }
     }
