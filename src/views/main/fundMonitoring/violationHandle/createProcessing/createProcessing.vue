@@ -111,6 +111,15 @@ export default {
     FilePreview,
     GlAttachment
   },
+  computed: {
+    isXMProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') {
+        return true
+      }
+      return false
+    }
+  },
   watch: {
     queryConfig() {
       this.getSearchDataList()
@@ -311,7 +320,10 @@ export default {
      */
     setShowBusinesTree() {
       // 可显示是左侧业务树的路由
-      const showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      if (this.isXMProject) {
+        showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
+      }
       if (showRouters.includes(this.$route.name)) {
         this.showLog = true
       }

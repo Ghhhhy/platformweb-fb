@@ -217,7 +217,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSnjpay',
-            width: 200,
+            width: 120,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -280,7 +280,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 200,
+            width: 120,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -542,7 +542,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 200,
+            width: 120,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -5617,6 +5617,7 @@ const proconf = {
   ]
 }
 export default function (tableType, configType) {
+  console.log('查询对应type', tableType, configType)
   if (tableType && configType) {
     return window.deepCopy(proconf[tableType][configType])
   } else if (tableType) {
