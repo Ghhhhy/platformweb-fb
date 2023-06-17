@@ -441,7 +441,19 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, mofDivCode, column) {
+    handleDetail(reportCode, mofDivCode, column, row) {
+      if (row.children !== undefined) return
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+
+      } else {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.includes(column)) {
+          return
+        }
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson(this.params5 || '')?.projectCode === 'SH') {
         switch (column) {
@@ -579,15 +591,15 @@ export default {
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
       if (!zcjeShow && key === dictionary['支出-金额']) {
-        this.handleDetail(zcSource, obj.row.code, key)
+        this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
         return
       }
       if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key)
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
       } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key)
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
       }
     },
@@ -727,6 +739,8 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       let that = this
       // if (this.transJson(this.params5 || '')?.isShow === 'false') return
+      // 判断只有最底层有超链接
+      if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
