@@ -21,6 +21,22 @@ const budgetImpColumns = [
     }
   },
   {
+    title: '监控处室',
+    width: 180,
+    field: 'manageMofDepName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '单位编码',
+    width: 180,
+    field: 'unitCode',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '预算单位',
     width: 180,
     field: 'agencyName',
@@ -38,6 +54,14 @@ const budgetImpColumns = [
     props: {
       format: '{agencyCode}-{agencyName}'
     }
+  },
+  {
+    title: '凭证时间',
+    width: 180,
+    field: 'voucherTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
   },
   {
     title: '业务数据单号',
@@ -186,30 +210,6 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
-  },
-  {
-    title: '凭证时间',
-    width: 180,
-    field: 'voucherTime',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
-    title: '监控处室',
-    width: 180,
-    field: 'manageMofDepName',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
-    title: '单位编码',
-    width: 180,
-    field: 'unitCode',
-    sortable: false,
-    filters: false,
-    align: 'center'
   }
 ]
 // 预算管理表头
