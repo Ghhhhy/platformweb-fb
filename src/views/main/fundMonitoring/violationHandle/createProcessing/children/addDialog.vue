@@ -107,7 +107,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire()" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone2"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
@@ -202,10 +202,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'company'" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire2" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone1"
-                      :disabled="param5.retroact !== 'company'"
+                      :disabled="!phoneIsRequire2"
                       placeholder="联系电话"
                       style="width:45%"
                     />
@@ -354,6 +354,24 @@ export default {
         return true
       }
       return false
+    },
+    phoneIsRequire() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return this.param5.phoneIsRequire === 'true'
+      } else {
+        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
+        return bool
+      }
+    },
+    phoneIsRequire2() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return this.param5.phoneIsRequire === 'true'
+      } else {
+        let bool = this.param5.retroact === 'company'
+        return bool
+      }
     },
     footerConfig() {
       if (!this.isXmProject) {
@@ -541,15 +559,6 @@ export default {
     }
   },
   methods: {
-    phoneIsRequire() {
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
-        return this.param5.phoneIsRequire === 'true'
-      } else {
-        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
-        return bool
-      }
-    },
     cellClick(obj, context, e) {
       if (this.param5?.retroact === 'company') {
         return
@@ -1031,11 +1040,11 @@ export default {
         }
       }
       const { province } = this.$store.state.userInfo
-      if (this.param5.retroact === 'company' && !this.phone1) {
+      if (this.phoneIsRequire2 && !this.phone1) {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.phoneIsRequire() && !this.phone2) {
+      if (this.phoneIsRequire && !this.phone2) {
         this.$message.warning('请输入联系电话')
         return
       }
