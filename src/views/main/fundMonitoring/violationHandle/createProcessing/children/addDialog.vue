@@ -383,7 +383,7 @@ export default {
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        if (this.value1 === '9') { // 通过
+        if (this.value1 === '9' || this.value1 === '8') { // 通过
           return false
         }
         return true
