@@ -296,14 +296,14 @@ const violationColumn = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '违规类型',
-    width: 180,
-    field: 'violateType',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '违规类型',
+  //   width: 180,
+  //   field: 'violateType',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '疑似违规说明',
     width: 180,
