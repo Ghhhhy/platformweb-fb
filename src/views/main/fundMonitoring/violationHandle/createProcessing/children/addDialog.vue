@@ -1186,8 +1186,7 @@ export default {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
-        const { province } = this.$store.state.userInfo
-        if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        if (this.isXmProject) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })
@@ -1224,8 +1223,8 @@ export default {
   },
   created() {
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
-
-    if (this.title === '查看详情信息' && this.routes.includes(this.$route.name)) {
+    const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
+    if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
     }
     this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
