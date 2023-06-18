@@ -316,7 +316,7 @@ export default {
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectColumn.concat([{
               title: '分配时间',
-              field: 'allocateTime',
+              field: 'fpTime',
               sortable: false,
               align: 'center'
             }])
