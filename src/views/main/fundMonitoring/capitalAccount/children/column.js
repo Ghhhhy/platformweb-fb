@@ -757,7 +757,7 @@ const proconf = {
     },
     {
       title: '预算单位',
-      field: 'agencyCodeName',
+      field: 'agencyName',
       width: 140,
       align: 'left'
     },
@@ -772,18 +772,22 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'expFuncName',
+      field: 'xjExpFuncName',
       formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
       sortable: false,
       align: 'left'
     },
     {
       title: '分配金额',
-      field: 'fpAmount',
+      field: 'amountAllfp',
       width: 140,
       sortable: false,
+      combinedType: 'total',
+      cellRender: {
+        name: '$vxeMoney'
+      },
       align: 'left'
     },
     {
