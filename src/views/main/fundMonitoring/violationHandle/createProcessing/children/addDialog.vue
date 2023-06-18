@@ -205,7 +205,7 @@
                     <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire2" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone1"
-                      :disabled="!phoneIsRequire2"
+                      :disabled="phoneIsDisabled2"
                       placeholder="联系电话"
                       style="width:45%"
                     />
@@ -373,6 +373,15 @@ export default {
         return bool
       }
     },
+    phoneIsDisabled2() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return false
+      } else {
+        let bool = this.param5.retroact !== 'company'
+        return bool
+      }
+    },
     footerConfig() {
       if (!this.isXmProject) {
         return { 'footer-config': {} }
@@ -383,7 +392,7 @@ export default {
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        if (this.value1 === '9' || this.value1 === '8') { // 通过
+        if (this.value1 === '9' || this.value1 === '8') { // 通过 8 退回
           return false
         }
         return true
@@ -394,7 +403,10 @@ export default {
     xmReasonShow() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        return false
+        if (this.value1 === '9') { // 通过不设置必填 退回设置必填
+          return false
+        }
+        return true
       } else {
         return this.value1 === '8'
       }
@@ -1078,7 +1090,10 @@ export default {
         return
       }
       if (province?.slice(0, 4) === '3502') {
-        // 去掉厦门必填的校验
+        if (this.xmReasonShow && !this.returnReason) {
+          this.$message.warning('请输入退回原因说明')
+          return
+        }
       } else {
         if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
           this.$message.warning('请输入退回原因说明')

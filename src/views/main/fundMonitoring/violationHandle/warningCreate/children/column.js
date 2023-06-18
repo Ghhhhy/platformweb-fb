@@ -21,7 +21,7 @@ const budgetImpColumns = [
     }
   },
   {
-    title: '监控处室',
+    title: '业务处室',
     width: 180,
     field: 'manageMofDepName',
     sortable: false,
@@ -325,14 +325,14 @@ const budgetManagementColumns = [
 ]
 // 违规类型
 const violationColumn = [
-  {
-    title: '违规类型',
-    width: 180,
-    field: 'violateType',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '违规类型',
+  //   width: 180,
+  //   field: 'violateType',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '疑似违规说明',
     width: 180,
