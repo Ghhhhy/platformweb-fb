@@ -76,14 +76,16 @@ export default {
     return {
       queryConfig: proconf.highQueryConfig1,
       searchDataList: proconf.highQueryData1,
-      tableFooterConfig: {
-        showFooter: false
-      },
       condition: {},
       tableColumnsConfig: [
       ],
       params5: '',
       tableData: [],
+      // foot合计配置
+      tableFooterConfig: {
+        combinedType: ['switchTotal'],
+        showFooter: true
+      },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,

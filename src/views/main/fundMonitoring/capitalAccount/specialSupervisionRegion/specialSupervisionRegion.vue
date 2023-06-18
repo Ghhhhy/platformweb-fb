@@ -552,7 +552,6 @@ export default {
         isBj: isBj,
         isCz: isCz,
         column: column,
-        proCode: mofDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',

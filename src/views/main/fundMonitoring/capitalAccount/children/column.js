@@ -21,6 +21,7 @@ const proconf = {
       sortable: false,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
 
     },
@@ -30,6 +31,7 @@ const proconf = {
       width: 150,
       sortable: false,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
 
     },
@@ -886,6 +888,17 @@ const proconf = {
       sortable: true,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配时间',
+      field: 'fpTime',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      cellRender: {
+        name: '$vxeTime',
+        props: { format: 'YYYY-MM-DD' }
+      }
     }
   ],
 
