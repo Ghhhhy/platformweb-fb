@@ -396,7 +396,7 @@ export default {
           }
         }
       }
-      // if (!rowIndex) return
+      if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountAllfp', 'amountPayAll'].includes(column.property)) {
@@ -425,8 +425,8 @@ export default {
           this.addDialogVisible = true
         }
       }
-      // const rowIndex = obj?.rowIndex
-      // if (!rowIndex) return
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
       let key = obj.column.property
 
       // 无效的cellValue
