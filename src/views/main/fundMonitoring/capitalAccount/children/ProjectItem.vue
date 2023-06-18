@@ -1,3 +1,10 @@
+<!--
+ * @Description:
+ * @Author: chenxuanke
+ * @Date: 2023-06-17 23:52:01
+ * @LastEditors: chenxuanke
+ * @LastEditTime: 2023-06-18 13:56:45
+-->
 <template>
   <vxe-modal
     v-model="visible"
@@ -23,6 +30,10 @@ export default {
       default: true
     },
     proGuid: {
+      type: String,
+      default: ''
+    },
+    proCode: {
       type: String,
       default: ''
     },
