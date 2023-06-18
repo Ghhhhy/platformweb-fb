@@ -880,14 +880,19 @@ export default {
       }
     },
     getisShowViolateType() { // 处理违规类型下拉框是否显示
-      HttpModule.getisShowViolateType().then(res => {
-        if (res.code === '000000' && res.data) {
-          this.createConfig[0].visible = true
-        } else {
-          delete this.createValidate.violateType
-          this.createConfig[0].visible = false
-        }
-      })
+      // HttpModule.getisShowViolateType().then(res => {
+      //   if (res.code === '000000' && res.data) {
+      //     this.createConfig[0].visible = true
+      //   } else {
+      //     delete this.createValidate.violateType
+      //     this.createConfig[0].visible = false
+      //   }
+      // })
+      if (this.isXmProject) {
+        this.createConfig[0].visible = false
+      } else {
+        this.createConfig[0].visible = true
+      }
     }
   },
   watch: {

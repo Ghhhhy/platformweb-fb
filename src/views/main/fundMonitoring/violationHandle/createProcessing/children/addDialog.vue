@@ -403,7 +403,7 @@ export default {
     xmReasonShow() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        if (this.value1 === '9') { // 通过不设置必填 退回设置必填
+        if (this.value1 === '9' || this.value1 === '') { // 通过不设置必填 退回设置必填
           return false
         }
         return true
@@ -628,7 +628,13 @@ export default {
     showInfo() {
       this.addLoading = true
       if (this.isCreate === false) {
-        this.createConfig = proconf.checkConfig
+        if (this.isXmProject) {
+          this.createConfig = proconf.checkConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
+          })
+        } else {
+          this.createConfig = proconf.checkConfig
+        }
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
@@ -1204,6 +1210,9 @@ export default {
         if (this.isXmProject) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+          this.createConfig = proconf.createConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
           })
         } else {
           this.incomeMsgConfig = proconf.incomeMsgConfig
