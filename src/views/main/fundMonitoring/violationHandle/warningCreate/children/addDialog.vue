@@ -771,7 +771,9 @@ export default {
     },
     // 生成下发
     async doIssue() {
-      await this.$refs.createRef?.$refs?.form?.validate?.()
+      if (!this.isXmProject) {
+        await this.$refs.createRef?.$refs?.form?.validate?.()
+      }
       let dataList = this.detailData.map(item => {
         return {
           agencyId: this.createDataList.agencyId,
