@@ -21,7 +21,7 @@ const budgetImpColumns = [
     }
   },
   {
-    title: '监控处室',
+    title: '业务处室',
     width: 180,
     field: 'manageMofDepName',
     sortable: false,
