@@ -22,6 +22,7 @@ const proconf = {
       width: 140,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '其中：中央直达资金',
@@ -30,6 +31,7 @@ const proconf = {
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '用途',
@@ -211,6 +213,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -362,6 +365,7 @@ const proconf = {
       field: 'amountAllfp',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -370,6 +374,7 @@ const proconf = {
       field: 'amountPayAll',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -576,6 +581,7 @@ const proconf = {
           width: 140,
           sortable: false,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {

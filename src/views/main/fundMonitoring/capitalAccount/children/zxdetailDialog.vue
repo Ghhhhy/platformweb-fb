@@ -47,6 +47,7 @@
       ref="projectDialog"
       :dialog-visible.sync="addDialogVisible"
       :pro-guid="proGuid"
+      :pro-code="proCode"
       :mof-div-code="mofDivCode"
       :click-row-data="clickRowData"
     />
@@ -100,15 +101,18 @@ export default {
   },
   data() {
     return {
+      proCode: '',
       isShowQueryConditions: true,
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       detailVisible: true,
-      tableFooterConfig: {
-        showFooter: false
-      },
       tableColumnsConfig: [
       ],
+      // foot合计配置
+      tableFooterConfig: {
+        combinedType: ['switchTotal'],
+        showFooter: true
+      },
       pagerConfig: {
         total: 0,
         currentPage: 1,
@@ -353,7 +357,7 @@ export default {
       this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
-        trackProCode: row.trackProCode,
+        trackProCode: this.detailQueryParam.proCode,
         agencyCode: row.agencyCode,
         xjExpFuncCode: row.xjExpFuncCode,
         manageMofDepName: row.manageMofDepName,
@@ -396,7 +400,7 @@ export default {
           }
         }
       }
-      if (!rowIndex) return
+      // if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountAllfp', 'amountPayAll'].includes(column.property)) {
@@ -417,16 +421,18 @@ export default {
           }
           this.proGuid = obj.row.proGuid || ''
           this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+          this.proCode = this.detailQueryParam.proCode || ''
           this.addDialogVisible = true
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           this.clickRowData = obj.row
+          this.proCode = this.detailQueryParam.proCode || ''
           this.addDialogVisible = true
         }
       }
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
+      // const rowIndex = obj?.rowIndex
+      // if (!rowIndex) return
       let key = obj.column.property
 
       // 无效的cellValue
