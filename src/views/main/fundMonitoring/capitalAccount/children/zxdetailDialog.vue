@@ -357,7 +357,7 @@ export default {
       this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
-        trackProCode: this.detailQueryParam.proCode,
+        trackProCode: this.detailQueryParam.proCode === undefined ? row.trackProCode : this.detailQueryParam.proCode,
         agencyCode: row.agencyCode,
         xjExpFuncCode: row.xjExpFuncCode,
         manageMofDepName: row.manageMofDepName,
@@ -412,7 +412,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      console.log(obj.column.property, 777)
+      console.log(obj, 777)
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
@@ -421,13 +421,11 @@ export default {
           }
           this.proGuid = obj.row.proGuid || ''
           this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
-          this.proCode = this.detailQueryParam.proCode || ''
           this.addDialogVisible = true
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           this.clickRowData = obj.row
-          this.proCode = this.detailQueryParam.proCode || ''
           this.addDialogVisible = true
         }
       }
