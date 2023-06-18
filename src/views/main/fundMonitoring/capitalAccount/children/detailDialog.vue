@@ -302,7 +302,7 @@ export default {
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectColumn.concat([{
               title: '分配时间',
-              field: 'allocateTime',
+              field: 'fpTime',
               sortable: false,
               align: 'center'
             }])
@@ -373,7 +373,8 @@ export default {
           if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
             zcSource = 'zxjdzbmx_fzjfp'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj'
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
           ) {
             this.handleDetail(zcSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
@@ -386,7 +387,8 @@ export default {
             zcSource2 = 'zdzjzcmx_fzj'
           }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
-            this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
+            this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
             this.handleDetail(zcSource2, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }

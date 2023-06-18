@@ -1,6 +1,6 @@
 const routers = [
   {
-    path: '/rulesStatistic',
+    path: '/rulesStatistic', // 根据用户权限
     name: 'RulesStatistic',
     meta: {
       title: '预警结果按规则统计'
@@ -8,7 +8,7 @@ const routers = [
     component: () => import('@/views/main/statisticAnalysis/rulesStatistic/index.vue')
   },
   {
-    path: '/rulesStatisticGKC',
+    path: '/rulesStatisticGKC', // 全部
     name: 'RulesStatisticGKC',
     meta: {
       title: '预警结果按规则统计（国库处）'
@@ -16,7 +16,7 @@ const routers = [
     component: () => import('@/views/main/statisticAnalysis/rulesStatistic/index.vue')
   },
   {
-    path: '/rulesStatisticJGJ',
+    path: '/rulesStatisticJGJ', // 全部 看到的规则不一样
     name: 'RulesStatisticJGJ',
     meta: {
       title: '预警结果按规则统计（监管局）'

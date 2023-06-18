@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-22 10:08:48
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-14 10:26:14
+ * @LastEditTime: 2023-06-15 15:43:37
  */
 export let proconf = {
   // 页签
@@ -20,6 +20,9 @@ export let proconf = {
   ],
   // 页签右侧按钮切换
   statusRightToolBarButton: {
+    '1': [
+      { code: 'toolbar-upLoad', label: '上传附件', status: 'primary' }
+    ]
   },
   queryConfig: [
     {
@@ -96,7 +99,7 @@ export let proconf = {
     },
     {
       title: '是否已上传附件',
-      field: 'HasAttach',
+      field: 'hasAttach',
       width: '8',
       align: 'left',
       formula: '',
@@ -340,7 +343,7 @@ export let proconf = {
       let rowindex = newIndex
       return [
         <el-tooltip content="上传" placement="top" effect="light">
-          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment', rowindex })}>上传</a>,
+          <a class="gloable-option-row-upload gloable-option-row fn-inline vxe-icon-cloud-download" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment', rowindex })}>上传</a>,
         </el-tooltip>
       ]
     }

@@ -49,6 +49,7 @@ export default {
       const { tokenid } = store.getters.getLoginAuthentication
       const { year, province } = store.state.userInfo
       let url = ''
+
       if (province?.slice(0, 4) === '3502') {
         url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
       } else if (province?.slice(0, 2) === '22') { // 吉林

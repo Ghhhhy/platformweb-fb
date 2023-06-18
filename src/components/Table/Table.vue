@@ -501,6 +501,11 @@ export default {
       background: url(./assets/img/attachment.svg) no-repeat center;
       background-size: 100% 100%;
     }
+     .gloable-option-row-upload {
+      margin: 0 5px;
+      background: url(./assets/img/upload.svg) no-repeat center;
+      background-size: 100% 100%;
+    }
     .gloable-option-row-optionlog {
       background: url(./assets/img/optionlog.svg) no-repeat center;
       background-size: 100% 80%;

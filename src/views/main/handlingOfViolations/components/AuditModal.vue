@@ -55,7 +55,7 @@
           :default-percent="20"
           split="vertical"
           :style="{
-            height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW && !isBlueWarnLevel ? 110 : 0}px)`,
+            height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW ? 110 : 0}px)`,
           }"
         >
           <!--左侧处理单信息-->
@@ -129,7 +129,7 @@
               />
               <!--附件信息-->
               <AttachmentInfo
-                v-if="!isBlueWarnLevel"
+                v-if="true"
                 :loading="fileLoading"
                 :required="currentNode.uploadFile"
                 :file-list="currentNode.attachFiles"

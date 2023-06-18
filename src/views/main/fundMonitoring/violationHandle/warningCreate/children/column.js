@@ -21,6 +21,22 @@ const budgetImpColumns = [
     }
   },
   {
+    title: '监控处室',
+    width: 180,
+    field: 'manageMofDepName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '单位编码',
+    width: 180,
+    field: 'unitCode',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '预算单位',
     width: 180,
     field: 'agencyName',
@@ -38,6 +54,14 @@ const budgetImpColumns = [
     props: {
       format: '{agencyCode}-{agencyName}'
     }
+  },
+  {
+    title: '凭证时间',
+    width: 180,
+    field: 'voucherTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
   },
   {
     title: '业务数据单号',
@@ -2132,6 +2156,7 @@ const proconf = {
       field: 'violateType',
       title: '违规类型',
       titleWidth: '180',
+      visible: true,
       span: 8,
       itemRender: {
         name: '$vxeSelect',

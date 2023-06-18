@@ -1,3 +1,4 @@
+<!-- eslint-disable no-undef -->
 <!-- 直达资金预算下达_分资金 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
@@ -110,13 +111,26 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
 import capitalMixin from '../mixins/capitalMixin'
-
+const dictionary = {
+  '中央下达': 'amountZyxd',
+  '支出-金额': 'amountPayAll',
+  '省级分配本级': 'amountSnjbjfp',
+  '省级分配下级': 'amountSnjxjfp',
+  '市级分配本级': 'amountSbjfp',
+  '市级分配下级': 'amountSxjfp',
+  '县级已分配': 'amountXjfp'
+}
 export default {
   mixins: [capitalMixin],
   components: {
     DetailDialog,
     SDetailDialog,
     ImportModal
+  },
+  computed: {
+    menuSettingConfig() { // 路由菜单配置信息
+      return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    }
   },
   watch: {
     $refs: {
@@ -277,12 +291,7 @@ export default {
     //   this.initTableData()
     // }, 2000)
     // this.initTableData()
-    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
-      let arr = this.queryConfig.filter(item => {
-        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
-      })
-      this.$set(this, 'queryConfig', arr)
-    }
+
   },
   methods: {
     switchMoneyUnit(level) {
@@ -425,7 +434,20 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, proCode, column) {
+    handleDetail(reportCode, proCode, column, row) {
+      // 判断只有最底层才能进入弹框
+      if (row.children !== undefined) return
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+
+      } else {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.includes(column)) {
+          return
+        }
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
         switch (column) {
@@ -552,7 +574,6 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
@@ -562,99 +583,26 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-      if (this.transJson2(this.params5 || '')?.isShow === 'false') {
-        switch (key) {
-          case 'amountZyxd':
-            console.log(this.params5)
-            if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
-              this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
-              this.detailTitle = '中央下达明细'
-            }
-            break
-        }
-      } else {
-        switch (key) {
-          // case 'amountSnjxd':
-          // case 'amountSjxd':
-          //   switch (this.transJson(this.params5 || '')?.reportCode) {
-          //     case 'zyzdzjyszxqkfzj':
-          //       this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
-          //       break
-          //     case 'zyczzdzjyszxqk_fzj':
-          //       this.handleDetail('czzdzjxmmx_fzj_zyxd', obj.row.code, key)
-          //       break
-          //   }
-          //   this.detailTitle = '直达资金项目明细'
-          //   break
-          // case 'amountZyxd':
-          //   this.handleDetail('zdzjxmmx_fzj_zyxdh', obj.row.code, key)
-          //   this.detailTitle = '直达资金项目明细'
-          //   break
-          // case 'amountXjxd':
-          //   this.handleDetail('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
-          //   this.detailTitle = '直达资金项目明细'
-          //   break
-          // // case 'amountPayAll':
-          // case 'amountSnjpay':
-          // case 'amountSjpay':
-          // case 'amountXjpay':
-          //   this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
-          //   this.detailTitle = '直达资金支出明细'
-          //   break
-          // // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
-          // case 'amountSnjwfp':
-          // case 'amountSjwfp':
-          //   this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
-          //   this.detailTitle = '直达资金项目明细'
-          //   break
-          // case 'amountXjwfp':
-          //   this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
-          //   this.detailTitle = '直达资金项目明细'
-          //   break
-          // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
-          // case 'amountSnjbjfp':
-          // case 'amountSnjxjfp':
-          // case 'amountSbjfp':
-          // case 'amountSxjfp':
-          // case 'amountXjfp':
-          //   this.handleDetail('zdzjzbmx_fzjfp', obj.row.code, key)
-          //   this.detailTitle = '直达资金指标明细'
-          //   break
-          // case 'amountSnjpay':
-          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-          //   this.detailTitle = '支出明细'
-          //   break
-          // case 'amountSjpay':
-          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-          //   this.detailTitle = '支出明细'
-          //   break
-          // case 'amountXjpay':
-          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
-          //   this.detailTitle = '支出明细'
-          //   break
-          // 省本级分配走直达资金项目明细
-          case 'amountSnjbjfp':
-          case 'amountSbjfp':
-          case 'amountXjfp':
-          case 'amountSnjxjfp':// 省级分配下级
-          case 'amountSxjfp':// 市级分配下级
-            this.handleDetail(xmSource, obj.row.code, key)
-            this.detailTitle = '项目明细'
-            break
-          // 支出走地区支付明细
-          case 'amountPayAll':
-            this.handleDetail(zcSource, obj.row.code, key)
-            this.detailTitle = '支出明细'
-            break
-          // 上海中央下达分资金钻取明细
-          case 'amountZyxd':
-            console.log(this.params5)
-            if (this.transJson2(this.params5 || '')?.projectCode === 'SH') {
-              this.handleDetail('zyxdxmmx_fzj', obj.row.code, key)
-              this.detailTitle = '中央下达明细'
-            }
-            break
-        }
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
+        this.handleDetail(zcSource, obj.row.code, key, obj.row)
+        this.detailTitle = '支出明细'
+        return
+      }
+      if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+        this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
+        this.detailTitle = '中央下达明细'
+        return
+      }
+      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -728,39 +676,61 @@ export default {
       })
       return datas
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
+      let that = this
+      // 判断只有最底层有超链接
+      if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (!validCellValue) return
-      if (this.transJson2(this.params5 || '')?.isShow === 'false') {
-        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       } else {
-        // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
-        console.log(column.property)
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-        const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-        console.log(this.params5)
-        console.log(sh)
-        console.log(this.transJson2(this.params5 || '')?.projectCode)
-        if (sh && ['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       }
+      // if (this.transJson2(this.params5 || '')?.isShow === 'false') {
+      //   const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      //   if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // } else {
+      // console.log(this.$store.state.curNavModule.param5, 'this.$store.state.userInfo', this.$store)
+
+      // const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
+      // if (sh && Arraya.includes(column.property)) {
+      //   return {
+      //     color: '#4293F4',
+      //     textDecoration: 'underline'
+      //   }
+      // }
+      // }
     },
     transJson2(str) {
       if (!str) return
@@ -784,6 +754,12 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
+    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
+      let arr = this.queryConfig.filter(item => {
+        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
+      })
+      this.$set(this, 'queryConfig', arr)
+    }
   }
 }
 </script>

@@ -111,5 +111,8 @@ export default {
   // 获取服务器时间
   getCurrentTime(params) {
     return post('large-monitor-platform/lmp/commom/getCurrentTime', params)
+  },
+  getisShowViolateType() {
+    return get('large-monitor-platform/lmp/payReportConfig/query')
   }
 }
