@@ -557,7 +557,8 @@ export default {
       if (isInvalidCellValue) return
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fdq'
-      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
+      let reportCode = this.transJson(this.params5 || '')?.reportCode
+      if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
       }
