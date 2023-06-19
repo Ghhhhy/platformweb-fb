@@ -481,7 +481,6 @@ export default {
       await this.$http
         .post('mp-b-user-service/v1/users/action/modifypwd', { oldPassword: this.oldPwd, newPassword: this.newPwd })
         .then((res) => {
-          // debugger
           if (typeof res === 'string') {
             res = JSON.parse(res)
           }

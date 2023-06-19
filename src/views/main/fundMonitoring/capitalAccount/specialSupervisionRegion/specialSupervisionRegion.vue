@@ -113,11 +113,25 @@ import DetailDialog from '../children/zxdetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import regionMixin from '../mixins/regionMixin'
+const dictionary = {
+  '中央下达': 'amountZyxd',
+  '支出-金额': 'amountPayAll',
+  '省级分配本级': 'amountSnjbjfp',
+  '省级分配下级': 'amountSnjxjfp',
+  '市级分配本级': 'amountSbjfp',
+  '市级分配下级': 'amountSxjfp',
+  '县级已分配': 'amountXjfp'
+}
 export default {
   mixins: [regionMixin],
   components: {
     DetailDialog,
     SDetailDialog
+  },
+  computed: {
+    menuSettingConfig() { // 路由菜单配置信息
+      return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    }
   },
   watch: {
     $refs: {
@@ -427,7 +441,19 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, mofDivCode, column) {
+    handleDetail(reportCode, mofDivCode, column, row) {
+      if (row.children !== undefined) return
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+
+      } else {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.includes(column)) {
+          return
+        }
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson(this.params5 || '')?.projectCode === 'SH') {
         switch (column) {
@@ -562,20 +588,20 @@ export default {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
       }
-      switch (key) {
-        // 省本级分配走直达资金项目明细
-        case 'amountSnjbjfp':
-        case 'amountSbjfp':
-        case 'amountXjfp':
-        case 'amountSnjxjfp':// 省级分配下级
-        case 'amountSxjfp':// 市级分配下级
-          this.handleDetail(xmSource, obj.row.code, key)
-          this.detailTitle = '项目明细'
-          break
-        // 支出走地区支付明细
-        case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
-          this.detailTitle = obj.row.name + '支出明细'
+      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      if (!zcjeShow && key === dictionary['支出-金额']) {
+        this.handleDetail(zcSource, obj.row.code, key, obj.row)
+        this.detailTitle = '支出明细'
+        return
+      }
+      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -701,16 +727,40 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
-      if (this.transJson(this.params5 || '')?.isShow === 'false') return
+      let that = this
+      // if (this.transJson(this.params5 || '')?.isShow === 'false') return
+      // 判断只有最底层有超链接
+      if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (!validCellValue) return
-      if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
+        if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     },

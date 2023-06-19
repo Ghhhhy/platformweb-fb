@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -107,7 +107,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire()" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone2"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1)"
@@ -202,10 +202,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'company'" color="red">*</font>&nbsp;联系电话</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire2" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone1"
-                      :disabled="param5.retroact !== 'company'"
+                      :disabled="phoneIsDisabled2"
                       placeholder="联系电话"
                       style="width:45%"
                     />
@@ -348,10 +348,51 @@ export default {
     curNavModule() {
       return this.$store.state.curNavModule
     },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    phoneIsRequire() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return this.param5.phoneIsRequire === 'true'
+      } else {
+        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
+        return bool
+      }
+    },
+    phoneIsRequire2() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return this.param5.phoneIsRequire === 'true'
+      } else {
+        let bool = this.param5.retroact === 'company'
+        return bool
+      }
+    },
+    phoneIsDisabled2() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return false
+      } else {
+        let bool = this.param5.retroact !== 'company'
+        return bool
+      }
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
+    },
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        if (this.value1 === '9') { // 通过
+        if (this.value1 === '9' || this.value1 === '8') { // 通过 8 退回
           return false
         }
         return true
@@ -362,7 +403,10 @@ export default {
     xmReasonShow() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        return false
+        if (this.value1 === '9' || this.value1 === '') { // 通过不设置必填 退回设置必填
+          return false
+        }
+        return true
       } else {
         return this.value1 === '8'
       }
@@ -527,15 +571,6 @@ export default {
     }
   },
   methods: {
-    phoneIsRequire() {
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
-        return this.param5.phoneIsRequire === 'true'
-      } else {
-        let bool = this.param5.retroact === 'department' && (this.status === '1' || this.status === 1)
-        return bool
-      }
-    },
     cellClick(obj, context, e) {
       if (this.param5?.retroact === 'company') {
         return
@@ -593,7 +628,13 @@ export default {
     showInfo() {
       this.addLoading = true
       if (this.isCreate === false) {
-        this.createConfig = proconf.checkConfig
+        if (this.isXmProject) {
+          this.createConfig = proconf.checkConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
+          })
+        } else {
+          this.createConfig = proconf.checkConfig
+        }
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
@@ -1017,11 +1058,11 @@ export default {
         }
       }
       const { province } = this.$store.state.userInfo
-      if (this.param5.retroact === 'company' && !this.phone1) {
+      if (this.phoneIsRequire2 && !this.phone1) {
         this.$message.warning('请输入联系电话')
         return
       }
-      if (this.phoneIsRequire() && !this.phone2) {
+      if (this.phoneIsRequire && !this.phone2) {
         this.$message.warning('请输入联系电话')
         return
       }
@@ -1055,7 +1096,10 @@ export default {
         return
       }
       if (province?.slice(0, 4) === '3502') {
-        // 去掉厦门必填的校验
+        if (this.xmReasonShow && !this.returnReason) {
+          this.$message.warning('请输入退回原因说明')
+          return
+        }
       } else {
         if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
           this.$message.warning('请输入退回原因说明')
@@ -1094,7 +1138,7 @@ export default {
         this.commentDept = '7'
         this.status = 7
       }
-      let data = this.detailData.map(item => {
+      let param = this.detailData.map(item => {
         return {
           information1: this.information1,
           updateTime1: this.updateTime1,
@@ -1116,9 +1160,6 @@ export default {
           commentDept: this.commentDept
         }
       })
-      let param = {
-        data
-      }
       this.addLoading = true
       HttpModule.handleFeedback(param).then(res => {
         this.addLoading = false
@@ -1166,7 +1207,16 @@ export default {
         this.incomeMsgConfig = proconf.indexMsgConfig
         this.supplyDataList = proconf.indexMsgData
       } else {
-        this.incomeMsgConfig = proconf.incomeMsgConfig
+        if (this.isXmProject) { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+          this.createConfig = proconf.createConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.incomeMsgConfig
+        }
         this.supplyDataList = proconf.incomeMsgData
       }
     }
@@ -1197,8 +1247,8 @@ export default {
   },
   created() {
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
-
-    if (this.title === '查看详情信息' && this.routes.includes(this.$route.name)) {
+    const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
+    if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
     }
     this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)

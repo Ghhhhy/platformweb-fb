@@ -21,6 +21,22 @@ const budgetImpColumns = [
     }
   },
   {
+    title: '业务处室',
+    width: 180,
+    field: 'manageMofDepName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '单位编码',
+    width: 180,
+    field: 'unitCode',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     title: '预算单位',
     width: 180,
     field: 'agencyName',
@@ -43,6 +59,14 @@ const budgetImpColumns = [
     title: '单号',
     width: 180,
     field: 'dealNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '凭证时间',
+    width: 180,
+    field: 'voucherTime',
     sortable: false,
     filters: false,
     align: 'center'
@@ -296,14 +320,14 @@ const violationColumn = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '违规类型',
-    width: 180,
-    field: 'violateType',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '违规类型',
+  //   width: 180,
+  //   field: 'violateType',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '疑似违规说明',
     width: 180,

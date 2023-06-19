@@ -424,7 +424,7 @@ export let proconf = {
           title: '总金额',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountYszje',
           formula: '{amountYszyap}+{amountYssnjap}+{amountYssjap}+{amountYsxjap}'
         },
@@ -432,21 +432,21 @@ export let proconf = {
           title: '中央安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountYszyap'
         },
         {
           title: '市级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountYssnjap'
         },
         {
           title: '区级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountYsxjap'
         }
       ]
@@ -460,7 +460,7 @@ export let proconf = {
           title: '总金额',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountZczje',
           formula: '{amountZczyap}+{amountZcsnjap}+{amountZcsjap}+{amountZcxjap}'
         },
@@ -468,21 +468,21 @@ export let proconf = {
           title: '中央安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountZczyap'
         },
         {
           title: '市级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountZcsnjap'
         },
         {
           title: '区级安排',
           align: 'right',
           cellRender: { name: '$vxeMoney' },
-          width: 80,
+          width: 100,
           field: 'amountZcxjap'
         }
       ]

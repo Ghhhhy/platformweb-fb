@@ -21,7 +21,9 @@ const proconf = {
       sortable: false,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '其中：中央直达资金',
@@ -29,7 +31,9 @@ const proconf = {
       width: 150,
       sortable: false,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '用途',
@@ -211,6 +215,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -362,6 +367,7 @@ const proconf = {
       field: 'amountAllfp',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -370,6 +376,7 @@ const proconf = {
       field: 'amountPayAll',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -576,6 +583,7 @@ const proconf = {
           width: 140,
           sortable: false,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -751,7 +759,7 @@ const proconf = {
     },
     {
       title: '预算单位',
-      field: 'agencyCodeName',
+      field: 'agencyName',
       width: 140,
       align: 'left'
     },
@@ -766,18 +774,22 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'expFuncName',
+      field: 'xjExpFuncName',
       formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
       sortable: false,
       align: 'left'
     },
     {
       title: '分配金额',
-      field: 'fpAmount',
+      field: 'amountAllfp',
       width: 140,
       sortable: false,
+      combinedType: 'total',
+      cellRender: {
+        name: '$vxeMoney'
+      },
       align: 'left'
     },
     {
@@ -876,6 +888,17 @@ const proconf = {
       sortable: true,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配时间',
+      field: 'fpTime',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      cellRender: {
+        name: '$vxeTime',
+        props: { format: 'YYYY-MM-DD' }
+      }
     }
   ],
 

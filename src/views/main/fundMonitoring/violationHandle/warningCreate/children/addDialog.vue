@@ -23,7 +23,7 @@
         <BsTable
           ref="handleTableRef"
           height="200px"
-          :footer-config="{}"
+          v-bind="footerConfig"
           :table-columns-config="handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -345,6 +345,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
+    },
+    footerConfig() {
+      if (!this.isXmProject) {
+        return { 'footer-config': {} }
+      } else {
+        return {}
+      }
     }
   },
   props: {
@@ -757,7 +771,9 @@ export default {
     },
     // 生成下发
     async doIssue() {
-      await this.$refs.createRef?.$refs?.form?.validate?.()
+      if (!this.isXmProject) {
+        await this.$refs.createRef?.$refs?.form?.validate?.()
+      }
       let dataList = this.detailData.map(item => {
         return {
           agencyId: this.createDataList.agencyId,
@@ -854,20 +870,31 @@ export default {
         this.supplyDataList = proconf.indexMsgData
         this.dialogVisibleKjsmBut = true
       } else {
-        this.incomeMsgConfig = proconf.msgConfig
+        if (this.isXmProject) { // 项目项目隐藏三个字段
+          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        } else {
+          this.incomeMsgConfig = proconf.msgConfig
+        }
         this.supplyDataList = proconf.msgData
         this.dialogVisibleKjsmBut = true
       }
     },
     getisShowViolateType() { // 处理违规类型下拉框是否显示
-      HttpModule.getisShowViolateType().then(res => {
-        if (res.code === '000000' && res.data) {
-          this.createConfig[0].visible = true
-        } else {
-          delete this.createValidate.violateType
-          this.createConfig[0].visible = false
-        }
-      })
+      // HttpModule.getisShowViolateType().then(res => {
+      //   if (res.code === '000000' && res.data) {
+      //     this.createConfig[0].visible = true
+      //   } else {
+      //     delete this.createValidate.violateType
+      //     this.createConfig[0].visible = false
+      //   }
+      // })
+      if (this.isXmProject) {
+        this.createConfig[0].visible = false
+      } else {
+        this.createConfig[0].visible = true
+      }
     }
   },
   watch: {
@@ -876,7 +903,8 @@ export default {
     console.log('this.isDone', this.isDone)
     console.log('this.isCreate', this.isCreate)
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
-    if (this.title === '查看详情信息' && ['WarnRegionBySpecial', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial'].includes(this.$route.name)) {
+    const routes = ['WarnRegionBySpecial', 'WarnRegion', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial', 'DepartmentRetroact', 'CreateProcessing', 'QueryProcessing']
+    if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
     }
     this.showInfo()
