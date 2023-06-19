@@ -698,7 +698,7 @@ export default {
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'

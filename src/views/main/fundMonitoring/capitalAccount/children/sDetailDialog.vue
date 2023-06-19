@@ -18,7 +18,7 @@
     </div>
     <BsTable
       ref="mainTableRef"
-      :footer-config="store.state.userInfo.province.slice(0, 4) === '3502' ? tableFooterFalseConfig : tableFooterConfig"
+      :footer-config="$store.state.userInfo.province.slice(0, 4) === '3502' ? tableFooterFalseConfig : tableFooterConfig"
       :table-config="tableConfig"
       :table-columns-config="tableColumnsConfig"
       :table-data="tableData"
