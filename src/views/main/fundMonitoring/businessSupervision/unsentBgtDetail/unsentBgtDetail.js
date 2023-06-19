@@ -87,7 +87,7 @@ export let proconf = {
     {
       title: '地区名称',
       width: 180,
-      field: '',
+      field: 'mofDivCode',
       sortable: false,
       filters: false,
       align: 'center',
@@ -95,12 +95,9 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
+        formatter: ({ row }) => {
+          return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
         }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
       }
     },
     {
@@ -110,16 +107,13 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      formatter: ({ row }) => {
+        return row.manageMofDepCode && row.manageMofDepName ? `${row.manageMofDepCode}-${row.manageMofDepName}` : ''
+      },
       cellRender: {
         name: '$vxeInput',
         options: [],
-        defaultValue: '',
-        props: {
-          format: '{manageMofDepCode}-{manageMofDepName}'
-        }
-      },
-      props: {
-        format: '{manageMofDepCode}-{manageMofDepName}'
+        defaultValue: ''
       }
     },
     {
