@@ -1079,7 +1079,6 @@ export default {
       HttpModule.getReport(params).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          debugger
           this.fileGuid = res.data
           this.filePreviewDialogVisible = true
         } else {
