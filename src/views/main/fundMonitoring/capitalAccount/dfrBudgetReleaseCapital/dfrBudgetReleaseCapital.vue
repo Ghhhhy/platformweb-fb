@@ -423,6 +423,18 @@ export default {
             condition = ' substr(mof_div_code,7,3) <> \'000\' '
             break
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        switch (column) {
+          case 'sbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+            break
+          case 'shbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
       } else {
         switch (column) {
           // 支出明细

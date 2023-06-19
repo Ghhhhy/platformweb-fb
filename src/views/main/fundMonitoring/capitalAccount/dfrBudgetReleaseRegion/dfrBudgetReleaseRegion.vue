@@ -408,7 +408,46 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(type, recDivCode) {
+    handleDetail(type, recDivCode, column) {
+      let condition = ''
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        switch (column) {
+          case 'sbjfpaAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'shbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        switch (column) {
+          case 'sbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+            break
+          case 'shbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
+      } else {
+        switch (column) {
+          // 支出明细
+          case 'sbjfpaAmount':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'shbjfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'xyfpaAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
+      }
       let isCz = ''
       if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
         isCz = '2'
@@ -417,6 +456,7 @@ export default {
       }
       console.info('recDivCode==' + recDivCode)
       let params = {
+        condition: condition,
         isCz: isCz,
         reportCode: type,
         mofDivCode: recDivCode,

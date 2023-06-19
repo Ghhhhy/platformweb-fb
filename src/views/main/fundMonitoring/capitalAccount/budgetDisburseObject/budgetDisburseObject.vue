@@ -450,7 +450,8 @@ export default {
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
       // if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
-      if (['proName'].includes(column.property)) {
+      let mofDivCode = this.$store.state.userInfo.province
+      if (['proName'].includes(column.property) && mofDivCode?.slice(0, 2) === '35' && mofDivCode?.slice(0, 4) !== '3502') {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
