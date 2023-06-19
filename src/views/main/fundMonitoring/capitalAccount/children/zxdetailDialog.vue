@@ -384,22 +384,28 @@ export default {
       this.$parent.sDetailType = reportCode
     },
     cellStyle({ row, rowIndex, column }) {
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        if (['proCode', 'proName'].includes(column.property)) {
+      // if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+      //   if (['proCode', 'proName'].includes(column.property)) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // }
+      // if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+      //   if (['proCode', 'proName'].includes(column.property)) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // }
+      if (['proCode', 'proName'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
-      }
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
-        if (['proCode', 'proName'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-      }
       // if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -426,6 +432,17 @@ export default {
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           this.clickRowData = obj.row
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+          this.addDialogVisible = true
+        }
+      } else {
+        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+          if (!obj.row.proGuid) {
+            this.$message.warning('未返proGuid,无法查看项目信息')
+            return
+          }
+          this.proGuid = obj.row.proGuid || ''
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
       }
