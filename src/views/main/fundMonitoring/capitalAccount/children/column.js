@@ -798,6 +798,20 @@ const proconf = {
       field: 'fpTime',
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '接收方财政区划',
+      width: 140,
+      field: 'rec_div_code',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '支出功能科目',
+      width: 140,
+      field: 'expFuncName',
+      sortable: false,
+      align: 'left'
     }
   ],
   targetZXColumn: [
