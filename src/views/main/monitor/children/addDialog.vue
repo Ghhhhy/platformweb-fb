@@ -33,7 +33,7 @@
       <div slot="footer" style="height: 80px; margin: 0 15px">
         <div type="flex" justify="space-around">
           <div>
-            <vxe-button v-if="btnShShow" status="primary" @click="doInsertFlow">执行工作流</vxe-button>
+            <!-- <vxe-button v-if="btnShShow" status="primary" @click="doInsertFlow">执行工作流</vxe-button> -->
             <vxe-button v-if="btnShow" status="primary" @click="doInsert">执行</vxe-button>
             <vxe-button v-if="!btnShow" status="primary" @click="goNext">确认</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
@@ -415,10 +415,10 @@ export default {
         }
       }) */
     },
-    doInsertFlow() {
-      this.isFlow = true
-      this.doInsert()
-    },
+    // doInsertFlow() {
+    //   this.isFlow = true
+    //   this.doInsert()
+    // },
     // 保存新增的计划信息
     doInsert() {
       let selectData = this.$refs.addTableRef.getSelectionData()
@@ -531,9 +531,9 @@ export default {
         this.$message.error(res.message)
       }
     })
-    if (this.userInfo.province.substring(0, 2) === '31') {
-      this.btnShShow = true
-    }
+    // if (this.userInfo.province.substring(0, 2) === '31') {
+    //   this.btnShShow = true
+    // }
   }
 }
 </script>
