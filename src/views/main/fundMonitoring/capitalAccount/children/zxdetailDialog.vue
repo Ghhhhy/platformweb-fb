@@ -401,11 +401,11 @@ export default {
       //   }
       // }
       if (['proCode', 'proName'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
+      }
       // if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
