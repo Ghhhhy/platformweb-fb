@@ -45,16 +45,8 @@ export let proconf = {
       width: '200',
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{formCode}-{formName}'
-        }
-      },
-      props: {
-        format: '{formCode}-{formName}'
+      formatter({ row }) {
+        return row.formCode && row.formName ? `${row.formCode}-${row.formName}` : ''
       }
     },
     {

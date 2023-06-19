@@ -11,16 +11,8 @@ export const getColumns = () => {
       align: 'left',
       width: '60%',
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter({ row }) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {

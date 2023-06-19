@@ -630,16 +630,8 @@ const proconf = {
       width: 140,
       sortable: false,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -649,16 +641,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -702,16 +686,8 @@ const proconf = {
       width: 140,
       sortable: false,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -721,16 +697,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -790,16 +758,8 @@ const proconf = {
       align: 'left',
       width: 140,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -816,16 +776,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -835,16 +787,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -999,16 +943,8 @@ const proconf = {
       align: 'left',
       width: 140,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -1025,16 +961,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -1044,16 +972,8 @@ const proconf = {
       width: 140,
       align: 'left',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -1244,16 +1164,8 @@ const proconf = {
       align: 'left',
       width: 140,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -1270,16 +1182,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -1289,16 +1193,8 @@ const proconf = {
       filters: false,
       align: 'left',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -1485,16 +1381,8 @@ const proconf = {
       align: 'left',
       width: 140,
       filters: false,
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{code}-{name}'
-        }
-      },
-      props: {
-        format: '{code}-{name}'
+      formatter({ row }) {
+        return row.code && row.name ? `${row.code}-${row.name}` : ''
       }
     },
     {
@@ -1504,16 +1392,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
@@ -1566,16 +1446,8 @@ const proconf = {
       width: 140,
       filters: false,
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{businessOfficeCode}-{businessOffice}'
-        }
-      },
-      props: {
-        format: '{businessOfficeCode}-{businessOffice}'
+      formatter({ row }) {
+        return row.businessOfficeCode && row.businessOffice ? `${row.businessOfficeCode}-${row.businessOffice}` : ''
       }
     },
     {
