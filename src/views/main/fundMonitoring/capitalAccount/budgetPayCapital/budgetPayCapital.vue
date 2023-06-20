@@ -458,6 +458,7 @@ export default {
         reportCode: type,
         isCz: isCz,
         trackProCode: trackProCode,
+        proCode: trackProCode,
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }

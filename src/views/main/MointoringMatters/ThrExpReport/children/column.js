@@ -510,16 +510,8 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{bgtMofDepCode}-{bgtMofDepName}'
-        }
-      },
-      props: {
-        format: '{bgtMofDepCode}-{bgtMofDepName}'
+      formatter({ row }) {
+        return row.bgtMofDepCode && row.bgtMofDepName ? `${row.bgtMofDepCode}-${row.bgtMofDepName}` : ''
       }
     },
     {
@@ -529,16 +521,8 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{expFuncCode}-{expFuncName}'
-        }
-      },
-      props: {
-        format: '{expFuncCode}-{expFuncName}'
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       }
     },
     {
@@ -557,16 +541,8 @@ const proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{proCode}-{proName}'
-        }
-      },
-      props: {
-        format: '{proCode}-{proName}'
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     },
     {
@@ -577,16 +553,8 @@ const proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -695,16 +663,8 @@ const proconf = {
       filters: false,
       align: 'center',
       formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{proCode}-{proName}'
-        }
-      },
-      props: {
-        format: '{proCode}-{proName}'
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     },
     {

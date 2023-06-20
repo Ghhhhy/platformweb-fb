@@ -8,16 +8,8 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    cellRender: {
-      name: '$vxeInput',
-      options: [],
-      defaultValue: '',
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
-      }
-    },
-    props: {
-      format: '{mofDivCode}-{mofDivName}'
+    formatter({ row }) {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     }
   },
   {
@@ -43,16 +35,8 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    cellRender: {
-      name: '$vxeInput',
-      options: [],
-      defaultValue: '',
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
-    },
-    props: {
-      format: '{agencyCode}-{agencyName}'
+    formatter({ row }) {
+      return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
     }
   },
   {
@@ -824,13 +808,10 @@ export const proconf = {
       cellRender: {
         name: '$vxeInput',
         options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
+        defaultValue: ''
       },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter({ row }) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {
@@ -840,16 +821,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -925,16 +898,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter({ row }) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {
@@ -2460,16 +2425,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter({ row }) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {
@@ -2479,16 +2436,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
