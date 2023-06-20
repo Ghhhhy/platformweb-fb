@@ -232,12 +232,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理时间</div>
+                    <div class="sub-title-add" style="text-align: right;width:110px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理时间</div>
                     <el-input
                       v-model="updateTime1"
                       disabled
                       placeholder="处理时间"
-                      style="width:45%"
+                      style="width:60%"
                     />
                   </el-row>
                 </el-main>
