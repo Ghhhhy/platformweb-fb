@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-22 10:08:48
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-15 15:43:37
+ * @LastEditTime: 2023-06-20 14:21:11
  */
 export let proconf = {
   // 页签
@@ -145,20 +145,20 @@ export let proconf = {
       width: 200,
       align: 'center'
     },
-    {
-      title: '主管部门名称',
-      field: 'deptName',
-      sortable: false,
-      width: 200,
-      align: 'center'
-    },
-    {
-      title: '主管部门编码',
-      field: 'deptCode',
-      sortable: false,
-      width: 200,
-      align: 'center'
-    },
+    // {
+    //   title: '主管部门名称',
+    //   field: 'deptName',
+    //   sortable: false,
+    //   width: 200,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '主管部门编码',
+    //   field: 'deptCode',
+    //   sortable: false,
+    //   width: 200,
+    //   align: 'center'
+    // },
     {
       title: '业务主管处室名称',
       field: 'manageMofDepName',
@@ -244,13 +244,6 @@ export let proconf = {
     //   align: 'center'
     // },
     {
-      title: '指标下达金额',
-      field: 'amount',
-      sortable: false,
-      width: 200,
-      align: 'center'
-    },
-    {
       title: '接收财政区划代码',
       field: 'recDivCode',
       sortable: false,
@@ -272,8 +265,8 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '指标文号',
-      field: 'corBgtDocNo',
+      title: '上级指标文号',
+      field: 'supBgtDocNo',
       sortable: false,
       width: 200,
       align: 'center'
@@ -304,20 +297,20 @@ export let proconf = {
       cellRender: {
         name: '$attachName'
       }
-    },
-    {
-      title: '操作',
-      field: 'gloableOptionRow',
-      className: 'gloableOptionRow',
-      align: 'center',
-      fixed: 'right',
-      sortable: false,
-      filters: false,
-      width: 200,
-      cellRender: {
-        name: '$gloableOptionRow'
-      }
     }
+    // {
+    //   title: '操作',
+    //   field: 'gloableOptionRow',
+    //   className: 'gloableOptionRow',
+    //   align: 'center',
+    //   fixed: 'right',
+    //   sortable: false,
+    //   filters: false,
+    //   width: 200,
+    //   cellRender: {
+    //     name: '$gloableOptionRow'
+    //   }
+    // }
   ],
   // table 操作按钮
   attachName: {
@@ -329,23 +322,23 @@ export let proconf = {
       })
       let rowindex = newIndex
       return [
-        <a onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachName', rowindex })}>{this.tableData[rowindex].hasAttach === '1' ? '是' : '否'}</a>
-      ]
-    }
-  },
-  gloableOptionRow: {
-    renderDefault(h, cellRender, params, context) {
-      let self = context.$grid.$parent
-      let { row, column } = params
-      let newIndex = this.tableData.findIndex((item, index) => {
-        return item === row
-      })
-      let rowindex = newIndex
-      return [
-        <el-tooltip content="上传" placement="top" effect="light">
-          <a class="gloable-option-row-upload gloable-option-row fn-inline vxe-icon-cloud-download" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment', rowindex })}>上传</a>,
-        </el-tooltip>
+        <a style='color: #0056b3;text-decoration: underline;' onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachName', rowindex })}>{this.tableData[rowindex].hasAttach === '1' ? '是' : '否'}</a>
       ]
     }
   }
+  // gloableOptionRow: {
+  //   renderDefault(h, cellRender, params, context) {
+  //     let self = context.$grid.$parent
+  //     let { row, column } = params
+  //     let newIndex = this.tableData.findIndex((item, index) => {
+  //       return item === row
+  //     })
+  //     let rowindex = newIndex
+  //     return [
+  //       <el-tooltip content="上传" placement="top" effect="light">
+  //         <a class="gloable-option-row-upload gloable-option-row fn-inline vxe-icon-cloud-download" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment', rowindex })}>上传</a>,
+  //       </el-tooltip>
+  //     ]
+  //   }
+  // }
 }
