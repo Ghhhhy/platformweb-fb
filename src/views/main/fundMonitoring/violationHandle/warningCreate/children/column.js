@@ -1699,11 +1699,6 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: ''
-      },
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
