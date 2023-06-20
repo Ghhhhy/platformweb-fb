@@ -265,8 +265,8 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '上级指标文号',
-      field: 'supBgtDocNo',
+      title: '指标文号',
+      field: 'corBgtDocNo',
       sortable: false,
       width: 200,
       align: 'center'
