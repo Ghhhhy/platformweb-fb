@@ -713,12 +713,23 @@ const routers = [
     component: () => {
       if (process.env.VUE_APP_CONF_ISHB) {
         return import('../../../hb/views/Benifit/BenifitPeople.vue')
+      } else if (process.env.VUE_APP_CONF_ISSH) {
+        return import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
       } else {
         return import(
           '../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue'
         )
       }
     }
+  },
+  {
+    path: '/BenefitEnterprisesAndPeopleSH', // 惠企利民
+    name: 'BenefitEnterprisesAndPeopleSH',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认

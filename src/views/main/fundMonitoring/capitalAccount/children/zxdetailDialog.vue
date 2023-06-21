@@ -110,6 +110,10 @@ export default {
       ],
       // foot合计配置
       tableFooterConfig: {
+        totalObj: {
+          amountAllfp: 0,
+          payAppAmt: 0
+        },
         combinedType: ['switchTotal'],
         showFooter: true
       },
@@ -119,7 +123,8 @@ export default {
         pageSize: 20
       },
       clickRowData: {},
-      tableData: [],
+      tableData: [
+      ],
       condition: {},
       tableToolbarConfig: {
         // table工具栏配置
@@ -400,7 +405,7 @@ export default {
       //     }
       //   }
       // }
-      if (['proCode', 'proName'].includes(column.property)) {
+      if (['proCode'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -418,7 +423,6 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      console.log(obj, 777)
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
@@ -436,7 +440,7 @@ export default {
           this.addDialogVisible = true
         }
       } else {
-        if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+        if (obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
             this.$message.warning('未返proGuid,无法查看项目信息')
             return
@@ -496,6 +500,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.Titans-table .vxe-table--footer-wrapper .vxe-footer--row:not(.footer-total-style) td{
+  text-align: center !important;
+}
 .payVoucherInput {
   margin: 15px;
   .el-card {

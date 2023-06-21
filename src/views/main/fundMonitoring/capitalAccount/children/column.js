@@ -265,6 +265,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -287,6 +288,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -443,6 +445,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -451,6 +454,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -537,6 +541,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -715,6 +720,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -723,6 +729,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -782,6 +789,13 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '转移支付支出功能科目',
+      width: 140,
+      field: 'expFuncName',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '分配金额',
       field: 'amountAllfp',
       width: 140,
@@ -803,13 +817,6 @@ const proconf = {
       title: '接收方财政区划',
       width: 140,
       field: 'rec_div_code',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '支出功能科目',
-      width: 140,
-      field: 'expFuncName',
       sortable: false,
       align: 'left'
     }
@@ -893,6 +900,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -901,6 +909,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -937,6 +946,7 @@ const proconf = {
       width: 140,
       sortable: false,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -961,6 +971,7 @@ const proconf = {
       sortable: false,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -1006,6 +1017,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],

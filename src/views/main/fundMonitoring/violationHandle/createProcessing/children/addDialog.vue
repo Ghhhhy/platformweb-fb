@@ -261,10 +261,12 @@
             </el-col>
           </el-row>
         </div>
-        <el-row>
+        <el-row style="display: flex;align-items: center;">
+          <div v-if="fileIsRequired" style="color:red;">*</div>
           <BsUploadBak
             v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) || (status === '4' || status === 4) || (status === '5' || status === 5) "
             ref="myUpload"
+            style="flex:1"
             :attachment-id="attachmentid1"
             :file-list="fileList1"
             :file-data-bak-del.sync="fileDataBakDel1"
@@ -347,6 +349,12 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    fileIsRequired() {
+      if ((this.value1 === '2' || this.value1 === '4') && this.detailData.length && this.detailData[0].uploadFile) { // 2认定正常 4核实无误
+        return true
+      }
+      return false
     },
     isXmProject() { // 是否是厦门项目
       const { province } = this.$store.state.userInfo
@@ -1111,6 +1119,11 @@ export default {
           this.$message.warning('退回原因说明请小于等于200字')
           return
         }
+      }
+
+      if (this.fileIsRequired && !this.$refs.myUpload.fileData?.length) {
+        this.$message.warning('请上传附件')
+        return
       }
       if (this.param5.retroact === 'company') {
         this.commentDept = '1'
