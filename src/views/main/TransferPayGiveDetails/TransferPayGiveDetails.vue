@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-21 19:25:54
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-20 22:50:13
+ * @LastEditTime: 2023-06-21 14:46:55
 -->
 <template>
   <div v-loading="showLoading" style="height:100%" class="unit-dis">
@@ -43,6 +43,7 @@
           :toolbar-config="tableToolbarConfig"
           @ajaxData="ajaxTableData"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @checkboxChange="onEditClosedOne"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -414,6 +415,45 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.getTableData()
     },
+    filterData(data, key, value) {
+      let self = this
+      return data.filter((item, index) => {
+        if (
+          item.children &&
+          item.children.length &&
+          (item[key] === value || item[key] === undefined)
+        ) {
+          item.children = self.filterData(item.children, key, value)
+          return true
+        } else {
+          return item[key] === value
+        }
+      })
+    },
+    onEditClosedOne(obj, e) {
+      if (obj.row.attachBillId) {
+        this.$refs.mainTableRef.clearCheckboxRow()
+        let filterResult = this.filterData(obj.data, 'attachBillId', obj.row['attachBillId'])
+
+        if (obj.checked) {
+          this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(filterResult, true)
+        } else {
+          this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(filterResult)
+        }
+      }
+    },
+    // onEditClosedOne(obj) {
+    //   if (obj.row.attachBillId) {
+    //     this.tableData.forEach((v, i) => {
+    //       if (v.attachBillId === obj.row.attachBillId) {
+
+    //       }
+    //     })
+    //   }
+    //   // this.$refs.mainTableRef.clearCheckboxRow()
+    //   // this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(obj.row, obj.checked)
+    //   // this.$refs.mainTableRef.updateData()
+    // },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         // 刷新
