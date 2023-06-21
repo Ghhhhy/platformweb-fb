@@ -919,7 +919,7 @@ const proconf = {
     {
       title: '接收方财政区划',
       width: 140,
-      field: 'recDivCode',
+      field: 'recDivName',
       sortable: false,
       align: 'left'
     }
