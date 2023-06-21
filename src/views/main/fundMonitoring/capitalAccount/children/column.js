@@ -789,13 +789,6 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '转移支付支出功能科目',
-      width: 140,
-      field: 'expFuncName',
-      sortable: false,
-      align: 'left'
-    },
-    {
       title: '分配金额',
       field: 'amountAllfp',
       width: 140,
@@ -810,13 +803,6 @@ const proconf = {
       title: '分配时间',
       width: 140,
       field: 'fpTime',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '接收方财政区划',
-      width: 140,
-      field: 'rec_div_code',
       sortable: false,
       align: 'left'
     }
@@ -874,6 +860,13 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '转移支付功能科目',
+      width: 140,
+      field: 'tpFuncCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '本级项目名称',
       field: 'sSpeTypeName',
       width: 140,
@@ -922,6 +915,13 @@ const proconf = {
         name: '$vxeTime',
         props: { format: 'YYYY-MM-DD' }
       }
+    },
+    {
+      title: '接收方财政区划',
+      width: 140,
+      field: 'recDivCode',
+      sortable: false,
+      align: 'left'
     }
   ],
 
