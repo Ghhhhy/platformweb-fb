@@ -110,6 +110,10 @@ export default {
       ],
       // foot合计配置
       tableFooterConfig: {
+        totalObj: {
+          amountAllfp: 0,
+          payAppAmt: 0
+        },
         combinedType: ['switchTotal'],
         showFooter: true
       },
@@ -119,7 +123,8 @@ export default {
         pageSize: 20
       },
       clickRowData: {},
-      tableData: [],
+      tableData: [
+      ],
       condition: {},
       tableToolbarConfig: {
         // table工具栏配置
@@ -495,6 +500,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.Titans-table .vxe-table--footer-wrapper .vxe-footer--row:not(.footer-total-style) td{
+  text-align: center !important;
+}
 .payVoucherInput {
   margin: 15px;
   .el-card {

@@ -614,10 +614,10 @@ export default {
       switch (obj.code) {
         // 挂接
         case 'hook_set':
-          // if (datas1.length !== 1) {
-          //   this.$message.warning('请选择一条惠民支付明细数据')
-          //   return
-          // }
+          if (datas1.length !== 1) {
+            this.$message.warning('请选择一条惠民支付明细数据')
+            return
+          }
           if (datas2.length !== 1) {
             this.$message.warning('请选择一条支付凭证信息数据')
             return
@@ -856,7 +856,8 @@ export default {
         amount: this.amount,
         payAmt: this.payAmt,
         mofDivName: this.mofdivName,
-        dtos: this.dtos
+        dtos: this.dtos,
+        roleId: this.roleId
       }
       this.tableLoading1 = true
       HttpModule.pageQuery(param).then(res => {
