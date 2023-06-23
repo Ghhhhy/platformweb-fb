@@ -506,12 +506,13 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
+      debugger
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentid1 && !row.attachmentid3) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      this.billguid = row.attachmentid1 === null || row.attachmentid1 === '' ? row.attachmentid3 : row.attachmentid1
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
