@@ -405,7 +405,7 @@ export default {
       //     }
       //   }
       // }
-      if (['proCode'].includes(column.property)) {
+      if ((['proCode'].includes(column.property) || ['proName'].includes(column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -440,7 +440,7 @@ export default {
           this.addDialogVisible = true
         }
       } else {
-        if (obj.column.property === 'proCodeName') {
+        if ((['proCode'].includes(obj.column.property) || ['proName'].includes(obj.column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
           if (!obj.row.proGuid) {
             this.$message.warning('未返proGuid,无法查看项目信息')
             return

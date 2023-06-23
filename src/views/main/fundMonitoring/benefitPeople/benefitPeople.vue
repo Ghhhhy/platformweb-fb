@@ -1022,7 +1022,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.roleId = this.$store.state.curNavModule.roleguid
-    this.getLeftTreeData()
+    // this.getLeftTreeData()
     this.getAgency()
     // this.queryTableDatas()
     // this.queryTableDatas1()
