@@ -320,13 +320,11 @@ export default {
      */
     setShowBusinesTree() {
       // 可显示是左侧业务树的路由
-      let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
-      if (this.isXMProject) {
-        showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
-      }
-      if (showRouters.includes(this.$route.name)) {
-        this.showLog = true
-      }
+      // let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      // if (this.isXMProject) {
+      //   showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
+      // }
+      this.showLog = true
       if (this.$route.name === 'DepartmentRetroactBySpecial') {
         this.showBuinessTree = true
         this.leftTreeVisible = true
