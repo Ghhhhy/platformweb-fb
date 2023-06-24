@@ -47,14 +47,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '凭证时间',
-    width: 180,
-    field: 'voucherTime',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '凭证时间',
+  //   width: 180,
+  //   field: 'voucherTime',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '主题',
     width: 180,
@@ -102,32 +102,22 @@ const budgetImpColumns = [
     align: 'center'
   },
   {
-    'title': '预警级别',
-    'field': 'warnLevel',
-    'fixed': '',
-    'width': '100',
-    'type': 'html',
-    'align': 'center',
-    'formula': '',
-    'constraint': '',
-    'combinedType': '',
-    'sortable': '1',
-    'associatedQuery': {
-      'queryMethods': '',
-      'queryUrl': '',
-      'params': {}
-    },
-    'dragSort': null,
-    'className': '',
-    'combinedType_select_sort': '',
-    'filters': '',
-    formatter: ({ row }) => {
-      store.state.warnInfo.warnControlTypeOptions.map(item => {
-        if (row.warnLevel === item.value) {
-          return item.label
+    title: '预警级别',
+    field: 'warnLevel',
+    align: 'center',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: store.state.warnInfo.warnLevelOptions.map(item => {
+        return {
+          ...item,
+          value: String(item.value)
         }
-      })
-    }
+      }),
+      defaultValue: '',
+      props: {}
+    },
+    name: '$vxeSelect'
   },
   {
     title: '处理方式',
@@ -812,32 +802,22 @@ export const proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        store.state.warnInfo.warnControlTypeOptions.map(item => {
-          if (row.warnLevel === item.value) {
-            return item.label
+      title: '预警级别',
+      field: 'warnLevel',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        })
-      }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '违规详情',
@@ -2409,32 +2389,22 @@ export const proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        store.state.warnInfo.warnControlTypeOptions.map(item => {
-          if (row.warnLevel === item.value) {
-            return item.label
+      title: '预警级别',
+      field: 'warnLevel',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        })
-      }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '处理方式',
