@@ -489,13 +489,13 @@ export default {
 
       switch (key) {
         case 'jOut':
-          this.handleDetail('jOut', obj.row.code)
+          this.handleDetail('jOut', obj.row.code, key)
           this.detailTitle = '支出明细'
           break
         case 'sbjfpaAmount':
         case 'shbjfpaAmount':
         case 'xyfpaAmount':
-          this.handleDetail('zdzjxmmx_dfap', obj.row.code)
+          this.handleDetail('zdzjxmmx_dfap', obj.row.code, key)
           this.detailTitle = '直达资金项目明细'
       }
     },
