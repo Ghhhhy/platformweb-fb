@@ -23,7 +23,7 @@
           <div class="drawer-right">
             <div class="journal">
               <p>{{ log.nodeName }}</p>
-              <p>操作人员：{{ log.actionUser }}&nbsp&nbsp{{ log.actionTime }}</p>
+              <p>操作人员：{{ log.actionUser }}&nbsp&nbsp 操作时间：{{ log.actionTime }}</p>
             </div>
             <div class="journal-buttom">
               <p>{{ log.dutyName }}</p>
@@ -32,9 +32,7 @@
           </div>
         </li>
       </ul>
-
       <button v-if="isShow" class="Morebutton" @click="showMore">{{ names }}&nbsp<img :style="showMoreList ? 'transform: scaleY(-1);' : ''" src="@/assets/img/focusPayment/drop-down-arrow.svg" alt=""></button>
-
     </div>
   </el-drawer>
 </template>
