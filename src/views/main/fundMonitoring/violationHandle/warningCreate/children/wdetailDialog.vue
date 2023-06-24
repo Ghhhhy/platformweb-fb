@@ -677,13 +677,10 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
-      // 黑龙江查询菜单关闭详情页面不更新主界面数据
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '23') {
-        if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') return
-        this.$parent.queryTableDatas()
-      } else {
-        this.$parent.queryTableDatas()
+      if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') {
+        return
       }
+      this.$parent.queryTableDatas()
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {

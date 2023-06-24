@@ -39,14 +39,14 @@ const budgetImpColumns = [
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
     }
   },
-  {
-    title: '凭证时间',
-    width: 180,
-    field: 'voucherTime',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '凭证时间',
+  //   width: 180,
+  //   field: 'voucherTime',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '业务数据单号',
     width: 180,
