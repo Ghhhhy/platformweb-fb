@@ -141,5 +141,17 @@ export default [
       import(
         '../../../views/main/MointoringMatters/ThreeGuarantees/NewThreeGuaranteesByys.vue'
       )
+  },
+  {
+    path: '/MonitorRuleContactConfiguration',
+    name: 'MonitorRuleContactConfiguration',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MonitorRuleContactConfiguration/MonitorRuleContactConfiguration.vue'
+      )
   }
 ]
