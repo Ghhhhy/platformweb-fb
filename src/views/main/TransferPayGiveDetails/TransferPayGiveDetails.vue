@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-21 19:25:54
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-21 14:46:55
+ * @LastEditTime: 2023-06-25 12:51:27
 -->
 <template>
   <div v-loading="showLoading" style="height:100%" class="unit-dis">
@@ -72,7 +72,13 @@
     >
       <div v-loading="showLoading" class="import-download-template-up">
         <div class="idtu-import">
-          <BsUploadBak ref="myUpload" :attachment-id="attachmentId" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" />
+          <BsUploadBak
+            ref="myUpload"
+            :attachment-id="attachmentId"
+            :file-list="fileList"
+            :file-data-bak-del.sync="fileDataBakDel"
+            :file-data.sync="fileData"
+          />
         </div>
         <div v-if="fileName" class="idtu-importFile-tip">{{ fileName }}</div>
         <div class="idtu-import-btn">
@@ -89,11 +95,13 @@
 </template>
 <script>
 import { proconf } from './TransferPayGiveDetails.js'
+import BsUploadBak from './BossUploadBak.vue'
 import HttpModule from '@/api/frame/main/Monitoring/Policies.js'
 import GlAttachment from '../MointoringMatters/common/GlAttachment'
 export default {
   components: {
-    GlAttachment
+    GlAttachment,
+    BsUploadBak
   },
   data() {
     return {
@@ -327,7 +335,6 @@ export default {
         billguid: this.attachmentId, // 随机生成的ID
         bgtIds: this.bgtIdArray
       }
-      console.log('请求成功', this.diBillId, 'diBillId')
       this.showLoading = true
       HttpModule.reportImport(data).then(res => {
         this.showLoading = false
