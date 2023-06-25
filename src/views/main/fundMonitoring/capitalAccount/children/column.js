@@ -250,9 +250,12 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
       width: 140,
       sortable: false,
+      field: 'xjExpFuncName',
+      formatter({ row }) {
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
+      },
       align: 'left'
     },
     {
@@ -358,10 +361,13 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'left'
+      align: 'left',
+      field: 'xjExpFuncName',
+      formatter({ row }) {
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
+      }
     },
     {
       title: '预算金额',
