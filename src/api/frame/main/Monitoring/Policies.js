@@ -56,5 +56,15 @@ export default {
   // 查询接口
   getTableDate(params) {
     return post('large-monitor-platform/lmp/babgtinfo/search', params)
+  },
+  // 获取左侧树
+  getLeftTree(params) {
+    return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  getTableDate2(params) {
+    return post('large-monitor-platform/lmp/regulation/viewContacts', params)
+  },
+  saveForm(params) {
+    return post('large-monitor-platform/lmp/regulation/saveOrUpdateContacts', params)
   }
 }
