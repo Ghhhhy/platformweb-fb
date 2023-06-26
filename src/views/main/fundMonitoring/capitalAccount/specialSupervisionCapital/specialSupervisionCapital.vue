@@ -31,7 +31,7 @@
           :export-modal-config="{ fileName: menuName, addReportTitleColumn: true, addUnitColumn: true }"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="true"
+          :show-zero="showZero"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -174,6 +174,7 @@ export default {
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [
       ],
+      showZero: this.transJson(this.$store?.state?.curNavModule?.param5).showZero !== (undefined && null && '') ? this.transJson(this.$store.state.curNavModule.param5).showZero : false,
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
@@ -576,8 +577,8 @@ export default {
       if (!rowIndex) return
       let key = obj.column.property
       // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fzj'
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
@@ -693,8 +694,8 @@ export default {
       if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
-      // const validCellValue = (row[column.property] * 1)
-      // if (!validCellValue) return
+      const validCellValue = (row[column.property] * 1)
+      if (!validCellValue) return
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
@@ -762,6 +763,7 @@ export default {
       this.$set(this, 'queryConfig', arr)
     }
   }
+
 }
 </script>
 <style scoped>

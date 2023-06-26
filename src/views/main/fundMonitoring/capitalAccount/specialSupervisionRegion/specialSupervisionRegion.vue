@@ -40,7 +40,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="true"
+          :show-zero="showZero"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -190,6 +190,7 @@ export default {
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [
       ],
+      showZero: this.transJson(this.$store?.state?.curNavModule?.param5).showZero !== (undefined && null && '') ? this.transJson(this.$store.state.curNavModule.param5).showZero : false,
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
