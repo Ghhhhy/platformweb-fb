@@ -788,6 +788,7 @@ export default {
           handleResult: this.createDataList.handleResult, // 处理结果
           issueTime: this.createDataList.issueTime,
           doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
+          bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,
           fiRuleCode: item.fiRuleCode,
           warningCode: item.warningCode
