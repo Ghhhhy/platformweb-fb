@@ -185,6 +185,7 @@ export default {
           unit: '万元'
         }
       },
+      showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
