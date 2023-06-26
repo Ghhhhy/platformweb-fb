@@ -419,12 +419,13 @@ export default {
         case 'setup':
         case 'edit':
           let selection = this.$refs.mainTableRef.getSelectionData()
-          if (selection.length !== 1) {
-            this.$message.warning('请选择一条数据')
+          if (selection.length < 1) {
+            this.$message.warning('请至少选择一条数据')
             return
           }
           this.$refs.RuleModal.dialogVisible = true
-          this.$refs.RuleModal.createDataList = selection[0]
+          this.$refs.RuleModal.selection = selection
+          // this.$refs.RuleModal.createDataList = selection
           break
       }
     },
