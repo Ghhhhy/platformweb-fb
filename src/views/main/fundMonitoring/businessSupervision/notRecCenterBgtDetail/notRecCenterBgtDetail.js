@@ -113,16 +113,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{proCode}-{proName}'
-        }
-      },
-      props: {
-        format: '{proCode}-{proName}'
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     },
     {
@@ -132,16 +124,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{fundTypeCode}-{fundTypeName}'
-        }
-      },
-      props: {
-        format: '{fundTypeCode}-{fundTypeName}'
+      formatter({ row }) {
+        return row.fundTypeCode && row.fundTypeName ? `${row.fundTypeCode}-${row.fundTypeName}` : ''
       }
     },
     {
@@ -151,16 +135,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{expFuncCode}-{expFuncName}'
-        }
-      },
-      props: {
-        format: '{expFuncCode}-{expFuncName}'
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       }
     },
     {
@@ -170,16 +146,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{tpFuncCode}-{tpFuncName}'
-        }
-      },
-      props: {
-        format: '{tpFuncCode}-{tpFuncName}'
+      formatter({ row }) {
+        return row.tpFuncCode && row.tpFuncName ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
       }
     },
     {

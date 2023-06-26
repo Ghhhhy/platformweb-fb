@@ -3,7 +3,7 @@
  * @Author: chenxuanke
  * @Date: 2022-11-21 19:25:54
  * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-15 10:35:17
+ * @LastEditTime: 2023-06-25 12:51:27
 -->
 <template>
   <div v-loading="showLoading" style="height:100%" class="unit-dis">
@@ -43,6 +43,7 @@
           :toolbar-config="tableToolbarConfig"
           @ajaxData="ajaxTableData"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @checkboxChange="onEditClosedOne"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -67,11 +68,17 @@
       v-model="importModalVisible"
       width="800"
       title="上传"
-      @close="importModalVisible = false"
+      @close="importModalVisibleClose"
     >
       <div v-loading="showLoading" class="import-download-template-up">
         <div class="idtu-import">
-          <BsUploadBak ref="myUpload" :attachment-id="attachmentId" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" />
+          <BsUploadBak
+            ref="myUpload"
+            :attachment-id="attachmentId"
+            :file-list="fileList"
+            :file-data-bak-del.sync="fileDataBakDel"
+            :file-data.sync="fileData"
+          />
         </div>
         <div v-if="fileName" class="idtu-importFile-tip">{{ fileName }}</div>
         <div class="idtu-import-btn">
@@ -88,11 +95,13 @@
 </template>
 <script>
 import { proconf } from './TransferPayGiveDetails.js'
+import BsUploadBak from './BossUploadBak.vue'
 import HttpModule from '@/api/frame/main/Monitoring/Policies.js'
 import GlAttachment from '../MointoringMatters/common/GlAttachment'
 export default {
   components: {
-    GlAttachment
+    GlAttachment,
+    BsUploadBak
   },
   data() {
     return {
@@ -190,16 +199,21 @@ export default {
     onOptionRowClick({ row, optionType, rowindex }) {
       // console.log(context.$parent.$parent.$parent)
       switch (optionType) {
-        // 附件
-        case 'attachment':
-          this.attachmentId = ''
-          this.attachmentId = this.tableData[rowindex].bgtId
-          this.showAttachment(row)
-          break
+        // 附件 attachName
+        // case 'attachment':
+        //   this.attachmentId = ''
+        //   this.attachmentId = this.tableData[rowindex].bgtId
+        //   this.showAttachment(row)
+        //   break
         case 'attachName':
+          // if (this.tableData[rowindex].hasAttach === '1') {
           this.attachmentId = ''
-          this.attachmentId = this.tableData[rowindex].bgtId
+          this.attachmentId = this.tableData[rowindex].attachBillId ? this.tableData[rowindex].attachBillId : this.tableData[rowindex].bgtId
           this.attachName()
+          // } else {
+          //   this.$message.warning('当前无附件!请上传附件后再查看')
+          // }
+
           break
         default:
       }
@@ -310,13 +324,17 @@ export default {
         }
       })
     },
+    importModalVisibleClose() {
+      this.onImportClick()
+      this.importModalVisible = true
+    },
     onImportClick() {
       let data = {
         pageNum: 1,
         pageSize: 20,
-        billguid: 'shfsdq' + this.attachmentId // 上海 非试点区
+        billguid: this.attachmentId, // 随机生成的ID
+        bgtIds: this.bgtIdArray
       }
-      console.log('请求成功', this.diBillId, 'diBillId')
       this.showLoading = true
       HttpModule.reportImport(data).then(res => {
         this.showLoading = false
@@ -348,21 +366,41 @@ export default {
           break
       }
     },
+    // ID随机生成
+    getUuid(hexDigits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz') { // 获取mapid
+      let s = []
+      for (let i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+      }
+      s[14] = '4'
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
+      s[8] = s[13] = s[18] = s[23] = ''
+      let uuid = s.join('')
+      return uuid
+    },
     // 右侧按钮事件触发
     operationToolbarButtonClickEvent(obj) {
       switch (obj.code) {
-        case 'toolbar-upLoad':// 挂接指标
+        case 'toolbar-upLoad':// 附件上传
           this.upLoad()
           break
       }
     },
     upLoad() {
-      if (this.$refs.mainTableRef.getSelectionData().length !== 1) {
+      if (this.$refs.mainTableRef.getSelectionData().length < 1) {
         this.$message.warning('请选择一条数据进行附件的上传!')
         return
       }
-      this.attachmentId = ''
-      this.attachmentId = this.$refs.mainTableRef.getSelectionData()[0].bgtId
+      // 生成随机ID
+      this.attachmentId = this.getUuid()
+      // 拿到当前上传附件数据的bgtId
+      this.bgtIdArray = []
+      this.$refs.mainTableRef.getSelectionData().forEach(v => {
+        this.bgtIdArray.push(v.bgtId)
+        if (v.attachBillId) {
+          this.attachmentId = v.attachBillId
+        }
+      })
       this.showAttachment()
     },
     // 搜索
@@ -384,6 +422,45 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.getTableData()
     },
+    filterData(data, key, value) {
+      let self = this
+      return data.filter((item, index) => {
+        if (
+          item.children &&
+          item.children.length &&
+          (item[key] === value || item[key] === undefined)
+        ) {
+          item.children = self.filterData(item.children, key, value)
+          return true
+        } else {
+          return item[key] === value
+        }
+      })
+    },
+    onEditClosedOne(obj, e) {
+      if (obj.row.attachBillId) {
+        this.$refs.mainTableRef.clearCheckboxRow()
+        let filterResult = this.filterData(obj.data, 'attachBillId', obj.row['attachBillId'])
+
+        if (obj.checked) {
+          this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(filterResult, true)
+        } else {
+          this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(filterResult)
+        }
+      }
+    },
+    // onEditClosedOne(obj) {
+    //   if (obj.row.attachBillId) {
+    //     this.tableData.forEach((v, i) => {
+    //       if (v.attachBillId === obj.row.attachBillId) {
+
+    //       }
+    //     })
+    //   }
+    //   // this.$refs.mainTableRef.clearCheckboxRow()
+    //   // this.$refs.mainTableRef.$refs.xGrid.setCheckboxRow(obj.row, obj.checked)
+    //   // this.$refs.mainTableRef.updateData()
+    // },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         // 刷新

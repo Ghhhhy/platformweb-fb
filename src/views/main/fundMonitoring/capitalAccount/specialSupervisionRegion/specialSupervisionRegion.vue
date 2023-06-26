@@ -40,7 +40,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="false"
+          :show-zero="true"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -188,7 +188,8 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [],
+      tableData: [
+      ],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -579,11 +580,12 @@ export default {
       if (!rowIndex) return
       let key = obj.column.property
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fdq'
-      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
+      let reportCode = this.transJson(this.params5 || '')?.reportCode
+      if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
       }
@@ -743,8 +745,8 @@ export default {
       if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (!validCellValue) return
+      // const validCellValue = (row[column.property] * 1)
+      // if (!validCellValue) return
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
         if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {

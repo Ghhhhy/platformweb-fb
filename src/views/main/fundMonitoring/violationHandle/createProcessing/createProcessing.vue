@@ -320,13 +320,11 @@ export default {
      */
     setShowBusinesTree() {
       // 可显示是左侧业务树的路由
-      let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
-      if (this.isXMProject) {
-        showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
-      }
-      if (showRouters.includes(this.$route.name)) {
-        this.showLog = true
-      }
+      // let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      // if (this.isXMProject) {
+      //   showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
+      // }
+      this.showLog = true
       if (this.$route.name === 'DepartmentRetroactBySpecial') {
         this.showBuinessTree = true
         this.leftTreeVisible = true
@@ -508,12 +506,13 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
+      debugger
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentid1 && !row.attachmentid3) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      this.billguid = row.attachmentid1 === null || row.attachmentid1 === '' ? row.attachmentid3 : row.attachmentid1
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
@@ -1079,7 +1078,6 @@ export default {
       HttpModule.getReport(params).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          debugger
           this.fileGuid = res.data
           this.filePreviewDialogVisible = true
         } else {

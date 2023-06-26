@@ -91,16 +91,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter: ({ row }) => {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {
@@ -110,16 +102,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{manageMofDepCode}-{manageMofDepName}'
-        }
-      },
-      props: {
-        format: '{manageMofDepCode}-{manageMofDepName}'
+      formatter: ({ row }) => {
+        return row.manageMofDepCode && row.manageMofDepName ? `${row.manageMofDepCode}-${row.manageMofDepName}` : ''
       }
     },
     {

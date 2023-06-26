@@ -110,16 +110,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{mofDivCode}-{mofDivName}'
-        }
-      },
-      props: {
-        format: '{mofDivCode}-{mofDivName}'
+      formatter({ row }) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
     },
     {
@@ -153,16 +145,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{manageMofDepCode}-{manageMofDepName}'
-        }
-      },
-      props: {
-        format: '{manageMofDepCode}-{manageMofDepName}'
+      formatter({ row }) {
+        return row.manageMofDepCode && row.manageMofDepName ? `${row.manageMofDepCode}-${row.manageMofDepName}` : ''
       }
     },
     {
@@ -172,16 +156,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
+      formatter({ row }) {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
     },
     {
@@ -200,16 +176,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{expFuncCode}-{expFuncName}'
-        }
-      },
-      props: {
-        format: '{expFuncCode}-{expFuncName}'
+      formatter({ row }) {
+        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       }
     },
     {

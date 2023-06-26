@@ -18,7 +18,7 @@
     </div>
     <BsTable
       ref="mainTableRef"
-      :footer-config="tableFooterConfig"
+      :footer-config="$store.state.userInfo.province.slice(0, 4) === '3502' ? tableFooterFalseConfig : tableFooterConfig"
       :table-config="tableConfig"
       :table-columns-config="tableColumnsConfig"
       :table-data="tableData"
@@ -85,6 +85,9 @@ export default {
       tableFooterConfig: {
         combinedType: ['switchTotal'],
         showFooter: true
+      },
+      tableFooterFalseConfig: {
+        showFooter: false
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -216,6 +219,7 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+        case 'zdzjzcmx_fzj':
           this.tableColumnsConfig = proconf.payColumn
           break
         case 'zxjdzcmx_fdq':

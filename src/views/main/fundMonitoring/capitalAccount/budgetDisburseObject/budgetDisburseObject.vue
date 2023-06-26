@@ -394,6 +394,9 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        return
+      }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property

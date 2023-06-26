@@ -269,22 +269,22 @@ export let proconf = {
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
-    {
-      title: '项目代码',
-      width: 180,
-      field: 'proCode',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '项目名称',
-      width: 180,
-      field: 'proName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '项目代码',
+    //   width: 180,
+    //   field: 'proCode',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '项目名称',
+    //   width: 180,
+    //   field: 'proName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '收款账户名称',
       width: 180,

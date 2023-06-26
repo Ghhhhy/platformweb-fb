@@ -186,6 +186,23 @@
                 </el-main>
               </el-container>
             </el-col>
+            <!-- <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则类型</div>
+                    <el-input
+                      v-model="ruleTypeName"
+                      :disabled="disabled"
+                      placeholder="规则类型"
+                      style="width:45%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col> -->
+          </el-row>
+          <el-row>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -221,8 +238,6 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
