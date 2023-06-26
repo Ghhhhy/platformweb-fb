@@ -23,6 +23,10 @@ export default {
   getTreewhere(params) {
     return get(`mp-b-basedata-service/v2/basedata/MANAGE_MOF_DEP/${store.state.userInfo.province}`, params)
   },
+  // 获取单位信息树
+  getTreeAgency(params) {
+    return get(`mp-b-basedata-service/v2/basedata/AGENCY/${store.state.userInfo.province}`, params)
+  },
   update (params) {
     return post('dfr-monitor-service/dfr/manageMofDepProRelation/update', params)
   }
