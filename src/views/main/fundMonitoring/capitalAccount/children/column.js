@@ -249,7 +249,7 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '支出功能科目',
+      title: '转移支付功能科目',
       width: 140,
       sortable: false,
       field: 'xjExpFuncName',
@@ -870,6 +870,9 @@ const proconf = {
       width: 140,
       field: 'tpFuncCode',
       sortable: false,
+      formatter({ row }) {
+        return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      },
       align: 'left'
     },
     {
