@@ -87,7 +87,7 @@ export let proconf = {
     {
       title: '地区名称',
       width: 180,
-      field: '',
+      field: 'mofDivName',
       sortable: false,
       filters: false,
       align: 'center',
@@ -106,7 +106,7 @@ export let proconf = {
     {
       title: '处室',
       width: 180,
-      field: '',
+      field: 'manageMofDepName',
       sortable: false,
       filters: false,
       align: 'center',

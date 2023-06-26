@@ -789,6 +789,18 @@ const routers = [
       )
   },
   {
+    path: '/manageMofAgencyProRelation', // 单位用户资金权限配置
+    name: 'manageMofAgencyProRelation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/manageMofAgencyProRelation/manageMofAgencyProRelation.vue'
+      )
+  },
+  {
     path: '/escalation', // 财政上报
     name: 'escalation',
     component: () =>

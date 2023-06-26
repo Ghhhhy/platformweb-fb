@@ -207,17 +207,17 @@ export default {
       let params = this.detailQueryParam
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
-      params.proName = this.condition.proName ? this.condition.proName[0] : ''
-      params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
-      params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
-      params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
-      params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
-      params.payAcctNo = this.condition.payAcctNo ? this.condition.payAcctNo[0] : ''
-      params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
-      params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
-      params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
-      params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
-      params.budgetLevelCode = this.budgetLevelCode
+      // params.proName = this.condition.proName ? this.condition.proName[0] : ''
+      // params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
+      // params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
+      // params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
+      // params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
+      // params.payAcctNo = this.co ? this.condition.payAcctNo[0] : ''
+      // params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
+      // params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
+      // params.payeeAcctNo = tndition.payAcctNohis.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
+      // params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
+      // params.budgetLevelCode = this.budgetLevelCode
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
@@ -233,13 +233,14 @@ export default {
     showInfo() {
       switch (this.detailType) {
         // 专项监督项目台账支出明细
+        case 'zdzjxmtz_zcmx':
         case 'zxjdxmtz_zcmx':
+          this.tableColumnsConfig = proconf.payColumn
+          break
+        case 'zdzjxmtz_ysmx':
         case 'zxjdxmtz_ysmx':
           this.tableColumnsConfig = proconf.projectZxZcmxColumn
-          // this.queryConfig = proconf.highQueryConfig2
-          // this.searchDataList = proconf.highQueryData2
           break
-
         default:
           break
       }
