@@ -370,6 +370,16 @@ const proconf = {
       }
     },
     {
+      title: '转移支付功能科目',
+      width: 140,
+      sortable: false,
+      align: 'left',
+      field: 'tpFuncName',
+      formatter({ row }) {
+        return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      }
+    },
+    {
       title: '预算金额',
       align: 'right',
       field: 'amountAllfp',

@@ -405,10 +405,12 @@ export default {
       //     }
       //   }
       // }
-      if ((['proCode'].includes(column.property) || ['proName'].includes(column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (row.proGuid) {
+        if ((['proCode'].includes(column.property) || ['proName'].includes(column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
       // if (!rowIndex) return
@@ -426,7 +428,7 @@ export default {
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
-            this.$message.warning('未返proGuid,无法查看项目信息')
+            // this.$message.warning('未返proGuid,无法查看项目信息')
             return
           }
           this.proGuid = obj.row.proGuid || ''
@@ -442,7 +444,7 @@ export default {
       } else {
         if ((['proCode'].includes(obj.column.property) || ['proName'].includes(obj.column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
           if (!obj.row.proGuid) {
-            this.$message.warning('未返proGuid,无法查看项目信息')
+            // this.$message.warning('未返proGuid,无法查看项目信息')
             return
           }
           this.proGuid = obj.row.proGuid || ''
