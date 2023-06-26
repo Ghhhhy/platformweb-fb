@@ -81,20 +81,27 @@ export default {
       this.dialogVisible = false
     },
     async save() {
-      let valid = await this.$refs.ruleForm.validate()
-      if (valid !== undefined) return undefined
-      let params = this.createDataList
-      httpModules.saveForm(params).then(res => {
-        console.log(77, res)
-        if (res && res.code === '000000') {
-          this.dialogVisible = false
-          this.$message.success('成功')
-          this.$parent.queryTableDatas()
-        }
-      })
+      try {
+        let valid = await this.$refs.ruleForm.validate()
+        if (valid !== undefined) return undefined
+        let params = this.createDataList
+        httpModules.saveForm(params).then(res => {
+          console.log(77, res)
+          if (res && res.code === '000000') {
+            this.dialogVisible = false
+            this.$message.success('成功')
+            this.$parent.queryTableDatas()
+          }
+        })
+      } catch (error) {
+
+      }
     }
   },
   watch: {
+    dialogVisible() {
+      this.$refs.ruleForm.clearValidate()
+    }
   },
   created() {
 
