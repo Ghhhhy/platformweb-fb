@@ -44,6 +44,7 @@ export default {
       createConfig: proconf.createConfig,
       title: '设置规则联系人',
       dialogVisible: false,
+      selection: [],
       createDataList: {
         id: '',
         regulationCode: '',
@@ -81,20 +82,44 @@ export default {
       this.dialogVisible = false
     },
     async save() {
-      let valid = await this.$refs.ruleForm.validate()
-      if (valid !== undefined) return undefined
-      let params = this.createDataList
-      httpModules.saveForm(params).then(res => {
-        console.log(77, res)
-        if (res && res.code === '000000') {
-          this.dialogVisible = false
-          this.$message.success('成功')
-          this.$parent.queryTableDatas()
-        }
-      })
+      try {
+        let valid = await this.$refs.ruleForm.validate()
+        if (valid !== undefined) return undefined
+        let params = this.selection.map(item => {
+          return { ...item, ...this.createDataList }
+        })
+        httpModules.saveForm(params).then(res => {
+          console.log(77, res)
+          if (res && res.code === '000000') {
+            this.dialogVisible = false
+            this.$message.success('成功')
+            this.$parent.queryTableDatas()
+          }
+        })
+      } catch (error) {
+
+      }
     }
   },
   watch: {
+    dialogVisible() {
+      this.$refs.ruleForm.clearValidate()
+      this.createDataList = {
+        id: '',
+        regulationCode: '',
+        mofDivCode: '',
+        agencyCode: null,
+        contactPerson: '',
+        officePhone: '',
+        mobilePhone: '',
+        email: '',
+        weChat: '',
+        qqNumber: '',
+        otherWay: '',
+        otherInfo: '',
+        fiscalYear: ''
+      }
+    }
   },
   created() {
 
