@@ -188,9 +188,7 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [
-      ],
-      showZero: this.transJson(this.$store?.state?.curNavModule?.param5).showZero !== (undefined && null && '') ? this.transJson(this.$store.state.curNavModule.param5).showZero : false,
+      tableData: [],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -559,6 +557,10 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
         isZd: this.searchDataList.isZd || ''
+      }
+      // 上海需求  监管局需要加 isCentral 字段
+      if (hideColumnLinkStr.reportCode === 'zxjd_fdq_central' && hideColumnLinkStr.projectCode === 'SH') {
+        params.isCentral = '1'
       }
       this.detailQueryParam = params
       this.detailType = reportCode

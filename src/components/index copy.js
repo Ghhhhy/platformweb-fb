@@ -2,8 +2,8 @@
  * @Description: 本地全量组件
  * @Author: Comer
  * @Date: 2023-03-30 14:32:35
- * @LastEditors: Comer
- * @LastEditTime: 2023-03-30 14:32:35
+ * @LastEditors: chenxuanke
+ * @LastEditTime: 2023-06-26 10:10:24
  */
 // 全局组件注册   Author:Titans@2396757591@qq.com
 // component
@@ -29,6 +29,7 @@ import BsFilePreview from './filePreview/filePreview'
 // import FilterNumberCompare from './renderers/tableFilters/FilterNumberCompare/FilterNumberCompare.vue' // 内容过滤器:Jigsaw
 import BsTab from './Tab/Tab.vue' // tab切换:Titans
 import BsTable from './Table/Table.vue' // table:Titans
+import BsTable1 from './TableOld/Table.vue' // table:Titans // 仅限于表格表单配置使用
 import BsTableBak from './TableBak/Table.vue' // table:Titans
 import BsQuickNav from './navgationNew/quickNav2/QuickNav.vue' // table:Titans
 import BsTree from './UnitTree/UnitTree.vue' // tree:Titans
@@ -83,6 +84,7 @@ const componentsLib = {
   BsToolBar,
   BsTabPanel,
   BsTable,
+  BsTable1,
   BsTableBak,
   BsTree,
   BsDialog,

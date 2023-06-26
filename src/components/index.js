@@ -10,6 +10,7 @@ import BsFilePreview from './filePreview/filePreview'
 import FilterNumberRange from './renderers/tableFilters/FilterNumberRange/index.vue' // 数值范围过滤器
 // import FilterNumberCompare from './renderers/tableFilters/FilterNumberCompare/FilterNumberCompare.vue' // 内容过滤器:Jigsaw
 import BsTableBak from './TableBak/Table.vue' // table:Titans
+import BsTable1 from './TableOld/Table.vue' // table:Titans // 仅限于表格表单配置使用
 import BsAnchorNav from './anchorNav/AnchorNav.vue' // 锚点组件:Titans
 import BsAnchorNavOption from './anchorNav/AnchorNavOption.vue' // 锚点内容:Titans
 // import BsTable2 from './Table2/Table.vue' // table:Titans developing 暂未可用
@@ -53,6 +54,7 @@ const componentsLib = {
   BsUpload,
   BsToolBar,
   BsTableBak,
+  BsTable1,
   BsUploadBak,
   BsProgress,
   // FilterNumberCompare,

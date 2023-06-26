@@ -55,6 +55,15 @@ const MainRoute = {
       component: () => import('../../views/test/template/FormTemplate.vue')
     },
     {
+      path: '/TableManageSys', // 动态表头配置
+      name: 'TableManageSys',
+      meta: {
+        keepAlive: true,
+        requireAuth: true
+      },
+      component: () => import('../../views/manageSystem/table/Main.vue')
+    },
+    {
       path: '/Monitor', // test--template:Titans
       name: 'Monitor',
       meta: {
