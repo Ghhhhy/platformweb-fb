@@ -40,7 +40,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="true"
+          :show-zero="showZero"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"

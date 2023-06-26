@@ -479,7 +479,7 @@ export default {
           const param = {
             page: this.mainPagerConfig.currentPage, // 页码
             pageSize: this.mainPagerConfig.pageSize, // 每页条数
-            reportCode: 'dwzfqk',
+            reportCode: 'zjzfblycqkb_bmjmc',
             fiscalYear: this.fiscalYear,
             mofDivCodeList: this.codeList,
             agencyCode: row.agencyCode,
