@@ -94,24 +94,10 @@ export let proconf = {
         }
       }
     },
-    // {
-    //   title: '功能科目',
-    //   field: 'expFuncName',
-    //   width: '8',
-    //   align: 'left',
-    //   formula: '',
-    //   name: '$vxeInput',
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     props: {
-    //       placeholder: '功能科目'
-    //     }
-    //   }
-    // },
     {
       title: '功能科目',
       field: 'expFuncCodes',
-      width: '8',
+      width: '100',
       align: 'left',
       name: '$vxeTree',
       itemRender: {
@@ -150,27 +136,6 @@ export let proconf = {
       }
     },
     {
-      title: '惠企利民',
-      field: 'hqlm',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          // 福建惠企利民01，02，03
-          { value: '', label: '' },
-          { value: '01', label: '利民' },
-          { value: '02', label: '惠企' },
-          { value: '03', label: '惠企利民' }
-        ],
-        props: {
-          placeholder: '惠企利民'
-        }
-      }
-    },
-    {
       title: '截止日期',
       field: 'endTime',
       width: '8',
@@ -189,9 +154,7 @@ export let proconf = {
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     speTypeName: '',
-    expFuncName: '',
     proName: '',
-    hqlm: '',
     endTime: '',
     proCodes: '',
     expFuncCodes: ''
