@@ -401,11 +401,11 @@ export default {
       }
     },
     footerConfig() {
-      if (!this.isXmProject) {
-        return { 'footer-config': {} }
-      } else {
-        return {}
-      }
+      // if (!this.isXmProject) {
+      //   return { 'footer-config': {} }
+      // } else {
+      return {}
+      // }
     },
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
