@@ -115,7 +115,7 @@ export default {
           payAppAmt: 0
         },
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: false
       },
       pagerConfig: {
         total: 0,
@@ -123,8 +123,7 @@ export default {
         pageSize: 20
       },
       clickRowData: {},
-      tableData: [
-      ],
+      tableData: [],
       condition: {},
       tableToolbarConfig: {
         // table工具栏配置
@@ -587,7 +586,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.curNavModule.guid, 'munid')
+    console.log(this.detailType, 'munid')
     const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
     if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
       this.showInfo()
@@ -600,6 +599,12 @@ export default {
   watch: {},
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    // 合计行 只有上海有
+    if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
+      this.tableFooterConfig.showFooter = true
+    } else {
+      this.tableFooterConfig.showFooter = false
+    }
   }
 }
 </script>
