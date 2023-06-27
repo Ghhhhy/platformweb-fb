@@ -159,6 +159,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -252,8 +271,6 @@ export default {
       })
     },
     showInfo() {
-      // this.tableData = this.detailData
-      console.log(proconf)
       switch (this.detailType) {
         // 支出明细
         case 'zjzcmx_fdq':
@@ -358,6 +375,73 @@ export default {
       }
       this.queryTableDatas()
     },
+    isConfigTable() {
+      switch (this.detailType) {
+        case 'zyxdxmmx_fzj': // 分资金  中央下达
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          console.info('分资金  中央下达')
+          break
+        case 'zxjdzcmx_fzj':// 支出金额
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          console.info('分资金  支出金额')
+          break
+        case 'zxjdxmmx_fzj': // 分配下级 分配本级 已分配
+          if (this.detailQueryParam.column === 'amountSnjbjfp') {
+            this.loadConfig('BsTable', 'Table203')
+            this.loadConfig('BsQuery', 'Query203')
+            console.info('分资金  省级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
+            this.loadConfig('BsTable', 'Table204')
+            this.loadConfig('BsQuery', 'Query204')
+            console.info('分资金  省级分配下级')
+          } else if (this.detailQueryParam.column === 'amountSbjfp') {
+            this.loadConfig('BsTable', 'Table205')
+            this.loadConfig('BsQuery', 'Query205')
+            console.info('分资金  市级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSxjfp') {
+            this.loadConfig('BsTable', 'Table206')
+            this.loadConfig('BsQuery', 'Query206')
+            console.info('分资金  市级分配下级')
+          } else if (this.detailQueryParam.column === 'amountXjfp') {
+            this.loadConfig('BsTable', 'Table207')
+            this.loadConfig('BsQuery', 'Query207')
+            console.info('分资金  县级已分配')
+          }
+          break
+        case 'zxjdzcmx_fdq': // 分地区  支出金额
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          console.info('分地区  支出金额')
+          break
+        case 'zxjdxmmx_fdq': // 分配下级 分配本级 已分配
+          if (this.detailQueryParam.column === 'amountSnjbjfp') {
+            this.loadConfig('BsTable', 'Table203')
+            this.loadConfig('BsQuery', 'Query203')
+            console.info('分地区  省级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
+            this.loadConfig('BsTable', 'Table204')
+            this.loadConfig('BsQuery', 'Query204')
+            console.info('分地区  省级分配下级')
+          } else if (this.detailQueryParam.column === 'amountSbjfp') {
+            this.loadConfig('BsTable', 'Table205')
+            this.loadConfig('BsQuery', 'Query205')
+            console.info('分地区  市级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSxjfp') {
+            this.loadConfig('BsTable', 'Table206')
+            this.loadConfig('BsQuery', 'Query206')
+            console.info('分地区  市级分配下级')
+          } else if (this.detailQueryParam.column === 'amountXjfp') {
+            this.loadConfig('BsTable', 'Table207')
+            this.loadConfig('BsQuery', 'Query207')
+            console.info('分地区  县级已分配')
+          }
+          break
+        default:
+          break
+      }
+    },
     handleDetail(reportCode, row) {
       this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
@@ -387,6 +471,16 @@ export default {
       this.$parent.sDetailQueryParam = params
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
     },
     cellStyle({ row, rowIndex, column }) {
       // if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
@@ -493,7 +587,15 @@ export default {
     }
   },
   mounted() {
-    this.showInfo()
+    console.log(this.$store.state.curNavModule.guid, 'munid')
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
+      this.showInfo()
+    } else if (hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
+    } else {
+      this.showInfo()
+    }
   },
   watch: {},
   created() {
