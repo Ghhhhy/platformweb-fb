@@ -84,7 +84,7 @@ export default {
       // foot合计配置
       tableFooterConfig: {
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: false
       },
       tableFooterFalseConfig: {
         showFooter: false
@@ -353,6 +353,11 @@ export default {
   },
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
+      this.tableFooterConfig.showFooter = true
+    } else {
+      this.tableFooterConfig.showFooter = false
+    }
   }
 }
 </script>
