@@ -122,6 +122,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     dialogClose() {
       this.$parent.sDetailVisible = false
     },
@@ -247,6 +266,32 @@ export default {
       }
       this.queryTableDatas()
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
+    isConfigTable() {
+      switch (this.sDetailType) {
+        case 'zxjdzbmx_fzjfp':// 第三层 预算金额 分配金额
+          this.loadConfig('BsTable', 'Table301')
+          this.loadConfig('BsQuery', 'Query301')
+          break
+        case 'zxjdzcmx_fzj':// 第三层 分资金 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+        case 'zxjdzcmx_fdq':// 第三层 分地区 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+      }
+    },
     showInfoForVisible() {
       switch (this.sDetailType) {
         case 'zdzjzcmx_fdq':
@@ -287,7 +332,16 @@ export default {
   },
   mounted() {
     // this.showInfo()
-    this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
+    console.log(this.sDetailType, 'this.sDetailType')
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
+      this.showInfoForVisible()
+    } else if (hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
+    } else {
+      this.showInfoForVisible()
+    }
+    // this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
   },
   watch: {
     sDetailType: {

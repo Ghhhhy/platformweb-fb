@@ -189,7 +189,8 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [],
+      tableData: [
+      ],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -312,6 +313,25 @@ export default {
     this.getNewData()
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -792,6 +812,12 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getPro()
     this.queryTableDatas(false)
+    // 判断是否开放动态表格配置
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
   }
 }
 </script>
