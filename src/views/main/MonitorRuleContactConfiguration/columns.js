@@ -16,8 +16,8 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
-      { code: 'setup', label: '设置规则联系人', status: 'primary' },
-      { code: 'edit', label: '修改规则联系人', status: 'primary' }
+      { code: 'setup', label: '设置规则联系人', status: 'primary' }
+      // { code: 'edit', label: '修改规则联系人', status: 'primary' }
     ]
   },
   highQueryConfig: [
