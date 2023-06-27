@@ -166,18 +166,22 @@
             </el-col>
           </el-row>
         </div>
-        <BsUploadBak
-          ref="myUpload"
-          :disabled="param5.retroact !== 'department' || status !== '1'"
-          :allow-delete="param5.retroact === 'department' && status === '1'"
-          :allow-download="true"
-          :allow-preview="true"
-          :is-upload="param5.retroact === 'department' && status === '1' "
-          :attachment-id="attachmentid3"
-          :file-list="fileList3"
-          :file-data-bak-del.sync="fileDataBakDel3"
-          :file-data.sync="fileData3"
-        />
+        <el-row style="display: flex;align-items: center;">
+          <div v-if="fileIsRequired" style="color:red;">*</div>
+          <BsUploadBak
+            ref="myUpload"
+            style="flex: 1;"
+            :disabled="param5.retroact !== 'department' || status !== '1'"
+            :allow-delete="param5.retroact === 'department' && status === '1'"
+            :allow-download="true"
+            :allow-preview="true"
+            :is-upload="param5.retroact === 'department' && status === '1' "
+            :attachment-id="attachmentid3"
+            :file-list="fileList3"
+            :file-data-bak-del.sync="fileDataBakDel3"
+            :file-data.sync="fileData3"
+          />
+        </el-row>
         <div v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) || (status === '4' || status === 4) || (status === '5' || status === 5) " style="margin-top:10px">
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">预算单位核实信息</div>
           <el-row>
@@ -262,10 +266,10 @@
           </el-row>
         </div>
         <el-row style="display: flex;align-items: center;">
-          <div v-if="fileIsRequired" style="color:red;">*</div>
+          <div v-if="fileIsRequired2" style="color:red;">*</div>
           <BsUploadBak
             v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) || (status === '4' || status === 4) || (status === '5' || status === 5) "
-            ref="myUpload"
+            ref="myUpload2"
             style="flex:1"
             :attachment-id="attachmentid1"
             :file-list="fileList1"
@@ -351,7 +355,13 @@ export default {
       return this.$store.state.curNavModule
     },
     fileIsRequired() {
-      if ((this.value1 === '2' || this.value1 === '4') && this.detailData.length && this.detailData[0].uploadFile) { // 2认定正常 4核实无误
+      if (this.param5.retroact === 'department' && (this.value === '2' || this.value === 2) && this.detailData.length && this.detailData[0].uploadFile) {
+        return true
+      }
+      return false
+    },
+    fileIsRequired2() {
+      if (this.param5.retroact === 'company' && (this.hsValue === '4' || this.hsValue === 4) && this.detailData.length && this.detailData[0].uploadFile) {
         return true
       }
       return false
@@ -1122,6 +1132,10 @@ export default {
       }
 
       if (this.fileIsRequired && !this.$refs.myUpload.fileData?.length) {
+        this.$message.warning('请上传附件')
+        return
+      }
+      if (this.fileIsRequired2 && !this.$refs.myUpload2.fileData?.length) {
         this.$message.warning('请上传附件')
         return
       }
