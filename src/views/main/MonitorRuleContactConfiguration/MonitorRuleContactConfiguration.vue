@@ -78,6 +78,12 @@
 import { proconf } from './columns'
 import RuleModal from './ruleModal.vue'
 import HttpModule from '@/api/frame/main/Monitoring/Policies.js'
+const dict = [
+  { value: 1, label: '红色预警' },
+  { value: 2, label: '黄色预警' },
+  { value: 3, label: '蓝色预警' },
+  { value: 4, label: '灰色预警' }
+]
 export default {
   components: {
     RuleModal
@@ -155,7 +161,87 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: [
+        {
+          title: '区划',
+          field: 'mofDivName',
+          align: 'center'
+        },
+        {
+          title: '监控主题',
+          field: 'regulationClassName',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          title: '规则类型',
+          field: 'fiRuleTypeName',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          title: '管理级次',
+          width: 180,
+          field: 'regulationType',
+          sortable: true,
+          align: 'left',
+          name: '$vxeSelect',
+          cellRender: {
+            name: '$vxeSelect',
+            options: [
+              { value: '1', label: '系统级' },
+              { value: '2', label: '财政级' }
+            ],
+            props: {
+              placeholder: '是否启用'
+            }
+          }
+        },
+        {
+          title: '监控规则名称',
+          field: 'regulationName',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          title: '预警级别',
+          field: 'warningLevel',
+          sortable: false,
+          align: 'center',
+          name: '$vxeSelect',
+          slots: {
+            default: ({ row }) => {
+              return [
+                <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === row.warningLevel)?.label}</div>
+              ]
+            }
+          },
+          cellRender: {
+            name: '$vxeSelect',
+            options: [
+              { value: 1, label: '红色预警' },
+              { value: 2, label: '黄色预警' },
+              { value: 3, label: '蓝色预警' },
+              { value: 4, label: '灰色预警' }
+            ],
+            props: {
+              placeholder: '是否启用'
+            }
+          }
+        },
+        {
+          title: '联系人',
+          field: 'contactPerson',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          title: '联系电话',
+          field: 'officePhone',
+          sortable: false,
+          align: 'center'
+        }
+      ],
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -643,5 +729,17 @@ float: right;
 }
 /deep/ .boss-slect__toolbar .boss-toolbar__content .toolbar-btns .select-tab-li{
   max-width: inherit;
+}
+.warningLevel1{
+  color: red;
+}
+.warningLevel2{
+  color:#FF6F20
+}
+.warningLevel3{
+  color: #FFD43C;
+}
+.warningLevel4{
+  color: #F1F1F1;
 }
 </style>

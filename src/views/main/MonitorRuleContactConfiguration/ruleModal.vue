@@ -46,10 +46,10 @@ export default {
       dialogVisible: false,
       selection: [],
       createDataList: {
-        id: '',
-        regulationCode: '',
-        mofDivCode: '',
-        agencyCode: null,
+        // id: '',
+        // regulationCode: '',
+        // mofDivCode: '',
+        // agencyCode: null,
         contactPerson: '',
         officePhone: '',
         mobilePhone: '',
@@ -57,8 +57,8 @@ export default {
         weChat: '',
         qqNumber: '',
         otherWay: '',
-        otherInfo: '',
-        fiscalYear: ''
+        otherInfo: ''
+        // fiscalYear: ''
       },
       createValidate: {
         contactPerson: [
