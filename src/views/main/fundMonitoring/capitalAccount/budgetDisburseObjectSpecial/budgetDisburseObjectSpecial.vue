@@ -317,11 +317,11 @@ export default {
       // if (isInvalidCellValue) return
       switch (key) {
         case 'amountYszyap':
-          this.handleDetail('zxjdxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.pro_code, obj.row.pro_name, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
+          this.handleDetail('zxjdxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
           this.detailTitle = '预算明细'
           break
         case 'amountZczyap':
-          this.handleDetail('zxjdxmtz_zcmx', '1', obj.row.mofdivcode, obj.row.pro_code, obj.row.pro_name, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
+          this.handleDetail('zxjdxmtz_zcmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
           this.detailTitle = '支出明细'
           break
         case 'proName':
