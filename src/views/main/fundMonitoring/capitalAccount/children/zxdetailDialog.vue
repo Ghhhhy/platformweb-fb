@@ -519,6 +519,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      this.clickRowData = obj.row
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
@@ -531,7 +532,6 @@ export default {
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
-          this.clickRowData = obj.row
           this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
