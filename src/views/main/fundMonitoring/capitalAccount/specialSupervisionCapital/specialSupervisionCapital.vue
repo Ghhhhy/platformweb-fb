@@ -172,9 +172,8 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [
-      ],
-      showZero: this.transJson(this.$store?.state?.curNavModule?.param5).showZero !== (undefined && null && '') ? this.transJson(this.$store.state.curNavModule.param5).showZero : false,
+      tableData: [],
+      showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
