@@ -444,7 +444,7 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, mofDivCode, column, row) {
-      if (row.children !== undefined) return
+      // if (row.children !== undefined) return
       let that = this
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
@@ -576,13 +576,18 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.info(this.transJson(this.params5 || '')?.isShow)
       if (this.transJson(this.params5 || '')?.isShow === 'false') return
+      console.info(obj?.rowIndex)
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
+
       let key = obj.column.property
+      console.info(key)
+      console.info(obj.row[obj.column.property] * 1)
       // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fdq'
       let reportCode = this.transJson(this.params5 || '')?.reportCode
@@ -593,7 +598,9 @@ export default {
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      console.info(zcjeShow)
       if (!zcjeShow && key === dictionary['支出-金额']) {
+        console.info('dictionary===' + dictionary['支出-金额'])
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
         return
@@ -743,11 +750,11 @@ export default {
       let that = this
       // if (this.transJson(this.params5 || '')?.isShow === 'false') return
       // 判断只有最底层有超链接
-      if (row.children !== undefined) return
+      // if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
-      // const validCellValue = (row[column.property] * 1)
-      // if (!validCellValue) return
+      const validCellValue = (row[column.property] * 1)
+      if (!validCellValue) return
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
         if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
