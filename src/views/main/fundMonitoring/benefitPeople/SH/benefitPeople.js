@@ -104,20 +104,20 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '指标文号',
-      field: 'corBgtDocNoName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '指标文号'
-        }
-      }
-    },
+    // {
+    //   title: '指标文号',
+    //   field: 'corBgtDocNoName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: {
+    //       placeholder: '指标文号'
+    //     }
+    //   }
+    // },
     {
       title: '资金用途',
       field: 'useDes',
