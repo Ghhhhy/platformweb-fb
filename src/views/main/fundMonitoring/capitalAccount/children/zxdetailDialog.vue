@@ -504,6 +504,9 @@ export default {
       //     }
       //   }
       // }
+      let field = this.tableColumnsConfig[0].field
+      // 第一行为合计则不可钻取
+      if (row[field].replace(/\s*/g, '') === '合计') return
       if (row.proGuid) {
         if ((['proCode'].includes(column.property) || ['proName'].includes(column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
           return {
@@ -525,6 +528,9 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       this.clickRowData = obj.row
+      let field = this.tableColumnsConfig[0].field
+      // 第一行为合计则不可钻取
+      if (obj.row[field].replace(/\s*/g, '') === '合计') return
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
