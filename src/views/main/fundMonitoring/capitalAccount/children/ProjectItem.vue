@@ -2,8 +2,8 @@
  * @Description:
  * @Author: chenxuanke
  * @Date: 2023-06-17 23:52:01
- * @LastEditors: chenxuanke
- * @LastEditTime: 2023-06-18 13:56:45
+ * @LastEditors: 罗景丹 luojingdan@bosssoft.com.cn
+ * @LastEditTime: 2023-06-28 09:52:43
 -->
 <template>
   <vxe-modal
@@ -67,7 +67,8 @@ export default {
         const { agencyId = '', proCode = '', mofDivCode = '' } = this.clickRowData
         url = `/fiscalweb?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}&province=${mofDivCode}`
       } else {
-        url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
+        const { proCode = '', fiscalYear = '', mofDivCode = '' } = this.clickRowData
+        url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}&mofDivCode=${mofDivCode}&proCode=${proCode}&fiscalYear=${fiscalYear}`
       }
       let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
       if (document.getElementById('projectId')) {
