@@ -178,22 +178,22 @@ export let proconf = {
     }
   ],
   statusButtons: [
-    // {
-    //   code: '1',
-    //   label: '待挂接',
-    //   iconName: 'base-all.png',
-    //   iconNameActive: 'base-all-active.png',
-    //   type: 'button',
-    //   curValue: '1'
-    // },
-    // {
-    //   code: '2',
-    //   label: '已挂接',
-    //   iconName: 'base-all.png',
-    //   iconNameActive: 'base-all-active.png',
-    //   type: 'button',
-    //   curValue: '2'
-    // }
+    {
+      code: '1',
+      label: '待挂接',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '1'
+    },
+    {
+      code: '2',
+      label: '已挂接',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '2'
+    }
   ],
   curStatusButton: {
     label: '待挂接',
@@ -210,20 +210,20 @@ export let proconf = {
       {
         label: '企业补贴导入',
         code: 'company-import'
-      },
-      {
-        label: '删除',
-        code: 'delete'
-      },
-      {
-        label: '更新',
-        code: 'update'
+      }
+      // {
+      //   label: '删除',
+      //   code: 'delete'
+      // },
+      // {
+      //   label: '更新',
+      //   code: 'update'
       // },
       // {
       //   label: '挂接',
       //   code: 'hook_set',
       //   status: 'primary'
-      }
+      // }
       // ,
       // {
       //   label: '手动读取',
@@ -438,14 +438,14 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '指标文号',
-      width: 180,
-      field: 'corBgtDocNoName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '指标文号',
+    //   width: 180,
+    //   field: 'corBgtDocNoName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '预算项目',
       width: 180,
@@ -518,14 +518,14 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '支付方式',
-      width: 180,
-      field: 'payTypeName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '支付方式',
+    //   width: 180,
+    //   field: 'payTypeName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '资金性质',
       width: 180,
@@ -541,15 +541,15 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
-    },
-    {
-      title: '结算方式',
-      width: 180,
-      field: 'setModeName',
-      sortable: false,
-      filters: false,
-      align: 'center'
     }
+    // {
+    //   title: '结算方式',
+    //   width: 180,
+    //   field: 'setModeName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // }
   ]
 }
 
