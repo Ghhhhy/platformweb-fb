@@ -65,20 +65,20 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '项目名称',
-      field: 'proName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '项目名称'
-        }
-      }
-    },
+    // {
+    //   title: '项目名称',
+    //   field: 'proName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: {
+    //       placeholder: '项目名称'
+    //     }
+    //   }
+    // },
     {
       title: '预算单位',
       field: 'agencyName',
@@ -104,20 +104,20 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '指标文号',
-      field: 'corBgtDocNoName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '指标文号'
-        }
-      }
-    },
+    // {
+    //   title: '指标文号',
+    //   field: 'corBgtDocNoName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: {
+    //       placeholder: '指标文号'
+    //     }
+    //   }
+    // },
     {
       title: '资金用途',
       field: 'useDes',
@@ -230,13 +230,13 @@ export let proconf = {
       //   code: 'peo_read',
       //   status: 'primary'
       // }
-    ],
-    2: [
-      {
-        label: '取消挂接',
-        code: 'hook_not',
-        status: 'primary'
-      }
+    // ],
+    // 2: [
+    //   {
+    //     label: '取消挂接',
+    //     code: 'hook_not',
+    //     status: 'primary'
+    //   }
     ]
   },
   sethighQueryData: {

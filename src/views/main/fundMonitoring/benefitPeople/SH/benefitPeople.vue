@@ -88,7 +88,7 @@
           <BsTable
             ref="mainTableRef"
             v-loading="tableLoading1"
-            style="height:300px"
+            style="height:80%"
             :footer-config="tableFooterConfig"
             :table-columns-config="tableColumnsConfig"
             :table-data="tableData"
@@ -401,7 +401,7 @@ export default {
       this.dtos = []
       this.importModalVisible = false
 
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     async onImportFileClick() {
@@ -590,7 +590,7 @@ export default {
           break
       }
       console.log(this.isHook, 'isHook')
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     checkboxChange(checked, row) {
@@ -809,7 +809,7 @@ export default {
         this.condition = {}
         this.proCode = ''
       }
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     treeSetConfrimData(curTree) {
@@ -891,7 +891,7 @@ export default {
         payCertNo: this.payCertNo,
         amount: this.amount,
         payAmt: this.payAmt,
-        payCertId: payCertId,
+        payCertIds: payCertId,
         mofDivName: this.mofdivName,
         dtos: this.dtos
       }

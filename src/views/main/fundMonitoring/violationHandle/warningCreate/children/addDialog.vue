@@ -354,11 +354,11 @@ export default {
       return false
     },
     footerConfig() {
-      if (!this.isXmProject) {
-        return { 'footer-config': {} }
-      } else {
-        return {}
-      }
+      // if (!this.isXmProject) {
+      //   return { 'footer-config': {} }
+      // } else {
+      return {}
+      // }
     }
   },
   props: {

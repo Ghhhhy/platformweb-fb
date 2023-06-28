@@ -284,8 +284,11 @@ export default {
         case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+            })
           }
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -363,8 +366,11 @@ export default {
             if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
               this.tableColumnsConfig = proconf.targetColumnFPXJ
             }
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName', 'fpTime', 'recDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+            })
           } else {
             this.tableColumnsConfig = proconf.projectZXColumn
           }
@@ -518,6 +524,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      this.clickRowData = obj.row
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
@@ -530,7 +537,6 @@ export default {
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
-          this.clickRowData = obj.row
           this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
