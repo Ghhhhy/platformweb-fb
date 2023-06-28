@@ -152,7 +152,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value !== '2' " color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;指导意见</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
@@ -1089,16 +1089,17 @@ export default {
         return
       }
       // 直达资金下发单位为3 专项已整改为7，认定正常时不校验
-      if (this.value === '3' || this.value === '7') {
-        if (this.param5.retroact === 'department' && !this.information2) {
-          this.$message.warning('请填写指导意见')
-          return
-        }
-        if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
-          this.$message.warning('请输入10-200的指导意见')
-          return
-        }
+      // 黑龙江项目 指导意见都必填
+      // if (this.value === '3' || this.value === '7') {
+      if (this.param5.retroact === 'department' && !this.information2) {
+        this.$message.warning('请填写指导意见')
+        return
       }
+      if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
+        this.$message.warning('请输入10-200的指导意见')
+        return
+      }
+      // }
       if (this.param5.retroact === 'department' && !this.value && (flag === '1' || flag === 1)) {
         this.$message.warning('请选择处室意见!')
         return
