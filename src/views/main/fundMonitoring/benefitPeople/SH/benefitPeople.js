@@ -65,20 +65,20 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '项目名称',
-      field: 'proName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        props: {
-          placeholder: '项目名称'
-        }
-      }
-    },
+    // {
+    //   title: '项目名称',
+    //   field: 'proName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: {
+    //       placeholder: '项目名称'
+    //     }
+    //   }
+    // },
     {
       title: '预算单位',
       field: 'agencyName',
