@@ -590,7 +590,7 @@ export default {
           break
       }
       console.log(this.isHook, 'isHook')
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     checkboxChange(checked, row) {
@@ -809,7 +809,7 @@ export default {
         this.condition = {}
         this.proCode = ''
       }
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     treeSetConfrimData(curTree) {
