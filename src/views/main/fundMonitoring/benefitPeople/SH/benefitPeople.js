@@ -230,13 +230,13 @@ export let proconf = {
       //   code: 'peo_read',
       //   status: 'primary'
       // }
-    ],
-    2: [
-      {
-        label: '取消挂接',
-        code: 'hook_not',
-        status: 'primary'
-      }
+    // ],
+    // 2: [
+    //   {
+    //     label: '取消挂接',
+    //     code: 'hook_not',
+    //     status: 'primary'
+    //   }
     ]
   },
   sethighQueryData: {

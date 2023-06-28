@@ -88,7 +88,7 @@
           <BsTable
             ref="mainTableRef"
             v-loading="tableLoading1"
-            style="height:300px"
+            style="height:80%"
             :footer-config="tableFooterConfig"
             :table-columns-config="tableColumnsConfig"
             :table-data="tableData"
@@ -401,7 +401,7 @@ export default {
       this.dtos = []
       this.importModalVisible = false
 
-      this.queryTableDatas()
+      // this.queryTableDatas()
       this.queryTableDatas1()
     },
     async onImportFileClick() {
