@@ -22,6 +22,7 @@
           />
         </div>
         <BsTable
+          v-if="isHook === '1'"
           ref="mainTableRef1"
           v-loading="tableLoading2"
           style="height: 40%"
@@ -47,45 +48,75 @@
             </div>
           </template>
         </BsTable>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
+        <!-- 和上面BsTable一样  只是切换页签时BsTable Height变化 -->
         <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 40%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
+          v-else
+          ref="mainTableRef1"
+          v-loading="tableLoading2"
+          style="height: 90%"
+          :footer-config="tableFooterConfig1"
+          :table-columns-config="tableColumnsConfig1"
+          :table-data="tableData1"
+          :table-config="tableConfig1"
+          :pager-config="mainPagerConfig1"
+          :toolbar-config="tableToolbarConfig1"
+          @checkboxChange="checkboxChange1"
+          @checkboxAll="checkboxChange1"
+          @onToolbarBtnClick="onToolbarBtnClick1"
+          @ajaxData="ajaxTableData1"
           @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left" style="display: flex; align-items: center">
+            <div class="table-toolbar-left">
               <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">支付凭证信息</span>
                 <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
               </div>
             </div>
           </template>
         </BsTable>
+        <div v-show="isHook === '1'">
+          <div v-show="isShowQueryConditions" class="main-query">
+            <BsQuery
+              ref="queryFrom"
+              :query-form-item-config="queryConfig"
+              :query-form-data="searchDataList"
+              @onSearchClick="search"
+            />
+          </div>
+          <BsTable
+            ref="mainTableRef"
+            v-loading="tableLoading1"
+            style="height:300px"
+            :footer-config="tableFooterConfig"
+            :table-columns-config="tableColumnsConfig"
+            :table-data="tableData"
+            :table-config="tableConfig"
+            :pager-config="mainPagerConfig"
+            :toolbar-config="tableToolbarConfig"
+            @checkboxChange="checkboxChange"
+            @checkboxAll="checkboxChange"
+            @onToolbarBtnClick="onToolbarBtnClick"
+            @ajaxData="ajaxTableData"
+            @cellClick="cellClick"
+          >
+            <template v-slot:toolbarSlots>
+              <div class="table-toolbar-left" style="display: flex; align-items: center">
+                <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
+                <div class="table-toolbar-left-title left-title-clear-float">
+                  <span class="fn-inline">惠民支付明细数据</span>
+                  <i class="fn-inline"></i>
+                </div>
+                <div v-if="matchHoot">
+                  <span>匹配条件：</span>
+                  <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
+                  <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
+                </div>
+              </div>
+            </template>
+          </BsTable>
+        </div>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -558,6 +589,7 @@ export default {
           this.isHook = '1'
           break
       }
+      console.log(this.isHook, 'isHook')
       this.queryTableDatas()
       this.queryTableDatas1()
     },
@@ -846,6 +878,10 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let payCertId = []
+      this.$refs.mainTableRef1.getSelectionData().forEach(v => {
+        payCertId.push(v.payCertId)
+      })
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -855,6 +891,7 @@ export default {
         payCertNo: this.payCertNo,
         amount: this.amount,
         payAmt: this.payAmt,
+        payCertId: payCertId,
         mofDivName: this.mofdivName,
         dtos: this.dtos
       }
