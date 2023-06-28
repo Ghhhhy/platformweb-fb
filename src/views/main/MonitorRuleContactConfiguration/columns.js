@@ -164,13 +164,14 @@ export let proconf = {
       width: 180,
       field: 'regulationType',
       sortable: true,
-      align: 'left',
+      align: 'center',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
         options: [
           { value: '1', label: '系统级' },
-          { value: '2', label: '财政级' }
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
         ],
         props: {
           placeholder: '是否启用'
