@@ -164,13 +164,14 @@ export let proconf = {
       width: 180,
       field: 'regulationType',
       sortable: true,
-      align: 'left',
+      align: 'center',
       name: '$vxeSelect',
       cellRender: {
         name: '$vxeSelect',
         options: [
           { value: '1', label: '系统级' },
-          { value: '2', label: '财政级' }
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
         ],
         props: {
           placeholder: '是否启用'
@@ -344,9 +345,10 @@ export const mobilePhoneValid = ({ itemValue: value }) => {
 // 校验座机电话号码
 export const officePhoneValid = ({ itemValue: value }) => {
   let reg = /^((0\d{2,3}-\d{7,8}|(0\d{2,3}-\d{7,8}-\d{3,5}))|[0-9]{8})$/ // 座机
+  let myreg = /^1[3-9]\d{9}$/ // 手机号
   if (!value) {
     return Promise.reject(new Error('请填写办公电话'))
-  } else if (value && !reg.test(value)) {
+  } else if (value && (!reg.test(value) || !myreg.test(value))) {
     return Promise.reject(new Error('请填写正确的办公电话'))
   }
   return Promise.resolve()
