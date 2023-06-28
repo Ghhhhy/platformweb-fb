@@ -1,4 +1,4 @@
-<-- 查看指标附件弹窗-->
+<!-- 查看指标附件弹窗-->
 <template>
   <div v-loading="showLoading">
     <vxe-modal
