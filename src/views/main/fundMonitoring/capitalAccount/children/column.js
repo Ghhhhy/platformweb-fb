@@ -936,6 +936,7 @@ const proconf = {
       field: 'fpTime',
       width: 140,
       sortable: true,
+      visible: false,
       align: 'right',
       cellRender: {
         name: '$vxeTime',
@@ -947,6 +948,7 @@ const proconf = {
       width: 140,
       field: 'recDivName',
       sortable: false,
+      visible: false,
       align: 'left'
     }
   ],
