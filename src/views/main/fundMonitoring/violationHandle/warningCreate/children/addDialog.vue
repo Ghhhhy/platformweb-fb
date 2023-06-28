@@ -774,6 +774,8 @@ export default {
       if (!this.isXmProject) {
         await this.$refs.createRef?.$refs?.form?.validate?.()
       }
+      // 取服务器时间
+      let serverTime = await HttpModule.getCurrentTime().data
       let dataList = this.detailData.map(item => {
         return {
           agencyId: this.createDataList.agencyId,
@@ -786,7 +788,7 @@ export default {
           handleType: this.createDataList.handleType, // 处理方式
           mofDivCode: this.createDataList.mofDivCode, // 区划
           handleResult: this.createDataList.handleResult, // 处理结果
-          issueTime: this.createDataList.issueTime,
+          issueTime: serverTime,
           doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
           bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,

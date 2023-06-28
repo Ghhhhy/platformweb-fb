@@ -727,7 +727,8 @@ export default {
         this.createDataList.handleType = this.detailData[0].handleType
         this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : moment().format('YYYY-MM-DD HH:mm:ss')
+        // this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : moment().format('YYYY-MM-DD HH:mm:ss')
+        this.getCurrentServerTime()
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -815,11 +816,15 @@ export default {
             this.value = this.status === '2' ? '2' : '3'
             if (this.status === '8') {
               this.handler1 = userInfo.name
-              this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
+              // this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
+              // 改成取服务器时间
+              this.updateTime1 = this.createDataList.issueTime
               this.attachmentid1 = this.$ToolFn.utilFn.getUuid()
             } else {
               this.handler1 = this.detailData[0].handler1 ? this.detailData[0].handler1 : userInfo.name
-              this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : moment().format('YYYY-MM-DD HH:mm:ss')
+              // this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : moment().format('YYYY-MM-DD HH:mm:ss')
+              // 改成取服务器时间
+              this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : this.createDataList.issueTime
               this.attachmentid1 = this.detailData[0].attachmentid1 ? this.detailData[0].attachmentid1 : this.$ToolFn.utilFn.getUuid()
             }
             this.returnReason = this.detailData[0].returnReason
@@ -868,7 +873,9 @@ export default {
             this.hsValue = this.detailData[0].status + '' === '4' ? '4' : '5'
             this.handler2 = this.detailData[0].handler2 ? this.detailData[0].handler2 : userInfo.name
             this.phone2 = this.detailData[0].phone2
-            this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
+            // this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
+            // 改成取服务器时间
+            this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : this.createDataList.issueTime
             this.information2 = this.detailData[0].information2
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.handler1 = this.detailData[0].handler1
@@ -957,6 +964,11 @@ export default {
       let userInfo = this.$store.state.userInfo
       this.handler2 = userInfo.name
       this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
+    },
+    getCurrentServerTime() {
+      HttpModule.getCurrentTime().then(res => {
+        res.code === '000000' && (this.createDataList.issueTime = this.detailData[0].issueTime || res.data)
+      })
     },
     // 审核改变
     changeValue1() {
