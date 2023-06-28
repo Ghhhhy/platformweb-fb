@@ -189,8 +189,7 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [
-      ],
+      tableData: [],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -463,10 +462,12 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, mofDivCode, column, row) {
-      // if (row.children !== undefined) return
       let that = this
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
 
       } else {
@@ -609,8 +610,13 @@ export default {
       console.info(key)
       console.info(obj.row[obj.column.property] * 1)
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+      } else {
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
+      }
+
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fdq'
       let reportCode = this.transJson(this.params5 || '')?.reportCode
@@ -772,13 +778,17 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       let that = this
       // if (this.transJson(this.params5 || '')?.isShow === 'false') return
-      // 判断只有最底层有超链接
-      // if (row.children !== undefined) return
       if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (!validCellValue) return
+      // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      } else {
+        const validCellValue = (row[column.property] * 1)
+        if (!validCellValue) return
+      }
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
         if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
           return {
