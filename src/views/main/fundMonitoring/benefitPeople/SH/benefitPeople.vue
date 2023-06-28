@@ -891,7 +891,7 @@ export default {
         payCertNo: this.payCertNo,
         amount: this.amount,
         payAmt: this.payAmt,
-        payCertId: payCertId,
+        payCertIds: payCertId,
         mofDivName: this.mofdivName,
         dtos: this.dtos
       }
