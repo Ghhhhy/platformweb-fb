@@ -172,7 +172,8 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [],
+      tableData: [
+      ],
       showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       calculateConstraintConfig: {
         enabled: true,
@@ -625,8 +626,11 @@ export default {
       if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+        this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
       }
     },

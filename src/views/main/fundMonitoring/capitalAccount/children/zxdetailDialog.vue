@@ -340,6 +340,7 @@ export default {
           this.tableColumnsConfig = proconf.zyxdxmmfzjColumn
           break
         case 'zdzjxmmx':
+        case 'zdzjxmmx_xj':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectColumn.concat([{
@@ -354,7 +355,9 @@ export default {
           break
         // 专项监督项目明细
         case 'zxjdxmmx_fzj':
+        case 'zxjdxmmx_fzj_xj':
         case 'zxjdxmmx_fdq':
+        case 'zxjdxmmx_fdq_xj':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectZXColumn.concat([{
@@ -388,11 +391,13 @@ export default {
           console.info('分资金  中央下达')
           break
         case 'zxjdzcmx_fzj':// 支出金额
+        case 'zxjdzcmx_fzj_xj':// 支出金额
           this.loadConfig('BsTable', 'Table202')
           this.loadConfig('BsQuery', 'Query202')
           console.info('分资金  支出金额')
           break
         case 'zxjdxmmx_fzj': // 分配下级 分配本级 已分配
+        case 'zxjdxmmx_fzj_xj':
           if (this.detailQueryParam.column === 'amountSnjbjfp') {
             this.loadConfig('BsTable', 'Table203')
             this.loadConfig('BsQuery', 'Query203')
@@ -421,6 +426,7 @@ export default {
           console.info('分地区  支出金额')
           break
         case 'zxjdxmmx_fdq': // 分配下级 分配本级 已分配
+        case 'zxjdxmmx_fdq_xj':
           if (this.detailQueryParam.column === 'amountSnjbjfp') {
             this.loadConfig('BsTable', 'Table203')
             this.loadConfig('BsQuery', 'Query203')
@@ -570,8 +576,10 @@ export default {
           let zpSource = 'zdzjzbmx_fzjfp'
           if (this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
             zpSource = 'zxjdzbmx_fzjfp'
+          } else if (this.detailType === 'zxjdxmmx_fzj_xj' || this.detailType === 'zxjdxmmx_fdq_xj') {
+            zpSource = 'zxjdzbmx_fzjfp_xj'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_xj' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fzj_xj' || this.detailType === 'zxjdxmmx_fdq_xj' || this.detailType === 'zxjdxmmx_fdq') {
             this.handleDetail(zpSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
@@ -581,8 +589,14 @@ export default {
           if (this.detailType === 'zxjdxmmx_fdq') {
             paySource = 'zxjdzcmx_fdq'
           }
+          if (this.detailType === 'zxjdxmmx_fdq_xj') {
+            paySource = 'zxjdzcmx_fdq_xj'
+          }
           if (this.detailType === 'zxjdxmmx_fzj') {
             paySource = 'zxjdzcmx_fzj'
+          }
+          if (this.detailType === 'zxjdxmmx_fzj_xj') {
+            paySource = 'zxjdzcmx_fzj_xj'
           }
           this.handleDetail(paySource, obj.row)
           this.$parent.sDetailTitle = '支出明细'
