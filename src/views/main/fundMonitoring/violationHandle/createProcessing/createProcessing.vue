@@ -90,6 +90,7 @@
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
       :billguid="billguid"
+      :billguid-list="billguidList"
       @close="closeAttachment"
     />
     <!-- 附件弹框 -->
@@ -243,6 +244,7 @@ export default {
       showAttachmentDialog: false,
       showGlAttachmentDialog: false,
       billguid: '',
+      billguidList: [],
       condition: {},
       handleType: '',
       isEnable: '',
@@ -506,13 +508,14 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      debugger
       console.log('查看附件', row)
       if (!row.attachmentid1 && !row.attachmentid3) {
         this.$message.warning('该数据无附件')
         return
       }
       this.billguid = row.attachmentid1 === null || row.attachmentid1 === '' ? row.attachmentid3 : row.attachmentid1
+      row.attachmentid1 && this.billguidList.push(row.attachmentid1)
+      row.attachmentid3 && this.billguidList.push(row.attachmentid3)
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },

@@ -97,6 +97,7 @@
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
       :billguid="billguid"
+      :billguid-list="billguidList"
       @close="closeAttachment"
     />
   </vxe-modal>
@@ -160,6 +161,7 @@ export default {
       isSign: '',
       userInfo: {},
       billguid: '',
+      billguidList: [],
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
@@ -366,6 +368,8 @@ export default {
         return
       }
       this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      row.attachmentid1 && this.billguidList.push(row.attachmentid1)
+      row.attachmentid3 && this.billguidList.push(row.attachmentid3)
       this.showGlAttachmentDialog = true
     },
     // 查看详情
