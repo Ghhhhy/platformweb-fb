@@ -373,6 +373,9 @@ export default {
               if (['mofDivCode', 'mofDivName', 'fpTime', 'recDivName'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
               }
+              if (['fpTime', 'recDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
             })
           } else {
             this.tableColumnsConfig = proconf.projectZXColumn
