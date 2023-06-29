@@ -109,8 +109,9 @@ export default {
           let fileList = []
           if (res && res.length) {
             console.log(778, res)
-            res.forEach(item => {
-              fileList.push(JSON.parse(item.data)[0])
+            res.forEach(result => {
+              let fileObj = JSON.parse(result.data)
+              Array.isArray(fileObj) && fileObj.length > 0 && (fileList = fileList.concat(fileObj))
             })
             fileList.forEach(element => {
               let size = element.filesize / 1024
