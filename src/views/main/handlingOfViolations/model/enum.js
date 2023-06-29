@@ -30,7 +30,11 @@ export const RouterPathEnum = () => {
     // 监控预警处室初审
     DIVISION_AUDIT: '/divisionAudit',
     // 监控预警处室复审
-    DIVISION_REAUDIT: '/divisionReAudit'
+    DIVISION_REAUDIT: '/divisionReAudit',
+    // 监控预警业务处室反馈
+    DIVISION_FEED_BACK: '/divisionFeedback',
+    // 监控预警业务处室审核
+    DIVISION_FEED_AUDIT: '/divisionFeedAudit'
   }
 
   const regulationClass = transJson(store.state?.curNavModule?.param5)?.regulationClass

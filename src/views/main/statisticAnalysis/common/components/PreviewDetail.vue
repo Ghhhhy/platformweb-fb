@@ -134,9 +134,9 @@ export default defineComponent({
     ] = useTable({
       fetch: unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? queryDepData : queryRuleData,
       beforeFetch: params => {
-        const { fiRuleCodes, agencyCode } = props.currentRow
-        const property = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? 'agencyCode' : 'fiRuleCodes'
-        const value = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? agencyCode : fiRuleCodes
+        const { fiRuleCode, agencyCode } = props.currentRow
+        const property = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? 'agencyCode' : 'fiRuleCode'
+        const value = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? agencyCode : fiRuleCode
         return {
           ...params,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,

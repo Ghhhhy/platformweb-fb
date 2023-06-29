@@ -48,6 +48,22 @@ const templateRouters = [
       title: '监控预警处室复审'
     },
     component: () => import('@/views/main/handlingOfViolations/index.vue')
+  },
+  {
+    path: RouterPathEnum().DIVISION_FEED_BACK,
+    name: 'divisionFeedAudit',
+    meta: {
+      title: '监控预警业务处室反馈'
+    },
+    component: () => import('@/views/main/handlingOfViolations/index.vue')
+  },
+  {
+    path: RouterPathEnum().DIVISION_FEED_AUDIT,
+    name: 'divisionFeedAudit',
+    meta: {
+      title: '监控预警业务处室审核'
+    },
+    component: () => import('@/views/main/handlingOfViolations/index.vue')
   }
 ]
 
