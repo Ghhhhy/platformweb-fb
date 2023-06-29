@@ -430,7 +430,7 @@ const proconf = {
     ruleCodes: '',
     xpayDate: '',
     triggerMonitorDate: '',
-    trackProCode: ''
+    trackProCodeList: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',
