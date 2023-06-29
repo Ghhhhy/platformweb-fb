@@ -890,6 +890,121 @@ const proconf = {
       width: 140,
       field: 'tpFuncCode',
       sortable: false,
+      align: 'left',
+      formatter({ row }) {
+        return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      }
+    },
+    {
+      title: '本级项目名称',
+      field: 'sSpeTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '上级文号',
+      field: 'corBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '本级文号',
+      field: 'xjCorBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '预算金额',
+      field: 'fpAmount',
+      sortable: true,
+      width: 140,
+      align: 'right',
+      combinedType: 'total',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支出金额',
+      field: 'payAppAmt',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      combinedType: 'total',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配时间',
+      field: 'fpTime',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'right',
+      cellRender: {
+        name: '$vxeTime',
+        props: { format: 'YYYY-MM-DD' }
+      }
+    },
+    {
+      title: '接收方财政区划',
+      width: 140,
+      field: 'recDivName',
+      sortable: false,
+      visible: false,
+      align: 'left'
+    }
+  ],
+  targetZXColumnBj: [
+    {
+      title: '区划代码',
+      field: 'mofDivCode',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivCode || ''
+      }
+    },
+    {
+      title: '区划名称',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivName || ''
+      }
+    },
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      width: 140,
+      align: 'left'
+    },
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '转移支付资金名称',
+      field: 'speTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '支出科目名称',
+      field: 'xjExpFuncName',
+      width: 140,
+      sortable: false,
       align: 'left'
     },
     {
@@ -952,7 +1067,6 @@ const proconf = {
       align: 'left'
     }
   ],
-
   // 企业明细
   businessColumn: [
     {

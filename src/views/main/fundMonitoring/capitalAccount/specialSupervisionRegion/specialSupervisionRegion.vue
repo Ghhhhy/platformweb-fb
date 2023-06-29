@@ -189,7 +189,8 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [],
+      tableData: [
+      ],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -627,6 +628,7 @@ export default {
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       console.info(zcjeShow)
       if (!zcjeShow && key === dictionary['支出-金额']) {
         console.info('dictionary===' + dictionary['支出-金额'])
@@ -637,8 +639,11 @@ export default {
       if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+        this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
       }
     },
