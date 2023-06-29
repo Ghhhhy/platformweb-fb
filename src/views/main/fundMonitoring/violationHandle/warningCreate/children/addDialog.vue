@@ -559,7 +559,8 @@ export default {
       // }
     },
     // 回显
-    showInfo() {
+    async showInfo() {
+      let serverTime = await HttpModule.getCurrentTime()
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.isCreate === false) {
         this.createConfig = proconf.checkConfig
@@ -625,19 +626,9 @@ export default {
           }
         })
       } else if (this.title === '监控问询单信息') {
-        this.createDataList.fiRuleName = this.detailData[0].fiRuleName
-        this.createDataList.warnLevel = this.detailData[0].warnLevel
-        this.createDataList.mofDivCode = this.detailData[0].mofDivCode
-        this.createDataList.agencyId = this.detailData[0].agencyId
-        this.createDataList.manageMofDepId = this.detailData[0].manageMofDepId
-        this.createDataList.agencyCode = this.detailData[0].agencyCode
-        this.createDataList.agencyName = this.detailData[0].agencyName
-        this.createDataList.violateType = this.detailData[0].violateType
-        this.createDataList.handleType = this.detailData[0].handleType
-        this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        // this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : this.getCurrentServerTime()
-        this.getCurrentServerTime()
+        let params = { ...this.detailData[0], issueTime: this.detailData[0].issueTime || serverTime.data }
+        this.$set(this, 'createDataList', params)
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -662,7 +653,7 @@ export default {
           this.attachmentid1 = this.detailData[0].attachmentid1
           this.phone1 = this.detailData[0].phone1
           this.handler2 = this.detailData[0].handler2
-          this.updateTime2 = this.detailData[0].updateTime2
+          this.updateTime2 = this.detailData[0].updateTime2 || serverTime.data
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
           if (this.detailData[0].agencyStatus === '1') {
@@ -775,7 +766,6 @@ export default {
         await this.$refs.createRef?.$refs?.form?.validate?.()
       }
       // 取服务器时间
-      let serverTime = await HttpModule.getCurrentTime().data
       let dataList = this.detailData.map(item => {
         return {
           agencyId: this.createDataList.agencyId,
@@ -788,7 +778,7 @@ export default {
           handleType: this.createDataList.handleType, // 处理方式
           mofDivCode: this.createDataList.mofDivCode, // 区划
           handleResult: this.createDataList.handleResult, // 处理结果
-          issueTime: serverTime,
+          issueTime: this.createDataList.issueTime,
           doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
           bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,
