@@ -365,6 +365,33 @@ const proconf = {
           placeholder: '触发监控时间'
         }
       }
+    },
+    {
+      title: '追踪项目',
+      field: 'trackProCode',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '追踪项目',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryConfigHLJ: [
@@ -402,7 +429,8 @@ const proconf = {
     fiRuleCode: '',
     ruleCodes: '',
     xpayDate: '',
-    triggerMonitorDate: ''
+    triggerMonitorDate: '',
+    trackProCode: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',
