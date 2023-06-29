@@ -1,4 +1,4 @@
-<-- 查看指标附件弹窗-->
+<!-- 查看指标附件弹窗-->
 <template>
   <div v-loading="showLoading">
     <vxe-modal
@@ -63,6 +63,12 @@ export default {
     mofDivCode: {
       type: String,
       default: ''
+    },
+    billguidList: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
@@ -74,6 +80,7 @@ export default {
       tableColumnsConfig: proconf.attachmentDialogColumnsConfig,
       tableData: [],
       tableConfig: {},
+      showLoading: false,
       downloadParams: {
         fileguid: ''
       },
@@ -89,6 +96,31 @@ export default {
   methods: {
     // 获取附件信息
     getAttachmentInfo() {
+      if (this.billguidList.length > 0) {
+        let queueTask = this.billguidList.map(item => {
+          let params = {
+            year: this.userInfo.year,
+            province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
+            billguid: item
+          }
+          return HTTPModule.getFile(params)
+        })
+        Promise.all(queueTask).then(res => {
+          let fileList = []
+          if (res && res.length) {
+            console.log(778, res)
+            res.forEach(item => {
+              fileList.push(JSON.parse(item.data)[0])
+            })
+            fileList.forEach(element => {
+              let size = element.filesize / 1024
+              element.filesize = size.toFixed(2) + 'KB'
+            })
+          }
+          this.$set(this, 'tableData', fileList)
+        })
+        return
+      }
       const param = {
         year: this.userInfo.year,
         province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
