@@ -114,5 +114,11 @@ export default {
   },
   getisShowViolateType() {
     return get('large-monitor-platform/lmp/payReportConfig/query')
+  },
+  getProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
+  },
+  getProSpeTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
   }
 }
