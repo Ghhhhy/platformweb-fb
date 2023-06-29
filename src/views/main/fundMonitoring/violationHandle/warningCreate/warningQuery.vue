@@ -68,6 +68,11 @@ export default {
   components: {
     DetailDialog
   },
+  computed: {
+    isZX() { // 判断是专项还是直达资金
+      return this.$route.name === 'WarnRegionBySpecial'// 专项
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -279,6 +284,7 @@ export default {
       }
       condition.fiRuleCode = val.fiRuleCode
       condition.ruleCodes = condition.ruleCodes?.split('##')[0]
+      condition.trackProCode = val.trackProCode_id__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -368,13 +374,14 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      const { fiRuleCode, xpayDate, triggerMonitorDate } = this.condition
+      const { fiRuleCode, xpayDate, triggerMonitorDate, trackProCode } = this.condition
       const param = {
         fiscalYear: this.$store.state.userInfo.year,
         fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         xpayDate: xpayDate ? xpayDate[0] : '',
-        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
+        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : '',
+        trackProCode: trackProCode
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -398,6 +405,33 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      let queryUrl = 'getProSpeTreeData'
+      if (!this.isZX) queryUrl = 'getProTreeData'
+      HttpModule[queryUrl]({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig.forEach(item => {
+            if (item.field === 'trackProCode') {
+              this.$set(item.itemRender, 'options', treeResdata)
+              // item.itemRender.options = treeResdata
+            }
+          })
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     }
   },
   created() {
@@ -410,6 +444,7 @@ export default {
     this.getFiRule()
     this.queryTableDatas()
     this.dynamicSetConfig()
+    this.getPro()
   }
 }
 </script>
