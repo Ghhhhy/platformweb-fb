@@ -514,8 +514,10 @@ export default {
         return
       }
       this.billguid = row.attachmentid1 === null || row.attachmentid1 === '' ? row.attachmentid3 : row.attachmentid1
-      row.attachmentid1 && this.billguidList.push(row.attachmentid1)
-      row.attachmentid3 && this.billguidList.push(row.attachmentid3)
+      let billguidList = []
+      row.attachmentid1 && billguidList.push(row.attachmentid1)
+      row.attachmentid3 && billguidList.push(row.attachmentid3)
+      this.billguidList = billguidList
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
