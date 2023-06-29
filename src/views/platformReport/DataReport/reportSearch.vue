@@ -1,8 +1,8 @@
 <!--  formList模版   Author:Titans@2396757591@qq.com -->
 <template>
-  <div class="height-all reportSearchModel">
+  <div v-loading="showLoading" class="height-all reportSearchModel">
     <BsMainFormListLayout :left-visible.sync="leftVisible">
-      <template v-slot:mainForm v-loading="showLoading">
+      <template v-slot:mainForm>
         <div class="main-query">
           <BsQuery
             v-if="isquery"
@@ -351,8 +351,8 @@ export default {
         }
       }
       if (node && node.id) {
-        this.currentTableNode = node
         this.isquery = false
+        this.currentTableNode = node
         this.$nextTick(() => {
           // 资金渠道真实的值（全局搜newDataArr）
           this.newDataArr = self.defshFundType.split(',').map(v => {
@@ -412,7 +412,6 @@ export default {
     //   // }, 500)
     // },
     getReportData() {
-      console.log(this.$http, 'this.$http')
       let menuGuidValue = this.params5.reportMenu
       if (!this.params5.reportMenu) {
         menuGuidValue = this.curNavModule.guid
@@ -427,6 +426,12 @@ export default {
       // *******************
       self.$http.post('/bisBudget/api/budget/bisBudget/cfg/bgtCfgAgencyToReport/queryReportTree', param).then((res) => {
         // self.$http.post('http://43.143.57.251:6015/api/budget/bisBudget/cfg/bgtCfgAgencyToReport/queryReportTree', param).then((res) => {
+        self.resolveResult(data => {
+          self.inputTableTreeData = data
+          self.inputTableTreeData.forEach(v => {
+            v['isLoad'] = false
+          })
+        }, res)
         this.onInputTableTreeNodeClick(res.data[0])
       }).catch((e) => {
         self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
@@ -451,7 +456,6 @@ export default {
         // 默认拿到这个数的全选数据
         this.unitArr = []
         let agencies = this.ArrayData(res.data)
-        console.log(agencies, 'agenciesagencies', this.ArrayData(res.data))
         let agency = agencies.filter(item => item.isleaf).map(item => { return item })
         let agencyIds = agency.map(v => v.id)
         let agencyCodes = agency.map(v => v.code)
@@ -468,6 +472,7 @@ export default {
           sql_dept_code: sqlDeptCode
         }
         console.log(this.checkedAgencys, 'this.checkedAgencys ')
+        this.showLoading = false
         this.getReportData()
         if (this.currentTableNode) {
           this.setReportableParams(this.currentTableNode)
@@ -624,10 +629,10 @@ export default {
     this.getreportParams()
     this.agencyTreeQueryparams.eleCode = this.params5.eleCode
     // this.getReportData()
-    // this.getTreeData()
+    this.getTreeData()
   },
   created() {
-    this.getTreeData()
+    // this.getTreeData()
     this.getreportParams()
     if (this.params5.showFlag === '2') {
       this.showFlag = '2'
