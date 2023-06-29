@@ -368,7 +368,7 @@ const proconf = {
     },
     {
       title: '追踪项目',
-      field: 'proCodes',
+      field: 'trackProCode',
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -429,7 +429,8 @@ const proconf = {
     fiRuleCode: '',
     ruleCodes: '',
     xpayDate: '',
-    triggerMonitorDate: ''
+    triggerMonitorDate: '',
+    trackProCode: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',

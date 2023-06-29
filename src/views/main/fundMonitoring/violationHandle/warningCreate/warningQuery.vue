@@ -284,6 +284,7 @@ export default {
       }
       condition.fiRuleCode = val.fiRuleCode
       condition.ruleCodes = condition.ruleCodes?.split('##')[0]
+      condition.trackProCode = val.trackProCode_id__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -373,13 +374,14 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      const { fiRuleCode, xpayDate, triggerMonitorDate } = this.condition
+      const { fiRuleCode, xpayDate, triggerMonitorDate, trackProCode } = this.condition
       const param = {
         fiscalYear: this.$store.state.userInfo.year,
         fiRuleCode: fiRuleCode ? fiRuleCode.split('#')[0] : '',
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         xpayDate: xpayDate ? xpayDate[0] : '',
-        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
+        triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : '',
+        trackProCode: trackProCode
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -411,7 +413,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig.forEach(item => {
-            if (item.field === 'proCodes') {
+            if (item.field === 'trackProCode') {
               this.$set(item.itemRender, 'options', treeResdata)
               // item.itemRender.options = treeResdata
             }
