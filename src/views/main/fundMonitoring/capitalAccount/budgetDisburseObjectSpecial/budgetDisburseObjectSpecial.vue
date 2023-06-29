@@ -311,10 +311,9 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
       switch (key) {
         case 'amountYszyap':
           this.handleDetail('zxjdxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
@@ -359,8 +358,8 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
-      // const validCellValue = (row[column.property] * 1)
-      //  if (validCellValue) {
+      const validCellValue = (row[column.property] * 1)
+      if (!validCellValue) return
       console.log(column.property)
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
@@ -371,7 +370,6 @@ export default {
           textDecoration: 'underline'
         }
       }
-    //  }
     },
     handleDetail(reportCode, budgetLevelCode, mofDivCode, proCode, proName, agencyCode, agencyName, speTypeCode, speTypeName, column) {
       let condition = ''
