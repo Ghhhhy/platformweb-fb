@@ -348,7 +348,7 @@ export const officePhoneValid = ({ itemValue: value }) => {
   let myreg = /^1[3-9]\d{9}$/ // 手机号
   if (!value) {
     return Promise.reject(new Error('请填写办公电话'))
-  } else if (value && (!reg.test(value) || !myreg.test(value))) {
+  } else if (value && !(reg.test(value) || myreg.test(value))) {
     return Promise.reject(new Error('请填写正确的办公电话'))
   }
   return Promise.resolve()
