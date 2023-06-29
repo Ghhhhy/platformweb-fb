@@ -370,7 +370,7 @@ export default {
               this.tableColumnsConfig = proconf.targetColumnFPXJ
             }
             this.tableColumnsConfig.forEach((item, index) => {
-              if (['mofDivCode', 'mofDivName', 'fpTime', 'recDivName'].includes(item.field)) {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
               }
               if (['fpTime', 'recDivName'].includes(item.field)) {
