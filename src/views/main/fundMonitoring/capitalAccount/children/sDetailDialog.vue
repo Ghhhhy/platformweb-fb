@@ -323,8 +323,14 @@ export default {
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['fpTime', 'recDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
           }
           break
       }
