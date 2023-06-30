@@ -377,7 +377,7 @@ export let proconf = {
     {
       title: '企业名称',
       width: 180,
-      field: 'corpName;',
+      field: 'corpName',
       sortable: false,
       filters: false,
       align: 'center'
