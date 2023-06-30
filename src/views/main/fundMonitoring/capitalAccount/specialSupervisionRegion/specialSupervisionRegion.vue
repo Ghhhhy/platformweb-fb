@@ -608,22 +608,15 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      console.info(this.transJson(this.params5 || '')?.isShow)
-      if (this.transJson(this.params5 || '')?.isShow === 'false') return
-      console.info(obj?.rowIndex)
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
-
       let key = obj.column.property
-      console.info(key)
-      console.info(obj.row[obj.column.property] * 1)
       // 无效的cellValue
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr.projectCode !== 'SH') {
         const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
         if (isInvalidCellValue) return
       }
-
       let xmSource = 'zdzjxmmx'
       let zcSource = 'zdzjzcmx_fdq'
       let reportCode = this.transJson(this.params5 || '')?.reportCode
@@ -637,7 +630,6 @@ export default {
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
       console.info(zcjeShow)
       if (!zcjeShow && key === dictionary['支出-金额']) {
-        console.info('dictionary===' + dictionary['支出-金额'])
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
         return
@@ -811,16 +803,21 @@ export default {
       let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
       // 根据code隐藏对应行
       let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      // 这儿与分资金的区别是 中央下达没有样式 也不跳转
       if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
           return true
         }
       } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code)) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code)) {
           return true
         }
       } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
+          return true
+        }
+      } else {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
           return true
         }
       }
