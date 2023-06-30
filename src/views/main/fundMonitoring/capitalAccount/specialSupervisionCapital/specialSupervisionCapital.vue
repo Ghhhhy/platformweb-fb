@@ -757,6 +757,10 @@ export default {
         if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
           return true
         }
+      } else {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return true
+        }
       }
       return false
     },
