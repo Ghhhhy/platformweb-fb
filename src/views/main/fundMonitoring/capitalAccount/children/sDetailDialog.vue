@@ -243,6 +243,8 @@ export default {
           break
         case 'zxjdzcmx_fdq':
         case 'zxjdzcmx_fzj':
+        case 'zxjdzcmx_fdq_xj':
+        case 'zxjdzcmx_fzj_xj':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfigZx
           break
@@ -323,6 +325,7 @@ export default {
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.targetZXColumnBj
             this.tableColumnsConfig.forEach((item, index) => {
               if (['mofDivCode', 'mofDivName'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
@@ -331,6 +334,11 @@ export default {
                 this.$set(this.tableColumnsConfig[index], 'visible', false)
               }
             })
+          }
+          break
+        case 'zxjdzbmx_fzjfp_xj':
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.targetZXColumn
           }
           break
       }
