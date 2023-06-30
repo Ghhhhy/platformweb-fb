@@ -466,6 +466,7 @@ export default {
       let that = this
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
       if (hideColumnLinkStr.projectCode === 'SH') {
         if (row.children !== undefined) return
       }
@@ -473,7 +474,7 @@ export default {
 
       } else {
         let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
-        if (Arraya.includes(column)) {
+        if (Arraya.includes(column) || rowCodeHide.includes(row.code)) {
           return
         }
       }
@@ -612,8 +613,7 @@ export default {
       console.info(obj.row[obj.column.property] * 1)
       // 无效的cellValue
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.projectCode === 'SH') {
-      } else {
+      if (hideColumnLinkStr.projectCode !== 'SH') {
         const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
         if (isInvalidCellValue) return
       }
@@ -625,6 +625,7 @@ export default {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
       }
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
       const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
@@ -636,13 +637,13 @@ export default {
         this.detailTitle = '支出明细'
         return
       }
-      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key) && !rowCodeHide.includes(obj.row.code)) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !rowCodeHide.includes(obj.row.code) && !isSH) {
         this.handleDetail(xmSource, obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !rowCodeHide.includes(obj.row.code) && isSH) {
         this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
       }
@@ -781,12 +782,11 @@ export default {
       return strTwo
     },
     cellStyle({ row, rowIndex, column }) {
-      let that = this
       // if (this.transJson(this.params5 || '')?.isShow === 'false') return
       if (!rowIndex) return
       // 有效的cellValue
       // 拿到那些可以进行超链接的表格行
-      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr.projectCode === 'SH') {
         // 判断只有最底层有超链接
         if (row.children !== undefined) return
@@ -794,22 +794,22 @@ export default {
         const validCellValue = (row[column.property] * 1)
         if (!validCellValue) return
       }
-      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-        if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-      } else {
-        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
-        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      if (this.linkStyle(row, rowIndex, column)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
       }
+    },
+    linkStyle(row, rowIndex, column) { // 判断是否可以跳转
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      // 根据code隐藏对应行
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code && !Arraya.includes(column.property))) {
+        return true
+      }
+      return false
     },
     transJson(str) {
       if (!str) return
