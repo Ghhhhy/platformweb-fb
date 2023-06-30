@@ -1296,7 +1296,9 @@ export default {
 </script>
 <style lang="scss">
   .payVoucherInput {
-    min-width: 1440px;
+    .el-main{
+      min-width: 350px;
+    }
     margin: 15px;
     .el-card {
       margin-top: 0
