@@ -105,10 +105,6 @@ export default {
     dialogVisible() {
       this.$refs.ruleForm.clearValidate()
       this.createDataList = {
-        id: '',
-        regulationCode: '',
-        mofDivCode: '',
-        agencyCode: null,
         contactPerson: '',
         officePhone: '',
         mobilePhone: '',
@@ -116,8 +112,7 @@ export default {
         weChat: '',
         qqNumber: '',
         otherWay: '',
-        otherInfo: '',
-        fiscalYear: ''
+        otherInfo: ''
       }
     }
   },
