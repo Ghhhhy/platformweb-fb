@@ -474,8 +474,18 @@ export default {
 
       } else {
         let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
-        if (Arraya.includes(column) || rowCodeHide.includes(row.code)) {
-          return
+        if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+          if (Arraya.includes(column.property)) {
+            return ''
+          }
+        } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+          if (rowCodeHide.includes(row.code)) {
+            return ''
+          }
+        } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+          if ((rowCodeHide.includes(row.code) && Arraya.includes(column.property))) {
+            return ''
+          }
         }
       }
       let condition = ''
@@ -806,8 +816,18 @@ export default {
       let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
       // 根据code隐藏对应行
       let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
-      if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code && !Arraya.includes(column.property))) {
-        return true
+      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
+          return true
+        }
+      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code)) {
+          return true
+        }
+      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
+          return true
+        }
       }
       return false
     },
