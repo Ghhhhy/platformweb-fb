@@ -866,7 +866,7 @@ export default {
             this.phone2 = this.detailData[0].phone2
             // this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
             // 改成取服务器时间
-            this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : serverTime.data
+            this.updateTime2 = serverTime.data
             this.information2 = this.detailData[0].information2
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.handler1 = this.detailData[0].handler1
