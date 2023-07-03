@@ -172,8 +172,7 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [
-      ],
+      tableData: [],
       showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       calculateConstraintConfig: {
         enabled: true,
@@ -570,6 +569,8 @@ export default {
         isCz = '1'
       }
       console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
+      reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
+      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
       this.detailQueryParam = {
         condition: condition,
         reportCode: reportCode,

@@ -77,6 +77,7 @@ import {
 import { useFooter } from '../common/hooks/useFooter'
 import { transJson1, transJson2 } from '@/utils/params.js'
 import store from '@/store'
+import { Message } from 'element-ui'
 
 export default defineComponent({
   components: {
@@ -98,7 +99,6 @@ export default defineComponent({
 
     // 规则弹窗显隐
     const [visibleState, setVisibleState] = useModal()
-
     // 当前操作行
     const currentRow = ref(null)
 
@@ -187,11 +187,14 @@ export default defineComponent({
     /**
      * 双击单元格
      * */
-    function cellDblclick({ row }) {
+    function cellDblclick(row) {
       currentRow.value = row
-      setVisibleState(true)
+      if (row.row[row.column.property] * 1 === 0) {
+        setVisibleState(true)
+      } else {
+        Message.warning('数据等于零时无法钻取!')
+      }
     }
-
     /**
      * 顶部tab模块
      */
