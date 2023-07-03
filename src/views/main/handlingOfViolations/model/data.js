@@ -469,6 +469,7 @@ export const getWarnTypeColumn = (params = {}) => {
     title: '预警类别',
     field: 'warnType',
     width: 160,
+    visible: false,
     filters: false,
     cellRender: {
       name: '$vxeSelect',
