@@ -142,7 +142,7 @@ import ImportModel from '@/components/Table/import/import.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
 
 import { readLocalFile } from '@/utils/readLocalFile'
-import { checkRscode } from '@/utils/checkRscode'
+import { checkRscodeTwo } from '@/utils/checkRscode'
 import { downloadByUrl } from '@/utils/download'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
@@ -395,7 +395,7 @@ export default {
         return
       }
       this.tableLoading = true
-      checkRscode(
+      checkRscodeTwo(
         this,
         await HttpModule.importPersonAndCompany(this.fileConfig)
       )
