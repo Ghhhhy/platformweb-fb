@@ -189,7 +189,7 @@ export default defineComponent({
      * */
     function cellDblclick(row) {
       currentRow.value = row
-      if (row.row[row.column.property] * 1 === 0) {
+      if (row.row[row.column.property] * 1 !== 0) {
         setVisibleState(true)
       } else {
         Message.warning('数据等于零时无法钻取!')
