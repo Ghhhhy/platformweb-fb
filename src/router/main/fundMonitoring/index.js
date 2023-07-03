@@ -996,7 +996,15 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/test/tableSetting/testSettingTable.vue')
-    // component: () => import('@/views/test/tableSetting/Main.vue')//编辑列表器页面
+  },
+  {
+    path: '/testSettingTable', // 配置页面
+    name: 'testSettingTable',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/Main.vue')// 编辑列表器页面
   }
 ]
 

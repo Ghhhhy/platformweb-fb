@@ -120,5 +120,14 @@ export default {
   },
   getProSpeTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryProSpeTree', params)
+  },
+  createdWarning(params) {
+    return post('large-monitor-platform/lmp/totalWarn/add', params)
+  },
+  getWorkFlowDetail(params) {
+    return post('large-monitor-platform/lmp/workFlow/workFlowDetail', params)
+  },
+  workFlowUpdate(params) {
+    return post('large-monitor-platform/lmp/workFlow/workFlowUpdate', params)
   }
 }
