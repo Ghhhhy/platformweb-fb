@@ -74,6 +74,7 @@
         <div class="idtu-import">
           <BsUploadBak
             ref="myUpload"
+            :loading.sync="showLoading"
             :attachment-id="attachmentId"
             :file-list="fileList"
             :file-data-bak-del.sync="fileDataBakDel"
