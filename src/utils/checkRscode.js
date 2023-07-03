@@ -1,7 +1,15 @@
+/*
+ * @Description:
+ * @Author: chenxuanke
+ * @Date: 2023-06-13 11:11:50
+ * @LastEditors: chenxuanke
+ * @LastEditTime: 2023-07-03 17:51:17
+ */
 import { Message } from 'element-ui'
 
-export function checkRscode(res, customMessage) {
+export function checkRscode(_this, res, customMessage) {
   if (!res) {
+    _this.tableLoading = false
     throw new Error('请求失败')
   }
 
@@ -16,9 +24,10 @@ export function checkRscode(res, customMessage) {
     )
 
   if (hasSuccess) {
+    _this.tableLoading = false
     return res
   }
-
+  _this.tableLoading = false
   Message({
     type: 'error',
     message: errorMessage || message || result || customMessage || '请求失败',
