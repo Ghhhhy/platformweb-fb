@@ -188,7 +188,7 @@ export default defineComponent({
      * 双击单元格
      * */
     function cellDblclick(row) {
-      currentRow.value = row
+      currentRow.value = row.row
       if (row.row[row.column.property] * 1 !== 0) {
         setVisibleState(true)
       } else {
