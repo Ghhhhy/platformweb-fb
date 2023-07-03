@@ -809,13 +809,13 @@ export default {
               this.handler1 = userInfo.name
               // this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
               // 改成取服务器时间
-              this.updateTime1 = this.createDataList.issueTime
+              this.updateTime1 = serverTime.data
               this.attachmentid1 = this.$ToolFn.utilFn.getUuid()
             } else {
               this.handler1 = this.detailData[0].handler1 ? this.detailData[0].handler1 : userInfo.name
               // this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : moment().format('YYYY-MM-DD HH:mm:ss')
               // 改成取服务器时间
-              this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : serverTime.data
+              this.updateTime1 = serverTime.data
               this.attachmentid1 = this.detailData[0].attachmentid1 ? this.detailData[0].attachmentid1 : this.$ToolFn.utilFn.getUuid()
             }
             this.returnReason = this.detailData[0].returnReason
@@ -866,7 +866,7 @@ export default {
             this.phone2 = this.detailData[0].phone2
             // this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
             // 改成取服务器时间
-            this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : serverTime.data
+            this.updateTime2 = serverTime.data
             this.information2 = this.detailData[0].information2
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.handler1 = this.detailData[0].handler1
@@ -952,10 +952,10 @@ export default {
       this.getViolationType()
     },
     async changeValue() {
-      let serverTime = await HttpModule.getCurrentTime()
+      // let serverTime = await HttpModule.getCurrentTime()
       let userInfo = this.$store.state.userInfo
       this.handler2 = userInfo.name
-      this.updateTime2 = serverTime.data
+      // this.updateTime2 = serverTime.data
     },
     getCurrentServerTime() {
       HttpModule.getCurrentTime().then(res => {
@@ -1296,7 +1296,9 @@ export default {
 </script>
 <style lang="scss">
   .payVoucherInput {
-    min-width: 1440px;
+    .el-main{
+      min-width: 480px;
+    }
     margin: 15px;
     .el-card {
       margin-top: 0
