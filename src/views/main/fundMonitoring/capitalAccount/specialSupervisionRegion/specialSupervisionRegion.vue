@@ -568,6 +568,8 @@ export default {
       } else {
         isCz = '1'
       }
+      reportCode = reportCode === 'zxjdxmmx_fdq_xj' ? 'zxjdxmmx_fdq' : reportCode
+      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
       let params = {
         reportCode: reportCode,
         mofDivCode: mofDivCode,

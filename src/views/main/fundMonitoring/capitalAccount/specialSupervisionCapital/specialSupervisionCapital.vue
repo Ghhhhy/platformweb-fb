@@ -562,9 +562,11 @@ export default {
         isCz = '1'
       }
       console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
+      reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
+      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
       this.detailQueryParam = {
         condition: condition,
-        reportCode: reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode,
+        reportCode: reportCode,
         // proCodes: [proCode],
         proCode: proCode,
         column: column,
