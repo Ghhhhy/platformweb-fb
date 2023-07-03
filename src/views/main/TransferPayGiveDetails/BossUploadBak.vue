@@ -180,7 +180,9 @@ export default {
       }
       let params = 'fileguids=' + file['fileguid'] + ',&' + 'appid=pay_plan_voucher'
       this.showLoading = true
+      this.$emit('update:loading', true)
       HttpModule.deleteAttachment(params).then(res => {
+        this.$emit('update:loading', false)
         this.showLoading = false
         if (res.rscode === '100000') {
           let fileguidList = []
@@ -289,9 +291,11 @@ export default {
       form.append('userguid', this.$store.state.userInfo.guid)
       form.append('billguid', this.attachmentId)
       console.log('attachmentId', this.attachmentId)
-      this.addLoading = true
+      this.showLoading = true
+      this.$emit('update:loading', true)
       HttpModule.fileUpload(form).then(res => {
-        this.addLoading = false
+        this.showLoading = false
+        this.$emit('update:loading', false)
         if (res.rscode === '100000') {
           let resultData = ''
           if (res.data || res.data != null) {
