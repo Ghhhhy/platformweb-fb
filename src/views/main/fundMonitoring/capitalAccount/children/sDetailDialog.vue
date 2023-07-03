@@ -292,6 +292,10 @@ export default {
           this.loadConfig('BsTable', 'Table302')
           this.loadConfig('BsQuery', 'Query302')
           break
+        case 'zxjdzbmx_fzjfp_xj':
+          this.loadConfig('BsTable', 'Table303')
+          this.loadConfig('BsQuery', 'Query303')
+          break
       }
     },
     showInfoForVisible() {
@@ -331,7 +335,7 @@ export default {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
               }
               if (['fpTime', 'recDivName'].includes(item.field)) {
-                this.$set(this.tableColumnsConfig[index], 'visible', false)
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
               }
             })
           }

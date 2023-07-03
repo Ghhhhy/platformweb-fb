@@ -142,7 +142,7 @@ import ImportModel from '@/components/Table/import/import.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
 
 import { readLocalFile } from '@/utils/readLocalFile'
-import { checkRscode } from '@/utils/checkRscode'
+import { checkRscodeTwo } from '@/utils/checkRscode'
 import { downloadByUrl } from '@/utils/download'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
@@ -394,10 +394,13 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      checkRscode(
+      this.tableLoading = true
+      checkRscodeTwo(
+        this,
         await HttpModule.importPersonAndCompany(this.fileConfig)
       )
       this.$message.success('导入成功')
+      this.tableLoading = false
       this.dtos = []
       this.importModalVisible = false
 
@@ -405,9 +408,11 @@ export default {
       this.queryTableDatas1()
     },
     async onImportFileClick() {
+      this.tableLoading = true
       const { file } = await readLocalFile({
         types: ['xlsx', 'xls']
       })
+      this.tableLoading = false
       this.fileConfig.file = file
       this.fileConfig.fileName = file.name
     },
