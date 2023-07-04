@@ -1,5 +1,4 @@
 export const proconf = {
-
   // 生成时部分字段可编辑
   createConfig1: [
     {
@@ -85,6 +84,34 @@ export const proconf = {
     // }
   ],
   createConfig2: [
+    {
+      field: 'commentDept',
+      title: '整改处理方式',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: false },
+        options: [
+          {
+            value: '1',
+            label: '1-通过'
+          },
+          {
+            value: '2',
+            label: '2-退回'
+          },
+          {
+            value: '3',
+            label: '3-违规'
+          },
+          {
+            value: '4',
+            label: '4-认定正常'
+          }
+        ]
+      }
+    },
     {
       field: 'handler1',
       title: '核实人员',
@@ -885,5 +912,16 @@ export const proconf = {
       width: 230,
       cellRender: { name: '$customerRender' }
     }
-  ]
+  ],
+  // 校验座机电话号码
+  officePhoneValid ({ itemValue: value }) {
+    let reg = /^((0\d{2,3}-\d{7,8}|(0\d{2,3}-\d{7,8}-\d{3,5}))|[0-9]{8})$/ // 座机
+    let myreg = /^1[3-9]\d{9}$/ // 手机号
+    if (!value) {
+      return Promise.reject(new Error('请填写办公电话'))
+    } else if (value && !(reg.test(value) || myreg.test(value))) {
+      return Promise.reject(new Error('请填写正确的办公电话'))
+    }
+    return Promise.resolve()
+  }
 }

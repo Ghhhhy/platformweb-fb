@@ -27,7 +27,7 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-columns-config="workFlowColumnsData"
+          :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
@@ -49,12 +49,12 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
-    <TestModal ref="TestModal" />
+    <TestModal v-if="showModal" ref="TestModal" @close="showModal = false" />
   </div>
 </template>
 
 <script>
-import { proconf } from './createProcessing'
+// import { proconf } from './createProcessing'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import TestModal from './testSettingModal.vue'
@@ -78,6 +78,7 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      showModal: false,
       queryConfig: [
         {
           title: '财政区划',
@@ -345,9 +346,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      // tableColumnsConfig: [],
       tableColumnsConfig: [],
-      workFlowColumnsData: proconf.workFlowColumnsData,
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -600,29 +599,53 @@ export default {
     getdata() {
 
     },
+    getTableConfByMenuguid(menuguid) {
+      // 根据菜单menuguid获取其下所有表配置
+      let self = this
+      return new Promise((resolve, reject) => {
+        self.$http
+          .get('mp-b-perm-service/v1/tableconf/menuguid', {
+            menuguid: menuguid,
+            mof_div_code: self.userInfo.province, // 区划
+            fiscalyear: self.userInfo.year // 年份
+          })
+          .then((res) => {
+            if (res.rscode === '100000') {
+              resolve(res.data)
+              // resolve(self.generateCurTableConfDataMap(res.data))
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
     // 生成
     handleCreate() {
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
       }
-      // this.isCreate = true
       this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
-      // this.$refs.mainTableRef.createDataList = selection[0]
-      // this.dialogVisible = true
-      // this.dialogTitle = '监控问询单信息'
     },
-    onTabPanelBtnClick(obj) { // 按钮点击
+    async onTabPanelBtnClick(obj) { // 按钮点击
+      this.showModal = true
+      await this.$nextTick()
       console.log('按钮点击', obj)
       let selection = this.$refs.mainTableRef.getSelectionData()
+      let serverTime = await HttpModule.getCurrentTime()
+      this.$set(this.$refs.TestModal, 'createDataList', { ...selection[0], updateTime1: serverTime.data })
       // if (selection.length !== 1) {
       //   this.$message.warning('请选择一条数据')
       //   return
       // }
+      this.$refs.TestModal.attachmentid = this.$ToolFn.utilFn.getUuid()
       this.$refs.TestModal.tabCode = obj.code
-      this.$set(this.$refs.TestModal, 'createDataList', selection[0])
       this.$refs.TestModal.dialogVisible = true
-      // console.log('this.$refs.TestModal.tabCode', this.$refs.TestModal.createDataList)
+
+      // this.$nextTick(() => {
+
+      // })
     },
     transJson(str) {
       if (!str) return
@@ -639,9 +662,9 @@ export default {
     // 切换状态栏
     onStatusTabClick(obj) {
       console.log('切换状态栏', obj)
-      this.$refs.TestModal.tabCode = obj.code
+      // this.$refs.TestModal.tabCode = obj.code
       // this.getdata()
-      this.loadConfig()
+      // this.loadConfig('532DEE0249E44E3B8D798AD180B9F544')
       this.queryTableDatas()
     },
     getViolationType() {
@@ -755,30 +778,53 @@ export default {
         }
       }
     },
-    async loadConfig() {
+    async loadConfig(id) {
       let params = {
         tableId: {
-          id: '266A441A752222ECA9A7B8F0F910FFFC',
+          id: id,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
-          menuguid: '1B9130A2049A40288465B5E9179B91FC' || this.$store.state.curNavModule.guid,
-          userguid: ''
+          menuguid: this.$store.state.curNavModule.guid
         }
       }
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
+    },
+    async loadTabConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.userInfo.year,
+          mof_div_code: this.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      let configQueryData = await this.loadBsConfig(params)
+      this.queryConfigInfo = configQueryData.itemsConfig
     }
   },
   mounted() {
 
   },
   created() {
+    this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
+      res.forEach(item => {
+        console.log(777, item)
+        if (item.type === 'table') {
+          this.loadConfig(item.id)// 加载表格
+        } else if (item.type === 'tabPanel') {
+          this.loadTabConfig(item.id)
+        }
+      })
+    })
+    // this.loadConfig('532DEE0249E44E3B8D798AD180B9F544')
     this.queryTableDatas()
-    if (Object.hasOwn(this.menuSettingConfig, '2')) {
-      this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig2)
-    } else {
-      this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
-    }
+    this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
+    // if (Object.hasOwn(this.menuSettingConfig, '2')) {
+    //   this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig2)
+    // } else {
+    //   this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
+    // }
   }
 }
 </script>
