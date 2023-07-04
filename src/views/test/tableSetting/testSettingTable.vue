@@ -18,7 +18,7 @@
         <BsQuery
           ref="queryFrom"
           :query-form-item-config="queryConfig"
-          :query-form-data="searchDataList"
+          :query-form-data="queryData"
           @onSearchClick="search"
           @onSearchResetClick="resetQuery"
         />
@@ -27,7 +27,7 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-columns-config="tableToJson"
+          :table-columns-config="workFlowColumnsData"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
@@ -59,14 +59,18 @@ import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import TestModal from './testSettingModal.vue'
 import loadBsConfig from './config'
-
 export default {
   mixins: [loadBsConfig],
   components: {
     TestModal
   },
   computed: {
-
+    menuSettingConfig() {
+      return this.transJson(this.$store.state.curNavModule.param5)
+    },
+    userInfo() {
+      return this.$store.state.userInfo
+    }
   },
   watch: {
 
@@ -114,7 +118,14 @@ export default {
           }
         }
       ],
-      searchDataList: proconf.highQueryData,
+      queryData: {
+        roleId: this.$store.state.curNavModule.roleguid,
+        regulationClassName: '',
+        menuId: '1B9130A2049A40288465B5E9179B91FC',
+        isNormalDone: false,
+        isProcessed: false,
+        isAgencyDone: false
+      },
       treeData: [],
       tabStatusNumConfig: { 'dcl': 1, 'dzg': 9, 'yxf': 10, 'yth': 10 },
       // 头部工具栏 BsTabPanel config
@@ -170,8 +181,93 @@ export default {
           ],
           'dzg': [
             {
-              label: '核实反馈',
-              code: 'dzg-hsfk',
+              label: '整改反馈',
+              code: 'dzg-zgfk',
+              status: 'primary'
+            }
+          ],
+          'yxf': [
+            {
+              label: '发起核实',
+              code: 'ydsj-fqhs',
+              status: 'primary'
+            }
+          ]
+        }
+      },
+      toolBarStatusBtnConfig2: {
+        methods: {
+          bsToolbarClickEvent: this.onStatusTabClick
+        },
+        changeBtns: true,
+        buttons2: [
+          {
+            type: 'button',
+            label: '疑点数据',
+            code: 'ydsj',
+            curValue: '1',
+            iconUrl: '',
+            iconName: 'base-all.png',
+            iconNameActive: 'base-all-active.png'
+          },
+          {
+            type: 'button',
+            label: '待认定',
+            code: 'drd',
+            iconName: 'base-all.png',
+            iconNameActive: 'base-all-active.png'
+          },
+          {
+            type: 'button',
+            label: '待审核',
+            code: 'dsh',
+            iconName: 'base-all.png',
+            iconNameActive: 'base-all-active.png'
+          },
+          {
+            type: 'button',
+            label: '认定正常',
+            code: 'rdzc',
+            iconName: 'base-all.png',
+            iconNameActive: 'base-all-active.png'
+          },
+          {
+            type: 'button',
+            label: '已整改',
+            code: 'yzg',
+            iconName: 'base-all.png',
+            iconNameActive: 'base-all-active.png'
+          }
+        ],
+        curButton: {
+          label: '疑点数据',
+          code: 'ydsj',
+          type: 'button'
+        },
+        buttonsInfo: {
+          'ydsj': [
+            {
+              label: '发起核实',
+              code: 'ydsj-fqhs',
+              status: 'primary'
+            },
+            {
+              label: '标记正常',
+              code: 'ydsj-bjzc',
+              status: 'primary'
+            }
+          ],
+          'drd': [
+            {
+              label: '核实认定',
+              code: 'drd-hsfk',
+              status: 'primary'
+            }
+          ],
+          'dsh': [
+            {
+              label: '审核',
+              code: 'dsh-sh',
               status: 'primary'
             }
           ]
@@ -191,205 +287,8 @@ export default {
       tableLoading: false,
       // tableColumnsConfig: [],
       tableColumnsConfig: [],
-      tableToJson: [
-        {
-          title: '区划',
-          width: 180,
-          field: 'mofDivName',
-          sortable: false,
-          filters: false,
-          align: 'center',
-          cellRender: {
-            name: '$vxeInput',
-            options: [],
-            defaultValue: '',
-            props: {
-              format: '{mofDivCode}-{mofDivName}'
-            }
-          },
-          props: {
-            format: '{mofDivCode}-{mofDivName}'
-          }
-        },
-        {
-          title: '预算单位',
-          width: 180,
-          field: 'agencyName',
-          sortable: false,
-          filters: false,
-          align: 'center',
-          cellRender: {
-            name: '$vxeInput',
-            options: [],
-            defaultValue: '',
-            props: {
-              format: '{agencyCode}-{agencyName}'
-            }
-          },
-          props: {
-            format: '{agencyCode}-{agencyName}'
-          }
-        },
-        {
-          title: '业务数据单号',
-          width: 180,
-          field: 'businessNo',
-          sortable: false,
-          filters: false,
-          align: 'center'
-        },
-        {
-          title: '主题',
-          width: 180,
-          field: 'regulationClassName',
-          sortable: false,
-          filters: false,
-          align: 'center'
-        },
-        {
-          title: '违规时间',
-          width: 180,
-          field: 'warnTime',
-          sortable: false,
-          filters: false,
-          align: 'center'
-        },
-        {
-          title: '监控类型',
-          field: 'triggerClass',
-          align: 'center',
-          width: 180,
-          cellRender: {
-            name: '$vxeSelect',
-            options: [
-              {
-                value: 1,
-                label: '事中触发'
-              },
-              {
-                value: 2,
-                label: '定时触发'
-              }
-            ],
-            defaultValue: '',
-            props: {}
-          },
-          name: '$vxeSelect'
-        },
-        {
-          title: '监控规则',
-          width: 180,
-          field: 'fiRuleName',
-          sortable: false,
-          filters: false,
-          align: 'center'
-        },
-        {
-          'title': '预警级别',
-          'field': 'warnLevel',
-          'fixed': '',
-          'width': '100',
-          'type': 'html',
-          'align': 'center',
-          'formula': '',
-          'constraint': '',
-          'combinedType': '',
-          'sortable': '1',
-          'associatedQuery': {
-            'queryMethods': '',
-            'queryUrl': '',
-            'params': {}
-          },
-          'dragSort': null,
-          'className': '',
-          'combinedType_select_sort': '',
-          'filters': '',
-          formatter: ({ row }) => {
-            if (row.warnLevel === 3) {
-              return '黄色预警'
-            } else if (row.warnLevel === 2) {
-              return '橙色预警'
-            } else if (row.warnLevel === 1) {
-              return '红色预警'
-            } else if (row.warnLevel === 4) {
-              return '蓝色预警'
-            } else if (row.warnLevel === 5) {
-              return '灰色预警'
-            }
-          }
-        },
-        {
-          title: '处理方式',
-          field: 'handleType',
-          align: 'center',
-          width: 180,
-          cellRender: {
-            name: '$vxeSelect',
-            options: [
-              {
-                value: 1,
-                label: '拦截'
-              },
-              {
-                value: 2,
-                label: '预警，需上传附件'
-              },
-              {
-                value: 3,
-                label: '预警，无需上传附件'
-              },
-              {
-                value: 4,
-                label: '提醒'
-              },
-              {
-                value: 5,
-                label: '记录'
-              }
-            ],
-            defaultValue: '',
-            props: {}
-          },
-          name: '$vxeSelect'
-        },
-        {
-          title: '支付金额',
-          field: 'paymentAmount',
-          sortable: false,
-          filters: false,
-          align: 'right',
-          width: 180,
-          combinedType: [
-            'average',
-            'subTotal',
-            'total',
-            'totalAll'
-          ],
-          cellRender: { name: '$vxeMoney' }
-        },
-        {
-          title: '操作',
-          field: 'opration',
-          sortable: false,
-          filters: false,
-          align: 'center',
-          fixed: 'right',
-          width: 230,
-          cellRender: { name: '$customerRender' }
-          // slots: {
-          //   default: ({ row, rowIndex }, h) => {
-          //     return [
-          //       <div>
-          //         {rowIndex !== 0 ? <el-button type="primary" size="mini" onClick={() => { this.handleRowClick(row, rowIndex) }}>查看详情{rowIndex}</el-button> : ''}
-          //         {rowIndex === 1 ? <el-button type="primary" size="mini">删除</el-button> : ''}
-          //         <el-button type="primary" size="mini">勾选</el-button>
-          //       </div>
-          //     ]
-          //   }
-          // }
-        }
-      ],
-      tableData: [{}],
+      workFlowColumnsData: proconf.workFlowColumnsData,
+      tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -429,7 +328,7 @@ export default {
       showLogView: false,
       // 请求 & 角色权限相关配置
       menuName: '违规处理单反馈（单位）',
-      userInfo: {},
+      // userInfo: {},
       roleguid: this.$store.state.curNavModule.roleguid,
       // 文件
       showAttachmentDialog: false,
@@ -479,7 +378,9 @@ export default {
       }
     },
     search(obj) {
-      console.log(77, obj)
+      console.log('search', obj)
+      this.queryData.regulationClassName = obj.regulationClassName
+      this.queryTableDatas()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -496,7 +397,7 @@ export default {
           }
         }
       })
-      this.searchDataList = searchDataObj
+      this.queryData = searchDataObj
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -568,6 +469,7 @@ export default {
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       console.log('触发了刷新')
+      this.queryTableDatas()
       // if (this.menuName === '监控问询单列表' && this.status === 0) {
       //   this.queryTableDatas()
       // } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
@@ -582,51 +484,59 @@ export default {
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
-      if (this.menuName === '监控问询单列表' && this.status === 0) {
-        this.queryTableDatas()
-      } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
-        this.getdata()
-      } else {
-        this.getWarnData()
-      }
+      this.queryTableDatas()
+      // if (this.menuName === '监控问询单列表' && this.status === 0) {
+      //   this.queryTableDatas()
+      // } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
+      //   this.getdata()
+      // } else {
+      //   this.getWarnData()
+      // }
     },
     // 查询 table 数据
     queryTableDatas() {
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        // agencyName: this.agencyName,
-        agencyCodeList: this.agencyCodeList,
-        issueTime: this.issueTime,
-        fiRuleName: this.fiRuleName,
-        violateType: this.violateType,
-        status: this.status,
-        mofDivCodeList: this.codeList,
-        mofDivCode: this.mofDivCode || '',
-        trackProName: this.trackProName || '',
-        roleguid: this.roleguid
+      console.log('this.menuSettingConfig', this.menuSettingConfig)
+      let param = {
+        ...this.queryData,
+        isUnit: this.menuSettingConfig.retroact,
+        isNormalDone: this.queryData.isNormalDone,
+        isProcessed: this.queryData.isProcessed,
+        isAgencyDone: this.queryData.isAgencyDone,
+        regulationClass: '' //
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
-
       const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
-
-      this.tableLoading = true
-      api.getMarkData(param).then(res => {
+      this.tableLoading = false
+      api.getWorkFlowDetail(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          console.log(res.data.results)
-          // this.tableData = res.data.results
+          this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['unIssue'] = res.data.totalCount
+          // if (this.status === 1) {
+          //   this.tabStatusNumConfig['dcl'] = res.data.totalCount
+          // } else if (this.status === 2) {
+          //   this.tabStatusNumConfig['rdzc'] = res.data.totalCount
+          // }
         } else {
           this.$message.error(res.message)
         }
       })
+      // api.getMarkData(param).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     console.log(res.data.results)
+      //     this.tableData = res.data.results
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //     this.tabStatusNumConfig['unIssue'] = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
     getdata() {
 
@@ -638,15 +548,22 @@ export default {
         this.$message.warning('请选择一条数据')
       }
       // this.isCreate = true
-      // this.detailData = selection
+      this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
+      // this.$refs.mainTableRef.createDataList = selection[0]
       // this.dialogVisible = true
       // this.dialogTitle = '监控问询单信息'
     },
     onTabPanelBtnClick(obj) { // 按钮点击
       console.log('按钮点击', obj)
-      console.log('this.$refs.TestModal.tabCode', this.$refs.TestModal.tabCode)
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      // if (selection.length !== 1) {
+      //   this.$message.warning('请选择一条数据')
+      //   return
+      // }
+      this.$refs.TestModal.tabCode = obj.code
+      this.$set(this.$refs.TestModal, 'createDataList', selection[0])
       this.$refs.TestModal.dialogVisible = true
-      console.log('this.$refs.TestModal.tabCode', this.$refs.TestModal.tabCode)
+      // console.log('this.$refs.TestModal.tabCode', this.$refs.TestModal.createDataList)
     },
     transJson(str) {
       if (!str) return
@@ -664,8 +581,9 @@ export default {
     onStatusTabClick(obj) {
       console.log('切换状态栏', obj)
       this.$refs.TestModal.tabCode = obj.code
-      this.getdata()
+      // this.getdata()
       this.loadConfig()
+      this.queryTableDatas()
     },
     getViolationType() {
       let params = {
@@ -794,23 +712,11 @@ export default {
     }
   },
   mounted() {
-
+    this.queryTableDatas()
   },
   created() {
-    this.menuId = this.$store.state.curNavModule.guid
-    this.roleguid = this.$store.state.curNavModule.roleguid
-    this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
-    this.userInfo = this.$store.state.userInfo
-    this.roleId = this.$store.state.curNavModule.roleguid
-    console.log(77, this.$store.state.curNavModule)
-    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-    // 动态控制是否展示树
-    // this.setShowBusinesTree()
-    // this.queryTableDatas()
-    // this.initButtons(this.param5)
-    // this.getViolationType()
-    // this.getAgency()
-    // this.getCount()
+    this.queryData.menuId = '1B9130A2049A40288465B5E9179B91FC' || this.$store.state.curNavModule.guid
+    this.queryData.roleId = this.$store.state.curNavModule.roleguid
   }
 }
 </script>

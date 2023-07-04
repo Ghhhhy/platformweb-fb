@@ -71,6 +71,7 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AddDialog
       v-if="dialogVisible"
+      :is-approve="isApprove"
       :title="dialogTitle"
       :param5="param5"
       :warning-code="warningCode"
@@ -257,6 +258,7 @@ export default {
       DetailData: {},
       regulationclass: '',
       mofDivCode: '',
+      isApprove: false,
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
@@ -733,6 +735,7 @@ export default {
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
+      this.isApprove = true
       console.log('isAgencyDonesh', this.isAgencyDone)
     },
     queryBusinessData() {
@@ -767,6 +770,7 @@ export default {
     },
     onTabPanelBtnClick(obj) { // 按钮点击
       let self = this
+      this.isApprove = false
       switch (obj.code) {
         case 'create': // 生成
           self.handleCreate(obj)

@@ -466,6 +466,10 @@ export default {
     bussnessId: {
       type: String,
       default: '7'// 预算执行
+    },
+    isApprove: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -645,6 +649,7 @@ export default {
     // 回显
     async showInfo() {
       let serverTime = await HttpModule.getCurrentTime()
+      // serverTime = { data: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss') }
       this.addLoading = false
       if (this.isCreate === false) {
         if (this.isXmProject) {
@@ -835,9 +840,7 @@ export default {
                 }
               })
             }
-            if (this.detailData[0].updateTime2) {
-              this.updateTime2 = this.detailData[0].updateTime2
-            }
+            this.updateTime2 = this.detailData[0].updateTime2
             this.phone2 = this.detailData[0].phone2
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
@@ -867,6 +870,9 @@ export default {
             // this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
             // 改成取服务器时间
             this.updateTime2 = serverTime.data
+            if (this.isApprove) { // 如果是审批页面 则取数据单的时间
+              this.$set(this, 'updateTime2', this.detailData[0].updateTime2)
+            }
             this.information2 = this.detailData[0].information2
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.handler1 = this.detailData[0].handler1
