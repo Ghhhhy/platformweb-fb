@@ -215,7 +215,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(77, error)
+          console.log('error', error)
         })
     },
     getSaveParams(obj) {

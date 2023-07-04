@@ -79,10 +79,8 @@ export default {
       }
       return new Promise(function(resolve) {
         configModule.getConfig(tableId).then(res => {
-          console.log(777, res)
           if (res.rscode === '100000') {
-            configData = self.$ToolFn.utilFn.strToJson(res.data[0].configure || '{}')
-            console.log('configData', configData)
+            configData = self.$ToolFn.utilFn.strToJson(res.data.configure || '{}')
             resolve(configData)
           } else {
             resolve(configData.data)
@@ -92,72 +90,72 @@ export default {
           console.log(error)
         })
       })
-    }
-    // async loadConfig(id) {
-    //   let params = {
-    //     tableId: {
-    //       id: '',
-    //       fiscalyear: this.$store.state.userInfo.year,
-    //       mof_div_code: this.$store.state.userInfo.province,
-    //       menuguid: this.$store.state.curNavModule.guid,
-    //       userguid: ''
-    //     }
-    //   }
-    //   // 高级查询(指标额度)
-    //   if (id === this.advancedQueryId1) {
-    //     params.tableId.id = id
-    //     let configQueryData = await this.loadBsConfig(params)
-    //     this.highQueryConfig = configQueryData.itemsConfig
-    //     this.highQueryConfig1 = configQueryData.itemsConfig
-    //   }
-    //   // 高级查询
-    //   if (id === this.advancedQueryId) {
-    //     params.tableId.id = id
-    //     let configQueryData = await this.loadBsConfig(params)
-    //     this.highQueryConfig2 = configQueryData.itemsConfig
-    //   }
+    },
+    async loadConfig(id) {
+      let params = {
+        tableId: {
+          id: '',
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid,
+          userguid: ''
+        }
+      }
+      // 高级查询(指标额度)
+      if (id === this.advancedQueryId1) {
+        params.tableId.id = id
+        let configQueryData = await this.loadBsConfig(params)
+        this.highQueryConfig = configQueryData.itemsConfig
+        this.highQueryConfig1 = configQueryData.itemsConfig
+      }
+      // 高级查询
+      if (id === this.advancedQueryId) {
+        params.tableId.id = id
+        let configQueryData = await this.loadBsConfig(params)
+        this.highQueryConfig2 = configQueryData.itemsConfig
+      }
 
-    //   // 指标额度
-    //   if (id === this.quotaId) {
-    //     params.tableId.id = id
-    //     params.tableId.userguid = this.userInfo.guid
-    //     let configData = await this.loadBsConfig(params)
-    //     this.configData1 = configData
-    //     this.tableColumnsConfig = this.configData1.itemsConfig
-    //     this.tableColumnsConfig1 = this.configData1.itemsConfig
-    //   }
-    //   // 未送审、已送审
-    //   if (id === this.planId) {
-    //     params.tableId.id = id
-    //     params.tableId.userguid = this.userInfo.guid
-    //     let configData = await this.loadBsConfig(params)
-    //     this.configData2 = configData
-    //     this.tableColumnsConfig2 = this.configData2.itemsConfig
-    //   }
-    //   // 全部单据
-    //   if (id === this.documentsId) {
-    //     params.tableId.id = id
-    //     params.tableId.userguid = this.userInfo.guid
-    //     let configData = await this.loadBsConfig(params)
-    //     this.configData3 = configData
-    //     this.tableColumnsConfig3 = this.configData3.itemsConfig
-    //   }
-    //   // 曾经办
-    //   if (id === this.doneId) {
-    //     params.tableId.id = id
-    //     params.tableId.userguid = this.userInfo.guid
-    //     let configData = await this.loadBsConfig(params)
-    //     this.configData4 = configData
-    //     this.tableColumnsConfig4 = this.configData4.itemsConfig
-    //   }
-    //   // 待办表头
-    //   if (id === this.plannoId) {
-    //     params.tableId.id = id
-    //     params.tableId.userguid = this.userInfo.guid
-    //     let configData = await this.loadBsConfig(params)
-    //     this.configData5 = configData
-    //     this.tableColumnsConfig5 = this.configData5.itemsConfig
-    //   }
-    // }
+      // 指标额度
+      if (id === this.quotaId) {
+        params.tableId.id = id
+        params.tableId.userguid = this.userInfo.guid
+        let configData = await this.loadBsConfig(params)
+        this.configData1 = configData
+        this.tableColumnsConfig = this.configData1.itemsConfig
+        this.tableColumnsConfig1 = this.configData1.itemsConfig
+      }
+      // 未送审、已送审
+      if (id === this.planId) {
+        params.tableId.id = id
+        params.tableId.userguid = this.userInfo.guid
+        let configData = await this.loadBsConfig(params)
+        this.configData2 = configData
+        this.tableColumnsConfig2 = this.configData2.itemsConfig
+      }
+      // 全部单据
+      if (id === this.documentsId) {
+        params.tableId.id = id
+        params.tableId.userguid = this.userInfo.guid
+        let configData = await this.loadBsConfig(params)
+        this.configData3 = configData
+        this.tableColumnsConfig3 = this.configData3.itemsConfig
+      }
+      // 曾经办
+      if (id === this.doneId) {
+        params.tableId.id = id
+        params.tableId.userguid = this.userInfo.guid
+        let configData = await this.loadBsConfig(params)
+        this.configData4 = configData
+        this.tableColumnsConfig4 = this.configData4.itemsConfig
+      }
+      // 待办表头
+      if (id === this.plannoId) {
+        params.tableId.id = id
+        params.tableId.userguid = this.userInfo.guid
+        let configData = await this.loadBsConfig(params)
+        this.configData5 = configData
+        this.tableColumnsConfig5 = this.configData5.itemsConfig
+      }
+    }
   }
 }

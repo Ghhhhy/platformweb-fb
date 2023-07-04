@@ -456,17 +456,16 @@ export default {
       let self = this
       return new Promise((resolve, reject) => {
         self.$http
-          .get('http://localhost:3000/apaas/api/' + this.serverUri, {
+          .get('mp-b-perm-service/v1/tableconf/menuguid', {
             menuguid: menuguid,
             mof_div_code: self.userInfo.province, // 区划
             fiscalyear: self.userInfo.year // 年份
           })
           .then((res) => {
-            console.log(777, res.data)
-            // if (res.rscode === '100000') {
-            resolve(res.data)
-            // resolve(self.generateCurTableConfDataMap(res.data))
-            // }
+            if (res.rscode === '100000') {
+              resolve(res.data)
+              // resolve(self.generateCurTableConfDataMap(res.data))
+            }
           })
           .catch((error) => {
             reject(error)
@@ -725,7 +724,7 @@ export default {
               }
             })
             .catch((error) => {
-              return error
+              console.log('error', error)
             })
         }).catch(e => {
           self.$message.success('取消删除成功')

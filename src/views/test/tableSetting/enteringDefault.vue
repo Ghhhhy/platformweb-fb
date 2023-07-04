@@ -217,8 +217,9 @@ export default {
               type: 'success'
             })
           }
-        }).catch((error) => {
-          console.log(77, error)
+        })
+        .catch((error) => {
+          console.log('error', error)
         })
     },
     onSaveClick() {
@@ -272,7 +273,7 @@ export default {
           }
         })
         .catch((error) => {
-          return error
+          console.log('error', error)
         })
     },
     onAddClick() {
