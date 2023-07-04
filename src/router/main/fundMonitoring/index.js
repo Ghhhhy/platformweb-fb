@@ -998,6 +998,51 @@ const routers = [
     component: () => import('@/views/test/tableSetting/testSettingTable.vue')
   },
   {
+    path: '/monitProcFeedback2', // 用户资金权限配置
+    name: 'monitProcFeedback2',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/testSettingTable.vue')
+  },
+  {
+    path: '/monitProcFeedback3', // 用户资金权限配置
+    name: 'monitProcFeedback3',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/testSettingTable.vue')
+  },
+  {
+    path: '/monitProcFeedback4', // 用户资金权限配置
+    name: 'monitProcFeedback4',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/testSettingTable.vue')
+  },
+  {
+    path: '/monitProcFeedback5', // 用户资金权限配置
+    name: 'monitProcFeedback5',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/testSettingTable.vue')
+  },
+  {
+    path: '/monitProcFeedback6', // 用户资金权限配置
+    name: 'monitProcFeedback6',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/test/tableSetting/testSettingTable.vue')
+  },
+  {
     path: '/testSettingTable', // 配置页面
     name: 'testSettingTable',
     meta: {

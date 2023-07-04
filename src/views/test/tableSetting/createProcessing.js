@@ -1,7 +1,7 @@
 export const proconf = {
 
   // 生成时部分字段可编辑
-  createConfig: [
+  createConfig1: [
     {
       field: 'fiRuleName',
       title: '监控规则',
@@ -49,7 +49,7 @@ export const proconf = {
             label: 'XXXXX部门'
           }
         ],
-        props: { disabled: true, placeholder: '处理方式' }
+        props: { disabled: true, placeholder: '请选择核实机构' }
       },
       name: '$vxeSelect'
     },
@@ -72,6 +72,17 @@ export const proconf = {
         props: { disabled: true, placeholder: '请输入核实建议描述' }
       }
     }
+    // {
+    //   title: '附件',
+    //   field: 'attachmentid1',
+    //   visible: true,
+    //   span: 24,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$customerFileRender',
+    //     props: { disabled: false }
+    //   }
+    // }
   ],
   createConfig2: [
     {
@@ -113,18 +124,18 @@ export const proconf = {
         name: '$textarea',
         props: { disabled: false, resize: 'vertical', rows: 4, placeholder: '请输入核实情况描述' }
       }
-    },
-    {
-      title: '附件',
-      field: 'attachmentid1',
-      visible: true,
-      span: 24,
-      titleWidth: '180',
-      itemRender: {
-        name: '$customerFileRender',
-        props: { disabled: false }
-      }
     }
+    // {
+    //   title: '附件',
+    //   field: 'attachmentid1',
+    //   visible: true,
+    //   span: 24,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$customerFileRender',
+    //     props: { disabled: false }
+    //   }
+    // }
   ],
   createConfig3: [
     {
@@ -148,7 +159,7 @@ export const proconf = {
       }
     },
     {
-      field: 'fiRuleName',
+      field: 'rendingzhuangtai',
       title: '认定状态',
       titleWidth: '180',
       span: 8,
@@ -372,6 +383,89 @@ export const proconf = {
         props: { disabled: false }
       }
     }
+  ],
+  createConfig5: [
+    {
+      field: 'zgztqr',
+      title: '整改状态确认',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        disabled: true,
+        props: { disabled: true },
+        options: [
+          {
+            value: '1',
+            label: '1-已整改'
+          },
+          {
+            value: '2',
+            label: '2-未整改'
+          },
+          {
+            value: '3',
+            label: '3-退回'
+          }
+        ]
+      }
+    },
+    {
+      field: 'zgjg',
+      title: '整改结果',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        disabled: true,
+        props: { disabled: true },
+        options: [
+          {
+            value: '1',
+            label: '1-收回预算'
+          },
+          {
+            value: '2',
+            label: '2-退回国库'
+          },
+          {
+            value: '3',
+            label: '3-调整账'
+          },
+          {
+            value: '4',
+            label: '4-备案说明'
+          },
+          {
+            value: '5',
+            label: '5-其他'
+          }
+        ]
+      }
+    },
+    {
+      title: '整改认定说明',
+      field: 'ZHRDSM',
+      span: 8,
+      visible: false,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: false, placeholder: '整改认定说明' }
+      }
+    },
+    {
+      title: '退回原因说明',
+      field: 'THYYSM',
+      span: 8,
+      visible: false,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: false, placeholder: '退回原因说明' }
+      }
+    }
+
   ],
   createDataList: {
     issueTime: '',

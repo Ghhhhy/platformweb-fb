@@ -11,12 +11,12 @@
     >
       <div v-loading="addLoading" class="payVoucherInput">
         <div>
-          <template v-if="showFormType.show">
+          <template>
             <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">疑似违规信息</div>
             <BsForm
-              ref="createRef"
+              ref="createRef1"
               class="createRef"
-              :form-items-config="createConfig"
+              :form-items-config="createConfig1"
               :form-data-list="createDataList"
               :form-validation-config="createValidate"
               :is-editable="isCreate"
@@ -25,7 +25,7 @@
             />
           </template>
           <template v-if="showFormType.show2">
-            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">核实反馈信息</div>
+            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ $store.state.curNavModule.name }}</div>
             <BsForm
               ref="createRef2"
               class="createRef"
@@ -72,6 +72,18 @@
               @itemChange="itemChange"
             />
           </template>
+          <template v-if="showFormType.show5">
+            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">审核确认意见</div>
+            <BsForm
+              ref="createRef5"
+              class="createRef"
+              :form-items-config="createConfig5"
+              :form-data-list="createDataList"
+              :form-validation-config="createValidate"
+              :is-editable="isCreate"
+              @itemChange="itemChange"
+            />
+          </template>
         </div>
         <BsUploadBak
           ref="myUpload"
@@ -80,7 +92,7 @@
           :allow-download="true"
           :allow-preview="true"
           :is-upload="true"
-          :attachment-id="attachmentid3"
+          :attachment-id="attachmentid"
           :file-list="fileList3"
           :file-data-bak-del.sync="fileDataBakDel3"
           :file-data.sync="fileData3"
@@ -119,24 +131,26 @@ export default {
     return {
       tabCode: 'dcl-hsfk',
       showFormType: {
-        show: true,
-        show2: false,
+        show1: true,
+        show2: true,
         show3: false,
-        show4: false
+        show4: false,
+        show5: false
       },
       title: '监控处理单',
       dialogVisible: false,
-      createConfig: proconf.createConfig,
+      createConfig1: proconf.createConfig1,
       createConfig2: proconf.createConfig2,
       createConfig3: proconf.createConfig3,
       createConfig4: proconf.createConfig4,
+      createConfig5: proconf.createConfig5,
       createValidate: {
         violateType: [
           { required: true, message: '请选择违规类型', trigger: 'change' }
         ]
       },
       createDataList: proconf.createDataList,
-      attachmentid3: '',
+      attachmentid: this.$ToolFn.utilFn.getUuid(),
       isCreate: true,
       showbox: false,
       fileList3: [{}],
@@ -149,6 +163,7 @@ export default {
   },
   methods: {
     getAttachmentInfo(billguid) {
+      if (!billguid) return []
       let params = {
         year: this.userInfo.year,
         province: this.mofDivCode || this.userInfo.province,
@@ -165,10 +180,11 @@ export default {
     },
     setOtherFormItem() {
       this.showFormType = {
-        show: false,
+        show1: false,
         show2: false,
         show3: false,
-        show4: false
+        show4: false,
+        show5: false
       }
     },
     setFormDisabled(formItemIndexList = []) {
@@ -358,34 +374,45 @@ export default {
   },
   watch: {
     tabCode(n) {
-      if (n === 'dcl-hsfk') {
+      if (n === 'ydsj-fqhs') {
         this.setOtherFormItem()
-        this.showFormType.show = true
+        this.showFormType.show1 = true
+        // this.setFormDisabled([])
+        this.setFormItemDisabled([1], ['fiRuleName', 'mofDivName', 'issueTime'])
+      } else if (n === 'drd-hsfk') {
+        this.setOtherFormItem()
+        this.showFormType.show1 = true
+        this.showFormType.show2 = true
+        this.showFormType.show3 = true
+        this.setFormDisabled([1, 2])
+        this.setFormItemDisabled([3], ['rendingzhuangtai'])
+      } else if (n === 'dsh-sh') {
+        this.showFormType.show1 = true
+        this.showFormType.show2 = true
+        this.showFormType.show3 = true
+        this.showFormType.show4 = true
+        this.setFormDisabled([1, 2, 3, 4])
+      } else if (n === 'dcl-hsfk') {
+        this.setOtherFormItem()
+        this.showFormType.show1 = true
         this.showFormType.show2 = true
       } else if (n === 'dzg-zgfk') {
-        this.showFormType.show = true
+        this.showFormType.show1 = true
         this.showFormType.show2 = true
         this.showFormType.show3 = true
         this.showFormType.show4 = true
         this.setFormDisabled([2, 3])
         this.setFormItemDisabled([4], ['chuliren', 'zhenggaishijian'])
         // this.getAttachmentInfo()
-      } else if (n === 'ydsj-fqhs') {
-        this.setOtherFormItem()
-        this.showFormType.show = true
-        this.setFormDisabled([''])
-        this.setFormItemDisabled([''], ['fiRuleName', 'mofDivName', 'issueTime'])
       }
     }
   },
-  created() {
-    // let _this = this
-    // let fileList=await this.getAttachmentInfo(this.createDataList.b)
-    let fileList = this.getAttachmentInfo()
-    // let fileList2=await this.getAttachmentInfo()
+  async created() {
+    let fileList = await this.getAttachmentInfo(this.createDataList.attachmentId1)
+    // this.$set(this.createDataList, 'fileList', fileList)
     VXETable.renderer.add('$customerFileRender', {
-      async renderItemContent(h, { props = {} }, { data, property }) {
-        console.log('customerFileRender', fileList)
+      renderItemContent(h, { props = {} }, { data, property }) {
+        console.log('customerFileRender', data)
         return fileList.map(item => {
           return <div>
             <a style="color: #1890ff; text-decoration: underline;">{item.filename}</a>

@@ -8,7 +8,7 @@
         <BsTabPanel
           ref="tabPanel"
           :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
+          :tab-status-btn-config="queryConfigInfo"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="(open) => isShowQueryConditions = open"
           @btnClick="onTabPanelBtnClick"
@@ -120,14 +120,17 @@ export default {
       ],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
-        regulationClassName: '',
-        menuId: '1B9130A2049A40288465B5E9179B91FC',
+        regulationClass: this.transJson(this.$store.state.curNavModule.param5).regulationClass,
+        regulationClassName: this.transJson(this.$store.state.curNavModule.param5).regulationClassName,
+        menuId: this.$store.state.curNavModule.guid,
         isNormalDone: false,
         isProcessed: false,
         isAgencyDone: false
       },
       treeData: [],
-      tabStatusNumConfig: { 'dcl': 1, 'dzg': 9, 'yxf': 10, 'yth': 10 },
+      tabStatusNumConfig: {},
+      // tabStatusNumConfig: { 'dcl': 1, 'dzg': 9, 'yxf': 10, 'yth': 10 },
+      queryConfigInfo: {},
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         methods: {
@@ -137,8 +140,8 @@ export default {
         buttons: [
           {
             type: 'button',
-            label: '待核实',
-            code: 'dcl',
+            label: '待审批',
+            code: 'dsp',
             curValue: '1',
             iconUrl: '',
             iconName: 'base-all.png',
@@ -146,61 +149,118 @@ export default {
           },
           {
             type: 'button',
-            label: '待整改',
-            code: 'dzg',
+            label: '已审批',
+            code: 'ysp',
             iconName: 'base-all.png',
             iconNameActive: 'base-all-active.png'
           },
           {
             type: 'button',
             label: '已退回',
-            code: 'yxf',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已整改',
             code: 'yth',
             iconName: 'base-all.png',
             iconNameActive: 'base-all-active.png'
           }
         ],
         curButton: {
-          label: '待处理',
-          code: 'dcl',
-          type: 'button'
+          code: 'dsp'
         },
         buttonsInfo: {
-          'dcl': [
+          'dsp': [
             {
               label: '核实反馈',
               code: 'dcl-hsfk',
               status: 'primary'
             }
-          ],
-          'dzg': [
-            {
-              label: '整改反馈',
-              code: 'dzg-zgfk',
-              status: 'primary'
-            }
-          ],
-          'yxf': [
-            {
-              label: '发起核实',
-              code: 'ydsj-fqhs',
-              status: 'primary'
-            }
           ]
+          // 'dzg': [
+          //   {
+          //     label: '整改反馈',
+          //     code: 'dzg-zgfk',
+          //     status: 'primary'
+          //   }
+          // ],
+          // 'yxf': [
+          //   {
+          //     label: '发起核实',
+          //     code: 'ydsj-fqhs',
+          //     status: 'primary'
+          //   }
+          // ]
         }
       },
+      // toolBarStatusBtnConfig: {
+      //   methods: {
+      //     bsToolbarClickEvent: this.onStatusTabClick
+      //   },
+      //   changeBtns: true,
+      //   buttons: [
+      //     {
+      //       type: 'button',
+      //       label: '待核实',
+      //       code: 'dcl',
+      //       curValue: '1',
+      //       iconUrl: '',
+      //       iconName: 'base-all.png',
+      //       iconNameActive: 'base-all-active.png'
+      //     },
+      //     {
+      //       type: 'button',
+      //       label: '待整改',
+      //       code: 'dzg',
+      //       iconName: 'base-all.png',
+      //       iconNameActive: 'base-all-active.png'
+      //     },
+      //     {
+      //       type: 'button',
+      //       label: '已退回',
+      //       code: 'yxf',
+      //       iconName: 'base-all.png',
+      //       iconNameActive: 'base-all-active.png'
+      //     },
+      //     {
+      //       type: 'button',
+      //       label: '已整改',
+      //       code: 'yth',
+      //       iconName: 'base-all.png',
+      //       iconNameActive: 'base-all-active.png'
+      //     }
+      //   ],
+      //   curButton: {
+      //     label: '待处理',
+      //     code: 'dcl',
+      //     type: 'button'
+      //   },
+      //   buttonsInfo: {
+      //     'dcl': [
+      //       {
+      //         label: '核实反馈',
+      //         code: 'dcl-hsfk',
+      //         status: 'primary'
+      //       }
+      //     ],
+      //     'dzg': [
+      //       {
+      //         label: '整改反馈',
+      //         code: 'dzg-zgfk',
+      //         status: 'primary'
+      //       }
+      //     ],
+      //     'yxf': [
+      //       {
+      //         label: '发起核实',
+      //         code: 'ydsj-fqhs',
+      //         status: 'primary'
+      //       }
+      //     ]
+      //   }
+      // },
       toolBarStatusBtnConfig2: {
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         },
         changeBtns: true,
-        buttons2: [
+        buttons: [
           {
             type: 'button',
             label: '疑点数据',
@@ -501,8 +561,7 @@ export default {
         isUnit: this.menuSettingConfig.retroact,
         isNormalDone: this.queryData.isNormalDone,
         isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone,
-        regulationClass: '' //
+        isAgencyDone: this.queryData.isAgencyDone
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -702,8 +761,7 @@ export default {
           id: '266A441A752222ECA9A7B8F0F910FFFC',
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
-          // menuguid: this.$store.state.curNavModule.guid,
-          menuguid: '266A441A752222ECA9A7B8F0F910FFFC',
+          menuguid: '1B9130A2049A40288465B5E9179B91FC' || this.$store.state.curNavModule.guid,
           userguid: ''
         }
       }
@@ -712,11 +770,15 @@ export default {
     }
   },
   mounted() {
-    this.queryTableDatas()
+
   },
   created() {
-    this.queryData.menuId = '1B9130A2049A40288465B5E9179B91FC' || this.$store.state.curNavModule.guid
-    this.queryData.roleId = this.$store.state.curNavModule.roleguid
+    this.queryTableDatas()
+    if (Object.hasOwn(this.menuSettingConfig, '2')) {
+      this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig2)
+    } else {
+      this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
+    }
   }
 }
 </script>
