@@ -674,7 +674,9 @@ export default {
           optionType: 'add',
           id: self.$ToolFn.utilFn.getUuid(),
           menuname: self.curLeftTreeClickNode.name,
+          mof_div_code: self.userInfo.province,
           tablename: '',
+          fiscalyear: self.userInfo.year,
           configure: self.jsonStringify({
             globalConfig: {}, // 全局配置
             itemsConfig: [], // 项配置
