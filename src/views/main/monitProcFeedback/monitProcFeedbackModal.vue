@@ -38,7 +38,11 @@
             :file-data.sync="fileData3"
           />
         </div>
-
+        <BsUpload
+          ref="attachmentUpload"
+          :downloadparams="downloadParams"
+          uniqe-name="attachmentUpload"
+        />
       </div>
       <div slot="footer" style="height: 80px;margin:0 15px">
         <div v-if="showbox" id="bigbox"></div>
@@ -88,6 +92,9 @@ export default {
         phone1: [
           { validator: proconf.mobilePhoneValid, trigger: 'change' }
         ]
+      },
+      downloadParams: {
+        fileguid: ''
       },
       createDataList: {},
       attachmentid: '',
@@ -254,6 +261,13 @@ export default {
         })
       })
     },
+    // 下载附件
+    downloadAttachment(row) {
+      console.log(row, '点击下载')
+      if (!row.fileguid) return
+      this.downloadParams.fileguid = row.fileguid
+      this.$refs.attachmentUpload.downloadFileFile()
+    },
     async loadConfig(id) { // 请求工作流formitem配置项
       let params = {
         tableId: {
@@ -290,13 +304,14 @@ export default {
       }
       this.$set(this, 'createDataList', createDataList)
       // 给vxetable配置渲染器  渲染文件列表
+      let _this = this
       VXETable.renderer.add('$customerFileRender', {
         renderItemContent(h, renderOpts, { data, property }) {
           console.log('customerFileRender', renderOpts, data, property)
           let fileList = renderOpts.fileList || []
           return fileList.map(item => {
             return <div>
-              <a style="color: #1890ff; text-decoration: underline;">{item.filename}</a>
+              <a style="color: #1890ff; text-decoration: underline;" onClick={() => { _this.downloadAttachment(item) }}>{item.filename}</a>
             </div>
           })
         }
