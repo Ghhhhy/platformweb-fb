@@ -22,11 +22,11 @@
           <div class="drawer-straight">{{ log.actionName }}</div>
           <div class="drawer-right">
             <div class="journal">
-              <p>{{ log.nodeName }}</p>
-              <p>操作人员：{{ log.actionUser }}&nbsp&nbsp 操作时间：{{ log.actionTime }}</p>
+              <!-- <p>{{ log.nodeName }}</p> -->
+              <p>操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
             </div>
             <div class="journal-buttom">
-              <p>{{ log.dutyName }}</p>
+              <!-- <p>{{ log.dutyName }}</p> -->
               <p v-if="logsDatas[index].message !== ''"> 意见：{{ log.message }}</p>
             </div>
           </div>
