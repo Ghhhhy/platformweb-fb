@@ -11,17 +11,19 @@
     >
       <div v-loading="addLoading" class="payVoucherInput">
         <div v-for="(item) in formData" :key="item.titleName">
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ item.titleName }}</div>
-          <BsForm
-            ref="createRef1"
-            class="createRef"
-            :form-items-config="item.formItemList"
-            :form-data-list="createDataList"
-            :form-validation-config="createValidate"
-            :is-editable="isCreate"
-            title-align="top"
-            @itemChange="itemChange"
-          />
+          <template v-if="item.type !== 'components'">
+            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ item.titleName }}</div>
+            <BsForm
+              ref="createRef"
+              class="createRef"
+              :form-items-config="item.formItemList"
+              :form-data-list="createDataList"
+              :form-validation-config="createValidate"
+              :is-editable="isCreate"
+              title-align="top"
+              @itemChange="itemChange"
+            />
+          </template>
           <BsUploadBak
             v-if="item.type === 'components'"
             ref="myUpload"
@@ -56,7 +58,7 @@ import { proconf } from './createProcessing.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 // import { checkPhone } from '@/utils/index.js'
 import VXETable from 'vxe-table'
-import loadBsConfig from './config'
+import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 export default {
   name: 'HandleDialog',
   mixins: [loadBsConfig],
@@ -87,7 +89,7 @@ export default {
           { validator: proconf.mobilePhoneValid, trigger: 'change' }
         ]
       },
-      createDataList: proconf.createDataList,
+      createDataList: {},
       attachmentid: '',
       isCreate: true,
       showbox: false,
@@ -193,37 +195,63 @@ export default {
           })
       })
     },
+    getFlowParamVoList() {
+      // 获取动态配置表单里面绑定得field 并且组装成[{key:表单每项得filed,value:表单filed绑定值}，，...]传给后端
+      let flowParamVoList = []
+      let formData = {}
+      if (this.formData && this.formData.length) {
+        this.formData.forEach((item, index) => {
+          if (item.type !== 'components') { // 判断不是上传组件
+            item.formItemList.forEach((ii, idx) => {
+              let obj = {}
+              obj.key = ii.field
+              obj.value = this.$refs.createRef[index].getFormData()[ii.field]
+              if (item.needUpload) { // 获取需要上传的哪个表单的数据
+                flowParamVoList.push(obj)
+              }
+              formData[ii.field] = this.$refs.createRef[index].getFormData()[ii.field]
+            })
+          } else {
+            let obj = {}
+            obj.key = item.field
+            obj.value = this.createDataList.createdAttachmentid
+            flowParamVoList.push(obj)
+          }
+        })
+      }
+      return { flowParamVoList, formData }
+    },
 
     // 反馈
     async doFeedback() {
-      let valid = await this.$refs.createRef2.validate()
-      if (valid !== undefined) return undefined
-      let formData1 = {
-        fiRuleName: this.$refs.createRef1.getFormData().fiRuleName,
-        fiRuleCode: this.$refs.createRef1.getFormData().fiRuleCode,
-        mofDivCode: this.$refs.createRef1.getFormData().mofDivCode,
-        mofDivName: this.$refs.createRef1.getFormData().mofDivName,
-        checkUnit: this.$refs.createRef1.getFormData().checkUnit,
-        doubtViolateExplain: this.$refs.createRef1.getFormData().doubtViolateExplain,
-        checkSuggest: this.$refs.createRef1.getFormData().checkSuggest
-      }
-      let formData2 = {
-        commentDept: this.$refs.createRef2.getFormData().commentDept,
-        handler1: this.$refs.createRef2.getFormData().handler1,
-        phone1: this.$refs.createRef2.getFormData().phone1,
-        updateTime1: this.$refs.createRef2.getFormData().updateTime1,
-        information1: this.$refs.createRef2.getFormData().information1
-      }
+      // let valid = await this.$refs.createRef.forEach.validate()
+      // if (valid !== undefined) return undefined
+      // console.log(777, formData, flowParamVoList)
+      let { flowParamVoList, formData } = this.getFlowParamVoList()
+      console.log(flowParamVoList, formData)
+      formData.flowParamVoList = flowParamVoList
       let params = {
         ...this.createDataList,
-        ...formData1,
-        ...formData2,
+        ...formData,
         actionType: '2',
-        menuId: this.$store.state.curNavModule.guid,
-        billguid: this.attachmentId
+        menuId: this.$store.state.curNavModule.guid
       }
       HttpModule.workFlowUpdate([params]).then(res => {
-        console.log(777, res)
+        if (res.code === '000000') {
+          this.$message('核实反馈成功')
+          this.dialogClose()
+          this.$parent.queryTableDatas()
+        }
+      })
+    },
+    initModal() {
+      console.log('查看数据', Object.assign({}, this.createDataList))
+      this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
+        res.forEach(item => {
+          if (item.type === 'form') {
+            this.loadConfig(item.id)// 加载表格
+          }
+        })
       })
     },
     async loadConfig(id) { // 请求工作流formitem配置项
@@ -238,6 +266,7 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'formData', configQueryData.itemsConfig)
+      let createDataList = Object.assign({}, this.createDataList)
       // 如果表单项配置了附件 则通过接口 拿到附件列表 并且重新给表单得配置项得itemRender挂载一个fileList
       for (let i = 0; i < this.formData.length; i++) {
         let eachForm = this.formData[i]
@@ -245,22 +274,24 @@ export default {
           for (let j = 0; j < eachForm.formItemList.length; j++) {
             let formItem = eachForm.formItemList[j]
             if (formItem.itemRender.name === '$customerFileRender') { // 判断是渲染文件列表
-              let fileList = await this.getAttachmentInfo(this.createDataList[formItem.field])
+              let fileList = await this.getAttachmentInfo(createDataList[formItem.field])
               this.$set(formItem.itemRender, 'fileList', fileList)
+            }
+            if (formItem.itemRender.getServerTime) { // 如果配置了获取服务器时间 则取服务器时间
+              createDataList[formItem.field] = createDataList.serverTime
             }
           }
         } else if (eachForm.type === 'components') { // 如果表单配置了上传组件 则给表单数据配置一个上传组件得唯一ID 用于获取上传附件得id
-          // this.createDataList[eachForm.field] = this.$ToolFn.utilFn.getUuid()
-          this.$set(this.createDataList, [eachForm.field], this.$ToolFn.utilFn.getUuid())
+          createDataList[eachForm.field] = createDataList.createdAttachmentid
         }
       }
-      console.log('当前传过来得formData', this.createDataList)
-      console.log('当前传过来得表单配置项', this.formData)
+      this.$set(this, 'createDataList', createDataList)
       // 给vxetable配置渲染器  渲染文件列表
       VXETable.renderer.add('$customerFileRender', {
         renderItemContent(h, renderOpts, { data, property }) {
           console.log('customerFileRender', renderOpts, data, property)
-          return renderOpts.fileList.map(item => {
+          let fileList = renderOpts.fileList || []
+          return fileList.map(item => {
             return <div>
               <a style="color: #1890ff; text-decoration: underline;">{item.filename}</a>
             </div>
@@ -271,14 +302,12 @@ export default {
   },
   watch: {
   },
-  async created() {
-    this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
-      res.forEach(item => {
-        if (item.type === 'form') {
-          this.loadConfig(item.id)// 加载表格
-        }
-      })
-    })
+  created() {
+
+  },
+  mounted() {
+    console.log('当前传过来得formData', this.createDataList)
+    console.log('当前传过来得表单配置项', this.formData)
   },
   destoryed() {
     VXETable.renderer.delete('$customerFileRender')
