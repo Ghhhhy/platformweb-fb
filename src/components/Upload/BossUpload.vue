@@ -272,10 +272,13 @@ export default {
           // const urlObj = 'http://10.77.18.172:32306/v2/stream/download'
           const urlObj = this.$http.httpGlobalGatewayAgent('fileservice/v2/stream/download')
           const downLoadUrl = `${urlObj.baseURL}/${urlObj.url}?appid=${this.appid}&fileguid=${this.downparams.fileguid}`
-
+          let link = document.createElement('a')
+          link.href = downLoadUrl
+          // link.download=`路由导出表-${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}`//跨域下 名称会失效 无法设置名字
+          link.click()
           // 通过JS打开新窗口会被拦截，换一种实现方式: 先打开页面, 后更改页面地址
-          let tempwindow = window.open('_blank')
-          tempwindow.location = downLoadUrl
+          // let tempwindow = window.open('_blank')
+          // tempwindow.location = downLoadUrl
           // window.open(downLoadUrl)
         } else {
           this.$message({ showClose: true, message: '文件不存在!', type: 'error' })
