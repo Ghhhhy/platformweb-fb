@@ -147,122 +147,7 @@ export default {
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         },
-        changeBtns: true,
-        buttons: [
-          {
-            type: 'button',
-            label: '待审批',
-            code: '1-4',
-            curValue: '1',
-            iconUrl: '',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已审批',
-            code: '2',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已退回',
-            code: '3',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          }
-        ],
-        curButton: {
-          code: '1-4'
-        },
-        buttonsInfo: {
-          '1-4': [
-            {
-              label: '核实反馈',
-              code: 'dcl-hsfk',
-              status: 'primary'
-            }
-          ]
-        }
-      },
-      toolBarStatusBtnConfig2: {
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        },
-        changeBtns: true,
-        buttons: [
-          {
-            type: 'button',
-            label: '疑点数据',
-            code: 'ydsj',
-            curValue: '1',
-            iconUrl: '',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '待认定',
-            code: 'drd',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '待审核',
-            code: 'dsh',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '认定正常',
-            code: 'rdzc',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已整改',
-            code: 'yzg',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          }
-        ],
-        curButton: {
-          label: '疑点数据',
-          code: 'ydsj',
-          type: 'button'
-        },
-        buttonsInfo: {
-          'ydsj': [
-            {
-              label: '发起核实',
-              code: 'ydsj-fqhs',
-              status: 'primary'
-            },
-            {
-              label: '标记正常',
-              code: 'ydsj-bjzc',
-              status: 'primary'
-            }
-          ],
-          'drd': [
-            {
-              label: '核实认定',
-              code: 'drd-hsfk',
-              status: 'primary'
-            }
-          ],
-          'dsh': [
-            {
-              label: '审核',
-              code: 'dsh-sh',
-              status: 'primary'
-            }
-          ]
-        }
+        changeBtns: true
       },
       isShowQueryConditions: false,
       toolBarStatusSelect: {
@@ -739,7 +624,7 @@ export default {
         }
       }
       let configQueryData = await this.loadBsConfig(params)
-      this.queryConfigInfo = configQueryData.itemsConfig
+      this.$set(this, 'queryConfigInfo', { ...this.toolBarStatusBtnConfig, ...configQueryData.itemsConfig[0] })
     }
   },
   mounted() {
@@ -755,7 +640,7 @@ export default {
         }
       })
     })
-    this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
+    // this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
   }
 }
 </script>
