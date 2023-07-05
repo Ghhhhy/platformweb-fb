@@ -280,6 +280,9 @@ export default {
             if (formItem.itemRender.getServerTime) { // 如果配置了获取服务器时间 则取服务器时间
               createDataList[formItem.field] = createDataList.serverTime
             }
+            if (formItem.itemRender.getUserName) { // 如果配置了获取服务器时间 则取服务器时间
+              createDataList[formItem.field] = createDataList.userName
+            }
           }
         } else if (eachForm.type === 'components') { // 如果表单配置了上传组件 则给表单数据配置一个上传组件得唯一ID 用于获取上传附件得id
           createDataList[eachForm.field] = createDataList.createdAttachmentid
