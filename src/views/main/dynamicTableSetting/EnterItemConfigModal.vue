@@ -70,7 +70,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(777, error)
+          console.log('error', error)
         })
     },
     onStopItemClick() {

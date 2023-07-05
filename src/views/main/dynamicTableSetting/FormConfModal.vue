@@ -2,14 +2,14 @@
   <vxe-modal
     v-model="dialogVisible"
     show-zoom
-    resize
-    transfer
     title="当前选中表表单配置"
     width="90%"
     height="90%"
     :position="{ top: '8%', left: '5%' }"
+    resize
     remember
     class="conf-modal"
+    transfer
   >
     <div class="height-all">
       <!-- <div class="option-line-group">
@@ -32,7 +32,6 @@
           :edit-config="editConfig"
           :toolbar-config="toolbarConfig"
           :pager-config="false"
-          @cellClick="onCellClick"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left tl">
@@ -78,11 +77,11 @@ export default {
       ifRenderFormConfTable: true,
       toolbarConfig: {
         disabledMoneyConversion: false,
-        ...getFormConfData('defaultConf', 'toolbarConfig')
+        ...getFormConfData('formConf', 'toolbarConfig')
       },
-      tableConfig: getFormConfData('defaultConf', 'tableConfig'),
-      tableColumnsConfig: getFormConfData('defaultConf', 'defaultItemsConfig'),
-      formConfigData: getFormConfData('defaultConf', 'defaultItemsDatas'),
+      tableConfig: getFormConfData('formConf', 'tableConfig'),
+      tableColumnsConfig: getFormConfData('formConf', 'formItemsConfig'),
+      formConfigData: getFormConfData('formConf', 'formItemsDatas'),
       itemVisible: false,
       configParams: {},
       paramsCp: {}
@@ -97,17 +96,7 @@ export default {
       this.configParams = this.deepCopy(paramsCopy)
       this.itemVisible = true
     },
-    onCellClick(obj, context, e) {
-      let key = obj.column.property
-      if (key === 'select_') {
-        if (obj.row.title === '') {
-          this.$message.warning('请先选择要素')
-        } else {
-          this.tableColumnsConfig[1].editRender.props.config.disabled = false
-          this.tableColumnsConfig[1].editRender.props.queryparams.elementCode = obj.row.title
-        }
-      }
-    },
+
     dialogClose() {
       this.itemVisible = false
       this.dialogVisible = false
@@ -217,8 +206,9 @@ export default {
               type: 'success'
             })
           }
-        }).catch((error) => {
-          console.log(77, error)
+        })
+        .catch((error) => {
+          console.log('error', error)
         })
     },
     onSaveClick() {
@@ -228,7 +218,7 @@ export default {
         let saveJson = this.transformItemsDataToNest(this.deepCopy(this.clearDataRenderField(fullData)))
         this.saveTableConf(
           this.jsonStringify({
-            itemsConfig: [],
+            itemsConfig: saveJson,
             globalConfig: this.params.globalConfig,
             pageConfig: {}, // 分页配置
             editConfig: {}, // 编辑配置
@@ -236,8 +226,7 @@ export default {
             footerConfig: {}, // 表尾配置
             dataConfig: {
               dataSouceType: 'query'
-            },
-            defaultConfig: saveJson
+            }
           })
         )
       } else {
@@ -272,7 +261,7 @@ export default {
           }
         })
         .catch((error) => {
-          return error
+          console.log('error', error)
         })
     },
     onAddClick() {
