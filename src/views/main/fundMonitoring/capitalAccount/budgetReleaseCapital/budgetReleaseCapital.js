@@ -329,7 +329,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjzyxd}-{amountSnjzybjfp}-{amountSnjzyxjfp})'
+                formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
               },
               {
                 title: '地方安排',
@@ -337,7 +337,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjdfdf}-{amountSnjdfbjfp}-{amountSnjdfxjfp})'
+                formula: '({amountSnjdfdf}-{amountSnjdfbjfp})'
               },
               {
                 title: '总金额',
@@ -568,7 +568,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjzydf}-{amountSjzybjfp}-{amountSjzyxjfp}'
+                formula: '{amountSjzydf}-{amountSjzybjfp}'
               },
               {
                 title: '地方安排',
@@ -576,7 +576,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjdfdf}-{amountSjdfbjfp}-{amountSjdfxjfp}'
+                formula: '{amountSjdfdf}-{amountSjdfbjfp}'
               },
               {
                 title: '总金额',
@@ -1072,7 +1072,7 @@ const proconf = {
                 width: 150,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjzyxd}-{amountSnjzybjfp}-{amountSnjzyxjfp})'
+                formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
               },
               {
                 title: '地方安排',
@@ -1080,7 +1080,7 @@ const proconf = {
                 width: 150,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjdfdf}-{amountSnjdfbjfp}-{amountSnjdfxjfp})'
+                formula: '({amountSnjdfdf}-{amountSnjdfbjfp})'
               },
               {
                 title: '总金额',
