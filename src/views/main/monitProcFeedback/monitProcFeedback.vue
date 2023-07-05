@@ -579,7 +579,8 @@ export default {
       }
       let ortherData = {
         serverTime: serverTime.data,
-        createdAttachmentid: this.$ToolFn.utilFn.getUuid()
+        createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
+        userName: this.userInfo.name
       }
       this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
       this.$refs.MonitProcFeedbackModal.tabCode = obj.code
