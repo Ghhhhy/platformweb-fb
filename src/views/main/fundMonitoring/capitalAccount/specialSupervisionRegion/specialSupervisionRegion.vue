@@ -189,8 +189,7 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
-      tableData: [
-      ],
+      tableData: [],
       obj: {},
       calculateConstraintConfig: {
         enabled: true,
@@ -699,6 +698,10 @@ export default {
             this.tableData = res.data.data
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
+          }
+          if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
+            this.refresh(true)
+            console.log('上海自动刷新！*2')
           }
         } else {
           this.$message.error(res.message)

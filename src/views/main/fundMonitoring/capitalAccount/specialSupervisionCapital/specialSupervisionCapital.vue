@@ -673,6 +673,10 @@ export default {
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
           this.tableLoading = false
+          if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
+            this.refresh(true)
+            console.log('上海自动刷新！*1')
+          }
         } else {
           this.$message.error(res.message)
         }
