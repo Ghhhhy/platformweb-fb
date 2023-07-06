@@ -49,6 +49,7 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
+    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" @close="showModal = false" />
     <AddDialog
       v-if="dialogVisible"
@@ -187,8 +188,15 @@ export default {
           // 修改 配置 下发 删除
           $customerRender: {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
+              let vnode = (
+                <div>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                  {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
+                  {this.queryData.flowStatus === '0' ? <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> : ''}
+                </div>
+              )
               return [
-                <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                vnode
               ]
             }
           },
@@ -243,19 +251,20 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      api.getLogs(row.dealNo).then(res => {
+      let params = { warningCode: row.warningCode }
+      api.workFlowGetLogs(params).then(res => {
         if (res.code === '000000') {
-          let tempData = res.data.map(item => {
-            return {
-              logid: item['operationTypeCode'],
-              nodeName: item['operationTypeName'],
-              actionUser: item['operationUser'],
-              actionName: item['operationTypeName'],
-              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
-              message: item['operationComment']
-            }
-          })
-          this.logData = tempData
+          // let tempData = res.data.map(item => {
+          //   return {
+          //     logid: item['logid'],
+          //     nodeName: item['nodeName'],
+          //     actionUser: item['operationUser'],
+          //     actionName: item['operationTypeName'],
+          //     actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+          //     message: item['operationComment']
+          //   }
+          // })
+          this.logData = res.data
           console.log(this.logData)
           this.showLogView = true
         } else {
@@ -601,6 +610,20 @@ export default {
             break
         }
       }
+    },
+    withdraw(row) {
+      let params = [{
+        menuId: this.$store.state.curNavModule.guid,
+        warningCode: row.warningCode,
+        commentDept: '5', // 5  撤回
+        dealNo: row.dealNo
+      }]
+      api.workFlowRevoke(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('撤回成功')
+          this.queryTableDatas()
+        }
+      })
     },
     async loadConfig(id) {
       let params = {
