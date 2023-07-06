@@ -389,13 +389,13 @@ export default {
           break
         case 'numberwarnUndoNoNum':
           this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-未处理明细'
+          this.detailTitle = '支出预警-待整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
           this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes]
-          this.detailTitle = '支出预警-已认定明细'
+          this.detailTitle = '支出预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
