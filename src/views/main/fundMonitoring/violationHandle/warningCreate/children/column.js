@@ -477,6 +477,17 @@ const proconf = {
       ]
     }
   },
+  gloableOptionRowLog: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      return [
+        <el-tooltip content="" placement="" effect="light">
+          <span style="color: #4293F4; text-decoration: underline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'viewLog' })}>查看</span>
+        </el-tooltip>
+      ]
+    }
+  },
   highQueryConfig: [
     {
       title: '预算单位',
@@ -2398,13 +2409,29 @@ const proconf = {
    * @param {*} status  数据的状态
    * @param {*} business  所属业务
    */
-  getColumns(status, business) {
+  getColumns(status, business, showLog) {
     // 根据business拿到具体的column
     console.log(budgetManagementColumns)
     // 6和1 代表 支付
     // 8和2  代表 指标[]
     const isIndex = [6, '6', 2, '2'].includes(business)
     let columns = business && isIndex ? budgetManagementColumns : budgetImpColumns
+    const tempOperatorColumns = [...operatorColumns]
+    if (showLog) {
+      tempOperatorColumns.splice(1, 0, {
+        title: '监控处理日志',
+        field: 'gloableOptionRowLog',
+        align: 'center',
+        sortable: false,
+        filters: false,
+        width: 120,
+        fixed: 'right',
+        cellRender: {
+          name: '$gloableOptionRowLog'
+        }
+      })
+    }
+    console.log('1111111111111', operatorColumns)
     if (status.indexOf('UndoNum') > 0) {
       return [
         ...columns,
@@ -2423,7 +2450,7 @@ const proconf = {
         ...violationColumn,
         ...columns,
         ...otherColumns,
-        ...operatorColumns
+        ...tempOperatorColumns
       ]
     }
   }

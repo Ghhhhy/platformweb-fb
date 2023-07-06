@@ -8,7 +8,7 @@
         <BsTabPanel
           ref="tabPanel"
           :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
+          :tab-status-btn-config="queryConfigInfo"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="(open) => isShowQueryConditions = open"
           @btnClick="onTabPanelBtnClick"
@@ -27,7 +27,7 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-columns-config="workFlowColumnsData"
+          :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
@@ -49,20 +49,29 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
-    <TestModal ref="TestModal" />
+    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" @close="showModal = false" />
+    <AddDialog
+      v-if="dialogVisible"
+      :title="dialogTitle"
+      :param5="menuSettingConfig"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+    />
   </div>
 </template>
 
 <script>
-import { proconf } from './createProcessing'
+// import { proconf } from './createProcessing'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
-import TestModal from './testSettingModal.vue'
-import loadBsConfig from './config'
+import MonitProcFeedbackModal from './monitProcFeedbackModal.vue'
+import loadBsConfig from '@/views/main/dynamicTableSetting/config'
+import AddDialog from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/addDialog.vue'
 export default {
   mixins: [loadBsConfig],
   components: {
-    TestModal
+    MonitProcFeedbackModal,
+    AddDialog
   },
   computed: {
     menuSettingConfig() {
@@ -78,6 +87,7 @@ export default {
   data() {
     return {
       // BsQuery 查询栏
+      showModal: false,
       queryConfig: [
         {
           title: '财政区划',
@@ -120,158 +130,24 @@ export default {
       ],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
-        regulationClassName: '',
-        menuId: '1B9130A2049A40288465B5E9179B91FC',
+        regulationClass: this.transJson(this.$store.state.curNavModule.param5).regulationClass,
+        regulationClassName: this.transJson(this.$store.state.curNavModule.param5).regulationClassName,
+        menuId: this.$store.state.curNavModule.guid,
         isNormalDone: false,
+        flowStatus: '1-4', // 待审批
         isProcessed: false,
         isAgencyDone: false
       },
       treeData: [],
-      tabStatusNumConfig: { 'dcl': 1, 'dzg': 9, 'yxf': 10, 'yth': 10 },
+      createDataList: {},
+      tabStatusNumConfig: {},
+      queryConfigInfo: {},
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         },
-        changeBtns: true,
-        buttons: [
-          {
-            type: 'button',
-            label: '待核实',
-            code: 'dcl',
-            curValue: '1',
-            iconUrl: '',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '待整改',
-            code: 'dzg',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已退回',
-            code: 'yxf',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已整改',
-            code: 'yth',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          }
-        ],
-        curButton: {
-          label: '待处理',
-          code: 'dcl',
-          type: 'button'
-        },
-        buttonsInfo: {
-          'dcl': [
-            {
-              label: '核实反馈',
-              code: 'dcl-hsfk',
-              status: 'primary'
-            }
-          ],
-          'dzg': [
-            {
-              label: '整改反馈',
-              code: 'dzg-zgfk',
-              status: 'primary'
-            }
-          ],
-          'yxf': [
-            {
-              label: '发起核实',
-              code: 'ydsj-fqhs',
-              status: 'primary'
-            }
-          ]
-        }
-      },
-      toolBarStatusBtnConfig2: {
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        },
-        changeBtns: true,
-        buttons2: [
-          {
-            type: 'button',
-            label: '疑点数据',
-            code: 'ydsj',
-            curValue: '1',
-            iconUrl: '',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '待认定',
-            code: 'drd',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '待审核',
-            code: 'dsh',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '认定正常',
-            code: 'rdzc',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          },
-          {
-            type: 'button',
-            label: '已整改',
-            code: 'yzg',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png'
-          }
-        ],
-        curButton: {
-          label: '疑点数据',
-          code: 'ydsj',
-          type: 'button'
-        },
-        buttonsInfo: {
-          'ydsj': [
-            {
-              label: '发起核实',
-              code: 'ydsj-fqhs',
-              status: 'primary'
-            },
-            {
-              label: '标记正常',
-              code: 'ydsj-bjzc',
-              status: 'primary'
-            }
-          ],
-          'drd': [
-            {
-              label: '核实认定',
-              code: 'drd-hsfk',
-              status: 'primary'
-            }
-          ],
-          'dsh': [
-            {
-              label: '审核',
-              code: 'dsh-sh',
-              status: 'primary'
-            }
-          ]
-        }
+        changeBtns: true
       },
       isShowQueryConditions: false,
       toolBarStatusSelect: {
@@ -285,9 +161,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      // tableColumnsConfig: [],
       tableColumnsConfig: [],
-      workFlowColumnsData: proconf.workFlowColumnsData,
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -317,6 +191,15 @@ export default {
                 <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
               ]
             }
+          },
+          $customerWarnLevel: {
+            renderDefault: (h, cellRender, { row, rowIndex }, context) => {
+              if (row.warnLevel) {
+                return [
+                  <div class={'warningLevel' + row.warnLevel} size="mini" >{this.$store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === row.warnLevel)?.label}</div>
+                ]
+              }
+            }
           }
         }
       },
@@ -334,7 +217,13 @@ export default {
       showAttachmentDialog: false,
       showGlAttachmentDialog: false,
       detailData: [],
-      codeList: []
+      codeList: [],
+      // 查看详情传参
+      warningCode: '',
+      dialogVisible: false,
+      dialogTitle: '',
+      fiRuleCode: ''
+      // -----
     }
   },
   activated() {
@@ -343,6 +232,10 @@ export default {
   methods: {
     handleRowClick(row) {
       console.log('点击每行的方法', row)
+      this.fiRuleCode = row.fiRuleCode || ''
+      this.warningCode = row.warningCode || ''
+      this.dialogVisible = true
+      this.dialogTitle = '查看详情信息'
     },
     showLogModel(row) {
       this.showLogView = true
@@ -495,14 +388,13 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      console.log('this.menuSettingConfig', this.menuSettingConfig)
+      // console.log('this.menuSettingConfig', this.menuSettingConfig)
       let param = {
         ...this.queryData,
         isUnit: this.menuSettingConfig.retroact,
         isNormalDone: this.queryData.isNormalDone,
         isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone,
-        regulationClass: '' //
+        isAgencyDone: this.queryData.isAgencyDone
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -511,35 +403,40 @@ export default {
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
-      this.tableLoading = false
+      this.tableLoading = true
       api.getWorkFlowDetail(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
-          // if (this.status === 1) {
-          //   this.tabStatusNumConfig['dcl'] = res.data.totalCount
-          // } else if (this.status === 2) {
-          //   this.tabStatusNumConfig['rdzc'] = res.data.totalCount
-          // }
         } else {
           this.$message.error(res.message)
         }
       })
-      // api.getMarkData(param).then(res => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     console.log(res.data.results)
-      //     this.tableData = res.data.results
-      //     this.mainPagerConfig.total = res.data.totalCount
-      //     this.tabStatusNumConfig['unIssue'] = res.data.totalCount
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
     },
     getdata() {
 
+    },
+    getTableConfByMenuguid(menuguid) {
+      // 根据菜单menuguid获取其下所有表配置
+      let self = this
+      return new Promise((resolve, reject) => {
+        self.$http
+          .get('mp-b-perm-service/v1/tableconf/menuguid', {
+            menuguid: menuguid,
+            mof_div_code: self.userInfo.province, // 区划
+            fiscalyear: self.userInfo.year // 年份
+          })
+          .then((res) => {
+            if (res.rscode === '100000') {
+              resolve(res.data)
+              // resolve(self.generateCurTableConfDataMap(res.data))
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
     },
     // 生成
     handleCreate() {
@@ -547,23 +444,33 @@ export default {
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
       }
-      // this.isCreate = true
       this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
-      // this.$refs.mainTableRef.createDataList = selection[0]
-      // this.dialogVisible = true
-      // this.dialogTitle = '监控问询单信息'
     },
-    onTabPanelBtnClick(obj) { // 按钮点击
-      console.log('按钮点击', obj)
+    async onTabPanelBtnClick(obj) { // 按钮点击
       let selection = this.$refs.mainTableRef.getSelectionData()
-      // if (selection.length !== 1) {
-      //   this.$message.warning('请选择一条数据')
-      //   return
-      // }
-      this.$refs.TestModal.tabCode = obj.code
-      this.$set(this.$refs.TestModal, 'createDataList', selection[0])
-      this.$refs.TestModal.dialogVisible = true
-      // console.log('this.$refs.TestModal.tabCode', this.$refs.TestModal.createDataList)
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.showModal = true
+      await this.$nextTick()
+      let serverTime = await HttpModule.getCurrentTime()
+      let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
+      let preNodeFormObj = {}// 上一个节点表单填得值
+      if (formItemText && formItemText.length) {
+        formItemText.forEach(item => {
+          preNodeFormObj[item.key] = item.value
+        })
+      }
+      let ortherData = {
+        serverTime: serverTime.data,
+        createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
+        userName: this.userInfo.name
+      }
+      this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
+      this.$refs.MonitProcFeedbackModal.tabCode = obj.code
+      this.$refs.MonitProcFeedbackModal.dialogVisible = true
+      this.$refs.MonitProcFeedbackModal.initModal()
     },
     transJson(str) {
       if (!str) return
@@ -580,9 +487,8 @@ export default {
     // 切换状态栏
     onStatusTabClick(obj) {
       console.log('切换状态栏', obj)
-      this.$refs.TestModal.tabCode = obj.code
-      // this.getdata()
-      this.loadConfig()
+      if (obj.code === 'dcl-hsfk') return// 点击按钮时也触发了切换状态栏
+      this.queryData.flowStatus = obj.code
       this.queryTableDatas()
     },
     getViolationType() {
@@ -696,27 +602,45 @@ export default {
         }
       }
     },
-    async loadConfig() {
+    async loadConfig(id) {
       let params = {
         tableId: {
-          id: '266A441A752222ECA9A7B8F0F910FFFC',
+          id: id,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
-          // menuguid: this.$store.state.curNavModule.guid,
-          menuguid: '266A441A752222ECA9A7B8F0F910FFFC',
-          userguid: ''
+          menuguid: this.$store.state.curNavModule.guid
         }
       }
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
+    },
+    async loadTabConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.userInfo.year,
+          mof_div_code: this.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      let configQueryData = await this.loadBsConfig(params)
+      this.$set(this, 'queryConfigInfo', { ...this.toolBarStatusBtnConfig, ...configQueryData.itemsConfig[0] })
     }
   },
   mounted() {
-    this.queryTableDatas()
+
   },
   created() {
-    this.queryData.menuId = '1B9130A2049A40288465B5E9179B91FC' || this.$store.state.curNavModule.guid
-    this.queryData.roleId = this.$store.state.curNavModule.roleguid
+    this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
+      res.forEach(item => {
+        if (item.type === 'table') {
+          this.loadConfig(item.id)// 加载表格
+        } else if (item.type === 'tabPanel') {
+          this.loadTabConfig(item.id)
+        }
+      })
+    })
+    // this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
   }
 }
 </script>
@@ -740,4 +664,19 @@ float: right;
   background-color: transparent !important;
 } */
 
+.warningLevel2{
+  color: red;
+}
+.warningLevel2{
+  color:#FF6F20
+}
+.warningLevel3{
+  color: #FFD43C;
+}
+.warningLevel4{
+  color: blue;
+}
+.warningLevel5{
+  color: #F1F1F1;
+}
 </style>

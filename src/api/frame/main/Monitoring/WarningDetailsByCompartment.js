@@ -30,5 +30,9 @@ export default {
   // 获取下拉树
   getTree(params) {
     return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  // 获取服务器时间
+  getCurrentTime(params) {
+    return post('large-monitor-platform/lmp/commom/getCurrentTime', params)
   }
 }

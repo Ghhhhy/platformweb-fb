@@ -357,7 +357,7 @@ export default {
           }
         })
         .catch((error) => {
-          return error
+          console.log('error', error)
         })
     },
     onSaveClick() {
@@ -405,7 +405,7 @@ export default {
           }
         })
         .catch((error) => {
-          return error
+          console.log('error', error)
         })
     },
     autoAddMissingTtributes(config, data) {
