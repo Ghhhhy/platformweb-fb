@@ -269,11 +269,11 @@ export default {
         case '支出预警-已认定明细':
           this.tableColumnsConfig = proconf.payokColumn
           break
-        case '未导入惠企利民明细-未处理明细':
-          this.tableColumnsConfig = proconf.notgetColumn
+        case '支出预警-待整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
           break
-        case '未导入惠企利民明细-已整改明细':
-          this.tableColumnsConfig = proconf.getColumn
+        case '支出预警-已整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
           break
         default:
           break
