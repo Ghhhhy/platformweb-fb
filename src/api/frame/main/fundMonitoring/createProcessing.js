@@ -129,5 +129,11 @@ export default {
   },
   workFlowUpdate(params) {
     return post('large-monitor-platform/lmp/workFlow/workFlowUpdate', params)
+  },
+  workFlowRevoke(params) {
+    return post('large-monitor-platform/lmp/workFlow/workFlowRevoke', params)
+  },
+  workFlowGetLogs(params) {
+    return post('large-monitor-platform/lmp/workFlow/workFlowGetLogs', params)
   }
 }
