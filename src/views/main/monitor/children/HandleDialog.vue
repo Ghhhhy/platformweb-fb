@@ -213,19 +213,19 @@ export default {
           // handledata.createTime = res.data.warningCode
           // handledata.createTime=res.data.createTime
           // this.supplyDataList = handledata
-          this.supplyDataList = { ...res.data, ...res.data.baBgtInfoDataEntity }
+          this.supplyDataList = { ...res.data, ...res.data.baBgtInfoEntity }
 
-          if (res.data.baBgtInfoDataEntity !== null) {
+          if (res.data.baBgtInfoEntity !== null) {
             // this.supplyDataList.agencyName = res.data.baBgtInfoDataEntity.agencyCode + '-' + res.data.baBgtInfoDataEntity.agencyName
-            this.supplyDataList.corBgtDocNo = res.data.baBgtInfoDataEntity.corBgtDocNo
-            this.supplyDataList.bgtDocTitle = res.data.baBgtInfoDataEntity.bgtDocTitle
-            this.supplyDataList.bgtDec = res.data.baBgtInfoDataEntity.bgtDec
-            this.supplyDataList.proCode = res.data.baBgtInfoDataEntity.proCode
-            this.supplyDataList.settlementMethod = res.data.baBgtInfoDataEntity.proName
-            this.supplyDataList.sourceTypeName = res.data.baBgtInfoDataEntity.sourceTypeName
-            this.supplyDataList.fundTypeName = res.data.baBgtInfoDataEntity.fundTypeName
-            this.supplyDataList.expFuncName = res.data.baBgtInfoDataEntity.expFuncName
-            this.supplyDataList.govBgtEcoName = res.data.baBgtInfoDataEntity.govBgtEcoName
+            this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+            this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+            this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+            this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+            this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+            this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+            this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+            this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+            this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
             // this.supplyDataList.salaryMark = res.data.baBgtInfoDataEntity.salaryMarkCode + '-' + res.data.baBgtInfoDataEntity.salaryMark
             // this.supplyDataList.isUnionFunds = res.data.baBgtInfoDataEntity.isUnionFunds + '-' + (res.data.baBgtInfoDataEntity.isUnionFunds === 1 ? '是' : '否')
             // this.supplyDataList.fiDate = res.data.baBgtInfoDataEntity.fiDate

@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息
-            <el-button v-if="dialogVisibleKjsmBut" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-if="dialogVisibleKjsmBut" type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -397,6 +397,10 @@ export default {
     bussnessId: {
       type: String,
       default: '7'// 预算执行
+    },
+    regulationClass: {
+      type: String,
+      default: '0201'// 直达资金
     }
   },
   data() {
@@ -505,7 +509,9 @@ export default {
       showbox: false,
       showbtn: false,
       commentDept: 1,
-      newWarn: ''
+      newWarn: '',
+      // 口径说明是否显示
+      kjbuttonVisable: '0'
     }
   },
   methods: {
@@ -619,6 +625,16 @@ export default {
               this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
               this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
               this.supplyDataList.curAmt = curAmt || ''
+
+              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -859,8 +875,15 @@ export default {
     },
     setFormItem() {
       if (['6', 2, '2'].includes(this.bussnessId)) {
-        this.incomeMsgConfig = proconf.indexMsgConfig
-        this.supplyDataList = proconf.indexMsgData
+        if (this.regulationClass === '0207') {
+          this.incomeMsgConfig = proconf.indexMsgConfig
+          this.supplyDataList = proconf.indexMsgData
+          // 口径说明显示
+          this.kjbuttonVisable = '1'
+        } else {
+          this.incomeMsgConfig = proconf.bgtMsgConfig
+          this.supplyDataList = proconf.incomeMsgData
+        }
         this.dialogVisibleKjsmBut = true
       } else {
         if (this.isXmProject) { // 项目项目隐藏三个字段

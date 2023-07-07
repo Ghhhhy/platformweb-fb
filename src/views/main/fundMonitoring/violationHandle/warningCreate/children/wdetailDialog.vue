@@ -91,6 +91,7 @@
       :is-done="isDone"
       :detail-data="showDetailData"
       :bussness-id="bussnessId"
+      :regulation-class="regulationClass"
       @close="closeHandle"
     />
     <GlAttachment
@@ -143,6 +144,10 @@ export default {
     selectBid: {
       type: String,
       default: '7'
+    },
+    regulationClass: {
+      type: String,
+      default: '0201'
     }
   },
   data() {
@@ -318,7 +323,7 @@ export default {
         this.currentNodeKey = node.code
         // 根据业务渲染列表
         this.bussnessId = node.code.toString()
-        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog)
+        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass)
         this.queryTableDatas()
       }
     },
@@ -1032,7 +1037,7 @@ export default {
         params.regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
-        params.regulationClass = '0207'
+        params.regulationClass = '0201'
       }
       if (this.detailData.length > 5) {
         let { xpayDate, triggerMonitorDate } = this.detailData[5]

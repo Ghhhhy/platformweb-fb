@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
@@ -187,17 +187,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
       align: 'center',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -344,17 +348,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -793,17 +801,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1247,17 +1259,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      filters: false,
-      align: 'left',
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1711,17 +1727,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1962,17 +1982,21 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
