@@ -271,7 +271,7 @@ export let proconf = {
     //   cellRender: { name: '$vxeMoney' }
     // },
     {
-      title: '指标实际分配金额',
+      title: '本级分配',
       width: 180,
       field: 'zbsjfpje',
       sortable: false,
@@ -281,7 +281,7 @@ export let proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '对下支出',
+      title: '分配下级',
       width: 180,
       field: 'xjAmount',
       sortable: false,
@@ -296,7 +296,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{zbsjje}-{zbsjfpje}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -363,7 +363,7 @@ export let proconf = {
     {
       title: '实际支出金额',
       width: 180,
-      field: 'zcamount',
+      field: 'zcAmount',
       sortable: false,
       filters: false,
       align: 'center',
@@ -395,7 +395,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: 'zbye',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -586,7 +586,7 @@ export let proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '对下支出',
+      title: '分配下级',
       width: 180,
       field: 'xjAmount',
       sortable: false,
@@ -595,7 +595,7 @@ export let proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '指标实际分配金额',
+      title: '本级分配',
       width: 180,
       field: 'zbsjfpje',
       sortable: false,
@@ -611,7 +611,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{zbsjje}-{zbsjfpje}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -719,7 +719,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -789,7 +789,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -977,7 +977,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
