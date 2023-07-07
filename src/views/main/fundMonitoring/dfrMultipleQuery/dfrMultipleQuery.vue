@@ -20,6 +20,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
+            @onSearchResetClick="reset"
             @onSearchClick="search"
           />
         </div>
@@ -332,6 +333,7 @@ export default {
       regulationclass: '',
       firulename: '',
       payAmt: '',
+      bgtId: '',
       mofdivcode: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -578,6 +580,14 @@ export default {
       this.refresh1()
       // this.queryTableDatasCount()
     },
+    reset(obj) {
+      this.bgtId = ''
+      this.fiscalYear = obj.fiscalYear
+      this.proCodes = obj.proCodes
+      this.expFuncCode = obj.expFuncCode
+      this.refresh()
+      this.refresh1()
+    },
     // 初始化高级查询data
     getSearchDataList() {
       // 下拉树
@@ -633,6 +643,7 @@ export default {
       return condition
     },
     checkboxChange(checked, row) {
+      this.bgtId = checked.row.bgtId || ''
       this.queryDtos = []
       if (this.tabSelect.code === 1) {
         switch (this.toolBarStatusSelect.code) {
@@ -644,10 +655,10 @@ export default {
                 proName: '',
                 expFuncCode: ''
               }
-              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
+              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName?.split('-')[0]
               queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
-              queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
+              queryDto.expFuncCode = checked.selection[i].expFuncName?.split('-')[0]
               this.queryDtos[i] = queryDto
             }
             this.queryTableDatas1()
@@ -992,6 +1003,7 @@ export default {
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
+        bgtId: this.bgtId,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_cszbzhckwhhz_mx'
@@ -1039,6 +1051,7 @@ export default {
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
+        bgtId: this.bgtId,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_dwzbzhckwhhz_mx'
@@ -1085,6 +1098,7 @@ export default {
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
+        bgtId: this.bgtId,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_dwzbzhckhz_mx'
@@ -1110,6 +1124,7 @@ export default {
         queryDtos: this.queryDtos,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
+        bgtId: this.bgtId,
         sqlCode: 'zhcx_cszbzhckhz_mx'
       }
       this.tableLoading2 = true
@@ -1157,6 +1172,7 @@ export default {
         queryDtos: this.queryDtos,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
+        bgtId: this.bgtId,
         sqlCode: 'zhcx_sxbzzbwhhz_mx'
       }
       this.tableLoading2 = true
@@ -1201,6 +1217,7 @@ export default {
         recDivCode: this.recDivCode,
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
+        bgtId: this.bgtId,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_sxbzzbhz_mx'
