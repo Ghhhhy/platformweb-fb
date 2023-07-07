@@ -363,7 +363,7 @@ export let proconf = {
     {
       title: '实际支出金额',
       width: 180,
-      field: 'zcamount',
+      field: 'zcAmount',
       sortable: false,
       filters: false,
       align: 'center',
