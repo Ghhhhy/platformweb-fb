@@ -361,7 +361,7 @@ export default {
       return false
     },
     fileIsRequired2() {
-      if (this.param5.retroact === 'company' && (this.hsValue === '4' || this.hsValue === 4) && this.detailData.length && this.detailData[0].uploadFile) {
+      if (this.param5.retroact === 'company' && this.detailData.length && this.detailData[0].uploadFile) {
         return true
       }
       return false
