@@ -311,9 +311,15 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
+
+      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
+        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      if (!linkFiscal && obj.column.property === 'proName') return
+      console.info(obj.column.property)
+      if (isInvalidCellValue && obj.column.property !== 'proName') return
+
       switch (key) {
         case 'amountYszyap':
           this.handleDetail('zxjdxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
@@ -358,8 +364,13 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
+      console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
+      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
+        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+      console.info('linkFiscal==' + linkFiscal)
       const validCellValue = (row[column.property] * 1)
-      if (!validCellValue) return
+      if (column.property !== 'proName' && !validCellValue) return
+      if (!linkFiscal && column.property === 'proName') return
       console.log(column.property)
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
