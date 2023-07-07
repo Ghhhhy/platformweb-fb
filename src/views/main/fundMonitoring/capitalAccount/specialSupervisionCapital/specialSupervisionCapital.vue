@@ -647,6 +647,9 @@ export default {
       // this.queryTableDatasCount()
     },
     getTrees(val) {
+      if (val === undefined) {
+        return
+      }
       let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
@@ -673,10 +676,10 @@ export default {
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
           this.tableLoading = false
-          if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
-            this.refresh(true)
-            console.log('上海自动刷新！*1')
-          }
+          // if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
+          //   this.refresh(true)
+          //   console.log('上海自动刷新！*1')
+          // }
         } else {
           this.$message.error(res.message)
         }
@@ -791,14 +794,19 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
+    // 判断是否开放动态表格配置
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
+      this.$nextTick(() => {
+        this.refresh(true)
+      })
+    }
     if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
       let arr = this.queryConfig.filter(item => {
         return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
       })
       this.$set(this, 'queryConfig', arr)
     }
-    // 判断是否开放动态表格配置
-    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
     if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
       this.loadConfig('BsTable', 'Table101')
       this.loadConfig('BsQuery', 'Query101')

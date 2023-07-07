@@ -125,6 +125,8 @@ export default defineComponent({
           ...params,
           fiRuleCode,
           agencyCode,
+          fiRuleName: props.currentRow.ruleName,
+          mofDivCode:props.currentRow.mofDivCode,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           type

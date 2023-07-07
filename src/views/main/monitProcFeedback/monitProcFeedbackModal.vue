@@ -245,7 +245,7 @@ export default {
       }
       HttpModule.workFlowUpdate([params]).then(res => {
         if (res.code === '000000') {
-          this.$message('核实反馈成功')
+          this.$message.success('核实反馈成功')
           this.dialogClose()
           this.$parent.queryTableDatas()
         }

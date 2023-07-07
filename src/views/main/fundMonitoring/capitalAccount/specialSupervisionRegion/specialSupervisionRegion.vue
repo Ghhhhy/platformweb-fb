@@ -672,6 +672,9 @@ export default {
       return datas
     },
     getTrees(val) {
+      if (val === undefined) {
+        return
+      }
       let proCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
@@ -698,10 +701,6 @@ export default {
             this.tableData = res.data.data
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
-          }
-          if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
-            this.refresh(true)
-            console.log('上海自动刷新！*2')
           }
         } else {
           this.$message.error(res.message)
@@ -853,6 +852,11 @@ export default {
     this.queryTableDatas(false)
     // 判断是否开放动态表格配置
     const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
+      this.$nextTick(() => {
+        this.refresh(true)
+      })
+    }
     if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
       this.loadConfig('BsTable', 'Table101')
       this.loadConfig('BsQuery', 'Query101')

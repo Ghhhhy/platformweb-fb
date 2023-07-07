@@ -141,6 +141,7 @@ export default defineComponent({
           ...params,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
+          fiRuleName: props.currentRow.ruleName,
           [property]: value
         }
       },
