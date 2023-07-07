@@ -391,7 +391,7 @@ const proconf = {
         width: 200
       },
       // {
-      //   title: '红色预警',
+      //   title: '红色1111111111111 ',
       //   field: '',
       //   width: 500,
       //   sortable: false,
