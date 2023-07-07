@@ -242,7 +242,7 @@ export default {
     },
     // 将word等文件转成pdf进行预览
     toPdf() {
-      window.open('/fileView.html?fileguid=' + this.fileGuid + '&appid=' + this.appId)
+      window.open(`${process.env.BASE_URL}fileView.html?fileguid=` + this.fileGuid + '&appid=' + this.appId)
       // this.loading = true
       // let self = this
       // // const urlObj = 'filePreviewService/v1/file_preview'
