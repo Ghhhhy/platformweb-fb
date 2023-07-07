@@ -80,6 +80,7 @@
       :detail-data="detailData"
       :is-create="isCreate"
       :bussness-id="bussnessId"
+      :regulation-class="regulationClass"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
@@ -429,6 +430,7 @@ export default {
         case 'view':
           this.fiRuleCode = row.fiRuleCode || ''
           this.warningCode = row.warningCode || ''
+          this.bussnessId = this.bussnessId === '' ? row.businessModuleCode || '' : this.bussnessId
           this.dialogVisible = true
           this.dialogTitle = '查看详情信息'
           break
@@ -893,8 +895,7 @@ export default {
       this.isNormalDone = false
       this.isProcessed = false
       this.selectBtnType = obj.code
-      console.log('ssss', this)
-      console.log('ssss1', obj.code)
+      console.log('ssss', this.regulationClass)
 
       switch (obj.code) {
         // 预警明细列表
@@ -919,7 +920,7 @@ export default {
           break
         // 待处理
         case 'dcl':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 1

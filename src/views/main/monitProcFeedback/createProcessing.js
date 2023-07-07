@@ -1,3 +1,4 @@
+import store from '@/store'
 export const proconf = {
   // 生成时部分字段可编辑
   createConfig1: [
@@ -606,36 +607,21 @@ export const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      fixed: '',
-      width: '100',
-      type: 'html',
       align: 'center',
-      formula: '',
-      constraint: '',
-      combinedType: '',
-      sortable: '1',
-      associatedQuery: {
-        queryMethods: '',
-        queryUrl: '',
-        params: {}
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
       },
-      dragSort: null,
-      className: '',
-      combinedType_select_sort: '',
-      filters: '',
-      formatter: ({ row }) => {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
+      name: '$vxeSelect'
     },
     {
       title: '处理方式',
@@ -820,38 +806,23 @@ export const proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
+      title: '预警级别',
+      field: 'warnLevel',
+      align: 'center',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        props: { disabled: true, placeholder: '预警级别' },
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: ''
       },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': '',
-      formatter({ row }) {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
+      name: '$vxeSelect'
     },
     {
       title: '处理方式',

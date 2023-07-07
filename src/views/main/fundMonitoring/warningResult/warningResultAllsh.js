@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -386,15 +386,21 @@ const proconf = {
       {
         title: '预警级别',
         field: 'warnLevel',
-        width: 180,
-        align: 'left',
-        formatter: ({ row }) => {
-          if (row.warnLevel === '3') return '黄色预警'
-          else if (row.warnLevel === '2') return '橙色预警'
-          else if (row.warnLevel === '1') return '红色预警'
-          else if (row.warnLevel === '4') return '蓝色预警'
-          return ''
-        }
+        align: 'center',
+        titleWidth: '180',
+        span: 8,
+        itemRender: {
+          name: '$vxeSelect',
+          props: { disabled: true, placeholder: '预警级别' },
+          options: store.state.warnInfo.warnLevelOptions.map(item => {
+            return {
+              ...item,
+              value: String(item.value)
+            }
+          }),
+          defaultValue: ''
+        },
+        name: '$vxeSelect'
       },
       {
         title: '疑点信息',

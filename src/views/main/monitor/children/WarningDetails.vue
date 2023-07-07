@@ -152,6 +152,10 @@ export default {
       type: String,
       default: ''
     },
+    businessModuleCode: {
+      type: String,
+      default: ''
+    },
     functionCode: {
       type: String,
       default: ''
@@ -479,7 +483,7 @@ export default {
           this.selectData = selection[0]
           if (this.selectData.regulationClass === '07') {
             this.dialogHsVisible = true
-          } else if (this.selectData.regulationClass === '10') {
+          } else if (this.selectData.regulationClass === '10' || (this.selectData.regulationClass !== '0207' && this.businessModuleCode === '6')) {
             this.handleDialogVisible = true
           } else {
             this.dialogVisible = true
@@ -641,9 +645,9 @@ export default {
         regulationClass: this.regulationClass,
         warnLogId: this.id,
         businessTime: this.businessTime,
-        endTime: this.endTime
+        endTime: this.endTime,
+        businessModuleCode: this.businessModuleCode
       }
-      console.log('-----=====', this.id)
       this.tableLoading = true
       HttpModule.getViolationsDetailDataByLogId(param).then(res => {
         this.tableLoading = false
