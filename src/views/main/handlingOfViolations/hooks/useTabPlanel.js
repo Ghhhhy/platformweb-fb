@@ -113,7 +113,7 @@ function useTabPlanel(
    * 单位反馈页面的“未送审”、“被退回”页卡新增作废按钮
    */
   function patchTabMapButton() {
-    if (unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK) {
+    if (unref(pagePath) === (RouterPathEnum().UNIT_FEEDBACK || RouterPathEnum().DIVISION_FEED_BACK)) {
       [TabEnum.NO_SEND, TabEnum.RETURN].forEach(item => {
         tabMapButton[item].splice(1, 0, cancellationButton)
       })
@@ -127,15 +127,16 @@ function useTabPlanel(
    * */
   const tabStatusBtnConfig = ref({
     changeBtns: true,
-    buttons: unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK
+    buttons: (unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK || unref(pagePath) === RouterPathEnum().DIVISION_FEED_BACK)
       ? [...sendAuditTabs, returnTab, disabledTab, allTab]
-      : unref(pagePath) === RouterPathEnum().DIVISION_REAUDIT
+      : (unref(pagePath) === RouterPathEnum().DIVISION_REAUDIT || unref(pagePath) === RouterPathEnum().DIVISION_FEED_AUDIT)
         ? [...doAuditTabs, allTab]
         : [...doAuditTabs, returnTab, allTab],
     curButton: unref(currentTab),
     buttonsInfo: tabMapButton
   })
-
+  console.log(tabStatusBtnConfig, 'tabStatusBtnConfigtabStatusBtnConfigtabStatusBtnConfig')
+  //
   return {
     tabStatusBtnConfig,
     onQueryConditionsClick,
