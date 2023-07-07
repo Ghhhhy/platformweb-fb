@@ -193,7 +193,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -330,7 +330,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -449,7 +449,7 @@ export let proconf = {
     {
       title: '上级专项',
       width: 180,
-      field: 'proName',
+      field: 'exTrackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -636,7 +636,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -743,7 +743,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -843,7 +843,7 @@ export let proconf = {
     {
       title: '上级专项',
       width: 180,
-      field: 'sjzx1',
+      field: 'exTrackProName',
       // formula: '{proName}',
       sortable: false,
       filters: false,
@@ -894,7 +894,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -1009,7 +1009,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -1052,7 +1052,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -1125,7 +1125,7 @@ export let proconf = {
     {
       title: '上级专项',
       width: 180,
-      field: 'proName',
+      field: 'exTrackProName',
       // formula: '{proName}',
       sortable: false,
       filters: false,
@@ -1168,7 +1168,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
