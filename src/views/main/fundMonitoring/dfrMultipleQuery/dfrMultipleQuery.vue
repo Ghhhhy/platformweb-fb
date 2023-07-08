@@ -380,11 +380,11 @@ export default {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
         this.panStatus = 0
-        this.$refs.tabPanel.initFirst()
+        // this.$refs.tabPanel.initFirst()
         this.tableColumnsConfig = proconf.PoliciesTableColumns
         this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.queryDtos = []
@@ -401,12 +401,13 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent1
         }
-        this.$refs.tabPanel.initFirst()
+        // console.log('55555555555555', this.$refs.tabPanel)
+        // this.$refs.tabPanel.initFirst()
         this.panStatus = 2
         this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
         this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.agencyCode = ''
@@ -424,12 +425,12 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent2
         }
-        this.$refs.tabPanel.initFirst()
+        // this.$refs.tabPanel.initFirst()
         this.panStatus = 5
         this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns
         this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.agencyCode = ''
@@ -471,15 +472,15 @@ export default {
           this.panStatus = 0
           this.tableColumnsConfig = proconf.PoliciesTableColumns
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.panStatus = 1
           this.tableColumnsConfig = proconf.PoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.fiscalYear = ''
@@ -1244,6 +1245,7 @@ export default {
       await this.getLeftTreeData()
     },
     getLeftTreeData() {
+      debugger
       let that = this
       this.offset = 0
       this.treeLoadingState = true
