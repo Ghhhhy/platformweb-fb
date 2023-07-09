@@ -393,7 +393,7 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        this.refresh1()
+        // this.refresh1()
       } else if (obj.code === 2) {
         // 单位指标查询
         self.toolBarStatusBtnConfig.buttons = proconf.statusButtons1
@@ -417,7 +417,7 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        this.refresh1()
+        // this.refresh1()
       } else if (obj.code === 3) {
         // 市县指标查询
         this.toolBarStatusBtnConfig.buttons = proconf.statusButtons2
@@ -441,7 +441,7 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        this.refresh1()
+        // this.refresh1()
       }
     },
     changes() {
@@ -490,7 +490,7 @@ export default {
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      this.refresh1()
+      // this.refresh1()
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     bsToolbarClickEvent1(obj, $this) {
@@ -517,8 +517,8 @@ export default {
           this.panStatus = 3
           this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '3':
           this.fiscalYear = ''
@@ -527,15 +527,15 @@ export default {
           this.panStatus = 4
           this.tableColumnsConfig = proconf.PoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      this.refresh1()
+      // this.refresh1()
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     bsToolbarClickEvent2(obj, $this) {
@@ -552,8 +552,8 @@ export default {
           this.panStatus = 5
           this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns
           this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.fiscalYear = ''
@@ -562,15 +562,15 @@ export default {
           this.panStatus = 6
           this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      this.refresh1()
+      // this.refresh1()
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     search(obj) {
@@ -578,7 +578,7 @@ export default {
       this.proCodes = obj.proCodes
       this.expFuncCode = obj.expFuncCode
       this.refresh()
-      this.refresh1()
+      // this.refresh1()
       // this.queryTableDatasCount()
     },
     reset(obj) {
@@ -587,7 +587,7 @@ export default {
       this.proCodes = obj.proCodes
       this.expFuncCode = obj.expFuncCode
       this.refresh()
-      this.refresh1()
+      // this.refresh1()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -645,6 +645,7 @@ export default {
     },
     checkboxChange(checked, row) {
       this.bgtId = checked.row.bgtId || ''
+      this.mofDivCode = checked.row.mofDivCode || ''
       this.queryDtos = []
       if (this.tabSelect.code === 1) {
         switch (this.toolBarStatusSelect.code) {
@@ -819,7 +820,7 @@ export default {
           this.bgtMofDepCode = ''
         }
         this.queryTableDatas()
-        this.queryTableDatas1()
+        // this.queryTableDatas1()
       } else if (this.panStatus === 1) {
         if (node.id !== 'root') {
           this.bgtMofDepCode = node.code
@@ -828,7 +829,7 @@ export default {
           this.bgtMofDepCode = ''
         }
         this.queryTableDatasByDep()
-        this.queryTableDatasByDep1()
+        // this.queryTableDatasByDep1()
       } else if (this.panStatus === 2) {
         if (node.id !== 'root') {
           this.agencyCode = node.code
@@ -837,7 +838,7 @@ export default {
           this.agencyCode = ''
         }
         this.queryTableDatasByAgency()
-        this.queryTableDatasByAgency1()
+        // this.queryTableDatasByAgency1()
       } else if (this.panStatus === 3) {
         if (node.id !== 'root') {
           this.agencyCode = node.code
@@ -846,7 +847,7 @@ export default {
           this.agencyCode = ''
         }
         this.queryTableByAgency()
-        this.queryTableByAgency1()
+        // this.queryTableByAgency1()
       } else if (this.panStatus === 5) {
         if (node.id !== 'root') {
           let code = node.code
@@ -858,7 +859,7 @@ export default {
           this.recDivCode = ''
         }
         this.queryMofDiv()
-        this.queryDetailMofDiv()
+        // this.queryDetailMofDiv()
       } else if (this.panStatus === 6) {
         if (node.id !== 'root') {
           let code = node.code
@@ -869,7 +870,7 @@ export default {
           this.recDivCode = ''
         }
         this.queryMofDiv1()
-        this.queryDetailMofDiv1()
+        // this.queryDetailMofDiv1()
       }
     },
     treeSetConfrimData(curTree) {
@@ -1005,6 +1006,7 @@ export default {
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_cszbzhckwhhz_mx'
@@ -1053,6 +1055,7 @@ export default {
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_dwzbzhckwhhz_mx'
@@ -1100,6 +1103,7 @@ export default {
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_dwzbzhckhz_mx'
@@ -1126,6 +1130,7 @@ export default {
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         sqlCode: 'zhcx_cszbzhckhz_mx'
       }
       this.tableLoading2 = true
@@ -1174,6 +1179,7 @@ export default {
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         sqlCode: 'zhcx_sxbzzbwhhz_mx'
       }
       this.tableLoading2 = true
@@ -1219,6 +1225,7 @@ export default {
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
+        mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
         sqlCode: 'zhcx_sxbzzbhz_mx'
@@ -1245,7 +1252,6 @@ export default {
       await this.getLeftTreeData()
     },
     getLeftTreeData() {
-      debugger
       let that = this
       this.offset = 0
       this.treeLoadingState = true

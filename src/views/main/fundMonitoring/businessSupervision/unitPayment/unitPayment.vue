@@ -143,6 +143,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      detailVisible: false,
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
@@ -270,7 +271,6 @@ export default {
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
         clearable: true,
-        detailVisible: false,
         detailTitle: '',
         detailType: '',
         detailData: '',
