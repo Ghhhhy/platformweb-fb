@@ -45,7 +45,7 @@
   </vxe-modal>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/fundMonitoring/targetSurplus.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/unitPayment.js'
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
@@ -210,7 +210,7 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       this.$parent.tableLoading = true
-      HttpModule.detailPageQuery(params).then((res) => {
+      HttpModule.queryDetailDatas(params).then((res) => {
         this.$parent.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -225,11 +225,8 @@ export default {
       console.log(proconf)
       switch (this.detailType) {
         // 支出明细
-        case 'zdzjdfjemx':
-          this.tableColumnsConfig = proconf.projectColumn
-          break
-        case 'czzdzjdfjemx':
-          this.tableColumnsConfig = proconf.projectColumn
+        case 'dwzfmx':
+          this.tableColumnsConfig = proconf.dwzfmxColumn
           break
         default:
           break
@@ -249,42 +246,6 @@ export default {
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     }
-    // handleDetailfzj(reportCode, proCode) {
-    //   let params = {
-    //     reportCode: reportCode,
-    //     proCodes: [proCode],
-    //     mofDivCode: this.detailQueryParam.mofDivCode,
-    //     fiscalYear: this.$parent.searchDataList.fiscalYear,
-    //     condition: this.detailQueryParam.condition
-    //   }
-    //   this.$parent.sDetailQueryParam = params
-    //   this.$parent.sDetailVisible = true
-    //   this.$parent.sDetailType = reportCode
-    // },
-    // cellStyle({ row, rowIndex, column }) {
-    //   if (['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountPayAll'].includes(column.property)) {
-    //     return {
-    //       color: '#4293F4',
-    //       textDecoration: 'underline'
-    //     }
-    //   }
-    // },
-    // 表格单元行单击
-    // cellClick(obj, context, e) {
-    //   let key = obj.column.property
-    //   switch (key) {
-    //     case 'amountZdzjFp':
-    //       if (this.detailType === 'zdzjxmmx') {
-    //         this.handleDetail('zdzjzbmx_fzjfp', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-    //         this.$parent.sDetailTitle = 'xx资金支出台账明细'
-    //       }
-    //       break
-    //     case 'amountZdzjFp':
-    //       this.handleDetail('zdzjzcmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
-    //       this.$parent.sDetailTitle = '支出明细'
-    //       break
-    //   }
-    // }
   },
   mounted() {
     this.showInfo()
