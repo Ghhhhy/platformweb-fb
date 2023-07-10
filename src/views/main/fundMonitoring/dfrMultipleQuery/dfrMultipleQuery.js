@@ -857,18 +857,26 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '支付方式',
+    //   width: 180,
+    //   field: 'payTypeName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '需要跟踪的专项资金',
+      title: '转移支付功能分类',
       width: 180,
-      field: 'xygzdzxzj',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '支付方式',
-      width: 180,
-      field: 'payTypeName',
+      field: 'xjzcgnflkm',
       sortable: false,
       filters: false,
       align: 'center'
