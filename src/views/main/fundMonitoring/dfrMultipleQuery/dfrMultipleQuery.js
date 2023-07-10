@@ -273,11 +273,11 @@ export let proconf = {
     {
       title: '本级分配',
       width: 180,
-      field: 'zbsjfpje',
+      field: 'bjAmount',
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}+{xjAmount}',
+      // formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -446,18 +446,26 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '上级专项',
+    //   width: 180,
+    //   field: 'exTrackProName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '上级专项',
+      title: '接受区划名称',
       width: 180,
-      field: 'exTrackProName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '需要跟踪的专项资金',
-      width: 180,
-      field: 'xygzdzxzj',
+      field: 'recDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -473,7 +481,7 @@ export let proconf = {
     {
       title: '支出经济分类科目',
       width: 180,
-      field: 'zcjjflkm',
+      field: 'depBgtEcoName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -579,11 +587,11 @@ export let proconf = {
     {
       title: '本级分配',
       width: 180,
-      field: 'zbsjfpje',
+      field: 'bjAmount',
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}+{xjAmount}',
+      // formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
