@@ -625,6 +625,27 @@ export default {
         }
       })
     },
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     async loadConfig(id) {
       let params = {
         tableId: {
@@ -663,6 +684,7 @@ export default {
         }
       })
     })
+    this.getMofDiv()
     // this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
   }
 }

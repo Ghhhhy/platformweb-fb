@@ -34,5 +34,8 @@ export default {
   // 获取服务器时间
   getCurrentTime(params) {
     return post('large-monitor-platform/lmp/commom/getCurrentTime', params)
+  },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/query', params)
   }
 }
