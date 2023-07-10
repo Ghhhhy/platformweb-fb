@@ -206,15 +206,15 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     // {
     //   title: '上级指标导入金额',
     //   width: 180,
@@ -520,15 +520,15 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     // {
     //   title: '上级指标导入金额',
     //   width: 180,
@@ -665,15 +665,15 @@ export let proconf = {
     //   filters: false,
     //   align: 'center'
     // },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     // {
     //   title: '指标调增金额',
     //   width: 180,
@@ -923,15 +923,15 @@ export let proconf = {
     //   filters: false,
     //   align: 'center'
     // },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     // {
     //   title: '指标调增金额',
     //   width: 180,
