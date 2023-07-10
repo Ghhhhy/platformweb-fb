@@ -1051,13 +1051,13 @@ export default {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear,
+        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
-        mofDivCode: this.mofDivCode,
+        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
+        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
         sqlCode: 'zhcx_dwzbzhckwhhz_mx'
       }
       this.tableLoading2 = true
@@ -1099,13 +1099,13 @@ export default {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear,
+        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
         bgtId: this.bgtId,
-        mofDivCode: this.mofDivCode,
+        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
+        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
         sqlCode: 'zhcx_dwzbzhckhz_mx'
       }
       this.tableLoading2 = true
