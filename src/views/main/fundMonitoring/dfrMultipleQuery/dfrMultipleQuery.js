@@ -1130,25 +1130,25 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '上级专项',
+    //   width: 180,
+    //   field: 'exTrackProName',
+    //   // formula: '{proName}',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '上级专项',
-      width: 180,
-      field: 'exTrackProName',
-      // formula: '{proName}',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '需要跟踪的专项资金',
-      width: 180,
-      field: 'xygzdzxzj',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '下级支出功能分类科目',
+      title: '转移支付功能分类',
       width: 180,
       field: 'xjzcgnflkm',
       sortable: false,
