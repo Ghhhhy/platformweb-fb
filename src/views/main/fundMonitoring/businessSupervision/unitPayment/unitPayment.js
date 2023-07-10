@@ -86,7 +86,7 @@ export let proconf = {
   PoliciesTableColumns: [
     {
       title: '单位名称',
-      width: 180,
+      width: 280,
       field: 'agencyCodeName',
       treeNode: true,
       align: 'left',

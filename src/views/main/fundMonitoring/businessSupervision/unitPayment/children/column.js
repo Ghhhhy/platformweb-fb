@@ -121,8 +121,90 @@ const proconf = {
       align: 'center'
     }
   ],
-  // 项目明细
   projectColumn: [
+    {
+      title: '资金名称',
+      field: 'trackProName',
+      align: 'center'
+    },
+    {
+      title: '处室名称',
+      field: 'manageMofDepName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级指标文号',
+      field: 'supBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级指标文号',
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '上级专项资金名称',
+      field: 'supTrackProName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '本级专项资金名称',
+      field: 'proName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '支出功能科目',
+      field: 'expFuncName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '剩余金额',
+      field: 'amountAllfp',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    }
+    // {
+    //   title: '预算金额',
+    //   align: 'center',
+    //   children: [
+    //     {
+    //       title: '总金额',
+    //       field: 'amountAllfp',
+    //       width: 100,
+    //       sortable: false,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' }
+    //     },
+    //     {
+    //       title: '未分配',
+    //       field: 'amountZdzjFp',
+    //       width: 100,
+    //       sortable: false,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' }
+    //     },
+    //     {
+    //       title: '已分配',
+    //       field: 'amountZdzjyFp',
+    //       sortable: false,
+    //       width: 100,
+    //       align: 'right',
+    //       cellRender: { name: '$vxeMoney' },
+    //       format: '{amountAllfp}-{amountZdzjFp}'
+    //     }
+    //   ]
+    // }
+  ],
+  // 项目明细
+  dwzfmxColumn: [
     {
       title: '区划名称',
       field: 'mofDivName',
@@ -130,12 +212,12 @@ const proconf = {
     },
     {
       title: '处室编码',
-      field: 'manageMofDepCode',
+      field: 'bgtMofDepCode',
       align: 'center'
     },
     {
       title: '处室名称',
-      field: 'manageMofDepName',
+      field: 'bgtMofDepName',
       sortable: false,
       align: 'center'
     },
@@ -179,7 +261,7 @@ const proconf = {
     },
     {
       title: '实际支付',
-      field: 'amountCurPay',
+      field: 'payAppAmt',
       width: 100,
       sortable: false,
       align: 'right',
