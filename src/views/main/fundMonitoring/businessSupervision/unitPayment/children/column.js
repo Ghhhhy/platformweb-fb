@@ -124,8 +124,13 @@ const proconf = {
   // 项目明细
   projectColumn: [
     {
-      title: '资金名称',
-      field: 'trackProName',
+      title: '区划名称',
+      field: 'mofDivName',
+      align: 'center'
+    },
+    {
+      title: '处室编码',
+      field: 'manageMofDepCode',
       align: 'center'
     },
     {
@@ -135,25 +140,25 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '上级指标文号',
-      field: 'supBgtDocNo',
+      title: '单位编码',
+      field: 'agencyCode',
       sortable: false,
       align: 'center'
     },
     {
-      title: '本级指标文号',
+      title: '单位名称',
+      field: 'agencyName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '文号',
       field: 'corBgtDocNo',
       sortable: false,
       align: 'center'
     },
     {
-      title: '上级专项资金名称',
-      field: 'supTrackProName',
-      sortable: false,
-      align: 'center'
-    },
-    {
-      title: '本级专项资金名称',
+      title: '项目名称',
       field: 'proName',
       sortable: false,
       align: 'center'
@@ -165,44 +170,29 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '剩余金额',
-      field: 'amountAllfp',
+      title: '指标金额',
+      field: 'amount',
       width: 100,
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '实际支付',
+      field: 'amountCurPay',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支付进度',
+      field: 'process',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxenput' }
     }
-    // {
-    //   title: '预算金额',
-    //   align: 'center',
-    //   children: [
-    //     {
-    //       title: '总金额',
-    //       field: 'amountAllfp',
-    //       width: 100,
-    //       sortable: false,
-    //       align: 'right',
-    //       cellRender: { name: '$vxeMoney' }
-    //     },
-    //     {
-    //       title: '未分配',
-    //       field: 'amountZdzjFp',
-    //       width: 100,
-    //       sortable: false,
-    //       align: 'right',
-    //       cellRender: { name: '$vxeMoney' }
-    //     },
-    //     {
-    //       title: '已分配',
-    //       field: 'amountZdzjyFp',
-    //       sortable: false,
-    //       width: 100,
-    //       align: 'right',
-    //       cellRender: { name: '$vxeMoney' },
-    //       format: '{amountAllfp}-{amountZdzjFp}'
-    //     }
-    //   ]
-    // }
   ],
   // 直达资金项目明细
   zdzjprojectColumn: [
