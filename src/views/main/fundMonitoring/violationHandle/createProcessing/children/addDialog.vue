@@ -600,7 +600,7 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
-      if (this.param5?.retroact === 'company') {
+      if (this.param5?.retroact === 'company' && !this.param5?.show) {
         return
       }
       let key = obj.column.property
@@ -668,7 +668,7 @@ export default {
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
-        HttpModule.budgetgetDetail(code).then(res => {
+        HttpModule.budgetgetDetail(code, this.kjbuttonVisable).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
