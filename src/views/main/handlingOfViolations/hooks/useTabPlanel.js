@@ -93,7 +93,8 @@ function useTabPlanel(
           const menuId = store.state.curNavModule?.guid || ''
           const params = {
             menuId,
-            status: '3', // 撤回
+            updateStatus: TabEnum.NO_SEND, // 未送审状态
+            status: '5', // 撤回
             data: unref(checkedRecords).map(item => { return { id: item.id, warnLevel: item.warnLevel } })
           }
           checkRscode(await workFlowRevoke(params))
