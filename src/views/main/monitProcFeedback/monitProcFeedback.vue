@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     menuSettingConfig() {
-      return this.transJson(this.$store.state.curNavModule.param5)
+      return { ...this.transJson(this.$store.state.curNavModule.param5), hide: 1 }
     },
     userInfo() {
       return this.$store.state.userInfo
