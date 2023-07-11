@@ -600,7 +600,7 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
-      if (this.param5?.retroact === 'company' && !this.param5?.show) {
+      if (this.param5?.retroact === 'company' || this.param5?.hide) {
         return
       }
       let key = obj.column.property
@@ -668,7 +668,8 @@ export default {
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
-        HttpModule.budgetgetDetail(code, this.kjbuttonVisable).then(res => {
+        let code2 = this.param5.hide ? 0 : 1
+        HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
@@ -1309,6 +1310,10 @@ export default {
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
+    } else if (this.title === '查看详情信息' && this.param5.hide) { // 从事后监控跳转过来 隐藏3个字段
+      this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+        return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+      })
     }
     this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
     if (this.isManagement) {
