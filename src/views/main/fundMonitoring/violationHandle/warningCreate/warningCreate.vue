@@ -415,7 +415,8 @@ export default {
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         regulationClass: this.regulationClass,
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
-        roleguid: this.roleguid
+        roleguid: this.roleguid,
+        roleId: this.$store.state.curNavModule.roleguid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
