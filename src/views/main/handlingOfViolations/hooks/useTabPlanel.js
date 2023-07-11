@@ -93,6 +93,7 @@ function useTabPlanel(
           const menuId = store.state.curNavModule?.guid || ''
           const params = {
             menuId,
+            statusCode: unref(currentTab).value,
             status: '3', // 撤回
             data: unref(checkedRecords).map(item => { return { id: item.id, warnLevel: item.warnLevel } })
           }
