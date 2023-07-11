@@ -446,6 +446,9 @@ export default {
           createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
           userName: this.userInfo.name
         }
+        if (this.$route.name === 'monitProcFeedback') {
+          ortherData.commentDept = '1'// 单位材料整改初始值设置为1
+        }
         this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
         this.$refs.MonitProcFeedbackModal.tabCode = obj.code
         this.$refs.MonitProcFeedbackModal.dialogVisible = true
