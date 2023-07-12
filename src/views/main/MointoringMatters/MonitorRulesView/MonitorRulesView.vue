@@ -602,6 +602,7 @@ export default {
     // 左侧树
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
+      this.leftTreeFilterText = val
     },
     getItem(code, data) {
       data.forEach(item => {

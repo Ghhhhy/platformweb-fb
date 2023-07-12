@@ -148,6 +148,12 @@ export default {
     regulationClass: {
       type: String,
       default: '0201'
+    },
+    queryData: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
@@ -1029,7 +1035,11 @@ export default {
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
         trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
-        roleguid: this.$store.state.curNavModule.roleguid
+        roleguid: this.$store.state.curNavModule.roleguid,
+        warnStartDate: this.queryData.warnStartDate,
+        warnEndDate: this.queryData.warnEndDate,
+        dealWarnStartDate: this.queryData.dealWarnStartDate,
+        dealWarnEndDate: this.queryData.dealWarnEndDate
       }
 
       // 有菜单有主题参数则 则用主题参数
