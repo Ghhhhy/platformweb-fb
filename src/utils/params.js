@@ -77,7 +77,7 @@ export const transJson2 = (str) => {
    * */
 export const transJson3 = (str) => {
   let strTwo = ''
-  str.split(',').reduce((acc, curr) => {
+  str.split(';').reduce((acc, curr) => {
     const [key, value] = curr.split('=')
     acc[key] = value
     strTwo = acc
