@@ -424,8 +424,7 @@ export default {
       if (obj.row.hasChild) return
       switch (key) {
         case 'agencyCodeName':
-          console.log(key, obj.row)
-          this.handleDetail('zdzjdfjemx', obj.row.code)
+          this.handleDetail('dwzfmx', obj)
           this.detailTitle = '单位支付明细（单位：万元）'
           break
       }
@@ -483,11 +482,12 @@ export default {
         if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
       })
     },
-    handleDetail(reportCode, mofDivCode, column) {
+    handleDetail(reportCode, obj) {
       let params = {
         reportCode: reportCode,
-        mofDivCodeList: mofDivCode,
+        mofDivCodeList: obj.row.code,
         fiscalYear: this.searchDataList.fiscalYear,
+        agencyCode: obj.row.agencyCode,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.pagerConfig.pageSize,
         page: this.pagerConfig.currentPage

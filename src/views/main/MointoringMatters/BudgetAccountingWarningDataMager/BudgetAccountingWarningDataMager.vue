@@ -447,6 +447,7 @@ export default {
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
           handleResult: this.toolBarStatusSelect.curValue,
           businessId: this.businessId,
+          roleId: this.$store.state.curNavModule.roleguid,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList),
@@ -615,6 +616,7 @@ export default {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
           businessId: node.id,
+          roleId: this.$store.state.curNavModule.roleguid,
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
@@ -722,6 +724,7 @@ export default {
         pageSize: this.totalPagerConfig.pageSize, // 每页条数
         handleResult: this.toolBarStatusSelect.curValue,
         businessId: this.businessId,
+        roleId: this.$store.state.curNavModule.roleguid,
         regulationClass: this.regulationClass
       }
       this.tableLoading = true

@@ -430,6 +430,7 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
+        roleId: this.$store.state.curNavModule.roleguid,
         date: this.searchDataList.date
       }
       this.date = this.searchDataList.date

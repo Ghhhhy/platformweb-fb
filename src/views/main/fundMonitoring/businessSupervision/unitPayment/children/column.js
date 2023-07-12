@@ -121,7 +121,6 @@ const proconf = {
       align: 'center'
     }
   ],
-  // 项目明细
   projectColumn: [
     {
       title: '资金名称',
@@ -203,6 +202,79 @@ const proconf = {
     //     }
     //   ]
     // }
+  ],
+  // 项目明细
+  dwzfmxColumn: [
+    {
+      title: '区划名称',
+      field: 'mofDivName',
+      align: 'center'
+    },
+    {
+      title: '处室编码',
+      field: 'bgtMofDepCode',
+      align: 'center'
+    },
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '单位编码',
+      field: 'agencyCode',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '文号',
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '支出功能科目',
+      field: 'expFuncName',
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '指标金额',
+      field: 'amount',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '实际支付',
+      field: 'payAppAmt',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支付进度',
+      field: 'process',
+      width: 100,
+      sortable: false,
+      align: 'right',
+      cellRender: { name: '$vxenput' }
+    }
   ],
   // 直达资金项目明细
   zdzjprojectColumn: [
