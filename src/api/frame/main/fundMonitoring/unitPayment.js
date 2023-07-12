@@ -7,5 +7,9 @@ export default {
   // 获取表格数据
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/unitPayment/pageQuery', params)
+  },
+  // 获取钻取明细数据
+  queryDetailDatas (params) {
+    return post('dfr-monitor-service/dfr/unitPayment/detail', params)
   }
 }

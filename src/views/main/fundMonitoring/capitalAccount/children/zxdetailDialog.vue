@@ -469,7 +469,8 @@ export default {
         isCz: this.detailQueryParam.isCz,
         condition: this.detailQueryParam.condition,
         mofDivCode: this.detailQueryParam.mofDivCode,
-        fiscalYear: this.$parent.fiscalYear
+        fiscalYear: this.$parent.fiscalYear,
+        bgtId: row.bgtId
       }
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode

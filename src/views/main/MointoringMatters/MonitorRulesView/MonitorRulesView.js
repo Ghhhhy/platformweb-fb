@@ -172,23 +172,21 @@ export let proconf = {
     },
     {
       title: '预警级别',
-      field: 'warningLevel',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
+      field: 'warnLevel',
+      align: 'center',
+      width: 180,
+      cellRender: {
         name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions?.map(item => {
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        props: {
-          placeholder: '预警级别'
-        }
-      }
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '处理方式',
