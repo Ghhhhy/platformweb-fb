@@ -367,12 +367,76 @@ const proconf = {
           }
         }
       }
+    },
+    {
+      title: '警告开始时间',
+      field: 'warnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '失效日期'
+        }
+      }
+    },
+    {
+      title: '警告结束时间',
+      field: 'warnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '失效日期'
+        }
+      }
+    },
+    {
+      title: '开始处理时间',
+      field: 'dealWarnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '失效日期'
+        }
+      }
+    },
+    {
+      title: '结束处理时间',
+      field: 'dealWarnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '失效日期'
+        }
+      }
     }
   ],
   highQueryData: {
     regulationClass: '',
     fiRuleName: '',
-    ruleCodes: ''
+    ruleCodes: '',
+    warnStartDate: '',
+    warnEndDate: '',
+    dealWarnStartDate: '',
+    dealWarnEndDate: ''
   },
   basicInfo: {
     type: 'form',
