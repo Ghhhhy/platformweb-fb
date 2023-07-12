@@ -710,7 +710,7 @@ export let proconf = {
     // ]
   },
   // table 操作按钮
-  gloableOptionRow: {
+  gloableOptionRowMonitorRulesView: {
     renderDefault(h, cellRender, params, context) {
       let self = context.$grid.$parent
       let { row, column } = params
