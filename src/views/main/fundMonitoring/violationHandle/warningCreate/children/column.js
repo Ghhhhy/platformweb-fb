@@ -115,7 +115,7 @@ const budgetImpColumns = [
         }
       }),
       defaultValue: '',
-      props: {}
+      props: { disabled: true, placeholder: '预警级别' }
     },
     name: '$vxeSelect'
   },
@@ -691,7 +691,7 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -700,7 +700,7 @@ const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2041,7 +2041,7 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2050,7 +2050,7 @@ const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2302,7 +2302,7 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2311,7 +2311,7 @@ const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2379,7 +2379,7 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2388,7 +2388,7 @@ const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2503,7 +2503,7 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2512,7 +2512,7 @@ const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
