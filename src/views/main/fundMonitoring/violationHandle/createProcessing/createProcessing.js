@@ -147,6 +147,17 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
+  },
+  {
+    title: '预算项目',
+    width: 180,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+    }
   }
 ]
 // 预算管理表头
@@ -618,6 +629,17 @@ export const proconf = {
         props: {
           placeholder: '追踪项目'
         }
+      }
+    },
+    {
+      title: '预算项目',
+      width: '9',
+      field: 'proName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     }
   ],
