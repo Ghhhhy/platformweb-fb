@@ -312,8 +312,8 @@ export default {
       if (!rowIndex) return
       let key = obj.column.property
 
-      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
-        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+      // eslint-disable-next-line no-sequences
+      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined) ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (!linkFiscal && obj.column.property === 'proName') return
@@ -365,6 +365,7 @@ export default {
       if (!rowIndex) return
       // 有效的cellValue
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
+      // eslint-disable-next-line no-sequences
       let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
         ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
       console.info('linkFiscal==' + linkFiscal)
