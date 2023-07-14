@@ -1082,7 +1082,7 @@ export default {
         return
       }
       if (this.param5.retroact === 'company' && !this.hsValue && (flag === '3' || flag === 3)) {
-        this.$message.warning('请选择核实意见')
+        this.$message.warning('请输入核实意见说明')
         return
       }
       if (this.param5.retroact === 'company' && this.hsValue.length && (flag === '3' || flag === 3)) {
