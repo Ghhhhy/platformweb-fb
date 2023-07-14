@@ -235,7 +235,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $gloableOptionRowMonitorRulesView: proconf.gloableOptionRow
+          $gloableOptionRowMonitorRulesView: proconf.gloableOptionRowMonitorRulesView
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -602,6 +602,7 @@ export default {
     // 左侧树
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
+      this.leftTreeFilterText = val
     },
     getItem(code, data) {
       data.forEach(item => {

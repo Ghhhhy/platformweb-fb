@@ -47,3 +47,10 @@ export function billPage(params) {
 export function billInvalid(params) {
   return post('large-monitor-platform/lmp/warnProcess/billInvalid', params)
 }
+/**
+ * 处理单撤回
+ * @return {Promise | Promise<unknown>}
+ */
+export function workFlowRevoke(params) {
+  return post('large-monitor-platform/lmp/workFlow/workFlowRevoke_sz', params)
+}

@@ -49,6 +49,7 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
+    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" @close="showModal = false" />
     <AddDialog
       v-if="dialogVisible"
@@ -57,6 +58,11 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <el-dialog title="确定要撤销选中数据吗？" width="600px" :visible.sync="dialogTableVisible">
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="mulWithdraw">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -75,7 +81,7 @@ export default {
   },
   computed: {
     menuSettingConfig() {
-      return this.transJson(this.$store.state.curNavModule.param5)
+      return { ...this.transJson(this.$store.state.curNavModule.param5), hide: 1 }
     },
     userInfo() {
       return this.$store.state.userInfo
@@ -86,48 +92,10 @@ export default {
   },
   data() {
     return {
+      dialogTableVisible: false,
       // BsQuery 查询栏
       showModal: false,
-      queryConfig: [
-        {
-          title: '财政区划',
-          field: 'mofDivCodes',
-          width: '8',
-          align: 'left',
-          name: '$vxeTree',
-          itemRender: {
-            name: '$vxeTree',
-            options: [],
-            props: {
-              config: {
-                valueKeys: ['code', 'name', 'id', 'codeFragment'],
-                format: '{name}',
-                treeProps: {
-                  labelFormat: '{codeFragment}-{name}', // {code}-{name}
-                  nodeKey: 'id',
-                  label: 'label',
-                  children: 'children'
-                },
-                treeData: [{
-                  children: [],
-                  code: 0,
-                  id: 0,
-                  label: '0-全部分类',
-                  name: '全部分类',
-                  parentId: null,
-                  parentRuleName: null,
-                  ruleLevel: 0,
-                  ruleName: '全部分类'
-                }],
-                placeholder: '财政区划',
-                multiple: true,
-                readonly: false,
-                isleaf: true
-              }
-            }
-          }
-        }
-      ],
+      queryConfig: [],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
         regulationClass: this.transJson(this.$store.state.curNavModule.param5).regulationClass,
@@ -187,8 +155,15 @@ export default {
           // 修改 配置 下发 删除
           $customerRender: {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
+              let vnode = (
+                <div>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                  {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
+                  {this.queryData.flowStatus === '0' ? <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> : ''}
+                </div>
+              )
               return [
-                <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                vnode
               ]
             }
           },
@@ -210,7 +185,7 @@ export default {
       logData: [],
       showLogView: false,
       // 请求 & 角色权限相关配置
-      menuName: '违规处理单反馈（单位）',
+      menuName: '',
       // userInfo: {},
       roleguid: this.$store.state.curNavModule.roleguid,
       // 文件
@@ -243,19 +218,20 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      api.getLogs(row.dealNo).then(res => {
+      let params = { warningCode: row.warningCode }
+      api.workFlowGetLogs(params).then(res => {
         if (res.code === '000000') {
-          let tempData = res.data.map(item => {
-            return {
-              logid: item['operationTypeCode'],
-              nodeName: item['operationTypeName'],
-              actionUser: item['operationUser'],
-              actionName: item['operationTypeName'],
-              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
-              message: item['operationComment']
-            }
-          })
-          this.logData = tempData
+          // let tempData = res.data.map(item => {
+          //   return {
+          //     logid: item['logid'],
+          //     nodeName: item['nodeName'],
+          //     actionUser: item['operationUser'],
+          //     actionName: item['operationTypeName'],
+          //     actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+          //     message: item['operationComment']
+          //   }
+          // })
+          this.logData = res.data
           console.log(this.logData)
           this.showLogView = true
         } else {
@@ -405,6 +381,7 @@ export default {
       }
       this.tableLoading = true
       api.getWorkFlowDetail(param).then(res => {
+        this.selection = []
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -447,30 +424,44 @@ export default {
       this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
     },
     async onTabPanelBtnClick(obj) { // 按钮点击
+      console.log(777, obj)
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
         return
       }
-      this.showModal = true
-      await this.$nextTick()
-      let serverTime = await HttpModule.getCurrentTime()
-      let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
-      let preNodeFormObj = {}// 上一个节点表单填得值
-      if (formItemText && formItemText.length) {
-        formItemText.forEach(item => {
-          preNodeFormObj[item.key] = item.value
-        })
+      if (obj.code === 'dcl-hsfk') {
+        this.showModal = true
+        await this.$nextTick()
+        let serverTime = await HttpModule.getCurrentTime()
+        let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
+        let preNodeFormObj = {}// 上一个节点表单填得值
+        if (formItemText && formItemText.length) {
+          formItemText.forEach(item => {
+            preNodeFormObj[item.key] = item.value
+          })
+        }
+        let ortherData = {
+          serverTime: serverTime.data,
+          createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
+          userName: this.userInfo.name
+        }
+        if (this.$route.name === 'monitProcFeedback') {
+          ortherData.commentDept = '1'// 单位材料整改初始值设置为1
+        }
+        this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
+        this.$refs.MonitProcFeedbackModal.tabCode = obj.code
+        this.$refs.MonitProcFeedbackModal.dialogVisible = true
+        this.$refs.MonitProcFeedbackModal.initModal()
+      } else if (obj.code === 'dcl-cx') {
+        let selection = this.$refs.mainTableRef.getSelectionData() || []
+        if (selection.length === 0) {
+          this.$message.warning('请选择数据')
+          return
+        }
+        this.selection = selection
+        this.dialogTableVisible = true
       }
-      let ortherData = {
-        serverTime: serverTime.data,
-        createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
-        userName: this.userInfo.name
-      }
-      this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
-      this.$refs.MonitProcFeedbackModal.tabCode = obj.code
-      this.$refs.MonitProcFeedbackModal.dialogVisible = true
-      this.$refs.MonitProcFeedbackModal.initModal()
     },
     transJson(str) {
       if (!str) return
@@ -486,8 +477,7 @@ export default {
     },
     // 切换状态栏
     onStatusTabClick(obj) {
-      console.log('切换状态栏', obj)
-      if (obj.code === 'dcl-hsfk') return// 点击按钮时也触发了切换状态栏
+      if (!obj.type) return
       this.queryData.flowStatus = obj.code
       this.queryTableDatas()
     },
@@ -502,7 +492,8 @@ export default {
             v.value = v.code
             v.label = v.name
           })
-          this.queryConfig[2].itemRender.options = res.data.results
+          console.log(res.data.results, 777)
+          this.$set(this.queryConfig[0].itemRender, 'options', res.data.results)
         }
       })
     },
@@ -602,6 +593,73 @@ export default {
         }
       }
     },
+    withdraw(row) {
+      let params = [{
+        menuId: this.$store.state.curNavModule.guid,
+        warningCode: row.warningCode,
+        commentDept: '5', // 5  撤回
+        dealNo: row.dealNo
+      }]
+      api.workFlowRevoke(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('撤回成功')
+          this.queryTableDatas()
+        }
+      })
+    },
+    mulWithdraw() {
+      let params = this.selection.map(row => {
+        return {
+          menuId: this.$store.state.curNavModule.guid,
+          warningCode: row.warningCode,
+          commentDept: '5', // 5  撤回
+          dealNo: row.dealNo
+        }
+      })
+      api.workFlowRevoke(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('撤回成功')
+          this.queryTableDatas()
+        }
+      })
+    },
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.$set(this.queryConfig[0].itemRender, 'options', treeResdata)
+          // this.queryConfig[0].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getAgency() {
+      const param = {
+        elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
+        year: this.$store.state.userInfo.year,
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
+      }
+      api.getTreeAgency(param).then(res => {
+        let treeResdata = res.data
+        this.queryConfig[0].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     async loadConfig(id) {
       let params = {
         tableId: {
@@ -613,6 +671,7 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
+      this.menuName = configQueryData.dataConfig.menuname
     },
     async loadTabConfig(id) {
       let params = {
@@ -625,6 +684,23 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'queryConfigInfo', { ...this.toolBarStatusBtnConfig, ...configQueryData.itemsConfig[0] })
+    },
+    async loadQueryFormConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.userInfo.year,
+          mof_div_code: this.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      let configQueryData = await this.loadBsConfig(params)
+      this.$set(this, 'queryConfig', configQueryData.itemsConfig)
+      if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && configQueryData.itemsConfig[0].field === 'mofDivCodes') {
+        this.getMofDiv()// 财政区划添加下拉按钮选项
+      } else if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && configQueryData.itemsConfig[0].field === 'agencyCodeList') {
+        this.getAgency()// 预算单位加载
+      }
     }
   },
   mounted() {
@@ -637,6 +713,8 @@ export default {
           this.loadConfig(item.id)// 加载表格
         } else if (item.type === 'tabPanel') {
           this.loadTabConfig(item.id)
+        } else if (item.type === 'queryForm') {
+          this.loadQueryFormConfig(item.id)
         }
       })
     })

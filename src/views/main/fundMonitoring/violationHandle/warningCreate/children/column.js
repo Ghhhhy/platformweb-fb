@@ -105,18 +105,17 @@ const budgetImpColumns = [
     title: '预警级别',
     field: 'warnLevel',
     align: 'center',
-    titleWidth: '180',
-    span: 8,
-    itemRender: {
+    width: 180,
+    cellRender: {
       name: '$vxeSelect',
-      props: { disabled: true, placeholder: '预警级别' },
       options: store.state.warnInfo.warnLevelOptions.map(item => {
         return {
           ...item,
           value: String(item.value)
         }
       }),
-      defaultValue: ''
+      defaultValue: '',
+      props: { disabled: true, placeholder: '预警级别' }
     },
     name: '$vxeSelect'
   },
@@ -160,7 +159,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'right',
-    width: 180,
+    width: 160,
     combinedType: [
       'average',
       'subTotal',
@@ -178,6 +177,17 @@ const budgetImpColumns = [
     align: 'center',
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
+  },
+  {
+    title: '预算项目',
+    width: 220,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
     }
   }
 ]
@@ -691,18 +701,17 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2042,18 +2051,17 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2304,18 +2312,17 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2382,18 +2389,17 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2507,18 +2513,17 @@ const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: { disabled: true, placeholder: '预警级别' }
       },
       name: '$vxeSelect'
     },
@@ -2626,6 +2631,7 @@ const proconf = {
     // 8和2  代表 指标[]
     const isIndex = [6, '6', 2, '2'].includes(business)
     const re = ['0207'].includes(regulationClass)
+    console.log('000000000000000', store.state.warnInfo.warnLevelOptions)
     let columns1 = business && isIndex ? budgetImpColumns.filter(item => { return item.field !== 'paymentAmount' }) : budgetImpColumns
     let columns = business && isIndex && re ? budgetManagementColumns : columns1
     const tempOperatorColumns = [...operatorColumns]

@@ -17,9 +17,8 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
 
   // 是否是单位反馈页面
   const isUnitFeedbackPage = computed(() => {
-    return unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK
+    return unref(pagePath) === RouterPathEnum().UNIT_FEEDBACK || unref(pagePath) === RouterPathEnum().DIVISION_FEED_BACK
   })
-
   // 是否是单位页面（单位反馈、单位审核）
   const isUnitMenu = computed(() => {
     return !![RouterPathEnum().UNIT_FEEDBACK, RouterPathEnum().UNIT_AUDIT].includes(unref(pagePath))

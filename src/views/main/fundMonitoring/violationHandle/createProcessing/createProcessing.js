@@ -147,6 +147,17 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
+  },
+  {
+    title: '预算项目',
+    width: 180,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+    }
   }
 ]
 // 预算管理表头
@@ -618,6 +629,17 @@ export const proconf = {
         props: {
           placeholder: '追踪项目'
         }
+      }
+    },
+    {
+      title: '预算项目',
+      width: '9',
+      field: 'proName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     }
   ],
@@ -2479,18 +2501,17 @@ export const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
+      width: 180,
+      cellRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: {}
       },
       name: '$vxeSelect'
     },
@@ -2787,18 +2808,17 @@ export const proconf = {
       title: '预警级别',
       field: 'warnLevel',
       align: 'center',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
+      width: 180,
+      cellRender: {
         name: '$vxeSelect',
-        props: { disabled: true, placeholder: '预警级别' },
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: ''
+        defaultValue: '',
+        props: {}
       },
       name: '$vxeSelect'
     },
