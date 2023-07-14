@@ -753,6 +753,12 @@ export default {
         })
       }
       this.getViolationType()
+      let ruleCode = this.detailData[0].fiRuleCode
+      await HttpModule.getWarningTips(ruleCode).then(res => {
+        if (res.code === '000000') {
+          this.doubtViolateExplain = res.data
+        }
+      })
     },
     // 规则校验
     ruleTest() {
