@@ -553,7 +553,7 @@ export default {
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
         // const isInvalidCellValue11 = !(obj.row[obj.column.property] * 1)
-        if (!this.clickRowData.proGuid) { // 吉林第一行数据为合计  由后端返回  直接不准点击
+        if (!this.clickRowData.proGuid || this.clickRowData.trackProName === '合计') { // 吉林第一行数据为合计  由后端返回  直接不准点击
           return
         }
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
