@@ -2502,7 +2502,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2809,7 +2809,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
