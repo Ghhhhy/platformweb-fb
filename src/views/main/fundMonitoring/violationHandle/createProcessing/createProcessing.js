@@ -496,21 +496,21 @@ export const proconf = {
       }
     },
     */
-    {
-      title: '违规类型',
-      width: 180,
-      field: 'violateType',
-      formula: '',
-      align: 'left',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '违规类型'
-        }
-      }
-    },
+    // {
+    //   title: '违规类型',
+    //   width: 180,
+    //   field: 'violateType',
+    //   formula: '',
+    //   align: 'left',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '违规类型'
+    //     }
+    //   }
+    // },
     {
       title: '单号',
       width: 180,
