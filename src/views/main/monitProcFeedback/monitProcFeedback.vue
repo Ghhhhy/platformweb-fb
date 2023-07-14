@@ -440,7 +440,7 @@ export default {
         let preNodeFormObj = {}// 上一个节点表单填得值
         if (formItemText && formItemText.length) {
           formItemText.forEach(item => {
-            preNodeFormObj[item.key] = item.value
+            preNodeFormObj[item.bizKey] = item.bizValue
           })
         }
         let ortherData = {
