@@ -56,7 +56,7 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTable1
           ref="mainTableRef"
           v-loading="tableLoadingState"
           :footer-config="tableFooterConfig"
@@ -79,7 +79,7 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </BsTable1>
       </template>
     </BsMainFormListLayout>
     <ShowDialog
@@ -118,12 +118,14 @@ import proconf, {
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
+import BsTable1 from '@/components/Table/Table.vue'
 
 export default {
   name: 'DetailDialogs',
   components: {
     GlAttachment,
-    ShowDialog
+    ShowDialog,
+    BsTable1
   },
   computed: {
     curNavModule() {
