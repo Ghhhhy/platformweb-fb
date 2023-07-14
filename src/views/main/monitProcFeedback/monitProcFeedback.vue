@@ -706,7 +706,7 @@ export default {
     }
   },
   mounted() {
-
+    this.queryTableDatas()
   },
   created() {
     this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
