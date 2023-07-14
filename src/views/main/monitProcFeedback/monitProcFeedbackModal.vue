@@ -211,8 +211,8 @@ export default {
           if (item.type !== 'components') { // 判断不是上传组件
             item.formItemList.forEach((ii, idx) => {
               let obj = {}
-              obj.key = ii.field
-              obj.value = this.$refs.createRef[index].getFormData()[ii.field]
+              obj.bizKey = ii.field
+              obj.bizValue = this.$refs.createRef[index].getFormData()[ii.field]
               if (item.needUpload) { // 获取需要上传的哪个表单的数据
                 flowParamVoList.push(obj)
               }
@@ -220,8 +220,8 @@ export default {
             })
           } else {
             let obj = {}
-            obj.key = item.field
-            obj.value = this.createDataList.createdAttachmentid
+            obj.bizKey = item.field
+            obj.bizValue = this.createDataList.createdAttachmentid
             flowParamVoList.push(obj)
           }
         })
