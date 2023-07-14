@@ -370,7 +370,9 @@ export default {
         isUnit: this.menuSettingConfig.retroact,
         isNormalDone: this.queryData.isNormalDone,
         isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone
+        isAgencyDone: this.queryData.isAgencyDone,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

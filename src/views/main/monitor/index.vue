@@ -520,7 +520,9 @@ export default {
         fiscalYear: this.condition.fiscalYear
           ? this.condition.fiscalYear.toString()
           : '',
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
       this.tableLoading = true
       HttpModule.queryTableDatass(param).then((res) => {

@@ -1041,7 +1041,9 @@ export default {
         warnStartDate: this.queryData.warnStartDate,
         warnEndDate: this.queryData.warnEndDate,
         dealWarnStartDate: this.queryData.dealWarnStartDate,
-        dealWarnEndDate: this.queryData.dealWarnEndDate
+        dealWarnEndDate: this.queryData.dealWarnEndDate,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
 
       // 有菜单有主题参数则 则用主题参数
