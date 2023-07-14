@@ -218,11 +218,11 @@ export let proconf = {
       {
         label: '更新',
         code: 'update'
-      },
-      {
-        label: '挂接',
-        code: 'hook_set',
-        status: 'primary'
+      // },
+      // {
+      //   label: '挂接',
+      //   code: 'hook_set',
+      //   status: 'primary'
       }
       // ,
       // {
