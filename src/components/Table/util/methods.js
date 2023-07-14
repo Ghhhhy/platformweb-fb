@@ -3335,7 +3335,16 @@ const exportAndImportFn = {
         const findIndex = fullDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
         item.seqIndex = fullDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
       }
-
+      columns.forEach(colItem => { // 添加导出formatter字段的配置
+        if (colItem.exportFormatter) {
+          let field = colItem.field
+          if (Object.hasOwn(item, field) && item[colItem.field]) {
+            let newFormatterValue = colItem.formatter({ row: item })
+            Reflect.set(item, field, newFormatterValue)
+            return item
+          }
+        }
+      })
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })
 
@@ -3344,6 +3353,16 @@ const exportAndImportFn = {
         const findIndex = treeExpandDataTreeArr.findIndex(it => it[rowUuidKeyName] === item[rowUuidKeyName])
         item.seqIndex = treeExpandDataTreeArr[0]?.id === '#' ? item.id === '#' ? '#' : findIndex : findIndex + 1
       }
+      columns.forEach(colItem => { // 添加导出formatter字段的配置
+        if (colItem.exportFormatter) {
+          let field = colItem.field
+          if (Object.hasOwn(item, field) && item[colItem.field]) {
+            let newFormatterValue = colItem.formatter({ row: item })
+            Reflect.set(item, field, newFormatterValue)
+            return item
+          }
+        }
+      })
       this.computedExportRow(item, moneyKeys, ratioKeys)
     })
 
