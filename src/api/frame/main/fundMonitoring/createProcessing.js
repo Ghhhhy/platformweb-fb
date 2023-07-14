@@ -112,6 +112,10 @@ export default {
   getCurrentTime(params) {
     return post('large-monitor-platform/lmp/commom/getCurrentTime', params)
   },
+  // 获取告警信息
+  getWarningTips(params) {
+    return get('large-monitor-platform/lmp/totalWarn/warningTips/' + params)
+  },
   getisShowViolateType() {
     return get('large-monitor-platform/lmp/payReportConfig/query')
   },
