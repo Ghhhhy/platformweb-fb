@@ -603,22 +603,24 @@ export default {
     // 生成
     handleCreate() {
       let selection = this.$refs.mainTableRef.selection
-      // if (selection.length !== 1) {
-      //   this.$message.warning('请选择一条数据')
-      //   return
-      // }
-      console.log(123, selection)
       if (selection.length === 0) {
         this.$message.warning('请选择数据')
         return
       }
       let mofDivCodeList = {}
+      let agencyCodeList = {}
+      let fiRuleCodeList = {}
       selection.forEach(item => {
         mofDivCodeList[item.mofDivCode] = item.mofDivName
+        agencyCodeList[item.agencyCode] = item.agencyCode
+        fiRuleCodeList[item.fiRuleCode] = item.fiRuleCode
       })
-      console.log(77, mofDivCodeList)
       if (Object.keys(mofDivCodeList).length > 1) {
         this.$message.warning('请选择同一区划')
+        return
+      }
+      if (Object.keys(agencyCodeList).length > 1 || Object.keys(fiRuleCodeList).length > 1) {
+        this.$message.warning('请选择同一单位编码和同一规则编码')
         return
       }
       this.isDone = false
