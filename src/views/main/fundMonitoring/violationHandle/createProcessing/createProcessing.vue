@@ -711,7 +711,7 @@ export default {
     handleFeedback() {
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length === 0) {
-        this.$message.warning('请选择一条数据')
+        this.$message.warning('请选择数据')
         return
       }
       let batchIdObj = {}
