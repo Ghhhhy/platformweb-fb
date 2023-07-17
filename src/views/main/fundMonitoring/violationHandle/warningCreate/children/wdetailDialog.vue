@@ -120,6 +120,7 @@ import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
 import BsTable1 from '@/components/Table/Table.vue'
+import moment from 'moment'
 
 export default {
   name: 'DetailDialogs',
@@ -1067,10 +1068,10 @@ export default {
         businessModuleCode: this.bussnessId || undefined,
         trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
         roleguid: this.$store.state.curNavModule.roleguid,
-        warnStartDate: this.queryData.warnStartDate,
-        warnEndDate: this.queryData.warnEndDate,
-        dealWarnStartDate: this.queryData.dealWarnStartDate,
-        dealWarnEndDate: this.queryData.dealWarnEndDate,
+        warnStartDate: this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'),
+        warnEndDate: this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'),
+        dealWarnStartDate: this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'),
+        dealWarnEndDate: this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD'),
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid
       }
