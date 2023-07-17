@@ -219,7 +219,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="" placement="" effect="light">
-                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, type: 'view' })}>查看</span>
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'view' })}>查看</span>
                 </el-tooltip>
               ]
             }
@@ -229,7 +229,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="" placement="" effect="light">
-                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, type: 'viewLog' })}>查看</span>
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'viewLog' })}>查看</span>
                 </el-tooltip>
               ]
             }
@@ -239,7 +239,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="附件" placement="top" effect="light">
-                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.onOptionRowClick({ row, column, type: 'attach' })}>附件</a>,
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.handleCheck({ row, column, type: 'attach' })}>附件</a>,
                 </el-tooltip>
               ]
             }

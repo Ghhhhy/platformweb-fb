@@ -1275,14 +1275,13 @@ export default {
         }
       } else {
         if (this.isXmProject) { // 项目项目隐藏三个字段
-          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
           this.createConfig = proconf.createConfig.filter(item1 => {
             return !['violateType'].includes(item1.field)
           })
-        } else {
-          this.incomeMsgConfig = proconf.incomeMsgConfig
+        } else if (!this.param5.show) { // 现在默认隐藏3个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
         }
         this.supplyDataList = proconf.incomeMsgData
       }

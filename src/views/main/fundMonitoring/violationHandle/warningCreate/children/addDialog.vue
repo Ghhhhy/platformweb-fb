@@ -906,18 +906,14 @@ export default {
           this.incomeMsgConfig = proconf.bgtMsgConfig
           this.supplyDataList = proconf.incomeMsgData
         }
-        this.dialogVisibleKjsmBut = true
-      } else {
-        if (this.isXmProject && !this.param5.show) { // 项目项目隐藏三个字段
-          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
-        } else {
-          this.incomeMsgConfig = proconf.msgConfig
-        }
+      } else if (!this.param5.show) {
         this.supplyDataList = proconf.msgData
-        this.dialogVisibleKjsmBut = true
+        // 现在默认隐藏3个字段
+        this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+        })
       }
+      this.dialogVisibleKjsmBut = true
     },
     getisShowViolateType() { // 处理违规类型下拉框是否显示
       // HttpModule.getisShowViolateType().then(res => {
