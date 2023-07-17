@@ -74,8 +74,8 @@ import {
   getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
-// import { transJson1, transJson2, transJson3 } from '@/utils/params.js'
-import { transJson1, transJson2 } from '@/utils/params.js'
+import { transJson1, transJson2, transJson3 } from '@/utils/params.js'
+// import { transJson1, transJson2 } from '@/utils/params.js'
 import store from '@/store'
 import { Message } from 'element-ui'
 
@@ -128,47 +128,47 @@ export default defineComponent({
     /**
      * 动态表格配置
      * */
-    // let columnsSS = ref(null)
-    // async function loadConfig(id) {
-    //   let params = {
-    //     tableId: {
-    //       id: id,
-    //       fiscalyear: store.state.userInfo.year,
-    //       mof_div_code: store.state.userInfo.province,
-    //       menuguid: store.state.curNavModule.guid
-    //     }
-    //   }
-    //   let configData = await root.loadBsConfig(params)
-    //   return configData.itemsConfig
-    // }
+    let columnsSS = ref(null)
+    async function loadConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: store.state.userInfo.year,
+          mof_div_code: store.state.userInfo.province,
+          menuguid: store.state.curNavModule.guid
+        }
+      }
+      let configData = await root.loadBsConfig(params)
+      return configData.itemsConfig
+    }
     /**
      *判断使用本地配置||动态配置
      * */
-    // if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
-    //   loadConfig('Table101').then(res => {
-    //     columnsSS.value = res
-    //   })
-    //   loadConfig('Query101').then(res => {
-    //     formSchemas.value = res
-    //   })
-    // } else {
-    //   columnsSS.value = [
-    //     getRuleNameColumn({
-    //       title: '规则名称',
-    //       minWidth: 100,
-    //       // width: 200
-    //       width: 'auto'
-    //     }),
-    //     getWarnLevelColumn(),
-    //     getControlTypeColumn(),
-    //     ...getWarnCountColumns(),
-    //     getIsDirColumn({
-    //       // minWidth: 100
-    //       width: 120
-    //       // width: 'auto'
-    //     })
-    //   ]
-    // }
+    if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
+      loadConfig('Table101').then(res => {
+        columnsSS.value = res
+      })
+      loadConfig('Query101').then(res => {
+        formSchemas.value = res
+      })
+    } else {
+      columnsSS.value = [
+        getRuleNameColumn({
+          title: '规则名称',
+          minWidth: 100,
+          // width: 200
+          width: 'auto'
+        }),
+        getWarnLevelColumn(),
+        getControlTypeColumn(),
+        ...getWarnCountColumns(),
+        getIsDirColumn({
+          // minWidth: 100
+          width: 120
+          // width: 'auto'
+        })
+      ]
+    }
     /**
      * 关闭所有弹窗
      * */
@@ -207,22 +207,7 @@ export default defineComponent({
       finallyFetch: data => {
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
-      columns: [
-        getRuleNameColumn({
-          title: '规则名称',
-          minWidth: 100,
-          // width: 200
-          width: 'auto'
-        }),
-        getWarnLevelColumn(),
-        getControlTypeColumn(),
-        ...getWarnCountColumns(),
-        getIsDirColumn({
-          // minWidth: 100
-          width: 120
-          // width: 'auto'
-        })
-      ],
+      columns: columnsSS,
       getSubmitFormData,
       dataKey: 'data.results'
     })
