@@ -392,6 +392,66 @@ const proconf = {
           }
         }
       }
+    },
+    {
+      title: '警告开始时间',
+      field: 'warnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告开始时间'
+        }
+      }
+    },
+    {
+      title: '警告结束时间',
+      field: 'warnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告结束时间'
+        }
+      }
+    },
+    {
+      title: '开始处理时间',
+      field: 'dealWarnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '开始处理时间'
+        }
+      }
+    },
+    {
+      title: '结束处理时间',
+      field: 'dealWarnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '结束处理时间'
+        }
+      }
     }
   ],
   highQueryConfigHLJ: [
@@ -430,7 +490,11 @@ const proconf = {
     ruleCodes: '',
     xpayDate: '',
     triggerMonitorDate: '',
-    trackProCodeList: ''
+    trackProCodeList: '',
+    warnStartDate: '',
+    warnEndDate: '',
+    dealWarnStartDate: '',
+    dealWarnEndDate: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',

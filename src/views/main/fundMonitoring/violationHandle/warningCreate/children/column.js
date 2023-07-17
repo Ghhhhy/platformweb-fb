@@ -159,7 +159,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'right',
-    width: 180,
+    width: 160,
     combinedType: [
       'average',
       'subTotal',
@@ -175,8 +175,20 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    exportFormatter: true, // 导出formatter展示的数据
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
+  },
+  {
+    title: '预算项目',
+    width: 220,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
     }
   }
 ]

@@ -381,7 +381,10 @@ export default {
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         xpayDate: xpayDate ? xpayDate[0] : '',
         triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : '',
-        trackProCodeList: trackProCode
+        trackProCodeList: trackProCode,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid,
+        roleguid: this.$store.state.curNavModule.roleguid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

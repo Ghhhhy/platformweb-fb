@@ -111,7 +111,7 @@ export let proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {

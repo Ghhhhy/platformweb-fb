@@ -147,6 +147,17 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
+  },
+  {
+    title: '预算项目',
+    width: 180,
+    field: 'proName',
+    sortable: false,
+    filters: false,
+    align: 'center',
+    formatter({ row }) {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+    }
   }
 ]
 // 预算管理表头
@@ -485,21 +496,21 @@ export const proconf = {
       }
     },
     */
-    {
-      title: '违规类型',
-      width: 180,
-      field: 'violateType',
-      formula: '',
-      align: 'left',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '违规类型'
-        }
-      }
-    },
+    // {
+    //   title: '违规类型',
+    //   width: 180,
+    //   field: 'violateType',
+    //   formula: '',
+    //   align: 'left',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '违规类型'
+    //     }
+    //   }
+    // },
     {
       title: '单号',
       width: 180,
@@ -618,6 +629,17 @@ export const proconf = {
         props: {
           placeholder: '追踪项目'
         }
+      }
+    },
+    {
+      title: '预算项目',
+      width: '9',
+      field: 'proName',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      formatter({ row }) {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
     }
   ],
@@ -2480,7 +2502,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2787,7 +2809,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {

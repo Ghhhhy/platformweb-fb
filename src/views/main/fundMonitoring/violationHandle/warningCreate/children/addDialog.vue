@@ -517,6 +517,9 @@ export default {
   methods: {
     cellClick(obj, context, e) {
       let key = obj.column.property
+      if (this.param5?.hide) {
+        return
+      }
       switch (key) {
         case 'regulationName':
           HttpDetailModule.getDetailData(obj.row.regulationCode).then((res) => {
@@ -573,7 +576,8 @@ export default {
       }
       if (this.title === '查看详情信息') {
         this.addLoading = true
-        HttpModule.budgetgetDetail(code).then(res => {
+        let code2 = this.param5.hide ? 0 : 1
+        HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
@@ -753,6 +757,12 @@ export default {
         })
       }
       this.getViolationType()
+      let ruleCode = this.detailData[0].fiRuleCode
+      await HttpModule.getWarningTips(ruleCode).then(res => {
+        if (res.code === '000000') {
+          this.doubtViolateExplain = res.data
+        }
+      })
     },
     // 规则校验
     ruleTest() {
@@ -886,7 +896,7 @@ export default {
         }
         this.dialogVisibleKjsmBut = true
       } else {
-        if (this.isXmProject) { // 项目项目隐藏三个字段
+        if (this.isXmProject || this.param5.hide) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.msgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })
