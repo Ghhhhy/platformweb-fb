@@ -55,6 +55,7 @@
       v-if="detailVisible"
       :detail-data="detailData"
       :colour-type="colourType"
+      :query-data="searchDataList"
     />
   </div>
 </template>
