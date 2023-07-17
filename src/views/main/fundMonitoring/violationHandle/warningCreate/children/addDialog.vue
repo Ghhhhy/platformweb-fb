@@ -573,7 +573,8 @@ export default {
       }
       if (this.title === '查看详情信息') {
         this.addLoading = true
-        HttpModule.budgetgetDetail(code).then(res => {
+        let code2 = this.param5.hide ? 0 : 1
+        HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
@@ -892,7 +893,7 @@ export default {
         }
         this.dialogVisibleKjsmBut = true
       } else {
-        if (this.isXmProject) { // 项目项目隐藏三个字段
+        if (this.isXmProject || this.param5.hide) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.msgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })
