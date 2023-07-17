@@ -14,6 +14,7 @@
       auto-resize
       header-align="center"
       highlight-hover-row
+      :table-global-config="tableGlobalConfig"
       :show-overflow="tableGlobalConfigIn.showOverflow"
       :show-header-overflow="tableGlobalConfigIn.showHeaderOverflow"
       :show-footer-overflow="tableGlobalConfigIn.showFooterOverflow"
@@ -102,7 +103,7 @@
               :disabled="toolbarConfigInCopy.disabledMoneyConversion"
             >
               <vxe-option :key="1" :value="1" label="元" />
-              <!--  <vxe-option :key="10000" :value="10000" label="万元" />-->
+              <vxe-option :key="10000" :value="10000" label="万元" />
               <!-- <vxe-option :key="1000000" :value="1000000" label="百万元" />
               <vxe-option :key="10000000" :value="10000000" label="千万元" />
               <vxe-option :key="100000000" :value="100000000" label="亿元" /> -->
@@ -157,6 +158,15 @@
             @click="onToolbarOperrateClick('import')"
           >
             <i class="vxe-button--icon custom-ico import"></i>
+          </vxe-button>
+          <vxe-button
+            v-if="treeConfig || toolbarConfigInCopy.expandAll"
+            name="expandbtn"
+            :loading="expendAllLoading"
+            :title="expandAllState ? '收起全部' : '展开全部'"
+            @click="onToolbarOperrateClick('expandAll')"
+          >
+            <i :class="expandAllState ? 'ri-checkbox-indeterminate-line' : 'ri-add-box-line'" class="vxe-button--icon"></i>
           </vxe-button>
           <vxe-button
             v-if="toolbarConfigInCopy.refresh"

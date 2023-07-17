@@ -1839,6 +1839,20 @@ const toolBarEvent = {
           }
         )
         break
+      case 'expandAll':
+        this.loading = true
+        // 设置宏任务，延迟执行避免js进程同步运行大量操作导致渲染进程loading假死
+        setTimeout(() => {
+          const handle = self.expandAllState
+            ? () => this.$refs.xGrid?.clearTreeExpand?.()
+            : () => this.$refs.xGrid?.setAllTreeExpand?.(true)
+          handle()
+            .finally(() => {
+              this.expandAllState = !this.expandAllState
+              this.loading = false
+            })
+        }, 16.67)
+        break
     }
   },
   setMoneyUnit(Unitlevel, oldUnitlevel) {
