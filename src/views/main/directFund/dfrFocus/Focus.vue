@@ -713,8 +713,17 @@ export default {
         }
       })
     },
-    getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+    getPro() {
+      const param = {
+        elementCode: 'AGENCY',
+        date: this.$store.state.userInfo.year,
+        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
+        appguid: 'apaas',
+        year: this.$store.state.userInfo.year,
+        mofDivCode: this.$store.state.userInfo.province,
+        parameters: {}
+      }
+      HttpModule.getTreeAgency(param).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData(res.data)
           this.queryConfig[2].itemRender.options = treeResdata

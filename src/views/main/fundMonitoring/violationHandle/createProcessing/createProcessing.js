@@ -496,21 +496,21 @@ export const proconf = {
       }
     },
     */
-    {
-      title: '违规类型',
-      width: 180,
-      field: 'violateType',
-      formula: '',
-      align: 'left',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '违规类型'
-        }
-      }
-    },
+    // {
+    //   title: '违规类型',
+    //   width: 180,
+    //   field: 'violateType',
+    //   formula: '',
+    //   align: 'left',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '违规类型'
+    //     }
+    //   }
+    // },
     {
       title: '单号',
       width: 180,
@@ -2502,7 +2502,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {
@@ -2809,7 +2809,7 @@ export const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      cellRender: {
+      itemRender: {
         name: '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
           return {

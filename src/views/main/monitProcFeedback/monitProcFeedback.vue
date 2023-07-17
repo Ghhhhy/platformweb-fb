@@ -370,7 +370,9 @@ export default {
         isUnit: this.menuSettingConfig.retroact,
         isNormalDone: this.queryData.isNormalDone,
         isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone
+        isAgencyDone: this.queryData.isAgencyDone,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -438,7 +440,7 @@ export default {
         let preNodeFormObj = {}// 上一个节点表单填得值
         if (formItemText && formItemText.length) {
           formItemText.forEach(item => {
-            preNodeFormObj[item.key] = item.value
+            preNodeFormObj[item.bizKey] = item.bizValue
           })
         }
         let ortherData = {
@@ -704,7 +706,7 @@ export default {
     }
   },
   mounted() {
-
+    this.queryTableDatas()
   },
   created() {
     this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {

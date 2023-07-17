@@ -622,7 +622,8 @@ export default {
         triggerClass: this.triggerClass,
         warningLevel: this.warningLevel,
         businessModelCode: this.bussnessId || undefined,
-        trackProName: this.trackProName || ''
+        trackProName: this.trackProName || '',
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

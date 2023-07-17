@@ -56,7 +56,7 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTable1
           ref="mainTableRef"
           v-loading="tableLoadingState"
           :footer-config="tableFooterConfig"
@@ -79,7 +79,7 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </BsTable1>
       </template>
     </BsMainFormListLayout>
     <ShowDialog
@@ -92,6 +92,7 @@
       :detail-data="showDetailData"
       :bussness-id="bussnessId"
       :regulation-class="regulationClass"
+      :param5="param5"
       @close="closeHandle"
     />
     <GlAttachment
@@ -118,12 +119,14 @@ import proconf, {
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
+import BsTable1 from '@/components/Table/Table.vue'
 
 export default {
   name: 'DetailDialogs',
   components: {
     GlAttachment,
-    ShowDialog
+    ShowDialog,
+    BsTable1
   },
   computed: {
     curNavModule() {
@@ -603,22 +606,24 @@ export default {
     // 生成
     handleCreate() {
       let selection = this.$refs.mainTableRef.selection
-      // if (selection.length !== 1) {
-      //   this.$message.warning('请选择一条数据')
-      //   return
-      // }
-      console.log(123, selection)
       if (selection.length === 0) {
         this.$message.warning('请选择数据')
         return
       }
       let mofDivCodeList = {}
+      let agencyCodeList = {}
+      let fiRuleCodeList = {}
       selection.forEach(item => {
         mofDivCodeList[item.mofDivCode] = item.mofDivName
+        agencyCodeList[item.agencyCode] = item.agencyCode
+        fiRuleCodeList[item.fiRuleCode] = item.fiRuleCode
       })
-      console.log(77, mofDivCodeList)
       if (Object.keys(mofDivCodeList).length > 1) {
         this.$message.warning('请选择同一区划')
+        return
+      }
+      if (Object.keys(agencyCodeList).length > 1 || Object.keys(fiRuleCodeList).length > 1) {
+        this.$message.warning('请选择同一单位编码和同一规则编码')
         return
       }
       this.isDone = false
@@ -1039,7 +1044,9 @@ export default {
         warnStartDate: this.queryData.warnStartDate,
         warnEndDate: this.queryData.warnEndDate,
         dealWarnStartDate: this.queryData.dealWarnStartDate,
-        dealWarnEndDate: this.queryData.dealWarnEndDate
+        dealWarnEndDate: this.queryData.dealWarnEndDate,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
 
       // 有菜单有主题参数则 则用主题参数

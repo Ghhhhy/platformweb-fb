@@ -379,7 +379,7 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '失效日期'
+          placeholder: '警告开始时间'
         }
       }
     },
@@ -394,7 +394,7 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '失效日期'
+          placeholder: '警告结束时间'
         }
       }
     },
@@ -409,7 +409,7 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '失效日期'
+          placeholder: '开始处理时间'
         }
       }
     },
@@ -424,7 +424,7 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '失效日期'
+          placeholder: '结束处理时间'
         }
       }
     }
