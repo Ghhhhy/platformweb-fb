@@ -152,12 +152,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;认定说明</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) "
-                      placeholder="主管处室指导意见"
+                      placeholder="请填写认定说明"
                       style="width:90%"
                     />
                   </el-row>
