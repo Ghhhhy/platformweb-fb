@@ -517,6 +517,9 @@ export default {
   methods: {
     cellClick(obj, context, e) {
       let key = obj.column.property
+      if (this.param5?.hide) {
+        return
+      }
       switch (key) {
         case 'regulationName':
           HttpDetailModule.getDetailData(obj.row.regulationCode).then((res) => {
