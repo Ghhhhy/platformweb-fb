@@ -343,6 +343,18 @@ export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      let columns = proconf.handletableColumnsConfig
+      if (this.param5.tableHide) { // 当配置了tableHide参数时，需要隐藏字段
+        return columns.map(item => {
+          if (item.field === 'regulationName') {
+            item.cellRender['name'] = ''
+          }
+          return item
+        })
+      }
+      return columns
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -471,7 +483,7 @@ export default {
       handletableData: [],
       incomeMsgConfig: proconf.msgConfig,
       supplyDataList: proconf.msgData,
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       businessMsgConfig: proconf.businessMsgConfig,
@@ -517,7 +529,7 @@ export default {
   methods: {
     cellClick(obj, context, e) {
       let key = obj.column.property
-      if (this.param5?.hide) {
+      if (this.param5?.tableHide) { // 当配置了tableHide参数 点击无效
         return
       }
       switch (key) {

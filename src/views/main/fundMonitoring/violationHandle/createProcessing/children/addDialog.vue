@@ -24,7 +24,7 @@
           ref="handleTableRef"
           height="200px"
           v-bind="footerConfig"
-          :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
+          :table-columns-config=" handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
           :toolbar-config="false"
@@ -351,6 +351,13 @@ export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      if (this.param5.retroact === 'company' || this.param5.tableHide) {
+        return proconf.compayHandletableColumnsConfig
+      } else { // 当配置了tableHide参数时，需要隐藏字段
+        return proconf.handletableColumnsConfig
+      }
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -554,8 +561,8 @@ export default {
       businessMsgConfig: proconf.businessMsgConfig,
       businessDataList: proconf.businessMsgData,
       checkDataList: {},
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
-      compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       createValidate: {
@@ -600,7 +607,7 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
-      if (this.param5?.retroact === 'company' || this.param5?.hide) {
+      if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
       }
       let key = obj.column.property
