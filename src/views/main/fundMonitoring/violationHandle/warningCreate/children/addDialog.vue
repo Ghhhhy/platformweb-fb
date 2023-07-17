@@ -347,10 +347,11 @@ export default {
       let columns = proconf.handletableColumnsConfig
       if (this.param5.tableHide) { // 当配置了tableHide参数时，需要隐藏字段
         return columns.map(item => {
+          let obj = { ...item }
           if (item.field === 'regulationName') {
-            item.cellRender['name'] = ''
+            obj.cellRender['name'] = ''
           }
-          return item
+          return obj
         })
       }
       return columns
