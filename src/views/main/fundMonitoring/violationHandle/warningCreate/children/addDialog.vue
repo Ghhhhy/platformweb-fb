@@ -588,7 +588,7 @@ export default {
       }
       if (this.title === '查看详情信息') {
         this.addLoading = true
-        let code2 = this.param5.hide ? 0 : 1
+        let code2 = this.param5.show ? 1 : 0
         HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
@@ -908,7 +908,7 @@ export default {
         }
         this.dialogVisibleKjsmBut = true
       } else {
-        if (this.isXmProject || this.param5.hide) { // 项目项目隐藏三个字段
+        if (this.isXmProject && !this.param5.show) { // 项目项目隐藏三个字段
           this.incomeMsgConfig = proconf.msgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })

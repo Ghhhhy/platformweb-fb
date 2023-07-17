@@ -675,7 +675,7 @@ export default {
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
-        let code2 = this.param5.hide ? 0 : 1
+        let code2 = this.param5.show ? 1 : 0
         HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
@@ -1317,7 +1317,7 @@ export default {
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
-    } else if (this.title === '查看详情信息' && this.param5.hide) { // 从事后监控跳转过来 隐藏3个字段
+    } else if (this.title === '查看详情信息' && !this.param5.show) { // 从事后监控跳转过来 隐藏3个字段
       this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
         return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
       })
