@@ -64,8 +64,7 @@ import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import { RouterPathEnum } from '../model/enum'
 import { useFooter } from '../hooks/useFooter'
-// import { transJson1, transJson3 } from '@/utils/params.js'
-import { transJson1 } from '@/utils/params.js'
+import { transJson1, transJson3 } from '@/utils/params.js'
 import store from '@/store'
 
 const model = {
@@ -120,36 +119,36 @@ export default defineComponent({
     /**
      * 动态表格配置
      * */
-    // let columnsSS = ref([])
-    // async function loadConfig(id) {
-    //   let params = {
-    //     tableId: {
-    //       id: id,
-    //       fiscalyear: store.state.userInfo.year,
-    //       mof_div_code: store.state.userInfo.province,
-    //       menuguid: store.state.curNavModule.guid
-    //     }
-    //   }
-    //   let configData = await loadBsConfig(params)
-    //   return configData.itemsConfig
-    // }
+    let columnsSS = ref([])
+    async function loadConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: store.state.userInfo.year,
+          mof_div_code: store.state.userInfo.province,
+          menuguid: store.state.curNavModule.guid
+        }
+      }
+      let configData = await loadBsConfig(params)
+      return configData.itemsConfig
+    }
     /**
      *判断使用本地配置||动态配置
      * */
-    // if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
-    //   loadConfig('Table201').then(res => {
-    //     columnsSS.value = res
-    //   })
-    // } else {
-    //   columnsSS.value = [
-    //     ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
-    //     getWarnLevelColumn(),
-    //     getControlTypeColumn(),
-    //     getWarnTypeColumn(),
-    //     ...getWarnCountColumns(),
-    //     getIsDirColumn()
-    //   ]
-    // }
+    if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
+      loadConfig('Table201').then(res => {
+        columnsSS.value = res
+      })
+    } else {
+      columnsSS.value = [
+        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
+        getWarnLevelColumn(),
+        getControlTypeColumn(),
+        getWarnTypeColumn(),
+        ...getWarnCountColumns(),
+        getIsDirColumn()
+      ]
+    }
     /**
      * 表格
      * */
@@ -183,14 +182,7 @@ export default defineComponent({
       finallyFetch: data => {
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
-      columns: [
-        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
-        getWarnLevelColumn(),
-        getControlTypeColumn(),
-        getWarnTypeColumn(),
-        ...getWarnCountColumns(),
-        getIsDirColumn()
-      ],
+      columns: columnsSS,
       dataKey: 'data.results'
     })
     /**

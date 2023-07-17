@@ -15,7 +15,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTable1
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -23,6 +23,7 @@
           :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :scroll-y="scrollConfig"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -77,7 +78,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable>
+        </BsTable1>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -161,6 +162,11 @@ export default {
       tabStatusNumConfig: {
         1: 0
       },
+      scrollConfig: {
+        gt: 0,
+        enabled: true
+      },
+
       // table 相关配置
       tableGlobalConfig: {
         customExportConfig: {
@@ -305,6 +311,7 @@ export default {
           menuguid: this.$store.state.curNavModule.guid
         }
       }
+      console.log(this.loadBsConfig, ' this.loadBsConfig')
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
@@ -852,6 +859,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
+    console.log(this.$refs, 'bsTableRef 表格配置')
     // 判断是否开放动态表格配置
     const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
     if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
