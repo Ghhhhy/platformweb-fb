@@ -92,6 +92,7 @@
       :detail-data="showDetailData"
       :bussness-id="bussnessId"
       :regulation-class="regulationClass"
+      :param5="param5"
       @close="closeHandle"
     />
     <GlAttachment
