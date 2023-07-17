@@ -211,7 +211,9 @@ export default function () {
     exportModalVisible: false, // 导出弹框,
     printConfigIn: {}, // 打印配置
     highConfigIn: {
-
+      scrollY: {
+        gt: 20
+      }
     }
   }
 }
