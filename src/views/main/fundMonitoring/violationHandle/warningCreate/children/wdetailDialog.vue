@@ -240,10 +240,36 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow,
-          $ReportTaskGloableOptionRow: proconf.gloableOptionRowDetial,
-          $gloableOptionRowLog: proconf.gloableOptionRowLog
-          // $gloableAttach: proconf.gloableAttach
+          $payVoucherInputGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="附件" placement="top" effect="light">
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+                </el-tooltip>
+              ]
+            }
+          },
+          $ReportTaskGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'show' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableOptionRowLog: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'viewLog' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          }
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
