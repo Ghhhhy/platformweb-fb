@@ -22,6 +22,18 @@ export const state = { // 实时监听state值的变化(最新状态)
   userRolesData: [] // 用户角色
 }
 export const getters = {
+  treeQueryparamsCom() {
+    let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: '2021', wheresql: 'and code like \'' + 61 + '%\'' }
+    let budgetlevelcode = state.userInfo.budgetlevelcode
+    if (budgetlevelcode === '4') { // 市级
+      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 4) + '%\''
+    } else if (budgetlevelcode === '5') { // xianji
+      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 6) + '%\''
+    } else if (budgetlevelcode === '2') { // sheng ji
+      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 2) + '%\''
+    }
+    return obj
+  },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
   },
