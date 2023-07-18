@@ -159,7 +159,7 @@ export default {
                 <div>
                   <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
                   {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
-                  {this.queryData.flowStatus === '0' ? <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> : ''}
+                  <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
               return [
@@ -602,9 +602,12 @@ export default {
         commentDept: '5', // 5  撤回
         dealNo: row.dealNo
       }]
+      this.tableLoading = true
       api.workFlowRevoke(params).then(res => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('撤回成功')
+          this.dialogTableVisible = false
           this.queryTableDatas()
         }
       })
@@ -618,9 +621,12 @@ export default {
           dealNo: row.dealNo
         }
       })
+      this.tableLoading = true
       api.workFlowRevoke(params).then(res => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('撤回成功')
+          this.dialogTableVisible = false
           this.queryTableDatas()
         }
       })
