@@ -261,7 +261,7 @@ export default {
               ]
             }
           },
-          $gloableOptionRowLog: {
+          $gloableOptionRowLog1: {
             renderDefault: (h, cellRender, params, context) => {
               let { row, column } = params
               return [
