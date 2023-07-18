@@ -1068,10 +1068,10 @@ export default {
         businessModuleCode: this.bussnessId || undefined,
         trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
         roleguid: this.$store.state.curNavModule.roleguid,
-        warnStartDate: this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'),
-        warnEndDate: this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'),
-        dealWarnStartDate: this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'),
-        dealWarnEndDate: this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD'),
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
+        dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
+        dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid
       }
@@ -1286,6 +1286,10 @@ export default {
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
     this.setShowBusinesTree()
+    this.searchDataList.warnStartDate = this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD')
+    this.searchDataList.warnEndDate = this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD')
+    this.searchDataList.dealWarnStartDate = this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD')
+    this.searchDataList.dealWarnEndDate = this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD')
   }
 }
 </script>
