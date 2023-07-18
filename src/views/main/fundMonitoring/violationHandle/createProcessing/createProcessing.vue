@@ -214,9 +214,36 @@ export default {
       tableConfig: {
         renderers: {
           // 修改 配置 下发 删除
-          $CreateProcessingGloableOptionRow: proconf.gloableOptionRowDetail,
-          $gloableAttach: proconf.gloableAttach,
-          $gloableOptionRowLog: proconf.gloableOptionRowLog
+          $CreateProcessingGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'view' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableOptionRowLog: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'viewLog' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableAttach: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="附件" placement="top" effect="light">
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.handleCheck({ row, column, type: 'attach' })}>附件</a>,
+                </el-tooltip>
+              ]
+            }
+          }
         },
         methods: {
           onOptionRowClick: this.handleCheck

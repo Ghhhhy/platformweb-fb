@@ -24,7 +24,7 @@
           ref="handleTableRef"
           height="200px"
           v-bind="footerConfig"
-          :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
+          :table-columns-config=" handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
           :toolbar-config="false"
@@ -152,12 +152,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;认定说明</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) "
-                      placeholder="主管处室指导意见"
+                      placeholder="请填写认定说明"
                       style="width:90%"
                     />
                   </el-row>
@@ -351,6 +351,13 @@ export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      if (this.param5.retroact === 'company' || this.param5.tableHide) {
+        return proconf.compayHandletableColumnsConfig
+      } else { // 当配置了tableHide参数时，需要隐藏字段
+        return proconf.handletableColumnsConfig
+      }
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -554,8 +561,8 @@ export default {
       businessMsgConfig: proconf.businessMsgConfig,
       businessDataList: proconf.businessMsgData,
       checkDataList: {},
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
-      compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       createValidate: {
@@ -600,7 +607,7 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
-      if (this.param5?.retroact === 'company' || this.param5?.hide) {
+      if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
       }
       let key = obj.column.property
@@ -668,7 +675,7 @@ export default {
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
-        let code2 = this.param5.hide ? 0 : 1
+        let code2 = this.param5.show ? 1 : 0
         HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
@@ -1268,14 +1275,13 @@ export default {
         }
       } else {
         if (this.isXmProject) { // 项目项目隐藏三个字段
-          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
           this.createConfig = proconf.createConfig.filter(item1 => {
             return !['violateType'].includes(item1.field)
           })
-        } else {
-          this.incomeMsgConfig = proconf.incomeMsgConfig
+        } else if (!this.param5.show) { // 现在默认隐藏3个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
         }
         this.supplyDataList = proconf.incomeMsgData
       }
@@ -1310,7 +1316,7 @@ export default {
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
-    } else if (this.title === '查看详情信息' && this.param5.hide) { // 从事后监控跳转过来 隐藏3个字段
+    } else if (this.title === '查看详情信息' && !this.param5.show) { // 从事后监控跳转过来 隐藏3个字段
       this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
         return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
       })

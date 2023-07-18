@@ -24,7 +24,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTable1
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -32,6 +32,8 @@
           :table-columns-config="tableColumnsConfig"
           :table-global-config="tableGlobalConfig"
           :table-data="tableData"
+          :scroll-y="scrollConfig"
+          :virtual-scroll="true"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -86,7 +88,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable>
+        </BsTable1>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -176,6 +178,10 @@ export default {
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
+      },
+      scrollConfig: {
+        gt: 0,
+        enabled: true
       },
       // table 相关配置
       tableGlobalConfig: {
