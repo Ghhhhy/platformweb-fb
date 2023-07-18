@@ -620,7 +620,8 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '警告开始时间'
+          placeholder: '警告开始时间',
+          value: ''
         }
       }
     },
@@ -635,7 +636,8 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '警告结束时间'
+          placeholder: '警告结束时间',
+          value: ''
         }
       }
     },
@@ -650,7 +652,8 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '开始处理时间'
+          placeholder: '开始处理时间',
+          value: ''
         }
       }
     },
@@ -664,7 +667,8 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '结束处理时间'
+          placeholder: '结束处理时间',
+          value: ''
         }
       }
     }
@@ -678,7 +682,7 @@ const proconf = {
     warningLevel: '',
     fiRuleName: '',
     trackProName: '',
-    warnStartDate: '',
+    warnStartDate: '2022-02-02',
     warnEndDate: '',
     dealWarnStartDate: '',
     dealWarnEndDate: ''

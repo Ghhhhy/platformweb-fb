@@ -33,6 +33,8 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="reset"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -468,7 +470,7 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = val
+      this.searchDataList = { ...val, ...this.searchDataList }
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -616,6 +618,10 @@ export default {
         default:
           break
       }
+    },
+    itemChange(obj, formRef) {
+      obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
+      this.searchDataList[obj.property] = obj.itemValue
     },
     showDetail() {
       let selection = this.$refs.mainTableRef.selection
@@ -1208,6 +1214,17 @@ export default {
       }
       return result
     },
+    reset() {
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = ''
+      this.searchDataList.warnStartDate = ''
+      this.searchDataList.warnEndDate = ''
+      this.searchDataList.dealWarnStartDate = ''
+      this.searchDataList.dealWarnEndDate = ''
+      this.queryTableDatas()
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
@@ -1285,10 +1302,15 @@ export default {
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
     this.setShowBusinesTree()
-    this.searchDataList.warnStartDate = this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD')
-    this.searchDataList.warnEndDate = this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD')
-    this.searchDataList.dealWarnStartDate = this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD')
-    this.searchDataList.dealWarnEndDate = this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD')
+    this.$set(this.searchDataList, 'warnStartDate', this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'warnEndDate', this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'dealWarnStartDate', this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'dealWarnEndDate', this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD'))
+    // 回显时间
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = this.searchDataList.dealWarnStartDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = this.searchDataList.dealWarnEndDate
   }
 }
 </script>
