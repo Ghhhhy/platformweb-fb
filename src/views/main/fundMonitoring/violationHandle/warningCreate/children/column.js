@@ -608,6 +608,65 @@ const proconf = {
           placeholder: '追踪项目'
         }
       }
+    },
+    {
+      title: '警告开始时间',
+      field: 'warnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告开始时间'
+        }
+      }
+    },
+    {
+      title: '警告结束时间',
+      field: 'warnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告结束时间'
+        }
+      }
+    },
+    {
+      title: '开始处理时间',
+      field: 'dealWarnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '开始处理时间'
+        }
+      }
+    },
+    {
+      title: '结束处理时间',
+      field: 'dealWarnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '结束处理时间'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -618,7 +677,11 @@ const proconf = {
     triggerClass: '',
     warningLevel: '',
     fiRuleName: '',
-    trackProName: ''
+    trackProName: '',
+    warnStartDate: '',
+    warnEndDate: '',
+    dealWarnStartDate: '',
+    dealWarnEndDate: ''
   },
   // 预警数据明细
   undoNum: [
