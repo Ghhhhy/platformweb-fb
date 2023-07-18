@@ -271,6 +271,7 @@ export default {
     onDownloadTemplateClick() {
       console.log('点击下载模板')
     },
+    chooseRuleFlag() {},
     importbutton() {
       // if (this.askProvince === '') {
       //   this.$message.warning('请选择区划')
