@@ -29,7 +29,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -40,7 +39,6 @@
           :config="leftTreeConfig"
           :tree-data="treeData"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -124,6 +122,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      defaultExpandedKeysIn: [],
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
