@@ -2882,7 +2882,7 @@ export const proconf = {
         width: 120,
         fixed: 'right',
         cellRender: {
-          name: '$gloableOptionRowLog1'
+          name: '$gloableOptionRowLog'
         }
       })
     }
