@@ -1109,6 +1109,16 @@ export default [
         '../../../views/main/MointoringMatters/MonitoeReportCreate/sanBaoMonitoeReportCreate.vue'
       )
   }, // “三公”风险预警表
+  // 专项监控报告生成
+  {
+    path: '/SpeProMonitoeReportCreate',
+    name: 'SpeProMonitoeReportCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/MointoringMatters/MonitoeReportCreate/SpeProMonitoeReportCreate.vue')
+  },
   {
     path: '/ThrExpReportRiskWarn',
     name: 'ThrExpReportRiskWarn',
