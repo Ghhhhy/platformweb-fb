@@ -64,6 +64,7 @@
 import getFormData from './warnRegionSummary.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog
@@ -414,7 +415,9 @@ export default {
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
