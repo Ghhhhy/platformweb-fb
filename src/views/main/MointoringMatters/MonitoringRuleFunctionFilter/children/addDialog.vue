@@ -46,7 +46,7 @@
                   <el-row>
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">&nbsp;过滤编码</div>
                     <el-input
-                      v-model="purpose"
+                      v-model="regulationCode"
                       placeholder="请输入过滤编码"
                       style="margin-bottom:15px; width:45%"
                     />

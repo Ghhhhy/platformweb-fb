@@ -163,7 +163,7 @@ export default {
       this.dictName = this.updateData.dictName
       this.dictType = this.updateData.dictType
       this.dictDesc = this.updateData.dictDesc
-      this.status = this.updateData.status
+      this.status = this.updateData.status && Number(this.updateData.status)
     },
     // 保存新增的计划信息
     doInsert() {
