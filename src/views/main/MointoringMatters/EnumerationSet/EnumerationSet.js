@@ -92,8 +92,8 @@ export let proconf = {
       field: 'status',
       sortable: false,
       align: 'center',
-      editRender: {
-        name: '$select',
+      cellRender: {
+        name: '$vxeSelect',
         options: [
           { value: 1, label: '正常' },
           { value: 2, label: '停用' }
@@ -143,8 +143,8 @@ export let proconf = {
       field: 'status',
       sortable: false,
       align: 'center',
-      editRender: {
-        name: '$select',
+      cellRender: {
+        name: '$vxeSelect',
         options: [
           { value: 1, label: '正常' },
           { value: 2, label: '停用' }
