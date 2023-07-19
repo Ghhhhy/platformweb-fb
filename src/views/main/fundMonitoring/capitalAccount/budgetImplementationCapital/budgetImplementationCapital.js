@@ -121,8 +121,8 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
         align: 'left',
+        fixed: 'left',
         width: 280,
         field: 'name',
         cellRender: {
