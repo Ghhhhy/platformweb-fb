@@ -1,6 +1,6 @@
 <!--处理弹框-->
 <template>
-  <div>
+  <div v-loading="tableLoading">
     <vxe-modal
       v-model="dialogVisible"
       :title="title"
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      tableLoading: false,
       tabCode: 'dcl-hsfk',
       showFormType: {
         show1: true,
@@ -237,6 +238,7 @@ export default {
       let { flowParamVoList, formData } = this.getFlowParamVoList()
       console.log(flowParamVoList, formData)
       formData.flowParamVoList = flowParamVoList
+      this.tableLoading = true
       let params = {
         ...this.createDataList,
         ...formData,
@@ -244,9 +246,11 @@ export default {
         menuId: this.$store.state.curNavModule.guid
       }
       HttpModule.workFlowUpdate([params]).then(res => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('核实反馈成功')
           this.dialogClose()
+
           this.$parent.queryTableDatas()
         }
       })
