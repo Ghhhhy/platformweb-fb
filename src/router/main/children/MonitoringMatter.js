@@ -1240,5 +1240,14 @@ export default [
       requireAuth: true
     },
     component: () => import('@/views/main/MointoringMatters/ProjectLifecycle/ProjectLifecycle.vue')
+  },
+  {
+    path: '/TemplatelibraryManager',
+    name: 'TemplatelibraryManager',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/TemplatelibraryManager/TemplatelibraryManager.vue')
   }
 ]
