@@ -114,6 +114,7 @@ const proconf = {
         // width: 160,
         field: 'name',
         treeNode: true,
+        fixed: 'left',
         cellRender: {
           name: '$vxeIcon',
           props: {
