@@ -1,4 +1,4 @@
-<!-- 监控规则查看 -->
+<!-- 专项监控报告生成 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
@@ -29,7 +29,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -40,7 +39,6 @@
           :config="leftTreeConfig"
           :tree-data="treeData"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -69,7 +67,7 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
-    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
@@ -101,7 +99,7 @@
 
 <script>
 import { proconf } from './sanGongMonitoeReportCreate'
-import AddDialog from './children/sangongaddDialog'
+import AddDialog from './children/SpeProaddDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'
@@ -124,6 +122,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      defaultExpandedKeysIn: [],
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
@@ -504,7 +503,7 @@ export default {
         createTime: this.createTime,
         fileName: this.fileName,
         createPerson: this.createPerson,
-        reportType: '2',
+        reportType: '3',
         provinceCodes: this.codeList,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize // 每页条数

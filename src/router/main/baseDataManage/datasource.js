@@ -107,6 +107,15 @@ export default [
       )
   },
   {
+    path: '/MonitoringRuleFunctionFilter',
+    name: 'MonitoringRuleFunctionFilter',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitoringRuleFunctionFilter/MonitoringRuleFunctionFilter.vue')
+  },
+  {
     path: '/ThreeGuaranteesSummary',
     name: 'ThreeGuaranteesSummary',
     meta: {

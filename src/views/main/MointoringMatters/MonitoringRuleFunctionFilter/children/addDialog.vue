@@ -4,7 +4,7 @@
     v-model="dialogVisible"
     :title="title"
     width="80%"
-    height="60%"
+    height="80%"
     :show-footer="true"
     @close="dialogClose"
   >
@@ -16,10 +16,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;枚举值名称</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;过滤名称</div>
                     <el-input
-                      v-model="dictName"
-                      placeholder="请输入枚举值名称"
+                      v-model="filterName"
+                      placeholder="请输入过滤名称"
                       style="width:45%"
                     />
                   </el-row>
@@ -30,61 +30,45 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;枚举值类型</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控规则名称</div>
                     <el-input
-                      v-model="dictType"
-                      placeholder="请输入枚举值类型"
-                      :disabled="isDisable"
+                      v-model="regulationName"
+                      placeholder="请输入监控规则名称"
                       style="width:45%"
                     />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div
-                      class="sub-title-add"
-                      style="width: 120px; float: left; margin-top: 8px"
-                    >
-                      <font color="red">*</font>&nbsp;状态
-                    </div>
-                    <el-select
-                      v-model="status"
-                      placeholder="请选择状态"
-                      style="width: 45%"
-                    >
-                      <el-option
-                        v-for="item in isEnableoptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;备注</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">&nbsp;过滤编码</div>
                     <el-input
-                      v-model="dictDesc"
-                      type="textarea"
-                      :rows="3"
-                      placeholder="请输入备注"
+                      v-model="regulationCode"
+                      placeholder="请输入过滤编码"
                       style="margin-bottom:15px; width:45%"
                     />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px">&nbsp;过滤类别</div>
+                    <el-input
+                      v-model="typeName"
+                      placeholder="请输入过滤类别"
+                      style="margin-bottom:15px; width:45%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
           </el-row>
         </div>
       </div>
@@ -103,7 +87,7 @@
 </template>
 <script>
 // import { proconf } from '../PoliciesAndRegulationsManagement.js'
-import HttpModule from '@/api/frame/main/baseConfigManage/EnumerationSet.js'
+import HttpModule from '@/api/frame/main/baseConfigManage/InquiryLetterType.js'
 export default {
   name: 'AddDialog',
   components: {},
@@ -117,24 +101,21 @@ export default {
       type: String,
       default: ''
     },
-    updateData: {
+    dataId: {
+      type: String,
+      default: ''
+    },
+    modifyData: {
       type: Object,
-      default() {
-        return {}
-      }
+      default: null
     }
   },
   data() {
     return {
-      isDisable: false,
-      dictName: '',
-      dictType: '',
-      dictDesc: '',
-      status: '',
-      isEnableoptions: [
-        { value: 1, label: '正常' },
-        { value: 2, label: '停用' }
-      ],
+      filterName: '',
+      regulationName: '',
+      typeName: '',
+      regulationCode: '',
       dialogVisible: true,
       addLoading: false,
       token: '',
@@ -157,42 +138,94 @@ export default {
       if (this.title === '新增') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
         return
-      } else {
-        this.isDisable = true
       }
-      this.dictName = this.updateData.dictName
-      this.dictType = this.updateData.dictType
-      this.dictDesc = this.updateData.dictDesc
-      this.status = this.updateData.status && Number(this.updateData.status)
+      this.filterName = this.modifyData.filterName
+      this.regulationName = this.modifyData.regulationName
+      this.regulationCode = this.modifyData.regulationCode
+      this.typeName = this.modifyData.typeName
+    },
+    // 选择业务系统
+    changeSysCode(val) {
+      console.log(val)
+      this.SysparentId = val
+      this.businessModuleCode = ''
+      let busName = this.businessSystemCodeoptions.find(item => {
+        return item.id === val
+      })
+      this.businessSystemName = busName.businessName
+      this.getModLists()
+    },
+    // 选择业务模块
+    changeModCode(val) {
+      console.log(val)
+      this.ModparentId = val
+      this.businessFunctionCode = ''
+      let busName = this.businessModuleCodeoptions.find(item => {
+        return item.id === val
+      })
+      this.businessModuleName = busName.businessName
+      // this.getFunLists()
+    },
+    // 业务系统下拉树
+    getSysLists() {
+      const param = {
+        businessType: 1,
+        parentId: 0
+      }
+      this.addLoading = true
+      HttpModule.getbusLists(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.businessSystemCodeoptions = res.data.results
+          if (this.$parent.dialogTitle === '新增') {
+            this.businessSystemCode = '1'
+            this.changeSysCode(this.businessSystemCode)
+          }
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    // 业务模块下拉树
+    getModLists() {
+      const param = {
+        businessType: 2,
+        parentId: this.SysparentId
+      }
+      this.addLoading = true
+      HttpModule.getbusLists(param).then(res => {
+        this.addLoading = false
+        if (res.code === '000000') {
+          this.businessModuleCodeoptions = res.data.results
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 保存新增的计划信息
     doInsert() {
-      if (this.dictName === '') {
-        this.$message.warning('请输入枚举值名称')
+      if (this.filterName === '') {
+        this.$message.warning('请输入过滤名称')
         return
       }
-      if (this.dictType === '') {
-        this.$message.warning('请输入枚举值类型')
+      if (this.regulationName === '') {
+        this.$message.warning('请输入函数名称')
         return
       }
-      if (this.dictDesc === '') {
-        this.$message.warning('请输入备注')
+      if (this.regulationName.length > 20) {
+        this.$message.warning('过滤名称长度应小于等于20位')
         return
       }
-      if (this.status === '') {
-        this.$message.warning('请选择状态')
-        return
-      }
-      if (this.dictName.length > 20) {
-        this.$message.warning('枚举值名称长度应小于等于20位')
+      if (this.typeName.length > 200) {
+        this.$message.warning('过滤类别小于200位')
         return
       }
       if (this.title === '新增') {
         let param = {
-          dictName: this.dictName,
-          dictType: this.dictType,
-          dictDesc: this.dictDesc,
-          status: this.status
+          filterName: this.filterName,
+          regulationName: this.regulationName,
+          regulationCode: this.regulationCode,
+          typeName: this.typeName
         }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {
@@ -207,11 +240,10 @@ export default {
         })
       } else {
         let param = {
-          id: this.updateData.id,
-          dictName: this.dictName,
-          dictType: this.dictType,
-          dictDesc: this.dictDesc,
-          status: this.status
+          filterName: this.filterName,
+          regulationName: this.regulationName,
+          typeName: this.typeName,
+          id: this.dataId
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {
@@ -231,6 +263,8 @@ export default {
   },
   created() {
     this.showInfo()
+    // this.getModLists()
+    // this.getFunLists()
   }
 }
 </script>
