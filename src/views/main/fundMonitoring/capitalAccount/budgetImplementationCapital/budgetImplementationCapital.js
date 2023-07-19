@@ -155,6 +155,7 @@ const proconf = {
         visible: store.getters.isSx,
         cellRender: { name: '$vxeMoney' }
       },
+
       {
         title: '支出',
         width: 260,
@@ -390,7 +391,7 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
         width: 250,
         field: 'name',

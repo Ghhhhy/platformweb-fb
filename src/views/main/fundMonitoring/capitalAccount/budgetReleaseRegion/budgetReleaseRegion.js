@@ -850,7 +850,7 @@ let proconf = {
         title: '地区名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
         width: 160,
         field: 'name',
