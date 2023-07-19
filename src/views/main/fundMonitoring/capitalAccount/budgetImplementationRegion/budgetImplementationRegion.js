@@ -122,6 +122,7 @@ const proconf = {
         type: 'name',
         treeNode: true,
         align: 'left',
+        fixed: 'left',
         width: 200,
         field: 'name',
         cellRender: {
