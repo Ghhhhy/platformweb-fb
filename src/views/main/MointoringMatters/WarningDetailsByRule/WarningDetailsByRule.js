@@ -275,7 +275,9 @@ export let proconf = {
           { value: '7', label: '小于等于' },
           { value: '8', label: '开头' },
           { value: '9', label: '不等于' },
-          { value: '10', label: '不为开头' }
+          { value: '10', label: '不为开头' },
+          { value: '11', label: '在..内' },
+          { value: '12', label: '不在..内' }
         ],
         props: {
           placeholder: '关系'
