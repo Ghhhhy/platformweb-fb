@@ -64,6 +64,8 @@
 import getFormData from './warnRuleSummary.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRuleSummary.js'
+import moment from 'moment'
+
 export default {
   components: {
     DetailDialog
@@ -425,7 +427,9 @@ export default {
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '0201',
         proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getDivTrees(this.searchDataList.mofDivCodes),
-        ruleCodes: this.ruleCodes
+        ruleCodes: this.ruleCodes,
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

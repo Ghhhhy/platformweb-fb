@@ -80,6 +80,7 @@ import getFormData from './specialWarnCapitalSummaryLevel.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
 import SpecialWarnRuleSummary from '@/views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue'
+import moment from 'moment'
 
 export default {
   components: {
@@ -436,7 +437,9 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
