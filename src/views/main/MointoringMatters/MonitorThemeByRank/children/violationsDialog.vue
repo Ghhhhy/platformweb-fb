@@ -91,7 +91,19 @@ export default {
       type: String,
       default: ''
     },
+    regulationClass: {
+      type: String,
+      default: ''
+    },
     mofDivCode: {
+      type: String,
+      default: ''
+    },
+    fiRuleCode: {
+      type: String,
+      default: ''
+    },
+    inquiriesStatus: {
       type: String,
       default: ''
     }
@@ -180,7 +192,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
-      dialogTitle: '违规明细查看',
+      dialogTitle: '预警明细查看',
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
@@ -198,8 +210,10 @@ export default {
       condition: {},
       violationsView: true,
       showViolations: false,
-      fiRuleCode: '',
-      warningCode: ''
+      warningCode: '',
+      fiscalYear: '',
+      businessTime: '',
+      endTime: ''
     }
   },
   mounted() {
@@ -297,8 +311,10 @@ export default {
       }
       this.condition = condition
       console.log(this.condition)
-      let fiscalYear = this.condition.fiscalYear[0]
-      this.queryTableDatas(fiscalYear)
+      this.fiscalYear = val.fiscalYear
+      this.endTime = val.endTime
+      this.businessTime = val.businessTime
+      this.queryTableDatas()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -338,7 +354,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -396,21 +412,39 @@ export default {
       this.queryTableDatas()
     },
     // 查询 table 数据
-    queryTableDatas(fiscalYear) {
+    queryTableDatas() {
       console.log(this.fiRuleCode)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         fiRuleCode: this.fiRuleCode,
         warnLevel: this.warnLevel,
-        status: this.status
+        status: this.status,
+        businessTime: this.businessTime,
+        endTime: this.endTime,
+        inquiriesStatus: this.inquiriesStatus,
+        regulationClass: this.regulationClass,
+        regulationType: this.regulationType
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
         this.showLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {

@@ -52,8 +52,11 @@
       :title="dialogTitle"
       :warn-level="warnLevel"
       :status="status"
-      :regulation-type="regulationType"
+      :inquiries-status="inquiriesStatus"
       :mof-div-code="mofDivCode"
+      :fi-rule-code="fiRuleCode"
+      :regulation-class="regulationClass"
+      :regulation-type="regulationTypeQuery"
     />
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <!-- 附件弹框 -->
@@ -176,12 +179,13 @@ export default {
       status: '',
       warnLevel: '',
       violationsView: false,
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       fiscalYear: '',
       mofDivCodeList: [],
       regulationClass: '',
       agencyCodeList: [],
-      regulationTypeQuery: ''
+      regulationTypeQuery: '',
+      inquiriesStatus: ''
     }
   },
   mounted() {
@@ -255,7 +259,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '监控主题统计分析（按预警级别）'
+          this.menuName = '监控主题分析（规则+预警级别）'
           this.radioShow = true
           break
       }
@@ -337,10 +341,17 @@ export default {
       ) {
         if (obj.column.title === '累计预警') {
           this.status = ''
+          this.inquiriesStatus = ''
         } else if (obj.column.title === '已处理') {
           this.status = '2'
-        } else {
+        } else if (obj.column.title === '未处理') {
           this.status = '1'
+        } else if (obj.column.title === '问询单') {
+          this.inquiriesStatus = -1
+        } else if (obj.column.title === '问询单已处理') {
+          this.inquiriesStatus = 4
+        } else if (obj.column.title === '问询单未完成') {
+          this.inquiriesStatus = 0
         }
         if (key.substring(0, 3) === 'red') {
           this.warnLevel = '3'
@@ -352,9 +363,21 @@ export default {
           this.warnLevel = '2'
         }
         if (key.substring(0, 4) === 'blue') {
-          this.warnLevel = '4'
+          this.warnLevel = '5'
         }
-        this.fiRuleCode = obj.row.fiRuleCode
+        if (obj.row.fiRuleCode !== null && obj.row.fiRuleCode.length === 2) {
+          this.regulationClass = ''
+          this.fiRuleCode = ''
+          this.regulationTypeQuery = obj.row.fiRuleCode
+        } else if (obj.row.fiRuleCode !== null && obj.row.fiRuleCode.length === 4) {
+          this.regulationClass = obj.row.fiRuleCode
+          this.regulationTypeQuery = ''
+          this.fiRuleCode = ''
+        } else {
+          this.regulationClass = ''
+          this.regulationTypeQuery = ''
+          this.fiRuleCode = obj.row.fiRuleCode
+        }
         this.violationsView = true
       }
     },
@@ -375,7 +398,7 @@ export default {
         mofDivCodeList: this.mofDivCodeList,
         regulationClass: this.regulationClass,
         regulationType: this.regulationTypeQuery,
-        fiscalYear: this.fiscalYear || '2022'
+        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -384,15 +407,14 @@ export default {
           this.tableData = res.data
           this.tableData.forEach(item => {
             if (
-              item.fiRuleName !== '合计' &&
-              item.fiRuleName !== '系统级' &&
-              item.fiRuleName !== '部门级' &&
-              item.fiRuleName !== '财政级'
+              item.fiRuleName !== '合计'
             ) {
-              if (item.fiRuleCode.length > 2) {
-                item.fiRuleName = '         ' + item.fiRuleName
+              if (item.fiRuleCode.length === 2) {
+                item.fiRuleName = '    ' + item.fiRuleName
+              } else if (item.fiRuleCode.length === 4) {
+                item.fiRuleName = '          ' + item.fiRuleName
               } else {
-                item.fiRuleName = '     ' + item.fiRuleName
+                item.fiRuleName = '               ' + item.fiRuleName
               }
             }
           })
@@ -444,7 +466,7 @@ export default {
         item.name = item.ruleName
         item.label = item.code + '-' + item.ruleName
         if (item.children.length > 0) {
-          that.getRegulationChildrenData(item.children)
+          that.getRegulationChildrenData1(item.children)
           item.leaf = false
         } else {
           item.leaf = true
@@ -456,19 +478,28 @@ export default {
     getLeftTreeData() {
       let that = this
       let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
+      if (this.$store.state.userInfo.province.substring(2, 9) === '0000000') {
         params = {
           elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
+        }
+      } else if (
+        this.$store.state.userInfo.province.substring(4, 9) === '00000' && this.$store.state.userInfo.province.substring(2, 9) !== '0000000'
+      ) {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.$store.state.userInfo.province,
           year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
         }
       }
       HttpModule.getLeftTree(params).then(res => {
@@ -497,6 +528,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

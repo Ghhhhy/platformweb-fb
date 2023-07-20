@@ -1259,5 +1259,25 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/TemplatelibraryManager/TemplatelibraryManager.vue')
+  },
+  // 动态监控情况报告
+  {
+    path: '/dynamicMonitoeReportCreate',
+    name: 'dynamicMonitoeReportCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/MointoringMatters/MonitoeReportCreate/dynamicMonitoeReportCreate.vue')
+  },
+  // 监控主题分析（按区划+预警级别）
+  {
+    path: '/MonitorThemeByCompartmentAndWarn',
+    name: 'MonitorThemeByCompartmentAndWarn',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   }
 ]

@@ -83,7 +83,7 @@ export let proconf = {
             'placeholder': '监控主题',
             'multiple': false,
             'readonly': true,
-            'isleaf': false
+            'isleaf': true
           }
         }
       }
@@ -189,13 +189,19 @@ export let proconf = {
           align: 'center'
         },
         {
-          title: '已处理',
+          title: '问询单',
+          field: 'orangeWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
           field: 'orangeWholeHandleCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '未处理',
+          title: '问询单未完成',
           field: 'orangeWholeNoHandleCount',
           width: '150',
           align: 'center'
@@ -221,13 +227,19 @@ export let proconf = {
           align: 'center'
         },
         {
-          title: '已处理',
+          title: '问询单',
+          field: 'yellowWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
           field: 'yellowWholeHandleCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '未处理',
+          title: '问询单未完成',
           field: 'yellowWholeNoHandleCount',
           width: '150',
           align: 'center'
@@ -253,13 +265,19 @@ export let proconf = {
           align: 'center'
         },
         {
-          title: '已处理',
+          title: '问询单',
+          field: 'blueWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
           field: 'blueWholeHandleCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '未处理',
+          title: '问询单未完成',
           field: 'blueWholeNoHandleCount',
           width: '150',
           align: 'center'
@@ -273,32 +291,32 @@ export let proconf = {
       ]
     },
     {
-      title: '责令改正事项',
+      title: '监控问询情况',
       field: 'thing',
       sortable: false,
       align: 'left',
       children: [
         {
-          title: '次数',
-          field: 'orderCorrectionCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'orderCorrectionAmount ',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已改正事项次数',
+          title: '累计问询单',
           field: 'correctedCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已改正事项涉及金额',
+          title: '涉及金额',
           field: 'correctedAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'orderCorrectionCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'orderCorrectionAmount',
           width: '150',
           align: 'center'
         }
