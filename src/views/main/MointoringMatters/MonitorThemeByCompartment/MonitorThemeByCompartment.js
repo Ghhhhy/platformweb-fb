@@ -81,9 +81,9 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '监控主题',
-            'multiple': false,
+            'multiple': true,
             'readonly': true,
-            'isleaf': false
+            'isleaf': true
           }
         }
       }
@@ -110,6 +110,32 @@ export let proconf = {
             'readonly': true,
             'isleaf': false
           }
+        }
+      }
+    },
+    {
+      title: '预警开始时间',
+      field: 'startTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '预警开始时间'
+        }
+      }
+    },
+    {
+      title: '预警结束时间',
+      field: 'endTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD hh:mm:ss',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '预警结束时间'
         }
       }
     }
@@ -151,241 +177,241 @@ export let proconf = {
         }
       ]
     },
+    // {
+    //   title: '基本信息主题',
+    //   field: 'sx',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class01WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class01WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class01WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '项目库主题',
+    //   field: 'xa',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class02WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class02WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class02WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '预算编制主题',
+    //   field: 'tc',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class03WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class03WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class03WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '预算调整调剂主题',
+    //   field: 'bj',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class04WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class04WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class04WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '预算批复主题',
+    //   field: 'xy',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class05WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class05WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class05WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '预算执行主题',
+    //   field: 'wn',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class06WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class06WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class06WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '会计核算主题',
+    //   field: 'ya',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class07WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class07WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class07WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: '决算和报告主题',
+    //   field: 'hz',
+    //   sortable: false,
+    //   align: 'left',
+    //   children: [
+    //     {
+    //       title: '累计预警',
+    //       field: 'class08WholeCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '已处理',
+    //       field: 'class08WholeHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     },
+    //     {
+    //       title: '未处理',
+    //       field: 'class08WholeNoHandleCount',
+    //       width: '150',
+    //       align: 'center'
+    //     }
+    //   ]
+    // },
     {
-      title: '基本信息主题',
-      field: 'sx',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class01WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class01WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class01WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '项目库主题',
-      field: 'xa',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class02WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class02WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class02WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '预算编制主题',
-      field: 'tc',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class03WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class03WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class03WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '预算调整调剂主题',
-      field: 'bj',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class04WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class04WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class04WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '预算批复主题',
-      field: 'xy',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class05WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class05WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class05WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '预算执行主题',
-      field: 'wn',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class06WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class06WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class06WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '会计核算主题',
-      field: 'ya',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class07WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class07WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class07WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '决算和报告主题',
-      field: 'hz',
-      sortable: false,
-      align: 'left',
-      children: [
-        {
-          title: '累计预警',
-          field: 'class08WholeCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
-          field: 'class08WholeHandleCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '未处理',
-          field: 'class08WholeNoHandleCount',
-          width: '150',
-          align: 'center'
-        }
-      ]
-    },
-    {
-      title: '责令改正事项',
+      title: '监控问询情况',
       field: 'thing',
       sortable: false,
       align: 'left',
       children: [
         {
-          title: '次数',
-          field: 'orderCorrectionCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'orderCorrectionAmount ',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已改正事项次数',
+          title: '累计问询单',
           field: 'correctedCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已改正事项涉及金额',
+          title: '涉及金额',
           field: 'correctedAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'orderCorrectionCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'orderCorrectionAmount',
           width: '150',
           align: 'center'
         }
