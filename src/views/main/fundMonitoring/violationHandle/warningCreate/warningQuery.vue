@@ -55,6 +55,7 @@
       v-if="detailVisible"
       :detail-data="detailData"
       :colour-type="colourType"
+      :query-data="searchDataList"
     />
   </div>
 </template>
@@ -64,6 +65,7 @@ import getFormData from './warningQuery.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import transJson from '@/utils/transformMenuQuery'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog
@@ -384,7 +386,11 @@ export default {
         trackProCodeList: trackProCode,
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid,
-        roleguid: this.$store.state.curNavModule.roleguid
+        roleguid: this.$store.state.curNavModule.roleguid,
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
+        dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
+        dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD')
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

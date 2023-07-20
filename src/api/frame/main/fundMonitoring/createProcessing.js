@@ -36,7 +36,7 @@ export default {
     return post('large-monitor-platform/lmp/totalWarn/queryWarnInfoByLogo', params)
   },
   // 预算回显信息
-  budgetgetDetail(params, prams2 = 1) {
+  budgetgetDetail(params, prams2 = 0) {
     return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + `/${prams2}`)
   },
   // 获取违规类型枚举

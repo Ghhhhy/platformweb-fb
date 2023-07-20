@@ -219,7 +219,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="" placement="" effect="light">
-                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, type: 'view' })}>查看</span>
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'view' })}>查看</span>
                 </el-tooltip>
               ]
             }
@@ -229,7 +229,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="" placement="" effect="light">
-                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, type: 'viewLog' })}>查看</span>
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'viewLog' })}>查看</span>
                 </el-tooltip>
               ]
             }
@@ -239,7 +239,7 @@ export default {
               let { row, column } = params
               return [
                 <el-tooltip content="附件" placement="top" effect="light">
-                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.onOptionRowClick({ row, column, type: 'attach' })}>附件</a>,
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.handleCheck({ row, column, type: 'attach' })}>附件</a>,
                 </el-tooltip>
               ]
             }
@@ -284,7 +284,7 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      regulationclass: '',
+      regulationclass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || '',
       mofDivCode: '',
       isApprove: false,
       leftTreeConfig: { // 左侧单位树配置
@@ -526,7 +526,8 @@ export default {
         // 根据业务渲染列表
         this.currentNodeKey = node.code
         this.bussnessId = node.code
-        this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog)
+        this.regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+        this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog, this.regulationClass)
         this.getdata()
       }
     },
@@ -923,7 +924,6 @@ export default {
       this.isNormalDone = false
       this.isProcessed = false
       this.selectBtnType = obj.code
-      console.log('ssss', this.regulationClass)
 
       switch (obj.code) {
         // 预警明细列表
@@ -961,7 +961,7 @@ export default {
         case 'dhs':
         case 'feedback':
           // this.tableColumnsConfig = [...proconf.policiesTableColumns1, attachOption]
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 3
@@ -975,7 +975,7 @@ export default {
         case 'process':
         case 'queryBusinessData': // 联查业务数据
           // this.tableColumnsConfig = [...proconf.policiesTableColumns2, attachOption]
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isAgencyDone = true
@@ -986,7 +986,7 @@ export default {
         // 已退回、被退回
         case 'bth':
         case 'yth':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 8
@@ -996,7 +996,7 @@ export default {
           break
         // 认定正常
         case 'rdzc':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isNormalDone = true
@@ -1006,7 +1006,7 @@ export default {
           break
         // 已整改
         case 'yzg':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 7
@@ -1015,7 +1015,7 @@ export default {
           this.getdata()
           break
         case 'csysh':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isProcessed = true
@@ -1024,7 +1024,7 @@ export default {
           this.getdata()
           break
         case 'search':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.menuName = '监控问询单列表'
@@ -1177,6 +1177,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+    this.regulationclass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || ''
     // 动态控制是否展示树
     this.setShowBusinesTree()
     // this.queryTableDatas()

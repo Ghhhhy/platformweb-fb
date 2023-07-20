@@ -343,6 +343,19 @@ export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      let columns = proconf.handletableColumnsConfig
+      if (this.param5.tableHide) { // 当配置了tableHide参数时，需要隐藏字段
+        return columns.map(item => {
+          let obj = { ...item }
+          if (item.field === 'regulationName') {
+            obj.cellRender['name'] = ''
+          }
+          return obj
+        })
+      }
+      return columns
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -471,7 +484,7 @@ export default {
       handletableData: [],
       incomeMsgConfig: proconf.msgConfig,
       supplyDataList: proconf.msgData,
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       businessMsgConfig: proconf.businessMsgConfig,
@@ -517,7 +530,7 @@ export default {
   methods: {
     cellClick(obj, context, e) {
       let key = obj.column.property
-      if (this.param5?.hide) {
+      if (this.param5?.tableHide) { // 当配置了tableHide参数 点击无效
         return
       }
       switch (key) {
@@ -576,7 +589,7 @@ export default {
       }
       if (this.title === '查看详情信息') {
         this.addLoading = true
-        let code2 = this.param5.hide ? 0 : 1
+        let code2 = this.param5.show ? 1 : 0
         HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
@@ -894,18 +907,14 @@ export default {
           this.incomeMsgConfig = proconf.bgtMsgConfig
           this.supplyDataList = proconf.incomeMsgData
         }
-        this.dialogVisibleKjsmBut = true
-      } else {
-        if (this.isXmProject || this.param5.hide) { // 项目项目隐藏三个字段
-          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
-        } else {
-          this.incomeMsgConfig = proconf.msgConfig
-        }
+      } else if (!this.param5.show) {
         this.supplyDataList = proconf.msgData
-        this.dialogVisibleKjsmBut = true
+        // 现在默认隐藏3个字段
+        this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+        })
       }
+      this.dialogVisibleKjsmBut = true
     },
     getisShowViolateType() { // 处理违规类型下拉框是否显示
       // HttpModule.getisShowViolateType().then(res => {

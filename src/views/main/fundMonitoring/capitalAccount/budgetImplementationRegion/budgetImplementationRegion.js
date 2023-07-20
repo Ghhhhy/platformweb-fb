@@ -122,12 +122,14 @@ const proconf = {
         type: 'name',
         treeNode: true,
         align: 'left',
+        fixed: 'left',
         width: 200,
         field: 'name',
         cellRender: {
           name: '$vxeIcon'
         }
       },
+
       {
         title: '中央下达',
         width: 100,
@@ -373,6 +375,7 @@ const proconf = {
         title: '地区名称',
         type: 'name',
         treeNode: true,
+        fixed: 'left',
         align: 'left',
         width: 260,
         field: 'name',
