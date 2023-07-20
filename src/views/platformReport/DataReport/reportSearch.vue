@@ -184,7 +184,9 @@ export default {
       },
       currentTableNode: {},
       queryFormRules: {},
-      queryFormData: {},
+      queryFormData: {
+        jzsj: new Date().getFullYear() + '-12-31 08:00:00'
+      },
       shFundType_: '',
       shFundType_Code: '',
       shFundType_Id: '',
@@ -306,7 +308,6 @@ export default {
       this.newDataArr = DataArr.map(i => '\'' + i + '\'').join(',')
     },
     onSearchClick() {
-      console.log(this.checkedAgencys)
       let self = this
       if (this.showFlag !== '2') {
         if (!this.checkedAgencys.agencyCodes) {
@@ -547,6 +548,9 @@ export default {
       let formData = {}
       if (self.$refs['queryForm' + self.currentTableNode.id]) {
         formData = self.$refs['queryForm' + self.currentTableNode.id][0].getFormData()
+        if (formData.jzsj === undefined) {
+          formData.jzsj = new Date().getFullYear + '-12-01 08:00:00'
+        }
         for (var v in formData) {
           if (v.endsWith('Code')) {
             let data = formData[v].split(',').map(v => {
