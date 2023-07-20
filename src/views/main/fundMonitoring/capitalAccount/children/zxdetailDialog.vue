@@ -289,9 +289,29 @@ export default {
         // 支出明细
         case 'zjzcmx_fdq':
           this.tableColumnsConfig = proconf.expenditureColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           break
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           break
         case 'zdzjzcmx_fdq':
         case 'zdzjzcmx_fzj':
@@ -302,6 +322,9 @@ export default {
             this.tableColumnsConfig.forEach((item, index) => {
               if (['mofDivCode', 'mofDivName'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
               }
             })
           }

@@ -76,6 +76,38 @@ let proconf = {
       width: 140,
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否直达资金',
+      field: 'isDir',
+      visible: true,
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否政府采购',
+      field: 'isGovPurName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '预算年度',
+      field: 'fiscalYear',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
     }
   ],
   payColumn: [
@@ -222,6 +254,38 @@ let proconf = {
       title: '付款日期',
       field: 'xpayDate',
       width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否直达资金',
+      field: 'isDir',
+      visible: true,
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否政府采购',
+      field: 'isGovPurName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '预算年度',
+      field: 'fiscalYear',
+      width: 140,
+      visible: true,
       sortable: true,
       align: 'left'
     }

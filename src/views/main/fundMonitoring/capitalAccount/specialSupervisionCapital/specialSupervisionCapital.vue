@@ -884,12 +884,13 @@ export default {
         const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
         const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
         const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+        const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
         if (!zcjeShow && key === dictionary['支出-金额']) {
           this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = '支出明细'
           return
         }
-        if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+        if ((isSH || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
           this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
           this.detailTitle = '中央下达明细'
           return

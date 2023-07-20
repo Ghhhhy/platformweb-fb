@@ -527,7 +527,6 @@ export default {
         this.currentNodeKey = node.code
         this.bussnessId = node.code
         this.regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
-        console.log('2222222111', this.regulationClass)
         this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog, this.regulationClass)
         this.getdata()
       }
