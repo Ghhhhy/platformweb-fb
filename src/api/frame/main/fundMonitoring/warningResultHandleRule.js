@@ -13,6 +13,7 @@ export default {
   getFile(params) {
     return get('fileservice/v2/files', params)
   },
+
   update(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/update', params)
   },
