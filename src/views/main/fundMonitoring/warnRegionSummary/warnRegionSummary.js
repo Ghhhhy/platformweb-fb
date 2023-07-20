@@ -44,7 +44,37 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
+    }, {
+      title: '预警开始时间',
+      field: 'warnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '预警开始时间'
+        }
+      }
+    },
+    {
+      title: '预警结束时间',
+      field: 'warnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '预警结束时间'
+        }
+      }
     }
+
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year

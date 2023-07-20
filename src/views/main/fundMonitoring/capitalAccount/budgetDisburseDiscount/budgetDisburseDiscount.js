@@ -107,6 +107,7 @@ const proconf = {
         title: '地区名称',
         type: 'name',
         align: 'left',
+        fixed: 'left',
         treeNode: true,
         // width: 260,
         field: 'name',
