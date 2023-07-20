@@ -484,7 +484,7 @@ export default {
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.firulecode
+          this.fiRuleCode = this.selectData.fiRuleCode
           // this.mainPagerConfig.currentPage = 1
           break
         case 'violation':
