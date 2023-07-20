@@ -42,6 +42,7 @@ require('vue-video-player/src/custom-theme.css')
 // urlConfig
 Vue.config.productionTip = true
 Vue.config.devtools = true
+console.log('git提交记录', process.env)
 // Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.use(ElementUI)
 // 自定义loading指令覆盖element-ui的loading指令
