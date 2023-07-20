@@ -2490,6 +2490,11 @@ const buttons1 = {
       label: '人工认定',
       code: 'peo_set',
       status: 'primary'
+    },
+    {
+      label: '批量认定',
+      code: 'batch_set',
+      status: 'primary'
     }
   ],
   6: [
