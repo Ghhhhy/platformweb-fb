@@ -185,7 +185,6 @@ export default {
       currentTableNode: {},
       queryFormRules: {},
       queryFormData: {
-        jzsj: new Date().getFullYear() + '-12-31 08:00:00'
       },
       shFundType_: '',
       shFundType_Code: '',
@@ -548,9 +547,6 @@ export default {
       let formData = {}
       if (self.$refs['queryForm' + self.currentTableNode.id]) {
         formData = self.$refs['queryForm' + self.currentTableNode.id][0].getFormData()
-        if (formData.jzsj === undefined) {
-          formData.jzsj = new Date().getFullYear + '-12-01 08:00:00'
-        }
         for (var v in formData) {
           if (v.endsWith('Code')) {
             let data = formData[v].split(',').map(v => {
@@ -627,6 +623,18 @@ export default {
       }).catch(e => {
         self.$XModal.message({ status: 'error', message: '获取配置列失败' })
       })
+    },
+    // 获取当前时间
+    getNowFormatDate() {
+      let date = new Date()
+      let seperator1 = '-' // 格式分隔符
+      let year = date.getFullYear() // 获取完整的年份(4位)
+      let month = date.getMonth() + 1 // 获取当前月份(0-11,0代表1月)
+      let strDate = date.getDate() // 获取当前日(1-31)
+      if (month >= 1 && month <= 9) month = '0' + month // 如果月份是个位数，在前面补0
+      if (strDate >= 0 && strDate <= 9) strDate = '0' + strDate // 如果日是个位数，在前面补0
+      let currentdate = year + seperator1 + month + seperator1 + strDate
+      return currentdate
     }
   },
   mounted() {
@@ -651,7 +659,13 @@ export default {
       this.queryFormItem(this.params5.dicCode)
       this.getQueryFormData()
     }
-    console.log(this.params5)
+    // 当前时间
+    this.$nextTick(() => {
+      this.queryFormData.jzsj__viewSort = this.getNowFormatDate()
+      this.queryFormData.jzsj = this.getNowFormatDate()
+      this.$refs.queryForm.formDataListIn = this.queryFormData
+    })
+    console.log(this.queryFormData, 'this.queryFormData')
   },
   watch: {
   }
