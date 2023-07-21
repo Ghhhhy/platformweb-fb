@@ -2661,7 +2661,7 @@ const proconf = {
       return [
         ...columns,
         ...otherColumns,
-        ...tempOperatorColumns
+        ...operatorColumns
       ]
     }
     if (status.indexOf('DoneNum') > 0 || status.indexOf('NotRectifiedNum') > 0) {
