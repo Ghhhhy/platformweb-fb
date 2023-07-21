@@ -185,6 +185,7 @@ export default {
       currentTableNode: {},
       queryFormRules: {},
       queryFormData: {
+        jzsj: this.getNowFormatDate()
       },
       shFundType_: '',
       shFundType_Code: '',
