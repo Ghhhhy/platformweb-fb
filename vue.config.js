@@ -4,8 +4,8 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 const pxtoviewport = require(resolve('src/plugin/postcss-px-to-viewport'))
-// const ProjectVersion = require('./buildinfo.js')
-// Object.assign(process.env, ProjectVersion)
+const ProjectVersion = require('./buildinfo.js')
+Object.assign(process.env, ProjectVersion)
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // 获取自定义参数
