@@ -185,7 +185,7 @@ export default {
       currentTableNode: {},
       queryFormRules: {},
       queryFormData: {
-        jzsj: this.getNowFormatDate()
+        jzsj: this.getNowFormatDate()// 截止日期默认当天
       },
       shFundType_: '',
       shFundType_Code: '',
