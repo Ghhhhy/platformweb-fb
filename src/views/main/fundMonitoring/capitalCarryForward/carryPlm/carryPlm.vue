@@ -326,7 +326,7 @@ export default {
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
       // this.queryTableDatas()
-      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
+      this.search(this.searchDataList, null, isFlush)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据

@@ -4,6 +4,8 @@ import { ModalTypeEnum, RouterPathEnum, TabEnum } from '../model/enum'
 import { allTab, returnTab, disabledTab, sendAuditTabs, doAuditTabs } from '../model/data'
 import { billInvalid, workFlowRevoke } from '@/api/frame/main/handlingOfViolations/index.js'
 import { checkRscode } from '@/utils/checkRscode'
+
+import { transJson3 } from '@/utils/params.js'
 import store from '@/store'
 
 function useTabPlanel(
@@ -140,6 +142,18 @@ function useTabPlanel(
     }
     return map
   }, {})
+  const tabMapButtonSH = Object.values(TabEnum).reduce((map, value) => {
+    if ([TabEnum.NO_AUDIT, TabEnum.NO_SEND].includes(value)) {
+      Reflect.set(map, value, [auditButton])
+    } else if ([TabEnum.RETURN].includes(value)) {
+      Reflect.set(map, value, [auditButton, previewButton])
+    } else if ([TabEnum.SENDED].includes(value)) {
+      Reflect.set(map, value, [previewButton])
+    } else {
+      Reflect.set(map, value, [previewButton])
+    }
+    return map
+  }, {})
 
   /**
    * 2023-3-6新增需求：
@@ -166,7 +180,7 @@ function useTabPlanel(
         ? [...doAuditTabs, allTab]
         : [...doAuditTabs, returnTab, allTab],
     curButton: unref(currentTab),
-    buttonsInfo: tabMapButton
+    buttonsInfo: transJson3(store.state.curNavModule.param5).projectCode === 'SH' ? tabMapButtonSH : tabMapButton
   })
   console.log(tabStatusBtnConfig, 'tabStatusBtnConfigtabStatusBtnConfigtabStatusBtnConfig')
   //

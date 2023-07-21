@@ -18,6 +18,15 @@ const routers = [
         '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue'
       )
   },
+  // 内蒙新增转移支付预算执行情况分地区
+  {
+    path: '/traBudgetImpleBymofdiv',
+    name: 'traBudgetImpleBymofdiv',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue'
+      )
+  },
   {
     path: '/BudgetImplementationCapitalBySpe', // 中央直达资金预算执行情况_分资金
     name: 'BudgetImplementationCapitalBySpe',

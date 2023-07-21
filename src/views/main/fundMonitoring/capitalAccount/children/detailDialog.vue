@@ -248,12 +248,14 @@ export default {
         case 'zdzjzcmx_fzj':
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
+        case 'zyzfzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
           break
         // 项目明细
         case 'zdzjxmmx_fzj':
+        case 'zyzfxmmx':
           this.tableColumnsConfig = proconf.projectColumn
           break
         case 'zdzjxmmx_fdq':
@@ -373,6 +375,9 @@ export default {
           if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
             zcSource = 'zxjdzbmx_fzjfp'
           }
+          if (this.detailType === 'zyzfxmmx') {
+            zcSource = 'zyzfzbmx_fzjfp'
+          }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
             this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
           ) {
@@ -385,6 +390,9 @@ export default {
           let zcSource2 = 'zdzjzcmx_fdq'
           if (this.detailType === 'zdzjxmmx_fzj') {
             zcSource2 = 'zdzjzcmx_fzj'
+          }
+          if (this.detailType === 'zyzfxmmx') {
+            zcSource2 = 'zyzfzcmx_fdq'
           }
           if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
             this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
