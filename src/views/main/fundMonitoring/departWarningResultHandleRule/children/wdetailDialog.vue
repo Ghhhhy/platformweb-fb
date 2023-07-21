@@ -57,6 +57,7 @@
       v-if="affirmDialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <GlAttachment
@@ -120,6 +121,7 @@ export default {
     return {
       userInfo: {},
       billguid: '',
+      selectIds: [],
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
