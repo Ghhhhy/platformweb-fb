@@ -104,7 +104,9 @@ export default {
         isNormalDone: false,
         flowStatus: '1-4', // 待审批
         isProcessed: false,
-        isAgencyDone: false
+        isAgencyDone: false,
+        mofDivCodeList: [],
+        agencyCodeList: []
       },
       treeData: [],
       createDataList: {},
@@ -249,6 +251,8 @@ export default {
     search(obj) {
       console.log('search', obj)
       this.queryData.regulationClassName = obj.regulationClassName
+      this.queryData.mofDivCodeList = obj.mofDivCodes_code__multiple
+      this.queryData.agencyCodeList = obj.agencyCodeList_code__multiple
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -372,7 +376,9 @@ export default {
         isProcessed: this.queryData.isProcessed,
         isAgencyDone: this.queryData.isAgencyDone,
         roleId: this.$store.state.curNavModule.roleguid,
-        menuId: this.$store.state.curNavModule.guid
+        menuId: this.$store.state.curNavModule.guid,
+        mofDivCodeList: this.queryData.mofDivCodeList,
+        agencyCodeList: this.queryData.agencyCodeList
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
