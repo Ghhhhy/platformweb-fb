@@ -312,16 +312,16 @@ const proconf = {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
       }
-    },
-    {
-      title: '未分配金额',
-      field: 'curAmt',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '未分配金额' }
-      }
+    // },
+    // {
+    //   title: '未分配金额',
+    //   field: 'curAmt',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '未分配金额' }
+    //   }
     }
   ],
   bgtMsgConfig: [
