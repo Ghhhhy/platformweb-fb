@@ -396,7 +396,6 @@ export default {
       return datas
     },
     onOptionRowClick({ row, optionType }, context) {
-      console.log(12312312321321, optionType)
       switch (optionType) {
         // 附件
         case 'attachment':
