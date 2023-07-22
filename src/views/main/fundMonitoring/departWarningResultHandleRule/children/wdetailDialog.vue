@@ -361,8 +361,9 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          var title = '认定处理单'
           this.selectData = selectionRow[0]
-          this.affirm()
+          this.affirm(title)
           break
         // 批量认定
         case 'batch_set':
