@@ -296,7 +296,7 @@ const routers = [
     name: 'CreateProcessing',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue'
       )
   },
   {
@@ -336,7 +336,7 @@ const routers = [
     name: 'QueryProcessing',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue'
       )
   },
   {
@@ -366,7 +366,7 @@ const routers = [
     name: 'WarnRegion',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningQuery.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffWarningQuery.vue'
       )
   },
   {
@@ -928,7 +928,7 @@ const routers = [
     name: 'QueryProcessingBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
+        '@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue'
       )
   },
   {
@@ -938,14 +938,14 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningQuery.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningQuery.vue')
   },
   {
     path: '/CreateProcessingBySpecial', // 违规生成-专项
     name: 'CreateProcessingBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
+        '@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue'
       )
   },
   {
