@@ -170,6 +170,12 @@ export default {
       default () {
         return {}
       }
+    },
+    selectIds: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data() {
