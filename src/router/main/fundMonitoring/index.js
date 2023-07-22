@@ -296,7 +296,7 @@ const routers = [
     name: 'CreateProcessing',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue'
+        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
       )
   },
   {
@@ -304,7 +304,7 @@ const routers = [
     name: 'DepartmentRetroact',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
@@ -312,7 +312,7 @@ const routers = [
     name: 'DepartmentRetroact ',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
@@ -320,7 +320,7 @@ const routers = [
     name: 'CompanyRetroact',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
@@ -328,7 +328,7 @@ const routers = [
     name: 'ArchiveProcessing',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
@@ -336,7 +336,7 @@ const routers = [
     name: 'QueryProcessing',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue'
+        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
       )
   },
   {
@@ -366,7 +366,7 @@ const routers = [
     name: 'WarnRegion',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue'
+        '../../../views/main/fundMonitoring/violationHandle/warningCreate/diffWarningQuery.vue'
       )
   },
   {
@@ -928,7 +928,7 @@ const routers = [
     name: 'QueryProcessingBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue'
+        '@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
       )
   },
   {
@@ -938,14 +938,14 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningQuery.vue')
   },
   {
     path: '/CreateProcessingBySpecial', // 违规生成-专项
     name: 'CreateProcessingBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue'
+        '@/views/main/fundMonitoring/violationHandle/warningCreate/diffWarningCreate.vue'
       )
   },
   {
@@ -953,7 +953,7 @@ const routers = [
     name: 'DepartmentRetroactBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '@/views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
@@ -961,7 +961,7 @@ const routers = [
     name: 'CompanyRetroactBySpecial',
     component: () =>
       import(
-        '@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
+        '@/views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
       )
   },
   {
