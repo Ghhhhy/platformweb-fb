@@ -120,7 +120,7 @@ export const proconf = {
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '监控规则', disabled: false }
+        props: { placeholder: '核实人员', disabled: false }
       }
     },
     {
@@ -130,7 +130,7 @@ export const proconf = {
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '监控规则', disabled: false }
+        props: { placeholder: '联系电话', disabled: false }
       }
     },
     {
