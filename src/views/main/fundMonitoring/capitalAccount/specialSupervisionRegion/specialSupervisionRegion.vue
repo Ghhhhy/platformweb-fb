@@ -214,6 +214,7 @@ export default {
   },
   data() {
     return {
+      projectCode: '',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -833,7 +834,7 @@ export default {
           const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
           if (isInvalidCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
           return
         }
         let xmSource = 'zdzjxmmx'
@@ -1147,7 +1148,7 @@ export default {
           const validCellValue = (row[column.property] * 1)
           if (!validCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
           return
         }
         if (this.linkStyle(row, rowIndex, column)) {
@@ -1204,6 +1205,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.projectCode = this.transJson(this.params5 || '')?.projectCode
     this.getPro()
     this.queryTableDatas(false)
     if (!this.isSx) {

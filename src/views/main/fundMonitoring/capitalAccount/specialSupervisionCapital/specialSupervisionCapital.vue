@@ -871,28 +871,24 @@ export default {
           const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
           if (isInvalidCellValue) return
         }
-        let xmSource = 'zdzjxmmx'
-        let zcSource = 'zdzjzcmx_fzj'
-        if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
-          xmSource = 'zxjdxmmx_fzj'
-          zcSource = 'zxjdzcmx_fzj'
-        }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
           return
         }
-        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        let xmSource = 'zdzjxmmx'
+        let zcSource = 'zdzjzcmx_fdq'
+        let reportCode = this.transJson(this.params5 || '')?.reportCode
+        if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
+          xmSource = 'zxjdxmmx_fdq'
+          zcSource = 'zxjdzcmx_fdq'
+        }
         const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
         const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
         const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-        const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        console.info(zcjeShow)
         if (!zcjeShow && key === dictionary['支出-金额']) {
           this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = '支出明细'
-          return
-        }
-        if ((isSH || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
-          this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
-          this.detailTitle = '中央下达明细'
           return
         }
         if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
@@ -1066,6 +1062,7 @@ export default {
           }
         }
       } else {
+        // if (this.transJson(this.params5 || '')?.isShow === 'false') return
         if (!rowIndex) return
         // 有效的cellValue
         // 拿到那些可以进行超链接的表格行
@@ -1077,7 +1074,7 @@ export default {
           const validCellValue = (row[column.property] * 1)
           if (!validCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
           return
         }
         if (this.linkStyle(row, rowIndex, column)) {
