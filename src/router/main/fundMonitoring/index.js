@@ -1050,6 +1050,51 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/main/dynamicTableSetting/dynamicTableSetting.vue')// 编辑列表器页面
+  },
+  {
+    path: '/CreateProcessingByZd', // 监控处理单生成
+    name: 'CreateProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/DepartmentRetroactByZd', // 主管处室反馈/部门反馈
+    name: 'DepartmentRetroactByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue')
+  },
+  {
+    path: '/CompanyRetroactByZd', // 单位反馈
+    name: 'CompanyRetroactByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue')
+  },
+  {
+    path: '/QueryProcessingByZd', // 查询
+    name: 'QueryProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/WarnRegionByZd', // 直达资金地方预警汇总
+    name: 'WarnRegionByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningQuery.vue')
   }
 ]
 
