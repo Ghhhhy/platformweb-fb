@@ -16,7 +16,7 @@
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
-            :query-form-item-config="queryConfig"
+            :query-form-item-config="queryFormItem"
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
@@ -90,6 +90,17 @@ import HttpModule from '@/api/frame/main/fundMonitoring/payDataNormative.js'
 export default {
   components: {
     // AddDialog
+  },
+  computed: {
+    queryFormItem() {
+      if (this.$store.getters.isSx) {
+        return this.queryConfig.filter(item => {
+          const notShowField = ['payTimeStr']
+          return !notShowField.includes(item.field)
+        })
+      }
+      return this.queryConfig
+    }
   },
   watch: {
     queryConfig() {
@@ -193,7 +204,7 @@ export default {
           payAppAmt: 0
         },
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: this.$store.getters.isSx
       },
       fiscalYear: this.$store.state.userInfo.year,
       userDesStr: '',
