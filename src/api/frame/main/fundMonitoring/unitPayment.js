@@ -11,5 +11,16 @@ export default {
   // 获取钻取明细数据
   queryDetailDatas (params) {
     return post('dfr-monitor-service/dfr/unitPayment/detail', params)
+  },
+  // 获取合计
+  querySum (params) {
+    return post('dfr-monitor-service/dfr/supervision/sum', params)
+  },
+  // 获取表格数据分页
+  queryTableDatasPage (params) {
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
+  },
+  queryCaliberDeclareContent(params) {
+    return post('dfr-monitor-service/dfr/supervision/queryCaliberDeclareContent', params)
   }
 }
