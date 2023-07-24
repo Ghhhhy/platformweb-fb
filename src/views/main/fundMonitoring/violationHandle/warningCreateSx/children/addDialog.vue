@@ -740,7 +740,7 @@ export default {
         dealType: this.createDataList.dealType
       }
       this.addLoading = true
-      HttpModule.handleAdd(param)
+      HttpModule.handleAdd({ dataList: [param] })
         .then(res => {
           if (res.code === '000000') {
             if (res.code === '000000') {
