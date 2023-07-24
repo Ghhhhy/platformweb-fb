@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -33,11 +33,12 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
+        //   { value: '2020', label: '2020年' },
+        //   { value: '2021', label: '2021年' },
         //   { value: '2022', label: '2022年' },
         //   { value: '2023', label: '2023年' }
         // ],
+        // defaultValue: store.state?.userInfo?.year,
         props: {
           type: 'year',
           valueFormat: 'yyyy',
@@ -47,7 +48,7 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: store.state?.userInfo?.year
   },
   basicInfo: {
     type: 'form',
@@ -74,7 +75,7 @@ const proconf = {
         width: 180,
         field: 'amount202',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -83,7 +84,7 @@ const proconf = {
         width: 180,
         field: 'amount203',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -92,7 +93,7 @@ const proconf = {
         width: 180,
         field: 'amount204',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -101,7 +102,7 @@ const proconf = {
         width: 180,
         field: 'amount227',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -110,7 +111,7 @@ const proconf = {
         width: 180,
         field: 'amount230',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -119,7 +120,7 @@ const proconf = {
         width: 180,
         field: 'amount232',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -128,7 +129,7 @@ const proconf = {
         width: 180,
         field: 'amount233',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       },
@@ -137,7 +138,7 @@ const proconf = {
         width: 180,
         field: 'amountnull',
         align: 'right',
-        sortable: false,
+        sortable: true,
         filters: false,
         cellRender: { name: '$vxeMoney' }
       }
