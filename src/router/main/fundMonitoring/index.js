@@ -712,12 +712,12 @@ const routers = [
     },
     component: () => {
       if (process.env.VUE_APP_CONF_ISHB) {
-        return import('../../../hb/views/Benifit/BenifitPeople.vue')
+        return import('@/hb/views/Benifit/BenifitPeople.vue')
       } else if (process.env.VUE_APP_CONF_ISSH) {
-        return import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
+        return import('@/views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
       } else {
         return import(
-          '../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue'
+          '@/views/main/fundMonitoring/benefitPeople/index.vue'
         )
       }
     }
@@ -729,7 +729,7 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
+    component: () => import('@/views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认
@@ -748,7 +748,7 @@ const routers = [
     name: 'BenefitEnterprisesAndPeopleImport',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/benefitEnterprisesAndPeopleImport/BenefitEnterprisesAndPeopleImport.vue'
+        '@/views/main/fundMonitoring/benefitEnterprisesAndPeopleImport/BenefitEnterprisesAndPeopleImport.vue'
       )
   },
   {
