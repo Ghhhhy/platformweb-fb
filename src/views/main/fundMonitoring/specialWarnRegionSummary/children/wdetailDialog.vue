@@ -259,8 +259,8 @@ export default {
       this.fiscalYear = this.detailData[2]
       this.proCodes = this.detailData[3]
       this.ruleCodes = this.detailData[4]
-      this.warnStartDate = this.detailData[4]
-      this.warnEndDate = this.detailData[5]
+      this.warnStartDate = this.detailData[5].length ? this.detailData[5] : ''
+      this.warnEndDate = this.detailData[6].length ? this.detailData[6] : ''
       switch (this.title) {
         case '指标预警-待整改明细':
           this.tableColumnsConfig = proconf.redUndoNum
