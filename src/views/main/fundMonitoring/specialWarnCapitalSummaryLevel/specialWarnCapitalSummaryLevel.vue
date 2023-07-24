@@ -221,7 +221,9 @@ export default {
       mofDivCodes: [],
       ruleCodes: [],
       ruledialogTitle: '新增',
-      warnRuleSummaryVisible: false
+      warnRuleSummaryVisible: false,
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   mounted() {
@@ -366,6 +368,9 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       this.ruleCodes = this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+      this.warnStartDate = this.searchDataList.warnStartDate === '' ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
+      this.warnEndDate = this.searchDataList.warnEndDate === '' ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
+
       switch (key) {
         case 'name':
           console.info(obj.row.id.length)

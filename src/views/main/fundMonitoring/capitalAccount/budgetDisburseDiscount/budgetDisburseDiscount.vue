@@ -261,7 +261,8 @@ export default {
       detailType: '',
       detailTitle: '',
       detailData: [],
-      detailQueryParam: {}
+      detailQueryParam: {},
+      projectCode: ''
     }
   },
   mounted() {
@@ -432,22 +433,24 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
-      let key = obj.column.property
+      if (!this.projectCode === 'FJ') { // 福建的不要钻取
+        const rowIndex = obj?.rowIndex
+        if (!rowIndex) return
+        let key = obj.column.property
 
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
 
-      switch (key) {
-        case 'amountHqpay':
-          this.handleDetail('hjqybzje', obj.row.code)
-          this.detailTitle = '项目惠及企业台账明细'
-          break
-        case 'amountLmpay':
-          this.handleDetail('hjrybzje', obj.row.code)
-          this.detailTitle = '项目惠及人员台账明细'
+        switch (key) {
+          case 'amountHqpay':
+            this.handleDetail('hjqybzje', obj.row.code)
+            this.detailTitle = '项目惠及企业台账明细'
+            break
+          case 'amountLmpay':
+            this.handleDetail('hjrybzje', obj.row.code)
+            this.detailTitle = '项目惠及人员台账明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -564,11 +567,13 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountHqpay', 'amountLmpay'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.projectCode !== 'FJ') { // 福建的不要钻取
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['amountHqpay', 'amountLmpay'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
@@ -580,6 +585,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.projectCode = this.transJson(this.params5 || '')?.projectCode
+
     this.getPro()
     this.queryTableDatas()
   }

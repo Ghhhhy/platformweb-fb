@@ -109,7 +109,9 @@ export default {
       sDetailTitle: '',
       sDetailVisible: false,
       sDetailData: [],
-      fiscalYear: ''
+      fiscalYear: '',
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   methods: {
@@ -172,7 +174,9 @@ export default {
         mofDivCodes: this.searchDataList.mofDivName_code__multiple || [],
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass || '09'
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass || '09',
+        warnStartDate: this.warnStartDate,
+        warnEndDate: this.warnEndDate
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -248,6 +252,8 @@ export default {
       this.detailType = this.detailData[0]
       this.code = this.detailData[1]
       this.fiscalYear = this.detailData[2]
+      this.warnStartDate = this.detailData[3]
+      this.warnEndDate = this.detailData[4]
       console.log(proconf)
       switch (this.title) {
         case '是否上传附件-未处理明细':

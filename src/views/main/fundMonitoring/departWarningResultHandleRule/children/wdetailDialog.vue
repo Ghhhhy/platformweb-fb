@@ -57,6 +57,7 @@
       v-if="affirmDialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <GlAttachment
@@ -120,6 +121,7 @@ export default {
     return {
       userInfo: {},
       billguid: '',
+      selectIds: [],
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
@@ -359,8 +361,9 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          var title = '认定处理单'
           this.selectData = selectionRow[0]
-          this.affirm()
+          this.affirm(title)
           break
         // 批量认定
         case 'batch_set':

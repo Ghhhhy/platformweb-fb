@@ -132,7 +132,9 @@ const proconf = {
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     proCodes: '',
-    ruleCodes: ''
+    ruleCodes: '',
+    warnStartDate: '',
+    warnEndDate: ''
   },
   basicInfo: {
     type: 'form',

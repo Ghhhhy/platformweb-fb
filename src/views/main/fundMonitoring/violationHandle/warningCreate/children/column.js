@@ -171,14 +171,14 @@ const budgetImpColumns = [
   {
     title: '追踪项目',
     width: 180,
-    field: 'trackProCode',
+    field: 'trackProNameAndCode',
     sortable: false,
     filters: false,
-    align: 'center',
-    exportFormatter: true, // 导出formatter展示的数据
-    formatter({ row }) {
-      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
-    }
+    align: 'center'
+    // exportFormatter: true, // 导出formatter展示的数据
+    // formatter({ row }) {
+    //   return row.trackProCode || row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    // }
   },
   {
     title: '预算项目',
@@ -2728,7 +2728,7 @@ const proconf = {
       return [
         ...columns,
         ...otherColumns,
-        ...operatorColumns
+        ...tempOperatorColumns
       ]
     }
     if (status.indexOf('DoneNum') > 0 || status.indexOf('NotRectifiedNum') > 0) {
