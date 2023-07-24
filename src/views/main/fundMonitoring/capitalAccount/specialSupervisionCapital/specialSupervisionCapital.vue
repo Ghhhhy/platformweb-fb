@@ -76,7 +76,7 @@
             </div>
           </template>
         </BsTable>
-        <BsTable1
+        <BsTable
           v-else
           id="1001"
           ref="bsTableRef"
@@ -140,7 +140,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable1>
+        </BsTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
