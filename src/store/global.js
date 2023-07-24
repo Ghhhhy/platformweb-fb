@@ -26,11 +26,11 @@ export const getters = {
     let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
     let budgetlevelcode = state.userInfo.budgetlevelcode
     if (budgetlevelcode === '4') { // 市级
-      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 4) + '%\''
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 4) + '%\''
     } else if (budgetlevelcode === '5') { // xianji
-      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 6) + '%\''
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 6) + '%\''
     } else if (budgetlevelcode === '2') { // sheng ji
-      obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 2) + '%\''
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
     }
     return obj
   },
