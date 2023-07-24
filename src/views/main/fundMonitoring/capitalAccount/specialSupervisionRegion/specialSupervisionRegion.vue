@@ -24,7 +24,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <BsTable1
+        <BsTable
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -88,7 +88,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable1>
+        </BsTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -626,7 +626,7 @@ export default {
           const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
           if (isInvalidCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
           return
         }
         let xmSource = 'zdzjxmmx'
@@ -796,7 +796,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hide=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')
@@ -860,7 +860,7 @@ export default {
           const validCellValue = (row[column.property] * 1)
           if (!validCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
           return
         }
         if (this.linkStyle(row, rowIndex, column)) {
