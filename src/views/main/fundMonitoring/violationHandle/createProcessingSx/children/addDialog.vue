@@ -989,7 +989,7 @@ export default {
         commentDept: this.commentDept
       }
       this.addLoading = true
-      HttpModule.handleFeedback(param).then(res => {
+      HttpModule.handleFeedback([param]).then(res => {
         this.addLoading = false
         if (res.code === '000000') {
           this.$message.success('操作成功')
