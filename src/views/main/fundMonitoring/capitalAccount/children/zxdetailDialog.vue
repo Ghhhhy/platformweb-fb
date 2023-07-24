@@ -478,6 +478,7 @@ export default {
         default:
           break
       }
+      this.queryTableDatas()
     },
     handleDetail(reportCode, row) {
       this.$parent.sDetailQueryParam = {
