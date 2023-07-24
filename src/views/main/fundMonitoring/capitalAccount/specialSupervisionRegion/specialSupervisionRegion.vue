@@ -626,7 +626,7 @@ export default {
           const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
           if (isInvalidCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
           return
         }
         let xmSource = 'zdzjxmmx'
@@ -860,7 +860,7 @@ export default {
           const validCellValue = (row[column.property] * 1)
           if (!validCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
           return
         }
         if (this.linkStyle(row, rowIndex, column)) {

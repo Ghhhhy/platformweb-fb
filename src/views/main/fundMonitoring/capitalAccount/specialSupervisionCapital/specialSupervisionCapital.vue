@@ -624,7 +624,7 @@ export default {
           xmSource = 'zxjdxmmx_fzj'
           zcSource = 'zxjdzcmx_fzj'
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
           return
         }
         const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -755,7 +755,7 @@ export default {
           const validCellValue = (row[column.property] * 1)
           if (!validCellValue) return
         }
-        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
           return
         }
         if (this.linkStyle(row, rowIndex, column)) {
