@@ -712,12 +712,12 @@ const routers = [
     },
     component: () => {
       if (process.env.VUE_APP_CONF_ISHB) {
-        return import('../../../hb/views/Benifit/BenifitPeople.vue')
+        return import('@/hb/views/Benifit/BenifitPeople.vue')
       } else if (process.env.VUE_APP_CONF_ISSH) {
-        return import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
+        return import('@/views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
       } else {
         return import(
-          '../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue'
+          '@/views/main/fundMonitoring/benefitPeople/index.vue'
         )
       }
     }
@@ -729,7 +729,7 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
+    component: () => import('@/views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认
@@ -748,7 +748,7 @@ const routers = [
     name: 'BenefitEnterprisesAndPeopleImport',
     component: () =>
       import(
-        '../../../views/main/fundMonitoring/benefitEnterprisesAndPeopleImport/BenefitEnterprisesAndPeopleImport.vue'
+        '@/views/main/fundMonitoring/benefitEnterprisesAndPeopleImport/BenefitEnterprisesAndPeopleImport.vue'
       )
   },
   {
@@ -1050,6 +1050,51 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/main/dynamicTableSetting/dynamicTableSetting.vue')// 编辑列表器页面
+  },
+  {
+    path: '/CreateProcessingByZd', // 监控处理单生成
+    name: 'CreateProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/DepartmentRetroactByZd', // 主管处室反馈/部门反馈
+    name: 'DepartmentRetroactByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue')
+  },
+  {
+    path: '/CompanyRetroactByZd', // 单位反馈
+    name: 'CompanyRetroactByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue')
+  },
+  {
+    path: '/QueryProcessingByZd', // 查询
+    name: 'QueryProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/WarnRegionByZd', // 直达资金地方预警汇总
+    name: 'WarnRegionByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningQuery.vue')
   }
 ]
 
