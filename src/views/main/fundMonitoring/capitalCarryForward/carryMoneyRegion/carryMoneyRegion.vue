@@ -12,7 +12,7 @@
           @onQueryConditionsClick='onQueryConditionsClick'
         />
       </template> -->
-      <!--      <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -21,7 +21,7 @@
             @onSearchClick="search"
           />
         </div>
-      </template>-->
+      </template>
       <template v-slot:mainForm>
         <BsTable
           id="1001"
