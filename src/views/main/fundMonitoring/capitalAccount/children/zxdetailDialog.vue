@@ -263,6 +263,7 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       params.proName = this.condition.proName ? this.condition.proName[0] : ''
+      params.fpTime = this.condition.fpTime ? this.condition.fpTime[0] : ''
       params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
       params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
