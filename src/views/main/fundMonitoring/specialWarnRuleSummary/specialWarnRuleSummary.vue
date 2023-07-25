@@ -394,7 +394,6 @@ export default {
       // 无效的cellValue
       // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       // if (isInvalidCellValue) return
-      console.log('-------' + this.searchDataList.warnStartDate)
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
