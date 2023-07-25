@@ -92,8 +92,7 @@ const proconf = {
           }
         }
       }
-    },
-    {
+    }, {
       title: '预警开始时间',
       field: 'warnStartDate',
       sortable: false,
