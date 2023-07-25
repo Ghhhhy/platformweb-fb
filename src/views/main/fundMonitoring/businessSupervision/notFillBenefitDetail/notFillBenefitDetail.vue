@@ -36,6 +36,8 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :formula-digits="1"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -48,12 +50,12 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">未填报惠企利民发放明细</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
           </template>
-          <template v-slot:toolbar-custom-slot>
+          <template v-if="!isSx" v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
@@ -75,6 +77,11 @@ import getFormData from './notFillBenefitDetail.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/notFillBenefitDetail.js'
 export default {
   components: {
+  },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
   },
   watch: {
     $refs: {
@@ -164,10 +171,11 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: this.$store.getters.isSx, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: this.$store.getters.isSx, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -348,11 +356,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-
+      if (!this.isSx) {
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
+      }
       switch (key) {
         case 'jOut':
           this.handleDetail('jOut', obj.row.recDivCode)
@@ -400,18 +408,34 @@ export default {
         }
       })
     },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'hqlmffmxwgjzfpzqk'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: 'wtbhqlmffmx',
-        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year,
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        reportCode: 'hqlmffmxwgjzfpzqk',
+        fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
+      }
+      if (!this.isSx) {
+        param.reportCode = 'wtbhqlmffmx'
+        param.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          this.tableData = res.data
           this.caliberDeclareContent = res.data.description || ''
           this.reportTime = res.data.reportTime || ''
           this.tableLoading = false
@@ -474,23 +498,40 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (!this.isSx) {
+        if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getPro()
+    this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
+    this.isSx ? this.queryCaliberDeclareContent() : this.getPro()
+    if (!this.isSx) {
+      this.queryConfig = this.queryConfig.filter(item => {
+        return item.field !== 'proCodes'
+      })
+    }
   }
 }
 </script>
