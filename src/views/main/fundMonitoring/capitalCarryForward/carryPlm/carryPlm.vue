@@ -12,7 +12,7 @@
           @onQueryConditionsClick='onQueryConditionsClick'
         />
       </template> -->
-      <!--      <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -21,7 +21,7 @@
             @onSearchClick="search"
           />
         </div>
-      </template>-->
+      </template>
       <template v-slot:mainForm>
         <BsTable
           id="1001"
@@ -31,10 +31,11 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, expandRowKeys: defaultExpandRowKeys, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -46,7 +47,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">直达机制项目全生命周期管理情况表(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -75,6 +76,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandRowKeys: [],
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -153,6 +155,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -338,8 +341,9 @@ export default {
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data
           this.caliberDeclareContent = res.data.description || ''
+          this.defaultExpandRowKeys = [res.data[0]?.id]
+          this.tableData = res.data
           this.tableLoading = false
         } else {
           this.$message.error(res.message)
@@ -356,7 +360,6 @@ export default {
         HttpModule.queryTableDatas(param).then(res => {
           if (res.code === '000000') {
             const childs = res.data
-            this.caliberDeclareContent = res.data.description || ''
             resolve(childs)
           } else {
             this.$message.error(res.result)
@@ -372,11 +375,14 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
+    this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas(false)
   }
 }
