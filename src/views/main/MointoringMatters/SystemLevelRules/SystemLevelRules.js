@@ -391,6 +391,7 @@ export let proconf = {
     },
     {
       title: '监控主题',
+      'width': 180,
       field: 'regulationClassName',
       sortable: false,
       filters: false,
