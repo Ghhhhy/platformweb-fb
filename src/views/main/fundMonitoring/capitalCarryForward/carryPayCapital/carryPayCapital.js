@@ -62,7 +62,7 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         align: 'left',
-        sortable: false,
+        sortable: true,
         filters: false,
         treeNode: true,
         width: 160,
@@ -77,7 +77,7 @@ const proconf = {
           {
             title: '资金总量',
             field: 'all1',
-            sortable: false,
+            sortable: true,
             filters: false,
             formula: '{amountSnjJz}+{amountSjAll}+{amountXjAll}',
             width: 100,
@@ -87,7 +87,7 @@ const proconf = {
           {
             title: '支出金额',
             field: 'payAll',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 100,
             align: 'right',
@@ -97,7 +97,7 @@ const proconf = {
           {
             title: '支出进度',
             field: 'payPro',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 100,
             align: 'right',
@@ -116,7 +116,7 @@ const proconf = {
           {
             title: '资金总量',
             field: 'amountSnjJz',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 100,
             align: 'right',
@@ -125,7 +125,7 @@ const proconf = {
           {
             title: '支出金额',
             field: 'amountSnjJzPay',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 100,
             align: 'right',
@@ -134,7 +134,7 @@ const proconf = {
           {
             title: '支出进度',
             field: 'sjpayPro1',
-            sortable: false,
+            sortable: true,
             filters: false,
             formula: '({amountProvince}-0==0)?0:({amountPayProvince}/{amountProvince}*100)',
             width: 100,
@@ -157,7 +157,7 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 field: 'amountSjSnjJz',
                 width: 100,
@@ -167,7 +167,7 @@ const proconf = {
               {
                 title: '市级',
                 field: 'amountSjJz',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -176,7 +176,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'amountSjAll',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -194,7 +194,7 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 field: 'amountSjSnjJzPay',
                 width: 100,
@@ -204,7 +204,7 @@ const proconf = {
               {
                 title: '市级',
                 field: 'amountSjJzPay',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -214,7 +214,7 @@ const proconf = {
                 title: '总金额',
                 field: 'amountPayAll',
                 width: 100,
-                sortable: false,
+                sortable: true,
                 filters: false,
                 align: 'right',
                 formula: '{amountSjSnjJzPay}+{amountSjJzPay}',
@@ -232,7 +232,7 @@ const proconf = {
               {
                 title: '省级',
                 field: 'sjsnjRatio',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -242,7 +242,7 @@ const proconf = {
               {
                 title: '市级',
                 field: 'sjRatio',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -253,7 +253,7 @@ const proconf = {
                 title: '总金额',
                 field: 'sjRatioAll',
                 width: 100,
-                sortable: false,
+                sortable: true,
                 filters: false,
                 align: 'right',
                 formula: '({amountSjAll}-0==0)?0:({amountPayAll}/{amountSjAll})*100',
@@ -278,7 +278,7 @@ const proconf = {
               {
                 title: '省级',
                 field: 'amountXjSnjJz',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -287,7 +287,7 @@ const proconf = {
               {
                 title: '市级',
                 field: 'amountXjSjJz',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -296,7 +296,7 @@ const proconf = {
               {
                 title: '县级',
                 field: 'amountXjJz',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -305,7 +305,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'amountXjAll',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -324,14 +324,14 @@ const proconf = {
               {
                 title: '省级',
                 field: 'amountXjSnjJzPay',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right'
               },
               {
                 title: '市级',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 field: 'amountXjSjJzPay',
                 width: 100,
@@ -341,7 +341,7 @@ const proconf = {
                 title: '县级',
                 field: 'amountXjJzPay',
                 width: 100,
-                sortable: false,
+                sortable: true,
                 filters: false,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
@@ -349,7 +349,7 @@ const proconf = {
               {
                 title: '总金额',
                 field: 'amountXjPayAll',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -368,7 +368,7 @@ const proconf = {
               {
                 title: '省级',
                 field: 'xjSnjPayRatio',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 width: 100,
                 align: 'right',
@@ -379,7 +379,7 @@ const proconf = {
                 title: '市级',
                 field: 'xjSjPayRatio',
                 width: 100,
-                sortable: false,
+                sortable: true,
                 filters: false,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
@@ -387,7 +387,7 @@ const proconf = {
               },
               {
                 title: '县级',
-                sortable: false,
+                sortable: true,
                 filters: false,
                 field: 'xjPayRatio',
                 width: 100,
@@ -399,7 +399,7 @@ const proconf = {
                 title: '总金额',
                 field: 'xjPayAll',
                 width: 100,
-                sortable: false,
+                sortable: true,
                 filters: false,
                 align: 'right',
                 formula: '({amountXjAll}-0==0)?0:({amountXjPayAll}/{amountXjAll})*100',

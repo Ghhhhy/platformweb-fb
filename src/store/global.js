@@ -34,6 +34,18 @@ export const getters = {
     }
     return obj
   },
+  treeQueryparamsCom2() {
+    let obj = { elementcode: 'AGENCY', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
+    let budgetlevelcode = state.userInfo.budgetlevelcode
+    if (budgetlevelcode === '4') { // 市级
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 4) + '%\''
+    } else if (budgetlevelcode === '5') { // xianji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 6) + '%\''
+    } else if (budgetlevelcode === '2') { // sheng ji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
+    }
+    return obj
+  },
   isSx() { // 判断是否是陕西项目
     return state.curNavModule.param5.indexOf('project=sx') > -1
   },
@@ -69,9 +81,31 @@ export const getters = {
   },
   getUserRolesData(state) {
     return state.userRolesData
+  },
+  getIsJurisdiction() { // 判断是否是全辖角色
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let IsJurisdiction = params5.jurisdiction !== undefined
+    return IsJurisdiction
+  },
+  getRegulationClass() { // 获取regulationClass （主题名称）
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let RegulationClass = params5.regulationClass !== undefined ? params5.regulationClass : ''
+    return RegulationClass
   }
 }
 export const mutations = {
+  transJson(str) {
+    if (!str) return
+    var params = str.split(',')
+    var result = {}
+    if (params && params.length > 0) {
+      for (var i = 0; i < params.length; i++) {
+        var map = params[i].split('=')
+        result[map[0]] = map[1]
+      }
+    }
+    return result
+  },
   setloading(state, isshow) { // 自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
     state.loading = isshow
   },
