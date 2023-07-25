@@ -624,6 +624,11 @@ export default {
       if (timeFiledList.includes(obj.property)) {
         obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
         this.searchDataList[obj.property] = obj.itemValue
+      } else {
+        this.searchDataList[obj.property] = obj.itemValue
+      }
+      if (obj.property === 'agencyCodeList') {
+        this.agencyCodeList = obj.itemValue.split('##')
       }
     },
     showDetail() {
@@ -1222,10 +1227,26 @@ export default {
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = ''
+      this.$refs.queryFrom.reset()
+      this.agencyCodeList = []
+      this.searchDataList.agencyCodeList = []
+      this.searchDataList.businessNo = ''
+      this.searchDataList.fiRuleName = ''
+      this.searchDataList.regulationClassName = ''
+      this.searchDataList.trackProName = ''
+      this.searchDataList.triggerClass = ''
+      this.searchDataList.warnTime = ''
       this.searchDataList.warnStartDate = ''
       this.searchDataList.warnEndDate = ''
       this.searchDataList.dealWarnStartDate = ''
       this.searchDataList.dealWarnEndDate = ''
+      this.condition.agencyCodeList = []
+      this.condition.businessNo = ''
+      this.condition.fiRuleName = ''
+      this.condition.regulationClassName = ''
+      this.condition.trackProName = ''
+      this.condition.triggerClass = ''
+      this.condition.warnTime = ''
       this.queryTableDatas()
     },
     // 表格单元行单击
