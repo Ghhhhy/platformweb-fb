@@ -34,6 +34,18 @@ export const getters = {
     }
     return obj
   },
+  treeQueryparamsCom2() {
+    let obj = { elementcode: 'AGENCY', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
+    let budgetlevelcode = state.userInfo.budgetlevelcode
+    if (budgetlevelcode === '4') { // 市级
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 4) + '%\''
+    } else if (budgetlevelcode === '5') { // xianji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 6) + '%\''
+    } else if (budgetlevelcode === '2') { // sheng ji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
+    }
+    return obj
+  },
   isSx() { // 判断是否是陕西项目
     return state.curNavModule.param5.indexOf('project=sx') > -1
   },
