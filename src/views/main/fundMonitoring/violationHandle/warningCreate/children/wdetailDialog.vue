@@ -621,8 +621,11 @@ export default {
       }
     },
     itemChange(obj, formRef) {
-      obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
-      this.searchDataList[obj.property] = obj.itemValue
+      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate']
+      if (timeFiledList.includes(obj.property)) {
+        obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
+        this.searchDataList[obj.property] = obj.itemValue
+      }
     },
     showDetail() {
       let selection = this.$refs.mainTableRef.selection
