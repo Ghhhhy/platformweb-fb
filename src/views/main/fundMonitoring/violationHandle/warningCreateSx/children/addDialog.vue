@@ -566,6 +566,7 @@ export default {
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
               this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
             }
+            this.supplyDataList.businessTime = res.data.businessTime
             this.handletableData = res.data?.regulationList
           } else {
             this.$message.error(res.message)
