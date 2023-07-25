@@ -654,7 +654,8 @@ let proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            formula: '(({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
+            formula: '{amountZjzl}-0==0?0:Math.round({amountZjzc}/{amountZjzl}*100*10)/10'
+            // formula: '(({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
           }
         ]
       },
