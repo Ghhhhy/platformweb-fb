@@ -69,9 +69,31 @@ export const getters = {
   },
   getUserRolesData(state) {
     return state.userRolesData
+  },
+  getIsJurisdiction() { // 判断是否是全辖角色
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let IsJurisdiction = params5.jurisdiction !== undefined
+    return IsJurisdiction
+  },
+  getRegulationClass() { // 获取regulationClass （主题名称）
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let RegulationClass = params5.regulationClass !== undefined ? params5.regulationClass : ''
+    return RegulationClass
   }
 }
 export const mutations = {
+  transJson(str) {
+    if (!str) return
+    var params = str.split(',')
+    var result = {}
+    if (params && params.length > 0) {
+      for (var i = 0; i < params.length; i++) {
+        var map = params[i].split('=')
+        result[map[0]] = map[1]
+      }
+    }
+    return result
+  },
   setloading(state, isshow) { // 自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
     state.loading = isshow
   },
