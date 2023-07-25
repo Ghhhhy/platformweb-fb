@@ -433,6 +433,10 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+//执行 单位零余额跳转到该页面 导致css样式丢失
+button.el-button.el-button--default.el-button--small.el-button--primary{
+  color: #fff !important;
+  background-color:  #4d77e7 !important;
+}
 </style>

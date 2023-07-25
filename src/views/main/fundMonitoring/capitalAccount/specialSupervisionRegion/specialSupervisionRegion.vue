@@ -24,7 +24,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <BsTable1
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -88,7 +88,7 @@
               </el-tooltip>
             </div>
           </template>
-        </BsTable>
+        </BsTable1>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />

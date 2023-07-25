@@ -297,6 +297,7 @@ export default {
           this.loadConfig('BsQuery', 'Query303')
           break
       }
+      this.queryTableDatas()
     },
     showInfoForVisible() {
       switch (this.sDetailType) {
