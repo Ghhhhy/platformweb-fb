@@ -18,7 +18,6 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @itemChange="itemChange"
             @onSearchClick="search"
           />
         </div>
@@ -41,6 +40,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :show-zero="false"
+          :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -59,7 +59,7 @@
               </div>
             </div>
           </template>
-          <template v-slot:toolbar-custom-slot>
+          <template v-if="!isSx" v-slot:toolbar-custom-slot>
             <vxe-button
               v-if="transJson($store.state.curNavModule.param5).incrementUpdateBtnVisible !== false"
               :loading="dataSourceAddLoading"
@@ -119,6 +119,11 @@ export default {
     DetailDialog,
     SDetailDialog
   },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -133,7 +138,6 @@ export default {
   data() {
     return {
       caliberDeclareContent: '', // 口径说明
-      reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
@@ -575,7 +579,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
-      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
+      this.search(this.$refs.queryFrom.getFormData(), '', isFlush)
       // this.queryTableDatasCount()
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
@@ -609,7 +613,6 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
-      console.log(this.transJson(this.params5 || ''), this.transJson(this.params5 || '')?.reportCode)
       const param = {
         isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode,
@@ -696,7 +699,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.curNavModule.param5, this.$store.state.curMenuObj)
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
