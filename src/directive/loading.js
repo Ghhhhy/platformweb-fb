@@ -136,7 +136,7 @@ loadingDirective.install = Vue => {
       const params5Obj=transJson(store.getters.getCurNavModule.param5||"")
       let bindConfig=binding.value
       if(typeof bindConfig==='string'){
-        if(bindConfig in params5Obj&&!params5Obj[bindConfig]){
+        if(bindConfig in params5Obj&&(!params5Obj[bindConfig]||params5Obj[bindConfig]==='0'||params5Obj[bindConfig]==='false')){
           el.parentNode.removeChild(el)
         }
       }else if(typeof bindConfig ==="function"){
@@ -152,10 +152,23 @@ loadingDirective.install = Vue => {
     }
   })
   /* *
-    @params binding  {Boolean,String,Function:())=>Boolean} 
+    @params binding.value  {Boolean,String,Function:())=>Boolean} 
     <vxe-button v-param5Show="() => { showshowWay('kjbtnVisable') }" @click="dialogClose">取消</vxe-button>
     <vxe-button v-param5Show="'kjbtnVisable'" @click="dialogClose">取消</vxe-button>
     <vxe-button v-param5Show="false" @click="dialogClose">取消</vxe-button>
+    //----
+    vueInstatnce{
+      ...
+      methods:{
+        showshowWay(str){
+          return testList.inculdes('123')
+        },
+        dialogClose(){
+          
+        }
+      }
+      ...
+    }
    */
 }
 
