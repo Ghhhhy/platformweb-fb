@@ -127,6 +127,7 @@ const proconf = {
             title: '资金总量',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             field: 'amountZyxd'
           },
@@ -134,6 +135,7 @@ const proconf = {
             title: '整合金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             field: 'amountQsZhje',
             visible: false
@@ -142,6 +144,7 @@ const proconf = {
             title: '支出金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             field: 'amountQsZcje'
           },
@@ -187,6 +190,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjxd}+{amountSnjZjzlSjap}'
               }
             ]
@@ -202,6 +206,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -210,6 +215,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -218,6 +224,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjZhjeZyap}+{amountSnjZhjeSnjap}',
                 visible: false
               }
@@ -248,6 +255,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjpay}+{amountSnjZcjeSnjap}'
               }
             ]
@@ -328,6 +336,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSjxd}+{amountSjZjzlSnjap}+{amountSjZjzlSjap}'
               }
             ]
@@ -343,6 +352,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -351,6 +361,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -359,6 +370,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -367,6 +379,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               }
             ]
@@ -403,6 +416,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSjpay}+{amountSjZcjeSnjap}+{amountSjZcjeSjap}'
               }
             ]
@@ -500,6 +514,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountXjxd}+{amountXjZjzlSnjap}+{amountXjZjzlSjap}+{amountXjZjzlXjap}'
               }
             ]
@@ -515,6 +530,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -523,6 +539,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -531,6 +548,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -539,6 +557,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -547,6 +566,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               }
             ]
@@ -662,6 +682,7 @@ const proconf = {
             title: '中央安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             field: 'amountZczsZyap',
             formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
@@ -670,6 +691,7 @@ const proconf = {
             title: '省级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             formula: '{amountSnjZcjeSnjap}+{amountSjZcjeSnjap}+{amountXjZcjeSnjap}',
             field: 'amountZczsSnjap'
@@ -678,6 +700,7 @@ const proconf = {
             title: '市级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             formula: '{amountSjZcjeSjap}+{amountXjZcjeSjap}',
             field: 'amountZczsSjap'
@@ -686,6 +709,7 @@ const proconf = {
             title: '县级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             formula: '{amountXjZcjeXjap}',
             field: 'amountZczsXjap'
@@ -694,6 +718,7 @@ const proconf = {
             title: '总金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 100,
             field: 'amountZczsZje',
             formula: '{amountZczsZyap}+{amountZczsSnjap}+{amountZczsSjap}+{amountZczsXjap}'
@@ -726,6 +751,7 @@ const proconf = {
             title: '资金总量',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             field: 'amountZyxd'
           },
@@ -733,6 +759,7 @@ const proconf = {
             title: '整合金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             field: 'amountQsZhje',
             visible: false
@@ -741,6 +768,7 @@ const proconf = {
             title: '支出金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             field: 'amountQsZcje'
           },
@@ -771,6 +799,7 @@ const proconf = {
                 field: 'amountSnjxd',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -778,6 +807,7 @@ const proconf = {
                 field: 'amountSnjZjzlSjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -786,6 +816,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjxd}+{amountSnjZjzlSjap}'
               }
             ]
@@ -801,6 +832,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -809,6 +841,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -817,6 +850,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjZhjeZyap}+{amountSnjZhjeSnjap}',
                 visible: false
               }
@@ -832,6 +866,7 @@ const proconf = {
                 field: 'amountSnjpay',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -839,6 +874,7 @@ const proconf = {
                 field: 'amountSnjZcjeSnjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -847,6 +883,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountSnjpay}+{amountSnjZcjeSnjap}'
               }
             ]
@@ -862,6 +899,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 formula: '{amountSnjxd}-0==0?0:Math.round({amountSnjpay}/{amountSnjxd}*100*10)/10',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -872,6 +910,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 formula: '{amountSnjZjzlSjap}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountSnjZjzlSjap}*100*10)/10',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -881,6 +920,7 @@ const proconf = {
                 field: 'numberSnjZcjdzje',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 formula: '{amountSnjZjzlZje}-0==0?0:Math.round({amountSnjZcjeZje}/{amountSnjZjzlZje}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
@@ -905,6 +945,7 @@ const proconf = {
                 field: 'amountXjxd',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -912,6 +953,7 @@ const proconf = {
                 field: 'amountXjZjzlSnjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -919,6 +961,7 @@ const proconf = {
                 field: 'amountXjZjzlXjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -927,6 +970,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 formula: '{amountXjxd}+{amountXjZjzlSnjap}+{amountXjZjzlSjap}+{amountXjZjzlXjap}'
               }
             ]
@@ -942,6 +986,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -950,6 +995,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -958,6 +1004,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               },
               {
@@ -966,6 +1013,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
+                sortable: true,
                 visible: false
               }
             ]
@@ -980,6 +1028,7 @@ const proconf = {
                 field: 'amountXjpay',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -987,6 +1036,7 @@ const proconf = {
                 field: 'amountXjZcjeSnjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -994,6 +1044,7 @@ const proconf = {
                 field: 'amountXjZcjeXjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1002,6 +1053,7 @@ const proconf = {
                 width: 200,
                 formula: '{amountXjpay}+{amountXjZcjeSnjap}+{amountXjZcjeSjap}+{amountXjZcjeXjap}',
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               }
             ]
@@ -1016,6 +1068,7 @@ const proconf = {
                 field: 'numberXjZcjdZyap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 formula: '{amountXjxd}-0==0?0:Math.round({amountXjpay}/{amountXjxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
@@ -1026,6 +1079,7 @@ const proconf = {
                 field: 'numberXjZcjdSnjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 formula: '{amountXjZjzlSnjap}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountXjZjzlSnjap}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
@@ -1036,6 +1090,7 @@ const proconf = {
                 field: 'numberXjZcjdXjap',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 formula: '{amountXjZjzlXjap}-0==0?0:Math.round({amountXjZcjeXjap}/{amountXjZjzlXjap}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
@@ -1046,6 +1101,7 @@ const proconf = {
                 field: 'numberXjZcjdZje',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 formula: '{amountXjZjzlZje}-0==0?0:Math.round({amountXjZcjeZje}/{amountXjZjzlZje}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
@@ -1064,6 +1120,7 @@ const proconf = {
             title: '中央安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             field: 'amountZczsZyap',
             formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
@@ -1072,6 +1129,7 @@ const proconf = {
             title: '市级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             formula: '{amountSnjZcjeSnjap}+{amountSjZcjeSnjap}+{amountXjZcjeSnjap}',
             field: 'amountZczsSnjap'
@@ -1080,6 +1138,7 @@ const proconf = {
             title: '区级安排',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             formula: '{amountXjZcjeXjap}',
             field: 'amountZczsXjap'
@@ -1088,6 +1147,7 @@ const proconf = {
             title: '总金额',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
+            sortable: true,
             width: 200,
             field: 'amountZczsZje',
             formula: '{amountZczsZyap}+{amountZczsSnjap}+{amountZczsSjap}+{amountZczsXjap}'
