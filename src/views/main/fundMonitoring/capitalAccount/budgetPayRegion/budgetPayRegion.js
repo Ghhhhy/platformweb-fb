@@ -128,6 +128,7 @@ const proconf = {
             field: 'amountZjzl',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -135,13 +136,15 @@ const proconf = {
             field: 'cAmount',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '支出资金',
             field: 'amountZjzc',
             width: 100,
+            sortable: true,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
@@ -152,6 +155,7 @@ const proconf = {
             field: 'pPro',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: {
               name: '$vxeRatio'
             },
@@ -174,6 +178,7 @@ const proconf = {
                 field: 'amountSnjzyxd',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -181,6 +186,7 @@ const proconf = {
                 field: 'amountSnjdfdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -188,6 +194,7 @@ const proconf = {
                 field: 'saaAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -205,27 +212,30 @@ const proconf = {
                 field: 'szyapcAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '地方安排',
                 field: 'sdfapcAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '总金额',
                 field: 'sacAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
                 formula: '({szyapcAmount}+{sdfapcAmount})',
-                visible: false
+                visible: store.getters.isSx
               }
             ]
           },
@@ -239,6 +249,7 @@ const proconf = {
                 field: 'amountSnjzypay',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -246,6 +257,7 @@ const proconf = {
                 field: 'amountSnjdfpay',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -253,6 +265,7 @@ const proconf = {
                 field: 'sapAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -269,6 +282,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'szyappPro',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSnjzyxd}-0==0?0:Math.round({amountSnjzypay}/{amountSnjzyxd}*100*10)/10'
@@ -276,6 +290,7 @@ const proconf = {
               {
                 title: '地方安排',
                 field: 'sdfappPro',
+                sortable: true,
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
@@ -285,6 +300,7 @@ const proconf = {
                 title: '总进度',
                 field: 'sapPro',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
@@ -309,6 +325,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountSjzydf',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -316,6 +333,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountSjdfdf',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -323,6 +341,7 @@ const proconf = {
                 title: '总金额',
                 field: 'shaaAmount',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -341,27 +360,30 @@ const proconf = {
                 field: 'shzyapcAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '地方安排',
                 field: 'shdfapcAmount',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '总金额',
                 field: 'shacAmount',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
                 },
                 formula: '({shzyapcAmount}+{shdfapcAmount})',
-                visible: false
+                visible: store.getters.isSx
               }
             ]
           },
@@ -374,6 +396,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountSjzypay',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -381,6 +404,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountSjdfpay',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -389,6 +413,7 @@ const proconf = {
                 field: 'shapAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -406,6 +431,7 @@ const proconf = {
                 field: 'shzyappPro',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSjzydf}-0==0?0:Math.round({amountSjzypay}/{amountSjzydf}*100*10)/10'
               },
@@ -414,6 +440,7 @@ const proconf = {
                 field: 'shdfappPro',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSjdfdf}-0==0?0:Math.round({amountSjdfpay}/{amountSjdfdf}*100*10)/10'
               },
@@ -422,6 +449,7 @@ const proconf = {
                 field: 'shapPro',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 },
@@ -445,6 +473,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountXjzydf',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -452,6 +481,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountXjdfdf',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -460,6 +490,7 @@ const proconf = {
                 field: 'xaaAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -477,27 +508,30 @@ const proconf = {
                 field: 'xzyapcAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '地方安排',
                 field: 'xdfapcAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '总金额',
                 field: 'xacAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
                 formula: '({xzyapcAmount}+{xdfapcAmount})',
-                visible: false
+                visible: store.getters.isSx
               }
             ]
           },
@@ -511,6 +545,7 @@ const proconf = {
                 field: 'amountXjzypay',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -518,6 +553,7 @@ const proconf = {
                 field: 'amountXjdfpay',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -525,6 +561,7 @@ const proconf = {
                 field: 'xapAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -541,6 +578,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'xzyapPro',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjzydf}-0==0?0:Math.round({amountXjzypay}/{amountXjzydf}*100*10)/10'
@@ -549,6 +587,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'xdfappPro',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjdfdf}-0==0?0:Math.round({amountXjdfpay}/{amountXjdfdf}*100*10)/10'
@@ -557,6 +596,7 @@ const proconf = {
                 title: '总进度',
                 field: 'xapPro',
                 width: 100,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
@@ -576,6 +616,7 @@ const proconf = {
             title: '中央安排',
             field: 'zzyapAmount',
             width: 100,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
@@ -584,6 +625,7 @@ const proconf = {
             title: '地方安排',
             field: 'zdfapAmount',
             width: 100,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjdfpay}+{amountSjdfpay}+{amountXjdfpay}'
@@ -592,6 +634,7 @@ const proconf = {
             title: '总金额',
             field: 'zaAmount',
             width: 100,
+            sortable: true,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
@@ -626,6 +669,7 @@ const proconf = {
             title: '资金总量',
             field: 'amountZjzl',
             width: 200,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -633,15 +677,17 @@ const proconf = {
             title: '整合资金',
             field: 'cAmount',
             width: 200,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '支出资金',
             field: 'amountZjzc',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: {
               name: '$vxeMoney'
             }
@@ -651,6 +697,7 @@ const proconf = {
             field: 'pPro',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: {
               name: '$vxeRatio'
             },
@@ -672,6 +719,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountSnjzyxd',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -679,6 +727,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountSnjdfdf',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -687,6 +736,7 @@ const proconf = {
                 field: 'saaAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -703,28 +753,31 @@ const proconf = {
                 title: '中央安排',
                 field: 'szyapcAmount',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '地方安排',
                 field: 'sdfapcAmount',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '总金额',
                 field: 'sacAmount',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
                 },
                 formula: '({szyapcAmount}+{sdfapcAmount})',
-                visible: false
+                visible: store.getters.isSx
               }
             ]
           },
@@ -737,6 +790,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountSnjzypay',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -744,6 +798,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountSnjdfpay',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -751,6 +806,7 @@ const proconf = {
                 title: '总金额',
                 field: 'sapAmount',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -769,6 +825,7 @@ const proconf = {
                 field: 'szyappPro',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSnjzyxd}-0==0?0:Math.round({amountSnjzypay}/{amountSnjzyxd}*100*10)/10'
               },
@@ -777,6 +834,7 @@ const proconf = {
                 field: 'sdfappPro',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountSnjdfdf}-0==0?0:Math.round({amountSnjdfpay}/{amountSnjdfdf}*100*10)/10'
               },
@@ -785,6 +843,7 @@ const proconf = {
                 field: 'sapPro',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 },
@@ -808,6 +867,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountXjzydf',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -815,6 +875,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'amountXjdfdf',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -823,6 +884,7 @@ const proconf = {
                 field: 'xaaAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -840,27 +902,30 @@ const proconf = {
                 field: 'xzyapcAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '地方安排',
                 field: 'xdfapcAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
-                visible: false
+                visible: store.getters.isSx
               },
               {
                 title: '总金额',
                 field: 'xacAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
                 formula: '({xzyapcAmount}+{xdfapcAmount})',
-                visible: false
+                visible: store.getters.isSx
               }
             ]
           },
@@ -873,6 +938,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'amountXjzypay',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' }
               },
@@ -881,12 +947,14 @@ const proconf = {
                 field: 'amountXjdfpay',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'xapAmount',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -904,6 +972,7 @@ const proconf = {
                 title: '中央安排',
                 field: 'xzyapPro',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjzydf}-0==0?0:Math.round({amountXjzypay}/{amountXjzydf}*100*10)/10'
@@ -912,6 +981,7 @@ const proconf = {
                 title: '地方安排',
                 field: 'xdfappPro',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 formula: '{amountXjdfdf}-0==0?0:Math.round({amountXjdfpay}/{amountXjdfdf}*100*10)/10'
@@ -920,6 +990,7 @@ const proconf = {
                 title: '总进度',
                 field: 'xapPro',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeRatio'
@@ -939,6 +1010,7 @@ const proconf = {
             title: '中央安排',
             field: 'zzyapAmount',
             width: 200,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
@@ -947,6 +1019,7 @@ const proconf = {
             title: '地方安排',
             field: 'zdfapAmount',
             width: 200,
+            sortable: true,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjdfpay}+{amountSjdfpay}+{amountXjdfpay}'
@@ -955,6 +1028,7 @@ const proconf = {
             title: '总金额',
             field: 'zaAmount',
             width: 200,
+            sortable: true,
             align: 'right',
             cellRender: {
               name: '$vxeMoney'
