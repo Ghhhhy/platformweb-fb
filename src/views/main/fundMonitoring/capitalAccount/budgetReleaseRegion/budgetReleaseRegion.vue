@@ -44,7 +44,7 @@
           :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
-          @cellClick="cellClick"
+          @cellClick="handleClick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
         >
