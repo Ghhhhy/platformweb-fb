@@ -45,7 +45,7 @@
           :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
-          @cellClick="cellClick"
+          @cellClick="handleCellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
         >
