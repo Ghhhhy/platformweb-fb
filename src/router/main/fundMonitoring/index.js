@@ -76,6 +76,24 @@ const routers = [
       )
   },
   {
+    path: '/BudgetImplementationCZBCapital', // 中央直达资金预算执行情况分资金(财政部)
+    name: 'BudgetImplementationCZBCapital',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/capitalAccount/budgetImplementationCZBCapital/budgetImplementationCZBCapital.vue')
+  },
+  {
+    path: '/BudgetImplementationCZBRegion', // 中央直达资金预算执行情况分地区(财政部)
+    name: 'BudgetImplementationCZBRegion',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/capitalAccount/budgetImplementationCZBRegion/budgetImplementationCZBRegion.vue')
+  },
+  {
     path: '/BudgetImplementationRegionCZ', // 中央参照直达资金预算执行情况_分地区
     name: 'BudgetImplementationRegionCZ',
     component: () =>
