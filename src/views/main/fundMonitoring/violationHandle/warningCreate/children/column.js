@@ -190,14 +190,6 @@ const budgetImpColumns = [
     formatter({ row }) {
       return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
     }
-  },
-  {
-    title: '生成时间',
-    width: 180,
-    field: 'warnDealGenTime',
-    sortable: false,
-    filters: false,
-    align: 'center'
   }
 ]
 // 预算管理表头(只用于专项监督0207)
@@ -332,6 +324,14 @@ const violationColumn = [
 ]
 // 其他类型列
 const otherColumns = [
+  {
+    title: '生成时间',
+    width: 180,
+    field: 'warnDealGenTime',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
   {
     title: '处室意见',
     field: 'departmentStatus',
