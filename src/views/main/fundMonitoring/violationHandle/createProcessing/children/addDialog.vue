@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold;">明细信息
-            <el-button type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-param5Show="'kjbtnVisable'" type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
