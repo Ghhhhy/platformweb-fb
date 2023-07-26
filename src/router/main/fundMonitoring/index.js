@@ -94,6 +94,15 @@ const routers = [
     component: () => import('@/views/main/fundMonitoring/capitalAccount/budgetImplementationCZBRegion/budgetImplementationCZBRegion.vue')
   },
   {
+    path: '/CZBudgetDisburseObject', // 参照直达资金项目查询
+    name: 'CZBudgetDisburseObject',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/capitalAccount/budgetDisburseObject/budgetDisburseObject.vue')
+  },
+  {
     path: '/BudgetImplementationRegionCZ', // 中央参照直达资金预算执行情况_分地区
     name: 'BudgetImplementationRegionCZ',
     component: () =>
