@@ -489,7 +489,8 @@ export default {
           }
         }
       }
-      this.agencyCodeList = val.agencyCodeList_code__multiple
+      console.log(val, '-------------')
+      // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -629,7 +630,11 @@ export default {
         this.searchDataList[obj.property] = obj.itemValue
       }
       if (obj.property === 'agencyCodeList') {
-        this.agencyCodeList = obj.itemValue.split('##')
+        let arr = []
+        obj.itemValue.split(',')?.map(v => {
+          arr.push(v.split('#')[0])
+        })
+        this.agencyCodeList = arr
       }
     },
     showDetail() {
