@@ -863,6 +863,15 @@ const routers = [
       )
   },
   {
+    path: '/specialMultipleQuery', // 专项资金综合查询
+    name: 'specialMultipleQuery',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/specialMultipleQuery/specialMultipleQuery.vue')
+  },
+  {
     path: '/notRecCenterBgtDetail', // 未接收中央指标明细
     name: 'notRecCenterBgtDetail',
     component: () =>
