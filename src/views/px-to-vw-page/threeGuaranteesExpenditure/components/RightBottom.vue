@@ -1,6 +1,6 @@
 <template>
   <div class="module-wrapper">
-    <p class="module-title">“三保”上年同期对比情况</p>
+    <p class="module-title">“三保”季度对比情况</p>
     <vxe-grid
       :columns="columns"
       :data="tableData"
@@ -20,7 +20,7 @@
 import { defineComponent, ref } from '@vue/composition-api'
 import computedPx from '@/utils/computedPx'
 import { formatterThousands } from '@/utils/thousands.js'
-
+import { commafy } from 'xe-utils'
 import { comparison } from '@/api/frame/main/threeGuaranteesExpenditure/index.js'
 import { useTableHeight } from '../../common/hooks/useTableHeight'
 
@@ -28,13 +28,14 @@ export default defineComponent({
   setup() {
     const columns = ref([
       {
+        field: 'year',
         title: '',
         align: 'center',
         children: [
           {
-            field: 'year',
+            field: 'quarterly',
             title: '季度',
-            width: computedPx(86),
+            width: computedPx(134),
             align: 'center'
           }
         ]
@@ -44,9 +45,9 @@ export default defineComponent({
         align: 'center',
         children: [
           {
-            field: 'data1',
+            field: 'wages',
             title: '工资',
-            width: computedPx(66),
+            width: computedPx(114),
             headerAlign: 'center',
             align: 'right',
             formatter: ({ cellValue }) => {
@@ -54,9 +55,9 @@ export default defineComponent({
             }
           },
           {
-            field: 'data2',
+            field: 'operate',
             title: '运转',
-            width: computedPx(74),
+            width: computedPx(122),
             headerAlign: 'center',
             align: 'right',
             formatter: ({ cellValue }) => {
@@ -64,9 +65,9 @@ export default defineComponent({
             }
           },
           {
-            field: 'data3',
-            title: '明生',
-            width: computedPx(62),
+            field: 'livelihood',
+            title: '民生',
+            width: computedPx(110),
             headerAlign: 'center',
             align: 'right',
             formatter: ({ cellValue }) => {
@@ -74,39 +75,13 @@ export default defineComponent({
             }
           },
           {
-            field: 'data4',
+            field: 'amount',
             title: '合计(万元)',
-            width: computedPx(99),
+            width: computedPx(143),
             headerAlign: 'center',
             align: 'right',
             formatter: ({ cellValue }) => {
-              return formatterThousands(cellValue)
-            }
-          }
-        ]
-      },
-      {
-        title: '本级财力可执行(预算结余)',
-        align: 'center',
-        children: [
-          {
-            field: 'data5',
-            title: '总合计数(万元)',
-            width: computedPx(120),
-            headerAlign: 'center',
-            align: 'right',
-            formatter: ({ cellValue }) => {
-              return formatterThousands(cellValue)
-            }
-          },
-          {
-            field: 'surplus',
-            title: '剩余(万元)',
-            width: computedPx(116),
-            headerAlign: 'center',
-            align: 'right',
-            formatter: ({ cellValue }) => {
-              return formatterThousands(cellValue)
+              return formatterThousands(commafy(cellValue / (10000 || 1), { digits: 2 }))
             }
           }
         ]
