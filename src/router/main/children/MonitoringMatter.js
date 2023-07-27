@@ -558,6 +558,18 @@ export default [
         '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
       )
   },
+  {
+    path: '/StatisticalFormsByCompartmentByPay',
+    name: 'StatisticalFormsByCompartmentByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
   // 统计分析报表（按规则）
   {
     path: '/StatisticalFormsByRule',
@@ -1279,5 +1291,23 @@ export default [
       requireAuth: true
     },
     component: () => import('@/views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SpeStatisticalFormsByCompartment',
+    name: 'SpeStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/StatisticalFormsByCompartmentBgt',
+    name: 'StatisticalFormsByCompartmentBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   }
 ]
