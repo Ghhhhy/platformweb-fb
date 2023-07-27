@@ -22,7 +22,7 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
           >
-            <template #action-button-before>
+            <template v-if="!isSx" #action-button-before>
               <vxe-button size="medium" status="primary" @click="onSearchClick">搜索</vxe-button>
               <vxe-button size="medium" status="primary" @click="onSearchResetClick">重置</vxe-button>
             </template>
@@ -33,6 +33,7 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
+          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -42,6 +43,7 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -52,6 +54,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
+          :formula-digits="2"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -89,6 +92,11 @@ import HttpModule from '@/api/frame/main/baseConfigManage/InquiryLetterType.js'
 export default {
   components: {
     AddDialog
+  },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
   },
   watch: {
     queryConfig() {
@@ -187,11 +195,22 @@ export default {
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
+        },
+        globalConfig: {
+          // 全局配置
+          checkType: 'checkbox',
+          seq: false, // 序号列
+          useMoneyFilter: true
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          payAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // 操作日志
       logData: [],
       showLogView: false,
@@ -217,6 +236,7 @@ export default {
       leftTreeVisible: true,
       proName: '',
       proCodeList: [],
+      payAppNumber: '',
       param: '',
       useDes: '',
       payAcctName: '',
@@ -231,6 +251,10 @@ export default {
         searchBtnText: '',
         resetBtnText: '',
         moreBtnText: '更多查询'
+      },
+      proCodes: '',
+      treeGlobalConfig: {
+        inputVal: ''
       },
       treeData: [{
         children: [],
@@ -312,14 +336,16 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
+      this.proName = val.proName
+      this.payAppNumber = val.payAppNumber
       this.useDes = val.useDes
       this.payAcctName = val.payAcctName
       this.payeeAcctName = val.payeeAcctName
       this.xpayDate = val.xpayDate.substring(0, 10)
       this.setModeName = val.setModeName
-      this.year = Number(val.year)
+      this.year = val.year
       this.agencyCode = val.agencyCode_code
-      this.proCodeList = val.proName_code__multiple
+      this.proCodes = val.proCodes
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -357,8 +383,7 @@ export default {
       }
       HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig[1].itemRender.options = treeResdata
-        this.searchDataList = { ...this.searchDataList }
+        this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'agencyCode' })].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {
@@ -571,24 +596,44 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let queryObj = {
+        payAppNumber: this.$refs.queryFrom.getFormData().payAppNumber,
+        // year: this.$refs.queryFrom.year,
+        agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
+        proName: this.$refs.queryFrom.getFormData().proName,
+        useDes: this.$refs.queryFrom.getFormData().useDes,
+        payAcctName: this.$refs.queryFrom.getFormData().payAcctName,
+        payeeAcctName: this.$refs.queryFrom.getFormData().payeeAcctName,
+        setModeName: this.$refs.queryFrom.getFormData().setModeName,
+        xpayDate: this.$refs.queryFrom.getFormData().xpayDate
+      }
       const param = {
+        reportCode: 'zdzjzcmx',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        proName: this.proName,
-        useDes: this.useDes,
-        payAcctName: this.payAcctName,
-        xpayDate: this.xpayDate,
-        payeeAcctName: this.payeeAcctName,
-        fiscalYear: this.searchDataList.fiscalYear,
-        setModeName: this.setModeName,
-        agencyCode: this.agencyCode,
+        // proName: this.proName,
+        // payAppNumber: this.payAppNumber,
+        // useDes: this.useDes,
+        // payAcctName: this.payAcctName,
+        // xpayDate: this.xpayDate,
+        // payeeAcctName: this.payeeAcctName,
+        fiscalYear: this.$refs.queryFrom.getFormData().year,
+        // setModeName: this.setModeName,
+        // agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,
-        sqlCode: 'zdzj_zfmx',
-        proCodeList: this.proCodeList
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        ...queryObj
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
       this.tableLoading = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.result)
+        }
+      })
       HttpModule.queryTableDatas1(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
@@ -617,60 +662,11 @@ export default {
       })
     },
     getLeftTreeData() {
-      let that = this
-      console.log(this.userInfo)
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = this.treeQueryparams
+
       HttpModule.getLeftTree(params).then(res => {
         if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = res.data
+          this.treeData = res.data
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -745,6 +741,12 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    // let month = date.toLocaleDateString().split('/')[1]
+    // let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.year = year
+    // this.searchDataList.xpayDate = year + '-' + month + '-' + day
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

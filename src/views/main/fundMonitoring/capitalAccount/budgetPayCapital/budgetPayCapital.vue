@@ -42,7 +42,7 @@
           :show-zero="false"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
-          @cellClick="cellClick"
+          @cellClick="handleCellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
         >
@@ -529,6 +529,95 @@ export default {
       }
       return mofDivCodes
     },
+    handleDetailSx(reportCode, proCode, column) {
+      let condition = ''
+      switch (column) {
+        case 'amountSnjxd':
+        case 'saaAmount':
+        case 'amountSnjpay':
+        case 'sapAmount':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSjxd':
+        case 'shaaAmount':
+        case 'amountSjpay':
+        case 'shapAmount':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        case 'amountXjxd':
+        case 'xaaAmount':
+        case 'amountXjpay':
+        case 'xapAmount':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+        case 'amountZjxd':
+        case 'zaaAmount':
+        case 'amountZjpay':
+        case 'zapAmount':
+          condition = ' substr(mof_div_code,7,3) <> \'000\' '
+          break
+      }
+      let isBj = ''
+      let params = {
+        condition: condition,
+        reportCode: reportCode,
+        // proCodes: [proCode],
+        proCode: proCode,
+        speTypeCode: '',
+        isBj: isBj,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+    },
+    handleCellClick(obj, context, e) {
+      if (this.isSx) {
+        this.cellClickSx(obj, context, e)
+      } else {
+        this.cellClick(obj, context, e)
+      }
+    },
+    // 表格单元行单击
+    cellClickSx(obj, context, e) {
+      let key = obj.column.property
+      switch (key) {
+        case 'amountSnjxd':
+        case 'saaAmount':
+        case 'amountSjxd':
+        case 'shaaAmount':
+        case 'amountXjxd':
+        case 'xaaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZjxd':
+        case 'zaaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'pAmount':
+        case 'zzyapAmount':
+        case 'zaAmount':
+        case 'amountSnjpay':
+        case 'sapAmount':
+        case 'amountSjpay':
+        case 'shapAmount':
+        case 'amountXjpay':
+        case 'xapAmount':
+        case 'amountZjpay':
+        case 'zapAmount':
+          this.handleDetailSx('zdzjzcmx_fdq', obj.row.code, key)
+          this.detailTitle = '直达资金支出明细'
+          break
+        case 'amountZyxd1':
+          this.handleDetailSx('qszjzl', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+      }
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
@@ -565,13 +654,22 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['sapAmount', 'shapAmount', 'xapAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.isSx) {
+        if (['amountSnjxd', 'saaAmount', 'amountSjxd', 'shaaAmount', 'amountXjxd', 'xaaAmount', 'amountZjxd', 'zaaAmount', 'amountSnjpay', 'sapAmount', 'amountSjpay', 'shapAmount', 'amountXjpay', 'xapAmount', 'amountZjpay', 'zapAmount', 'pAmount', 'zzyapAmount', 'zaAmount', 'amountZyxd1'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        if (!rowIndex) return
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['sapAmount', 'shapAmount', 'xapAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }

@@ -55,6 +55,7 @@ const proconf = {
         name: '$vxeTree',
         options: [],
         props: {
+          defaultCheckedKeys: [store.state?.userInfo?.province],
           config: {
             valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
@@ -75,7 +76,7 @@ const proconf = {
     {
       title: '截止日期',
       field: 'endTime',
-      width: 100,
+      width: 200,
       align: 'center',
       filters: false,
       itemRender: {
@@ -89,8 +90,11 @@ const proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year,
-    mofDivCodes: '',
+    fiscalYear: store.state?.userInfo?.year,
+    mofDivCodes: [store.state?.userInfo?.province],
+    mofDivCodes_code__multiple: [store.state?.userInfo?.province],
+    mofDivCodes_code: store.state?.userInfo?.province,
+    mofDivCodes_name: store.state?.userInfo?.admdivname,
     endTime: ''
   },
   basicInfo: {
@@ -121,9 +125,9 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
-        width: 280,
+        width: 160,
         field: 'name',
         cellRender: {
           name: '$vxeIcon',
@@ -134,20 +138,22 @@ const proconf = {
       },
       {
         title: '中央下达',
-        width: 100,
+        width: 200,
         field: 'amountZyxd',
         align: 'right',
-        type: 'amountSnjxd',
+        type: 'amountZyxd',
+        sortable: true,
         cellRender: { name: '$vxeMoney' }
       },
       {
         title: '整合',
-        width: 100,
+        width: 200,
         field: 'amountZhje',
         align: 'right',
         type: 'amountZhje',
-        cellRender: { name: '$vxeMoney' },
-        visible: false
+        sortable: true,
+        visible: store.getters.isSx,
+        cellRender: { name: '$vxeMoney' }
       },
       {
         title: '支出',
@@ -157,16 +163,18 @@ const proconf = {
           {
             title: '金额',
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' },
-            width: 100,
+            width: 200,
             field: 'amountPayAll',
             formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}'
           },
           {
             title: '进度',
             align: 'right',
-            width: 100,
+            width: 200,
             field: 'jLoad',
+            sortable: true,
             formula: '({amountZyxd}-0==0)?0:Math.round({amountPayAll}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -176,7 +184,7 @@ const proconf = {
       },
       {
         title: '省级',
-        width: 100,
+        width: 200,
         align: 'center',
         children: [
           {
@@ -186,7 +194,7 @@ const proconf = {
             align: 'right',
             type: 'amountSnjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -194,42 +202,47 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '分配本级',
             field: 'amountSnjbjfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
             field: 'amountSnjxjfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
             field: 'amountSnjwfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSnjxd}-{amountSnjbjfp}-{amountSnjxjfp}'
           },
           {
             title: '本级已支出',
             field: 'amountSnjpay',
-            width: 120,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配进度',
             field: 'sLoad',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -239,7 +252,7 @@ const proconf = {
       },
       {
         title: '市级',
-        width: 100,
+        width: 200,
         align: 'center',
         children: [
           {
@@ -249,7 +262,7 @@ const proconf = {
             align: 'right',
             type: 'amountSjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -257,42 +270,47 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '分配本级',
             field: 'amountSbjfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
             field: 'amountSxjfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',
             field: 'amountSjwfp',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' },
             formula: '{amountSjxd}-{amountSbjfp}-{amountSxjfp}'
           },
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 120,
+            width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配进度',
             field: 'aLoad',
-            width: 100,
+            width: 200,
             align: 'right',
+            sortable: true,
             formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -302,7 +320,7 @@ const proconf = {
       },
       {
         title: '县级',
-        width: 100,
+        width: 200,
         align: 'center',
         children: [
           {
@@ -312,7 +330,7 @@ const proconf = {
             align: 'right',
             type: 'amountXjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -320,14 +338,15 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '已分配',
             field: 'amountXjfp',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeMoney' }
+            cellRender: { name: '$vxeMoney' },
+            visible: !store.getters.isSx
           },
           {
             title: '未分配',
@@ -406,7 +425,7 @@ const proconf = {
         align: 'right',
         type: 'amountZhje',
         cellRender: { name: '$vxeMoney' },
-        visible: false
+        visible: store.getters.isSx
       },
       {
         title: '支出',
@@ -445,7 +464,7 @@ const proconf = {
             align: 'right',
             type: 'amountSnjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -453,7 +472,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '分配本级',
@@ -508,7 +527,7 @@ const proconf = {
             align: 'right',
             type: 'amountSjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -516,7 +535,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '分配本级',
@@ -571,7 +590,7 @@ const proconf = {
             align: 'right',
             type: 'amountXjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -579,7 +598,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '已分配',

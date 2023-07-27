@@ -558,6 +558,18 @@ export default [
         '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
       )
   },
+  {
+    path: '/StatisticalFormsByCompartmentByPay',
+    name: 'StatisticalFormsByCompartmentByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
   // 统计分析报表（按规则）
   {
     path: '/StatisticalFormsByRule',
@@ -570,6 +582,24 @@ export default [
       import(
         '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
       )
+  },
+  {
+    path: '/StatisticalFormsByRuleByPay',
+    name: 'StatisticalFormsByRuleByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
+    path: '/StatisticalFormsByRuleByZh',
+    name: 'StatisticalFormsByRuleByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
   },
   // 统计分析报表（按预警级别）
   {
@@ -635,6 +665,15 @@ export default [
       import(
         '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
       )
+  },
+  {
+    path: '/StatisticalFormsByRuleBgt',
+    name: 'StatisticalFormsByRuleBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
   },
   // 会计核算-统计分析报表（按预警级别）
   {
@@ -1219,6 +1258,15 @@ export default [
         '../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue'
       )
   },
+  {
+    path: '/SpeStatisticalFormsByRule',
+    name: 'SpeStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
   // 三公统计分析报表（按预警级别）
   {
     path: '/sangongStatisticalFormsByRank',
@@ -1279,5 +1327,23 @@ export default [
       requireAuth: true
     },
     component: () => import('@/views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SpeStatisticalFormsByCompartment',
+    name: 'SpeStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/StatisticalFormsByCompartmentBgt',
+    name: 'StatisticalFormsByCompartmentBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   }
 ]

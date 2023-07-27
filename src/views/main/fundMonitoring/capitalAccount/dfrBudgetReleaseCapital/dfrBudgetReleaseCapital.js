@@ -128,6 +128,7 @@ const proconf = {
             field: 'amountQszydf',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -135,6 +136,7 @@ const proconf = {
             field: 'amountQssnjdf',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -142,6 +144,7 @@ const proconf = {
             field: 'amountQssjdf',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -149,6 +152,7 @@ const proconf = {
             field: 'amountQsxjdf',
             width: 100,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -178,6 +182,7 @@ const proconf = {
                 field: 'amountSnjzyxd',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -185,6 +190,7 @@ const proconf = {
                 field: 'amountSnjsnjdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -195,6 +201,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzyxd}+{amountSnjsnjdf})'
               }
             ]
@@ -214,6 +221,7 @@ const proconf = {
                     field: 'sqzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -221,6 +229,7 @@ const proconf = {
                     field: 'sqdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -245,6 +254,7 @@ const proconf = {
                     field: 'shzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -252,6 +262,7 @@ const proconf = {
                     field: 'shdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -278,6 +289,7 @@ const proconf = {
                 field: 'amountSnjzybjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -285,6 +297,7 @@ const proconf = {
                 field: 'amountSnjsnjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -295,6 +308,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzybjfp}+{amountSnjsnjbjfp})'
               }
             ]
@@ -309,6 +323,7 @@ const proconf = {
                 field: 'amountSnjzyxjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -316,6 +331,7 @@ const proconf = {
                 field: 'amountSnjsnjxjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -326,6 +342,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzyxjfp}+{amountSnjsnjxjfp})'
               }
             ]
@@ -340,6 +357,7 @@ const proconf = {
                 field: 'szywfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
               },
@@ -348,6 +366,7 @@ const proconf = {
                 field: 'sdfwfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
               },
@@ -359,6 +378,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({szywfpAmount}+{sdfwfpAmount})'
               }
             ]
@@ -374,6 +394,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100'
               },
               {
@@ -382,6 +403,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100'
               },
               {
@@ -413,6 +435,7 @@ const proconf = {
                 field: 'amountSjzydf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -420,6 +443,7 @@ const proconf = {
                 field: 'amountSjsnjdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -427,6 +451,7 @@ const proconf = {
                 field: 'amountSjsjdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -437,6 +462,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSjzydf}+{amountSjsnjdf}+{amountSjsjdf})'
               }
             ]
@@ -456,6 +482,7 @@ const proconf = {
                     field: 'shqzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -463,6 +490,7 @@ const proconf = {
                     field: 'shqdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -470,6 +498,7 @@ const proconf = {
                     field: 'sjzhsjapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -494,6 +523,7 @@ const proconf = {
                     field: 'shhzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -501,6 +531,7 @@ const proconf = {
                     field: 'shhdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -508,6 +539,7 @@ const proconf = {
                     field: 'sjzhhsjapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -534,6 +566,7 @@ const proconf = {
                 field: 'amountSjzybjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -541,6 +574,7 @@ const proconf = {
                 field: 'amountSjsnjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -548,6 +582,7 @@ const proconf = {
                 field: 'amountSjsjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -558,6 +593,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSjzybjfp}+{amountSjsnjbjfp}+{amountSjsjbjfp})'
               }
             ]
@@ -572,6 +608,7 @@ const proconf = {
                 field: 'amountSjzyxjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -579,6 +616,7 @@ const proconf = {
                 field: 'amountSjsnjxjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -586,6 +624,7 @@ const proconf = {
                 field: 'amountSjsjxjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -596,6 +635,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSjzyxjfp}+{amountSjsnjxjfp}+{amountSjsjxjfp})'
               }
             ]
@@ -610,6 +650,7 @@ const proconf = {
                 field: 'shzywfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjzydf}-{amountSjzybjfp}'
               },
@@ -618,6 +659,7 @@ const proconf = {
                 field: 'shdfwfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjsnjdf}-{amountSjsnjbjfp}'
               },
@@ -626,6 +668,7 @@ const proconf = {
                 field: 'shidfapAmount1',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSjsjdf}-{amountSjsjbjfp}'
               },
@@ -637,6 +680,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({shzywfpAmount}+{shdfwfpAmount}+{shidfapAmount1})'
               }
             ]
@@ -652,6 +696,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSjzydf}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{amountSjzydf}*100'
               },
               {
@@ -660,6 +705,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSjsnjdf}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{amountSjsnjdf}*100'
               },
               {
@@ -668,6 +714,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSjsjdf}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{amountSjsjdf}*100'
               },
               {
@@ -699,6 +746,7 @@ const proconf = {
                 field: 'amountXjzydf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -706,6 +754,7 @@ const proconf = {
                 field: 'amountXjsnjfdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -713,6 +762,7 @@ const proconf = {
                 field: 'amountXjsjdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -720,6 +770,7 @@ const proconf = {
                 field: 'amountXjxjdf',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -730,6 +781,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountXjzydf}+{amountXjsnjfdf}+{amountXjsjdf}+{amountXjxjdf})'
               }
             ]
@@ -749,6 +801,7 @@ const proconf = {
                     field: 'xqzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -756,6 +809,7 @@ const proconf = {
                     field: 'xqdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -763,6 +817,7 @@ const proconf = {
                     field: 'xdfapzhAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -770,6 +825,7 @@ const proconf = {
                     field: 'xdfapzhAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -794,6 +850,7 @@ const proconf = {
                     field: 'xhzyapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -801,6 +858,7 @@ const proconf = {
                     field: 'xhdfapAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -808,6 +866,7 @@ const proconf = {
                     field: 'xdfapzhhAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -815,6 +874,7 @@ const proconf = {
                     field: 'xdfapzhAmount',
                     width: 100,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -841,6 +901,7 @@ const proconf = {
                 field: 'amountXjzybjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -848,6 +909,7 @@ const proconf = {
                 field: 'amountXjsnjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -855,6 +917,7 @@ const proconf = {
                 field: 'amountXjsjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -862,6 +925,7 @@ const proconf = {
                 field: 'amountXjxjbjfp',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -872,6 +936,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountXjzybjfp}+{amountXjsnjbjfp}+{amountXjsjbjfp}+{amountXjxjbjfp})'
               }
             ]
@@ -886,6 +951,7 @@ const proconf = {
                 field: 'xzywfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjzydf}-{amountXjzybjfp})'
               },
@@ -894,6 +960,7 @@ const proconf = {
                 field: 'xdfwfpAmount',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjsnjfdf} - {amountXjsnjbjfp})'
               },
@@ -902,6 +969,7 @@ const proconf = {
                 field: 'xdfapAmount3',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjsjdf} - {amountXjsjbjfp})'
               },
@@ -910,6 +978,7 @@ const proconf = {
                 field: 'xdfapAmount2',
                 width: 100,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjxjdf} - {amountXjxjbjfp})'
               },
@@ -921,6 +990,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({xzywfpAmount}+{xdfwfpAmount}+{xdfapAmount3}+{xdfapAmount2})'
               }
             ]
@@ -936,6 +1006,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100'
               },
               {
@@ -944,6 +1015,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100'
               },
               {
@@ -952,6 +1024,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjsjdf}-0 == 0?0:{amountXjsjbjfp}/{amountXjsjdf}*100'
               },
               {
@@ -960,6 +1033,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100'
               },
               {
@@ -1003,6 +1077,7 @@ const proconf = {
             field: 'amountQszydf',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -1010,6 +1085,7 @@ const proconf = {
             field: 'amountQssnjdf',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -1017,6 +1093,7 @@ const proconf = {
             field: 'amountQsxjdf',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -1046,6 +1123,7 @@ const proconf = {
                 field: 'amountSnjzyxd',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1053,6 +1131,7 @@ const proconf = {
                 field: 'amountSnjsnjdf',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1063,6 +1142,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzyxd}+{amountSnjsnjdf})'
               }
             ]
@@ -1082,6 +1162,7 @@ const proconf = {
                     field: 'sqzyapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1089,6 +1170,7 @@ const proconf = {
                     field: 'sqdfapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1113,6 +1195,7 @@ const proconf = {
                     field: 'shzyapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1120,6 +1203,7 @@ const proconf = {
                     field: 'shdfapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1146,6 +1230,7 @@ const proconf = {
                 field: 'amountSnjzybjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1153,6 +1238,7 @@ const proconf = {
                 field: 'amountSnjsnjbjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1163,6 +1249,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzybjfp}+{amountSnjsnjbjfp})'
               }
             ]
@@ -1177,6 +1264,7 @@ const proconf = {
                 field: 'amountSnjzyxjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1184,6 +1272,7 @@ const proconf = {
                 field: 'amountSnjsnjxjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1194,6 +1283,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountSnjzyxjfp}+{amountSnjsnjxjfp})'
               }
             ]
@@ -1208,6 +1298,7 @@ const proconf = {
                 field: 'szywfpAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
               },
@@ -1216,6 +1307,7 @@ const proconf = {
                 field: 'sdfwfpAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
               },
@@ -1227,6 +1319,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({szywfpAmount}+{sdfwfpAmount})'
               }
             ]
@@ -1242,6 +1335,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100'
               },
               {
@@ -1250,6 +1344,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100'
               },
               {
@@ -1281,6 +1376,7 @@ const proconf = {
                 field: 'amountXjzydf',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1288,6 +1384,7 @@ const proconf = {
                 field: 'amountXjsnjfdf',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1295,6 +1392,7 @@ const proconf = {
                 field: 'amountXjxjdf',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1305,6 +1403,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountXjzydf}+{amountXjsnjfdf}+{amountXjsjdf}+{amountXjxjdf})'
               }
             ]
@@ -1324,6 +1423,7 @@ const proconf = {
                     field: 'xqzyapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1331,6 +1431,7 @@ const proconf = {
                     field: 'xqdfapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1338,6 +1439,7 @@ const proconf = {
                     field: 'xdfapzhAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1362,6 +1464,7 @@ const proconf = {
                     field: 'xhzyapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1369,6 +1472,7 @@ const proconf = {
                     field: 'xhdfapAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1376,6 +1480,7 @@ const proconf = {
                     field: 'xdfapzhAmount',
                     width: 200,
                     align: 'right',
+                    sortable: true,
                     cellRender: { name: '$vxeMoney' }
                   },
                   {
@@ -1402,6 +1507,7 @@ const proconf = {
                 field: 'amountXjzybjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1409,6 +1515,7 @@ const proconf = {
                 field: 'amountXjsnjbjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1416,6 +1523,7 @@ const proconf = {
                 field: 'amountXjxjbjfp',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -1426,6 +1534,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({amountXjzybjfp}+{amountXjsnjbjfp}+{amountXjsjbjfp}+{amountXjxjbjfp})'
               }
             ]
@@ -1440,6 +1549,7 @@ const proconf = {
                 field: 'xzywfpAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjzydf}-{amountXjzybjfp})'
               },
@@ -1448,6 +1558,7 @@ const proconf = {
                 field: 'xdfwfpAmount',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjsnjfdf} - {amountXjsnjbjfp})'
               },
@@ -1456,6 +1567,7 @@ const proconf = {
                 field: 'xdfapAmount2',
                 width: 200,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' },
                 formula: '({amountXjxjdf} - {amountXjxjbjfp})'
               },
@@ -1467,6 +1579,7 @@ const proconf = {
                 cellRender: {
                   name: '$vxeMoney'
                 },
+                sortable: true,
                 formula: '({xzywfpAmount}+{xdfwfpAmount}+{xdfapAmount3}+{xdfapAmount2})'
               }
             ]
@@ -1482,6 +1595,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100'
               },
               {
@@ -1490,6 +1604,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100'
               },
               {
@@ -1498,6 +1613,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
+                sortable: true,
                 formula: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100'
               },
               {

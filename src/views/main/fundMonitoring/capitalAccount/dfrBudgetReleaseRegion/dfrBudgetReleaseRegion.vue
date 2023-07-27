@@ -38,6 +38,8 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :export-modal-config="{ fileName: menuName }"
+          :formula-digits="1"
           :show-zero="false"
           :title="menuName"
           @editClosed="onEditClosed"
@@ -58,7 +60,7 @@
               </div>
             </div>
           </template>
-          <template v-slot:toolbar-custom-slot>
+          <template v-if="isSx" v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
@@ -101,6 +103,11 @@ export default {
     DetailDialog,
     SDetailDialog
   },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -114,6 +121,7 @@ export default {
   },
   data() {
     return {
+      showAllTree: '1',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 台账取数时间
       leftTreeVisible: false,
@@ -221,6 +229,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -265,7 +274,6 @@ export default {
       detailData: [],
       detailQueryParam: {},
       sDetailQueryParam: {}
-
     }
   },
   mounted() {
@@ -377,12 +385,6 @@ export default {
     //   }
     // },
     onToolbarBtnClick({ context, table, code }) {
-      // switch (code) {
-      //   // 刷新
-      //   case 'refresh':
-      //     this.refresh()
-      //     break
-      // }
       switch (code) {
         // 刷新
         case 'refresh':
@@ -624,6 +626,10 @@ export default {
   },
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    this.searchDataList.endTime = this.$XEUtils.toDateString(
+      this.$XEUtils.getWhatDay(new Date(), -1),
+      'yyyy-MM-dd'
+    )
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid

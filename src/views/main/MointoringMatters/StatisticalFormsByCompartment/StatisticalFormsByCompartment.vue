@@ -26,7 +26,7 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
+          :table-columns-config="params5 === '1=1' ? tableColumnsConfigWithRate : tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
@@ -117,6 +117,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
+      tableColumnsConfigWithRate: proconf.PoliciesTableColumnsWithRate,
       tableColumnsConfig: proconf.PoliciesTableColumns,
       tableData: [],
       tableToolbarConfig: {
@@ -177,8 +178,7 @@ export default {
       regulationType: '',
       status: '',
       mofDivCode: '',
-      // treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       fiscalYear: '',
       mofDivCodeList: [],
       agencyCodeList: []
@@ -395,23 +395,57 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
+    // 处理数据 主要是过于预警数据为零的项
+    handleQueryData(datas) {
+      if (datas.length === 0) return datas
+      let tempData = [].concat(datas[0])
+      datas.slice(1).forEach((item, index) => {
+        let zeroNums = 0
+        Object.keys(item).forEach(key => {
+          if (key !== 'mofDivName' && key !== 'mofDivCode') {
+            (!item[key] || item[key] === 0 || item[key] === '0' || item[key] === '0.00%') && zeroNums++
+          }
+        })
+        if (zeroNums !== Object.keys(item).length - 2) {
+          tempData.push(item)
+        }
+      })
+      return tempData
+    },
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
         regulationClass: this.params5,
         agencyCodeList: this.agencyCodeList,
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        roleId: this.roleguid
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.mainPagerConfig.total = res.data.length
-          this.tabStatusNumConfig['1'] = res.data.length
+          // 处理数据全为0的过滤掉
+
+          let resData = this.handleQueryData(res.data)
+          resData.forEach(item => {
+            if (
+              item.mofDivCode !== null && item.mofDivCode !== ''
+            ) {
+              if (item.mofDivCode.endsWith('00000')) {
+                item.mofDivName = '    ' + item.mofDivName
+              } else if (item.mofDivCode.endsWith('000')) {
+                item.mofDivName = '         ' + item.mofDivName
+              } else {
+                item.mofDivName = '               ' + item.mofDivName
+              }
+            }
+          })
+          this.tableData = resData
+          this.mainPagerConfig.total = resData.length
+          this.tabStatusNumConfig['1'] = resData.length
         } else {
           this.$message.error(res.message)
         }
@@ -458,27 +492,10 @@ export default {
       return datas
     },
     getLeftTreeData() {
-      let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      HttpModule.getLeftTree(params).then(res => {
+      HttpModule.getLeftTree(this.treeQueryparams).then(res => {
         if (res.rscode === '100000') {
           console.log(this.queryConfig)
-          let treeResdata = that.getRegulationChildrenData(res.data)
+          let treeResdata = this.getRegulationChildrenData(res.data)
           this.queryConfig[1].itemRender.options = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
@@ -501,12 +518,17 @@ export default {
     }
   },
   created() {
+    // let date = new Date()
+    // let year = date.toLocaleDateString().split('/')[0]
+    // this.searchDataList.fiscalYear = year
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
+    this.params5 = this.$store.getters.getRegulationClass
+    this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    this.fiscalYear = this.$store.state.userInfo.year
     this.getLeftTreeData()
     this.getAgency()
   }

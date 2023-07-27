@@ -36,14 +36,16 @@
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
+          :show-zero="false"
           :default-money-unit="10000"
           :title="menuName"
           :scroll-y="scrollConfig"
           :cell-style="cellStyle"
-          :show-zero="false"
+          :export-modal-config="{ fileName: menuName }"
+          :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
-          @cellClick="cellClick"
+          @cellClick="handleCellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
         >
@@ -59,7 +61,7 @@
               </div>
             </div>
           </template>
-          <template v-slot:toolbar-custom-slot>
+          <template v-if="!isSx" v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
@@ -101,6 +103,11 @@ export default {
   components: {
     DetailDialog,
     SDetailDialog
+  },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
   },
   watch: {
     $refs: {
@@ -203,6 +210,8 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        caliberDeclare: true, //
+        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -219,7 +228,6 @@ export default {
       tableFooterConfig: {
         showFooter: false
       },
-
       // 操作日志
       logData: [],
       showLogView: false,
@@ -546,19 +554,197 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
+    handleCellClick(obj, context, e) {
+      if (this.isSx) {
+        this.cellClickSx(obj, context, e)
+      } else {
+        this.cellClick(obj, context, e)
+      }
+    },
+    handleDetailSx(reportCode, proCode, column) {
+      let condition = ''
+      switch (column) {
+        case 'amountSnjysZyap':
+        case 'saAmount':
+        case 'shzyapAmount':
+        case 'shaAmount':
+        case 'amountSnjfpbjZyap':
+        case 'amountSnjfpxjZyap':
+        case 'amountSnjwfpZyap':
+        case 'sbjfpaAmount':
+        case 'ssxfpaAmount':
+        case 'swfpaAmount':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSjysZyap':
+        case 'amountSjfpbjZyap':
+        case 'amountSjfpxjZyap':
+        case 'amountSjwfpZyap':
+        case 'shbjfpaAmount':
+        case 'shxjfpaAmount':
+        case 'shwfpaAmount':
+        case 'shhzyapAmount':
+        case 'shhaAmount':
+        case 'shiaAmount':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        case 'amountXjysZyap':
+        case 'xaAmount':
+        case 'xhzyapAmount':
+        case 'xhaAmount':
+        case 'amountXjfpZyap':
+        case 'amountXjwfpZyap':
+        case 'xyfpaAmount':
+        case 'xwfpaAmount':
+        case 'xyfpbjaAmount':
+        case 'xyfpxjaAmount':
+        case 'amountXjfpbjZyap':
+        case 'amountXjfpxjZyap':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+        case 'amountZjwfpZyap':
+        case 'zwfpaAmount':
+        case 'amountZjysZyap':
+        case 'zaAmount':
+        case 'zhzyapAmount':
+        case 'zhaAmount':
+        case 'amountZjfpZyap':
+        case 'zyfpaAmount':
+          condition = ' substr(mof_div_code,7,3) <> \'000\' '
+          break
+      }
+      let isBj = ''
+      switch (column) {
+        case 'amountSnjfpbjZyap':
+        case 'amountSjfpbjZyap':
+        case 'sbjfpaAmount':
+        case 'shbjfpaAmount':
+        case 'amountXjfpbjZyap':
+        case 'xyfpbjaAmount':
+          isBj = '1'
+          break
+        case 'amountSnjfpxjZyap':
+        case 'amountSjfpxjZyap':
+        case 'ssxfpaAmount':
+        case 'shxjfpaAmount':
+        case 'amountXjfpxjZyap':
+        case 'xyfpxjaAmount':
+          isBj = '2'
+          break
+        case 'amountXjfpZyap':
+        case 'xyfpaAmount':
+        case 'amountZjfpZyap':
+        case 'zyfpaAmount':
+          isBj = '3'
+          break
+      }
+      let params = {
+        condition: condition,
+        reportCode: reportCode,
+        // proCodes: [proCode],
+        proCode: proCode,
+        speTypeCode: '',
+        isBj: isBj,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+    },
+    // 表格单元行单击
+    cellClickSx(obj, context, e) {
+      let key = obj.column.property
+      switch (key) {
+        case 'amountSnjysZyap':
+        case 'saAmount':
+        case 'shzyapAmount':
+        case 'shaAmount':
+        case 'amountSjysZyap':
+        case 'shhzyapAmount':
+        case 'shhaAmount':
+        case 'shiaAmount':
+        case 'amountXjysZyap':
+        case 'xaAmount':
+        case 'xhzyapAmount':
+        case 'xhaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZjysZyap':
+        case 'zaAmount':
+        case 'zhzyapAmount':
+        case 'zhaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountSnjfpbjZyap':
+        case 'amountSnjfpxjZyap':
+        case 'amountSjfpbjZyap':
+        case 'amountSjfpxjZyap':
+        case 'amountXjfpbjZyap':
+        case 'amountXjfpxjZyap':
+        case 'amountXjfpZyap':
+        case 'amountZjfpZyap':
+        case 'sbjfpaAmount':
+        case 'ssxfpaAmount':
+        case 'xyfpbjaAmount':
+        case 'xyfpxjaAmount':
+        case 'zyfpaAmount':
+        case 'shbjfpaAmount':
+        case 'shxjfpaAmount':
+        case 'xyfpaAmount':
+          this.handleDetailSx('zdzjzbmx_fzjfp', obj.row.code, key)
+          this.detailTitle = '直达资金指标明细'
+          break
+        case 'amountSnjwfpZyap':
+        case 'amountSjwfpZyap':
+        case 'amountXjwfpZyap':
+        case 'swfpaAmount':
+        case 'xwfpaAmount':
+        case 'shwfpaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_wfp', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZjwfpZyap':
+        case 'zwfpaAmount':
+          this.handleDetailSx('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountQszyap1':
+        case 'aAmount':
+          this.handleDetailSx('qszjzl', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+      }
+    },
     cellStyle({ row, rowIndex, column }) {
-      if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountSnjfpbjDfap', 'amountSnjfpAll', 'amountSjfpbjAll', 'amountXjfpAll'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.isSx) {
+        if (['zaAmount', 'xyfpbjaAmount', 'xyfpxjaAmount', 'amountZjfpbjZyap', 'amountZjfpxjZyap', 'zyfpaAmount', 'zhzyapAmount', 'zhaAmount', 'zwfpaAmount', 'amountQszyap1', 'aAmount', 'amountSnjysZyap', 'amountSjysZyap', 'amountXjysZyap', 'amountZjysZyap', 'amountSnjfpbjZyap', 'amountSnjfpxjZyap', 'amountSjfpbjZyap', 'amountXjfpbjZyap', 'amountSjfpxjZyap', 'amountXjfpxjZyap', 'amountXjfpZyap', 'amountZjfpZyap', 'amountSnjwfpZyap', 'amountSjwfpZyap', 'amountXjwfpZyap', 'amountZjwfpZyap', 'saAmount', 'shzyapAmount', 'shaAmount', 'sbjfpaAmount', 'ssxfpaAmount', 'swfpaAmount', 'shbjfpaAmount', 'shxjfpaAmount', 'shwfpaAmount', 'xyfpaAmount', 'xwfpaAmount', 'shhzyapAmount', 'shhaAmount', 'shiaAmount', 'xaAmount', 'xhzyapAmount', 'xhaAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        if (!rowIndex) return
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['amountSnjfpbjDfap', 'amountSnjfpAll', 'amountSjfpbjAll', 'amountXjfpAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
   },
   created() {
+    this.searchDataList.endTime = this.$XEUtils.toDateString(
+      this.$XEUtils.getWhatDay(new Date(), -1),
+      'yyyy-MM-dd'
+    )
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

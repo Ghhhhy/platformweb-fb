@@ -44,7 +44,7 @@
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
-          @cellClick="cellClick"
+          @cellClick="handleCellClick"
           @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
@@ -577,6 +577,164 @@ export default {
           this.detailTitle = obj.row.name + '支出明细'
       }
     },
+    handleCellClick(obj, context, e) {
+      if (this.isSx) {
+        this.cellClickSx(obj, context, e)
+      } else {
+        this.cellClick(obj, context, e)
+      }
+    },
+    // 表格单元行单击
+    cellClickSx(obj, context, e) {
+      let key = obj.column.property
+      switch (key) {
+        case 'recAmount':
+          if (obj.row.recAmount?.length) {
+            this.handleDetailSx('zyzdzjmx', obj.row.code, key)
+            this.detailTitle = '中央直达资金明细'
+          }
+          break
+        case 'amountRec':
+          this.handleDetailSx('zyzdzjmx', obj.row.code, key)
+          this.detailTitle = '中央直达资金明细'
+          break
+        case 'amountSnjxd':
+        case 'amountSjxd':
+        case 'amountXjxd':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZyxd':
+          this.handleDetailSx('qszjzl', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZjxd':
+          this.handleDetailSx('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountPayAll':
+        case 'amountSnjpay':
+        case 'amountSjpay':
+        case 'amountXjpay':
+        case 'amountZjpay':
+          this.handleDetailSx('zdzjzcmx_fdq', obj.row.code, key)
+          this.detailTitle = '直达资金支出明细'
+          break
+        // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
+        case 'amountSnjwfp':
+        case 'amountSjwfp':
+        case 'amountXjwfp':
+          this.handleDetailSx('zdzjxmmx_fzj_wfp', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        case 'amountZjwfp':
+          this.handleDetailSx('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+          this.detailTitle = '直达资金项目明细'
+          break
+        // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
+        case 'amountSnjbjfp':
+        case 'amountSnjxjfp':
+        case 'amountSbjfp':
+        case 'amountSxjfp':
+        case 'amountXjfp':
+        case 'amountZjfp':
+        case 'amountXbjfp':
+        case 'amountXxjfp':
+          this.handleDetailSx('zdzjzbmx_fzjfp', obj.row.code, key)
+          this.detailTitle = '直达资金指标明细'
+          break
+        // case 'amountSnjpay':
+        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
+        //   this.detailTitle = '支出明细'
+        //   break
+        // case 'amountSjpay':
+        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
+        //   this.detailTitle = '支出明细'
+        //   break
+        // case 'amountXjpay':
+        //   this.handleDetail('zjzcmx_fdq', obj.row.code)
+        //   this.detailTitle = '支出明细'
+        //   break
+      }
+    },
+    handleDetailSx(reportCode, mofDivCode, column) {
+      let condition = ''
+      switch (column) {
+        case 'amountSnjwfp':
+        case 'amountSnjxd':
+        case 'amountSnjpay':
+        case 'amountSnjbjfp':
+        case 'amountSnjxjfp':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        case 'amountSjxd':
+        case 'amountSjpay':
+        case 'amountSjwfp':
+        case 'amountSbjfp':
+        case 'amountSxjfp':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        case 'amountXjxd':
+        case 'amountXjpay':
+        case 'amountXjwfp':
+        case 'amountXjfp':
+        case 'amountXbjfp':
+        case 'amountXxjfp':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+        case 'amountZjxd':
+        case 'amountZjpay':
+        case 'amountZjwfp':
+        case 'amountZjfp':
+          condition = ' substr(mof_div_code,7,3) <> \'000\' '
+          break
+        case 'recAmount':
+        case 'amountRec':
+          if (mofDivCode === '619900000') { // 全辖
+            reportCode = 'zyzdzjmx_qx'
+          } else { // 本级
+            reportCode = 'zyzdzjmx_bj'
+          }
+      }
+      let isBj = ''
+      switch (column) {
+        case 'amountSnjbjfp':
+        case 'amountSbjfp':
+        case 'amountXbjfp':
+          isBj = '1'
+          break
+        case 'amountSnjxjfp':
+        case 'amountSxjfp':
+        case 'amountXxjfp':
+          isBj = '2'
+          break
+        case 'amountXjfp':
+        case 'amountZjfp':
+          isBj = '3'
+          break
+      }
+      let isCz = ''
+      if (this.params5 === 'zyzdzjyszxqkfdq') {
+        isCz = '1' // 中央直达
+      } else {
+        isCz = '2' // 中央参照直达
+      }
+      let params = {
+        reportCode: reportCode,
+        mofDivCode: mofDivCode,
+        speTypeCode: '',
+        isBj: isBj,
+        isCz: isCz,
+        fiscalYear: this.searchDataList.fiscalYear,
+        condition: condition,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+    },
+    // 表格单元行单击
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
       this.search(this.$refs.queryFrom.getFormData(), '', isFlush)
@@ -687,13 +845,22 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.isSx) {
+        if (['recAmount', 'amountRec', 'amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountZjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXbjfp', 'amountXxjfp', 'amountZjfp'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        if (!rowIndex) return
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
