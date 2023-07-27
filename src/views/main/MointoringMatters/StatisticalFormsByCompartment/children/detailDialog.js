@@ -15,6 +15,7 @@ export let proconf = {
   // BsToolBar 右侧按钮
   statusRightToolBarButton: {
     '1': [
+      // { code: 'sign', label: '疑似违规', status: 'primary' },
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
@@ -48,6 +49,52 @@ export let proconf = {
           placeholder: '规则名称'
         }
       }
+    },
+    {
+      title: '业务年度',
+      visible: store.getters.isSx,
+      field: 'fiscalYear',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '2021', label: '2021' },
+          { value: '2022', label: '2022' },
+          { value: '2023', label: '2023' }
+        ],
+        props: {
+          placeholder: '业务年度'
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      visible: store.getters.isSx,
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
     }
   ],
   highQueryData: {
@@ -66,7 +113,7 @@ export let proconf = {
       title: '区划',
       field: 'mofDivName',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
@@ -119,21 +166,21 @@ export let proconf = {
       title: '预算单位',
       field: 'agency',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
       title: '规则编码',
       field: 'fiRuleCode',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
       title: '规则名称',
       field: 'fiRuleName',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
@@ -157,7 +204,7 @@ export let proconf = {
       title: '支付申请编码',
       field: 'payApplyNumber',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
@@ -186,14 +233,14 @@ export let proconf = {
       title: '监控拦截时间',
       field: 'createTime',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     },
     {
       title: '违规处理时间',
       field: 'handleTime',
       width: '150',
-      sortable: false,
+      sortable: true,
       align: 'center'
     }
   ],
