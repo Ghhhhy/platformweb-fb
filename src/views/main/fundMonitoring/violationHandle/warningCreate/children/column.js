@@ -171,14 +171,14 @@ const budgetImpColumns = [
   {
     title: '追踪项目',
     width: 180,
-    field: 'trackProNameAndCode',
+    field: 'trackProName',
     sortable: false,
     filters: false,
-    align: 'center'
-    // exportFormatter: true, // 导出formatter展示的数据
-    // formatter({ row }) {
-    //   return row.trackProCode || row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
-    // }
+    align: 'center',
+    exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
+    formatter({ row }) {
+      return row.trackProCode || row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
   },
   {
     title: '预算项目',

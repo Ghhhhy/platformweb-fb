@@ -120,26 +120,26 @@ export default {
           }
           this.$set(this, 'tableData', fileList)
         })
-        return
+        // return
       }
-      const param = {
-        year: this.userInfo.year,
-        province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
-        billguid: this.billguid
-      }
-      this.showLoading = true
-      HTTPModule.getFile(param).then((res) => {
-        this.showLoading = false
-        if (res.rscode === '100000') {
-          this.tableData = JSON.parse(res.data)
-          this.tableData.forEach(element => {
-            let size = element.filesize / 1024
-            element.filesize = size.toFixed(2) + 'KB'
-          })
-        } else {
-          this.$message.error('获取附件信息失败: ' + res.result)
-        }
-      })
+      // const param = {
+      //   year: this.userInfo.year,
+      //   province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
+      //   billguid: this.billguid
+      // }
+      // this.showLoading = true
+      // HTTPModule.getFile(param).then((res) => {
+      //   this.showLoading = false
+      //   if (res.rscode === '100000') {
+      //     this.tableData = JSON.parse(res.data)
+      //     this.tableData.forEach(element => {
+      //       let size = element.filesize / 1024
+      //       element.filesize = size.toFixed(2) + 'KB'
+      //     })
+      //   } else {
+      //     this.$message.error('获取附件信息失败: ' + res.result)
+      //   }
+      // })
     },
     // 下载附件
     downloadAttachment() {

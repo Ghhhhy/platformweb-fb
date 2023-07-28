@@ -442,15 +442,15 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentids.length) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
-      let billguidList = []
-      row.attachmentid1 && billguidList.push(row.attachmentid1)
-      row.attachmentid3 && billguidList.push(row.attachmentid3)
-      this.billguidList = billguidList
+      // this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      // let billguidList = []
+      // row.attachmentid1 && billguidList.push(row.attachmentid1)
+      // row.attachmentid3 && billguidList.push(row.attachmentid3)
+      this.billguidList = row.attachmentids.filter(item => { return Boolean(item) })
       this.showGlAttachmentDialog = true
     },
     // 查看详情
