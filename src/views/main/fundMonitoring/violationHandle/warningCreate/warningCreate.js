@@ -427,6 +427,24 @@ const proconf = {
           placeholder: '结束处理时间'
         }
       }
+    },
+    {
+      title: '业务模块',
+      field: 'businessModuleName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '预算执行', label: '预算执行' },
+          { value: '预算管理', label: '预算管理' }
+        ],
+        props: {
+          placeholder: '业务模块'
+        }
+      }
     }
   ],
   highQueryData: {

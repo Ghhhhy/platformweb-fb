@@ -3,6 +3,8 @@ import Loading from 'element-ui/packages/loading/src/loading.vue'
 import { addClass, removeClass, getStyle } from 'element-ui/src/utils/dom'
 import { PopupManager } from 'element-ui/src/utils/popup'
 import afterLeave from 'element-ui/src/utils/after-leave'
+import store from '@/store/index'
+import transJson from '@/utils/transformMenuQuery'
 const Mask = Vue.extend(Loading)
 
 /* eslint-disable */
@@ -129,6 +131,45 @@ loadingDirective.install = Vue => {
       el.instance && el.instance.$destroy()
     }
   })
+  Vue.directive('param5Show', {
+    inserted:function(el, binding, vnode) {
+      const params5Obj=transJson(store.getters.getCurNavModule.param5||"")
+      let bindConfig=binding.value
+      if(typeof bindConfig==='string'){
+        if(bindConfig in params5Obj&&(!params5Obj[bindConfig]||params5Obj[bindConfig]==='0'||params5Obj[bindConfig]==='false')){
+          el.parentNode.removeChild(el)
+        }
+      }else if(typeof bindConfig ==="function"){
+        let isShow=binding.value()
+        if(!isShow){
+          el.parentNode.removeChild(el)
+        }
+      }else if(typeof bindConfig ==="boolean"){
+        if(!bindConfig) el.parentNode.removeChild(el)
+      }else{
+        this.$message.error("自定义指令未传值");
+      }
+    }
+  })
+  /* *
+    @params binding.value  {Boolean,String,Function:())=>Boolean} 
+    <vxe-button v-param5Show="() => { showshowWay('kjbtnVisable') }" @click="dialogClose">取消</vxe-button>
+    <vxe-button v-param5Show="'kjbtnVisable'" @click="dialogClose">取消</vxe-button>
+    <vxe-button v-param5Show="false" @click="dialogClose">取消</vxe-button>
+    //----
+    vueInstatnce{
+      ...
+      methods:{
+        showshowWay(str){
+          return testList.inculdes('123')
+        },
+        dialogClose(){
+          
+        }
+      }
+      ...
+    }
+   */
 }
 
 export default loadingDirective

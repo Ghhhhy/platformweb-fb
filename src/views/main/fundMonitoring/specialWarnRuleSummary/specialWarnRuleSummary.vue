@@ -394,12 +394,11 @@ export default {
       // 无效的cellValue
       // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       // if (isInvalidCellValue) return
-
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
-      this.warnStartDate = this.searchDataList.warnStartDate === '' ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
-      this.warnEndDate = this.searchDataList.warnEndDate === '' ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
+      this.warnStartDate = this.searchDataList.warnStartDate === '' || this.searchDataList.warnStartDate === undefined ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
+      this.warnEndDate = this.searchDataList.warnEndDate === '' || this.searchDataList.warnEndDate === undefined ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
       switch (key) {
         case 'name':
           console.info(obj.row.id.length)
