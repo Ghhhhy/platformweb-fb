@@ -827,6 +827,8 @@ export default {
       })
       let params = {
         businessModuleCode: this.bussnessId,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name,
         dataList
       }
       // let param = {

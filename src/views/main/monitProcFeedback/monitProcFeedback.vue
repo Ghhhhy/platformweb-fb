@@ -60,6 +60,7 @@
     />
     <el-dialog title="确定要撤销选中数据吗？" width="600px" :visible.sync="dialogTableVisible">
       <div slot="footer" class="dialog-footer">
+        <el-input v-model="drawInformation" type="textarea" :rows="2" placeholder="请输入内容" />
         <el-button type="primary" @click="mulWithdraw">确定</el-button>
       </div>
     </el-dialog>
@@ -93,6 +94,7 @@ export default {
   data() {
     return {
       dialogTableVisible: false,
+      drawInformation: '',
       // BsQuery 查询栏
       showModal: false,
       queryConfig: [],
@@ -220,20 +222,23 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      let params = { warningCode: row.warningCode }
-      api.workFlowGetLogs(params).then(res => {
+      let params2 = row.dealNo
+      // let params = { warningCode: row.warningCode }
+      // api.workFlowGetLogs(params).then(res => {
+      api.getLogs(params2).then(res => {
         if (res.code === '000000') {
-          // let tempData = res.data.map(item => {
-          //   return {
-          //     logid: item['logid'],
-          //     nodeName: item['nodeName'],
-          //     actionUser: item['operationUser'],
-          //     actionName: item['operationTypeName'],
-          //     actionTime: item['createdTime'] == null ? '' : item['createdTime'],
-          //     message: item['operationComment']
-          //   }
-          // })
-          this.logData = res.data
+          let tempData = res.data.map(item => {
+            return {
+              logid: item['logid'],
+              nodeName: item['nodeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
+              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+              message: item['operationComment']
+            }
+          })
+          // this.logData = res.data
+          this.logData = tempData
           console.log(this.logData)
           this.showLogView = true
         } else {
@@ -603,26 +608,30 @@ export default {
       }
     },
     withdraw(row) {
-      let params = [{
-        menuId: this.$store.state.curNavModule.guid,
-        warningCode: row.warningCode,
-        commentDept: '5', // 5  撤回
-        dealNo: row.dealNo
-      }]
-      this.tableLoading = true
-      api.workFlowRevoke(params).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.$message.success('撤回成功')
-          this.dialogTableVisible = false
-          this.queryTableDatas()
-        }
-      })
+      this.selection = [row]
+      this.dialogTableVisible = true
+      // let params = [{
+      //   menuId: this.$store.state.curNavModule.guid,
+      //   warningCode: row.warningCode,
+      //   commentDept: '5', // 5  撤回
+      //   dealNo: row.dealNo
+      // }]
+      // this.tableLoading = true
+      // api.workFlowRevoke(params).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.$message.success('撤回成功')
+      //     this.dialogTableVisible = false
+      //     this.queryTableDatas()
+      //   }
+      // })
     },
     mulWithdraw() {
       let commentName = '撤销'
-      let operationBtn = this.queryConfigInfo[0].buttonsInfo || []
-      for (const tabBtnConfig of operationBtn) {
+      console.log(777, this.queryConfigInfo, this.queryConfigInfo)
+      let operationBtn = this.queryConfigInfo.buttonsInfo || []
+      for (const btnInfoKey in operationBtn) {
+        const tabBtnConfig = operationBtn[btnInfoKey]
         for (let i = 0; i < tabBtnConfig.length; i++) {
           const btn = tabBtnConfig[i]
           if (btn.code === 'dcl-cs') {
@@ -637,7 +646,8 @@ export default {
           commentDept: '5', // 5  撤回
           dealNo: row.dealNo,
           commentName: commentName,
-          menuName: this.menuName
+          menuName: this.menuName,
+          information1: this.drawInformation
         }
       })
       this.tableLoading = true
