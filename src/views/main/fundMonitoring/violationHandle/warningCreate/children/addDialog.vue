@@ -822,7 +822,8 @@ export default {
           bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,
           fiRuleCode: item.fiRuleCode,
-          warningCode: item.warningCode
+          warningCode: item.warningCode,
+          menuName: this.$store.state.curNavModule.name
         }
       })
       let params = {
