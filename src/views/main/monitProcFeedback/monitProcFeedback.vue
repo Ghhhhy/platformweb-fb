@@ -452,7 +452,8 @@ export default {
         let ortherData = {
           serverTime: serverTime.data,
           createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
-          userName: this.userInfo.name
+          userName: this.userInfo.name,
+          menuName: this.menuName
         }
         if (this.$route.name === 'monitProcFeedback') {
           ortherData.commentDept = '1'// 单位材料整改初始值设置为1
@@ -619,12 +620,24 @@ export default {
       })
     },
     mulWithdraw() {
+      let commentName = '撤销'
+      let operationBtn = this.queryConfigInfo[0].buttonsInfo || []
+      for (const tabBtnConfig of operationBtn) {
+        for (let i = 0; i < tabBtnConfig.length; i++) {
+          const btn = tabBtnConfig[i]
+          if (btn.code === 'dcl-cs') {
+            commentName = btn.label
+          }
+        }
+      }
       let params = this.selection.map(row => {
         return {
           menuId: this.$store.state.curNavModule.guid,
           warningCode: row.warningCode,
           commentDept: '5', // 5  撤回
-          dealNo: row.dealNo
+          dealNo: row.dealNo,
+          commentName: commentName,
+          menuName: this.menuName
         }
       })
       this.tableLoading = true
