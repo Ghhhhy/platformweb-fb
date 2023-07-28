@@ -28,7 +28,7 @@
             v-if="item.type === 'components'"
             ref="myUpload"
             :disabled="false"
-            :allow-delete="false"
+            :allow-delete="true"
             :allow-download="true"
             :allow-preview="true"
             :is-upload="true"
