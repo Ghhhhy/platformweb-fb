@@ -822,12 +822,13 @@ export default {
           bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,
           fiRuleCode: item.fiRuleCode,
-          warningCode: item.warningCode,
-          menuName: this.$store.state.curNavModule.name
+          warningCode: item.warningCode
         }
       })
       let params = {
         businessModuleCode: this.bussnessId,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name,
         dataList
       }
       // let param = {
