@@ -207,6 +207,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-around;
   height: 55px;
+  font-size: 14px;
 
   &-item {
     display: flex;
