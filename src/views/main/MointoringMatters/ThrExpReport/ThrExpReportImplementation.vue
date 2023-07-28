@@ -29,10 +29,11 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
-          :pager-config="false"
+          :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           :default-money-unit="defaultMoneyUnit"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
@@ -150,7 +151,7 @@ export default {
       mainPagerConfig: {
         total: 0,
         currentPage: 1,
-        pageSize: 200
+        pageSize: 20
       },
       tableConfig: {
         renderers: {
@@ -162,7 +163,53 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          beginningBudgetAmount: 0,
+          budgetAdjustmentAmount: 0,
+          adjustedBudgetAmount: 0,
+          executionsAmount: 0,
+          unlistedAmount: 0,
+          goAbroadBeginningBudgetAmount: 0,
+          goAbroadBudgetAdjustmentAmount: 0,
+          goAbroadAdjustedBudgetAmount: 0,
+          goAbroadExecutionsAmount: 0,
+          goAbroadUnlistedAmount: 0,
+          receptionBeginningBudgetAmount: 0,
+          receptionBudgetAdjustmentAmount: 0,
+          receptionAdjustedBudgetAmount: 0,
+          receptionExecutionsAmount: 0,
+          receptionUnlistedAmount: 0,
+          vehicleSubtotalBeginningBudgetAmount: 0,
+          vehicleSubtotalBudgetAdjustmentAmount: 0,
+          vehicleSubtotalAdjustedBudgetAmount: 0,
+          vehicleSubtotalExecutionsAmount: 0,
+          vehicleSubtotalUnlistedAmount: 0,
+          vehiclePurchaseBeginningBudgetAmount: 0,
+          vehiclePurchaseBudgetAdjustmentAmount: 0,
+          vehiclePurchaseAdjustedBudgetAmount30913: 0,
+          vehiclePurchaseExecutionsAmount30913: 0,
+          vehiclePurchaseUnlistedAmount30913: 0,
+          vehiclePurchaseAdjustedBudgetAmount31013: 0,
+          vehiclePurchaseExecutionsAmount31013: 0,
+          vehiclePurchaseUnlistedAmount31013: 0,
+          vehicleDevopsBeginningBudgetAmount: 0,
+          vehicleDevopsBudgetAdjustmentAmount: 0,
+          vehicleDevopsAdjustedBudgetAmount: 0,
+          vehicleDevopsExecutionsAmount: 0,
+          vehicleDevopsUnlistedAmount: 0,
+          meetingBeginningBudgetAmount: 0,
+          meetingBudgetAdjustmentAmount: 0,
+          meetingAdjustedBudgetAmount: 0,
+          meetingExecutionsAmount: 0,
+          meetingUnlistedAmount: 0,
+          trainBeginningBudgetAmount: 0,
+          trainBudgetAdjustmentAmount: 0,
+          trainAdjustedBudgetAmount: 0,
+          trainExecutionsAmount: 0,
+          trainUnlistedAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -430,7 +477,8 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
-        roleId: this.$store.state.curNavModule.roleguid,
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
         date: this.searchDataList.date
       }
       this.date = this.searchDataList.date
@@ -438,11 +486,185 @@ export default {
       HttpModule.implementation(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.mainPagerConfig.total = res.data.length
-          this.tabStatusNumConfig['1'] = res.data.length
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
           let progress = this.month / 12
+
+          let beginningBudgetAmount = 0
+          let budgetAdjustmentAmount = 0
+          let adjustedBudgetAmount = 0
+          let executionsAmount = 0
+          let unlistedAmount = 0
+          let goAbroadBeginningBudgetAmount = 0
+          let goAbroadBudgetAdjustmentAmount = 0
+          let goAbroadAdjustedBudgetAmount = 0
+          let goAbroadExecutionsAmount = 0
+          let goAbroadUnlistedAmount = 0
+          let receptionBeginningBudgetAmount = 0
+          let receptionBudgetAdjustmentAmount = 0
+          let receptionAdjustedBudgetAmount = 0
+          let receptionExecutionsAmount = 0
+          let receptionUnlistedAmount = 0
+          let vehicleSubtotalBeginningBudgetAmount = 0
+          let vehicleSubtotalBudgetAdjustmentAmount = 0
+          let vehicleSubtotalAdjustedBudgetAmount = 0
+          let vehicleSubtotalExecutionsAmount = 0
+          let vehicleSubtotalUnlistedAmount = 0
+          let vehiclePurchaseBeginningBudgetAmount = 0
+          let vehiclePurchaseBudgetAdjustmentAmount = 0
+          let vehiclePurchaseAdjustedBudgetAmount30913 = 0
+          let vehiclePurchaseExecutionsAmount30913 = 0
+          let vehiclePurchaseUnlistedAmount30913 = 0
+          let vehiclePurchaseAdjustedBudgetAmount31013 = 0
+          let vehiclePurchaseExecutionsAmount31013 = 0
+          let vehiclePurchaseUnlistedAmount31013 = 0
+          let vehicleDevopsBeginningBudgetAmount = 0
+          let vehicleDevopsBudgetAdjustmentAmount = 0
+          let vehicleDevopsAdjustedBudgetAmount = 0
+          let vehicleDevopsExecutionsAmount = 0
+          let vehicleDevopsUnlistedAmount = 0
+          let meetingBeginningBudgetAmount = 0
+          let meetingBudgetAdjustmentAmount = 0
+          let meetingAdjustedBudgetAmount = 0
+          let meetingExecutionsAmount = 0
+          let meetingUnlistedAmount = 0
+          let trainBeginningBudgetAmount = 0
+          let trainBudgetAdjustmentAmount = 0
+          let trainAdjustedBudgetAmount = 0
+          let trainExecutionsAmount = 0
+          let trainUnlistedAmount = 0
           this.tableData.forEach(item => {
+            if (item.beginningBudgetAmount) {
+              beginningBudgetAmount += item.beginningBudgetAmount
+            }
+            if (item.budgetAdjustmentAmount) {
+              budgetAdjustmentAmount += item.budgetAdjustmentAmount
+            }
+            if (item.adjustedBudgetAmount) {
+              adjustedBudgetAmount += item.adjustedBudgetAmount
+            }
+            if (item.executionsAmount) {
+              executionsAmount += item.executionsAmount
+            }
+
+            if (item.unlistedAmount) {
+              unlistedAmount += item.unlistedAmount
+            }
+            if (item.goAbroadBeginningBudgetAmount) {
+              goAbroadBeginningBudgetAmount += item.goAbroadBeginningBudgetAmount
+            }
+            if (item.goAbroadBudgetAdjustmentAmount) {
+              goAbroadBudgetAdjustmentAmount += item.goAbroadBudgetAdjustmentAmount
+            }
+            if (item.goAbroadAdjustedBudgetAmount) {
+              goAbroadAdjustedBudgetAmount += item.goAbroadAdjustedBudgetAmount
+            }
+            if (item.goAbroadExecutionsAmount) {
+              goAbroadExecutionsAmount += item.goAbroadExecutionsAmount
+            }
+            if (item.goAbroadUnlistedAmount) {
+              goAbroadUnlistedAmount += item.goAbroadUnlistedAmount
+            }
+            if (item.receptionBeginningBudgetAmount) {
+              receptionBeginningBudgetAmount += item.receptionBeginningBudgetAmount
+            }
+            if (item.receptionBudgetAdjustmentAmount) {
+              receptionBudgetAdjustmentAmount += item.receptionBudgetAdjustmentAmount
+            }
+            if (item.receptionAdjustedBudgetAmount) {
+              receptionAdjustedBudgetAmount += item.receptionAdjustedBudgetAmount
+            }
+            if (item.receptionExecutionsAmount) {
+              receptionExecutionsAmount += item.receptionExecutionsAmount
+            }
+            if (item.receptionUnlistedAmount) {
+              receptionUnlistedAmount += item.receptionUnlistedAmount
+            }
+            if (item.vehicleSubtotalBeginningBudgetAmount) {
+              vehicleSubtotalBeginningBudgetAmount += item.vehicleSubtotalBeginningBudgetAmount
+            }
+            if (item.vehicleSubtotalBudgetAdjustmentAmount) {
+              vehicleSubtotalBudgetAdjustmentAmount += item.vehicleSubtotalBudgetAdjustmentAmount
+            }
+            if (item.vehicleSubtotalAdjustedBudgetAmount) {
+              vehicleSubtotalAdjustedBudgetAmount += item.vehicleSubtotalAdjustedBudgetAmount
+            }
+            if (item.vehicleSubtotalExecutionsAmount) {
+              vehicleSubtotalExecutionsAmount += item.vehicleSubtotalExecutionsAmount
+            }
+            if (item.vehicleSubtotalUnlistedAmount) {
+              vehicleSubtotalUnlistedAmount += item.vehicleSubtotalUnlistedAmount
+            }
+            if (item.vehiclePurchaseBeginningBudgetAmount) {
+              vehiclePurchaseBeginningBudgetAmount += item.vehiclePurchaseBeginningBudgetAmount
+            }
+            if (item.vehiclePurchaseBudgetAdjustmentAmount) {
+              vehiclePurchaseBudgetAdjustmentAmount += item.vehiclePurchaseBudgetAdjustmentAmount
+            }
+            if (item.vehiclePurchaseAdjustedBudgetAmount30913) {
+              vehiclePurchaseAdjustedBudgetAmount30913 += item.vehiclePurchaseAdjustedBudgetAmount30913
+            }
+            if (item.vehiclePurchaseExecutionsAmount30913) {
+              vehiclePurchaseExecutionsAmount30913 += item.vehiclePurchaseExecutionsAmount30913
+            }
+            if (item.vehiclePurchaseUnlistedAmount30913) {
+              vehiclePurchaseUnlistedAmount30913 += item.vehiclePurchaseUnlistedAmount30913
+            }
+            if (item.vehiclePurchaseAdjustedBudgetAmount31013) {
+              vehiclePurchaseAdjustedBudgetAmount31013 += item.vehiclePurchaseAdjustedBudgetAmount31013
+            }
+            if (item.vehiclePurchaseExecutionsAmount31013) {
+              vehiclePurchaseExecutionsAmount31013 += item.vehiclePurchaseExecutionsAmount31013
+            }
+            if (item.vehiclePurchaseUnlistedAmount31013) {
+              vehiclePurchaseUnlistedAmount31013 += item.vehiclePurchaseUnlistedAmount31013
+            }
+            if (item.vehicleDevopsBeginningBudgetAmount) {
+              vehicleDevopsBeginningBudgetAmount += item.vehicleDevopsBeginningBudgetAmount
+            }
+            if (item.vehicleDevopsBudgetAdjustmentAmount) {
+              vehicleDevopsBudgetAdjustmentAmount += item.vehicleDevopsBudgetAdjustmentAmount
+            }
+            if (item.vehicleDevopsAdjustedBudgetAmount) {
+              vehicleDevopsAdjustedBudgetAmount += item.vehicleDevopsAdjustedBudgetAmount
+            }
+            if (item.vehicleDevopsExecutionsAmount) {
+              vehicleDevopsExecutionsAmount += item.vehicleDevopsExecutionsAmount
+            }
+            if (item.vehicleDevopsUnlistedAmount) {
+              vehicleDevopsUnlistedAmount += item.vehicleDevopsUnlistedAmount
+            }
+            if (item.meetingBeginningBudgetAmount) {
+              meetingBeginningBudgetAmount += item.meetingBeginningBudgetAmount
+            }
+            if (item.meetingBudgetAdjustmentAmount) {
+              meetingBudgetAdjustmentAmount += item.meetingBudgetAdjustmentAmount
+            }
+            if (item.meetingAdjustedBudgetAmount) {
+              meetingAdjustedBudgetAmount += item.meetingAdjustedBudgetAmount
+            }
+            if (item.meetingExecutionsAmount) {
+              meetingExecutionsAmount += item.meetingExecutionsAmount
+            }
+            if (item.meetingUnlistedAmount) {
+              meetingUnlistedAmount += item.meetingUnlistedAmount
+            }
+            if (item.trainBeginningBudgetAmount) {
+              trainBeginningBudgetAmount += item.trainBeginningBudgetAmount
+            }
+            if (item.trainBudgetAdjustmentAmount) {
+              trainBudgetAdjustmentAmount += item.trainBudgetAdjustmentAmount
+            }
+            if (item.trainAdjustedBudgetAmount) {
+              trainAdjustedBudgetAmount += item.trainAdjustedBudgetAmount
+            }
+            if (item.trainExecutionsAmount) {
+              trainExecutionsAmount += item.trainExecutionsAmount
+            }
+            if (item.trainUnlistedAmount) {
+              trainUnlistedAmount += item.trainUnlistedAmount
+            }
             Object.keys(item).forEach(t => {
               if (t.includes('ExpenditureProgress')) {
                 if (item[t] > progress) {
@@ -483,6 +705,49 @@ export default {
               item['trainExecutionsAmount'] = '<span style="color:red">' + item['trainExecutionsAmount'] + '</span>'
             } */
           })
+          this.tableFooterConfig.totalObj.beginningBudgetAmount = beginningBudgetAmount
+          this.tableFooterConfig.totalObj.budgetAdjustmentAmount = budgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.adjustedBudgetAmount = adjustedBudgetAmount
+          this.tableFooterConfig.totalObj.executionsAmount = executionsAmount
+          this.tableFooterConfig.totalObj.unlistedAmount = unlistedAmount
+          this.tableFooterConfig.totalObj.goAbroadBeginningBudgetAmount = goAbroadBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.goAbroadBudgetAdjustmentAmount = goAbroadBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.goAbroadAdjustedBudgetAmount = goAbroadAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.goAbroadExecutionsAmount = goAbroadExecutionsAmount
+          this.tableFooterConfig.totalObj.goAbroadUnlistedAmount = goAbroadUnlistedAmount
+          this.tableFooterConfig.totalObj.receptionBeginningBudgetAmount = receptionBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.receptionBudgetAdjustmentAmount = receptionBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.receptionAdjustedBudgetAmount = receptionAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.receptionExecutionsAmount = receptionExecutionsAmount
+          this.tableFooterConfig.totalObj.receptionUnlistedAmount = receptionUnlistedAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalBeginningBudgetAmount = vehicleSubtotalBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalBudgetAdjustmentAmount = vehicleSubtotalBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalAdjustedBudgetAmount = vehicleSubtotalAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalExecutionsAmount = vehicleSubtotalExecutionsAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalUnlistedAmount = vehicleSubtotalUnlistedAmount
+          this.tableFooterConfig.totalObj.vehiclePurchaseBeginningBudgetAmount = vehiclePurchaseBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.vehiclePurchaseBudgetAdjustmentAmount = vehiclePurchaseBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.vehiclePurchaseAdjustedBudgetAmount30913 = vehiclePurchaseAdjustedBudgetAmount30913
+          this.tableFooterConfig.totalObj.vehiclePurchaseExecutionsAmount30913 = vehiclePurchaseExecutionsAmount30913
+          this.tableFooterConfig.totalObj.vehiclePurchaseUnlistedAmount30913 = vehiclePurchaseUnlistedAmount30913
+          this.tableFooterConfig.totalObj.vehiclePurchaseAdjustedBudgetAmount31013 = vehiclePurchaseAdjustedBudgetAmount31013
+          this.tableFooterConfig.totalObj.vehiclePurchaseExecutionsAmount31013 = vehiclePurchaseExecutionsAmount31013
+          this.tableFooterConfig.totalObj.vehiclePurchaseUnlistedAmount31013 = vehiclePurchaseUnlistedAmount31013
+          this.tableFooterConfig.totalObj.vehicleDevopsBeginningBudgetAmount = vehicleDevopsBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.vehicleDevopsBudgetAdjustmentAmount = vehicleDevopsBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.vehicleDevopsAdjustedBudgetAmount = vehicleDevopsAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.vehicleDevopsExecutionsAmount = vehicleDevopsExecutionsAmount
+          this.tableFooterConfig.totalObj.vehicleDevopsUnlistedAmount = vehicleDevopsUnlistedAmount
+          this.tableFooterConfig.totalObj.meetingBeginningBudgetAmount = meetingBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.meetingBudgetAdjustmentAmount = meetingBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.meetingAdjustedBudgetAmount = meetingAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.meetingExecutionsAmount = meetingExecutionsAmount
+          this.tableFooterConfig.totalObj.meetingUnlistedAmount = meetingUnlistedAmount
+          this.tableFooterConfig.totalObj.trainBeginningBudgetAmount = trainBeginningBudgetAmount
+          this.tableFooterConfig.totalObj.trainBudgetAdjustmentAmount = trainBudgetAdjustmentAmount
+          this.tableFooterConfig.totalObj.trainAdjustedBudgetAmount = trainAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.trainExecutionsAmount = trainExecutionsAmount
+          this.tableFooterConfig.totalObj.trainUnlistedAmount = trainUnlistedAmount
         } else {
           this.$message.error(res.message)
         }
@@ -505,22 +770,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = { ...that.treeQueryparams, ...this.$store.getters.treeQueryparamsCom }
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
