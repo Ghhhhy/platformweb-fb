@@ -17,6 +17,30 @@
       />
     </div>
     <BsTable
+      v-if="isSx"
+      ref="mainTableRef"
+      :footer-config="tableFooterConfig"
+      :table-config="tableConfig"
+      :table-columns-config="tableColumnsConfig"
+      :table-data="tableData"
+      :toolbar-config="tableToolbarConfig"
+      :pager-config="pagerConfig"
+      :default-money-unit="10000"
+      :export-modal-config="{ fileName: title }"
+      @onToolbarBtnClick="onToolbarBtnClick"
+      @ajaxData="ajaxTableData"
+    >
+      <template v-slot:toolbarSlots>
+        <div class="table-toolbar-left">
+          <div class="table-toolbar-left-title">
+            <span class="fn-inline">{{ title }}</span>
+            <i class="fn-inline"></i>
+          </div>
+        </div>
+      </template>
+    </BsTable>
+    <BsTable
+      v-else
       ref="mainTableRef"
       :footer-config="$store.state.userInfo.province.slice(0, 4) === '3502' ? tableFooterFalseConfig : tableFooterConfig"
       :table-config="tableConfig"
@@ -48,6 +72,9 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    isSx() {
+      return this.$store.getters.isSx
     }
   },
   props: {
@@ -85,6 +112,16 @@ export default {
       tableFooterConfig: {
         combinedType: ['switchTotal'],
         showFooter: false
+      },
+      tableFooterConfigSx: {
+        totalObj: {
+          payAppAmt: 0,
+          payAppAmtZd: 0,
+          fpAmount: 0,
+          amount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       tableFooterFalseConfig: {
         showFooter: false
@@ -166,17 +203,42 @@ export default {
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       // params.bgtMofDepName = this.condition.bgtMofDepName ? this.condition.bgtMofDepName[0] : ''
       params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
+      if (this.isSx) {
+        params.proName = this.condition.proName ? this.condition.proName[0] : ''
+        params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
+        params.payAcctNo = this.condition.payAcctNo ? this.condition.payAcctNo[0] : ''
+        params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
+        params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
+        params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
+        params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
+        params.cenTraProName1 = this.condition.cenTraProName ? this.condition.cenTraProName[0] : ''
+        params.expFuncName = this.condition.expFuncName ? this.condition.expFuncName[0] : ''
+        params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
+        params.corBgtDocNoName = this.condition.corBgtDocNoName ? this.condition.corBgtDocNoName[0] : ''
+        params.supBgtDocNoName = this.condition.supBgtDocNoName ? this.condition.supBgtDocNoName[0] : ''
+      }
       params.speTypeName = this.condition.speTypeName ? this.condition.speTypeName[0] : ''
       params.xjExpFuncName = this.condition.xjExpFuncName ? this.condition.xjExpFuncName[0] : ''
       params.sSpeTypeName = this.condition.sSpeTypeName ? this.condition.sSpeTypeName[0] : ''
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
-      params.budgetLevelCode = this.condition.budgetLevelCode ? this.condition.budgetLevelCode[0] : ''
       // params.xjCorBgtDocNo = this.condition.xjCorBgtDocNo ? this.condition.xjCorBgtDocNo[0] : ''
       this.$parent.tableLoading = true
+      if (this.isSx) {
+        HttpModule.querySum(params).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+      }
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
+          if (this.isSx) {
+            this.pagerConfig.total = res.data.totalCount - 1
+          }
         } else {
           this.$message.error(res.message)
         }
@@ -232,134 +294,97 @@ export default {
       return condition
     },
     showInfo() {
-      switch (this.sDetailType) {
-        // 支出明细
-        case 'zjzcmx_fdq':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zdzjzcmx_fdq':
-        case 'zdzjzcmx_fzj':
-          this.tableColumnsConfig = proconf.payColumn
-          break
-        case 'zxjdzcmx_fdq':
-        case 'zxjdzcmx_fzj':
-        case 'zxjdzcmx_fdq_xj':
-        case 'zxjdzcmx_fzj_xj':
-          this.tableColumnsConfig = proconf.payColumn
-          this.queryConfig = proconf.highQueryConfigZx
-          break
+      if (this.isSx) {
+        switch (this.sDetailType) {
+          // 支出明细
+          case 'zjzcmx_fdq':
+            this.tableColumnsConfig = proconf.expenditureColumn
+            break
+          case 'zjzcmx_fzj':
+            this.tableColumnsConfig = proconf.expenditureColumn
+            break
+          // 指标明细
+          case 'zdzjzbmx_fzj':
+            this.tableColumnsConfig = proconf.targetColumn
+            break
+          case 'zdzjzbmx_fdq':
+            this.tableColumnsConfig = proconf.targetColumn
+            break
+          case 'czzdzjzbmx_fdq':
+            this.tableColumnsConfig = proconf.targetColumn
+            break
+          case 'fdqzbmx':
+          case 'zbmx(czb)':
+            this.tableColumnsConfig = proconf.fdqzbmxColumn
+            this.queryConfig = proconf.highQueryConfig5
+            this.searchDataList = proconf.highQueryData5
+            break
+          case 'fdqzcmx':
+          case 'zcmx(czb)':
+            this.tableColumnsConfig = proconf.fdqzcmxColumn
+            this.queryConfig = proconf.highQueryConfig3
+            this.searchDataList = proconf.highQueryData3
+            break
+          default:
+            break
+        }
+        this.queryTableDatas()
+      } else {
+        switch (this.sDetailType) {
+          // 支出明细
+          case 'zjzcmx_fdq':
+            this.tableColumnsConfig = proconf.expenditureColumn
+            break
+          case 'zdzjzcmx_fdq':
+          case 'zdzjzcmx_fzj':
+            this.tableColumnsConfig = proconf.payColumn
+            break
+          case 'zxjdzcmx_fdq':
+          case 'zxjdzcmx_fzj':
+          case 'zxjdzcmx_fdq_xj':
+          case 'zxjdzcmx_fzj_xj':
+            this.tableColumnsConfig = proconf.payColumn
+            this.queryConfig = proconf.highQueryConfigZx
+            break
 
-        case 'zjzcmx_fzj':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        // 指标明细
-        case 'zdzjzbmx_fzj':
-        case 'zdzjzbmx_fdq':
-        case 'czzdzjzbmx_fdq':
-        case 'zdzjzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetColumn
-          break
-        case 'zxjdzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetZXColumn
-          this.queryConfig = proconf.highQueryConfigZx
-          break
-        default:
-          break
-      }
-      this.queryTableDatas()
-    },
-    transJson3 (str) {
-      let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
-        acc[key] = value
-        strTwo = acc
-        return acc
-      }, {})
-      return strTwo
-    },
-    isConfigTable() {
-      switch (this.sDetailType) {
-        case 'zxjdzbmx_fzjfp':// 第三层 预算金额 分配金额
-          this.loadConfig('BsTable', 'Table301')
-          this.loadConfig('BsQuery', 'Query301')
-          break
-        case 'zxjdzcmx_fzj':// 第三层 分资金 支付金额
-          this.loadConfig('BsTable', 'Table302')
-          this.loadConfig('BsQuery', 'Query302')
-          break
-        case 'zxjdzcmx_fdq':// 第三层 分地区 支付金额
-          this.loadConfig('BsTable', 'Table302')
-          this.loadConfig('BsQuery', 'Query302')
-          break
-        case 'zxjdzbmx_fzjfp_xj':
-          this.loadConfig('BsTable', 'Table303')
-          this.loadConfig('BsQuery', 'Query303')
-          break
-      }
-    },
-    showInfoForVisible() {
-      switch (this.sDetailType) {
-        case 'zdzjzcmx_fdq':
-          this.tableColumnsConfig = proconf.payColumn
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
-          }
-          break
-        case 'zxjdzcmx_fdq':
-        case 'zxjdzcmx_fzj':
-          this.tableColumnsConfig = proconf.payColumn
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
-          }
-          this.queryConfig = proconf.highQueryConfigZx
-          break
-        case 'zdzjzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetColumn
-          if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam?.column)) {
-            this.tableColumnsConfig = proconf.targetColumnFPXJ
-          }
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
-          }
-          break
-        case 'zxjdzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetZXColumn
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.tableColumnsConfig = proconf.targetZXColumnBj
-            this.tableColumnsConfig.forEach((item, index) => {
-              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
-                this.$set(this.tableColumnsConfig[index], 'visible', true)
-              }
-              if (['fpTime', 'recDivName'].includes(item.field)) {
-                this.$set(this.tableColumnsConfig[index], 'visible', true)
-              }
-            })
-          }
-          break
-        case 'zxjdzbmx_fzjfp_xj':
-          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+          case 'zjzcmx_fzj':
+            this.tableColumnsConfig = proconf.expenditureColumn
+            break
+          // 指标明细
+          case 'zdzjzbmx_fzj':
+          case 'zdzjzbmx_fdq':
+          case 'czzdzjzbmx_fdq':
+          case 'zdzjzbmx_fzjfp':
+            this.tableColumnsConfig = proconf.targetColumn
+            break
+          case 'zxjdzbmx_fzjfp':
             this.tableColumnsConfig = proconf.targetZXColumn
-          }
-          break
+            this.queryConfig = proconf.highQueryConfigZx
+            break
+          default:
+            break
+        }
+        this.queryTableDatas()
       }
     }
+
   },
   mounted() {
-    // this.showInfo()
-    console.log(this.sDetailType, 'this.sDetailType')
-    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-    if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
-      this.showInfoForVisible()
-    } else if (hideColumnLinkStr.isConfigTable === '1') {
-      this.isConfigTable()
+    if (this.isSx) {
+      this.showInfo()
     } else {
-      this.showInfoForVisible()
-    }
+      // this.showInfo()
+      console.log(this.sDetailType, 'this.sDetailType')
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
+        this.showInfoForVisible()
+      } else if (hideColumnLinkStr.isConfigTable === '1') {
+        this.isConfigTable()
+      } else {
+        this.showInfoForVisible()
+      }
     // this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
+    }
   },
   watch: {
     sDetailType: {
@@ -370,11 +395,13 @@ export default {
     }
   },
   created() {
-    this.params5 = this.$store.state.curNavModule.param5
-    if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
-      this.tableFooterConfig.showFooter = true
-    } else {
-      this.tableFooterConfig.showFooter = false
+    if (!this.isSx) {
+      this.params5 = this.$store.state.curNavModule.param5
+      if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
+        this.tableFooterConfig.showFooter = true
+      } else {
+        this.tableFooterConfig.showFooter = false
+      }
     }
   }
 }
