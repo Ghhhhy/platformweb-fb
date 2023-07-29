@@ -95,6 +95,11 @@ export default {
       this.getSearchDataList()
     }
   },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
+  },
   data() {
     return {
       reportTime: '', // 拉取支付报表的最新时间

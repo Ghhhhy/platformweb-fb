@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     isSxProject() {
-      if (this.transJson(this.$store.state.curNavModule?.param5 || '').project === 'sx') {
+      if (this.$store.getters.isSx) {
         return 'SxProjectView'
       }
       return 'projectView'

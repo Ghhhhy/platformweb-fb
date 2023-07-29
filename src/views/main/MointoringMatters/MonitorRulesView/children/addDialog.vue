@@ -642,7 +642,7 @@ export default {
       return current || noMatched
     },
     isSx() { // 判断是不是陕西项目
-      return this.param5.project === 'sx'
+      return this.$store.getters.isSx
     }
   },
   props: {
