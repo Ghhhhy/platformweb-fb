@@ -8,3 +8,6 @@ import { get } from '@/api/http'
 export function getUserRoles(params) {
   return get('mp-b-perm-service/v2/userroles', params)
 }
+export function getProjectName(params) {
+  return get('/lmp/payReportConfig/queryByList', { groupName: 'projectName' })
+}

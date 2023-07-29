@@ -1131,6 +1131,15 @@ const routers = [
       requireAuth: true
     },
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningQuery.vue')
+  },
+  {
+    path: '/SanBaoMonitorWarningResults', // 三保监控预警结果查询
+    name: 'SanBaoMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   }
 ]
 

@@ -627,6 +627,15 @@ export default [
         '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
       )
   },
+  {
+    path: '/WarningDetailsByRuleByPay',
+    name: 'WarningDetailsByRuleByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
   // 预警明细查询（按区划）
   {
     path: '/WarningDetailsByCompartment',

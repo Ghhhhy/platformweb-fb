@@ -112,6 +112,7 @@ export default {
             } else {
               this.$store.commit('setUserInfo', res.data)
               this.$store.dispatch('asyncUserRoles')
+              this.$store.dispatch('asyncGetProject')
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)

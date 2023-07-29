@@ -31,8 +31,8 @@ export default defineComponent({
   setup() {
     const dataSource = ref([
       { name: '预算数', value: 0, field: 'budgetAmount', icon: `${iconPrefix}icon-1`, bg: `${iconPrefix}bg-1`, unit: '元' },
-      { name: '可执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}icon-2`, bg: `${iconPrefix}bg-2`, unit: '元' },
-      { name: '执行数', value: 0, field: 'executableAmount', icon: `${iconPrefix}icon-3`, bg: `${iconPrefix}bg-3`, unit: '元' },
+      { name: '可执行数', value: 0, field: 'executableAmount', icon: `${iconPrefix}icon-2`, bg: `${iconPrefix}bg-2`, unit: '元' },
+      { name: '执行数', value: 0, field: 'executionsAmount', icon: `${iconPrefix}icon-3`, bg: `${iconPrefix}bg-3`, unit: '元' },
       { name: '核算数', value: 0, field: 'accountingAmount', icon: `${iconPrefix}icon-4`, bg: `${iconPrefix}bg-4`, unit: '元' }
     ])
 
