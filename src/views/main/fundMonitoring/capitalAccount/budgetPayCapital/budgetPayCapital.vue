@@ -101,6 +101,11 @@ export default {
     DetailDialog,
     SDetailDialog
   },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {

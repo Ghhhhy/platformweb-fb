@@ -119,7 +119,7 @@ export default {
   computed: {
     ...mapState(['userRolesData']),
     isSx() { // 判断是不是陕西项目
-      return this.param5.project === 'sx'
+      return this.$store.getters.isSx
     },
     setupAuth() { // 县级 市级没有 启用 停用 修改权限
       return this.$store.state.userInfo.budgetlevelcode === '4' || this.$store.state.userInfo.budgetlevelcode === '5'
