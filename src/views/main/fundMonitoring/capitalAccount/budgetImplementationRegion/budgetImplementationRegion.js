@@ -391,6 +391,58 @@ const proconf = {
             }
           }
         ]
+      },
+      {
+        title: '镇级',
+        width: 100,
+        align: 'center',
+        visible: store.getters.isSx,
+        children: [
+          {
+            title: '整合金额',
+            width: 100,
+            field: 'amountZjzhje',
+            align: 'right',
+            type: 'amountXjzhje',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '已分配',
+            field: 'amountZjfp',
+            width: 100,
+            align: 'right',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '未分配',
+            field: 'amountZjwfp',
+            width: 100,
+            align: 'right',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '已支出',
+            field: 'amountZjpay',
+            width: 100,
+            align: 'right',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '分配进度',
+            field: 'zLoad',
+            width: 100,
+            align: 'right',
+            sortable: true,
+            formula: '({amountZjfp}+{amountZjwfp}-0==0)?0:({amountZjfp}/({amountZjfp}+{amountZjwfp})*100)',
+            cellRender: {
+              name: '$vxeRatio'
+            }
+          }
+        ]
       }
     ],
     // 直辖（市、区、镇）
