@@ -48,9 +48,6 @@ export const getters = {
     return obj
   },
   isSx() { // 判断是否是陕西项目
-    console.log('是否是陕西项目', state.projectList.some(item => {
-      return item.configKey === 'sx' && item.configValue
-    }))
     return state.projectList.some(item => {
       return item.configKey === 'sx' && item.configValue
     })
@@ -170,7 +167,7 @@ export const mutations = {
     state.userRolesData = obj
   },
   setProjectList(state, list) {
-    state.projectList = list
+    list && list.length && (state.projectList = list)
   }
 }
 export const actions = {
@@ -199,7 +196,12 @@ export const actions = {
     commit('setUserRoles', data)
   },
   async asyncGetProject({ commit, state }) {
-    let projectList = await getProjectName()
-    commit('setProjectList', projectList)
+    let projectList = []
+    try {
+      projectList = await getProjectName()
+      commit('setProjectList', projectList.data)
+    } catch (error) {
+      console.log('请求项目列表出错')
+    }
   }
 }
