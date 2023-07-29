@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // 支出明细
   expenditureColumn: [
@@ -1168,14 +1168,14 @@ const proconf = {
     {
       title: '项目编码',
       field: 'proCode',
-      width: 140,
+      width: store.getters.isSx ? '' : 140, // 陕西项目需要铺满列表
       align: 'left',
       sortable: true
     },
     {
       title: '项目名称',
       field: 'proName',
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       sortable: false,
       align: 'left'
     },
@@ -1183,14 +1183,14 @@ const proconf = {
       title: '中央下达',
       field: 'amountZyxd',
       sortable: true,
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '分配下级',
       field: 'amountxjfp',
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       sortable: true,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
@@ -1200,21 +1200,21 @@ const proconf = {
     {
       title: '项目编码',
       field: 'proCode',
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       align: 'left',
       sortable: true
     },
     {
       title: '项目名称',
       field: 'proName',
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       sortable: false,
       align: 'left'
     },
     {
       title: '中央下达',
       field: 'amountZyxd',
-      width: 140,
+      width: store.getters.isSx ? '' : 140,
       sortable: true,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
