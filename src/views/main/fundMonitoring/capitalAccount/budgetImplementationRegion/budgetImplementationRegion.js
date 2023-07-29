@@ -205,7 +205,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -274,7 +274,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -343,7 +343,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -533,7 +533,7 @@ const proconf = {
             align: 'right',
             type: 'amountSnjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -541,7 +541,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -597,7 +597,7 @@ const proconf = {
             align: 'right',
             type: 'amountSjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -605,7 +605,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -660,7 +660,7 @@ const proconf = {
             align: 'right',
             type: 'amountXjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: store.getters.isSx
           },
           {
             title: '中央下达',
@@ -668,7 +668,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: false
+            visible: !store.getters.isSx
           },
           {
             title: '已分配',
