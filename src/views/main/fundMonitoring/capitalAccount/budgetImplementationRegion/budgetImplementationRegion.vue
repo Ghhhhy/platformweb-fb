@@ -431,80 +431,36 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, mofDivCode, column) {
+    handleDetail(reportCode, row, column) {
       let condition = ''
-      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,7,3) <> \'000\' '
-            break
+      let areaType = column.own.areaType
+      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) { // 判断是不是city
+        if (areaType === 'city') {
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+        } else if (areaType === 'region') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+        } else if (areaType === 'town') {
+          condition = ' substr(mof_div_code,7,3) <> \'000\' '
         }
-      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { // 判断上海项目
+        if (areaType === 'province') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+        } else if (areaType === 'city') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+        } else if (areaType === 'county') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
         }
       } else {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+        if (areaType === 'province') {
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+        } else if (areaType === 'city') {
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+        } else if (areaType === 'county') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
         }
       }
       let isBj = ''
-      switch (column) {
+      switch (column.property) {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
           isBj = '1'
@@ -525,7 +481,7 @@ export default {
       }
       let params = {
         reportCode: reportCode,
-        mofDivCode: mofDivCode,
+        mofDivCode: row.mofDivCode,
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
@@ -568,12 +524,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key)
+          this.handleDetail(xmSource, obj.row, obj.column)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
+          this.handleDetail(zcSource, obj.row, obj.column)
           this.detailTitle = obj.row.name + '支出明细'
       }
     },
@@ -590,26 +546,26 @@ export default {
       switch (key) {
         case 'recAmount':
           if (obj.row.recAmount?.length) {
-            this.handleDetailSx('zyzdzjmx', obj.row.code, key)
+            this.handleDetailSx('zyzdzjmx', obj.row, obj.column)
             this.detailTitle = '中央直达资金明细'
           }
           break
         case 'amountRec':
-          this.handleDetailSx('zyzdzjmx', obj.row.code, key)
+          this.handleDetailSx('zyzdzjmx', obj.row, obj.column)
           this.detailTitle = '中央直达资金明细'
           break
         case 'amountSnjxd':
         case 'amountSjxd':
         case 'amountXjxd':
-          this.handleDetailSx('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          this.handleDetailSx('zdzjxmmx_fzj_zyxd', obj.row, obj.column)
           this.detailTitle = '直达资金项目明细'
           break
         case 'amountZyxd':
-          this.handleDetailSx('qszjzl', obj.row.code, key)
+          this.handleDetailSx('qszjzl', obj.row, obj.column)
           this.detailTitle = '直达资金项目明细'
           break
         case 'amountZjxd':
-          this.handleDetailSx('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          this.handleDetailSx('zdzjxmmx_fzj_zyxdx', obj.row, obj.column)
           this.detailTitle = '直达资金项目明细'
           break
         case 'amountPayAll':
@@ -617,18 +573,18 @@ export default {
         case 'amountSjpay':
         case 'amountXjpay':
         case 'amountZjpay':
-          this.handleDetailSx('zdzjzcmx_fdq', obj.row.code, key)
+          this.handleDetailSx('zdzjzcmx_fdq', obj.row, obj.column)
           this.detailTitle = '直达资金支出明细'
           break
         // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
         case 'amountSnjwfp':
         case 'amountSjwfp':
         case 'amountXjwfp':
-          this.handleDetailSx('zdzjxmmx_fzj_wfp', obj.row.code, key)
+          this.handleDetailSx('zdzjxmmx_fzj_wfp', obj.row, obj.column)
           this.detailTitle = '直达资金项目明细'
           break
         case 'amountZjwfp':
-          this.handleDetailSx('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+          this.handleDetailSx('zdzjxmmx_fzj_wfpx', obj.row, obj.column)
           this.detailTitle = '直达资金项目明细'
           break
         // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
@@ -640,7 +596,7 @@ export default {
         case 'amountZjfp':
         case 'amountXbjfp':
         case 'amountXxjfp':
-          this.handleDetailSx('zdzjzbmx_fzjfp', obj.row.code, key)
+          this.handleDetailSx('zdzjzbmx_fzjfp', obj.row, obj.column)
           this.detailTitle = '直达资金指标明细'
           break
         // case 'amountSnjpay':
@@ -657,47 +613,29 @@ export default {
         //   break
       }
     },
-    handleDetailSx(reportCode, mofDivCode, column) {
+    handleDetailSx(reportCode, row, column) {
       let condition = ''
-      switch (column) {
-        case 'amountSnjwfp':
-        case 'amountSnjxd':
-        case 'amountSnjpay':
-        case 'amountSnjbjfp':
-        case 'amountSnjxjfp':
-          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-          break
-        case 'amountSjxd':
-        case 'amountSjpay':
-        case 'amountSjwfp':
-        case 'amountSbjfp':
-        case 'amountSxjfp':
-          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-          break
-        case 'amountXjxd':
-        case 'amountXjpay':
-        case 'amountXjwfp':
-        case 'amountXjfp':
-        case 'amountXbjfp':
-        case 'amountXxjfp':
-          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-          break
-        case 'amountZjxd':
-        case 'amountZjpay':
-        case 'amountZjwfp':
-        case 'amountZjfp':
-          condition = ' substr(mof_div_code,7,3) <> \'000\' '
-          break
+      let areaType = column.own.areaType
+      if (areaType === 'province') {
+        condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+      } else if (areaType === 'city') {
+        condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+      } else if (areaType === 'county') {
+        condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+      } else if (areaType === 'town') {
+        condition = ' substr(mof_div_code,7,3) <> \'000\' '
+      }
+      switch (column.property) {
         case 'recAmount':
         case 'amountRec':
-          if (mofDivCode === '619900000') { // 全辖
+          if (row.code === '619900000') { // 全辖
             reportCode = 'zyzdzjmx_qx'
           } else { // 本级
             reportCode = 'zyzdzjmx_bj'
           }
       }
       let isBj = ''
-      switch (column) {
+      switch (column.property) {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXbjfp':
@@ -721,7 +659,7 @@ export default {
       }
       let params = {
         reportCode: reportCode,
-        mofDivCode: mofDivCode,
+        mofDivCode: row.code,
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,

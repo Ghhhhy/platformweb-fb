@@ -1,4 +1,4 @@
-import { getUserRoles } from '@/api/frame/common/userroles.js'
+import { getUserRoles, getProjectName } from '@/api/frame/common/userroles.js'
 import store from '@/store'
 
 export const state = { // 实时监听state值的变化(最新状态)
@@ -19,7 +19,8 @@ export const state = { // 实时监听state值的变化(最新状态)
   },
   systemMenu: {},
   lookAduitJxData: {},
-  userRolesData: [] // 用户角色
+  userRolesData: [], // 用户角色
+  projectList: []// 项目列表
 }
 export const getters = {
   treeQueryparamsCom() {
@@ -47,7 +48,9 @@ export const getters = {
     return obj
   },
   isSx() { // 判断是否是陕西项目
-    return state.curNavModule.param5.indexOf('project=sx') > -1
+    return state.projectList.some(item => {
+      return item.configKey === 'sx' && item.configValue
+    })
   },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
@@ -162,6 +165,9 @@ export const mutations = {
   },
   setUserRoles(state, obj) {
     state.userRolesData = obj
+  },
+  setProjectList(state, list) {
+    list && list.length && (state.projectList = list)
   }
 }
 export const actions = {
@@ -188,5 +194,14 @@ export const actions = {
     if (!Array.isArray(data)) return
     console.log(data)
     commit('setUserRoles', data)
+  },
+  async asyncGetProject({ commit, state }) {
+    let projectList = []
+    try {
+      projectList = await getProjectName()
+      commit('setProjectList', projectList.data)
+    } catch (error) {
+      console.log('请求项目列表出错')
+    }
   }
 }
