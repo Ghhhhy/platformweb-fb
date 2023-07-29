@@ -207,7 +207,7 @@ const proconf = {
             areaType: 'province',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: false
           },
           {
             title: '分配本级',
@@ -283,7 +283,7 @@ const proconf = {
             align: 'right',
             areaType: 'city',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: false
           },
           {
             title: '分配本级',
@@ -359,7 +359,7 @@ const proconf = {
             areaType: 'county',
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: false
           },
           {
             title: '分配本级',
@@ -570,7 +570,7 @@ const proconf = {
             align: 'right',
             areaType: 'city',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: false
           },
           {
             title: '分配本级',
@@ -641,7 +641,7 @@ const proconf = {
             align: 'right',
             areaType: 'region',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: false
           },
           {
             title: '分配本级',
@@ -711,7 +711,7 @@ const proconf = {
             align: 'right',
             areaType: 'town',
             cellRender: { name: '$vxeMoney' },
-            visible: !store.getters.isSx
+            visible: false
           },
           {
             title: '已分配',
