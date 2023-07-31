@@ -93,6 +93,7 @@ export default {
   },
   data() {
     return {
+      configTypeId: {},
       dialogTableVisible: false,
       drawInformation: '',
       // BsQuery 查询栏
@@ -697,10 +698,12 @@ export default {
       })
       return datas
     },
-    async loadConfig(id) {
+    async loadConfig(configTypeId) {
+      let { table } = configTypeId
+      if (!table) return
       let params = {
         tableId: {
-          id: id,
+          id: table,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -710,10 +713,12 @@ export default {
       this.tableColumnsConfig = configQueryData.itemsConfig
       this.menuName = configQueryData.dataConfig.menuname
     },
-    async loadTabConfig(id) {
+    async loadTabConfig(configTypeId) {
+      let { tabPanel } = configTypeId
+      if (!tabPanel) return
       let params = {
         tableId: {
-          id: id,
+          id: tabPanel,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -722,10 +727,12 @@ export default {
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'queryConfigInfo', { ...this.toolBarStatusBtnConfig, ...configQueryData.itemsConfig[0] })
     },
-    async loadQueryFormConfig(id) {
+    async loadQueryFormConfig(configTypeId) {
+      let { queryForm } = configTypeId
+      if (!queryForm) return
       let params = {
         tableId: {
-          id: id,
+          id: queryForm,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -746,16 +753,12 @@ export default {
   created() {
     this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
       res.forEach(item => {
-        if (item.type === 'table') {
-          this.loadConfig(item.id)// 加载表格
-        } else if (item.type === 'tabPanel') {
-          this.loadTabConfig(item.id)
-        } else if (item.type === 'queryForm') {
-          this.loadQueryFormConfig(item.id)
-        }
+        this.configTypeId[item.type] = item.id
       })
+      this.loadConfig(this.configTypeId)// 加载表格
+      this.loadTabConfig(this.configTypeId)// 加载tab
+      this.loadQueryFormConfig(this.configTypeId)// 加载query
     })
-    // this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
   }
 }
 </script>
