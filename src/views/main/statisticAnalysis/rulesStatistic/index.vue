@@ -74,7 +74,7 @@ import {
   getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
-import { transJson1, transJson2, transJson3 } from '@/utils/params.js'
+import { transJson1, transJson3 } from '@/utils/params.js'
 // import { transJson1, transJson2 } from '@/utils/params.js'
 import store from '@/store'
 import { Message } from 'element-ui'
