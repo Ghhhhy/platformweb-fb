@@ -632,7 +632,7 @@ export default {
       }
       if (obj.property === 'agencyCodeList') {
         let arr = []
-        obj.itemValue.split(',')?.map(v => {
+        obj.itemValue && obj.itemValue.split(',')?.map(v => {
           arr.push(v.split('#')[0])
         })
         this.agencyCodeList = arr
