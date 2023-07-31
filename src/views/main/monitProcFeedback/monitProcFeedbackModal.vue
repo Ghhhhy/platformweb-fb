@@ -10,15 +10,15 @@
       @close="dialogClose"
     >
       <div v-loading="addLoading" class="payVoucherInput">
-        <div v-for="(item) in formData" :key="item.titleName">
+        <div v-for="(item,index) in formData" :key="item.titleName">
           <template v-if="item.type !== 'components'">
             <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ item.titleName }}</div>
             <BsForm
-              ref="createRef"
+              :ref="item.formRefKey || `createRef${index}`"
               class="createRef"
               :form-items-config="item.formItemList"
               :form-data-list="createDataList"
-              :form-validation-config="createValidate"
+              :form-validation-config="validateData[item.formRefKey]"
               :is-editable="isCreate"
               title-align="top"
               @itemChange="itemChange"
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-import { proconf } from './createProcessing.js'
+// import { proconf } from './createProcessing.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 // import { checkPhone } from '@/utils/index.js'
 import VXETable from 'vxe-table'
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      configTypeId: {},
       tableLoading: false,
       tabCode: 'dcl-hsfk',
       showFormType: {
@@ -86,13 +87,14 @@ export default {
         show5: false
       },
       formData: [],
+      validateData: {},
       title: '监控处理单',
       dialogVisible: false,
       createValidate: {
 
-        phone1: [
-          { validator: proconf.mobilePhoneValid, trigger: 'change' }
-        ]
+        // phone1: [
+        //   { validator: proconf.mobilePhoneValid, trigger: 'change' }
+        // ]
       },
       downloadParams: {
         fileguid: ''
@@ -165,7 +167,7 @@ export default {
       this.$emit('close')
     },
     itemChange({ $form, property, itemValue, data }, bsform) {
-      console.log('fuck')
+      console.log('changeItemproperty', property)
       // form表单联动当前字段change事件代理
       switch (property) {
         case 'violateType' :
@@ -203,6 +205,21 @@ export default {
           })
       })
     },
+    async getValidateConfig(configTypeId) {
+      let { validate } = configTypeId
+      if (!validate) return
+      let params = {
+        tableId: {
+          id: validate,
+          fiscalyear: this.userInfo.year,
+          mof_div_code: this.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+          // userguid: ''
+        }
+      }
+      let configQueryData = await this.loadBsConfig(params)
+      this.$set(this, 'validateData', configQueryData.itemsConfig[0] || {})
+    },
     getFlowParamVoList() {
       // 获取动态配置表单里面绑定得field 并且组装成[{key:表单每项得filed,value:表单filed绑定值}，，...]传给后端
       let flowParamVoList = []
@@ -210,10 +227,16 @@ export default {
       if (this.formData && this.formData.length) {
         this.formData.forEach((item, index) => {
           if (item.type !== 'components') { // 判断不是上传组件
+            let formItemData = {}
+            if (item.formRefKey) {
+              formItemData = this.$refs[item.formRefKey][0].getFormData()
+            } else {
+              formItemData = this.$refs[`createRef${index}`][0].getFormData()
+            }
             item.formItemList.forEach((ii, idx) => {
               let obj = {}
               obj.bizKey = ii.field
-              obj.bizValue = this.$refs.createRef[index].getFormData()[ii.field]
+              obj.bizValue = formItemData[ii.field]
               if (item.needUpload) { // 获取需要上传的哪个表单的数据
                 if (ii.field.indexOf('commentDept') > -1) {
                   let obj2 = {
@@ -224,7 +247,7 @@ export default {
                 }
                 flowParamVoList.push(obj)
               }
-              formData[ii.field] = this.$refs.createRef[index].getFormData()[ii.field]
+              formData[ii.field] = formItemData[ii.field]
             })
           } else {
             let obj = {}
@@ -239,9 +262,23 @@ export default {
 
     // 反馈
     async doFeedback() {
-      // let valid = await this.$refs.createRef.forEach.validate()
-      // if (valid !== undefined) return undefined
-      // console.log(777, formData, flowParamVoList)
+      if (Object.keys(this.validateData).length) {
+        let formValidaPass = await Promise.all(
+          Object.keys(this.validateData).map(key => {
+            return new Promise(async(resolve, reject) => {
+              let formInstance = this.$refs[key]
+              console.log('formInstance', formInstance)
+              if (!formInstance) {
+                resolve(true)
+                return
+              }
+              let valid = await formInstance[0].validate()
+              if (valid === undefined) resolve(true)
+            })
+          })
+        )
+        if (!formValidaPass.every(one => { return one })) return
+      }
       let { flowParamVoList, formData } = this.getFlowParamVoList()
       console.log(flowParamVoList, formData)
       formData.flowParamVoList = flowParamVoList
@@ -266,10 +303,10 @@ export default {
       console.log('查看数据', Object.assign({}, this.createDataList))
       this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
         res.forEach(item => {
-          if (item.type === 'form') {
-            this.loadConfig(item.id)// 加载表格
-          }
+          this.configTypeId[item.type] = item.id
         })
+        this.loadConfig(this.configTypeId)
+        this.getValidateConfig(this.configTypeId)
       })
     },
     // 下载附件
@@ -279,10 +316,12 @@ export default {
       this.downloadParams.fileguid = row.fileguid
       this.$refs.attachmentUpload.downloadFileFile()
     },
-    async loadConfig(id) { // 请求工作流formitem配置项
+    async loadConfig(configTypeId) { // 请求工作流formitem配置项
+      let { form } = configTypeId
+      if (!form) return
       let params = {
         tableId: {
-          id: id,
+          id: form,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
