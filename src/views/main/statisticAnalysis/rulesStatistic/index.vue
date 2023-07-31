@@ -74,7 +74,7 @@ import {
   getControlTypeColumn
 } from '@/views/main/handlingOfViolations/model/data.js'
 import { useFooter } from '../common/hooks/useFooter'
-import { transJson1, transJson2, transJson3 } from '@/utils/params.js'
+import { transJson1, transJson3 } from '@/utils/params.js'
 // import { transJson1, transJson2 } from '@/utils/params.js'
 import store from '@/store'
 import { Message } from 'element-ui'
@@ -129,6 +129,7 @@ export default defineComponent({
      * 动态表格配置
      * */
     let columnsSS = ref(null)
+    let ruleCodesSS = ref([])
     async function loadConfig(id) {
       let params = {
         tableId: {
@@ -196,10 +197,11 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
-      beforeFetch: params => {
+      beforeFetch: async params => {
+        ruleCodesSS.value = await loadConfig('CodeConfig101') ? await loadConfig('CodeConfig101') : []
         return {
           ...params,
-          ruleCodes: transJson2(store.state.curNavModule.param5 || '')?.ruleCodes,
+          ruleCodes: ruleCodesSS.value,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm
         }
