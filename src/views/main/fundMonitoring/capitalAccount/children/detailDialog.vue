@@ -378,7 +378,7 @@ export default {
           if (this.detailType === 'zyzfxmmx') {
             zcSource = 'zyzfzbmx_fzjfp'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
+          if (this.detailType === 'zyzfxmmx' || this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
             this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
           ) {
             this.handleDetail(zcSource, obj.row)
@@ -394,7 +394,7 @@ export default {
           if (this.detailType === 'zyzfxmmx') {
             zcSource2 = 'zyzfzcmx_fdq'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
+          if (this.detailType === 'zyzfxmmx' || this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
             this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
             this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
             this.handleDetail(zcSource2, obj.row)

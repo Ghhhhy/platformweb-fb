@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息
-            <el-button v-if="dialogVisibleKjsmBut" type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-if="dialogVisibleKjsmBut" v-param5Show="'kjbtnVisable'" type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -827,6 +827,8 @@ export default {
       })
       let params = {
         businessModuleCode: this.bussnessId,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name,
         dataList
       }
       // let param = {

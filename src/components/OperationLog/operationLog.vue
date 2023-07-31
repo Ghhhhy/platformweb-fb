@@ -244,11 +244,14 @@ export default {
           padding-left: 15px;
           margin-right: 48px;
           overflow: hidden;
+          min-height: 30px;
           // height:40px;
           p:nth-child(1){
             // padding:12px 0 0 16px;
             font-size: 12px;
-            height: 30px;
+            min-height: 30px;
+            word-wrap: break-word;
+            word-break: break-all;
             margin-top: 5px;
             color:#5C6166;
             line-height: 30px

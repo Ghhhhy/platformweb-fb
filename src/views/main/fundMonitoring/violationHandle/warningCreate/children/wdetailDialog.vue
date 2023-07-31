@@ -442,15 +442,15 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentids.length) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
-      let billguidList = []
-      row.attachmentid1 && billguidList.push(row.attachmentid1)
-      row.attachmentid3 && billguidList.push(row.attachmentid3)
-      this.billguidList = billguidList
+      // this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      // let billguidList = []
+      // row.attachmentid1 && billguidList.push(row.attachmentid1)
+      // row.attachmentid3 && billguidList.push(row.attachmentid3)
+      this.billguidList = row.attachmentids.filter(item => { return Boolean(item) })
       this.showGlAttachmentDialog = true
     },
     // 查看详情
@@ -489,7 +489,8 @@ export default {
           }
         }
       }
-      this.agencyCodeList = val.agencyCodeList_code__multiple
+      console.log(val, '-------------')
+      // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -621,8 +622,20 @@ export default {
       }
     },
     itemChange(obj, formRef) {
-      obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
-      this.searchDataList[obj.property] = obj.itemValue
+      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate']
+      if (timeFiledList.includes(obj.property)) {
+        obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
+        this.searchDataList[obj.property] = obj.itemValue
+      } else {
+        this.searchDataList[obj.property] = obj.itemValue
+      }
+      if (obj.property === 'agencyCodeList') {
+        let arr = []
+        obj.itemValue.split(',')?.map(v => {
+          arr.push(v.split('#')[0])
+        })
+        this.agencyCodeList = arr
+      }
     },
     showDetail() {
       let selection = this.$refs.mainTableRef.selection
@@ -1220,10 +1233,26 @@ export default {
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = ''
+      this.$refs.queryFrom.reset()
+      this.agencyCodeList = []
+      this.searchDataList.agencyCodeList = []
+      this.searchDataList.businessNo = ''
+      this.searchDataList.fiRuleName = ''
+      this.searchDataList.regulationClassName = ''
+      this.searchDataList.trackProName = ''
+      this.searchDataList.triggerClass = ''
+      this.searchDataList.warnTime = ''
       this.searchDataList.warnStartDate = ''
       this.searchDataList.warnEndDate = ''
       this.searchDataList.dealWarnStartDate = ''
       this.searchDataList.dealWarnEndDate = ''
+      this.condition.agencyCodeList = []
+      this.condition.businessNo = ''
+      this.condition.fiRuleName = ''
+      this.condition.regulationClassName = ''
+      this.condition.trackProName = ''
+      this.condition.triggerClass = ''
+      this.condition.warnTime = ''
       this.queryTableDatas()
     },
     // 表格单元行单击
