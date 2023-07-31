@@ -92,7 +92,7 @@
       :is-create="isCreate"
       :is-done="isDone"
       :detail-data="showDetailData"
-      :bussness-id="bussnessId"
+      :bussness-id="clickRowBussnessId"
       :regulation-class="regulationClass"
       :param5="param5"
       @close="closeHandle"
@@ -305,6 +305,7 @@ export default {
       leftTreeFilterText: '',
       treeData: [],
       bussnessId: '7',
+      clickRowBussnessId: '',
       treeTypeConfig: {},
       currentNodeKey: '7',
       detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
@@ -458,6 +459,7 @@ export default {
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
       this.showDialogTitle = '查看详情信息'
+      this.clickRowBussnessId = val.businessModuleCode
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
