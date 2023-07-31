@@ -51,5 +51,9 @@ export default {
       formData.append(key, value)
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
+  },
+  // 新表格查询
+  queryTableData(params) {
+    return post('dfr-monitor-service/dfr/autoLedger/query', params)
   }
 }
