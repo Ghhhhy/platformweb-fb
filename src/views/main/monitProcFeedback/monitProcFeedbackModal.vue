@@ -267,7 +267,6 @@ export default {
           Object.keys(this.validateData).map(key => {
             return new Promise(async(resolve, reject) => {
               let formInstance = this.$refs[key]
-              console.log('formInstance', formInstance)
               if (!formInstance) {
                 resolve(true)
                 return

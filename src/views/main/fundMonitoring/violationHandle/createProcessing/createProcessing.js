@@ -144,6 +144,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     }
@@ -2834,7 +2835,7 @@ export const proconf = {
           }
         }),
         defaultValue: '',
-        props: { placeholder: '预警级别', disabled: true }
+        props: {}
       },
       name: '$vxeSelect'
     },
