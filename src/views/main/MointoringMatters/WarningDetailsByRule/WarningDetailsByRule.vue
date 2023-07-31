@@ -736,6 +736,9 @@ export default {
         useDes: this.useDes,
         roleId: this.roleguid
       }
+      if (this.$store.getters.isSx) {
+        param.jurisdiction = this.$store.getters.getIsJurisdiction
+      }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -919,6 +922,9 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
+    if (this.$store.getters.isSx) {
+      this.params5 = this.$store.getters.getRegulationClass
+    }
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
