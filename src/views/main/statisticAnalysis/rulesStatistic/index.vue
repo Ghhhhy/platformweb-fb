@@ -129,6 +129,7 @@ export default defineComponent({
      * 动态表格配置
      * */
     let columnsSS = ref(null)
+    let ruleCodesSS = ref([])
     async function loadConfig(id) {
       let params = {
         tableId: {
@@ -196,10 +197,11 @@ export default defineComponent({
       registerTable
     ] = useTable({
       fetch: queryRule,
-      beforeFetch: params => {
+      beforeFetch: async params => {
+        ruleCodesSS.value = await loadConfig('CodeConfig101') ? await loadConfig('CodeConfig101') : []
         return {
           ...params,
-          ruleCodes: transJson2(store.state.curNavModule.param5 || '')?.ruleCodes,
+          ruleCodes: ruleCodesSS.value,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm
         }
