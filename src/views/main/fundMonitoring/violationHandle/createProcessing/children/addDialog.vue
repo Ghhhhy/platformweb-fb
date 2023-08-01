@@ -481,6 +481,10 @@ export default {
     isApprove: {
       type: Boolean,
       default: false
+    },
+    menuName: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -1227,7 +1231,8 @@ export default {
           attachmentid3: this.attachmentid3,
           dealNo: item.dealNo,
           returnReason: this.returnReason,
-          commentDept: this.commentDept
+          commentDept: this.commentDept,
+          menuName: this.menuName
         }
       })
       this.addLoading = true
