@@ -205,21 +205,6 @@ export default {
           })
       })
     },
-    async getValidateConfig(configTypeId) {
-      let { validate } = configTypeId
-      if (!validate) return
-      let params = {
-        tableId: {
-          id: validate,
-          fiscalyear: this.userInfo.year,
-          mof_div_code: this.userInfo.province,
-          menuguid: this.$store.state.curNavModule.guid
-          // userguid: ''
-        }
-      }
-      let configQueryData = await this.loadBsConfig(params)
-      this.$set(this, 'validateData', configQueryData.itemsConfig[0] || {})
-    },
     getFlowParamVoList() {
       // 获取动态配置表单里面绑定得field 并且组装成[{key:表单每项得filed,value:表单filed绑定值}，，...]传给后端
       let flowParamVoList = []
@@ -305,7 +290,7 @@ export default {
           this.configTypeId[item.type] = item.id
         })
         this.loadConfig(this.configTypeId)
-        this.getValidateConfig(this.configTypeId)
+        // this.getValidateConfig(this.configTypeId)
       })
     },
     // 下载附件
@@ -329,7 +314,16 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'formData', configQueryData.itemsConfig)
+      this.$set(this, 'validateData', configQueryData.editRules)
       let createDataList = Object.assign({}, this.createDataList)
+      let formDefaultValue = configQueryData.editConfig.defaultValue || {}
+      if (Object.keys(formDefaultValue)) { // 重新组装默认值
+        Object.keys(formDefaultValue).forEach(fieldKey => {
+          if (!createDataList[fieldKey]) {
+            createDataList[fieldKey] = formDefaultValue[fieldKey]
+          }
+        })
+      }
       // 如果表单项配置了附件 则通过接口 拿到附件列表 并且重新给表单得配置项得itemRender挂载一个fileList
       for (let i = 0; i < this.formData.length; i++) {
         let eachForm = this.formData[i]
