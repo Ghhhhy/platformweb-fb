@@ -81,6 +81,7 @@
       :is-create="isCreate"
       :bussness-id="bussnessId"
       :regulation-class="regulationClass"
+      :menu-name="menuName"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
@@ -602,8 +603,7 @@ export default {
         mofDivCodeList: this.codeList,
         mofDivCode: this.mofDivCode || '',
         trackProName: this.trackProName || '',
-        roleguid: this.roleguid,
-        menuName: this.menuName
+        roleguid: this.roleguid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

@@ -425,7 +425,6 @@ export default {
         dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
         menuId: this.$store.state.curNavModule.guid,
         businessModuleName: this.searchDataList.businessModuleName === '' ? '' : this.searchDataList.businessModuleName,
-        menuName: this.menuName
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
