@@ -366,17 +366,12 @@ export default {
     queryTableDatas() {
       // console.log('this.menuSettingConfig', this.menuSettingConfig)
       let param = {
+        ...this.queryData,
         page: this.mainPagerConfig.currentPage,
         pageSize: this.mainPagerConfig.pageSize,
-        ...this.queryData,
         isUnit: this.menuSettingConfig.retroact,
-        isNormalDone: this.queryData.isNormalDone,
-        isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone,
         roleId: this.$store.state.curNavModule.roleguid,
-        menuId: this.$store.state.curNavModule.guid,
-        mofDivCodeList: this.queryData.mofDivCodeList,
-        agencyCodeList: this.queryData.agencyCodeList
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
