@@ -360,7 +360,7 @@ export default {
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
-      this.search()
+      this.queryTableDatas()
     },
     // 查询 table 数据
     queryTableDatas() {
