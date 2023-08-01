@@ -92,7 +92,7 @@
       :is-create="isCreate"
       :is-done="isDone"
       :detail-data="showDetailData"
-      :bussness-id="clickRowBussnessId"
+      :bussness-id="bussnessId"
       :regulation-class="regulationClass"
       :param5="param5"
       @close="closeHandle"
@@ -460,7 +460,7 @@ export default {
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
       this.showDialogTitle = '查看详情信息'
-      this.clickRowBussnessId = val.businessModuleCode
+      // this.clickRowBussnessId = val.businessModuleCode
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
