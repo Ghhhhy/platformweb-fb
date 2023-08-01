@@ -602,7 +602,8 @@ export default {
         mofDivCodeList: this.codeList,
         mofDivCode: this.mofDivCode || '',
         trackProName: this.trackProName || '',
-        roleguid: this.roleguid
+        roleguid: this.roleguid,
+        menuName: this.menuName
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
