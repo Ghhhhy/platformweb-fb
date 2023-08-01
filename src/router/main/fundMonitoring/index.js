@@ -1,6 +1,7 @@
 /*
  * 直达资金监控路由
  */
+import { workFlowRouters } from '@/views/main/monitProcFeedback/router'
 const routers = [
   {
     path: '/BudgetImplementationCapital', // 中央直达资金预算执行情况_分资金
@@ -1149,7 +1150,8 @@ const routers = [
       requireAuth: true
     },
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
-  }
+  },
+  ...workFlowRouters
 ]
 
 // 直达资金所有页面统一增加keepAlive
