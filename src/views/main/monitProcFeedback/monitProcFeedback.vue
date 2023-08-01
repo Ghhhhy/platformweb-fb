@@ -448,8 +448,8 @@ export default {
           userName: this.userInfo.name,
           menuName: this.menuName
         }
-        if (this.$route.name === 'monitProcFeedback') {
-          ortherData.commentDept = '1'// 单位材料整改初始值设置为1
+        if (this.$route.name === 'monitProcFeedbackSpe' || this.$route.name === 'monitProcFeedbackDfr') {
+          ortherData.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
         }
         this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
         this.$refs.MonitProcFeedbackModal.tabCode = obj.code
