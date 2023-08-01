@@ -81,7 +81,6 @@
       :is-create="isCreate"
       :bussness-id="bussnessId"
       :regulation-class="regulationClass"
-      :menu-name="menuName"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
