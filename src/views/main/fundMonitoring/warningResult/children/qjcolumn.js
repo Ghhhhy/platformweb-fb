@@ -208,7 +208,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -216,8 +216,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -225,6 +225,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警时间',
@@ -368,7 +390,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -376,8 +398,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -385,6 +407,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -819,7 +863,7 @@ const proconf = {
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      width: 400,
+      width: 300,
       align: 'left'
     },
     {
@@ -827,7 +871,7 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       filters: false,
-      // width: 140
+      width: 180,
       align: 'left'
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -835,8 +879,7 @@ const proconf = {
       //     $refs: this
       //   }
       // }
-    }
-    // {
+    }, // {
     //   title: '预警规则',
     //   field: 'fiRuleName',
     //   width: 140,
@@ -1031,6 +1074,30 @@ const proconf = {
     //   sortable: false,
     //   align: 'center'
     // }
+
+    {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
+    }
   ],
   yellowDoneNum: [
     {
@@ -1277,7 +1344,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -1285,8 +1352,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -1294,6 +1361,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -1744,7 +1833,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -1752,8 +1841,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -1761,6 +1850,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -1998,7 +2109,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -2006,8 +2117,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -2015,6 +2126,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',

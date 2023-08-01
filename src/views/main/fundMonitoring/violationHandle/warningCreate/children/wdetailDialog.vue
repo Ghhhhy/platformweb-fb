@@ -305,6 +305,7 @@ export default {
       leftTreeFilterText: '',
       treeData: [],
       bussnessId: '7',
+      clickRowBussnessId: '',
       treeTypeConfig: {},
       currentNodeKey: '7',
       detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
@@ -459,6 +460,7 @@ export default {
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
       this.showDialogTitle = '查看详情信息'
+      // this.clickRowBussnessId = val.businessModuleCode
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
@@ -631,7 +633,7 @@ export default {
       }
       if (obj.property === 'agencyCodeList') {
         let arr = []
-        obj.itemValue.split(',')?.map(v => {
+        obj.itemValue && obj.itemValue.split(',')?.map(v => {
           arr.push(v.split('#')[0])
         })
         this.agencyCodeList = arr

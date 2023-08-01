@@ -19,8 +19,8 @@
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="queryData"
-          @onSearchClick="search"
-          @onSearchResetClick="resetQuery"
+          @onSearchClick="mainPagerConfig.page = 1,search()"
+          @onSearchResetClick="resetQuery(),search()"
         />
       </template>
       <template v-slot:mainForm>
@@ -93,6 +93,7 @@ export default {
   },
   data() {
     return {
+      configTypeId: {},
       dialogTableVisible: false,
       drawInformation: '',
       // BsQuery 查询栏
@@ -253,11 +254,24 @@ export default {
         index > -1 && this.queryConfig?.splice(index, 1)
       }
     },
-    search(obj) {
-      console.log('search', obj)
-      this.queryData.regulationClassName = obj.regulationClassName
-      this.queryData.mofDivCodeList = obj.mofDivCodes_code__multiple
-      this.queryData.agencyCodeList = obj.agencyCodeList_code__multiple
+    search() {
+      let formData = this.$refs.queryFrom.getFormData()
+      let formField = this.queryConfig.map(item => {
+        return item.field
+      })
+      let queryConfigSearchData = {}
+      if (formField && formField.length) {
+        formField.forEach(item => {
+          if (item === 'agencyCodeList') {
+            queryConfigSearchData[item] = formData['agencyCodeList_code__multiple']
+          } else if (item === 'mofDivCodes' || item === 'mofDivCodeList') {
+            queryConfigSearchData['mofDivCodeList'] = formData['mofDivCodes_code__multiple']
+          } else {
+            queryConfigSearchData[item] = formData[item]
+          }
+        })
+      }
+      this.queryData = { ...this.queryData, ...queryConfigSearchData }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -315,16 +329,8 @@ export default {
     resetQuery() {
       console.log('触发了重置')
       this.$refs.queryFrom.reset()
-      // this.dealNo = ''
-      // this.regulationClassName = ''
-      // this.warnTime = ''
-      // this.triggerClass = ''
-      // this.warningLevel = ''
-      // this.agencyName = ''
-      // this.issueTime = ''
-      // this.fiRuleName = ''
-      // this.violateType = ''
-      // this.trackProName = ''
+      this.mainPagerConfig.currentPage = 1
+      this.mainPagerConfig.pageSize = 20
     },
     // 查看附件
     showAttachment(row) {
@@ -346,15 +352,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      console.log('触发了刷新')
-      this.queryTableDatas()
-      // if (this.menuName === '监控问询单列表' && this.status === 0) {
-      //   this.queryTableDatas()
-      // } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
-      //   this.getdata()
-      // } else {
-      //   this.getWarnData()
-      // }
+      this.search()
     },
     closeAttachment() {
       this.showGlAttachmentDialog = false
@@ -363,27 +361,17 @@ export default {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
-      // if (this.menuName === '监控问询单列表' && this.status === 0) {
-      //   this.queryTableDatas()
-      // } else if (this.menuName === '监控问询单列表' && this.status !== 0) {
-      //   this.getdata()
-      // } else {
-      //   this.getWarnData()
-      // }
     },
     // 查询 table 数据
     queryTableDatas() {
       // console.log('this.menuSettingConfig', this.menuSettingConfig)
       let param = {
         ...this.queryData,
+        page: this.mainPagerConfig.currentPage,
+        pageSize: this.mainPagerConfig.pageSize,
         isUnit: this.menuSettingConfig.retroact,
-        isNormalDone: this.queryData.isNormalDone,
-        isProcessed: this.queryData.isProcessed,
-        isAgencyDone: this.queryData.isAgencyDone,
         roleId: this.$store.state.curNavModule.roleguid,
-        menuId: this.$store.state.curNavModule.guid,
-        mofDivCodeList: this.queryData.mofDivCodeList,
-        agencyCodeList: this.queryData.agencyCodeList
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -460,8 +448,8 @@ export default {
           userName: this.userInfo.name,
           menuName: this.menuName
         }
-        if (this.$route.name === 'monitProcFeedback') {
-          ortherData.commentDept = '1'// 单位材料整改初始值设置为1
+        if (this.$route.name === 'monitProcFeedbackSpe' || this.$route.name === 'monitProcFeedbackDfr') {
+          ortherData.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
         }
         this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
         this.$refs.MonitProcFeedbackModal.tabCode = obj.code
@@ -492,8 +480,9 @@ export default {
     // 切换状态栏
     onStatusTabClick(obj) {
       if (!obj.type) return
+      this.resetQuery()
       this.queryData.flowStatus = obj.code
-      this.queryTableDatas()
+      this.search()
     },
     getViolationType() {
       let params = {
@@ -506,25 +495,18 @@ export default {
             v.value = v.code
             v.label = v.name
           })
-          console.log(res.data.results, 777)
           this.$set(this.queryConfig[0].itemRender, 'options', res.data.results)
         }
       })
     },
     getCount() {
       let param = {
-        // isUnit: this.transJson(this.$store.state.curNavModule.param5).retroact,
         roleId: this.$store.state.curNavModule.roleguid
       }
-      // if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-      //   param.regulationClass = '0201'
-      // }
-
       const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
-
       api.getCount(param).then(res => {
         if (res.code === '000000') {
           // 主管处室
@@ -656,14 +638,13 @@ export default {
         if (res.code === '000000') {
           this.$message.success('撤回成功')
           this.dialogTableVisible = false
-          this.queryTableDatas()
+          this.search()
         }
       })
     },
     getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
       HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
-          console.log('data', res.data)
           let treeResdata = this.getChildrenNewData1(res.data)
           this.$set(this.queryConfig[0].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
@@ -697,10 +678,12 @@ export default {
       })
       return datas
     },
-    async loadConfig(id) {
+    async loadConfig(configTypeId) {
+      let { table } = configTypeId
+      if (!table) return
       let params = {
         tableId: {
-          id: id,
+          id: table,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -710,10 +693,12 @@ export default {
       this.tableColumnsConfig = configQueryData.itemsConfig
       this.menuName = configQueryData.dataConfig.menuname
     },
-    async loadTabConfig(id) {
+    async loadTabConfig(configTypeId) {
+      let { tabPanel } = configTypeId
+      if (!tabPanel) return
       let params = {
         tableId: {
-          id: id,
+          id: tabPanel,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -722,10 +707,12 @@ export default {
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'queryConfigInfo', { ...this.toolBarStatusBtnConfig, ...configQueryData.itemsConfig[0] })
     },
-    async loadQueryFormConfig(id) {
+    async loadQueryFormConfig(configTypeId) {
+      let { queryForm } = configTypeId
+      if (!queryForm) return
       let params = {
         tableId: {
-          id: id,
+          id: queryForm,
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
           menuguid: this.$store.state.curNavModule.guid
@@ -741,21 +728,22 @@ export default {
     }
   },
   mounted() {
-    this.queryTableDatas()
   },
   created() {
     this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
       res.forEach(item => {
-        if (item.type === 'table') {
-          this.loadConfig(item.id)// 加载表格
-        } else if (item.type === 'tabPanel') {
-          this.loadTabConfig(item.id)
-        } else if (item.type === 'queryForm') {
-          this.loadQueryFormConfig(item.id)
-        }
+        this.configTypeId[item.type] = item.id
       })
+      let taskQueue = [this.loadConfig(this.configTypeId), this.loadTabConfig(this.configTypeId), this.loadQueryFormConfig(this.configTypeId)]
+      Promise.all(taskQueue).then(() => {
+        this.$nextTick(async () => { // 渲染优化 放到mounted之后渲染
+          this.search()
+        })
+      })
+      // this.loadConfig(this.configTypeId)// 加载表格
+      // this.loadTabConfig(this.configTypeId)// 加载tab
+      // this.loadQueryFormConfig(this.configTypeId)// 加载query
     })
-    // this.$set(this, 'queryConfigInfo', this.toolBarStatusBtnConfig)
   }
 }
 </script>
