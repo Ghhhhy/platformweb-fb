@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold;">明细信息
-            <el-button v-param5Show="'kjbtnVisable'" type="text" :style="kjbuttonVisable === '1' ? 'float:right' : 'float:right;display:none'" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-param5Show="showKj" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -606,6 +606,15 @@ export default {
     }
   },
   methods: {
+    showKj() {
+      if ((String(this.bussnessId) === '6' && this.param5.regulationClass === '0207')) {
+        return true
+      } else if (this.param5.kjbtnVisable === 'false' || this.param5.kjbtnVisable === '0') {
+        return false
+      } else {
+        return false
+      }
+    },
     cellClick(obj, context, e) {
       if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
