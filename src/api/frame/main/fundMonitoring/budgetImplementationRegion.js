@@ -1,9 +1,13 @@
 //  监控函数api
 import { post, get } from '@/api/http'
+import store from '@/store/index'
 export default {
   // 获取表格数据
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/query', params)
+  },
+  queryCaliberDeclareContent(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/queryCaliberDeclareContent', params)
   },
   // 明细分页查询
   detailPageQuery (params) {
@@ -19,10 +23,18 @@ export default {
   },
   // 获取左侧树
   getTreeData(params) {
-    return get('large-monitor-platform/lmp/mofDivTree', params)
+    let url = 'large-monitor-platform/lmp/mofDivTree'
+    if (store.getters.isSx) {
+      url = 'mp-b-basedata-service/v2/basedata/simpletree/where'
+    }
+    return get(url, params)
   },
   getMofTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/query', params)
+  },
+  // 获取合计
+  querySum (params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/sum', params)
   },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
@@ -51,6 +63,9 @@ export default {
       formData.append(key, value)
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
+  },
+  getCzProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryCzPro', params)
   },
   // 新表格查询
   queryTableData(params) {
