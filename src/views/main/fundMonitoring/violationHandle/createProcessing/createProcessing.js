@@ -2835,7 +2835,7 @@ export const proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: { disabled: true }
       },
       name: '$vxeSelect'
     },
