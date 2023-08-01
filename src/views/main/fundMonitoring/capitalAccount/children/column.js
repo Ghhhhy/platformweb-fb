@@ -1603,7 +1603,7 @@ let proconf = {
     xjCorBgtDocNo: ''
   }
 }
-if (store.gettesr.isSx) {
+if (store.getters.isSx) {
   proconf = {
     proColumn: [
       {
