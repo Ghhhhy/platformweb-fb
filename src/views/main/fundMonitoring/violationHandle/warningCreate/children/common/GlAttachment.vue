@@ -104,8 +104,8 @@ export default {
             billguid: item
           }
           let QuanXiaRouterList = ['WarnRegion', 'WarnRegionBySpecial']
-          if (QuanXiaRouterList.includes(this.$router.name)) {
-            delete params.province
+          if (QuanXiaRouterList.includes(this.$route.name)) {
+            params.province = ''
           }
           return HTTPModule.getFile(params)
         })
