@@ -11,13 +11,16 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
-    return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)
+    var param64 = {
+      zdzjLedgerDto: this.$Base64.encode(params)
+    }
+    return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', param64)
   },
   // 直达资金项目台账
   xmPageQuery (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/XmPageQuery', params)
   },
-  // 专项监督项目台账
+  // 专项监督项目台账x
   xmSpecialPageQuery(params) {
     return post('dfr-monitor-service/dfr/zdzjledger/XmSpecialPageQuery', params)
   },
