@@ -36,6 +36,8 @@ import './plugin/http'
 import './plugin/UI'
 import './plugin/bs-ui' // 组件库出现问题阻塞时，注释掉当前行即可
 import '@/assets/css/reset.scss'
+import Base64 from 'js-base64'
+Vue.prototype.$Base64 = Base64
 
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
