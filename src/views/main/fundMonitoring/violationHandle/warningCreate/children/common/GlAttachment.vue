@@ -103,6 +103,10 @@ export default {
             province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
             billguid: item
           }
+          let QuanXiaRouterList = ['WarnRegion', 'WarnRegionBySpecial']
+          if (QuanXiaRouterList.includes(this.$router.name)) {
+            delete params.province
+          }
           return HTTPModule.getFile(params)
         })
         Promise.all(queueTask).then(res => {
