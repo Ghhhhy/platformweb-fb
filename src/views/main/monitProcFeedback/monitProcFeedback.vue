@@ -19,8 +19,9 @@
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="queryData"
-          @onSearchClick="mainPagerConfig.page = 1,search()"
-          @onSearchResetClick="resetQuery(),search()"
+          @onSearchClick="mainPagerConfig.page = 1,onSearch()"
+          @onSearchResetClick="reset(),onSearch()"
+          @itemChange="itemChange"
         />
       </template>
       <template v-slot:mainForm>
@@ -254,20 +255,23 @@ export default {
         index > -1 && this.queryConfig?.splice(index, 1)
       }
     },
-    search() {
+    itemChange(changeEvent) {
+      console.log('change', changeEvent)
+      // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理单位搜索和区划搜索栏
+      if (changeEvent.property === 'mofDivCodes' || changeEvent.property === 'mofDivCodeList') {
+        this.queryData['mofDivCodeList'] = changeEvent.data[`${changeEvent.property}_code__multiple`]
+      } else if (changeEvent.property === 'agencyCodeList') {
+        this.queryData['agencyCodeList'] = changeEvent.data[`${changeEvent.property}_code__multiple`]
+      }
+    },
+    onSearch() {
       let formData = this.$refs.queryFrom.getFormData()
-      let formField = this.queryConfig.map(item => {
-        return item.field
-      })
       let queryConfigSearchData = {}
-      if (formField && formField.length) {
-        formField.forEach(item => {
-          if (item === 'agencyCodeList') {
-            queryConfigSearchData[item] = formData['agencyCodeList_code__multiple']
-          } else if (item === 'mofDivCodes' || item === 'mofDivCodeList') {
-            queryConfigSearchData['mofDivCodeList'] = formData['mofDivCodes_code__multiple']
-          } else {
-            queryConfigSearchData[item] = formData[item]
+      if (this.queryConfig && this.queryConfig.length) {
+        this.queryConfig.forEach(item => {
+          // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理单位搜索和区划搜索栏
+          if (item.field !== 'mofDivCodeList' && item.field !== 'agencyCodeList' && item.field !== 'mofDivCodesList') {
+            queryConfigSearchData[item.field] = formData[item.field]
           }
         })
       }
@@ -326,11 +330,20 @@ export default {
     /**
      * 重置查询条件
      */
-    resetQuery() {
-      console.log('触发了重置')
+    reset() {
       this.$refs.queryFrom.reset()
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig.pageSize = 20
+      // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理重置单位搜索和区划搜索栏
+      if (this.queryConfig && this.queryConfig.length) {
+        this.queryConfig.forEach(item => {
+          if (item.field === 'mofDivCodes' || item.field === 'mofDivCodeList') {
+            this.queryData['mofDivCodeList'] = []
+          } else if (item.field === 'agencyCodeList') {
+            this.queryData['agencyCodeList'] = []
+          }
+        })
+      }
     },
     // 查看附件
     showAttachment(row) {
@@ -352,7 +365,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      this.search()
+      this.onSearch()
     },
     closeAttachment() {
       this.showGlAttachmentDialog = false
@@ -480,9 +493,9 @@ export default {
     // 切换状态栏
     onStatusTabClick(obj) {
       if (!obj.type) return
-      this.resetQuery()
+      this.reset()
       this.queryData.flowStatus = obj.code
-      this.search()
+      this.onSearch()
     },
     getViolationType() {
       let params = {
@@ -638,7 +651,7 @@ export default {
         if (res.code === '000000') {
           this.$message.success('撤回成功')
           this.dialogTableVisible = false
-          this.search()
+          this.onSearch()
         }
       })
     },
@@ -737,7 +750,7 @@ export default {
       let taskQueue = [this.loadConfig(this.configTypeId), this.loadTabConfig(this.configTypeId), this.loadQueryFormConfig(this.configTypeId)]
       Promise.all(taskQueue).then(() => {
         this.$nextTick(async () => { // 渲染优化 放到mounted之后渲染
-          this.search()
+          this.onSearch()
         })
       })
       // this.loadConfig(this.configTypeId)// 加载表格
