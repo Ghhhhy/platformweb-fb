@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import getFormData from './budgetPayRegion.js'
+import getFormData from './dfrBudgetReleaseRegion.js'
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
