@@ -2700,7 +2700,7 @@ const proconf = {
    * @param {*} status  数据的状态
    * @param {*} business  所属业务
    */
-  getColumns(status, business, showLog, regulationClass) {
+  getColumns(status, business, showLog, regulationClass, isFlow) {
     // 根据business拿到具体的column
     console.log(budgetManagementColumns)
     // 6和1 代表 支付
@@ -2725,7 +2725,30 @@ const proconf = {
         }
       })
     }
-    console.log('1111111111111', operatorColumns)
+    console.log('1111111111111', operatorColumns, isFlow)
+    let otherColumnsCopy = [
+      {
+        title: '生成时间',
+        width: 180,
+        field: 'warnDealGenTime',
+        sortable: false,
+        filters: false,
+        align: 'center'
+      },
+      ...otherColumns
+    ]
+    if (isFlow) {
+      otherColumnsCopy = [
+        {
+          title: '生成时间',
+          width: 180,
+          field: 'warnDealGenTime',
+          sortable: false,
+          filters: false,
+          align: 'center'
+        }
+      ]
+    }
     if (status.indexOf('UndoNum') > 0) {
       return [
         ...columns,
@@ -2735,7 +2758,7 @@ const proconf = {
     if (status.indexOf('NormalNum') > 0) {
       return [
         ...columns,
-        ...otherColumns,
+        ...otherColumnsCopy,
         ...tempOperatorColumns
       ]
     }
@@ -2743,7 +2766,7 @@ const proconf = {
       return [
         ...violationColumn,
         ...columns,
-        ...otherColumns,
+        ...otherColumnsCopy,
         ...tempOperatorColumns
       ]
     }
