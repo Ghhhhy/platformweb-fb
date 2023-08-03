@@ -163,6 +163,7 @@ function useTabPlanel(
     if (unref(pagePath) === (RouterPathEnum().UNIT_FEEDBACK || RouterPathEnum().DIVISION_FEED_BACK)) {
       [TabEnum.NO_SEND, TabEnum.RETURN].forEach(item => {
         tabMapButton[item].splice(1, 0, cancellationButton)
+        tabMapButtonSH[item].splice(1, 0, cancellationButton)
       })
     }
   }
