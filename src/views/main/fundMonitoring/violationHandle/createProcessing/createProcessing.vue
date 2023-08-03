@@ -79,7 +79,7 @@
       :deal-no="dealNo"
       :detail-data="detailData"
       :is-create="isCreate"
-      :bussness-id="bussnessId"
+      :bussness-id="clickRowBussnessId"
       :regulation-class="regulationClass"
     />
     <FilePreview
@@ -334,6 +334,7 @@ export default {
       filePreviewDialogVisible: false,
       fileGuid: '',
       bussnessId: '',
+      clickRowBussnessId: '',
       showBuinessTree: false,
       leftTreeFilterText: '', // 展示左侧树 只有某些页面才展示
       selectBtnType: '',
@@ -457,7 +458,7 @@ export default {
         case 'view':
           this.fiRuleCode = row.fiRuleCode || ''
           this.warningCode = row.warningCode || ''
-          this.bussnessId = this.bussnessId === '' ? row.businessModuleCode || '' : this.bussnessId
+          this.clickRowBussnessId = this.bussnessId === '' ? row.businessModuleCode || '' : this.bussnessId
           this.dialogVisible = true
           this.dialogTitle = '查看详情信息'
           break

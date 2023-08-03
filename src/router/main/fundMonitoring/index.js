@@ -1,10 +1,19 @@
 /*
  * 直达资金监控路由
  */
+import { workFlowRouters } from '@/views/main/monitProcFeedback/router'
 const routers = [
   {
     path: '/BudgetImplementationCapital', // 中央直达资金预算执行情况_分资金
     name: 'BudgetImplementationCapital',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue'
+      )
+  },
+  {
+    path: '/traBudgetImpleBymoyeny', // 内蒙转移支付台账分资金
+    name: 'traBudgetImpleBymoyeny',
     component: () =>
       import(
         '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue'
@@ -998,60 +1007,6 @@ const routers = [
       )
   },
   {
-    path: '/monitProcFeedback', // 单位提交材料说明
-    name: 'monitProcFeedback',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback2', // 部门核实
-    name: 'monitProcFeedback2',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback3', // 财政部门初审
-    name: 'monitProcFeedback3',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback4', // 财政部门复审
-    name: 'monitProcFeedback4',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback5', // 预算单位整改
-    name: 'monitProcFeedback5',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback6', // 财政部门审核
-    name: 'monitProcFeedback6',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
     path: '/dynamicTableSetting', // 配置页面
     name: 'dynamicTableSetting',
     meta: {
@@ -1059,7 +1014,8 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/main/dynamicTableSetting/dynamicTableSetting.vue')// 编辑列表器页面
-  }
+  },
+  ...workFlowRouters
 ]
 
 // 直达资金所有页面统一增加keepAlive
