@@ -263,7 +263,10 @@ export default defineComponent({
       },
       columns: [],
       getSubmitFormData,
-      dataKey: 'data.results'
+      dataKey: 'data.results',
+      routeConfig: {
+        isUnitFeedbackMenu
+      }
     })
     tableConfig.showOverflow = false
     // 选中行

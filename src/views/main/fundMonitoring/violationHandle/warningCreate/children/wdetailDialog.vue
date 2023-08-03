@@ -165,6 +165,7 @@ export default {
   data() {
     return {
       // 操作日志
+      isFlow: false,
       logData: [],
       showLogView: false,
       title: '',
@@ -362,7 +363,7 @@ export default {
         this.currentNodeKey = node.code
         // 根据业务渲染列表
         this.bussnessId = node.code.toString()
-        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass)
+        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass, this.isFlow)
         this.queryTableDatas()
       }
     },
@@ -804,7 +805,7 @@ export default {
       console.log('detailType:' + this.detailType)
       switch (this.detailType) {
         case 'redUndoNum':
-          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -816,7 +817,7 @@ export default {
           this.title = '疑点信息明细'
           break
         case 'redNormalNum':
-          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -830,7 +831,7 @@ export default {
           break
         case 'redNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
@@ -843,7 +844,7 @@ export default {
           break
         case 'redDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -857,7 +858,7 @@ export default {
           break
         case 'orangeUndoNum':
           //  this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -870,7 +871,7 @@ export default {
           break
         case 'orangeNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -883,7 +884,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -896,7 +897,7 @@ export default {
           break
         case 'orangeDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -909,7 +910,7 @@ export default {
           break
         case 'yellowUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -935,7 +936,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -948,7 +949,7 @@ export default {
           break
         case 'yellowDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -961,7 +962,7 @@ export default {
           break
         case 'blueUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -974,7 +975,7 @@ export default {
           break
         case 'blueNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -987,7 +988,7 @@ export default {
           break
         case 'blueNotRectifiedNum':// 未完成
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -1000,7 +1001,7 @@ export default {
           break
         case 'blueDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -1313,7 +1314,7 @@ export default {
       })
     }
   },
-  mounted() {
+  async mounted() {
     // 如果菜单参数有主题 当前模块就使用该主题查询
     if (transJson(this.$store.state.curNavModule.param5)?.regulationClassName) {
       const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
@@ -1321,6 +1322,8 @@ export default {
     }
     this.detailType = this.detailData[0]
     this.bussnessId = this.selectBid.toString()
+    let { data } = await HttpModule.getIsFlow()// 判断是不是走工作流
+    this.isFlow = data
     this.getAgency()
     this.showInfo()
   },
