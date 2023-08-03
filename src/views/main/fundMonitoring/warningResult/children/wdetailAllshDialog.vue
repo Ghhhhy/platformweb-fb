@@ -477,6 +477,7 @@ export default {
       this.searchDataList.fiscalYear = this.detailData[2] || this.$store.state.userInfo.year
       // this.getFiRuleHandle()
       this.trackProCodes = this.detailData[3]
+      this.isRegion = this.detailData[4]
       switch (this.title) {
         case '红色预警-疑点信息':
           this.tableColumnsConfig = proconf.redUndoNum
@@ -547,7 +548,7 @@ export default {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         trackProCodes: this.trackProCodes,
-        isRegion: this.params5.isRegion,
+        isRegion: this.isRegion,
         ...(this.searchDataList || {})
       }
       this.tableLoading = true
