@@ -307,7 +307,7 @@ export default {
       if (isInvalidCellValue) return
       this.fiscalYear = this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
-      this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes]
+      this.detailData = ['blueUndoNum', obj.row.fiRuleCode, this.fiscalYear, this.trackProCodes, this.isRegion]
       // this.detailTitle = '非人工干预蓝色预警-疑点信息明细'
       this.detailTitle = '疑点信息'
       this.detailType = 'blueUndoNum'
@@ -397,7 +397,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     this.params5 = this.$store.state.curNavModule.param5
-    console.log('是否全辖 isRegion ' + this.param5.isRegion)
+    this.isRegion = transJson1(store.state.curNavModule.param5 || '')?.isRegion
     this.getPro()
     this.queryTableDatas()
   }
