@@ -71,6 +71,8 @@ import getFormData from './warningResultAllsh.js'
 import DetailDialog from './children/wdetailAllshDialog.vue'
 import sDetailDialog from './children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warningResult.js'
+import { transJson1, transJson2 } from '@/utils/params.js'
+import store from '@/store'
 export default {
   components: {
     DetailDialog,
@@ -318,12 +320,12 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      console.log(this.transJson2(this.params5 || ''), this.transJson2(this.params5 || '')?.fiRuleCodes)
       const param = {
-        fiRuleCodes: this.transJson2(this.params5 || '')?.fiRuleCodes,
+        fiRuleCodes: transJson2(store.state.curNavModule.param5 || '')?.fiRuleCodes,
         fiscalYear: this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
-        isRegion: this.param5.isRegion
+        isRegion: transJson1(store.state.curNavModule.param5 || '')?.isRegion
+
       }
       this.tableLoading = true
       HttpModule.queryTableDatasshAll(param).then((res) => {

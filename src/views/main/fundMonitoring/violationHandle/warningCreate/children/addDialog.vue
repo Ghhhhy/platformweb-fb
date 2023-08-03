@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息
-            <el-button v-if="dialogVisibleKjsmBut" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-param5Show="showKj" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -343,6 +343,19 @@ export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      let columns = proconf.handletableColumnsConfig
+      if (this.param5.tableHide) { // 当配置了tableHide参数时，需要隐藏字段
+        return columns.map(item => {
+          let obj = { ...item }
+          if (item.field === 'regulationName') {
+            obj.cellRender['name'] = ''
+          }
+          return obj
+        })
+      }
+      return columns
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -354,11 +367,11 @@ export default {
       return false
     },
     footerConfig() {
-      if (!this.isXmProject) {
-        return { 'footer-config': {} }
-      } else {
-        return {}
-      }
+      // if (!this.isXmProject) {
+      //   return { 'footer-config': {} }
+      // } else {
+      return {}
+      // }
     }
   },
   props: {
@@ -397,6 +410,10 @@ export default {
     bussnessId: {
       type: String,
       default: '7'// 预算执行
+    },
+    regulationClass: {
+      type: String,
+      default: '0201'// 直达资金
     }
   },
   data() {
@@ -467,7 +484,7 @@ export default {
       handletableData: [],
       incomeMsgConfig: proconf.msgConfig,
       supplyDataList: proconf.msgData,
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       businessMsgConfig: proconf.businessMsgConfig,
@@ -505,12 +522,26 @@ export default {
       showbox: false,
       showbtn: false,
       commentDept: 1,
-      newWarn: ''
+      newWarn: '',
+      // 口径说明是否显示
+      kjbuttonVisable: '0'
     }
   },
   methods: {
+    showKj() {
+      if ((String(this.bussnessId) === '6' && this.param5.regulationClass === '0207')) {
+        return true
+      } else if (this.param5.kjbtnVisable === 'false' || this.param5.kjbtnVisable === '0') {
+        return false
+      } else {
+        return false
+      }
+    },
     cellClick(obj, context, e) {
       let key = obj.column.property
+      if (this.param5?.tableHide) { // 当配置了tableHide参数 点击无效
+        return
+      }
       switch (key) {
         case 'regulationName':
           HttpDetailModule.getDetailData(obj.row.regulationCode).then((res) => {
@@ -559,14 +590,16 @@ export default {
       // }
     },
     // 回显
-    showInfo() {
+    async showInfo() {
+      let serverTime = await HttpModule.getCurrentTime()
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.isCreate === false) {
         this.createConfig = proconf.checkConfig
       }
       if (this.title === '查看详情信息') {
         this.addLoading = true
-        HttpModule.budgetgetDetail(code).then(res => {
+        let code2 = this.param5.show ? 1 : 0
+        HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
@@ -618,6 +651,16 @@ export default {
               this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
               this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
               this.supplyDataList.curAmt = curAmt || ''
+
+              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -625,19 +668,9 @@ export default {
           }
         })
       } else if (this.title === '监控问询单信息') {
-        this.createDataList.fiRuleName = this.detailData[0].fiRuleName
-        this.createDataList.warnLevel = this.detailData[0].warnLevel
-        this.createDataList.mofDivCode = this.detailData[0].mofDivCode
-        this.createDataList.agencyId = this.detailData[0].agencyId
-        this.createDataList.manageMofDepId = this.detailData[0].manageMofDepId
-        this.createDataList.agencyCode = this.detailData[0].agencyCode
-        this.createDataList.agencyName = this.detailData[0].agencyName
-        this.createDataList.violateType = this.detailData[0].violateType
-        this.createDataList.handleType = this.detailData[0].handleType
-        this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        // this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : this.getCurrentServerTime()
-        this.getCurrentServerTime()
+        let params = { ...this.detailData[0], issueTime: this.detailData[0].issueTime || serverTime.data }
+        this.$set(this, 'createDataList', params)
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -662,13 +695,13 @@ export default {
           this.attachmentid1 = this.detailData[0].attachmentid1
           this.phone1 = this.detailData[0].phone1
           this.handler2 = this.detailData[0].handler2
-          this.updateTime2 = this.detailData[0].updateTime2
+          this.updateTime2 = this.detailData[0].updateTime2 || serverTime.data
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
-          if (this.detailData[0].agencyStatus === 1) {
+          if (this.detailData[0].agencyStatus === '1') {
             this.hsValue = '5'
           }
-          if (this.detailData[0].agencyStatus === 2) {
+          if (this.detailData[0].agencyStatus === '2') {
             this.hsValue = '4'
           }
           if (this.detailData[0].status === '2') {
@@ -746,6 +779,12 @@ export default {
         })
       }
       this.getViolationType()
+      let ruleCode = this.detailData[0].fiRuleCode
+      await HttpModule.getWarningTips(ruleCode).then(res => {
+        if (res.code === '000000') {
+          this.doubtViolateExplain = res.data
+        }
+      })
     },
     // 规则校验
     ruleTest() {
@@ -771,7 +810,10 @@ export default {
     },
     // 生成下发
     async doIssue() {
-      await this.$refs.createRef?.$refs?.form?.validate?.()
+      if (!this.isXmProject) {
+        await this.$refs.createRef?.$refs?.form?.validate?.()
+      }
+      // 取服务器时间
       let dataList = this.detailData.map(item => {
         return {
           agencyId: this.createDataList.agencyId,
@@ -786,6 +828,7 @@ export default {
           handleResult: this.createDataList.handleResult, // 处理结果
           issueTime: this.createDataList.issueTime,
           doubtViolateExplain: this.doubtViolateExplain, // 疑似违规说明
+          bgtMofDepId: item.bgtMofDepId,
           warnid: item.warnid,
           fiRuleCode: item.fiRuleCode,
           warningCode: item.warningCode
@@ -793,6 +836,8 @@ export default {
       })
       let params = {
         businessModuleCode: this.bussnessId,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name,
         dataList
       }
       // let param = {
@@ -864,30 +909,38 @@ export default {
     },
     setFormItem() {
       if (['6', 2, '2'].includes(this.bussnessId)) {
-        this.incomeMsgConfig = proconf.indexMsgConfig
-        this.supplyDataList = proconf.indexMsgData
-        this.dialogVisibleKjsmBut = true
-      } else {
-        if (this.isXmProject) { // 项目项目隐藏三个字段
-          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
+        if (this.regulationClass === '0207') {
+          this.incomeMsgConfig = proconf.indexMsgConfig
+          this.supplyDataList = proconf.indexMsgData
+          // 口径说明显示
+          this.kjbuttonVisable = '1'
         } else {
-          this.incomeMsgConfig = proconf.msgConfig
+          this.incomeMsgConfig = proconf.bgtMsgConfig
+          this.supplyDataList = proconf.incomeMsgData
         }
+      } else if (!this.param5.show) {
         this.supplyDataList = proconf.msgData
-        this.dialogVisibleKjsmBut = true
+        // 现在默认隐藏3个字段
+        this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+        })
       }
+      this.dialogVisibleKjsmBut = true
     },
     getisShowViolateType() { // 处理违规类型下拉框是否显示
-      HttpModule.getisShowViolateType().then(res => {
-        if (res.code === '000000' && res.data) {
-          this.createConfig[0].visible = true
-        } else {
-          delete this.createValidate.violateType
-          this.createConfig[0].visible = false
-        }
-      })
+      // HttpModule.getisShowViolateType().then(res => {
+      //   if (res.code === '000000' && res.data) {
+      //     this.createConfig[0].visible = true
+      //   } else {
+      //     delete this.createValidate.violateType
+      //     this.createConfig[0].visible = false
+      //   }
+      // })
+      if (this.isXmProject) {
+        this.createConfig[0].visible = false
+      } else {
+        this.createConfig[0].visible = true
+      }
     }
   },
   watch: {
@@ -910,6 +963,9 @@ export default {
 </script>
 <style lang="scss">
 .payVoucherInput {
+  .el-main{
+    min-width: 480px;
+  }
   margin: 15px;
   .el-card {
     margin-top: 0

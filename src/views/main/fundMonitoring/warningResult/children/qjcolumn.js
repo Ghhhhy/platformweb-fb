@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
@@ -187,17 +187,20 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
       align: 'center',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -205,7 +208,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -213,8 +216,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -222,6 +225,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警时间',
@@ -344,17 +369,20 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -362,7 +390,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -370,8 +398,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -379,6 +407,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -793,24 +843,27 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
       field: 'fiRuleDesc',
       sortable: false,
       filters: false,
-      width: 400,
+      width: 300,
       align: 'left'
     },
     {
@@ -818,7 +871,7 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       filters: false,
-      // width: 140
+      width: 180,
       align: 'left'
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -826,8 +879,7 @@ const proconf = {
       //     $refs: this
       //   }
       // }
-    }
-    // {
+    }, // {
     //   title: '预警规则',
     //   field: 'fiRuleName',
     //   width: 140,
@@ -1022,6 +1074,30 @@ const proconf = {
     //   sortable: false,
     //   align: 'center'
     // }
+
+    {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
+    }
   ],
   yellowDoneNum: [
     {
@@ -1247,17 +1323,20 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      filters: false,
-      align: 'left',
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1265,7 +1344,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -1273,8 +1352,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -1282,6 +1361,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -1711,17 +1812,20 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1729,7 +1833,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -1737,8 +1841,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -1746,6 +1850,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',
@@ -1962,17 +2088,20 @@ const proconf = {
     {
       title: '预警级别',
       field: 'warnLevel',
-      sortable: false,
-      align: 'left',
-      filters: false,
-      width: 140,
-      formatter: ({ row }) => {
-        if (row.warnLevel === '3') return '黄色预警'
-        else if (row.warnLevel === '2') return '橙色预警'
-        else if (row.warnLevel === '1') return '红色预警'
-        else if (row.warnLevel === '4') return '蓝色预警'
-        return ''
-      }
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '预警说明',
@@ -1980,7 +2109,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 400
+      width: 300
       // align: 'right'
     },
     {
@@ -1988,8 +2117,8 @@ const proconf = {
       field: 'rectifyDetail',
       sortable: false,
       align: 'left',
-      filters: false
-      // width: 140
+      filters: false,
+      width: 180
       // align: 'center',
       // cellRender: {
       //   name: '$vxeIcon1',
@@ -1997,6 +2126,28 @@ const proconf = {
       //     $refs: this
       //   }
       // }
+    }, {
+      title: '预警值',
+      field: 'triggerCond',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'right'
+    },
+    {
+      title: '违规时间',
+      field: 'createTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规时间'
+        }
+      }
     }
     // {
     //   title: '预警规则',

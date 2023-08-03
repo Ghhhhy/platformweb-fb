@@ -18,7 +18,7 @@
     </div>
     <BsTable
       ref="mainTableRef"
-      :footer-config="tableFooterConfig"
+      :footer-config="$store.state.userInfo.province.slice(0, 4) === '3502' ? tableFooterFalseConfig : tableFooterConfig"
       :table-config="tableConfig"
       :table-columns-config="tableColumnsConfig"
       :table-data="tableData"
@@ -76,14 +76,19 @@ export default {
     return {
       queryConfig: proconf.highQueryConfig1,
       searchDataList: proconf.highQueryData1,
-      tableFooterConfig: {
-        showFooter: false
-      },
       condition: {},
       tableColumnsConfig: [
       ],
       params5: '',
       tableData: [],
+      // foot合计配置
+      tableFooterConfig: {
+        combinedType: ['switchTotal'],
+        showFooter: false
+      },
+      tableFooterFalseConfig: {
+        showFooter: false
+      },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -117,6 +122,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     dialogClose() {
       this.$parent.sDetailVisible = false
     },
@@ -214,10 +238,13 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+        case 'zdzjzcmx_fzj':
           this.tableColumnsConfig = proconf.payColumn
           break
         case 'zxjdzcmx_fdq':
         case 'zxjdzcmx_fzj':
+        case 'zxjdzcmx_fdq_xj':
+        case 'zxjdzcmx_fzj_xj':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfigZx
           break
@@ -237,6 +264,37 @@ export default {
           this.queryConfig = proconf.highQueryConfigZx
           break
         default:
+          break
+      }
+      this.queryTableDatas()
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
+    isConfigTable() {
+      switch (this.sDetailType) {
+        case 'zxjdzbmx_fzjfp':// 第三层 预算金额 分配金额
+          this.loadConfig('BsTable', 'Table301')
+          this.loadConfig('BsQuery', 'Query301')
+          break
+        case 'zxjdzcmx_fzj':// 第三层 分资金 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+        case 'zxjdzcmx_fdq':// 第三层 分地区 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+        case 'zxjdzbmx_fzjfp_xj':
+          this.loadConfig('BsTable', 'Table303')
+          this.loadConfig('BsQuery', 'Query303')
           break
       }
       this.queryTableDatas()
@@ -272,8 +330,20 @@ export default {
         case 'zxjdzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetZXColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig = proconf.targetZXColumnBj
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['fpTime', 'recDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+            })
+          }
+          break
+        case 'zxjdzbmx_fzjfp_xj':
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig = proconf.targetZXColumn
           }
           break
       }
@@ -281,7 +351,16 @@ export default {
   },
   mounted() {
     // this.showInfo()
-    this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
+    console.log(this.sDetailType, 'this.sDetailType')
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
+      this.showInfoForVisible()
+    } else if (hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
+    } else {
+      this.showInfoForVisible()
+    }
+    // this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
   },
   watch: {
     sDetailType: {
@@ -293,6 +372,11 @@ export default {
   },
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
+      this.tableFooterConfig.showFooter = true
+    } else {
+      this.tableFooterConfig.showFooter = false
+    }
   }
 }
 </script>

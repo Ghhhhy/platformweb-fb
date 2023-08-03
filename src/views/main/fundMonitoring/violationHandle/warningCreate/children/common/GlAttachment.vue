@@ -1,4 +1,4 @@
-<-- 查看指标附件弹窗-->
+<!-- 查看指标附件弹窗-->
 <template>
   <div v-loading="showLoading">
     <vxe-modal
@@ -63,6 +63,12 @@ export default {
     mofDivCode: {
       type: String,
       default: ''
+    },
+    billguidList: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
@@ -74,6 +80,7 @@ export default {
       tableColumnsConfig: proconf.attachmentDialogColumnsConfig,
       tableData: [],
       tableConfig: {},
+      showLoading: false,
       downloadParams: {
         fileguid: ''
       },
@@ -89,24 +96,54 @@ export default {
   methods: {
     // 获取附件信息
     getAttachmentInfo() {
-      const param = {
-        year: this.userInfo.year,
-        province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
-        billguid: this.billguid
+      if (this.billguidList.length > 0) {
+        let queueTask = this.billguidList.map(item => {
+          let params = {
+            year: this.userInfo.year,
+            province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
+            billguid: item
+          }
+          let QuanXiaRouterList = ['WarnRegion', 'WarnRegionBySpecial']
+          if (QuanXiaRouterList.includes(this.$route.name)) {
+            params.province = ''
+          }
+          return HTTPModule.getFile(params)
+        })
+        Promise.all(queueTask).then(res => {
+          let fileList = []
+          if (res && res.length) {
+            console.log(778, res)
+            res.forEach(result => {
+              let fileObj = JSON.parse(result.data)
+              Array.isArray(fileObj) && fileObj.length > 0 && (fileList = fileList.concat(fileObj))
+            })
+            fileList.forEach(element => {
+              let size = element.filesize / 1024
+              element.filesize = size.toFixed(2) + 'KB'
+            })
+          }
+          this.$set(this, 'tableData', fileList)
+        })
+        // return
       }
-      this.showLoading = true
-      HTTPModule.getFile(param).then((res) => {
-        this.showLoading = false
-        if (res.rscode === '100000') {
-          this.tableData = JSON.parse(res.data)
-          this.tableData.forEach(element => {
-            let size = element.filesize / 1024
-            element.filesize = size.toFixed(2) + 'KB'
-          })
-        } else {
-          this.$message.error('获取附件信息失败: ' + res.result)
-        }
-      })
+      // const param = {
+      //   year: this.userInfo.year,
+      //   province: this.mofDivCode === '' ? this.userInfo.province : this.mofDivCode,
+      //   billguid: this.billguid
+      // }
+      // this.showLoading = true
+      // HTTPModule.getFile(param).then((res) => {
+      //   this.showLoading = false
+      //   if (res.rscode === '100000') {
+      //     this.tableData = JSON.parse(res.data)
+      //     this.tableData.forEach(element => {
+      //       let size = element.filesize / 1024
+      //       element.filesize = size.toFixed(2) + 'KB'
+      //     })
+      //   } else {
+      //     this.$message.error('获取附件信息失败: ' + res.result)
+      //   }
+      // })
     },
     // 下载附件
     downloadAttachment() {

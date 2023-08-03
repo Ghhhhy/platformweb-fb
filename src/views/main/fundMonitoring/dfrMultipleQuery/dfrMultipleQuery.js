@@ -193,7 +193,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -206,68 +206,97 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '上级指标导入金额',
+    //   width: 180,
+    //   field: 'sjzbdrje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标整合金额',
+    //   width: 180,
+    //   field: 'zbzhje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调增金额',
+    //   width: 180,
+    //   field: 'zbtzje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调减金额',
+    //   width: 180,
+    //   field: 'zbtjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标追减金额',
+    //   width: 180,
+    //   field: 'zbzjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标实际金额',
+    //   width: 180,
+    //   field: 'zbsjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   formula: '{djAmount}',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     {
-      title: '指标登记金额',
+      title: '本级分配',
       width: 180,
-      field: 'djAmount',
+      field: 'bjAmount',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      // formula: '{bjAmount}+{xjAmount}',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配下级',
+      width: 180,
+      field: 'xjAmount',
       sortable: false,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '上级指标导入金额',
+      title: '指标余额',
       width: 180,
-      field: 'sjzbdrje',
+      field: 'zbye',
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标整合金额',
-      width: 180,
-      field: 'zbzhje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调增金额',
-      width: 180,
-      field: 'zbtzje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调减金额',
-      width: 180,
-      field: 'zbtjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标追减金额',
-      width: 180,
-      field: 'zbzjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标实际金额',
-      width: 180,
-      field: 'zbsjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{djAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -278,36 +307,8 @@ export let proconf = {
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '对下支出',
-      width: 180,
-      field: 'xjAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标实际分配金额',
-      width: 180,
-      field: 'zbsjfpje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{bjAmount}+{xjAmount}',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标余额',
-      width: 180,
-      field: 'zbye',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{zbsjje}-{zbsjfpje}',
-      cellRender: { name: '$vxeMoney' }
     }
+
   ],
   PoliciesTableColumns1: [
     {
@@ -329,7 +330,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -360,23 +361,33 @@ export let proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '已安排金额',
+      title: '实际支出金额',
       width: 180,
-      field: 'yapje',
+      field: 'zcAmount',
       sortable: false,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
-    {
-      title: '正在办理金额',
-      width: 180,
-      field: 'zzblje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+
+    // {
+    //   title: '已安排金额',
+    //   width: 180,
+    //   field: 'yapje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '正在办理金额',
+    //   width: 180,
+    //   field: 'zzblje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     {
       title: '指标余额',
       width: 180,
@@ -384,17 +395,17 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{amount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
-    {
-      title: '债卷标识',
-      width: 180,
-      field: 'zjbs',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '债卷标识',
+    //   width: 180,
+    //   field: 'zjbs',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '财政内设机构',
       width: 180,
@@ -435,18 +446,26 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '上级专项',
+    //   width: 180,
+    //   field: 'exTrackProName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '上级专项',
+      title: '接受区划名称',
       width: 180,
-      field: 'proName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '需要跟踪的专项资金',
-      width: 180,
-      field: 'xygzdzxzj',
+      field: 'recDivName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -462,7 +481,7 @@ export let proconf = {
     {
       title: '支出经济分类科目',
       width: 180,
-      field: 'zcjjflkm',
+      field: 'depBgtEcoName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -488,7 +507,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -501,96 +520,87 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '上级指标导入金额',
+    //   width: 180,
+    //   field: 'sjzbdrje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标整合金额',
+    //   width: 180,
+    //   field: 'zbzhje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调增金额',
+    //   width: 180,
+    //   field: 'zbtzje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调减金额',
+    //   width: 180,
+    //   field: 'zbtjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标追减金额',
+    //   width: 180,
+    //   field: 'zbzjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标实际金额',
+    //   width: 180,
+    //   field: 'zbsjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   formula: '{djAmount}',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '上级指标导入金额',
-      width: 180,
-      field: 'sjzbdrje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标整合金额',
-      width: 180,
-      field: 'zbzhje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调增金额',
-      width: 180,
-      field: 'zbtzje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调减金额',
-      width: 180,
-      field: 'zbtjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标追减金额',
-      width: 180,
-      field: 'zbzjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标实际金额',
-      width: 180,
-      field: 'zbsjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{djAmount}',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '本级实际支出',
+      title: '本级分配',
       width: 180,
       field: 'bjAmount',
       sortable: false,
       filters: false,
       align: 'center',
+      // formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '对下支出',
+      title: '分配下级',
       width: 180,
       field: 'xjAmount',
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标实际分配金额',
-      width: 180,
-      field: 'zbsjfpje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -600,7 +610,16 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{zbsjje}-{zbsjfpje}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '本级实际支出',
+      width: 180,
+      field: 'bjAmount',
+      sortable: false,
+      filters: false,
+      align: 'center',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -625,7 +644,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -638,50 +657,50 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '单位(乡镇)',
-      width: 180,
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调增金额',
-      width: 180,
-      field: 'zbtzje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调减金额',
-      width: 180,
-      field: 'zbtjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标追减金额',
-      width: 180,
-      field: 'zbzjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '单位(乡镇)',
+    //   width: 180,
+    //   field: 'agencyName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调增金额',
+    //   width: 180,
+    //   field: 'zbtzje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调减金额',
+    //   width: 180,
+    //   field: 'zbtjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标追减金额',
+    //   width: 180,
+    //   field: 'zbzjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     {
       title: '指标实际金额',
       width: 180,
@@ -708,19 +727,19 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
   AgencyPoliciesTableColumns1: [
-    {
-      title: '单位(乡镇)',
-      width: 180,
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '单位(乡镇)',
+    //   width: 180,
+    //   field: 'agencyName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '指标文号',
       width: 180,
@@ -732,7 +751,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -778,17 +797,17 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
-    {
-      title: '债卷标识',
-      width: 180,
-      field: 'zjbs',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '债卷标识',
+    //   width: 180,
+    //   field: 'zjbs',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '财政内设机构',
       width: 180,
@@ -832,24 +851,32 @@ export let proconf = {
     {
       title: '上级专项',
       width: 180,
-      field: 'sjzx1',
+      field: 'exTrackProName',
       // formula: '{proName}',
       sortable: false,
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '支付方式',
+    //   width: 180,
+    //   field: 'payTypeName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '需要跟踪的专项资金',
+      title: '转移支付功能分类',
       width: 180,
-      field: 'xygzdzxzj',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '支付方式',
-      width: 180,
-      field: 'payTypeName',
+      field: 'xjzcgnflkm',
       sortable: false,
       filters: false,
       align: 'center'
@@ -883,7 +910,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -896,50 +923,50 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '单位(乡镇)',
-      width: 180,
-      field: 'agencyName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '指标登记金额',
-      width: 180,
-      field: 'djAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调增金额',
-      width: 180,
-      field: 'zbtzje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标调减金额',
-      width: 180,
-      field: 'zbtjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标追减金额',
-      width: 180,
-      field: 'zbzjje',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
+    // {
+    //   title: '单位(乡镇)',
+    //   width: 180,
+    //   field: 'agencyName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '指标登记金额',
+    //   width: 180,
+    //   field: 'djAmount',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调增金额',
+    //   width: 180,
+    //   field: 'zbtzje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标调减金额',
+    //   width: 180,
+    //   field: 'zbtjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
+    // {
+    //   title: '指标追减金额',
+    //   width: 180,
+    //   field: 'zbzjje',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center',
+    //   cellRender: { name: '$vxeMoney' }
+    // },
     {
       title: '指标实际金额',
       width: 180,
@@ -966,7 +993,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{djAmount}-{zcAmount}',
+      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -998,7 +1025,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -1041,7 +1068,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -1063,14 +1090,14 @@ export let proconf = {
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
-    {
-      title: '债卷标识',
-      width: 180,
-      field: 'zjbs',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '债卷标识',
+    //   width: 180,
+    //   field: 'zjbs',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '财政内设机构',
       width: 180,
@@ -1111,25 +1138,25 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
+    // {
+    //   title: '上级专项',
+    //   width: 180,
+    //   field: 'exTrackProName',
+    //   // formula: '{proName}',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '需要跟踪的专项资金',
+    //   width: 180,
+    //   field: 'xygzdzxzj',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
-      title: '上级专项',
-      width: 180,
-      field: 'proName',
-      // formula: '{proName}',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '需要跟踪的专项资金',
-      width: 180,
-      field: 'xygzdzxzj',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '下级支出功能分类科目',
+      title: '转移支付功能分类',
       width: 180,
       field: 'xjzcgnflkm',
       sortable: false,
@@ -1157,7 +1184,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'proName',
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'

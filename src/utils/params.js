@@ -23,7 +23,6 @@ const CACHE_NAME = 'get_params'
 //     limit: 20
 //   }
 // }
-
 /**
  * 获取某个模块的GET参数
  * @param {*} module
@@ -72,6 +71,19 @@ export const transJson2 = (str) => {
     }
   }
   return result
+}
+/**
+   * 解析URL传值
+   * */
+export const transJson3 = (str) => {
+  let strTwo = ''
+  str.split(';').reduce((acc, curr) => {
+    const [key, value] = curr.split('=')
+    acc[key] = value
+    strTwo = acc
+    return acc
+  }, {})
+  return strTwo
 }
 /**
  * 获取菜单参数

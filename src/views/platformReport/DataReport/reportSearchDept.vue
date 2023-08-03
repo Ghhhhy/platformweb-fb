@@ -2,8 +2,8 @@
  * @Description:
  * @Author: ghy
  * @Date: 2023-01-04 16:07:27
- * @LastEditors: ghy
- * @LastEditTime: 2023-02-03 15:27:56
+ * @LastEditors: chenxuanke
+ * @LastEditTime: 2023-07-06 18:00:20
 -->
 <!--  formList模版   Author:Titans@2396757591@qq.com -->
 <template>
@@ -634,7 +634,12 @@ export default {
   width: 100% !important;
   height: 5px !important;
 }
-
+// 数据量过大时 默认展示横向滚动条
+.sheet-edit[data-v-1135dae0] {
+    width: 100%;
+    height: 98% !important;
+    position: relative;
+}
 // .x-spreadsheet .x-spreadsheet-sheet {
 // }
 // .no-left-tree {

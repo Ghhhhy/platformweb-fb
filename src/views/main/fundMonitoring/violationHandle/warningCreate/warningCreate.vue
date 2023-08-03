@@ -61,6 +61,8 @@
       :detail-data="detailData"
       :colour-type="colourType"
       :select-bid="bussnessId"
+      :query-data="searchDataList"
+      :regulation-class="regulationClass"
     />
   </div>
 </template>
@@ -70,6 +72,7 @@ import getFormData from './warningCreate.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import transJson from '@/utils/transformMenuQuery'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog
@@ -305,6 +308,7 @@ export default {
       let key = obj.column.property
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
+      this.regulationClass = obj.row.regulationClass
       switch (key) {
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
@@ -413,7 +417,14 @@ export default {
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         regulationClass: this.regulationClass,
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
-        roleguid: this.roleguid
+        roleguid: this.roleguid,
+        roleId: this.$store.state.curNavModule.roleguid,
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
+        dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
+        dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+        menuId: this.$store.state.curNavModule.guid,
+        businessModuleName: this.searchDataList.businessModuleName === '' ? '' : this.searchDataList.businessModuleName
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

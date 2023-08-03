@@ -33,6 +33,8 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="reset"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -91,14 +93,18 @@
       :is-done="isDone"
       :detail-data="showDetailData"
       :bussness-id="bussnessId"
+      :regulation-class="regulationClass"
+      :param5="param5"
       @close="closeHandle"
     />
     <GlAttachment
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
       :billguid="billguid"
+      :billguid-list="billguidList"
       @close="closeAttachment"
     />
+    <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
   </vxe-modal>
 </template>
 <script>
@@ -115,12 +121,15 @@ import proconf, {
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
+// import BsTable1 from '@/components/Table/Table.vue'
+import moment from 'moment'
 
 export default {
   name: 'DetailDialogs',
   components: {
     GlAttachment,
     ShowDialog
+    // BsTable1
   },
   computed: {
     curNavModule() {
@@ -141,10 +150,23 @@ export default {
     selectBid: {
       type: String,
       default: '7'
+    },
+    regulationClass: {
+      type: String,
+      default: '0201'
+    },
+    queryData: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   data() {
     return {
+      // 操作日志
+      logData: [],
+      showLogView: false,
       title: '',
       tableLoadingState: false,
       showDialogVisible: false,
@@ -160,6 +182,8 @@ export default {
       isSign: '',
       userInfo: {},
       billguid: '',
+      billguidList: [],
+      showLog: false,
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
@@ -219,9 +243,36 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow,
-          $ReportTaskGloableOptionRow: proconf.gloableOptionRowDetial
-          // $gloableAttach: proconf.gloableAttach
+          $payVoucherInputGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="附件" placement="top" effect="light">
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+                </el-tooltip>
+              ]
+            }
+          },
+          $ReportTaskGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'show' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableOptionRowLog1: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.onOptionRowClick({ row, column, optionType: 'viewLog' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          }
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -254,6 +305,7 @@ export default {
       leftTreeFilterText: '',
       treeData: [],
       bussnessId: '7',
+      clickRowBussnessId: '',
       treeTypeConfig: {},
       currentNodeKey: '7',
       detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
@@ -285,6 +337,7 @@ export default {
      *动态控制左侧树的显示  只有特定的路由才显示
      */
     setShowBusinesTree() {
+      this.showLog = true
       // 可显示是左侧业务树的路由
       const showRouters = ['WarnRegionBySpecial']
       if (showRouters.includes(this.$route.name)) {
@@ -309,7 +362,7 @@ export default {
         this.currentNodeKey = node.code
         // 根据业务渲染列表
         this.bussnessId = node.code.toString()
-        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId)
+        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass)
         this.queryTableDatas()
       }
     },
@@ -346,6 +399,7 @@ export default {
       return datas
     },
     onOptionRowClick({ row, optionType }, context) {
+      console.log(12312312321321, optionType)
       switch (optionType) {
         // 附件
         case 'attachment':
@@ -354,18 +408,50 @@ export default {
         case 'show':
           this.show(row)
           break
+        case 'viewLog':
+          this.showLogModel(row)
+          break
         default:
           break
       }
     },
+    showLogModel(row) {
+      this.queryActionLog(row)
+    },
+    // 操作日志
+    queryActionLog(row) {
+      HttpModule.getLogs(row.dealNo).then(res => {
+        if (res.code === '000000') {
+          let tempData = res.data.map(item => {
+            return {
+              logid: item['operationTypeCode'],
+              nodeName: item['operationTypeName'],
+              actionUser: item['operationUser'],
+              actionName: item['operationTypeName'],
+              actionTime: item['createdTime'] == null ? '' : item['createdTime'],
+              message: item['operationComment']
+            }
+          })
+          this.logData = tempData
+          console.log(this.logData)
+          this.showLogView = true
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 查看附件
     showAttachment(row) {
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentids.length) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      // this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      // let billguidList = []
+      // row.attachmentid1 && billguidList.push(row.attachmentid1)
+      // row.attachmentid3 && billguidList.push(row.attachmentid3)
+      this.billguidList = row.attachmentids.filter(item => { return Boolean(item) })
       this.showGlAttachmentDialog = true
     },
     // 查看详情
@@ -374,6 +460,7 @@ export default {
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
       this.showDialogTitle = '查看详情信息'
+      // this.clickRowBussnessId = val.businessModuleCode
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.pagerConfig.currentPage = currentPage
@@ -386,7 +473,7 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = val
+      this.searchDataList = { ...val, ...this.searchDataList }
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -404,7 +491,8 @@ export default {
           }
         }
       }
-      this.agencyCodeList = val.agencyCodeList_code__multiple
+      console.log(val, '-------------')
+      // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
       this.queryTableDatas()
     },
@@ -535,6 +623,22 @@ export default {
           break
       }
     },
+    itemChange(obj, formRef) {
+      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate']
+      if (timeFiledList.includes(obj.property)) {
+        obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
+        this.searchDataList[obj.property] = obj.itemValue
+      } else {
+        this.searchDataList[obj.property] = obj.itemValue
+      }
+      if (obj.property === 'agencyCodeList') {
+        let arr = []
+        obj.itemValue && obj.itemValue.split(',')?.map(v => {
+          arr.push(v.split('#')[0])
+        })
+        this.agencyCodeList = arr
+      }
+    },
     showDetail() {
       let selection = this.$refs.mainTableRef.selection
       if (selection.length !== 1) {
@@ -550,22 +654,24 @@ export default {
     // 生成
     handleCreate() {
       let selection = this.$refs.mainTableRef.selection
-      // if (selection.length !== 1) {
-      //   this.$message.warning('请选择一条数据')
-      //   return
-      // }
-      console.log(123, selection)
       if (selection.length === 0) {
         this.$message.warning('请选择数据')
         return
       }
       let mofDivCodeList = {}
+      let agencyCodeList = {}
+      let fiRuleCodeList = {}
       selection.forEach(item => {
         mofDivCodeList[item.mofDivCode] = item.mofDivName
+        agencyCodeList[item.agencyCode] = item.agencyCode
+        fiRuleCodeList[item.fiRuleCode] = item.fiRuleCode
       })
-      console.log(77, mofDivCodeList)
       if (Object.keys(mofDivCodeList).length > 1) {
         this.$message.warning('请选择同一区划')
+        return
+      }
+      if (Object.keys(agencyCodeList).length > 1 || Object.keys(fiRuleCodeList).length > 1) {
+        this.$message.warning('请选择同一单位编码和同一规则编码')
         return
       }
       this.isDone = false
@@ -677,13 +783,10 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
-      // 黑龙江查询菜单关闭详情页面不更新主界面数据
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '23') {
-        if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') return
-        this.$parent.queryTableDatas()
-      } else {
-        this.$parent.queryTableDatas()
+      if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') {
+        return
       }
+      this.$parent.queryTableDatas()
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -701,7 +804,7 @@ export default {
       console.log('detailType:' + this.detailType)
       switch (this.detailType) {
         case 'redUndoNum':
-          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -713,7 +816,7 @@ export default {
           this.title = '疑点信息明细'
           break
         case 'redNormalNum':
-          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -727,7 +830,7 @@ export default {
           break
         case 'redNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
@@ -740,7 +843,7 @@ export default {
           break
         case 'redDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -754,7 +857,7 @@ export default {
           break
         case 'orangeUndoNum':
           //  this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -767,7 +870,7 @@ export default {
           break
         case 'orangeNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -780,7 +883,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -793,7 +896,7 @@ export default {
           break
         case 'orangeDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -806,7 +909,7 @@ export default {
           break
         case 'yellowUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -819,7 +922,7 @@ export default {
           break
         case 'yellowNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -832,7 +935,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -845,7 +948,7 @@ export default {
           break
         case 'yellowDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -858,7 +961,7 @@ export default {
           break
         case 'blueUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -871,7 +974,7 @@ export default {
           break
         case 'blueNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -884,7 +987,7 @@ export default {
           break
         case 'blueNotRectifiedNum':// 未完成
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -897,7 +1000,7 @@ export default {
           break
         case 'blueDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId)
+          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -985,7 +1088,13 @@ export default {
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
         trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
-        roleguid: this.$store.state.curNavModule.roleguid
+        roleguid: this.$store.state.curNavModule.roleguid,
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
+        dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
+        dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
 
       // 有菜单有主题参数则 则用主题参数
@@ -993,7 +1102,7 @@ export default {
         params.regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
-        params.regulationClass = '0207'
+        params.regulationClass = '0201'
       }
       if (this.detailData.length > 5) {
         let { xpayDate, triggerMonitorDate } = this.detailData[5]
@@ -1121,6 +1230,33 @@ export default {
       }
       return result
     },
+    reset() {
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = ''
+      this.$refs.queryFrom.reset()
+      this.agencyCodeList = []
+      this.searchDataList.agencyCodeList = []
+      this.searchDataList.businessNo = ''
+      this.searchDataList.fiRuleName = ''
+      this.searchDataList.regulationClassName = ''
+      this.searchDataList.trackProName = ''
+      this.searchDataList.triggerClass = ''
+      this.searchDataList.warnTime = ''
+      this.searchDataList.warnStartDate = ''
+      this.searchDataList.warnEndDate = ''
+      this.searchDataList.dealWarnStartDate = ''
+      this.searchDataList.dealWarnEndDate = ''
+      this.condition.agencyCodeList = []
+      this.condition.businessNo = ''
+      this.condition.fiRuleName = ''
+      this.condition.regulationClassName = ''
+      this.condition.trackProName = ''
+      this.condition.triggerClass = ''
+      this.condition.warnTime = ''
+      this.queryTableDatas()
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
@@ -1198,6 +1334,15 @@ export default {
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
     this.setShowBusinesTree()
+    this.$set(this.searchDataList, 'warnStartDate', this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'warnEndDate', this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'dealWarnStartDate', this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'dealWarnEndDate', this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD'))
+    // 回显时间
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = this.searchDataList.dealWarnStartDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = this.searchDataList.dealWarnEndDate
   }
 }
 </script>

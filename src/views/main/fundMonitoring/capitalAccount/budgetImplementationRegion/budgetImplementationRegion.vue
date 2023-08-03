@@ -452,6 +452,29 @@ export default {
             condition = ' substr(mof_div_code,7,3) <> \'000\' '
             break
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        switch (column) {
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
       } else {
         switch (column) {
           case 'amountSnjwfp':
@@ -535,6 +558,10 @@ export default {
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
+      }
+      if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
+        xmSource = 'zyzfxmmx'
+        zcSource = 'zyzfzcmx_fdq'
       }
       switch (key) {
         // 省本级分配走直达资金项目明细

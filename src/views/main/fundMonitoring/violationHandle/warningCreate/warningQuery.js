@@ -365,6 +365,93 @@ const proconf = {
           placeholder: '触发监控时间'
         }
       }
+    },
+    {
+      title: '追踪项目',
+      field: 'trackProCode',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '追踪项目',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '警告开始时间',
+      field: 'warnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告开始时间'
+        }
+      }
+    },
+    {
+      title: '警告结束时间',
+      field: 'warnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '警告结束时间'
+        }
+      }
+    },
+    {
+      title: '开始处理时间',
+      field: 'dealWarnStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '开始处理时间'
+        }
+      }
+    },
+    {
+      title: '结束处理时间',
+      field: 'dealWarnEndDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '结束处理时间'
+        }
+      }
     }
   ],
   highQueryConfigHLJ: [
@@ -402,7 +489,12 @@ const proconf = {
     fiRuleCode: '',
     ruleCodes: '',
     xpayDate: '',
-    triggerMonitorDate: ''
+    triggerMonitorDate: '',
+    trackProCodeList: '',
+    warnStartDate: '',
+    warnEndDate: '',
+    dealWarnStartDate: '',
+    dealWarnEndDate: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',

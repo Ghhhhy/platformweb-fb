@@ -68,6 +68,7 @@
       v-if="warningDetailsByRuleView"
       :id="warnLogId"
       :regulation-class="regulationClass"
+      :business-module-code="businessModuleCode"
     />
     <!-- 附件弹框 -->
     <!-- <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" /> -->
@@ -194,6 +195,7 @@ export default {
       functionCode: '',
       warnLogId: '',
       regulationClass: '',
+      businessModuleCode: '',
       warningDetailsByRuleView: false,
       leftTreeVisible: false,
       errorTitle: '错误信息',
@@ -446,6 +448,7 @@ export default {
           console.log('click:', obj.row)
           this.warnLogId = obj.row.id
           this.regulationClass = obj.row.regulationClass
+          this.businessModuleCode = obj.row.businessModuleCode
           this.warningDetailsByRuleView = true
           break
         case 'errorMsg':
@@ -517,7 +520,9 @@ export default {
         fiscalYear: this.condition.fiscalYear
           ? this.condition.fiscalYear.toString()
           : '',
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.$store.state.curNavModule.guid
       }
       this.tableLoading = true
       HttpModule.queryTableDatass(param).then((res) => {

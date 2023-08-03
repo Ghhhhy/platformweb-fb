@@ -111,7 +111,9 @@ export default {
       fiscalYear: '',
       proCodes: [],
       mofDivCodes: [],
-      ruleCodes: []
+      ruleCodes: [],
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   methods: {
@@ -176,7 +178,9 @@ export default {
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         proCodes: this.proCodes,
         mofDivCodes: this.mofDivCodes,
-        ruleCodes: this.ruleCodes
+        ruleCodes: this.ruleCodes,
+        warnStartDate: this.warnStartDate,
+        warnEndDate: this.warnEndDate
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -254,6 +258,8 @@ export default {
       this.proCodes.push(this.detailData[1])
       this.mofDivCodes = this.detailData[3]
       this.ruleCodes = this.detailData[4]
+      this.warnStartDate = this.detailData[5]
+      this.warnEndDate = this.detailData[6]
       console.log(proconf)
       switch (this.title) {
         case '指标预警-待整改明细':

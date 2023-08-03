@@ -64,6 +64,7 @@
 import getFormData from './warnRegionSummary.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnRegionSummary.js'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog
@@ -213,7 +214,9 @@ export default {
       detailType: '',
       detailTitle: '',
       fiscalYear: '',
-      detailData: []
+      detailData: [],
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   mounted() {
@@ -354,51 +357,61 @@ export default {
       if (isInvalidCellValue) return
 
       this.fiscalYear = this.searchDataList.fiscalYear
+      this.warnStartDate = this.searchDataList.warnStartDate === '' || this.searchDataList.warnStartDate === undefined ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
+      this.warnEndDate = this.searchDataList.warnEndDate === '' || this.searchDataList.warnEndDate === undefined ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
       switch (key) {
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '是否上传附件-未处理明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '是否上传附件-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '支出预警-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear]
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.warnStartDate, this.warnEndDate
+          ]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
@@ -414,7 +427,9 @@ export default {
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

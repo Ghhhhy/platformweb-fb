@@ -46,11 +46,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, unref, inject } from '@vue/composition-api'
+import { defineComponent, ref, unref, provide, inject } from '@vue/composition-api'
 import HandlingOfViolationsModal from '../components/HandlingOfViolationsModal'
 import useTable from '@/hooks/useTable'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
-
 import { getWarnCountColumns, cellCursorUnderlineClassName } from '@/views/main/statisticAnalysis/common/model/data.js'
 import {
   getRuleNameColumn,
@@ -65,7 +64,7 @@ import { queryRuleData } from '@/api/frame/main/statisticAnalysis/rulesStatistic
 import { queryDepData } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
 import { RouterPathEnum } from '../model/enum'
 import { useFooter } from '../hooks/useFooter'
-import { transJson1 } from '@/utils/params.js'
+import { transJson1, transJson3 } from '@/utils/params.js'
 import store from '@/store'
 
 const model = {
@@ -101,7 +100,9 @@ export default defineComponent({
 
     // 页面路由
     const pagePath = inject('pagePath')
-
+    // 根组件方法 loadBsConfig(动态表格配置请求方法)
+    const loadBsConfig = inject('loadBsConfig')
+    provide('loadBsConfig', loadBsConfig)
     // 详情双击行
     const detailCurrentRow = ref(null)
 
@@ -115,6 +116,39 @@ export default defineComponent({
     ]
 
     const { footerConfig } = useFooter()
+    /**
+     * 动态表格配置
+     * */
+    let columnsSS = ref([])
+    async function loadConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: store.state.userInfo.year,
+          mof_div_code: store.state.userInfo.province,
+          menuguid: store.state.curNavModule.guid
+        }
+      }
+      let configData = await loadBsConfig(params)
+      return configData.itemsConfig
+    }
+    /**
+     *判断使用本地配置||动态配置
+     * */
+    if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
+      loadConfig('Table201').then(res => {
+        columnsSS.value = res
+      })
+    } else {
+      columnsSS.value = [
+        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
+        getWarnLevelColumn(),
+        getControlTypeColumn(),
+        getWarnTypeColumn(),
+        ...getWarnCountColumns(),
+        getIsDirColumn()
+      ]
+    }
     /**
      * 表格
      * */
@@ -141,23 +175,16 @@ export default defineComponent({
           ...params,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
+          fiRuleName: props.currentRow.ruleName,
           [property]: value
         }
       },
       finallyFetch: data => {
         footerConfig.value.totalObj = data?.warnHJVO || {}
       },
-      columns: [
-        ...(unref(pagePath) === RouterPathEnum.RULE_STATISTIC ? differentColumns : differentColumns.reverse()),
-        getWarnLevelColumn(),
-        getControlTypeColumn(),
-        getWarnTypeColumn(),
-        ...getWarnCountColumns(),
-        getIsDirColumn()
-      ],
+      columns: columnsSS,
       dataKey: 'data.results'
     })
-
     /**
      * 双击单元格
      * */

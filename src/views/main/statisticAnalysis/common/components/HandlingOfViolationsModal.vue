@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref, inject } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { useModal, useModalInner } from '@/hooks/useModal/index'
 import HandlingOfViolationsDetailModal from './HandlingOfViolationsDetailModal'
 import { queryAuditTable } from '@/api/frame/main/statisticAnalysis/rulesStatistic.js'
 import { cellCursorUnderlineClassName } from '../model/data'
-import { transJson1 } from '@/utils/params.js'
+import { transJson1, transJson3 } from '@/utils/params.js'
 import store from '@/store'
 import {
   getRuleNameColumn,
@@ -100,6 +100,47 @@ export default defineComponent({
     // 详情双击行
     /*eslint-disable*/
     const detailCurrentRow = ref(null)
+    // 根组件方法 loadBsConfig(动态表格配置请求方法)
+    const loadBsConfig = inject('loadBsConfig')
+    /**
+     * 动态表格配置
+     * */
+    let columnsSS = ref([])
+    async function loadConfig(id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: store.state.userInfo.year,
+          mof_div_code: store.state.userInfo.province,
+          menuguid: store.state.curNavModule.guid
+        }
+      }
+      let configData = await loadBsConfig(params)
+      return configData.itemsConfig
+    }
+    /**
+     *判断使用本地配置||动态配置
+     * */
+    if (transJson3(store.state.curNavModule.param5) && transJson3(store.state.curNavModule.param5).isConfigTable === '1') {
+      loadConfig('Table301').then(res => {
+        columnsSS.value = res
+      })
+    } else {
+      columnsSS.value =  [
+        getRuleNameColumn(),
+        getControlTypeColumn(),
+        getStatusCodeColumn(),
+        getWarningCodeColumn(),
+        getCreateTimeColumn(),
+        getAgencyNameColumn(),
+        getDeptNameColumn(),
+        getManageMofDepNameColumn(),
+        getBusinessNoColumn(),
+        getAmountColumn(),
+        getAuditDescriptionColumn(),
+        getIsDirColumn()
+      ]
+    }
 
     /**
      * 表格
@@ -125,25 +166,14 @@ export default defineComponent({
           ...params,
           fiRuleCode,
           agencyCode,
+          fiRuleName: props.currentRow.ruleName,
+          mofDivCode:props.currentRow.mofDivCode,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           type
         }
       },
-      columns: [
-        getRuleNameColumn(),
-        getControlTypeColumn(),
-        getStatusCodeColumn(),
-        getWarningCodeColumn(),
-        getCreateTimeColumn(),
-        getAgencyNameColumn(),
-        getDeptNameColumn(),
-        getManageMofDepNameColumn(),
-        getBusinessNoColumn(),
-        getAmountColumn(),
-        getAuditDescriptionColumn(),
-        getIsDirColumn()
-      ],
+      columns: columnsSS,
       dataKey: 'data.results'
     })
 

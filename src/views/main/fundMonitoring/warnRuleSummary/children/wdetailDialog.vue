@@ -112,7 +112,9 @@ export default {
       fiscalYear: '',
       proCodes: [],
       mofDivCodes: [],
-      ruleCodes: []
+      ruleCodes: [],
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   methods: {
@@ -177,7 +179,9 @@ export default {
         levels: this.condition.levels ? this.condition.levels[0] : '',
         fiscalYear: this.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass || '0201',
-        proCodes: this.proCodes
+        proCodes: this.proCodes,
+        warnStartDate: this.warnStartDate,
+        warnEndDate: this.warnEndDate
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
@@ -255,6 +259,8 @@ export default {
       this.fiscalYear = this.detailData[2]
       this.proCodes = this.detailData[3]
       this.mofDivCodes = this.detailData[4]
+      this.warnStartDate = this.detailData[5]
+      this.warnEndDate = this.detailData[6]
       console.log(proconf)
       switch (this.title) {
         case '是否上传附件-未处理明细':
@@ -269,11 +275,11 @@ export default {
         case '支出预警-已认定明细':
           this.tableColumnsConfig = proconf.payokColumn
           break
-        case '未导入惠企利民明细-未处理明细':
-          this.tableColumnsConfig = proconf.notgetColumn
+        case '支出预警-待整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
           break
-        case '未导入惠企利民明细-已整改明细':
-          this.tableColumnsConfig = proconf.getColumn
+        case '支出预警-已整改明细':
+          this.tableColumnsConfig = proconf.payedColumn
           break
         default:
           break

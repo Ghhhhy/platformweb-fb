@@ -1,69 +1,7 @@
 <!--  formList模版   Author:Titans@2396757591@qq.com -->
 <template>
-  <div class="height-all reportSearchModel">
+  <div v-loading="showLoading" class="height-all reportSearchModel">
     <BsMainFormListLayout :left-visible.sync="leftVisible">
-      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainTree>
-        <BsSplitPane :min-percent="0" split="horizontal" :default-percent="percentNum">
-          <template slot="paneL">
-            <div v-if="showFlag === '1'" class="mmc-left-tree height-all">
-              <div class="mmc-left-tree-title">
-                <BsTreeSet
-                  title-text="预算单位"
-                  :is-hide="true"
-                  @onAsideChange="leftVisible = false"
-                  @onChangeInput="(value) => {
-                    agencyTreeFilterText = value
-                  }"
-                />
-              </div>
-              <!-- @onNodeClick="onAgencyTreeNodeClick" -->
-              <div class="mmc-left-tree-body">
-                <BsTree
-                  ref="agencyTree"
-                  open-loading
-                  :loading="delarLoading"
-                  :filter-text="agencyTreeFilterText"
-                  :config="agencyTreeConfig"
-                  :tree-data="agencyTreeData"
-                  :current-node-key="currentAgencyTreeNodeKey"
-                  :default-checked-keys="checkedkeys"
-                  :queryparams="agencyTreeQueryparams"
-                  @onTreeLoaded="onTreeLoaded"
-                  @onNodeClick="onAgencyTreeNodeClick"
-                  @onCheckChange="onNodeCheckChange"
-                />
-              </div>
-            </div>
-          </template>
-          <template slot="paneR">
-            <div class="mmc-left-tree height-all">
-              <div class="mmc-left-tree-title">
-                <BsTreeSet
-                  title-text="查询表"
-                  :is-show-input="true"
-                  :is-hide="true"
-                  @onChangeInput="(value) => {
-                    inputTableTreeFilterText = value
-                  }"
-                />
-              </div>
-              <div class="mmc-left-tree-body">
-                <BsTree
-                  ref="inputTableTree"
-                  open-loading
-                  :filter-text="inputTableTreeFilterText"
-                  :config="inputTableTreeConfig"
-                  :tree-data="inputTableTreeData"
-                  :queryparams="inputTableTreeQueryparams"
-                  :current-node-key="currentTableTreeNodeKey"
-                  @onNodeClick="onInputTableTreeNodeClick"
-                />
-              </div>
-            </div>
-          </template>
-        </BsSplitPane>
-      </template>
       <template v-slot:mainForm>
         <div class="main-query">
           <BsQuery
@@ -141,12 +79,13 @@ export default {
         searchBtnText: '查询',
         resetBtnText: false
       },
-      checkedkeys: [],
+      unitArr: [], // 全部单位数据
+      checkedkeys: ['10000'],
       shfundtype: null,
       Batchno: null,
       datatype: null,
       leftTreeShow: false,
-      leftVisible: true,
+      leftVisible: false,
       agencyTreeConfig: {
         isPramas: false,
         showFilter: false, // 是否显示过滤
@@ -226,7 +165,7 @@ export default {
       inputTableTreeData: [],
       tablePanls: [],
       currentTableTreeNodeKey: '',
-      showLoading: true,
+      showLoading: false,
       reportParams: {},
       params5: {},
       tabSelect: {},
@@ -245,7 +184,9 @@ export default {
       },
       currentTableNode: {},
       queryFormRules: {},
-      queryFormData: {},
+      queryFormData: {
+        jzsj: this.getNowFormatDate()// 截止日期默认当天
+      },
       shFundType_: '',
       shFundType_Code: '',
       shFundType_Id: '',
@@ -293,6 +234,7 @@ export default {
       })
       this.queryFormData = data
       get('/bisBudget/api/budget/bisBudget/bgtFbConfig/getFbPageConfig?menuguid=' + menuguid).then(res => {
+        // get('http://43.143.57.251:6015/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree?menuguid=' + menuguid).then(res => {
         if (res && res.code === '100000') {
           let optionsss = []
           let options = ''
@@ -368,7 +310,7 @@ export default {
     onSearchClick() {
       let self = this
       if (this.showFlag !== '2') {
-        if (!self.checkedAgencys.agencyCodes) {
+        if (!this.checkedAgencys.agencyCodes) {
           this.$XModal.message({ status: 'info', message: '请先选择预算单位' })
           return false
         }
@@ -401,7 +343,7 @@ export default {
         }
       })
     },
-    onInputTableTreeNodeClick({ node }) {
+    onInputTableTreeNodeClick(node) {
       let self = this
       if (this.showFlag !== '2') {
         if (!this.checkedAgencys.agencyCodes) {
@@ -410,8 +352,8 @@ export default {
         }
       }
       if (node && node.id) {
-        this.currentTableNode = node
         this.isquery = false
+        this.currentTableNode = node
         this.$nextTick(() => {
           // 资金渠道真实的值（全局搜newDataArr）
           this.newDataArr = self.defshFundType.split(',').map(v => {
@@ -440,38 +382,36 @@ export default {
         this.$XModal.message({ status: 'info', message: '请先选择预算单位' })
       }
     },
-    onNodeCheckChange(a) {
-      this.delarLoading = true
-      console.log(arguments)
-      console.log(this.$refs.agencyTree.curCheckednodes)
-      let agencies = this.$refs.agencyTree.curCheckednodes
-      if (!agencies || agencies.length === 0 || (agencies.length === 1 && agencies[0].code === 'root' && agencies[0].children.length === 0)) {
-        // this.$XModal.message({ status: 'info', message: '请' })
-        this.checkedAgencys.agencyCodes = ''
-        return
-      }
-      let agency = agencies.filter(item => item.isleaf).map(item => { return item })
-      let agencyIds = agency.map(v => v.id)
-      let agencyCodes = agency.map(v => v.code)
-      let agencyNames = agency.map(v => v.name)
-      let deptCodes = Array.from(new Set(agency.map(v => v.code.substr(0, 3))))
-      let sqlAgencyCode = agencyCodes.map(i => '\'' + i + '\'').join(',')
-      let sqlDeptCode = deptCodes.map(i => '\'' + i + '\'').join(',')
-      this.checkedAgencys = {
-        agencyIds,
-        agencyCodes,
-        agencyNames,
-        deptCodes,
-        sql_agency_code: sqlAgencyCode,
-        sql_dept_code: sqlDeptCode
-      }
-      if (this.currentTableNode) {
-        this.setReportableParams(this.currentTableNode)
-      }
-      setTimeout(() => {
-        this.delarLoading = false
-      }, 500)
-    },
+    // onNodeCheckChange(a) {
+    //   // this.delarLoading = true
+    //   let agencies = this.$refs.agencyTree.curCheckednodes
+    //   if (!agencies || agencies.length === 0 || (agencies.length === 1 && agencies[0].code === 'root' && agencies[0].children.length === 0)) {
+    //     // this.$XModal.message({ status: 'info', message: '请' })
+    //     this.checkedAgencys.agencyCodes = ''
+    //     return
+    //   }
+    //   let agency = agencies.filter(item => item.isleaf).map(item => { return item })
+    //   let agencyIds = agency.map(v => v.id)
+    //   let agencyCodes = agency.map(v => v.code)
+    //   let agencyNames = agency.map(v => v.name)
+    //   let deptCodes = Array.from(new Set(agency.map(v => v.code.substr(0, 3))))
+    //   let sqlAgencyCode = agencyCodes.map(i => '\'' + i + '\'').join(',')
+    //   let sqlDeptCode = deptCodes.map(i => '\'' + i + '\'').join(',')
+    //   this.checkedAgencys = {
+    //     agencyIds,
+    //     agencyCodes,
+    //     agencyNames,
+    //     deptCodes,
+    //     sql_agency_code: sqlAgencyCode,
+    //     sql_dept_code: sqlDeptCode
+    //   }
+    //   if (this.currentTableNode) {
+    //     this.setReportableParams(this.currentTableNode)
+    //   }
+    //   // setTimeout(() => {
+    //   //   this.delarLoading = false
+    //   // }, 500)
+    // },
     getReportData() {
       let menuGuidValue = this.params5.reportMenu
       if (!this.params5.reportMenu) {
@@ -484,29 +424,62 @@ export default {
         menuGuid: menuGuidValue
       }
       let self = this
+      // *******************
       self.$http.post('/bisBudget/api/budget/bisBudget/cfg/bgtCfgAgencyToReport/queryReportTree', param).then((res) => {
-        self.showLoading = false
+        // self.$http.post('http://43.143.57.251:6015/api/budget/bisBudget/cfg/bgtCfgAgencyToReport/queryReportTree', param).then((res) => {
         self.resolveResult(data => {
           self.inputTableTreeData = data
           self.inputTableTreeData.forEach(v => {
             v['isLoad'] = false
           })
         }, res)
+        this.onInputTableTreeNodeClick(res.data[0])
       }).catch((e) => {
         self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
         self.showLoading = false
       })
     },
+    ArrayData(DataArr) {
+      // let DataArr = JSON.parse(JSON.stringify(array))
+      DataArr.forEach(v => {
+        this.unitArr.push(v)
+        if (v.children.length >= 1) {
+          this.ArrayData(v.children)
+        }
+      })
+      return this.unitArr
+    },
     getTreeData() {
       let self = this
+      this.showLoading = true
       self.$http.get('/bisBudget/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree', self.agencyTreeQueryparams).then((res) => {
-        self.showLoading = false
-        self.resolveResult(data => {
-          self.agencyTreeData = data
-        }, res)
+        // self.$http.get('http://43.143.57.251:6015/api/budget/bisBasicinfo/basicinfo/basAgencyInfoGd/queryAgencyTree', self.agencyTreeQueryparams).then((res) => {
+        // 默认拿到这个数的全选数据
+        this.unitArr = []
+        let agencies = this.ArrayData(res.data)
+        let agency = agencies.filter(item => item.isleaf).map(item => { return item })
+        let agencyIds = agency.map(v => v.id)
+        let agencyCodes = agency.map(v => v.code)
+        let agencyNames = agency.map(v => v.name)
+        let deptCodes = Array.from(new Set(agency.map(v => v.code.substr(0, 3))))
+        let sqlAgencyCode = agencyCodes.map(i => '\'' + i + '\'').join(',')
+        let sqlDeptCode = deptCodes.map(i => '\'' + i + '\'').join(',')
+        this.checkedAgencys = {
+          agencyIds,
+          agencyCodes,
+          agencyNames,
+          deptCodes,
+          sql_agency_code: sqlAgencyCode,
+          sql_dept_code: sqlDeptCode
+        }
+        console.log(this.checkedAgencys, 'this.checkedAgencys ')
+        this.showLoading = false
+        this.getReportData()
+        if (this.currentTableNode) {
+          this.setReportableParams(this.currentTableNode)
+        }
       }).catch((e) => {
         self.$XModal.message({ status: 'error', message: '获取列表失败：' + e })
-        self.showLoading = false
       })
     },
     getQueryFormData() {
@@ -515,6 +488,7 @@ export default {
       }
       let self = this
       self.$http.post('/bisBudget/api/budget/bisConfig/config/common/queryTreeAssistData', param).then((res) => {
+        // self.$http.post('http://43.143.57.251:6015/api/budget/bisBudget/budget/bisConfig/config/common/queryTreeAssistData', param).then((res) => {
         self.showLoading = false
         self.resolveResult(data => {
           // 传输数据
@@ -569,6 +543,7 @@ export default {
       return children
     },
     setReportableParams(inputReport) {
+      this.showLoading = false
       let self = this
       let formData = {}
       if (self.$refs['queryForm' + self.currentTableNode.id]) {
@@ -649,15 +624,28 @@ export default {
       }).catch(e => {
         self.$XModal.message({ status: 'error', message: '获取配置列失败' })
       })
+    },
+    // 获取当前时间
+    getNowFormatDate() {
+      let date = new Date()
+      let seperator1 = '-' // 格式分隔符
+      let year = date.getFullYear() // 获取完整的年份(4位)
+      let month = date.getMonth() + 1 // 获取当前月份(0-11,0代表1月)
+      let strDate = date.getDate() // 获取当前日(1-31)
+      if (month >= 1 && month <= 9) month = '0' + month // 如果月份是个位数，在前面补0
+      if (strDate >= 0 && strDate <= 9) strDate = '0' + strDate // 如果日是个位数，在前面补0
+      let currentdate = year + seperator1 + month + seperator1 + strDate
+      return currentdate
     }
   },
   mounted() {
     this.getreportParams()
     this.agencyTreeQueryparams.eleCode = this.params5.eleCode
-    this.getReportData()
+    // this.getReportData()
     this.getTreeData()
   },
   created() {
+    // this.getTreeData()
     this.getreportParams()
     if (this.params5.showFlag === '2') {
       this.showFlag = '2'
@@ -672,7 +660,13 @@ export default {
       this.queryFormItem(this.params5.dicCode)
       this.getQueryFormData()
     }
-    console.log(this.params5)
+    // 当前时间
+    this.$nextTick(() => {
+      this.queryFormData.jzsj__viewSort = this.getNowFormatDate()
+      this.queryFormData.jzsj = this.getNowFormatDate()
+      this.$refs.queryForm.formDataListIn = this.queryFormData
+    })
+    console.log(this.queryFormData, 'this.queryFormData')
   },
   watch: {
   }

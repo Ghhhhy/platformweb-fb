@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -48,23 +48,20 @@ export let proconf = {
     {
       title: '预警级别',
       field: 'warningLevel',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
+      align: 'center',
+      width: 180,
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '3', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '1', label: '红色预警' },
-          { value: '5', label: '灰色预警' },
-          { value: '4', label: '蓝色预警' }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '规则名称',
@@ -278,7 +275,9 @@ export let proconf = {
           { value: '7', label: '小于等于' },
           { value: '8', label: '开头' },
           { value: '9', label: '不等于' },
-          { value: '10', label: '不为开头' }
+          { value: '10', label: '不为开头' },
+          { value: '11', label: '在..内' },
+          { value: '12', label: '不在..内' }
         ],
         props: {
           placeholder: '关系'

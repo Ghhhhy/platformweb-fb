@@ -57,6 +57,7 @@
       v-if="affirmDialogVisibles"
       :title="dialogTitle1"
       :select-data="selectData"
+      :select-ids="selectIds"
       @close="closeHandle"
     />
     <GlAttachment
@@ -120,6 +121,7 @@ export default {
     return {
       userInfo: {},
       billguid: '',
+      selectIds: [],
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
         // changeBtns: true,
@@ -359,8 +361,24 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          var title = '认定处理单'
           this.selectData = selectionRow[0]
-          this.affirm()
+          this.affirm(title)
+          break
+        // 批量认定
+        case 'batch_set':
+          var selecRow = this.$refs.mainTableRef.selection
+          if (selecRow.length < 1) {
+            this.$message.warning('请至少选择一条数据')
+            return
+          }
+          var stitle = '批量认定处理单'
+          this.selectData = selecRow[0]
+          this.selectIds = selecRow.map(function(item, index, array) {
+            return item.diBillId
+          })
+          console.info(this.selectIds)
+          this.affirm(stitle)
           break
         // 人工认定
         case 'peo_set_update':
@@ -384,10 +402,11 @@ export default {
       this.dialogVisibles = true
       this.dialogTitle1 = '修改整改处理单'
     },
-    affirm() {
+    affirm(title) {
       this.affirmDialogVisibles = true
-      this.dialogTitle1 = '认定处理单'
+      this.dialogTitle1 = title
     },
+
     affirmUpdate() {
       this.affirmDialogVisibles = true
       this.dialogTitle1 = '修改认定处理单'

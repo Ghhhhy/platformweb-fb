@@ -36,12 +36,15 @@ import './plugin/http'
 import './plugin/UI'
 import './plugin/bs-ui' // 组件库出现问题阻塞时，注释掉当前行即可
 import '@/assets/css/reset.scss'
+import Base64 from 'js-base64'
+Vue.prototype.$Base64 = Base64
 
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')
 // urlConfig
 Vue.config.productionTip = true
 Vue.config.devtools = true
+console.log('git提交记录', process.env)
 // Vue.config.productionTip = process.env.NODE_ENV !== 'production'
 Vue.use(ElementUI)
 // 自定义loading指令覆盖element-ui的loading指令

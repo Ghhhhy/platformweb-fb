@@ -1,3 +1,10 @@
+<!--
+ * @Description:
+ * @Author: chenxuanke
+ * @Date: 2023-06-17 23:52:01
+ * @LastEditors: 罗景丹 luojingdan@bosssoft.com.cn
+ * @LastEditTime: 2023-06-28 09:52:43
+-->
 <template>
   <vxe-modal
     v-model="visible"
@@ -26,6 +33,10 @@ export default {
       type: String,
       default: ''
     },
+    proCode: {
+      type: String,
+      default: ''
+    },
     mofDivCode: {
       type: String,
       default: ''
@@ -49,14 +60,14 @@ export default {
       const { tokenid } = store.getters.getLoginAuthentication
       const { year, province } = store.state.userInfo
       let url = ''
-
       if (province?.slice(0, 4) === '3502') {
         url = `${originUrl}/?type=iframe&year=${year}&appguid=fiscal&queryGuid=${this.proGuid}&intoMenu=projectDetails&mofDivCode=${this.mofDivCode}&tokenid=${tokenid}#/projectDetails`
       } else if (province?.slice(0, 2) === '22') { // 吉林
-        const { agencyId = '', proCode = '' } = this.clickRowData
-        url = `${originUrl}/boss/project/demo/proCommonView.html?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}`
+        const { agencyId = '', proCode = '', mofDivCode = '' } = this.clickRowData
+        url = `/fiscalweb?agency_id=${agencyId}&pro_code=${proCode}&tokenid=${tokenid}&province=${mofDivCode}`
       } else {
-        url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}`
+        const { proCode = '', fiscalYear = '', mofDivCode = '' } = this.clickRowData
+        url = `${originUrl}/ProjectRefineIframe?isShowHead=0&tokenid=${tokenid}&appguid=fiscal&proGuid=${this.proGuid}&mofDivCode=${mofDivCode}&proCode=${proCode}&fiscalYear=${fiscalYear}`
       }
       let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
       if (document.getElementById('projectId')) {

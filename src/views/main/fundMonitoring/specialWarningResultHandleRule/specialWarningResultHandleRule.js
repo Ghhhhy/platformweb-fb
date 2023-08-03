@@ -302,26 +302,26 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算级次' }
       }
-    },
-    {
-      title: '指标下达时间',
-      field: 'createTime',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
-      }
-    },
-    {
-      title: '未分配金额',
-      field: 'curAmt',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '未分配金额' }
-      }
+    // },
+    // {
+    //   title: '指标下达时间',
+    //   field: 'createTime',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { type: 'datetime', disabled: true, placeholder: '指标下达时间' }
+    //   }
+    // },
+    // {
+    //   title: '未分配金额',
+    //   field: 'curAmt',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '未分配金额' }
+    //   }
     }
   ],
   bgtMsgConfig: [

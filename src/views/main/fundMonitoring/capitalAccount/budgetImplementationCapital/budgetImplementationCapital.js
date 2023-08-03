@@ -59,7 +59,7 @@ const proconf = {
             valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              labelFormat: '{code}-{name}', // {code}-{name}
               nodeKey: 'id',
               label: 'label',
               children: 'children'
@@ -121,8 +121,8 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
         align: 'left',
+        fixed: 'left',
         width: 280,
         field: 'name',
         cellRender: {
@@ -149,6 +149,7 @@ const proconf = {
         cellRender: { name: '$vxeMoney' },
         visible: false
       },
+
       {
         title: '支出',
         width: 260,
@@ -371,7 +372,7 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
         width: 250,
         field: 'name',

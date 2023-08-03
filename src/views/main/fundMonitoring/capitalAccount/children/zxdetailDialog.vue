@@ -47,6 +47,7 @@
       ref="projectDialog"
       :dialog-visible.sync="addDialogVisible"
       :pro-guid="proGuid"
+      :pro-code="proCode"
       :mof-div-code="mofDivCode"
       :click-row-data="clickRowData"
     />
@@ -100,15 +101,22 @@ export default {
   },
   data() {
     return {
+      proCode: '',
       isShowQueryConditions: true,
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       detailVisible: true,
-      tableFooterConfig: {
-        showFooter: false
-      },
       tableColumnsConfig: [
       ],
+      // foot合计配置
+      tableFooterConfig: {
+        totalObj: {
+          amountAllfp: 0,
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: false
+      },
       pagerConfig: {
         total: 0,
         currentPage: 1,
@@ -150,6 +158,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -221,6 +248,7 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       params.proName = this.condition.proName ? this.condition.proName[0] : ''
+      params.fpTime = this.condition.fpTime ? this.condition.fpTime[0] : ''
       params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
       params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
@@ -243,15 +271,33 @@ export default {
       })
     },
     showInfo() {
-      // this.tableData = this.detailData
-      console.log(proconf)
       switch (this.detailType) {
         // 支出明细
         case 'zjzcmx_fdq':
           this.tableColumnsConfig = proconf.expenditureColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           break
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           break
         case 'zdzjzcmx_fdq':
         case 'zdzjzcmx_fzj':
@@ -259,8 +305,14 @@ export default {
         case 'zxjdzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
           }
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -312,6 +364,7 @@ export default {
           this.tableColumnsConfig = proconf.zyxdxmmfzjColumn
           break
         case 'zdzjxmmx':
+        case 'zdzjxmmx_xj':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectColumn.concat([{
@@ -326,7 +379,9 @@ export default {
           break
         // 专项监督项目明细
         case 'zxjdxmmx_fzj':
+        case 'zxjdxmmx_fzj_xj':
         case 'zxjdxmmx_fdq':
+        case 'zxjdxmmx_fdq_xj':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig = proconf.projectZXColumn.concat([{
@@ -338,10 +393,87 @@ export default {
             if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam.column)) {
               this.tableColumnsConfig = proconf.targetColumnFPXJ
             }
-            this.$set(this.tableColumnsConfig[0], 'visible', true)
-            this.$set(this.tableColumnsConfig[1], 'visible', true)
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['fpTime', 'recDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
           } else {
             this.tableColumnsConfig = proconf.projectZXColumn
+          }
+          break
+        default:
+          break
+      }
+      this.queryTableDatas()
+    },
+    isConfigTable() {
+      switch (this.detailType) {
+        case 'zyxdxmmx_fzj': // 分资金  中央下达
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          console.info('分资金  中央下达')
+          break
+        case 'zxjdzcmx_fzj':// 支出金额
+        case 'zxjdzcmx_fzj_xj':// 支出金额
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          console.info('分资金  支出金额')
+          break
+        case 'zxjdxmmx_fzj': // 分配下级 分配本级 已分配
+        case 'zxjdxmmx_fzj_xj':
+          if (this.detailQueryParam.column === 'amountSnjbjfp') {
+            this.loadConfig('BsTable', 'Table203')
+            this.loadConfig('BsQuery', 'Query203')
+            console.info('分资金  省级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
+            this.loadConfig('BsTable', 'Table204')
+            this.loadConfig('BsQuery', 'Query204')
+            console.info('分资金  省级分配下级')
+          } else if (this.detailQueryParam.column === 'amountSbjfp') {
+            this.loadConfig('BsTable', 'Table205')
+            this.loadConfig('BsQuery', 'Query205')
+            console.info('分资金  市级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSxjfp') {
+            this.loadConfig('BsTable', 'Table206')
+            this.loadConfig('BsQuery', 'Query206')
+            console.info('分资金  市级分配下级')
+          } else if (this.detailQueryParam.column === 'amountXjfp') {
+            this.loadConfig('BsTable', 'Table207')
+            this.loadConfig('BsQuery', 'Query207')
+            console.info('分资金  县级已分配')
+          }
+          break
+        case 'zxjdzcmx_fdq': // 分地区  支出金额
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          console.info('分地区  支出金额')
+          break
+        case 'zxjdxmmx_fdq': // 分配下级 分配本级 已分配
+        case 'zxjdxmmx_fdq_xj':
+          if (this.detailQueryParam.column === 'amountSnjbjfp') {
+            this.loadConfig('BsTable', 'Table203')
+            this.loadConfig('BsQuery', 'Query203')
+            console.info('分地区  省级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
+            this.loadConfig('BsTable', 'Table204')
+            this.loadConfig('BsQuery', 'Query204')
+            console.info('分地区  省级分配下级')
+          } else if (this.detailQueryParam.column === 'amountSbjfp') {
+            this.loadConfig('BsTable', 'Table205')
+            this.loadConfig('BsQuery', 'Query205')
+            console.info('分地区  市级分配本级')
+          } else if (this.detailQueryParam.column === 'amountSxjfp') {
+            this.loadConfig('BsTable', 'Table206')
+            this.loadConfig('BsQuery', 'Query206')
+            console.info('分地区  市级分配下级')
+          } else if (this.detailQueryParam.column === 'amountXjfp') {
+            this.loadConfig('BsTable', 'Table207')
+            this.loadConfig('BsQuery', 'Query207')
+            console.info('分地区  县级已分配')
           }
           break
         default:
@@ -353,7 +485,7 @@ export default {
       this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
-        trackProCode: row.trackProCode,
+        trackProCode: this.detailQueryParam.proCode === undefined ? row.trackProCode : this.detailQueryParam.proCode,
         agencyCode: row.agencyCode,
         xjExpFuncCode: row.xjExpFuncCode,
         manageMofDepName: row.manageMofDepName,
@@ -362,7 +494,8 @@ export default {
         isCz: this.detailQueryParam.isCz,
         condition: this.detailQueryParam.condition,
         mofDivCode: this.detailQueryParam.mofDivCode,
-        fiscalYear: this.$parent.fiscalYear
+        fiscalYear: this.$parent.fiscalYear,
+        bgtId: row.bgtId
       }
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
@@ -379,24 +512,45 @@ export default {
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        if (['proCode', 'proName'].includes(column.property)) {
+      // if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+      //   if (['proCode', 'proName'].includes(column.property)) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // }
+      // if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+      //   if (['proCode', 'proName'].includes(column.property)) {
+      //     return {
+      //       color: '#4293F4',
+      //       textDecoration: 'underline'
+      //     }
+      //   }
+      // }
+      let field = this.tableColumnsConfig[0].field
+      // 第一行为合计则不可钻取
+      if (row[field].replace(/\s*/g, '') === '合计') return
+      if (row.proGuid) {
+        if ((['proCode'].includes(column.property) || ['proName'].includes(column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       }
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
-        if (['proCode', 'proName'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-      }
-      if (!rowIndex) return
+      // if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountAllfp', 'amountPayAll'].includes(column.property)) {
@@ -408,11 +562,14 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      console.log(obj.column.property, 777)
+      this.clickRowData = obj.row
+      let field = this.tableColumnsConfig[0].field
+      // 第一行为合计则不可钻取
+      if (obj.row[field].replace(/\s*/g, '') === '合计') return
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
           if (!obj.row.proGuid) {
-            this.$message.warning('未返proGuid,无法查看项目信息')
+            // this.$message.warning('未返proGuid,无法查看项目信息')
             return
           }
           this.proGuid = obj.row.proGuid || ''
@@ -420,13 +577,27 @@ export default {
           this.addDialogVisible = true
         }
       } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
+        // const isInvalidCellValue11 = !(obj.row[obj.column.property] * 1)
+        if (!this.clickRowData.proGuid || this.clickRowData.trackProName === '合计') { // 吉林第一行数据为合计  由后端返回  直接不准点击
+          return
+        }
         if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
-          this.clickRowData = obj.row
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+          this.addDialogVisible = true
+        }
+      } else {
+        if ((['proCode'].includes(obj.column.property) || ['proName'].includes(obj.column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
+          if (!obj.row.proGuid) {
+            // this.$message.warning('未返proGuid,无法查看项目信息')
+            return
+          }
+          this.proGuid = obj.row.proGuid || ''
+          this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
           this.addDialogVisible = true
         }
       }
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
+      // const rowIndex = obj?.rowIndex
+      // if (!rowIndex) return
       let key = obj.column.property
 
       // 无效的cellValue
@@ -438,8 +609,10 @@ export default {
           let zpSource = 'zdzjzbmx_fzjfp'
           if (this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
             zpSource = 'zxjdzbmx_fzjfp'
+          } else if (this.detailType === 'zxjdxmmx_fzj_xj' || this.detailType === 'zxjdxmmx_fdq_xj') {
+            zpSource = 'zxjdzbmx_fzjfp_xj'
           }
-          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fdq') {
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_xj' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' || this.detailType === 'zxjdxmmx_fzj_xj' || this.detailType === 'zxjdxmmx_fdq_xj' || this.detailType === 'zxjdxmmx_fdq') {
             this.handleDetail(zpSource, obj.row)
             this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
           }
@@ -449,8 +622,14 @@ export default {
           if (this.detailType === 'zxjdxmmx_fdq') {
             paySource = 'zxjdzcmx_fdq'
           }
+          if (this.detailType === 'zxjdxmmx_fdq_xj') {
+            paySource = 'zxjdzcmx_fdq_xj'
+          }
           if (this.detailType === 'zxjdxmmx_fzj') {
             paySource = 'zxjdzcmx_fzj'
+          }
+          if (this.detailType === 'zxjdxmmx_fzj_xj') {
+            paySource = 'zxjdzcmx_fzj_xj'
           }
           this.handleDetail(paySource, obj.row)
           this.$parent.sDetailTitle = '支出明细'
@@ -466,15 +645,32 @@ export default {
     }
   },
   mounted() {
-    this.showInfo()
+    console.log(this.detailType, 'munid')
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
+      this.showInfo()
+    } else if (hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
+    } else {
+      this.showInfo()
+    }
   },
   watch: {},
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    // 合计行 只有上海有
+    if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' && this.transJson3(this.$store.state.curNavModule.param5)) {
+      this.tableFooterConfig.showFooter = true
+    } else {
+      this.tableFooterConfig.showFooter = false
+    }
   }
 }
 </script>
 <style lang="scss">
+.Titans-table .vxe-table--footer-wrapper .vxe-footer--row:not(.footer-total-style) td{
+  text-align: center !important;
+}
 .payVoucherInput {
   margin: 15px;
   .el-card {

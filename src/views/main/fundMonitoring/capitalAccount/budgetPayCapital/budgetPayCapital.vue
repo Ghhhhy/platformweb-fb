@@ -422,6 +422,18 @@ export default {
             condition = ' substr(mof_div_code,7,3) <> \'000\' '
             break
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        switch (column) {
+          case 'sapAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+            break
+          case 'shapAmount':
+            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+            break
+          case 'xapAmount':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
       } else {
         switch (column) {
           case 'sapAmount':
@@ -446,6 +458,7 @@ export default {
         reportCode: type,
         isCz: isCz,
         trackProCode: trackProCode,
+        proCode: trackProCode,
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }

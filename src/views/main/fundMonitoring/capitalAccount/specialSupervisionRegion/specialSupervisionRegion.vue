@@ -32,6 +32,8 @@
           :table-columns-config="tableColumnsConfig"
           :table-global-config="tableGlobalConfig"
           :table-data="tableData"
+          :scroll-y="scrollConfig"
+          :virtual-scroll="true"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -40,7 +42,7 @@
           :default-money-unit="10000"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="false"
+          :show-zero="showZero"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -146,6 +148,7 @@ export default {
   },
   data() {
     return {
+      projectCode: '',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -177,6 +180,10 @@ export default {
       tabStatusNumConfig: {
         1: 0
       },
+      scrollConfig: {
+        gt: 0,
+        enabled: true
+      },
       // table 相关配置
       tableGlobalConfig: {
         customExportConfig: {
@@ -185,6 +192,7 @@ export default {
           unit: '万元'
         }
       },
+      showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
@@ -311,6 +319,25 @@ export default {
     this.getNewData()
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -442,15 +469,24 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, mofDivCode, column, row) {
-      if (row.children !== undefined) return
       let that = this
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-
-      } else {
-        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
         if (Arraya.includes(column)) {
+          return
+        }
+      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+        if (rowCodeHide.includes(row.code)) {
+          return
+        }
+      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+        if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
           return
         }
       }
@@ -545,6 +581,8 @@ export default {
       } else {
         isCz = '1'
       }
+      reportCode = reportCode === 'zxjdxmmx_fdq_xj' ? 'zxjdxmmx_fdq' : reportCode
+      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
       let params = {
         reportCode: reportCode,
         mofDivCode: mofDivCode,
@@ -557,6 +595,10 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
         isZd: this.searchDataList.isZd || ''
+      }
+      // 上海需求  监管局需要加 isCentral 字段
+      if (hideColumnLinkStr.reportCode === 'zxjd_fdq_central' && hideColumnLinkStr.projectCode === 'SH') {
+        params.isCentral = '1'
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -574,33 +616,46 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (this.transJson(this.params5 || '')?.isShow === 'false') return
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
-      let key = obj.column.property
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-      let xmSource = 'zdzjxmmx'
-      let zcSource = 'zdzjzcmx_fdq'
-      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
-        xmSource = 'zxjdxmmx_fdq'
-        zcSource = 'zxjdzcmx_fdq'
-      }
-      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-      if (!zcjeShow && key === dictionary['支出-金额']) {
-        this.handleDetail(zcSource, obj.row.code, key, obj.row)
-        this.detailTitle = '支出明细'
-        return
-      }
-      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
+      if (this.projectCode !== 'FJ') {
+        const rowIndex = obj?.rowIndex
+        if (!rowIndex) return
+        let key = obj.column.property
+        // 无效的cellValue
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode !== 'SH') {
+          const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+          if (isInvalidCellValue) return
+        }
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
+          return
+        }
+        let xmSource = 'zdzjxmmx'
+        let zcSource = 'zdzjzcmx_fdq'
+        let reportCode = this.transJson(this.params5 || '')?.reportCode
+        if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
+          xmSource = 'zxjdxmmx_fdq'
+          zcSource = 'zxjdzcmx_fdq'
+        }
+        const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+        const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+        const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        console.info(zcjeShow)
+        if (!zcjeShow && key === dictionary['支出-金额']) {
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
+          this.detailTitle = '支出明细'
+          return
+        }
+        if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+          this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -629,6 +684,9 @@ export default {
       return datas
     },
     getTrees(val) {
+      if (val === undefined) {
+        return
+      }
       let proCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
@@ -736,32 +794,107 @@ export default {
       }, {})
       return strTwo
     },
-    cellStyle({ row, rowIndex, column }) {
-      let that = this
-      // if (this.transJson(this.params5 || '')?.isShow === 'false') return
-      // 判断只有最底层有超链接
-      if (row.children !== undefined) return
-      if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (!validCellValue) return
-      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-        if (['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
+    cellHide(hideStr, column, row) {
+      /**
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
+       */
+      let hideSetting = hideStr.split(';')
+      hideSetting.length && (hideSetting = hideSetting.filter(item => item !== ''))
+      let settingItemList = hideSetting.map((item, index) => {
+        let itemArr = item.split(':')
+        if (!itemArr[0] || !itemArr[1] || itemArr.length !== 2) {
+          let str = ''
+          if (index === 0) {
+            str = '第1个\';\'前面'
+          } else if (index === hideSetting.length - 1) {
+            str = '最后一个\';\'后面'
+          } else {
+            str = `第${index}个';'后面${index + 1}个';'前面`
           }
+          this.$message({
+            duration: 0,
+            showClose: true,
+            message: `${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`,
+            type: 'error'
+          })
+          throw new Error(`${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`)
         }
-      } else {
-        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
-        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+        let obj = {}
+        obj[itemArr[0]] = itemArr[1]
+        return obj
+      })
+      let cellCol = column.property
+      let cellRow = row.code
+      for (let i = 0; i < settingItemList.length; i++) {
+        const item = settingItemList[i]
+        // 隐藏整列判断
+        if (Object.hasOwn(item, 'col') && item['col'].split('&').includes(cellCol)) {
+          return true
+        }
+        // 隐藏整行判断
+        if (Object.hasOwn(item, 'row') && item['row'].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某列下的 每行对应的code
+        if (Object.hasOwn(item, cellCol) && item[cellCol].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某行下 对应每列的点
+        if (Object.hasOwn(item, cellRow) && item[cellRow].split('&').includes(cellCol)) {
+          return true
+        }
+      }
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (this.projectCode !== 'FJ') {
+        // if (this.transJson(this.params5 || '')?.isShow === 'false') return
+        if (!rowIndex) return
+        // 有效的cellValue
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          // 判断只有最底层有超链接
+          if (row.children !== undefined) return
+        } else {
+          const validCellValue = (row[column.property] * 1)
+          if (!validCellValue) return
+        }
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
+          return
+        }
+        if (this.linkStyle(row, rowIndex, column)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       }
+    },
+    linkStyle(row, rowIndex, column) { // 判断是否可以跳转
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      // 根据code隐藏对应行
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      // 这儿与分资金的区别是 中央下达没有样式 也不跳转
+      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
+          return true
+        }
+      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code)) {
+          return true
+        }
+      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
+          return true
+        }
+      } else {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return true
+        }
+      }
+      return false
     },
     transJson(str) {
       if (!str) return
@@ -784,8 +917,20 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.projectCode = this.transJson(this.params5 || '')?.projectCode
     this.getPro()
     this.queryTableDatas(false)
+    // 判断是否开放动态表格配置
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
+      this.$nextTick(() => {
+        this.refresh(true)
+      })
+    }
+    if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
   }
 }
 </script>

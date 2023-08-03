@@ -106,7 +106,7 @@ const proconf = {
         title: '地区名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
         width: 160,
         field: 'name',
@@ -340,7 +340,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjzyxd}-{amountSnjzybjfp} - {amountSnjzyxjfp}'
+                formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
               },
               {
                 title: '省级安排',
@@ -348,7 +348,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp} - {amountSnjsnjxjfp}'
+                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
               },
               {
                 title: '总金额',
@@ -610,7 +610,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjzydf}-{amountSjzybjfp} - {amountSjzyxjfp}'
+                formula: '{amountSjzydf}-{amountSjzybjfp}'
               },
               {
                 title: '省级安排',
@@ -618,7 +618,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjsnjdf}-{amountSjsnjbjfp} - {amountSjsnjxjfp}'
+                formula: '{amountSjsnjdf}-{amountSjsnjbjfp}'
               },
               {
                 title: '市级安排',
@@ -981,7 +981,7 @@ const proconf = {
         title: '地区名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
+        fixed: 'left',
         align: 'left',
         width: 160,
         field: 'name',
@@ -1208,7 +1208,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjzyxd}-{amountSnjzybjfp} - {amountSnjzyxjfp}'
+                formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
               },
               {
                 title: '市级安排',
@@ -1216,7 +1216,7 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp} - {amountSnjsnjxjfp}'
+                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
               },
               {
                 title: '总金额',

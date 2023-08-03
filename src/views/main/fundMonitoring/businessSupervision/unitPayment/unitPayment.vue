@@ -53,6 +53,8 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="mainPagerConfig"
           :default-money-unit="10000"
+          :cell-style="cellStyle"
+          @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
           <!--口径说明插槽-->
@@ -86,6 +88,13 @@
       :title="dialogTitle"
     /> -->
     <!-- 附件弹框 -->
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
   </div>
 </template>
 
@@ -93,12 +102,13 @@
 import { proconf } from './unitPayment'
 import HttpModule from '@/api/frame/main/fundMonitoring/unitPayment.js'
 import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
+import DetailDialog from './children/detailDialog.vue'
 
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
-    // AddDialog
+    DetailDialog
   },
   watch: {
     queryConfig() {
@@ -133,6 +143,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      detailVisible: false,
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
@@ -202,6 +213,11 @@ export default {
         currentPage: 1,
         pageSize: 999999
       },
+      pagerConfig: {
+        total: 1,
+        currentPage: 1,
+        pageSize: 20
+      },
       tableConfig: {
       },
       tableFooterConfig: {
@@ -254,7 +270,11 @@ export default {
         multiple: false, // 是否多选,
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
-        clearable: true
+        clearable: true,
+        detailTitle: '',
+        detailType: '',
+        detailData: '',
+        detailQueryParam: []
       }
     }
   },
@@ -401,8 +421,20 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      console.log(key, obj.row)
+      if (obj.row.hasChild) return
       switch (key) {
+        case 'agencyCodeName':
+          this.handleDetail('dwzfmx', obj)
+          this.detailTitle = '单位支付明细（单位：万元）'
+          break
+      }
+    },
+    cellStyle({ row, column }) {
+      if (!row.hasChild && ['agencyCodeName'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -449,6 +481,31 @@ export default {
         item['parentId'] = parentId
         if (item?.children) this.eachTree(item.children, item.id, item.level + 1)
       })
+    },
+    handleDetail(reportCode, obj) {
+      let params = {
+        reportCode: reportCode,
+        mofDivCodeList: obj.row.code,
+        fiscalYear: this.searchDataList.fiscalYear,
+        agencyCode: obj.row.agencyCode,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        pageSize: this.pagerConfig.pageSize,
+        page: this.pagerConfig.currentPage
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
+
+      // this.tableLoading = true
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
     },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {

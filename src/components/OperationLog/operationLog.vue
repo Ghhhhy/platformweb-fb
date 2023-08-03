@@ -22,19 +22,17 @@
           <div class="drawer-straight">{{ log.actionName }}</div>
           <div class="drawer-right">
             <div class="journal">
-              <p>{{ log.nodeName }}</p>
-              <p>操作人员：{{ log.actionUser }}&nbsp&nbsp{{ log.actionTime }}</p>
+              <!-- <p>{{ log.nodeName }}</p> -->
+              <p>操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
             </div>
             <div class="journal-buttom">
-              <p>{{ log.dutyName }}</p>
+              <!-- <p>{{ log.dutyName }}</p> -->
               <p v-if="logsDatas[index].message !== ''"> 意见：{{ log.message }}</p>
             </div>
           </div>
         </li>
       </ul>
-
       <button v-if="isShow" class="Morebutton" @click="showMore">{{ names }}&nbsp<img :style="showMoreList ? 'transform: scaleY(-1);' : ''" src="@/assets/img/focusPayment/drop-down-arrow.svg" alt=""></button>
-
     </div>
   </el-drawer>
 </template>
@@ -246,11 +244,14 @@ export default {
           padding-left: 15px;
           margin-right: 48px;
           overflow: hidden;
+          min-height: 30px;
           // height:40px;
           p:nth-child(1){
             // padding:12px 0 0 16px;
             font-size: 12px;
-            height: 30px;
+            min-height: 30px;
+            word-wrap: break-word;
+            word-break: break-all;
             margin-top: 5px;
             color:#5C6166;
             line-height: 30px

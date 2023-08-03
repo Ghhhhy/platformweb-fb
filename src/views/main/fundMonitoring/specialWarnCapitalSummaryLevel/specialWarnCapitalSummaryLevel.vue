@@ -80,6 +80,7 @@ import getFormData from './specialWarnCapitalSummaryLevel.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
 import SpecialWarnRuleSummary from '@/views/main/fundMonitoring/specialWarnRuleSummary/specialWarnRuleSummary.vue'
+import moment from 'moment'
 
 export default {
   components: {
@@ -220,7 +221,9 @@ export default {
       mofDivCodes: [],
       ruleCodes: [],
       ruledialogTitle: '新增',
-      warnRuleSummaryVisible: false
+      warnRuleSummaryVisible: false,
+      warnStartDate: '',
+      warnEndDate: ''
     }
   },
   mounted() {
@@ -365,60 +368,63 @@ export default {
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.mofDivCodes = this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       this.ruleCodes = this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+      this.warnStartDate = this.searchDataList.warnStartDate === '' || this.searchDataList.warnStartDate === undefined ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
+      this.warnEndDate = this.searchDataList.warnEndDate === '' || this.searchDataList.warnEndDate === undefined ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
+
       switch (key) {
         case 'name':
           console.info(obj.row.id.length)
           if (obj.row.id.length > 4) {
-            this.ruleData = ['name', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+            this.ruleData = ['name', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
             this.ruleTitle = '专项监督预警汇总_分规则'
             this.warnRuleSummaryVisible = true
           }
           break
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '指标预警-待整改明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
 
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '指标预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '支出预警-未认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '支出预警-待整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '支出预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes]
+          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.mofDivCodes, this.ruleCodes, this.warnStartDate, this.warnEndDate]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
@@ -436,7 +442,9 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes)
+        ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes),
+        warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

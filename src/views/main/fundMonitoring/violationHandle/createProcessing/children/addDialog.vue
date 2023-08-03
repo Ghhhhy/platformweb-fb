@@ -24,7 +24,7 @@
           ref="handleTableRef"
           height="200px"
           v-bind="footerConfig"
-          :table-columns-config="param5.retroact === 'company' ? compayHandletableColumnsConfig : handletableColumnsConfig"
+          :table-columns-config=" handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
           :toolbar-config="false"
@@ -33,7 +33,7 @@
         />
         <div>
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold;">明细信息
-            <el-button type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
+            <el-button v-param5Show="showKj" type="text" style="float:right" @click="dialogVisibleKjsm = true">口径说明</el-button>
             <el-dialog
               :visible.sync="dialogVisibleKjsm"
               width="50%"
@@ -152,12 +152,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1) && value !== '2' " color="red">*</font>&nbsp;指导意见</div>
+                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="param5.retroact === 'department' && (status === '1' || status === 1)" color="red">*</font>&nbsp;认定说明</div>
                     <el-input
                       v-model="information2"
                       type="textarea"
                       :disabled="param5.retroact !== 'department' || (status !== '1' && status !== 1) "
-                      placeholder="主管处室指导意见"
+                      placeholder="请填写认定说明"
                       style="width:90%"
                     />
                   </el-row>
@@ -166,18 +166,22 @@
             </el-col>
           </el-row>
         </div>
-        <BsUploadBak
-          ref="myUpload"
-          :disabled="param5.retroact !== 'department' || status !== '1'"
-          :allow-delete="param5.retroact === 'department' && status === '1'"
-          :allow-download="true"
-          :allow-preview="true"
-          :is-upload="param5.retroact === 'department' && status === '1' "
-          :attachment-id="attachmentid3"
-          :file-list="fileList3"
-          :file-data-bak-del.sync="fileDataBakDel3"
-          :file-data.sync="fileData3"
-        />
+        <el-row style="display: flex;align-items: center;">
+          <div v-if="fileIsRequired" style="color:red;">*</div>
+          <BsUploadBak
+            ref="myUpload"
+            style="flex: 1;"
+            :disabled="param5.retroact !== 'department' || status !== '1'"
+            :allow-delete="param5.retroact === 'department' && status === '1'"
+            :allow-download="true"
+            :allow-preview="true"
+            :is-upload="param5.retroact === 'department' && status === '1' "
+            :attachment-id="attachmentid3"
+            :file-list="fileList3"
+            :file-data-bak-del.sync="fileDataBakDel3"
+            :file-data.sync="fileData3"
+          />
+        </el-row>
         <div v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) || (status === '4' || status === 4) || (status === '5' || status === 5) " style="margin-top:10px">
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">预算单位核实信息</div>
           <el-row>
@@ -205,7 +209,7 @@
                     <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0"><font v-if="phoneIsRequire2" color="red">*</font>&nbsp;联系电话</div>
                     <el-input
                       v-model="phone1"
-                      :disabled="!phoneIsRequire2"
+                      :disabled="phoneIsDisabled2"
                       placeholder="联系电话"
                       style="width:45%"
                     />
@@ -232,12 +236,12 @@
               <el-container>
                 <el-main width="100%">
                   <el-row style="display: flex">
-                    <div class="sub-title-add" style="text-align: right;width:148px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理时间</div>
+                    <div class="sub-title-add" style="text-align: right;width:110px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;处理时间</div>
                     <el-input
                       v-model="updateTime1"
                       disabled
                       placeholder="处理时间"
-                      style="width:45%"
+                      style="width:60%"
                     />
                   </el-row>
                 </el-main>
@@ -261,10 +265,12 @@
             </el-col>
           </el-row>
         </div>
-        <el-row>
+        <el-row style="display: flex;align-items: center;">
+          <div v-if="fileIsRequired2" style="color:red;">*</div>
           <BsUploadBak
             v-if="param5.retroact === 'company' || param5.isQuery === 'true' || (status === '3' || status === 3) || (status === '4' || status === 4) || (status === '5' || status === 5) "
-            ref="myUpload"
+            ref="myUpload2"
+            style="flex:1"
             :attachment-id="attachmentid1"
             :file-list="fileList1"
             :file-data-bak-del.sync="fileDataBakDel1"
@@ -338,15 +344,34 @@
 import { proconf } from '../createProcessing.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
-import moment from 'moment'
+// import moment from 'moment'
 import { checkPhone } from '@/utils/index.js'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
 export default {
   name: 'HandleDialog',
   components: { AddDialog },
   computed: {
+    handletableColumnsConfig() {
+      if (this.param5.retroact === 'company' || this.param5.tableHide) {
+        return proconf.compayHandletableColumnsConfig
+      } else { // 当配置了tableHide参数时，需要隐藏字段
+        return proconf.handletableColumnsConfig
+      }
+    },
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    fileIsRequired() {
+      if (this.param5.retroact === 'department' && (this.value === '2' || this.value === 2) && this.detailData.length && this.detailData[0].uploadFile) {
+        return true
+      }
+      return false
+    },
+    fileIsRequired2() {
+      if (this.param5.retroact === 'company' && this.detailData.length && this.detailData[0].uploadFile) {
+        return true
+      }
+      return false
     },
     isXmProject() { // 是否是厦门项目
       const { province } = this.$store.state.userInfo
@@ -373,17 +398,26 @@ export default {
         return bool
       }
     },
-    footerConfig() {
-      if (!this.isXmProject) {
-        return { 'footer-config': {} }
+    phoneIsDisabled2() {
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 厦门项目电话号码需要不必填
+        return false
       } else {
-        return {}
+        let bool = this.param5.retroact !== 'company'
+        return bool
       }
+    },
+    footerConfig() {
+      // if (!this.isXmProject) {
+      //   return { 'footer-config': {} }
+      // } else {
+      return {}
+      // }
     },
     xmDisabledRule() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        if (this.value1 === '9' || this.value1 === '8') { // 通过
+        if (this.value1 === '9' || this.value1 === '8') { // 通过 8 退回
           return false
         }
         return true
@@ -394,7 +428,10 @@ export default {
     xmReasonShow() {
       const { province } = this.$store.state.userInfo
       if (province?.slice(0, 4) === '3502') {
-        return false
+        if (this.value1 === '9' || this.value1 === '') { // 通过不设置必填 退回设置必填
+          return false
+        }
+        return true
       } else {
         return this.value1 === '8'
       }
@@ -436,6 +473,14 @@ export default {
     bussnessId: {
       type: String,
       default: '7'// 预算执行
+    },
+    regulationClass: {
+      type: String,
+      default: '0201'// 直达资金
+    },
+    isApprove: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -516,8 +561,8 @@ export default {
       businessMsgConfig: proconf.businessMsgConfig,
       businessDataList: proconf.businessMsgData,
       checkDataList: {},
-      handletableColumnsConfig: proconf.handletableColumnsConfig,
-      compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
+      // handletableColumnsConfig: proconf.handletableColumnsConfig,
+      // compayHandletableColumnsConfig: proconf.compayHandletableColumnsConfig,
       createConfig: proconf.createConfig,
       createDataList: proconf.createDataList,
       createValidate: {
@@ -555,12 +600,23 @@ export default {
       commentDept: 1,
       newWarn: '',
       routes: ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial'],
-      isManagement: false
+      isManagement: false,
+      // 口径说明是否显示
+      kjbuttonVisable: '0'
     }
   },
   methods: {
+    showKj() {
+      if ((String(this.bussnessId) === '6' && this.param5.regulationClass === '0207')) {
+        return true
+      } else if (this.param5.kjbtnVisable === 'false' || this.param5.kjbtnVisable === '0') {
+        return false
+      } else {
+        return false
+      }
+    },
     cellClick(obj, context, e) {
-      if (this.param5?.retroact === 'company') {
+      if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
       }
       let key = obj.column.property
@@ -613,14 +669,23 @@ export default {
       }
     },
     // 回显
-    showInfo() {
-      this.addLoading = true
+    async showInfo() {
+      let serverTime = await HttpModule.getCurrentTime()
+      // serverTime = { data: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss') }
+      this.addLoading = false
       if (this.isCreate === false) {
-        this.createConfig = proconf.checkConfig
+        if (this.isXmProject) {
+          this.createConfig = proconf.checkConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
+          })
+        } else {
+          this.createConfig = proconf.checkConfig
+        }
       }
       let code = this.warningCode + '/' + this.fiRuleCode
       if (this.title === '查看详情信息') {
-        HttpModule.budgetgetDetail(code).then(res => {
+        let code2 = this.param5.show ? 1 : 0
+        HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             // let handledata = res.data.executeData
@@ -673,6 +738,15 @@ export default {
               this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
               this.supplyDataList.fiRuleName = fiRuleName || ''
               this.supplyDataList.violateType11 = ''// 违规责任单位
+              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
             }
             this.handletableData = res.data?.regulationList
           } else {
@@ -680,18 +754,9 @@ export default {
           }
         })
       } else if (this.title === '监控问询单信息') {
-        this.createDataList.fiRuleName = this.detailData[0].fiRuleName
-        this.createDataList.warnLevel = this.detailData[0].warnLevel
-        this.createDataList.mofDivCode = this.detailData[0].mofDivCode
-        this.createDataList.agencyId = this.detailData[0].agencyId
-        this.createDataList.manageMofDepId = this.detailData[0].manageMofDepId
-        this.createDataList.agencyCode = this.detailData[0].agencyCode
-        this.createDataList.agencyName = this.detailData[0].agencyName
-        this.createDataList.violateType = this.detailData[0].violateType
-        this.createDataList.handleType = this.detailData[0].handleType
-        this.createDataList.handleResult = this.detailData[0].handleResult
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        this.createDataList.issueTime = this.detailData[0].issueTime ? this.detailData[0].issueTime : moment().format('YYYY-MM-DD HH:mm:ss')
+        let params = { ...this.detailData[0], issueTime: this.detailData[0].issueTime || serverTime.data }
+        this.$set(this, 'createDataList', params)
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
         } else if (this.createDataList.warnLevel === '<span style="color:orange">橙色预警</span>') {
@@ -723,10 +788,10 @@ export default {
           this.updateTime2 = this.detailData[0].updateTime2
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
-          if (this.detailData[0].agencyStatus === 1) {
+          if (this.detailData[0].agencyStatus === '1') {
             this.hsValue = '5'
           }
-          if (this.detailData[0].agencyStatus === 2) {
+          if (this.detailData[0].agencyStatus === '2') {
             this.hsValue = '4'
           }
           if (this.detailData[0].status === '2') {
@@ -779,11 +844,15 @@ export default {
             this.value = this.status === '2' ? '2' : '3'
             if (this.status === '8') {
               this.handler1 = userInfo.name
-              this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
+              // this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
+              // 改成取服务器时间
+              this.updateTime1 = serverTime.data
               this.attachmentid1 = this.$ToolFn.utilFn.getUuid()
             } else {
               this.handler1 = this.detailData[0].handler1 ? this.detailData[0].handler1 : userInfo.name
-              this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : moment().format('YYYY-MM-DD HH:mm:ss')
+              // this.updateTime1 = this.detailData[0].updateTime1 ? this.detailData[0].updateTime1 : moment().format('YYYY-MM-DD HH:mm:ss')
+              // 改成取服务器时间
+              this.updateTime1 = serverTime.data
               this.attachmentid1 = this.detailData[0].attachmentid1 ? this.detailData[0].attachmentid1 : this.$ToolFn.utilFn.getUuid()
             }
             this.returnReason = this.detailData[0].returnReason
@@ -803,9 +872,7 @@ export default {
                 }
               })
             }
-            if (this.detailData[0].updateTime2) {
-              this.updateTime2 = this.detailData[0].updateTime2
-            }
+            this.updateTime2 = this.detailData[0].updateTime2
             this.phone2 = this.detailData[0].phone2
             this.handler2 = this.detailData[0].handler2
             this.information2 = this.detailData[0].information2
@@ -832,7 +899,12 @@ export default {
             this.hsValue = this.detailData[0].status + '' === '4' ? '4' : '5'
             this.handler2 = this.detailData[0].handler2 ? this.detailData[0].handler2 : userInfo.name
             this.phone2 = this.detailData[0].phone2
-            this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
+            // this.updateTime2 = this.detailData[0].updateTime2 ? this.detailData[0].updateTime2 : moment().format('YYYY-MM-DD HH:mm:ss')
+            // 改成取服务器时间
+            this.updateTime2 = serverTime.data
+            if (this.isApprove) { // 如果是审批页面 则取数据单的时间
+              this.$set(this, 'updateTime2', this.detailData[0].updateTime2)
+            }
             this.information2 = this.detailData[0].information2
             this.attachmentid1 = this.detailData[0].attachmentid1
             this.handler1 = this.detailData[0].handler1
@@ -917,10 +989,16 @@ export default {
       }
       this.getViolationType()
     },
-    changeValue() {
+    async changeValue() {
+      // let serverTime = await HttpModule.getCurrentTime()
       let userInfo = this.$store.state.userInfo
       this.handler2 = userInfo.name
-      this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
+      // this.updateTime2 = serverTime.data
+    },
+    getCurrentServerTime() {
+      HttpModule.getCurrentTime().then(res => {
+        res.code === '000000' && (this.createDataList.issueTime = this.detailData[0].issueTime || res.data)
+      })
     },
     // 审核改变
     changeValue1() {
@@ -1020,7 +1098,7 @@ export default {
         return
       }
       if (this.param5.retroact === 'company' && !this.hsValue && (flag === '3' || flag === 3)) {
-        this.$message.warning('请选择核实意见')
+        this.$message.warning('请输入核实意见说明')
         return
       }
       if (this.param5.retroact === 'company' && this.hsValue.length && (flag === '3' || flag === 3)) {
@@ -1053,16 +1131,17 @@ export default {
         return
       }
       // 直达资金下发单位为3 专项已整改为7，认定正常时不校验
-      if (this.value === '3' || this.value === '7') {
-        if (this.param5.retroact === 'department' && !this.information2) {
-          this.$message.warning('请填写指导意见')
-          return
-        }
-        if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
-          this.$message.warning('请输入10-200的指导意见')
-          return
-        }
+      // 黑龙江项目 指导意见都必填
+      // if (this.value === '3' || this.value === '7') {
+      if (this.param5.retroact === 'department' && !this.information2) {
+        this.$message.warning('请填写指导意见')
+        return
       }
+      if (this.param5.retroact === 'department' && (this.information2.length < 10 || this.information2.length > 200)) {
+        this.$message.warning('请输入10-200的指导意见')
+        return
+      }
+      // }
       if (this.param5.retroact === 'department' && !this.value && (flag === '1' || flag === 1)) {
         this.$message.warning('请选择处室意见!')
         return
@@ -1078,7 +1157,10 @@ export default {
         return
       }
       if (province?.slice(0, 4) === '3502') {
-        // 去掉厦门必填的校验
+        if (this.xmReasonShow && !this.returnReason) {
+          this.$message.warning('请输入退回原因说明')
+          return
+        }
       } else {
         if (this.param5.retroact === 'department' && this.value1 === '8' && !this.returnReason) {
           this.$message.warning('请输入退回原因说明')
@@ -1090,6 +1172,15 @@ export default {
           this.$message.warning('退回原因说明请小于等于200字')
           return
         }
+      }
+
+      if (this.fileIsRequired && !this.$refs.myUpload.fileData?.length) {
+        this.$message.warning('请上传附件')
+        return
+      }
+      if (this.fileIsRequired2 && !this.$refs.myUpload2.fileData?.length) {
+        this.$message.warning('请上传附件')
+        return
       }
       if (this.param5.retroact === 'company') {
         this.commentDept = '1'
@@ -1136,7 +1227,8 @@ export default {
           attachmentid3: this.attachmentid3,
           dealNo: item.dealNo,
           returnReason: this.returnReason,
-          commentDept: this.commentDept
+          commentDept: this.commentDept,
+          menuName: this.title
         }
       })
       this.addLoading = true
@@ -1183,15 +1275,23 @@ export default {
     },
     setFormItem() {
       if ([6, '6', 2, '2'].includes(this.bussnessId)) {
-        this.incomeMsgConfig = proconf.indexMsgConfig
-        this.supplyDataList = proconf.indexMsgData
+        if (this.regulationClass === '0207') {
+          this.incomeMsgConfig = proconf.indexMsgConfig
+          this.supplyDataList = proconf.indexMsgData
+          this.kjbuttonVisable = '1'
+        } else {
+          this.incomeMsgConfig = proconf.bgtMsgConfig
+          this.supplyDataList = proconf.incomeMsgData
+        }
       } else {
         if (this.isXmProject) { // 项目项目隐藏三个字段
+          this.createConfig = proconf.createConfig.filter(item1 => {
+            return !['violateType'].includes(item1.field)
+          })
+        } else if (!this.param5.show) { // 现在默认隐藏3个字段
           this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
             return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
           })
-        } else {
-          this.incomeMsgConfig = proconf.incomeMsgConfig
         }
         this.supplyDataList = proconf.incomeMsgData
       }
@@ -1226,6 +1326,10 @@ export default {
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
+    } else if (this.title === '查看详情信息' && !this.param5.show) { // 从事后监控跳转过来 隐藏3个字段
+      this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+        return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+      })
     }
     this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
     if (this.isManagement) {
@@ -1240,6 +1344,9 @@ export default {
 </script>
 <style lang="scss">
   .payVoucherInput {
+    .el-main{
+      min-width: 480px;
+    }
     margin: 15px;
     .el-card {
       margin-top: 0

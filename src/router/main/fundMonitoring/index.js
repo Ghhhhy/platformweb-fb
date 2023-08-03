@@ -1,6 +1,7 @@
 /*
  * 直达资金监控路由
  */
+import { workFlowRouters } from '@/views/main/monitProcFeedback/router'
 const routers = [
   {
     path: '/BudgetImplementationCapital', // 中央直达资金预算执行情况_分资金
@@ -11,8 +12,25 @@ const routers = [
       )
   },
   {
+    path: '/traBudgetImpleBymoyeny', // 内蒙转移支付台账分资金
+    name: 'traBudgetImpleBymoyeny',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue'
+      )
+  },
+  {
     path: '/BudgetImplementationRegion', // 中央直达资金预算执行情况_分地区
     name: 'BudgetImplementationRegion',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue'
+      )
+  },
+  // 内蒙新增转移支付预算执行情况分地区
+  {
+    path: '/traBudgetImpleBymofdiv',
+    name: 'traBudgetImpleBymofdiv',
     component: () =>
       import(
         '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationRegion/budgetImplementationRegion.vue'
@@ -713,12 +731,23 @@ const routers = [
     component: () => {
       if (process.env.VUE_APP_CONF_ISHB) {
         return import('../../../hb/views/Benifit/BenifitPeople.vue')
+      } else if (process.env.VUE_APP_CONF_ISSH) {
+        return import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
       } else {
         return import(
           '../../../views/main/fundMonitoring/benefitPeople/benefitPeople.vue'
         )
       }
     }
+  },
+  {
+    path: '/BenefitEnterprisesAndPeopleSH', // 惠企利民
+    name: 'BenefitEnterprisesAndPeopleSH',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/benefitPeople/SH/benefitPeople.vue')
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认
@@ -786,6 +815,18 @@ const routers = [
     component: () =>
       import(
         '../../../views/main/fundMonitoring/ManageMofDepProRelation/ManageMofDepProRelation.vue'
+      )
+  },
+  {
+    path: '/manageMofAgencyProRelation', // 单位用户资金权限配置
+    name: 'manageMofAgencyProRelation',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/manageMofAgencyProRelation/manageMofAgencyProRelation.vue'
       )
   },
   {
@@ -964,7 +1005,17 @@ const routers = [
       import(
         '../../../views/main/fundMonitoring/TreasuryGuaranteeDay/TreasuryGuaranteeDayMoney.vue'
       )
-  }
+  },
+  {
+    path: '/dynamicTableSetting', // 配置页面
+    name: 'dynamicTableSetting',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/dynamicTableSetting/dynamicTableSetting.vue')// 编辑列表器页面
+  },
+  ...workFlowRouters
 ]
 
 // 直达资金所有页面统一增加keepAlive

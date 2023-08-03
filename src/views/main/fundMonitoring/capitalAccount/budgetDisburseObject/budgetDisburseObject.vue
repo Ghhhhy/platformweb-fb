@@ -394,19 +394,27 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        return
+      }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
+      console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
       // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
+      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
+        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (obj.column.property !== 'proName' && isInvalidCellValue) return
+      if (!linkFiscal && obj.column.property === 'proName') return
       switch (key) {
-        case 'amountYszyap1':
-          this.handleDetail('zxjdxmtz_ysmx', obj.row.budgetLevelCode, key)
+        case 'amountYszyap':
+          this.handleDetail('zdzjxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
           this.detailTitle = '预算明细'
           break
-        case 'amountZczyap1':
-          this.handleDetail('zxjdxmtz_zcmx', obj.row.budgetLevelCode, key)
+        case 'amountZczyap':
+          this.handleDetail('zdzjxmtz_zcmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
           this.detailTitle = '支出明细'
           break
         case 'proName':
@@ -444,21 +452,24 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
-      // const validCellValue = (row[column.property] * 1)
-      //  if (validCellValue) {
+      console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
+      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
+        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+      const validCellValue = (row[column.property] * 1)
+      if (column.property !== 'proName' && !validCellValue) return
+      if (!linkFiscal && column.property === 'proName') return
       // console.log(column.property)
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
-      // if (['amountYszyap', 'amountZczyap'].includes(column.property)) {
-      if (['proName'].includes(column.property)) {
+      if (['amountYszyap', 'amountZczyap', 'proName'].includes(column.property)) {
+        // if (['proName'].includes(column.property)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
         }
       }
-    //  }
     },
-    handleDetail(reportCode, budgetLevelCode, column) {
+    handleDetail(reportCode, budgetLevelCode, mofDivCode, proCode, proName, agencyCode, agencyName, speTypeCode, speTypeName, column) {
       let condition = ''
 
       switch (column) {
@@ -472,18 +483,21 @@ export default {
         condition: condition,
         reportCode: reportCode,
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
-        mofDivCode: this.mofDivCode, // 获取左侧树
-        speTypeName: this.speTypeName,
-        expFuncName: this.expFuncName,
-        proName: this.proName,
         endTime: this.endTime,
         hqlm: this.hqlm,
         iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
         mofDivCodes: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.proCodes,
+        budgetLevelCode: budgetLevelCode,
+        mofDivCode: mofDivCode,
+        proCode: proCode,
+        // proName: proName,
+        agencyCode: agencyCode,
+        // agencyName: agencyName,
+        speTypeCode: speTypeCode,
+        // speTypeName: speTypeName,
         expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
-        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps,
-        budgetLevelCode: budgetLevelCode
+        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps
       }
       this.detailType = reportCode
       this.detailVisible = true

@@ -71,6 +71,7 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AddDialog
       v-if="dialogVisible"
+      :is-approve="isApprove"
       :title="dialogTitle"
       :param5="param5"
       :warning-code="warningCode"
@@ -78,7 +79,8 @@
       :deal-no="dealNo"
       :detail-data="detailData"
       :is-create="isCreate"
-      :bussness-id="bussnessId"
+      :bussness-id="clickRowBussnessId"
+      :regulation-class="regulationClass"
     />
     <FilePreview
       v-if="filePreviewDialogVisible"
@@ -90,6 +92,7 @@
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
       :billguid="billguid"
+      :billguid-list="billguidList"
       @close="closeAttachment"
     />
     <!-- 附件弹框 -->
@@ -211,9 +214,36 @@ export default {
       tableConfig: {
         renderers: {
           // 修改 配置 下发 删除
-          $CreateProcessingGloableOptionRow: proconf.gloableOptionRowDetail,
-          $gloableAttach: proconf.gloableAttach,
-          $gloableOptionRowLog: proconf.gloableOptionRowLog
+          $CreateProcessingGloableOptionRow: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'view' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableOptionRowLog: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span style="color: #4293F4; text-decoration: underline" onClick={() => this.handleCheck({ row, column, type: 'viewLog' })}>查看</span>
+                </el-tooltip>
+              ]
+            }
+          },
+          $gloableAttach: {
+            renderDefault: (h, cellRender, params, context) => {
+              let { row, column } = params
+              return [
+                <el-tooltip content="附件" placement="top" effect="light">
+                  <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => this.handleCheck({ row, column, type: 'attach' })}>附件</a>,
+                </el-tooltip>
+              ]
+            }
+          }
         },
         methods: {
           onOptionRowClick: this.handleCheck
@@ -243,6 +273,7 @@ export default {
       showAttachmentDialog: false,
       showGlAttachmentDialog: false,
       billguid: '',
+      billguidList: [],
       condition: {},
       handleType: '',
       isEnable: '',
@@ -253,8 +284,9 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      regulationclass: '',
+      regulationclass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || '',
       mofDivCode: '',
+      isApprove: false,
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
@@ -302,6 +334,7 @@ export default {
       filePreviewDialogVisible: false,
       fileGuid: '',
       bussnessId: '',
+      clickRowBussnessId: '',
       showBuinessTree: false,
       leftTreeFilterText: '', // 展示左侧树 只有某些页面才展示
       selectBtnType: '',
@@ -320,13 +353,11 @@ export default {
      */
     setShowBusinesTree() {
       // 可显示是左侧业务树的路由
-      let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
-      if (this.isXMProject) {
-        showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
-      }
-      if (showRouters.includes(this.$route.name)) {
-        this.showLog = true
-      }
+      // let showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial']
+      // if (this.isXMProject) {
+      //   showRouters = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact']
+      // }
+      this.showLog = true
       if (this.$route.name === 'DepartmentRetroactBySpecial') {
         this.showBuinessTree = true
         this.leftTreeVisible = true
@@ -427,6 +458,7 @@ export default {
         case 'view':
           this.fiRuleCode = row.fiRuleCode || ''
           this.warningCode = row.warningCode || ''
+          this.clickRowBussnessId = this.bussnessId === '' ? row.businessModuleCode || '' : this.bussnessId
           this.dialogVisible = true
           this.dialogTitle = '查看详情信息'
           break
@@ -495,7 +527,8 @@ export default {
         // 根据业务渲染列表
         this.currentNodeKey = node.code
         this.bussnessId = node.code
-        this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog)
+        this.regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+        this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog, this.regulationClass)
         this.getdata()
       }
     },
@@ -509,11 +542,15 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件', row)
-      if (row.attachmentid1 === null && row.attachmentid3 === null) {
+      if (!row.attachmentid1 && !row.attachmentid3) {
         this.$message.warning('该数据无附件')
         return
       }
-      this.billguid = row.attachmentid1 === null ? row.attachmentid3 : row.attachmentid1
+      this.billguid = row.attachmentid1 === null || row.attachmentid1 === '' ? row.attachmentid3 : row.attachmentid1
+      let billguidList = []
+      row.attachmentid1 && billguidList.push(row.attachmentid1)
+      row.attachmentid3 && billguidList.push(row.attachmentid3)
+      this.billguidList = billguidList
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
@@ -614,7 +651,8 @@ export default {
         triggerClass: this.triggerClass,
         warningLevel: this.warningLevel,
         businessModelCode: this.bussnessId || undefined,
-        trackProName: this.trackProName || ''
+        trackProName: this.trackProName || '',
+        menuId: this.$store.state.curNavModule.guid
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -703,7 +741,7 @@ export default {
     handleFeedback() {
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length === 0) {
-        this.$message.warning('请选择一条数据')
+        this.$message.warning('请选择数据')
         return
       }
       let batchIdObj = {}
@@ -729,6 +767,7 @@ export default {
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
+      this.isApprove = true
       console.log('isAgencyDonesh', this.isAgencyDone)
     },
     queryBusinessData() {
@@ -763,6 +802,7 @@ export default {
     },
     onTabPanelBtnClick(obj) { // 按钮点击
       let self = this
+      this.isApprove = false
       switch (obj.code) {
         case 'create': // 生成
           self.handleCreate(obj)
@@ -885,8 +925,6 @@ export default {
       this.isNormalDone = false
       this.isProcessed = false
       this.selectBtnType = obj.code
-      console.log('ssss', this)
-      console.log('ssss1', obj.code)
 
       switch (obj.code) {
         // 预警明细列表
@@ -911,7 +949,7 @@ export default {
           break
         // 待处理
         case 'dcl':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 1
@@ -924,7 +962,7 @@ export default {
         case 'dhs':
         case 'feedback':
           // this.tableColumnsConfig = [...proconf.policiesTableColumns1, attachOption]
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 3
@@ -938,7 +976,7 @@ export default {
         case 'process':
         case 'queryBusinessData': // 联查业务数据
           // this.tableColumnsConfig = [...proconf.policiesTableColumns2, attachOption]
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isAgencyDone = true
@@ -949,7 +987,7 @@ export default {
         // 已退回、被退回
         case 'bth':
         case 'yth':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 8
@@ -959,7 +997,7 @@ export default {
           break
         // 认定正常
         case 'rdzc':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isNormalDone = true
@@ -969,7 +1007,7 @@ export default {
           break
         // 已整改
         case 'yzg':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.status = 7
@@ -978,7 +1016,7 @@ export default {
           this.getdata()
           break
         case 'csysh':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.isProcessed = true
@@ -987,7 +1025,7 @@ export default {
           this.getdata()
           break
         case 'search':
-          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns(obj.code, this.bussnessId, this.showLog, this.regulationClass)
           this.queryConfig = proconf.highQueryConfig
           this.searchDataList = proconf.highQueryData
           this.menuName = '监控问询单列表'
@@ -1079,7 +1117,6 @@ export default {
       HttpModule.getReport(params).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          debugger
           this.fileGuid = res.data
           this.filePreviewDialogVisible = true
         } else {
@@ -1141,6 +1178,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+    this.regulationclass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || ''
     // 动态控制是否展示树
     this.setShowBusinesTree()
     // this.queryTableDatas()

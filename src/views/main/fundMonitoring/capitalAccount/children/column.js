@@ -21,7 +21,9 @@ const proconf = {
       sortable: false,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '其中：中央直达资金',
@@ -29,7 +31,9 @@ const proconf = {
       width: 150,
       sortable: false,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
+
     },
     {
       title: '用途',
@@ -71,6 +75,38 @@ const proconf = {
       field: 'xpayDate',
       width: 140,
       sortable: false,
+      align: 'left'
+    },
+    {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否直达资金',
+      field: 'isDir',
+      visible: true,
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否政府采购',
+      field: 'isGovPurName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '预算年度',
+      field: 'fiscalYear',
+      width: 140,
+      visible: true,
+      sortable: true,
       align: 'left'
     }
   ],
@@ -211,12 +247,45 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '付款日期',
       field: 'xpayDate',
       width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否直达资金',
+      field: 'isDir',
+      visible: true,
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '是否政府采购',
+      field: 'isGovPurName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '预算年度',
+      field: 'fiscalYear',
+      width: 140,
+      visible: true,
       sortable: true,
       align: 'left'
     }
@@ -245,9 +314,12 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
       width: 140,
       sortable: false,
+      field: 'xjExpFuncName',
+      formatter({ row }) {
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
+      },
       align: 'left'
     },
     {
@@ -260,6 +332,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -282,6 +355,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -351,17 +425,31 @@ const proconf = {
     },
     {
       title: '支出功能科目',
-      field: 'xjExpFuncName',
       width: 140,
       sortable: false,
-      align: 'left'
+      align: 'left',
+      field: 'xjExpFuncName',
+      formatter({ row }) {
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
+      }
     },
+    // {
+    //   title: '转移支付功能科目',
+    //   width: 140,
+    //   sortable: false,
+    //   align: 'left',
+    //   field: 'tpFuncName',
+    //   formatter({ row }) {
+    //     return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+    //   }
+    // },
     {
       title: '预算金额',
       align: 'right',
       field: 'amountAllfp',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -370,6 +458,7 @@ const proconf = {
       field: 'amountPayAll',
       width: 140,
       sortable: false,
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -436,6 +525,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -444,6 +534,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -530,6 +621,7 @@ const proconf = {
           sortable: false,
           width: 140,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -576,6 +668,7 @@ const proconf = {
           width: 140,
           sortable: false,
           align: 'right',
+          combinedType: 'total',
           cellRender: { name: '$vxeMoney' }
         },
         {
@@ -707,6 +800,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -715,6 +809,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -751,7 +846,7 @@ const proconf = {
     },
     {
       title: '预算单位',
-      field: 'agencyCodeName',
+      field: 'agencyName',
       width: 140,
       align: 'left'
     },
@@ -766,18 +861,32 @@ const proconf = {
       title: '支出功能科目',
       filters: false,
       width: 140,
-      field: 'expFuncName',
+      field: 'xjExpFuncName',
       formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+        return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
       sortable: false,
       align: 'left'
     },
     {
-      title: '分配金额',
-      field: 'fpAmount',
+      title: '转移支付功能科目',
       width: 140,
       sortable: false,
+      align: 'left',
+      field: 'tpFuncName',
+      formatter({ row }) {
+        return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      }
+    },
+    {
+      title: '分配金额',
+      field: 'amountAllfp',
+      width: 140,
+      sortable: false,
+      combinedType: 'total',
+      cellRender: {
+        name: '$vxeMoney'
+      },
       align: 'left'
     },
     {
@@ -789,6 +898,128 @@ const proconf = {
     }
   ],
   targetZXColumn: [
+    {
+      title: '区划代码',
+      field: 'mofDivCode',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivCode || ''
+      }
+    },
+    {
+      title: '区划名称',
+      field: 'mofDivName',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'left',
+      showOverflow: true,
+      formatter({ row }) {
+        return row.mofDivName || ''
+      }
+    },
+    {
+      title: '处室名称',
+      field: 'bgtMofDepName',
+      width: 140,
+      align: 'left'
+    },
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '转移支付资金名称',
+      field: 'speTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '支出科目名称',
+      field: 'xjExpFuncName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '转移支付功能科目',
+      width: 140,
+      field: 'tpFuncCode',
+      sortable: false,
+      align: 'left',
+      formatter({ row }) {
+        return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      }
+    },
+    {
+      title: '本级项目名称',
+      field: 'sSpeTypeName',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '上级文号',
+      field: 'corBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '本级文号',
+      field: 'xjCorBgtDocNo',
+      width: 140,
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '预算金额',
+      field: 'fpAmount',
+      sortable: true,
+      width: 140,
+      align: 'right',
+      combinedType: 'total',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '支出金额',
+      field: 'payAppAmt',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      combinedType: 'total',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配时间',
+      field: 'fpTime',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'right',
+      cellRender: {
+        name: '$vxeTime',
+        props: { format: 'YYYY-MM-DD' }
+      }
+    },
+    {
+      title: '接收方财政区划',
+      width: 140,
+      field: 'recDivName',
+      sortable: false,
+      visible: false,
+      align: 'left'
+    }
+  ],
+  targetZXColumnBj: [
     {
       title: '区划代码',
       field: 'mofDivCode',
@@ -867,6 +1098,7 @@ const proconf = {
       sortable: true,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -875,10 +1107,30 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配时间',
+      field: 'fpTime',
+      width: 140,
+      sortable: true,
+      visible: false,
+      align: 'right',
+      cellRender: {
+        name: '$vxeTime',
+        props: { format: 'YYYY-MM-DD' }
+      }
+    },
+    {
+      title: '接收方财政区划',
+      width: 140,
+      field: 'recDivName',
+      sortable: false,
+      visible: false,
+      align: 'left'
     }
   ],
-
   // 企业明细
   businessColumn: [
     {
@@ -900,6 +1152,7 @@ const proconf = {
       width: 140,
       sortable: false,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -924,6 +1177,7 @@ const proconf = {
       sortable: false,
       width: 140,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -969,6 +1223,7 @@ const proconf = {
       width: 140,
       sortable: true,
       align: 'right',
+      combinedType: 'total',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -1118,7 +1373,9 @@ const proconf = {
 
   ],
   highQueryData: {
-    proName: ''
+    proName: '',
+    fpTime: ''
+
   },
   highQueryConfig2: [
     {

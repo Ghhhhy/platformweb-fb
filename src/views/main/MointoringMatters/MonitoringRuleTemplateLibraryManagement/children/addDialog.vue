@@ -368,17 +368,17 @@ export default {
         { id: '1',
           label: '中央监控规则',
           children: [
-            { id: '11', label: '通用类监控规则' },
-            { id: '12', label: '专项类监控规则' },
-            { id: '19', label: '其他监控规则' }
+            { id: '11', label: '中央-通用类监控规则' },
+            { id: '12', label: '中央-专项类监控规则' },
+            { id: '19', label: '中央-其他监控规则' }
           ]
         },
         { id: '2',
           label: '地方监控规则',
           children: [
-            { id: '21', label: '通用类监控规则' },
-            { id: '22', label: '专项类监控规则' },
-            { id: '29', label: '其他监控规则' }
+            { id: '21', label: '地方-通用类监控规则' },
+            { id: '22', label: '地方-专项类监控规则' },
+            { id: '29', label: '地方-其他监控规则' }
           ]
         }
       ],
@@ -917,6 +917,12 @@ export default {
         businessSystemCodes.push(item.businessSystemCode)
         businessModuleCodes.push(item.businessModuleCode)
       })
+      let replaceStr = ''
+      if (this.fiRuleTypeName.indexOf('中央-') !== -1) {
+        replaceStr = '中央-'
+      } else if (this.fiRuleTypeName.indexOf('地方-') !== -1) {
+        replaceStr = '地方-'
+      }
       if (this.title === '新增') {
         let params = {}
         if (selection.length === 0) {
@@ -930,7 +936,7 @@ export default {
             'businessSystemCode': businessSystemCodes[0],
             'businessModuleCode': businessModuleCodes[0],
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
 
           }
         } else {
@@ -946,7 +952,7 @@ export default {
             'businessModuleCode': businessModuleCodes[0],
             menuName: this.$store.state.curNavModule.name,
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
           }
         }
         HttpModule.addTemplate(params).then(res => {
@@ -968,7 +974,7 @@ export default {
             'ruleAccord': this.ruleAccord,
             'functionCodeList': functionCodes,
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
           }
         } else {
           params = {
@@ -979,7 +985,7 @@ export default {
             'ruleAccord': this.ruleAccord,
             'functionCodeList': functionCodes,
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
           }
         }
         HttpModule.changeTemplate(params).then(res => {

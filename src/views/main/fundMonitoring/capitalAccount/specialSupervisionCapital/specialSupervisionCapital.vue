@@ -23,6 +23,7 @@
           :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :scroll-y="scrollConfig"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -31,7 +32,7 @@
           :export-modal-config="{ fileName: menuName, addReportTitleColumn: true, addUnitColumn: true }"
           :cell-style="cellStyle"
           :title="menuName"
-          :show-zero="false"
+          :show-zero="showZero"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -161,6 +162,11 @@ export default {
       tabStatusNumConfig: {
         1: 0
       },
+      scrollConfig: {
+        gt: 0,
+        enabled: true
+      },
+
       // table 相关配置
       tableGlobalConfig: {
         customExportConfig: {
@@ -173,6 +179,7 @@ export default {
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
+      showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
@@ -294,6 +301,26 @@ export default {
 
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      console.log(this.loadBsConfig, ' this.loadBsConfig')
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -435,16 +462,24 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, proCode, column, row) {
-      // 判断只有最底层才能进入弹框
-      if (row.children !== undefined) return
       let that = this
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-
-      } else {
-        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
         if (Arraya.includes(column)) {
+          return
+        }
+      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+        if (rowCodeHide.includes(row.code)) {
+          return
+        }
+      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+        if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
           return
         }
       }
@@ -541,6 +576,8 @@ export default {
         isCz = '1'
       }
       console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
+      reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
+      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
       this.detailQueryParam = {
         condition: condition,
         reportCode: reportCode,
@@ -571,38 +608,50 @@ export default {
     },
     // 表格单元行单击  'amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'
     cellClick(obj, context, e) {
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
-      let key = obj.column.property
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-      let xmSource = 'zdzjxmmx'
-      let zcSource = 'zdzjzcmx_fzj'
-      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
-        xmSource = 'zxjdxmmx_fzj'
-        zcSource = 'zxjdzcmx_fzj'
-      }
-      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
-      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-      if (!zcjeShow && key === dictionary['支出-金额']) {
-        this.handleDetail(zcSource, obj.row.code, key, obj.row)
-        this.detailTitle = '支出明细'
-        return
-      }
-      if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
-        this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
-        this.detailTitle = '中央下达明细'
-        return
-      }
-      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
+      if (this.projectCode !== 'FJ') {
+        const rowIndex = obj?.rowIndex
+        if (!rowIndex) return
+        let key = obj.column.property
+        // 无效的cellValue
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode !== 'SH') {
+          const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+          if (isInvalidCellValue) return
+        }
+        let xmSource = 'zdzjxmmx'
+        let zcSource = 'zdzjzcmx_fzj'
+        if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
+          xmSource = 'zxjdxmmx_fzj'
+          zcSource = 'zxjdzcmx_fzj'
+        }
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
+          return
+        }
+        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+        const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+        const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+        const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+        if (!zcjeShow && key === dictionary['支出-金额']) {
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
+          this.detailTitle = '支出明细'
+          return
+        }
+        if ((isSH || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+          this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
+          this.detailTitle = '中央下达明细'
+          return
+        }
+        if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+          this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -611,6 +660,9 @@ export default {
       // this.queryTableDatasCount()
     },
     getTrees(val) {
+      if (val === undefined) {
+        return
+      }
       let mofDivCodes = []
       if (val.trim() !== '') {
         val.split(',').forEach((item) => {
@@ -637,6 +689,10 @@ export default {
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
           this.tableLoading = false
+          // if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
+          //   this.refresh(true)
+          //   console.log('上海自动刷新！*1')
+          // }
         } else {
           this.$message.error(res.message)
         }
@@ -687,50 +743,104 @@ export default {
       return strTwo
     },
     cellStyle({ row, rowIndex, column }) {
-      let that = this
-      // 判断只有最底层有超链接
-      if (row.children !== undefined) return
-      if (!rowIndex) return
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (!validCellValue) return
-      // 拿到那些可以进行超链接的表格行
-      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.hideColumn_link === (undefined && null && '')) {
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      if (this.projectCode !== 'FJ') {
+        if (!rowIndex) return
+        // 有效的cellValue
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          // 判断只有最底层有超链接
+          if (row.children !== undefined) return
+        } else {
+          const validCellValue = (row[column.property] * 1)
+          if (!validCellValue) return
         }
-      } else {
-        let Arraya = hideColumnLinkStr.hideColumn_link !== (undefined && null && '') ? hideColumnLinkStr.hideColumn_link.split('#') : []
-        if (!Arraya.includes(column.property) && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
+          return
+        }
+        if (this.linkStyle(row, rowIndex, column)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
           }
         }
       }
-      // if (this.transJson2(this.params5 || '')?.isShow === 'false') {
-      //   const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-      //   if (sh && (['amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property))) {
-      //     return {
-      //       color: '#4293F4',
-      //       textDecoration: 'underline'
-      //     }
-      //   }
-      // } else {
-      // console.log(this.$store.state.curNavModule.param5, 'this.$store.state.userInfo', this.$store)
-
-      // const sh = this.transJson2(this.params5 || '')?.projectCode === 'SH'
-      // if (sh && Arraya.includes(column.property)) {
-      //   return {
-      //     color: '#4293F4',
-      //     textDecoration: 'underline'
-      //   }
-      // }
-      // }
+    },
+    cellHide(hideStr, column, row) {
+      /**
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
+       */
+      let hideSetting = hideStr.split(';')
+      hideSetting.length && (hideSetting = hideSetting.filter(item => item !== ''))
+      let settingItemList = hideSetting.map((item, index) => {
+        let itemArr = item.split(':')
+        if (!itemArr[0] || !itemArr[1] || itemArr.length !== 2) {
+          let str = ''
+          if (index === 0) {
+            str = '第1个\';\'前面'
+          } else if (index === hideSetting.length - 1) {
+            str = '最后一个\';\'后面'
+          } else {
+            str = `第${index}个';'后面${index + 1}个';'前面`
+          }
+          this.$message({
+            duration: 0,
+            showClose: true,
+            message: `${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`,
+            type: 'error'
+          })
+          throw new Error(`${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`)
+        }
+        let obj = {}
+        obj[itemArr[0]] = itemArr[1]
+        return obj
+      })
+      let cellCol = column.property
+      let cellRow = row.code
+      for (let i = 0; i < settingItemList.length; i++) {
+        const item = settingItemList[i]
+        // 隐藏整列判断
+        if (Object.hasOwn(item, 'col') && item['col'].split('&').includes(cellCol)) {
+          return true
+        }
+        // 隐藏整行判断
+        if (Object.hasOwn(item, 'row') && item['row'].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某列下的 每行对应的code
+        if (Object.hasOwn(item, cellCol) && item[cellCol].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某行下 对应每列的点
+        if (Object.hasOwn(item, cellRow) && item[cellRow].split('&').includes(cellCol)) {
+          return true
+        }
+      }
+    },
+    linkStyle(row, rowIndex, column) { // 判断是否可以跳转
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+      // 根据code隐藏对应行
+      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
+          return true
+        }
+      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !rowCodeHide.includes(row.code)) {
+          return true
+        }
+      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && (!rowCodeHide.includes(row.code) || !Arraya.includes(column.property))) {
+          return true
+        }
+      } else {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+          return true
+        }
+      }
+      return false
     },
     transJson2(str) {
       if (!str) return
@@ -754,13 +864,26 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
+    console.log(this.$refs, 'bsTableRef 表格配置')
+    // 判断是否开放动态表格配置
+    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+    if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
+      this.$nextTick(() => {
+        this.refresh(true)
+      })
+    }
     if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
       let arr = this.queryConfig.filter(item => {
         return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
       })
       this.$set(this, 'queryConfig', arr)
     }
+    if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
   }
+
 }
 </script>
 <style scoped>
