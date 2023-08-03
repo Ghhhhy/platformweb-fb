@@ -12,6 +12,14 @@ const routers = [
       )
   },
   {
+    path: '/traBudgetImpleBymoyeny', // 内蒙转移支付台账分资金
+    name: 'traBudgetImpleBymoyeny',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/budgetImplementationCapital/budgetImplementationCapital.vue'
+      )
+  },
+  {
     path: '/BudgetImplementationRegion', // 中央直达资金预算执行情况_分地区
     name: 'BudgetImplementationRegion',
     component: () =>
