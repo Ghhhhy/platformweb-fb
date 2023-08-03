@@ -263,7 +263,6 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       params.proName = this.condition.proName ? this.condition.proName[0] : ''
-      params.fpTime = this.condition.fpTime ? this.condition.fpTime[0] : ''
       params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
       params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
@@ -522,9 +521,11 @@ export default {
         this.$parent.sDetailVisible = true
         this.$parent.sDetailType = reportCode
       } else {
+        console.log(this.detailQueryParam.column, 'row')
         this.$parent.sDetailQueryParam = {
           reportCode: reportCode,
           proCode1: row.proCode,
+          // fpTime: this.transJson(this.params5 || '')?.projectCode === 'SH' ? row.fpTime : '',
           trackProCode: this.detailQueryParam.proCode === undefined ? row.trackProCode : this.detailQueryParam.proCode,
           agencyCode: row.agencyCode,
           xjExpFuncCode: row.xjExpFuncCode,
@@ -536,6 +537,9 @@ export default {
           mofDivCode: this.detailQueryParam.mofDivCode,
           fiscalYear: this.$parent.fiscalYear,
           bgtId: row.bgtId
+        }
+        if ((this.detailQueryParam.column === 'amountSnjxjfp' || this.detailQueryParam.column === 'amountSxjfp' || this.detailQueryParam.column === 'amountSnjbjfp' || this.detailQueryParam.column === 'amountSbjfp') && this.transJson(this.params5 || '')?.projectCode === 'SH') {
+          this.$parent.sDetailQueryParam.fpTime = (row.fpTime || '')
         }
         this.$parent.sDetailVisible = true
         this.$parent.sDetailType = reportCode
