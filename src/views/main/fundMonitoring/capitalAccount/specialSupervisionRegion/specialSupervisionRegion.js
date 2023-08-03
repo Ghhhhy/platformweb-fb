@@ -136,16 +136,6 @@ const proconf = {
         type: 'amountZyxd',
         cellRender: { name: '$vxeMoney' }
       },
-      // {
-      //   title: '是否直达资金',
-      //   width: 150,
-      //   field: 'isZd',
-      //   align: 'right',
-      //   formatter: (value, column) => {
-      //     let { row } = value
-      //     return row['isZd'] && row['isZd'] === 1 ? '是' : '否'
-      //   }
-      // },
       {
         title: '整合',
         width: 100,
@@ -159,7 +149,8 @@ const proconf = {
         title: '支出',
         width: 260,
         align: 'center',
-        children: [
+        visible: store.getters.isSx,
+        children: store.getters.isSx ? [
           {
             title: '金额',
             align: 'right',
@@ -178,7 +169,7 @@ const proconf = {
               name: '$vxeRatio'
             }
           }
-        ]
+        ] : []
       },
       {
         title: '省级',
@@ -227,16 +218,17 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSnjpay',
-            width: 200,
+            width: 100,
             align: 'right',
-            cellRender: { name: '$vxeMoney' }
+            cellRender: { name: '$vxeMoney' },
+            visible: !store.getters.isSx
           },
           {
             title: '分配进度',
             field: 'sLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
+            formula: store.getters.isSx ? '({amountSnjxd}-0==0)?0:({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100' : '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -290,8 +282,9 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 200,
+            width: 100,
             align: 'right',
+            visible: !store.getters.isSx,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -299,7 +292,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
+            formula: store.getters.isSx ? '({amountSjxd}-0==0)?0:({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100' : '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -333,6 +326,23 @@ const proconf = {
             field: 'amountXjfp',
             width: 100,
             align: 'right',
+            visible: !store.getters.isSx,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '分配本级',
+            field: 'amountSbjfp',
+            width: 100,
+            align: 'right',
+            visible: store.getters.isSx,
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '分配下级',
+            field: 'amountSxjfp',
+            width: 100,
+            visible: store.getters.isSx,
+            align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -348,6 +358,7 @@ const proconf = {
             field: 'amountXjpay',
             width: 100,
             align: 'right',
+            visible: !store.getters.isSx,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -355,12 +366,38 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
+            formula: store.getters.isSx ? '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)' : '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
           }
         ]
+      },
+      {
+        title: '支出',
+        width: 260,
+        align: 'center',
+        visible: store.getters.isSx,
+        children: store.getters.isSx ? [
+          {
+            title: '金额',
+            align: 'right',
+            width: 100,
+            field: 'amountPayAll',
+            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '进度',
+            align: 'right',
+            width: 100,
+            field: 'jLoad',
+            formula: '({amountZyxd}-0==0)?0:({amountPayAll}/{amountZyxd}*100)',
+            cellRender: {
+              name: '$vxeRatio'
+            }
+          }
+        ] : []
       }
     ],
     // 直辖（市、区、镇）
@@ -431,7 +468,7 @@ const proconf = {
             align: 'right',
             width: 200,
             field: 'jLoad',
-            formula: '({amountZyxd2}-0==0)?0:Math.round({amountPayAll}/{amountZyxd2}*100*10)/10',
+            formula: store.getters.isSx ? '({amountZyxd2}-0==0)?0:({amountPayAll}/{amountZyxd2}*100)' : '({amountZyxd2}-0==0)?0:Math.round({amountPayAll}/{amountZyxd2}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -494,7 +531,7 @@ const proconf = {
             field: 'sLoad',
             width: 200,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
+            formula: store.getters.isSx ? '({amountZyxd}-0==0)?0:({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100' : '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -548,7 +585,7 @@ const proconf = {
           {
             title: '本级已支出',
             field: 'amountSjpay',
-            width: 200,
+            width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -557,7 +594,7 @@ const proconf = {
             field: 'aLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10',
+            formula: '({amountZyxd}-0==0)?0:({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -613,7 +650,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+            formula: store.gettes.isSx ? '({amountZyxd}-0==0)?0:({amountXjfp}/{amountZyxd}*100)' : '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
