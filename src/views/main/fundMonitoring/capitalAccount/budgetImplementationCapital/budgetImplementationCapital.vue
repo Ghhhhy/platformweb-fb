@@ -649,6 +649,10 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
+      if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfzj') {
+        xmSource = 'zyzfxmmx'
+        zcSource = 'zyzfzcmx_fzj'
+      }
 
       switch (key) {
         // 省本级分配走直达资金项目明细
