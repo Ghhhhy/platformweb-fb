@@ -149,7 +149,7 @@ function useTable(
     customFetch = func
   }
   /**
-   * @type {(ctx:dfr.context): void}
+   * @type {(ctx:dfr.contexts):void}
    */
   function openCustomerExport(ctx) {
     ctx.triggerExportOption({ dataType: 'selection' })
