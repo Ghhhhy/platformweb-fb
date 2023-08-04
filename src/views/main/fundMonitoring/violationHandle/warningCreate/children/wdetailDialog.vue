@@ -802,7 +802,6 @@ export default {
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
       // 这里在获取一个业务类型 然后依据业务类型和具体的状态去动态构造表头数据
-      console.log('detailType:' + this.detailType)
       switch (this.detailType) {
         case 'redUndoNum':
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
@@ -1326,6 +1325,7 @@ export default {
     this.isFlow = data
     this.getAgency()
     this.showInfo()
+    this.queryTableDatas()
   },
   watch: {
     queryConfig() {
