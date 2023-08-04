@@ -2725,7 +2725,7 @@ const proconf = {
         }
       })
     }
-    console.log('1111111111111', operatorColumns, isFlow)
+    // console.log('1111111111111', operatorColumns, isFlow)
     let otherColumnsCopy = [
       {
         title: '生成时间',
@@ -2810,25 +2810,25 @@ const statusButtons = [
 const curStatusButton = {
   label: '预警数据',
   code: '1',
-  type: 'button',
+  type: '',
   curValue: '1'
 }
 const curStatusButton1 = {
   label: '认定正常',
   code: '2',
-  type: 'button',
+  type: '',
   curValue: '2'
 }
 const curStatusButton2 = {
   label: '已整改',
   code: '3',
-  type: 'button',
+  type: '',
   curValue: '3'
 }
 const curStatusButton3 = {
   label: '未完成',
   code: '4',
-  type: 'button',
+  type: '',
   curValue: '4'
 }
 const buttons1 = {
