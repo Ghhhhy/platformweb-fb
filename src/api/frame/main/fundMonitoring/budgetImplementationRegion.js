@@ -1,6 +1,10 @@
 //  监控函数api
 import { post, get } from '@/api/http'
 import store from '@/store/index'
+// import { base64 } from 'js-base64'
+import { Base64 } from 'js-base64'
+// or if you prefer no Base64 namespace
+// import { encode, decode } from 'js-base64';
 export default {
   // 获取表格数据
   queryTableDatas (params) {
@@ -11,11 +15,7 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
-    // var param64 = {
-    //   zdzjLedgerDto: this.$Base64.encode(params)
-    // }
-    // return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', param64)
-    return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)
+    return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', (Base64.encode(JSON.stringify(params))))
   },
   // 直达资金项目台账
   xmPageQuery (params) {
