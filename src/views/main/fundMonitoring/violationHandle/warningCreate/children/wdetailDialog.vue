@@ -1129,6 +1129,13 @@ export default {
         HttpModule.queryDetailDatasByMof(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
+            if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+              this.tableData = res.data.results.map(item => {
+                let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
+                return Object.assign({}, item, detailFormData)
+              })
+              return
+            }
             this.tableData = res.data.results
             this.pagerConfig.total = res.data.totalCount
           } else {
@@ -1148,6 +1155,13 @@ export default {
         HttpModule.queryDetailDatas(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
+            if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+              this.tableData = res.data.results.map(item => {
+                let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
+                return Object.assign({}, item, detailFormData)
+              })
+              return
+            }
             this.tableData = res.data.results
             this.pagerConfig.total = res.data.totalCount
           } else {
@@ -1272,6 +1286,80 @@ export default {
           this.$parent.sDetailTitle = '详细信息'
           break
       }
+    },
+    //
+    pickDetailData(res) {
+      let detailData = {}
+      if (res.data.executeData !== null) {
+        detailData.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+        detailData.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+        detailData.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+        detailData.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
+        detailData.deptEconomyType = res.data.executeData?.depBgtEcoCode === null ? '' : res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+        detailData.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+        detailData.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+        detailData.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+        detailData.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
+        detailData.isUnionFunds = this.filterText(res.data.executeData?.isFunCode, res.data.executeData?.isFunCode === 1 ? '是' : '否')
+        detailData.fiDate = res.data.executeData?.fiDate
+        detailData.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+        detailData.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+        detailData.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+        detailData.isThrExp = this.filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
+        detailData.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+        detailData.useDes = res.data.executeData && res.data.executeData?.useDes
+        detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+        detailData.xpayDate = res.data.executeData?.xpayDate
+      }
+      if (res.data.payVoucherVo !== null) {
+        detailData.payBusType = res.data.payVoucherVo.payBusType
+        detailData.todoName = res.data.payVoucherVo.todoName
+        detailData.voidOrNot = res.data.payVoucherVo.voidOrNot
+      }
+      if (res.data.baBgtInfoEntity !== null) {
+        let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
+        detailData.agencyName = agencyCode + '-' + agencyName
+        detailData.proName = proCode + '-' + proName
+        detailData.timeoutIssueType = timeoutIssueType || ''
+        detailData.corBgtDocNo = corBgtDocNo || ''
+        detailData.fiscalYear = fiscalYear || ''
+        detailData.recDivName = recDivName || ''
+        detailData.mofDivName = mofDivName || ''
+        detailData.proCode = proCode// 项目类别
+        detailData.proName = proName || ''
+        detailData.recTime = recTime || ''
+        detailData.recAmount = recAmount || ''
+        detailData.allocationAmount = allocationAmount || ''
+        detailData.timeoutIssueAmount = timeoutIssueAmount || ''
+        detailData.timeoutIssueTime = timeoutIssueTime || ''
+        detailData.curAmt = curAmt || ''
+
+        detailData.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+        detailData.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+        detailData.bgtDec = res.data.baBgtInfoEntity.bgtDec
+        detailData.proCode = res.data.baBgtInfoEntity.proCode
+        detailData.settlementMethod = res.data.baBgtInfoEntity.proName
+        detailData.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+        detailData.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+        detailData.expFuncName = res.data.baBgtInfoEntity.expFuncName
+        detailData.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+      }
+      return detailData
+      // this.handletableData = res.data?.regulationList
+    },
+    filterText() {
+      let agr = arguments
+      let str = ''
+      for (let i = agr.length - 1; i > 0; i--) {
+        const element = agr[i]
+        if (element) {
+          str += element
+        }
+        if (agr[i - 1]) {
+          str = agr[i - 1] + '-' + str
+        }
+      }
+      return str
     },
     doBack() {
       let selection = this.$refs.mainTableRef.selection
