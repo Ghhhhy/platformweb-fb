@@ -450,6 +450,14 @@ export default {
         } else if (areaType === 'county') {
           condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+        if (areaType === 'province') {
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+        } else if (areaType === 'city') {
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+        } else if (areaType === 'county') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\''
+        }
       } else {
         if (areaType === 'province') {
           condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
