@@ -63,7 +63,7 @@
           v-loading="tableLoadingState"
           :footer-config="tableFooterConfig"
           :table-config="tableConfig"
-          :table-columns-config="tableColumnsConfig"
+          :table-columns-config="tableColumnsConfigComputed"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
@@ -134,6 +134,20 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    tableColumnsConfigComputed() {
+      let detailColumns = this.getDetailFormItem()
+      console.log('处理columns', detailColumns)
+      let arr = Object.assign([], this.tableColumnsConfig)
+      if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+        detailColumns.forEach(item => {
+          let arr2 = arr.map(item => item.field)
+          if (!arr2.includes(item.field)) {
+            arr.push(item)
+          }
+        })
+      }
+      return arr
     }
   },
   props: {
@@ -1346,6 +1360,23 @@ export default {
       }
       return detailData
       // this.handletableData = res.data?.regulationList
+    },
+    getDetailFormItem() {
+      let detailColumns = []
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        if (this.regulationClass === '0207') {
+          detailColumns = proconf.indexMsgConfig
+        } else {
+          detailColumns = proconf.bgtMsgConfig
+        }
+      } else if (!this.param5.show) {
+        detailColumns = proconf.msgConfig.filter(item => {
+          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+        })
+      }
+      return detailColumns.map(item => {
+        return { ...item, width: 180 }
+      })
     },
     filterText() {
       let agr = arguments
