@@ -378,7 +378,6 @@ export default {
           menuguid: this.$store.state.curNavModule.guid
         }
       }
-      console.log(this.loadBsConfig, ' this.loadBsConfig')
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
@@ -1207,6 +1206,8 @@ export default {
         this.loadConfig('BsQuery', 'Query101')
       }
     }
+    this.getMofDiv()
+    this.queryTableDatas()
   }
 }
 </script>

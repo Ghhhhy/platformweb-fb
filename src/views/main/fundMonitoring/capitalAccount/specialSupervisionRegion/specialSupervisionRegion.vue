@@ -1206,8 +1206,6 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.projectCode = this.transJson(this.params5 || '')?.projectCode
-    this.getPro()
-    this.queryTableDatas(false)
     if (!this.isSx) {
       // 判断是否开放动态表格配置
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
@@ -1221,6 +1219,8 @@ export default {
         this.loadConfig('BsQuery', 'Query101')
       }
     }
+    this.getPro()
+    this.queryTableDatas(false)
   }
 }
 </script>
