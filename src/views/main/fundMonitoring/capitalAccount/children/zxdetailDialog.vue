@@ -481,10 +481,11 @@ export default {
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {
+      console.log(this.detailQueryParam.column, 'row')
       this.$parent.sDetailQueryParam = {
         reportCode: reportCode,
         proCode1: row.proCode,
-        fpTime: this.transJson(this.params5 || '')?.projectCode === 'SH' ? row.fpTime : '',
+        // fpTime: this.transJson(this.params5 || '')?.projectCode === 'SH' ? row.fpTime : '',
         trackProCode: this.detailQueryParam.proCode === undefined ? row.trackProCode : this.detailQueryParam.proCode,
         agencyCode: row.agencyCode,
         xjExpFuncCode: row.xjExpFuncCode,
@@ -496,6 +497,9 @@ export default {
         mofDivCode: this.detailQueryParam.mofDivCode,
         fiscalYear: this.$parent.fiscalYear,
         bgtId: row.bgtId
+      }
+      if (this.detailQueryParam.column === ('amountSnjxjfp' || 'amountSxjfp') && this.transJson(this.params5 || '')?.projectCode === 'SH') {
+        this.$parent.sDetailQueryParam.fpTime = (row.fpTime || '')
       }
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode

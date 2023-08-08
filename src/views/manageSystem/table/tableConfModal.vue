@@ -96,13 +96,35 @@ export default {
       paramsCopy.configure = this.jsonParse(
         paramsCopy.configure
       )
-      this.configParams = this.deepCopy(paramsCopy)
+      this.configParams = this.deepCloneWithFunctions(paramsCopy)
       this.itemVisible = true
     },
     dialogClose() {
       this.itemVisible = false
       this.dialogVisible = false
       this.$emit('closeCallback')
+    },
+    deepCloneWithFunctions(obj) {
+      // 使用 JSON.stringify 将对象序列化为字符串
+      const serializedObj = JSON.stringify(obj, function(key, value) {
+        // 如果属性值是函数，则返回函数的字符串表示
+        if (typeof value === 'function') {
+          return value.toString()
+        }
+        return value
+      })
+
+      // 使用 JSON.parse 将字符串反序列化为对象
+      const clonedObj = JSON.parse(serializedObj, function(key, value) {
+        // 如果属性值是字符串，并且符合函数的字符串表示形式，则将其转换回函数
+        if (typeof value === 'string' && /^function.+/.test(value)) {
+          // eslint-disable-next-line no-eval
+          return eval(`(${value})`)
+        }
+        return value
+      })
+
+      return clonedObj
     },
     deepCopy(obj) {
       // 深拷贝通用方法
