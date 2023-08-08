@@ -1146,7 +1146,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, detailFormData)
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
               })
               return
             }
@@ -1172,7 +1172,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, detailFormData)
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
               })
               return
             }
@@ -1300,9 +1300,18 @@ export default {
           break
       }
     },
+    pickObjectField(obj = {}, field) {
+      let newObj = {}
+      Object.keys(obj).map(item => {
+        if (field.includes(item)) {
+          newObj[item] = obj[item]
+        }
+      })
+      return newObj
+    },
     //
     pickDetailData(res) {
-      let detailData = {}
+      let detailData = { ...res.data, ...res.data.executeData }
       if (res.data && res.data.executeData !== null) {
         detailData.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
         detailData.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
