@@ -1373,8 +1373,7 @@ const proconf = {
 
   ],
   highQueryData: {
-    proName: '',
-    fpTime: ''
+    proName: ''
 
   },
   highQueryConfig2: [
