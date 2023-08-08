@@ -263,13 +263,13 @@ export default {
       this.warnEndDate = this.detailData[6]
       console.log(proconf)
       switch (this.title) {
-        case '是否上传附件-未处理明细':
+        case '是否上传附件-未认定明细':
           this.tableColumnsConfig = proconf.redUndoNum
           break
         case '是否上传附件-已整改明细':
           this.tableColumnsConfig = proconf.redDoneNum
           break
-        case '支出预警-未处理明细':
+        case '支出预警-未认定明细':
           this.tableColumnsConfig = proconf.notpayColumn
           break
         case '支出预警-已认定明细':

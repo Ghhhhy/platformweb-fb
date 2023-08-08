@@ -373,7 +373,7 @@ export default {
         case 'numbernofileNum':
           this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
-          this.detailTitle = '是否上传附件-未处理明细'
+          this.detailTitle = '是否上传附件-未认定明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
@@ -387,7 +387,7 @@ export default {
         case 'numberwarnUndoNum':
           this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
-          this.detailTitle = '支出预警-未处理明细'
+          this.detailTitle = '支出预警-未认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break

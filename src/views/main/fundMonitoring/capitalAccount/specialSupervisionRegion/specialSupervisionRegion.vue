@@ -537,6 +537,29 @@ export default {
             condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
             break
         }
+      } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+        switch (column) {
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\''
+            break
+        }
       } else {
         switch (column) {
           case 'amountSnjwfp':

@@ -240,6 +240,8 @@ export default {
           break
         case 'zdzjzcmx_fdq':
         case 'zdzjzcmx_fzj':
+        case 'zyzfzcmx_fzj':
+        case 'zyzjzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           break
         case 'zxjdzcmx_fdq':
@@ -258,6 +260,7 @@ export default {
         case 'zdzjzbmx_fdq':
         case 'czzdzjzbmx_fdq':
         case 'zdzjzbmx_fzjfp':
+        case 'zyzfzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
           break
         case 'zxjdzbmx_fzjfp':
@@ -303,6 +306,7 @@ export default {
     showInfoForVisible() {
       switch (this.sDetailType) {
         case 'zdzjzcmx_fdq':
+        case 'zyzjzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.$set(this.tableColumnsConfig[0], 'visible', true)
@@ -319,6 +323,7 @@ export default {
           this.queryConfig = proconf.highQueryConfigZx
           break
         case 'zdzjzbmx_fzjfp':
+        case 'zyzfzbmx_fzjfp':
           this.tableColumnsConfig = proconf.targetColumn
           if (['amountSnjxjfp', 'amountSxjfp'].includes(this.detailQueryParam?.column)) {
             this.tableColumnsConfig = proconf.targetColumnFPXJ

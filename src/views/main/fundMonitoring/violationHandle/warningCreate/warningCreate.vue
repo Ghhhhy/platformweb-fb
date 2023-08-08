@@ -179,6 +179,7 @@ export default {
       code: '',
       fiscalYear: '',
       regulationClass: '',
+      propsRegulationClass: '',
       bussnessId: ''
     }
   },
@@ -308,7 +309,7 @@ export default {
       let key = obj.column.property
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
-      this.regulationClass = obj.row.regulationClass
+      this.propsRegulationClass = obj.row.regulationClass
       switch (key) {
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
