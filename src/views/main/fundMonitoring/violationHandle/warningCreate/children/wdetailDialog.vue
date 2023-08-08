@@ -165,6 +165,7 @@ export default {
   data() {
     return {
       // 操作日志
+      isFlow: false,
       logData: [],
       showLogView: false,
       title: '',
@@ -362,7 +363,7 @@ export default {
         this.currentNodeKey = node.code
         // 根据业务渲染列表
         this.bussnessId = node.code.toString()
-        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass)
+        this.tableColumnsConfig = proconf.getColumns(this.detailType, this.bussnessId, this.showLog, this.regulationClass, this.isFlow)
         this.queryTableDatas()
       }
     },
@@ -801,10 +802,9 @@ export default {
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
       // 这里在获取一个业务类型 然后依据业务类型和具体的状态去动态构造表头数据
-      console.log('detailType:' + this.detailType)
       switch (this.detailType) {
         case 'redUndoNum':
-          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -816,7 +816,7 @@ export default {
           this.title = '疑点信息明细'
           break
         case 'redNormalNum':
-          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -830,7 +830,7 @@ export default {
           break
         case 'redNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.isNormal = false
@@ -843,7 +843,7 @@ export default {
           break
         case 'redDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
@@ -857,7 +857,7 @@ export default {
           break
         case 'orangeUndoNum':
           //  this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -870,7 +870,7 @@ export default {
           break
         case 'orangeNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -883,7 +883,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -896,7 +896,7 @@ export default {
           break
         case 'orangeDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
@@ -909,7 +909,7 @@ export default {
           break
         case 'yellowUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -935,7 +935,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -948,7 +948,7 @@ export default {
           break
         case 'yellowDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '3'
@@ -961,7 +961,7 @@ export default {
           break
         case 'blueUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
-          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -974,7 +974,7 @@ export default {
           break
         case 'blueNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
-          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -987,7 +987,7 @@ export default {
           break
         case 'blueNotRectifiedNum':// 未完成
           // this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -1000,7 +1000,7 @@ export default {
           break
         case 'blueDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
-          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog)
+          this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '4'
@@ -1128,8 +1128,15 @@ export default {
         HttpModule.queryDetailDatasByMof(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
-            this.tableData = res.data.results
             this.pagerConfig.total = res.data.totalCount
+            if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+              this.tableData = res.data.results.map(item => {
+                let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
+                return Object.assign({}, item, detailFormData)
+              })
+              return
+            }
+            this.tableData = res.data.results
           } else {
             this.$message.error(res.message)
           }
@@ -1147,8 +1154,15 @@ export default {
         HttpModule.queryDetailDatas(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
-            this.tableData = res.data.results
             this.pagerConfig.total = res.data.totalCount
+            if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+              this.tableData = res.data.results.map(item => {
+                let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
+                return Object.assign({}, item, detailFormData)
+              })
+              return
+            }
+            this.tableData = res.data.results
           } else {
             this.$message.error(res.message)
           }
@@ -1272,6 +1286,80 @@ export default {
           break
       }
     },
+    //
+    pickDetailData(res) {
+      let detailData = {}
+      if (res.data && res.data.executeData !== null) {
+        detailData.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+        detailData.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+        detailData.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+        detailData.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
+        detailData.deptEconomyType = res.data.executeData?.depBgtEcoCode === null ? '' : res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+        detailData.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+        detailData.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+        detailData.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
+        detailData.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
+        detailData.isUnionFunds = this.filterText(res.data.executeData?.isFunCode, res.data.executeData?.isFunCode === 1 ? '是' : '否')
+        detailData.fiDate = res.data.executeData?.fiDate
+        detailData.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+        detailData.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+        detailData.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+        detailData.isThrExp = this.filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
+        detailData.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+        detailData.useDes = res.data.executeData && res.data.executeData?.useDes
+        detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+        detailData.xpayDate = res.data.executeData?.xpayDate
+      }
+      if (res.data && res.data.payVoucherVo !== null) {
+        detailData.payBusType = res.data.payVoucherVo.payBusType
+        detailData.todoName = res.data.payVoucherVo.todoName
+        detailData.voidOrNot = res.data.payVoucherVo.voidOrNot
+      }
+      if (res.data && res.data.baBgtInfoEntity !== null) {
+        let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
+        detailData.agencyName = agencyCode + '-' + agencyName
+        detailData.proName = proCode + '-' + proName
+        detailData.timeoutIssueType = timeoutIssueType || ''
+        detailData.corBgtDocNo = corBgtDocNo || ''
+        detailData.fiscalYear = fiscalYear || ''
+        detailData.recDivName = recDivName || ''
+        detailData.mofDivName = mofDivName || ''
+        detailData.proCode = proCode// 项目类别
+        detailData.proName = proName || ''
+        detailData.recTime = recTime || ''
+        detailData.recAmount = recAmount || ''
+        detailData.allocationAmount = allocationAmount || ''
+        detailData.timeoutIssueAmount = timeoutIssueAmount || ''
+        detailData.timeoutIssueTime = timeoutIssueTime || ''
+        detailData.curAmt = curAmt || ''
+
+        detailData.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+        detailData.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+        detailData.bgtDec = res.data.baBgtInfoEntity.bgtDec
+        detailData.proCode = res.data.baBgtInfoEntity.proCode
+        detailData.settlementMethod = res.data.baBgtInfoEntity.proName
+        detailData.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+        detailData.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+        detailData.expFuncName = res.data.baBgtInfoEntity.expFuncName
+        detailData.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+      }
+      return detailData
+      // this.handletableData = res.data?.regulationList
+    },
+    filterText() {
+      let agr = arguments
+      let str = ''
+      for (let i = agr.length - 1; i > 0; i--) {
+        const element = agr[i]
+        if (element) {
+          str += element
+        }
+        if (agr[i - 1]) {
+          str = agr[i - 1] + '-' + str
+        }
+      }
+      return str
+    },
     doBack() {
       let selection = this.$refs.mainTableRef.selection
       if (selection.length === 0) {
@@ -1313,7 +1401,7 @@ export default {
       })
     }
   },
-  mounted() {
+  async mounted() {
     // 如果菜单参数有主题 当前模块就使用该主题查询
     if (transJson(this.$store.state.curNavModule.param5)?.regulationClassName) {
       const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
@@ -1321,8 +1409,11 @@ export default {
     }
     this.detailType = this.detailData[0]
     this.bussnessId = this.selectBid.toString()
+    let { data } = await HttpModule.getIsFlow()// 判断是不是走工作流
+    this.isFlow = data
     this.getAgency()
     this.showInfo()
+    this.queryTableDatas()
   },
   watch: {
     queryConfig() {

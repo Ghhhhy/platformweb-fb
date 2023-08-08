@@ -227,7 +227,7 @@ const proconf = {
       // }
     }, {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,
@@ -409,7 +409,7 @@ const proconf = {
       // }
     }, {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,
@@ -1077,7 +1077,7 @@ const proconf = {
 
     {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,
@@ -1363,7 +1363,7 @@ const proconf = {
       // }
     }, {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,
@@ -1852,7 +1852,7 @@ const proconf = {
       // }
     }, {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,
@@ -2128,7 +2128,7 @@ const proconf = {
       // }
     }, {
       title: '预警值',
-      field: 'triggerCond',
+      field: 'warningMsg',
       filters: false,
       width: 140,
       sortable: false,

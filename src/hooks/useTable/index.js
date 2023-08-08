@@ -23,7 +23,8 @@ function useTable(
     openPager:
       typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
     dataKey:
-      typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records' // 深层取值字段
+      typeof config?.dataKey !== 'undefined' ? config?.dataKey : 'data.records', // 深层取值字段
+    isUnitFeedbackMenu: config.routeConfig?.isUnitFeedbackMenu
   }
   // 表格所有列
   const columns = ref(configIn?.columns || [])
@@ -47,8 +48,12 @@ function useTable(
     slots: {
       tools: 'toolbarTools',
       buttons: 'toolbarSlots'
-    }
+    },
+    exportCustom: false// 自定义导出
   })
+  if (configIn.isUnitFeedbackMenu) {
+    tableToolbarConfig.exportCustom = true
+  }
 
   // 分页设置
   const pagerConfig = reactive({
@@ -143,7 +148,12 @@ function useTable(
   function setFetchMethod(func) {
     customFetch = func
   }
-
+  /**
+   * @type {(ctx:dfr.contexts):void}
+   */
+  function openCustomerExport(ctx) {
+    ctx.triggerExportOption({ dataType: 'selection' })
+  }
   /**
    * 表格数据请求
    * @returns {Promise<void>}
@@ -243,8 +253,9 @@ function useTable(
     return table
   }
 
-  function onToolbarBtnClick({ code }) {
+  function onToolbarBtnClick({ code, context, table }) {
     code === 'refresh' && fetchTableData()
+    code === 'export' && openCustomerExport(context)
   }
 
   async function refreshColumn() {

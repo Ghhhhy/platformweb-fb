@@ -1,4 +1,160 @@
 import store from '@/store/index'
+// 点击查看详情form字段表
+const detailFormItem = [
+  {
+    field: 'warningCode',
+    title: '监控数据编码',
+    width: '180'
+  },
+  {
+    field: 'pay_app_no',
+    title: '支付申请编号',
+    width: '180'
+  },
+  {
+    title: '预算单位名称',
+    width: '180',
+    field: 'agencyName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    field: 'cor_bgt_doc_no_name',
+    title: '指标文号',
+    width: '180'
+  },
+  {
+    title: '预算项目',
+    field: 'proName',
+    width: '180'
+  },
+  {
+    title: '收支类别',
+    field: 'proCatName',
+    width: '180'
+  },
+  {
+    title: '付款人',
+    field: 'pay_acct_name',
+    width: '180'
+  },
+  {
+    title: '付款人账号',
+    field: 'pay_acct_no',
+    width: '180'
+  },
+  {
+    title: '付款银行',
+    field: 'pay_acct_bank_name',
+    width: '180'
+  },
+  {
+    title: '收款人',
+    field: 'payee_acct_name',
+    width: '180'
+  },
+  {
+    title: '收款人账号',
+    field: 'payee_acct_no',
+    width: '180'
+  },
+  {
+    title: '收款银行',
+    field: 'payee_acct_bank_name',
+    width: '180'
+  },
+  {
+    field: 'pay_app_amt',
+    title: '支付金额',
+    width: '180'
+  },
+  {
+    title: '资金用途',
+    field: 'use_des',
+    width: '180'
+  },
+  {
+    title: '政府经济分类',
+    field: 'govEconomyType',
+    width: '180'
+  },
+  {
+    title: '部门经济分类',
+    field: 'deptEconomyType',
+    width: '180'
+  },
+  {
+    title: '资金性质',
+    field: 'natureOfFunds',
+    width: '180'
+  },
+  {
+    title: '功能分类',
+    field: 'funcType',
+    width: '180'
+  },
+  {
+    title: '支付方式',
+    field: 'paymentMethod',
+    width: '180'
+  },
+  {
+    title: '结算方式',
+    field: 'settlementMethod',
+    width: '180'
+  },
+  {
+    title: '业务处室',
+    field: 'businessOffice',
+    width: '180'
+  },
+  {
+    title: '工资标识',
+    field: 'salaryMark',
+    width: '180'
+  },
+  {
+    title: '是否工会经费',
+    field: 'isUnionFunds',
+    width: '180'
+  },
+  {
+    title: '三公经费',
+    field: 'isThrExp',
+    width: '180'
+  },
+  {
+    title: '直达资金标识',
+    field: 'directFund',
+    width: '180'
+  },
+  {
+    title: '监控时间',
+    field: 'fiDate',
+    width: '180'
+  },
+  {
+    title: '业务类型',
+    field: 'payBusType',
+    width: '180'
+  }
+  // {
+  //   title: '当前岗',
+  //   field: 'todoName',
+  //   width: '180'
+  // },
+  // {
+  //   title: '是否作废',
+  //   field: 'voidOrNot',
+  //   width: '180'
+  // },
+  // {
+  //   title: '业务数据时间',
+  //   field: 'businessTime',
+  //   width: '180'
+  // }
+]
 // 预算执行表头
 const budgetImpColumns = [
   {
@@ -2700,7 +2856,7 @@ const proconf = {
    * @param {*} status  数据的状态
    * @param {*} business  所属业务
    */
-  getColumns(status, business, showLog, regulationClass) {
+  getColumns(status, business, showLog, regulationClass, isFlow) {
     // 根据business拿到具体的column
     console.log(budgetManagementColumns)
     // 6和1 代表 支付
@@ -2725,27 +2881,79 @@ const proconf = {
         }
       })
     }
-    console.log('1111111111111', operatorColumns)
+    // console.log('1111111111111', operatorColumns, isFlow)
+    let otherColumnsCopy = [
+      {
+        title: '生成时间',
+        width: 180,
+        field: 'warnDealGenTime',
+        sortable: false,
+        filters: false,
+        align: 'center'
+      },
+      ...otherColumns
+    ]
+    if (isFlow) {
+      otherColumnsCopy = [
+        {
+          title: '生成时间',
+          width: 180,
+          field: 'warnDealGenTime',
+          sortable: false,
+          filters: false,
+          align: 'center'
+        }
+      ]
+    }
     if (status.indexOf('UndoNum') > 0) {
-      return [
+      let arr = [
         ...columns,
         ...operatorColumns
       ]
+      // 需求 内蒙古需要根据详情页面的字段 来判断当前点击进去的页面是否
+      if (store.state.userInfo.province.slice(0, 2) === '15') {
+        detailFormItem.forEach(item => {
+          let arr2 = arr.map(item => item.field)
+          if (!arr2.includes(item.field)) {
+            arr.push(item)
+          }
+        })
+      }
+      return arr
     }
     if (status.indexOf('NormalNum') > 0) {
-      return [
+      let arr = [
         ...columns,
-        ...otherColumns,
+        ...otherColumnsCopy,
         ...tempOperatorColumns
       ]
+      if (store.state.userInfo.province.slice(0, 2) === '15') {
+        detailFormItem.forEach(item => {
+          let arr2 = arr.map(item => item.field)
+          if (!arr2.includes(item.field)) {
+            arr.push(item)
+          }
+        })
+      }
+      return arr
     }
     if (status.indexOf('DoneNum') > 0 || status.indexOf('NotRectifiedNum') > 0) {
-      return [
+      let arr = [
+        ...columns,
         ...violationColumn,
         ...columns,
-        ...otherColumns,
+        ...otherColumnsCopy,
         ...tempOperatorColumns
       ]
+      if (store.state.userInfo.province.slice(0, 2) === '15') {
+        detailFormItem.forEach(item => {
+          let arr2 = arr.map(item => item.field)
+          if (!arr2.includes(item.field)) {
+            arr.push(item)
+          }
+        })
+      }
+      return arr
     }
   }
 }
@@ -2787,25 +2995,25 @@ const statusButtons = [
 const curStatusButton = {
   label: '预警数据',
   code: '1',
-  type: 'button',
+  type: '',
   curValue: '1'
 }
 const curStatusButton1 = {
   label: '认定正常',
   code: '2',
-  type: 'button',
+  type: '',
   curValue: '2'
 }
 const curStatusButton2 = {
   label: '已整改',
   code: '3',
-  type: 'button',
+  type: '',
   curValue: '3'
 }
 const curStatusButton3 = {
   label: '未完成',
   code: '4',
-  type: 'button',
+  type: '',
   curValue: '4'
 }
 const buttons1 = {
@@ -2861,5 +3069,6 @@ export {
   curStatusButton2,
   curStatusButton3,
   buttons1,
-  buttons2
+  buttons2,
+  detailFormItem
 }
