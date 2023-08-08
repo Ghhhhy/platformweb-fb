@@ -549,6 +549,14 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      title: '支付时间',
+      width: 180,
+      field: 'payTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
     }
   ]
 }

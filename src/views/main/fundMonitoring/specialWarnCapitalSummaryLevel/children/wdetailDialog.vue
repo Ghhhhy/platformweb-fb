@@ -42,6 +42,8 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/warnCapitalSummary.js'
 import proconf from './column.js'
+import moment from 'moment'
+
 export default {
   name: 'DetailDialog',
   components: {
@@ -180,7 +182,14 @@ export default {
         mofDivCodes: this.mofDivCodes,
         ruleCodes: this.ruleCodes,
         warnStartDate: this.warnStartDate,
-        warnEndDate: this.warnEndDate
+        warnEndDate: this.warnEndDate,
+        agencyName: this.searchDataList.agencyName,
+        useOfFunds: this.searchDataList.useOfFunds,
+        payer: this.searchDataList.payer,
+        payee: this.searchDataList.payee,
+        xpayStartDate: this.searchDataList.xpayStartDate === '' || this.searchDataList.xpayStartDate === undefined ? '' : moment(this.searchDataList.xpayStartDate).format('YYYY-MM-DD') + ' 00:00:00',
+        xpayEndtDate: this.searchDataList.xpayEndtDate === '' || this.searchDataList.xpayEndtDate === undefined ? '' : moment(this.searchDataList.xpayEndtDate).format('YYYY-MM-DD') + ' 23:59:59'
+
       }
       this.tableLoading = true
       HttpModule.queryDetailDatas(params).then((res) => {
