@@ -172,6 +172,7 @@ export default {
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
       params.budgetLevelCode = this.condition.budgetLevelCode ? this.condition.budgetLevelCode[0] : ''
       // params.xjCorBgtDocNo = this.condition.xjCorBgtDocNo ? this.condition.xjCorBgtDocNo[0] : ''
+      console.log(params, 'fpTime')
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
