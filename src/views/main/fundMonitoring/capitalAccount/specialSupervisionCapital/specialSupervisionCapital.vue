@@ -311,7 +311,6 @@ export default {
           menuguid: this.$store.state.curNavModule.guid
         }
       }
-      console.log(this.loadBsConfig, ' this.loadBsConfig')
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
@@ -885,8 +884,6 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getMofDiv()
-    this.queryTableDatas()
     console.log(this.$refs, 'bsTableRef 表格配置')
     // 判断是否开放动态表格配置
     const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
@@ -905,6 +902,8 @@ export default {
       this.loadConfig('BsTable', 'Table101')
       this.loadConfig('BsQuery', 'Query101')
     }
+    this.getMofDiv()
+    this.queryTableDatas()
   }
 
 }
