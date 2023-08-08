@@ -1390,7 +1390,7 @@ export default {
     filterText() {
       let agr = arguments
       let str = ''
-      for (let i = agr.length - 1; i > 0; i--) {
+      for (let i = agr.length - 1; i > -1; i--) {
         const element = agr[i]
         if (element) {
           str += element
