@@ -358,7 +358,7 @@ export default {
       let key = obj.column.property
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
       // 无效的cellValue
-      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
+      let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
         ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
@@ -412,8 +412,7 @@ export default {
       if (!rowIndex) return
       // 有效的cellValue
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
-      let linkFiscal = this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== (null, undefined)
-        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+      let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
       const validCellValue = (row[column.property] * 1)
       if (column.property !== 'proName' && !validCellValue) return
       if (!linkFiscal && column.property === 'proName') return

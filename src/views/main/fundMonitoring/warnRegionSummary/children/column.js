@@ -100,6 +100,93 @@ const proconf = {
           placeholder: '处室名称'
         }
       }
+    },
+    /** 双击支出明细界面增加“预算单位、用途、支付日期、付款人名称、收款人名称 */
+    {
+      title: '预算单位',
+      field: 'agencyName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '预算单位'
+        }
+      }
+    },
+    {
+      title: '用途',
+      field: 'useOfFunds',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '用途'
+        }
+      }
+    },
+    {
+      title: '付款人名称',
+      field: 'payer',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '付款人名称'
+        }
+      }
+    },
+    {
+      title: '收款人名称',
+      field: 'payee',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '收款人名称'
+        }
+      }
+    },
+    {
+      title: '支付开始时间',
+      field: 'xpayStartDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付开始时间'
+        }
+      }
+    },
+    {
+      title: '支付结束时间',
+      field: 'xpayEndtDate',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付结束时间'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -962,6 +1049,14 @@ const proconf = {
       filters: false,
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '预警时间',
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'left'
     }
   ],
   // 支出预警-已整改明细
@@ -1164,6 +1259,14 @@ const proconf = {
       field: 'payAccount',
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '预警时间',
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'left'
     }
   ],
   // 未导入惠企利民-未处理明细
@@ -1214,6 +1317,14 @@ const proconf = {
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '预警时间',
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'left'
     }
   ],
   // 未导入惠企利民-已整改明细
@@ -1280,6 +1391,14 @@ const proconf = {
       filters: false,
       sortable: false,
       align: 'center'
+    },
+    {
+      title: '预警时间',
+      field: 'warnTime',
+      sortable: false,
+      filters: false,
+      width: 140,
+      align: 'left'
     }
   ]
 }
