@@ -63,7 +63,7 @@
           v-loading="tableLoadingState"
           :footer-config="tableFooterConfig"
           :table-config="tableConfig"
-          :table-columns-config="tableColumnsConfigComputed"
+          :table-columns-config="tableColumnsConfigComputed.arr"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
@@ -137,17 +137,18 @@ export default {
     },
     tableColumnsConfigComputed() {
       let detailColumns = this.getDetailFormItem()
-      console.log('处理columns', detailColumns)
+      let detailAddArr = []
       let arr = Object.assign([], this.tableColumnsConfig)
       if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
         detailColumns.forEach(item => {
           let arr2 = arr.map(item => item.field)
           if (!arr2.includes(item.field)) {
             arr.push(item)
+            detailAddArr.push(item)
           }
         })
       }
-      return arr
+      return { arr, detailAddArr }
     }
   },
   props: {
@@ -1147,7 +1148,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.getDetailFormItem().map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
               })
               return
             }
@@ -1173,7 +1174,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.getDetailFormItem().map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
               })
               return
             }
