@@ -1146,7 +1146,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, detailFormData)
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
               })
               return
             }
@@ -1172,7 +1172,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, detailFormData)
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
               })
               return
             }
@@ -1299,6 +1299,15 @@ export default {
           this.$parent.sDetailTitle = '详细信息'
           break
       }
+    },
+    pickObjectField(obj = {}, field) {
+      let newObj = {}
+      Object.keys(obj).map(item => {
+        if (field.includes(item)) {
+          newObj[item] = obj[item]
+        }
+      })
+      return newObj
     },
     //
     pickDetailData(res) {
