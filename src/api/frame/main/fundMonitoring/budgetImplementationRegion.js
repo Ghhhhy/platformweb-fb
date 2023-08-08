@@ -1,9 +1,9 @@
 //  监控函数api
 import { post, get } from '@/api/http'
-import store from '@/store/index'
+// import store from '@/store/index'
 
 // import { base64 } from 'js-base64'
-import { Base64 } from 'js-base64'
+// import { Base64 } from 'js-base64'
 // or if you prefer no Base64 namespace
 // import { encode, decode } from 'js-base64';
 export default {
@@ -13,9 +13,9 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
-    if (store.state.userInfo.province.slice(0, 2) !== '31') {
-      params = Base64.encode(JSON.stringify(params))
-    }
+    // if (store.state.userInfo.province.slice(0, 2) !== '31') {
+    //   params = Base64.encode(JSON.stringify(params))
+    // }
     return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)
   },
   // 直达资金项目台账
