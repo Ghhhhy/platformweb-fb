@@ -586,7 +586,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.projectCode = this.transJson(this.params5 || '')?.projectCode
-
+    console.log('projectCode   ' + this.projectCode)
     this.getPro()
     this.queryTableDatas()
   }
