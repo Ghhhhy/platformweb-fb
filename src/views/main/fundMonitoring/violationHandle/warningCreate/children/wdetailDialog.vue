@@ -1147,7 +1147,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.getDetailFormItem().map(item => item.field)))
               })
               return
             }
@@ -1173,7 +1173,7 @@ export default {
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.getDetailFormItem().map(item => item.field)))
               })
               return
             }
