@@ -1,5 +1,8 @@
 //  监控函数api
 import { post, get } from '@/api/http'
+import { Base64 } from 'js-base64'
+import store from '@/store/index'
+
 export default {
   // 获取表格数据
   queryTableDatas (params) {
@@ -7,6 +10,9 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
+    if (store.state.userInfo.province.slice(0, 2) !== '31') {
+      params = Base64.encode(JSON.stringify(params))
+    }
     return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)
   },
   // 直达资金项目台账
