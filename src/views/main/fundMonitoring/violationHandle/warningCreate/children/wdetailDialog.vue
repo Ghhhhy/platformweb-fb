@@ -1128,6 +1128,7 @@ export default {
         HttpModule.queryDetailDatasByMof(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
+            this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
@@ -1136,7 +1137,6 @@ export default {
               return
             }
             this.tableData = res.data.results
-            this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
           }
@@ -1154,6 +1154,7 @@ export default {
         HttpModule.queryDetailDatas(params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
+            this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
               this.tableData = res.data.results.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
@@ -1162,7 +1163,6 @@ export default {
               return
             }
             this.tableData = res.data.results
-            this.pagerConfig.total = res.data.totalCount
           } else {
             this.$message.error(res.message)
           }
@@ -1289,7 +1289,7 @@ export default {
     //
     pickDetailData(res) {
       let detailData = {}
-      if (res.data.executeData !== null) {
+      if (res.data && res.data.executeData !== null) {
         detailData.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
         detailData.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
         detailData.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
@@ -1310,12 +1310,12 @@ export default {
         detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
         detailData.xpayDate = res.data.executeData?.xpayDate
       }
-      if (res.data.payVoucherVo !== null) {
+      if (res.data && res.data.payVoucherVo !== null) {
         detailData.payBusType = res.data.payVoucherVo.payBusType
         detailData.todoName = res.data.payVoucherVo.todoName
         detailData.voidOrNot = res.data.payVoucherVo.voidOrNot
       }
-      if (res.data.baBgtInfoEntity !== null) {
+      if (res.data && res.data.baBgtInfoEntity !== null) {
         let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
         detailData.agencyName = agencyCode + '-' + agencyName
         detailData.proName = proCode + '-' + proName
