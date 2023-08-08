@@ -121,6 +121,7 @@ import proconf, {
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
+import { filterText } from '@/utils/customerUtils'
 // import BsTable1 from '@/components/Table/Table.vue'
 import moment from 'moment'
 
@@ -1324,12 +1325,12 @@ export default {
         detailData.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
         detailData.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
         detailData.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
-        detailData.isUnionFunds = this.filterText(res.data.executeData?.isFunCode, res.data.executeData?.isFunCode === 1 ? '是' : '否')
+        detailData.isUnionFunds = filterText(res.data.executeData?.isFunCode, res.data.executeData?.isFunCode === 1 ? '是' : '否')
         detailData.fiDate = res.data.executeData?.fiDate
         detailData.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
         detailData.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
         detailData.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
-        detailData.isThrExp = this.filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
+        detailData.isThrExp = filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
         detailData.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
         detailData.useDes = res.data.executeData && res.data.executeData?.useDes
         detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
@@ -1387,20 +1388,6 @@ export default {
       return detailColumns.map(item => {
         return { ...item, width: 180 }
       })
-    },
-    filterText() {
-      let agr = arguments
-      let str = ''
-      for (let i = agr.length - 1; i > -1; i--) {
-        const element = agr[i]
-        if (element) {
-          str += element
-        }
-        if (agr[i - 1]) {
-          str = agr[i - 1] + '-' + str
-        }
-      }
-      return str
     },
     doBack() {
       let selection = this.$refs.mainTableRef.selection
