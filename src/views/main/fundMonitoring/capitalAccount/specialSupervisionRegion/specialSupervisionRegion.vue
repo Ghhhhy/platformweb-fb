@@ -402,6 +402,7 @@ export default {
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
         this.queryConfig = configData.itemsConfig
+        this.getPro()
       }
     },
     switchMoneyUnit(level) {
