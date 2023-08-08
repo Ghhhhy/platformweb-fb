@@ -801,19 +801,19 @@ export default {
       for (let i = 0; i < settingItemList.length; i++) {
         const item = settingItemList[i]
         // 隐藏整列判断
-        if (Object.hasOwn(item, 'col') && item['col'].split('&').includes(cellCol)) {
+        if ('col' in item && item['col'].split('&').includes(cellCol)) {
           return true
         }
         // 隐藏整行判断
-        if (Object.hasOwn(item, 'row') && item['row'].split('&').includes(cellRow)) {
+        if ('row' in item && item['row'].split('&').includes(cellRow)) {
           return true
         }
         // 隐藏某列下的 每行对应的code
-        if (Object.hasOwn(item, cellCol) && item[cellCol].split('&').includes(cellRow)) {
+        if ('cellCol' in item && item[cellCol].split('&').includes(cellRow)) {
           return true
         }
         // 隐藏某行下 对应每列的点
-        if (Object.hasOwn(item, cellRow) && item[cellRow].split('&').includes(cellCol)) {
+        if ('cellRow' in item && item[cellRow].split('&').includes(cellCol)) {
           return true
         }
       }

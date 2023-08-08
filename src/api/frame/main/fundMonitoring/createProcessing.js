@@ -9,6 +9,9 @@ export default {
   queryTableDatas (params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfos', params)
   },
+  getIsFlow () {
+    return post('large-monitor-platform/lmp/totalWarn/getIsFlow')
+  },
   // 生成
   handleAdd (params) {
     return post('large-monitor-platform/lmp/totalWarn/add', params)
