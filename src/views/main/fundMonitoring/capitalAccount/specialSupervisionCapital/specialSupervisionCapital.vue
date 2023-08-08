@@ -673,8 +673,29 @@ export default {
       //   }
       // })
       } else {
+        let that = this
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          if (row.children !== undefined) return
+        }
+        let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+        let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+          if (Arraya.includes(column)) {
+            return
+          }
+        } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+          if (rowCodeHide.includes(row.code)) {
+            return
+          }
+        } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+          if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
+            return
+          }
+        }
         let condition = ''
-        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
           switch (column) {
             case 'amountSnjwfp':
             case 'amountSnjxd':
@@ -695,6 +716,52 @@ export default {
             case 'amountXjwfp':
             case 'amountXjfp':
               condition = ' substr(mof_div_code,7,3) <> \'000\' '
+              break
+          }
+        } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
+        } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\''
               break
           }
         } else {
@@ -742,19 +809,24 @@ export default {
         } else {
           isCz = '1'
         }
-        let params = {
+        console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
+        reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
+        reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
+        this.detailQueryParam = {
           condition: condition,
           reportCode: reportCode,
           // proCodes: [proCode],
           proCode: proCode,
+          column: column,
           speTypeCode: '',
           isBj: isBj,
           isCz: isCz,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           fiscalYear: this.searchDataList.fiscalYear,
-          mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+          mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+          isCentral: this.searchDataList.isCentral || '',
+          isZd: this.searchDataList.isZd || ''
         }
-        this.detailQueryParam = params
         this.detailType = reportCode
         this.detailVisible = true
       // this.tableLoading = true
