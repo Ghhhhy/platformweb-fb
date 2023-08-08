@@ -105,8 +105,12 @@ export default {
           }
           let QuanXiaRouterList = ['WarnRegion', 'WarnRegionBySpecial']
           if (QuanXiaRouterList.includes(this.$route.name)) {
+            if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+              delete params.province
+            } else {
+              params.province = ''
+            }
             // params.province = ''
-            delete params.province
           }
           return HTTPModule.getFile(params)
         })
