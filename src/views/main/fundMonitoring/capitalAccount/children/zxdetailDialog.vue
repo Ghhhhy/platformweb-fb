@@ -137,7 +137,8 @@ export default {
         pageSize: 20
       },
       clickRowData: {},
-      tableData: [],
+      tableData: [
+      ],
       condition: {},
       tableToolbarConfig: {
         // table工具栏配置
@@ -538,7 +539,7 @@ export default {
           fiscalYear: this.$parent.fiscalYear,
           bgtId: row.bgtId
         }
-        if ((this.detailQueryParam.column === 'amountSnjxjfp' || this.detailQueryParam.column === 'amountSxjfp' || this.detailQueryParam.column === 'amountSnjbjfp' || this.detailQueryParam.column === 'amountSbjfp') && this.transJson(this.params5 || '')?.projectCode === 'SH') {
+        if (this.detailQueryParam.column === ('amountSnjxjfp' || 'amountSxjfp' || 'amountSnjbjfp' || 'amountSbjfp') && this.transJson(this.params5 || '')?.projectCode === 'SH') {
           this.$parent.sDetailQueryParam.fpTime = (row.fpTime || '')
         }
         this.$parent.sDetailVisible = true
