@@ -348,6 +348,10 @@ export let proconf = {
       field: 'toPeopFamily',
       sortable: false,
       filters: false,
+      formatter: ({ row }) => {
+        const mapEnmu = { '01': '到人', '02': '到户' }
+        return mapEnmu[row.toPeopFamily] || ''
+      },
       align: 'left'
     },
     {
