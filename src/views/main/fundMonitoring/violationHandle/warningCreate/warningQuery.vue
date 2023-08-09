@@ -27,6 +27,7 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
+          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
@@ -73,6 +74,13 @@ export default {
   computed: {
     isZX() { // 判断是专项还是直达资金
       return this.$route.name === 'WarnRegionBySpecial'// 专项
+    },
+    tableGlobalConfig() {
+      return {
+        customExportConfig: {
+          fileName: this.menuName
+        }
+      }
     }
   },
   watch: {

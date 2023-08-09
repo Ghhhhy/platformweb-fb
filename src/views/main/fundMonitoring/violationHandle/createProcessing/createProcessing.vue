@@ -47,6 +47,7 @@
           :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :table-global-config="tableGlobalConfig"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
@@ -121,6 +122,13 @@ export default {
         return true
       }
       return false
+    },
+    tableGlobalConfig() {
+      return {
+        customExportConfig: {
+          fileName: this.menuName
+        }
+      }
     }
   },
   watch: {
