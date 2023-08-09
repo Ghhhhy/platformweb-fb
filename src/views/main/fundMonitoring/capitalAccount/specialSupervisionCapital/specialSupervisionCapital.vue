@@ -9,7 +9,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="search"
+            @onSearchClick="(e1,e2) => search(e1,e2,false)"
             @itemChange="itemChange"
           />
         </div>
