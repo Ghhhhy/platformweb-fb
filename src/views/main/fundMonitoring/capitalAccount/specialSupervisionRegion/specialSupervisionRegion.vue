@@ -19,7 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @itemChange="itemChange"
-            @onSearchClick="search"
+            @onSearchClick="(e1,e2) => search(e1,e2,false)"
           />
         </div>
       </template>
