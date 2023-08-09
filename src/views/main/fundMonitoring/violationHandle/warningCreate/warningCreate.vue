@@ -62,7 +62,7 @@
       :colour-type="colourType"
       :select-bid="bussnessId"
       :query-data="searchDataList"
-      :regulation-class="regulationClass"
+      :regulation-class="propsRegulationClass"
     />
   </div>
 </template>
