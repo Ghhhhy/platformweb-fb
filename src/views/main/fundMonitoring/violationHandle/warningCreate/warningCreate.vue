@@ -32,6 +32,7 @@
           id="1001"
           ref="bsTableRef"
           row-id="id"
+          :table-global-config="tableGlobalConfig"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
@@ -62,7 +63,7 @@
       :colour-type="colourType"
       :select-bid="bussnessId"
       :query-data="searchDataList"
-      :regulation-class="regulationClass"
+      :regulation-class="propsRegulationClass"
     />
   </div>
 </template>
@@ -76,6 +77,15 @@ import moment from 'moment'
 export default {
   components: {
     DetailDialog
+  },
+  computed: {
+    tableGlobalConfig() {
+      return {
+        customExportConfig: {
+          fileName: this.menuName
+        }
+      }
+    }
   },
   watch: {
     $refs: {
