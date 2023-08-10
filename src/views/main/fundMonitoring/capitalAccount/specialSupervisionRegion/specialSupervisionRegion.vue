@@ -536,7 +536,7 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, mofDivCode, column, row) {
-      if(this.isSx){
+      if (this.isSx) {
         let condition = ''
         if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
           switch (column) {
@@ -629,177 +629,175 @@ export default {
       //     this.$message.error(res.message)
       //   }
       // })
-      }else{
+      } else {
         let that = this
-      // 拿到那些可以进行超链接的表格行
-      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.projectCode === 'SH') {
-        if (row.children !== undefined) return
-      }
-      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
-      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
-      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
-        if (Arraya.includes(column)) {
-          return
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          if (row.children !== undefined) return
         }
-      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
-        if (rowCodeHide.includes(row.code)) {
-          return
+        let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+        let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+          if (Arraya.includes(column)) {
+            return
+          }
+        } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+          if (rowCodeHide.includes(row.code)) {
+            return
+          }
+        } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+          if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
+            return
+          }
         }
-      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
-        if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
-          return
+        let condition = ''
+        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson(this.params5 || '')?.projectCode === 'SH') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,7,3) <> \'000\' '
+              break
+          }
+        } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
+        } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\''
+              break
+          }
+        } else {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
         }
-      }
-      let condition = ''
-      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson(this.params5 || '')?.projectCode === 'SH') {
+        let isBj = ''
         switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
           case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
           case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            isBj = '1'
             break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
+          case 'amountSnjxjfp':
+          case 'amountSxjfp':
+            isBj = '2'
+            break
           case 'amountXjfp':
-            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            isBj = '3'
             break
         }
-      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+        let isCz = ''
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+          isCz = '2'
+        } else {
+          isCz = '1'
         }
-      } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\''
-            break
+        reportCode = reportCode === 'zxjdxmmx_fdq_xj' ? 'zxjdxmmx_fdq' : reportCode
+        reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
+        let params = {
+          reportCode: reportCode,
+          mofDivCode: mofDivCode,
+          speTypeCode: '',
+          isBj: isBj,
+          isCz: isCz,
+          column: column,
+          fiscalYear: this.searchDataList.fiscalYear,
+          condition: condition,
+          endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+          proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
+          isZd: this.searchDataList.isZd || ''
         }
-      } else {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+        // 上海需求  监管局需要加 isCentral 字段
+        if (hideColumnLinkStr.reportCode === 'zxjd_fdq_central' && hideColumnLinkStr.projectCode === 'SH') {
+          params.isCentral = '1'
         }
+        this.detailQueryParam = params
+        this.detailType = reportCode
+        this.detailVisible = true
+        // this.tableLoading = true
+        // HttpModule.queryTableDatas(params).then((res) => {
+        //   this.tableLoading = false
+        //   if (res.code === '000000') {
+        //     this.detailData = res.data
+        //     this.detailType = type
+        //   } else {
+        //     this.$message.error(res.message)
+        //   }
+        // })
       }
-      let isBj = ''
-      switch (column) {
-        case 'amountSnjbjfp':
-        case 'amountSbjfp':
-          isBj = '1'
-          break
-        case 'amountSnjxjfp':
-        case 'amountSxjfp':
-          isBj = '2'
-          break
-        case 'amountXjfp':
-          isBj = '3'
-          break
-      }
-      let isCz = ''
-      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
-        isCz = '2'
-      } else {
-        isCz = '1'
-      }
-      reportCode = reportCode === 'zxjdxmmx_fdq_xj' ? 'zxjdxmmx_fdq' : reportCode
-      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
-      let params = {
-        reportCode: reportCode,
-        mofDivCode: mofDivCode,
-        speTypeCode: '',
-        isBj: isBj,
-        isCz: isCz,
-        column: column,
-        fiscalYear: this.searchDataList.fiscalYear,
-        condition: condition,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
-        isZd: this.searchDataList.isZd || ''
-      }
-      // 上海需求  监管局需要加 isCentral 字段
-      if (hideColumnLinkStr.reportCode === 'zxjd_fdq_central' && hideColumnLinkStr.projectCode === 'SH') {
-        params.isCentral = '1'
-      }
-      this.detailQueryParam = params
-      this.detailType = reportCode
-      this.detailVisible = true
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(params).then((res) => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.detailData = res.data
-      //     this.detailType = type
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
-      }
-      }
-      
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
