@@ -77,6 +77,7 @@
             ref="mainTableRef"
             :footer-config="tableFooterConfig"
             :table-columns-config="tableColumnsConfig"
+            :table-global-config="tableGlobalConfig"
             :table-data="tableData"
             :table-config="tableConfig"
             :pager-config="mainPagerConfig"
@@ -129,6 +130,15 @@ export default {
   watch: {
     queryConfig() {
       this.getSearchDataList()
+    }
+  },
+  computed: {
+    tableGlobalConfig() {
+      return {
+        customExportConfig: {
+          fileName: this.menuName
+        }
+      }
     }
   },
   data() {
