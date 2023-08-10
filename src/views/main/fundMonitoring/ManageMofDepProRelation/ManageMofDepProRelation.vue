@@ -96,9 +96,10 @@ export default {
       HttpModule.queryByMofDepId(param).then(res => {
         let array = []
         if (res.code === '000000') {
-          res.data.forEach(item => {
-            array.push(item.code)
-          })
+          res.data && (array = this.flatData(res.data))
+          // res.data.forEach(item => {
+          //   array.push(item.code)
+          // })
           this.proArray = array
           // console.log('array', array)
           // console.log('array', this.$refs.stampTree)
@@ -113,6 +114,28 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    // 只有子级code才需要传入到setTree里面的列表里面
+    flatData(axiosTreeItemList) {
+      if (!Array.isArray(axiosTreeItemList)) return
+      let codeMap = {}
+      function cursionCodeNeddPush(axiosListItem, treeNode) {
+        for (let i = 0; i < treeNode.length; i++) {
+          const treeItem = treeNode[i]
+          if (treeItem.children && treeItem.children.length) {
+            cursionCodeNeddPush(axiosListItem, treeItem.children)
+          } else {
+            if (axiosListItem.code === treeItem.code) {
+              codeMap[axiosListItem.code] = axiosListItem.code
+              return
+            }
+          }
+        }
+      }
+      axiosTreeItemList.forEach(item => {
+        cursionCodeNeddPush(item, this.stampTreeData)
+      })
+      return Object.keys(codeMap)
     },
     nodecheckmethod(obj, state) {
       // if (obj.regulationCode === '0' || obj.regulationCode === '01' || obj.regulationCode === '02') {
