@@ -640,46 +640,44 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (this.projectCode !== 'FJ') {
-        const rowIndex = obj?.rowIndex
-        if (!rowIndex) return
-        let key = obj.column.property
-        // 无效的cellValue
-        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-        if (hideColumnLinkStr.projectCode !== 'SH') {
-          const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-          if (isInvalidCellValue) return
-        }
-        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
-          return
-        }
-        let xmSource = 'zdzjxmmx'
-        let zcSource = 'zdzjzcmx_fdq'
-        let reportCode = this.transJson(this.params5 || '')?.reportCode
-        if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
-          xmSource = 'zxjdxmmx_fdq'
-          zcSource = 'zxjdzcmx_fdq'
-        }
-        const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-        const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-        const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
-        console.info(zcjeShow)
-        if (!zcjeShow && key === dictionary['支出-金额']) {
-          this.handleDetail(zcSource, obj.row.code, key, obj.row)
-          this.detailTitle = '支出明细'
-          return
-        }
-        if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-          this.handleDetail(xmSource, obj.row.code, key, obj.row)
-          this.detailTitle = '项目明细'
-        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
-          this.handleDetail(xmSource, obj.row.code, key, obj.row)
-          this.detailTitle = '项目明细'
-        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
-          this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
-          this.detailTitle = '项目明细'
-        }
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
+      // 无效的cellValue
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode !== 'SH') {
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
+      }
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
+        return
+      }
+      let xmSource = 'zdzjxmmx'
+      let zcSource = 'zdzjzcmx_fdq'
+      let reportCode = this.transJson(this.params5 || '')?.reportCode
+      if (reportCode === 'zxjd_fdq' || reportCode === 'zxjd_fdq_central') {
+        xmSource = 'zxjdxmmx_fdq'
+        zcSource = 'zxjdzcmx_fdq'
+      }
+      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+      console.info(zcjeShow)
+      if (!zcjeShow && key === dictionary['支出-金额']) {
+        this.handleDetail(zcSource, obj.row.code, key, obj.row)
+        this.detailTitle = '支出明细'
+        return
+      }
+      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
+        this.handleDetail(xmSource, obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
+      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+        this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
+        this.detailTitle = '项目明细'
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -871,27 +869,25 @@ export default {
       }
     },
     cellStyle({ row, rowIndex, column }) {
-      if (this.projectCode !== 'FJ') {
-        // if (this.transJson(this.params5 || '')?.isShow === 'false') return
-        if (!rowIndex) return
-        // 有效的cellValue
-        // 拿到那些可以进行超链接的表格行
-        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-        if (hideColumnLinkStr.projectCode === 'SH') {
-          // 判断只有最底层有超链接
-          if (row.children !== undefined) return
-        } else {
-          const validCellValue = (row[column.property] * 1)
-          if (!validCellValue) return
-        }
-        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
-          return
-        }
-        if (this.linkStyle(row, rowIndex, column)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      // if (this.transJson(this.params5 || '')?.isShow === 'false') return
+      if (!rowIndex) return
+      // 有效的cellValue
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      } else {
+        const validCellValue = (row[column.property] * 1)
+        if (!validCellValue) return
+      }
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
+        return
+      }
+      if (this.linkStyle(row, rowIndex, column)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
       }
     },
@@ -941,7 +937,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.projectCode = this.transJson(this.params5 || '')?.projectCode
+    this.projectCode = this.transJson2(this.params5 || '')?.projectCode
+    console.log('不钻取---' + this.projectCode)
     // 判断是否开放动态表格配置
     const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
     if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
