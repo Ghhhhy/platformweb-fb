@@ -57,6 +57,7 @@
       :detail-data="detailData"
       :colour-type="colourType"
       :query-data="searchDataList"
+      :regulation-class="regulationClass"
     />
   </div>
 </template>
@@ -96,6 +97,7 @@ export default {
   },
   data() {
     return {
+      regulationClass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass,
       colourType: '',
       warningCode: '',
       fiRuleCode: '',
