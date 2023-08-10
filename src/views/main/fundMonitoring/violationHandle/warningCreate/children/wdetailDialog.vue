@@ -1313,8 +1313,9 @@ export default {
     },
     //
     pickDetailData(res) {
-      let detailData = { ...res.data, ...res.data.executeData }
+      let detailData = {}
       if (res.data && res.data.executeData !== null) {
+        detailData = Object.assign({}, { ...res.data, ...res.data.executeData })
         detailData.agencyName = res.data.executeData.agencyCode === null ? '' : res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
         detailData.proName = res.data.executeData.proCode === null ? '' : res.data.executeData?.proCode + '-' + res.data.executeData?.proName
         detailData.natureOfFunds = res.data.executeData.fundTypeCode === null ? '' : res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
