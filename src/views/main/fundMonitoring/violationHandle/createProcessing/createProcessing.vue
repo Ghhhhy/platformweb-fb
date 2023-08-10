@@ -371,6 +371,8 @@ export default {
         this.leftTreeVisible = true
         // 去发请求获取左侧数据
         this.getLeftTreeData()
+      } else {
+        this.onStatusTabClick(this.toolBarStatusBtnConfig.buttons[0])
       }
     },
     showLogModel(row) {
@@ -853,6 +855,8 @@ export default {
           let resData = res.data.results.filter(item => item.id !== '8')
           let treeResdata = that.getChildrenData(resData)
           that.treeData = treeResdata
+          this.bussnessId = treeResdata[0].code
+          this.onStatusTabClick(this.toolBarStatusBtnConfig.buttons[0])
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -933,7 +937,7 @@ export default {
       this.isNormalDone = false
       this.isProcessed = false
       this.selectBtnType = obj.code
-
+      if (!obj.iconName) return
       switch (obj.code) {
         // 预警明细列表
         case 'warnList':
@@ -1188,9 +1192,11 @@ export default {
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     this.regulationclass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || ''
     // 动态控制是否展示树
-    this.setShowBusinesTree()
-    // this.queryTableDatas()
     this.initButtons(this.param5)
+    this.$nextTick(() => {
+      this.setShowBusinesTree()
+    })
+    // this.queryTableDatas()
     this.getViolationType()
     this.getAgency()
     // this.getCount()
