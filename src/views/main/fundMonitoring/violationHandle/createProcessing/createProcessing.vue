@@ -742,6 +742,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.isCreate = true
       this.detailData = selection
       this.dialogVisible = true
@@ -763,6 +764,7 @@ export default {
         this.$message.warning('请选择同一批次')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
@@ -774,6 +776,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
@@ -786,6 +789,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '业务数据信息'
@@ -796,6 +800,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
@@ -806,6 +811,7 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
+      this.clickRowBussnessId = selection[0].businessModuleCode
       this.detailData = selection
       this.dialogVisible = true
       this.dialogTitle = '监控问询单信息'
