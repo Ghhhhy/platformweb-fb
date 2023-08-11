@@ -174,7 +174,7 @@ const proconf = {
             filters: false,
             width: 200,
             align: 'right',
-            formula: '{amountli}-{amounthqFill}'
+            formula: '{amountli}-{amountliFill}'
           },
           {
             title: '惠企',
@@ -192,7 +192,7 @@ const proconf = {
             sortable: true,
             filters: false,
             align: 'right',
-            formula: '{amounthqli}-{amounthqlmFill}'
+            formula: '{amounthqli}-{amounthqliFill}'
           }
         ]
       },
