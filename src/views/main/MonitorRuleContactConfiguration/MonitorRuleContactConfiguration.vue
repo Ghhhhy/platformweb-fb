@@ -1,6 +1,6 @@
 <!-- 政策法规管理 -->
 <template>
-  <div v-loading="tableLoading" style="height: 100%">
+  <div v-loading="tableLoading" class="MonitorRuleContactConfiguration" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
@@ -681,16 +681,19 @@ float: right;
 /deep/ .boss-slect__toolbar .boss-toolbar__content .toolbar-btns .select-tab-li{
   max-width: inherit;
 }
-.warningLevel1{
-  color: red;
+.MonitorRuleContactConfiguration{
+  /deep/ .warningLevel1{
+    color: red;
+  }
+  /deep/.warningLevel2{
+    color:#FF6F20
+  }
+  /deep/.warningLevel3{
+    color: #FFD43C;
+  }
+  /deep/ .warningLevel4{
+    color: blue !important;
+  }
 }
-.warningLevel2{
-  color:#FF6F20
-}
-.warningLevel3{
-  color: #FFD43C;
-}
-.warningLevel4{
-  color: #F1F1F1;
-}
+
 </style>
