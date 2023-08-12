@@ -68,6 +68,6 @@ export default {
     return post('large-monitor-platform/lmp/regulation/saveOrUpdateContacts', params)
   },
   getTree(params) {
-    return post('large-monitor-platform/lmp/ruleClassify/tree/', params)
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }
