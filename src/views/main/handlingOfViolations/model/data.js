@@ -551,7 +551,7 @@ export const auditInfoColumns = [
     sortable: false
   },
   {
-    field: 'createTime',
+    field: 'handleTime',
     title: '处理日期',
     width: 160,
     filters: false,
