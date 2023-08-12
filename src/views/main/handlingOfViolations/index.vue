@@ -80,7 +80,7 @@ import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
 import useIs from './hooks/useIs'
 import store from '@/store'
-
+import { transJson2 } from '@/utils/params'
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
 
@@ -93,7 +93,8 @@ import {
   doAuditTabs,
   pagePathMapNodeType,
   searchFormAllTabSchema,
-  getStatusCodeOptions
+  getStatusCodeOptions,
+  fjAddColumns
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 import transJson from '@/utils/transformMenuQuery.js'
@@ -325,6 +326,10 @@ export default defineComponent({
         initColumns = initColumns.filter(item => {
           return item.field !== 'businessNo'
         })
+      }
+      const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
+      if (projectCode !== 'SH') {
+        initColumns = initColumns.concat(fjAddColumns)
       }
       columns.value = initColumns
     }
