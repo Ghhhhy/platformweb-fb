@@ -46,10 +46,6 @@ export default {
       dialogVisible: false,
       selection: [],
       createDataList: {
-        // id: '',
-        // regulationCode: '',
-        // mofDivCode: '',
-        // agencyCode: null,
         contactPerson: '',
         officePhone: '',
         mobilePhone: '',
@@ -58,7 +54,6 @@ export default {
         qqNumber: '',
         otherWay: '',
         otherInfo: ''
-        // fiscalYear: ''
       },
       createValidate: {
         contactPerson: [

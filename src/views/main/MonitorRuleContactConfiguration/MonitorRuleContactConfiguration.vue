@@ -20,6 +20,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="itemChange"
           />
         </div>
       </template>
@@ -240,6 +241,13 @@ export default {
   mounted() {
   },
   methods: {
+    itemChange(data) {
+      if (['regulationType', 'warningLevel'].includes(data.property)) {
+        if (data.itemValue === null) {
+          data.data[data.property] = ''
+        }
+      }
+    },
     getLeftTreeData() {
       console.log('getLeftTreeData')
       let that = this
@@ -346,6 +354,7 @@ export default {
       this.searchDataList.warningLevel = obj.warningLevel
       this.searchDataList.regulationType = obj.regulationType
       this.searchDataList.ruleTypeCode = obj.ruleTypeCode
+      this.searchDataList.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
     },
     onNodeCheckClick(data) {
@@ -403,7 +412,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '政策法规库管理'
+          this.menuName = '监控规则联系人列表'
           // this.getSearchDataList()
           this.radioShow = true
           break
@@ -611,6 +620,32 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    getRegulation() {
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'regulationClass' })].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData1(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -623,6 +658,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getLeftTreeData()
+    this.getRegulation()
   }
 }
 </script>
