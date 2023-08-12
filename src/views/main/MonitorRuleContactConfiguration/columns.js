@@ -236,7 +236,7 @@ export let proconf = {
       slots: {
         default({ row }) {
           return [
-            <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === row.warningLevel)?.label}</div>
+            <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === String(row.warningLevel))?.label}</div>
           ]
         }
       },
