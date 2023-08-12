@@ -1961,7 +1961,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .payVoucherInput {
     margin: 15px;
     .el-card {
@@ -2016,4 +2016,10 @@ export default {
       display:flex;
     }
   }
+
+</style>
+<style lang="scss">
+.vue-recycle-scroller.ready.direction-vertical{
+  min-width: 350px;
+}
 </style>
