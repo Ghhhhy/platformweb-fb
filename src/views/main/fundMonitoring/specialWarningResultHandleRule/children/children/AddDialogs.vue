@@ -185,6 +185,7 @@ export default {
       this.otherAmt = this.selectData.otherAmt
       this.dfrFileCode = this.selectData.dfrFileCode
       this.diBillId = this.selectData.diBillId
+      this.fiRuleCode = this.selectData.fiRuleCode
       if (this.title === '整改处理单') {
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
       } else {
@@ -220,7 +221,8 @@ export default {
           transferAmt: this.transferAmt || 0,
           otherAmt: this.otherAmt || 0,
           diBillId: this.diBillId,
-          dfrFileCode: this.attachmentId
+          dfrFileCode: this.attachmentId,
+          fiRuleCode: this.fiRuleCode
         }
         this.addLoading = true
         HttpModule.update(param).then(res => {
