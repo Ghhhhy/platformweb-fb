@@ -42,5 +42,9 @@ export default {
   // 获取违规类型枚举
   queryViolationType(params) {
     return get('large-monitor-platform/lmp/violationType/pageQuery', params)
+  },
+  // 查看是否符合认定条件
+  checkBgt(params) {
+    return post('dfr-monitor-service/dfr/warningResultHandleRule/checkBgt', params)
   }
 }
