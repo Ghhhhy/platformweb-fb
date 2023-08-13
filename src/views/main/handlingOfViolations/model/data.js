@@ -332,7 +332,7 @@ export const getMofDivCodeColumn = (params = {}) => {
   return {
     title: '财政区划',
     field: 'mofDivCode',
-    width: 200,
+    width: 250,
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     },
@@ -817,7 +817,7 @@ export const fjAddColumns = [
     filters: false
   },
   {
-    title: '',
+    title: '结算方式',
     field: 'setModeName',
     width: 180,
     sortable: false,
