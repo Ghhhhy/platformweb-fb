@@ -751,9 +751,17 @@ export const proconf = {
       }
     },
     {
-      title: '业务数据单号',
+      title: '监控单号',
       width: 180,
       field: 'dealNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '支付申请编号',
+      width: 180,
+      field: 'payAppNo',
       sortable: false,
       filters: false,
       align: 'center'

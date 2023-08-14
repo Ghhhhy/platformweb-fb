@@ -47,7 +47,10 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 150
+      width: 150,
+      formatter({ row }) {
+        return row.fiRuleTypeCode && row.fiRuleTypeName ? `${(row.fiRuleTypeCode + '').slice(0, 1) === '1' ? '中央' : '地方'}-${row.fiRuleTypeName}` : ''
+      }
     },
     {
       title: '事项名称',
