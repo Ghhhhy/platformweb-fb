@@ -611,6 +611,7 @@ export default {
         isBj: isBj,
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        create_date: this.condition.create_date ? this.condition.create_date[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
         isCentral: this.searchDataList.isCentral || '',
@@ -701,6 +702,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        create_date: this.condition.create_date ? this.condition.create_date[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
         isCentral: this.searchDataList.isCentral || '',
         isZd: this.searchDataList.isZd || ''
