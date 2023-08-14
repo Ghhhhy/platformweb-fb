@@ -220,10 +220,15 @@ export default defineComponent({
     checkedRecords: {
       type: Array,
       default: () => ([])
+    },
+    menuName: {
+      type: String,
+      default: ''
     }
   },
   model,
   setup(props, { emit }) {
+    const { menuName } = props
     const isNeedRefreshIndexList = ref(false)
     /**
      * 弹窗内部状态
@@ -399,6 +404,7 @@ export default defineComponent({
               attachFiles: attachFiles.map(item => item.fileguid)
             }
           }),
+          menuName: menuName,
           statusCode: warningCodeAndFilesList[0]?.statusCode,
           menuId
         }

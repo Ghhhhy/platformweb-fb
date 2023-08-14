@@ -1066,6 +1066,7 @@ export default {
         //   this.title = '认定违规-已整改明细'
         //   break
       }
+      this.tabSelect = this.tabStatusBtnConfig.curButton.code
       switch (this.warnLevel) {
         case '1':
           this.title = '红色预警-' + this.title

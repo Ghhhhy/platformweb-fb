@@ -164,10 +164,10 @@ export default {
               let vnode = (
                 <div>
                   <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
-                  {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
                   <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
+              // {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
               return [
                 vnode
               ]
