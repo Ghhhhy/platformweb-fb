@@ -35,9 +35,13 @@
       </div>
       <div v-show="showType === 'router'" class="main-modulebox-contain" :style="{ height: isIframe() ? 'calc(100% - 8px) !important' : '', 'marginLeft': leftNavWidth + 'px' }">
         <BsKeepAlive ref="keepAlive" :include="includedComponents">
-          <router-view v-if="$route.meta.keepAlive && ifrouteractive " :key="$route.name" />
+          <router-view v-if="$route.meta.keepAlive && ifrouteractive " v-slot="{ Component }">
+            <component :is="wrap($route.name,Component)" :key="$route.name" />
+          </router-view>
         </BsKeepAlive>
-        <router-view v-if="!$route.meta.keepAlive && ifrouteractive" :key="$route.name" />
+        <router-view v-if="!$route.meta.keepAlive && ifrouteractive">
+          <component :is="wrap($route.name,Component)" :key="$route.name" />
+        </router-view>
       </div>
       <div v-show="showType === 'iframe'" class="main-modulebox-contain" :style="{ 'marginLeft': leftNavWidth + 'px' }">
         <iframe
@@ -60,6 +64,8 @@
 import MenuModule from '@/api/frame/common/menu.js'
 import GlobalSetting from '@/views/main/GlobalSetting'
 import { generateDefaultWaterPrint } from '@/hb/waterMark.js'
+import { h } from 'vue'
+const cacheMap = new Map()
 export default {
   name: 'Main',
   components: {
@@ -125,6 +131,23 @@ export default {
     }
   },
   methods: {
+    wrap (name, component) {
+      console.log('jjh', name, component)
+      let cache
+      const cacheName = name
+      if (cacheMap.has(cacheName)) {
+        cache = cacheMap.get(cacheName)
+      } else {
+        cache = {
+          name: cacheName,
+          render() {
+            return h('div', { className: 'cache-page-wrapper' }, component)
+          }
+        }
+        cacheMap.set(cacheName, cache)
+      }
+      return h(cache)
+    },
     isIframe() {
       return window.self !== window.top
     },
@@ -222,7 +245,7 @@ export default {
         this.excludedComponents.push(self.$route.name)
         this.excludedComponents = [...new Set(this.excludedComponents)]
       }
-      console.log(this.includedComponents)
+      console.log('当前缓存路由', this.includedComponents)
     },
     tabTabs(value) {
       if (value !== '') {
