@@ -220,6 +220,14 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'affirmPersomName',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '逾期天数',
       filters: false,
       width: 140,
