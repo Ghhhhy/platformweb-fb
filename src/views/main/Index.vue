@@ -509,8 +509,9 @@ export default {
             item.url = this.updateUrl(item.url)
           }
           if (item.url && item.url.indexOf('ReuseRoute') >= 0) {
+            item.uucode = Math.floor(Math.random() * 100000000)
             reuseRouts.push(Object.assign({}, item))
-            item.url = '/' + item.code + item.url
+            item.url = item.uucode + item.url
           }
         }
       })
@@ -529,7 +530,7 @@ export default {
         reuseRouts.forEach((ritem, rindex) => {
           if (item.name === ritem.url.replace('ReuseRoute', '')) {
             mainAddRoute.push({
-              path: `/${ritem.code}${ritem.url}`,
+              path: `/${ritem.uucode}${ritem.url}`,
               name: `${ritem.code}${ritem.url}`,
               component: item.component,
               meta: {
