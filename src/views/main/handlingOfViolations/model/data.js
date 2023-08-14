@@ -896,7 +896,7 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   }, {
-    title: '',
+    title: '申请人电话',
     field: 'applyDial',
     width: 180,
     sortable: false,

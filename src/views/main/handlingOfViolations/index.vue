@@ -66,6 +66,7 @@
       v-if="auditVisible"
       v-model="auditVisible"
       :checked-records="checkedRecords"
+      :menu-name="menuName"
       @success="resetFetchTableData"
     />
   </div>
@@ -104,6 +105,7 @@ export default defineComponent({
     AuditModal
   },
   setup(_, { root }) {
+    const menuName = ref(store.getters.getCurNavModule.name)
     const route = root.$route
 
     // 页面路由
@@ -407,6 +409,7 @@ export default defineComponent({
       leftVisible,
       isUnitMenu,
       auditVisible,
+      menuName,
 
       treeLoading,
       treeProps,
