@@ -158,11 +158,16 @@ function useTabPlanel(
   /**
    * 2023-3-6新增需求：
    * 单位反馈页面的“未送审”、“被退回”页卡新增作废按钮
+   * 监控预警业务处室反馈菜单“未送审”新增作废按钮
    */
   function patchTabMapButton() {
     if (unref(pagePath) === (RouterPathEnum().UNIT_FEEDBACK || RouterPathEnum().DIVISION_FEED_BACK)) {
       [TabEnum.NO_SEND, TabEnum.RETURN].forEach(item => {
         tabMapButton[item].splice(1, 0, cancellationButton)
+        tabMapButtonSH[item].splice(1, 0, cancellationButton)
+      })
+    } else if (unref(pagePath) === RouterPathEnum().DIVISION_FEED_BACK) {
+      [TabEnum.NO_SEND].forEach(item => {
         tabMapButtonSH[item].splice(1, 0, cancellationButton)
       })
     }
