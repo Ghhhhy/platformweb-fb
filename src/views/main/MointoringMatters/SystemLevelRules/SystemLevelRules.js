@@ -93,7 +93,7 @@ export let proconf = {
     },
     {
       title: '监控规则名称',
-      field: 'regulationName',
+      field: 'fiRuleTypeCodeName',
       width: '8',
       align: 'left',
       formula: '',
