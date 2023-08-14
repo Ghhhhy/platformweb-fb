@@ -339,7 +339,7 @@ export default {
           case 'zdzjzcmx_fdq':
           case 'zdzjzcmx_fzj':
           case 'zyzfzcmx_fzj':
-          case 'zyzjzcmx_fdq':
+          case 'zyzfzcmx_fdq':
             this.tableColumnsConfig = proconf.payColumn
             break
           case 'zxjdzcmx_fdq':
