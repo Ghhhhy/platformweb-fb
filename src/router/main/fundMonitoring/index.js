@@ -969,6 +969,10 @@ const routers = [
   {
     path: '/DepartmentRetroactBySpecial', // 违规处理（处室）-专项
     name: 'DepartmentRetroactBySpecial',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
     component: () =>
       import(
         '@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
@@ -977,6 +981,10 @@ const routers = [
   {
     path: '/CompanyRetroactBySpecial', // 违规处理（单位）-专项
     name: 'CompanyRetroactBySpecial',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
     component: () =>
       import(
         '@/views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.vue'
