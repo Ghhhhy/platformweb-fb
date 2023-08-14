@@ -1,11 +1,11 @@
-// import store from '@/store/index'
-import store from '@/store'
-const dict = [
-  { value: 1, label: '红色预警' },
-  { value: 2, label: '黄色预警' },
-  { value: 3, label: '蓝色预警' },
-  { value: 4, label: '灰色预警' }
-]
+import store from '@/store/index'
+const dict = store.state.warnInfo.warnLevelOptions.map(item => {
+  return {
+    ...item,
+    value: String(item.value)
+  }
+})
+
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -45,23 +45,46 @@ export let proconf = {
     },
     {
       title: '规则类型',
-      field: 'ruleTypeCode',
-      width: 180,
+      field: 'fiRuleTypeCode',
+      'width': 180,
       align: 'left',
       formula: '',
       name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
+        name: '$vxeTree',
         options: [
-          { value: '1', label: '中央监控规则' },
-          { value: '11', label: '通用类监控规则' },
-          { value: '12', label: '专项类监控规则' },
-          { value: '19', label: '其他监控规则' },
-          { value: '2', label: '地方监控规则' }
+          { value: '1',
+            label: '中央监控规则',
+            children: [
+              { value: '11', label: '通用类监控规则' },
+              { value: '12', label: '专项类监控规则' },
+              { value: '19', label: '其他监控规则' }
+            ]
+          },
+          { value: '2',
+            label: '地方监控规则',
+            children: [
+              { value: '21', label: '通用类监控规则' },
+              { value: '22', label: '专项类监控规则' },
+              { value: '29', label: '其他监控规则' }
+            ]
+          }
         ],
         props: {
-          placeholder: '规则类型',
-          clearable: true
+          config: {
+            valueKeys: ['value', 'label', 'value'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{value}-{label}', // {code}-{name}
+              nodeKey: 'value',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '规则类型',
+            multiple: false,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -88,20 +111,43 @@ export let proconf = {
     {
       title: '预警级别',
       field: 'warningLevel',
-      align: 'center',
-      width: 180,
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
+        options: dict,
+        props: {
+          placeholder: '预警级别',
+          clearable: true
+        }
+      }
+    },
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': true
           }
-        }),
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
+        }
+      }
     }
     // {
     //   title: '处理方式',
@@ -190,21 +236,26 @@ export let proconf = {
       slots: {
         default({ row }) {
           return [
-            <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === row.warningLevel)?.label}</div>
+            <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === String(row.warningLevel))?.label}</div>
           ]
         }
       },
       cellRender: {
         name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
-          }
-        }),
+        options: dict,
         props: {
           placeholder: '是否启用'
         }
+      }
+    },
+    {
+      title: '是否启用',
+      field: 'isEnable',
+      sortable: false,
+      align: 'center',
+      formatter: ({ row }, column) => {
+        const dictMap = { 1: '是', 2: '否' }
+        return dictMap[row.isEnable] || ''
       }
     },
     {
@@ -341,11 +392,12 @@ export const mobilePhoneValid = ({ itemValue: value }) => {
 }
 // 校验座机电话号码
 export const officePhoneValid = ({ itemValue: value }) => {
-  let reg = /^((0\d{2,3}-\d{7,8}|(0\d{2,3}-\d{7,8}-\d{3,5}))|[0-9]{8})$/ // 座机
-  let myreg = /^1[3-9]\d{9}$/ // 手机号
+  const re = /^1\d{10}$/ // 手机号码
+  const re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/ // 座机号
+  const re2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/ // 固定号码
   if (!value) {
     return Promise.reject(new Error('请填写办公电话'))
-  } else if (value && !(reg.test(value) || myreg.test(value))) {
+  } else if (value && (!re1.test(value) && !re.test(value) && !re2.test(value))) {
     return Promise.reject(new Error('请填写正确的办公电话'))
   }
   return Promise.resolve()

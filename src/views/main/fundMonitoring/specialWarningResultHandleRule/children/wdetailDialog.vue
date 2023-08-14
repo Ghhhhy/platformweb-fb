@@ -348,7 +348,17 @@ export default {
             return
           }
           this.selectData = selectionRow1[0]
-          this.updateRectifyAsk()
+          let param = {
+            diBillId: this.selectData.diBillId,
+            fiRuleCode: this.selectData.fiRuleCode
+          }
+          HttpModule.checkBgt(param).then(res => {
+            if (res.code === '000000') {
+              this.updateRectifyAsk()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
           break
         // 整改意见
         case 'rectify_ask_update':

@@ -66,6 +66,7 @@
       v-if="auditVisible"
       v-model="auditVisible"
       :checked-records="checkedRecords"
+      :menu-name="menuName"
       @success="resetFetchTableData"
     />
   </div>
@@ -80,7 +81,7 @@ import useTree from '@/hooks/useTree'
 import useTabPlanel from './hooks/useTabPlanel'
 import useIs from './hooks/useIs'
 import store from '@/store'
-
+import { transJson2 } from '@/utils/params'
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
 
@@ -93,7 +94,8 @@ import {
   doAuditTabs,
   pagePathMapNodeType,
   searchFormAllTabSchema,
-  getStatusCodeOptions
+  getStatusCodeOptions,
+  fjAddColumns
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 import transJson from '@/utils/transformMenuQuery.js'
@@ -103,6 +105,7 @@ export default defineComponent({
     AuditModal
   },
   setup(_, { root }) {
+    const menuName = ref(store.getters.getCurNavModule.name)
     const route = root.$route
 
     // 页面路由
@@ -326,6 +329,10 @@ export default defineComponent({
           return item.field !== 'businessNo'
         })
       }
+      const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
+      if (projectCode !== 'SH') {
+        initColumns = initColumns.concat(fjAddColumns)
+      }
       columns.value = initColumns
     }
 
@@ -402,6 +409,7 @@ export default defineComponent({
       leftVisible,
       isUnitMenu,
       auditVisible,
+      menuName,
 
       treeLoading,
       treeProps,

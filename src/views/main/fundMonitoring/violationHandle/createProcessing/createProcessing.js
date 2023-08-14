@@ -23,7 +23,7 @@ const budgetImpColumns = [
   {
     title: '单位编码',
     width: 180,
-    field: 'unitCode',
+    field: 'agencyCode',
     sortable: false,
     filters: false,
     align: 'center'
