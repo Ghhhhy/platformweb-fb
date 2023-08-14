@@ -1108,7 +1108,7 @@ export default {
         }
       }
       if (this.param5.retroact === 'company' && !this.information1) {
-        this.$message.warning('请输入核实意见说明意见')
+        this.$message.warning('请输入核实意见说明')
         return
       }
       if (this.param5.retroact === 'company' && this.information1) {
