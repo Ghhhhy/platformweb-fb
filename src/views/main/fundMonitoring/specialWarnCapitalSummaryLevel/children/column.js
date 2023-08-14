@@ -175,7 +175,7 @@ const proconf = {
     },
     {
       title: '支付结束时间',
-      field: 'xpayEndtDate',
+      field: 'xpayEndDate',
       sortable: false,
       align: 'left',
       itemRender: {
