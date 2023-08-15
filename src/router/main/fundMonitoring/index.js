@@ -355,6 +355,10 @@ const routers = [
   {
     path: '/DepartmentRetroact ', // 部门反馈
     name: 'DepartmentRetroact ',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
     component: () =>
       import(
         '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
@@ -363,6 +367,10 @@ const routers = [
   {
     path: '/CompanyRetroact', // 单位反馈
     name: 'CompanyRetroact',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
     component: () =>
       import(
         '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
