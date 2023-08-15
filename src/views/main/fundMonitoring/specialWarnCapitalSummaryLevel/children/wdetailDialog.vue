@@ -188,7 +188,7 @@ export default {
         payer: this.searchDataList.payer,
         payee: this.searchDataList.payee,
         xpayStartDate: this.searchDataList.xpayStartDate === '' || this.searchDataList.xpayStartDate === undefined ? '' : moment(this.searchDataList.xpayStartDate).format('YYYY-MM-DD') + ' 00:00:00',
-        xpayEndtDate: this.searchDataList.xpayEndtDate === '' || this.searchDataList.xpayEndtDate === undefined ? '' : moment(this.searchDataList.xpayEndtDate).format('YYYY-MM-DD') + ' 23:59:59'
+        xpayEndDate: this.searchDataList.xpayEndDate === '' || this.searchDataList.xpayEndDate === undefined ? '' : moment(this.searchDataList.xpayEndDate).format('YYYY-MM-DD') + ' 23:59:59'
 
       }
       this.tableLoading = true
