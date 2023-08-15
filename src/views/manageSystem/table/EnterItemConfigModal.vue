@@ -16,7 +16,6 @@
       <vxe-button size="medium" status="primary" content="保存" @click="onSaveItemClick" />
     </div>
   </vxe-modal>
-  </div>
 </template>
 
 <script>

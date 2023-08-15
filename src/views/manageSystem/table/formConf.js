@@ -21,7 +21,8 @@ const manageFormlistConf = {
           options: [
             { value: '310000000', label: '上海' },
             { value: '220000000', label: '吉林省' },
-            { value: '610000000', label: '陕西省' }
+            { value: '610000000', label: '陕西省' },
+            { value: '500000', label: '重庆' }
           ],
           props: {
             type: 'text',
@@ -40,7 +41,7 @@ const manageFormlistConf = {
             { value: '2022', label: '2022' },
             { value: '2023', label: '2023' }
           ],
-          defaultValue: '2022',
+          defaultValue: new Date().getFullYear(),
           props: {
             type: 'text',
             placeholder: '年份'
