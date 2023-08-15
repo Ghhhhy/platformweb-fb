@@ -7,7 +7,8 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          :is-open="isShowQueryConditions"
+          is-open
+          is-hide-query
           :tab-status-btn-config="queryConfigInfo"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="(open) => isShowQueryConditions = open"
