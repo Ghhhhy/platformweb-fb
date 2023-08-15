@@ -943,7 +943,6 @@ export default {
       this.isNormalDone = false
       this.isProcessed = false
       this.selectBtnType = obj.code
-      if (!obj.iconName) return
       switch (obj.code) {
         // 预警明细列表
         case 'warnList':
