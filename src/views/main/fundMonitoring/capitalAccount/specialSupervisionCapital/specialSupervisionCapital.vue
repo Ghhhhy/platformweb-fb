@@ -1,4 +1,3 @@
-<!-- eslint-disable no-undef -->
 <!-- 直达资金预算下达_分资金 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
@@ -15,7 +14,70 @@
         </div>
       </template>
       <template v-slot:mainForm>
+        <BsTable
+          v-if="isSx"
+          id="1001"
+          ref="bsTableRef"
+          row-id="id"
+          :row-config="{ keyField: 'id' }"
+          :table-config="tableConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
+          :toolbar-config="tableToolbarConfig"
+          :calculate-constraint-config="calculateConstraintConfig"
+          :pager-config="pagerConfig"
+          :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
+          :cell-style="cellStyle"
+          :show-zero="false"
+          @editClosed="onEditClosed"
+          @cellDblclick="cellDblclick"
+          @onToolbarBtnClick="onToolbarBtnClick"
+          @cellClick="cellClick"
+        >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">{{ menuName }}</span>
+                <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <vxe-button
+              v-if="transJson($store.state.curNavModule.param5).incrementUpdateBtnVisible !== false"
+              :loading="dataSourceAddLoading"
+              style="margin-right: 8px;"
+              @click="incrementHandle"
+            >
+              数据增量同步
+            </vxe-button>
+            <vxe-button
+              v-if="transJson($store.state.curNavModule.param5).otherSysImportBtnVisible !== false"
+              style="margin-right: 8px;"
+              @click="otherSysImportModal = true"
+            >
+              华青数据导入
+            </vxe-button>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
+            </div>
+          </template>
+        </BsTable>
         <BsTable1
+          v-else
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -110,6 +172,7 @@ import SDetailDialog from '../children/sDetailDialog.vue'
 import ImportModal from './components/ImportModal'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import { checkRscode } from '@/utils/checkRscode'
+import XEUtils from 'xe-utils/ctor'
 // import proconf from '../children/column'
 import capitalMixin from '../mixins/capitalMixin'
 const dictionary = {
@@ -131,6 +194,9 @@ export default {
   computed: {
     menuSettingConfig() { // 路由菜单配置信息
       return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    },
+    isSx() {
+      return this.$store.getters.isSx
     }
   },
   watch: {
@@ -177,7 +243,7 @@ export default {
       },
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
+      tableColumnsConfig: !this.isSx ? getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`) : [],
       tableData: [],
       showZero: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       calculateConstraintConfig: {
@@ -462,139 +528,140 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, proCode, column, row) {
-      let that = this
-      // 拿到那些可以进行超链接的表格行
-      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.projectCode === 'SH') {
-        if (row.children !== undefined) return
-      }
-      let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
-      let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
-      if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
-        if (Arraya.includes(column)) {
-          return
+      if (this.isSx) {
+        let that = this
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          if (row.children !== undefined) return
         }
-      } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
-        if (rowCodeHide.includes(row.code)) {
-          return
+        let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+        let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
+        if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
+          if (Arraya.includes(column)) {
+            return
+          }
+        } else if (Arraya.length === 0 && rowCodeHide.length > 0) { // 只配置了隐藏列
+          if (rowCodeHide.includes(row.code)) {
+            return
+          }
+        } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
+          if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
+            return
+          }
         }
-      } else if (Arraya.length > 0 && rowCodeHide.length > 0) { // 都配置了隐藏行 都配置了隐藏列 那就只隐藏交叉单元格
-        if ((rowCodeHide.includes(row.code) && Arraya.includes(column))) {
-          return
+        let condition = ''
+        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,7,3) <> \'000\' '
+              break
+          }
+        } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
+        } else {
+          switch (column) {
+            // 支出明细
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
         }
-      }
-      let condition = ''
-      if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+        let isBj = ''
         switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
           case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
           case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            isBj = '1'
             break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
+          case 'amountSnjxjfp':
+          case 'amountSxjfp':
+            isBj = '2'
+            break
           case 'amountXjfp':
-            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            isBj = '3'
             break
         }
-      } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        switch (column) {
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+        let isCz = ''
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+          isCz = '2'
+        } else {
+          isCz = '1'
         }
-      } else {
-        switch (column) {
-          // 支出明细
-          case 'amountSnjwfp':
-          case 'amountSnjxd':
-          case 'amountSnjpay':
-          case 'amountSnjbjfp':
-          case 'amountSnjxjfp':
-            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
-            break
-          case 'amountSjxd':
-          case 'amountSjpay':
-          case 'amountSjwfp':
-          case 'amountSbjfp':
-          case 'amountSxjfp':
-            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
-            break
-          case 'amountXjxd':
-          case 'amountXjpay':
-          case 'amountXjwfp':
-          case 'amountXjfp':
-            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
-            break
+        console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
+        reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
+        reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
+        this.detailQueryParam = {
+          condition: condition,
+          reportCode: reportCode,
+          // proCodes: [proCode],
+          proCode: proCode,
+          column: column,
+          speTypeCode: '',
+          isBj: isBj,
+          isCz: isCz,
+          endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+          fiscalYear: this.searchDataList.fiscalYear,
+          mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+          isCentral: this.searchDataList.isCentral || '',
+          isZd: this.searchDataList.isZd || ''
         }
-      }
-      let isBj = ''
-      switch (column) {
-        case 'amountSnjbjfp':
-        case 'amountSbjfp':
-          isBj = '1'
-          break
-        case 'amountSnjxjfp':
-        case 'amountSxjfp':
-          isBj = '2'
-          break
-        case 'amountXjfp':
-          isBj = '3'
-          break
-      }
-      let isCz = ''
-      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
-        isCz = '2'
-      } else {
-        isCz = '1'
-      }
-      console.log('xxxxxxxxxx', this.searchDataList.mofDivCodes)
-      reportCode = reportCode === 'zxjdxmmx_fzj_xj' ? 'zxjdxmmx_fzj' : reportCode
-      reportCode = reportCode === 'zdzjxmmx_xj' ? 'zdzjxmmx' : reportCode
-      this.detailQueryParam = {
-        condition: condition,
-        reportCode: reportCode,
-        // proCodes: [proCode],
-        proCode: proCode,
-        column: column,
-        speTypeCode: '',
-        isBj: isBj,
-        isCz: isCz,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        isCentral: this.searchDataList.isCentral || '',
-        isZd: this.searchDataList.isZd || ''
-      }
-      this.detailType = reportCode
-      this.detailVisible = true
+        this.detailType = reportCode
+        this.detailVisible = true
       // this.tableLoading = true
       // HttpModule.queryTableDatas(params).then((res) => {
       //   this.tableLoading = false
@@ -605,50 +672,238 @@ export default {
       //     this.$message.error(res.message)
       //   }
       // })
+      } else {
+        let condition = ''
+        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+          switch (column) {
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,7,3) <> \'000\' '
+              break
+          }
+        } else {
+          switch (column) {
+            // 支出明细
+            case 'amountSnjwfp':
+            case 'amountSnjxd':
+            case 'amountSnjpay':
+            case 'amountSnjbjfp':
+            case 'amountSnjxjfp':
+              condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+              break
+            case 'amountSjxd':
+            case 'amountSjpay':
+            case 'amountSjwfp':
+            case 'amountSbjfp':
+            case 'amountSxjfp':
+              condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+              break
+            case 'amountXjxd':
+            case 'amountXjpay':
+            case 'amountXjwfp':
+            case 'amountXjfp':
+              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              break
+          }
+        }
+        let isBj = ''
+        switch (column) {
+          case 'amountSnjbjfp':
+          case 'amountSbjfp':
+            isBj = '1'
+            break
+          case 'amountSnjxjfp':
+          case 'amountSxjfp':
+            isBj = '2'
+            break
+          case 'amountXjfp':
+            isBj = '3'
+            break
+        }
+        let isCz = ''
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+          isCz = '2'
+        } else {
+          isCz = '1'
+        }
+        let params = {
+          condition: condition,
+          reportCode: reportCode,
+          // proCodes: [proCode],
+          proCode: proCode,
+          speTypeCode: '',
+          isBj: isBj,
+          isCz: isCz,
+          endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+          fiscalYear: this.searchDataList.fiscalYear,
+          mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        }
+        this.detailQueryParam = params
+        this.detailType = reportCode
+        this.detailVisible = true
+      // this.tableLoading = true
+      // HttpModule.queryTableDatas(params).then((res) => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.detailData = res.data
+      //     this.detailType = type
+      //   } else {
+      //     this.$message.error(res.message)
+      //   }
+      // })
+      }
     },
     // 表格单元行单击  'amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'
     cellClick(obj, context, e) {
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
-      let key = obj.column.property
-      // 无效的cellValue
-      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.projectCode !== 'SH') {
+      if (this.isSx) {
+        // const rowIndex = obj?.rowIndex
+        // if (!rowIndex) return
+        let key = obj.column.property
+
+        // 无效的cellValue
         const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
         if (isInvalidCellValue) return
-      }
-      let xmSource = 'zdzjxmmx'
-      let zcSource = 'zdzjzcmx_fzj'
-      if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
-        xmSource = 'zxjdxmmx_fzj'
-        zcSource = 'zxjdzcmx_fzj'
-      }
-      if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
-        return
-      }
-      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
-      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-      if (!zcjeShow && key === dictionary['支出-金额']) {
-        this.handleDetail(zcSource, obj.row.code, key, obj.row)
-        this.detailTitle = '支出明细'
-        return
-      }
-      if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
-        this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
-        this.detailTitle = '中央下达明细'
-        return
-      }
-      if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
-        this.handleDetail(xmSource, obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
-      } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
-        this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
-        this.detailTitle = '项目明细'
+        let xmSource = 'zdzjxmmx'
+        let zcSource = 'zdzjzcmx_fzj'
+        if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj') {
+          xmSource = 'zxjdxmmx_fzj'
+          zcSource = 'zxjdzcmx_fzj'
+        }
+
+        switch (key) {
+          // case 'amountSnjxd':
+          // case 'amountSjxd':
+          //   switch (this.transJson(this.params5 || '')?.reportCode) {
+          //     case 'zyzdzjyszxqkfzj':
+          //       this.handleDetail('zdzjxmmx_fzj_zyxd', obj.row.code, key)
+          //       break
+          //     case 'zyczzdzjyszxqk_fzj':
+          //       this.handleDetail('czzdzjxmmx_fzj_zyxd', obj.row.code, key)
+          //       break
+          //   }
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountZyxd':
+          //   this.handleDetail('zdzjxmmx_fzj_zyxdh', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountXjxd':
+          //   this.handleDetail('zdzjxmmx_fzj_zyxdx', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // // case 'amountPayAll':
+          // case 'amountSnjpay':
+          // case 'amountSjpay':
+          // case 'amountXjpay':
+          //   this.handleDetail('zdzjzcmx_fdq', obj.row.code, key)
+          //   this.detailTitle = '直达资金支出明细'
+          //   break
+          // // 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp'
+          // case 'amountSnjwfp':
+          // case 'amountSjwfp':
+          //   this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // case 'amountXjwfp':
+          //   this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+          //   this.detailTitle = '直达资金项目明细'
+          //   break
+          // 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'
+          // case 'amountSnjbjfp':
+          // case 'amountSnjxjfp':
+          // case 'amountSbjfp':
+          // case 'amountSxjfp':
+          // case 'amountXjfp':
+          //   this.handleDetail('zdzjzbmx_fzjfp', obj.row.code, key)
+          //   this.detailTitle = '直达资金指标明细'
+          //   break
+          // case 'amountSnjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // case 'amountSjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // case 'amountXjpay':
+          //   this.handleDetail('zjzcmx_fdq', obj.row.recDivCode)
+          //   this.detailTitle = '支出明细'
+          //   break
+          // 省本级分配走直达资金项目明细
+          case 'amountSnjbjfp':
+          case 'amountSbjfp':
+          case 'amountXjfp':
+          case 'amountSnjxjfp':
+          case 'amountSxjfp':
+          case 'amountXbjfp':
+            this.handleDetail(xmSource, obj.row.code, key)
+            this.detailTitle = '项目明细'
+            break
+          // 支出走地区支付明细
+          case 'amountPayAll':
+            this.handleDetail(zcSource, obj.row.code, key)
+            this.detailTitle = obj.row.name + '支出明细'
+            break
+        }
+      } else {
+        const rowIndex = obj?.rowIndex
+        if (!rowIndex) return
+        let key = obj.column.property
+        // 无效的cellValue
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode !== 'SH') {
+          const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+          if (isInvalidCellValue) return
+        }
+        let xmSource = 'zdzjxmmx'
+        let zcSource = 'zdzjzcmx_fzj'
+        if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj' || this.transJson(this.params5 || '')?.reportCode === 'zxjd_fzj_central') {
+          xmSource = 'zxjdxmmx_fzj'
+          zcSource = 'zxjdzcmx_fzj'
+        }
+        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, obj.column, obj.row)) {
+          return
+        }
+        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+        const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+        const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+        if (!zcjeShow && key === dictionary['支出-金额']) {
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
+          this.detailTitle = '支出明细'
+          return
+        }
+        if (isSH && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+          this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
+          this.detailTitle = '中央下达明细'
+          return
+        }
+        if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH) {
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
+          this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
+          this.detailTitle = '项目明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -668,34 +923,92 @@ export default {
       }
       return mofDivCodes
     },
+    // 对表头进行处理
+    convertTableHead(head) {
+      const formulaMap = new Map()
+      formulaMap.set('amountSnfpjd', '({amountSnjxd}-0==0)?0:(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100)')// 省级分配进度
+      // formulaMap.set('amountSnjwfp', '{amountSnjxd}-{amountSnjbjfp}-{amountSnjxjfp}')// 省级未分配
+      formulaMap.set('amountSjfpjd', '({amountSjxd}-0==0)?0:(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100)')// 市级分配进度
+      // formulaMap.set('amountSjfpjd', '')// 市级未分配
+      formulaMap.set('amountXjfpjd', '({amountXjxd}-0==0)?0:({amountXjfp}/{amountXjxd}*100)')// 县级分配进度
+      // formulaMap.set('amountXjfpjd', '')// 市级未分配
+      formulaMap.set('amountFpjd', '({amountZyxd}-0==0)?0:({amountPayAll}/{amountZyxd}*100)')// 支出进度
+      formulaMap.set('amountPayAll', '{amountSnjpay}+{amountSjpay}+{amountXjpay}')// 支出金额
+      XEUtils.eachTree(head, (item) => {
+        item.minWidth = 150
+        if (item.field === 'name') {
+          item.treeNode = true
+        }
+        if (item.field?.startsWith?.('amount')) {
+          item['cellRender'] = { name: '$vxeMoney' }
+          item.align = 'right'
+        }
+        if ((item.field?.endsWith?.('jd'))) {
+          item['cellRender'] = { name: '$vxeRatio' }
+          item.align = 'right'
+        }
+        if (formulaMap.has(item.field)) {
+          item.formula = formulaMap.get(item.field)
+        }
+      })
+      console.log(head, 'ddddhead')
+      return head
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
-      const param = {
-        isFlush,
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
-        fiscalYear: this.searchDataList.fiscalYear || '',
-        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
-        isCentral: this.searchDataList.isCentral || '',
-        isZd: this.searchDataList.isZd || ''
-      }
-      this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
-        if (res.code === '000000') {
-          this.tableData = res.data.data
-          this.reportTime = res.data.reportTime || ''
-          this.caliberDeclareContent = res.data.description || ''
+      if (this.isSx) {
+        const param = {
+          isFlush,
+          reportCode: this.transJson(this.params5 || '')?.reportCode,
+          fiscalYear: this.searchDataList.fiscalYear || '',
+          endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+          mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        }
+        this.tableLoading = true
+        HttpModule.queryTableData(param).then((res) => {
           this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableColumnsConfig = this.convertTableHead(res.data.head)
+            this.$nextTick(vm => {
+              this.tableData = res.data.records
+            })
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+            this.tableLoading = false
+          } else {
+            this.$message.error(res.message)
+          }
+        }).finally(() => {
+          this.tableLoading = false
+        })
+      } else {
+        const param = {
+          isFlush,
+          reportCode: this.transJson(this.params5 || '')?.reportCode,
+          fiscalYear: this.searchDataList.fiscalYear || '',
+          endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+          mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+          isCentral: this.searchDataList.isCentral || '',
+          isZd: this.searchDataList.isZd || ''
+        }
+        this.tableLoading = true
+        HttpModule.queryTableDatas(param).then((res) => {
+          if (res.code === '000000') {
+            this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+            this.tableLoading = false
           // if (this.transJson3(this.$store.state.curNavModule.param5) && this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
           //   this.refresh(true)
           //   console.log('上海自动刷新！*1')
           // }
-        } else {
-          this.$message.error(res.message)
-        }
-      }).finally(() => {
-        this.tableLoading = false
-      })
+          } else {
+            this.$message.error(res.message)
+          }
+        }).finally(() => {
+          this.tableLoading = false
+        })
+      }
     },
     initTableData() {
       // let tableDataTest = getFormData('basicInfo', 'tableData')
@@ -740,24 +1053,37 @@ export default {
       return strTwo
     },
     cellStyle({ row, rowIndex, column }) {
-      if (!rowIndex) return
-      // 有效的cellValue
-      // 拿到那些可以进行超链接的表格行
-      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.projectCode === 'SH') {
-        // 判断只有最底层有超链接
-        if (row.children !== undefined) return
-      } else {
+      if (this.isSx) {
+        // if (!rowIndex) return
+        // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
-        if (!validCellValue) return
-      }
-      if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
-        return
-      }
-      if (this.linkStyle(row, rowIndex, column)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+        // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
+        if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXbjfp', 'amountSnjxjfp', 'amountSxjfp', 'amountXxjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        if (!rowIndex) return
+        // 有效的cellValue
+        // 拿到那些可以进行超链接的表格行
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.projectCode === 'SH') {
+          // 判断只有最底层有超链接
+          if (row.children !== undefined) return
+        } else {
+          const validCellValue = (row[column.property] * 1)
+          if (!validCellValue) return
+        }
+        if (hideColumnLinkStr.hide && this.cellHide(hideColumnLinkStr.hide, column, row)) {
+          return
+        }
+        if (this.linkStyle(row, rowIndex, column)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     },
@@ -859,26 +1185,27 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
     this.queryTableDatas()
-    console.log(this.$refs, 'bsTableRef 表格配置')
-    // 判断是否开放动态表格配置
-    const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-    if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
-      this.$nextTick(() => {
-        this.refresh(true)
-      })
-    }
-    if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
-      let arr = this.queryConfig.filter(item => {
-        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
-      })
-      this.$set(this, 'queryConfig', arr)
-    }
-    if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
-      this.loadConfig('BsTable', 'Table101')
-      this.loadConfig('BsQuery', 'Query101')
+    if (!this.isSx) {
+      console.log(this.$refs, 'bsTableRef 表格配置')
+      // 判断是否开放动态表格配置
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr && hideColumnLinkStr.projectCode === 'SH') {
+        this.$nextTick(() => {
+          this.refresh(true)
+        })
+      }
+      if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
+        let arr = this.queryConfig.filter(item => {
+          return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
+        })
+        this.$set(this, 'queryConfig', arr)
+      }
+      if (hideColumnLinkStr && hideColumnLinkStr.isConfigTable === '1') {
+        this.loadConfig('BsTable', 'Table101')
+        this.loadConfig('BsQuery', 'Query101')
+      }
     }
   }
-
 }
 </script>
 <style scoped>
