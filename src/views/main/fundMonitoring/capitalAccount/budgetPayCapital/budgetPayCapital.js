@@ -32,7 +32,7 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeSelect',
         options: [

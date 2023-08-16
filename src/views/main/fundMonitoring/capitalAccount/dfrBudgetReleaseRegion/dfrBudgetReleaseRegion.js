@@ -30,6 +30,7 @@ let proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeInput',
