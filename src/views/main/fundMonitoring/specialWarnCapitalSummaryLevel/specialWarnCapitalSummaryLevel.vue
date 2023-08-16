@@ -28,6 +28,11 @@
           row-id="id"
           :export-modal-config="{ fileName: menuName }"
           :table-config="tableConfig"
+          :table-global-config="{
+            customExportConfig: {
+              fileName: menuName,
+            },
+          }"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"

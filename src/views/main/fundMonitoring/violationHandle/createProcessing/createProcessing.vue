@@ -167,7 +167,8 @@ export default {
       toolBarStatusBtnConfig: {
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
-        }
+        },
+        buttons: []
       },
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
@@ -933,6 +934,10 @@ export default {
     },
     // 切换状态栏
     onStatusTabClick(obj) {
+      if (!obj) { // 直达资金 部门没有页签 会进入到这儿
+        this.getdata()
+        return
+      }
       this.isStatus = false // 未整改标识
       this.isIssue = false // 已整改标识
       this.isArchive = false // 归档标识
