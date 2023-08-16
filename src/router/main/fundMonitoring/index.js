@@ -347,6 +347,10 @@ const routers = [
   {
     path: '/DepartmentRetroact', // 主管处室反馈
     name: 'DepartmentRetroact',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
     component: () =>
       import(
         '../../../views/main/fundMonitoring/violationHandle/diffCreateProcessing.vue'
@@ -354,7 +358,7 @@ const routers = [
   },
   {
     path: '/DepartmentRetroact ', // 部门反馈
-    name: 'DepartmentRetroact ',
+    name: 'DepartmentRetroact ', // ←←注意 这儿路由他用一个空格区分路由
     meta: {
       keepAlive: false,
       requireAuth: true
