@@ -47,7 +47,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">结转资金资金支出_分地区(单位:万元)</span>
+                <span class="fn-inline">结转资金资金支出_分地区(单位:{{ moneyUnit }})</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -73,6 +73,13 @@ export default {
     },
     queryConfig() {
       this.getSearchDataList()
+    }
+  },
+  computed: {
+    moneyUnit() {
+      const moneyUnitValue = this.$refs.bsTableRef.moneyUnit || 10000
+      const moneyUnitMap = { 10000: '万元', 1: '元' }
+      return moneyUnitMap[moneyUnitValue]
     }
   },
   data() {
