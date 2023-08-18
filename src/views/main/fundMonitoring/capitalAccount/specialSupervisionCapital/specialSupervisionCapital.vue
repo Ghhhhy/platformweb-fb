@@ -9,7 +9,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="(e1,e2) => search(e1,e2,false)"
+            @onSearchClick="(e1,e2) => (e1,e2) => search(e1,e2,false)(e1,e2,false)"
             @itemChange="itemChange"
           />
         </div>
@@ -385,6 +385,7 @@ export default {
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
         this.queryConfig = configData.itemsConfig
+        this.getMofDiv()
         this.getMofDiv()
       }
     },
@@ -860,7 +861,7 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
+      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, obj.column, obj.row)) {
         return
       }
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -868,12 +869,13 @@ export default {
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
       const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
       if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
         return
       }
-      if ((isSH || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+      if (((isSH || isFJ) || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
         this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
         this.detailTitle = '中央下达明细'
         return
@@ -1048,7 +1050,7 @@ export default {
         const validCellValue = (row[column.property] * 1)
         if (!validCellValue) return
       }
-      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
+      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, column, row)) {
         return
       }
       if (this.linkStyle(row, rowIndex, column)) {
@@ -1060,7 +1062,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')
@@ -1174,6 +1176,8 @@ export default {
       this.loadConfig('BsTable', 'Table101')
       this.loadConfig('BsQuery', 'Query101')
     }
+    this.getMofDiv()
+    this.queryTableDatas()
     this.getMofDiv()
     this.queryTableDatas()
   }

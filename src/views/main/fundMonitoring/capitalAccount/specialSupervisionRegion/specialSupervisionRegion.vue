@@ -19,7 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @itemChange="itemChange"
-            @onSearchClick="(e1,e2) => search(e1,e2,false)"
+            @onSearchClick="(e1,e2) => (e1,e2) => search(e1,e2,false)(e1,e2,false)"
           />
         </div>
       </template>
@@ -215,6 +215,7 @@ export default {
   data() {
     return {
       projectCode: '',
+      projectCode: '',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -402,6 +403,7 @@ export default {
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
         this.queryConfig = configData.itemsConfig
+        this.getPro()
         this.getPro()
       }
     },
@@ -1098,7 +1100,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')

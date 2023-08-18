@@ -583,7 +583,99 @@ const proconf = {
         ]
       },
       {
-        title: '镇级',
+        title: '支出总数',
+        width: 100,
+        align: 'center',
+        children: [
+          {
+            title: '中央安排',
+            field: 'zzyapAmount',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
+          },
+          {
+            title: '地方安排',
+            field: 'zdfapAmount',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            formula: '{amountSnjdfpay}+{amountSjdfpay}+{amountXjdfpay}'
+          },
+          {
+            title: '总金额',
+            field: 'zaAmount',
+            width: 100,
+            align: 'right',
+            cellRender: {
+              name: '$vxeMoney'
+            },
+            formula: '({zzyapAmount}+{zdfapAmount})'
+          }
+        ]
+      }
+    ],
+    tableColumnsConfigCity: [
+      {
+        title: '资金名称',
+        type: 'name',
+        treeNode: true,
+        fixed: 'left',
+        align: 'left',
+        width: 160,
+        field: 'name',
+        cellRender: {
+          name: '$vxeIcon',
+          props: {
+            $refs: this
+          }
+        }
+      },
+      {
+        title: '全市',
+        width: 200,
+        align: 'center',
+        children: [
+          {
+            title: '资金总量',
+            field: 'amountZjzl',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' }
+          },
+          {
+            title: '整合资金',
+            field: 'cAmount',
+            width: 200,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            visible: false
+          },
+          {
+            title: '支出资金',
+            field: 'amountZjzc',
+            width: 200,
+            align: 'right',
+            cellRender: {
+              name: '$vxeMoney'
+            }
+          },
+          {
+            title: '支出进度',
+            field: 'pPro',
+            width: 200,
+            align: 'right',
+            cellRender: {
+              name: '$vxeRatio'
+            },
+            // formula: '({amountZjzl}-0==0?0:Math.round({amountZjzc}/{amountZjzl}*100*10)/10'
+            formula: '({amountZjzl}-0==0?0:{amountZjzc}/{amountZjzl}*100)'
+          }
+        ]
+      },
+      {
+        title: '市级',
         width: 200,
         align: 'center',
         children: [

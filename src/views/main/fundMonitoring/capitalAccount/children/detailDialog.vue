@@ -276,12 +276,14 @@ export default {
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
         case 'zyzfzcmx_fdq':
+        case 'zyzfzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
           break
         // 项目明细
         case 'zdzjxmmx_fzj':
+        case 'zyzfxmmx':
         case 'zyzfxmmx':
           this.tableColumnsConfig = proconf.projectColumn
           break
@@ -493,6 +495,7 @@ export default {
             textDecoration: 'underline'
           }
         }
+      }
       }
     },
     // 表格单元行单击

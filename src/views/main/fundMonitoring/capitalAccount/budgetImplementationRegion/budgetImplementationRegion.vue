@@ -19,7 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @itemChange="itemChange"
-            @onSearchClick="(e1,e2) => { search(e1,e2,false) }"
+            @onSearchClick="(e1,e2) => { (e1,e2) => { search(e1,e2,false) }(e1,e2,false) }"
           />
         </div>
       </template>
@@ -527,6 +527,10 @@ export default {
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
+      }
+      if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
+        xmSource = 'zyzfxmmx'
+        zcSource = 'zyzfzcmx_fdq'
       }
       if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
         xmSource = 'zyzfxmmx'

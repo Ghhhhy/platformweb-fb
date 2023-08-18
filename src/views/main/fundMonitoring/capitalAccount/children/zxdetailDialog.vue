@@ -138,6 +138,7 @@ export default {
       },
       clickRowData: {},
       tableData: [
+
       ],
       condition: {},
       tableToolbarConfig: {
@@ -300,9 +301,29 @@ export default {
               }
             })
           }
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           break
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
+          if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+            this.tableColumnsConfig.forEach((item, index) => {
+              if (['mofDivCode', 'mofDivName'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
+              }
+            })
+          }
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
             this.tableColumnsConfig.forEach((item, index) => {
               if (['mofDivCode', 'mofDivName'].includes(item.field)) {
@@ -323,6 +344,9 @@ export default {
             this.tableColumnsConfig.forEach((item, index) => {
               if (['mofDivCode', 'mofDivName'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', true)
+              }
+              if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
+                this.$set(this.tableColumnsConfig[index], 'visible', false)
               }
               if (['trackProName', 'isDir', 'isGovPurName', 'fiscalYear'].includes(item.field)) {
                 this.$set(this.tableColumnsConfig[index], 'visible', false)
@@ -500,6 +524,7 @@ export default {
         default:
           break
       }
+      this.queryTableDatas()
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {

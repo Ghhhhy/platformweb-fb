@@ -1063,60 +1063,6 @@ const routers = [
       )
   },
   {
-    path: '/monitProcFeedback', // 单位提交材料说明
-    name: 'monitProcFeedback',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback2', // 部门核实
-    name: 'monitProcFeedback2',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback3', // 财政部门初审
-    name: 'monitProcFeedback3',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback4', // 财政部门复审
-    name: 'monitProcFeedback4',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback5', // 预算单位整改
-    name: 'monitProcFeedback5',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
-    path: '/monitProcFeedback6', // 财政部门审核
-    name: 'monitProcFeedback6',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
-  },
-  {
     path: '/dynamicTableSetting', // 配置页面
     name: 'dynamicTableSetting',
     meta: {
