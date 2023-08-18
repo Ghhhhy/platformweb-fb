@@ -869,7 +869,6 @@ export default {
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
       const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
-      const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
       if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'

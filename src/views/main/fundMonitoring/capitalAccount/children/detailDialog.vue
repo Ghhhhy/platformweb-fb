@@ -276,14 +276,12 @@ export default {
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
         case 'zyzfzcmx_fdq':
-        case 'zyzfzcmx_fdq':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
           break
         // 项目明细
         case 'zdzjxmmx_fzj':
-        case 'zyzfxmmx':
         case 'zyzfxmmx':
           this.tableColumnsConfig = proconf.projectColumn
           break
@@ -496,100 +494,99 @@ export default {
           }
         }
       }
-      }
-    },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      if (this.$store.getters.isSx) {
-        let key = obj.column.property
-        switch (key) {
-          case 'fpAmount':
-            if (this.detailType === 'zdzjxmmx_fdq_zyxd') {
+    }
+  },
+  // 表格单元行单击
+  cellClick(obj, context, e) {
+    if (this.$store.getters.isSx) {
+      let key = obj.column.property
+      switch (key) {
+        case 'fpAmount':
+          if (this.detailType === 'zdzjxmmx_fdq_zyxd') {
             // this.handleDetail('zdzjzbmx_fdq', obj.row.proCode, obj.row.mofDivCode, obj.row.manageMofDepName, obj.row.corBgtDocNo)
             // this.$parent.sDetailTitle = '可执行指标明细'
-            } else if (this.detailType === 'zdzjxmmx_fzj_zyxd') {
+          } else if (this.detailType === 'zdzjxmmx_fzj_zyxd') {
             // this.handleDetailfzj('zdzjzbmx_fdq', obj.row.proCode)
             // this.$parent.sDetailTitle = '可执行指标明细'
-            } else if (this.detailType === 'czzdzjxmmx_fdq_zyxd') {
-              this.handleDetail('czzdzjzbmx_fdq', obj.row.proCode, obj.row.mofDivCode)
-              this.$parent.sDetailTitle = '可执行指标明细'
-            } else if (this.detailType === 'czzdzjxmmx_fzj_zyxd') {
-              this.handleDetailfzj('czzdzjzbmx_fdq', obj.row.proCode)
-              this.$parent.sDetailTitle = '可执行指标明细'
-            }
-            break
-          // case 'payAppAmt':
-          //   this.handleDetail('zjzcmx_fdq', obj.row.speTypeCode, obj.row.mofDivCode)
-          //   this.$parent.sDetailTitle = '支出明细'
-          case 'amount':
-            if ((this.detailType === 'fdqzdzjxmmx' || this.detailType === 'zdzjxmmx(czb)') && obj.row.cenTraProName !== '合计') {
-              this.handleDetail('zbmx(czb)', obj.row)
-              this.$parent.sDetailTitle = '指标明细'
+          } else if (this.detailType === 'czzdzjxmmx_fdq_zyxd') {
+            this.handleDetail('czzdzjzbmx_fdq', obj.row.proCode, obj.row.mofDivCode)
+            this.$parent.sDetailTitle = '可执行指标明细'
+          } else if (this.detailType === 'czzdzjxmmx_fzj_zyxd') {
+            this.handleDetailfzj('czzdzjzbmx_fdq', obj.row.proCode)
+            this.$parent.sDetailTitle = '可执行指标明细'
+          }
+          break
+        // case 'payAppAmt':
+        //   this.handleDetail('zjzcmx_fdq', obj.row.speTypeCode, obj.row.mofDivCode)
+        //   this.$parent.sDetailTitle = '支出明细'
+        case 'amount':
+          if ((this.detailType === 'fdqzdzjxmmx' || this.detailType === 'zdzjxmmx(czb)') && obj.row.cenTraProName !== '合计') {
+            this.handleDetail('zbmx(czb)', obj.row)
+            this.$parent.sDetailTitle = '指标明细'
             // this.$parent.sDetailTitle = '可执行指标明细'
-            }
-            break
-          case 'payAppAmt':
-            if ((this.detailType === 'fdqzdzjxmmx' || this.detailType === 'zdzjxmmx(czb)') && obj.row.cenTraProName !== '合计') {
-              this.handleDetail('zcmx(czb)', obj.row)
-              this.$parent.sDetailTitle = '支出明细'
-            // this.$parent.sDetailTitle = '可执行指标明细'
-            }
-            break
-        }
-      } else {
-        const rowIndex = obj?.rowIndex
-        if (!rowIndex) return
-        let key = obj.column.property
-
-        // 无效的cellValue
-        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-        if (isInvalidCellValue) return
-
-        switch (key) {
-          case 'amountZdzjFp':
-            let zcSource = 'zdzjzbmx_fzjfp'
-            if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
-              zcSource = 'zxjdzbmx_fzjfp'
-            }
-            if (this.detailType === 'zyzfxmmx') {
-              zcSource = 'zyzfzbmx_fzjfp'
-            }
-            if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
-              this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
-            ) {
-              this.handleDetail(zcSource, obj.row)
-              this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
-            }
-            break
-          case 'amountPayZdzj':
-            console.info(this.detailType)
-            let zcSource2 = 'zdzjzcmx_fdq'
-            if (this.detailType === 'zdzjxmmx_fzj') {
-              zcSource2 = 'zdzjzcmx_fzj'
-            }
-            if (this.detailType === 'zyzfxmmx') {
-              zcSource2 = 'zyzfzcmx_fdq'
-            }
-            if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
-              this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
-              this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
-              this.handleDetail(zcSource2, obj.row)
-              this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
-            }
-            break
-          case 'amountpayzyap':
-            this.handleDetail('zdzjzcmx_fdq', obj.row)
+          }
+          break
+        case 'payAppAmt':
+          if ((this.detailType === 'fdqzdzjxmmx' || this.detailType === 'zdzjxmmx(czb)') && obj.row.cenTraProName !== '合计') {
+            this.handleDetail('zcmx(czb)', obj.row)
             this.$parent.sDetailTitle = '支出明细'
-            break
+            // this.$parent.sDetailTitle = '可执行指标明细'
+          }
+          break
+      }
+    } else {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
 
-          case 'amountbjfpsnjap':
-          case 'amountbjfpzyap':
-          case 'amountbjfpsjap':
-          case 'amountbjfpxjap':
-            this.handleDetail('zdzjzbmx_fzj', obj.row)
-            this.$parent.sDetailTitle = '支出台账明细'
-            break
-        }
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue) return
+
+      switch (key) {
+        case 'amountZdzjFp':
+          let zcSource = 'zdzjzbmx_fzjfp'
+          if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
+            zcSource = 'zxjdzbmx_fzjfp'
+          }
+          if (this.detailType === 'zyzfxmmx') {
+            zcSource = 'zyzfzbmx_fzjfp'
+          }
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
+          ) {
+            this.handleDetail(zcSource, obj.row)
+            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+          }
+          break
+        case 'amountPayZdzj':
+          console.info(this.detailType)
+          let zcSource2 = 'zdzjzcmx_fdq'
+          if (this.detailType === 'zdzjxmmx_fzj') {
+            zcSource2 = 'zdzjzcmx_fzj'
+          }
+          if (this.detailType === 'zyzfxmmx') {
+            zcSource2 = 'zyzfzcmx_fdq'
+          }
+          if (this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
+            this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
+            this.handleDetail(zcSource2, obj.row)
+            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+          }
+          break
+        case 'amountpayzyap':
+          this.handleDetail('zdzjzcmx_fdq', obj.row)
+          this.$parent.sDetailTitle = '支出明细'
+          break
+
+        case 'amountbjfpsnjap':
+        case 'amountbjfpzyap':
+        case 'amountbjfpsjap':
+        case 'amountbjfpxjap':
+          this.handleDetail('zdzjzbmx_fzj', obj.row)
+          this.$parent.sDetailTitle = '支出台账明细'
+          break
       }
     }
   },

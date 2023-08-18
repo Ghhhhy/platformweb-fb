@@ -215,7 +215,6 @@ export default {
   data() {
     return {
       projectCode: '',
-      projectCode: '',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
