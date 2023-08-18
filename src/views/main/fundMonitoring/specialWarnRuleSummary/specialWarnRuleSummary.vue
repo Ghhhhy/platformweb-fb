@@ -33,6 +33,11 @@
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
+          :table-global-config="{
+            customExportConfig: {
+              fileName: menuName,
+            },
+          }"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           @editClosed="onEditClosed"
