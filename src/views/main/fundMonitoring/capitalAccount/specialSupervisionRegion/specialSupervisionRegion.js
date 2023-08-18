@@ -650,7 +650,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: store.gettes.isSx ? '({amountZyxd}-0==0)?0:({amountXjfp}/{amountZyxd}*100)' : '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+            formula: store.getters.isSx ? '({amountZyxd}-0==0)?0:({amountXjfp}/{amountZyxd}*100)' : '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
