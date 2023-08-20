@@ -44,7 +44,7 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-global-config="tableGlobalConfig"
+          :table-global-config="tableGlobalConfigCop"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
@@ -115,6 +115,19 @@ export default {
   mixins: [regionMixin],
   components: {
     DetailDialog
+  },
+  computed: {
+    tableGlobalConfigCop() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        customExportConfig: {
+          dataType: dataType,
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      }
+    }
   },
   watch: {
     queryConfig() {

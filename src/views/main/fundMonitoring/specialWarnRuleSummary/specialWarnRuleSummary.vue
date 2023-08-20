@@ -33,11 +33,7 @@
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
-          :table-global-config="{
-            customExportConfig: {
-              fileName: menuName,
-            },
-          }"
+          :table-global-config="tableGlobalConfigCop"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           @editClosed="onEditClosed"
@@ -90,6 +86,19 @@ export default {
   components: {
     DetailDialog,
     SpecialWarnRegionSummary
+  },
+  computed: {
+    tableGlobalConfigCop() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        customExportConfig: {
+          dataType: dataType,
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          fileName: this.menuName
+        }
+      }
+    }
   },
   props: {
     ruleTitle: {
