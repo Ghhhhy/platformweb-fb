@@ -153,5 +153,18 @@ export default [
       import(
         '../../../views/main/MonitorRuleContactConfiguration/MonitorRuleContactConfiguration.vue'
       )
+  },
+  // 登录日志
+  {
+    path: '/loginLog',
+    name: 'loginLog',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/loginLog/loginLog.vue'
+      )
   }
 ]
