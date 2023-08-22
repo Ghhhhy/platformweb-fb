@@ -117,9 +117,6 @@ export const mutations = {
   },
   setUserRoles(state, obj) {
     state.userRolesData = obj
-  },
-  setAddLoginInfo() {
-
   }
 }
 export const actions = {
@@ -130,7 +127,9 @@ export const actions = {
     context.commit('setLookAduitJxData', obj)
   },
   sendLoginLogInfo(context) {
-    sendLoginLog()
+    if (getters.isFuJian) {
+      sendLoginLog()
+    }
   },
   /**
    * 请求当前用户角色列表
