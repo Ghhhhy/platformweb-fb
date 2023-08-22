@@ -3,6 +3,14 @@ const proconf = {
   // 支出明细
   expenditureColumn: [
     {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
+    {
       title: '预算单位',
       field: 'agencyCodeName',
       width: 140,
@@ -78,14 +86,6 @@ const proconf = {
       align: 'left'
     },
     {
-      title: '专项资金项目名称',
-      field: 'trackProName',
-      width: 140,
-      visible: true,
-      sortable: true,
-      align: 'left'
-    },
-    {
       title: '是否直达资金',
       field: 'isDir',
       visible: true,
@@ -111,6 +111,14 @@ const proconf = {
     }
   ],
   payColumn: [
+    {
+      title: '专项资金项目名称',
+      field: 'trackProName',
+      width: 140,
+      visible: true,
+      sortable: true,
+      align: 'left'
+    },
     {
       title: '区划代码',
       field: 'mofDivCode',
@@ -254,14 +262,6 @@ const proconf = {
       title: '付款日期',
       field: 'xpayDate',
       width: 140,
-      sortable: true,
-      align: 'left'
-    },
-    {
-      title: '专项资金项目名称',
-      field: 'trackProName',
-      width: 140,
-      visible: true,
       sortable: true,
       align: 'left'
     },

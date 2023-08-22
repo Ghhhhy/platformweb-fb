@@ -29,8 +29,8 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
-          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
+          :table-global-config="tableGlobalConfigCop"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
@@ -115,6 +115,19 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 import regionMixin from '../mixins/regionMixin'
 export default {
   mixins: [regionMixin],
+  computed: {
+    tableGlobalConfigCop() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        customExportConfig: {
+          dataType: dataType,
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      }
+    }
+  },
   components: {
     DetailDialog,
     SDetailDialog
@@ -141,13 +154,6 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      tableGlobalConfig: {
-        customExportConfig: {
-          addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
-        }
-      },
       // // 头部工具栏 BsTabPanel config
       // toolBarStatusBtnConfig: {
       //   changeBtns: true,

@@ -28,6 +28,7 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
+          :table-global-config="tableGlobalConfigCop"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
@@ -90,6 +91,19 @@ export default {
   components: {
     DetailDialog,
     SDetailDialog
+  },
+  computed: {
+    tableGlobalConfigCop() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        customExportConfig: {
+          dataType: dataType,
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      }
+    }
   },
   watch: {
     $refs: {
