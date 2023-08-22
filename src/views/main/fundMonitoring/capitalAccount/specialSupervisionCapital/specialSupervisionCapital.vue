@@ -20,7 +20,7 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
-          :table-global-config="tableGlobalConfig"
+          :table-global-config="tableGlobalConfigCop"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :scroll-y="scrollConfig"
@@ -131,6 +131,17 @@ export default {
   computed: {
     menuSettingConfig() { // 路由菜单配置信息
       return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    },
+    tableGlobalConfigCop() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        customExportConfig: {
+          dataType: dataType,
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
+      }
     }
   },
   watch: {

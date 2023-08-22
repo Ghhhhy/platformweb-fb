@@ -22,7 +22,8 @@ const manageFormlistConf = {
             { value: '220000000', label: '吉林省' },
             { value: '610000000', label: '陕西省' },
             { value: '230000000', label: '黑龙江' },
-            { value: '150000000', label: '内蒙古' }
+            { value: '150000000', label: '内蒙古' },
+            { value: '350000000', label: '福建' }
           ],
           props: {
             type: 'text',

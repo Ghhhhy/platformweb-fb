@@ -22,7 +22,7 @@ const manageFormlistConf = {
             { value: '310000000', label: '上海' },
             { value: '220000000', label: '吉林省' },
             { value: '610000000', label: '陕西省' },
-            { value: '500000', label: '重庆' }
+            { value: '350000000', label: '福建' }
           ],
           props: {
             type: 'text',

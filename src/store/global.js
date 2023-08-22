@@ -22,6 +22,10 @@ export const state = { // 实时监听state值的变化(最新状态)
   userRolesData: [] // 用户角色
 }
 export const getters = {
+  isFuJian() { // 判断是不是福建项目
+    const province = state.userInfo.province
+    return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目
+  },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
   },

@@ -30,6 +30,7 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
@@ -654,7 +655,8 @@ const proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            formula: '{amountZjzl}-0==0?0:Math.round({amountZjzc}/{amountZjzl}*100*10)/10'
+            // formula: '{amountZjzl}-0==0?0:Math.round({amountZjzc}/{amountZjzl}*100*10)/10'
+            formula: '({amountZjzl}-0==0?0:{amountZjzc}/{amountZjzl}*100)'
             // formula: '(({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
           }
         ]
