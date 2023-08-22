@@ -1,4 +1,4 @@
-import { getUserRoles } from '@/api/frame/common/userroles.js'
+import { getUserRoles, sendLoginLog } from '@/api/frame/common/userroles.js'
 import store from '@/store'
 
 export const state = { // 实时监听state值的变化(最新状态)
@@ -117,6 +117,9 @@ export const mutations = {
   },
   setUserRoles(state, obj) {
     state.userRolesData = obj
+  },
+  setAddLoginInfo() {
+
   }
 }
 export const actions = {
@@ -125,6 +128,9 @@ export const actions = {
   },
   asyncLookAuditJxData: (context, obj) => {
     context.commit('setLookAduitJxData', obj)
+  },
+  sendLoginLogInfo(context) {
+    sendLoginLog()
   },
   /**
    * 请求当前用户角色列表
