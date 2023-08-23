@@ -99,7 +99,11 @@ function useTabPlanel(
             status: '5', // 撤回
             data: unref(checkedRecords).map(item => { return { id: item.id, warnLevel: item.warnLevel } })
           }
-          checkRscode(await workFlowRevoke(params))
+          let { data } = checkRscode(await workFlowRevoke(params))
+          if (data === 0) {
+            Message.warning('流程终止，不能撤回')
+            return
+          }
           Message.success(`成功撤回${unref(checkedRecords)?.length}条数据`)
           resetFetchTableData()
         }
