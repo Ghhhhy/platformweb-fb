@@ -57,6 +57,10 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      affirm-time-start-date:
+      this-props-affirm-time-start-date-
+      affirm-time-end-date:
+      this-props-affirm-time-end-date-
     />
     <sDetailDialog
       v-if="sdetailVisible"

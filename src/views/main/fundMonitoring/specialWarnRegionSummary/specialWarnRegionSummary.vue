@@ -57,6 +57,8 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      :props-affirm-time-start-date="searchDataList.affirmTimeStartDate"
+      :props-affirm-time-end-date="searchDataList.affirmTimeEndDate"
     />
   </div>
 </template>
