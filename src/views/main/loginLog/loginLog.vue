@@ -1,7 +1,6 @@
-<!-- 问询函类型设置 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <BsMainFormListLayout>
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -12,6 +11,16 @@
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
+      </template>
+      <template v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
       </template>
       <template v-slot:mainForm>
         <BsTable
@@ -248,44 +257,20 @@ export default {
           }
         }
       }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
+      if (this.searchDataList.name && this.searchDataList.name.trim() !== '') {
+        condition.name = this.searchDataList.name
       }
-      if (this.searchDataList.businessModuleName && this.searchDataList.businessModuleName.trim() !== '') {
-        condition.businessModuleName = this.searchDataList.businessModuleName
+      if (this.searchDataList.orgname && this.searchDataList.orgname.trim() !== '') {
+        condition.orgname = this.searchDataList.orgname
+      }
+      if (this.searchDataList.code && this.searchDataList.code.trim() !== '') {
+        condition.code = this.searchDataList.code
       }
       this.condition = condition
       console.log(this.condition)
       this.queryTableDatas()
     },
-    // 切换操作按钮
-    operationToolbarButtonClickEvent(obj, context, e) {
-      console.log(obj.code)
-      switch (obj.code) {
-        // 新增
-        case 'add':
-          this.onAddToolbarClickAdd(obj, context, e)
-          break
-        // 修改
-        case 'change':
-          this.changePolices()
-          break
-        // 删除
-        case 'del':
-          this.delPolicies(obj, context, e)
-          break
-        // 刷新
-        case 'add-toolbar-refresh':
-          this.refresh()
-          break
-        // 刷新
-        case 'operation-toolbar-refresh':
-          this.refresh()
-          break
-        default:
-          break
-      }
-    },
+
     // // 删除
     // delPolicies() {
     //   let selection = this.$refs.mainTableRef.getSelectionData()
@@ -371,6 +356,7 @@ export default {
           break
       }
     },
+
     onClickmethod(node) {
       if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
         return
@@ -435,9 +421,10 @@ export default {
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
-        // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
-        // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        orgname: this.condition.orgname ? this.condition.orgname.toString() : '',
+        name: this.condition.name ? this.condition.name.toString() : '',
+        code: this.condition.name ? this.condition.code.toString() : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
