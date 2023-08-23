@@ -86,7 +86,9 @@ export default {
           return item.field !== 'fiscalYear'
         })
       }
-      return this.queryConfig
+      return this.queryConfig.filter(item => {
+        return !['proCodes', 'endTime'].includes(item.field)
+      })
     }
   },
   data() {
