@@ -8,10 +8,11 @@ import Qs from 'qs'
 import store from '../store/index'
 import Encrypt from './smSecret/smSecret.js'
 import goLogin from '../utils/goLogin'
+console.log(axios.defaults.baseURL, 'axios.defaults.baseURL的默认值')
 // window.gloableToolFn.serverGatewayMap = globalGatewayAgentConf
 const elink = document.createElement('a')
 axios.defaults.timeout = 300000
-axios.defaults.baseURL = baseUrl
+axios.defaults.baseURL = baseUrl || window.location.origin
 axios.defaults.withCredentials = false
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 const oldUrl = axios.defaults.baseURL
@@ -43,10 +44,10 @@ const globalGatewayAgent = (url, Origin) => { // 注册全局网关
   const serverName = serveUrl[0]
   console.log(window, 'globalGatewayAgent')
   const envProxy = window.gloableToolFn.serverGatewayMap[process.env.NODE_ENV]
-
+  console.log(axios.defaults.baseURL, 'axios.defaults.baseURL 全局网关中的值')
   axios.defaults.baseURL = Origin || process.env.NODE_ENV === 'development'
     ? Reflect.get(envProxy, serverName)
-    : oldUrl + Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName) !== undefined ? Reflect.get(envProxy, serverName) : ''
   if (Reflect.has(envProxy, serverName)) {
     // 删除url代理前缀
     serveUrl.splice(0, 1)
@@ -63,7 +64,7 @@ export const httpGlobalGatewayAgent = (url, Origin) => { // 注册全局网关
 
   const baseURL = Origin || process.env.NODE_ENV === 'development'
     ? Reflect.get(envProxy, serverName)
-    : oldUrl + Reflect.get(envProxy, serverName)
+    : oldUrl + Reflect.get(envProxy, serverName) !== undefined ? Reflect.get(envProxy, serverName) : ''
   axios.defaults.baseURL = baseURL
 
   if (Reflect.has(envProxy, serverName)) {
