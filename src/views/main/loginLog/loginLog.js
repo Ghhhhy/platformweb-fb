@@ -12,56 +12,56 @@ export let proconf = {
       curValue: '1'
     }
   ],
-  // // BsToolBar 右侧按钮
-  // statusRightToolBarButton: {
-  //   '1': [
-  //     { code: 'add', label: '新增', status: 'primary' },
-  //     { code: 'change', label: '修改' },
-  //     { code: 'del', label: '删除' }
-  //   ]
-  // },
-  // statusRightToolBarButtonByBusDept: {
-  //   '1': [
-  //     { code: 'add', label: '新增', status: 'primary' },
-  //     { code: 'change', label: '修改' },
-  //     { code: 'del', label: '删除' }
-  //   ]
-  // },
-  // highQueryConfig: [
-  //   {
-  //     title: '数据源名称',
-  //     field: 'dataSourceName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '数据源名称'
-  //       }
-  //     }
-  //   },
-  //   {
-  //     title: '业务模块',
-  //     field: 'businessModuleName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '业务模块'
-  //       }
-  //     }
-  //   }
-  // ],
+  highQueryConfig: [
+    {
+      title: '用户名称',
+      field: 'name',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '用户名称'
+        }
+      }
+    },
+    {
+      title: '用户账号',
+      field: 'code',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '用户账号'
+        }
+      }
+    },
+    {
+      title: '单位',
+      field: 'orgname',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '单位'
+        }
+      }
+    }
+  ],
   highQueryData: {
-    dataSourceName: '',
-    businessModuleName: ''
+    name: '',
+    orgname: ''
   },
   PoliciesTableColumns: [
     {
@@ -71,7 +71,7 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '用户姓名',
+      title: '用户名称',
       field: 'name',
       sortable: false,
       align: 'left'
