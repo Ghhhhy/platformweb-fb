@@ -44,10 +44,54 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}  {codeFragment}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '截止日期',
+      field: 'endTime',
+      width: 100,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '截止日期'
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    mofDivCodes: '',
+    endTime: ''
   },
   basicInfo: {
     type: 'form',

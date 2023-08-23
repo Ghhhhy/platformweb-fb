@@ -337,7 +337,7 @@ export default {
       }
       if (this.$store.getters.isFuJian) {
         param.endTime = this.searchDataList.endTime
-        param.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
+        param.proCodes = this.searchDataList.proCodes ? this.getTrees(this.searchDataList.proCodes) : []
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

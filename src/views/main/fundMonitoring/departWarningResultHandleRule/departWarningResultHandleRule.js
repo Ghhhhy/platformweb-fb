@@ -361,11 +361,47 @@ const proconf = {
           }
         }
       }
+    },
+    {
+      title: '认定开始时间',
+      field: 'affirmTimeStartDate',
+      width: 180,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          // format: 'YYYY-MM-DD 00:00:00', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          'label-format': 'yyyy-MM-dd 00:00:00',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          placeholder: '认定开始时间'
+        }
+      }
+    },
+    {
+      title: '认定截止时间',
+      field: 'affirmTimeEndDate',
+      width: 180,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          // format: 'YYYY-MM-DD 23:59:59', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          'label-format': 'yyyy-MM-dd 23:59:59',
+          'value-format': 'yyyy-MM-dd 23:59:59',
+          placeholder: '认定截止时间'
+        }
+      }
     }
   ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
-    trackProCode: ''
+    trackProCode: '',
+    affirmTimeStartDate: '',
+    affirmTimeEndDate: ''
   },
   basicInfo: {
     type: 'form',
