@@ -7,15 +7,15 @@ const leftFormItemData = {
 // 查询表单设置
 const leftFormItem = [
   {
-    title: '资金主管科室名称',
-    field: 'bgtMofDepName',
+    title: '资金主管部门',
+    field: 'bgtDeptName',
     span: 12,
     align: 'left',
     name: '$vxeSelect',
     itemRender: {
       name: '$vxeNewInput',
       props: {
-        placeholder: '资金主管科室名称',
+        placeholder: '资金主管部门',
         clearable: true
       }
     }
@@ -62,14 +62,14 @@ const rightFormItemData = {
 // 查询表单设置
 const rightFormItem = [
   {
-    title: '资金主管科室名称',
-    field: 'manageMofDepName',
+    title: '资金主管部门',
+    field: 'bgtDeptName',
     span: 12,
     align: 'left',
     itemRender: {
       name: '$vxeInput',
       props: {
-        placeholder: '资金主管科室名称',
+        placeholder: '资金主管部门',
         clearable: true
       }
     }
