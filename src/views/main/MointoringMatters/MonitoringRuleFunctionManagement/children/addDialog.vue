@@ -21,6 +21,7 @@
                       v-model="functionType"
                       placeholder="请选择函数类型"
                       style="width:45%"
+                      @change="functionTypeFun"
                     >
                       <el-option
                         v-for="item in functionTypeoptions"
@@ -110,7 +111,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;查询类型</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-if="functionType === '2'" color="red">*</font>&nbsp;查询类型</div>
                     <el-select
                       v-model="queryType"
                       placeholder="请选择查询类型"
@@ -255,6 +256,9 @@ export default {
         }
       })
     },
+    functionTypeFun() {
+      console.log(this.functionType, 'functionTypeFun')
+    },
     // 选择数据源编码
     changeDataSourceCode(val) {
       console.log(val)
@@ -331,6 +335,10 @@ export default {
       }
       if (this.functionParameter === '') {
         this.$message.warning('请输入函数参数')
+        return
+      }
+      if (this.queryType === '' && this.functionType === '2') {
+        this.$message.warning('请输入查询类型')
         return
       }
       if (this.description === '') {
