@@ -457,6 +457,8 @@ export default {
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
         ruleCodes: this.searchDataList.ruleCodes === '' ? [] : this.getRuleTrees(this.searchDataList.ruleCodes),
+        affirmTimeStartDate: this.searchDataList.affirmTimeStartDate,
+        affirmTimeEndDate: this.searchDataList.affirmTimeEndDate,
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }

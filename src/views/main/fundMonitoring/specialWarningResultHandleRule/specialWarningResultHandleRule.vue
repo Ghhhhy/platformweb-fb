@@ -416,6 +416,8 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: this.isSuperPermissions,
+        affirmTimeStartDate: this.searchDataList.affirmTimeStartDate,
+        affirmTimeEndDate: this.searchDataList.affirmTimeEndDate,
         regulationClass: this.regulationClass
       }
       this.tableLoading = true
