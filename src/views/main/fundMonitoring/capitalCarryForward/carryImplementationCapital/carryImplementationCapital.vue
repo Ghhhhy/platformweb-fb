@@ -16,7 +16,7 @@
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
-            :query-form-item-config="queryConfig"
+            :query-form-item-config="projectSearchForm"
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
@@ -78,6 +78,16 @@ export default {
       const moneyUnitValue = this.$refs.bsTableRef.moneyUnit || 10000
       const moneyUnitMap = { 10000: '万元', 1: '元' }
       return moneyUnitMap[moneyUnitValue]
+    },
+    projectSearchForm() { // 福建需要新增2个搜索条件
+      if (this.$store.getters.isFuJian) {
+        return this.queryConfig.filter(item => {
+          return item.field !== 'fiscalYear'
+        })
+      }
+      return this.queryConfig.filter(item => {
+        return !['mofDivCodes', 'endTime'].includes(item.field)
+      })
     }
   },
   data() {
@@ -342,6 +352,10 @@ export default {
         isFlush,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
+      if (this.$store.getters.isFuJian) {
+        param.endTime = this.searchDataList.endTime
+        param.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
+      }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
@@ -354,6 +368,18 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    getTrees(val) {
+      if (val === undefined) {
+        return
+      }
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
