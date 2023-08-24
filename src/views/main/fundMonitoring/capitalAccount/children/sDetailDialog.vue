@@ -51,6 +51,12 @@ export default {
     }
   },
   props: {
+    drillingParam: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
     title: {
       type: String,
       default: ''
@@ -173,6 +179,9 @@ export default {
       params.budgetLevelCode = this.condition.budgetLevelCode ? this.condition.budgetLevelCode[0] : ''
       // params.xjCorBgtDocNo = this.condition.xjCorBgtDocNo ? this.condition.xjCorBgtDocNo[0] : ''
       console.log(params, 'fpTime')
+      if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+        params = { ...params, ...this.drillingParam }
+      }
       this.$parent.tableLoading = true
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
