@@ -97,7 +97,7 @@
 
 <script>
 import resolveResult from '@/utils/result.js'
-// import api from '@/api/frame/main/inventory/index.js'
+import api from '@/api/frame/main/inventory/index.js'
 import {
   leftFormItemData,
   leftFormItem,
@@ -188,28 +188,28 @@ export default {
     },
     // 初始化查询表格数据+条件查询表格数据
     initLeftTableData() {
-      // this.leftShowLoading = true
-      // let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
-      // var _this = this
-      // api.upPro(datas)
-      //   .then(res => {
-      //     if (res.rscode === '200') {
-      //       _this.leftTableData = res.data.dataList
-      //       _this.leftPagerConfig.total = res.data.total
-      //     } else {
-      //       let message = res?.errorMessage || res?.result
-      //       _this.$message.error('任务查询失败!' + message)
-      //     }
-      //   })
-      //   .finally(() => { this.leftShowLoading = false })
-      this.leftTableData = [
-        {
-          proName: '测试1'
-        },
-        {
-          proName: '测试2'
-        }
-      ]
+      this.leftShowLoading = true
+      let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
+      var _this = this
+      api.upPro(datas)
+        .then(res => {
+          if (res.rscode === '200') {
+            _this.leftTableData = res.data.dataList
+            _this.leftPagerConfig.total = res.data.total
+          } else {
+            let message = res?.errorMessage || res?.result
+            _this.$message.error('任务查询失败!' + message)
+          }
+        })
+        .finally(() => { this.leftShowLoading = false })
+      // this.leftTableData = [
+      //   {
+      //     proName: '测试1'
+      //   },
+      //   {
+      //     proName: '测试2'
+      //   }
+      // ]
     },
     leftSearch(obj) {
       this.leftFormItemData = obj
@@ -230,90 +230,21 @@ export default {
     },
     // 初始化查询表格数据+条件查询表格数据
     initRightTableData() {
-      // this.rightShowLoading = true
-      // let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
-      // var _this = this
-      // api.upPro(datas)
-      //   .then(res => {
-      //     if (res.rscode === '200') {
-      //       _this.rightTableData = res.data.dataList  // 接口直接获取所有数据，使用纯前端分页
-      //     } else {
-      //       let message = res?.errorMessage || res?.result
-      //       _this.$message.error('任务查询失败!' + message)
-      //     }
-      //   })
-      //   .finally(() => { this.rightShowLoading = false })
-      this.rightTableData = [
-        {
-          objName: '测试3'
-        },
-        {
-          objName: '测试4'
-        },
-        {
-          objName: '测试5'
-        },
-        {
-          objName: '测试6'
-        },
-        {
-          objName: '测试7'
-        },
-        {
-          objName: '测试8'
-        },
-        {
-          objName: '测试9'
-        },
-        {
-          objName: '测试10'
-        },
-        {
-          objName: '测试11'
-        },
-        {
-          objName: '测试12'
-        },
-        {
-          objName: '测试13'
-        },
-        {
-          objName: '测试14'
-        },
-        {
-          objName: '测试15'
-        },
-        {
-          objName: '测试16'
-        },
-        {
-          objName: '测试17'
-        },
-        {
-          objName: '测试18'
-        },
-        {
-          objName: '测试19'
-        },
-        {
-          objName: '测试20'
-        },
-        {
-          objName: '测试21'
-        },
-        {
-          objName: '测试22'
-        },
-        {
-          objName: '测试23'
-        },
-        {
-          objName: '测试24'
-        },
-        {
-          objName: '测试25'
-        }
-      ]
+      this.rightShowLoading = true
+      let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
+      var _this = this
+      api.upPro(datas)
+        .then(res => {
+          if (res.rscode === '200') {
+            _this.rightTableData = res.data.dataList // 接口直接获取所有数据，使用纯前端分页
+          } else {
+            let message = res?.errorMessage || res?.result
+            _this.$message.error('任务查询失败!' + message)
+          }
+        })
+        .finally(() => { this.rightShowLoading = false })
+      // this.rightTableData = [
+      // ]
     },
     selectRow() {
       // 去重
