@@ -76,7 +76,7 @@
         ref="rightTableRef"
         :loading="rightShowLoading"
         :table-columns-config="rightTableColumnsConfig"
-        :table-data="list"
+        :table-data="rightTableData"
         :edit-config="false"
         :toolbar-config="tableToolbarConfig"
         :pager-config="rightPagerConfig"
@@ -200,7 +200,7 @@ export default {
             _this.leftTableData = res.data.dataList
             _this.leftPagerConfig.total = res.data.total
           } else {
-            let message = res?.message || res?.result
+            let message = res?.message || ''
             _this.$message.error('查询失败!' + message)
           }
         })
@@ -226,12 +226,17 @@ export default {
     // 初始化查询表格数据+条件查询表格数据
     initRightTableData() {
       this.rightShowLoading = true
-      let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
+      let datas = Object.assign({}, this.rightFormItemData, {
+        bizType: '03',
+        pubFlag: '1',
+        isDeleted: 2 }) // 只需传入搜索条件
       var _this = this
       api.getQuery(datas)
         .then(res => {
           if (res.code === '000000') {
-            _this.rightTableData = res.data // 接口直接获取所有数据，使用纯前端分页
+            console.log(77, res)
+            _this.rightPagerConfig.total = res.data.total
+            _this.rightTableData = res.data.records // 接口直接获取所有数据，使用纯前端分页
           } else {
             let message = res?.message || ''
             _this.$message.error('查询失败!' + message)
@@ -248,7 +253,6 @@ export default {
       if (this.noRepetData?.length !== this.leftSelections?.length) {
         this.$XModal.message({ status: 'warning', message: '已过滤重复选择项' })
       }
-      console.log('-----', this.noRepetData)
       // this.rightTableData = [
       //   ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
       //   ...this.rightTableData
@@ -283,10 +287,11 @@ export default {
       this.$refs.leftTableRef.clearCheckboxRow()
     },
     delectRow() {
-      this.rightTableData = this.rightTableData.filter(
-        (a) => !this.rightSelections.some((b) => a.objName === b)// 唯一标识删除
-      )
-      const data = this.rightTableData.map(item => {
+      // this.rightTableData = this.rightTableData.filter(
+      //   (a) => !this.rightSelections.some((b) => a.objName === b)// 唯一标识删除
+      // )
+      let selection = this.$refs.rightTableRef.getCheckboxRecords()
+      const data = selection.map(item => {
         return {
           objId: item.objId
         }
@@ -404,14 +409,14 @@ export default {
 <style lang="scss" scoped>
 
 /deep/.leftReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;
   }
 }
 /deep/.rightReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;
