@@ -301,6 +301,26 @@ export default {
       this.condition = condition
       this.queryTableDatas(isFlush)
     },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => item.field === 'proCodes')].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
     //   switch (obj.code) {
@@ -389,6 +409,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.queryTableDatas(false)
+    this.getPro()
   }
 }
 </script>
