@@ -104,7 +104,7 @@ function useTabPlanel(
             Message.warning('流程终止，不能撤回')
             return
           }
-          Message.success(`成功撤回${unref(checkedRecords)?.length}条数据`)
+          Message.success(`成功撤回${data}条数据`)
           resetFetchTableData()
         }
       }
