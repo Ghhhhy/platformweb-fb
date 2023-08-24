@@ -65,9 +65,9 @@
         :form-gloabal-config="formGloabalConfig"
         @onSearchClick="rightSearch"
       >
-        <template #action-button-before>
-          <vxe-button status="primary" @click="doSave">保存</vxe-button>
-        </template>
+        <!-- <template #action-button-before> -->
+        <!-- <vxe-button status="primary" @click="doSave">保存</vxe-button> -->
+        <!-- </template> -->
       </BsQuery>
       <BsTable
         ref="rightTableRef"
@@ -193,11 +193,11 @@ export default {
       var _this = this
       api.upPro(datas)
         .then(res => {
-          if (res.rscode === '200') {
+          if (res.code === '000000') {
             _this.leftTableData = res.data.dataList
             _this.leftPagerConfig.total = res.data.total
           } else {
-            let message = res?.errorMessage || res?.result
+            let message = res?.msg || res?.result
             _this.$message.error('任务查询失败!' + message)
           }
         })
@@ -233,12 +233,12 @@ export default {
       this.rightShowLoading = true
       let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
       var _this = this
-      api.upPro(datas)
+      api.getQuery(datas)
         .then(res => {
-          if (res.rscode === '200') {
+          if (res.code === '000000') {
             _this.rightTableData = res.data.dataList // 接口直接获取所有数据，使用纯前端分页
           } else {
-            let message = res?.errorMessage || res?.result
+            let message = res?.message || res?.result
             _this.$message.error('任务查询失败!' + message)
           }
         })
@@ -258,14 +258,48 @@ export default {
         ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
         ...this.rightTableData
       ]
-      this.leftSelections = []
-      this.$refs.leftTableRef.clearCheckboxRow()
+      const params = this.noRepetData.map(item => {
+        return {
+          fiscalYear: item.fiscalYear, //      财年
+          mofDivCode: item.fiscalYear, //      财年     财政区划编码
+          manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
+          manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
+          objCode: item.proCode, //      财年监控对象编码
+          objName: item.proName, //      财年监控对象名称
+          bizType: '01', //      财年默认传01
+          proCatCode: item.proCatCode, //      财年项目类别代码
+          proCatName: item.proCatName, //      财年项目类别名称
+          bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
+          bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
+          ext1: item.fundTypeCode, //      财年资金性质代码
+          ext2: item.fundTypeName//      财年资金性质名称
+        }
+      })
+      api.doSave(params).then(res => {
+        this.leftSelections = []
+        this.$refs.leftTableRef.clearCheckboxRow()
+        this.initRightTableData()
+      })
     },
     delectRow() {
       this.rightTableData = this.rightTableData.filter(
         (a) => !this.rightSelections.some((b) => a.objName === b)// 唯一标识删除
       )
       this.rightSelections = []
+      const data = this.rightTableData.map(item => {
+        return {
+          objId: item.objId
+        }
+      })
+      const params = {
+        data,
+        isDeleted: 1
+      }
+      api.doSave(params).then(res => {
+        this.leftSelections = []
+        this.$refs.leftTableRef.clearCheckboxRow()
+        this.initRightTableData()
+      })
       this.$refs.rightTableRef.clearCheckboxRow()
     },
     rightSearch(obj) {
