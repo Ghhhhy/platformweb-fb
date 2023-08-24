@@ -242,7 +242,7 @@ export default {
             _this.rightTableData = res.data.dataList // 接口直接获取所有数据，使用纯前端分页
           } else {
             let message = res?.message || res?.result
-            _this.$message.error('任务查询失败!' + message)
+            _this.$message.error('查询失败!' + message)
           }
         })
         .finally(() => { this.rightShowLoading = false })

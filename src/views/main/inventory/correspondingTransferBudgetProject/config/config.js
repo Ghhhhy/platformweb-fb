@@ -1,6 +1,6 @@
 // 查询区条件
 const leftFormItemData = {
-  bgtMofDepName: '',
+  bgtDeptName: '',
   proName: ''
 }
 
