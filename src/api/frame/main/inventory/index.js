@@ -11,6 +11,6 @@ export default {
     return post('large-monitor-platform/lmp/warn/mMcObj/batchSave', params)
   },
   getQuery(params) {
-    return post('large-monitor-platform/lmp/warn/mMcObj/query', params)
+    return post('large-monitor-platform/lmp/warn/mMcObj/queryPage', params)
   }
 }

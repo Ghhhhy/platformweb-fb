@@ -76,7 +76,7 @@
         ref="rightTableRef"
         :loading="rightShowLoading"
         :table-columns-config="rightTableColumnsConfig"
-        :table-data="list"
+        :table-data="rightTableData"
         :edit-config="false"
         :toolbar-config="tableToolbarConfig"
         :pager-config="rightPagerConfig"
@@ -200,8 +200,8 @@ export default {
             _this.leftTableData = res.data.dataList
             _this.leftPagerConfig.total = res.data.total
           } else {
-            let message = res?.msg || res?.result
-            _this.$message.error('任务查询失败!' + message)
+            let message = res?.msg || ''
+            _this.$message.error('查询失败!' + message)
           }
         })
         .finally(() => { this.leftShowLoading = false })
@@ -234,14 +234,19 @@ export default {
     // 初始化查询表格数据+条件查询表格数据
     initRightTableData() {
       this.rightShowLoading = true
-      let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
+      let datas = Object.assign({}, this.rightFormItemData, {
+        bizType: '01',
+        pubFlag: '1',
+        isDeleted: 2 }) // 只需传入搜索条件
+
       var _this = this
       api.getQuery(datas)
         .then(res => {
           if (res.code === '000000') {
-            _this.rightTableData = res.data.dataList // 接口直接获取所有数据，使用纯前端分页
+            _this.rightTableData = res.data.records // 接口直接获取所有数据，使用纯前端分页
+            _this.rightPagerConfig.total = res.data.total
           } else {
-            let message = res?.message || res?.result
+            let message = res?.message || ''
             _this.$message.error('查询失败!' + message)
           }
         })
@@ -291,8 +296,8 @@ export default {
       this.rightTableData = this.rightTableData.filter(
         (a) => !this.rightSelections.some((b) => a.objName === b)// 唯一标识删除
       )
-      this.rightSelections = []
-      const data = this.rightTableData.map(item => {
+      let selection = this.$refs.rightTableRef.getCheckboxRecords()
+      const data = selection.map(item => {
         return {
           objId: item.objId
         }
@@ -306,6 +311,7 @@ export default {
         this.$refs.leftTableRef.clearCheckboxRow()
         this.initRightTableData()
       })
+      this.rightSelections = []
       this.$refs.rightTableRef.clearCheckboxRow()
     },
     rightSearch(obj) {
@@ -376,23 +382,23 @@ export default {
   created() {
     this.initLeftTableData()
     this.initRightTableData()
-  },
-  watch: {
-    rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
-      handler(newValue, oldValue) {
-        this.rightPagerConfig = {
-          total: newValue?.length, // 数据长度为总数量
-          pageSize: 20,
-          currentPage: 1
-        }
-        this.list = this.rightTableData.slice( // 纯前端分页
-          (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
-          this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
-        )
-      },
-      deep: true,
-      immediate: true
-    }
+  // },
+  // watch: {
+  //   rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
+  //     handler(newValue, oldValue) {
+  //       this.rightPagerConfig = {
+  //         total: newValue?.length, // 数据长度为总数量
+  //         pageSize: 20,
+  //         currentPage: 1
+  //       }
+  //       this.list = this.rightTableData.slice( // 纯前端分页
+  //         (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
+  //         this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
+  //       )
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
   }
 }
 </script>
@@ -400,14 +406,14 @@ export default {
 <style lang="scss" scoped>
 
 /deep/.leftReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;
   }
 }
 /deep/.rightReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;
