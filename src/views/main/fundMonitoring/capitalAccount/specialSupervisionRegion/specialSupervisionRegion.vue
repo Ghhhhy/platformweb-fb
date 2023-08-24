@@ -96,6 +96,7 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-type="detailType"
+      :drilling-param="drillingParam"
       :detail-data="detailData"
       :detail-query-param="detailQueryParam"
     />
@@ -103,6 +104,7 @@
       v-if="sDetailVisible"
       :title="sDetailTitle"
       :s-detail-data="sDetailData"
+      :drilling-param="drillingParam"
       :s-detail-query-param="sDetailQueryParam"
       :s-detail-type="sDetailType"
     />
@@ -160,6 +162,7 @@ export default {
   data() {
     return {
       projectCode: '',
+      drillingParam: {},
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -631,6 +634,9 @@ export default {
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
         isZd: this.searchDataList.isZd || ''
       }
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        params = { ...this.drillingParam, ...params }
+      }
       // 上海需求  监管局需要加 isCentral 字段
       if (hideColumnLinkStr.reportCode === 'zxjd_fdq_central' && hideColumnLinkStr.projectCode === 'SH') {
         params.isCentral = '1'
@@ -735,6 +741,7 @@ export default {
         isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
+        clear_date: this.condition.clear_date ? this.condition.clear_date[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
         isZd: this.searchDataList.isZd || ''
@@ -746,6 +753,14 @@ export default {
             this.tableData = res.data.data
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
+          }
+          // 保留高级查询内容需要传入钻取第二层第三层
+          this.drillingParam = { ...this.searchDataList }
+          // 删除无用属性名
+          for (let x in this.drillingParam) {
+            if (x.indexOf('__') !== -1) {
+              delete this.drillingParam[x]
+            }
           }
         } else {
           this.$message.error(res.message)

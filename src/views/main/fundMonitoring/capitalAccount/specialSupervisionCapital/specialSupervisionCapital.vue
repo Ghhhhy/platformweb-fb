@@ -87,12 +87,14 @@
       :title="detailTitle"
       :detail-type="detailType"
       :detail-data="detailData"
+      :drilling-param="drillingParam"
       :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
       :title="sDetailTitle"
       :s-detail-data="sDetailData"
+      :drilling-param="drillingParam"
       :s-detail-query-param="sDetailQueryParam"
       :s-detail-type="sDetailType"
     />
@@ -158,6 +160,7 @@ export default {
   data() {
     return {
       otherSysImportModal: false, // 华青数据导入弹窗显隐
+      drillingParam: {},
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -627,6 +630,9 @@ export default {
         isCentral: this.searchDataList.isCentral || '',
         isZd: this.searchDataList.isZd || ''
       }
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        this.detailQueryParam = { ...this.drillingParam, ...this.detailQueryParam }
+      }
       this.detailType = reportCode
       this.detailVisible = true
       // this.tableLoading = true
@@ -725,6 +731,14 @@ export default {
           //   this.refresh(true)
           //   console.log('上海自动刷新！*1')
           // }
+          // 保留高级查询内容需要传入钻取第二层第三层
+          this.drillingParam = { ...this.searchDataList }
+          // 删除无用属性名
+          for (let x in this.drillingParam) {
+            if (x.indexOf('__') !== -1) {
+              delete this.drillingParam[x]
+            }
+          }
         } else {
           this.$message.error(res.message)
         }
