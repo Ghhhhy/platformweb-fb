@@ -231,43 +231,49 @@ export default {
       api.getQuery(datas)
         .then(res => {
           if (res.code === '000000') {
-            _this.rightTableData = res.data.dataList // 接口直接获取所有数据，使用纯前端分页
+            _this.rightTableData = res.data // 接口直接获取所有数据，使用纯前端分页
           } else {
-            let message = res?.message || res?.result
-            _this.$message.error('任务查询失败!' + message)
+            let message = res?.message || ''
+            _this.$message.error('查询失败!' + message)
           }
         })
         .finally(() => { this.rightShowLoading = false })
     },
     selectRow() {
       // 去重
-      this.noRepetData = this.leftSelections.filter(
-        (a) => this.rightTableData.every((b) => a.objName !== b.objName)
-      )
+      this.noRepetData = this.leftSelections
+      // .filter(
+      //   (a) => this.rightTableData.every((b) => a.proName !== b.objName)
+      // )
       if (this.noRepetData?.length !== this.leftSelections?.length) {
         this.$XModal.message({ status: 'warning', message: '已过滤重复选择项' })
       }
-      this.rightTableData = [
-        ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
-        ...this.rightTableData
-      ]
-      const params = this.noRepetData.map(item => {
+      console.log('-----', this.noRepetData)
+      // this.rightTableData = [
+      //   ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
+      //   ...this.rightTableData
+      // ]
+      const data = this.noRepetData.map(item => {
         return {
           fiscalYear: item.fiscalYear, //      财年
-          mofDivCode: item.fiscalYear, //      财年     财政区划编码
+          mofDivCode: item.mofDivCode, //
           manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
           manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
-          objCode: item.proCode, //      财年监控对象编码
-          objName: item.proName, //      财年监控对象名称
-          bizType: '01', //      财年默认传01
+          objCode: item.objCode, //      财年监控对象编码
+          objName: item.objName, //      财年监控对象名称
+          bizType: '03', // 本级
           proCatCode: item.proCatCode, //      财年项目类别代码
           proCatName: item.proCatName, //      财年项目类别名称
           bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
-          bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
-          ext1: item.fundTypeCode, //      财年资金性质代码
-          ext2: item.fundTypeName//      财年资金性质名称
+          bgtDeptCode: item.bgtDeptCode //      财年资金主管部门代码
+          // ext1: item.fundTypeCode, //      财年资金性质代码
+          // ext2: item.fundTypeName//      财年资金性质名称
         }
       })
+      const params = {
+        data,
+        isDeleted: 2
+      }
       api.doSave(params).then(res => {
         this.leftSelections = []
         this.$refs.leftTableRef.clearCheckboxRow()
@@ -311,9 +317,16 @@ export default {
           ...curretArr,
           {
             objName: v.proName,
-            ext2: v.fundTypeName,
             proCatName: v.proCatName,
-            bgtDeptName: v.bgtDeptName
+            bgtDeptName: v.bgtDeptName,
+            fiscalYear: v.fiscalYear, //      财年
+            mofDivCode: v.mofDivCode, //
+            manageMofDepCode: v.manageMofDepCode, //      财年        业务主管处室代
+            manageMofDepName: v.manageMofDepCode, //      财年        业务主管处室名
+            objCode: v.proCode, //      财年监控对象编码
+            bizType: '01', //      财年默认传01
+            proCatCode: v.proCatCode, //      财年项目类别代码
+            bgtDeptCode: v.bgtDeptCode //
           }
         ]
       })
@@ -328,7 +341,14 @@ export default {
             objName: v.proName,
             ext2: v.fundTypeName,
             proCatName: v.proCatName,
-            bgtDeptName: v.bgtDeptName
+            bgtDeptName: v.bgtDeptName,
+            fiscalYear: v.fiscalYear, //      财年
+            mofDivCode: v.mofDivCode, //
+            manageMofDepCode: v.bgtMofDepCode, //      财年        业务主管处室代
+            manageMofDepName: v.bgtMofDepName, //      财年        业务主管处室名
+            objCode: v.proCode, //      财年监控对象编码
+            proCatCode: v.proCatCode, //      财年项目类别代码
+            bgtDeptCode: v.bgtDeptCode //
           }
         ]
       })
@@ -360,23 +380,23 @@ export default {
   created() {
     this.initLeftTableData()
     this.initRightTableData()
-  },
-  watch: {
-    rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
-      handler(newValue, oldValue) {
-        this.rightPagerConfig = {
-          total: newValue?.length, // 数据长度为总数量
-          pageSize: 20,
-          currentPage: 1
-        }
-        this.list = this.rightTableData.slice( // 纯前端分页
-          (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
-          this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
-        )
-      },
-      deep: true,
-      immediate: true
-    }
+  // },
+  // watch: {
+  //   rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
+  //     handler(newValue, oldValue) {
+  //       this.rightPagerConfig = {
+  //         total: newValue?.length, // 数据长度为总数量
+  //         pageSize: 20,
+  //         currentPage: 1
+  //       }
+  //       this.list = this.rightTableData.slice( // 纯前端分页
+  //         (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
+  //         this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
+  //       )
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
   }
 }
 </script>
