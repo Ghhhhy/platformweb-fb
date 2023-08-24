@@ -251,33 +251,36 @@ export default {
     },
     selectRow() {
       // 去重
-      this.noRepetData = this.leftSelections.filter(
-        (a) => this.rightTableData.every((b) => a.objName !== b.objName)
-      )
+      this.noRepetData = this.leftSelections
+      // .filter(
+      // (a) => this.rightTableData.every((b) => a.objName !== b.objName)
+      // )
       if (this.noRepetData?.length !== this.leftSelections?.length) {
         this.$XModal.message({ status: 'warning', message: '已过滤重复选择项' })
       }
-      this.rightTableData = [
-        ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
-        ...this.rightTableData
-      ]
-      const params = this.noRepetData.map(item => {
+      // this.rightTableData = [
+      //   ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
+      //   ...this.rightTableData
+      // ]
+      const data = this.noRepetData.map(item => {
         return {
           fiscalYear: item.fiscalYear, //      财年
-          mofDivCode: item.fiscalYear, //      财年     财政区划编码
-          manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
-          manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
-          objCode: item.proCode, //      财年监控对象编码
-          objName: item.proName, //      财年监控对象名称
-          bizType: '01', //      财年默认传01
-          proCatCode: item.proCatCode, //      财年项目类别代码
-          proCatName: item.proCatName, //      财年项目类别名称
-          bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
-          bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
-          ext1: item.fundTypeCode, //      财年资金性质代码
-          ext2: item.fundTypeName//      财年资金性质名称
+          mofDivCode: item.mofDivCode, //      财年     财政区划编码
+          objCode: item.objCode, //      财年监控对象编码
+          objName: item.objName, //      财年监控对象名称
+          bizType: '01' //      中央专项
+          // proCatCode: item.proCatCode, //      财年项目类别代码
+          // proCatName: item.proCatName, //      财年项目类别名称
+          // bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
+          // bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
+          // ext1: item.fundTypeCode, //      财年资金性质代码
+          // ext2: item.fundTypeName//      财年资金性质名称
         }
       })
+      const params = {
+        data,
+        isDeleted: 2
+      }
       api.doSave(params).then(res => {
         this.leftSelections = []
         this.$refs.leftTableRef.clearCheckboxRow()
@@ -319,9 +322,13 @@ export default {
           ...curretArr,
           {
             objName: v.proName,
-            ext2: v.fundTypeName,
-            proCatName: v.proCatName,
-            bgtDeptName: v.bgtDeptName
+            objCode: v.proCode,
+            fiscalYear: v.fiscalYear, //      财年
+            mofDivCode: v.mofDivCode //      财年     财政区划编码
+
+            // ext2: v.fundTypeName,
+            // proCatName: v.proCatName,
+            // bgtDeptName: v.bgtDeptName
           }
         ]
       })
@@ -334,6 +341,7 @@ export default {
           ...curretArr,
           {
             objName: v.proName,
+            objCode: v.proCode,
             ext2: v.fundTypeName,
             proCatName: v.proCatName,
             bgtDeptName: v.bgtDeptName
