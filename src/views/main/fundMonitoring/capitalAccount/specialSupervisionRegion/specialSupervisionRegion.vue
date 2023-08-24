@@ -347,7 +347,7 @@ export default {
       }
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
-        this.queryConfig = configData.itemsConfig
+        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
         this.getPro()
       }
     },
@@ -704,7 +704,10 @@ export default {
       HttpModule.getProSpeTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[1].itemRender.options = treeResdata
+          let modeIndex = this.queryConfig.findIndex(e => e.field === 'proCodes')
+          if (modeIndex !== -1) {
+            this.queryConfig[modeIndex].itemRender.options = treeResdata
+          }
         } else {
           this.$message.error(res.message)
         }
