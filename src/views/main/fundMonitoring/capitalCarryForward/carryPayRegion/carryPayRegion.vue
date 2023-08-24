@@ -16,7 +16,7 @@
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
-            :query-form-item-config="queryConfig"
+            :query-form-item-config="projectSearchForm"
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
@@ -80,6 +80,16 @@ export default {
       const moneyUnitValue = this.$refs.bsTableRef.moneyUnit || 10000
       const moneyUnitMap = { 10000: '万元', 1: '元' }
       return moneyUnitMap[moneyUnitValue]
+    },
+    projectSearchForm() { // 福建需要新增2个搜索条件
+      if (this.$store.getters.isFuJian) {
+        return this.queryConfig.filter(item => {
+          return item.field !== 'fiscalYear'
+        })
+      }
+      return this.queryConfig.filter(item => {
+        return !['proCodes', 'endTime'].includes(item.field)
+      })
     }
   },
   data() {
@@ -291,6 +301,26 @@ export default {
       this.condition = condition
       this.queryTableDatas(isFlush)
     },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => item.field === 'proCodes')].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
     //   switch (obj.code) {
@@ -337,6 +367,10 @@ export default {
         isFlush,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
       }
+      if (this.$store.getters.isFuJian) {
+        param.endTime = this.searchDataList.endTime
+        param.proCodes = this.searchDataList.proCodes ? this.getTrees(this.searchDataList.proCodes) : []
+      }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
@@ -349,6 +383,18 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    getTrees(val) {
+      if (val === undefined) {
+        return
+      }
+      let mofDivCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          mofDivCodes.push(item.split('##')[0])
+        })
+      }
+      return mofDivCodes
     },
     cellDblclick(obj) {
       // console.log('双击', obj)
@@ -363,6 +409,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.queryTableDatas(false)
+    this.getPro()
   }
 }
 </script>

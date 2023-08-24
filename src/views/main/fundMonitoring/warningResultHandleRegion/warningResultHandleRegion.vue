@@ -57,6 +57,8 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      :props-affirm-time-start-date="searchDataList.affirmTimeStartDate"
+      :props-affirm-time-end-date="searchDataList.affirmTimeEndDate"
     />
     <sDetailDialog
       v-if="sdetailVisible"
@@ -400,6 +402,8 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
         trackProCodes: this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode),
         isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
+        affirmTimeStartDate: this.searchDataList.affirmTimeStartDate,
+        affirmTimeEndDate: this.searchDataList.affirmTimeEndDate,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '0201'
       }
       this.tableLoading = true

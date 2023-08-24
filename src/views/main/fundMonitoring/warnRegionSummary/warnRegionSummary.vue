@@ -56,6 +56,8 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      :props-affirm-time-start-date="searchDataList.affirmTimeStartDate"
+      :props-affirm-time-end-date="searchDataList.affirmTimeEndDate"
     />
   </div>
 </template>
@@ -429,7 +431,9 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
-        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
+        warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00',
+        affirmTimeStartDate: this.searchDataList.affirmTimeStartDate,
+        affirmTimeEndDate: this.searchDataList.affirmTimeEndDate
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

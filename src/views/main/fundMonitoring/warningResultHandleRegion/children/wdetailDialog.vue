@@ -115,6 +115,14 @@ export default {
       default() {
         return []
       }
+    },
+    propsAffirmTimeEndDate: {
+      type: String,
+      default: ''
+    },
+    propsAffirmTimeStartDate: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -512,6 +520,8 @@ export default {
         agencyName: this.condition.agencyName ? this.condition.agencyName[0] : '',
         fiscalYear: this.fiscalYear,
         trackProCodes: this.trackProCodes,
+        affirmTimeStartDate: this.propsAffirmTimeStartDate,
+        affirmTimeEndDate: this.propsAffirmTimeEndDate,
         isSuperPermissions: !!this.transJson(this.$store.state.curNavModule?.param5).isSuperPermissions,
         regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass || '09'
       }

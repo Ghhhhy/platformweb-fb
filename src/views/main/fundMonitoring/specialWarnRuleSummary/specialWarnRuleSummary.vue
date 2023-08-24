@@ -57,6 +57,8 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      :props-affirm-time-start-date="searchDataList.affirmTimeStartDate"
+      :props-affirm-time-end-date="searchDataList.affirmTimeEndDate"
     />
     <vxe-modal
       v-if="warnRegionSummaryVisible"
@@ -485,6 +487,8 @@ export default {
         proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getDivTrees(this.searchDataList.mofDivCodes),
         ruleCodes: this.ruleCodes,
+        affirmTimeStartDate: this.searchDataList.affirmTimeStartDate,
+        affirmTimeEndDate: this.searchDataList.affirmTimeEndDate,
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59',
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       }

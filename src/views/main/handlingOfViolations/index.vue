@@ -123,6 +123,10 @@ export default defineComponent({
     const isUnitFeedbackMenu = computed(() => {
       return pagePath.value === RouterPathEnum().UNIT_FEEDBACK
     })
+    // 是否是专项单位反馈
+    const isUnitFeedbackBySpe = computed(() => {
+      return pagePath.value === 'unitFeedbackBySpe'
+    })
 
     // 左侧区划树显隐
     const leftVisible = ref(true)
@@ -332,6 +336,11 @@ export default defineComponent({
       const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
       if (projectCode !== 'SH') {
         initColumns = initColumns.concat(fjAddColumns)
+      }
+      if (isUnitFeedbackBySpe) {
+        initColumns = initColumns.filter(item => {
+          return item.field !== 'isDir'
+        })
       }
       columns.value = initColumns
     }

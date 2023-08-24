@@ -62,6 +62,14 @@ export default {
       default() {
         return []
       }
+    },
+    propsAffirmTimeEndDate: {
+      type: String,
+      default: ''
+    },
+    propsAffirmTimeStartDate: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -185,6 +193,8 @@ export default {
         agencyName: this.searchDataList.agencyName,
         useOfFunds: this.searchDataList.useOfFunds,
         payer: this.searchDataList.payer,
+        affirmTimeStartDate: this.propsAffirmTimeStartDate,
+        affirmTimeEndDate: this.propsAffirmTimeEndDate,
         payee: this.searchDataList.payee,
         xpayStartDate: this.searchDataList.xpayStartDate === '' || this.searchDataList.xpayStartDate === undefined ? '' : moment(this.searchDataList.xpayStartDate).format('YYYY-MM-DD') + ' 00:00:00',
         xpayEndDate: this.searchDataList.xpayEndDate === '' || this.searchDataList.xpayEndDate === undefined ? '' : moment(this.searchDataList.xpayEndDate).format('YYYY-MM-DD') + ' 23:59:59'
