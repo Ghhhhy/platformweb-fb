@@ -32,7 +32,8 @@ window.gloableToolFn = {
       // --------------------------- 后台服务 ----------------------------------//
       // 'large-monitor-platform': 'http://192.168.0.113:6602',
       'large-monitor-platform': api,
-      'dfr-monitor-service': api
+      'dfr-monitor-service': api,
+      'budgetServer': 'http://10.100.32.125:9008/'
     },
     gloableUrl: {
       // 是否退出到门户（平台）
