@@ -35,6 +35,7 @@ import '@/assets/css/addDialog.scss'
 import '@/assets/remixicon/remixicon.css' // 图标字体
 // import '@/assets/css/adjust.scss' // 非侵入修改覆盖样式
 import '@/assets/css/dfr.scss' // 直达资金样式
+import '@/assets/css/cusomterGlobalStyle.scss' // 全局用户自定义样式
 
 // import 'bs-ui/src/common/css/common.css' // 全局reset以及部分公共样式
 // import '@/assets/css/app.scss' // 全局主架构公共样式
