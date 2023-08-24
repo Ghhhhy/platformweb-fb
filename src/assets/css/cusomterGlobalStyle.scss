@@ -1,0 +1,79 @@
+.err{
+  font-size: 18px;
+  font-weight: 500;
+  color: red;
+}
+.suc{
+  font-size: 18px;
+  font-weight: 500;
+  color: green;
+}
+.pd5{
+padding:5px;
+}
+.pd10{
+padding:10px;
+}
+.pd15{
+padding:15px;
+}
+.pd20{
+padding:20px;
+}
+.pdf5{
+padding-right:5px;
+}
+.pdf10{
+padding-right:10px;
+}
+.pdf15{
+padding-right:15px;
+}
+.pdf20{
+padding-right:20px;
+}
+.pdl5{
+padding-left:5px;
+}
+.pdl10{
+padding-left:10px;
+}
+.pdl15{
+padding-left:15px;
+}
+.pdl20{
+padding-left:20px;
+}
+.fcc{
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.fac{
+display: flex;
+justify-content: space-around;
+align-items: center;
+}
+.fbc{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.fd_c{
+flex-direction: column;
+}
+.fec{
+display: flex;
+justify-content: flex-end;
+align-items: center;
+}
+.fsc{
+display: flex;
+justify-content: flex-start;
+align-items: center;
+}
+.timeRefreshTip{
+  height: 100%;
+  line-height: 32px;
+  width: 600px;
+}

@@ -39,23 +39,26 @@
       </BsTable>
     </div>
     <div class="el-transfer__buttons">
-      <el-button
-        :disabled="rightSelections.length < 1"
-        type="button"
-        class="el-button el-button--primary el-transfer__button"
-        style="margin-bottom: 10px;"
-        @click="delectRow"
-      >
-        <span><i class="el-icon-arrow-left"></i></span>
-      </el-button>
-      <el-button
-        :disabled="leftSelections.length < 1"
-        type="button"
-        class="el-button el-button--primary el-transfer__button"
-        @click="selectRow"
-      >
-        <span><i class="el-icon-arrow-right"></i></span>
-      </el-button>
+      <div class="fcc fd_c">
+        <el-button
+          :disabled="rightSelections.length < 1"
+          type="button"
+          class="el-button el-button--primary el-transfer__button"
+          style="margin-bottom: 10px;"
+          @click="delectRow"
+        >
+          <span><i class="el-icon-arrow-left"></i></span>
+        </el-button>
+        <el-button
+          :disabled="leftSelections.length < 1"
+          type="button"
+          class="el-button el-button--primary el-transfer__button"
+          @click="selectRow"
+        >
+          <span><i class="el-icon-arrow-right"></i></span>
+        </el-button>
+      </div>
+
     </div>
     <div class="rightReport">
       <BsQuery
