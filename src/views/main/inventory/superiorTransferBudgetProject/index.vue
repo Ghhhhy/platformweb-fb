@@ -39,23 +39,26 @@
       </BsTable>
     </div>
     <div class="el-transfer__buttons">
-      <el-button
-        :disabled="rightSelections.length < 1"
-        type="button"
-        class="el-button el-button--primary el-transfer__button"
-        style="margin-bottom: 10px;"
-        @click="delectRow"
-      >
-        <span><i class="el-icon-arrow-left"></i></span>
-      </el-button>
-      <el-button
-        :disabled="leftSelections.length < 1"
-        type="button"
-        class="el-button el-button--primary el-transfer__button"
-        @click="selectRow"
-      >
-        <span><i class="el-icon-arrow-right"></i></span>
-      </el-button>
+      <div class="fcc fd_c">
+        <el-button
+          :disabled="rightSelections.length < 1"
+          type="button"
+          class="el-button el-button--primary el-transfer__button"
+          style="margin-bottom: 10px;"
+          @click="delectRow"
+        >
+          <span><i class="el-icon-arrow-left"></i></span>
+        </el-button>
+        <el-button
+          :disabled="leftSelections.length < 1"
+          type="button"
+          class="el-button el-button--primary el-transfer__button"
+          @click="selectRow"
+        >
+          <span><i class="el-icon-arrow-right"></i></span>
+        </el-button>
+      </div>
+
     </div>
     <div class="rightReport">
       <BsQuery
@@ -73,7 +76,7 @@
         ref="rightTableRef"
         :loading="rightShowLoading"
         :table-columns-config="rightTableColumnsConfig"
-        :table-data="list"
+        :table-data="rightTableData"
         :edit-config="false"
         :toolbar-config="tableToolbarConfig"
         :pager-config="rightPagerConfig"
@@ -188,28 +191,28 @@ export default {
     },
     // 初始化查询表格数据+条件查询表格数据
     initLeftTableData() {
-      // this.leftShowLoading = true
-      // let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
-      // var _this = this
-      // api.upPro(datas)
-      //   .then(res => {
-      //     if (res.rscode === '200') {
-      //       _this.leftTableData = res.data.dataList
-      //       _this.leftPagerConfig.total = res.data.total
-      //     } else {
-      //       let message = res?.errorMessage || res?.result
-      //       _this.$message.error('任务查询失败!' + message)
-      //     }
-      //   })
-      //   .finally(() => { this.leftShowLoading = false })
-      this.leftTableData = [
-        {
-          proName: '测试1'
-        },
-        {
-          proName: '测试2'
-        }
-      ]
+      this.leftShowLoading = true
+      let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
+      var _this = this
+      api.upPro(datas)
+        .then(res => {
+          if (res.code === '000000') {
+            _this.leftTableData = res.data.dataList
+            _this.leftPagerConfig.total = res.data.total
+          } else {
+            let message = res?.msg || ''
+            _this.$message.error('查询失败!' + message)
+          }
+        })
+        .finally(() => { this.leftShowLoading = false })
+      // this.leftTableData = [
+      //   {
+      //     proName: '测试1'
+      //   },
+      //   {
+      //     proName: '测试2'
+      //   }
+      // ]
     },
     leftSearch(obj) {
       this.leftFormItemData = obj
@@ -230,120 +233,59 @@ export default {
     },
     // 初始化查询表格数据+条件查询表格数据
     initRightTableData() {
-      // this.rightShowLoading = true
-      // let datas = Object.assign({}, this.rightFormItemData) // 只需传入搜索条件
-      // var _this = this
-      // api.upPro(datas)
-      //   .then(res => {
-      //     if (res.rscode === '200') {
-      //       _this.rightTableData = res.data.dataList  // 接口直接获取所有数据，使用纯前端分页
-      //     } else {
-      //       let message = res?.errorMessage || res?.result
-      //       _this.$message.error('任务查询失败!' + message)
-      //     }
-      //   })
-      //   .finally(() => { this.rightShowLoading = false })
-      this.rightTableData = [
-        {
-          objName: '测试3'
-        },
-        {
-          objName: '测试4'
-        },
-        {
-          objName: '测试5'
-        },
-        {
-          objName: '测试6'
-        },
-        {
-          objName: '测试7'
-        },
-        {
-          objName: '测试8'
-        },
-        {
-          objName: '测试9'
-        },
-        {
-          objName: '测试10'
-        },
-        {
-          objName: '测试11'
-        },
-        {
-          objName: '测试12'
-        },
-        {
-          objName: '测试13'
-        },
-        {
-          objName: '测试14'
-        },
-        {
-          objName: '测试15'
-        },
-        {
-          objName: '测试16'
-        },
-        {
-          objName: '测试17'
-        },
-        {
-          objName: '测试18'
-        },
-        {
-          objName: '测试19'
-        },
-        {
-          objName: '测试20'
-        },
-        {
-          objName: '测试21'
-        },
-        {
-          objName: '测试22'
-        },
-        {
-          objName: '测试23'
-        },
-        {
-          objName: '测试24'
-        },
-        {
-          objName: '测试25'
-        }
-      ]
+      this.rightShowLoading = true
+      let datas = Object.assign({}, this.rightFormItemData, {
+        bizType: '01',
+        pubFlag: '1',
+        isDeleted: 2 }) // 只需传入搜索条件
+
+      var _this = this
+      api.getQuery(datas)
+        .then(res => {
+          if (res.code === '000000') {
+            _this.rightTableData = res.data.records // 接口直接获取所有数据，使用纯前端分页
+            _this.rightPagerConfig.total = res.data.total
+          } else {
+            let message = res?.message || ''
+            _this.$message.error('查询失败!' + message)
+          }
+        })
+        .finally(() => { this.rightShowLoading = false })
+      // this.rightTableData = [
+      // ]
     },
     selectRow() {
       // 去重
-      this.noRepetData = this.leftSelections.filter(
-        (a) => this.rightTableData.every((b) => a.objName !== b.objName)
-      )
+      this.noRepetData = this.leftSelections
+      // .filter(
+      // (a) => this.rightTableData.every((b) => a.objName !== b.objName)
+      // )
       if (this.noRepetData?.length !== this.leftSelections?.length) {
         this.$XModal.message({ status: 'warning', message: '已过滤重复选择项' })
       }
-      this.rightTableData = [
-        ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
-        ...this.rightTableData
-      ]
-      const params = this.noRepetData.map(item => {
+      // this.rightTableData = [
+      //   ...this.noRepetData, // 左边选择框中数据添加到右边表格前端
+      //   ...this.rightTableData
+      // ]
+      const data = this.noRepetData.map(item => {
         return {
           fiscalYear: item.fiscalYear, //      财年
-          mofDivCode: item.fiscalYear, //      财年     财政区划编码
-          manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
-          manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
-          objCode: item.proCode, //      财年监控对象编码
-          objName: item.proName, //      财年监控对象名称
-          bizType: '01', //      财年默认传01
-          proCatCode: item.proCatCode, //      财年项目类别代码
-          proCatName: item.proCatName, //      财年项目类别名称
-          bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
-          bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
-          ext1: item.fundTypeCode, //      财年资金性质代码
-          ext2: item.fundTypeName//      财年资金性质名称
+          mofDivCode: item.mofDivCode, //      财年     财政区划编码
+          objCode: item.objCode, //      财年监控对象编码
+          objName: item.objName, //      财年监控对象名称
+          bizType: '01' //      中央专项
+          // proCatCode: item.proCatCode, //      财年项目类别代码
+          // proCatName: item.proCatName, //      财年项目类别名称
+          // bgtDeptName: item.bgtDeptName, //      财年资金主管部门名称
+          // bgtDeptCode: item.bgtDeptCode, //      财年资金主管部门代码
+          // ext1: item.fundTypeCode, //      财年资金性质代码
+          // ext2: item.fundTypeName//      财年资金性质名称
         }
       })
+      const params = {
+        data,
+        isDeleted: 2
+      }
       api.doSave(params).then(res => {
         this.leftSelections = []
         this.$refs.leftTableRef.clearCheckboxRow()
@@ -354,8 +296,8 @@ export default {
       this.rightTableData = this.rightTableData.filter(
         (a) => !this.rightSelections.some((b) => a.objName === b)// 唯一标识删除
       )
-      this.rightSelections = []
-      const data = this.rightTableData.map(item => {
+      let selection = this.$refs.rightTableRef.getCheckboxRecords()
+      const data = selection.map(item => {
         return {
           objId: item.objId
         }
@@ -369,6 +311,7 @@ export default {
         this.$refs.leftTableRef.clearCheckboxRow()
         this.initRightTableData()
       })
+      this.rightSelections = []
       this.$refs.rightTableRef.clearCheckboxRow()
     },
     rightSearch(obj) {
@@ -385,9 +328,13 @@ export default {
           ...curretArr,
           {
             objName: v.proName,
-            ext2: v.fundTypeName,
-            proCatName: v.proCatName,
-            bgtDeptName: v.bgtDeptName
+            objCode: v.proCode,
+            fiscalYear: v.fiscalYear, //      财年
+            mofDivCode: v.mofDivCode //      财年     财政区划编码
+
+            // ext2: v.fundTypeName,
+            // proCatName: v.proCatName,
+            // bgtDeptName: v.bgtDeptName
           }
         ]
       })
@@ -400,6 +347,7 @@ export default {
           ...curretArr,
           {
             objName: v.proName,
+            objCode: v.proCode,
             ext2: v.fundTypeName,
             proCatName: v.proCatName,
             bgtDeptName: v.bgtDeptName
@@ -434,23 +382,23 @@ export default {
   created() {
     this.initLeftTableData()
     this.initRightTableData()
-  },
-  watch: {
-    rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
-      handler(newValue, oldValue) {
-        this.rightPagerConfig = {
-          total: newValue?.length, // 数据长度为总数量
-          pageSize: 20,
-          currentPage: 1
-        }
-        this.list = this.rightTableData.slice( // 纯前端分页
-          (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
-          this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
-        )
-      },
-      deep: true,
-      immediate: true
-    }
+  // },
+  // watch: {
+  //   rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
+  //     handler(newValue, oldValue) {
+  //       this.rightPagerConfig = {
+  //         total: newValue?.length, // 数据长度为总数量
+  //         pageSize: 20,
+  //         currentPage: 1
+  //       }
+  //       this.list = this.rightTableData.slice( // 纯前端分页
+  //         (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
+  //         this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
+  //       )
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
   }
 }
 </script>
@@ -458,14 +406,14 @@ export default {
 <style lang="scss" scoped>
 
 /deep/.leftReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;
   }
 }
 /deep/.rightReport {
-  width: 45%;
+  width: 50%;
   height: 100%;
   .T-search{
     background-color: #fff;

@@ -774,20 +774,20 @@ export const indexColumn = {
   filters: false
 }
 export const fjAddColumns = [
-  {
-    title: '预算单位编码',
-    field: 'agencyCode',
-    width: 180,
-    sortable: false,
-    filters: false
-  },
-  {
-    title: '预算单位名称',
-    field: 'agencyName',
-    width: 180,
-    sortable: false,
-    filters: false
-  },
+  // {
+  //   title: '预算单位编码',
+  //   field: 'agencyCode',
+  //   width: 180,
+  //   sortable: false,
+  //   filters: false
+  // },
+  // {
+  //   title: '预算单位名称',
+  //   field: 'agencyName',
+  //   width: 180,
+  //   sortable: false,
+  //   filters: false
+  // },
   {
     title: '支付申请编号',
     field: 'payAppNo',
@@ -795,13 +795,13 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   },
-  {
-    title: '支付金额',
-    field: 'payAppAmt',
-    width: 180,
-    sortable: false,
-    filters: false
-  },
+  // {
+  //   title: '支付金额',
+  //   field: 'payAppAmt',
+  //   width: 180,
+  //   sortable: false,
+  //   filters: false
+  // },
   {
     title: '资金用途',
     field: 'useDes',
