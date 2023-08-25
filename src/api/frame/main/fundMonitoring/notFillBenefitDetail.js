@@ -6,5 +6,8 @@ export default {
   },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
+  },
+  getBenefitDeDetail(params) {
+    return post('dfr-monitor-service/dfr/notFillBenefitDetail/getBenefitDeDetail', params)
   }
 }

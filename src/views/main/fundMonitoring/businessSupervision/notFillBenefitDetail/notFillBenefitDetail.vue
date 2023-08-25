@@ -67,14 +67,17 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <notFillModal ref="notFillModal" />
   </div>
 </template>
 
 <script>
 import getFormData from './notFillBenefitDetail.js'
+import notFillModal from './notFillBenefitDetailModal.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/notFillBenefitDetail.js'
 export default {
   components: {
+    notFillModal
   },
   watch: {
     $refs: {
@@ -347,23 +350,28 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      let key = obj.column.property
+      // let key = obj.column.property
 
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
-      switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.recDivCode)
-          this.detailTitle = '支出明细'
-          break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
-          this.detailTitle = '直达资金项目明细'
+      if (!obj.column.own.canInsert) {
+        return
       }
+      this.$refs.notFillModal.detailVisible = true
+      this.$refs.notFillModal.clickRowData = obj.row
+      this.$refs.notFillModal.onSearch()
+      // switch (key) {
+      //   case 'jOut':
+      //     this.handleDetail('jOut', obj.row.recDivCode)
+      //     this.detailTitle = '支出明细'
+      //     break
+      //   case 'sbbjfpAmount':
+      //   case 'xbjfpAmount':
+      //   case 'sbjfpAmount':
+      //     this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
+      //     this.detailTitle = '直达资金项目明细'
+      // }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
@@ -476,7 +484,7 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+      if (validCellValue && column.own.canInsert) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
