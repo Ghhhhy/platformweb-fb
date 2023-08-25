@@ -116,6 +116,7 @@ const proconf = {
           {
             title: '利民',
             field: 'amountli',
+            canInsert: true, // 自定义展示可钻取的JSON配置字段
             width: 200,
             sortable: false,
             filters: false,
@@ -124,6 +125,7 @@ const proconf = {
           {
             title: '惠企',
             field: 'amounthq',
+            canInsert: true,
             width: 200,
             sortable: false,
             filters: false,
@@ -132,6 +134,7 @@ const proconf = {
           {
             title: '惠企利民',
             field: 'amounthqli',
+            canInsert: true,
             width: 200,
             sortable: false,
             filters: false,
@@ -157,6 +160,7 @@ const proconf = {
             title: '利民',
             field: 'amountliFill',
             width: 200,
+            canInsert: true,
             sortable: false,
             filters: false,
             align: 'right'
@@ -166,6 +170,7 @@ const proconf = {
             field: 'amounthqFill',
             width: 200,
             sortable: false,
+            canInsert: true,
             filters: false,
             align: 'right'
           },
@@ -174,6 +179,7 @@ const proconf = {
             field: 'amounthqliFill',
             width: 200,
             sortable: false,
+            canInsert: true,
             filters: false,
             align: 'right'
           }
@@ -197,6 +203,7 @@ const proconf = {
             title: '利民',
             field: 'lm2',
             sortable: false,
+            canInsert: true,
             filters: false,
             width: 200,
             align: 'right',
@@ -208,6 +215,7 @@ const proconf = {
             width: 200,
             sortable: false,
             filters: false,
+            canInsert: true,
             align: 'right',
             formula: '{amounthq}-{amounthqFill}'
           },
@@ -216,6 +224,7 @@ const proconf = {
             field: 'hqlm2',
             width: 200,
             sortable: false,
+            canInsert: true,
             filters: false,
             align: 'right',
             formula: '{amounthqli}-{amounthqliFill}'
@@ -234,6 +243,7 @@ const proconf = {
             sortable: false,
             filters: false,
             align: 'right',
+            canInsert: true,
             formula: '({amountli}-0==0)?0:({amountliFill}/{amountli}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -246,6 +256,7 @@ const proconf = {
             align: 'right',
             sortable: false,
             filters: false,
+            canInsert: true,
             formula: '({amounthq}-0==0)?0:({amounthqFill}/{amounthq}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -255,6 +266,7 @@ const proconf = {
             title: '惠企利民',
             field: 'hqlmbl',
             width: 200,
+            canInsert: true,
             sortable: false,
             filters: false,
             align: 'right',
@@ -282,6 +294,61 @@ const proconf = {
 
   }
 }
+export const modalTableColumns = [
+  {
+    title: '序号',
+    type: 'seq',
+    width: 60
+  },
+  {
+    title: '地区名称',
+    align: 'left',
+    width: 260,
+    field: 'mofDivName',
+    formatter({ row }) {
+      if (row.mofDivCode && row.mofDivName) {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      }
+      return `${row.mofDivName}`
+    }
+  },
+  {
+    title: '单位名称',
+    align: 'left',
+    width: 260,
+    field: 'agencyName'
+  },
+  {
+    title: '处室名称',
+    align: 'left',
+    width: 260,
+    field: 'bgtMofDepCode'
+  },
+  {
+    title: '资金名称',
+    align: 'left',
+    width: 260,
+    field: 'trackProName'
+  },
+  {
+    title: '本级专项资金名称',
+    align: 'left',
+    width: 260,
+    field: 'trackProName'
+  },
+  {
+    title: '项目编码',
+    align: 'left',
+    width: 260,
+    field: 'proCode'
+  },
+  {
+    title: '项目名称',
+    align: 'left',
+    width: 260,
+    field: 'proName'
+  }
+]
 export default function (tableType, configType) {
   if (tableType && configType) {
     return window.deepCopy(proconf[tableType][configType])
