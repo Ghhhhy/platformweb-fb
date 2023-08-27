@@ -354,7 +354,7 @@ export default {
 
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      if (isInvalidCellValue || obj.row.children) return
       if (!obj.column.own.canInsert) {
         return
       }
@@ -484,6 +484,7 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
+      if (row.children) return
       if (validCellValue && column.own.canInsert) {
         return {
           color: '#4293F4',
