@@ -117,6 +117,9 @@ import regionMixin from '../mixins/regionMixin'
 export default {
   mixins: [regionMixin],
   computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -130,11 +133,6 @@ export default {
   components: {
     DetailDialog,
     SDetailDialog
-  },
-  computed: {
-    isSx() {
-      return this.$store.getters.isSx
-    }
   },
   watch: {
     $refs: {

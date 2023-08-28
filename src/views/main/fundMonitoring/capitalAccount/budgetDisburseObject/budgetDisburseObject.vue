@@ -133,12 +133,7 @@ export default {
   computed: {
     isSx() {
       return this.$store.getters.isSx
-    }
-  },
-  components: {
-    DetailDialog
-  },
-  computed: {
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -148,6 +143,9 @@ export default {
         }
       }
     }
+  },
+  components: {
+    DetailDialog
   },
   watch: {
     queryConfig() {
