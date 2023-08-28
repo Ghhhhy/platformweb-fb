@@ -95,7 +95,7 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '距今天数',
+      title: '距今天数（天）',
       field: 'logOutDays',
       sortable: false,
       align: 'left'
