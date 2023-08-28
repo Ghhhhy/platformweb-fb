@@ -93,6 +93,12 @@ export let proconf = {
       field: 'loginTime',
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '距今天数',
+      field: 'loginLog',
+      sortable: false,
+      align: 'left'
     }
   ]
 }
