@@ -81,7 +81,8 @@ export default defineComponent({
     const onSearch = () => {
       const params = {
         fiscalYear: store.state.userInfo.year,
-        mofDivCode: clickRowData.value.code
+        mofDivCode: clickRowData.value.code,
+        isSubCode: clickRowData.value.isSubCode
       }
       HttpModule.getBenefitDeDetail(params).then(res => {
         if (res.code === '000000') {

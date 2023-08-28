@@ -120,7 +120,8 @@ const proconf = {
             width: 200,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '01'
           },
           {
             title: '惠企',
@@ -129,7 +130,8 @@ const proconf = {
             width: 200,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '02'
           },
           {
             title: '惠企利民',
@@ -138,7 +140,8 @@ const proconf = {
             width: 200,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '03'
           }
         ]
       },
@@ -163,7 +166,8 @@ const proconf = {
             canInsert: true,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '01'
           },
           {
             title: '惠企',
@@ -172,7 +176,8 @@ const proconf = {
             sortable: false,
             canInsert: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '02'
           },
           {
             title: '惠企利民',
@@ -181,7 +186,8 @@ const proconf = {
             sortable: false,
             canInsert: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '03'
           }
         ]
       },
@@ -206,6 +212,7 @@ const proconf = {
             canInsert: true,
             filters: false,
             width: 200,
+            isSubCode: '01',
             align: 'right',
             formula: '{amountli}-{amountliFill}'
           },
@@ -216,6 +223,7 @@ const proconf = {
             sortable: false,
             filters: false,
             canInsert: true,
+            isSubCode: '02',
             align: 'right',
             formula: '{amounthq}-{amounthqFill}'
           },
@@ -226,6 +234,7 @@ const proconf = {
             sortable: false,
             canInsert: true,
             filters: false,
+            isSubCode: '03',
             align: 'right',
             formula: '{amounthqli}-{amounthqliFill}'
           }
@@ -244,6 +253,7 @@ const proconf = {
             filters: false,
             align: 'right',
             canInsert: true,
+            isSubCode: '01',
             formula: '({amountli}-0==0)?0:({amountliFill}/{amountli}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -257,6 +267,7 @@ const proconf = {
             sortable: false,
             filters: false,
             canInsert: true,
+            isSubCode: '02',
             formula: '({amounthq}-0==0)?0:({amounthqFill}/{amounthq}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -267,6 +278,7 @@ const proconf = {
             field: 'hqlmbl',
             width: 200,
             canInsert: true,
+            isSubCode: '03',
             sortable: false,
             filters: false,
             align: 'right',
@@ -322,7 +334,7 @@ export const modalTableColumns = [
     title: '处室名称',
     align: 'left',
     width: 260,
-    field: 'bgtMofDepCode'
+    field: 'bgtMofDepName'
   },
   {
     title: '资金名称',
