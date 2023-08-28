@@ -1,4 +1,4 @@
-import { getUserRoles, sendLoginLog } from '@/api/frame/common/userroles.js'
+import { getUserRoles, getProjectName, sendLoginLog } from '@/api/frame/common/userroles.js'
 import store from '@/store'
 
 export const state = { // 实时监听state值的变化(最新状态)
@@ -19,12 +19,42 @@ export const state = { // 实时监听state值的变化(最新状态)
   },
   systemMenu: {},
   lookAduitJxData: {},
-  userRolesData: [] // 用户角色
+  userRolesData: [], // 用户角色
+  projectList: []// 项目列表
 }
 export const getters = {
   isFuJian() { // 判断是不是福建项目
     const province = state.userInfo.province
     return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目
+  },
+  treeQueryparamsCom() {
+    let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
+    let budgetlevelcode = state.userInfo.budgetlevelcode
+    if (budgetlevelcode === '4') { // 市级
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 4) + '%\''
+    } else if (budgetlevelcode === '5') { // xianji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 6) + '%\''
+    } else if (budgetlevelcode === '2') { // sheng ji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
+    }
+    return obj
+  },
+  treeQueryparamsCom2() {
+    let obj = { elementcode: 'AGENCY', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
+    let budgetlevelcode = state.userInfo.budgetlevelcode
+    if (budgetlevelcode === '4') { // 市级
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 4) + '%\''
+    } else if (budgetlevelcode === '5') { // xianji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 6) + '%\''
+    } else if (budgetlevelcode === '2') { // sheng ji
+      obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
+    }
+    return obj
+  },
+  isSx() { // 判断是否是陕西项目
+    return state.projectList.some(item => {
+      return item.configKey === 'sx' && item.configValue
+    })
   },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
@@ -58,9 +88,31 @@ export const getters = {
   },
   getUserRolesData(state) {
     return state.userRolesData
+  },
+  getIsJurisdiction() { // 判断是否是全辖角色
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let IsJurisdiction = params5.jurisdiction !== undefined
+    return IsJurisdiction
+  },
+  getRegulationClass() { // 获取regulationClass （主题名称）
+    let params5 = mutations.transJson(state.curNavModule.param5 || '') || {}
+    let RegulationClass = params5.regulationClass !== undefined ? params5.regulationClass : ''
+    return RegulationClass
   }
 }
 export const mutations = {
+  transJson(str) {
+    if (!str) return
+    var params = str.split(',')
+    var result = {}
+    if (params && params.length > 0) {
+      for (var i = 0; i < params.length; i++) {
+        var map = params[i].split('=')
+        result[map[0]] = map[1]
+      }
+    }
+    return result
+  },
   setloading(state, isshow) { // 自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
     state.loading = isshow
   },
@@ -117,6 +169,9 @@ export const mutations = {
   },
   setUserRoles(state, obj) {
     state.userRolesData = obj
+  },
+  setProjectList(state, list) {
+    list && list.length && (state.projectList = list)
   }
 }
 export const actions = {
@@ -148,5 +203,14 @@ export const actions = {
     if (!Array.isArray(data)) return
     console.log(data)
     commit('setUserRoles', data)
+  },
+  async asyncGetProject({ commit, state }) {
+    let projectList = []
+    try {
+      projectList = await getProjectName()
+      commit('setProjectList', projectList.data)
+    } catch (error) {
+      console.log('请求项目列表出错')
+    }
   }
 }

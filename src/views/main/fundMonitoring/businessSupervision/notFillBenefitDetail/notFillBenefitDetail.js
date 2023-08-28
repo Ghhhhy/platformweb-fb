@@ -47,33 +47,6 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
-    },
-    {
-      title: '资金名称',
-      field: 'proCodes',
-      width: '8',
-      align: 'left',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        props: {
-          config: {
-            valueKeys: ['code', 'name', 'id'],
-            format: '{name}',
-            treeProps: {
-              labelFormat: '{code}-{name}', // {code}-{name}
-              nodeKey: 'id',
-              label: 'label',
-              children: 'children'
-            },
-            placeholder: '资金名称',
-            multiple: true,
-            readonly: false,
-            isleaf: true
-          }
-        }
-      }
     }
   ],
   highQueryData: {
@@ -92,7 +65,7 @@ const proconf = {
       {
         title: '地区名称',
         type: 'name',
-        sortable: false,
+        sortable: true,
         filters: false,
         align: 'left',
         treeNode: true,
@@ -108,7 +81,7 @@ const proconf = {
           {
             title: '合计',
             field: 'hj',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 200,
             align: 'right',
@@ -119,7 +92,7 @@ const proconf = {
             field: 'amountli',
             canInsert: true, // 自定义展示可钻取的JSON配置字段
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             align: 'right'
           },
@@ -128,7 +101,7 @@ const proconf = {
             field: 'amounthq',
             canInsert: true,
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             align: 'right'
           },
@@ -137,7 +110,7 @@ const proconf = {
             field: 'amounthqli',
             canInsert: true,
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             align: 'right'
           }
@@ -151,7 +124,7 @@ const proconf = {
           {
             title: '合计',
             field: 'hj1',
-            sortable: false,
+            sortable: true,
             filters: false,
             width: 200,
             align: 'right',
@@ -195,7 +168,7 @@ const proconf = {
             title: '合计',
             field: 'hj2',
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             align: 'right',
             formula: '{hj}-{hj1}'
@@ -214,7 +187,7 @@ const proconf = {
             title: '惠企',
             field: 'hq2',
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             canInsert: true,
             align: 'right',
@@ -233,7 +206,7 @@ const proconf = {
         ]
       },
       {
-        title: '填报比例',
+        title: '挂接比例',
         width: 200,
         align: 'center',
         children: [
@@ -241,7 +214,7 @@ const proconf = {
             title: '利民',
             field: 'lmbl',
             width: 200,
-            sortable: false,
+            sortable: true,
             filters: false,
             align: 'right',
             canInsert: true,
@@ -255,7 +228,7 @@ const proconf = {
             field: 'hqbl',
             width: 200,
             align: 'right',
-            sortable: false,
+            sortable: true,
             filters: false,
             canInsert: true,
             formula: '({amounthq}-0==0)?0:({amounthqFill}/{amounthq}*100)',
@@ -279,10 +252,10 @@ const proconf = {
         ]
       },
       {
-        title: '总导入比例',
+        title: '总挂接比例',
         width: 200,
         align: 'center',
-        sortable: false,
+        sortable: true,
         filters: false,
         field: 'zdrbl',
         formula: '({hj}-0==0)?0:({hj1}/{hj}*100)',

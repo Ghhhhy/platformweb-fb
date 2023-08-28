@@ -75,6 +75,20 @@ export default {
       this.getSearchDataList()
     }
   },
+  computed: {
+    treeQueryparamsCom() {
+      let obj = this.treeQueryparams
+      let budgetlevelcode = this.$store.state.userInfo.budgetlevelcode
+      if (budgetlevelcode === '4') { // 市级
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 4) + '%\''
+      } else if (budgetlevelcode === '5') { // xianji
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 6) + '%\''
+      } else if (budgetlevelcode === '2') { // sheng ji
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 2) + '%\''
+      }
+      return obj
+    }
+  },
   data() {
     return {
       isShowQueryConditions: true,
@@ -178,7 +192,7 @@ export default {
       mofDivCode: '',
       regulationType: '',
       status: '',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       fiscalYear: '',
       mofDivCodeList: [],
       agencyCodeList: []
@@ -505,23 +519,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      HttpModule.getLeftTree(params).then(res => {
+      HttpModule.getLeftTree(this.treeQueryparamsCom).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
           this.queryConfig[2].itemRender.options = treeResdata

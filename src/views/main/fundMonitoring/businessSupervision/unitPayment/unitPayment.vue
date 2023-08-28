@@ -36,13 +36,15 @@
           ref="leftTree"
           open-loading
           :filter-text="leftTreeFilterText"
+          :config="leftTreeConfig"
           :tree-data="treeData"
-          :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          :default-expanded-keys="['619900000', '619800000']"
           @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
         <BsTreeTable
+          v-if="!$store.getters.isSx"
           id="1001"
           ref="bsTableRef"
           row-id="id"
@@ -70,6 +72,34 @@
             </div>
           </template>
         </BsTreeTable>
+        <BsTable
+          v-if="$store.getters.isSx"
+          ref="mainTableRef"
+          :footer-config="tableFooterConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          :table-config="tableConfig"
+          :pager-config="mainPagerConfig"
+          :export-modal-config="{ fileName: menuName }"
+          :toolbar-config="tableToolbarConfig"
+          :default-money-unit="10000"
+          @ajaxData="ajaxTableData"
+          @onToolbarBtnClick="onToolbarBtnClick"
+        >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">{{ menuName }}</span>
+                <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+        </BsTable>
       </template>
       <template v-slot:toolbar-custom-slot>
         <div class="dfr-report-time-wrapper">
@@ -101,7 +131,6 @@
 <script>
 import { proconf } from './unitPayment'
 import HttpModule from '@/api/frame/main/fundMonitoring/unitPayment.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
 import DetailDialog from './children/detailDialog.vue'
 
 // import AddDialog from './children/addDialog'
@@ -144,7 +173,7 @@ export default {
         inputVal: ''
       },
       detailVisible: false,
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -209,19 +238,19 @@ export default {
       regulationStatus: '1',
       mainPagerConfig: {
         autoHidden: true,
-        total: 1,
-        currentPage: 1,
-        pageSize: 999999
-      },
-      pagerConfig: {
-        total: 1,
+        total: 0,
         currentPage: 1,
         pageSize: 20
       },
       tableConfig: {
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          amount: 0,
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       // 操作日志
       logData: [],
@@ -275,7 +304,11 @@ export default {
         detailType: '',
         detailData: '',
         detailQueryParam: []
-      }
+      },
+      agencyIdList: [],
+      bgtMofDepIdList: [],
+      agencyCodeName: '',
+      manageMofDepCodeName: ''
     }
   },
   mounted() {
@@ -283,7 +316,12 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.agencyIdList = obj.agencyCodeList_id__multiple
+      this.bgtMofDepIdList = obj.manageMofDepCodeList_id__multiple
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
+      this.agencyCodeName = obj.agencyCodeName
+      this.manageMofDepCodeName = obj.manageMofDepCodeName
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -421,6 +459,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      if (this.$store.getters.isSx) return
       if (obj.row.hasChild) return
       switch (key) {
         case 'agencyCodeName':
@@ -520,26 +559,57 @@ export default {
         agencyCode: '',
         agencyName: ''
       }
-      this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let queryUrl = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        delete param.agencyCode
+        delete param.agencyName
+        param.agencyCodeName = this.agencyCodeName
+        param.agencyIdList = this.agencyIdList
+        param.bgtMofDepIdList = this.bgtMofDepIdList
+        param.manageMofDepCodeName = this.manageMofDepCodeName
+        queryUrl = 'queryTableDatasPage'
+        HttpModule.querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+      }
+      HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          const rows = res.data?.data || []
-          if (Array.isArray(rows)) {
-            // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
-            this.eachTree(rows, '', 1)
-            // 将树形结构转数组
-            this.tableData = this.$XEUtils.toTreeArray(rows)
+          if (this.$store.getters.isSx) {
+            this.tableData = res.data.results
+          } else {
+            const rows = res.data?.data || []
+            if (Array.isArray(rows)) {
+              // 给数据添加属性： treeTable需要的数据需要有特殊属性parentId、level
+              this.eachTree(rows, '', 1)
+              // 将树形结构转数组
+              this.tableData = this.$XEUtils.toTreeArray(rows)
+            }
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
           }
-          this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
-          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.result)
         }
-      }).finally(() => {
-        this.tableLoading = false
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'dwzfqk'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
+        }
       })
     },
     loadChildrenMethod ({ row }) {
@@ -555,9 +625,19 @@ export default {
             agencyCode: row.agencyCode,
             agencyName: row.agencyName
           }
+          if (this.$store.getters.isSx) {
+            delete param.agencyCode
+            delete param.agencyName
+            param.reportCode = 'dwzfqk_dw'
+            param.manageMofDepCode = row.manageMofDepCode
+            param.manageMofDepName = row.manageMofDepName
+          }
           HttpModule.queryTableDatas(param).then(res => {
             if (res.code === '000000') {
-              const childs = res.data.data
+              let childs = res.data.data
+              if (this.$store.getters.isSx) {
+                childs = res.data
+              }
               resolve(childs)
             } else {
               this.$message.error(res.result)
@@ -592,10 +672,9 @@ export default {
       // })
     },
     getLeftTreeData() {
-      let that = this
-      getMofDivTree(that.treeQueryparams).then(res => {
+      HttpModule.getTreeData(this.treeQueryparams).then(res => {
         if (res.data) {
-          let treeResdata = that.getChildrenData(res.data)
+          let treeResdata = this.getChildrenData(res.data)
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
@@ -608,11 +687,46 @@ export default {
           //     children: treeResdata
           //   }
           // ]
-          that.treeData = treeResdata
+          this.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[1].itemRender.options = treeResdata
+      })
+    },
+    getDep() {
+      const param = {
+        elementcode: 'hold6',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province,
+        wheresql: 'and code != \'00\''
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[2].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     },
     getChildrenData(datas) {
       let that = this
@@ -635,6 +749,22 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getLeftTreeData()
     this.queryTableDatas()
+    if (this.$store.getters.isSx) {
+      this.queryCaliberDeclareContent()
+      this.getAgency()
+      this.getDep()
+      this.tableColumnsConfig = this.queryConfig.filter(item => {
+        return item.key !== 'project'
+      })
+    } else {
+      this.tableColumnsConfig = this.queryConfig.filter(item => {
+        return item.key !== 'sx'
+      })
+      this.queryConfig = this.queryConfig.filter(item => {
+        let notShowField = ['agencyCodeList', 'manageMofDepCodeList']
+        return !notShowField.includes(item.field)
+      })
+    }
   }
 }
 </script>

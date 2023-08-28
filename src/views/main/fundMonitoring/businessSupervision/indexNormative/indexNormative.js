@@ -53,7 +53,8 @@ export let proconf = {
         options: [
           { value: '0', label: '全部' },
           { value: '1', label: '包含特殊字符' },
-          { value: '2', label: '不包含汉字内容' }
+          { value: '2', label: '不包含汉字内容' },
+          { value: '3', label: '指标文号为空' }
         ],
         props: {
           placeholder: '指标文号不规范'
@@ -64,7 +65,9 @@ export let proconf = {
   highQueryData: {
     regulationType: '',
     warningLevel: '',
-    firulename: ''
+    firulename: '',
+    fiscalYear: store.state?.userInfo?.year,
+    corBgtDocNo: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -106,9 +109,9 @@ export let proconf = {
   PoliciesTableColumns: [
     {
       title: '区划名称',
-      'width': 180,
-      field: '',
-      sortable: false,
+      width: 180,
+      field: 'mofDivName',
+      sortable: true,
       filters: false,
       align: 'center',
       formatter({ row }) {
@@ -119,7 +122,7 @@ export let proconf = {
       title: '专项名称',
       'width': 180,
       field: 'speTypeName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -127,7 +130,7 @@ export let proconf = {
       title: '上级文号',
       'width': 180,
       field: 'supBgtDocNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -135,15 +138,15 @@ export let proconf = {
       title: '指标文号',
       'width': 180,
       field: 'corBgtDocNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '处室名称',
       'width': 180,
-      field: '',
-      sortable: false,
+      field: 'manageMofDepName',
+      sortable: true,
       filters: false,
       align: 'center',
       formatter({ row }) {
@@ -154,7 +157,7 @@ export let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agencyName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center',
       formatter({ row }) {
@@ -165,16 +168,22 @@ export let proconf = {
       title: '指标金额',
       'width': 180,
       field: 'amount',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '支出功能分类科目',
       'width': 180,
-      field: '',
-      sortable: false,
+      field: 'expFuncName',
+      sortable: true,
       filters: false,
       align: 'center',
       formatter({ row }) {

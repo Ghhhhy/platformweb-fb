@@ -107,6 +107,10 @@ export default {
   getbusLists(params) {
     return post('large-monitor-platform/lmp/businessFunctions/list', params)
   },
+  // 监控预警结果查询
+  queryWarningInfoAll(params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarningInfoAll', params)
+  },
   // 获取日志
   getLogs(param) {
     return get('large-monitor-platform/lmp/totalWarn/log/' + param)
@@ -142,5 +146,9 @@ export default {
   },
   workFlowGetLogs(params) {
     return post('large-monitor-platform/lmp/workFlow/workFlowGetLogs', params)
+  },
+  // 获取单据号
+  queryDealNo() {
+    return post('large-monitor-platform/lmp/totalWarn/beforeAdd')
   }
 }

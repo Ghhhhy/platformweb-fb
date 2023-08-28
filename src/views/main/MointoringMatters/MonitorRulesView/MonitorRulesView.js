@@ -101,8 +101,9 @@ export let proconf = {
         props: {
           config: {
             valueKeys: ['label', 'value'],
+            format: '{name}',
             treeProps: {
-              labelFormat: '{label}', // {code}-{name}
+              labelFormat: '{value}-{label}', // {code}-{name}
               nodeKey: 'value',
               label: 'label',
               children: 'children'
@@ -238,6 +239,24 @@ export let proconf = {
         ],
         props: {
           placeholder: '是否启用'
+        }
+      }
+    },
+    {
+      title: '触发方式',
+      field: 'triggerClass',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '事中触发' },
+          { value: '2', label: '定时触发' }
+        ],
+        props: {
+          placeholder: '触发方式'
         }
       }
     }
@@ -400,7 +419,10 @@ export let proconf = {
           { value: '4', label: '包含' },
           { value: '5', label: '不包含' },
           { value: '6', label: '大于等于' },
-          { value: '7', label: '小于等于' }
+          { value: '7', label: '小于等于' },
+          { value: '8', label: '开头' },
+          { value: '9', label: '不等于' },
+          { value: '10', label: '不为开头' }
         ],
         props: {
           placeholder: '关系'
@@ -420,8 +442,7 @@ export let proconf = {
           { value: '1', label: '文本' },
           { value: '2', label: '数字' },
           { value: '3', label: '值域' },
-          { value: '4', label: '值集' },
-          { value: '5', label: '参照' }
+          { value: '4', label: '值集' }
         ],
         props: {
           placeholder: '关系'
@@ -433,10 +454,8 @@ export let proconf = {
       sortable: false,
       field: 'param',
       align: 'left',
-      slots: {
-        edit: 'editParam',
-        default: 'defaultParam'
-      },
+      formula: '',
+      name: '$vxeInput',
       editRender: {
         name: '$vxeInput',
         options: [],
@@ -447,17 +466,17 @@ export let proconf = {
     }
   ],
   PoliciesTableColumns: [
-    // {
-    //   title: '区划',
-    //   'width': 180,
-    //   field: 'mofDivName',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'left'
-    // },
+    {
+      title: '区划',
+      'width': 150,
+      field: 'mofDivName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
     {
       title: '监控主题',
-      'width': 180,
+      'width': 120,
       field: 'regulationClassName',
       sortable: false,
       filters: false,
@@ -498,17 +517,17 @@ export let proconf = {
       'sortable': 'true',
       'name': '$vxeSelect'
     },
-    // {
-    //   title: '监控规则编码',
-    //   'width': 180,
-    //   field: 'regulationCode',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'left'
-    // },
+    {
+      title: '监控规则编码',
+      'width': 130,
+      field: 'regulationCode',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
     {
       title: '监控规则名称',
-      'width': 180,
+      'width': 300,
       field: 'regulationName',
       sortable: false,
       align: 'left'
@@ -559,9 +578,27 @@ export let proconf = {
     {
       title: '业务功能',
       'width': 180,
-      field: 'businessFunctionName',
+      field: 'menuNameList',
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '触发方式',
+      'width': 180,
+      field: 'triggerClass',
+      sortable: false,
+      align: 'left',
+      name: '$vxeSelect',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: 1, label: '事中触发' },
+          { value: 2, label: '定时触发' }
+        ],
+        props: {
+          placeholder: '触发方式'
+        }
+      }
     },
     {
       title: '是否启用',
@@ -570,7 +607,7 @@ export let proconf = {
       sortable: false,
       align: 'left',
       name: '$vxeSelect',
-      editRender: {
+      cellRender: {
         name: '$vxeSelect',
         options: [
           { value: 0, label: '否' },
@@ -581,13 +618,13 @@ export let proconf = {
         }
       }
     },
-    // {
-    //   title: '启用人',
-    //   'width': 180,
-    //   field: 'createPersonName',
-    //   sortable: false,
-    //   align: 'left'
-    // },
+    {
+      title: '启用人',
+      'width': 180,
+      field: 'createPersonName',
+      sortable: false,
+      align: 'left'
+    },
     {
       title: '规则说明',
       'width': 180,
@@ -633,7 +670,7 @@ export let proconf = {
       filters: false,
       width: 100,
       cellRender: {
-        name: '$gloableOptionRowMonitorRulesView'
+        name: '$gloableOptionRow'
       }
     }
   ],
@@ -643,7 +680,6 @@ export let proconf = {
       title: '基础要素',
       titleAlign: 'center',
       titleWidth: '100px',
-      span: '20',
       itemRender: {
         name: '$vxeSelect',
         props: {
@@ -763,12 +799,12 @@ export let proconf = {
     }
   ],
   formValidationConfigMessage: {
-    // payment: [
-    //   { required: true, message: '支付要素不能为空', trigger: 'change' }
-    // ]
+    payment: [
+      { required: true, message: '支付要素不能为空', trigger: 'change' }
+    ]
   },
   // table 操作按钮
-  gloableOptionRowMonitorRulesView: {
+  gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
       let self = context.$grid.$parent
       let { row, column } = params

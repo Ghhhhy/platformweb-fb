@@ -28,13 +28,14 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
-          :table-columns-config="tableColumnsConfig"
+          :table-columns-config="tableDataCom"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
           :cell-style="cellStyle"
           :show-zero="false"
           @editClosed="onEditClosed"
@@ -80,6 +81,16 @@ export default {
   components: {
     DetailDialog,
     SDetailDialog
+  },
+  computed: {
+    tableDataCom() {
+      if (!this.$store.getters.isSx) {
+        return this.tableColumnsConfig.filter(item => {
+          return item.filed !== 'zhenji'
+        })
+      }
+      return this.tableColumnsConfig
+    }
   },
   watch: {
     $refs: {
@@ -371,71 +382,122 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, recDivCode) {
+    handleDetail(reportCode, recDivCode, column) {
+      let condition = ''
+      if (this.$store.getters.isSx) {
+        switch (column) {
+          case 'amountSnjbjfp':
+          case 'amountSnjwfp': // 省级未分配
+          case 'amountSnjpay':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSbjfp':
+          case 'amountSjwfp': // 市级未分配
+          case 'amountSjpay':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjfp':
+          case 'amountXjwfp': // 县级未分配
+          case 'amountXbjfp':// 县级分配本级
+          case 'amountXjpay':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+          case 'amountZjfp':
+          case 'amountZjwfp': // 县级未分配
+          case 'amountZjpay':
+            condition = ' substr(mof_div_code,7,3) <> \'000\' '
+            break
+        }
+      }
       let params = {
         reportCode: reportCode,
         mofDivCode: recDivCode,
         speTypeCode: '',
         fiscalYear: this.searchDataList.fiscalYear
       }
+      if (this.$store.getters.isSx) {
+        params.condition = condition
+        params.endTime = this.condition.endTime ? this.condition.endTime[0] : ''
+        params.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
       this.detailQueryParam = params
       this.detailType = reportCode
       this.detailVisible = true
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(params).then((res) => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.detailData = res.data
-      //     this.detailType = type
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      if (this.$store.getters.isSx) {
+        switch (key) {
+          case 'amountSnjbjfp':// 省级分配本级
+          case 'amountSbjfp':// 市级分配本级
+          case 'amountXjfp':// 县级分配
+          case 'amountXbjfp':// 县级分配本级
+          case 'amountZjfp':// 镇级分配
+            this.handleDetail('fdqzdzjxmmx', obj.row.code, key)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'amountPayAll':// 支出
+          case 'amountSnjpay':
+          case 'amountSjpay':
+          case 'amountXjpay':
+          case 'amountZjpay':
+            this.handleDetail('fdqzcmx', obj.row.code, key)
+            this.detailTitle = '支出明细'
+            break
+          case 'amountSnjwfp': // 省级未分配
+          case 'amountSjwfp': // 市级未分配
+          case 'amountXjwfp': // 县级未分配
+            this.handleDetail('zdzjxmmx_fzj_wfp', obj.row.code, key)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'amountZjwfp': // 镇级未分配
+            this.handleDetail('zdzjxmmx_fzj_wfpx', obj.row.code, key)
+            this.detailTitle = '直达资金项目明细'
+            break
+        }
+      } else {
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
 
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
-
-      switch (key) {
-        case 'amountSnjbjfp':// 省级分配本级
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountSbjfp':// 市级分配本级
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountXjfp':// 县级分配
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'sUnassigned':// 省级未分配
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'aUnassigned':// 市级未分配
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'xUnassigned':// 县级未分配
-          this.handleDetail('zdzjxmmx_fdq', obj.row.code)
-          this.detailTitle = '直达资金项目明细'
-          break
-        case 'amountSnjpay':// 省本级已支出
-          this.handleDetail('zjzcmx_fdq', obj.row.code)
-          this.detailTitle = '支出明细'
-          break
-        case 'amountSjpay':// 市本级已支出
-          this.handleDetail('zjzcmx_fdq', obj.row.code)
-          this.detailTitle = '支出明细'
-          break
-        case 'amountXjpay':// 县级已支出
-          this.handleDetail('zjzcmx_fdq', obj.row.code)
-          this.detailTitle = '支出明细'
+        switch (key) {
+          case 'amountSnjbjfp':// 省级分配本级
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'amountSbjfp':// 市级分配本级
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'amountXjfp':// 县级分配
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'sUnassigned':// 省级未分配
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'aUnassigned':// 市级未分配
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'xUnassigned':// 县级未分配
+            this.handleDetail('zdzjxmmx_fdq', obj.row.code)
+            this.detailTitle = '直达资金项目明细'
+            break
+          case 'amountSnjpay':// 省本级已支出
+            this.handleDetail('zjzcmx_fdq', obj.row.code)
+            this.detailTitle = '支出明细'
+            break
+          case 'amountSjpay':// 市本级已支出
+            this.handleDetail('zjzcmx_fdq', obj.row.code)
+            this.detailTitle = '支出明细'
+            break
+          case 'amountXjpay':// 县级已支出
+            this.handleDetail('zjzcmx_fdq', obj.row.code)
+            this.detailTitle = '支出明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -449,6 +511,9 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+      }
+      if (this.$store.getters.isSx) {
+        param.proCodes = this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -496,6 +561,36 @@ export default {
       }
       return this.tableData
     },
+    getPro() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
     getNewData() {
       // this.tableLoading = true
       // setTimeout(() => {
@@ -512,17 +607,36 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'sUnassigned', 'aUnassigned', 'xUnassigned'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.$store.getters.isSx) {
+        if (['amountPayAll', 'amountSnjbjfp', 'amountSbjfp', 'amountXbjfp', 'amountXjfp', 'amountZjfp', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'sUnassigned', 'aUnassigned', 'xUnassigned'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
   },
   created() {
+    if (this.$store.getters.isSx) {
+      this.searchDataList.endTime = this.$XEUtils.toDateString(
+        this.$XEUtils.getWhatDay(new Date(), -1),
+        'yyyy-MM-dd'
+      )
+      this.getPro()
+    } else {
+      this.queryConfig = this.queryConfig.filter(item => {
+        return item.field !== 'proCodes'
+      })
+    }
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

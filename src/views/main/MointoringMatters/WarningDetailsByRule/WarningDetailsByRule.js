@@ -372,20 +372,7 @@ export let proconf = {
       'dragSort': null,
       'className': '',
       'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
+      'filters': ''
     },
     {
       title: '管理级次',
@@ -592,20 +579,7 @@ export let proconf = {
       'dragSort': null,
       'className': '',
       'combinedType_select_sort': '',
-      'filters': '',
-      formatter: ({ row }) => {
-        if (row.warnLevel === 3) {
-          return '黄色预警'
-        } else if (row.warnLevel === 2) {
-          return '橙色预警'
-        } else if (row.warnLevel === 1) {
-          return '红色预警'
-        } else if (row.warnLevel === 4) {
-          return '蓝色预警'
-        } else if (row.warnLevel === 5) {
-          return '灰色预警'
-        }
-      }
+      'filters': ''
     },
     {
       title: '管理级次',
@@ -623,28 +597,28 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      'title': '处理情况',
-      'field': 'status',
-      'align': 'center',
-      'width': 180,
-      'cellRender': {
-        'name': '$vxeSelect',
-        options: [
-          {
-            'value': '1',
-            'label': '待处理'
-          },
-          {
-            'value': '2',
-            'label': '已处理'
-          }
-        ],
-        'defaultValue': '',
-        'props': {}
-      },
-      'name': '$vxeSelect'
-    },
+    // {
+    //   'title': '处理情况',
+    //   'field': 'status',
+    //   'align': 'center',
+    //   'width': 180,
+    //   'cellRender': {
+    //     'name': '$vxeSelect',
+    //     options: [
+    //       {
+    //         'value': '1',
+    //         'label': '待处理'
+    //       },
+    //       {
+    //         'value': '2',
+    //         'label': '已处理'
+    //       }
+    //     ],
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   'name': '$vxeSelect'
+    // },
     {
       title: '监控类型',
       field: 'triggerClass',
@@ -678,14 +652,14 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '违规处理时间',
-      'width': 180,
-      field: 'handleTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '违规处理时间',
+    //   'width': 180,
+    //   field: 'handleTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       'title': '操作',
       'field': 'gloableOptionRow',

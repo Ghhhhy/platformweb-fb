@@ -35,6 +35,7 @@ import { defineComponent } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { getColumns } from './model/data'
 import api from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import store from '@/store'
 
 export default defineComponent({
   props: {
@@ -66,6 +67,7 @@ export default defineComponent({
         fetch: api.queryTableDatas,
         beforeFetch: params => {
           params.reportCode = 'zdzjzcjdpm'
+          params.fiscalYear = store.state.userInfo.year
           return params
         }
       }

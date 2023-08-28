@@ -87,6 +87,7 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
+      :file-name="fileName"
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"

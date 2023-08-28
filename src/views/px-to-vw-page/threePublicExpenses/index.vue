@@ -71,11 +71,11 @@ export default defineComponent({
   }
 
   .main-content {
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
   }
 
   .module-left,

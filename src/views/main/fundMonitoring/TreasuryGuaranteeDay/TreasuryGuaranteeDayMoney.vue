@@ -355,7 +355,7 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         flag: this.flag,
         mofDivCodeList: this.mofDivCodeList,
-        fiscalYear: Number(this.fiscalYear),
+        fiscalYear: this.fiscalYear,
         acctPeriod: this.acctPeriod
       }
       this.showLoading = true
@@ -431,22 +431,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = { ...that.treeQueryparams, ...this.$store.getters.treeQueryparamsCom }
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
           console.log(this.queryConfig)
