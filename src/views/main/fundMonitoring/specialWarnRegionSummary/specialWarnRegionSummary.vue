@@ -80,7 +80,8 @@ export default {
       return {
         customExportConfig: {
           ...this.tableGlobalConfig.customExportConfig,
-          dataType
+          dataType,
+          fileName: this.menuName
         }
       }
     }
