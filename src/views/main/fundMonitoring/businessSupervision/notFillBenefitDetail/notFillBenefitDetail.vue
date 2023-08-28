@@ -359,7 +359,7 @@ export default {
         return
       }
       this.$refs.notFillModal.detailVisible = true
-      this.$refs.notFillModal.clickRowData = obj.row
+      this.$refs.notFillModal.clickRowData = { ...obj.row, isSubCode: obj.column.own.isSubCode }
       this.$refs.notFillModal.onSearch()
       // switch (key) {
       //   case 'jOut':
