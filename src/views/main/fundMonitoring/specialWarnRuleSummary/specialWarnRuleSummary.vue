@@ -201,8 +201,8 @@ export default {
       tableGlobalConfig: {
         customExportConfig: {
           addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
+          addReportTitleColumn: true
+          // unit: '万元'
         }
       },
       toolbarConfig: {
