@@ -41,7 +41,7 @@
               :table-data="tableData"
               :table-config="tableConfig"
               :pager-config="mainPagerConfig"
-              :toolbar-config="false"
+              :toolbar-config="tableToolbarConfig"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
               @cellClick="cellClick"
@@ -205,7 +205,7 @@ export default {
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
-      menuName: '',
+      menuName: '违规情况查看',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -303,7 +303,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -345,6 +345,9 @@ export default {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
       this.condition = condition
+      let fiscalYear = this.condition.fiscalYear[0]
+      this.fiscalYear = fiscalYear
+      this.agencyCodeList = val.agencyCodeList_code__multiple
       this.payApplyNumber = val.payApplyNumber
       this.fiRuleName = val.fiRuleName
       this.queryTableDatas()
@@ -372,6 +375,30 @@ export default {
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
+          break
+        case 'sign': // 生成
+          let temp = this.$refs.mainTableRef.getSelectionData()
+          let warnids = []
+          let param = {
+            warnids
+          }
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            this.tableLoading = true
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
           break
         default:
           break
@@ -443,14 +470,14 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear || '2022',
+        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         fiRuleCode: this.fiRuleCode,
         warnLevel: this.warnLevel,
         status: this.status,
         regulationType: this.regulationType,
         mofDivCode: this.mofDivCode,
         agencyCodeList: this.agencyCodeList,
-        regulationClass: this.params5,
+        regulationClass: this.$store.getters.getRegulationClass,
         fiRuleName: this.fiRuleName,
         businessNo: this.payApplyNumber
       }
@@ -462,6 +489,17 @@ export default {
           this.tableData.forEach(item => {
             if (item.agencyCode && item.agencyName) {
               item.agency = item.agencyCode + '-' + item.agencyName
+            }
+            if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
             }
           })
           this.mainPagerConfig.total = res.data.totalCount
@@ -487,6 +525,30 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -495,6 +557,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.$store.getters.isSx && this.getAgency()
   }
 }
 </script>

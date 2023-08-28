@@ -44,21 +44,6 @@ export function generateEditorRules(columns) {
  * @param treeData
  * @return {number}
  */
-// export function getMaxFloor(treeData) {
-//   let deep = 0
-//   function eachData(data, index) {
-//     data.forEach(elem => {
-//       if (index > deep) {
-//         deep = index
-//       }
-//       if (elem.children && elem.children?.length > 0) {
-//         eachData(elem.children, deep + 1)
-//       }
-//     })
-//   }
-//   eachData(treeData, 1)
-//   return deep
-// }
 export const getMaxFloor = (arr) => {
   let maxLevel = 0;
   (function callBack(arr, level) {

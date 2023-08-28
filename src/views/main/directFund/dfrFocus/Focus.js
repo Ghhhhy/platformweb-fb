@@ -14,11 +14,27 @@ export let proconf = {
   ],
   highQueryConfig: [
     {
+      title: '支付申请单号',
+      field: 'payAppNumber',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '请输入支付申请单号',
+          clearable: true
+        }
+      }
+    },
+    {
       title: '业务年度',
       field: 'fiscalYear',
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
@@ -64,6 +80,64 @@ export let proconf = {
       field: 'proName',
       width: '8',
       align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '项目名称'
+        }
+      }
+    },
+    {
+      title: '年份',
+      field: 'year',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          // { value: '2022', label: '2022' },
+          { value: '2023', label: '2023' }
+        ],
+        props: {
+          placeholder: '年份'
+        }
+      }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCode',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': false,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
+    {
+      title: '专项名称',
+      field: 'proCodes',
+      width: '8',
+      align: 'left',
       name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
@@ -78,7 +152,7 @@ export let proconf = {
               label: 'label',
               children: 'children'
             },
-            placeholder: '项目名称',
+            placeholder: '专项名称',
             multiple: true,
             readonly: false,
             isleaf: true
@@ -215,121 +289,171 @@ export let proconf = {
   },
   PoliciesTableColumns: [
     {
+      title: '支付申请单号',
+      field: 'payAppNo',
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      width: 200,
+      align: 'left'
+
+    },
+    {
       title: '地区名称',
       field: 'mofDivName',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
       align: 'left'
     },
     {
       title: '专项名称',
       field: 'speType',
-      sortable: false,
+      sortable: true,
       width: 200,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       align: 'left'
     },
     {
       title: '指标文号',
       field: 'corBgtDocNoName',
-      sortable: false,
+      sortable: true,
       width: 200,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+
       align: 'left'
     },
     {
       title: '预算单位',
       field: 'agency',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
       align: 'left'
     },
     {
       title: '项目名称',
       field: 'proName',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '金额',
       field: 'payAmt',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
-      align: 'left'
+      align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney' }
     },
     {
       title: '资金用途',
       field: 'useDes',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
       align: 'left'
     },
     {
       title: '支出功能科目分类编码',
       field: 'expFuncCode',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
       align: 'left'
     },
     {
       title: '支出功能科目分类名称',
       field: 'expFuncName',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '付款方账户名称',
       field: 'payAcctName',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '付款方银行账号',
       field: 'payAcctNo',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '收款方账户名称',
       field: 'payeeAcctName',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '收款方银行账号',
       field: 'payeeAcctNo',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
-      title: '付款日期',
+      title: '支付日期',
       field: 'xpayDate',
-      sortable: false,
+      sortable: true,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
       width: 200,
       align: 'left'
     },
     {
       title: '结算方式',
       field: 'setMode',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     },
     {
       title: '业务年度',
       field: 'fiscalYear',
-      sortable: false,
+      filters: [{ data: '' }],
+      filterRender: { name: 'FilterInput' },
+      sortable: true,
       width: 200,
       align: 'left'
     }
     // ,{
     //   title: '数据源地址',
     //   field: 'adapterAddr',
-    //   sortable: false,
+    //   sortable: true,
     //   align: 'left'
     // }
   ],

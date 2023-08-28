@@ -5,6 +5,9 @@ export default {
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfos', params)
   },
+  queryTableDatasSum(params) {
+    return post('large-monitor-platform/lmp/executeWarn/warnInfosSum', params)
+  },
   // 获取违规明细
   getViolationsDetailDatas(params) {
     return post('large-monitor-platform/lmp/warn/rpt/queryRptInfoByRule', params)
@@ -12,9 +15,15 @@ export default {
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
   },
+  getTreewhereSX(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+  },
   // 获取左侧树
   getTreeData(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  getTreeDataSX(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
   },
   // 获取区划树
   getLeftTree2(params) {
@@ -37,5 +46,9 @@ export default {
   },
   getMofTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/query', params)
+  },
+  // 获取附件
+  getReport(params) {
+    return post('large-monitor-platform/lmp/totalWarn/report', params)
   }
 }

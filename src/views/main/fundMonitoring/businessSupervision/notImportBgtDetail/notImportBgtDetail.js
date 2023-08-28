@@ -25,14 +25,9 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
         props: {
           type: 'year',
           valueFormat: 'yyyy',
@@ -45,7 +40,7 @@ export let proconf = {
     regulationType: '',
     warningLevel: '',
     firulename: '',
-    fiscalYear: store.state.userInfo.year
+    fiscalYear: store.state?.userInfo?.year
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -89,7 +84,7 @@ export let proconf = {
       title: '地区名称',
       'width': 180,
       field: 'mofDivName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -97,7 +92,7 @@ export let proconf = {
       title: '上级文号',
       'width': 180,
       field: 'supBgtDocNoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -105,17 +100,39 @@ export let proconf = {
       title: '上级专项资金',
       'width': 180,
       field: 'supSpeTypeName',
-      sortable: false,
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      'width': 180,
+      field: 'agencyName',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '接收区划',
+      'width': 180,
+      field: 'recDivName',
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '未接收金额',
-      'width': 180,
+      width: 180,
       field: 'amount',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       cellRender: {
         name: '$vxeMoney'
       }

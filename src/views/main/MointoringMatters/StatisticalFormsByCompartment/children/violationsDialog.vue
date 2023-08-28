@@ -338,7 +338,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -414,12 +414,12 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
         warnLevel: this.warnLevel,
         status: this.status,
         regulationType: this.regulationType,
         mofDivCode: this.mofDivCode,
-        regulationClass: this.params5
+        regulationClass: this.$store.getters.getRegulationClass
       }
       this.tableLoading = true
       HttpModule.getViolationsDatas(param).then(res => {

@@ -58,5 +58,8 @@ export default {
   // 市县指标查询-市县补助指标汇总明细
   queryDetailMofDiv1 (params) {
     return post('dfr-monitor-service/dfr/dfrMultipleQuery/queryDetailMofDiv1', params)
+  },
+  querySum (params) {
+    return post('dfr-monitor-service/dfr/dfrMultipleQuery/querySum', params)
   }
 }

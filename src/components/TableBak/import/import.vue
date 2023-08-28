@@ -9,11 +9,11 @@
     >
       <div class="import-download-template-up">
         <!-- 下载提示 -->
-        <div class="idtu-tip">
+        <div v-if="showDownLoadTemplate" class="idtu-tip">
           {{ config.reminder }}
         </div>
         <!-- 下载最新模板 -->
-        <div class="idtu-download-template">
+        <div v-if="showDownLoadTemplate" class="idtu-download-template">
           <vxe-button
             class="btn"
             content="下载最新模板"
@@ -27,6 +27,9 @@
           <div class="idtu-import-tip">
             {{ config.instructions }}
           </div>
+        </div>
+        <div v-for="(item,index) in fileList" :key="index">
+          <a style="color:#4d77e7;text-decoration: underline;">{{ item.fileName }}</a>
         </div>
         <div class="idtu-import-btn">
           <vxe-button
@@ -62,7 +65,10 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      showDownLoadTemplate: true,
+      fileList: []
+    }
   },
   methods: {
     // 关闭对话框

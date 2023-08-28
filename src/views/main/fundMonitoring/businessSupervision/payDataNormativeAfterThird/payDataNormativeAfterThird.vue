@@ -32,7 +32,21 @@
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
         />
+        <BsBossTree
+          v-if="isSx"
+          ref="leftTree"
+          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
+          style="overflow: hidden"
+          :is-server="false"
+          :ajax-type="treeAjaxType"
+          :server-uri="treeServerUri"
+          :datas="treeData"
+          :queryparams="treeQueryparams"
+          :global-config="treeGlobalConfig"
+          :clickmethod="onClickmethod"
+        />
         <BsTree
+          v-else
           ref="leftTree"
           :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
           style="overflow: hidden"
@@ -51,12 +65,13 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :export-modal-config="{ fileName: menuName }"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
           <!--口径说明插槽-->
-          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+          <template v-if="caliberDeclareContent && !isSx" v-slot:caliberDeclare>
             <p v-html="caliberDeclareContent"></p>
           </template>
           <template v-slot:toolbarSlots>
@@ -84,13 +99,16 @@
 <script>
 import { proconf } from './payDataNormativeAfterThird'
 import HttpModule from '@/api/frame/main/fundMonitoring/payDataNormativeAfterThird.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
-
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
     // AddDialog
+  },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
   },
   watch: {
     queryConfig() {
@@ -122,7 +140,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -186,7 +204,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: this.$store.getters.isSx, // 是否有金额转换
         import: false, // 导入
         export: true, // 导出
         print: false, // 打印
@@ -544,8 +562,10 @@ export default {
         createDateStr: this.createDateStr,
         fiscalYear: this.fiscalYear,
         reportCode: 'zfsjgfxjcfy3hhgjdzf',
-        mofDivCode: this.mofdivcode || '',
-        mofDivCodeList
+        mofDivCode: this.mofdivcode || ''
+      }
+      if (!this.isSx) {
+        param.mofDivCodeList = mofDivCodeList
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -587,7 +607,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      getMofDivTree(that.treeQueryparams).then(res => {
+      HttpModule.getTreeData(this.treeQueryparams).then(res => {
         if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
@@ -621,12 +641,21 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    if (!this.isSx) {
+      this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
+        const notShowList = ['payDateDetail', 'xpayDate']
+        return !notShowList.includes(item.field)
+      })
+    }
     this.getLeftTreeData()
     this.queryTableDatas()
   }

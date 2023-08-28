@@ -416,7 +416,6 @@ export default {
       return datas
     },
     onOptionRowClick({ row, optionType }, context) {
-      console.log(12312312321321, optionType)
       switch (optionType) {
         // 附件
         case 'attachment':
@@ -651,7 +650,9 @@ export default {
       if (obj.property === 'agencyCodeList') {
         let arr = []
         obj.itemValue && obj.itemValue.split(',')?.map(v => {
-          arr.push(v.split('#')[0])
+          if (v?.length > 0) {
+            arr.push(v.split('#')[0])
+          }
         })
         this.agencyCodeList = arr
       }

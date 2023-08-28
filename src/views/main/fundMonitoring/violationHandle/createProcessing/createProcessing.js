@@ -2835,7 +2835,7 @@ export const proconf = {
           }
         }),
         defaultValue: '',
-        props: { disabled: true }
+        props: { placeholder: '预警级别', disabled: true }
       },
       name: '$vxeSelect'
     },

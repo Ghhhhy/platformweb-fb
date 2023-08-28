@@ -117,7 +117,7 @@ export let proconf = {
       title: '地区名称',
       width: 180,
       field: '',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center',
       formatter({ row }) {
@@ -128,7 +128,7 @@ export let proconf = {
       title: '处室名称',
       width: 180,
       field: 'manageMofDepName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -136,7 +136,7 @@ export let proconf = {
       title: '支出功能分类科目',
       width: 180,
       field: 'expFuncName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -144,7 +144,7 @@ export let proconf = {
       title: '项目名称',
       width: 180,
       field: 'proName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -152,7 +152,7 @@ export let proconf = {
       title: '指标文号',
       width: 180,
       field: 'corBgtDocNoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -160,7 +160,7 @@ export let proconf = {
       title: '用途',
       width: 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -168,7 +168,7 @@ export let proconf = {
       title: '付款账户名称',
       width: 180,
       field: 'payAcctName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -176,7 +176,7 @@ export let proconf = {
       title: '付款方账户',
       width: 180,
       field: 'payAcctNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -184,7 +184,7 @@ export let proconf = {
       title: '支付日期',
       width: 180,
       field: 'payTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -192,31 +192,31 @@ export let proconf = {
       title: '导入日期',
       width: 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
-    // {
-    //   title: '支付日期明细',
-    //   width: 180,
-    //   field: 'payDateDetail',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'center'
-    // },
-    // {
-    //   title: '支付确认日期明细',
-    //   width: 180,
-    //   field: 'xpayDate',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'center'
-    // },
+    {
+      title: '支付日期明细',
+      width: 180,
+      field: 'payDateDetail',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '支付确认日期明细',
+      width: 180,
+      field: 'xpayDate',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
     {
       title: '金额',
       width: 180,
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
@@ -225,7 +225,7 @@ export let proconf = {
       title: '收款账户名称',
       width: 180,
       field: 'payeeAcctName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -233,7 +233,7 @@ export let proconf = {
       title: '收款方账户',
       width: 180,
       field: 'payeeAcctNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -241,7 +241,7 @@ export let proconf = {
       title: '结算方式',
       width: 180,
       field: 'setModeName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     }

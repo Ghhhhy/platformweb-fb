@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -24,6 +24,7 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: !store.getters.isFuJian,
       formula: '',
       itemRender: {
         name: '$vxeInput',
@@ -51,7 +52,9 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           { value: '0', label: '全部' },
+          { value: '1', label: '包含特殊字符' },
           { value: '2', label: '不包含汉字内容' },
+          { value: '3', label: '用途为空' },
           { value: '4', label: '内容为空' },
           { value: '5', label: '包含特殊字符且不包含~' }
         ],
@@ -72,6 +75,8 @@ export let proconf = {
         options: [
           { value: '0', label: '全部' },
           { value: '1', label: '包含特殊字符' },
+          { value: '2', label: '付款账户名称为空' },
+          { value: '4', label: '不包含汉字内容' },
           { value: '9', label: '全部为数字' }
         ],
         props: {
@@ -110,7 +115,9 @@ export let proconf = {
         options: [
           { value: '0', label: '全部' },
           { value: '1', label: '包含特殊字符' },
-          { value: '9', label: '全部为数字' }
+          { value: '2', label: '收款账户名称为空' },
+          { value: '3', label: '全部为数字' },
+          { value: '4', label: '不包含汉字内容' }
         ],
         props: {
           placeholder: '收款账户名称'
@@ -129,6 +136,7 @@ export let proconf = {
         options: [
           { value: '0', label: '全部' },
           { value: '1', label: '包含特殊字符' },
+          { value: '3', label: '收款账号为空' },
           { value: '6', label: '包含中文字符' }
         ],
         props: {
@@ -178,7 +186,13 @@ export let proconf = {
   highQueryData: {
     regulationType: '',
     warningLevel: '',
-    firulename: ''
+    firulename: '',
+    fiscalYear: store.state?.userInfo?.year,
+    userDesStr: '',
+    proNameRule: '',
+    payeeAcctNoStr: '',
+    payeeAcctNameStr: '',
+    payAcctNoStr: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -221,27 +235,46 @@ export let proconf = {
     {
       title: '地区名称',
       width: 180,
-      field: '',
-      sortable: false,
+      field: 'mofDivName',
+      sortable: true,
       filters: false,
       align: 'center',
-      formatter({ row }) {
-        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{mofDivCode}-{mofDivName}'
+        }
+      },
+      props: {
+        format: '{mofDivCode}-{mofDivName}'
       }
     },
     {
       title: '处室名称',
       width: 180,
       field: 'manageMofDepName',
-      sortable: false,
+      sortable: true,
       filters: false,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        defaultValue: '',
+        props: {
+          format: '{manageMofDepCode}-{manageMofDepName}'
+        }
+      },
+      props: {
+        format: '{manageMofDepCode}-{manageMofDepName}'
+      }
     },
     {
       title: '支出功能分类科目',
       width: 180,
       field: 'expFuncName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -249,7 +282,7 @@ export let proconf = {
       title: '项目名称',
       width: 180,
       field: 'proName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -257,7 +290,7 @@ export let proconf = {
       title: '指标文号',
       width: 180,
       field: 'corBgtDocNoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -265,7 +298,15 @@ export let proconf = {
       title: '用途',
       width: 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '支付申请号',
+      width: 180,
+      field: 'payAppNo',
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -273,7 +314,7 @@ export let proconf = {
       title: '付款账户名称',
       width: 180,
       field: 'payAcctName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -281,15 +322,15 @@ export let proconf = {
       title: '付款方账户',
       width: 180,
       field: 'payAcctNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '支付日期',
       width: 180,
-      field: 'payTime',
-      sortable: false,
+      field: 'xpayDate',
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -301,28 +342,18 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    // {
-    //   title: '支付日期明细',
-    //   width: 180,
-    //   field: 'payDateDetail',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'center'
-    // },
-    // {
-    //   title: '支付确认日期明细',
-    //   width: 180,
-    //   field: 'xpayDate',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'center'
-    // },
     {
       title: '金额',
       width: 180,
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       align: 'right',
       cellRender: { name: '$vxeMoney' }
     },
@@ -330,7 +361,7 @@ export let proconf = {
       title: '收款账户名称',
       width: 180,
       field: 'payeeAcctName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -338,7 +369,7 @@ export let proconf = {
       title: '收款方账户',
       width: 180,
       field: 'payeeAcctNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -346,7 +377,7 @@ export let proconf = {
       title: '结算方式',
       width: 180,
       field: 'setModeName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     }
