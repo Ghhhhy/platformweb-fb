@@ -9,10 +9,10 @@ export const useMenuModel = () => {
    * @param {String} menuName
    */
   const menuClick = (menu) => {
-    const { name, isOpen } = menu
+    const { code, name, isOpen } = menu
     if (!isOpen) return
     const route = {
-      url: `/subjectAnalysis?menuName=${name}`,
+      url: `/subjectAnalysis?menuName=${name}&menuCode=${code}`,
       code: '892',
       name: `${name}主题分析`,
       query: { name }

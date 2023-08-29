@@ -1374,7 +1374,7 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
-  }, 
+  },
   {
     path: '/SXMonitorThemeByCompartmentAndWarn',
     name: 'SXMonitorThemeByCompartmentAndWarn',
@@ -1394,8 +1394,8 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRule/MonitorThemeByRule.vue')
   },
-   // 财政运行基础表列表
-   {
+  // 财政运行基础表列表
+  {
     path: '/FinancialBasicTableEntryList',
     name: 'FinancialBasicTableEntryList',
     meta: {

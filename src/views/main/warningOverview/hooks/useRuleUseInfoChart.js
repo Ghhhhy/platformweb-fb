@@ -63,7 +63,7 @@ export const useRuleUseInfoChart = () => {
         data: initSeriesData
       }),
       getBarSerie({
-        name: '橙色色预警',
+        name: '橙色预警',
         stack: 'warningChart',
         label: { show: false },
         itemStyle: {
