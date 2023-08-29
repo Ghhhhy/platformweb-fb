@@ -1365,6 +1365,64 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXWarningDetailsByRuleAll',
+    name: 'SXWarningDetailsByRuleAll',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  }, 
+  {
+    path: '/SXMonitorThemeByCompartmentAndWarn',
+    name: 'SXMonitorThemeByCompartmentAndWarn',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXMonitorThemeByRule',
+    name: 'SXMonitorThemeByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRule/MonitorThemeByRule.vue')
+  },
+   // 财政运行基础表列表
+   {
+    path: '/FinancialBasicTableEntryList',
+    name: 'FinancialBasicTableEntryList',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/FinancialBasicTableEntry/index.vue')
+  },
+  {
+    path: '/SXMonitorThemeByCompartmentAndWarn',
+    name: 'SXMonitorThemeByCompartmentAndWarn',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXMonitorThemeByRank',
+    name: 'SXMonitorThemeByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRank/MonitorThemeByRank.vue')
+  },
   {
     path: '/StatisticalFormsByCompartmentBgt',
     name: 'StatisticalFormsByCompartmentBgt',

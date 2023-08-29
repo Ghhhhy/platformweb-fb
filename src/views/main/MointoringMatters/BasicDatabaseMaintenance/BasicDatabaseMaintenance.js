@@ -97,7 +97,8 @@ export let proconf = {
   highQueryData: {
     warningLevel: '',
     handleType: '',
-    regulationType: ''
+    regulationType: '',
+    year: ''
   },
   PoliciesTableColumns: [
     {
