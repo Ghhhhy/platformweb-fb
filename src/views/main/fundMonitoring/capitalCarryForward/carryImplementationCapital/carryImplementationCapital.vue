@@ -33,11 +33,15 @@
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
+          :table-global-config="{
+            customExportConfig,
+          }"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -74,6 +78,12 @@ export default {
     }
   },
   computed: {
+    customExportConfig() {
+      return {
+        dataType: this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData',
+        fileName: `结转资金预算下达_分资金(单位: ${this.tableGlobalConfig.customExportConfig.unit} )`
+      }
+    },
     moneyUnit() {
       const moneyUnitValue = this.$refs.bsTableRef.moneyUnit || 10000
       const moneyUnitMap = { 10000: '万元', 1: '元' }
@@ -92,6 +102,14 @@ export default {
   },
   data() {
     return {
+      // table 相关配置
+      tableGlobalConfig: {
+        customExportConfig: {
+          // addUnitColumn: true,
+          // addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -216,6 +234,9 @@ export default {
   mounted() {
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
