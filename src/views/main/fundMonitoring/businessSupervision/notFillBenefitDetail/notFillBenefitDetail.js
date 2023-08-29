@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -32,6 +32,7 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
