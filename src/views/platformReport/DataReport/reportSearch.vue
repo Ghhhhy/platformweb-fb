@@ -626,7 +626,7 @@ export default {
               v.itemRender.props.config.axiosConfig.url = 'fiscal/api/budget' + v.itemRender.props.config.axiosConfig.url
             }
           })
-          console.log(self.queryFormItemConfigIn,"self.queryFormItemConfigIn")
+          console.log(self.queryFormItemConfigIn, 'self.queryFormItemConfigIn')
           this.initFiscalConfig(this.$store.state.curNavModule.guid)
         }, res)
       }).catch(e => {
