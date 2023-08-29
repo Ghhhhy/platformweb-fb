@@ -148,7 +148,7 @@ export default {
       obj: {},
       tableGlobalConfig: {
         customExportConfig: {
-          addUnitColumn: true,
+          // addUnitColumn: true,
           addReportTitleColumn: true
           // unit: '万元'
         }
