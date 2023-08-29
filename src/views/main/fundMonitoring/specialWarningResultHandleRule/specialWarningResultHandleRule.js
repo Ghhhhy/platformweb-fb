@@ -464,6 +464,7 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [

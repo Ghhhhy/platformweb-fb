@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -24,6 +24,7 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: !store.getters.isFuJian,
       formula: '',
       itemRender: {
         name: '$vxeInput',

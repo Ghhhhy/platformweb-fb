@@ -24,6 +24,7 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: !store.getters.isFuJian,
       formula: '',
       itemRender: {
         name: '$vxeInput',
