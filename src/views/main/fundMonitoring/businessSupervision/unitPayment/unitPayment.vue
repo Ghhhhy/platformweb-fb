@@ -46,6 +46,7 @@
           id="1001"
           ref="bsTableRef"
           row-id="id"
+          show-zero
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"

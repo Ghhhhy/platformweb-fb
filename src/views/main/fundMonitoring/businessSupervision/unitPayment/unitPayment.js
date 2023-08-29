@@ -122,6 +122,9 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      props: {
+        showZero: true
+      },
       cellRender: {
         name: '$vxeRatio'
       }
