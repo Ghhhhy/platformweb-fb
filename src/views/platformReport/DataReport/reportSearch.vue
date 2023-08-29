@@ -619,6 +619,14 @@ export default {
       get('/bisBudget/api/budget/bisConfig/config/report/getBossReportConfig', { dicCode }).then(res => {
         self.resolveResult(data => {
           self.queryFormItemConfigIn = JSON.parse(data.formItems)
+          // 下拉数需要拼接（window.location.pathname）
+          self.queryFormItemConfigIn.forEach(v => {
+            if (v.itemRender.props.config.axiosConfig.url) {
+              // 固定写法 报表固定网关
+              v.itemRender.props.config.axiosConfig.url = 'fiscal/api/budget' + v.itemRender.props.config.axiosConfig.url
+            }
+          })
+          console.log(self.queryFormItemConfigIn,"self.queryFormItemConfigIn")
           this.initFiscalConfig(this.$store.state.curNavModule.guid)
         }, res)
       }).catch(e => {
