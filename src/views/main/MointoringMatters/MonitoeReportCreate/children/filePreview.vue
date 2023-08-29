@@ -180,13 +180,31 @@ export default {
         return ''
       }
     },
-    previewCode: {
+    provinceNameList: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    provinceCode: {
       type: String,
       default() {
         return ''
       }
     },
-    previewName: {
+    provinceName: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    reportType: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    fileName: {
       type: String,
       default() {
         return ''
@@ -264,8 +282,11 @@ export default {
         year: this.previewYear,
         startMonth: this.previewStartMonth,
         endMonth: this.previewEndMonth,
-        provinceCode: this.previewCode,
-        provinceName: this.previewName
+        provinceNameList: this.provinceNameList ? this.provinceNameList : [],
+        provinceCode: this.provinceCode,
+        provinceName: this.provinceName,
+        reportType: this.reportType,
+        fileName: this.fileName
       }
       this.tableLoading = true
       HttpModule.confirmCreate(params).then(res => {
@@ -274,6 +295,7 @@ export default {
           this.$parent.filePreviewDialogVisible = false
           this.$parent.dialogVisible = false
           this.$message.success('生成成功')
+          this.$parent.fileName = ''
           this.$parent.queryTableDatas()
         } else {
           this.$message.error(res.message)
