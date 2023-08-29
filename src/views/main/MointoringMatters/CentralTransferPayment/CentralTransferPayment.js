@@ -16,8 +16,8 @@ export let proconf = {
   statusRightToolBarButton: {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
-      { code: 'change', label: '修改' }
-      // { code: 'del', label: '删除' }
+      { code: 'change', label: '修改' },
+      { code: 'del', label: '删除' }
     ]
   },
   statusRightToolBarButtonByBusDept: {
@@ -27,51 +27,83 @@ export let proconf = {
       { code: 'del', label: '删除' }
     ]
   },
-  // highQueryConfig: [
-  //   {
-  //     title: '数据源名称',
-  //     field: 'dataSourceName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '数据源名称'
-  //       }
-  //     }
-  //   },
-  //   {
-  //     title: '业务模块',
-  //     field: 'businessModuleName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '业务模块'
-  //       }
-  //     }
-  //   }
-  // ],
+  highQueryConfig: [
+    {
+      title: '项目名称',
+      field: 'proName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '项目名称'
+        }
+      }
+    },
+    {
+      title: '资金分类名称',
+      field: 'fundCategoryName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '资金分类名称'
+        }
+      }
+    },
+    {
+      title: '热点分类名称',
+      field: 'cfsHotTopicCateName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '热点分类名称'
+        }
+      }
+    },
+    {
+      title: '中央项目资金名称',
+      field: 'proFundName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '中央项目资金名称'
+        }
+      }
+    }
+  ],
   highQueryData: {
-    dataSourceName: '',
-    businessModuleName: ''
+    proName: '',
+    fundCategoryName: '',
+    cfsHotTopicCateName: '',
+    proFundName: ''
   },
   PoliciesTableColumns: [
     {
-      title: '中央项目编码',
+      title: '项目编码',
       field: 'proCode',
       sortable: false,
       align: 'left'
     },
     {
-      title: '中央项目名称',
+      title: '项目名称',
       field: 'proName',
       sortable: false,
       align: 'left'
@@ -101,13 +133,13 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '父级项目编码',
+      title: '中央项目资金名称编码',
       field: 'proFundCode',
       sortable: false,
       align: 'left'
     },
     {
-      title: '父级项目名称',
+      title: '中央项目资金名称',
       field: 'proFundName',
       sortable: false,
       align: 'left'

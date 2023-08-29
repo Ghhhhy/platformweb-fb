@@ -18,7 +18,7 @@
       </div>
       <!--监控事项挂接-->
       <div v-show="monitorShow" class="payVoucherInput" style="margin-top:50px;">
-        <div style="width:100%;height: 80px;margin:0 15px">
+        <div v-show="isShowButton" style="width:100%;height: 80px;margin:0 15px">
           <div v-if="showbox" id="bigbox"></div>
           <el-divider style="color:#E7EBF0" />
           <div type="flex" justify="end">
@@ -57,6 +57,7 @@
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则模板名称</div>
                       <el-input
                         v-model="ruleTemplateName"
+                        :disabled="disabled"
                         placeholder="请输入规则模板名称"
                         style="width:45%"
                       />
@@ -92,8 +93,9 @@
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则依据</div>
                       <el-input
                         v-model="ruleAccord"
+                        :disabled="disabled"
                         type="textarea"
-                        :rows="2"
+                        :rows="3"
                         placeholder="请输入规则依据"
                         style=" width:45%"
                       />
@@ -105,12 +107,13 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则说明</div>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;模板说明</div>
                       <el-input
                         v-model="ruleRemark"
+                        :disabled="disabled"
                         type="textarea"
-                        :rows="2"
-                        placeholder="请输入规则说明"
+                        :rows="3"
+                        placeholder="请输入模板说明"
                         style=" width:45%"
                       />
                     </el-row>
@@ -123,7 +126,7 @@
       </div>
       <!--添加挂接函数-->
       <div v-show="funcShow" class="payVoucherInput" style="margin-top:50px;">
-        <div style="width:100%;height: 80px;margin:0 15px">
+        <div v-show="isShowButton" style="width:100%;height: 80px;margin:0 15px">
           <div v-if="showbox" id="bigbox"></div>
           <el-divider style="color:#E7EBF0" />
           <div type="flex" justify="end">
@@ -152,7 +155,7 @@
           <el-divider style="color:#E7EBF0" />
           <div type="flex" justify="end">
             <div style="width:100%">
-              <vxe-button id="savebutton" style="float:right;margin-right:20px" status="primary" @click="doInsert">保存</vxe-button>
+              <vxe-button v-show="isShowButton" id="savebutton" style="float:right;margin-right:20px" status="primary" @click="doInsert">保存</vxe-button>
               <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
             </div>
           </div>
@@ -187,6 +190,7 @@
           :toolbar-config="false"
           :pager-config="false"
           @ajaxData="ajaxFunTableData"
+          @cellClick="cellClick"
         />
       </div>
       <div style="width:100%;height: 80px;margin:0 15px">
@@ -239,6 +243,19 @@
         </div>
       </div>
     </vxe-modal>
+    <BsDialog
+      :visible.sync="showDialogView"
+      :show-header="true"
+      :show-footer="false"
+      :show-close="true"
+      :close-destory="true"
+      title="函数参数"
+      width="60%"
+    >
+      <div slot="context" v-loading="false">
+        {{ functionParameter }}
+      </div>
+    </BsDialog>
   </div>
 </template>
 <script>
@@ -364,6 +381,9 @@ export default {
       tableData: [],
       operationVisible: false,
       buttonName: '修改',
+      isShowButton: true,
+      disabled: false,
+      showDialogView: false,
       fiRuleTypeList: [
         { id: '1',
           label: '中央监控规则',
@@ -390,6 +410,22 @@ export default {
     }
   },
   methods: {
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      // console.log('参数', ...arguments)
+      let key = obj.column.property
+      console.log(key, obj.row)
+      switch (key) {
+        // 申请编号
+        case 'functionParameter':
+          this.showParameter(obj.row)
+          break
+      }
+    },
+    showParameter(row) {
+      this.functionParameter = row.functionParameter
+      this.showDialogView = true
+    },
     getDeclareSearchDataList() {
     },
     getFunSearchDataList() {
@@ -563,7 +599,7 @@ export default {
     loadFunMonitor() {
       const param = {
         page: this.FunmainPagerConfig.currentPage, // 页码
-        pageSize: 100,
+        pageSize: 1000,
         functionName: this.funcondition.functionName ? this.funcondition.functionName.toString() : '',
         functionType: this.funcondition.functionType ? this.funcondition.functionType.toString() : '',
         functionParameter: this.funcondition.functionParameter ? this.funcondition.functionParameter.toString() : ''
@@ -575,14 +611,16 @@ export default {
           // this.mountTableData = res.data.results
           this.functionTableData = res.data.results
           this.FunmainPagerConfig.total = res.data.totalCount
-          if (this.title === '修改') {
+          if (this.title === '修改' || this.title === '复制' || this.title === '查看详情') {
             this.functionTableData.forEach(item => {
+              console.log(item.functionCode)
               for (let i = 0; i < this.functionCodeList.length; i++) {
                 if (item.functionCode === this.functionCodeList[i]) {
                   this.mountTableData.push(item)
                 }
               }
             })
+            console.log(this.functionCodeList)
           }
         } else {
           this.$message.error(res.message)
@@ -721,7 +759,6 @@ export default {
         return
       }
       // this.loadMonitor()
-      this.loadFunMonitor()
       let params = {
         ruleTemplateCode: this.ruleTemplateCode
       }
@@ -741,6 +778,8 @@ export default {
             console.log(this.$refs.operationTableRef)
             this.$refs.operationTableRef.handleCheckboxChange(this.tableData)
           }
+          this.functionCodeList = res.data.functionCodeList
+          this.loadFunMonitor()
           this.getModLists()
           this.getFunLists()
         } else {
@@ -785,8 +824,12 @@ export default {
     },
     operationSure() {
       let selection = this.$refs.tableRef.getSelectionData()
-      if (selection.length !== 1) {
-        this.$message.warning('请选择一条数据进行操作')
+      if (selection.length === 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      if (selection.length > 1) {
+        this.$message.warning('只能选择一条数据')
         return
       }
       this.operationClose()
@@ -804,7 +847,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // this.$refs.mountTableRef.removeCheckboxRow()
+        this.$refs.mountTableRef.removeCheckboxRow()
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {
@@ -891,14 +934,14 @@ export default {
       }
       let funSelection = this.$refs.mountTableRef.getSelectionData()
       if (this.title === '修改') {
-        // funSelection = this.mountTableData
+        funSelection = this.mountTableData
       }
       if (funSelection.length < 1) {
         this.$message.warning('请选择挂接函数')
         return
       }
-      if (this.ruleTemplateName.length > 100) {
-        this.$message.warning('规则模板名称长度应小于等于100位')
+      if (this.ruleTemplateName.length > 20) {
+        this.$message.warning('规则模板名称长度应小于等于20位')
         return
       }
       if (this.ruleRemark.length > 100) {
@@ -923,7 +966,7 @@ export default {
       } else if (this.fiRuleTypeName.indexOf('地方-') !== -1) {
         replaceStr = '地方-'
       }
-      if (this.title === '新增') {
+      if (this.title === '新增' || this.title === '复制') {
         let params = {}
         if (selection.length === 0) {
           params = {
@@ -937,7 +980,6 @@ export default {
             'businessModuleCode': businessModuleCodes[0],
             'fiRuleTypeCode': this.fiRuleTypeCode,
             'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
-
           }
         } else {
           params = {
@@ -975,6 +1017,7 @@ export default {
             'functionCodeList': functionCodes,
             'fiRuleTypeCode': this.fiRuleTypeCode,
             'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
+
           }
         } else {
           params = {
@@ -1008,9 +1051,14 @@ export default {
   created() {
     this.showInfo()
     if (this.title === '新增') {
-      this.checkboxConfig.checkAll = false
+      // this.checkboxConfig.checkAll = false
       this.buttonName = '添加'
       this.loadFunMonitor()
+    }
+    if (this.title === '查看详情') {
+      this.tabbtn = ['监控事项信息', '规则模板信息', '挂接函数信息']
+      this.isShowButton = false
+      this.disabled = true
     }
     this.loadMonitor()
     this.getSysLists()

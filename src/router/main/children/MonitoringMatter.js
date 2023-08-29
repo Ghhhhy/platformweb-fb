@@ -250,6 +250,16 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
       )
   },
+  // 监控规则查看
+  {
+    path: '/MonitorRulesViewShow',
+    name: 'MonitorRulesViewShow',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
+  },
   // 直达监控规则查看
   {
     path: '/MonitorRulesViewBySpe',

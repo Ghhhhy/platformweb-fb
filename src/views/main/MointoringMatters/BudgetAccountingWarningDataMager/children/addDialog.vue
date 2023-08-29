@@ -337,13 +337,13 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;系统实现方式</div>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则依据</div>
                       <el-input
                         v-model="implDesc"
                         type="textarea"
                         :disabled="disabled"
                         :rows="2"
-                        placeholder="请填写系统实现方式"
+                        placeholder="请填写规则依据"
                         style=" width:90%"
                       />
                     </el-row>
@@ -556,7 +556,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $payVoucherInputGloableOptionRow: proconf.gloableOptionRowMonitorRulesView
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -578,11 +578,11 @@ export default {
       ],
       warningLevel: 1,
       warningLeveloptions: [
-        { value: 3, label: '黄色预警' },
+        { value: 1, label: '黄色预警' },
         { value: 2, label: '橙色预警' },
-        { value: 1, label: '红色预警' },
-        { value: 5, label: '灰色预警' },
-        { value: 4, label: '蓝色预警' }
+        { value: 3, label: '红色预警' },
+        { value: 4, label: '灰色预警' },
+        { value: 5, label: '蓝色预警' }
       ],
       handleType: 1,
       handleTypeoptions: [
@@ -1496,6 +1496,7 @@ export default {
   .vxe-toolbar{
     .vxe-button--wrapper{
       display:flex;
+          justify-Content: end;
     }
   }
 </style>
