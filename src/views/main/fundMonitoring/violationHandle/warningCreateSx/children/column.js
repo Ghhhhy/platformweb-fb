@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 const proconf = {
   gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
@@ -624,6 +624,17 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    },
+    {
+      title: '业务数据时间',
+      field: 'businessTime',
+      width: 120,
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '业务数据时间' }
+      }
     }
   ],
   msgConfig: [
@@ -920,13 +931,13 @@ const proconf = {
       }
     },
     {
-      title: '业务处理时间',
+      title: '业务数据时间',
       field: 'businessTime',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '业务处理时间' }
+        props: { disabled: true, placeholder: '业务数据时间' }
       }
     }
   ],
@@ -1519,6 +1530,17 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    },
+    {
+      title: '业务数据时间',
+      field: 'businessTime',
+      width: 120,
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '业务数据时间' }
+      }
     }
   ],
   doneNum: [
@@ -1608,6 +1630,17 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      title: '业务数据时间',
+      field: 'businessTime',
+      width: 120,
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '业务数据时间' }
+      }
     },
     {
       title: '监控类型',
@@ -1870,12 +1903,28 @@ const proconf = {
       'align': 'center',
       'cellRender': {
         'name': '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
+        'options': [
+          {
+            'value': '1',
+            'label': '黄色预警'
+          },
+          {
+            'value': '2',
+            'label': '橙色预警'
+          },
+          {
+            'value': '3',
+            'label': '红色预警'
+          },
+          {
+            'value': '4',
+            'label': '灰色预警'
+          },
+          {
+            'value': '5',
+            'label': '蓝色预警'
           }
-        }),
+        ],
         'defaultValue': '',
         'props': {}
       },

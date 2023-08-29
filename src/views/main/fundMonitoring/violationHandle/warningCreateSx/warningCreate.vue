@@ -469,7 +469,7 @@ export default {
         }
 
         this.tableLoading = true
-        HttpModule.queryWarning(param).then((res) => {
+        HttpModule.queryWarningForDeal(param).then((res) => {
           this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.results

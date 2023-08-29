@@ -150,5 +150,8 @@ export default {
   // 获取单据号
   queryDealNo() {
     return post('large-monitor-platform/lmp/totalWarn/beforeAdd')
+  },
+  queryWarningForDeal (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarningForDeal', params)
   }
 }

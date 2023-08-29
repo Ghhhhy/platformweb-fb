@@ -7,7 +7,6 @@
         <BsTabPanel
           ref="tabPanel"
           show-zero
-          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -89,12 +88,6 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
-    <HandleDialog
-      v-if="handleDialogVisible"
-      :title="dialogTitle"
-      :warning-code="warningCode"
-      :fi-rule-code="fiRuleCode"
-    />
     <GlAttachment
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
@@ -108,14 +101,12 @@ import { proconf } from './WarningDetailsByCompartment'
 // import AddDialog from './children/addDialog'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HsDetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/hsHandleDialog.vue'
-import HandleDialog from '../../monitor/children/HandleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
     HsDetailDialog,
-    HandleDialog,
     GlAttachment
   },
   watch: {
@@ -127,7 +118,6 @@ export default {
     return {
       // BsQuery 查询栏
       dialogHsVisible: false,
-      handleDialogVisible: false,
       warningCode: '',
       fiRuleCode: '',
       queryConfig: proconf.highQueryConfig,
@@ -225,7 +215,11 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        showFooter: true,
+        totalObj: {
+          paymentAmount: 0
+        },
+        combinedType: ['switchTotal']
       },
       // 操作日志
       logData: [],
@@ -267,7 +261,7 @@ export default {
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{code}-{name}', // {code}-{name}
+          labelFormat: '{label}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -280,7 +274,9 @@ export default {
       leftTreeFilterText: '',
       codeList: [],
       regulation_class: '',
-      showGlAttachmentDialog: false
+      showGlAttachmentDialog: false,
+      endTime: '',
+      businessTime: ''
     }
   },
   mounted() {
@@ -288,12 +284,22 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       this.warningLevel = obj.warningLevel
       this.regulationtype = obj.regulationType
       this.firulename = obj.firulename
       this.regulation_class = obj.regulation_class
       this.triggerClass = obj.triggerClass
       this.businessNo = obj.businessNo
+      this.useDes = obj.useDes
+      this.businessTime = obj.businessTime
+      this.endTime = obj.endTime
+      if (this.endTime) {
+        this.endTime = this.endTime + ' 23:59:59'
+      }
+      if (this.businessTime) {
+        this.businessTime = this.businessTime + ' 00:00:00'
+      }
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -461,16 +467,14 @@ export default {
             return
           }
           this.selectData = selection[0]
-          if (this.selectData.regulationClass === '07') {
+          if (this.selectData.regulationClass === '0107') {
             this.dialogHsVisible = true
-          } else if (this.selectData.regulationClass === '10') {
-            this.handleDialogVisible = true
           } else {
             this.dialogVisible = true
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.fiRuleCode
+          this.fiRuleCode = this.selectData.firulecode
           break
         case 'violation':
           let selectionData = this.$refs.mainTableRef.getSelectionData()
@@ -495,7 +499,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -679,17 +683,46 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        // regulationClass: this.params5,
+        regulationClass: this.params5,
         mofDivCodeList: this.codeList,
         mofdivcode: this.mofdivcode || '',
         triggerClass: this.triggerClass,
-        businessNo: this.businessNo
+        businessNo: this.businessNo,
+        useDes: this.useDes,
+        endTime: this.endTime,
+        businessTime: this.businessTime,
+        minPayAmount: this.searchDataList?.minPayAmount,
+        maxPayAmount: this.searchDataList?.maxPayAmount
       }
       this.tableLoading = true
+      HttpModule.queryTableDatasSum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig.totalObj = res.data
+        } else {
+          this.$message.error(res.result)
+        }
+      })
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData.forEach(item => {
+            if (item.handleTime === null) {
+              item.handleTime = '-'
+            }
+            // debugger
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+          })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
@@ -750,21 +783,21 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       HttpModule.getTreeData(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          that.treeData = res.data
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -811,6 +844,11 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    let month = date.toLocaleDateString().split('/')[1]
+    let day = date.toLocaleDateString().split('/')[2]
+    this.searchDataList.endTime = year + '-' + month + '-' + day
     // this.getTree()
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid

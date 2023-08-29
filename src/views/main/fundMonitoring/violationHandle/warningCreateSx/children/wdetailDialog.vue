@@ -30,6 +30,7 @@
       :toolbar-config="tableToolbarConfig"
       :cell-style="cellStyle"
       :pager-config="pagerConfig"
+      :default-money-unit="10000"
       style="height: calc(100% - 108px)"
       @ajaxData="ajaxTableData"
       @cellClick="cellClick"
@@ -942,7 +943,7 @@ export default {
       } else {
         params.fiRuleCode = this.fiRuleCode
         // 根据参数判断权限，监控预警结果查询用区划权限，生成用本级区划权限
-        if (monitorResultPages.includes(this.$route.name)) {
+        if (monitorResultPages.includes(this.$route.name) || ['CreateProcessingBySpecial', 'CreateProcessing'].includes(this.$route.name)) {
           params.monitorResultPages = '1'
         }
         this.tableLoadingState = true
@@ -953,7 +954,11 @@ export default {
             this.$message.error(res.result)
           }
         })
-        HttpModule.queryDetailDatas(params).then((res) => {
+        let createProcessingAxios = 'queryWarning'
+        if (this.$route.name.indexOf('CreateProcessing') > -1) { // 违规单生成的时候  需要更换切口 违规单查询（全辖查询）不变
+          createProcessingAxios = 'queryDetailDatas'
+        }
+        HttpModule[createProcessingAxios](params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {
             this.tableData = res.data.results
@@ -985,7 +990,7 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      HttpModule.getTreewhereSX(param).then(res => {
+      HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
         this.queryConfig[0].itemRender.options = treeResdata
       })
