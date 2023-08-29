@@ -273,7 +273,7 @@ const proconf = {
       width: 100,
       sortable: false,
       align: 'right',
-      formula: '{payAppAmt}/{amount}',
+      formula: '{payAppAmt}/{amount}*100',
       props: {
         showZero: true
       },
