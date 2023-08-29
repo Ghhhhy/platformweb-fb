@@ -626,7 +626,7 @@ export default {
                 // 将导入的支付时间格式化
                 res?.forEach(row => {
                   const timestamp = repairExcelTimestamp(row.xpayDate)
-                  row.xpayDate = timestamp ? getDateString(timestamp) : row.xpayDate
+                  row.xPayDate = timestamp ? getDateString(timestamp) : row.xpayDate
                 })
                 self.importSuccessCallback(res)
               }
