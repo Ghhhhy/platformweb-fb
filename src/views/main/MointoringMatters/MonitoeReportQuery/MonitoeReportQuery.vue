@@ -442,6 +442,7 @@ export default {
         id: this.condition.agency_code,
         menuType: 1,
         province: '',
+        provinceCodes: this.provinceCode,
         mofDivCodeList: this.codeList
       }
       if (this.leftNode.businessType === 2) {
