@@ -380,6 +380,12 @@ const proconf = {
   // 专项监督项目明细
   projectZXColumn: [
     {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 140,
+      align: 'left'
+    },
+    {
       title: '区划代码',
       field: 'mofDivCode',
       width: 140,
@@ -403,12 +409,7 @@ const proconf = {
         return row.mofDivName || ''
       }
     },
-    {
-      title: '资金名称',
-      field: 'trackProName',
-      width: 140,
-      align: 'left'
-    },
+
     {
       title: '预算单位',
       field: 'agencyName',
@@ -815,6 +816,12 @@ const proconf = {
   ],
   targetColumnFPXJ: [// 点击分配下级
     {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 140,
+      align: 'left'
+    },
+    {
       title: '区划代码',
       field: 'mofDivCode',
       width: 140,
@@ -838,12 +845,7 @@ const proconf = {
         return row.mofDivName || ''
       }
     },
-    {
-      title: '资金名称',
-      field: 'trackProName',
-      width: 140,
-      align: 'left'
-    },
+
     {
       title: '预算单位',
       field: 'agencyName',
