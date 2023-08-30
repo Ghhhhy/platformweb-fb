@@ -20,7 +20,7 @@
           v-bind="tableStaticProperty"
           class="Titans-table"
           :table-columns-config="columns"
-          :table-data="[{}]"
+          :table-data="tableData"
           :pager-config="pagerConfig"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
