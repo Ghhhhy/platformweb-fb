@@ -91,7 +91,7 @@ export default defineComponent({
       },
       columns: carrImplRegiSecondModalColumns,
       dataKey: 'data.data'
-    })
+    }, false)
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
@@ -99,6 +99,9 @@ export default defineComponent({
       height: '100%',
       align: 'left'
     })
+    const init = () => {
+      resetFetchTableData()
+    }
     const isShowQueryConditions = ref(true)
     onMounted(() => {
 
@@ -118,7 +121,8 @@ export default defineComponent({
       fetchTableData,
       isShowQueryConditions,
       tableStaticProperty,
-      waitTable
+      waitTable,
+      init
     }
   }
 })

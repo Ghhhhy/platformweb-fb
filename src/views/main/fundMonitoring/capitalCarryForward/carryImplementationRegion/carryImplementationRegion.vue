@@ -404,6 +404,7 @@ export default {
         case 'amountsjfpbjall':
           this.$refs.CarryImplementationRegionModal.dialogVisible = true
           this.$refs.CarryImplementationRegionModal.injectData = obj.row
+          this.$refs.CarryImplementationRegionModal.init()
           break
       }
     },

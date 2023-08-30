@@ -101,7 +101,7 @@ export default defineComponent({
       },
       columns: carryImplementationRegionModalColumns,
       dataKey: 'data.data'
-    })
+    }, false)
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
@@ -125,7 +125,11 @@ export default defineComponent({
       if (validCellValue && !row.children && column.own.canInsert) {
         CarrImplRegiSecondModal.value.dialogVisible = true
         CarrImplRegiSecondModal.value.injectData = row
+        CarrImplRegiSecondModal.value.init()
       }
+    }
+    const init = () => {
+      resetFetchTableData()
     }
     const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
@@ -153,7 +157,8 @@ export default defineComponent({
       selectData,
       waitTable,
       CarrImplRegiSecondModal,
-      injectData
+      injectData,
+      init
     }
   }
 })
