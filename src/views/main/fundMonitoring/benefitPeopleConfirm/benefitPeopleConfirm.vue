@@ -497,7 +497,19 @@ export default {
           break
         case '2':
           this.isHook = '1'
-          this.matchHoot = false
+          this.proCode = ''
+          this.proName = ''
+          this.payCertNo = ''
+          this.amount = ''
+          this.payAmt = ''
+          this.mofdivName = ''
+          this.agencyName = ''
+          this.corBgtDocNoName = ''
+          this.useDes = ''
+          this.dtos = []
+          break
+        case '3':
+          this.isHook = '2'
           this.proCode = ''
           this.proName = ''
           this.payCertNo = ''

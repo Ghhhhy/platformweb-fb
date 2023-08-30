@@ -182,6 +182,14 @@ export let proconf = {
       iconNameActive: 'base-all-active.png',
       type: 'button',
       curValue: '2'
+    },
+    {
+      code: '3',
+      label: '已取消',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '3'
     }
   ],
   curStatusButton: {
@@ -201,6 +209,13 @@ export let proconf = {
     2: [
       {
         label: '取消确认',
+        code: 'hook_not',
+        status: 'primary'
+      }
+    ],
+    3: [
+      {
+        label: '确认',
         code: 'hook_not',
         status: 'primary'
       }
