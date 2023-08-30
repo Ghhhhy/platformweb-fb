@@ -288,6 +288,7 @@ const proconf = {
                 filters: false,
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -496,6 +497,7 @@ const proconf = {
                 align: 'right',
                 sortable: false,
                 filters: false,
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -646,6 +648,176 @@ const proconf = {
     tableData: []
   }
 }
+export const carryImplementationRegionModalColumns = [
+  {
+    title: '资金名称',
+    field: 'ZJMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算单位',
+    field: 'YSDW',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '项目名称',
+    field: 'XMMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出功能科目',
+    field: 'ZCGNKM',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算金额',
+    width: 100,
+    align: 'center',
+    children: [
+      {
+        title: '总金额',
+        field: 'ZJE',
+        sortable: false,
+        filters: false,
+        // formula: '{amountProvince}+{amountCity}+{amountCounty}',
+        width: 100,
+        align: 'right',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '中央安排',
+        sortable: false,
+        filters: false,
+        field: 'ZYAP',
+        width: 100,
+        align: 'right',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '省级安排',
+        sortable: false,
+        filters: false,
+        field: 'SJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      },
+      {
+        title: '市级安排',
+        sortable: false,
+        filters: false,
+        field: 'SJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      },
+      {
+        title: '县级安排',
+        sortable: false,
+        filters: false,
+        field: 'XJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      }
+    ]
+  },
+  {
+    title: '支付金额',
+    width: 100,
+    align: 'center',
+    children: [
+      {
+        title: '总金额',
+        field: 'ZJE',
+        sortable: false,
+        filters: false,
+        // formula: '{amountProvince}+{amountCity}+{amountCounty}',
+        width: 100,
+        align: 'right',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '中央安排',
+        sortable: false,
+        filters: false,
+        field: 'ZYAP',
+        width: 100,
+        align: 'right',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '省级安排',
+        sortable: false,
+        filters: false,
+        field: 'SJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      },
+      {
+        title: '市级安排',
+        sortable: false,
+        filters: false,
+        field: 'SJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      },
+      {
+        title: '县级安排',
+        sortable: false,
+        filters: false,
+        field: 'XJAP',
+        width: 100,
+        align: 'right',
+        cellRender: {
+          name: '$vxeMoney'
+        }
+      }
+    ]
+  },
+  {
+    title: '惠企利民',
+    field: 'name',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  }
+]
 export default function (tableType, configType) {
   if (tableType && configType) {
     return window.deepCopy(proconf[tableType][configType])

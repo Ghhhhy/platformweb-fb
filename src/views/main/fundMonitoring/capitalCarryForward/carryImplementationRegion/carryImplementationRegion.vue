@@ -39,10 +39,12 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :show-zero="false"
+          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
+          @cellClick="cellClick"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -60,13 +62,18 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <CarryImplementationRegionModal ref="CarryImplementationRegionModal" />
   </div>
 </template>
 
 <script>
 import getFormData from './carryImplementationRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import CarryImplementationRegionModal from './carryImplementationRegionModal.vue'
 export default {
+  components: {
+    CarryImplementationRegionModal
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -372,6 +379,33 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+
+      if (validCellValue && !row.children && column.own.canInsert) {
+        // console.log('column.property', column.property)
+        // return {
+        //   color: '#4293F4',
+        //   textDecoration: 'underline'
+        // }
+      }
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
+      switch (key) {
+        case 'amountsjfpbjall':
+          // this.$refs.CarryImplementationRegionModal.dialogVisible = true
+          break
+      }
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
       HttpModule.getProTreeData({ fiscalYear }).then(res => {
