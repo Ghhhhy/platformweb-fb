@@ -20,13 +20,17 @@
           v-bind="tableStaticProperty"
           class="Titans-table"
           :table-columns-config="columns"
-          :table-data="tableData"
+          :table-data="[{}]"
           :pager-config="pagerConfig"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="pagerChange"
           @cellClick="cellClick"
-        />
+        >
+          <template v-slot:toolbar-custom-slot>
+            单位：万元
+          </template>
+        </BsTable>
       </template>
     </BsMainFormListLayout>
     <CarrImplRegiSecondModal ref="CarrImplRegiSecondModal" />
@@ -120,6 +124,7 @@ export default defineComponent({
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && !row.children && column.own.canInsert) {
         CarrImplRegiSecondModal.value.dialogVisible = true
+        CarrImplRegiSecondModal.value.injectData = row
       }
     }
     const searchDataList = reactive({})

@@ -386,10 +386,10 @@ export default {
       const validCellValue = (row[column.property] * 1)
 
       if (validCellValue && !row.children && column.own.canInsert) {
-        // return {
-        //   color: '#4293F4',
-        //   textDecoration: 'underline'
-        // }
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
       }
     },
     // 表格单元行单击
