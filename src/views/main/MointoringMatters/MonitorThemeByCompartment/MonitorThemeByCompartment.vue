@@ -452,36 +452,12 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          if (res.data.titleList.length) {
-            res.data.titleList.forEach((item, index) => {
-              this.tableColumnsConfig.push({
-                title: item.regulationClassName,
-                field: item.regulationClass,
-                sortable: false,
-                align: 'left',
-                children: [
-                  {
-                    title: '累计预警',
-                    field: item.warnCount,
-                    width: '150',
-                    align: 'center'
-                  },
-                  {
-                    title: '已处理',
-                    field: item.warnHandleCount,
-                    width: '150',
-                    align: 'center'
-                  },
-                  {
-                    title: '未处理',
-                    field: item.warnNoHandleCount,
-                    width: '150',
-                    align: 'center'
-                  }
-                ]
-              })
-            })
-          }
+          const columns = [...proconf.PoliciesTableColumns]
+          columns.splice(2, 0, ...res.data?.titleList?.map(item => {
+            return this.generateColumn(item)
+          }))
+          this.tableColumnsConfig = columns
+
           this.tableData = res.data.dataList
           this.tableData.forEach(item => {
             if (
@@ -502,6 +478,34 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    generateColumn({ regulationClassName, regulationClass, warnNoHandleCount, warnHandleCount, warnCount }) {
+      return {
+        title: regulationClassName,
+        field: regulationClass,
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '累计预警',
+            field: warnCount,
+            width: '150',
+            align: 'center'
+          },
+          {
+            title: '已处理',
+            field: warnHandleCount,
+            width: '150',
+            align: 'center'
+          },
+          {
+            title: '未处理',
+            field: warnNoHandleCount,
+            width: '150',
+            align: 'center'
+          }
+        ]
+      }
     },
     getAgency() {
       const param = {
