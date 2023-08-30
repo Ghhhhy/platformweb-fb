@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -78,18 +78,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: '150',
-      align: 'center',
-      'cellRender': {
-        'name': '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions,
-        'defaultValue': '',
-        'props': {}
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
       },
-      'sortable': 'true',
-      'name': '$vxeSelect'
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     },
     {
       title: '管理级次',

@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @itemChange="FormItemChange"
           />
         </div>
       </template>
@@ -187,6 +188,11 @@ export default {
   mounted() {
   },
   methods: {
+    FormItemChange(obj, row) {
+      if (obj.property === 'mofDivCodeList' && obj.node.code) {
+        this.getAgency(obj.node.code || this.$store.getters.getuserInfo.province)
+      }
+    },
     cellStyle ({ row, rowIndex, column }) {
       if (
         column.property !== undefined &&
@@ -254,7 +260,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '预算执行监控统计_按区划'
+          this.menuName = '统计分析查询（区划+预警级别）'
           this.radioShow = true
           break
       }
@@ -361,7 +367,7 @@ export default {
           this.warnLevel = '2'
         }
         if (key.substring(0, 4) === 'blue') {
-          this.warnLevel = '4'
+          this.warnLevel = '5'
         }
         if (key.indexOf('Sys') !== -1) {
           this.regulationType = '1'
@@ -370,7 +376,7 @@ export default {
         } else {
           this.regulationType = ''
         }
-        if (obj.column.title === '累计违规') {
+        if (obj.column.title === '累计预警') {
           this.status = ''
         } else if (obj.column.title === '已处理') {
           this.status = '2'
@@ -421,7 +427,8 @@ export default {
         regulationClass: this.params5,
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
-        roleId: this.roleguid
+        roleId: this.roleguid,
+        jurisdiction: this.$store.getters.getIsJurisdiction
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -467,15 +474,23 @@ export default {
         this.showLogView = true
       })
     },
-    getAgency() {
-      const param = {
-        wheresql: 'and province =' + this.$store.state.userInfo.province,
-        elementCode: 'AGENCY',
-        // elementCode: 'AGENCY',
+    getAgency(province) {
+      let obj = {
+        elementcode: 'AGENCY',
+        province: province,
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        wheresql: 'and province like \'' + 61 + '%\''
       }
-      HttpModule.getTreewhere(param).then(res => {
+      if (province.substring(2, 9) === '0000000') {
+        obj.wheresql = 'and province like \'' + province.substring(0, 2) + '%\''
+      } else if (
+        province.substring(4, 9) === '00000' && province.substring(2, 9) !== '0000000'
+      ) {
+        obj.wheresql = 'and province like \'' + province.substring(0, 4) + '%\''
+      } else {
+        obj.wheresql = 'and province like \'' + province.substring(0, 6) + '%\''
+      }
+      HttpModule.getTreewhere(obj).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
         this.queryConfig[2].itemRender.options = treeResdata
       })
@@ -530,7 +545,7 @@ export default {
     this.searchDataList.fiscalYear = this.$store.state.userInfo.year
     this.fiscalYear = this.$store.state.userInfo.year
     this.getLeftTreeData()
-    this.getAgency()
+    this.getAgency(this.$store.getters.getuserInfo.province)
   }
 }
 </script>

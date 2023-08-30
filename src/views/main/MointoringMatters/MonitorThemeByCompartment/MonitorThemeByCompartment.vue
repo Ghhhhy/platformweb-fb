@@ -454,7 +454,7 @@ export default {
         if (res.code === '000000') {
           if (res.data.titleList.length) {
             res.data.titleList.forEach((item, index) => {
-              this.tableColumnsConfig.splice(2 + index, 0, {
+              this.tableColumnsConfig.push({
                 title: item.regulationClassName,
                 field: item.regulationClass,
                 sortable: false,

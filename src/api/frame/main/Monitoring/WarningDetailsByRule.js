@@ -28,7 +28,8 @@ export default {
     return post('large-monitor-platform/lmp/warn/rpt/marking', params)
   },
   // 获取下拉树
-  getTree(params) {
-    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  getLeftTree(params) {
+    // return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+    return get('large-monitor-platform/lmp/mofDivTree', params)
   }
 }

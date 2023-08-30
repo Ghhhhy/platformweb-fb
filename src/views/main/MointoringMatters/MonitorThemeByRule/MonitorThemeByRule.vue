@@ -436,7 +436,7 @@ export default {
       }
       this.queryFormData = { ...param }
       this.tableLoading = true
-      HttpModule.queryTableDatas3(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           const columns = [...proconf.PoliciesTableColumns]

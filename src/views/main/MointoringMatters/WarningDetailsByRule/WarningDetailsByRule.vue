@@ -37,7 +37,6 @@
         <BsTree
           ref="leftTree"
           open-loading
-          :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
           :tree-data="treeData"
           :default-expanded-keys="defaultExpandedKeysIn"
@@ -47,7 +46,6 @@
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
-          :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
@@ -304,6 +302,7 @@ export default {
       this.businessTime = obj.businessTime
       this.endTime = obj.endTime
       this.useDes = obj.useDes
+      this.searchDataList.businessNo = obj.businessNo
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
       }
@@ -728,16 +727,15 @@ export default {
         triggerClass: this.triggerClass,
         isSign: this.isSign,
         businessTime: this.businessTime,
+        businessNo: this.searchDataList.businessNo,
         endTime: this.endTime,
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
         regulation_class: this.regulation_class,
         regulation_type: this.regulation_type,
+        jurisdiction: this.$store.getters.getIsJurisdiction,
         useDes: this.useDes,
         roleId: this.roleguid
-      }
-      if (this.$store.getters.isSx) {
-        param.jurisdiction = this.$store.getters.getIsJurisdiction
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -921,10 +919,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.params5 = this.$store.state.curNavModule.param5
-    if (this.$store.getters.isSx) {
-      this.params5 = this.$store.getters.getRegulationClass
-    }
+    this.params5 = this.$store.getters.getRegulationClass
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }

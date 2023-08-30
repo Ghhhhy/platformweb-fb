@@ -56,7 +56,7 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '区划',
-            'multiple': true,
+            'multiple': false,
             'readonly': true,
             'isleaf': false
           }
@@ -301,7 +301,7 @@ export let proconf = {
       children: [
         {
           title: '小计',
-          field: 'yellowTitle',
+          field: 'yellowTotal',
           align: 'center',
           children: [
             {
@@ -460,32 +460,32 @@ export let proconf = {
       ]
     },
     {
-      title: '责令改正事项',
+      title: '监控问询情况',
       field: 'thing',
       sortable: false,
       align: 'left',
       children: [
         {
-          title: '次数',
-          field: 'orderCorrectionCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'orderCorrectionAmount ',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已改正事项次数',
+          title: '累计问询单',
           field: 'correctedCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已改正事项涉及金额',
+          title: '涉及金额',
           field: 'correctedAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'orderCorrectionCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'orderCorrectionAmount',
           width: '150',
           align: 'center'
         }

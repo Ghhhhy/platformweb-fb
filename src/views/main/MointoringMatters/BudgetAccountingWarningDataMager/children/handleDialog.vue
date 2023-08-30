@@ -14,7 +14,6 @@
         <BsTable
           ref="handleTableRef"
           height="70px"
-          :footer-config="false"
           :table-columns-config="handletableColumnsConfig"
           :table-data="handletableData"
           :table-config="handletableConfig"
@@ -233,10 +232,10 @@ export default {
     //   this.showInfo()
     // },
     dialogClose() {
-      this.$parent.dialogVisible = false
-      if (!this.isNeedFiRuleCode) {
-        this.$parent.fiRuleCode = ''
-      }
+      // this.$parent.dialogVisible = false
+      // if (!this.isNeedFiRuleCode) {
+      //   this.$parent.fiRuleCode = ''
+      // }
       // this.$parent.queryTableDatas()
     },
     moneyFormat(amt) {
