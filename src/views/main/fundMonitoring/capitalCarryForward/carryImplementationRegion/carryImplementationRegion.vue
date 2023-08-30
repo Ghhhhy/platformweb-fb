@@ -402,7 +402,8 @@ export default {
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
       switch (key) {
         case 'amountsjfpbjall':
-          // this.$refs.CarryImplementationRegionModal.dialogVisible = true
+          this.$refs.CarryImplementationRegionModal.dialogVisible = true
+          this.$refs.CarryImplementationRegionModal.injectData = obj.row
           break
       }
     },

@@ -650,6 +650,11 @@ const proconf = {
 }
 export const carryImplementationRegionModalColumns = [
   {
+    title: '序号',
+    type: 'seq',
+    width: '80'
+  },
+  {
     title: '资金名称',
     field: 'track_pro_name',
     align: 'left',
@@ -822,7 +827,12 @@ export const carryImplementationRegionModalColumns = [
 ]
 export const carrImplRegiSecondModalColumns = [
   {
-    title: '处室合计',
+    title: '序号',
+    type: 'seq',
+    width: '80'
+  },
+  {
+    title: '处室名称',
     field: 'CSHJ',
     align: 'left',
     sortable: false,
@@ -833,7 +843,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '单位名称',
-    field: 'DWMC',
+    field: 'agencyName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -913,7 +923,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '支出金额',
-    field: 'ZCJE',
+    field: 'payAppAmt',
     align: 'left',
     sortable: false,
     filters: false,

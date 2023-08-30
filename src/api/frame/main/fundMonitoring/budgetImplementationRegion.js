@@ -61,7 +61,7 @@ export default {
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
   },
-  getZuanQu(params) {
-    return post('', params)
+  queryDetail(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/queryDetail', params)
   }
 }

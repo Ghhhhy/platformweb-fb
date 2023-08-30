@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted } from '@vue/composition-api'
+import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
 // import store from '@/store/index'
@@ -41,6 +41,16 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 export default defineComponent({
   components: {},
   setup() {
+    /**
+     * @interface reportCodeMap<{ $route.name : reportCode }>
+     */
+    const reportCodeMap = {
+      'CarryImplementationRegion': 'jzzjysxd_ysje',
+      'CarryImplementationCapital': 'jzzjysxd_ysje',
+      'CarryPayRegion': 'jzzjysxd_zcje',
+      'CarryPayCapital': 'jzzjysxd_zcje'
+    }
+    const { $route } = getCurrentInstance().proxy
     const waitTable = ref(null)
     const injectData = ref({
       mofDivCode: ''
@@ -70,10 +80,11 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: HttpModule.queryTableDatas,
+      fetch: HttpModule.queryDetail,
       beforeFetch: params => {
         return {
-          trackProCode: '',
+          reportCode: reportCodeMap[$route.name],
+          trackProCode: injectData.trackProCode,
           mofDivCode: injectData.mofDivCode,
           ...params
         }
