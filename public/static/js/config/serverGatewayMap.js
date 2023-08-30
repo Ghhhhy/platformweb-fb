@@ -17,8 +17,7 @@ window.gloableToolFn = {
       filePreviewService: '/apaas/api/filePreviewService/',
       // --------------------------- 后台服务 -----------------------------------//
       'large-monitor-platform': '',
-      'dfr-monitor-service': '',
-      'budgetServer': ''
+      'dfr-monitor-service': ''
     },
     development: {
       // --------------------------- apass服务 ---------------------------------//
