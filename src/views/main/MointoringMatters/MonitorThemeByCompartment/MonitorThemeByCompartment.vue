@@ -449,10 +449,10 @@ export default {
           ]
         }
       ]
-      HttpModule.queryTableDatas2(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          if (res.data.titleList && res.data.titleList.length) {
+          if (res.data.titleList.length) {
             res.data.titleList.forEach((item, index) => {
               this.tableColumnsConfig.splice(2 + index, 0, {
                 title: item.regulationClassName,
