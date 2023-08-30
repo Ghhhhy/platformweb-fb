@@ -60,5 +60,8 @@ export default {
       formData.append(key, value)
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
+  },
+  getZuanQu(params) {
+    return post('', params)
   }
 }

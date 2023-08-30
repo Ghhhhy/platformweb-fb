@@ -386,7 +386,6 @@ export default {
       const validCellValue = (row[column.property] * 1)
 
       if (validCellValue && !row.children && column.own.canInsert) {
-        // console.log('column.property', column.property)
         // return {
         //   color: '#4293F4',
         //   textDecoration: 'underline'

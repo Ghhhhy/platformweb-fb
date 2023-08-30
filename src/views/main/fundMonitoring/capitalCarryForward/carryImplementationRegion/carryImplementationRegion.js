@@ -651,7 +651,7 @@ const proconf = {
 export const carryImplementationRegionModalColumns = [
   {
     title: '资金名称',
-    field: 'ZJMC',
+    field: 'track_pro_name',
     align: 'left',
     sortable: false,
     filters: false,
@@ -661,7 +661,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '预算单位',
-    field: 'YSDW',
+    field: 'agency_name',
     align: 'left',
     sortable: false,
     filters: false,
@@ -671,7 +671,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '项目名称',
-    field: 'XMMC',
+    field: 'pro_name',
     align: 'left',
     sortable: false,
     filters: false,
@@ -681,7 +681,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '支出功能科目',
-    field: 'ZCGNKM',
+    field: 'exp_func_name',
     align: 'left',
     sortable: false,
     filters: false,
@@ -696,10 +696,11 @@ export const carryImplementationRegionModalColumns = [
     children: [
       {
         title: '总金额',
-        field: 'ZJE',
+        field: 'YSJEZJE',
         sortable: false,
         filters: false,
-        // formula: '{amountProvince}+{amountCity}+{amountCounty}',
+        canInsert: true,
+        formula: '{jzamount_zy}+{jzamount_snj}+{jzamount_sj}+{jzamount_xj}',
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeMoney' }
@@ -708,7 +709,7 @@ export const carryImplementationRegionModalColumns = [
         title: '中央安排',
         sortable: false,
         filters: false,
-        field: 'ZYAP',
+        field: 'jzamount_zy',
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeMoney' }
@@ -717,7 +718,7 @@ export const carryImplementationRegionModalColumns = [
         title: '省级安排',
         sortable: false,
         filters: false,
-        field: 'SJAP',
+        field: 'jzamount_snj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -728,7 +729,7 @@ export const carryImplementationRegionModalColumns = [
         title: '市级安排',
         sortable: false,
         filters: false,
-        field: 'SJAP',
+        field: 'jzamount_sj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -739,7 +740,7 @@ export const carryImplementationRegionModalColumns = [
         title: '县级安排',
         sortable: false,
         filters: false,
-        field: 'XJAP',
+        field: 'jzamount_xj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -755,9 +756,10 @@ export const carryImplementationRegionModalColumns = [
     children: [
       {
         title: '总金额',
-        field: 'ZJE',
+        field: 'jzpayamount',
         sortable: false,
         filters: false,
+        canInsert: true,
         // formula: '{amountProvince}+{amountCity}+{amountCounty}',
         width: 100,
         align: 'right',
@@ -809,7 +811,109 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '惠企利民',
-    field: 'name',
+    field: 'hqlm',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  }
+]
+export const carrImplRegiSecondModalColumns = [
+  {
+    title: '处室合计',
+    field: 'CSHJ',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '单位名称',
+    field: 'DWMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '中央直达资金名称',
+    field: 'ZYZDZJMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出科目编码',
+    field: 'ZCKMBM',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出科目名称',
+    field: 'ZCKMMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '本级专项资金名称',
+    field: 'BJZXZJMC',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '上级文号',
+    field: 'SJWH',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '本级文号',
+    field: 'BJWH',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算金额',
+    field: 'YSJE',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出金额',
+    field: 'ZCJE',
     align: 'left',
     sortable: false,
     filters: false,

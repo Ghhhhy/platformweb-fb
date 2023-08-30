@@ -25,28 +25,22 @@
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="pagerChange"
-          @cellClick="cellClick"
         />
       </template>
     </BsMainFormListLayout>
-    <CarrImplRegiSecondModal ref="CarrImplRegiSecondModal" />
   </vxe-modal>
 </template>
 
 <script>
 import { defineComponent, reactive, ref, onMounted } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carryImplementationRegionModalColumns } from './carryImplementationRegion.js'
-import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
+import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
 // import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
 export default defineComponent({
-  components: {
-    CarrImplRegiSecondModal
-  },
+  components: {},
   setup() {
-    const CarrImplRegiSecondModal = ref()
     const waitTable = ref(null)
     const injectData = ref({
       mofDivCode: ''
@@ -68,9 +62,9 @@ export default defineComponent({
         columns,
         tableData,
         resetFetchTableData,
-        fetchTableData,
         tableLoadingState,
         pagerChange,
+        fetchTableData,
         pagerConfig,
         tableToolbarConfig,
         onToolbarBtnClick
@@ -84,7 +78,7 @@ export default defineComponent({
           ...params
         }
       },
-      columns: carryImplementationRegionModalColumns,
+      columns: carrImplRegiSecondModalColumns,
       dataKey: 'data.data'
     })
     const tableStaticProperty = reactive({
@@ -92,28 +86,9 @@ export default defineComponent({
       resizable: true,
       showOverflow: true,
       height: '100%',
-      align: 'left',
-      cellStyle: ({ row, rowIndex, column }) => {
-        // 有效的cellValue
-        const validCellValue = (row[column.property] * 1)
-        if (validCellValue && !row.children && column.own.canInsert) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-      }
+      align: 'left'
     })
-    const cellClick = ({ row, rowIndex, column }) => {
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && !row.children && column.own.canInsert) {
-        CarrImplRegiSecondModal.value.dialogVisible = true
-      }
-    }
-    const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
-    let selectData = ref([])
     onMounted(() => {
 
     })
@@ -122,7 +97,6 @@ export default defineComponent({
       tableData,
       resetFetchTableData,
       tableLoadingState,
-      fetchTableData,
       pagerChange,
       tableToolbarConfig,
       onToolbarBtnClick,
@@ -130,14 +104,10 @@ export default defineComponent({
       modalStaticProperty,
       dialogVisible,
       dialogClose,
-      searchDataList,
+      fetchTableData,
       isShowQueryConditions,
       tableStaticProperty,
-      cellClick,
-      selectData,
-      waitTable,
-      CarrImplRegiSecondModal,
-      injectData
+      waitTable
     }
   }
 })
