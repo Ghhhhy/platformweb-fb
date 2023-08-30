@@ -107,9 +107,9 @@
       @close="closeModal"
     >
       <el-form ref="showConfirForm" :model="formModelData" :rules="formModelRule" label-width="80px">
-        <el-form-item label="取消说明" prop="reason" class="one-row">
+        <el-form-item label="取消说明" prop="cancelDescription" class="one-row">
           <el-input
-            v-model="formModelData.reason"
+            v-model="formModelData.cancelDescription"
             type="textarea"
             :maxlength="100"
             show-word-limit
@@ -172,7 +172,7 @@ export default {
       showConfirmModal: false,
       clickRow: {},
       formModelData: {
-        reason: ''
+        cancelDescription: ''
       },
       // 左侧树过滤值
       treeFilterText: '',
@@ -387,7 +387,7 @@ export default {
   methods: {
     closeModal() {
       this.showConfirmModal = false
-      this.formModelData.reason = ''
+      this.formModelData.cancelDescription = ''
       this.$refs.showConfirForm.clearValidate()
     },
     onImportClick() {
