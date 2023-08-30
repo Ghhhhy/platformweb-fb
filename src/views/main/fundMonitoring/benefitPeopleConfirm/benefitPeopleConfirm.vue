@@ -662,7 +662,7 @@ export default {
             return
           }
           this.showConfirmModal = true
-          this.clickRow = datas2[0]
+          this.clickRow = datas2
           // this.notHook(datas2)
           break
         // 导入
@@ -682,7 +682,7 @@ export default {
                 // 将导入的支付时间格式化
                 res?.forEach(row => {
                   const timestamp = repairExcelTimestamp(row.xpayDate)
-                  row.xPayDate = timestamp ? getDateString(timestamp) : row.xpayDate
+                  row.xpayDate = timestamp ? getDateString(timestamp) : row.xpayDate
                 })
                 self.importSuccessCallback(res)
               }
@@ -706,7 +706,11 @@ export default {
     },
     hook(datas2) {
       const param = {
-        payDetailIds: datas2
+        payDetailIds: datas2.map(item => {
+          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate })
+          delete itemCopy.xpayDate
+          return itemCopy
+        })
       }
       HttpModule.confirm(param).then(res => {
         if (res.code === '000000') {
@@ -718,8 +722,15 @@ export default {
       })
     },
     async notHook(datas2) {
+      const param = {
+        payDetailIds: datas2.map(item => {
+          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate })
+          delete itemCopy.xpayDate
+          return itemCopy
+        })
+      }
       await this.$refs.showConfirForm.validate()
-      HttpModule.notConfirm(datas2).then(res => {
+      HttpModule.notConfirm(param).then(res => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''
