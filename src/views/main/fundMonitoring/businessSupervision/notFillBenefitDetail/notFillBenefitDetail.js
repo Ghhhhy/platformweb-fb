@@ -117,7 +117,7 @@ const proconf = {
           {
             title: '利民',
             field: 'amountli',
-            canInsert: true, // 自定义展示可钻取的JSON配置字段
+            // canInsert: true, // 自定义展示可钻取的JSON配置字段
             width: 200,
             sortable: false,
             filters: false,
@@ -127,7 +127,7 @@ const proconf = {
           {
             title: '惠企',
             field: 'amounthq',
-            canInsert: true,
+            // canInsert: true,
             width: 200,
             sortable: false,
             filters: false,
@@ -137,7 +137,7 @@ const proconf = {
           {
             title: '惠企利民',
             field: 'amounthqli',
-            canInsert: true,
+            // canInsert: true,
             width: 200,
             sortable: false,
             filters: false,
@@ -164,7 +164,7 @@ const proconf = {
             title: '利民',
             field: 'amountliFill',
             width: 200,
-            canInsert: true,
+            // canInsert: true,
             sortable: false,
             filters: false,
             align: 'right',
@@ -175,7 +175,7 @@ const proconf = {
             field: 'amounthqFill',
             width: 200,
             sortable: false,
-            canInsert: true,
+            // canInsert: true,
             filters: false,
             align: 'right',
             isSubCode: '02'
@@ -185,7 +185,7 @@ const proconf = {
             field: 'amounthqliFill',
             width: 200,
             sortable: false,
-            canInsert: true,
+            // canInsert: true,
             filters: false,
             align: 'right',
             isSubCode: '03'
@@ -253,7 +253,7 @@ const proconf = {
             sortable: false,
             filters: false,
             align: 'right',
-            canInsert: true,
+            // canInsert: true,
             isSubCode: '01',
             formula: '({amountli}-0==0)?0:({amountliFill}/{amountli}*100)',
             cellRender: {
@@ -267,7 +267,7 @@ const proconf = {
             align: 'right',
             sortable: false,
             filters: false,
-            canInsert: true,
+            // canInsert: true,
             isSubCode: '02',
             formula: '({amounthq}-0==0)?0:({amounthqFill}/{amounthq}*100)',
             cellRender: {
@@ -278,7 +278,7 @@ const proconf = {
             title: '惠企利民',
             field: 'hqlmbl',
             width: 200,
-            canInsert: true,
+            // canInsert: true,
             isSubCode: '03',
             sortable: false,
             filters: false,
