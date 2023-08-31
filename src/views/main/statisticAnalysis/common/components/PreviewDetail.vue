@@ -81,6 +81,12 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    queryData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     // 勾选行
     currentRow: {
       type: Object,
@@ -93,7 +99,7 @@ export default defineComponent({
     /**
      * 弹窗内部状态
      * */
-    const { visible } = useModalInner(props, emit, model)
+    const { visible, queryData } = useModalInner(props, emit, model)
 
     // 处理单查看弹窗
     const [handlingOfViolationsModel, changeHOVModelVisible] = useModal()
@@ -176,6 +182,7 @@ export default defineComponent({
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           fiRuleName: props.currentRow.ruleName,
+          ...queryData,
           [property]: value
         }
       },

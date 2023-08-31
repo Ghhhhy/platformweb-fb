@@ -48,6 +48,7 @@
       v-if="visibleState"
       v-model="visibleState"
       :current-row="currentRow"
+      :query-data="formData"
       @closeAll="closeAllHandle"
     />
   </div>
