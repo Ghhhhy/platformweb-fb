@@ -216,7 +216,7 @@ export let proconf = {
     3: [
       {
         label: '确认',
-        code: 'hook_not',
+        code: 'hook_set',
         status: 'primary'
       }
     ]

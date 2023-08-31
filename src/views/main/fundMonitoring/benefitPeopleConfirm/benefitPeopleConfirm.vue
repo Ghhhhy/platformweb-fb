@@ -236,7 +236,8 @@ export default {
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
         '1': 0,
-        '2': 0
+        '2': 0,
+        '3': 0
       },
       isShowQueryConditions: true,
       toolBarStatusSelect: {
