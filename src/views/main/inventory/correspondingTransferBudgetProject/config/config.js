@@ -71,7 +71,7 @@ const leftTableColumnsConfig = [
     }
   },
   {
-    title: '资金主管处室',
+    title: '资金管理处室',
     field: 'fundMofDepName',
     span: 12,
     align: 'left',
@@ -162,7 +162,7 @@ const rightTableColumnsConfig = [
     }
   },
   {
-    title: '资金主管处室',
+    title: '资金管理处室',
     field: 'manageMofDepName',
     span: 12,
     align: 'left',
