@@ -396,17 +396,17 @@ export default {
     cellClick(obj, context, e) {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
-      let key = obj.column.property
+      // let key = obj.column.property
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
-      switch (key) {
-        case 'amountsjfpbjall':
-          this.$refs.CarryImplementationRegionModal.dialogVisible = true
-          this.$refs.CarryImplementationRegionModal.injectData = obj.row
-          this.$refs.CarryImplementationRegionModal.init()
-          break
-      }
+      // switch (key) {
+      //   case 'amountsjfpbjall':
+      this.$refs.CarryImplementationRegionModal.dialogVisible = true
+      this.$refs.CarryImplementationRegionModal.injectData = obj.row
+      this.$refs.CarryImplementationRegionModal.init()
+      // break
+      // }
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
       HttpModule.getProTreeData({ fiscalYear }).then(res => {
