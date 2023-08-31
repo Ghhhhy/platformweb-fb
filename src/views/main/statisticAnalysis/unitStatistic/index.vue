@@ -73,6 +73,7 @@
       v-if="ruleModalVisible"
       v-model="ruleModalVisible"
       :current-row="currentRow"
+      :query-data="formData"
       @closeAll="closeAllHandle"
     />
   </div>
