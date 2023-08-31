@@ -293,8 +293,8 @@ export default {
       if (this.tabSelect === '1') {
         // this.title = '红色预警-未处理明细'
         // this.detailType = 'redUndoNum'
-        this.tableColumnsConfig = proconf.undoNum
-        this.tabStatusBtnConfig.curButton = curStatusButton
+        // this.tableColumnsConfig = proconf.undoNum
+        // this.tabStatusBtnConfig.curButton = curStatusButton
         switch (this.colourType) {
           case '1':
             this.detailType = 'yellowUndoNum'
@@ -315,8 +315,8 @@ export default {
             break
         }
       } else if (this.tabSelect === '2') {
-        this.tableColumnsConfig = proconf.undoNum
-        this.tabStatusBtnConfig.curButton = curStatusButton1
+        // this.tableColumnsConfig = proconf.undoNum
+        // this.tabStatusBtnConfig.curButton = curStatusButton1
         switch (this.colourType) {
           case '1':
             this.detailType = 'yellowNormalNum'
@@ -337,8 +337,8 @@ export default {
             break
         }
       } else if (this.tabSelect === '3') {
-        this.tableColumnsConfig = proconf.doneNum
-        this.tabStatusBtnConfig.curButton = curStatusButton2
+        // this.tableColumnsConfig = proconf.doneNum
+        // this.tabStatusBtnConfig.curButton = curStatusButton2
         switch (this.colourType) {
           case '1':
             this.detailType = 'yellowDoneNum'
@@ -359,8 +359,8 @@ export default {
             break
         }
       } else if (this.tabSelect === '4') {
-        this.tableColumnsConfig = proconf.notRectifiedNum
-        this.tabStatusBtnConfig.curButton = curStatusButton3
+        // this.tableColumnsConfig = proconf.notRectifiedNum
+        // this.tabStatusBtnConfig.curButton = curStatusButton3
         switch (this.colourType) {
           case '1':
             this.detailType = 'yellowNotRectifiedNum'
