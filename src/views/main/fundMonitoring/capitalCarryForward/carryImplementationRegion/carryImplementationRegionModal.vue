@@ -78,7 +78,7 @@ export default defineComponent({
       mofDivCode: ''
     })
     const modalStaticProperty = {
-      title: '新增疑点数据',
+      title: '项目明细',
       width: '96%',
       height: '80%',
       position: 'center',
