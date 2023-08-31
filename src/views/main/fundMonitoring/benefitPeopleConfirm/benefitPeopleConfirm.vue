@@ -72,8 +72,6 @@
           :table-config="tableConfig1"
           :pager-config="mainPagerConfig1"
           :toolbar-config="tableToolbarConfig1"
-          @checkboxChange="checkboxChange1"
-          @checkboxAll="checkboxChange1"
           @onToolbarBtnClick="onToolbarBtnClick1"
           @ajaxData="ajaxTableData1"
           @cellClick="cellClick"
@@ -157,6 +155,9 @@ export default {
   computed: {
     wheresql() {
       return `and name like '%${this.treeFilterText}%'`
+    },
+    tableColumnsConfig1() {
+      return proconf.PoliciesTableColumns1(this)
     }
   },
   watch: {
@@ -254,7 +255,6 @@ export default {
       tableLoading1: false,
       tableLoading2: false,
       tableColumnsConfig: proconf.PoliciesTableColumns,
-      tableColumnsConfig1: proconf.PoliciesTableColumns1,
       tableData: [],
       tableData1: [],
       tableToolbarConfig: {

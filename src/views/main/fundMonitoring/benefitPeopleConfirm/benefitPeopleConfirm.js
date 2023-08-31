@@ -338,7 +338,7 @@ export let proconf = {
     //   visible: false
     // }
   ],
-  PoliciesTableColumns1: [
+  PoliciesTableColumns1: (ctx) => [
     {
       title: '金额(元)',
       width: 180,
@@ -464,6 +464,15 @@ export let proconf = {
       width: 180,
       field: 'setModeName',
       sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '取消确定说明',
+      width: 180,
+      field: 'cancelDescription',
+      sortable: false,
+      visible: ctx.toolBarStatusSelect.code === '3',
       filters: false,
       align: 'center'
     }
