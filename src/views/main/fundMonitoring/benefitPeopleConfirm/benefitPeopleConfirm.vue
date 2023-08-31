@@ -737,7 +737,7 @@ export default {
     async notHook(datas2) {
       const param = {
         payDetailIds: datas2.map(item => {
-          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate })
+          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate, cancelDescription: this.formModelData.cancelDescription })
           delete itemCopy.xpayDate
           return itemCopy
         })
