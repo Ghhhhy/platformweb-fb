@@ -679,6 +679,74 @@ const proconf = {
           value: ''
         }
       }
+    },
+    {
+      title: '指标接受开始时间',
+      field: 'recStartTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接受开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '指标接受结束时间',
+      field: 'recEndTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接受结束时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付接受开始时间',
+      field: 'xPayDateStart',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付接受开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付接受结束时间',
+      field: 'xPayDateEnd',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付接受结束时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -690,10 +758,14 @@ const proconf = {
     warningLevel: '',
     fiRuleName: '',
     trackProName: '',
-    warnStartDate: '2022-02-02',
+    warnStartDate: '',
     warnEndDate: '',
     dealWarnStartDate: '',
-    dealWarnEndDate: ''
+    dealWarnEndDate: '',
+    recStartTime: '',
+    recEndTime: '',
+    xPayDateStart: '',
+    xPayDateEnd: ''
   },
   // 预警数据明细
   undoNum: [

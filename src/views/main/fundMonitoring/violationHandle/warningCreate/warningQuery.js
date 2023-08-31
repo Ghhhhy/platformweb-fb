@@ -452,6 +452,74 @@ const proconf = {
           placeholder: '结束处理时间'
         }
       }
+    },
+    {
+      title: '指标接受开始时间',
+      field: 'recStartTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接受开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '指标接受结束时间',
+      field: 'recEndTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接受结束时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付接受开始时间',
+      field: 'xPayDateStart',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付接受开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付接受结束时间',
+      field: 'xPayDateEnd',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付接受结束时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
     }
   ],
   highQueryConfigHLJ: [
@@ -494,7 +562,11 @@ const proconf = {
     warnStartDate: '',
     warnEndDate: '',
     dealWarnStartDate: '',
-    dealWarnEndDate: ''
+    dealWarnEndDate: '',
+    recStartTime: '',
+    recEndTime: '',
+    xPayDateStart: '',
+    xPayDateEnd: ''
   },
   highQueryDataHLJ: {
     xpayDate: '',
