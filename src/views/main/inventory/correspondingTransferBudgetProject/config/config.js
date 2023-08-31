@@ -119,10 +119,10 @@ const rightTableColumnsConfig = [
     title: '专项资金',
     field: 'objName',
     formatter({ row }) {
-      if (row.proCode && row.proName) {
-        return `${row.proCode}-${row.proName}`
+      if (row.objCode && row.objName) {
+        return `${row.objCode}-${row.objName}`
       }
-      return `${row.proName}`
+      return `${row.objName}`
     }
   },
   // {
