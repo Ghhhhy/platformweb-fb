@@ -99,7 +99,8 @@ export default defineComponent({
     /**
      * 弹窗内部状态
      * */
-    const { visible, queryData } = useModalInner(props, emit, model)
+    const { queryData } = props
+    const { visible } = useModalInner(props, emit, model)
 
     // 处理单查看弹窗
     const [handlingOfViolationsModel, changeHOVModelVisible] = useModal()
