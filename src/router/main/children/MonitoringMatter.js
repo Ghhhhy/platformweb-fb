@@ -1423,6 +1423,25 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/MonitorThemeByRank/MonitorThemeByRank.vue')
   },
+  // 预警明细查询（按规则）
+  {
+    path: '/WarningDetailsByRuleAllSpe',
+    name: 'WarningDetailsByRuleAllSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  {
+    path: '/SXWarningDetailsByRuleAllSpe',
+    name: 'SXWarningDetailsByRuleAllSpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
   {
     path: '/StatisticalFormsByCompartmentBgt',
     name: 'StatisticalFormsByCompartmentBgt',

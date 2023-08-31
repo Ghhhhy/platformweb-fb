@@ -1117,6 +1117,33 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningQuery.vue')
   },
   {
+    path: '/BudgetImpMonitorWarningResults', // 预算执行监控预警结果查询
+    name: 'BudgetImpMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+  },
+  {
+    path: '/AccountMonitorWarningResults', // 会计核算监控预警结果查询
+    name: 'AccountMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+  },
+  {
+    path: '/SanGongMonitorWarningResults', // 三公监控预警结果查询
+    name: 'SanGongMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+  },
+  {
     path: '/SanBaoMonitorWarningResults', // 三保监控预警结果查询
     name: 'SanBaoMonitorWarningResults',
     meta: {
