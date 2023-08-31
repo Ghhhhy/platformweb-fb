@@ -11,6 +11,12 @@ const leftFormItem = [
     field: 'proName',
     span: 12,
     align: 'left',
+    formatter({ row }) {
+      if (row.proCode && row.proName) {
+        return <div>{row.proCode}-{row.proName}</div>
+      }
+      return <div>{row.proName}</div>
+    },
     itemRender: {
       name: '$vxeInput',
       props: {
@@ -40,6 +46,12 @@ const rightFormItem = [
     field: 'objName',
     span: 12,
     align: 'left',
+    formatter({ row }) {
+      if (row.proCode && row.proName) {
+        return <div>{row.proCode}-{row.proName}</div>
+      }
+      return <div>{row.proName}</div>
+    },
     itemRender: {
       name: '$vxeInput',
       props: {

@@ -25,6 +25,31 @@ const leftFormItem = [
     field: 'proName',
     span: 12,
     align: 'left',
+    formatter({ row }) {
+      if (row.proCode && row.proName) {
+        return <div>{row.proCode}-{row.proName}</div>
+      }
+      return <div>{row.proName}</div>
+    },
+    itemRender: {
+      name: '$vxeNewInput',
+      props: {
+        placeholder: '专项资金',
+        clearable: true
+      }
+    }
+  },
+  {
+    title: '资金主管处室',
+    field: 'fundMofDepName',
+    span: 12,
+    align: 'left',
+    formatter({ row }) {
+      if (row.fundMofDepCode && row.fundMofDepName) {
+        return <div>{row.fundMofDepCode}-{row.fundMofDepName}</div>
+      }
+      return <div>{row.fundMofDepName}</div>
+    },
     itemRender: {
       name: '$vxeNewInput',
       props: {
@@ -79,8 +104,33 @@ const rightFormItem = [
     field: 'objName',
     span: 12,
     align: 'left',
+    formatter({ row }) {
+      if (row.proCode && row.proName) {
+        return <div>{row.proCode}-{row.proName}</div>
+      }
+      return <div>{row.proName}</div>
+    },
     itemRender: {
       name: '$vxeInput',
+      props: {
+        placeholder: '专项资金',
+        clearable: true
+      }
+    }
+  },
+  {
+    title: '资金主管处室',
+    field: 'manageMofDepName',
+    span: 12,
+    align: 'left',
+    formatter({ row }) {
+      if (row.manageMofDepCode && row.manageMofDepName) {
+        return <div>{row.manageMofDepCode}-{row.manageMofDepName}</div>
+      }
+      return <div>{row.manageMofDepName}</div>
+    },
+    itemRender: {
+      name: '$vxeNewInput',
       props: {
         placeholder: '专项资金',
         clearable: true
