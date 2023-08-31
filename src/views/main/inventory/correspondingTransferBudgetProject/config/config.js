@@ -52,11 +52,23 @@ const leftTableColumnsConfig = [
   // },
   {
     title: '项目类别',
-    field: 'proCatName'
+    field: 'proCatName',
+    formatter({ row }) {
+      if (row.proCatCode && row.proCatName) {
+        return `${row.proCatCode}-${row.proCatName}`
+      }
+      return `${row.proCatName}`
+    }
   },
   {
     title: '资金主管部门',
-    field: 'bgtDeptName'
+    field: 'bgtDeptName',
+    formatter({ row }) {
+      if (row.bgtDeptCode && row.bgtDeptName) {
+        return `${row.bgtDeptCode}-${row.bgtDeptName}`
+      }
+      return `${row.bgtDeptName}`
+    }
   },
   {
     title: '资金主管处室',
@@ -131,11 +143,23 @@ const rightTableColumnsConfig = [
   // },
   {
     title: '项目类别',
-    field: 'proCatName'
+    field: 'proCatName',
+    formatter({ row }) {
+      if (row.proCatCode && row.proCatName) {
+        return `${row.proCatCode}-${row.proCatName}`
+      }
+      return `${row.proCatName}`
+    }
   },
   {
     title: '资金主管部门',
-    field: 'bgtDeptName'
+    field: 'bgtDeptName',
+    formatter({ row }) {
+      if (row.bgtDeptCode && row.bgtDeptName) {
+        return `${row.bgtDeptCode}-${row.bgtDeptName}`
+      }
+      return `${row.bgtDeptName}`
+    }
   },
   {
     title: '资金主管处室',
