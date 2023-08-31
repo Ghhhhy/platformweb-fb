@@ -41,9 +41,9 @@ const leftTableColumnsConfig = [
     field: 'proName',
     formatter({ row }) {
       if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+        return `${row.proCode}-${row.proName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.proName}`
     }
   },
   // {
@@ -65,9 +65,9 @@ const leftTableColumnsConfig = [
     align: 'left',
     formatter({ row }) {
       if (row.fundMofDepCode && row.fundMofDepName) {
-        return <div>{row.fundMofDepCode}-{row.fundMofDepName}</div>
+        return `${row.fundMofDepCode}-${row.fundMofDepName}`
       }
-      return <div>{row.fundMofDepName}</div>
+      return `${row.fundMofDepName}`
     },
     itemRender: {
       name: '$vxeNewInput',
@@ -120,9 +120,9 @@ const rightTableColumnsConfig = [
     field: 'objName',
     formatter({ row }) {
       if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+        return `${row.proCode}-${row.proName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.proName}`
     }
   },
   // {
@@ -144,9 +144,9 @@ const rightTableColumnsConfig = [
     align: 'left',
     formatter({ row }) {
       if (row.manageMofDepCode && row.manageMofDepName) {
-        return <div>{row.manageMofDepCode}-{row.manageMofDepName}</div>
+        return `${row.manageMofDepCode}-${row.manageMofDepName}`
       }
-      return <div>{row.manageMofDepName}</div>
+      return `${row.manageMofDepName}`
     }
   }
 ]

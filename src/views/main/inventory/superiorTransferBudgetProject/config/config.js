@@ -27,9 +27,9 @@ const leftTableColumnsConfig = [
     field: 'proName',
     formatter({ row }) {
       if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+        return `${row.proCode}-${row.proName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.proName}`
     }
   }
 ]
@@ -62,9 +62,9 @@ const rightTableColumnsConfig = [
     field: 'objName',
     formatter({ row }) {
       if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+        return `${row.proCode}-${row.proName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.proName}`
     }
   }
 ]
