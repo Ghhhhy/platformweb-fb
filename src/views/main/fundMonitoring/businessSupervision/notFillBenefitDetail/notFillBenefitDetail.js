@@ -308,11 +308,11 @@ const proconf = {
   }
 }
 export const modalTableColumns = [
-  {
-    title: '序号',
-    type: 'seq',
-    width: 60
-  },
+  // {
+  //   title: '序号',
+  //   type: 'seq',
+  //   width: 60
+  // },
   {
     title: '地区名称',
     align: 'left',
