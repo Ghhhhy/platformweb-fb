@@ -373,7 +373,8 @@ const proconf = {
                 sortable: false,
                 filters: false,
                 width: 100,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '市级',
@@ -381,7 +382,8 @@ const proconf = {
                 filters: false,
                 field: 'amountXjSjJzPay',
                 width: 100,
-                align: 'right'
+                align: 'right',
+                cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '县级',
