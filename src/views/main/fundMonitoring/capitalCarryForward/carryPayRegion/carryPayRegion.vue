@@ -39,10 +39,12 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :show-zero="false"
+          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
           @switchMoneyUnit="switchMoneyUnit"
+          @cellClick="cellClick"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -60,6 +62,7 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <CarryImplementationRegionModal ref="CarryImplementationRegionModal" />
   </div>
 </template>
 
@@ -67,7 +70,11 @@
 import getFormData from './carryPayRegion.js'
 // import HttpModule from '@/api/frame/main/fundMonitoring/carryImplementationRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import CarryImplementationRegionModal from '@/views/main/fundMonitoring/capitalCarryForward/carryImplementationRegion/carryImplementationRegionModal.vue'
 export default {
+  components: {
+    CarryImplementationRegionModal
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -229,6 +236,34 @@ export default {
   mounted() {
   },
   methods: {
+    cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+
+      if (validCellValue && !row.children && column.own.canInsert) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      let key = obj.column.property
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
+      switch (key) {
+        case 'amountsjfpbjall':
+          this.$refs.CarryImplementationRegionModal.dialogVisible = true
+          this.$refs.CarryImplementationRegionModal.injectData = obj.row
+          this.$refs.CarryImplementationRegionModal.init()
+          break
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },

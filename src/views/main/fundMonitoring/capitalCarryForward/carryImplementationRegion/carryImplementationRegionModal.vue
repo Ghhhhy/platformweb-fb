@@ -54,10 +54,22 @@ export default defineComponent({
      * @interface reportCodeMap<{ $route.name : reportCode }>
      */
     const reportCodeMap = {
-      'CarryImplementationRegion': 'jzzjysxd_level1',
-      'CarryImplementationCapital': 'jzzjysxd_level1',
-      'CarryPayRegion': 'jzzjzcxd_level1',
-      'CarryPayCapital': 'jzzjzcxd_level1'
+      'CarryImplementationRegion': {
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'mofDivCode'
+      },
+      'CarryImplementationCapital': {
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'trackProCode'
+      },
+      'CarryPayRegion': {
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'mofDivCode'
+      },
+      'CarryPayCapital': {
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'trackProCode'
+      }
     }
     const { $route } = getCurrentInstance().proxy
     const CarrImplRegiSecondModal = ref()
@@ -92,12 +104,12 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
-        return {
-          reportCode: reportCodeMap[$route.name],
-          trackProCode: injectData.trackProCode,
-          mofDivCode: injectData.mofDivCode,
+        let copyObj = {
+          reportCode: reportCodeMap[$route.name].reportCode,
           ...params
         }
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.code
+        return copyObj
       },
       columns: carryImplementationRegionModalColumns,
       dataKey: 'data.data'

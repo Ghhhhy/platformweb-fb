@@ -293,6 +293,7 @@ const proconf = {
                 align: 'right',
                 sortable: false,
                 filters: false,
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -489,6 +490,7 @@ const proconf = {
                 sortable: false,
                 filters: false,
                 align: 'right',
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
