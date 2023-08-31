@@ -438,6 +438,27 @@ export default {
         }
       })
     },
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => item.field === 'mofDivCodes')].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     // 操作日志
     queryActionLog(row) {
       let data = {
@@ -461,6 +482,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getMofDiv()
   }
 }
 </script>

@@ -57,6 +57,33 @@ export let proconf = {
           placeholder: '单位'
         }
       }
+    },
+    {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}  {codeFragment}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
@@ -83,7 +110,7 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '单位',
+      title: '所属机构',
       field: 'orgname',
       sortable: false,
       align: 'left'
