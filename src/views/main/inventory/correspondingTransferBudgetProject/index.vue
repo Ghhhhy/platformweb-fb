@@ -31,7 +31,7 @@
         <template v-slot:toolbarSlots>
           <div class="table-toolbar-left">
             <div class="table-toolbar-left-title">
-              <span class="fn-inline">本级预算项目库项目清单</span>
+              <span class="fn-inline">项目库项目清单</span>
               <i class="fn-inline"></i>
             </div>
           </div>
@@ -261,8 +261,8 @@ export default {
         return {
           fiscalYear: item.fiscalYear, //      财年
           mofDivCode: item.mofDivCode, //
-          manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
-          manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
+          manageMofDepCode: item.fundMofDepCode, //      财年        业务主管处室代
+          manageMofDepName: item.fundMofDepName, //      财年        业务主管处室名
           objCode: item.objCode, //      财年监控对象编码
           objName: item.objName, //      财年监控对象名称
           bizType: '03', // 本级
