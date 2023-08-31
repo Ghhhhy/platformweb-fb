@@ -745,6 +745,7 @@ export default {
       await this.$refs.showConfirForm.validate()
       HttpModule.notConfirm(param).then(res => {
         if (res.code === '000000') {
+          this.closeModal()
           this.$message.success('取消成功')
           this.proCode = ''
           this.proName = ''
