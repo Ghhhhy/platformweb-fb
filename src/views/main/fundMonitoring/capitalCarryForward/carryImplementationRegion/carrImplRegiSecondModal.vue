@@ -2,6 +2,7 @@
   <vxe-modal
     v-model="dialogVisible"
     v-bind="modalStaticProperty"
+    class="carrImplRegiSecondModal"
     @close="dialogClose"
   >
     <BsMainFormListLayout>
@@ -141,6 +142,14 @@ export default defineComponent({
 
 </script>
 <style lang="less" scoped>
+.carrImplRegiSecondModal{
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
+/deep/ .vxe-pager--total{
+  display: none;
+}
 .waitTable{
   /deep/ .T-mainFormListLayout-modulebox{
     padding-top: 20px !important;
