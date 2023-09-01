@@ -431,13 +431,14 @@ export default {
           break
         case 'proName':
           this.projectTitle = '项目明细'
-          this.projectVisible = true
+          // this.projectVisible = true
           let url = this.getFiscalServer(obj.row.proCode) + '/#/PersonProject/DirectProjectDetail' +
             '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
             '&appguid=fiscal&guid=' + obj.row.guid + '&mofDivCode=' + obj.row.mofDivCode +
             '&fiscalYear=' + obj.row.fiscalYear + '#/'
-          console.info(url)
-          this.frameSrc = url
+          // console.info(url)
+          window.open(url, '_blank')
+          // this.frameSrc = url
           break
       }
     },
