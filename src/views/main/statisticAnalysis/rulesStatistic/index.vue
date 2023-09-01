@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%" class="unitStatistic">
     <BsMainFormListLayout :left-visible="false">
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -269,5 +269,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.unitStatistic{
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
 </style>

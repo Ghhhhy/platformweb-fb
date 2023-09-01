@@ -3,6 +3,7 @@
     v-model="visible"
     :destroy-on-close="true"
     title="查看详情"
+    class="PreviewDetail"
     width="90%"
     height="90%"
     resize
@@ -245,5 +246,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.PreviewDetail{
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
 </style>
