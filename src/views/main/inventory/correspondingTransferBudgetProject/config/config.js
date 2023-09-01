@@ -41,9 +41,9 @@ const leftTableColumnsConfig = [
     field: 'proName',
     formatter({ row }) {
       if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+        return `${row.proCode}-${row.proName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.proName}`
     }
   },
   // {
@@ -52,22 +52,34 @@ const leftTableColumnsConfig = [
   // },
   {
     title: '项目类别',
-    field: 'proCatName'
+    field: 'proCatName',
+    formatter({ row }) {
+      if (row.proCatCode && row.proCatName) {
+        return `${row.proCatCode}-${row.proCatName}`
+      }
+      return `${row.proCatName}`
+    }
   },
   {
     title: '资金主管部门',
-    field: 'bgtDeptName'
+    field: 'bgtDeptName',
+    formatter({ row }) {
+      if (row.bgtDeptCode && row.bgtDeptName) {
+        return `${row.bgtDeptCode}-${row.bgtDeptName}`
+      }
+      return `${row.bgtDeptName}`
+    }
   },
   {
-    title: '资金主管处室',
+    title: '资金管理处室',
     field: 'fundMofDepName',
     span: 12,
     align: 'left',
     formatter({ row }) {
       if (row.fundMofDepCode && row.fundMofDepName) {
-        return <div>{row.fundMofDepCode}-{row.fundMofDepName}</div>
+        return `${row.fundMofDepCode}-${row.fundMofDepName}`
       }
-      return <div>{row.fundMofDepName}</div>
+      return `${row.fundMofDepName}`
     },
     itemRender: {
       name: '$vxeNewInput',
@@ -119,10 +131,10 @@ const rightTableColumnsConfig = [
     title: '专项资金',
     field: 'objName',
     formatter({ row }) {
-      if (row.proCode && row.proName) {
-        return <div>{row.proCode}-{row.proName}</div>
+      if (row.objCode && row.objName) {
+        return `${row.objCode}-${row.objName}`
       }
-      return <div>{row.proName}</div>
+      return `${row.objName}`
     }
   },
   // {
@@ -131,22 +143,34 @@ const rightTableColumnsConfig = [
   // },
   {
     title: '项目类别',
-    field: 'proCatName'
+    field: 'proCatName',
+    formatter({ row }) {
+      if (row.proCatCode && row.proCatName) {
+        return `${row.proCatCode}-${row.proCatName}`
+      }
+      return `${row.proCatName}`
+    }
   },
   {
     title: '资金主管部门',
-    field: 'bgtDeptName'
+    field: 'bgtDeptName',
+    formatter({ row }) {
+      if (row.bgtDeptCode && row.bgtDeptName) {
+        return `${row.bgtDeptCode}-${row.bgtDeptName}`
+      }
+      return `${row.bgtDeptName}`
+    }
   },
   {
-    title: '资金主管处室',
+    title: '资金管理处室',
     field: 'manageMofDepName',
     span: 12,
     align: 'left',
     formatter({ row }) {
       if (row.manageMofDepCode && row.manageMofDepName) {
-        return <div>{row.manageMofDepCode}-{row.manageMofDepName}</div>
+        return `${row.manageMofDepCode}-${row.manageMofDepName}`
       }
-      return <div>{row.manageMofDepName}</div>
+      return `${row.manageMofDepName}`
     }
   }
 ]

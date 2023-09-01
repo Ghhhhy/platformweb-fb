@@ -3,7 +3,7 @@ const proconf = {
   // 支出明细
   expenditureColumn: [
     {
-      title: '专项资金项目名称',
+      title: '资金名称',
       field: 'trackProName',
       width: 140,
       visible: true,
@@ -112,7 +112,7 @@ const proconf = {
   ],
   payColumn: [
     {
-      title: '专项资金项目名称',
+      title: '资金名称',
       field: 'trackProName',
       width: 140,
       visible: true,

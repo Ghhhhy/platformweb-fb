@@ -2,6 +2,7 @@
   <vxe-modal
     v-model="dialogVisible"
     v-bind="modalStaticProperty"
+    class="carryImplementationRegionModal"
     @close="dialogClose"
   >
     <BsMainFormListLayout>
@@ -177,6 +178,12 @@ export default defineComponent({
 
 </script>
 <style lang="less" scoped>
+.carryImplementationRegionModal{
+
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
 .waitTable{
   /deep/ .T-mainFormListLayout-modulebox{
     padding-top: 20px !important;

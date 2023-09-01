@@ -74,10 +74,9 @@ export let proconf = {
     {
       title: '规则类型',
       field: 'fiRuleTypeCode',
-      'width': 180,
+      width: '180',
       align: 'left',
-      formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
         options: [
@@ -101,6 +100,7 @@ export let proconf = {
         props: {
           config: {
             valueKeys: ['label', 'value'],
+            format: '{label}',
             treeProps: {
               labelFormat: '{label}', // {code}-{name}
               nodeKey: 'value',
@@ -245,7 +245,8 @@ export let proconf = {
   highQueryData: {
     warningLevel: '',
     handleType: '',
-    regulationType: ''
+    regulationType: '',
+    fiRuleTypeCode: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [

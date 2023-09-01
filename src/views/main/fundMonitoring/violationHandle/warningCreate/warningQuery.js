@@ -454,7 +454,7 @@ const proconf = {
       }
     },
     {
-      title: '指标接受开始时间',
+      title: '指标接收开始时间',
       field: 'recStartTime',
       sortable: false,
       align: 'left',
@@ -464,14 +464,14 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '指标接受开始时间',
+          placeholder: '指标接收开始时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
           'label-format': 'yyyy-MM-dd'
         }
       }
     },
     {
-      title: '指标接受结束时间',
+      title: '指标接收截止时间',
       field: 'recEndTime',
       sortable: false,
       align: 'left',
@@ -481,14 +481,14 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '指标接受结束时间',
+          placeholder: '指标接收截止时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
           'label-format': 'yyyy-MM-dd'
         }
       }
     },
     {
-      title: '支付接受开始时间',
+      title: '支付开始时间',
       field: 'xPayDateStart',
       sortable: false,
       align: 'left',
@@ -498,14 +498,14 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '支付接受开始时间',
+          placeholder: '支付开始时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
           'label-format': 'yyyy-MM-dd'
         }
       }
     },
     {
-      title: '支付接受结束时间',
+      title: '支付截止时间',
       field: 'xPayDateEnd',
       sortable: false,
       align: 'left',
@@ -515,7 +515,7 @@ const proconf = {
         format: 'YYYY-MM-DD',
         props: {
           type: 'date', //
-          placeholder: '支付接受结束时间',
+          placeholder: '支付截止时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
           'label-format': 'yyyy-MM-dd'
         }

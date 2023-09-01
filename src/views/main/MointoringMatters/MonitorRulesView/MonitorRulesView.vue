@@ -371,7 +371,7 @@ export default {
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
+      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -641,7 +641,7 @@ export default {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
           'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-          'warningLevel': this.warningLevel, // 预警级别
+          'warningLevel': this.warnLevel, // 预警级别
           'handleType': this.handleType, // 处理方式
           'businessModelCode': '', // 业务模块
           'businessFeaturesCode': '', // 业务功能

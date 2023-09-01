@@ -649,11 +649,11 @@ const proconf = {
   }
 }
 export const carryImplementationRegionModalColumns = [
-  {
-    title: '序号',
-    type: 'seq',
-    width: '80'
-  },
+  // {
+  //   title: '序号',
+  //   type: 'seq',
+  //   width: '80'
+  // },
   {
     title: '资金名称',
     field: 'track_pro_name',
@@ -826,11 +826,11 @@ export const carryImplementationRegionModalColumns = [
   }
 ]
 export const carrImplRegiSecondModalColumns = [
-  {
-    title: '序号',
-    type: 'seq',
-    width: '80'
-  },
+  // {
+  //   title: '序号',
+  //   type: 'seq',
+  //   width: '80'
+  // },
   {
     title: '处室名称',
     field: 'CSHJ',

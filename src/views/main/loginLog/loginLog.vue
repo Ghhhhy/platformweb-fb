@@ -424,7 +424,8 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         orgname: this.condition.orgname ? this.condition.orgname.toString() : '',
         name: this.condition.name ? this.condition.name.toString() : '',
-        code: this.condition.name ? this.condition.code.toString() : ''
+        code: this.condition.name ? this.condition.code.toString() : '',
+        mofDivCodes: this.searchDataList.mofDivCodes_code__multiple || []
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

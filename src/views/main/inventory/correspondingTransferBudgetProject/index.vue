@@ -326,8 +326,8 @@ export default {
             bgtDeptName: v.bgtDeptName,
             fiscalYear: v.fiscalYear, //      财年
             mofDivCode: v.mofDivCode, //
-            manageMofDepCode: v.manageMofDepCode, //      财年        业务主管处室代
-            manageMofDepName: v.manageMofDepCode, //      财年        业务主管处室名
+            manageMofDepCode: v.fundMofDepCode, //      财年        业务主管处室代
+            manageMofDepName: v.fundMofDepName, //      财年        业务主管处室名
             objCode: v.proCode, //      财年监控对象编码
             bizType: '01', //      财年默认传01
             proCatCode: v.proCatCode, //      财年项目类别代码

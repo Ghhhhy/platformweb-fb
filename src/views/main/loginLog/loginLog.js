@@ -44,7 +44,7 @@ export let proconf = {
       }
     },
     {
-      title: '单位',
+      title: '所属机构',
       field: 'orgname',
       width: '8',
       align: 'left',
@@ -54,7 +54,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '单位'
+          placeholder: '所属机构'
         }
       }
     },
