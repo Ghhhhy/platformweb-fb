@@ -649,7 +649,7 @@ const proconf = {
       }
     },
     {
-      field: 'pay_app_no',
+      field: 'payAppNo',
       title: '支付申请编号',
       titleWidth: '180',
       span: 8,
