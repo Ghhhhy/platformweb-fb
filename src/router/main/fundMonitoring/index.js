@@ -345,6 +345,33 @@ const routers = [
       )
   },
   {
+    path: '/receSupeMoniInquForm', // 监控处理单生成
+    name: 'receSupeMoniInquForm',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/receSupeMoniInquForm/receSupeMoniInquForm.vue')
+  },
+  {
+    path: '/receSupeMoniInquForm', // 监控处理单生成
+    name: 'receSupeMoniInquForm',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/receSupeMoniInquForm/receSupeMoniInquForm.vue')
+  },
+  {
+    path: '/receSupeMoniInquFormBySpe', // 监控处理单生成（专项）
+    name: 'receSupeMoniInquFormBySpe',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/receSupeMoniInquForm/receSupeMoniInquForm.vue')
+  },
+  {
     path: '/DepartmentRetroact', // 主管处室反馈
     name: 'DepartmentRetroact',
     meta: {

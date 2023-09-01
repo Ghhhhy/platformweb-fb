@@ -153,5 +153,15 @@ export default {
   },
   queryWarningForDeal (params) {
     return post('large-monitor-platform/lmp/totalWarn/queryWarningForDeal', params)
+  },
+  getIssueCount(params) {
+    return post('large-monitor-platform/lmp/totalWarn/getIssueCount', params)
+  },
+  getIssueDetail(params) {
+    return post('large-monitor-platform/lmp/totalWarn/issueDetail', params)
+  },
+  // 反馈
+  handleFeedbackForDeal (params) {
+    return post('large-monitor-platform/lmp/totalWarn/updateForIssue', params)
   }
 }
