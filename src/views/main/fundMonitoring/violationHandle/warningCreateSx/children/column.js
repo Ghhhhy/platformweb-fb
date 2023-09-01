@@ -943,7 +943,7 @@ const proconf = {
   ],
   businessMsgConfig: [
     {
-      field: 'pay_app_no',
+      field: 'payAppNo',
       title: '支付申请编号',
       titleWidth: '180',
       span: 8,
@@ -966,7 +966,7 @@ const proconf = {
       }
     },
     {
-      field: 'cor_bgt_doc_no_name',
+      field: 'corBgtDocNoName',
       title: '指标文号',
       titleWidth: '180',
       span: 8,
@@ -996,7 +996,7 @@ const proconf = {
     },
     {
       title: '付款人',
-      field: 'pay_acct_name',
+      field: 'payAcctName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1006,7 +1006,7 @@ const proconf = {
     },
     {
       title: '付款人账号',
-      field: 'pay_acct_no',
+      field: 'payAcctNo',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1016,7 +1016,7 @@ const proconf = {
     },
     {
       title: '付款银行',
-      field: 'pay_acct_bank_name',
+      field: 'payAcctBankName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1026,7 +1026,7 @@ const proconf = {
     },
     {
       title: '收款人',
-      field: 'payee_acct_name',
+      field: 'payeeAcctName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1036,7 +1036,7 @@ const proconf = {
     },
     {
       title: '收款人账号',
-      field: 'payee_acct_no',
+      field: 'payeeAcctNo',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1046,7 +1046,7 @@ const proconf = {
     },
     {
       title: '收款银行',
-      field: 'payee_acct_bank_name',
+      field: 'payeeAcctBankName',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1055,7 +1055,7 @@ const proconf = {
       }
     },
     {
-      field: 'pay_app_amt',
+      field: 'payAppAmt',
       title: '支付金额',
       titleWidth: '180',
       span: 8,
@@ -1066,7 +1066,7 @@ const proconf = {
     },
     {
       title: '资金用途',
-      field: 'use_des',
+      field: 'useDes',
       span: 8,
       titleWidth: '180',
       itemRender: {
