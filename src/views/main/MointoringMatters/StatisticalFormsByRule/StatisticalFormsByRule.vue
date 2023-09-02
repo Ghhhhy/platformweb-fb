@@ -53,9 +53,12 @@
       :fi-rule-code="fiRuleCode"
       :status="status"
       :regulation-type="regulationType"
-      :mof-div-name="mofDivName"
+      :mof-div-code="mofDivCode"
       :fiscal-year="fiscalYear"
       :agency-code-list="agencyCodeList"
+      :regulation-class="params5"
+      :warn-level="warnLevel"
+      :search-list="searchDataList"
     />
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <!-- 附件弹框 -->
@@ -116,6 +119,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig1: proconf.PoliciesTableColumns,
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -154,7 +158,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
-      dialogTitle: '违规明细查看',
+      dialogTitle: '预警明细查看',
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
@@ -173,13 +177,14 @@ export default {
       showViolations: false,
       fiRuleCode: '',
       fiRuleName: '',
-      mofDivName: '',
+      mofDivCode: '',
       regulationType: '',
       status: '',
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       fiscalYear: '',
       mofDivCodeList: [],
-      agencyCodeList: []
+      agencyCodeList: [],
+      warnLevel: ''
     }
   },
   mounted() {
@@ -254,7 +259,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '预算执行监控统计_按规则'
+          this.menuName = '统计分析查询（规则+区划）'
           this.radioShow = true
           break
       }
@@ -287,10 +292,9 @@ export default {
       if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
         condition.dataSourceName = this.searchDataList.dataSourceName
       }
-      // if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
-      //   this.fiRuleName = this.searchDataList.fiRuleName
-      // }
-      this.fiRuleName = this.searchDataList?.fiRuleName
+      if (this.searchDataList.fiRuleName && this.searchDataList.fiRuleName.trim() !== '') {
+        this.fiRuleName = this.searchDataList.fiRuleName
+      }
       if (this.searchDataList.businessModuleCode && this.searchDataList.businessModuleCode.trim() !== '') {
         condition.businessModuleCode = this.searchDataList.businessModuleCode
       }
@@ -370,30 +374,39 @@ export default {
         key !== 'correctedAmount' &&
         key !== 'wholeProcessingProgress'
       ) {
-        if (key.indexOf('ylq') === -1) {
-          this.mofDivName = key.substring(0, 2)
-        } else {
-          this.mofDivName = key.substring(0, 3)
+        if (key.indexOf('Count') !== -1) {
+          this.mofDivCode = key.substring(0, 9)
         }
-        if (obj.row.fiRuleName === '系统级') {
+        console.log('obj.row', obj.row)
+        if (obj.row.fiRuleCode === '1') {
           this.regulationType = '1'
-        } else if (obj.row.fiRuleName === '财政级') {
+          this.fiRuleCode = ''
+        } else if (obj.row.fiRuleCode === '2') {
           this.regulationType = '2'
-        } else if (obj.row.fiRuleName === '部门级') {
+          this.fiRuleCode = ''
+        } else if (obj.row.fiRuleCode === '3') {
           this.regulationType = '3'
+          this.fiRuleCode = ''
+        } else if (obj.row.fiRuleName === '合计') {
+          this.fiRuleCode = ''
         } else {
           this.regulationType = ''
+          this.fiRuleCode = obj.row.fiRuleCode
         }
         if (obj.column.title === '累计违规' || obj.column.title === '累计预警') {
           this.status = ''
-        } else if (obj.column.title === '已处理') {
-          this.status = '2'
-        } else {
+          this.warnLevel = ''
+        } else if (obj.column.title === '其中红色预警') {
+          this.status = ''
+          this.warnLevel = 3
+        } else if (obj.column.title === '红色预警未处理') {
           this.status = '1'
+          this.warnLevel = 3
+        } else {
+          this.status = ''
+          this.warnLevel = ''
         }
-        console.log(this.regulationType)
-        console.log(this.mofDivName)
-        this.fiRuleCode = obj.row.fiRuleCode
+        console.log('2222222222', this.condition)
         this.showViolations = true
       }
     },
@@ -407,22 +420,153 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
+    // 处理数据 主要是过于预警数据为零的
+    handleQueryData(datas) {
+      if (datas.length === 0) return datas
+      // 保留合计行
+      let tempData = [].concat(datas[0])
+      datas.slice(1).forEach((item, index) => {
+        let zeroNums = 0
+        Object.keys(item).forEach(key => {
+          if (key !== 'fiRuleName' && key !== 'fiRuleCode') {
+            (!item[key] || item[key] === 0 || item[key] === '0' || item[key] === '0.00%') && zeroNums++
+          }
+        })
+        if (zeroNums !== Object.keys(item).length - 2) {
+          tempData.push(item)
+        }
+      })
+      return tempData
+    },
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       const param = {
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
         page: this.mainPagerConfig.currentPage,
         pageSize: this.mainPagerConfig.pageSize,
         regulationClass: this.params5,
         fiRuleName: this.fiRuleName,
         agencyCodeList: this.agencyCodeList,
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        warnLevel: this.warnLevel,
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        roleId: this.roleguid
       }
+      this.tableColumnsConfig = [
+        {
+          title: '规则名称',
+          field: 'fiRuleName',
+          width: '150',
+          sortable: false,
+          fixed: 'left',
+          align: 'left'
+        },
+        {
+          title: '整体预警情况',
+          field: 'totals',
+          sortable: false,
+          align: 'left',
+          children: [
+            {
+              title: '累计预警',
+              field: 'wholeCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '其中红色预警',
+              field: 'wholeHandleCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '红色预警未处理',
+              field: 'wholeNoHandleCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '处理进度',
+              field: 'processingProgress',
+              width: '150',
+              align: 'center'
+            }
+          ]
+        },
+        {
+          title: '监控问询情况',
+          field: 'thing',
+          sortable: false,
+          align: 'left',
+          children: [
+            {
+              title: '累计问询单',
+              field: 'correctedCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '涉及金额',
+              field: 'correctedAmount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '已处理',
+              field: 'orderCorrectionCount',
+              width: '150',
+              align: 'center'
+            },
+            {
+              title: '已处理涉及金额',
+              field: 'orderCorrectionAmount',
+              width: '150',
+              align: 'center'
+            }
+          ]
+        }
+      ]
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
+          if (res.data.titleList.length) {
+            res.data.titleList.forEach((item, index) => {
+              this.tableColumnsConfig.splice(2 + index, 0, {
+                title: item.mofDivName,
+                field: item.mofDivCode,
+                sortable: false,
+                align: 'left',
+                children: [
+                  {
+                    title: '累计预警',
+                    field: item.warnCount,
+                    width: '150',
+                    align: 'center'
+                  },
+                  {
+                    title: '其中红色预警',
+                    field: item.warnHandleCount,
+                    width: '150',
+                    align: 'center'
+                  },
+                  {
+                    title: '红色预警未处理',
+                    field: item.warnNoHandleCount,
+                    width: '150',
+                    align: 'center'
+                  },
+                  {
+                    title: '处理进度',
+                    field: item.processingProgress,
+                    width: '150',
+                    align: 'center'
+                  }
+                ]
+              })
+            })
+          }
+          this.tableData = this.handleQueryData(res.data.dataList)
           this.tableData.forEach(item => {
             if (
               item.fiRuleName !== '合计' &&
@@ -430,11 +574,17 @@ export default {
               item.fiRuleName !== '部门级' &&
               item.fiRuleName !== '财政级'
             ) {
+              item.fiRuleName = '          ' + item.fiRuleName
+            } else if (
+              item.fiRuleName === '系统级' ||
+              item.fiRuleName === '部门级' ||
+              item.fiRuleName === '财政级'
+            ) {
               item.fiRuleName = '     ' + item.fiRuleName
             }
           })
-          this.mainPagerConfig.total = res.data.length
-          this.tabStatusNumConfig['1'] = res.data.length
+          this.mainPagerConfig.total = this.tableData.length
+          this.tabStatusNumConfig['1'] = this.tableData.length
         } else {
           this.$message.error(res.message)
         }
@@ -500,7 +650,7 @@ export default {
     getChildrenNewData1(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || `${item.code}-${item.name}`
+        item.label = item.text
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }
@@ -510,8 +660,33 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getLeftTree(that.treeQueryparams).then(res => {
-        if (res.data && Array.isArray(res.data)) {
+      let params = {}
+      if (this.$store.state.userInfo.province.substring(2, 9) === '0000000') {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
+        }
+      } else if (
+        this.$store.state.userInfo.province.substring(4, 9) === '00000' && this.$store.state.userInfo.province.substring(2, 9) !== '0000000'
+      ) {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
+        }
+      } else {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
+        }
+      }
+      HttpModule.getLeftTree(params).then(res => {
+        if (res.rscode === '100000') {
           console.log(this.queryConfig)
           let treeResdata = that.getRegulationChildrenData(res.data)
           this.queryConfig[2].itemRender.options = treeResdata
@@ -523,7 +698,7 @@ export default {
     getRegulationChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || `${item.code}-${item.name}`
+        item.label = item.text
         if (item.children && item.children.length > 0) {
           that.getRegulationChildrenData(item.children)
           item.leaf = false
@@ -536,12 +711,17 @@ export default {
     }
   },
   created() {
+    // let date = new Date()
+    // let year = date.toLocaleDateString().split('/')[0]
+    // this.searchDataList.fiscalYear = year
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
+    this.params5 = this.$store.getters.getRegulationClass
+    this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    this.fiscalYear = this.$store.state.userInfo.year
     this.getLeftTreeData()
     this.getAgency()
   }
