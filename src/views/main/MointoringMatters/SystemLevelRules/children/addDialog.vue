@@ -1331,6 +1331,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       // let that = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1389,14 +1390,17 @@ export default {
           // })
           console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
         } else {
           let tempArr = []
           tempArr.push('root')
           let arr = []
           this.scope = this.getArr(this.treeData, arr)
           if (regulationType === '部门级') {
+            arr = []
             this.scope = this.getArr(this.treeData, arr)
           } else if (regulationType === '财政级') {
+            arr = []
             this.scope = this.getArr1(this.treeData, arr)
             console.log(this.scope)
           }
@@ -1412,6 +1416,7 @@ export default {
               dataArr.push(str)
             })
             this.$refs.rightTree.treeOptionFn().setCheckedKeys(dataArr)
+            this.defaultCheckedKeys = dataArr
           })
         }
       })

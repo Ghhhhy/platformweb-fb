@@ -1083,6 +1083,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       let self = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1141,6 +1142,7 @@ export default {
           //   tempArr.push(str)
           // })
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
           console.log(this.treeData, 'ddddd')
         }
       })
