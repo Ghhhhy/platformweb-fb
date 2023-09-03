@@ -601,7 +601,8 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -1321,6 +1322,9 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
+        item.code = item.id
+        item.guid = item.id
+        item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
@@ -1363,6 +1367,7 @@ export default {
               label: '全部',
               code: 'root',
               isleaf: '0',
+              disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',
               children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }

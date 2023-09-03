@@ -584,7 +584,8 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: disabled, treeProps: { nodeKey: 'code', label: 'name' ,children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -813,7 +814,7 @@ export default {
         }
       },
       disabledUpdate: false,
-      defaultCheckedKeys: ['610000000'],
+      defaultCheckedKeys: [],
       ruleDisabled: false,
       formItemsConfigMessage: proconf.formItemsConfigMessage,
       paymentLen: 0,
@@ -1298,7 +1299,8 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
-      let that = this
+      this.defaultCheckedKeys = []
+      // let that = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
       let param = {
@@ -1308,52 +1310,40 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      let regulationType = this.$parent.DetailData.regulationType
-      if (regulationType === 3) {
-        param.elementCode = 'AGENCY'
-        param.wheresql = 'and code like \'' + this.$parent.DetailData.agencyCode.substring(0, 3) + '%\''
-        if (this.isSx) {
-          param.wheresql = 'and province like \'' + this.$store.state.userInfo.orgcode + '%\''
-          if (this.$parent.dialogTitle !== '新增') {
-            param.province = this.$parent.DetailData.mofDivCode
-            param.wheresql = 'and province like \'' + this.$parent.DetailData.mofDivCode + '%\''
-          }
-        }
+      let regulationType = this.regulationType
+      if (regulationType === '部门级') {
+        param.elementCode = 'DEPARTMENT'
+        param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
-      if (this.isSx && regulationType === 2) {
+      if (regulationType === '财政级') {
         param.elementCode = 'AGENCY'
         param.wheresql = 'and province =' + this.$store.state.userInfo.province
-        if (this.$parent.dialogTitle !== '新增') {
-          param.province = this.$parent.DetailData.mofDivCode
-          param.wheresql = 'and province =' + this.$parent.DetailData.mofDivCode
-        }
       }
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))
-        if (this.isSx && (regulationType === 3 || regulationType === 2)) {
-          let treeResdata = this.getChildrenNewData(res.data)
+        // this.treeData = this.getChildrenNewData(res.data)
+        console.log(res.data, regulationType)
+        if (regulationType === '部门级' || regulationType === '财政级') {
+          // let treeResdata = this.getChildrenNewData1(res.data)
           const result = [
             {
               id: 'root',
               label: '全部',
               code: 'root',
               isleaf: '0',
-              name: '全部',
               disabled: true,
-              children: treeResdata
+              name: '全部',
+              children: this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          that.treeData = that.getChildrenNewData(res.data)
+          this.treeData = this.getChildrenNewData(res.data)
         }
-        // this.$nextTick(() => {
-        //   this.$refs.rightTree.treeOptionFn().setCheckedKeys(this.$parent.provinceList)
-        // })
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
           // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
-          this.$parent.DetailData.regulationScope.forEach(item => {
+          this.$parent.DetailData.regulationScope?.forEach(item => {
             let str = item.mofDivId.toString()
             // if (regulationType === '部门级') {
             //   str = item.mofDivId.toString()
@@ -1362,22 +1352,41 @@ export default {
             // }
             tempArr.push(str)
           })
-          if (this.isSx) {
-            this.$parent.DetailData.regulationScope.forEach(item => {
-              let str = ''
-              if (regulationType !== 1) {
-                str = item.agencyId.toString()
-              } else {
-                str = item.mofDivId.toString()
-              }
-              tempArr.push(str)
-            })
-          }
+
           // this.$parent.DetailData.regulationScope.forEach(item => {
           //   let str = item.mofDivCode.toString()
           //   tempArr.push(str)
           // })
+          console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
+        } else {
+          let tempArr = []
+          tempArr.push('root')
+          let arr = []
+          this.scope = this.getArr(this.treeData, arr)
+          if (regulationType === '部门级') {
+            arr = []
+            this.scope = this.getArr(this.treeData, arr)
+          } else if (regulationType === '财政级') {
+            arr = []
+            this.scope = this.getArr1(this.treeData, arr)
+            console.log(this.scope)
+          }
+          this.$nextTick(() => {
+            let dataArr = []
+            this.scope.forEach(item => {
+              let str = ''
+              if (regulationType !== '系统级') {
+                str = item.agencyId.toString()
+              } else {
+                str = item.mofDivId.toString()
+              }
+              dataArr.push(str)
+            })
+            this.$refs.rightTree.treeOptionFn().setCheckedKeys(dataArr)
+            this.defaultCheckedKeys = dataArr
+          })
         }
       })
     },
@@ -1652,7 +1661,6 @@ export default {
     console.log(this.$store.state.userInfo.orgCode)
     console.log(this.$parent.DetailData.regulationType)
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-    this.getWhereTree()
     if (this.$parent.DetailData.regulationType === 1) {
       this.regulationType = '系统级'
     } else if (this.$parent.DetailData.regulationType === 2) {
@@ -1660,6 +1668,7 @@ export default {
     } else if (this.$parent.DetailData.regulationType === 3) {
       this.regulationType = '部门级'
     }
+    this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
       this.getTableData()
