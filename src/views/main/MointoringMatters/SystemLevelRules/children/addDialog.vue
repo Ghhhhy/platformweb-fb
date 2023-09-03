@@ -1431,7 +1431,8 @@ export default {
         if (item.isleaf) {
           let obj = {
             mofDivCode: '',
-            agencyCode: ''
+            agencyCode: '',
+            mofDivId: item.id
           }
           obj.agencyId = item.code
           arr.push(obj)
@@ -1447,7 +1448,8 @@ export default {
         if (item.isleaf) {
           let obj = {
             mofDivCode: '',
-            agencyCode: ''
+            agencyCode: '',
+            mofDivId: item.id
           }
           obj.agencyId = item.code
           obj.agencyCode = item.name.split('-')[0]
