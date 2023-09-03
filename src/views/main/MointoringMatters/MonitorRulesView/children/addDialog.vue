@@ -1390,6 +1390,41 @@ export default {
         }
       })
     },
+    getArr(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: '',
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.code
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr(item.children, arr)
+        }
+      })
+      return arr
+    },
+    getArr1(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: '',
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.code
+          obj.agencyCode = item.name.split('-')[0]
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr1(item.children, arr)
+        }
+      })
+      return arr
+    },
     // 保存新增的计划信息
     doInsert() {
       // // 校验判断
