@@ -1343,11 +1343,11 @@ export default {
       }
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
-        param.elementCode = 'DEPARTMENT'
+        param.elementCode = 'AGENCY'
         param.wheresql = 'and province =' + this.$store.state.userInfo.province
       }
       HttpModule.getTreewhere(param).then(res => {
