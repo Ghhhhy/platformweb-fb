@@ -234,10 +234,9 @@ export let proconf = {
     {
       title: '规则类型',
       field: 'fiRuleTypeCode',
-      'width': 180,
+      width: '180',
       align: 'left',
-      formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
         options: [
@@ -260,10 +259,10 @@ export let proconf = {
         ],
         props: {
           config: {
-            valueKeys: ['value', 'label', 'value'],
-            format: '{name}',
+            valueKeys: ['label', 'value'],
+            format: '{label}',
             treeProps: {
-              labelFormat: '{value}-{label}', // {code}-{name}
+              labelFormat: '{label}', // {code}-{name}
               nodeKey: 'value',
               label: 'label',
               children: 'children'
@@ -369,7 +368,8 @@ export let proconf = {
   funchighQueryData: {
     functionType: '',
     functionName: '',
-    functionParameter: ''
+    functionParameter: '',
+    fiRuleTypeCode: ''
   },
   mountTableColumnsConfig: [
     {
