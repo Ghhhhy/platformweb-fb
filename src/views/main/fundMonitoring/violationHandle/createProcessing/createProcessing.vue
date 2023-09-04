@@ -8,6 +8,7 @@
           ref="tabPanel"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
+          v-bind="projectAttrs"
           @onQueryConditionsClick="onQueryConditionsClick"
           @btnClick="onTabPanelBtnClick"
         />
@@ -128,6 +129,13 @@ export default {
         customExportConfig: {
           fileName: this.menuName
         }
+      }
+    },
+    projectAttrs() {
+      if (this.isXMProject) {
+        return { tabStatusNumConfig: this.tabStatusNumConfig }
+      } else {
+        return {}
       }
     }
   },
@@ -1209,7 +1217,7 @@ export default {
     // this.queryTableDatas()
     this.getViolationType()
     this.getAgency()
-    // this.getCount()
+    this.getCount()
   }
 }
 </script>
