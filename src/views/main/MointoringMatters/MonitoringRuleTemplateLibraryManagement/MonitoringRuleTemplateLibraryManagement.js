@@ -60,6 +60,13 @@ export let proconf = {
       }
     },
     {
+      title: '规则函数名称',
+      field: 'functionName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
       title: '事项名称',
       field: 'declareName',
       visible: !isXMProject(),
@@ -107,13 +114,6 @@ export let proconf = {
       title: '业务模块',
       field: 'businessModuleName',
       sortable: false,
-      align: 'left'
-    },
-    {
-      title: '模板函数',
-      field: 'functionName',
-      sortable: false,
-      filters: false,
       align: 'left'
     },
     {
