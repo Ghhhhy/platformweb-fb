@@ -10,7 +10,8 @@ const budgetImpColumns = [
     align: 'center',
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-    }
+    },
+    exportFormatter: true
   },
   {
     title: '业务处室',
@@ -782,7 +783,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '预算单位',
@@ -2146,7 +2148,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '预算单位',
@@ -2157,7 +2160,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '业务数据单号',
