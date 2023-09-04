@@ -188,8 +188,12 @@ const budgetImpColumns = [
     filters: false,
     align: 'center',
     formatter({ row }) {
-      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
-    }
+      if (row.proCode && row.proName) {
+        return `${row.proCode}-${row.proName}`
+      }
+      return `${row.proName}`
+    },
+    exportFormatter: true
   }
 ]
 // 预算管理表头(只用于专项监督0207)
@@ -1110,7 +1114,14 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
-      }
+      },
+      formatter({ row }) {
+        if (row.proCode && row.proName) {
+          return `${row.proCode}-${row.proName}`
+        }
+        return `${row.proName}`
+      },
+      exportFormatter: true
     },
     {
       title: '收支类别',
@@ -1797,7 +1808,14 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
-      }
+      },
+      formatter({ row }) {
+        if (row.proCode && row.proName) {
+          return `${row.proCode}-${row.proName}`
+        }
+        return `${row.proName}`
+      },
+      exportFormatter: true
     },
     {
       title: '收支类别',
