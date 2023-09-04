@@ -30,6 +30,7 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :table-global-config="tableGlobalConfig"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -118,6 +119,11 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
+      tableGlobalConfig: {
+        customExportConfig: {
+          addReportTitleColumn: true
+        }
+      },
       tableData: [],
       obj: {},
       calculateConstraintConfig: {
