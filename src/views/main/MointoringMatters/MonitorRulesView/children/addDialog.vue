@@ -153,12 +153,14 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控规则名称</div>
-                      <el-input
-                        v-model="monitorRuleName"
-                        :disabled="disabled"
-                        placeholder="请输入监控规则名称"
-                        style="width:45%"
-                      />
+                      <el-tooltip class="item" effect="dark" :content="monitorRuleName" placement="top-start">
+                        <el-input
+                          v-model="monitorRuleName"
+                          :disabled="disabled"
+                          placeholder="请输入监控规则名称"
+                          style="width:45%"
+                        />
+                      </el-tooltip>
                     </el-row>
                   </el-main>
                 </el-container>
