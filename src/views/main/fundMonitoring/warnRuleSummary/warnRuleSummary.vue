@@ -73,6 +73,16 @@ export default {
   components: {
     DetailDialog
   },
+  computed: {
+    tableGlobalConfig() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        addReportTitleColumn: true,
+        fileName: this.menuName,
+        dataType
+      }
+    }
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -119,11 +129,6 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
-      tableGlobalConfig: {
-        customExportConfig: {
-          addReportTitleColumn: true
-        }
-      },
       tableData: [],
       obj: {},
       calculateConstraintConfig: {
