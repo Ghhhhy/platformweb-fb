@@ -962,6 +962,8 @@ export default {
         this.handleType = 3
       } else if (val === 4) {
         this.handleType = 4
+      } else if (val === 5) {
+        this.handleType = 5
       }
     },
     choosehandleType(val) {
@@ -973,6 +975,8 @@ export default {
         this.warningLevel = 3
       } else if (val === 4) {
         this.warningLevel = 4
+      } else if (val === 5) {
+        this.warningLevel = 5
       }
     },
     chooseTriggerClass(val) {
