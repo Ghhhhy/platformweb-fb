@@ -246,7 +246,7 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
+      this.warningLevel = obj.warnLevel
       this.handleType = obj.handleType
       this.isEnable = obj.isEnable
       this.regulationName = obj.fiRuleTypeCodeName
@@ -569,7 +569,16 @@ export default {
       const params = {
         menuType: 1,
         regulationType: regulationType,
-        id: this.condition.agency_code
+        id: this.condition.agency_code,
+        warningLevel: this.warningLevel, // 预警级别
+        'handleType': this.handleType, // 处理方式
+        'businessModelCode': '', // 业务模块
+        'businessFeaturesCode': '', // 业务功能
+        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        'isEnable': this.isEnable,
+        regulationName: this.regulationName,
+        regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        code: this.condition.agency_code
       }
       HttpModule.queryTableDatasCount(params).then(res => {
         console.log('res.code', res.code)
@@ -602,7 +611,7 @@ export default {
         'businessFeaturesCode': '', // 业务功能
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationName: this.regulationName,
         fiRuleTypeCodeName: this.fiRuleTypeCodeName,
         regulationClass: this.regulationClass,
         id: this.condition.agency_code,
