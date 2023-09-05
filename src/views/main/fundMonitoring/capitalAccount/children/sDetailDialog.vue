@@ -228,8 +228,8 @@ export default {
       params.sSpeTypeName = this.condition.sSpeTypeName ? this.condition.sSpeTypeName[0] : ''
       params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
       // params.xjCorBgtDocNo = this.condition.xjCorBgtDocNo ? this.condition.xjCorBgtDocNo[0] : ''
-      console.log(params, 'fpTime')
-      if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
+      if (this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH') {
+        this.drillingParam.fpTime = params.fpTime ? params.fpTime : this.drillingParam.fpTime
         params = { ...params, ...this.drillingParam }
       }
       this.$parent.tableLoading = true
@@ -379,6 +379,42 @@ export default {
         }
         this.queryTableDatas()
       }
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
+    isConfigTable() {
+      console.log(this.sDetailType, 'sDetailType')
+      switch (this.sDetailType) {
+        case 'zxjdzbmx_fzjfp':// 第三层 预算金额 分配金额
+          this.loadConfig('BsTable', 'Table301')
+          this.loadConfig('BsQuery', 'Query301')
+          break
+        case 'zxjdzcmx_fzj':// 第三层 分资金 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+        case 'zxjdzcmx_fdq':// 第三层 分地区 支付金额
+          this.loadConfig('BsTable', 'Table302')
+          this.loadConfig('BsQuery', 'Query302')
+          break
+        case 'zxjdzbmx_fzjfp_xj':
+          this.loadConfig('BsTable', 'Table303')
+          this.loadConfig('BsQuery', 'Query303')
+          break
+        case 'zdzjzbmx_fzjfp':
+          this.loadConfig('BsTable', 'Table301')
+          this.loadConfig('BsQuery', 'Query301')
+          break
+      }
+      this.queryTableDatas()
     },
     showInfoForVisible() {
       switch (this.sDetailType) {

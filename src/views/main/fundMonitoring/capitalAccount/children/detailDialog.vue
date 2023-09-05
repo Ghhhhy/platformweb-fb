@@ -95,6 +95,7 @@ export default {
           amount_yszyap: 0,
           amount_zczyap: 0
         },
+        align: 'center',
         combinedType: ['switchTotal'],
         showFooter: true
       },
@@ -646,13 +647,13 @@ export default {
     }
   },
   mounted() {
-    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
-      this.ConfigTable()
-    }
     if (this.$store.getters.isSx) {
       this.showInfoSx()
     } else {
       this.showInfo()
+    }
+    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
+      this.ConfigTable()
     }
   },
   watch: {},
