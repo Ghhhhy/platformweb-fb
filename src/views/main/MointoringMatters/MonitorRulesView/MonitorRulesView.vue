@@ -381,7 +381,7 @@ export default {
       this.regulationModelName = obj.regulationModelName
       this.isEnable = obj.isEnable
       this.triggerClass = obj.triggerClass
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
+      this.fiRuleTypeCode = obj.fiRuleTypeCode_name
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -777,6 +777,8 @@ export default {
         regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         isEnable: this.isEnable,
         triggerClass: this.triggerClass,
+        isDir: this.isDir,
+        isSpeType: this.isSpeType,
         regulationName: this.regulationName,
         regulationClass: this.regulationClass,
         regulationModelName: this.regulationModelName,
