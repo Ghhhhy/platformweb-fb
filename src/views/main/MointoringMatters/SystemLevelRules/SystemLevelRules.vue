@@ -249,8 +249,7 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.isEnable = obj.isEnable
-      this.warningLevel = obj.warningLevel
-      this.regulationName = obj.regulationName
+      this.regulationName = obj.fiRuleTypeCodeName
       this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
     },
@@ -604,6 +603,7 @@ export default {
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
         'regulationName': this.regulationName,
+        fiRuleTypeCodeName: this.fiRuleTypeCodeName,
         regulationClass: this.regulationClass,
         id: this.condition.agency_code,
         menuType: 1

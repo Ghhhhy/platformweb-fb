@@ -23,6 +23,14 @@ export const state = { // 实时监听state值的变化(最新状态)
   projectList: []// 项目列表
 }
 export const getters = {
+  dict() { // 预警级别option
+    return state.warnInfo.warnLevelOptions.map(item => {
+      return {
+        ...item,
+        value: String(item.value)
+      }
+    })
+  },
   isFuJian() { // 判断是不是福建项目
     const province = state.userInfo.province
     return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目

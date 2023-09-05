@@ -25,6 +25,8 @@
         :default-expanded-keys="expandedkeys"
         :default-checked-keys="checkedkeys"
         :filter-node-method="filterNode"
+        v-bind="$attrs"
+        v-on="$listeners"
         @check="nodecheckmethod"
         @node-click="clickmethod"
         @check-change="checkChange"
