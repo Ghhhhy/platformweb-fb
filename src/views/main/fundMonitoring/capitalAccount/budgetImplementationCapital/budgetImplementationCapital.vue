@@ -465,7 +465,13 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, proCode, column) {
+    handleDetail(reportCode, proCode, column, row) {
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
         switch (column) {
@@ -690,12 +696,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key)
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = '支出明细'
           break
       }
@@ -771,6 +777,12 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      }
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       // if (['amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXjfp'].includes(column.property)) {
