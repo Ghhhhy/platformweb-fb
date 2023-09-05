@@ -1225,7 +1225,7 @@ export default {
           }
         })
         let createProcessingAxios = 'queryWarning'
-        if (this.$route.name.indexOf('CreateProcessing') > -1) { // 违规单生成的时候  需要更换切口 违规单查询（全辖查询）不变
+        if (this.$route.name.indexOf('CreateProcessing') > -1 || this.$route.name.indexOf('QueryProcessingBySpecial') > -1) { // 违规单生成的时候  需要更换切口 违规单查询（全辖查询）不变
           createProcessingAxios = 'queryDetailDatas'
         }
         HttpModule[createProcessingAxios](params).then((res) => {
