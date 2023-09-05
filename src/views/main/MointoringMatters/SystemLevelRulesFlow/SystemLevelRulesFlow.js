@@ -51,31 +51,31 @@ export let proconf = {
     ]
   },
   highQueryConfig: [
-    {
-      title: '监控主题',
-      field: 'regulationClass',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        'props': {
-          'config': {
-            'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
-              'children': 'children'
-            },
-            'placeholder': '监控主题',
-            'multiple': false,
-            'readonly': true,
-            'isleaf': false
-          }
-        }
-      }
-    },
+    // {
+    //   title: '监控主题',
+    //   field: 'regulationClass',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeTree',
+    //   itemRender: {
+    //     name: '$vxeTree',
+    //     options: [],
+    //     'props': {
+    //       'config': {
+    //         'treeProps': {
+    //           'nodeKey': 'id',
+    //           'label': 'label',
+    //           'children': 'children'
+    //         },
+    //         'placeholder': '监控主题',
+    //         'multiple': false,
+    //         'readonly': true,
+    //         'isleaf': false
+    //       }
+    //     }
+    //   }
+    // },
     {
       title: '监控规则名称',
       field: 'regulationName',
@@ -93,7 +93,7 @@ export let proconf = {
     },
     {
       title: '预警级别',
-      field: 'warnLevel',
+      field: 'warningLevel',
       align: 'center',
       width: 180,
       itemRender: {
@@ -105,7 +105,9 @@ export let proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: {
+          placeholder: '预警级别'
+        }
       },
       name: '$vxeSelect'
     },
