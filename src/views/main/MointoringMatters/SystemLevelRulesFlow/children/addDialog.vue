@@ -1083,6 +1083,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       let self = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1096,7 +1097,7 @@ export default {
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
       // let regulationType = this.$parent.DetailData.regulationType
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
@@ -1141,6 +1142,7 @@ export default {
           //   tempArr.push(str)
           // })
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
           console.log(this.treeData, 'ddddd')
         }
       })
@@ -1164,7 +1166,7 @@ export default {
       let param = { operate: operate, menuName: this.$store.state.curNavModule.name, regulationCodes: [this.$parent.DetailData.regulationCode], ruleFlowOpinion: this.ruleFlowOpinion }
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           console.log(this.paymentLen)
           this.formItemsConfigMessage.splice(1, this.paymentLen)
           this.paymentLen = 0

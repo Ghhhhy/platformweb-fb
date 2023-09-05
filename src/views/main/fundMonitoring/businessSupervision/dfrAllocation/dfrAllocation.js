@@ -41,6 +41,7 @@ const proconf = {
       globalConfig: {
         // 全局配置
         seq: true // 序号列
+        // checkType: 'checkbox'
       }
     },
     tableColumnsConfig: [
@@ -59,10 +60,10 @@ const proconf = {
         title: '专项资金编码',
         field: 'speTypeCode',
         width: 200,
-        treeNode: true,
+        // treeNode: true,
         sortable: false,
         filters: false,
-        cellRender: { name: '$vxeIcon' },
+        // cellRender: { name: '$vxeIcon' },
         align: 'center'
       },
       {
@@ -77,27 +78,45 @@ const proconf = {
         title: '预算总金额',
         field: 'budgetSum',
         width: 150,
-        sortable: false,
+        sortable: true,
         filters: false,
         align: 'center',
+        combinedType: [
+          'average',
+          'subTotal',
+          'total',
+          'totalAll'
+        ],
         cellRender: { name: '$vxeMoney' }
       },
       {
         title: '已下达金额',
         field: 'xdamount',
         width: 150,
-        sortable: false,
+        sortable: true,
         filters: false,
         align: 'center',
+        combinedType: [
+          'average',
+          'subTotal',
+          'total',
+          'totalAll'
+        ],
         cellRender: { name: '$vxeMoney' }
       },
       {
         title: '已支付金额',
         field: 'payAppAmt',
         width: 150,
-        sortable: false,
+        sortable: true,
         filters: false,
         align: 'center',
+        combinedType: [
+          'average',
+          'subTotal',
+          'total',
+          'totalAll'
+        ],
         cellRender: { name: '$vxeMoney' }
       }
     ],

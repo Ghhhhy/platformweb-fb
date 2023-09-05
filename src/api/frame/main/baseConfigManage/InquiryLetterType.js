@@ -45,5 +45,8 @@ export default {
   },
   getTreeAgency(params) {
     return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
+  },
+  querySum(params) {
+    return post('dfr-monitor-service/dfr/supervision/sum', params)
   }
 }

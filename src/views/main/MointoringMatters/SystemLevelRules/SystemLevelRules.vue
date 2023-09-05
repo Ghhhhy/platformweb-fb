@@ -341,6 +341,15 @@ export default {
         }
       })
     },
+    copyData(val) {
+      HttpModule.getDetailData(val).then(res => {
+        if (res.code === '000000') {
+          this.DetailData = res.data
+          this.dialogVisible = true
+          this.dialogTitle = '复制'
+        }
+      })
+    },
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
@@ -410,6 +419,15 @@ export default {
           }
           this.formDatas = datas2[0].ruleElement
           this.changeData(datas2[0].regulationCode)
+          break
+        case 'copy':
+          let datas4 = this.$refs.mainTableRef.getSelectionData()
+          if (datas4.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.formDatas = datas4[0].ruleElement
+          this.copyData(datas4[0].regulationCode)
           break
         // 删除
         case 'del':
@@ -600,6 +618,23 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          // TODO
+          // if (this.$store.getters.isSx) {
+          //   this.tableData.forEach(item => {
+          //     if (item.warningLevel === 1) {
+          //       item.warningLevel = '<span style="color:#BBBB00">黄色预警</span>'
+          //     } else if (item.warningLevel === 2) {
+          //       item.warningLevel = '<span style="color:orange">橙色预警</span>'
+          //     } else if (item.warningLevel === 3) {
+          //       item.warningLevel = '<span style="color:red">红色预警</span>'
+          //     } else if (item.warningLevel === 5) {
+          //       item.warningLevel = '<span style="color:blue">蓝色预警</span>'
+          //     } else if (item.warningLevel === 4) {
+          //       item.warningLevel = '<span style="color:gray">灰色预警</span>'
+          //     }
+          //   })
+          // }
+
           this.mainPagerConfig.total = res.data.totalCount
           this.queryTableDatasCount()
         } else {

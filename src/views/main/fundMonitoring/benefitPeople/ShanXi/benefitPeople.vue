@@ -1,11 +1,11 @@
 <!--支付数据规范性检查-->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout>
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+      <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -13,81 +13,88 @@
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <template v-slot:mainForm>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig1"
-            :query-form-data="searchDataList1"
-            @onSearchClick="search1"
-          />
+        <div style="height: 100%; overflow-y: hidden;">
+          <BsSplitPane
+            split="horizontal"
+            :min-percent="0"
+          >
+            <template slot="paneL">
+              <div v-show="isShowQueryConditions" class="main-query">
+                <BsQuery
+                  ref="queryFrom"
+                  :query-form-item-config="queryConfig"
+                  :query-form-data="searchDataList"
+                  @onSearchClick="search"
+                />
+              </div>
+              <BsTable
+                ref="mainTableRef"
+                v-loading="tableLoading1"
+                style="height: calc(100% - 80px)"
+                :footer-config="tableFooterConfig"
+                :table-columns-config="tableColumnsConfig"
+                :table-data="tableData"
+                :table-config="tableConfig"
+                :pager-config="mainPagerConfig"
+                :toolbar-config="tableToolbarConfig"
+                @checkboxChange="checkboxChange"
+                @checkboxAll="checkboxChange"
+                @onToolbarBtnClick="onToolbarBtnClick"
+                @ajaxData="ajaxTableData"
+                @cellClick="cellClick"
+              >
+                <template v-slot:toolbarSlots>
+                  <div class="table-toolbar-left">
+                    <div class="table-toolbar-left-title left-title-clear-float">
+                      <span class="fn-inline">惠民支付明细数据</span>
+                      <i class="fn-inline"></i>
+                    </div>
+                    <div v-if="matchHoot">
+                      <span>匹配条件：</span>
+                      <el-checkbox v-model="isCorBgtDocNo" @change="changes">指标文号</el-checkbox>
+                      <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
+                    </div>
+                  </div>
+                </template>
+              </BsTable>
+            </template>
+            <template slot="paneR">
+              <div v-show="isShowQueryConditions" class="main-query" style="position: relative; z-index: 10">
+                <BsQuery
+                  ref="queryFrom"
+                  :query-form-item-config="queryConfig1"
+                  :query-form-data="searchDataList1"
+                  @onSearchClick="search1"
+                />
+              </div>
+              <BsTable
+                ref="mainTableRef1"
+                v-loading="tableLoading2"
+                style="height: calc(100% - 80px); position: relative; z-index: 10"
+                :footer-config="tableFooterConfig1"
+                :table-columns-config="tableColumnsConfig1"
+                :table-data="tableData1"
+                :table-config="tableConfig1"
+                :pager-config="mainPagerConfig1"
+                :toolbar-config="tableToolbarConfig1"
+                @checkboxChange="checkboxChange1"
+                @checkboxAll="checkboxChange1"
+                @onToolbarBtnClick="onToolbarBtnClick1"
+                @ajaxData="ajaxTableData1"
+                @cellClick="cellClick"
+              >
+                <template v-slot:toolbarSlots>
+                  <div class="table-toolbar-left">
+                    <div class="table-toolbar-left-title">
+                      <span class="fn-inline">指标信息</span>
+                      <i class="fn-inline"></i>
+                    </div>
+                  </div>
+                </template>
+              </BsTable>
+            </template>
+          </BsSplitPane>
         </div>
-        <BsTable
-          ref="mainTableRef1"
-          v-loading="tableLoading2"
-          style="height: 40%"
-          :footer-config="tableFooterConfig1"
-          :table-columns-config="tableColumnsConfig1"
-          :table-global-config="{ customExportConfig: { fileName: '支付凭证信息' } }"
-          :table-data="tableData1"
-          :table-config="tableConfig1"
-          :pager-config="mainPagerConfig1"
-          :toolbar-config="tableToolbarConfig1"
-          @checkboxChange="checkboxChange1"
-          @checkboxAll="checkboxChange1"
-          @onToolbarBtnClick="onToolbarBtnClick1"
-          @ajaxData="ajaxTableData1"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title">
-                <span class="fn-inline">支付凭证信息</span>
-                <i class="fn-inline"></i>
-              </div>
-            </div>
-          </template>
-        </BsTable>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 40%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-global-config="{ customExportConfig: { fileName: '惠民支付明细数据' } }"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left" style="display: flex; align-items: center">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
-                <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
-              </div>
-            </div>
-          </template>
-        </BsTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
@@ -98,34 +105,27 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
-    <AddDialog
-      v-if="addDialogVisible"
-      :title="dialogTitle"
-      :select-data="selectData"
-    />
   </div>
 </template>
 
 <script>
 import { proconf } from './benefitPeople'
-import AddDialog from './children/AddDialog'
 import ImportModel from '@/components/Table/import/import.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
-
-import { readLocalFile } from '@/utils/readLocalFile'
-import { checkRscode } from '@/utils/checkRscode'
-import { downloadByUrl } from '@/utils/download'
+import { Export } from '@/components/Table/export/export/export'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
+import { downloadByUrl } from '@/utils/download'
+import { readLocalFile } from '@/utils/readLocalFile'
+import { checkRscode } from '@/utils/checkRscode'
 export default {
   components: {
-    ImportModel,
-    AddDialog
+    ImportModel
     // AddDialog
   },
   computed: {
     wheresql() {
-      return `and name like '%${this.treeFilterText}%'`
+      return this.treeFilterText.trim() ? `and name like '%${this.treeFilterText}%'` : ''
     }
   },
   watch: {
@@ -138,17 +138,15 @@ export default {
   },
   data() {
     return {
-      selectData: {},
-      addDialogVisible: false,
       // 左侧树过滤值
       treeFilterText: '',
       matchHoot: true,
-      isProName: false,
+      isCorBgtDocNo: false,
       isAmount: false,
       importModalVisible: false, // 导入弹框
       fileConfig: {
-        fileName: '',
         file: null,
+        fileName: '',
         maxSize: 1024 * 1024 * 10
       }, // 导入文件配置
       row1: {},
@@ -216,6 +214,8 @@ export default {
         code: '1',
         curValue: '1'
       },
+      bgtId: '',
+      realBgtIds: [],
       // table 相关配置
       tableLoading: false,
       tableLoading1: false,
@@ -257,19 +257,18 @@ export default {
       mainPagerConfig: {
         total: 0,
         currentPage: 1,
-        pageSize: 50
+        pageSize: 200
       },
       mainPagerConfig1: {
         total: 0,
         currentPage: 1,
-        pageSize: 50
+        pageSize: 200
       },
       tableConfig: {
         globalConfig: {
           checkType: 'checkbox',
-          seq: true,
-          filters: true,
-          sortable: false
+          seq: false,
+          cellClickCheck: true
         }
       },
       tableConfig1: {
@@ -284,14 +283,18 @@ export default {
       isHook: '0',
       proCode1: '',
       proCode: '',
+      agencyCode: '',
+      corBgtDocNo: '',
+      // 匹配指标文号
+      corBgtDocNoMatch: '',
       payCertNo: '',
       proName: '',
       proName1: '',
       agencyName: '',
-      agencyCodeList: [],
       corBgtDocNoName: '',
       useDes: '',
       dtos: [],
+      bgtIds: [],
       amount: '',
       mofdivName: '',
       payAcctNameStr: '',
@@ -328,7 +331,8 @@ export default {
       DetailData: {},
       regulationclass: '',
       firulename: '',
-      payAmt: '',
+      // 匹配金额
+      amtMatch: '',
       mofdivcode: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -366,7 +370,7 @@ export default {
         return
       }
       checkRscode(
-        await HttpModule.importPersonAndCompany(this.fileConfig)
+        await HttpModule.importBenefit(this.fileConfig)
       )
       this.$message.success('导入成功')
       this.dtos = []
@@ -394,11 +398,37 @@ export default {
         }
       }
       const { localFileName, downloadFileName } = fileMap[this.fileConfig.fileType] || fileMap[1]
-      console.log(window.location)
       downloadByUrl(
-        `./static/files/${localFileName}`,
+        `/static/files/${localFileName}`,
         downloadFileName
       )
+    },
+    downLoadImportTemplates() {
+      // 下载导入模版
+      const tableColumnsConfig = this.tableColumnsConfig
+      console.log(tableColumnsConfig)
+      // const unitLabel = this.toolbarConfigInCopy.moneyUnitOptions?.find(item => item.value === this.moneyUnit)?.label
+      this.$Export = new Export({ unit: '元' })
+      this.$Export.exportExcel({
+        saveType: '.xlsx',
+        fileName: '导入模版', // 文件名
+        dataType: 'fullData',
+        isExportOnlyViewTitle: true, // 是否只导出数据源表头字段，
+        columns: tableColumnsConfig, // 表头配置
+        index: true, // 是否添加序号
+        ignoreColsTypes: [
+          'dragSort',
+          // 'seq',
+          'checkbox',
+          'radio',
+          'optionRow',
+          'expand',
+          'attach',
+          'ach',
+          'list',
+          'attachlist'
+        ]
+      }, this)
     },
     triggerImportOption(config = {}) {
       // 触发导入
@@ -410,17 +440,17 @@ export default {
     changes() {
       let datas1 = this.$refs.mainTableRef1.getSelectionData()
       if (datas1.length !== 1 && datas1.length !== 0) {
-        this.$message.info('请选择一条支付凭证信息进行匹配')
+        this.$message.info('请选择一条指标信息进行匹配')
       }
-      if (this.isProName) {
-        this.proName = datas1[0]?.proName
+      if (this.isCorBgtDocNo) {
+        this.corBgtDocNoMatch = datas1[0].corBgtDocNo
       } else {
-        this.proName = ''
+        this.corBgtDocNoMatch = ''
       }
       if (this.isAmount) {
-        this.payAmt = datas1[0]?.payAmt
+        this.amtMatch = datas1[0].amount - datas1[0].hookAmt
       } else {
-        this.payAmt = ''
+        this.amtMatch = ''
       }
       this.queryTableDatas()
     },
@@ -441,7 +471,6 @@ export default {
           this.payAmt = ''
           this.mofdivName = ''
           this.agencyName = ''
-          this.agencyCodeList = []
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
@@ -456,18 +485,10 @@ export default {
           this.payAmt = ''
           this.mofdivName = ''
           this.agencyName = ''
-          this.agencyCodeList = []
           this.corBgtDocNoName = ''
           this.useDes = ''
           this.dtos = []
           break
-      }
-      console.log(obj.code, obj.code === '1')
-      this.tableConfig.globalConfig = {
-        checkType: obj.code === '1' ? 'checkbox' : false,
-        seq: true,
-        filters: true,
-        sortable: false
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
@@ -477,17 +498,19 @@ export default {
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     search(obj) {
-      this.payCertNo = obj.payCertNo
+      this.bgtId = obj.bgtId
       this.amount = obj.amount
+      this.corBgtDocNo = obj.corBgtDocNo
+      this.proName = obj.proName
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
     search1(obj) {
-      this.payCertNo = obj.payCertNo
+      this.bgtId = obj.bgtId
       this.proName = obj.proName
-      this.corBgtDocNoName = obj.corBgtDocNoName
-      this.useDes = obj.useDes
-      this.agencyCodeList = obj.agencyName_code__multiple
+      this.agencyCode = obj.agencyCode
+      this.corBgtDocNo = obj.corBgtDocNo
+      this.amount = obj.amount
       this.queryTableDatas1()
       // this.queryTableDatasCount()
     },
@@ -555,9 +578,17 @@ export default {
       switch (obj.code) {
         case '1':
           this.isHook = '0'
+          this.bgtIds = []
+          this.realBgtIds = []
+          this.corBgtDocNoMatch = ''
+          this.amtMatch = ''
           break
         case '2':
           this.isHook = '1'
+          this.bgtIds = []
+          this.realBgtIds = []
+          this.corBgtDocNoMatch = ''
+          this.amtMatch = ''
           break
       }
       this.queryTableDatas()
@@ -568,9 +599,9 @@ export default {
         case '1':
           break
         case '2':
-          this.dtos.length = checked.selection.length
-          for (let i = 0; i < this.dtos.length; i++) {
-            this.$set(this.dtos, i, checked.selection[i].payCertId)
+          this.realBgtIds.length = checked.selection.length
+          for (let i = 0; i < this.realBgtIds.length; i++) {
+            this.$set(this.realBgtIds, i, checked.selection[i].realBgtId)
           }
           this.queryTableDatas1()
           break
@@ -580,48 +611,57 @@ export default {
       switch (this.toolBarStatusSelect.code) {
         case '1':
           if (checked.selection.length !== 1 && checked.selection.length !== 0) {
-            this.$message.info('请选择一条支付凭证信息进行匹配')
+            this.$message.info('请选择一条指标信息进行匹配或挂接！')
             break
           }
-          if (this.isProName && this.isAmount) {
-            this.proName = checked.selection[0]?.proName
-            this.amount = checked.selection[0]?.amount
+          if (this.isCorBgtDocNo && this.isAmount) {
+            this.corBgtDocNoMatch = checked.selection[0].corBgtDocNo
+            this.amtMatch = checked.selection[0].amount - checked.selection[0].hookAmt
             this.queryTableDatas()
             break
           }
-          if (this.isProName) {
-            this.proName = checked.selection[0]?.proName
+          if (this.isCorBgtDocNo) {
+            this.corBgtDocNoMatch = checked.selection[0].corBgtDocNo
             this.queryTableDatas()
             break
           }
           if (this.isAmount) {
-            this.amount = checked.selection[0]?.amount
+            this.amtMatch = checked.selection[0].amount - checked.selection[0].hookAmt
             this.queryTableDatas()
             break
           }
           break
         case '2':
-          this.dtos.length = checked.selection.length
-          for (let i = 0; i < this.dtos.length; i++) {
-            this.$set(this.dtos, i, checked.selection[i].payCertId)
+          this.bgtIds.length = checked.selection.length
+          for (let i = 0; i < this.bgtIds.length; i++) {
+            this.$set(this.bgtIds, i, checked.selection[i].bgtId)
           }
           this.queryTableDatas()
           break
       }
     },
     // 切换操作按钮
-    async operationToolbarButtonClickEvent(obj, context, e) {
+    operationToolbarButtonClickEvent(obj, context, e) {
       let datas1 = this.$refs.mainTableRef.getSelectionData()
       let datas2 = this.$refs.mainTableRef1.getSelectionData()
       switch (obj.code) {
         // 挂接
         case 'hook_set':
-          if (datas1.length !== 1) {
-            this.$message.warning('请选择一条惠民支付明细数据')
+          if (datas1.length < 1) {
+            this.$message.warning('请至少选择一条惠民支付明细数据')
             return
           }
           if (datas2.length !== 1) {
-            this.$message.warning('请选择一条支付凭证信息数据')
+            this.$message.warning('请选择一条指标数据')
+            return
+          }
+          let curAmt = datas2[0].amount - datas2[0].hookAmt
+          let hookingAmt = 0.0
+          datas1.forEach(p => {
+            hookingAmt = p.amount + hookingAmt
+          })
+          if (hookingAmt > curAmt) {
+            this.$message.warning('挂接的总金额大于指标未挂接金额，请重新选择！')
             return
           }
           this.hook(datas1, datas2[0])
@@ -630,37 +670,13 @@ export default {
         case 'peo_read':
           this.read()
           break
-        // 编辑
-        case 'update':
-          if (datas1.length !== 1) {
-            this.$message.warning('请选择一条惠民支付明细数据')
-            return
-          }
-          this.selectData = datas1[0]
-          this.updateImport()
-          break
-        // 删除
-        case 'delete':
-          if (this.$refs.mainTableRef.getSelectionData().length === 0) {
-            this.$message.warning('请选择需要删除的惠民支付明细数据')
-            return
-          }
-          this.$confirm('确认删除！', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            let datas = this.$refs.mainTableRef.getSelectionData()
-            this.delete(datas)
-          })
-          break
         // 取消挂接
         case 'hook_not':
-          if (datas2.length === 0) {
-            this.$message.warning('请选择支付凭证数据')
+          if (datas1.length === 0) {
+            this.$message.warning('请至少选择一条利民数据')
             return
           }
-          this.notHook(datas2)
+          this.notHook(datas1)
           break
         case 'person-import':
         case 'company-import':
@@ -675,59 +691,52 @@ export default {
           break
       }
     },
-    delete(datas) {
-      HttpModule.delete(datas).then(res => {
+    importSuccessCallback(res) {
+      console.log('res:', res)
+      HttpModule.importBenefit(res).then(res => {
         if (res.code === '000000') {
-          this.$message.success('删除成功')
-          this.queryTableDatas()
+          this.$message.success('导入成功')
         } else {
           this.$message.error(res.result)
         }
       })
-    },
-    updateImport() {
-      this.addDialogVisible = true
-      this.dialogTitle = '修改'
-    },
-    async importSuccessCallback(file) {
-
+      this.refresh()
     },
     hook(datas1, datas2) {
       const param = {
-        payCertNo: datas1.payCertNo,
-        id: datas1.id,
-        payCers: datas1,
-        payCertId: datas2.payCertId
+        bgtId: datas2.bgtId,
+        benefitPeopleList: datas1
       }
       HttpModule.update(param).then(res => {
         if (res.code === '000000') {
           this.$message.success('挂接成功')
+          this.proName = ''
+          this.bgtId = ''
+          this.bgtIds = []
+          this.amount = ''
+          this.corBgtDocNoMatch = ''
+          this.amtMatch = ''
+          this.corBgtDocNo = ''
+          this.realBgtIds = []
+          this.corBgtDocNo = ''
+          this.agencyCode = ''
           this.queryTableDatas()
           this.queryTableDatas1()
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
-    notHook(datas2) {
-      HttpModule.notHookByInterFace(datas2).then(res => {
+    notHook(datas1) {
+      HttpModule.notHook(datas1).then(res => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
-          this.proCode = ''
-          this.proName = ''
-          this.payCertNo = ''
-          this.amount = ''
-          this.payAmt = ''
-          this.mofdivName = ''
-          this.agencyName = ''
-          this.agencyCodeList = []
-          this.corBgtDocNoName = ''
-          this.useDes = ''
-          this.dtos = []
+          this.bgtIds = []
+          this.realBgtIds = []
           this.queryTableDatas()
           this.queryTableDatas1()
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -768,19 +777,6 @@ export default {
     // 左侧树
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
-    },
-    onClickmethod(node) {
-      // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-      //   return
-      // }
-      if (node.id !== 'root') {
-        this.proCode = node.code
-      } else {
-        this.condition = {}
-        this.proCode = ''
-      }
-      this.queryTableDatas()
-      this.queryTableDatas1()
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -852,14 +848,13 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         isHook: this.isHook,
-        proCode: this.proCode,
         proName: this.proName,
-        payCertNo: this.payCertNo,
+        bgtId: this.bgtId,
+        bgtIds: this.bgtIds,
         amount: this.amount,
-        payAmt: this.payAmt,
-        mofDivName: this.mofdivName,
-        dtos: this.dtos,
-        roleId: this.roleId
+        amtMatch: this.amtMatch,
+        corBgtDocNoMatch: this.corBgtDocNoMatch,
+        corBgtDocNo: this.corBgtDocNo
       }
       this.tableLoading1 = true
       HttpModule.pageQuery(param).then(res => {
@@ -869,27 +864,32 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
+    },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
     },
     // 查询 table1 数据
     queryTableDatas1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        payCertNo: this.payCertNo,
+        bgtId: this.bgtId,
+        realBgtIds: this.realBgtIds,
+        corBgtDocNo: this.corBgtDocNo,
         proName: this.proName,
-        proCode: this.proCode,
-        agencyName: this.agencyName,
-        corBgtDocNoName: this.corBgtDocNoName,
-        useDes: this.useDes,
+        agencyCode: this.agencyCode === '' ? '' : this.getTrees(this.agencyCode)[0],
         amount: this.amount,
         isHook: this.isHook,
-        roleId: this.roleId,
-        mofDivName: this.mofdivName,
-        dtos: this.dtos,
-        agencyCodeList: this.agencyCodeList
+        roleId: this.roleId
       }
       this.tableLoading2 = true
       HttpModule.pagePayQuery(param).then(res => {
@@ -898,81 +898,33 @@ export default {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
-    // 操作日志
-    queryActionLog(row) {
-      // let data = {
-      //   roleguid: this.$store.state.curNavModule.roleguid,
-      //   data: {
-      //     statusCode: this.toolBarStatusSelect.code,
-      //     id: row.id,
-      //     appId: 'pay_voucher'
-      //   }
-      // }
-      // HttpModule.queryActionLog(data).then(res => {
-      //   this.logData = res.data
-      //   console.log(this.logData)
-      //   this.showLogView = true
-      // })
-    },
-    // 送审
-    audieData(param) {
-      // HttpModule.audieData(param).then(res => {
-      //   if (res.code === '000000') {
-      //     this.$message.warning('操作成功')
-      //     this.queryTableDatas()
-      //   }
-      // })
-    },
-    /**
-     * 左侧树过滤搜索
-     * @returns {Promise<void>}
-     */
-    async searchTreeHandle(inputVal) {
-      this.treeFilterText = inputVal
-      this.treeCurrentPage = 1
-      await this.getLeftTreeData()
-    },
-    getLeftTreeData() {
-      let that = this
-      this.offset = (that.treeCurrentPage - 1) * (this.treePageSize)
-      this.treeLoadingState = true
-      let params = {
-        elementcode: 'pro',
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province,
-        name: this.proName1,
-        limit: this.treePageSize,
-        offset: this.offset
+        province: this.$store.state.userInfo.province
       }
-      this.wheresql && (params.wheresql = this.wheresql)
-
-      HttpModule.getTreeData1(params).then(res => {
-        // if (res.code === '000000') {
-        //   let treeResdata = res.data
-        //   treeResdata.forEach(item => {
-        //     item.label = item.code + '-' + item.name
-        //   })
-        //   const result = [
-        //     {
-        //       id: 'root',
-        //       label: '全部',
-        //       code: 'root',
-        //       isleaf: '0',
-        //       children: treeResdata
-        //     }
-        //   ]
-        //   that.treeData = result
-        //   that.proTotal = res.data.length
-        // } else {
-        //   this.$message.error('左侧树加载失败')
-        // }
-      }).finally(() => {
-        this.treeLoadingState = false
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig1[4].itemRender.options = treeResdata
       })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas?.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     },
     handleCurrentChange(val) {
       this.treeCurrentPage = val
@@ -990,30 +942,6 @@ export default {
       })
 
       return datas
-    },
-    getAgency() {
-      const param = {
-        wheresql: 'and province =' + this.$store.state.userInfo.province,
-        elementCode: 'AGENCY',
-        // elementCode: 'AGENCY',
-        year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
-      }
-      HttpModule.getTreewhere(param).then(res => {
-        let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig1[2].itemRender.options = treeResdata
-      })
-    },
-    getChildrenNewData1(datas) {
-      let that = this
-      datas.forEach(item => {
-        item.label = item.code + '-' + item.name
-        if (item.children) {
-          that.getChildrenNewData1(item.children)
-        }
-      })
-
-      return datas
     }
   },
   created() {
@@ -1024,7 +952,6 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.roleId = this.$store.state.curNavModule.roleguid
-    // this.getLeftTreeData()
     this.getAgency()
     // this.queryTableDatas()
     // this.queryTableDatas1()
@@ -1038,9 +965,6 @@ export default {
 .Titans-table .table-toolbar-left .table-toolbar-left-title.left-title-clear-float {
   float: none;
   margin-bottom: 4px;
-}
-/deep/.T-search{
-  background-color: var(--hightlight-color) !important;
 }
 </style>
 <style scoped>
@@ -1059,5 +983,4 @@ export default {
   background-color: red;
   color: #fff;
 }
-
 </style>

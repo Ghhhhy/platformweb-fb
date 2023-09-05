@@ -51,7 +51,7 @@
         <template v-if="formVisible">
           <BsTable
             ref="mainTableRef"
-            :footer-config="tableFooterConfig"
+            :footer-config="footerConfig"
             :table-columns-config="totalTableColumnsConfig"
             :table-data="tableTotalData"
             :table-config="tableConfig"
@@ -65,7 +65,7 @@
               <div class="table-toolbar-left">
                 <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
                 <div class="table-toolbar-left-title">
-                  <span class="fn-inline">{{ menuName }}</span>
+                  <span class="fn-inline">{{ menuNames }}</span>
                   <i class="fn-inline"></i>
                 </div>
               </div>
@@ -77,7 +77,6 @@
             ref="mainTableRef"
             :footer-config="tableFooterConfig"
             :table-columns-config="tableColumnsConfig"
-            :table-global-config="tableGlobalConfig"
             :table-data="tableData"
             :table-config="tableConfig"
             :pager-config="mainPagerConfig"
@@ -90,7 +89,7 @@
               <div class="table-toolbar-left">
                 <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
                 <div class="table-toolbar-left-title">
-                  <span class="fn-inline">{{ menuName }}</span>
+                  <span class="fn-inline">{{ menuNames }}</span>
                   <i class="fn-inline"></i>
                 </div>
               </div>
@@ -132,18 +131,18 @@ export default {
       this.getSearchDataList()
     }
   },
-  computed: {
-    tableGlobalConfig() {
-      return {
-        customExportConfig: {
-          fileName: this.menuName
-        }
-      }
-    }
-  },
   data() {
     return {
-      currentTreeNode: null, // 左侧树选中的节点
+      // 表尾合计
+      footerConfig: {
+        showFooter: true,
+        totalObj: {
+          count: 0,
+          nowCount: 0
+        },
+        combinedType: ['switchTotal']
+      },
+      flag: 1,
       isNeedFiRuleCode: true,
       isShowQueryConditions: true,
       radioShow: true,
@@ -184,9 +183,11 @@ export default {
         '0': 0,
         '1': 0,
         '2': 0,
-        '3': 0
+        '3': 0,
+        '4': 0
       },
       // BsQuery 查询栏
+      warnLevel: '3',
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       toolBarStatusSelect: {
@@ -250,6 +251,7 @@ export default {
       modifyData: {},
       // 请求 & 角色权限相关配置
       menuName: '',
+      menuNames: '',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -267,32 +269,34 @@ export default {
       totalTableColumnsConfig: [
         {
           title: '触发菜单名称',
-          field: 'businessFunctionName',
+          field: 'menuNameList',
           align: 'left'
         },
         {
-          title: '预警级别',
-          field: 'warnLevel',
-          align: 'center',
-          filters: [{ data: { vals: [], sVal: '' } }],
-          filterRender: { name: 'FilterContent' },
-          tooltip: true
+          'title': '预警级别',
+          'field': 'warnLevel',
+          'fixed': '',
+          'width': '100',
+          'type': 'html',
+          'align': 'center',
+          'formula': '',
+          'constraint': '',
+          'combinedType': '',
+          'sortable': '1',
+          'associatedQuery': {
+            'queryMethods': '',
+            'queryUrl': '',
+            'params': {}
+          },
+          'dragSort': null,
+          'className': '',
+          'combinedType_select_sort': '',
+          'filters': ''
         },
         {
           title: '监控状态',
           field: 'controlType',
-          sortable: true,
-          align: 'center',
-          combinedType: ['average'],
-          editRender: {
-            name: '$input',
-            defaultValue: 1,
-            props: {
-              type: 'number',
-              placeholder: '请输入金额',
-              redonly: true
-            }
-          }
+          align: 'center'
         },
         {
           title: '预警规则',
@@ -302,14 +306,46 @@ export default {
         {
           title: '预警数量',
           field: 'count',
-          filters: [{ data: { vals: [], sVal: '' } }],
-          filterRender: { name: 'FilterContent' }
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeInput',
+            props: {
+              type: 'number'
+            }
+          },
+          sortable: false,
+          combinedType: [
+            'subTotal',
+            'total',
+            'totalAll'
+          ]
         },
         {
           title: '今日新增',
           field: 'nowCount',
-          filters: [{ data: { vals: [], sVal: '' } }],
-          filterRender: { name: 'FilterContent' }
+          filters: false,
+          align: 'center',
+          // 'type': 'html',
+          cellRender: {
+            name: '$vxeInput',
+            props: {
+              type: 'number'
+            }
+          },
+          slots: {
+            default ({ row }) {
+              return [
+                <span style={row.nowCount > 0 ? 'color:red' : ''} >{row.nowCount}</span>
+              ]
+            }
+          },
+          sortable: false,
+          combinedType: [
+            'subTotal',
+            'total',
+            'totalAll'
+          ]
         }
         // {
         //   title: '今日新增',
@@ -350,8 +386,7 @@ export default {
       fiRuleCode: '',
       showGlAttachmentDialog: false,
       agencyCodeList: [],
-      selectData: {},
-      regulationClass: ''
+      selectData: {}
     }
   },
   methods: {
@@ -396,6 +431,19 @@ export default {
       })
       return condition
     },
+    deepCopy(obj) {
+      // 深拷贝通用方法
+      let me = this
+      if (typeof obj !== 'object' || obj === null) return obj
+      let newObj = obj instanceof Array ? [] : {}
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          newObj[key] =
+            typeof obj[key] === 'object' ? me.deepCopy(obj[key]) : obj[key]
+        }
+      }
+      return newObj
+    },
     // 切换状态栏
     onStatusTabClick(obj) {
       if (!obj.type) {
@@ -403,13 +451,24 @@ export default {
         return
       }
       this.toolBarStatusSelect = obj
+      let data = [
+        { value: '0', label: '待处理' }
+      ]
+      let data1 = [
+        { value: '1', label: '放行' },
+        { value: '2', label: '改正' },
+        { value: '3', label: '禁止' }
+      ]
       switch (obj.curValue) {
         // 全部
+        case '0':
+          this.queryConfig[0].itemRender.options = data
+          break
         case '1':
-          this.radioShow = true
+          this.queryConfig[0].itemRender.options = data1
           break
       }
-      this.menuName = '预警数据列表'
+      this.menuNames = '预警数据列表'
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.totalPagerConfig.currentPage = 1
@@ -420,7 +479,7 @@ export default {
     search(val) {
       console.log(val)
       this.searchDataList = val
-      this.agencyCodeList = val.agencyCodeList
+      this.agencyCodeList = val.agencyCodeList_code__multiple
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -441,6 +500,12 @@ export default {
       if (this.searchDataList.status && this.searchDataList.status.trim() !== '') {
         condition.status = this.searchDataList.status
       }
+      // if (this.searchDataList.warnLevel && this.searchDataList.warnLevel.trim() !== '') {
+      //   condition.warnLevel = this.searchDataList.warnLevel
+      // }
+      if (this.searchDataList.warnTotal && this.searchDataList.warnTotal.trim() !== '') {
+        condition.warnTotal = this.searchDataList.warnTotal
+      }
       if (this.searchDataList.businessFunctionCode && this.searchDataList.businessFunctionCode.trim() !== '') {
         condition.businessFunctionCode = this.searchDataList.businessFunctionCode
       }
@@ -452,32 +517,58 @@ export default {
       this.condition = condition
       console.log(this.condition)
       if (this.formVisible) {
+        // this.queryConfig = proconf.highQueryConfig
+        // this.searchDataList = { ...proconf.highQueryData, ...val }
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
           handleResult: this.toolBarStatusSelect.curValue,
           businessId: this.businessId,
-          roleId: this.$store.state.curNavModule.roleguid,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
-          agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList),
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          businessFunctionName: this.currentTreeNode?.businessName,
-          regulationClass: this.regulationClass
+          warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
+          warnLevel: '3',
+          agencyCodeList: this.agencyCodeList,
+          regulationClass: this.params5
+        }
+        if (this.toolBarStatusSelect.curValue === '4') {
+          delete param.handleResult
+          param.voidOrNot = 1
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
-            this.tableTotalData = res.data.results
-            this.mainPagerConfig.total = res.data.totalCount
+            // this.tableTotalData = res.data.results
             this.totalPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
+            this.tableTotalData = res.data.results.map(item => {
+              let deepObj = this.deepCopy(item)
+              deepObj.warnLevel1 = item.warnLevel
+              if (item.warnLevel === 1) {
+                deepObj.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+              } else if (item.warnLevel === 2) {
+                deepObj.warnLevel = '<span style="color:orange">橙色预警</span>'
+              } else if (item.warnLevel === 3) {
+                deepObj.warnLevel = '<span style="color:red">红色预警</span>'
+              } else if (item.warnLevel === 5) {
+                deepObj.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 4) {
+                deepObj.warnLevel = '<span style="color:gray">灰色预警</span>'
+              }
+              // if (item.nowCount > 0) {
+              //   deepObj.nowCount = `<span style="color:red">${item.nowCount}</span>`
+              // }
+              return deepObj
+            })
           } else {
             this.$message.error(res.message)
           }
         })
       } else {
+        // this.queryConfig = proconf.highQueryConfig1
+        // this.searchDataList = { ...proconf.highQueryData1, ...val }
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -487,7 +578,14 @@ export default {
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          agencyCodeList: this.agencyCodeList === '' ? [] : this.getTrees(this.agencyCodeList)
+          agencyCodeList: this.agencyCodeList,
+          warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
+          warnLevel: '3',
+          regulationClass: this.params5
+        }
+        if (this.toolBarStatusSelect.curValue === '4') {
+          delete param.handleResult
+          param.voidOrNot = 1
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
@@ -496,23 +594,26 @@ export default {
             this.tableData = res.data.results
             this.tableData.forEach(item => {
               item.agency = item.agencyCode + '-' + item.agencyName
+              item.warnLevel1 = item.warnLevel
+              if (item.warnLevel === 1) {
+                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+              } else if (item.warnLevel === 2) {
+                item.warnLevel = '<span style="color:orange">橙色预警</span>'
+              } else if (item.warnLevel === 3) {
+                item.warnLevel = '<span style="color:red">红色预警</span>'
+              } else if (item.warnLevel === 5) {
+                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 4) {
+                item.warnLevel = '<span style="color:gray">灰色预警</span>'
+              }
             })
             this.mainPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
           } else {
             this.$message.error(res.message)
           }
         })
       }
-    },
-    getTrees(val) {
-      let mofDivCodes = []
-      if (val.trim() !== '') {
-        val.split(',').forEach((item) => {
-          mofDivCodes.push(item.split('##')[0])
-        })
-      }
-      return mofDivCodes
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -539,14 +640,44 @@ export default {
             this.$message.warning('请选择一条汇总数据查看明细')
             return
           }
+          this.flag = 2
           this.formVisible = false
+          this.getAgency()
+          this.queryConfig = proconf.highQueryConfig1
+          this.searchDataList = proconf.highQueryData1
+          if (this.toolBarStatusSelect.curValue === '1') {
+            let data = [
+              { value: '1', label: '放行' },
+              { value: '2', label: '改正' },
+              { value: '3', label: '禁止' }
+            ]
+            this.queryConfig[0].itemRender.options = data
+          }
           this.buttonsInfo = this.detailButtons
           this.fiRuleCode = this.$refs.mainTableRef.getSelectionData()[0].fiRuleCode
+          this.warnLevel = this.$refs.mainTableRef.getSelectionData()[0].warnLevel1
+          this.menuName = this.$refs.mainTableRef.getSelectionData()[0].menuNameList
           this.queryTableDatas()
           break
         case 'toorbar_checktotal':
           this.formVisible = true
+          this.flag = 1
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          if (this.toolBarStatusSelect.curValue === '1') {
+            let data = [
+              { value: '1', label: '放行' },
+              { value: '2', label: '改正' },
+              { value: '3', label: '禁止' }
+            ]
+            this.queryConfig[0].itemRender.options = data
+          }
           this.buttonsInfo = this.buttons
+          const params = {
+            regulationClass: this.params5,
+            warnLevel: this.warnLevel
+          }
+          this.getAllTotalTableData(params)
           this.getTotalTableData()
           break
         default:
@@ -617,57 +748,89 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      this.currentTreeNode = node
       if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
         return
       }
       if (this.formVisible) {
+        this.queryConfig = proconf.highQueryConfig
+        this.searchDataList = proconf.highQueryData
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
           businessId: node.id,
-          roleId: this.$store.state.curNavModule.roleguid,
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: this.currentTreeNode?.businessName
+          businessFunctionName: node.businessName,
+          warnLevel: '3',
+          agencyCodeList: this.agencyCodeList
+        }
+        if (this.toolBarStatusSelect.curValue === '4') {
+          delete param.handleResult
+          param.voidOrNot = 1
         }
         this.tableLoading = true
         HttpModule.getTotalTableData(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
-            this.tableTotalData = res.data.results
-            this.mainPagerConfig.total = res.data.totalCount
             this.totalPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+            // this.tableTotalData = res.data.results
+            this.tableTotalData = res.data.results.map(item => {
+              let deepObj = this.deepCopy(item)
+              deepObj.warnLevel1 = item.warnLevel
+              if (item.warnLevel === 1) {
+                deepObj.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+              } else if (item.warnLevel === 2) {
+                deepObj.warnLevel = '<span style="color:orange">橙色预警</span>'
+              } else if (item.warnLevel === 3) {
+                deepObj.warnLevel = '<span style="color:red">红色预警</span>'
+              } else if (item.warnLevel === 5) {
+                deepObj.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 4) {
+                deepObj.warnLevel = '<span style="color:gray">灰色预警</span>'
+              }
+              // if (item.nowCount > 0) {
+              //   deepObj.nowCount = `<span style="color:red">${item.nowCount}</span>`
+              // }
+              return deepObj
+            })
+            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
           } else {
             this.$message.error(res.message)
           }
         })
       } else {
+        this.getAgency()
+        this.queryConfig = proconf.highQueryConfig1
+        this.searchDataList = proconf.highQueryData1
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          businessId: this.businessId,
+          businessId: node.id,
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: node.businessName
+          businessFunctionName: node.businessName,
+          agencyCodeList: this.agencyCodeList
+        }
+        if (this.toolBarStatusSelect.curValue === '4') {
+          param.voidOrNot = 1
+          delete param.handleResult
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
+            this.mainPagerConfig.total = res.data.totalCount
             this.tableData = res.data.results
             this.tableData.forEach(item => {
               item.agency = item.agencyCode + '-' + item.agencyName
             })
-            this.mainPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
           } else {
             this.$message.error(res.message)
           }
@@ -702,8 +865,13 @@ export default {
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       if (this.formVisible) {
+        this.queryConfig = proconf.highQueryConfig
+        this.searchDataList = proconf.highQueryData
         this.getTotalTableData()
       } else {
+        this.getAgency()
+        this.queryConfig = proconf.highQueryConfig1
+        this.searchDataList = proconf.highQueryData1
         this.queryTableDatas()
       }
     },
@@ -718,11 +886,13 @@ export default {
       this.getTotalTableData()
     },
     getAllTotalTableData(params) {
-      HttpModule.getAllTotalTableData().then(res => {
+      HttpModule.getAllTotalTableData(params).then(res => {
         if (res.code === '000000') {
           this.tabStatusNumConfig['0'] = res.data.noDealCount
           this.tabStatusNumConfig['1'] = res.data.dealCount
           this.tabStatusNumConfig['2'] = res.data.noPassCount
+          // this.tabStatusNumConfig['3'] = res.data.obsoleteCount
+          this.tabStatusNumConfig['4'] = res.data.obsoleteCount
         } else {
           this.$message.error(res.message)
         }
@@ -734,16 +904,45 @@ export default {
         pageSize: this.totalPagerConfig.pageSize, // 每页条数
         handleResult: this.toolBarStatusSelect.curValue,
         businessId: this.businessId,
-        roleId: this.$store.state.curNavModule.roleguid,
-        regulationClass: this.regulationClass
+        warnLevel: '3',
+        regulationClass: this.params5
+      }
+      if (this.toolBarStatusSelect.curValue === '4') {
+        param.voidOrNot = 1
+        delete param.handleResult
       }
       this.tableLoading = true
+      HttpModule.summarySum(param).then(res => {
+        if (res.code === '000000') {
+          this.footerConfig.totalObj = res.data
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.getTotalTableData(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableTotalData = res.data.results
           this.totalPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+          this.tableTotalData = res.data.results.map(item => {
+            let deepObj = this.deepCopy(item)
+            deepObj.warnLevel1 = item.warnLevel
+            if (item.warnLevel === 1) {
+              deepObj.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              deepObj.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              deepObj.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 5) {
+              deepObj.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 4) {
+              deepObj.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
+            // if (item.nowCount > 0) {
+            //   deepObj.nowCount = `<span style="color:red">${item.nowCount}</span>`
+            // }
+            return deepObj
+          })
+          this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -757,10 +956,17 @@ export default {
         businessId: this.businessId,
         fiRuleCode: this.fiRuleCode,
         handleResult: this.toolBarStatusSelect.curValue,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         'status': this.condition.status ? this.condition.status.toString() : '',
         'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-        'createTime': this.condition.createTime ? this.condition.createTime.toString() : null
+        'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
+        agencyCodeList: this.agencyCodeList,
+        warnLevel: this.warnLevel,
+        menuName: this.menuName,
+        regulationClass: this.params5
+      }
+      if (this.toolBarStatusSelect.curValue === '4') {
+        param.voidOrNot = 1
+        delete param.handleResult
       }
       this.tableLoading = true
       let that = this
@@ -772,7 +978,28 @@ export default {
             item.agency = item.agencyCode + '-' + item.agencyName
           })
           that.mainPagerConfig.total = res.data.totalCount
-          that.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+          // that.tabStatusNumConfig[param.handleResult] = res.data.totalCount
+          const param = {
+            fiRuleCode: this.fiRuleCode,
+            menuNameList: this.menuName,
+            flag: this.flag,
+            warnLevel: this.warnLevel
+          }
+          // if (this.toolBarStatusSelect.curValue === '4') {
+          //   param.voidOrNot = 1
+          //   delete param.handleResult
+          // }
+          HttpModule.getAllTotalTableData(param).then(res => {
+            if (res.code === '000000') {
+              this.tabStatusNumConfig['0'] = res.data.noDealCount
+              this.tabStatusNumConfig['1'] = res.data.dealCount
+              this.tabStatusNumConfig['2'] = res.data.noPassCount
+              // this.tabStatusNumConfig['3'] = res.data.obsoleteCount
+              this.tabStatusNumConfig['4'] = res.data.obsoleteCount
+            } else {
+              this.$message.error(res.message)
+            }
+          })
         } else {
           that.$message.error(res.message)
         }
@@ -796,16 +1023,17 @@ export default {
     },
     getAgency() {
       const param = {
-        date: this.$store.state.userInfo.year,
-        tokenid: this.$store.getters.getLoginAuthentication.tokenid,
-        appguid: 'apaas',
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        mofDivCode: this.$store.state.userInfo.province,
-        parameters: {}
+        province: this.$store.state.userInfo.province
       }
       HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig[3].itemRender.options = treeResdata
+        if (!this.formVisible) {
+          this.queryConfig[3].itemRender.options = treeResdata
+        }
       })
     },
     getChildrenNewData1(datas) {
@@ -824,13 +1052,16 @@ export default {
   },
   created() {
     this.params5 = this.$store.state.curNavModule.param5
+    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
-    this.getAllTotalTableData()
-    this.getAgency()
+    const params = {
+      regulationClass: this.params5,
+      warnLevel: this.warnLevel
+    }
+    this.getAllTotalTableData(params)
   }
 }
 </script>

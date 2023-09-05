@@ -43,7 +43,7 @@
         <BsBossTree
           ref="leftTree"
           v-loading="treeLoadingState"
-          :defaultexpandedkeys="['root']"
+          :defaultexpandedkeys="['root','1DB3224A3EDC4227BE18604A99D6507D']"
           style="overflow: hidden"
           :is-server="false"
           :ajax-type="treeAjaxType"
@@ -55,42 +55,85 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 50%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
-            </div>
-          </template>
-        </BsTable>
-        <BsTable
-          ref="mainTableRef1"
-          v-loading="tableLoading2"
-          style="height: 50%"
-          :footer-config="tableFooterConfig1"
-          :table-columns-config="tableColumnsConfig1"
-          :table-data="tableData1"
-          :table-config="tableConfig1"
-          :pager-config="mainPagerConfig1"
-          :toolbar-config="tableToolbarConfig1"
-          @onToolbarBtnClick="onToolbarBtnClick1"
-          @ajaxData="ajaxTableData1"
-          @cellClick="cellClick"
-        />
+        <div v-if="isSx" style="height: 100%; overflow-y: hidden;">
+          <BsSplitPane
+            split="horizontal"
+            :min-percent="0"
+          >
+            <template slot="paneL">
+              <BsTable
+                ref="mainTableRef"
+                v-loading="tableLoading1"
+                style="height: calc(100% - 10px)"
+                :footer-config="tableFooterConfig"
+                :table-columns-config="tableColumnsConfig"
+                :table-data="tableData"
+                :table-config="tableConfig"
+                :pager-config="mainPagerConfig"
+                :toolbar-config="tableToolbarConfig"
+                @checkboxChange="checkboxChange"
+                @checkboxAll="checkboxChange"
+                @onToolbarBtnClick="onToolbarBtnClick"
+                @ajaxData="ajaxTableData"
+                @cellClick="cellClick"
+              />
+            </template>
+            <template slot="paneR">
+              <BsTable
+                ref="mainTableRef1"
+                v-loading="tableLoading2"
+                style="height: calc(100% - 10px); position: relative; z-index: 10"
+                :footer-config="tableFooterConfig1"
+                :table-columns-config="tableColumnsConfig1"
+                :table-data="tableData1"
+                :table-config="tableConfig1"
+                :pager-config="mainPagerConfig1"
+                :toolbar-config="tableToolbarConfig1"
+                @onToolbarBtnClick="onToolbarBtnClick1"
+                @ajaxData="ajaxTableData1"
+                @cellClick="cellClick"
+              />
+            </template>
+          </BsSplitPane>
+        </div>
+        <div v-else style="height: 100%; overflow-y: hidden;">
+          <BsTable
+            ref="mainTableRef"
+            v-loading="tableLoading1"
+            style="height: 50%"
+            :footer-config="tableFooterConfig"
+            :table-columns-config="tableColumnsConfig"
+            :table-data="tableData"
+            :table-config="tableConfig"
+            :pager-config="mainPagerConfig"
+            :toolbar-config="tableToolbarConfig"
+            @checkboxChange="checkboxChange"
+            @checkboxAll="checkboxChange"
+            @onToolbarBtnClick="onToolbarBtnClick"
+            @ajaxData="ajaxTableData"
+            @cellClick="cellClick"
+          >
+            <template v-slot:toolbarSlots>
+              <div class="table-toolbar-left">
+                <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
+              </div>
+            </template>
+          </BsTable>
+          <BsTable
+            ref="mainTableRef1"
+            v-loading="tableLoading2"
+            style="height: 50%"
+            :footer-config="tableFooterConfig1"
+            :table-columns-config="tableColumnsConfig1"
+            :table-data="tableData1"
+            :table-config="tableConfig1"
+            :pager-config="mainPagerConfig1"
+            :toolbar-config="tableToolbarConfig1"
+            @onToolbarBtnClick="onToolbarBtnClick1"
+            @ajaxData="ajaxTableData1"
+            @cellClick="cellClick"
+          />
+        </div>
       </template>
     </BsMainFormListLayout>
   </div>
@@ -107,6 +150,9 @@ export default {
   computed: {
     wheresql() {
       return this.treeFilterText.trim() ? `and name like '%${this.treeFilterText}%'` : ''
+    },
+    isSx() {
+      return this.$store.getters.isSx
     }
   },
   watch: {
@@ -269,14 +315,25 @@ export default {
       tableFooterConfig: {
         showFooter: false
       },
+      // 表格尾部合计配置
       tableFooterConfig1: {
-        showFooter: false
+        totalObj: {
+          zbye: 0,
+          zzblje: 0,
+          amount: 0,
+          yapje: 0,
+          djAmount: 0,
+          zcAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       fiscalYear: '',
       expFuncCode: '',
       proCodes: '',
       isHook: '0',
       proCode1: '',
+      expFuncCodeName: '',
       bgtMofDepCode: '',
       agencyCode: '',
       mofDivCode: '',
@@ -401,7 +458,6 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent1
         }
-        // console.log('55555555555555', this.$refs.tabPanel)
         // this.$refs.tabPanel.initFirst()
         this.panStatus = 2
         this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
@@ -657,10 +713,10 @@ export default {
                 proName: '',
                 expFuncCode: ''
               }
-              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName?.split('-')[0]
+              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
               queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
-              queryDto.expFuncCode = checked.selection[i].expFuncName?.split('-')[0]
+              queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               this.queryDtos[i] = queryDto
             }
             this.queryTableDatas1()
@@ -950,7 +1006,6 @@ export default {
       return proCodes
     },
     // 查询 table 数据
-    // 综合查询处室指标综合查看文号汇总
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
@@ -992,12 +1047,11 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
     // 查询 table1 数据
-    // 综合查询处室指标综合查看文号汇总明细
     queryTableDatas1() {
       const param = {
         page: this.mainPagerConfig1.currentPage, // 页码
@@ -1012,6 +1066,13 @@ export default {
         sqlCode: 'zhcx_cszbzhckwhhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryTableDatas1(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
@@ -1061,6 +1122,13 @@ export default {
         sqlCode: 'zhcx_dwzbzhckwhhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryTableDatasByAgency1(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
@@ -1109,6 +1177,13 @@ export default {
         sqlCode: 'zhcx_dwzbzhckhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryTableByAgency1(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
@@ -1134,13 +1209,20 @@ export default {
         sqlCode: 'zhcx_cszbzhckhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryTableDatasByDep1(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -1183,6 +1265,13 @@ export default {
         sqlCode: 'zhcx_sxbzzbwhhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryDetailMofDiv(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
@@ -1231,6 +1320,13 @@ export default {
         sqlCode: 'zhcx_sxbzzbhz_mx'
       }
       this.tableLoading2 = true
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
       HttpModule.queryDetailMofDiv1(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
@@ -1390,6 +1486,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

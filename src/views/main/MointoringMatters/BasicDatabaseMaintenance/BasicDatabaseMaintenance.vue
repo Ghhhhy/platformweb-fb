@@ -39,6 +39,8 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :default-expanded-keys="defaultExpandedKeysIn"
+          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -109,8 +111,8 @@ export default {
         inputVal: ''
       },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementCode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
-      treeServerUri: 'http://10.77.18.172:32303/lmp/mofDivTree',
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -591,22 +593,22 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       let that = this
       HttpModule.getLeftTree(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          that.treeData = res.data
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -625,6 +627,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.year = year
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

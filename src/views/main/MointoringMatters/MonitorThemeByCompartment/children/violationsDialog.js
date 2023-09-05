@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -38,6 +38,32 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '业务数据开始时间',
+      field: 'businessTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据开始时间'
+        }
+      }
+    },
+    {
+      title: '业务数据结束时间',
+      field: 'endTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据结束时间'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -52,18 +78,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: '150',
-      align: 'center',
-      'cellRender': {
-        'name': '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions,
-        'defaultValue': '',
-        'props': {}
+      'title': '预警级别',
+      'field': 'warnLevel',
+      'fixed': '',
+      'width': '100',
+      'type': 'html',
+      'align': 'center',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'sortable': '1',
+      'associatedQuery': {
+        'queryMethods': '',
+        'queryUrl': '',
+        'params': {}
       },
-      'sortable': 'true',
-      'name': '$vxeSelect'
+      'dragSort': null,
+      'className': '',
+      'combinedType_select_sort': '',
+      'filters': ''
     },
     {
       title: '管理级次',
@@ -155,12 +188,12 @@ export let proconf = {
       },
       'combinedType': 'average,subTotal,total,totalAll',
       'cellRender': {
-        'name': '$moneyRender',
+        'name': '$vxeMoney',
         'options': [],
         'defaultValue': '',
         'props': {}
       },
-      'name': '$moneyRender',
+      'name': '$vxeMoney',
       'fixed': '',
       'formula': '',
       'constraint': '',
@@ -181,6 +214,14 @@ export let proconf = {
       field: 'createTime',
       width: '150',
       sortable: false,
+      align: 'center'
+    },
+    {
+      title: '业务数据开始时间',
+      'width': 180,
+      field: 'businessTime',
+      sortable: false,
+      filters: false,
       align: 'center'
     },
     {

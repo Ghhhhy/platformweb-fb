@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="rule-swiper-title">实时触发规则滚动显示图</div>
+    <div class="f20 rule-swiper-title">实时触发规则滚动显示图</div>
     <div v-if="!news.length">
       <BsEmpty />
     </div>
@@ -24,8 +24,8 @@
             :key="index"
             class="swiper-slide rule-swiper-slide"
           >
-            <el-tooltip class="item" effect="light" :content="`${item.firulecode}-${item.firulename}`" placement="top-start">
-              <div class="rule-content">{{ item.firulecode }}-{{ item.firulename }}</div>
+            <el-tooltip class="item" effect="light" :content="`${item.fiRuleCode || item.firulecode}-${item.fiRuleName || item.firulename}`" placement="top-start">
+              <div class="rule-content">{{ item.fiRuleCode || item.firulecode }}-{{ item.fiRuleName || item.firulename }}</div>
             </el-tooltip>
             <div class="right-time">
               <span>{{ item.createTime }}</span>
@@ -180,7 +180,7 @@ export default defineComponent({
   font-size: 16px;
   color: #595959;
   line-height: 26px;
-  font-weight: 500;
+  font-weight: bold;
   box-sizing: border-box;
 }
 .rule-swiper-container {

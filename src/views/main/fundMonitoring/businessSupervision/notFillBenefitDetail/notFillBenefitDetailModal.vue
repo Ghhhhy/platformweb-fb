@@ -34,7 +34,8 @@ export default defineComponent({
       title: '未填报惠企项目明细',
       width: '96%',
       height: '90%',
-      showFooter: false
+      showFooter: false,
+      class: 'notOverFlowAuto'
     })
     const mainTableRef = ref(null)
     const tableColumns = reactive(modalTableColumns)
@@ -80,11 +81,11 @@ export default defineComponent({
     const onSearch = () => {
       const params = {
         fiscalYear: store.state.userInfo.year,
-        mofDivCode: clickRowData.value.mofDivCode
+        mofDivCode: clickRowData.value.code
       }
       HttpModule.getBenefitDeDetail(params).then(res => {
         if (res.code === '000000') {
-          tableData.value = res.data.data
+          tableData.value = res.data
         }
       })
     }
@@ -106,3 +107,10 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss" scoped>
+.notOverFlowAuto{
+  /deep/ .vxe-modal--content{
+    overflow: hidden !important;
+  }
+}
+</style>

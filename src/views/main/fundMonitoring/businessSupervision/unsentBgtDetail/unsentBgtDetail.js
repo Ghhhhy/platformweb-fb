@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -25,6 +25,7 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
@@ -44,7 +45,8 @@ export let proconf = {
   highQueryData: {
     regulationType: '',
     warningLevel: '',
-    firulename: ''
+    firulename: '',
+    fiscalYear: store.state?.userInfo?.year
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -88,7 +90,7 @@ export let proconf = {
       title: '地区名称',
       width: 180,
       field: 'mofDivName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center',
       formatter: ({ row }) => {
@@ -99,7 +101,7 @@ export let proconf = {
       title: '处室',
       width: 180,
       field: 'manageMofDepName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center',
       formatter: ({ row }) => {
@@ -110,7 +112,7 @@ export let proconf = {
       title: '本级文号',
       width: 180,
       field: 'corBgtDocNoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -118,7 +120,7 @@ export let proconf = {
       title: '本级专项资金',
       width: 180,
       field: 'speTypeName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -126,7 +128,7 @@ export let proconf = {
       title: '上级文号',
       width: 180,
       field: 'supBgtDocNoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -134,23 +136,23 @@ export let proconf = {
       title: '上级专项资金',
       width: 180,
       field: 'supSpeTypeName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '下级地区',
       width: 180,
-      field: 'recDivCode',
-      sortable: false,
+      field: 'xjdq',
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '下级地区名称',
       width: 180,
-      field: 'recDivName',
-      sortable: false,
+      field: 'xjdqmc',
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -158,9 +160,15 @@ export let proconf = {
       title: '未发送金额',
       width: 180,
       field: 'curAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       cellRender: {
         name: '$vxeMoney'
       }
@@ -169,7 +177,7 @@ export let proconf = {
       title: '制单人姓名',
       width: 180,
       field: 'creater',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     }

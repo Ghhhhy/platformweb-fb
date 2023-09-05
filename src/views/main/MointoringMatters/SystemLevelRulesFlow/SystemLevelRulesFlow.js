@@ -11,7 +11,7 @@ export let proconf = {
       iconUrl: '',
       label: '待审核',
       code: '1',
-      curValue: '2'
+      curValue: '1'
     },
     {
       type: 'button',

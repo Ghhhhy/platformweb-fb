@@ -99,7 +99,8 @@ const proconf = {
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        seq: true, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [
@@ -107,12 +108,10 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
-        fixed: false,
         align: 'left',
-        width: 160,
-        sortable: false,
-        filters: false,
+        width: 260,
         field: 'name',
+        sortable: true,
         cellRender: {
           name: '$vxeIcon',
           props: {
@@ -128,40 +127,36 @@ const proconf = {
           {
             title: '合计',
             field: 'all',
-            sortable: false,
-            filters: false,
             formula: '{amountProvince}+{amountCity}+{amountCounty}',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '省级',
             field: 'amountProvince',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '市级',
             field: 'amountCity',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             cellRender: {
               name: '$vxeMoney'
             }
           },
           {
             title: '县级',
-            sortable: false,
-            filters: false,
             field: 'amountCounty',
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: {
               name: '$vxeMoney'
             }
@@ -171,51 +166,44 @@ const proconf = {
       {
         title: '省级',
         width: 200,
-        sortable: false,
-        filters: false,
         align: 'center',
         children: [
           {
             title: '结转金额',
             field: 'amountProvince',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配本级',
             field: 'amountProvince',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '分配下级',
-            field: '',
+            field: 'amountSnfpxj',
             width: 200,
-            sortable: false,
-            filters: false,
+            sortable: true,
             align: 'right'
           },
           {
             title: '未分配',
-            field: '',
-            sortable: false,
-            filters: false,
+            field: 'amountSnwfp',
             width: 200,
+            sortable: true,
             align: 'right'
           },
           {
             title: '进度',
             field: 'spro1',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             formula: '100',
             cellRender: {
               name: '$vxeRatio'
@@ -235,19 +223,17 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountSnSjz',
                 width: 200,
-                sortable: false,
-                filters: false,
-                align: 'right'
+                align: 'right',
+                sortable: true
               },
               {
                 title: '市级',
                 field: 'amountCity',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -255,8 +241,7 @@ const proconf = {
                 field: 'shsaAmount11',
                 width: 200,
                 align: 'right',
-                sortable: false,
-                filters: false,
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -271,19 +256,17 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountSSnfpbj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
                 field: 'amountCity',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
@@ -291,8 +274,7 @@ const proconf = {
                 field: 'shsaAmount2',
                 width: 200,
                 align: 'right',
-                sortable: false,
-                filters: false,
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -307,26 +289,23 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountSSnfpxj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
+                field: 'amountSSfpbj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountSSnfpbjAll',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right',
                 formula: ''
               }
@@ -339,26 +318,23 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountSSnwpb',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
+                field: 'amountSSwpb',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '总金额',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountSSnwpbAll',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 formula: ''
               }
@@ -371,10 +347,9 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountSSnPro',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
@@ -382,9 +357,8 @@ const proconf = {
                 field: 'shjpro',
                 width: 200,
                 align: 'right',
-                sortable: false,
-                filters: false,
                 formula: '100',
+                sortable: true,
                 cellRender: { name: '$vxeRatio' }
               },
               {
@@ -392,9 +366,8 @@ const proconf = {
                 field: 'shpro',
                 formula: '100',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -415,35 +388,31 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountXSnjz',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXSjz',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '县级',
                 field: 'amountCounty',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'xsaAmount11',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right',
                 cellRender: {
                   name: '$vxeMoney'
@@ -459,36 +428,32 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountXSnfpbj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXSfpbj',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '县级',
                 field: 'amountCounty',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: { name: '$vxeMoney' }
               },
               {
                 title: '总金额',
                 field: 'xsaAmount2',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
+                sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -503,34 +468,30 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
+                field: 'amountXSnfpxj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
+                field: 'amountXSfpxj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '县级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXXfpxj',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '总金额',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXSnfpxjAll',
                 width: 200,
+                sortable: true,
                 align: 'right',
                 formula: ''
               }
@@ -543,34 +504,30 @@ const proconf = {
             children: [
               {
                 title: '省级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXSnwfp',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
-                field: '',
-                sortable: false,
-                filters: false,
+                field: 'amountXSwfp',
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '县级',
-                field: '',
+                field: 'amountXXwfp',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '总金额',
-                field: '',
+                field: 'amountXSnwfpAll',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right',
                 formula: ''
               }
@@ -584,25 +541,22 @@ const proconf = {
               {
                 title: '省级',
                 field: 'sj',
-                sortable: false,
-                filters: false,
                 width: 200,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '市级',
                 field: 'shj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right'
               },
               {
                 title: '县级',
                 field: 'xj',
                 width: 200,
-                sortable: false,
-                filters: false,
+                sortable: true,
                 align: 'right',
                 formula: '100',
                 cellRender: { name: '$vxeRatio' }
@@ -611,10 +565,9 @@ const proconf = {
                 title: '总进度',
                 field: 'saAmount1',
                 width: 200,
-                sortable: false,
-                filters: false,
                 align: 'right',
                 formula: '100',
+                sortable: true,
                 cellRender: {
                   name: '$vxeRatio'
                 }

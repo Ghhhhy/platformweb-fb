@@ -40,7 +40,7 @@
               :table-data="tableData"
               :table-config="tableConfig"
               :pager-config="mainPagerConfig"
-              :toolbar-config="false"
+              :toolbar-config="tableToolbarConfig"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
               @cellClick="cellClick"
@@ -53,7 +53,8 @@
       v-if="dialogVisible"
       :title="dialogTitle"
       :warning-code="warningCode"
-      :fi-rule-code="fiRuleCode"
+      is-need-fi-rule-code
+      :fi-rule-code="childFiRuleCode"
     />
   </div>
 </template>
@@ -83,7 +84,7 @@ export default {
       type: String,
       default: ''
     },
-    mofDivName: {
+    mofDivCode: {
       type: String,
       default: ''
     },
@@ -94,6 +95,20 @@ export default {
     agencyCodeList: {
       type: Array,
       default: null
+    },
+    regulationClass: {
+      type: String,
+      default: ''
+    },
+    warnLevel: {
+      type: String,
+      default: ''
+    },
+    searchList: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   watch: {
@@ -104,10 +119,12 @@ export default {
   data() {
     return {
       showInfo: false,
+      fiRuleName: '',
       warningCode: '',
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
+      childFiRuleCode: this.fiRuleCode,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -131,7 +148,7 @@ export default {
       },
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
+      searchDataList: { ...proconf.highQueryData, ...this.searchList },
       toolBarStatusSelect: {
         type: 'button',
         iconName: 'base-all.png',
@@ -288,7 +305,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -331,6 +348,9 @@ export default {
       }
       this.condition = condition
       console.log(this.condition)
+      let fiscalYear = this.condition.fiscalYear[0]
+      this.fiscalYear = fiscalYear
+      this.agencyCodeList = val.agencyCodeList_code__multiple
       this.payApplyNumber = val.payApplyNumber
       this.fiRuleName = val.fiRuleName
       this.queryTableDatas()
@@ -357,7 +377,7 @@ export default {
           this.dialogVisible = true
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.fiRuleCode
+          this.childFiRuleCode = this.selectData.fiRuleCode
           break
         case 'sign': // 生成
           let temp = this.$refs.mainTableRef.getSelectionData()
@@ -373,7 +393,7 @@ export default {
             HttpModule.doMark(param).then(res => {
               this.tableLoading = false
               if (res.code === '000000') {
-                this.$message.success('标记成功！请前往监控处理单生成界面查看')
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
                 this.refresh()
               } else {
                 this.$message.error(res.message)
@@ -453,14 +473,18 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear || '2022',
+        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         fiRuleCode: this.fiRuleCode,
-        mofDivName: this.mofDivName,
+        mofDivCode: this.mofDivCode,
         status: this.status,
         regulationType: this.regulationType,
         agencyCodeList: this.agencyCodeList,
-        fiRuleName: this.fiRuleName,
-        businessNo: this.payApplyNumber
+        fiRuleName: this.fiRuleName || this.searchDataList.fiRuleName,
+        businessNo: this.payApplyNumber,
+        regulationClass: this.regulationClass,
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        warnLevel: this.warnLevel
+
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
@@ -469,6 +493,17 @@ export default {
           this.tableData = res.data.results
           this.tableData.forEach(item => {
             item.agency = item.agencyCode + '-' + item.agencyName
+            if (item.warnLevel === 1) {
+              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            } else if (item.warnLevel === 2) {
+              item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            } else if (item.warnLevel === 3) {
+              item.warnLevel = '<span style="color:red">红色预警</span>'
+            } else if (item.warnLevel === 5) {
+              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            } else if (item.warnLevel === 4) {
+              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            }
           })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
@@ -493,6 +528,30 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     }
   },
   created() {
@@ -501,6 +560,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getAgency()
   }
 }
 </script>

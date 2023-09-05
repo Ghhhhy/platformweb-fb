@@ -14,6 +14,14 @@
           {{ item }}
         </div>
       </div>
+      <div v-show="!disabled" style="width:100%;height: 80px;margin:0 15px">
+        <div type="flex" justify="end">
+          <div style="width:100%">
+            <vxe-button id="savebutton" style="float:right;margin-right:35px" status="primary" @click="doInsert">保存</vxe-button>
+            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+          </div>
+        </div>
+      </div>
     </div>
     <!--模板信息-->
     <div v-show="ruleSetShow" class="payVoucherInput" style="margin-top:50px;">
@@ -417,6 +425,44 @@
               </el-container>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则描述</div>
+                    <el-input
+                      v-model="fiRuleDesc"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      placeholder="请填写规则描述"
+                      style=" width:90%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则依据</div>
+                    <el-input
+                      v-model="implDesc"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      placeholder="请填写规则依据"
+                      style=" width:90%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
           <!-- <el-row>
             <el-col :span="8">
               <el-container>
@@ -555,7 +601,8 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -564,7 +611,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-show="!disabled" slot="footer" style="width:100%;height: 80px;margin:0 15px">
+      <!-- <div v-show="!disabled" slot="footer" style="width:100%;height: 80px;margin:0 15px">
         <div v-if="showbox" id="bigbox"></div>
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="end">
@@ -573,7 +620,7 @@
             <el-button style="float:right;margin-right:20px" @click="dialogClose">取消</el-button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </vxe-modal>
 </template>
@@ -739,6 +786,8 @@ export default {
       fiRuleTypeCodeName: '',
       policiesName: '',
       policiesDescription: '',
+      fiRuleDesc: '',
+      implDesc: '',
       dialogVisible: true,
       addLoading: false,
       token: '',
@@ -913,6 +962,8 @@ export default {
         this.handleType = 3
       } else if (val === 4) {
         this.handleType = 4
+      } else if (val === 5) {
+        this.handleType = 5
       }
     },
     choosehandleType(val) {
@@ -924,6 +975,8 @@ export default {
         this.warningLevel = 3
       } else if (val === 4) {
         this.warningLevel = 4
+      } else if (val === 5) {
+        this.warningLevel = 5
       }
     },
     chooseTriggerClass(val) {
@@ -1273,6 +1326,9 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
+        item.code = item.id
+        item.guid = item.id
+        item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
@@ -1283,6 +1339,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       // let that = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1295,7 +1352,7 @@ export default {
       }
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
@@ -1314,6 +1371,7 @@ export default {
               label: '全部',
               code: 'root',
               isleaf: '0',
+              disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',
               children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
@@ -1341,12 +1399,71 @@ export default {
           // })
           console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
         } else {
           let tempArr = []
-          tempArr.push('B99903EABA534E01AFB5E4829A5A0054')
-          this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          tempArr.push('root')
+          let arr = []
+          this.scope = this.getArr(this.treeData, arr)
+          if (regulationType === '部门级') {
+            arr = []
+            this.scope = this.getArr(this.treeData, arr)
+          } else if (regulationType === '财政级') {
+            arr = []
+            this.scope = this.getArr1(this.treeData, arr)
+            console.log(this.scope)
+          }
+          this.$nextTick(() => {
+            let dataArr = []
+            this.scope.forEach(item => {
+              let str = ''
+              if (regulationType !== '系统级') {
+                str = item.agencyId.toString()
+              } else {
+                str = item.mofDivId.toString()
+              }
+              dataArr.push(str)
+            })
+            this.$refs.rightTree.treeOptionFn().setCheckedKeys(dataArr)
+            this.defaultCheckedKeys = dataArr
+          })
         }
       })
+    },
+    getArr(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: '',
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.code
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr(item.children, arr)
+        }
+      })
+      return arr
+    },
+    getArr1(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: '',
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.code
+          obj.agencyCode = item.name.split('-')[0]
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr1(item.children, arr)
+        }
+      })
+      return arr
     },
     // 保存新增的计划信息
     doInsert() {
@@ -1398,6 +1515,14 @@ export default {
       }
       if (this.businessModuleCode === undefined) {
         this.$message.warning('请选择业务模块')
+        return
+      }
+      if (!this.fiRuleDesc) {
+        this.$XModal.message({ status: 'warning', message: '请填写规则描述！' })
+        return
+      }
+      if (!this.implDesc) {
+        this.$XModal.message({ status: 'warning', message: '请填写规则依据！' })
         return
       }
       if (this.businessModuleName === null) {
@@ -1549,6 +1674,8 @@ export default {
         'regulationModelCode': that.regulationModelCode, // 模板编码
         'regulationModelName': that.crTemplate, // 模板名称
         'warningTips': that.policiesDescription, // 预警提示
+        fiRuleDesc: that.fiRuleDesc,
+        implDesc: that.implDesc,
         'regulationStatus': this.$parent.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'regulationConfig': datas1,
         'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
@@ -1866,11 +1993,13 @@ export default {
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       // this.warnLocation = this.$parent.DetailData.warnLocation
       this.policiesDescription = this.$parent.DetailData.warningTips
+      this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
+      this.implDesc = this.$parent.DetailData.implDesc
       // 不可编辑
       // this.buttonConfig = {}
       this.disabled = true
       this.editConfig = false
-    } else if (this.$parent.dialogTitle === '修改') {
+    } else if (this.$parent.dialogTitle === '修改' || this.$parent.dialogTitle === '复制') {
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag
@@ -1910,6 +2039,8 @@ export default {
         this.fiRuleTypeCodeName = ''
       }
       this.policiesDescription = this.$parent.DetailData.warningTips
+      this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
+      this.implDesc = this.$parent.DetailData.implDesc
       this.scope = this.$parent.DetailData.regulationScope
     }
     if (this.$parent.dialogTitle !== '新增') {

@@ -23,18 +23,18 @@ export const menuMap = menus.map((item, index) => {
 })
 
 export const menuModelData = [
-  { name: '三保', postion: { top: '362px', left: '18px' } },
-  { name: '会计核算', isOpen: true, postion: { top: '250px', left: '50px' }, report: ['/StatisticalFormsByCompartmentHs', '/StatisticalFormsByRankHs', '/StatisticalFormsByRuleHs'] },
-  { name: '地方债务管理', postion: { top: '436px', left: '212px' } },
-  { name: '转移支付', postion: { top: '88px', left: '94px' } },
-  { name: '预算编制', postion: { top: '249px', left: '288px' } },
-  { name: '项目库管理', postion: { top: '327px', left: '448px' } },
-  { name: '预算调整调剂', postion: { top: '72px', left: '308px' } },
-  { name: '预算批复', postion: { top: '172px', left: '480px' } },
-  { name: '预算执行', isOpen: true, postion: { top: '238px', left: '622px' }, report: ['/StatisticalFormsByCompartment', '/StatisticalFormsByRank', '/StatisticalFormsByRule'] },
-  { name: '决算和报告', postion: { top: '0px', left: '464px' } },
-  { name: '基础信息管理', postion: { top: '82px', left: '610px' } },
-  { name: '直达资金', postion: { top: '386px', left: '644px' } }
+  { code: '0204', name: '三保', postion: { top: '362px', left: '18px' } },
+  { code: '0107', name: '会计核算', isOpen: true, postion: { top: '250px', left: '50px' }, report: ['/StatisticalFormsByCompartmentHs', '/StatisticalFormsByRankHs', '/StatisticalFormsByRuleHs'] },
+  { code: '0203', name: '地方债务管理', postion: { top: '436px', left: '212px' } },
+  { code: '0202', name: '转移支付', postion: { top: '88px', left: '94px' } },
+  { code: '0103', name: '预算编制', postion: { top: '249px', left: '288px' } },
+  { code: '0102', name: '项目库管理', postion: { top: '327px', left: '448px' } },
+  { code: '0104', name: '预算调整调剂', postion: { top: '72px', left: '308px' } },
+  { code: '0105', name: '预算批复', postion: { top: '172px', left: '480px' } },
+  { code: '0106', name: '预算执行', isOpen: true, postion: { top: '238px', left: '622px' }, report: ['/StatisticalFormsByCompartment', '/StatisticalFormsByRank', '/StatisticalFormsByRule'] },
+  { code: '0108', name: '决算和报告', postion: { top: '0px', left: '464px' } },
+  { code: '0101', name: '基础信息管理', postion: { top: '82px', left: '610px' } },
+  { code: '0201', name: '直达资金', postion: { top: '386px', left: '644px' } }
 ]
 
 export const getViewAllRuleSelectOption = () => {

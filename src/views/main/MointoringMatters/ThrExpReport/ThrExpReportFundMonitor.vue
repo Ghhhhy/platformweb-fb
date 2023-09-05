@@ -29,10 +29,11 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
-          :pager-config="false"
+          :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           :default-money-unit="defaultMoneyUnit"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
           <template v-slot:toolbarSlots>
@@ -150,7 +151,7 @@ export default {
       mainPagerConfig: {
         total: 0,
         currentPage: 1,
-        pageSize: 200
+        pageSize: 20
       },
       tableConfig: {
         renderers: {
@@ -162,7 +163,46 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          finalAccounts: 0,
+          budgetAmount: 0,
+          executionsAmount: 0,
+          accountingAmount: 0,
+          finalAccounts30212: 0,
+          budgetAmount30212: 0,
+          executionsAmount30212: 0,
+          accountingAmount30212: 0,
+          finalAccounts30217: 0,
+          budgetAmount30217: 0,
+          executionsAmount30217: 0,
+          accountingAmount30217: 0,
+          finalAccountsBus: 0,
+          budgetAmountBus: 0,
+          executionsAmountBus: 0,
+          accountingAmountBus: 0,
+          finalAccounts30913: 0,
+          budgetAmount30913: 0,
+          executionsAmount30913: 0,
+          accountingAmount30913: 0,
+          finalAccounts31013: 0,
+          budgetAmount31013: 0,
+          executionsAmount31013: 0,
+          accountingAmount31013: 0,
+          finalAccounts30231: 0,
+          budgetAmount30231: 0,
+          executionsAmount30231: 0,
+          accountingAmount30231: 0,
+          finalAccounts30215: 0,
+          budgetAmount30215: 0,
+          executionsAmount30215: 0,
+          accountingAmount30215: 0,
+          finalAccounts30216: 0,
+          budgetAmount30216: 0,
+          executionsAmount30216: 0,
+          accountingAmount30216: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -430,6 +470,8 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
         date: this.searchDataList.date
       }
       this.date = this.searchDataList.date
@@ -437,11 +479,157 @@ export default {
       HttpModule.fundMonitor(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data
-          this.mainPagerConfig.total = res.data.length
-          this.tabStatusNumConfig['1'] = res.data.length
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
           let progress = this.month / 12
-          this.tableData.forEach(item => {
+          let finalAccounts = 0
+          let budgetAmount = 0
+          let executionsAmount = 0
+          let accountingAmount = 0
+          let finalAccounts30212 = 0
+          let budgetAmount30212 = 0
+          let executionsAmount30212 = 0
+          let accountingAmount30212 = 0
+          let finalAccounts30217 = 0
+          let budgetAmount30217 = 0
+          let executionsAmount30217 = 0
+          let accountingAmount30217 = 0
+          let finalAccountsBus = 0
+          let budgetAmountBus = 0
+          let executionsAmountBus = 0
+          let accountingAmountBus = 0
+          let finalAccounts30913 = 0
+          let budgetAmount30913 = 0
+          let executionsAmount30913 = 0
+          let accountingAmount30913 = 0
+          let finalAccounts31013 = 0
+          let budgetAmount31013 = 0
+          let executionsAmount31013 = 0
+          let accountingAmount31013 = 0
+          let finalAccounts30231 = 0
+          let budgetAmount30231 = 0
+          let executionsAmount30231 = 0
+          let accountingAmount30231 = 0
+          let finalAccounts30215 = 0
+          let budgetAmount30215 = 0
+          let executionsAmount30215 = 0
+          let accountingAmount30215 = 0
+          let finalAccounts30216 = 0
+          let budgetAmount30216 = 0
+          let executionsAmount30216 = 0
+          let accountingAmount30216 = 0
+
+          this.tableData.forEach((item) => {
+            if (item.finalAccounts) {
+              finalAccounts += item.finalAccounts
+            }
+            if (item.budgetAmount) {
+              budgetAmount += item.budgetAmount
+            }
+            if (item.executionsAmount) {
+              executionsAmount += item.executionsAmount
+            }
+            if (item.accountingAmount) {
+              accountingAmount += item.accountingAmount
+            }
+
+            if (item.finalAccounts30212) {
+              finalAccounts30212 += item.finalAccounts30212
+            }
+            if (item.budgetAmount30212) {
+              budgetAmount30212 += item.budgetAmount30212
+            }
+            if (item.executionsAmount30212) {
+              executionsAmount30212 += item.executionsAmount30212
+            }
+            if (item.accountingAmount30212) {
+              accountingAmount30212 += item.accountingAmount30212
+            }
+            if (item.finalAccounts30217) {
+              finalAccounts30217 += item.finalAccounts30217
+            }
+            if (item.budgetAmount30217) {
+              budgetAmount30217 += item.budgetAmount30217
+            }
+            if (item.executionsAmount30217) {
+              executionsAmount30217 += item.executionsAmount30217
+            }
+            if (item.accountingAmount30217) {
+              accountingAmount30217 += item.accountingAmount30217
+            }
+            if (item.finalAccountsBus) {
+              finalAccountsBus += item.finalAccountsBus
+            }
+            if (item.budgetAmountBus) {
+              budgetAmountBus += item.budgetAmountBus
+            }
+            if (item.executionsAmountBus) {
+              executionsAmountBus += item.executionsAmountBus
+            }
+            if (item.accountingAmountBus) {
+              accountingAmountBus += item.accountingAmountBus
+            }
+            if (item.finalAccounts30913) {
+              finalAccounts30913 += item.finalAccounts30913
+            }
+            if (item.budgetAmount30913) {
+              budgetAmount30913 += item.budgetAmount30913
+            }
+            if (item.executionsAmount30913) {
+              executionsAmount30913 += item.executionsAmount30913
+            }
+            if (item.accountingAmount30913) {
+              accountingAmount30913 += item.accountingAmount30913
+            }
+            if (item.finalAccounts31013) {
+              finalAccounts31013 += item.finalAccounts31013
+            }
+            if (item.budgetAmount31013) {
+              budgetAmount31013 += item.budgetAmount31013
+            }
+            if (item.executionsAmount31013) {
+              executionsAmount31013 += item.executionsAmount31013
+            }
+            if (item.accountingAmount31013) {
+              accountingAmount31013 += item.accountingAmount31013
+            }
+            if (item.finalAccounts30231) {
+              finalAccounts30231 += item.finalAccounts30231
+            }
+            if (item.budgetAmount30231) {
+              budgetAmount30231 += item.budgetAmount30231
+            }
+            if (item.executionsAmount30231) {
+              executionsAmount30231 += item.executionsAmount30231
+            }
+            if (item.accountingAmount30231) {
+              accountingAmount30231 += item.accountingAmount30231
+            }
+            if (item.finalAccounts30215) {
+              finalAccounts30215 += item.finalAccounts30215
+            }
+            if (item.budgetAmount30215) {
+              budgetAmount30215 += item.budgetAmount30215
+            }
+            if (item.executionsAmount30215) {
+              executionsAmount30215 += item.executionsAmount30215
+            }
+            if (item.accountingAmount30215) {
+              accountingAmount30215 += item.accountingAmount30215
+            }
+            if (item.finalAccounts30216) {
+              finalAccounts30216 += item.finalAccounts30216
+            }
+            if (item.budgetAmount30216) {
+              budgetAmount30216 += item.budgetAmount30216
+            }
+            if (item.executionsAmount30216) {
+              executionsAmount30216 += item.executionsAmount30216
+            }
+            if (item.accountingAmount30216) {
+              accountingAmount30216 += item.accountingAmount30216
+            }
             Object.keys(item).forEach(t => {
               if (t.includes('Warn') || t.includes('warn')) {
                 if (item[t] === '1') {
@@ -459,6 +647,42 @@ export default {
               }
             })
           })
+          this.tableFooterConfig.totalObj.finalAccounts = finalAccounts
+          this.tableFooterConfig.totalObj.budgetAmount = budgetAmount
+          this.tableFooterConfig.totalObj.executionsAmount = executionsAmount
+          this.tableFooterConfig.totalObj.accountingAmount = accountingAmount
+          this.tableFooterConfig.totalObj.finalAccounts30212 = finalAccounts30212
+          this.tableFooterConfig.totalObj.budgetAmount30212 = budgetAmount30212
+          this.tableFooterConfig.totalObj.executionsAmount30212 = executionsAmount30212
+          this.tableFooterConfig.totalObj.accountingAmount30212 = accountingAmount30212
+          this.tableFooterConfig.totalObj.finalAccounts30217 = finalAccounts30217
+          this.tableFooterConfig.totalObj.budgetAmount30217 = budgetAmount30217
+          this.tableFooterConfig.totalObj.executionsAmount30217 = executionsAmount30217
+          this.tableFooterConfig.totalObj.accountingAmount30217 = accountingAmount30217
+          this.tableFooterConfig.totalObj.finalAccountsBus = finalAccountsBus
+          this.tableFooterConfig.totalObj.budgetAmountBus = budgetAmountBus
+          this.tableFooterConfig.totalObj.executionsAmountBus = executionsAmountBus
+          this.tableFooterConfig.totalObj.accountingAmountBus = accountingAmountBus
+          this.tableFooterConfig.totalObj.finalAccounts30913 = finalAccounts30913
+          this.tableFooterConfig.totalObj.budgetAmount30913 = budgetAmount30913
+          this.tableFooterConfig.totalObj.executionsAmount30913 = executionsAmount30913
+          this.tableFooterConfig.totalObj.accountingAmount30913 = accountingAmount30913
+          this.tableFooterConfig.totalObj.finalAccounts31013 = finalAccounts31013
+          this.tableFooterConfig.totalObj.budgetAmount31013 = budgetAmount31013
+          this.tableFooterConfig.totalObj.executionsAmount31013 = executionsAmount31013
+          this.tableFooterConfig.totalObj.accountingAmount31013 = accountingAmount31013
+          this.tableFooterConfig.totalObj.finalAccounts30231 = finalAccounts30231
+          this.tableFooterConfig.totalObj.budgetAmount30231 = budgetAmount30231
+          this.tableFooterConfig.totalObj.executionsAmount30231 = executionsAmount30231
+          this.tableFooterConfig.totalObj.accountingAmount30231 = accountingAmount30231
+          this.tableFooterConfig.totalObj.finalAccounts30215 = finalAccounts30215
+          this.tableFooterConfig.totalObj.budgetAmount30215 = budgetAmount30215
+          this.tableFooterConfig.totalObj.executionsAmount30215 = executionsAmount30215
+          this.tableFooterConfig.totalObj.accountingAmount30215 = accountingAmount30215
+          this.tableFooterConfig.totalObj.finalAccounts30216 = finalAccounts30216
+          this.tableFooterConfig.totalObj.budgetAmount30216 = budgetAmount30216
+          this.tableFooterConfig.totalObj.executionsAmount30216 = executionsAmount30216
+          this.tableFooterConfig.totalObj.accountingAmount30216 = accountingAmount30216
         } else {
           this.$message.error(res.message)
         }
@@ -481,22 +705,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = { ...that.treeQueryparams, ...this.$store.getters.treeQueryparamsCom }
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)

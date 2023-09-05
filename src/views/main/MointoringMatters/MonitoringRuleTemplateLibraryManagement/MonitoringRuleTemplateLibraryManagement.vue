@@ -6,7 +6,6 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="false"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -73,7 +72,6 @@ export default {
   },
   data() {
     return {
-      fiRuleTypeCode: '',
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -190,12 +188,10 @@ export default {
   },
   methods: {
     search(obj) {
-      console.log(obj)
       this.ruleTemplateName = obj.ruleTemplateName
       this.businessModuleName = obj.businessModuleName
-      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.functionName = obj.functionName
-      this.fiRuleTypeCode = obj.fiRuleTypeCode_code
+      this.fiRuleTypeCode = Number(obj.fiRuleTypeCode_code)
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -231,6 +227,12 @@ export default {
         // 修改
         case 'change':
           this.changeTemplate()
+          break
+        case 'copy':
+          this.copyTemplate()
+          break
+        case 'check':
+          this.showInfo()
           break
         // 删除
         case 'del':
@@ -349,6 +351,30 @@ export default {
       this.dialogVisible = true
       this.dialogTitle = '修改'
     },
+    // 修改
+    copyTemplate() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.ruleTemplateCode = selection[0].ruleTemplateCode
+      this.functionCodeList = selection[0].functionCodeList
+      this.dialogVisible = true
+      this.dialogTitle = '复制'
+    },
+    // 查看详情
+    showInfo() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+        return
+      }
+      this.ruleTemplateCode = selection[0].ruleTemplateCode
+      this.functionCodeList = selection[0].functionCodeList
+      this.dialogVisible = true
+      this.dialogTitle = '查看详情'
+    },
     // 删除
     delTemp() {
       let selection = this.$refs.mainTableRef.getSelectionData()
@@ -401,7 +427,6 @@ export default {
         'ruleTemplateName': this.ruleTemplateName,
         'functionName': this.functionName,
         businessModuleName: this.businessModuleName,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         fiRuleTypeCode: this.fiRuleTypeCode
       }
       this.tableLoading = true

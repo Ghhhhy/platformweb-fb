@@ -4,6 +4,9 @@ import { Base64 } from 'js-base64'
 import store from '@/store/index'
 
 export default {
+  queryTableData(params) {
+    return post('dfr-monitor-service/dfr/autoLedger/query', params)
+  },
   // 获取表格数据
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/query', params)
