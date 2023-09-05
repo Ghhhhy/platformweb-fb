@@ -361,7 +361,7 @@ export default {
     handleDetail(reportCode, mofDivCode, column) {
       let params = {
         reportCode: reportCode,
-        mofDivCodeList: mofDivCode,
+        mofDivCode: mofDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.pagerConfig.pageSize,

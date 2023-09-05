@@ -564,20 +564,20 @@ export default {
       let that = this
       getMofDivTree(that.treeQueryparams).then(res => {
         if (res.data && Array.isArray(res.data)) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = res.data
+          let treeResdata = that.getChildrenData(res.data)
+          treeResdata.forEach(item => {
+            item.label = item.code + '-' + item.name
+          })
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          that.treeData = result
         } else {
           this.$message.error('左侧树加载失败')
         }

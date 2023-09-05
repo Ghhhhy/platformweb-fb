@@ -118,7 +118,7 @@ export default {
       treeTypeConfig: {
         curRadio: 'AGENCY'
       },
-      treeQueryparams: this.$store.getters.treeQueryparams,
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -641,25 +641,25 @@ export default {
     },
     getLeftTreeData() {
       let queryUrl = 'getTreeDataProject'
-      if (this.$store.getters.isSx) {
-        queryUrl = 'getTreeData'
-      }
+      // if (this.$store.getters.isSx) {
+      //   queryUrl = 'getTreeData'
+      // }
       HttpModule[queryUrl](this.treeQueryparams).then(res => {
         if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          this.treeData = res.data
+          let treeResdata = this.getChildrenData(res.data)
+          treeResdata.forEach(item => {
+            item.label = item.code + '-' + item.name
+          })
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          this.treeData = result
         } else {
           this.$message.error('左侧树加载失败')
         }
