@@ -19,7 +19,7 @@
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目编码</div>
                     <el-input
                       v-model="proCode"
-                      disabled="true"
+                      :disabled="showType"
                       placeholder="请输入项目编码"
                       style="width:45%"
                     />
@@ -34,7 +34,7 @@
                     <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;项目名称</div>
                     <el-input
                       v-model="proName"
-                      disabled="true"
+                      :disabled="showType"
                       placeholder="请输入项目名称"
                       style="width:45%"
                     />
@@ -210,6 +210,7 @@ export default {
       cfsHotTopicCateName: '',
       proFundCode: '',
       proFundName: '',
+      showType: false,
       cfsHotTopicCateCodeOptions: [
         { value: '1', label: '01' },
         { value: '2', label: '02' },
@@ -252,8 +253,11 @@ export default {
     // 修改回显
     showInfo() {
       if (this.title === '新增') {
+        this.showType = false
         this.attachmentId = this.$ToolFn.utilFn.getUuid()
         return
+      } else {
+        this.showType = true
       }
       this.proCode = this.modifyData.proCode
       this.proName = this.modifyData.proName

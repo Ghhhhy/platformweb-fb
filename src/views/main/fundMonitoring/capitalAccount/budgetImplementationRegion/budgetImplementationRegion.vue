@@ -152,6 +152,7 @@ export default {
       sDetailVisible: false,
       sDetailTitle: '',
       sDetailData: [],
+      paramS5: this.transJson3(this.$store.state.curNavModule.param5),
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -307,10 +308,37 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    this.getNewData()
-  },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
+        this.getPro()
+      }
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -442,6 +470,12 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, row, column) {
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
       let condition = ''
       let areaType = column.own.areaType
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) { // 判断是不是city
@@ -506,7 +540,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -740,7 +774,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }
       if (this.isSx) {
         param.reportCode = this.params5
@@ -812,6 +846,12 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      }
       if (this.isSx) {
         if (['recAmount', 'amountRec', 'amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountZjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXbjfp', 'amountXxjfp', 'amountZjfp'].includes(column.property)) {
           return {
@@ -830,6 +870,14 @@ export default {
           }
         }
       }
+    }
+  },
+  mounted() {
+    console.log(this.paramS5, 'paramS5paramS5')
+    this.getNewData()
+    if (this.paramS5.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
     }
   },
   created() {

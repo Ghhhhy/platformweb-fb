@@ -170,6 +170,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
+      paramS5: this.transJson3(this.$store.state.curNavModule.param5),
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
@@ -287,6 +288,10 @@ export default {
     }
   },
   mounted() {
+    if (this.paramS5.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
     // this.tableLoading = true
     // setTimeout(() => {
     //   this.tableLoading = false
@@ -295,6 +300,36 @@ export default {
     // this.initTableData()
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
+        this.getMofDiv()
+      }
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -435,7 +470,13 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, proCode, column) {
+    handleDetail(reportCode, proCode, column, row) {
+      let that = this
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = that.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
         switch (column) {
@@ -561,7 +602,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes || '')
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -691,12 +732,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key)
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = '支出明细'
           break
       }
@@ -791,7 +832,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes || '')
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -840,6 +881,12 @@ export default {
       return datas
     },
     cellStyle({ row, rowIndex, column }) {
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      }
       if (this.isSx) {
         if (['recAmount', 'amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountZjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXbjfp', 'amountXxjfp', 'amountZjfp'].includes(column.property)) {
           return {
