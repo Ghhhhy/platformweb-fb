@@ -96,7 +96,7 @@ export let proconf = {
     },
     {
       title: '支付申请编号',
-      field: 'payApplyNumber',
+      field: 'payAppNo',
       width: '8',
       align: 'left',
       formula: '',
@@ -169,7 +169,7 @@ export let proconf = {
     },
     {
       title: '支付申请编号',
-      field: 'payApplyNumber',
+      field: 'payAppNo',
       width: '8',
       align: 'left',
       formula: '',
@@ -309,7 +309,7 @@ export let proconf = {
     {
       title: '支付申请编号',
       width: '180px',
-      field: 'payApplyNumber',
+      field: 'payAppNo',
       sortable: false,
       align: 'left'
     },
@@ -330,7 +330,7 @@ export let proconf = {
     {
       title: '指标文号',
       width: '180px',
-      field: 'targetDocNum',
+      field: 'corBgtDocNoName',
       sortable: false,
       align: 'left'
     },
@@ -408,14 +408,14 @@ export let proconf = {
     {
       title: '收款人',
       width: '180px',
-      field: 'payee',
+      field: 'payeeAcctName',
       sortable: false,
       align: 'left'
     },
     {
       title: '收款人账号',
       width: '180px',
-      field: 'receiveAccount',
+      field: 'payeeAcctNo',
       sortable: false,
       align: 'left'
     },
@@ -436,7 +436,7 @@ export let proconf = {
     {
       title: '收款人开户行',
       width: '180px',
-      field: 'receiveBankName',
+      field: 'payeeAcctBankName',
       sortable: false,
       align: 'left'
     },
@@ -637,7 +637,7 @@ export let proconf = {
       }
     },
     {
-      field: 'pay_app_no',
+      field: 'payAppNo',
       title: '支付申请编号',
       titleWidth: '180',
       span: 8,
@@ -657,7 +657,7 @@ export let proconf = {
       }
     },
     {
-      field: 'cor_bgt_doc_no_name',
+      field: 'corBgtDocNoName',
       title: '指标文号',
       titleWidth: '180',
       span: 8,
