@@ -16,14 +16,14 @@ export default {
   // 修改
   changePolicies(params) {
     return post('large-monitor-platform/lmp/central/update', params)
-  // },
+  },
   // // 获取表格数据
   // queryTableDatasCount(params) {
   //   return post('large-monitor-platform/lmp/askType/getFlowCount', params)
   // },
-  // delPolicies(params) {
-  //   return post('large-monitor-platform/lmp/askType/delete', params)
-  // },
+  delPolicies(params) {
+    return post('large-monitor-platform/lmp/central/delete', params)
+  }
   // getAskCode(params) {
   //   return post('large-monitor-platform/lmp/ask/code', params)
   // },
@@ -36,5 +36,5 @@ export default {
   // },
   // getTypeList(params) {
   //   return post('large-monitor-platform/lmp/ask/getTypeList', params)
-  }
+  // }
 }
