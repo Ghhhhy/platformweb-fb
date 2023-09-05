@@ -149,6 +149,7 @@ export default {
       sDetailVisible: false,
       sDetailTitle: '',
       sDetailData: [],
+      paramS5: this.transJson3(this.$store.state.curNavModule.param5),
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -304,10 +305,37 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    this.getNewData()
-  },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
+        this.getPro()
+      }
+    },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -563,7 +591,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -654,7 +682,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -732,6 +760,14 @@ export default {
           textDecoration: 'underline'
         }
       }
+    }
+  },
+  mounted() {
+    console.log(this.paramS5, 'paramS5paramS5')
+    this.getNewData()
+    if (this.paramS5.isConfigTable === '1') {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
     }
   },
   created() {

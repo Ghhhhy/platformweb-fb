@@ -49,8 +49,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
-  components: {
-  },
+  components: {},
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
@@ -95,10 +94,11 @@ export default {
       searchDataList: proconf.highQueryData,
       detailVisible: true,
       tableFooterConfig: {
+        align: 'center',
+        combinedType: ['switchTotal'],
         showFooter: false
       },
-      tableColumnsConfig: [
-      ],
+      tableColumnsConfig: [],
       pagerConfig: {
         total: 0,
         currentPage: 1,
@@ -136,6 +136,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -207,32 +226,53 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       params.proName = this.condition.proName ? this.condition.proName[0] : ''
-      params.manageMofDepName = this.condition.manageMofDepName ? this.condition.manageMofDepName[0] : ''
-      params.corBgtDocNo = this.condition.corBgtDocNo ? this.condition.corBgtDocNo[0] : ''
-      params.agencyName = this.condition.agencyName ? this.condition.agencyName[0] : ''
+      params.manageMofDepName = this.condition.manageMofDepName
+        ? this.condition.manageMofDepName[0]
+        : ''
+      params.corBgtDocNo = this.condition.corBgtDocNo
+        ? this.condition.corBgtDocNo[0]
+        : ''
+      params.agencyName = this.condition.agencyName
+        ? this.condition.agencyName[0]
+        : ''
       params.useDes = this.condition.useDes ? this.condition.useDes[0] : ''
-      params.payAcctNo = this.condition.payAcctNo ? this.condition.payAcctNo[0] : ''
-      params.payAcctName = this.condition.payAcctName ? this.condition.payAcctName[0] : ''
-      params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
-      params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
-      params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
+      params.payAcctNo = this.condition.payAcctNo
+        ? this.condition.payAcctNo[0]
+        : ''
+      params.payAcctName = this.condition.payAcctName
+        ? this.condition.payAcctName[0]
+        : ''
+      params.payeeAcctName = this.condition.payeeAcctName
+        ? this.condition.payeeAcctName[0]
+        : ''
+      params.payeeAcctNo = this.condition.payeeAcctNo
+        ? this.condition.payeeAcctNo[0]
+        : ''
+      params.xpayDate = this.condition.xpayDate
+        ? this.condition.xpayDate[0]
+        : ''
       this.$parent.tableLoading = true
-      HttpModule.detailPageQuery(params).then((res) => {
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.pagerConfig.total = res.data.totalCount
-        } else {
-          this.$message.error(res.message)
-        }
-      }).finally(() => {
-        this.$parent.tableLoading = false
-      })
+      HttpModule.detailPageQuery(params)
+        .then((res) => {
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.pagerConfig.total = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+        .finally(() => {
+          this.$parent.tableLoading = false
+        })
     },
     showInfo() {
       // this.tableData = this.detailData
       console.log(this.detailType)
       // 区分直达资金分资金和分地区报表做个临时转换，不改动后端代码
-      if (this.detailType === 'zdzjxmmx_fzj' || this.detailType === 'zdzjxmmx_fdq') {
+      if (
+        this.detailType === 'zdzjxmmx_fzj' ||
+        this.detailType === 'zdzjxmmx_fdq'
+      ) {
         this.detailQueryParam.reportCode = 'zdzjxmmx'
       }
 
@@ -302,17 +342,49 @@ export default {
         case 'zxjdxmmx_fdq':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.tableColumnsConfig = proconf.projectColumn.concat([{
-              title: '分配时间',
-              field: 'fpTime',
-              sortable: false,
-              align: 'center'
-            }])
+            this.tableColumnsConfig = proconf.projectColumn.concat([
+              {
+                title: '分配时间',
+                field: 'fpTime',
+                sortable: false,
+                align: 'center'
+              }
+            ])
           } else {
             this.tableColumnsConfig = proconf.projectColumn
           }
           break
         default:
+          break
+      }
+      this.queryTableDatas()
+    },
+    ConfigTable() {
+      if (
+        this.detailType === 'zdzjxmmx_fzj' ||
+        this.detailType === 'zdzjxmmx_fdq'
+      ) {
+        this.detailQueryParam.reportCode = 'zdzjxmmx'
+      }
+      console.info(this.detailType, 'detailType')
+      switch (this.detailType) {
+        case 'zdzjzcmx_fdq':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          this.searchDataList = proconf.highQueryData2
+          break
+        case 'zdzjxmmx_fdq':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          break
+        case 'zdzjzcmx_fzj':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          this.searchDataList = proconf.highQueryData2
+          break
+        case 'zdzjxmmx_fzj':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
           break
       }
       this.queryTableDatas()
@@ -351,8 +423,19 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountbjfpsnjap', 'amountbjfpzyap', 'amountbjfpsjap', 'amountbjfpxjap', 'amountZdzjFp', 'amountpayzyap', 'amountPayZdzj'].includes(column.property)) {
+      const validCellValue = row[column.property] * 1
+      if (
+        validCellValue &&
+        [
+          'amountbjfpsnjap',
+          'amountbjfpzyap',
+          'amountbjfpsjap',
+          'amountbjfpxjap',
+          'amountZdzjFp',
+          'amountpayzyap',
+          'amountPayZdzj'
+        ].includes(column.property)
+      ) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
@@ -372,17 +455,25 @@ export default {
       switch (key) {
         case 'amountZdzjFp':
           let zcSource = 'zdzjzbmx_fzjfp'
-          if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
+          if (
+            this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj'
+          ) {
             zcSource = 'zxjdzbmx_fzjfp'
           }
           if (this.detailType === 'zyzfxmmx') {
             zcSource = 'zyzfzbmx_fzjfp'
           }
-          if (this.detailType === 'zyzfxmmx' || this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' || this.detailType === 'zxjdxmmx_fzj' ||
-            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
+          if (
+            this.detailType === 'zyzfxmmx' ||
+            this.detailType === 'zdzjxmmx' ||
+            this.detailType === 'zdzjxmmx_dfap' ||
+            this.detailType === 'zxjdxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' ||
+            this.detailType === 'zdzjxmmx_fzj'
           ) {
             this.handleDetail(zcSource, obj.row)
-            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+            this.$parent.sDetailTitle =
+              obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountPayZdzj':
@@ -394,11 +485,18 @@ export default {
           if (this.detailType === 'zyzfxmmx') {
             zcSource2 = 'zyzfzcmx_fdq'
           }
-          if (this.detailType === 'zyzfxmmx' || this.detailType === 'zdzjxmmx' || this.detailType === 'zdzjxmmx_dfap' ||
-            this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
-            this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
+          if (
+            this.detailType === 'zyzfxmmx' ||
+            this.detailType === 'zdzjxmmx' ||
+            this.detailType === 'zdzjxmmx_dfap' ||
+            this.detailType === 'zdzjzcmx_fdq' ||
+            this.detailType === 'zdzjxmmx_fzj' ||
+            this.detailType === 'zdzjxmmx_fdq' ||
+            this.detailType === 'zdzjxmmx_fzj'
+          ) {
             this.handleDetail(zcSource2, obj.row)
-            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+            this.$parent.sDetailTitle =
+              obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountpayzyap':
@@ -417,11 +515,20 @@ export default {
     }
   },
   mounted() {
-    this.showInfo()
+    // 合计行 只有上海有
+    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.projectCode === 'SH' && this.transJson(this.$store.state.curNavModule.param5)) {
+      this.tableFooterConfig.showFooter = true
+    } else {
+      this.tableFooterConfig.showFooter = false
+    }
+    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
+      this.ConfigTable()
+    } else {
+      this.showInfo()
+    }
   },
   watch: {},
-  created() {
-  }
+  created() {}
 }
 </script>
 <style lang="scss">
