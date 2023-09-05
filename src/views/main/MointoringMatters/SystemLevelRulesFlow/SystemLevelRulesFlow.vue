@@ -363,7 +363,7 @@ export default {
     audieData(param) {
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         } else {
