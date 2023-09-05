@@ -222,7 +222,7 @@ export default {
         this.excludedComponents.push(self.$route.name)
         this.excludedComponents = [...new Set(this.excludedComponents)]
       }
-      console.log(this.includedComponents)
+      // console.log(this.includedComponents)
     },
     tabTabs(value) {
       if (value !== '') {
