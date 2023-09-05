@@ -910,7 +910,7 @@ export default {
           break
         case 'orangeNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -922,7 +922,7 @@ export default {
           break
         case 'orangeDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '2'
           this.isSign = 2
@@ -958,7 +958,7 @@ export default {
           break
         case 'yellowNotRectifiedNum':
           this.tableColumnsConfig = proconf.notRectifiedNum
-          this.tabStatusBtnConfig.curButton = curStatusButton2
+          this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
           this.isSign = 2
@@ -970,7 +970,7 @@ export default {
           break
         case 'yellowDoneNum':
           this.tableColumnsConfig = proconf.doneNum
-          this.tabStatusBtnConfig.curButton = curStatusButton3
+          this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
           this.warnLevel = '1'
           this.isSign = 2
