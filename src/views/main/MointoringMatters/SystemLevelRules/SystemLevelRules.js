@@ -213,21 +213,21 @@ export let proconf = {
           placeholder: '业务模块'
         }
       }
-    },
-    {
-      title: '业务功能',
-      field: 'businessFunctionName',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '业务功能'
-        }
-      }
+    // },
+    // {
+    //   title: '业务功能',
+    //   field: 'businessFunctionName',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '业务功能'
+    //     }
+    //   }
     }
   ],
   sethighQueryData: {

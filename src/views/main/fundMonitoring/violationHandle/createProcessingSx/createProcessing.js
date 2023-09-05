@@ -133,25 +133,25 @@ export let proconf = {
       },
       name: '$vxeSelect'
     },
-    {
-      'title': '预警级别',
-      'field': 'warningLevel',
-      'width': 180,
-      'align': 'center',
-      'cellRender': {
-        'name': '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
-          }
-        }),
-        'defaultValue': '',
-        'props': {}
-      },
-      'sortable': 'true',
-      'name': '$vxeSelect'
-    },
+    // {
+    //   title: '预警级别',
+    //   field: 'warningLevel',
+    //   width: 180,
+    //   align: 'center',
+    //   cellRender: {
+    //     'name': '$vxeSelect',
+    //     options: store.state.warnInfo.warnLevelOptions.map(item => {
+    //       return {
+    //         ...item,
+    //         value: String(item.value)
+    //       }
+    //     }),
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   sortable: 'true',
+    //   name: '$vxeSelect'
+    // },
     {
       title: '监控规则',
       field: 'fiRuleName',
