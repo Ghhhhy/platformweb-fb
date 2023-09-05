@@ -976,7 +976,8 @@ export default {
     getCount() {
       let param = {
         isUnit: this.transJson(this.$store.state.curNavModule.param5).retroact,
-        roleId: this.$store.state.curNavModule.roleguid
+        roleId: this.$store.state.curNavModule.roleguid,
+        menuId: this.menuId
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
