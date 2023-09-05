@@ -285,6 +285,11 @@ export default {
             this.supplyDataList.thr_exp_name = res.data.executeData.thr_exp_code + (res.data.executeData.thr_exp_name === null ? '' : '-' + res.data.executeData.thr_exp_name)
             this.supplyDataList.applyName = res.data.executeData.applyName
             this.supplyDataList.applyDial = res.data.executeData.applyDial
+            this.supplyDataList.payAppNo = res.data.executeData.payAppNo
+            this.supplyDataList.payeeAcctName = res.data.executeData.payeeAcctName
+            this.supplyDataList.payeeAcctNo = res.data.executeData.payeeAcctNo
+            this.supplyDataList.payeeAcctBankName = res.data.executeData.payeeAcctBankName
+            this.supplyDataList.corBgtDocNoName = res.data.executeData.corBgtDocNoName
           }
           if (res.data.payVoucherVo !== null) {
             this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
