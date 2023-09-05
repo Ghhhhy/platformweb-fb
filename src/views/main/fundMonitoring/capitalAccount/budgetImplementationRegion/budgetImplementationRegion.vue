@@ -846,6 +846,12 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      // 拿到那些可以进行超链接的表格行
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      }
       if (this.isSx) {
         if (['recAmount', 'amountRec', 'amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountZjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXbjfp', 'amountXxjfp', 'amountZjfp'].includes(column.property)) {
           return {
