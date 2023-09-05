@@ -273,11 +273,11 @@ export default {
       switch (obj.code) {
         // 新增
         case 'add':
-          // this.onAddToolbarClickAdd(obj, context, e)
+          this.onAddToolbarClickAdd(obj, context, e)
           break
         // 修改
         case 'change':
-          // this.changePolices()
+          this.changePolices()
           break
         // 删除
         case 'del':
@@ -302,12 +302,13 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      let askTypeCode = []
+      console.log(selection)
+      let ids = []
       selection.forEach(item => {
-        askTypeCode.push(item.askTypeCode)
+        ids.push(item.id)
       })
       let param = {
-        askTypeCode: askTypeCode
+        ids: ids
       }
       this.$confirm('是否确定删除 ?', '提示', {
         confirmButtonText: '确定',
