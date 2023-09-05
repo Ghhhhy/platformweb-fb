@@ -262,9 +262,9 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
+      this.warningLevel = obj.warnLevel
       this.handleType = obj.handleType
-      this.regulationName = obj.regulationName
+      this.regulationName = obj.fiRuleTypeCodeName
       this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
       this.queryTableDatasCount()
@@ -587,13 +587,13 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
+        warningLevel: this.warningLevel, // 预警级别
         'handleType': this.handleType, // 处理方式
         'businessModelCode': '', // 业务模块
         'businessFeaturesCode': '', // 业务功能
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationName: this.regulationName,
         regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         code: this.condition.agency_code,
         menuType: 2
@@ -623,14 +623,14 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationType: regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+        warningLevel: this.warningLevel, // 预警级别
+        handleType: this.handleType, // 处理方式
+        businessModelCode: '', // 业务模块
+        businessFeaturesCode: '', // 业务功能
+        regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        isEnable: this.isEnable,
+        regulationName: this.regulationName,
         regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         code: this.condition.agency_code,
         menuType: 2
