@@ -623,6 +623,7 @@ export default {
           self.queryFormItemConfigIn.forEach(v => {
             if (v.itemRender.props.config.axiosConfig.url) {
               // 固定写法 报表固定网关
+              v.itemRender.props.config.isPramas = false
               v.itemRender.props.config.axiosConfig.url = 'fiscal/api/budget' + v.itemRender.props.config.axiosConfig.url
             }
           })
