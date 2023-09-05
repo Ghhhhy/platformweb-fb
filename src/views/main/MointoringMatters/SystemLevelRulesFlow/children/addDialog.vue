@@ -1166,7 +1166,7 @@ export default {
       let param = { operate: operate, menuName: this.$store.state.curNavModule.name, regulationCodes: [this.$parent.DetailData.regulationCode], ruleFlowOpinion: this.ruleFlowOpinion }
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           console.log(this.paymentLen)
           this.formItemsConfigMessage.splice(1, this.paymentLen)
           this.paymentLen = 0
