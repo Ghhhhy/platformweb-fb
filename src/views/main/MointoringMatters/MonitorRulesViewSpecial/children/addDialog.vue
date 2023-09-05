@@ -135,6 +135,7 @@
                       <!--  />-->
                       <!--</el-select>-->
                       <BsTree
+                        :key="refleshKey"
                         v-model="businessFunctionCodeModal"
                         :is-drop-select-tree="true"
                         :editable="true"
@@ -529,6 +530,7 @@ export default {
   },
   data() {
     return {
+      refleshKey: Date.now(),
       warnType: '',
       warnTypeOptions: [
         { value: '1', label: '流向' },

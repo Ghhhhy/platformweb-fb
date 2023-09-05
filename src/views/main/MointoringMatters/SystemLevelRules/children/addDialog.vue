@@ -166,6 +166,7 @@
                     <!--</el-select>-->
                     <BsTree
                       ref="businessFunctionCodeModalRef"
+                      :key="refleshKey"
                       v-model="businessFunctionCodeModal"
                       :is-drop-select-tree="true"
                       :editable="true"
@@ -647,6 +648,7 @@ export default {
   },
   data() {
     return {
+      refleshKey: Date.now(),
       submitLoading: false,
       treeData: [],
       editConfig: {

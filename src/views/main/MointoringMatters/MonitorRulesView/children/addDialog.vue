@@ -138,6 +138,7 @@
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;业务菜单</div>
                       <BsTree
+                        :key="refleshKey"
                         v-model="businessFunctionCodeModal"
                         :is-drop-select-tree="true"
                         :editable="true"
@@ -654,6 +655,7 @@ export default {
   },
   data() {
     return {
+      refleshKey: Date.now(),
       warnType: '',
       warnTypeOptions: [
         { value: '1', label: '流向' },
