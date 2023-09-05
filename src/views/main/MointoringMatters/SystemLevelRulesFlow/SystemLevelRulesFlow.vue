@@ -264,7 +264,7 @@ export default {
       console.log(obj)
       this.warningLevel = obj.warnLevel
       this.handleType = obj.handleType
-      this.regulationName = obj.fiRuleTypeCodeName
+      this.regulationName = obj.regulationName
       this.regulationClass = obj.regulationClass_code
       this.queryTableDatas()
       this.queryTableDatasCount()
