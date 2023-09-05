@@ -269,7 +269,7 @@ export default {
       totalTableColumnsConfig: [
         {
           title: '触发菜单名称',
-          field: 'menuNameList',
+          field: 'businessFunctionName',
           align: 'left'
         },
         {

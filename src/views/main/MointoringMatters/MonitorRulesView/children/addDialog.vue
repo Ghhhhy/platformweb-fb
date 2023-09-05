@@ -133,24 +133,24 @@
               </el-col>
               <el-col :span="8">
                 <el-container>
-                  <template v-if="!isSx">
-                    <el-main width="100%">
-                      <el-row>
-                        <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;触发菜单</div>
-                        <BsTree
-                          v-model="businessFunctionCodeModal"
-                          :is-drop-select-tree="true"
-                          :editable="true"
-                          :tree-data="businessFunctionTreeData"
-                          :default-checked-keys="businessFunctionCode"
-                          v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
-                          class="businessFunctionTree"
-                          style="display: inline-block;"
-                        />
-                      </el-row>
-                    </el-main>
-                  </template>
-                  <template v-else>
+                  <!-- <template v-if="!isSx"> -->
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;业务菜单</div>
+                      <BsTree
+                        v-model="businessFunctionCodeModal"
+                        :is-drop-select-tree="true"
+                        :editable="true"
+                        :tree-data="businessFunctionTreeData"
+                        :default-checked-keys="businessFunctionCode"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
+                        class="businessFunctionTree"
+                        style="display: inline-block;"
+                      />
+                    </el-row>
+                  </el-main>
+                  <!-- </template> -->
+                  <!-- <template v-else>
                     <el-main id="nameId" width="100%">
                       <el-row>
                         <div v-if="businessFunctionCode" class="showMore">
@@ -174,7 +174,7 @@
                         </el-select>
                       </el-row>
                     </el-main>
-                  </template>
+                  </template> -->
                 </el-container>
               </el-col>
               <el-col :span="8">
@@ -348,23 +348,23 @@
                 <el-container>
                   <el-main width="100%">
                     <el-row>
-                      <template v-if="!isSx">
-                        <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
-                        <el-select
-                          v-model="uploadFile"
-                          :disabled="disabled"
-                          placeholder="请选择是否必传附件"
-                          style="width:45%"
-                        >
-                          <el-option
-                            v-for="item in uploadFileOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                          />
-                        </el-select>
-                      </template>
-                      <template v-else>
+                      <!-- <template v-if="!isSx"> -->
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">是否必传附件</div>
+                      <el-select
+                        v-model="uploadFile"
+                        :disabled="disabled"
+                        placeholder="请选择是否必传附件"
+                        style="width:45%"
+                      >
+                        <el-option
+                          v-for="item in uploadFileOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                      <!-- </template> -->
+                      <!-- <template v-else>
                         <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
                         <el-select
                           v-model="warnLocation"
@@ -380,7 +380,7 @@
                             :value="item.value"
                           />
                         </el-select>
-                      </template>
+                      </template> -->
 
                     </el-row>
                   </el-main>

@@ -611,7 +611,7 @@ export default {
           // this.mountTableData = res.data.results
           this.functionTableData = res.data.results
           this.FunmainPagerConfig.total = res.data.totalCount
-          if (this.title === '修改' || this.title === '复制' || this.title === '查看详情') {
+          if (this.title === '修改' || this.title === '复制') {
             this.functionTableData.forEach(item => {
               console.log(item.functionCode)
               for (let i = 0; i < this.functionCodeList.length; i++) {
@@ -782,6 +782,7 @@ export default {
           this.loadFunMonitor()
           this.getModLists()
           this.getFunLists()
+          this.mountTableData = res.data.functionInfoList// 详情得时候取functionInfoList
         } else {
           this.$message.error(res.message)
         }

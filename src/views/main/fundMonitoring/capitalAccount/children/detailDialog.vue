@@ -47,8 +47,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 import proconf from './column.js'
 export default {
   name: 'DetailDialog',
-  components: {
-  },
+  components: {},
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
@@ -96,11 +95,11 @@ export default {
           amount_yszyap: 0,
           amount_zczyap: 0
         },
+        align: 'center',
         combinedType: ['switchTotal'],
         showFooter: true
       },
-      tableColumnsConfig: [
-      ],
+      tableColumnsConfig: [],
       pagerConfig: {
         total: 0,
         currentPage: 1,
@@ -139,6 +138,25 @@ export default {
     }
   },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+      }
+    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -259,7 +277,10 @@ export default {
       // this.tableData = this.detailData
       console.log(this.detailType)
       // 区分直达资金分资金和分地区报表做个临时转换，不改动后端代码
-      if (this.detailType === 'zdzjxmmx_fzj' || this.detailType === 'zdzjxmmx_fdq') {
+      if (
+        this.detailType === 'zdzjxmmx_fzj' ||
+        this.detailType === 'zdzjxmmx_fdq'
+      ) {
         this.detailQueryParam.reportCode = 'zdzjxmmx'
       }
 
@@ -329,18 +350,49 @@ export default {
         case 'zxjdxmmx_fdq':
           // 上海项目加一列分配时间
           if (this.transJson(this.params5 || '')?.projectCode === 'SH') {
-            this.tableColumnsConfig = proconf.projectColumn.concat([{
-              title: '分配时间',
-              field: 'fpTime',
-              sortable: false,
-              align: 'center'
-            }])
+            this.tableColumnsConfig = proconf.projectColumn.concat([
+              {
+                title: '分配时间',
+                field: 'fpTime',
+                sortable: false,
+                align: 'center'
+              }
+            ])
           } else {
             this.tableColumnsConfig = proconf.projectColumn
           }
           break
         default:
           break
+      }
+      this.queryTableDatas()
+    },
+    ConfigTable() {
+      if (
+        this.detailType === 'zdzjxmmx_fzj' ||
+        this.detailType === 'zdzjxmmx_fdq'
+      ) {
+        this.detailQueryParam.reportCode = 'zdzjxmmx'
+      }
+      console.info(this.detailType, 'detailType')
+      switch (this.detailType) {
+        case 'zdzjzcmx_fdq':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          this.searchDataList = proconf.highQueryData2
+          break
+        case 'zdzjxmmx_fdq':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          break
+        case 'zdzjzcmx_fzj':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          this.searchDataList = proconf.highQueryData2
+          break
+        case 'zdzjxmmx_fzj':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
       }
       this.queryTableDatas()
     },
@@ -546,7 +598,9 @@ export default {
       switch (key) {
         case 'amountZdzjFp':
           let zcSource = 'zdzjzbmx_fzjfp'
-          if (this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj') {
+          if (
+            this.transJson(this.params5 || '')?.reportCode === 'zxjdxmmx_fzj'
+          ) {
             zcSource = 'zxjdzbmx_fzjfp'
           }
           if (this.detailType === 'zyzfxmmx') {
@@ -556,7 +610,8 @@ export default {
             this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj'
           ) {
             this.handleDetail(zcSource, obj.row)
-            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+            this.$parent.sDetailTitle =
+              obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountPayZdzj':
@@ -572,7 +627,8 @@ export default {
             this.detailType === 'zdzjzcmx_fdq' || this.detailType === 'zdzjxmmx_fzj' ||
             this.detailType === 'zdzjxmmx_fdq' || this.detailType === 'zdzjxmmx_fzj') {
             this.handleDetail(zcSource2, obj.row)
-            this.$parent.sDetailTitle = obj.row.trackProName + '资金支出台账明细'
+            this.$parent.sDetailTitle =
+              obj.row.trackProName + '资金支出台账明细'
           }
           break
         case 'amountpayzyap':
@@ -596,10 +652,12 @@ export default {
     } else {
       this.showInfo()
     }
+    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
+      this.ConfigTable()
+    }
   },
   watch: {},
-  created() {
-  }
+  created() {}
 }
 </script>
 <style lang="scss">
