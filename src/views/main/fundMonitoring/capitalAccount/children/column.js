@@ -194,6 +194,7 @@ const proconf = {
       formatter({ row }) {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -205,6 +206,7 @@ const proconf = {
       formatter({ row }) {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -216,6 +218,7 @@ const proconf = {
       formatter({ row }) {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -320,6 +323,7 @@ const proconf = {
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
+      exportFormatter: true,
       align: 'left'
     },
     {
@@ -432,7 +436,8 @@ const proconf = {
       field: 'xjExpFuncName',
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     // {
     //   title: '转移支付功能科目',
@@ -867,6 +872,7 @@ const proconf = {
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -878,7 +884,8 @@ const proconf = {
       field: 'tpFuncName',
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '分配金额',
@@ -959,7 +966,8 @@ const proconf = {
       align: 'left',
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '本级项目名称',
