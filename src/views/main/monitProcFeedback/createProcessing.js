@@ -628,28 +628,7 @@ export const proconf = {
       align: 'center',
       cellRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '拦截'
-          },
-          {
-            value: 4,
-            label: '禁止'
-          },
-          {
-            value: 5,
-            label: '记录'
-          }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         defaultValue: '',
         props: {}
       },
@@ -837,28 +816,7 @@ export const proconf = {
       width: 180,
       cellRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
-          }
-        ],
+        options: store.state.warnInfo.warnControlTypeOptions,
         defaultValue: '',
         props: {}
       },
