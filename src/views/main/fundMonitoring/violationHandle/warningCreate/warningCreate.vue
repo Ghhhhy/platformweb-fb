@@ -39,6 +39,7 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :export-modal-config="{ fileName: menuName }"
+          highlight-current-row
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
           @cellDblclick="cellDblclick"
@@ -100,6 +101,7 @@ export default {
   },
   data() {
     return {
+      highLightRow: {}, // 高亮行
       colourType: '',
       warningCode: '',
       fiRuleCode: '',
@@ -316,7 +318,9 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      this.highLightRow = obj.row
       let key = obj.column.property
+      this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       this.propsRegulationClass = obj.row.regulationClass
@@ -448,6 +452,7 @@ export default {
 
       this.tableLoading = true
       HttpModule.queryWarning(param).then((res) => {
+        this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
