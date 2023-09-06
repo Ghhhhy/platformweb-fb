@@ -2821,14 +2821,14 @@ const proconf = {
     }
     // console.log('1111111111111', operatorColumns, isFlow)
     let otherColumnsCopy = [
-      {
-        title: '生成时间',
-        width: 180,
-        field: 'warnDealGenTime',
-        sortable: false,
-        filters: false,
-        align: 'center'
-      },
+      // {
+      //   title: '生成时间',
+      //   width: 180,
+      //   field: 'warnDealGenTime',
+      //   sortable: false,
+      //   filters: false,
+      //   align: 'center'
+      // },
       ...otherColumns
     ]
     if (isFlow) {
