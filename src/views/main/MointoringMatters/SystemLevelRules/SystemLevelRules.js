@@ -108,7 +108,7 @@ export let proconf = {
     },
     {
       title: '预警级别',
-      field: 'warnLevel',
+      field: 'warningLevel',
       align: 'center',
       width: 180,
       itemRender: {

@@ -246,7 +246,7 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warnLevel
+      this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.isEnable = obj.isEnable
       this.regulationName = obj.fiRuleTypeCodeName
