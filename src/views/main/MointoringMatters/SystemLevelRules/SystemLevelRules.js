@@ -120,7 +120,9 @@ export let proconf = {
           }
         }),
         defaultValue: '',
-        props: {}
+        props: {
+          placeholder: '预警级别'
+        }
       },
       name: '$vxeSelect'
     },
