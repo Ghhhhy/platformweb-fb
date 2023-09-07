@@ -508,7 +508,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfdq',
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : ''
       }

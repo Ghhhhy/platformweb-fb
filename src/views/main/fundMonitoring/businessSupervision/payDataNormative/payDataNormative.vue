@@ -572,7 +572,6 @@ export default {
       }
       let queryUrl = 'queryTableDatas'
       if (this.$store.getters.isSx) {
-        param.reportCode = 'wfszbmxcx'
         queryUrl = 'queryTableDatasPage'
         HttpModule.querySum(param).then(res => {
           if (res.code === '000000') {
