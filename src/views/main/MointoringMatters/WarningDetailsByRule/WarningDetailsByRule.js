@@ -461,7 +461,7 @@ export let proconf = {
     {
       title: '资金用途',
       'width': 180,
-      field: 'useoffunds',
+      field: 'useDes',
       sortable: false,
       filters: false,
       align: 'center'
