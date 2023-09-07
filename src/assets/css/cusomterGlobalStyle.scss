@@ -77,18 +77,18 @@ align-items: center;
   line-height: 32px;
   width: 600px;
 }
-.warningLevel1{//红色预警
-  color: red;
+.warningLevel3{//红色预警
+  color: red !important;
 }
 .warningLevel2{//橙色
-  color:#FF6F20
+  color:#FF6F20 !important;
 }
-.warningLevel3{//黄色预警
-  color: #FFD43C;
+.warningLevel1{//黄色预警
+  color: #FFD43C !important;
 }
-.warningLevel4{//蓝色
+.warningLevel5{//蓝色
   color: blue !important;
 }
-.warningLevel5{//灰色
-  color: #F1F1F1;
+.warningLevel4{//灰色
+  color: #F1F1F1 !important;
 }

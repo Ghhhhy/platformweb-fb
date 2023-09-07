@@ -218,14 +218,19 @@ export default {
       this.askName = this.modifyData.askName
       this.askDesc = this.modifyData.askDesc
       this.askTypeName = this.modifyData.askTypeName
-      this.askProvince = this.modifyData.askProvinceId + '##' + this.modifyData.askProvinceCode + '##' + this.modifyData.askProvinceName
-      this.askAgency = this.modifyData.askAgencyId + '##' + this.modifyData.askAgencyCode + '##' + this.modifyData.askAgencyName
+      if (this.title === '修改') {
+        this.askProvince = this.modifyData.askProvinceId + '##' + this.modifyData.askProvinceCode + '##' + this.modifyData.askProvinceName.split('-')[1]
+        this.askAgency = this.modifyData.askAgencyId + '##' + this.modifyData.askAgencyCode + '##' + this.modifyData.askAgencyName.split('-')[1]
+      } else {
+        this.askProvince = this.modifyData.askProvinceId + '##' + this.modifyData.askProvinceCode + '##' + this.modifyData.askProvinceName
+        this.askAgency = this.modifyData.askAgencyId + '##' + this.modifyData.askAgencyCode + '##' + this.modifyData.askAgencyName
+      }
       this.askAgencyCode = this.modifyData.askAgencyCode
       this.askAgencyId = this.modifyData.askAgencyId
-      this.askAgencyName = this.modifyData.askAgencyName
+      this.askAgencyName = this.modifyData.askAgencyName.split('-')[1]
       this.askProvinceCode = this.modifyData.askProvinceCode
       this.askProvinceId = this.modifyData.askProvinceId
-      this.askProvinceName = this.modifyData.askProvinceName
+      this.askProvinceName = this.modifyData.askProvinceName.split('-')[1]
       this.attachmentId = this.modifyData.attachmentId
       const param = {
         billguid: this.attachmentId,

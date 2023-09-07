@@ -443,7 +443,8 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: disabled, treeProps: { nodeKey: 'code', label: 'name' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -1073,6 +1074,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
       let param = {
@@ -1082,62 +1084,48 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      let regulationType = ''
-      if (this.$parent.DetailData.regulationType === 1) {
-        regulationType = '系统级'
-      } else if (this.$parent.DetailData.regulationType === 2) {
-        regulationType = '财政级'
-      } else {
-        regulationType = '部门级'
-      }
+      let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
-        if (this.$parent.dialogTitle !== '新增') {
-          param.province = this.$parent.DetailData.mofDivCode
-          param.wheresql = 'and code like \'' + this.$parent.DetailData.mofDivCode + '%\''
-        }
       }
       if (regulationType === '财政级') {
         param.elementCode = 'AGENCY'
         param.wheresql = 'and province =' + this.$store.state.userInfo.province
-        if (this.$parent.dialogTitle !== '新增') {
-          param.province = this.$parent.DetailData.mofDivCode
-          param.wheresql = 'and province =' + this.$parent.DetailData.mofDivCode
-        }
       }
       HttpModule.getTreewhere(param).then(res => {
         if (regulationType === '部门级' || regulationType === '财政级') {
-          let treeResdata = this.getChildrenNewData1(res.data)
+          // let treeResdata = this.getChildrenNewData1(res.data)
           const result = [
             {
               id: 'root',
               label: '全部',
               code: 'root',
               isleaf: '0',
+              disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',
-              children: treeResdata
+              children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
           ]
           this.treeData = result
         } else {
-          this.treeData = this.getChildrenNewData1(res.data)
+          this.treeData = this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
           // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
-          this.$parent.DetailData.regulationScope.forEach(item => {
-            let str = ''
-            if (regulationType !== '系统级') {
-              str = item.agencyId.toString()
-            } else {
-              str = item.mofDivId.toString()
-            }
+          this.$parent.DetailData.regulationScope?.forEach(item => {
+            let str = item.mofDivId.toString()
+            // if (regulationType === '部门级') {
+            //   str = item.mofDivId.toString()
+            // } else {
+            //   str = item.mofDivId.toString()
+            // }
             tempArr.push(str)
           })
-          this.$nextTick(() => {
-            this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
-          })
+          this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
+          console.log('回显', this.defaultCheckedKeys, this.treeData)
         }
       })
     },

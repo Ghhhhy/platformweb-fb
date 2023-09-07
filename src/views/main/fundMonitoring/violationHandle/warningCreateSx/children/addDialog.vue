@@ -766,7 +766,9 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode,
         dealNo: this.createDataList.dealNo,
-        dealType: this.createDataList.dealType
+        dealType: this.createDataList.dealType,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name
       }
       this.addLoading = true
       HttpModule.handleAdd({ dataList: [param] })
