@@ -30,10 +30,10 @@ window.gloableToolFn = {
       fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
       // --------------------------- 后台服务 ----------------------------------//
-      // 'large-monitor-platform': 'http://192.168.0.113:6602',
-      'large-monitor-platform': api,
-      'dfr-monitor-service': api,
-      'budgetServer': 'http://10.100.32.125:9008/'
+      'large-monitor-platform': 'http://127.0.0.1:6602',
+      // 'large-monitor-platform': api,
+      'dfr-monitor-service': 'http://127.0.0.1:6603',
+      'budget': 'http://10.100.32.125:9008' + '/budget'
     },
     gloableUrl: {
       // 是否退出到门户（平台）
