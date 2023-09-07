@@ -262,6 +262,18 @@ export default [
   },
   // 直达监控规则查看
   {
+    path: '/MonitorRulesViewByZd',
+    name: 'MonitorRulesViewByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
+  {
     path: '/MonitorRulesViewBySpe',
     name: 'MonitorRulesViewBySpe',
     meta: {

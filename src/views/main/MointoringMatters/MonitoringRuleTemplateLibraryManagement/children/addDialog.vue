@@ -848,10 +848,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$refs.mountTableRef.removeCheckboxRow()
         selection.forEach(item => {
           this.mountTableData.forEach((it, index) => {
             if (item.functionCode === it.functionCode) {
+              this.$refs.mountTableRef.$refs.xGrid.removeCheckboxRow(item)
               this.mountTableData.splice(index, 1)
             }
           })
