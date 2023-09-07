@@ -780,20 +780,4 @@ float: right;
  .createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
   background-color: transparent !important;
 } */
-
-.warningLevel2{
-  color: red;
-}
-.warningLevel2{
-  color:#FF6F20
-}
-.warningLevel3{
-  color: #FFD43C;
-}
-.warningLevel4{
-  color: blue;
-}
-.warningLevel5{
-  color: #F1F1F1;
-}
 </style>

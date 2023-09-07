@@ -1225,9 +1225,14 @@ export default {
           }
         })
         let createProcessingAxios = 'queryWarning'
-        if (this.$route.name.indexOf('CreateProcessing') > -1) { // 违规单生成的时候  需要更换切口 违规单查询（全辖查询）不变
+        const ruleMap = {
+          0: this.$route.name.indexOf('CreateProcessing') > -1,
+          1: this.$route.name.indexOf('QueryProcessingBySpecial') > -1
+        }
+        if (Object.keys(ruleMap).some(item => item)) { // 违规单生成的时候  需要更换切口 违规单查询（全辖查询）不变
           createProcessingAxios = 'queryDetailDatas'
         }
+        console.log(789, this.$route.name)
         HttpModule[createProcessingAxios](params).then((res) => {
           this.tableLoadingState = false
           if (res.code === '000000') {

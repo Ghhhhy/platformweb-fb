@@ -345,7 +345,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'
@@ -512,7 +512,7 @@ export let proconf = {
     {
       title: '规则编码',
       'width': 180,
-      field: 'firulecode',
+      field: 'fiRuleCode',
       sortable: false,
       filters: false,
       align: 'center'

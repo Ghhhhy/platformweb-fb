@@ -60,7 +60,7 @@ export let proconf = {
   //   },
     {
       title: '规则名称',
-      field: 'firulename',
+      field: 'ruleName',
       width: '8',
       align: 'left',
       formula: '',
@@ -295,7 +295,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationType',
+      field: 'ruleLevel',
       sortable: false,
       filters: false,
       align: 'center'
@@ -327,7 +327,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'fiRuleName',
+      field: 'ruleName',
       sortable: false,
       filters: false,
       align: 'center'
@@ -354,14 +354,14 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    {
-      title: '业务单号',
-      'width': 180,
-      field: 'businessNo',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '业务单号',
+    //   'width': 180,
+    //   field: 'businessNo',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     /* {
       'title': '支付申请金额',
       'field': 'paymentamount',
@@ -402,22 +402,22 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
-    },
-    {
-      title: '预警数据创建时间',
-      'width': 180,
-      field: 'businessTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预警处理时间',
-      'width': 180,
-      field: 'handleTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
     }
+    // {
+    //   title: '预警数据创建时间',
+    //   'width': 180,
+    //   field: 'businessTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '预警处理时间',
+    //   'width': 180,
+    //   field: 'handleTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // }
   ]
 }

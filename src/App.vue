@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[theme]" style="height: calc(100vh / var(--bs-zoom) - 10px)">
+  <div id="app" :class="[theme,'v20230824']" style="height: calc(100vh / var(--bs-zoom) - 10px)">
     <div class="app-main">
       <!-- <keep-alive>
         <router-view v-if="$route.meta.keepAlive && ifrouteractive" />
