@@ -545,22 +545,50 @@ export default {
             // this.supplyDataList = handledata
             this.supplyDataList = { ...res.data, ...res.data.executeData }
             if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
-              this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
-              this.supplyDataList.proCatName = res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName
-              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
-              this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
-              this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
-              this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.is_dir_name || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
-              this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
-              this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
-              this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
-              this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
-              this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+              // this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
+              // this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
+              // this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
+              // this.supplyDataList.proCatName = res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName
+              // this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
+              // this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
+              // this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
+              // this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.is_dir_name || ''
+              // this.supplyDataList.salaryMark = res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName
+              // this.supplyDataList.isUnionFunds = res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
+              // this.supplyDataList.fiDate = res.data.executeData?.fiDate
+              // this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
+              // this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
+              // this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
+              // this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thr_exp_name)
+
+              this.supplyDataList.payAppAmt = this.moneyFormat(res.data.executeData.payAppAmt)
+              this.supplyDataList.agencyName = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
+              this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
+              // this.supplyDataList.pro_cat_name = res.data.executeData.pro_cat_code + '-' + res.data.executeData.pro_cat_name
+              this.supplyDataList.payTypeName = res.data.executeData.payTypeCode + '-' + res.data.executeData.payTypeName
+              this.supplyDataList.expFuncName = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
+              this.supplyDataList.depBgtEcoName = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
+              this.supplyDataList.govBgtEcoName = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName
+              this.supplyDataList.setModeName = res.data.executeData.setModeCode + '-' + res.data.executeData.setModeName
+              this.supplyDataList.isDirName = (res.data.executeData.isDirCode === null ? '' : res.data.executeData.isDirCode) + '-' + (res.data.executeData.isDirName === null ? '' : res.data.executeData.isDirName)
+              this.supplyDataList.isSalName = res.data.executeData.isSalCode + '-' + res.data.executeData.isSalName
+              this.supplyDataList.manageMofDepName = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
+              this.supplyDataList.isFunName = res.data.executeData.isFunCode + '-' + (res.data.executeData.isFunCode === 1 ? '是' : '否')
+              this.supplyDataList.fiDate = res.data.executeData.fiDate
+              this.supplyDataList.thrExpName = res.data.executeData.thrExpCode + (res.data.executeData.thrExpCode === null ? '' : '-' + res.data.executeData.thrExpName)
+              this.supplyDataList.applyName = res.data.executeData.applyName
+              this.supplyDataList.applyDial = res.data.executeData.applyDial
+              this.supplyDataList.payAppNo = res.data.executeData.payAppNo
+              this.supplyDataList.payeeAcctName = res.data.executeData.payeeAcctName
+              this.supplyDataList.payeeAcctNo = res.data.executeData.payeeAcctNo
+              this.supplyDataList.payeeAcctBankName = res.data.executeData.payeeAcctBankName
+              this.supplyDataList.corBgtDocNoName = res.data.executeData.corBgtDocNoName
+              this.supplyDataList.payAcctName = res.data.executeData.payAcctName
+              this.supplyDataList.payAcctNo = res.data.executeData.payAcctNo
+              this.supplyDataList.payAcctBankName = res.data.executeData.payAcctBankName
+              this.supplyDataList.useDes = res.data.executeData.useDes
             }
+
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName

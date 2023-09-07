@@ -441,6 +441,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          console.log(datas[0])
           this.getDetail(datas[0].regulationCode)
           break
         // 修改
@@ -474,7 +475,7 @@ export default {
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.firulecode
+          this.fiRuleCode = this.selectData.fiRuleCode
           break
         case 'violation':
           let selectionData = this.$refs.mainTableRef.getSelectionData()
