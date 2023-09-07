@@ -456,7 +456,8 @@ export default {
         {
           title: '规则名称',
           field: 'fiRuleName',
-          width: '150',
+          maxWidth: '700px',
+          minWidth: '150px',
           sortable: false,
           fixed: 'left',
           align: 'left'
