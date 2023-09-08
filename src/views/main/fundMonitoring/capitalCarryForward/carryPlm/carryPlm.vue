@@ -342,7 +342,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
       const param = {
-        reportCode: this.params5,
+        reportCode: this.params5 || 'zdjzxmqsmzqglqkb',
         isFlush
       }
       this.tableLoading = true

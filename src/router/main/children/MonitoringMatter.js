@@ -590,6 +590,18 @@ export default [
       )
   },
   {
+    path: '/statisticalFormsByCompartmentByZh',
+    name: 'statisticalFormsByCompartmentByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  {
     path: '/StatisticalFormsByCompartmentByPay',
     name: 'StatisticalFormsByCompartmentByPay',
     meta: {
@@ -645,10 +657,34 @@ export default [
         '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
       )
   },
+  {
+    path: '/StatisticalFormsByRankByZh',
+    name: 'StatisticalFormsByRankByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
   // 预警明细查询（按规则）
   {
     path: '/WarningDetailsByRule',
     name: 'WarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
+  },
+  {
+    path: '/warningDetailsByRuleByZh',
+    name: 'warningDetailsByRuleByZh',
     meta: {
       keepAlive: true,
       requireAuth: true

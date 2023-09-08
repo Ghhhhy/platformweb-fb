@@ -1008,6 +1008,7 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
+        reportCode: 'cszbzhckwhhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
