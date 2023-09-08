@@ -8,6 +8,9 @@ import { Base64 } from 'js-base64'
 // import { encode, decode } from 'js-base64';
 export default {
   // 获取表格数据
+  queryTableDatasPage (params) {
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
+  },
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/query', params)
   },
