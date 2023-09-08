@@ -829,7 +829,7 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         isFlush,
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes || '')
