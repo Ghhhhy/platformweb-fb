@@ -504,7 +504,7 @@ export default {
       const param = {
         isFlush,
         // reportCode: 'zdzjhqlmffmx',
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjhqlmffmx',
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
