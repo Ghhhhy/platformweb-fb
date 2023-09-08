@@ -124,7 +124,8 @@ export default {
                 'treeProps': {
                   'nodeKey': 'id',
                   'label': 'label',
-                  'children': 'children'
+                  'children': 'children',
+                  'check-strictly': true
                 },
                 'placeholder': '区划',
                 'multiple': true,
