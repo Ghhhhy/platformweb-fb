@@ -452,7 +452,6 @@ export default {
 
       this.tableLoading = true
       HttpModule.queryWarning(param).then((res) => {
-        this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -460,6 +459,9 @@ export default {
         } else {
           this.$message.error(res.message)
         }
+        this.$nextTick(() => {
+          this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
+        })
       })
     },
     cellDblclick(obj) {

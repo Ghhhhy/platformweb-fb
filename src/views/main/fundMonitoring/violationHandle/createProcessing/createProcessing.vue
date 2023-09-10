@@ -943,7 +943,9 @@ export default {
         } else {
           this.$message.error(res.result)
         }
-        this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
+        this.$nextTick(() => {
+          this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
+        })
       })
     },
     // 切换状态栏
