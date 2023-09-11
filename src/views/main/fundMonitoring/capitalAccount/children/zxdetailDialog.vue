@@ -786,7 +786,7 @@ export default {
   },
   mounted() {
     if (this.isSx) {
-      this.showInfo()
+      this.showInfoSx()
     } else {
       console.log(this.detailType, 'munid')
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
