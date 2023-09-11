@@ -57,29 +57,17 @@ export let proconf = {
       }
     },
     {
-      title: '预算单位',
-      field: 'agencyCodes',
+      title: '项目名称',
+      field: 'xmmc',
       width: '8',
       align: 'left',
-      name: '$vxeTree',
+      formula: '',
+      name: '$vxeInput',
       itemRender: {
-        name: '$vxeTree',
+        name: '$vxeInput',
         options: [],
         props: {
-          config: {
-            valueKeys: ['code', 'name', 'id', 'codeFragment'],
-            format: '{name}',
-            treeProps: {
-              labelFormat: '{codeFragment}-{name}', // {code}-{name}
-              nodeKey: 'id',
-              label: 'label',
-              children: 'children'
-            },
-            placeholder: '预算单位',
-            multiple: true,
-            readonly: false,
-            isleaf: true
-          }
+          placeholder: '项目名称'
         }
       }
     }
@@ -87,92 +75,159 @@ export let proconf = {
   highQueryData: {
     fiscalYear: '',
     mofDivCodes: '',
-    agencyCodes: ''
+    xmmc: ''
   },
   PoliciesTableColumns: [
     {
       title: '指标文号',
       field: 'bgtDocNo',
       sortable: false,
+      width: 150,
       align: 'left'
     },
     {
       title: '预算年度',
       field: 'fiscalYear',
       sortable: false,
+      width: 100,
       align: 'left'
     },
     {
-      title: '上级财政区划名称',
+      title: '区划名称',
       field: 'supMofDivName',
       sortable: false,
+      width: 100,
       align: 'left'
     },
-    {
-      title: '下级财政区划名称',
-      field: 'lowMofDivName',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '项目类别',
-      field: 'proCatName',
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '下级财政区划名称',
+    //   field: 'lowMofDivName',
+    //   width: 100,
+    //   sortable: false,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '项目类别',
+    //   field: 'proCatName',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
     {
       title: '项目名称',
-      field: 'trackProCode',
+      field: 'trackProName',
+      sortable: false,
+      width: 200,
+      align: 'left'
+    },
+    // {
+    //   title: '指标类型',
+    //   field: 'bgtTypeCode',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '指标来源',
+    //   field: 'sourceTypeCode',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '资金性质',
+    //   field: 'fundTypeCode',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
+    {
+      title: '接收时间',
+      field: 'jsTime',
+      width: 100,
       sortable: false,
       align: 'left'
     },
     {
-      title: '指标类型',
-      field: 'bgtTypeCode',
+      title: '接收金额',
+      field: 'jsAmount',
       sortable: false,
-      align: 'left'
+      width: 100,
+      align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney'
+        // props: {
+        //   type: 'float',
+        //   digits: 3
+        // }
+      }
     },
+    // {
+    //   title: '支出方向',
+    //   field: 'expDirCode',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
     {
-      title: '指标来源',
-      field: 'sourceTypeCode',
+      title: '下达时间',
+      field: 'xdTime',
       sortable: false,
+      width: 180,
       align: 'left'
     },
-    {
-      title: '资金性质',
-      field: 'fundTypeCode',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '上级指标接收时间',
-      field: 'supBgtRecDate',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '支出方向',
-      field: 'expDirCode',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '分配记账时间',
-      field: 'postorDate',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '指标余额',
-      field: 'amount',
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '追加时间',
+    //   field: 'postorDate',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '指标余额',
+    //   field: 'amount',
+    //   sortable: false,
+    //   width: 100,
+    //   align: 'left',
+    // },
     {
       title: '下达金额',
-      field: 'issuedAmount',
+      field: 'xdAmount',
       sortable: false,
-      align: 'left'
+      width: 100,
+      align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '分配天数预警',
+      field: 'dayNum',
+      sortable: false,
+      width: 120,
+      align: 'left',
+      cellRender: {
+        name: '$gloableOptionRow'
+      }
     }
-  ]
+  ],
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let { row } = params
+      let text = row.dayNum
+      let resItem = row.dayNum > 30 ? [
+        <span style="color:red;" >{text}</span>
+      ] : [<span>{text}</span>]
+      return resItem
+    }
+  }
 }
