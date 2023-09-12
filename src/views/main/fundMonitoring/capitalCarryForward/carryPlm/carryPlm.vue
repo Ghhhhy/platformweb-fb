@@ -350,7 +350,7 @@ export default {
         if (res.code === '000000') {
           this.caliberDeclareContent = res.data.description || ''
           this.defaultExpandRowKeys = [res.data[0]?.id]
-          this.tableData = res.data
+          this.tableData = res.data.data
           this.tableLoading = false
         } else {
           this.$message.error(res.message)
@@ -361,7 +361,7 @@ export default {
       // 异步加载子节点
       return new Promise(resolve => {
         const param = {
-          reportCode: 'zdzjxmqsmzqglqkb_xm',
+          reportCode: 'zdjzxmqsmzqglqkb_xm',
           mofDivCode: row.code || ''
         }
         HttpModule.queryTableDatas(param).then(res => {
