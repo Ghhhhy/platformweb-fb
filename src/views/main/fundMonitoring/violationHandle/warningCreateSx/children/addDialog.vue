@@ -642,10 +642,10 @@ export default {
           this.updateTime2 = this.detailData[0].updateTime2
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
-          if (this.detailData[0].agencyStatus === 1) {
+          if (Number(this.detailData[0].agencyStatus) === 1) {
             this.hsValue = '5'
           }
-          if (this.detailData[0].agencyStatus === 2) {
+          if (Number(this.detailData[0].agencyStatus) === 2) {
             this.hsValue = '4'
           }
           if (this.detailData[0].status === '2') {
@@ -723,6 +723,17 @@ export default {
         })
       }
       this.getViolationType()
+    },
+    moneyFormat(amt) {
+      const num = Math.round(amt * 100) / 100
+      let c = (num.toString().indexOf('.') !== -1) ? num.toLocaleString() : num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      if (c.length >= 3 & c.indexOf('.', c.length - 2) === c.length - 2) {
+        c = c + '0'
+      }
+      if (c.indexOf('.') === -1) {
+        c = c + '.00'
+      }
+      return c
     },
     // 规则校验
     ruleTest() {

@@ -1,4 +1,10 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+const dict = store.state.warnInfo.warnLevelOptions.map(item => {
+  return {
+    ...item,
+    value: String(item.value)
+  }
+})
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -372,7 +378,22 @@ export let proconf = {
       field: 'warnlevel',
       sortable: false,
       filters: false,
-      align: 'center'
+      align: 'center',
+      name: '$vxeSelect',
+      slots: {
+        default({ row }) {
+          return [
+            <div class={'warningLevel' + row.warnLevel}>{dict.find(item => item.value === String(row.warnLevel))?.label}</div>
+          ]
+        }
+      },
+      cellRender: {
+        name: '$vxeSelect',
+        options: dict,
+        props: {
+          placeholder: '预警级别'
+        }
+      }
     },
     {
       title: '管理级次',
@@ -595,25 +616,25 @@ export let proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
+      title: '预警级别',
+      field: 'warnLevel',
+      width: 180,
+      align: 'center',
+      name: '$vxeSelect',
+      slots: {
+        default({ row }) {
+          return [
+            <div class={'warningLevel' + row.warnLevel}>{dict.find(item => item.value === String(row.warnLevel))?.label}</div>
+          ]
+        }
       },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': ''
+      cellRender: {
+        name: '$vxeSelect',
+        options: dict,
+        props: {
+          placeholder: '预警级别'
+        }
+      }
     },
     {
       title: '管理级次',

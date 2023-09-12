@@ -170,6 +170,20 @@ loadingDirective.install = Vue => {
       ...
     }
    */
+    Vue.directive('deClick', {
+      bind: (el, binding)=> {
+        el.addEventListener('click', () => {
+          if (!el.disabled) {
+            el.disabled = 'disabled';
+            el.classList.add('is-disabled')
+            setTimeout(() => {
+              el.removeAttribute('disabled')
+              el.classList.remove('is-disabled')
+            }, binding.value || 1000)
+          }
+        })
+      }
+    })
 }
 
 export default loadingDirective
