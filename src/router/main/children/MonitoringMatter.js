@@ -1481,6 +1481,16 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
   },
+  // 直达资金监控
+  {
+    path: '/directFundsCreate',
+    name: 'directFundsCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitoeReportCreate/sanBaoMonitoeReportCreate.vue')
+  },
   {
     path: '/SXWarningDetailsByRuleAllSpe',
     name: 'SXWarningDetailsByRuleAllSpe',
