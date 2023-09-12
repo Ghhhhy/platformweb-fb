@@ -722,9 +722,18 @@ export default {
           }
         })
       }
-      // debugger
-      console.log(this.hsValue)
       this.getViolationType()
+    },
+    moneyFormat(amt) {
+      const num = Math.round(amt * 100) / 100
+      let c = (num.toString().indexOf('.') !== -1) ? num.toLocaleString() : num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      if (c.length >= 3 & c.indexOf('.', c.length - 2) === c.length - 2) {
+        c = c + '0'
+      }
+      if (c.indexOf('.') === -1) {
+        c = c + '.00'
+      }
+      return c
     },
     // 规则校验
     ruleTest() {
