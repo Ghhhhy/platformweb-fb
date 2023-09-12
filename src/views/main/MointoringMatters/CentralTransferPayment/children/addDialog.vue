@@ -377,7 +377,16 @@ export default {
         let param = {
           askTypeCode: this.askTypeCode,
           askTypeName: this.askTypeName,
-          askTypeDesc: this.askTypeDesc
+          askTypeDesc: this.askTypeDesc,
+          id: this.id,
+          proCode: this.proCode,
+          proName: this.proName,
+          fundCategoryCode: this.fundCategoryCode,
+          fundCategoryName: this.fundCategoryName,
+          cfsHotTopicCateCode: this.cfsHotTopicCateCode,
+          cfsHotTopicCateName: this.cfsHotTopicCateName,
+          proFundCode: this.proFundCode,
+          proFundName: this.proFundName
         }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {
