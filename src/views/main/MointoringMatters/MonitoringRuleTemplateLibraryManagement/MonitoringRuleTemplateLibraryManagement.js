@@ -100,7 +100,7 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '模板函数',
+      title: '规则函数名称',
       field: 'functionName',
       sortable: false,
       filters: false,
