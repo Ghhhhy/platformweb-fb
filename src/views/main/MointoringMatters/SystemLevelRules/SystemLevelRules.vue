@@ -246,7 +246,7 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warnLevel
+      this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.isEnable = obj.isEnable
       this.regulationName = obj.fiRuleTypeCodeName
@@ -605,7 +605,7 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
+        warningLevel: this.warningLevel, // 预警级别
         'handleType': this.handleType, // 处理方式
         'businessModelCode': '', // 业务模块
         'businessFeaturesCode': '', // 业务功能
