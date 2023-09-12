@@ -1491,6 +1491,15 @@ export default [
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
   },
   {
+    path: '/SXSpeStatisticalFormsByRule',
+    name: 'SXSpeStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
     path: '/StatisticalFormsByCompartmentBgt',
     name: 'StatisticalFormsByCompartmentBgt',
     meta: {
