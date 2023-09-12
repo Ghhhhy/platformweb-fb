@@ -460,69 +460,70 @@ export default {
         case 'zjzcmx_fzj':
           this.tableColumnsConfig = proconf.expenditureColumn
           break
-        case 'zxjdxmmx_fzj': // 分配下级 分配本级 已分配
-        case 'zxjdxmmx_fzj_xj':
-          if (this.detailQueryParam.column === 'amountSnjbjfp') {
-            this.loadConfig('BsTable', 'Table203')
-            this.loadConfig('BsQuery', 'Query203')
-            console.info('分资金  省级分配本级')
-          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
-            this.loadConfig('BsTable', 'Table204')
-            this.loadConfig('BsQuery', 'Query204')
-            console.info('分资金  省级分配下级')
-          } else if (this.detailQueryParam.column === 'amountSbjfp') {
-            this.loadConfig('BsTable', 'Table205')
-            this.loadConfig('BsQuery', 'Query205')
-            console.info('分资金  市级分配本级')
-          } else if (this.detailQueryParam.column === 'amountSxjfp') {
-            this.loadConfig('BsTable', 'Table206')
-            this.loadConfig('BsQuery', 'Query206')
-            console.info('分资金  市级分配下级')
-          } else if (this.detailQueryParam.column === 'amountXjfp') {
-            this.loadConfig('BsTable', 'Table207')
-            this.loadConfig('BsQuery', 'Query207')
-            console.info('分资金  县级已分配')
-          }
+        case 'zdzjzcmx_fdq':
+        case 'zdzjzcmx_fzj':
+        case 'zxjdzcmx_fzj':
+        case 'zxjdzcmx_fdq':
+          this.tableColumnsConfig = proconf.payColumn
+          this.queryConfig = proconf.highQueryConfig2
+          this.searchDataList = proconf.highQueryData2
           break
-        case 'zxjdzcmx_fdq': // 分地区  支出金额
-          if (this.transJson(this.params5 || '')?.projectCode === 'FJ') {
-            this.loadConfig('BsTable', 'Table202')
-            this.loadConfig('BsQuery', 'Query202')
-          } else {
-            this.loadConfig('BsTable', 'Table201')
-            this.loadConfig('BsQuery', 'Query201')
-          }
-
-          console.info('分地区  支出金额')
+        // 项目明细
+        case 'zdzjxmmx_fzj':
+          this.tableColumnsConfig = proconf.projectColumn
           break
-        case 'zxjdxmmx_fdq': // 分配下级 分配本级 已分配
-        case 'zxjdxmmx_fdq_xj':
-          if (this.detailQueryParam.column === 'amountSnjbjfp') {
-            this.loadConfig('BsTable', 'Table203')
-            this.loadConfig('BsQuery', 'Query203')
-            console.info('分地区  省级分配本级')
-          } else if (this.detailQueryParam.column === 'amountSnjxjfp') {
-            this.loadConfig('BsTable', 'Table204')
-            this.loadConfig('BsQuery', 'Query204')
-            console.info('分地区  省级分配下级')
-          } else if (this.detailQueryParam.column === 'amountSbjfp') {
-            this.loadConfig('BsTable', 'Table205')
-            this.loadConfig('BsQuery', 'Query205')
-            console.info('分地区  市级分配本级')
-          } else if (this.detailQueryParam.column === 'amountSxjfp') {
-            this.loadConfig('BsTable', 'Table206')
-            this.loadConfig('BsQuery', 'Query206')
-            console.info('分地区  市级分配下级')
-          } else if (this.detailQueryParam.column === 'amountXjfp') {
-            this.loadConfig('BsTable', 'Table207')
-            this.loadConfig('BsQuery', 'Query207')
-            console.info('分地区  县级已分配')
-          }
+        case 'zdzjxmmx_fdq':
+          this.tableColumnsConfig = proconf.projectColumn
+          break
+        // 中央下达项目明细
+        case 'czzdzjxmmx_fdq_zyxd':
+        case 'czzdzjxmmx_fzj_zyxd':
+          this.tableColumnsConfig = proconf.zyxdProColumn
+          break
+        case 'zdzjxmmx_fzj_zyxd':
+        case 'zdzjxmmx_fdq_zyxd':
+          this.tableColumnsConfig = proconf.zyxdProfzjColumn
+          break
+        case 'zdzjxmmx_fzj_zyxdh':
+        case 'zdzjxmmx_fzj_zyxdx':
+          this.tableColumnsConfig = proconf.zyxdProfzjhColumn
+          break
+        case 'zdzjxmmx_fzj_wfp':
+          this.tableColumnsConfig = proconf.zyxdProfzjwfpColumn
+          break
+        case 'zdzjxmmx_fzj_wfpx':
+          this.tableColumnsConfig = proconf.zyxdProfzjwfpxColumn
+          break
+        case 'zdzjzbmx_fzjfp':
+          this.tableColumnsConfig = proconf.targetColumn
+          this.queryConfig = proconf.highQueryConfig1
+          this.searchDataList = proconf.highQueryData1
+          break
+        // case 'zdzjxmmx':
+        //   this.tableColumnsConfig = proconf.projectColumn
+        //   break
+        case 'zdzjzcmx':
+          this.tableColumnsConfig = proconf.expenditureColumn
+          break
+        case 'zdzjxmmx_dfap':
+        case 'sbjfpaAmount':
+        case 'shbjfpaAmount':
+        case 'xyfpaAmount':
+          this.tableColumnsConfig = proconf.zdzjprojectColumn
+          break
+        case 'zdzjxmmx':
+          this.tableColumnsConfig = proconf.projectColumn
+          break
+        // 专项监督项目明细
+        case 'zxjdxmmx_fzj':
+        case 'zxjdxmmx_fdq':
+        case 'zyzfzdjd_fdq_bjmx':
+        case 'zyzfzdjd_fdq_xjmx':
+          this.tableColumnsConfig = proconf.projectZXColumn
           break
         default:
           break
       }
-      this.queryTableDatas()
       this.queryTableDatas()
     },
     handleDetail(reportCode, row) {

@@ -347,7 +347,7 @@ export default {
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.caliberDeclareContent = res.data.description || ''
-          this.tableData = res.data
+          this.tableData = res.data.data
           this.tableLoading = false
         } else {
           this.$message.error(res.message)
