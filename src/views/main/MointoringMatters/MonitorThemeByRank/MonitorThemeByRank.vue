@@ -366,16 +366,16 @@ export default {
           this.warnLevel = '5'
         }
         if (obj.row.fiRuleCode !== null && obj.row.fiRuleCode.length === 2) {
-          this.regulationClass = ''
+          // this.regulationClass = ''
           this.fiRuleCode = ''
           this.regulationTypeQuery = obj.row.fiRuleCode
         } else if (obj.row.fiRuleCode !== null && obj.row.fiRuleCode.length === 4) {
           this.regulationClass = obj.row.fiRuleCode
-          this.regulationTypeQuery = ''
+          this.regulationTypeQuery = obj.row.regulationType
           this.fiRuleCode = ''
         } else {
-          this.regulationClass = ''
-          this.regulationTypeQuery = ''
+          // this.regulationClass = ''
+          // this.regulationTypeQuery = ''
           this.fiRuleCode = obj.row.fiRuleCode
         }
         this.violationsView = true
