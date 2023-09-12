@@ -854,7 +854,8 @@ export default {
         amount: this.amount,
         amtMatch: this.amtMatch,
         corBgtDocNoMatch: this.corBgtDocNoMatch,
-        corBgtDocNo: this.corBgtDocNo
+        corBgtDocNo: this.corBgtDocNo,
+        dtos: this.dtos
       }
       this.tableLoading1 = true
       HttpModule.pageQuery(param).then(res => {
@@ -889,7 +890,8 @@ export default {
         agencyCode: this.agencyCode === '' ? '' : this.getTrees(this.agencyCode)[0],
         amount: this.amount,
         isHook: this.isHook,
-        roleId: this.roleId
+        roleId: this.roleId,
+        dtos: this.dtos
       }
       this.tableLoading2 = true
       HttpModule.pagePayQuery(param).then(res => {
