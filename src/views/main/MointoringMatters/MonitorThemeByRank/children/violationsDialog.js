@@ -165,7 +165,7 @@ export let proconf = {
     },
     {
       title: '支付申请编码',
-      field: 'payApptNo',
+      field: 'payApplyNumber',
       width: '150',
       sortable: false,
       align: 'center'

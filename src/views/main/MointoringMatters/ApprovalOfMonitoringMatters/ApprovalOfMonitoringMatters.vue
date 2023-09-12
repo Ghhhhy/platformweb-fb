@@ -506,9 +506,14 @@ export default {
       selection.forEach(item => {
         declareCodes.push(item.declareCode)
       })
+      let ruleTemplateCodes = []
+      selection.forEach(item => {
+        ruleTemplateCodes.push(item.ruleTemplateCode)
+      })
       const param = {
         menuId: this.$store.state.curNavModule.guid,
         declareCodes: declareCodes,
+        ruleTemplateCodes: ruleTemplateCodes,
         menuName: this.$store.state.curNavModule.name
       }
       this.$confirm('是否确定撤销 ?', '提示', {
