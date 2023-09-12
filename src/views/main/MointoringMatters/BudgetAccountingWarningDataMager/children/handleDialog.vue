@@ -290,6 +290,7 @@ export default {
             this.supplyDataList.payeeAcctNo = res.data.executeData.payeeAcctNo
             this.supplyDataList.payeeAcctBankName = res.data.executeData.payeeAcctBankName
             this.supplyDataList.corBgtDocNoName = res.data.executeData.corBgtDocNoName
+            this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
           }
           if (res.data.payVoucherVo !== null) {
             this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType

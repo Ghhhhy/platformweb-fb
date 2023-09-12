@@ -323,7 +323,7 @@ export let proconf = {
     {
       title: '预算项目',
       width: '180px',
-      field: 'projectName',
+      field: 'proName',
       sortable: false,
       align: 'left'
     },
@@ -1478,7 +1478,7 @@ export let proconf = {
       }
     },
     {
-      field: 'depProName',
+      field: 'proName',
       title: '预算项目',
       titleWidth: '180',
       span: 8,
