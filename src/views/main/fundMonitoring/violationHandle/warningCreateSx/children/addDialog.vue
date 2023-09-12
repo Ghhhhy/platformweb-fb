@@ -642,10 +642,10 @@ export default {
           this.updateTime2 = this.detailData[0].updateTime2
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
-          if (this.detailData[0].agencyStatus === 1) {
+          if (Number(this.detailData[0].agencyStatus) === 1) {
             this.hsValue = '5'
           }
-          if (this.detailData[0].agencyStatus === 2) {
+          if (Number(this.detailData[0].agencyStatus) === 2) {
             this.hsValue = '4'
           }
           if (this.detailData[0].status === '2') {
@@ -722,6 +722,8 @@ export default {
           }
         })
       }
+      // debugger
+      console.log(this.hsValue)
       this.getViolationType()
     },
     // 规则校验
