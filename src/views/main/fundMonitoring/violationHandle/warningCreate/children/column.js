@@ -21,14 +21,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '单位编码',
-    width: 180,
-    field: 'unitCode',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '单位编码',
+  //   width: 180,
+  //   field: 'unitCode',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '预算单位',
     width: 180,
@@ -38,7 +38,9 @@ const budgetImpColumns = [
     align: 'center',
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
-    }
+    },
+    exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
+
   },
   // {
   //   title: '凭证时间',
@@ -178,7 +180,10 @@ const budgetImpColumns = [
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
     formatter({ row }) {
-      return row.trackProCode || row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+      if (row.trackProCode && row.trackProName) {
+        return `${row.trackProCode}-${row.trackProName}`
+      }
+      return `${row.trackProName}`
     }
   },
   {
