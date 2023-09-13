@@ -35,5 +35,8 @@ export default {
   },
   importPersonAndCompany (params) {
     return postFormData('large-monitor-platform/lmp/report/importReport', params)
+  },
+  speProlook(params) {
+    return post('large-monitor-platform/lmp/report/speProCreate', params)
   }
 }
