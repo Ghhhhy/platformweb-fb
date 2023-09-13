@@ -1374,6 +1374,135 @@ export default [
         '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
       )
   },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXStatisticalFormsByRank',
+    name: 'SXStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
+    path: '/SXsangongWarningDetailsByRule',
+    name: 'SXsangongWarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  {
+    path: '/SXsangongStatisticalFormsByRule',
+    name: 'SXsangongStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
+    path: '/SXsangongStatisticalFormsByRank',
+    name: 'SXsangongStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
+    path: '/SXsangongStatisticalFormsByCompartment',
+    name: 'SXsangongStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByRankBgt',
+    name: 'SXStatisticalFormsByRankBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByRankHs',
+    name: 'SXStatisticalFormsByRankHs',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByRuleBgt',
+    name: 'SXStatisticalFormsByRuleBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByRuleHs',
+    name: 'SXStatisticalFormsByRuleHs',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByCompartmentBgt',
+    name: 'SXStatisticalFormsByCompartmentBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByCompartmentHs',
+    name: 'SXStatisticalFormsByCompartmentHs',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByCompartment',
+    name: 'SXStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXStatisticalFormsByRule',
+    name: 'SXStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  // 陕西部分菜单单独分离出一个
+  {
+    path: '/SXMonitorThemeByCompartment',
+    name: 'SXMonitorThemeByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorThemeByCompartment/MonitorThemeByCompartment.vue')
+  },
   // 三公预警明细查询（按规则）
   {
     path: '/sangongWarningDetailsByRule',
@@ -1440,15 +1569,6 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
-  },
-  {
-    path: '/SXMonitorThemeByCompartmentAndWarn',
-    name: 'SXMonitorThemeByCompartmentAndWarn',
-    meta: {
-      keepAlive: true,
-      requireAuth: true
-    },
-    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   },
   // 陕西部分菜单单独分离出一个
   {
