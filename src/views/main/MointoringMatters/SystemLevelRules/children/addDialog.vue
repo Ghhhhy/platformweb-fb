@@ -1551,8 +1551,9 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择预警提示！' })
         return
       }
-      if (this.monitorRuleName.length > 100) {
-        this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于50位' })
+      console.log('this.monitorRuleName.length', this.monitorRuleName.length)
+      if (this.monitorRuleName.length > 120) {
+        this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于120位' })
         return
       }
       if (this.policiesDescription.length > 200) {
