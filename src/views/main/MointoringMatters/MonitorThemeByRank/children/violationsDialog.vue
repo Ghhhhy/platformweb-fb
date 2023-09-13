@@ -63,6 +63,7 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid-list="billguidList" />
   </div>
 </template>
 
@@ -70,9 +71,11 @@
 import { proconf } from './violationsDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitorThemeByRank.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
+import BsAttachment from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/common/GlAttachment.vue'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    BsAttachment
   },
   props: {
     title: {
@@ -207,6 +210,7 @@ export default {
       // 文件
       showAttachmentDialog: false,
       billguid: '',
+      billguidList: [],
       condition: {},
       violationsView: true,
       showViolations: false,
@@ -399,6 +403,7 @@ export default {
     // 查看附件
     showAttachment(row) {
       this.billguid = row.attachment_id
+      this.billguidList = [row.attachmentid1, row.attachmentid3].filter(item => item)
       this.showAttachmentDialog = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
