@@ -788,7 +788,8 @@ export default {
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
         regulation_class: this.regulation_class,
-        regulation_type: this.regulation_type
+        regulation_type: this.regulation_type,
+        code: this.regulation_class
       }
       if (!this.isSx) {
         if (this.treeType === '1') {
@@ -807,6 +808,8 @@ export default {
           delete param.regulation_code
           delete param.regulation_class
           delete param.regulation_type
+          param.regulationClass = this.regulation_class
+          param.code = this.regulationClass
         }
       }
       if (this.leftNode.businessType === 2) {
