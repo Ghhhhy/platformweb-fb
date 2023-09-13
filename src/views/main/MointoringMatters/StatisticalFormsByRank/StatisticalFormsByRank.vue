@@ -503,7 +503,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
+    this.params5 = this.transJson(this.$store.state.curNavModule.param5).regulationClass
     this.getLeftTreeData()
     this.getAgency()
   }
