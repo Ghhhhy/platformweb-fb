@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -17,10 +17,10 @@ export let proconf = {
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' },
       { code: 'del', label: '删除' },
-      { code: 'dirDataSourceSync', label: '标准数据源数据同步' },
+      !store.getters.isSx && { code: 'dirDataSourceSync', label: '标准数据源数据同步' },
       { code: 'etlDataSync', label: '执行KETTLE转换' },
       { code: 'doIncrementSync', label: '手动执行KETTLE增量' }
-    ]
+    ].filter(item => item)
   },
   highQueryConfig: [
     {
