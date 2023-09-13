@@ -1343,6 +1343,24 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
   },
+  {
+    path: '/SpeStatisticalFormsByRank',
+    name: 'SpeStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
+  {
+    path: '/SXSpeStatisticalFormsByRank',
+    name: 'SXSpeStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue')
+  },
   // 三公统计分析报表（按预警级别）
   {
     path: '/sangongStatisticalFormsByRank',

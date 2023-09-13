@@ -2238,6 +2238,7 @@ import { Import } from '@/components/Table/import/import/import.js'
 import $print from './print.js'
 import ImportModel from '@/components/Table/import/import.vue'
 import importFunction from './function.js'
+import moment from 'moment'
 export default {
   components: {
     GlAttachment, ImportModel
@@ -3340,8 +3341,7 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let month = date.toLocaleDateString().split('/')[1]
+    let month = moment().month()
     this.searchDataList.month = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid

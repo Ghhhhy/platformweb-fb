@@ -642,10 +642,10 @@ export default {
           this.updateTime2 = this.detailData[0].updateTime2
           this.information2 = this.detailData[0].information2
           this.phone2 = this.detailData[0].phone2
-          if (this.detailData[0].agencyStatus === 1) {
+          if (Number(this.detailData[0].agencyStatus) === 1) {
             this.hsValue = '5'
           }
-          if (this.detailData[0].agencyStatus === 2) {
+          if (Number(this.detailData[0].agencyStatus) === 2) {
             this.hsValue = '4'
           }
           if (this.detailData[0].status === '2') {
@@ -724,6 +724,17 @@ export default {
       }
       this.getViolationType()
     },
+    moneyFormat(amt) {
+      const num = Math.round(amt * 100) / 100
+      let c = (num.toString().indexOf('.') !== -1) ? num.toLocaleString() : num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      if (c.length >= 3 & c.indexOf('.', c.length - 2) === c.length - 2) {
+        c = c + '0'
+      }
+      if (c.indexOf('.') === -1) {
+        c = c + '.00'
+      }
+      return c
+    },
     // 规则校验
     ruleTest() {
       this.businessDataList.fiRuleCode = this.detailData[0].fiRuleCode
@@ -766,24 +777,26 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode,
         dealNo: this.createDataList.dealNo,
-        dealType: this.createDataList.dealType,
+        dealType: this.createDataList.dealType
+      }
+      const newParams = {
+        dataList: [param],
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
       }
       this.addLoading = true
-      HttpModule.handleAdd({ dataList: [param] })
-        .then(res => {
+      HttpModule.handleAdd(newParams).then(res => {
+        if (res.code === '000000') {
           if (res.code === '000000') {
-            if (res.code === '000000') {
-              this.$message.success('生成并下发成功')
-              this.$emit('close')
-            } else {
-              this.$message.error(res.message)
-            }
+            this.$message.success('生成并下发成功')
+            this.$emit('close')
           } else {
             this.$message.error(res.message)
           }
-        })
+        } else {
+          this.$message.error(res.message)
+        }
+      })
         .finally(() => {
           this.addLoading = false
         })

@@ -27,6 +27,7 @@
         :cell-style="cellStyle"
         :pager-config="pagerConfig"
         :title="title"
+        show-zero
         :default-money-unit="10000"
         @cellClick="cellClick"
         @onToolbarBtnClick="onToolbarBtnClick"

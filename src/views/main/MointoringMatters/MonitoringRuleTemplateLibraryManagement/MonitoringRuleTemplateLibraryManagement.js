@@ -1,4 +1,11 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+const isXMProject = () => { // 是否是厦门项目
+  const { province } = store.state.userInfo
+  if (province?.slice(0, 4) === '3502') {
+    return true
+  }
+  return false
+}
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -56,6 +63,7 @@ export let proconf = {
     {
       title: '事项名称',
       field: 'declareName',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -63,6 +71,7 @@ export let proconf = {
     {
       title: '事项申报所属财政',
       field: 'mofDiv',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -70,6 +79,7 @@ export let proconf = {
     {
       title: '事项申报所属机构',
       field: 'agency',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -77,6 +87,7 @@ export let proconf = {
     {
       title: '事项申报人',
       field: 'deClaRant',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -370,7 +381,8 @@ export let proconf = {
   funchighQueryData: {
     functionType: '',
     functionName: '',
-    functionParameter: ''
+    functionParameter: '',
+    fiRuleTypeCode: ''
   },
   mountTableColumnsConfig: [
     {

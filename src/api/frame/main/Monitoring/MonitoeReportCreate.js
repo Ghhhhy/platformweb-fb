@@ -33,6 +33,13 @@ export default {
   dynamiclook(params) {
     return post('large-monitor-platform/lmp/report/dynamicCreate', params)
   },
+  // 专项监控报告预览
+  speProlook(params) {
+    return post('large-monitor-platform/lmp/report/speProCreate', params)
+  },
+  preViewCreate(axiosStr, params) {
+    return post(`large-monitor-platform/lmp/report/${axiosStr}`, params)
+  },
   importPersonAndCompany (params) {
     return postFormData('large-monitor-platform/lmp/report/importReport', params)
   }

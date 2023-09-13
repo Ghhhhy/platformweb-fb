@@ -80,7 +80,8 @@ export default {
       return {
         customExportConfig: {
           ...this.tableGlobalConfig.customExportConfig,
-          dataType
+          dataType,
+          fileName: this.menuName
         }
       }
     }
@@ -147,9 +148,9 @@ export default {
       obj: {},
       tableGlobalConfig: {
         customExportConfig: {
-          addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
+          // addUnitColumn: true,
+          addReportTitleColumn: true
+          // unit: '万元'
         }
       },
       calculateConstraintConfig: {

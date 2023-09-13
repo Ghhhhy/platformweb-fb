@@ -8,6 +8,7 @@
           ref="tabPanel"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
+          v-bind="projectAttrs"
           @onQueryConditionsClick="onQueryConditionsClick"
           @btnClick="onTabPanelBtnClick"
         />
@@ -52,6 +53,7 @@
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
+          :highlight-current-row="true"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -129,6 +131,13 @@ export default {
           fileName: this.menuName
         }
       }
+    },
+    projectAttrs() {
+      if (this.isXMProject) {
+        return { tabStatusNumConfig: this.tabStatusNumConfig }
+      } else {
+        return {}
+      }
     }
   },
   watch: {
@@ -145,6 +154,7 @@ export default {
   },
   data() {
     return {
+      highLightRow: {},
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -569,6 +579,8 @@ export default {
     cellClick(obj, context, e) {
       let key = obj.column.property
       console.log(key, obj.row)
+      this.highLightRow = obj.row
+      this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(obj.row)
       switch (key) {
       }
     },
@@ -712,6 +724,7 @@ export default {
         } else {
           this.$message.error(res.message)
         }
+        this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
       })
     },
     // 归档查询
@@ -930,6 +943,9 @@ export default {
         } else {
           this.$message.error(res.result)
         }
+        this.$nextTick(() => {
+          this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
+        })
       })
     },
     // 切换状态栏
@@ -1209,7 +1225,7 @@ export default {
     // this.queryTableDatas()
     this.getViolationType()
     this.getAgency()
-    // this.getCount()
+    this.getCount()
   }
 }
 </script>

@@ -1,4 +1,10 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+const dict = store.state.warnInfo.warnLevelOptions.map(item => {
+  return {
+    ...item,
+    value: String(item.value)
+  }
+})
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -82,21 +88,21 @@ export let proconf = {
       'field': 'warnLevel',
       'fixed': '',
       'width': '100',
-      'type': 'html',
       'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
+      slots: {
+        default({ row }) {
+          return [
+            <div class={'warningLevel' + row.warnLevel}>{dict.find(item => item.value === String(row.warnLevel))?.label}</div>
+          ]
+        }
       },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': ''
+      cellRender: {
+        name: '$vxeSelect',
+        options: dict,
+        props: {
+          placeholder: '是否启用'
+        }
+      }
     },
     {
       title: '管理级次',

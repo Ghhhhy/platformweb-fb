@@ -33,11 +33,17 @@
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
+          :table-global-config="{
+            customExportConfig,
+          }"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :cell-style="cellStyle"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
+          @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -55,13 +61,18 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
+    <CarryImplementationRegionModal ref="CarryImplementationRegionModal" />
   </div>
 </template>
 
 <script>
 import getFormData from './carryImplementationCapital.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import CarryImplementationRegionModal from '@/views/main/fundMonitoring/capitalCarryForward/carryImplementationRegion/carryImplementationRegionModal.vue'
 export default {
+  components: {
+    CarryImplementationRegionModal
+  },
   watch: {
     $refs: {
       handler(newval) {
@@ -74,6 +85,12 @@ export default {
     }
   },
   computed: {
+    customExportConfig() {
+      return {
+        dataType: this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData',
+        fileName: `结转资金预算下达_分资金(单位: ${this.tableGlobalConfig.customExportConfig.unit} )`
+      }
+    },
     moneyUnit() {
       const moneyUnitValue = this.$refs.bsTableRef.moneyUnit || 10000
       const moneyUnitMap = { 10000: '万元', 1: '元' }
@@ -92,6 +109,14 @@ export default {
   },
   data() {
     return {
+      // table 相关配置
+      tableGlobalConfig: {
+        customExportConfig: {
+          // addUnitColumn: true,
+          // addReportTitleColumn: true,
+          unit: '万元'
+        }
+      },
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -216,6 +241,9 @@ export default {
   mounted() {
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
@@ -401,6 +429,34 @@ export default {
         })
       }
       return proCodes
+    },
+    cellStyle({ row, rowIndex, column }) {
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+
+      if (validCellValue && !row.children && column.own.canInsert) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      const rowIndex = obj?.rowIndex
+      if (!rowIndex) return
+      // let key = obj.column.property
+      // 无效的cellValue
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
+      // switch (key) {
+      // case 'amountsjfpbjall':
+      this.$refs.CarryImplementationRegionModal.dialogVisible = true
+      this.$refs.CarryImplementationRegionModal.injectData = obj.row
+      this.$refs.CarryImplementationRegionModal.init()
+      // break
+      // }
     },
     cellDblclick(obj) {
       // console.log('双击', obj)

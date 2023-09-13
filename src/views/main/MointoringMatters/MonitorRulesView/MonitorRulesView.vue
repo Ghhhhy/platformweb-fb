@@ -372,7 +372,7 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
+      this.warningLevel = obj.warnLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
       this.isDir = obj.isDir

@@ -43,21 +43,21 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '监控规则名称',
-      field: 'regulationName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '监控规则名称'
-        }
-      }
-    },
+    // {
+    //   title: '监控规则名称',
+    //   field: 'regulationName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '监控规则名称'
+    //     }
+    //   }
+    // },
     {
       title: '过滤类别名称',
       field: 'typeName',

@@ -63,7 +63,7 @@
     <el-dialog title="确定要撤销选中数据吗？" width="600px" :visible.sync="dialogTableVisible">
       <div slot="footer" class="dialog-footer">
         <el-input v-model="drawInformation" type="textarea" :rows="2" placeholder="请输入内容" />
-        <el-button type="primary" @click="mulWithdraw">确定</el-button>
+        <el-button v-deClick type="primary" @click="mulWithdraw">确定</el-button>
       </div>
     </el-dialog>
   </div>

@@ -275,6 +275,8 @@ const proconf = {
                 width: 200,
                 align: 'right',
                 sortable: true,
+                filters: false,
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -453,6 +455,7 @@ const proconf = {
                 field: 'xsaAmount2',
                 width: 200,
                 align: 'right',
+                canInsert: true,
                 sortable: true,
                 cellRender: {
                   name: '$vxeMoney'
@@ -461,42 +464,42 @@ const proconf = {
               }
             ]
           },
-          {
-            title: '分配下级',
-            width: 200,
-            align: 'right',
-            children: [
-              {
-                title: '省级',
-                field: 'amountXSnfpxj',
-                width: 200,
-                sortable: true,
-                align: 'right'
-              },
-              {
-                title: '市级',
-                field: 'amountXSfpxj',
-                width: 200,
-                sortable: true,
-                align: 'right'
-              },
-              {
-                title: '县级',
-                field: 'amountXXfpxj',
-                width: 200,
-                sortable: true,
-                align: 'right'
-              },
-              {
-                title: '总金额',
-                field: 'amountXSnfpxjAll',
-                width: 200,
-                sortable: true,
-                align: 'right',
-                formula: ''
-              }
-            ]
-          },
+          // {
+          //   title: '分配下级',
+          //   width: 200,
+          //   align: 'right',
+          //   children: [
+          //     {
+          //       title: '省级',
+          //       field: 'amountXSnfpxj',
+          //       width: 200,
+          //       sortable: true,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '市级',
+          //       field: 'amountXSfpxj',
+          //       width: 200,
+          //       sortable: true,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '县级',
+          //       field: 'amountXXfpxj',
+          //       width: 200,
+          //       sortable: true,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '总金额',
+          //       field: 'amountXSnfpxjAll',
+          //       width: 200,
+          //       sortable: true,
+          //       align: 'right',
+          //       formula: ''
+          //     }
+          //   ]
+          // },
           {
             title: '未分配',
             width: 200,
