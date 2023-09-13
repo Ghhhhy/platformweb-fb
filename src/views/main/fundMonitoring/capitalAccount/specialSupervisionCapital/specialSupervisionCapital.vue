@@ -1075,7 +1075,20 @@ export default {
       if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, column, row)) {
         return
       }
-      if (this.linkStyle(row, rowIndex, column)) {
+      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const key = column.property
+      const canInsertMap = { // 取自cellClick逻辑
+        0: !zcjeShow && key === dictionary['支出-金额'],
+        1: ((isSH || isFJ) || isFJ) && key === dictionary['中央下达'],
+        2: !fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key),
+        3: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH,
+        4: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH
+      }
+      if (Object.values(canInsertMap).some(item => item) && this.linkStyle(row, rowIndex, column)) {
         return {
           color: '#4293F4',
           textDecoration: 'underline'
