@@ -403,7 +403,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear || '2022',
+        fiscalYear: fiscalYear,
         regulationClass: this.params5,
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
@@ -503,7 +503,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
+    this.params5 = this.transJson(this.$store.state.curNavModule.param5).regulationClass
     this.getLeftTreeData()
     this.getAgency()
   }

@@ -21,11 +21,9 @@ window.gloableToolFn = {
       // 'mp-b-perm-service': '/api/mp-b-perm-service/',
       // 'mp-b-basedata-service': '/api/mp-b-basedata-service/',
       // 'mp-d-aggregation-service': '/api/mp-d-aggregation-service',
-      // // --------------------------- 文件相关服务 --------------------------------//
-      fileservice: '/api/fileservice/',
-      filePreviewService: '/api/filePreviewService/',
-      // fileservice: '/apaas/api/fileservice/',
-      // filePreviewService: '/apaas/api/filePreviewService/',
+      // --------------------------- 文件相关服务 --------------------------------//
+      fileservice: '/apaas/api/fileservice/',
+      filePreviewService: '/apaas/api/filePreviewService/',
       // --------------------------- 后台服务 -----------------------------------//
       'large-monitor-platform': '',
       'dfr-monitor-service': '',
@@ -47,12 +45,15 @@ window.gloableToolFn = {
       // 'mp-b-basedata-service': api + '/mp-b-basedata-service/',
       // 'mp-d-aggregation-service': api + '/mp-d-aggregation-service',
       // --------------------------- 文件服务 ----------------------------------//
-      fileservice: api + '/openapi/fileservice/',
+      fileservice: api + '/apaas/api/fileservice/',
       filePreviewService: api + '/filePreviewService',
       // --------------------------- 后台服务 ----------------------------------//
-      'large-monitor-platform': 'http://127.0.0.1:6602',
+      // 'large-monitor-platform': 'http://192.168.0.113:6602',
+      // 'large-monitor-platform': 'http://127.0.0.1:6602',
       // 'large-monitor-platform': api,
-      'dfr-monitor-service': 'http://127.0.0.1:6603',
+      // 'dfr-monitor-service': 'http://127.0.0.1:6603',
+      'large-monitor-platform': api,
+      'dfr-monitor-service': api,
       'budget': 'http://10.100.32.125:9008' + '/budget'
     },
     gloableUrl: {
