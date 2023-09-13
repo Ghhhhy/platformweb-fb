@@ -214,6 +214,7 @@ const proconf = {
                 field: 'amountSjAll',
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 sortable: true,
                 formula: '{amountSjSnjJz}+{amountSjJz}',
                 cellRender: {
@@ -333,6 +334,7 @@ const proconf = {
                 field: 'amountXjAll',
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 sortable: true,
                 formula: '{amountXjSnjJz}+{amountXjSjJz}+{amountXjJz}',
                 cellRender: {

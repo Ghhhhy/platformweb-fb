@@ -26,6 +26,31 @@ export let proconf = {
   },
   highQueryConfig: [
     {
+      title: '区划',
+      field: 'province',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
       title: '年份',
       field: 'year',
       'width': 180,
@@ -148,7 +173,11 @@ export let proconf = {
   highQueryData: {
     warningLevel: '',
     handleType: '',
-    regulationType: ''
+    regulationType: '',
+    year: '',
+    createTime: '',
+    endMonth: '',
+    startMonth: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [

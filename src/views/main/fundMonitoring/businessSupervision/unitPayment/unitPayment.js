@@ -24,6 +24,7 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: !store.getters.isFuJian,
       formula: '',
       visible: !store.getters.isFuJian,
       itemRender: {
@@ -217,6 +218,9 @@ export let proconf = {
 
       filters: false,
       align: 'center',
+      props: {
+        showZero: true
+      },
       cellRender: {
         name: '$vxeRatio'
       }

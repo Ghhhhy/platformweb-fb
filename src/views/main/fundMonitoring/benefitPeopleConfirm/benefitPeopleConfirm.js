@@ -182,6 +182,14 @@ export let proconf = {
       iconNameActive: 'base-all-active.png',
       type: 'button',
       curValue: '2'
+    },
+    {
+      code: '3',
+      label: '已取消',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '3'
     }
   ],
   curStatusButton: {
@@ -202,6 +210,13 @@ export let proconf = {
       {
         label: '取消确认',
         code: 'hook_not',
+        status: 'primary'
+      }
+    ],
+    3: [
+      {
+        label: '确认',
+        code: 'hook_set',
         status: 'primary'
       }
     ]
@@ -323,7 +338,7 @@ export let proconf = {
     //   visible: false
     // }
   ],
-  PoliciesTableColumns1: [
+  PoliciesTableColumns1: (ctx) => [
     {
       title: '金额(元)',
       width: 180,
@@ -449,6 +464,15 @@ export let proconf = {
       width: 180,
       field: 'setModeName',
       sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '取消确定说明',
+      width: 180,
+      field: 'cancelDescription',
+      sortable: false,
+      visible: ctx.toolBarStatusSelect.code === '3',
       filters: false,
       align: 'center'
     }

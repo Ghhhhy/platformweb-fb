@@ -1111,6 +1111,10 @@ export default {
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
         dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
         dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+        recStartTime: this.searchDataList.recStartTime,
+        recEndTime: this.searchDataList.recEndTime,
+        xPayDateStart: this.searchDataList.xPayDateStart,
+        xPayDateEnd: this.searchDataList.xPayDateEnd,
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid
       }
@@ -1267,6 +1271,10 @@ export default {
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recStartTime' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recEndTime' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = ''
       this.$refs.queryFrom.reset()
       this.agencyCodeList = []
       this.searchDataList.agencyCodeList = []
@@ -1280,6 +1288,10 @@ export default {
       this.searchDataList.warnEndDate = ''
       this.searchDataList.dealWarnStartDate = ''
       this.searchDataList.dealWarnEndDate = ''
+      this.searchDataList.recStartTime = ''
+      this.searchDataList.recEndTime = ''
+      this.searchDataList.xPayDateStart = ''
+      this.searchDataList.xPayDateEnd = ''
       this.condition.agencyCodeList = []
       this.condition.businessNo = ''
       this.condition.fiRuleName = ''
@@ -1460,11 +1472,19 @@ export default {
     this.$set(this.searchDataList, 'warnEndDate', this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'dealWarnStartDate', this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'dealWarnEndDate', this.queryData.dealWarnEndDate && moment(this.queryData.dealWarnEndDate).format('YYYY-MM-DD'))
+    this.$set(this.searchDataList, 'recStartTime', this.queryData.recStartTime)
+    this.$set(this.searchDataList, 'recEndTime', this.queryData.recEndTime)
+    this.$set(this.searchDataList, 'xPayDateStart', this.queryData.xPayDateStart)
+    this.$set(this.searchDataList, 'xPayDateEnd', this.queryData.xPayDateEnd)
     // 回显时间
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnStartDate' })].itemRender.props['value'] = this.searchDataList.dealWarnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'dealWarnEndDate' })].itemRender.props['value'] = this.searchDataList.dealWarnEndDate
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recStartTime' })].itemRender.props['value'] = this.searchDataList.recStartTime
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recEndTime' })].itemRender.props['value'] = this.searchDataList.recEndTime
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = this.searchDataList.xPayDateStart
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = this.searchDataList.xPayDateEnd
   }
 }
 </script>

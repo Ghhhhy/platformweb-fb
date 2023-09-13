@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%" class="unitStatistic">
     <BsMainFormListLayout :left-visible="leftVisible">
       <template v-slot:topTabPane>
         <BsTabPanel
@@ -73,6 +73,7 @@
       v-if="ruleModalVisible"
       v-model="ruleModalVisible"
       :current-row="currentRow"
+      :query-data="formData"
       @closeAll="closeAllHandle"
     />
   </div>
@@ -124,7 +125,7 @@ export default defineComponent({
 
     // 当前操作行
     const currentRow = ref(null)
-
+    const isSH = root.transJson(root.$store.state.curNavModule.param5 || '')?.projectCode === 'SH'
     /**
      * 区划树相关
      */
@@ -136,7 +137,8 @@ export default defineComponent({
     } = useTree(
       {
         treeProps: {
-          nodeKey: 'code'
+          nodeKey: 'code',
+          labelFormat: isSH ? undefined : '{name}'
         },
         fetch: elementTreeApi.getAgencyTree,
         afterFetch: data => {
@@ -261,7 +263,6 @@ export default defineComponent({
       isShowSearchForm,
       onQueryConditionsClick
     } = useTabPlanel(changeRuleModalVisibleVisible, getTable, currentRow)
-
     return {
       leftVisible,
       ruleModalVisible,
@@ -304,5 +305,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.unitStatistic{
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
 </style>

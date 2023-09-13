@@ -87,10 +87,14 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
+      :file-name="propsFileName"
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
       :province-name-list="provinceNameList"
+      :province-code="provinceCode"
+      :province-name="provinceName"
+      :report-type="reportType"
     />
   </div>
 </template>
@@ -255,13 +259,17 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
+      propsFileName: '',
       createPerson: '',
       previewYear: '',
       previewStartMonth: '',
       previewEndMonth: '',
       previewCode: '',
       previewName: '',
-      provinceNameList: ''
+      provinceNameList: '',
+      provinceCode: '',
+      provinceName: '',
+      reportType: ''
     }
   },
   mounted() {
@@ -477,8 +485,14 @@ export default {
       })
     },
     treeSetConfrimData(curTree) {
-      this.treeQueryparams.elementCode = curTree.code
-      this.$refs.leftTree.refreshTree()
+      console.log(curTree)
+      if (curTree.code === '1') {
+        this.treeType = '1'
+        this.getLeftTreeData()
+      } else {
+        this.treeType = '2'
+        this.getLeftTreeData1()
+      }
     },
     asideChange() {
       this.leftTreeVisible = false

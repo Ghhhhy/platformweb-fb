@@ -30,6 +30,7 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :table-global-config="tableGlobalConfig"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"
@@ -71,6 +72,16 @@ import moment from 'moment'
 export default {
   components: {
     DetailDialog
+  },
+  computed: {
+    tableGlobalConfig() {
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      return {
+        addReportTitleColumn: true,
+        fileName: this.menuName,
+        dataType
+      }
+    }
   },
   watch: {
     $refs: {
