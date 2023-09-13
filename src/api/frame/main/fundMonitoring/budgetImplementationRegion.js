@@ -75,6 +75,9 @@ export default {
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
   },
+  queryDetail(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/queryDetail', params)
+  },
   getCzProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryCzPro', params)
   },

@@ -1,4 +1,4 @@
-<-- 查看指标附件弹窗-->
+<!-- 查看指标附件弹窗-->
 <template>
   <div v-loading="showLoading">
     <vxe-modal
@@ -16,7 +16,7 @@
           />
           <!-- <el-button type="primary" @click="deleteAttachment">删除</el-button> -->
           <el-button type="primary" @click="downloadAttachment">下载</el-button>
-          <!-- <el-button @click="preview">预览</el-button> -->
+          <el-button @click="preview">预览</el-button>
         </el-row>
         <div style="height:360px;">
           <BsTable
@@ -56,7 +56,8 @@ import FilePreviewHB from '@/hb/components/filePreviewHB.vue'
 export default {
   name: 'GlAttachment',
   components: {
-    FilePreview, FilePreviewHB
+    FilePreview,
+    FilePreviewHB
   },
   props: {
     userInfo: {

@@ -3,5 +3,8 @@ export default {
   // 获取表格数据
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/loginLog/query', params)
+  },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/query', params)
   }
 }

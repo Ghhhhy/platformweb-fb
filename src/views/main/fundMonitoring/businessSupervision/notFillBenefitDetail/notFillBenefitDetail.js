@@ -90,29 +90,32 @@ const proconf = {
           {
             title: '利民',
             field: 'amountli',
-            canInsert: true, // 自定义展示可钻取的JSON配置字段
+            // canInsert: true, // 自定义展示可钻取的JSON配置字段
             width: 200,
             sortable: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '01'
           },
           {
             title: '惠企',
             field: 'amounthq',
-            canInsert: true,
+            // canInsert: true,
             width: 200,
             sortable: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '02'
           },
           {
             title: '惠企利民',
             field: 'amounthqli',
-            canInsert: true,
+            // canInsert: true,
             width: 200,
             sortable: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '03'
           }
         ]
       },
@@ -134,28 +137,31 @@ const proconf = {
             title: '利民',
             field: 'amountliFill',
             width: 200,
-            canInsert: true,
+            // canInsert: true,
             sortable: false,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '01'
           },
           {
             title: '惠企',
             field: 'amounthqFill',
             width: 200,
             sortable: false,
-            canInsert: true,
+            // canInsert: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '02'
           },
           {
             title: '惠企利民',
             field: 'amounthqliFill',
             width: 200,
             sortable: false,
-            canInsert: true,
+            // canInsert: true,
             filters: false,
-            align: 'right'
+            align: 'right',
+            isSubCode: '03'
           }
         ]
       },
@@ -180,6 +186,7 @@ const proconf = {
             canInsert: true,
             filters: false,
             width: 200,
+            isSubCode: '01',
             align: 'right',
             formula: '{amountli}-{amountliFill}'
           },
@@ -190,6 +197,7 @@ const proconf = {
             sortable: true,
             filters: false,
             canInsert: true,
+            isSubCode: '02',
             align: 'right',
             formula: '{amounthq}-{amounthqFill}'
           },
@@ -200,6 +208,7 @@ const proconf = {
             sortable: false,
             canInsert: true,
             filters: false,
+            isSubCode: '03',
             align: 'right',
             formula: '{amounthqli}-{amounthqliFill}'
           }
@@ -217,7 +226,8 @@ const proconf = {
             sortable: true,
             filters: false,
             align: 'right',
-            canInsert: true,
+            // canInsert: true,
+            isSubCode: '01',
             formula: '({amountli}-0==0)?0:({amountliFill}/{amountli}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -230,7 +240,8 @@ const proconf = {
             align: 'right',
             sortable: true,
             filters: false,
-            canInsert: true,
+            // canInsert: true,
+            isSubCode: '02',
             formula: '({amounthq}-0==0)?0:({amounthqFill}/{amounthq}*100)',
             cellRender: {
               name: '$vxeRatio'
@@ -240,7 +251,8 @@ const proconf = {
             title: '惠企利民',
             field: 'hqlmbl',
             width: 200,
-            canInsert: true,
+            // canInsert: true,
+            isSubCode: '03',
             sortable: false,
             filters: false,
             align: 'right',
@@ -269,11 +281,11 @@ const proconf = {
   }
 }
 export const modalTableColumns = [
-  {
-    title: '序号',
-    type: 'seq',
-    width: 60
-  },
+  // {
+  //   title: '序号',
+  //   type: 'seq',
+  //   width: 60
+  // },
   {
     title: '地区名称',
     align: 'left',
@@ -296,7 +308,7 @@ export const modalTableColumns = [
     title: '处室名称',
     align: 'left',
     width: 260,
-    field: 'bgtMofDepCode'
+    field: 'bgtMofDepName'
   },
   {
     title: '资金名称',

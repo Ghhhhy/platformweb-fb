@@ -10,7 +10,8 @@ const budgetImpColumns = [
     align: 'center',
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-    }
+    },
+    exportFormatter: true
   },
   {
     title: '业务处室',
@@ -20,14 +21,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '单位编码',
-    width: 180,
-    field: 'unitCode',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '单位编码',
+  //   width: 180,
+  //   field: 'unitCode',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '预算单位',
     width: 180,
@@ -37,7 +38,9 @@ const budgetImpColumns = [
     align: 'center',
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
-    }
+    },
+    exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
+
   },
   // {
   //   title: '凭证时间',
@@ -177,7 +180,10 @@ const budgetImpColumns = [
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
     formatter({ row }) {
-      return row.trackProCode || row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+      if (row.trackProCode && row.trackProName) {
+        return `${row.trackProCode}-${row.trackProName}`
+      }
+      return `${row.trackProName}`
     }
   },
   {
@@ -188,8 +194,12 @@ const budgetImpColumns = [
     filters: false,
     align: 'center',
     formatter({ row }) {
-      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
-    }
+      if (row.proCode && row.proName) {
+        return `${row.proCode}-${row.proName}`
+      }
+      return `${row.proName}`
+    },
+    exportFormatter: true
   }
 ]
 // 预算管理表头(只用于专项监督0207)
@@ -679,6 +689,74 @@ const proconf = {
           value: ''
         }
       }
+    },
+    {
+      title: '指标接收开始时间',
+      field: 'recStartTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接收开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '指标接收截止时间',
+      field: 'recEndTime',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '指标接收截止时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付开始时间',
+      field: 'xPayDateStart',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付开始时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
+    },
+    {
+      title: '支付截止时间',
+      field: 'xPayDateEnd',
+      sortable: false,
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '支付截止时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -690,10 +768,14 @@ const proconf = {
     warningLevel: '',
     fiRuleName: '',
     trackProName: '',
-    warnStartDate: '2022-02-02',
+    warnStartDate: '',
     warnEndDate: '',
     dealWarnStartDate: '',
-    dealWarnEndDate: ''
+    dealWarnEndDate: '',
+    recStartTime: '',
+    recEndTime: '',
+    xPayDateStart: '',
+    xPayDateEnd: ''
   },
   // 预警数据明细
   undoNum: [
@@ -706,7 +788,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '预算单位',
@@ -1038,7 +1121,14 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
-      }
+      },
+      formatter({ row }) {
+        if (row.proCode && row.proName) {
+          return `${row.proCode}-${row.proName}`
+        }
+        return `${row.proName}`
+      },
+      exportFormatter: true
     },
     {
       title: '收支类别',
@@ -1725,7 +1815,14 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
-      }
+      },
+      formatter({ row }) {
+        if (row.proCode && row.proName) {
+          return `${row.proCode}-${row.proName}`
+        }
+        return `${row.proName}`
+      },
+      exportFormatter: true
     },
     {
       title: '收支类别',
@@ -2056,7 +2153,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '预算单位',
@@ -2067,7 +2165,8 @@ const proconf = {
       align: 'center',
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '业务数据单号',
@@ -2727,14 +2826,14 @@ const proconf = {
     }
     // console.log('1111111111111', operatorColumns, isFlow)
     let otherColumnsCopy = [
-      {
-        title: '生成时间',
-        width: 180,
-        field: 'warnDealGenTime',
-        sortable: false,
-        filters: false,
-        align: 'center'
-      },
+      // {
+      //   title: '生成时间',
+      //   width: 180,
+      //   field: 'warnDealGenTime',
+      //   sortable: false,
+      //   filters: false,
+      //   align: 'center'
+      // },
       ...otherColumns
     ]
     if (isFlow) {

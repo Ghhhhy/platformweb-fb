@@ -567,7 +567,6 @@ export default {
         regulationType = '1'
       }
       const params = {
-        menuType: 1,
         regulationType: regulationType,
         id: this.condition.agency_code,
         warningLevel: this.warningLevel, // 预警级别

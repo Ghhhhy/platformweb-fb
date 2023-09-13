@@ -3,6 +3,7 @@
     v-model="visible"
     :destroy-on-close="true"
     title="查看详情"
+    class="PreviewDetail"
     width="90%"
     height="90%"
     resize
@@ -81,6 +82,12 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    queryData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     // 勾选行
     currentRow: {
       type: Object,
@@ -93,6 +100,7 @@ export default defineComponent({
     /**
      * 弹窗内部状态
      * */
+    const { queryData } = props
     const { visible } = useModalInner(props, emit, model)
 
     // 处理单查看弹窗
@@ -176,6 +184,7 @@ export default defineComponent({
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           fiRuleName: props.currentRow.ruleName,
+          ...queryData,
           [property]: value
         }
       },
@@ -237,5 +246,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.PreviewDetail{
+  /deep/ .vxe-pager--total{
+    display: none;
+  }
+}
 </style>

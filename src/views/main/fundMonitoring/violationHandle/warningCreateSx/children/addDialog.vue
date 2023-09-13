@@ -777,24 +777,26 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode,
         dealNo: this.createDataList.dealNo,
-        dealType: this.createDataList.dealType,
+        dealType: this.createDataList.dealType
+      }
+      const newParams = {
+        dataList: [param],
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
       }
       this.addLoading = true
-      HttpModule.handleAdd({ dataList: [param] })
-        .then(res => {
+      HttpModule.handleAdd(newParams).then(res => {
+        if (res.code === '000000') {
           if (res.code === '000000') {
-            if (res.code === '000000') {
-              this.$message.success('生成并下发成功')
-              this.$emit('close')
-            } else {
-              this.$message.error(res.message)
-            }
+            this.$message.success('生成并下发成功')
+            this.$emit('close')
           } else {
             this.$message.error(res.message)
           }
-        })
+        } else {
+          this.$message.error(res.message)
+        }
+      })
         .finally(() => {
           this.addLoading = false
         })

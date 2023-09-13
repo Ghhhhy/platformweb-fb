@@ -24,7 +24,13 @@ const leftFormItem = [
 const leftTableColumnsConfig = [
   {
     title: '专项资金',
-    field: 'proName'
+    field: 'proName',
+    formatter({ row }) {
+      if (row.proCode && row.proName) {
+        return `${row.proCode}-${row.proName}`
+      }
+      return `${row.proName}`
+    }
   }
 ]
 // 查询区条件
@@ -53,7 +59,13 @@ const rightFormItem = [
 const rightTableColumnsConfig = [
   {
     title: '专项资金',
-    field: 'objName'
+    field: 'objName',
+    formatter({ row }) {
+      if (row.objCode && row.objName) {
+        return `${row.objCode}-${row.objName}`
+      }
+      return `${row.objName}`
+    }
   }
 ]
 

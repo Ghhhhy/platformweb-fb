@@ -380,26 +380,26 @@ export let proconf = {
 }
 // 校验移动电话
 export const mobilePhoneValid = ({ itemValue: value }) => {
-  let myreg = /^1[3-9]\d{9}$/ // 手机号
-  if (value !== '' && value !== null && value !== undefined) {
-    if (!myreg.test(value)) {
-      return Promise.reject(new Error('请输入正确的手机号码'))
-    } else {
-      return Promise.resolve()
-    }
-  }
+  // let myreg = /^1[3-9]\d{9}$/ // 手机号
+  // if (value !== '' && value !== null && value !== undefined) {
+  //   if (!myreg.test(value)) {
+  //     return Promise.reject(new Error('请输入正确的手机号码'))
+  //   } else {
+  //     return Promise.resolve()
+  //   }
+  // }
   return Promise.resolve()
 }
 // 校验座机电话号码
 export const officePhoneValid = ({ itemValue: value }) => {
-  const re = /^1\d{10}$/ // 手机号码
-  const re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/ // 座机号
-  const re2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/ // 固定号码
-  if (!value) {
-    return Promise.reject(new Error('请填写办公电话'))
-  } else if (value && (!re1.test(value) && !re.test(value) && !re2.test(value))) {
-    return Promise.reject(new Error('请填写正确的办公电话'))
-  }
+  // const re = /^1\d{10}$/ // 手机号码
+  // const re1 = /^\d{3}-\d{8}$|\d{4}-\d{7}$/ // 座机号
+  // const re2 = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/ // 固定号码
+  // // if (!value) {
+  // //   return Promise.reject(new Error('请填写办公电话'))
+  // // } else if (value && (!re1.test(value) && !re.test(value) && !re2.test(value))) {
+  // //   return Promise.reject(new Error('请填写正确的办公电话'))
+  // // }
   return Promise.resolve()
 }
 // 校验邮箱
