@@ -128,10 +128,11 @@ export default {
                   'check-strictly': true
                 },
                 'placeholder': '区划',
-                'multiple': true,
+                'multiple': false,
                 'readonly': true,
                 'isleaf': false
-              }
+              },
+              'check-strictly': true
             }
           }
         },
@@ -342,7 +343,7 @@ export default {
           }
         }
       }
-      this.mofDivCodeList = val.mofDivCodeList_code__multiple
+      this.mofDivCodeList = [val.mofDivCodeList_code].filter(item => item)
       this.condition = condition
       this.queryTableDatas()
     },
