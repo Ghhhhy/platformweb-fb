@@ -26,7 +26,6 @@ export let proconf = {
       align: 'left',
       visible: !store.getters.isFuJian,
       formula: '',
-      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
