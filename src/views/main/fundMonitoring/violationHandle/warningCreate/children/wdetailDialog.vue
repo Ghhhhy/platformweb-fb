@@ -824,7 +824,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
@@ -836,7 +836,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '1'
           this.status = ''
           this.isNormal = true
@@ -853,7 +853,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.isProcessed = false
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '2'
           this.status = 7
           this.title = '认定违规-待整改明细'
@@ -863,7 +863,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '2'
           this.status = null
           this.isNormal = false
@@ -929,7 +929,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -942,7 +942,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -955,7 +955,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -968,7 +968,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -981,7 +981,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -994,7 +994,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -1007,7 +1007,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -1020,7 +1020,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
