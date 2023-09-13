@@ -18,7 +18,7 @@
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick1"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true')" v-slot:preBtns>
+          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"

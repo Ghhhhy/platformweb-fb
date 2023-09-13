@@ -2959,7 +2959,7 @@ export default {
         }
       }
       HttpModule.getLeftTree(params).then(res => {
-        if (res.rscode === '100000') {
+        if (res.rscode === '000000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
         } else {

@@ -1093,7 +1093,8 @@ export default {
         agencyCode: this.agencyCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckwhhz'
+        // sqlCode: 'zhcx_dwzbzhckwhhz'
+        reportCode: 'dwzbzhckwhhz'
       }
       this.tableLoading1 = true
       HttpModule.queryTableDatasByAgency(param).then(res => {
@@ -1120,7 +1121,8 @@ export default {
         mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckwhhz_mx'
+        // sqlCode: 'zhcx_dwzbzhckwhhz_mx'
+        sqlCode: 'dwzbzhckwhhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1237,7 +1239,8 @@ export default {
         recDivCode: this.recDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbwhhz'
+        // sqlCode: 'zhcx_sxbzzbwhhz'
+        sqlCode: 'sxbzzbwhhz'
       }
       this.tableLoading1 = true
       HttpModule.queryMofDiv(param).then(res => {
@@ -1263,7 +1266,8 @@ export default {
         expFuncCode: this.expFuncCode,
         bgtId: this.bgtId,
         mofDivCode: this.mofDivCode,
-        sqlCode: 'zhcx_sxbzzbwhhz_mx'
+        // sqlCode: 'zhcx_sxbzzbwhhz_mx'
+        sqlCode: 'sxbzzbwhhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1293,7 +1297,8 @@ export default {
         recDivCode: this.recDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbhz'
+        // sqlCode: 'zhcx_sxbzzbhz'
+        sqlCode: 'sxbzzbhz'
       }
       this.tableLoading1 = true
       HttpModule.queryMofDiv1(param).then(res => {
@@ -1318,7 +1323,8 @@ export default {
         mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbhz_mx'
+        // sqlCode: 'zhcx_sxbzzbhz_mx'
+        sqlCode: 'sxbzzbhz_mx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {

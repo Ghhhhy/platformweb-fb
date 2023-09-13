@@ -61,7 +61,7 @@ export const getters = {
   },
   isSx() { // 判断是否是陕西项目
     return state.projectList.some(item => {
-      return item.configKey === 'sx' && item.configValue
+      return item.configKey === 'sx' && item.configValue === 'true'
     })
   },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
