@@ -17,7 +17,7 @@
       <div v-show="!disabled" style="width:100%;height: 80px;margin:0 15px">
         <div type="flex" justify="end">
           <div style="width:100%">
-            <vxe-button id="savebutton" style="float:right;margin-right:35px" status="primary" @click="doInsert">保存</vxe-button>
+            <vxe-button id="savebutton" v-deClick style="float:right;margin-right:35px" status="primary" @click="doInsert">保存</vxe-button>
             <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
           </div>
         </div>
