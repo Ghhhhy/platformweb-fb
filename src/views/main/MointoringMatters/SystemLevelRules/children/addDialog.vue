@@ -983,8 +983,8 @@ export default {
     },
     chooseTriggerClass(val) {
       if (val === 2) {
-        this.warningLevel = 4
-        this.handleType = 4
+        this.warningLevel = 5
+        this.handleType = 5
       }
       if (val === 1) {
         this.warningLevel = 1
