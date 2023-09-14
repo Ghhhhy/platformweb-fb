@@ -1150,7 +1150,7 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
     path: '/AccountMonitorWarningResults', // 会计核算监控预警结果查询
@@ -1159,7 +1159,7 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
     path: '/SanGongMonitorWarningResults', // 三公监控预警结果查询
@@ -1168,7 +1168,9 @@ const routers = [
       keepAlive: true,
       requireAuth: true
     },
-    component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreate/warningCreate.vue')
+    // component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreateSx/warningCreate.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+
   },
   {
     path: '/SanBaoMonitorWarningResults', // 三保监控预警结果查询
