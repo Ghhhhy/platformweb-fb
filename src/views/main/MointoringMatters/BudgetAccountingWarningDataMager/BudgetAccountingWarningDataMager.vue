@@ -133,6 +133,7 @@ export default {
   },
   data() {
     return {
+      controlTypeByNumber: '',
       // 表尾合计
       footerConfig: {
         showFooter: true,
@@ -657,6 +658,7 @@ export default {
           this.fiRuleCode = this.$refs.mainTableRef.getSelectionData()[0].fiRuleCode
           this.warnLevel = this.$refs.mainTableRef.getSelectionData()[0].warnLevel1
           this.menuName = this.$refs.mainTableRef.getSelectionData()[0].menuNameList
+          this.controlTypeByNumber = this.$refs.mainTableRef.getSelectionData()[0].controlTypeByNumber
           this.queryTableDatas()
           break
         case 'toorbar_checktotal':
@@ -960,6 +962,7 @@ export default {
         'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
         'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
         agencyCodeList: this.agencyCodeList,
+        controlType: this.controlTypeByNumber,
         warnLevel: this.warnLevel,
         menuName: this.menuName,
         regulationClass: this.params5
