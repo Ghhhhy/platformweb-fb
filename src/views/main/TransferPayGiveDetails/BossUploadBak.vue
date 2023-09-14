@@ -35,7 +35,7 @@
             class="fn-inline"
             style="margin-top: 3px;height: 33px;float:left"
           >
-            <img src="@/assets/img/upload/备注icon.svg" alt="" class="img-my-two">
+            <img src="@/assets/img/upload/beizhu.svg" alt="" class="img-my-two">
           </div>
           <div class="fn-inline" style="height:33px;float:left">
             <span class="sp-my-two">支持png/jpg/pdf等，不超过{{ sizeNum }}M</span>
