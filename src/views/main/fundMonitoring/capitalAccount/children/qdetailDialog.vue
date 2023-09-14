@@ -71,10 +71,12 @@ export default {
       },
       tableFooterConfigSx: {
         totalObj: {
+          xpayAmt: 0,
+          payAmt: 0,
           payAppAmt: 0,
           subsidyAmt: 0
         },
-        combinedType: ['switchTotal'],
+        combinedType: ['total'],
         showFooter: true
       },
       tableColumnsConfig: [
