@@ -176,9 +176,10 @@ loadingDirective.install = Vue => {
           if (!el.disabled) {
             el.disabled = 'disabled';
             el.classList.add('is-disabled')
+            el.classList.add('is--disabled')
             setTimeout(() => {
               el.removeAttribute('disabled')
-              el.classList.remove('is-disabled')
+              el.classList.remove('is--disabled')
             }, binding.value || 1000)
           }
         })

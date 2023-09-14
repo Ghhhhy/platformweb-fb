@@ -134,12 +134,12 @@ export default {
     }
   },
   watch: {
-    $refs: {
-      handler(newval) {
-      },
-      deep: true,
-      immediate: true
-    },
+    // $refs: {
+    //   handler(newval) {
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     queryConfig() {
       this.getSearchDataList()
     }
@@ -412,7 +412,7 @@ export default {
     },
     // 搜索
     search(val, multipleValue = {}, isFlush = false) {
-      this.searchDataList = val
+      // this.searchDataList = val
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
