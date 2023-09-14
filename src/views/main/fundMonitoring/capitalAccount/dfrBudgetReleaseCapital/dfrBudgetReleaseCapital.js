@@ -1610,8 +1610,8 @@ if (store.getters.isSx) {
     ],
     highQueryData: {
       fiscalYear: store.state?.userInfo?.year,
-      mofDivCodes: [store.state?.userInfo?.province],
-      mofDivCodes_code__multiple: [store.state?.userInfo?.province],
+      mofDivCodes: [],
+      mofDivCodes_code__multiple: [],
       mofDivCodes_code: store.state?.userInfo?.province,
       mofDivCodes_name: store.state?.userInfo?.admdivname,
       endTime: ''
