@@ -262,7 +262,7 @@ export default {
     },
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warnLevel
+      this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
       this.regulationClass = obj.regulationClass_code
