@@ -67,6 +67,9 @@
                 <i class="fn-inline"></i>
               </div>
             </div>
+            <div v-if="isSx" class="timeRefreshTip">
+              <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
+            </div>
           </template>
           <template v-if="!isSx" v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
