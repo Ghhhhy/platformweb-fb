@@ -11,6 +11,9 @@ export default {
   getTreeData1(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
   },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/getBgtMof', params)
+  },
   // 获取表格数据 处室指标查询-处室指标综合查看文号汇总
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/dfrMultipleQuery/query', params)
