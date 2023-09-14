@@ -16,13 +16,8 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div
-                      class="sub-title-add"
-                      style="width: 20%; float: left; margin-top: 8px"
-                    >
-                      <font color="red">*</font>&nbsp;区划
-                    </div>
-                    <div style="width: 70%; float: left; margin-top: 2px">
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;区划</div>
+                    <div style="width:70%;float:left;margin-top:2px">
                       <BsTreeInput
                         ref="ruleTree"
                         v-model="askProvince"
@@ -33,6 +28,53 @@
                         @input="selectProvince"
                       />
                     </div>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="20">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;年份</div>
+                    <el-select
+                      v-model="year"
+                      placeholder="请选择年份"
+                      style="width:70%"
+                    >
+                      <el-option
+                        v-for="item in yearOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="20">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;月份</div>
+                    <el-select
+                      v-model="startMonth"
+                      placeholder="请选择月份"
+                      style="width:70%"
+                      @change="chooseRuleFlag"
+                    >
+                      <el-option
+                        v-for="item in startMonthOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
                   </el-row>
                 </el-main>
               </el-container>
@@ -111,26 +153,58 @@
         </div>
       </div>
     </div>
-    <div slot="footer" style="height: 80px; margin: 0 15px">
+    <div slot="footer" style="height: 80px;margin:0 15px">
       <div v-if="showbox" id="bigbox"></div>
-      <el-divider style="color: #e7ebf0" />
+      <el-divider style="color:#E7EBF0" />
       <div type="flex" justify="space-around">
         <div>
           <vxe-button @click="dialogClose">取消</vxe-button>
-          <vxe-button id="savebutton" status="primary" @click="doInsert">
-            预览
-          </vxe-button>
+          <vxe-button id="savebutton" status="primary" @click="doInsert">预览</vxe-button>
+          <vxe-button id="importbutton" status="primary" @click="importbutton">导入</vxe-button>
         </div>
       </div>
     </div>
+    <ImportModel
+      ref="ImportModel"
+      :file-config="fileConfig"
+      :import-modal-visible.sync="importModalVisible"
+      @onDownloadTemplateClick="onDownloadTemplateClick"
+      @onImportClick="onImportClick"
+      @onImportFileClick="onImportFileClick"
+    />
   </vxe-modal>
 </template>
 <script>
+import ImportModel from '@/components/TableBak/import/import.vue'
 // import { proconf } from '../PoliciesAndRegulationsManagement.js'
+import { checkRscode } from '@/utils/checkRscode'
+import { readLocalFile } from '@/utils/readLocalFile'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
+const routerMap = {
+  'sanGongMonitoeReportCreate': {
+    axiosStr: 'sangongCreate',
+    code: '2'
+  },
+  'SpeProMonitoeReportCreate': {
+    axiosStr: 'speProCreate',
+    code: '3'
+  },
+  'sanBaoMonitoeReportCreate': {
+    axiosStr: 'sanbaoCreate',
+    code: '4'
+  },
+  'dynamicMonitoeReportCreate': {
+    axiosStr: 'dynamicCreate',
+    code: '5'
+  },
+  'directFundsCreate': {
+    axiosStr: 'directFundsCreate',
+    code: '6'
+  }
+}
 export default {
   name: 'AddDialog',
-  components: {},
+  components: { ImportModel },
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
@@ -142,6 +216,7 @@ export default {
       default: ''
     }
   },
+
   data() {
     return {
       dialogVisible: true,
@@ -177,16 +252,76 @@ export default {
       ],
       askProvince: '',
       askProvinceOptions: [],
-      treeQueryparams: {
-        elementcode: 'admdiv',
-        province: '610000000',
-        year: '2021',
-        wheresql: 'and code like' + 61 + '%'
-      },
-      provinceNameList: []
+      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      provinceNameList: [],
+      importModalVisible: false, // 导入弹框
+      fileConfig: {
+        fileName: '',
+        file: null,
+        maxSize: 1024 * 1024 * 10
+      }
     }
   },
   methods: {
+    importbutton() {
+      // if (this.askProvince === '') {
+      //   this.$message.warning('请选择区划')
+      //   return
+      // }
+      if (this.year === '') {
+        this.$message.warning('请选择年份')
+        return
+      }
+      if (this.startMonth === '') {
+        this.$message.warning('请选择月份')
+        return
+      }
+      // debugger
+      this.fileConfig = {
+        fileName: '',
+        file: null,
+        maxSize: 1024 * 1024 * 10
+      }
+      this.importModalVisible = true
+      this.$refs.ImportModel.showDownLoadTemplate = false
+      this.$set(this.$refs.ImportModel, 'fileList', [])
+    },
+    async onImportFileClick() {
+      const { file } = await readLocalFile({
+        types: ['xlsx', 'xls', 'docx', 'doc']
+      })
+      if (file.size >= this.fileConfig.maxSize) {
+        this.$message.error('文件太大')
+        return
+      }
+      this.fileConfig.file = file
+      this.fileConfig.fileName = file.name
+      this.$set(this.$refs.ImportModel, 'fileList', [{ fileName: file.name }])
+    },
+    async onImportClick() {
+      if (!this.fileConfig?.file) {
+        this.$message.warning('请先选择导入文件')
+        return
+      }
+      let params = {
+        year: this.year,
+        month: this.startMonth,
+        mofDivCode: this.provinceCode,
+        mofDivName: this.provinceName,
+        file: this.fileConfig.file,
+        type: '2'
+      }
+      checkRscode(
+        await HttpModule.importPersonAndCompany(params)
+      )
+      this.$message.success('导入成功')
+      this.dtos = []
+      this.importModalVisible = false
+      this.$parent.dialogVisible = false
+      this.$parent.fileName = ''
+      this.$parent.queryTableDatas()
+      // this.queryTableDatas1()
+    },
     dialogClose() {
       this.$parent.dialogVisible = false
       this.$parent.queryTableDatas()
@@ -194,14 +329,14 @@ export default {
     // 保存新增的计划信息
     doInsert() {
       console.log(this.askProvince)
-      // if (this.year === '') {
-      //   this.$message.warning('请选择年份')
-      //   return
-      // }
-      // if (this.startMonth === '') {
-      //   this.$message.warning('请选择开始月份')
-      //   return
-      // }
+      if (this.year === '') {
+        this.$message.warning('请选择年份')
+        return
+      }
+      if (this.startMonth === '') {
+        this.$message.warning('请选择开始月份')
+        return
+      }
       // if (this.endMonth === '') {
       //   this.$message.warning('请选择结束月份')
       //   return
@@ -212,12 +347,13 @@ export default {
       // }
       let param = {
         year: this.year,
-        startMonth: this.startMonth,
-        endMonth: this.endMonth,
-        provinceNameList: this.provinceNameList
+        month: this.startMonth,
+        // endMonth: this.endMonth,
+        provinceCode: this.provinceCode,
+        provinceName: this.provinceName
       }
       this.addLoading = true
-      HttpModule.sanbaolook(param).then((res) => {
+      HttpModule.sanbaolook(param).then(res => {
         this.addLoading = false
         if (res.code === '000000') {
           this.$parent.filePreviewDialogVisible = true
@@ -227,6 +363,7 @@ export default {
           this.$parent.previewStartMonth = this.startMonth
           this.$parent.previewEndMonth = this.endMonth
           this.$parent.provinceNameList = this.provinceNameList
+          this.$parent.reportType = routerMap[this.$route.name].code
         } else {
           this.$message.error(res.message)
         }
@@ -248,23 +385,8 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      HttpModule.getLeftTree(params).then((res) => {
+      let params = { ...that.treeQueryparams, ...this.$store.getters.treeQueryparamsCom }
+      HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
           that.askProvinceOptions = treeResdata
@@ -284,35 +406,36 @@ export default {
       console.log(nameList)
     }
   },
-  watch: {},
+  watch: {
+  },
   created() {
     this.getLeftTreeData()
   }
 }
 </script>
 <style lang="scss">
-.payVoucherInput {
-  margin: 15px;
-  .el-card {
-    margin-top: 0;
+  .payVoucherInput {
+    margin: 15px;
+    .el-card {
+      margin-top: 0
+    }
   }
-}
-.vxe-modal--wrapper .vxe-modal--box {
-  z-index: 0;
-}
-#bigbox {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  z-index: 10;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.3;
-}
-.el-row-item .font-set-small .hline {
-  width: 72px;
-}
+  .vxe-modal--wrapper .vxe-modal--box {
+    z-index: 0;
+  }
+  #bigbox {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .3;
+  }
+  .el-row-item .font-set-small .hline{
+    width:72px;
+  }
 </style>

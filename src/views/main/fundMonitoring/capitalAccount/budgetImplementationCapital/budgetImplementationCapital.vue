@@ -833,7 +833,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes || '')
+        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
