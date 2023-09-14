@@ -19,7 +19,11 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
-    if (store.state.userInfo.province.slice(0, 2) !== '31') {
+    const conditionMap = {
+      0: store.state.userInfo.province.slice(0, 2) !== '31',
+      1: !store.getters.isSx
+    }
+    if (Object.values(conditionMap).every(one => one)) {
       params = Base64.encode(JSON.stringify(params))
     }
     return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)

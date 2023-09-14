@@ -413,7 +413,7 @@ export default {
     },
     handleDetail(reportCode, recDivCode) {
       let isCz = ''
-      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
         isCz = '2'
       } else {
         isCz = '1'
@@ -424,6 +424,13 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         reportCode: reportCode,
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
+      if (this.$store.getters.isSx) {
+        params = {
+          reportCode: reportCode === 'hjqybzje' ? 'xmhjqymx' : 'xmhjrymx',
+          mofDivCode: recDivCode,
+          fiscalYear: this.searchDataList.fiscalYear
+        }
       }
       this.tableLoading = true
       setTimeout(() => {
@@ -445,7 +452,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (!this.projectCode === 'FJ') { // 福建的不要钻取
+      if (this.projectCode !== 'FJ') { // 福建的不要钻取
         const rowIndex = obj?.rowIndex
         if (!rowIndex) return
         let key = obj.column.property

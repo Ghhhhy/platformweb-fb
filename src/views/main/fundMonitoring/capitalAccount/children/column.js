@@ -29,7 +29,7 @@ let proconf = {
       sortable: false,
       width: 140,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
 
     },
@@ -39,7 +39,7 @@ let proconf = {
       width: 150,
       sortable: false,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
 
     },
@@ -258,7 +258,7 @@ let proconf = {
       sortable: true,
       width: 140,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -540,7 +540,7 @@ let proconf = {
       width: 140,
       sortable: true,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -806,7 +806,7 @@ let proconf = {
       width: 140,
       sortable: true,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -815,7 +815,7 @@ let proconf = {
       width: 140,
       sortable: true,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -1108,7 +1108,7 @@ let proconf = {
       sortable: true,
       width: 140,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -1117,7 +1117,7 @@ let proconf = {
       width: 140,
       sortable: true,
       align: 'right',
-      combinedType: 'total',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -1945,6 +1945,7 @@ if (store.getters.isSx) {
         field: 'payAppAmt',
         sortable: true,
         align: 'right',
+        combinedType: ['average', 'subTotal', 'total', 'totalAll'],
         cellRender: { name: '$vxeMoney' }
       },
       {
@@ -2113,6 +2114,7 @@ if (store.getters.isSx) {
             field: 'payAppAmt',
             sortable: true,
             align: 'right',
+            combinedType: ['average', 'subTotal', 'total', 'totalAll'],
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -2120,6 +2122,7 @@ if (store.getters.isSx) {
             field: 'payAppAmt',
             sortable: true,
             align: 'right',
+            combinedType: ['average', 'subTotal', 'total', 'totalAll'],
             cellRender: { name: '$vxeMoney' }
           }
         ]
