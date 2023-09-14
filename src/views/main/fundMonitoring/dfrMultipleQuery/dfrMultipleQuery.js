@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 import { padStart } from 'xe-utils/methods'
 
 export let proconf = {
@@ -26,19 +26,17 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
-      visible: !store.getters.isFuJian,
       formula: '',
+      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
+        name: '$vxeSelect',
+        options: [
+          { value: '2020', label: '2020年' },
+          { value: '2021', label: '2021年' },
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
+        ],
         props: {
-          type: 'year',
-          valueFormat: 'yyyy',
           placeholder: '业务年度'
         }
       }
@@ -208,39 +206,9 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '本级分配',
-      width: 180,
-      field: 'bjAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      // formula: '{bjAmount}+{xjAmount}',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '分配下级',
-      width: 180,
-      field: 'xjAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标余额',
-      width: 180,
-      field: 'zbye',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
       title: '指标登记金额',
       width: 180,
       field: 'djAmount',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -249,7 +217,6 @@ export let proconf = {
     {
       title: '上级指标导入金额',
       width: 180,
-      visible: store.getters.isSx,
       field: 'sjzbdrje',
       sortable: true,
       filters: false,
@@ -259,7 +226,6 @@ export let proconf = {
     {
       title: '指标整合金额',
       width: 180,
-      visible: store.getters.isSx,
       field: 'zbzhje',
       sortable: true,
       filters: false,
@@ -269,7 +235,6 @@ export let proconf = {
     {
       title: '指标调增金额',
       width: 180,
-      visible: store.getters.isSx,
       field: 'zbtzje',
       sortable: true,
       filters: false,
@@ -280,7 +245,6 @@ export let proconf = {
       title: '指标调减金额',
       width: 180,
       field: 'zbtjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -290,7 +254,6 @@ export let proconf = {
       title: '指标追减金额',
       width: 180,
       field: 'zbzjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -300,7 +263,6 @@ export let proconf = {
       title: '指标实际金额',
       width: 180,
       field: 'zbsjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -321,7 +283,6 @@ export let proconf = {
       width: 180,
       field: 'xjAmount',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -330,7 +291,6 @@ export let proconf = {
       title: '指标实际分配金额',
       width: 180,
       field: 'zbsjfpje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -340,7 +300,6 @@ export let proconf = {
     {
       title: '指标余额',
       width: 180,
-      visible: store.getters.isSx,
       field: 'zbye',
       sortable: true,
       filters: false,
@@ -406,21 +365,11 @@ export let proconf = {
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '实际支出金额',
-      width: 180,
-      field: 'zcAmount',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
       title: '已安排金额',
       width: 180,
       field: 'yapje',
       sortable: true,
       filters: false,
-      visible: store.getters.isSx,
       align: 'center',
       formula: '{amount}',
       combinedType: [
@@ -436,7 +385,6 @@ export let proconf = {
       width: 180,
       field: 'zzblje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       combinedType: [
@@ -460,14 +408,12 @@ export let proconf = {
         'total',
         'totalAll'
       ],
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '债券标识',
       width: 180,
       field: 'zjbs',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center'
@@ -513,19 +459,10 @@ export let proconf = {
       align: 'center'
     },
     {
-      title: '接受区划名称',
-      width: 180,
-      field: 'recDivName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
       title: '上级专项',
       width: 180,
       field: 'proName',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center'
     },
@@ -534,7 +471,6 @@ export let proconf = {
       width: 180,
       field: 'xygzdzxzj',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center'
     },
@@ -549,7 +485,7 @@ export let proconf = {
     {
       title: '支出经济分类科目',
       width: 180,
-      field: 'depBgtEcoName',
+      field: 'zcjjflkm',
       sortable: true,
       filters: false,
       align: 'center'
@@ -593,7 +529,6 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -602,7 +537,6 @@ export let proconf = {
       title: '上级指标导入金额',
       width: 180,
       field: 'sjzbdrje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -612,7 +546,6 @@ export let proconf = {
       title: '指标整合金额',
       width: 180,
       field: 'zbzhje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -622,7 +555,6 @@ export let proconf = {
       title: '指标调增金额',
       width: 180,
       field: 'zbtzje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -632,7 +564,6 @@ export let proconf = {
       title: '指标调减金额',
       width: 180,
       field: 'zbtjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -642,7 +573,6 @@ export let proconf = {
       title: '指标追减金额',
       width: 180,
       field: 'zbzjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -653,45 +583,25 @@ export let proconf = {
       width: 180,
       field: 'zbsjje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       formula: '{djAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     {
-      title: '本级分配',
-      width: 180,
-      field: 'bjAmount',
-      sortable: true,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '分配下级',
-      width: 180,
-      field: 'xjAmount',
-      sortable: true,
-      filters: false,
-      align: 'center',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
-      title: '指标余额',
-      width: 180,
-      field: 'zbye',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
-      cellRender: { name: '$vxeMoney' }
-    },
-    {
       title: '本级实际支出',
       width: 180,
       field: 'bjAmount',
-      sortable: false,
+      sortable: true,
+      filters: false,
+      align: 'center',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '对下支出',
+      width: 180,
+      field: 'xjAmount',
+      sortable: true,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -701,7 +611,6 @@ export let proconf = {
       width: 180,
       field: 'zbsjfpje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       formula: '{bjAmount}+{xjAmount}',
@@ -713,7 +622,6 @@ export let proconf = {
       field: 'zbye',
       sortable: true,
       filters: false,
-      visible: store.getters.isSx,
       align: 'center',
       formula: '{zbsjje}-{zbsjfpje}',
       cellRender: { name: '$vxeMoney' }
@@ -756,7 +664,6 @@ export let proconf = {
     {
       title: '单位(乡镇)',
       width: 180,
-      visible: store.getters.isSx,
       field: 'agencyName',
       sortable: true,
       filters: false,
@@ -766,7 +673,6 @@ export let proconf = {
       title: '指标登记金额',
       width: 180,
       field: 'djAmount',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -777,7 +683,6 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -786,7 +691,6 @@ export let proconf = {
       title: '指标调减金额',
       width: 180,
       field: 'zbtjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -796,7 +700,6 @@ export let proconf = {
       title: '指标追减金额',
       width: 180,
       field: 'zbzjje',
-      visible: store.getters.isSx,
       sortable: true,
       filters: false,
       align: 'center',
@@ -828,7 +731,7 @@ export let proconf = {
       sortable: true,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      formula: '{djAmount}-{zcAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -839,7 +742,6 @@ export let proconf = {
       field: 'agencyName',
       sortable: true,
       filters: false,
-      visible: store.getters.isSx,
       align: 'center'
     },
     {
@@ -925,7 +827,6 @@ export let proconf = {
       width: 180,
       field: 'zjbs',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center'
     },
@@ -972,7 +873,7 @@ export let proconf = {
     {
       title: '上级专项',
       width: 180,
-      field: 'exTrackProName',
+      field: 'sjzx1',
       // formula: '{proName}',
       sortable: true,
       filters: false,
@@ -981,7 +882,6 @@ export let proconf = {
     {
       title: '需要跟踪的专项资金',
       width: 180,
-      visible: store.getters.isSx,
       field: 'xygzdzxzj',
       sortable: true,
       filters: false,
@@ -990,8 +890,7 @@ export let proconf = {
     {
       title: '支付方式',
       width: 180,
-      field: 'xjzcgnflkm',
-      visible: store.getters.isSx,
+      field: 'payTypeName',
       sortable: true,
       filters: false,
       align: 'center'
@@ -1041,7 +940,6 @@ export let proconf = {
     {
       title: '单位(乡镇)',
       width: 180,
-      visible: store.getters.isSx,
       field: 'agencyName',
       sortable: true,
       filters: false,
@@ -1052,7 +950,6 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -1062,7 +959,6 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -1072,7 +968,6 @@ export let proconf = {
       width: 180,
       field: 'zbtjje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -1082,7 +977,6 @@ export let proconf = {
       width: 180,
       field: 'zbzjje',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -1113,7 +1007,7 @@ export let proconf = {
       sortable: true,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      formula: '{djAmount}-{zcAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -1145,7 +1039,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'trackProName',
+      field: 'proName',
       sortable: true,
       filters: false,
       align: 'center'
@@ -1221,7 +1115,6 @@ export let proconf = {
       width: 180,
       field: 'zjbs',
       sortable: true,
-      visible: store.getters.isSx,
       filters: false,
       align: 'center'
     },
@@ -1269,7 +1162,6 @@ export let proconf = {
       title: '上级专项',
       width: 180,
       field: 'proName',
-      visible: store.getters.isSx,
       // formula: '{proName}',
       sortable: true,
       filters: false,
@@ -1278,14 +1170,13 @@ export let proconf = {
     {
       title: '需要跟踪的专项资金',
       width: 180,
-      visible: store.getters.isSx,
       field: 'xygzdzxzj',
       sortable: true,
       filters: false,
       align: 'center'
     },
     {
-      title: '转移支付功能分类',
+      title: '下级支出功能分类科目',
       width: 180,
       field: 'xjzcgnflkm',
       sortable: true,
@@ -1313,7 +1204,7 @@ export let proconf = {
     {
       title: '专项资金',
       width: 180,
-      field: 'trackProName',
+      field: 'proName',
       sortable: true,
       filters: false,
       align: 'center'
