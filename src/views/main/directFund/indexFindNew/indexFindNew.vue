@@ -113,7 +113,7 @@ export default {
         tableData: [], // 表格数据
         toolbarConfig: { // 工具栏配置
           calculator: false,
-          disabledMoneyConversion: true,
+          disabledMoneyConversion: false,
           moneyConversion: true,
           refresh: true,
           buttons: [
@@ -130,7 +130,7 @@ export default {
           currentPage: 1
         },
         loading: false, // 加载
-        defaultMoneyUnit: 1, // 金额单位
+        defaultMoneyUnit: 10000, // 金额单位
         editRules: {}, // 校验规则
         footerConfig: { // 表尾配置
           combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal'],
@@ -290,7 +290,7 @@ export default {
         },
         {
           field: 'fpAmount',
-          title: '分配金额',
+          title: '分配下级金额',
           align: 'right',
           sortable: true,
           cellRender: {
@@ -301,7 +301,7 @@ export default {
         },
         {
           field: 'fpRate',
-          title: '分配进度',
+          title: '分配下级进度',
           align: 'right',
           sortable: true,
           formula: '({amount}-0==0)?0:(({fpAmount})/{amount}*100)',
@@ -328,15 +328,12 @@ export default {
       const params = {
         current: currentPage, // 分页-当前页号
         size: pageSize, // 分页-规模
-        fiscalYear: this.$store.state.userInfo.year,
-        reportCode: 'queryHome'
+        fiscalYear: this.$store.state.userInfo.year
       }
       await this.$http.post('dfr-monitor-service/dfr/bgtInfoQuery/queryHomePage', params).then((res) => {
         if (res.code === '000000' && res.data) {
           this.tableProps.tableData = res.data.results
           this.tableProps.pagerConfig.total = res.data.totalCount
-        } else {
-          this.$message(res.message)
         }
         this.tableProps.loading = false
       })

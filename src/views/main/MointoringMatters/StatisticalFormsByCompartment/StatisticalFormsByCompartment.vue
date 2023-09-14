@@ -476,7 +476,7 @@ export default {
     },
     getAgency(province) {
       let obj = {
-        elementcode: 'AGENCY',
+        elementCode: 'AGENCY',
         province: province,
         year: this.$store.state.userInfo.year,
         wheresql: 'and province like \'' + 61 + '%\''

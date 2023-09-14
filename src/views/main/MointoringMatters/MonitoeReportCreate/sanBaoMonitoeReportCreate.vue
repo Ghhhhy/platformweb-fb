@@ -87,20 +87,46 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
+      :file-name="propsFileName"
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
       :province-name-list="provinceNameList"
+      :province-code="provinceCode"
+      :province-name="provinceName"
+      :report-type="reportType"
     />
   </div>
 </template>
 
 <script>
 import { proconf } from './sanBaoMonitoeReportCreate'
-import AddDialog from './children/sanbaoaddDialog'
+import AddDialog from './children/sangongaddDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'
+const routerMap = {
+  'sanGongMonitoeReportCreate': {
+    axiosStr: 'sangongCreate',
+    code: '2'
+  },
+  'SpeProMonitoeReportCreate': {
+    axiosStr: 'speProCreate',
+    code: '3'
+  },
+  'sanBaoMonitoeReportCreate': {
+    axiosStr: 'sanbaoCreate',
+    code: '4'
+  },
+  'dynamicMonitoeReportCreate': {
+    axiosStr: 'dynamicCreate',
+    code: '5'
+  },
+  'directFundsCreate': {
+    axiosStr: 'directFundsCreate',
+    code: '6'
+  }
+}
 export default {
   components: {
     AddDialog, GlAttachment, FilePreview
@@ -255,13 +281,17 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
+      propsFileName: '',
       createPerson: '',
       previewYear: '',
       previewStartMonth: '',
       previewEndMonth: '',
       previewCode: '',
       previewName: '',
-      provinceNameList: ''
+      provinceNameList: '',
+      provinceCode: '',
+      provinceName: '',
+      reportType: ''
     }
   },
   mounted() {
@@ -521,34 +551,35 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     // 查询 table 数据
-    // queryTableDatas() {
-    //   const param = {
-    //     year: this.year,
-    //     startMonth: this.startMonth,
-    //     endMonth: this.endMonth,
-    //     createTime: this.createTime,
-    //     fileName: this.fileName,
-    //     createPerson: this.createPerson,
-    //     page: this.mainPagerConfig.currentPage, // 页码
-    //     pageSize: this.mainPagerConfig.pageSize // 每页条数
-    //   }
-    //   if (this.leftNode.businessType === 2) {
-    //     param.businessModelCode = this.leftNode.code
-    //   } else if (this.leftNode.businessType === 3) {
-    //     param.businessFeaturesCode = this.leftNode.code
-    //   }
-    //   this.tableLoading = true
-    //   HttpModule.queryMonitorTableDatas(param).then(res => {
-    //     this.tableLoading = false
-    //     if (res.code === '000000') {
-    //       this.tableData = res.data.results
-    //       this.mainPagerConfig.total = res.data.totalCount
-    //       this.tabStatusNumConfig['1'] = res.data.totalCount
-    //     } else {
-    //       this.$message.error(res.result)
-    //     }
-    //   })
-    // },
+    queryTableDatas() {
+      const param = {
+        year: this.year,
+        startMonth: this.startMonth,
+        // endMonth: this.endMonth,
+        createTime: this.createTime,
+        fileName: this.fileName,
+        createPerson: this.createPerson,
+        reportType: routerMap[this.$route.name].code,
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize // 每页条数
+      }
+      if (this.leftNode.businessType === 2) {
+        param.businessModelCode = this.leftNode.code
+      } else if (this.leftNode.businessType === 3) {
+        param.businessFeaturesCode = this.leftNode.code
+      }
+      this.tableLoading = true
+      HttpModule.queryMonitorTableDatas(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
+        } else {
+          this.$message.error(res.result)
+        }
+      })
+    },
     // 操作日志
     queryActionLog(row) {
       let data = {
