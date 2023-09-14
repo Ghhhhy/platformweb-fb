@@ -480,7 +480,7 @@ export default {
       let param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: fiscalYear,
+        // fiscalYear: fiscalYear || '2022',
         fiRuleCode: this.fiRuleCode,
         warnLevel: this.warnLevel,
         status: this.status,
