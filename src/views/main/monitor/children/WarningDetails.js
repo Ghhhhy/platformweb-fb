@@ -295,7 +295,7 @@ export let proconf = {
     {
       title: '管理级次',
       'width': 180,
-      field: 'ruleLevel',
+      field: 'regulationtype',
       sortable: false,
       filters: false,
       align: 'center'
@@ -327,7 +327,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'ruleName',
+      field: 'firulename',
       sortable: false,
       filters: false,
       align: 'center'
