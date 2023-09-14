@@ -20,7 +20,16 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
             @itemChange="itemChange"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
@@ -155,6 +164,7 @@ export default {
   },
   data() {
     return {
+      isFlush: false,
       detailVisible: false,
       detailData: [],
       projectVisible: false,
@@ -678,10 +688,16 @@ export default {
       this.breakRuleVisible = val
     },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm(refreshTips, '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -754,6 +770,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
+      this.isFlush = true
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -870,6 +887,7 @@ export default {
           iszd: this.$store.state.curNavModule.name === '参照直达资金项目台账' ? 2 : 1, // 菜单参照直达标识
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
         }
+        this.isFlush && (param.isFlush = true)
         this.tableLoading = true
         HttpModule.querySum(param).then(res => {
           if (res.code === '000000') {
@@ -880,6 +898,7 @@ export default {
         })
         HttpModule.queryTableDatasPage(param).then(res => {
           this.tableLoading = false
+          this.isFlush = false
           if (res.code === '000000') {
             this.tableData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
@@ -905,6 +924,7 @@ export default {
           expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
           manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps
         }
+        this.isFlush && (param.isFlush = true)
         this.tableLoading = true
         HttpModule.xmPageQuery(param).then(res => {
           if (res.code === '000000') {
@@ -917,6 +937,7 @@ export default {
             this.$message.error(res.result)
           }
         }).finally(() => {
+          this.isFlush = false
           this.tableLoading = false
         })
       }

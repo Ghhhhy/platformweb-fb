@@ -10,7 +10,16 @@
             :query-form-data="searchDataList"
             @onSearchClick="(e1,e2) => { search(e1,e2,false) }"
             @itemChange="itemChange"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <template v-slot:mainForm>
@@ -140,12 +149,13 @@ export default {
     //   deep: true,
     //   immediate: true
     // },
-    queryConfig() {
-      this.getSearchDataList()
-    }
+    // queryConfig() {
+    // this.getSearchDataList()
+    // }
   },
   data() {
     return {
+      isFlush: false,
       otherSysImportModal: false, // 华青数据导入弹窗显隐
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
@@ -446,10 +456,12 @@ export default {
     //   }
     // },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+          this.$confirm(refreshTips, '操作确认提示', {
             type: 'warning'
           }).then(() => {
             this.refresh(true)
@@ -830,23 +842,24 @@ export default {
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
-        isFlush,
+        // isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
+      this.isFlush && (param.isFlush = true)
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.data
           this.reportTime = res.data.reportTime || ''
           this.caliberDeclareContent = res.data.description || ''
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
       }).finally(() => {
+        this.isFlush = false
         this.tableLoading = false
       })
     },

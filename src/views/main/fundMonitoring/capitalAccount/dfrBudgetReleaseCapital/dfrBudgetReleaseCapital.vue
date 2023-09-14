@@ -20,7 +20,16 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
             @itemChange="itemChange"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <template v-slot:mainForm>
@@ -130,6 +139,7 @@ export default {
   },
   data() {
     return {
+      isFlush: false,
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 台账取数时间
       leftTreeVisible: false,
@@ -404,18 +414,16 @@ export default {
     //   }
     // },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          if (this.isSx) {
-            this.refresh()
-          } else {
-            this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
-              type: 'warning'
-            }).then(() => {
-              this.refresh(true)
-            })
-          }
+          this.$confirm(refreshTips, '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -574,6 +582,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
+      this.isFlush = true
       if (this.isSx) {
         this.queryTableDatas()
       } else {
@@ -632,6 +641,7 @@ export default {
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
         }
+        this.isFlush && (param.isFlush = true)
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then((res) => {
           if (res.code === '000000') {
@@ -643,13 +653,14 @@ export default {
         })
       } else {
         const param = {
-          isFlush,
+          // isFlush,
           // reportCode: 'zdzjysxd_fzj',
           reportCode: this.transJson(this.params5 || '')?.reportCode,
           fiscalYear: this.searchDataList.fiscalYear,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
         }
+        this.isFlush && (param.isFlush = true)
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then((res) => {
           if (res.code === '000000') {
@@ -662,6 +673,7 @@ export default {
             this.$message.error(res.message)
           }
         }).finally(() => {
+          this.isFlush = false
           this.tableLoading = false
         })
       }
