@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      selectionData: [],
       leftTreeFilterText: '',
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
@@ -439,7 +440,7 @@ export default {
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
-          this.DetailData = res.data
+          this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -448,7 +449,7 @@ export default {
     update(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
-          this.DetailData = res.data
+          this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }
@@ -467,6 +468,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.selectionData = datas
           this.formDatas = datas[0].ruleElement
           this.provinceList = datas[0].codeList
           this.getDetail(datas[0].regulationCode)
