@@ -1066,8 +1066,8 @@ export default {
         mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'cszbzhckwhhz_mx'
-        // sqlCode: 'zhcx_cszbzhckwhhz_mx'
+        sqlCode: 'cszbzhckwhhzmx'
+        // sqlCode: 'zhcx_cszbzhckwhhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1124,8 +1124,8 @@ export default {
         mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        // sqlCode: 'zhcx_dwzbzhckwhhz_mx'
-        sqlCode: 'dwzbzhckwhhz_mx'
+        // sqlCode: 'zhcx_dwzbzhckwhhzmx'
+        sqlCode: 'dwzbzhckwhhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1181,8 +1181,8 @@ export default {
         mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'dwzbzhckhz_mx'
-        // sqlCode: 'zhcx_dwzbzhckhz_mx'
+        sqlCode: 'dwzbzhckhzmx'
+        // sqlCode: 'zhcx_dwzbzhckhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1214,8 +1214,8 @@ export default {
         expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
         bgtId: this.bgtId,
         mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
-        sqlCode: 'cszbzhckhz_mx'
-        // sqlCode: 'zhcx_cszbzhckhz_mx'
+        sqlCode: 'cszbzhckhzmx'
+        // sqlCode: 'zhcx_cszbzhckhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1272,8 +1272,8 @@ export default {
         expFuncCode: this.expFuncCode,
         bgtId: this.bgtId,
         mofDivCode: this.mofDivCode,
-        // sqlCode: 'zhcx_sxbzzbwhhz_mx'
-        sqlCode: 'sxbzzbwhhz_mx'
+        // sqlCode: 'zhcx_sxbzzbwhhzmx'
+        sqlCode: 'sxbzzbwhhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
@@ -1329,8 +1329,8 @@ export default {
         mofDivCode: this.mofDivCode,
         trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         expFuncCode: this.expFuncCode,
-        // sqlCode: 'zhcx_sxbzzbhz_mx'
-        sqlCode: 'sxbzzbhz_mx'
+        // sqlCode: 'zhcx_sxbzzbhzmx'
+        sqlCode: 'sxbzzbhzmx'
       }
       this.tableLoading2 = true
       HttpModule.querySum(param).then(res => {
