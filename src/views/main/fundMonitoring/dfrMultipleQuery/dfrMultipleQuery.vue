@@ -396,11 +396,11 @@ export default {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
         this.panStatus = 0
-        this.$refs.tabPanel.initFirst()
+        // this.$refs.tabPanel.initFirst()
         this.tableColumnsConfig = proconf.PoliciesTableColumns
         this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.queryDtos = []
@@ -417,12 +417,12 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent1
         }
-        this.$refs.tabPanel.initFirst()
+        // this.$refs.tabPanel.initFirst()
         this.panStatus = 2
         this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
         this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.agencyCode = ''
@@ -440,12 +440,12 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent2
         }
-        this.$refs.tabPanel.initFirst()
+        // this.$refs.tabPanel.initFirst()
         this.panStatus = 5
         this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns
         this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-        this.$refs.mainTableRef.initFirst()
-        this.$refs.mainTableRef1.initFirst()
+        // this.$refs.mainTableRef.initFirst()
+        // this.$refs.mainTableRef1.initFirst()
         this.fiscalYear = ''
         this.bgtMofDepCode = ''
         this.agencyCode = ''
@@ -458,6 +458,7 @@ export default {
         this.refresh()
         this.refresh1()
       }
+      this.$forceUpdate(true)
     },
     changes() {
       let datas1 = this.$refs.mainTableRef1.getSelectionData()
@@ -487,15 +488,15 @@ export default {
           this.panStatus = 0
           this.tableColumnsConfig = proconf.PoliciesTableColumns
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.panStatus = 1
           this.tableColumnsConfig = proconf.PoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.fiscalYear = ''
@@ -506,6 +507,7 @@ export default {
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
       this.refresh1()
+      this.$forceUpdate(true)
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     bsToolbarClickEvent1(obj, $this) {
@@ -522,8 +524,8 @@ export default {
           this.panStatus = 2
           this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
           this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.fiscalYear = ''
@@ -532,8 +534,8 @@ export default {
           this.panStatus = 3
           this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '3':
           this.fiscalYear = ''
@@ -542,8 +544,8 @@ export default {
           this.panStatus = 4
           this.tableColumnsConfig = proconf.PoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.PoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.condition = {}
@@ -567,8 +569,8 @@ export default {
           this.panStatus = 5
           this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns
           this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.fiscalYear = ''
@@ -577,8 +579,8 @@ export default {
           this.panStatus = 6
           this.tableColumnsConfig = proconf.MofDivPoliciesTableColumns2
           this.tableColumnsConfig1 = proconf.MofDivPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
       }
       this.condition = {}
@@ -586,6 +588,7 @@ export default {
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
       this.refresh1()
+      this.$forceUpdate(true)
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     search(obj) {
