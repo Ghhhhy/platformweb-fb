@@ -399,6 +399,7 @@ export default {
             this.$message.success('修改成功')
             this.$parent.dialogVisible = false
             this.$parent.queryTableDatas()
+            this.$parent.getLeftTreeData()
           } else {
             this.$message.error(res.message)
           }
