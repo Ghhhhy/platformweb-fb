@@ -819,7 +819,8 @@ export default {
     },
     getTrees(val) {
       let mofDivCodes = []
-      if (val.trim() !== '') {
+      if (typeof val !== 'string') return mofDivCodes
+      if (val && val?.trim() !== '') {
         val.split(',').forEach((item) => {
           mofDivCodes.push(item.split('##')[0])
         })
