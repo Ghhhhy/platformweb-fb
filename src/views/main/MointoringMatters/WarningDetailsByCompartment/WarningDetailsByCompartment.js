@@ -451,7 +451,7 @@ export let proconf = {
     },
     {
       'title': '支付申请金额',
-      'field': 'paymentamount',
+      'field': 'paymentAmount',
       'width': '200',
       'align': 'right',
       'filters': '[object Object]',
@@ -477,7 +477,7 @@ export let proconf = {
     {
       title: '资金用途',
       'width': 180,
-      field: 'useoffunds',
+      field: 'useDes',
       sortable: false,
       filters: false,
       align: 'center'
@@ -556,7 +556,7 @@ export let proconf = {
     },
     {
       title: '支付金额',
-      field: 'paymentamount',
+      field: 'paymentAmount',
       sortable: false,
       filters: false,
       align: 'right',

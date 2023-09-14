@@ -577,7 +577,8 @@ export default {
         'isEnable': this.isEnable,
         regulationName: this.regulationName,
         regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
-        code: this.condition.agency_code
+        code: this.condition.agency_code,
+        menuType: 1
       }
       HttpModule.queryTableDatasCount(params).then(res => {
         console.log('res.code', res.code)
