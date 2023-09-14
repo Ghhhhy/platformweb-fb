@@ -175,7 +175,7 @@ export default {
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
-      menuName: '',
+      menuName: '问询函类型列表',
       params5: '',
       menuId: '',
       tokenid: '',
