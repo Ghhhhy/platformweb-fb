@@ -725,10 +725,10 @@ export default {
           break
       }
       let isCz = ''
-      if (this.params5 === 'zyzdzjyszxqkfdq') {
-        isCz = '1' // 中央直达
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        isCz = '2'
       } else {
-        isCz = '2' // 中央参照直达
+        isCz = '1'
       }
       let params = {
         reportCode: reportCode,

@@ -1287,101 +1287,83 @@ export default {
       let params = {}
       if (this.tabSelect.code === 1) {
         params = {
-          elementcode: 'hold6',
-          year: this.$store.state.userInfo.year,
-          province: this.$store.state.userInfo.province,
-          limit: this.treePageSize,
-          offset: this.offset,
-          wheresql: 'and code != \'00\''
-        }
-        this.wheresql && (params.wheresql = this.wheresql)
-        HttpModule.getTreeData(params).then(res => {
-          if (res.rscode === '100000') {
-            let treeResdata = that.getChildrenData(res.data)
-            // treeResdata.forEach(item => {
-            //   item.label = item.code + '-' + item.name
-            // })
-            const result = [
-              {
-                id: 'root',
-                label: '全部',
-                code: 'root',
-                isleaf: '0',
-                children: treeResdata
-              }
-            ]
-            this.treeData = result
-            that.proTotal = res.data.total
-          } else {
-            this.$message.error('左侧树加载失败')
-          }
-        }).finally(() => {
-          this.treeLoadingState = false
-        })
-      } else if (this.tabSelect.code === 2) {
-        params = {
-          elementcode: 'agency',
+          elementCode: 'DEPARTMENT',
           year: this.$store.state.userInfo.year,
           province: this.$store.state.userInfo.province,
           limit: this.treePageSize,
           offset: this.offset
         }
         this.wheresql && (params.wheresql = this.wheresql)
-        HttpModule.getTreeData(params).then(res => {
-          if (res.rscode === '100000') {
-            let treeResdata = that.getChildrenData(res.data)
-            // treeResdata.forEach(item => {
-            //   item.label = item.code + '-' + item.name
-            // })
-            const result = [
-              {
-                id: 'root',
-                label: '全部',
-                code: 'root',
-                isleaf: '0',
-                children: treeResdata
-              }
-            ]
-            this.treeData = result
-            that.proTotal = res.data.total
-          } else {
-            this.$message.error('左侧树加载失败')
-          }
-        }).finally(() => {
-          this.treeLoadingState = false
-        })
-      } else if (this.tabSelect.code === 3) {
+      } else if (this.tabSelect.code === 2) {
         params = {
-          reportCode: 'sxzbcxqhs',
-          fiscalYear: this.fiscalYear
+          elementCode: 'AGENCY',
+          year: this.$store.state.userInfo.year,
+          province: this.$store.state.userInfo.province,
+          limit: this.treePageSize,
+          offset: this.offset
         }
-        HttpModule.getMofTreeData(params).then(res => {
-          if (res.code === '000000') {
-            let treeResdata = null
-            if (res.data !== null) {
-              treeResdata = that.getMofChildrenData(res.data)
-            }
-            // treeResdata.forEach(item => {
-            //   item.label = item.code + '-' + item.name
-            // })
-            // const result = [
-            //   {
-            //     id: 'root',
-            //     label: '全部',
-            //     code: 'root',
-            //     isleaf: '0',
-            //     children: treeResdata
-            //   }
-            // ]
-            this.treeData = treeResdata
-            // that.proTotal = res.data.total
-          } else {
-            this.$message.error('左侧树加载失败')
+        this.wheresql && (params.wheresql = this.wheresql)
+      } else if (this.tabSelect.code === 3) {
+        if (this.userInfo.province === '610000000') {
+          params = {
+            elementCode: 'admdiv',
+            province: '610000000',
+            year: '2021',
+            wheresql: 'and code like \'' + 61 + '%\' and code != \'610000000\' '
           }
-        }).finally(() => {
-          this.treeLoadingState = false
-        })
+        } else if (
+          this.userInfo.province === '610100000' ||
+          this.userInfo.province === '610100000' ||
+          this.userInfo.province === '610200000' ||
+          this.userInfo.province === '610300000' ||
+          this.userInfo.province === '610400000' ||
+          this.userInfo.province === '610500000' ||
+          this.userInfo.province === '610600000' ||
+          this.userInfo.province === '610700000' ||
+          this.userInfo.province === '610800000' ||
+          this.userInfo.province === '610900000' ||
+          this.userInfo.province === '611000000' ||
+          this.userInfo.province === '611200000'
+        ) {
+          params = {
+            elementcode: 'admdiv',
+            province: this.userInfo.province,
+            year: '2021',
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+          }
+        } else {
+          params = {
+            elementcode: 'admdiv',
+            province: this.userInfo.province,
+            year: '2021',
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+          }
+        }
       }
+
+      HttpModule.getTreeData1(params).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = that.getChildrenData(res.data)
+          treeResdata.forEach(item => {
+            item.label = item.code + '-' + item.name
+          })
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          this.treeData = result
+          that.proTotal = res.data.length
+        } else {
+          this.$message.error('左侧树加载失败')
+        }
+      }).finally(() => {
+        this.treeLoadingState = false
+      })
     },
     handleSizeChange(val) {
     },

@@ -203,7 +203,7 @@ export default {
         pageSize: 20,
         currentPage: 1
       },
-      defaultMoneyUnit: 1,
+      defaultMoneyUnit: 10000,
       tableColumnsConfig: [],
       tableConfig: {
         globalConfig: { // 全局配置
