@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import MenuModule from '@/api/frame/common/menu.js'
 import ExpenditureProgressRankingModal from './ExpenditureProgressRankingModal'
 import EscalationModal from './EscalationModal'
 import api from '@/api/frame/main/fundMonitoring/escalation'
@@ -59,9 +60,21 @@ export default {
       }
       const { data } = checkRscode(await api.queryLogs(params))
       this.visibles = !!data.results?.length
+    },
+    getMenus() {
+      MenuModule.getMenuInfo().then((res) => {
+        if (Array.isArray(res)) {
+          if (res.length) {
+            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            // 根据菜单信息获取待办
+            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
+          }
+        }
+      })
     }
   },
   created() {
+    this.getMenus()
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
