@@ -138,10 +138,10 @@ export default {
     showInfo() {
       if (this.$store.getters.isSx) {
         switch (this.title) {
-          case '项目惠及企业明细':
+          case '项目惠及企业台账明细':
             this.tableColumnsConfig = proconf.ythzcColumn
             break
-          case '项目惠及人员明细':
+          case '项目惠及人员台账明细':
             this.tableColumnsConfig = proconf.yktzcColumn
             break
           default:
@@ -171,7 +171,7 @@ export default {
     },
     queryTableDatas() {
       if (this.$store.getters.isSx) {
-        let params = this.detailData
+        let params = this.detailQueryParam
         params.page = this.pagerConfig.currentPage // 页码
         params.pageSize = this.pagerConfig.pageSize // 每页条数
         this.$parent.tableLoading = true
