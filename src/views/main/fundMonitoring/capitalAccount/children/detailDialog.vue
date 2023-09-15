@@ -136,25 +136,6 @@ export default {
     }
   },
   methods: {
-    // 载入表头
-    async loadConfig(Type, id) {
-      let params = {
-        tableId: {
-          id: id,
-          fiscalyear: this.$store.state.userInfo.year,
-          mof_div_code: this.$store.state.userInfo.province,
-          menuguid: this.$store.state.curNavModule.guid
-        }
-      }
-      if (Type === 'BsTable') {
-        let configData = await this.loadBsConfig(params)
-        this.tableColumnsConfig = configData.itemsConfig
-      }
-      if (Type === 'BsQuery') {
-        let configData = await this.loadBsConfig(params)
-        this.queryConfig = configData.itemsConfig
-      }
-    },
     // 搜索
     search(val) {
       this.searchDataList = val
@@ -336,116 +317,6 @@ export default {
       }
       this.queryTableDatas()
     },
-    isConfigTable() {
-      if (
-        this.detailType === 'zdzjxmmx_fzj' ||
-        this.detailType === 'zdzjxmmx_fdq'
-      ) {
-        this.detailQueryParam.reportCode = 'zdzjxmmx'
-      }
-      console.info(this.detailType, 'detailType')
-      switch (this.detailType) {
-        case 'zdzjzcmx_fdq':
-          this.loadConfig('BsTable', 'Table201')
-          this.loadConfig('BsQuery', 'Query201')
-          this.searchDataList = proconf.highQueryData2
-          break
-        case 'zdzjxmmx_fdq':
-          this.loadConfig('BsTable', 'Table202')
-          this.loadConfig('BsQuery', 'Query202')
-          break
-        case 'zdzjzcmx_fzj':
-          this.loadConfig('BsTable', 'Table201')
-          this.loadConfig('BsQuery', 'Query201')
-          this.searchDataList = proconf.highQueryData2
-          break
-        case 'zdzjxmmx_fzj':
-          this.loadConfig('BsTable', 'Table202')
-          this.loadConfig('BsQuery', 'Query202')
-      }
-      this.queryTableDatas()
-    },
-    showInfoSx() {
-      // this.tableData = this.detailData
-      console.log(proconf)
-      switch (this.detailType) {
-        // 支出明细
-        case 'zjzcmx_fdq':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zjzcmx_fzj':
-          this.tableColumnsConfig = proconf.expenditureColumn
-          break
-        case 'zdzjzcmx_fdq':
-          this.tableColumnsConfig = proconf.payColumn
-          this.queryConfig = proconf.highQueryConfig2
-          this.searchDataList = proconf.highQueryData2
-          break
-        // 项目明细
-        case 'zdzjxmmx_fzj':
-          this.tableColumnsConfig = proconf.projectColumn
-          break
-        case 'zdzjxmmx_fdq':
-          this.tableColumnsConfig = proconf.projectColumn
-          break
-        // 中央下达项目明细
-        case 'czzdzjxmmx_fdq_zyxd':
-        case 'czzdzjxmmx_fzj_zyxd':
-          this.tableColumnsConfig = proconf.zyxdProColumn
-          break
-        case 'zdzjxmmx_fzj_zyxd':
-        case 'zdzjxmmx_fdq_zyxd':
-          this.tableColumnsConfig = proconf.zyxdProfzjColumn
-          break
-        case 'zdzjxmmx_fzj_zyxdh':
-        case 'zdzjxmmx_fzj_zyxdx':
-        case 'qszjzl':
-          this.tableColumnsConfig = proconf.zyxdProfzjhColumn
-          break
-        case 'zdzjxmmx_fzj_wfp':
-          this.tableColumnsConfig = proconf.zyxdProfzjwfpColumn
-          break
-        case 'zdzjxmmx_fzj_wfpx':
-          this.tableColumnsConfig = proconf.zyxdProfzjwfpxColumn
-          break
-        case 'zdzjzbmx_fzjfp':
-          this.tableColumnsConfig = proconf.targetColumn
-          this.queryConfig = proconf.highQueryConfig1
-          this.searchDataList = proconf.highQueryData1
-          break
-        case 'fdqzdzjxmmx':
-          this.tableColumnsConfig = proconf.proColumn
-          this.queryConfig = proconf.highQueryConfig4
-          this.searchDataList = proconf.highQueryData4
-          break
-        case 'fdqzcmx':
-          this.tableColumnsConfig = proconf.fdqzcmxColumn
-          this.queryConfig = proconf.highQueryConfig3
-          this.searchDataList = proconf.highQueryData3
-          break
-        case 'zcmx(czb)':
-          this.tableColumnsConfig = proconf.fdqzcmxColumn
-          this.queryConfig = proconf.highQueryConfig3
-          this.searchDataList = proconf.highQueryData3
-          break
-        case 'zdzjxmmx(czb)':
-          this.tableColumnsConfig = proconf.proColumn
-          this.queryConfig = proconf.highQueryConfig4
-          this.searchDataList = proconf.highQueryData4
-          break
-        case 'zyzdzjmx':
-        case 'zyzdzjmx_qx':
-        case 'zyzdzjmx_xq':
-        case 'zyzdzjmx_bj':
-          this.tableColumnsConfig = proconf.zyzdzjmxColumn
-          this.queryConfig = proconf.highQueryConfig7
-          this.searchDataList = proconf.highQueryData7
-          break
-        default:
-          break
-      }
-      this.queryTableDatas()
-    },
     handleDetail(reportCode, row) {
       let params = {
         reportCode: reportCode,
@@ -546,14 +417,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$store.getters.isSx) {
-      this.showInfoSx()
-    } else {
-      this.showInfo()
-    }
-    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
-      this.isConfigTable()
-    }
+    this.showInfo()
   },
   watch: {},
   created() {
