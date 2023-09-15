@@ -2285,7 +2285,408 @@ const proconf = {
     fiRuleName: '',
     dealNo: '',
     dealType: ''
+  },
+  indexMsgConfig: [// 明细信息formItem展示列表
+    {
+      field: 'timeoutIssueType',
+      title: '超时下达类型',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达类型', disabled: true }
+      }
+    },
+    {
+      field: 'corBgtDocNo',
+      title: '指标文号',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标文号', disabled: true }
+      }
+    },
+    {
+      field: 'fiscalYear',
+      title: '预算年度',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '预算年度', disabled: true }
+      }
+    },
+    // {
+    //   field: 'recDivName',
+    //   title: '上级财政',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '上级财政', disabled: true }
+    //   }
+    // }, {
+    //   field: 'mofDivName',
+    //   title: '下级财政',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '下级财政', disabled: true }
+    //   }
+    // },
+    {
+      field: 'proName',
+      title: '项目名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '项目名称', disabled: true }
+      }
+    }, {
+      field: 'recTime',
+      title: '指标接收时间',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标接收时间', disabled: true }
+      }
+    }, {
+      field: 'recAmount',
+      title: '接收金额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '接收金额', disabled: true }
+      }
+    }, {
+      field: 'allocationAmount',
+      title: '已分配金额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '已分配金额', disabled: true }
+      }
+    },
+    {
+      field: 'curAmt',
+      title: '指标余额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标余额', disabled: true }
+      }
+    },
+    {
+      field: 'timeoutIssueAmount',
+      title: '超时下达金额',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达金额', disabled: true }
+      }
+    },
+    {
+      field: 'timeoutIssueTime',
+      title: '超时下达时间',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '超时下达时间', disabled: true }
+      }
+    }
+
+  ],
+  bgtMsgConfig: [// 明细信息formItem展示列表
+    // {
+    //   field: 'warningCode',
+    //   title: '监控数据编码',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '监控数据编码', disabled: true }
+    //   }
+    // },
+    // {
+    //   field: 'payApplyNumber',
+    //   title: '支付申请编号',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '支付申请编号', disabled: true }
+    //   }
+    // },
+    // {
+    //   field: 'agencyName',
+    //   title: '预算单位',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '预算单位', disabled: true }
+    //   }
+    // },
+    {
+      // field: 'targetDocNum',
+      field: 'corBgtDocNo',
+      title: '指标文号',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标文号', disabled: true }
+      }
+    },
+    {
+      // title: '预算项目',
+      // field: 'projectName',
+      title: '指标文标题',
+      field: 'bgtDocTitle',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '指标文标题' } }
+    },
+    {
+      title: '指标说明',
+      field: 'bgtDec',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '指标说明' }
+      }
+    },
+    {
+      title: '项目代码',
+      field: 'proCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '项目代码' }
+      }
+    },
+    {
+      title: '项目名称',
+      field: 'proName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '项目名称' }
+      }
+    },
+    {
+      title: '指标来源',
+      field: 'sourceTypeName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '指标来源' }
+      }
+    },
+    {
+      title: '资金性质名称',
+      field: 'fundTypeName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '资金性质' }
+      }
+    },
+    {
+      title: '资金支出名称',
+      field: 'expFuncName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '资金支出名称' }
+      }
+    },
+    {
+      title: '政府支出经济分类科目名称',
+      field: 'govBgtEcoName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '政府支出经济分类科目名称' }
+      }
+    }
+    // {
+    //   field: 'paymentAmount',
+    //   title: '支付金额',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '支付金额' }
+    //   }
+    // },
+    // {
+    //   title: '资金用途',
+    //   field: 'useOfFunds',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '资金用途' }
+    //   }
+    // },
+    // {
+    //   title: '政府经济分类',
+    //   field: 'govEconomyType',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '政府经济分类' }
+    //   }
+    // },
+    // {
+    //   title: '部门经济分类',
+    //   field: 'deptEconomyType',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '部门经济分类' }
+    //   }
+    // },
+    // {
+    //   title: '资金性质',
+    //   field: 'natureOfFunds',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '资金性质' }
+    //   }
+    // },
+    // {
+    //   title: '功能分类',
+    //   field: 'funcType',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '功能分类' }
+    //   }
+    // },
+    // {
+    //   title: '支付方式',
+    //   field: 'paymentMethod',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '支付方式' }
+    //   }
+    // },
+    // {
+    //   title: '结算方式',
+    //   field: 'settlementMethod',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '结算方式' }
+    //   }
+    // },
+    // {
+    //   title: '业务处室',
+    //   field: 'businessOffice',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '业务处室' }
+    //   }
+    // },
+    // {
+    //   title: '工资标识',
+    //   field: 'salaryMark',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '工资标识' }
+    //   }
+    // },
+    // {
+    //   title: '是否工会经费',
+    //   field: 'isUnionFunds',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '是否工会经费' }
+    //   }
+    // },
+    // {
+    //   title: '三公经费',
+    //   field: 'isThrExp',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '三公经费' }
+    //   }
+    // },
+    // {
+    //   title: '直达资金标识',
+    //   field: 'directFund',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { disabled: true, placeholder: '直达资金标识' }
+    //   }
+    // },
+    // {
+    //   title: '监控时间',
+    //   field: 'fiDate',
+    //   span: 8,
+    //   titleWidth: '180',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
+    //   }
+    // }
+  ],
+  indexMsgData: {
+    timeoutIssueType: '',
+    corBgtDocNo: '',
+    fiscalYear: '',
+    recDivName: '',
+    mofDivName: '',
+    violateType5: '', // 项目类别
+    proName: '',
+    recTime: '',
+    recAmount: '',
+    allocationAmount: '',
+    fiRuleName: '',
+    violateType11: '', // 违规责任单位
+    timeoutIssueAmount: '',
+    timeoutIssueTime: '',
+    curAmt: ''
   }
+
 }
 const statusButtons = [
   {

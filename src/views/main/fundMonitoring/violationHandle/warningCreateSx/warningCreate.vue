@@ -57,6 +57,7 @@
       v-if="detailVisible"
       :detail-data="detailData"
       :colour-type="colourType"
+      :select-bid="bussnessId"
     />
   </div>
 </template>
@@ -85,6 +86,7 @@ export default {
     return {
       colourType: '',
       warningCode: '',
+      bussnessId: '',
       fiRuleCode: '',
       sDetailQueryParam: {},
       leftTreeVisible: false,
@@ -323,6 +325,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       switch (key) {
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]

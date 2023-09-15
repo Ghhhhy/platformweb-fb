@@ -78,6 +78,9 @@ align-items: center;
   width: 650px;
   color: red;
 }
+.vxe-toolbar .vxe-button--wrapper{
+  justify-content: flex-start;
+}
 .warningLevel3{//红色预警
   color: red !important;
 }

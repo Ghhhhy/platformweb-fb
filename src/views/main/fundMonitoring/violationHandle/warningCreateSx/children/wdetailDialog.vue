@@ -56,6 +56,7 @@
       :is-done="isDone"
       :deal-no="dealNo"
       :detail-data="showDetailData"
+      :bussness-id="bussnessId"
       @close="closeHandle"
     />
     <GlAttachment
@@ -102,10 +103,15 @@ export default {
       default() {
         return []
       }
+    },
+    selectBid: {
+      type: String,
+      default: '7'
     }
   },
   data() {
     return {
+      bussnessId: '7',
       title: '',
       tableLoadingState: false,
       showDialogVisible: false,
@@ -1339,6 +1345,7 @@ export default {
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
+    this.bussnessId = this.selectBid.toString()
     if (monitorResultPages.includes(this.$route.name)) {
       this.tabStatusBtnConfig.buttonsInfo['1'] = []
     }
