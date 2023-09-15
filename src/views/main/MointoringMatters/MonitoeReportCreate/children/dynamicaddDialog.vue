@@ -215,8 +215,8 @@ export default {
           this.$parent.previewStartMonth = this.startMonth
           this.$parent.previewEndMonth = this.endMonth
           this.$parent.provinceNameList = this.provinceNameList
-          this.$parent.provinceCode = this.askProvince.split('##').filter(item => item)[0]
-          this.$parent.provinceName = this.askProvince.split('##').filter(item => item)[1]
+          this.$parent.provinceCode = this.askProvince.split('##').filter(item => item)[1]
+          this.$parent.provinceName = this.askProvince.split('##').filter(item => item)[2]
         } else {
           this.$message.error(res.message)
         }
