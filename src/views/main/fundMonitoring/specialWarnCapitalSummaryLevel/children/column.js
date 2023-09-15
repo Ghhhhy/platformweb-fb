@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   highQueryConfig: [
     {
@@ -597,6 +597,7 @@ const proconf = {
     {
       title: '整改意见',
       field: 'rectifyAsk',
+      visible: !store.getters.isFuJian,
       sortable: false,
       width: 140,
       filters: false,
@@ -863,6 +864,7 @@ const proconf = {
     {
       title: '整改意见',
       field: 'rectifyAsk',
+      visible: !store.getters.isFuJian,
       sortable: false,
       width: 140,
       filters: false,
@@ -1392,6 +1394,7 @@ const proconf = {
     {
       title: '整改意见',
       field: 'rectifyAsk',
+      visible: !store.getters.isFuJian,
       width: 140,
       filters: false,
       sortable: false,

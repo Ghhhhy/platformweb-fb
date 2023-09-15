@@ -40,6 +40,7 @@
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -94,9 +95,8 @@ export default {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
-          dataType: dataType,
-          addUnitColumn: true,
-          addReportTitleColumn: true,
+          ...this.tableGlobalConfig.customExportConfig,
+          dataType,
           fileName: this.menuName
         }
       }
@@ -198,6 +198,13 @@ export default {
           // '20:age': '10:income::value::{1001:age:20}>=18?Math.pow({1001:age:20},4)/2:0--&&--10:bonus::editable::{1001:age:20}>=18?true:false--&&--30:bonus::clear::{1001:age:20}<=18?true:false--&&--10:name::style::{1001:age:20}>18&&{1001:age:20}<=60--??--color=#F00&fontSize=20px--+--{1001:age:1001}>60--??--color=#ff0&fontSize=20px'
         }
       },
+      tableGlobalConfig: {
+        customExportConfig: {
+          // addUnitColumn: true,
+          addReportTitleColumn: true
+          // unit: '万元'
+        }
+      },
       toolbarConfig: {
         disabledMoneyConversion: false,
         ...getFormData('basicInfo', 'toolbarConfig')
@@ -275,6 +282,9 @@ export default {
     // this.getNewData()
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen

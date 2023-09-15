@@ -293,6 +293,7 @@ const proconf = {
                 align: 'right',
                 sortable: false,
                 filters: false,
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -489,6 +490,7 @@ const proconf = {
                 sortable: false,
                 filters: false,
                 align: 'right',
+                canInsert: true,
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -496,46 +498,46 @@ const proconf = {
               }
             ]
           },
-          {
-            title: '分配下级',
-            width: 200,
-            align: 'right',
-            children: [
-              {
-                title: '省级',
-                field: '',
-                width: 200,
-                sortable: false,
-                filters: false,
-                align: 'right'
-              },
-              {
-                title: '市级',
-                field: '',
-                width: 200,
-                sortable: false,
-                filters: false,
-                align: 'right'
-              },
-              {
-                title: '县级',
-                field: '',
-                sortable: false,
-                filters: false,
-                width: 200,
-                align: 'right'
-              },
-              {
-                title: '总金额',
-                field: '',
-                sortable: false,
-                filters: false,
-                width: 200,
-                align: 'right',
-                formula: ''
-              }
-            ]
-          },
+          // {
+          //   title: '分配下级',
+          //   width: 200,
+          //   align: 'right',
+          //   children: [
+          //     {
+          //       title: '省级',
+          //       field: '',
+          //       width: 200,
+          //       sortable: false,
+          //       filters: false,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '市级',
+          //       field: '',
+          //       width: 200,
+          //       sortable: false,
+          //       filters: false,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '县级',
+          //       field: '',
+          //       sortable: false,
+          //       filters: false,
+          //       width: 200,
+          //       align: 'right'
+          //     },
+          //     {
+          //       title: '总金额',
+          //       field: '',
+          //       sortable: false,
+          //       filters: false,
+          //       width: 200,
+          //       align: 'right',
+          //       formula: ''
+          //     }
+          //   ]
+          // },
           {
             title: '未分配',
             width: 200,

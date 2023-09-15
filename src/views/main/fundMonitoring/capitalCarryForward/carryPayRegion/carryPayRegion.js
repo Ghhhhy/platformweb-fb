@@ -224,6 +224,7 @@ const proconf = {
                 filters: false,
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 formula: '{amountSjSnjJz}+{amountSjJz}',
                 cellRender: {
                   name: '$vxeMoney'
@@ -353,6 +354,7 @@ const proconf = {
                 filters: false,
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 formula: '{amountXjSnjJz}+{amountXjSjJz}+{amountXjJz}',
                 cellRender: {
                   name: '$vxeMoney'

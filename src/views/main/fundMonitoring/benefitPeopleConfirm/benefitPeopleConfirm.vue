@@ -72,8 +72,6 @@
           :table-config="tableConfig1"
           :pager-config="mainPagerConfig1"
           :toolbar-config="tableToolbarConfig1"
-          @checkboxChange="checkboxChange1"
-          @checkboxAll="checkboxChange1"
           @onToolbarBtnClick="onToolbarBtnClick1"
           @ajaxData="ajaxTableData1"
           @cellClick="cellClick"
@@ -98,6 +96,45 @@
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
+    <vxe-modal
+      v-model="showConfirmModal"
+      width="600"
+      height="200"
+      :show-footer="true"
+      title="取消确认"
+      @close="closeModal"
+    >
+      <el-form ref="showConfirForm" :model="formModelData" :rules="formModelRule" label-width="80px">
+        <el-form-item label="取消说明" prop="cancelDescription" class="one-row">
+          <el-input
+            v-model="formModelData.cancelDescription"
+            type="textarea"
+            :maxlength="100"
+            show-word-limit
+            resize="none"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入取消说明"
+          />
+        </el-form-item>
+      </el-form>
+      <!-- <vxe-form ref="showConfirForm" :data="formModelData" :rules="formModelRule">
+        <vxe-form-item title="取消说明" field="reason" required class="one-row">
+          <el-input
+            v-model="formModelData.reason"
+            type="textarea"
+            :maxlength="100"
+            show-word-limit
+            resize="none"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            placeholder="请输入取消说明"
+          />
+        </vxe-form-item>
+      </vxe-form> -->
+      <div slot="footer" class="vxeModalUnique">
+        <el-button size="small" @click="closeModal">取消</el-button>
+        <el-button type="primary" size="small" @click="notHook(clickRow)">确定</el-button>
+      </div>
+    </vxe-modal>
   </div>
 </template>
 
@@ -118,6 +155,9 @@ export default {
   computed: {
     wheresql() {
       return `and name like '%${this.treeFilterText}%'`
+    },
+    tableColumnsConfig1() {
+      return proconf.PoliciesTableColumns1(this)
     }
   },
   watch: {
@@ -130,6 +170,11 @@ export default {
   },
   data() {
     return {
+      showConfirmModal: false,
+      clickRow: {},
+      formModelData: {
+        cancelDescription: ''
+      },
       // 左侧树过滤值
       treeFilterText: '',
       matchHoot: true,
@@ -170,6 +215,11 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      formModelRule: {
+        reason: [
+          { required: true, message: '请输入取消说明', trigger: 'blur' }
+        ]
+      },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
@@ -187,7 +237,8 @@ export default {
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
         '1': 0,
-        '2': 0
+        '2': 0,
+        '3': 0
       },
       isShowQueryConditions: true,
       toolBarStatusSelect: {
@@ -204,7 +255,6 @@ export default {
       tableLoading1: false,
       tableLoading2: false,
       tableColumnsConfig: proconf.PoliciesTableColumns,
-      tableColumnsConfig1: proconf.PoliciesTableColumns1,
       tableData: [],
       tableData1: [],
       tableToolbarConfig: {
@@ -336,6 +386,11 @@ export default {
   mounted() {
   },
   methods: {
+    closeModal() {
+      this.showConfirmModal = false
+      this.formModelData.cancelDescription = ''
+      this.$refs.showConfirForm.clearValidate()
+    },
     onImportClick() {
       // 导入提交
       if (!this.importData.length) {
@@ -443,7 +498,19 @@ export default {
           break
         case '2':
           this.isHook = '1'
-          this.matchHoot = false
+          this.proCode = ''
+          this.proName = ''
+          this.payCertNo = ''
+          this.amount = ''
+          this.payAmt = ''
+          this.mofdivName = ''
+          this.agencyName = ''
+          this.corBgtDocNoName = ''
+          this.useDes = ''
+          this.dtos = []
+          break
+        case '3':
+          this.isHook = '2'
           this.proCode = ''
           this.proName = ''
           this.payCertNo = ''
@@ -607,7 +674,9 @@ export default {
             this.$message.warning('请选择数据')
             return
           }
-          this.notHook(datas2)
+          this.showConfirmModal = true
+          this.clickRow = datas2
+          // this.notHook(datas2)
           break
         // 导入
         case 'import':
@@ -650,7 +719,11 @@ export default {
     },
     hook(datas2) {
       const param = {
-        payDetailIds: datas2
+        payDetailIds: datas2.map(item => {
+          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate, isHook: this.isHook })
+          delete itemCopy.xpayDate
+          return itemCopy
+        })
       }
       HttpModule.confirm(param).then(res => {
         if (res.code === '000000') {
@@ -661,9 +734,18 @@ export default {
         }
       })
     },
-    notHook(datas2) {
-      HttpModule.notConfirm(datas2).then(res => {
+    async notHook(datas2) {
+      const param = {
+        payDetailIds: datas2.map(item => {
+          let itemCopy = Object.assign({}, item, { xPayDate: item.xpayDate, cancelDescription: this.formModelData.cancelDescription })
+          delete itemCopy.xpayDate
+          return itemCopy
+        })
+      }
+      await this.$refs.showConfirForm.validate()
+      HttpModule.notConfirm(param).then(res => {
         if (res.code === '000000') {
+          this.closeModal()
           this.$message.success('取消成功')
           this.proCode = ''
           this.proName = ''
@@ -984,5 +1066,8 @@ export default {
 .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
+}
+.one-row{
+  width: 100%;
 }
 </style>

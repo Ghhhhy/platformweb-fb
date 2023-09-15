@@ -1,5 +1,5 @@
 //  规则管理审核api
-import { get, post } from '@/api/http'
+import { get, post, postFormData } from '@/api/http'
 export default {
   // 获取左侧树
   getLeftTree(params) {
@@ -32,5 +32,15 @@ export default {
   // 动态监控报告预览
   dynamiclook(params) {
     return post('large-monitor-platform/lmp/report/dynamicCreate', params)
+  },
+  // 专项监控报告预览
+  speProlook(params) {
+    return post('large-monitor-platform/lmp/report/speProCreate', params)
+  },
+  preViewCreate(axiosStr, params) {
+    return post(`large-monitor-platform/lmp/report/${axiosStr}`, params)
+  },
+  importPersonAndCompany (params) {
+    return postFormData('large-monitor-platform/lmp/report/importReport', params)
   }
 }

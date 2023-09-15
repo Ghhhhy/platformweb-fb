@@ -105,10 +105,9 @@ export default {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
-          dataType: dataType,
-          addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
+          ...this.tableGlobalConfig.customExportConfig,
+          dataType,
+          fileName: this.menuName
         }
       }
     }

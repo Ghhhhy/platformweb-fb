@@ -60,5 +60,8 @@ export default {
       formData.append(key, value)
     })
     return post('dfr-monitor-service/dfr/dfrExcelImport/importDfrData', formData, null, 'multipart/form-data')
+  },
+  queryDetail(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/queryDetail', params)
   }
 }

@@ -273,7 +273,11 @@ const proconf = {
       width: 100,
       sortable: false,
       align: 'right',
-      cellRender: { name: '$vxenput' }
+      formula: '{payAppAmt}/{amount}*100',
+      props: {
+        showZero: true
+      },
+      cellRender: { name: '$vxeRatio' }
     }
   ],
   // 直达资金项目明细

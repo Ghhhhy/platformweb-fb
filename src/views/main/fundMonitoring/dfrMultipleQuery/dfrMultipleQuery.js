@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 import { padStart } from 'xe-utils/methods'
 
 export let proconf = {
@@ -26,6 +26,7 @@ export let proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: !store.getters.isFuJian,
       formula: '',
       itemRender: {
         name: '$vxeInput',

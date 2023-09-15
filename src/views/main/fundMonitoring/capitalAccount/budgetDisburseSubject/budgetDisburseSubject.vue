@@ -42,6 +42,7 @@
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -97,10 +98,9 @@ export default {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
-          dataType: dataType,
-          addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
+          ...this.tableGlobalConfig.customExportConfig,
+          dataType,
+          fileName: this.menuName
         }
       }
     }
@@ -148,6 +148,13 @@ export default {
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
+      },
+      tableGlobalConfig: {
+        customExportConfig: {
+          addUnitColumn: true,
+          addReportTitleColumn: true,
+          unit: '万元'
+        }
       },
       // table 相关配置
       tableLoading: false,
@@ -269,6 +276,9 @@ export default {
     // }, 2000)
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen

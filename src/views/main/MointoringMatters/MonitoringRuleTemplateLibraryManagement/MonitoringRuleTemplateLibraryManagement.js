@@ -1,4 +1,11 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+const isXMProject = () => { // 是否是厦门项目
+  const { province } = store.state.userInfo
+  if (province?.slice(0, 4) === '3502') {
+    return true
+  }
+  return false
+}
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -55,6 +62,7 @@ export let proconf = {
     {
       title: '事项名称',
       field: 'declareName',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -62,6 +70,7 @@ export let proconf = {
     {
       title: '事项申报所属财政',
       field: 'mofDiv',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -69,6 +78,7 @@ export let proconf = {
     {
       title: '事项申报所属机构',
       field: 'agency',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -76,6 +86,7 @@ export let proconf = {
     {
       title: '事项申报人',
       field: 'deClaRant',
+      visible: !isXMProject(),
       sortable: false,
       filters: false,
       align: 'left'
@@ -99,7 +110,7 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '模板函数',
+      title: '规则函数名称',
       field: 'functionName',
       sortable: false,
       filters: false,
@@ -234,10 +245,9 @@ export let proconf = {
     {
       title: '规则类型',
       field: 'fiRuleTypeCode',
-      'width': 180,
+      width: '180',
       align: 'left',
-      formula: '',
-      name: '$vxeSelect',
+      name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
         options: [
@@ -260,10 +270,10 @@ export let proconf = {
         ],
         props: {
           config: {
-            valueKeys: ['value', 'label', 'value'],
-            format: '{name}',
+            valueKeys: ['label', 'value'],
+            format: '{label}',
             treeProps: {
-              labelFormat: '{value}-{label}', // {code}-{name}
+              labelFormat: '{label}', // {code}-{name}
               nodeKey: 'value',
               label: 'label',
               children: 'children'
@@ -369,7 +379,8 @@ export let proconf = {
   funchighQueryData: {
     functionType: '',
     functionName: '',
-    functionParameter: ''
+    functionParameter: '',
+    fiRuleTypeCode: ''
   },
   mountTableColumnsConfig: [
     {

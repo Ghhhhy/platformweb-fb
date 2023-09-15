@@ -40,6 +40,7 @@
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @switchMoneyUnit="switchMoneyUnit"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -95,9 +96,8 @@ export default {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
-          dataType: dataType,
-          addUnitColumn: true,
-          addReportTitleColumn: true,
+          ...this.tableGlobalConfig.customExportConfig,
+          dataType,
           fileName: this.menuName
         }
       }
@@ -133,6 +133,13 @@ export default {
       tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
       obj: {},
+      tableGlobalConfig: {
+        customExportConfig: {
+          // addUnitColumn: true,
+          addReportTitleColumn: true
+          // unit: '万元'
+        }
+      },
       calculateConstraintConfig: {
         enabled: true,
         extendMapInfoField: true, // 是否扩展mapInfo字段
@@ -246,6 +253,9 @@ export default {
     // this.getNewData()
   },
   methods: {
+    switchMoneyUnit(level) {
+      this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
+    },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen

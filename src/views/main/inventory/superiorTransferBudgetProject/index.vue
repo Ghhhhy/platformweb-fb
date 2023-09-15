@@ -31,7 +31,7 @@
         <template v-slot:toolbarSlots>
           <div class="table-toolbar-left">
             <div class="table-toolbar-left-title">
-              <span class="fn-inline">本级预算项目库项目清单</span>
+              <span class="fn-inline">项目库项目清单</span>
               <i class="fn-inline"></i>
             </div>
           </div>

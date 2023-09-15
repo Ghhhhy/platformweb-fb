@@ -4,7 +4,7 @@
     v-model="descVisible"
     :title="title"
     width="50%"
-    height="45%"
+    height="35%"
     :show-footer="false"
     @close="dialogClose"
   >
@@ -171,6 +171,7 @@ export default {
   .vxe-toolbar{
     .vxe-button--wrapper{
       display:flex;
+          justify-Content: end;
     }
   }
 </style>

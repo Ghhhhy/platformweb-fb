@@ -448,8 +448,14 @@ export default {
           }
           break
         case 'zxjdzcmx_fdq': // 分地区  支出金额
-          this.loadConfig('BsTable', 'Table201')
-          this.loadConfig('BsQuery', 'Query201')
+          if (this.transJson(this.params5 || '')?.projectCode === 'FJ') {
+            this.loadConfig('BsTable', 'Table202')
+            this.loadConfig('BsQuery', 'Query202')
+          } else {
+            this.loadConfig('BsTable', 'Table201')
+            this.loadConfig('BsQuery', 'Query201')
+          }
+
           console.info('分地区  支出金额')
           break
         case 'zxjdxmmx_fdq': // 分配下级 分配本级 已分配

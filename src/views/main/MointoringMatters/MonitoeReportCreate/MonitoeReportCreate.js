@@ -36,7 +36,8 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           { value: 2021, label: '2021年' },
-          { value: 2022, label: '2022年' }
+          { value: 2022, label: '2022年' },
+          { value: 2023, label: '2023年' }
         ],
         props: {
           placeholder: '年份'
@@ -148,7 +149,11 @@ export let proconf = {
   highQueryData: {
     warningLevel: '',
     handleType: '',
-    regulationType: ''
+    regulationType: '',
+    year: '',
+    createTime: '',
+    endMonth: '',
+    startMonth: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [

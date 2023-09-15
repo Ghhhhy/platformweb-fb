@@ -3,7 +3,7 @@ const proconf = {
   // 支出明细
   expenditureColumn: [
     {
-      title: '专项资金项目名称',
+      title: '资金名称',
       field: 'trackProName',
       width: 140,
       visible: true,
@@ -112,7 +112,7 @@ const proconf = {
   ],
   payColumn: [
     {
-      title: '专项资金项目名称',
+      title: '资金名称',
       field: 'trackProName',
       width: 140,
       visible: true,
@@ -194,6 +194,7 @@ const proconf = {
       formatter({ row }) {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -205,6 +206,7 @@ const proconf = {
       formatter({ row }) {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -216,6 +218,7 @@ const proconf = {
       formatter({ row }) {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -320,6 +323,7 @@ const proconf = {
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
+      exportFormatter: true,
       align: 'left'
     },
     {
@@ -380,6 +384,12 @@ const proconf = {
   // 专项监督项目明细
   projectZXColumn: [
     {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 140,
+      align: 'left'
+    },
+    {
       title: '区划代码',
       field: 'mofDivCode',
       width: 140,
@@ -403,12 +413,7 @@ const proconf = {
         return row.mofDivName || ''
       }
     },
-    {
-      title: '资金名称',
-      field: 'trackProName',
-      width: 140,
-      align: 'left'
-    },
+
     {
       title: '预算单位',
       field: 'agencyName',
@@ -431,7 +436,8 @@ const proconf = {
       field: 'xjExpFuncName',
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     // {
     //   title: '转移支付功能科目',
@@ -815,6 +821,12 @@ const proconf = {
   ],
   targetColumnFPXJ: [// 点击分配下级
     {
+      title: '资金名称',
+      field: 'trackProName',
+      width: 140,
+      align: 'left'
+    },
+    {
       title: '区划代码',
       field: 'mofDivCode',
       width: 140,
@@ -838,12 +850,7 @@ const proconf = {
         return row.mofDivName || ''
       }
     },
-    {
-      title: '资金名称',
-      field: 'trackProName',
-      width: 140,
-      align: 'left'
-    },
+
     {
       title: '预算单位',
       field: 'agencyName',
@@ -865,6 +872,7 @@ const proconf = {
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
+      exportFormatter: true,
       sortable: false,
       align: 'left'
     },
@@ -876,7 +884,8 @@ const proconf = {
       field: 'tpFuncName',
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '分配金额',
@@ -957,7 +966,8 @@ const proconf = {
       align: 'left',
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '本级项目名称',

@@ -121,10 +121,9 @@ export default {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
-          dataType: dataType,
-          addUnitColumn: true,
-          addReportTitleColumn: true,
-          unit: '万元'
+          ...this.tableGlobalConfig.customExportConfig,
+          dataType,
+          fileName: this.menuName
         }
       }
     }
@@ -344,13 +343,14 @@ export default {
           break
         case 'proName':
           this.projectTitle = '项目明细'
-          this.projectVisible = true
+          // this.projectVisible = true
           let url = this.getFiscalServer(obj.row.proCode) + '/#/PersonProject/DirectProjectDetail' +
             '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
             '&appguid=fiscal&guid=' + obj.row.guid + '&mofDivCode=' + obj.row.mofDivCode +
             '&fiscalYear=' + obj.row.fiscalYear + '#/'
           console.info(url)
-          this.frameSrc = url
+          window.open(url, '_blank')
+          // this.frameSrc = url
           break
       }
     },
