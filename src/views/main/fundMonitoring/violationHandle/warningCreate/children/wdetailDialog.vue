@@ -68,6 +68,7 @@
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
           :pager-config="pagerConfig"
+          highlight-current-row
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -512,8 +513,8 @@ export default {
       this.condition = condition
       this.queryTableDatas()
     },
-    closeHandle() {
-      this.queryTableDatas()
+    closeHandle(titleName) {
+      titleName !== '查看详情信息' && this.queryTableDatas()
       this.showDialogVisible = false
     },
     closeAttachment() {
@@ -1304,7 +1305,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
+      this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(obj.row)
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
