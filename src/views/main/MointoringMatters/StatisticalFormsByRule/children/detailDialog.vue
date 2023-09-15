@@ -109,6 +109,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    jurisdiction: {
+      type: String,
+      default: ''
     }
   },
   watch: {
@@ -482,7 +486,7 @@ export default {
         fiRuleName: this.fiRuleName || this.searchDataList.fiRuleName,
         businessNo: this.payApplyNumber,
         regulationClass: this.regulationClass,
-        jurisdiction: this.$store.getters.getIsJurisdiction,
+        jurisdiction: this.jurisdiction,
         warnLevel: this.warnLevel
 
       }

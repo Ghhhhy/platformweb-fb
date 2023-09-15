@@ -452,7 +452,7 @@ export default {
         jurisdiction: this.$store.getters.getIsJurisdiction,
         roleId: this.roleguid
       }
-      this.tableColumnsConfig = [
+      const tableColumnsConfig2 = [
         {
           title: '规则名称',
           field: 'fiRuleName',
@@ -533,7 +533,7 @@ export default {
         if (res.code === '000000') {
           if (res.data.titleList.length) {
             res.data.titleList.forEach((item, index) => {
-              this.tableColumnsConfig.splice(2 + index, 0, {
+              tableColumnsConfig2.splice(2 + index, 0, {
                 title: item.mofDivName,
                 field: item.mofDivCode,
                 sortable: false,
@@ -567,6 +567,7 @@ export default {
               })
             })
           }
+          this.tableColumnsConfig = tableColumnsConfig2
           this.tableData = this.handleQueryData(res.data.dataList)
           this.tableData.forEach(item => {
             if (

@@ -429,7 +429,8 @@ export default {
         businessTime: this.businessTime,
         fiRuleCode: this.fiRuleCode,
         mofDivCodeList: this.queryFormData.mofDivCodeList,
-        fiRuleName: this.queryFormData.fiRuleName
+        fiRuleName: this.queryFormData.fiRuleName,
+        jurisdiction: this.$store.getters.getIsJurisdiction
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
