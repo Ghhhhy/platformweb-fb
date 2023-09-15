@@ -534,6 +534,10 @@ export default {
         this.createConfig = proconf.checkConfig
       }
       if (this.title === '查看详情信息') {
+        const routes = ['WarnRegionBySpecial', 'WarnRegion', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial', 'DepartmentRetroact', 'CreateProcessing', 'QueryProcessing']
+        if (routes.includes(this.$route.name)) {
+          this.setFormItem()
+        }
         this.addLoading = true
         HttpModule.budgetgetDetail(code).then(res => {
           this.addLoading = false
@@ -723,6 +727,11 @@ export default {
         })
       }
       this.getViolationType()
+    },
+    setFormItem() { // 设置详情信息字段
+      if (['6', 2, '2'].includes(this.bussnessId)) {
+        this.incomeMsgConfig = proconf.bgtMsgConfig
+      }
     },
     moneyFormat(amt) {
       const num = Math.round(amt * 100) / 100
