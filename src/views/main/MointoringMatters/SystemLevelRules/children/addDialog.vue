@@ -17,7 +17,14 @@
       <div v-show="!disabled" style="width:100%;height: 80px;margin:0 15px">
         <div type="flex" justify="end">
           <div style="width:100%">
-            <vxe-button id="savebutton" v-deClick style="float:right;margin-right:35px" status="primary" @click="doInsert">保存</vxe-button>
+            <vxe-button
+              id="savebutton"
+              v-deClick
+              :loading="submitLoading"
+              style="float:right;margin-right:35px"
+              status="primary"
+              @click="doInsert"
+            >保存</vxe-button>
             <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
           </div>
         </div>
@@ -1715,6 +1722,7 @@ export default {
         param.regulationCode = this.$parent.DetailData.regulationCode
         HttpModule.updateData(param).then(res => {
           if (res.code === '000000') {
+            this.dialogVisible = false
             that.$message.success('修改成功')
             this.formItemsConfigMessage.splice(1, this.paymentLen)
             this.paymentLen = 0
@@ -1737,6 +1745,7 @@ export default {
       } else {
         HttpModule.addData(param).then(res => {
           if (res.code === '000000') {
+            this.dialogVisible = false
             that.$message.success('新增成功')
             this.formItemsConfigMessage.splice(1, this.paymentLen)
             this.paymentLen = 0
