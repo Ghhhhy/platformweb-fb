@@ -278,7 +278,6 @@ export default {
       this.getTopTableData()
     },
     pageDownChangeHandle({ currentPage, pageSize }) { // 表格分页点击
-      debugger
       this.BpagerConfig.currentPage = currentPage
       this.BpagerConfig.pageSize = pageSize
       this.getBottomTableData()
