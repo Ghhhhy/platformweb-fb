@@ -806,7 +806,8 @@ const proconf = {
       tooltipFormat: '{agencyCode}-{agencyName}',
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
-      }
+      },
+      exportFormatter: true
     },
     {
       title: '业务数据单号',
