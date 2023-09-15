@@ -8,6 +8,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     },
@@ -36,6 +37,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{agencyCode}-{agencyName}',
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
     },
@@ -179,6 +181,7 @@ const budgetImpColumns = [
     filters: false,
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
+    tooltipFormat: '{trackProCode}-{trackProName}',
     formatter({ row }) {
       if (row.trackProCode && row.trackProName) {
         return `${row.trackProCode}-${row.trackProName}`
@@ -193,6 +196,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{proCode}-{proName}',
     formatter({ row }) {
       if (row.proCode && row.proName) {
         return `${row.proCode}-${row.proName}`
@@ -786,6 +790,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{mofDivCode}-{mofDivName}',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       },
@@ -798,6 +803,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{agencyCode}-{agencyName}',
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
@@ -1122,6 +1128,7 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
       },
+      tooltipFormat: '{proCode}-{proName}',
       formatter({ row }) {
         if (row.proCode && row.proName) {
           return `${row.proCode}-${row.proName}`
@@ -1816,6 +1823,7 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '预算项目' }
       },
+      tooltipFormat: '{proCode}-{proName}',
       formatter({ row }) {
         if (row.proCode && row.proName) {
           return `${row.proCode}-${row.proName}`
@@ -2151,6 +2159,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{mofDivCode}-{mofDivName}',
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       },
@@ -2163,6 +2172,7 @@ const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{agencyCode}-{agencyName}',
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       },
