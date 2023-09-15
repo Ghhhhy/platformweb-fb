@@ -22,7 +22,7 @@
               style="display: inline-block;height: 42px;float: left;"
             >
               <el-col :span="8">
-                <img src="@/assets/img/upload/上传icon.svg" alt="" class="img-my">
+                <img src="@/assets/img/upload/uploadicon.svg" alt="" class="img-my">
               </el-col>
               <el-col :span="16">
                 <span class="sp-my">上传附件</span>
