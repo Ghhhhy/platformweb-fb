@@ -662,10 +662,12 @@ export default {
     // },
     dialogClose() {
       this.$parent.dialogVisible = false
-      if (this.param5.isCreate === 'true') {
-        this.$parent.queryTableDatas()
-      } else {
-        this.$parent.getdata()
+      if (this.title !== '查看详情信息') {
+        if (this.param5.isCreate === 'true') {
+          this.$parent.queryTableDatas()
+        } else {
+          this.$parent.getdata()
+        }
       }
     },
     // 回显
