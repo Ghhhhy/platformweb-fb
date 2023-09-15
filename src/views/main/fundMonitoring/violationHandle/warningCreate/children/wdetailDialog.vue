@@ -640,7 +640,7 @@ export default {
       }
     },
     itemChange(obj, formRef) {
-      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate']
+      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate', 'recStartTime', 'recEndTime', 'xPayDateStart', 'xPayDateEnd']
       if (timeFiledList.includes(obj.property)) {
         obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
         this.searchDataList[obj.property] = obj.itemValue
