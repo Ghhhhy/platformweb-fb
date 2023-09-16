@@ -175,5 +175,17 @@ export default [
       import(
         '../../../views/main/loginLog/loginLog.vue'
       )
+  },
+  {
+    path: '/bgtDataQuery',
+    name: 'bgtDataQuery',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '@/views/main/bgtDataQuery/bgtDataQuery.vue'
+      )
   }
 ]
