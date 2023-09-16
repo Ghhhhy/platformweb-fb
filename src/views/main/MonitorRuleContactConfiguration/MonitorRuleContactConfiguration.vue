@@ -38,7 +38,9 @@
           open-loading
           :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
+          :global-config="treeGlobalConfig"
           :tree-data="treeData"
+          :queryparams="treeQueryparams"
           :default-expanded-keys="defaultExpandedKeysIn"
           @onNodeClick="onClickmethod"
         />
@@ -309,7 +311,7 @@ export default {
     },
     // 左侧树
     changeInput(val) {
-      this.treeGlobalConfig.inputVal = val
+      this.leftTreeFilterText = val
     },
     // 初始化高级查询data
     getSearchDataList() {

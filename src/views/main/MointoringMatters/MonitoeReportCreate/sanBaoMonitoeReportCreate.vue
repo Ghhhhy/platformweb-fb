@@ -489,7 +489,8 @@ export default {
         id: this.condition.agency_code,
         menuType: 1,
         province: '',
-        mofDivCodeList: this.codeList
+        mofDivCodeList: this.codeList,
+        reportType: routerMap[this.$route.name].code
       }
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
@@ -608,42 +609,7 @@ export default {
     },
     getLeftTreeData() {
       console.log(this.userInfo)
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = this.$store.getters.treeQueryparamsCom
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
