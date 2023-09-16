@@ -1443,7 +1443,7 @@ export default {
       data.forEach(item => {
         if (item.isleaf) {
           let obj = {
-            mofDivCode: '',
+            mofDivCode: item.code,
             agencyCode: '',
             mofDivId: item.id
           }
