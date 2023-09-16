@@ -367,6 +367,10 @@ export default {
     dealNo: {
       type: String,
       default: ''
+    },
+    bussnessId: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -536,6 +540,7 @@ export default {
       if (this.title === '查看详情信息') {
         const routes = ['WarnRegionBySpecial', 'WarnRegion', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial', 'DepartmentRetroact', 'CreateProcessing', 'QueryProcessing']
         if (routes.includes(this.$route.name)) {
+          console.log('this.bussnessId,', this.bussnessId)
           this.setFormItem()
         }
         this.addLoading = true
@@ -592,7 +597,34 @@ export default {
               this.supplyDataList.payAcctBankName = res.data.executeData.payAcctBankName
               this.supplyDataList.useDes = res.data.executeData.useDes
             }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
+              this.supplyDataList.curAmt = curAmt || ''
 
+              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+            }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
               this.supplyDataList.todoName = res.data.payVoucherVo.todoName
