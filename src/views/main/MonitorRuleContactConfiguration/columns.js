@@ -48,7 +48,6 @@ export let proconf = {
       field: 'fiRuleTypeCode',
       'width': 180,
       align: 'left',
-      formula: '',
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeTree',
@@ -72,8 +71,8 @@ export let proconf = {
         ],
         props: {
           config: {
-            valueKeys: ['value', 'label', 'value'],
-            format: '{name}',
+            valueKeys: ['value', 'label'],
+            format: '{label}',
             treeProps: {
               labelFormat: '{value}-{label}', // {code}-{name}
               nodeKey: 'value',
@@ -275,7 +274,8 @@ export let proconf = {
     regulationName: '',
     warningLevel: '',
     regulationType: '',
-    ruleTypeCode: ''
+    ruleTypeCode: '',
+    fiRuleTypeCode: ''
   },
   createConfig: [
     {
