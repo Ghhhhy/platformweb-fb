@@ -724,7 +724,6 @@ export default {
         } else {
           this.$message.error(res.message)
         }
-        this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
       })
     },
     // 归档查询

@@ -18,7 +18,7 @@
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick1"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true')" v-slot:preBtns>
+          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"
@@ -68,6 +68,7 @@
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
           :pager-config="pagerConfig"
+          highlight-current-row
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -416,7 +417,6 @@ export default {
       return datas
     },
     onOptionRowClick({ row, optionType }, context) {
-      console.log(12312312321321, optionType)
       switch (optionType) {
         // 附件
         case 'attachment':
@@ -513,8 +513,8 @@ export default {
       this.condition = condition
       this.queryTableDatas()
     },
-    closeHandle() {
-      this.queryTableDatas()
+    closeHandle(titleName) {
+      titleName !== '查看详情信息' && this.queryTableDatas()
       this.showDialogVisible = false
     },
     closeAttachment() {
@@ -641,7 +641,7 @@ export default {
       }
     },
     itemChange(obj, formRef) {
-      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate']
+      let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate', 'recStartTime', 'recEndTime', 'xPayDateStart', 'xPayDateEnd']
       if (timeFiledList.includes(obj.property)) {
         obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
         this.searchDataList[obj.property] = obj.itemValue
@@ -651,7 +651,9 @@ export default {
       if (obj.property === 'agencyCodeList') {
         let arr = []
         obj.itemValue && obj.itemValue.split(',')?.map(v => {
-          arr.push(v.split('#')[0])
+          if (v?.length > 0) {
+            arr.push(v.split('#')[0])
+          }
         })
         this.agencyCodeList = arr
       }
@@ -823,7 +825,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
@@ -835,7 +837,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '1'
           this.status = ''
           this.isNormal = true
@@ -852,7 +854,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.isProcessed = false
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '2'
           this.status = 7
           this.title = '认定违规-待整改明细'
@@ -862,7 +864,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.warnLevel = '3'
           this.isSign = '2'
           this.status = null
           this.isNormal = false
@@ -928,7 +930,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -941,7 +943,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId, this.showLog)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -954,7 +956,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -967,7 +969,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.warnLevel = '1'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -980,7 +982,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -993,7 +995,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton1
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -1006,7 +1008,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton3
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -1019,7 +1021,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabStatusBtnConfig.curButton = curStatusButton2
           this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.warnLevel = '5'
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -1303,7 +1305,7 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
+      this.$refs.mainTableRef.$refs.xGrid.setCurrentRow(obj.row)
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
