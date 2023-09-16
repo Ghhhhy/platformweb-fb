@@ -20,14 +20,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '单位编码',
-    width: 180,
-    field: 'agencyCode',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '单位编码',
+  //   width: 180,
+  //   field: 'agencyCode',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '预算单位',
     width: 180,
@@ -909,14 +909,14 @@ export const proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '预算单位编码',
-      'width': 180,
-      field: 'agencycode',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '预算单位编码',
+    //   'width': 180,
+    //   field: 'agencycode',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '预算单位名称',
       'width': 180,
@@ -2835,7 +2835,7 @@ export const proconf = {
           }
         }),
         defaultValue: '',
-        props: { disabled: true }
+        props: { placeholder: '预警级别', disabled: true }
       },
       name: '$vxeSelect'
     },
