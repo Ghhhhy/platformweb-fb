@@ -439,12 +439,13 @@ export default {
       this.showDialogTitle = '监控问询单信息'
     },
     // 生成
-    handleCreate() {
+    async handleCreate() {
       let selection = this.$refs.mainTableRef.selection
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
         return
       }
+      await this.getDealNo()
       this.selectedFiRuleCode = selection[0].fiRuleCode || ''
       this.selectedWarningCode = selection[0].warningCode || ''
       let code = this.selectedWarningCode + '/' + this.selectedFiRuleCode
@@ -1277,7 +1278,7 @@ export default {
       })
     },
     getDealNo() {
-      HttpModule.queryDealNo().then(res => {
+      return HttpModule.queryDealNo().then(res => {
         this.dealNo = res.data
       })
     },
@@ -1333,7 +1334,6 @@ export default {
   mounted() {
     this.detailType = this.detailData[0]
     this.getAgency()
-    this.getDealNo()
     this.showInfo()
   },
   watch: {
