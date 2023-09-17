@@ -104,7 +104,7 @@ export let proconf = {
       treeNode: true,
       align: 'left',
       width: 260,
-      field: 'name',
+      field: 'mofDivName',
       filters: false
     },
     {
