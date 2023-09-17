@@ -326,8 +326,8 @@
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="space-around">
           <div>
-            <vxe-button v-if="param5.isCreate === 'true' && title === '监控问询单信息'" v-deClick status="primary" @click="doIssue">生成并下发</vxe-button>
-            <vxe-button v-if="param5.isRetroact === 'true' && title !== '查看详情信息' && title !== '业务数据信息'" v-deClick status="primary" @click="doFeedback">确定</vxe-button>
+            <vxe-button v-if="param5.isCreate === 'true' && title === '监控问询单信息'" v-deClick v-loading="addLoading" status="primary" @click="doIssue">生成并下发</vxe-button>
+            <vxe-button v-if="param5.isRetroact === 'true' && title !== '查看详情信息' && title !== '业务数据信息'" v-deClick v-loading="addLoading" status="primary" @click="doFeedback">确定</vxe-button>
             <vxe-button v-if="title === '业务数据信息'" v-deClick status="primary" @click="ruleTest">规则校验</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
           </div>
