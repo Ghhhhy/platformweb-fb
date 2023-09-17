@@ -270,7 +270,7 @@ export default {
       totalTableColumnsConfig: [
         {
           title: '触发菜单名称',
-          field: 'businessFunctionName',
+          field: 'menuNameList',
           align: 'left'
         },
         {
@@ -534,7 +534,7 @@ export default {
           regulationClass: this.params5
         }
         if (this.toolBarStatusSelect.curValue === '4') {
-          delete param.handleResult
+          // delete param.handleResult
           param.voidOrNot = 1
         }
         this.tableLoading = true
@@ -585,7 +585,7 @@ export default {
           regulationClass: this.params5
         }
         if (this.toolBarStatusSelect.curValue === '4') {
-          delete param.handleResult
+          // delete param.handleResult
           param.voidOrNot = 1
         }
         this.tableLoading = true
@@ -767,10 +767,11 @@ export default {
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
           businessFunctionName: node.businessName,
           warnLevel: '3',
-          agencyCodeList: this.agencyCodeList
+          agencyCodeList: this.agencyCodeList,
+          regulationClass: this.params5
         }
         if (this.toolBarStatusSelect.curValue === '4') {
-          delete param.handleResult
+          // delete param.handleResult
           param.voidOrNot = 1
         }
         this.tableLoading = true
@@ -817,11 +818,12 @@ export default {
           'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
           businessFunctionName: node.businessName,
-          agencyCodeList: this.agencyCodeList
+          agencyCodeList: this.agencyCodeList,
+          regulationClass: this.params5
         }
         if (this.toolBarStatusSelect.curValue === '4') {
           param.voidOrNot = 1
-          delete param.handleResult
+          // delete param.handleResult
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then(res => {
@@ -911,7 +913,7 @@ export default {
       }
       if (this.toolBarStatusSelect.curValue === '4') {
         param.voidOrNot = 1
-        delete param.handleResult
+        // delete param.handleResult
       }
       this.tableLoading = true
       HttpModule.summarySum(param).then(res => {
@@ -969,7 +971,7 @@ export default {
       }
       if (this.toolBarStatusSelect.curValue === '4') {
         param.voidOrNot = 1
-        delete param.handleResult
+        // delete param.handleResult
       }
       this.tableLoading = true
       let that = this
