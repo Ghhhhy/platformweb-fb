@@ -28,6 +28,7 @@
                         :value="item.value"
                       />
                     </el-select>
+                    <!-- <vxe-NewInput v-model="year" placeholder="年度" type="year" /> -->
                   </el-row>
                 </el-main>
               </el-container>
@@ -141,7 +142,12 @@ export default {
       year: '',
       yearOptions: [
         { value: 2021, label: '2021年' },
-        { value: 2022, label: '2022年' }
+        { value: 2022, label: '2022年' },
+        { value: 2023, label: '2023年' },
+        { value: 2024, label: '2024年' },
+        { value: 2025, label: '2025年' },
+        { value: 2022, label: '2026年' },
+        { value: 2027, label: '2027年' }
       ],
       typeName: '',
       typeNameOptions: [

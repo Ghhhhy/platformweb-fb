@@ -29,7 +29,7 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
+          :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -39,8 +39,6 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
-          :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -110,11 +108,13 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
+      treeTypeConfig: {
+        curRadio: 'AGENCY'
+      },
       leftTreeVisible: true,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
@@ -249,7 +249,6 @@ export default {
 
   methods: {
     search(obj) {
-      console.log(obj)
       this.year = Number(obj.year)
       this.typeName = obj.typeName
       this.basicName = obj.basicName
@@ -406,6 +405,9 @@ export default {
           break
       }
     },
+    onNodeCheckClick() {
+      this.refresh()
+    },
     // 左侧树
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
@@ -432,11 +434,9 @@ export default {
     onClickmethod(node) {
       this.node = node.node
       let code = node.node.code
-      console.log(node)
       this.codeList = []
       let treeData = node.treeData
       this.getItem(code, treeData)
-      console.log(this.codeList)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -452,6 +452,7 @@ export default {
         id: this.condition.agency_code,
         menuType: 1,
         province: '',
+        year: this.year || this.userInfo.year,
         mofDivCodeList: this.codeList
       }
       if (this.leftNode.businessType === 2) {
@@ -630,6 +631,7 @@ export default {
     let date = new Date()
     let year = date.toLocaleDateString().split('/')[0]
     this.searchDataList.year = year
+    this.year = year
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
