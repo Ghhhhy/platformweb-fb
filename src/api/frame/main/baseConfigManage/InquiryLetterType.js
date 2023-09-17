@@ -10,7 +10,7 @@ export default {
   },
   // 新增
   addPolicies(params) {
-    return post('large-monitor-platform/lmp/askType/add', params)
+    return post('large-monitor-platform/lmp/filter/add', params)
   },
   // 回显修改信息
   getDetail(params) {
