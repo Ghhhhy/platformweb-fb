@@ -403,6 +403,7 @@ export default {
           'warningCode': this.warningCode,
           'handleResult': this.handleResult,
           'handleDesc': this.handleDesc,
+          'warningMsg': this.warnMsg,
           fiRuleCode: this.fiRuleCode
         }
         this.addLoading = true
