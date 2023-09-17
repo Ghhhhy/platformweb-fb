@@ -31,100 +31,104 @@
             :form-config="formConfig"
           />
         </div>
-        <div style="margin-top:10px">
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">违规信息</div>
-          <el-row>
-            <el-col>
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;违规信息</div>
-                    <el-input
-                      v-model="warnMsg"
-                      :disabled="edit"
-                      placeholder="违规信息"
-                      style="width:90%"
-                      :rows="2"
-                      type="textarea"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row>
-        </div>
-        <div style="margin-top:10px">
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">处理信息</div>
-          <el-row>
-            <el-col :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理结果</div>
-                    <el-select
-                      v-model="handleResult"
-                      :disabled="edit"
-                      placeholder="处理结果"
-                      style="width:45%"
-                    >
-                      <el-option
-                        v-for="item in handleResultoptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+        <template v-if="violationShow">
+          <div style="margin-top:10px">
+            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">违规信息</div>
+            <el-row>
+              <el-col>
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;违规信息</div>
+                      <el-input
+                        v-model="warnMsg"
+                        :disabled="edit"
+                        placeholder="违规信息"
+                        style="width:90%"
+                        :rows="2"
+                        type="textarea"
                       />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col v-if="showbtn === false" :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理人</div>
-                    <el-input
-                      v-model="handlePersonName"
-                      :disabled="edit"
-                      placeholder="处理人"
-                      style="width:45%"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col v-if="showbtn === false" :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理时间</div>
-                    <el-input
-                      v-model="handleTime"
-                      :disabled="edit"
-                      placeholder="处理时间"
-                      style="width:45%"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col :span="12">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理意见</div>
-                    <el-input
-                      v-model="handleDesc"
-                      :disabled="edit"
-                      placeholder="处理意见"
-                      style="width:45%"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row>
-        </div>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row>
+          </div>
+        </template>
+        <template v-if="violationShow">
+          <div style="margin-top:10px">
+            <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">处理信息</div>
+            <el-row>
+              <el-col :span="12">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理结果</div>
+                      <el-select
+                        v-model="handleResult"
+                        :disabled="edit"
+                        placeholder="处理结果"
+                        style="width:45%"
+                      >
+                        <el-option
+                          v-for="item in handleResultoptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col v-if="showbtn === false" :span="12">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理人</div>
+                      <el-input
+                        v-model="handlePersonName"
+                        :disabled="edit"
+                        placeholder="处理人"
+                        style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col v-if="showbtn === false" :span="12">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理时间</div>
+                      <el-input
+                        v-model="handleTime"
+                        :disabled="edit"
+                        placeholder="处理时间"
+                        style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+              <el-col :span="12">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理意见</div>
+                      <el-input
+                        v-model="handleDesc"
+                        :disabled="edit"
+                        placeholder="处理意见"
+                        style="width:45%"
+                      />
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
+            </el-row>
+          </div>
+        </template>
       </div>
       <div slot="footer" style="height: 80px;margin:0 15px">
         <div v-if="showbox" id="bigbox"></div>
@@ -178,6 +182,7 @@ export default {
   },
   data() {
     return {
+      violationShow: true,
       warnMsg: '',
       dialogVisibleShow: false,
       dialogTitle: '查看详情',
