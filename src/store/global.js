@@ -20,14 +20,22 @@ export const state = { // 实时监听state值的变化(最新状态)
   systemMenu: {},
   lookAduitJxData: {},
   userRolesData: [], // 用户角色
-  projectList: []// 项目列表
+  projectList: [], // 项目列表
+  colorList: [
+    { warningLabel: '黄色预警', color: '#FFD43C', colorStyle: 'color: #FFD43C;' },
+    { warningLabel: '橙色预警', color: '#FF6F20', colorStyle: 'color: #FF6F20;' },
+    { warningLabel: '红色预警', color: '#ff0000', colorStyle: 'color: #ff0000;' },
+    { warningLabel: '灰色预警', color: '#F1F1F1', colorStyle: 'color: #F1F1F1;' },
+    { warningLabel: '蓝色预警', color: '#0000ff', colorStyle: 'color: #0000ff;' }
+  ]
 }
 export const getters = {
   dict() { // 预警级别option
     return state.warnInfo.warnLevelOptions.map(item => {
       return {
         ...item,
-        value: String(item.value)
+        value: String(item.value),
+        ...state.colorList.find(colorItem => { return colorItem.warningLabel === item.label || colorItem.warningLabel === item.warnName })
       }
     })
   },

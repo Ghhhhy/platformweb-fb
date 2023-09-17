@@ -16,11 +16,13 @@ import jsoneditor from 'jsoneditor'
 // import globleRenders from '../components/Table/config/defaultRenders.js'
 import globleRenders from '@bszx/boss-ui/packages/Table/src/config/render/index'
 // import globleRenders from '../../.yalc/@bszx/boss-ui/packages/Table/src/config/render/index'
+import { customerTableCellRender } from '@/components/customerItemRender/tableColumnsRender'
+const renders = { ...globleRenders, ...customerTableCellRender }
 
 const vxeTable = {
   install: function (Vue) {
-    for (let i in globleRenders) {
-      VXETable.renderer.add(i, globleRenders[i])
+    for (let i in renders) {
+      VXETable.renderer.add(i, renders[i])
     }
     VXETable.setup({
       icon: {
