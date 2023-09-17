@@ -274,25 +274,14 @@ export default {
           align: 'left'
         },
         {
-          'title': '预警级别',
-          'field': 'warnLevel',
-          'fixed': '',
-          'width': '100',
-          'type': 'html',
-          'align': 'center',
-          'formula': '',
-          'constraint': '',
-          'combinedType': '',
-          'sortable': '1',
-          'associatedQuery': {
-            'queryMethods': '',
-            'queryUrl': '',
-            'params': {}
-          },
-          'dragSort': null,
-          'className': '',
-          'combinedType_select_sort': '',
-          'filters': ''
+          title: '预警级别', // 无颜色
+          'width': 180,
+          field: 'warnLevel',
+          sortable: false,
+          filters: false,
+          cellRender: {
+            name: '$warningLevelRender'
+          }
         },
         {
           title: '监控状态',
