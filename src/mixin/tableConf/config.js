@@ -49,7 +49,7 @@ export default {
       return new Promise(function(resolve) {
         configModule.getConfig(tableId).then(res => {
           if (res.rscode === '100000') {
-            configData = self.$ToolFn.utilFn.strToJson(res.data.configure || '{}')
+            configData = self.$ToolFn.utilFn.strToJson(res.data?.configure || '{}')
             resolve(configData)
           } else {
             resolve(configData.data)
