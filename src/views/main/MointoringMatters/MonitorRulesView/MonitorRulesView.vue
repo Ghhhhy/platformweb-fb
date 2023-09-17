@@ -194,7 +194,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5)?.show === 'show' ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
+        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5).hasOwnProperty('show') ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -969,7 +969,6 @@ export default {
         if (!this.regulationClass) this.regulationClass = '09,08,07'
         if (this.isSx) this.regulationClass = '0201'
       }
-      console.log(778, this.regulationClass)
     },
     initTreeType() {
       if (this.isZDZJ) { // 如果是直达资金监控规则库
