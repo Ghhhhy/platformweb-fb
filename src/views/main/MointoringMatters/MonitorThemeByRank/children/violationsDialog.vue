@@ -59,6 +59,7 @@
     </vxe-modal>
     <DetailDialog
       v-if="dialogVisible"
+      ref="DetailDialog"
       :title="dialogTitle"
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
@@ -343,6 +344,13 @@ export default {
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
+          this.$nextTick(() => {
+            if (Number(selection[0].warnLevel) === 3) {
+              this.$refs.DetailDialog.violationShow = true
+            } else {
+              this.$refs.DetailDialog.violationShow = false
+            }
+          })
           break
         case 'sign': // 生成
           let temp = this.$refs.mainTableRef.getSelectionData()

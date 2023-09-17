@@ -364,7 +364,7 @@ export class Export {
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetVisibleData.addRow()
 
-      row.seqIndex = !self?.tableComponentInstance?.treeConfig ? rowIndex + 1 : self.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
+      row.seqIndex = !self?.tableComponentInstance?.treeConfig ? rowIndex + 1 : self.tableComponentInstance?.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
 
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
@@ -387,13 +387,17 @@ export class Export {
   generateCellViewValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance?.treeConfig ? this.tableComponentInstance?.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = this.getViewCellValue(item, column)
     }
 
     // 树形表格设置缩进
     const indent = !column.treeNode || !pRowIndex ? 0 : (item[rowUniqueLevelKey] || 0) * 2
+    if (column.customerExportStyle && typeof column.customerExportStyle === 'function') {
+      this.generateCellViewValueCustomerExportStyle(cell, column, indent, item)
+      return
+    }
     this.generateCellViewValueStyle(cell, column, indent)
   }
   generateFooterCellViewValue(cell, value, column) {
@@ -476,6 +480,28 @@ export class Export {
       v: 'center'
     }
   }
+  generateCellViewValueCustomerExportStyle(cell, column, indent, row) {
+    cell.style.align = Object.assign({}, column.customerExportStyle({ row, column }).align || {
+      indent: indent || 0,
+      shrinkToFit: false,
+      textRotation: 0,
+      wrapText: false,
+      h: getCellValueAlign(column),
+      v: 'center'
+    })
+    cell.style.border = Object.assign({}, column.customerExportStyle({ row, column }).border || {
+      left: 'thin',
+      right: 'thin',
+      top: 'thin',
+      bottom: 'thin',
+      leftColor: 'FF000000',
+      rightColor: 'FF000000',
+      topColor: 'FF000000',
+      bottomColor: 'FF000000'
+    })
+    cell.style.fill = Object.assign({}, column.customerExportStyle({ row, column }).fill || {})
+    cell.style.font = Object.assign({}, column.customerExportStyle({ row, column }).font || {})
+  }
   generateExportOriginalDataHeader() {
     // 设置表头部样式
     /**
@@ -517,7 +543,7 @@ export class Export {
     let self = this
     data.forEach((row, rowIndex) => {
       let newrow = self.sheetOriginalData.addRow()
-      row.seqIndex = !self.tableComponentInstance.treeConfig ? rowIndex + 1 : this.tableComponentInstance.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
+      row.seqIndex = !self.tableComponentInstance?.treeConfig ? rowIndex + 1 : this.tableComponentInstance?.isTreeSeqToFlat ? row.seqIndex : pRowIndex + '.' + (+rowIndex + 1)
       self.dataColMap.forEach((column, columnIndex) => {
         let cell = newrow.addCell()
         self.generateCellOrangeValue(cell, row, column, rowIndex + 1, pRowIndex)
@@ -530,7 +556,7 @@ export class Export {
   generateCellOrangeValue(cell, item, column, rowIndex, pRowIndex) {
     // 生成body单元格数据
     if (column.field === 'seqIndex') {
-      cell.value = this.tableComponentInstance.treeConfig ? this.tableComponentInstance.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
+      cell.value = this.tableComponentInstance?.treeConfig ? this.tableComponentInstance?.isTreeSeqToFlat ? item.seqIndex : pRowIndex + '.' + rowIndex : rowIndex
     } else {
       cell.value = item[column.field] === undefined ? '' : item[column.field]
     }
