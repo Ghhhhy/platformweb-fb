@@ -533,12 +533,12 @@ export let proconf = {
   gloableOptionRow: {
     renderDefault(h, cellRender, params, context) {
       let self = context.$grid.$parent
-      let { row, column } = params
+      let { row } = params
       // const main = self.$parent.$parent.$parent.$parent
       // let status = main._data.toolBarStatusSelect.curValue
       return [
         <el-tooltip content="附件" placement="top" effect="light">
-          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>附件</a>,
+          <a class="gloable-option-row-attachment gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, optionType: 'attachment' })}>附件</a>,
         </el-tooltip>
       ]
     }
