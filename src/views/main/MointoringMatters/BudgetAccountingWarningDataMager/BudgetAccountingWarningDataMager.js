@@ -96,7 +96,7 @@ export let proconf = {
     },
     {
       title: '支付申请编号',
-      field: 'payAppNo',
+      field: 'payApplyNumber',
       width: '8',
       align: 'left',
       formula: '',
@@ -144,7 +144,8 @@ export let proconf = {
     status: '',
     businessFunctionCode: '',
     createTime: '',
-    warnTotal: ''
+    warnTotal: '',
+    payApplyNumber: ''
   },
   highQueryConfig1: [
     {
