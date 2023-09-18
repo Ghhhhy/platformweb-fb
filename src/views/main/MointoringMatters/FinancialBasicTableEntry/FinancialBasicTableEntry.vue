@@ -2906,7 +2906,8 @@ export default {
       }
       this.condition = condition
       console.log(this.condition)
-      this.month = Number(this.condition.month[0])
+      this.month = Number(this.condition.month[0]) || moment().month() + 1
+      this.searchDataList.month = this.month
       this.queryTableDatas()
     },
     // tab切换
@@ -3341,7 +3342,7 @@ export default {
     }
   },
   created() {
-    let month = moment().month()
+    let month = moment().month() + 1
     this.searchDataList.month = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
