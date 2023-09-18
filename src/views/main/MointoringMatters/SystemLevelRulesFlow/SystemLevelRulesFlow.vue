@@ -668,12 +668,13 @@ export default {
       })
     },
     getRegulation() {
+      let that = this
       HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getRegulationChildrenData1(res.data)
-          this.queryConfig[0].itemRender.options = treeResdata
+          let treeResdata = that.getRegulationChildrenData1(res.data)
+          that.queryConfig[0].itemRender.options = treeResdata
         } else {
-          this.$message.error('下拉树加载失败')
+          that.$message.error('下拉树加载失败')
         }
       })
     },
@@ -684,7 +685,7 @@ export default {
         item.name = item.ruleName
         item.label = item.code + '-' + item.ruleName
         if (item.children.length > 0) {
-          that.getRegulationChildrenData(item.children)
+          that.getRegulationChildrenData1(item.children)
           item.leaf = false
         } else {
           item.leaf = true

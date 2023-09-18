@@ -55,7 +55,7 @@
         <el-row>
           <el-col :span="24">
             <div style="display: flex; align-content: center">
-              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0">&nbsp;疑似违规说明</span>
+              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0"><font color="red">*</font>&nbsp;疑似违规说明</span>
               <el-input
                 v-model="doubtViolateExplain"
                 type="textarea"
@@ -824,6 +824,10 @@ export default {
         dataList: [param],
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
+      }
+      if (!this.doubtViolateExplain) {
+        this.$message.warning('请填写疑似违规说明')
+        return
       }
       this.addLoading = true
       HttpModule.handleAdd(newParams).then(res => {

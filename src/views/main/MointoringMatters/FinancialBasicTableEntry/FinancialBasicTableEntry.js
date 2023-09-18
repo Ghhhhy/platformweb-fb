@@ -1,4 +1,5 @@
 // import store from '@/store/index'
+import moment from 'moment'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -169,7 +170,7 @@ export let proconf = {
     }
   ],
   highQueryData: {
-    month: ''
+    month: moment().month() + 1
   },
   // table 操作按钮
   gloableOptionRow: {

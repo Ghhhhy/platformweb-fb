@@ -1,5 +1,6 @@
 //  监控函数api
 import { post, get } from '@/api/http'
+import store from '@/store/index'
 export default {
   // 查询附件
   getFile(params) {
@@ -40,7 +41,10 @@ export default {
   },
   // 预算回显信息
   budgetgetDetail(params, prams2 = 0) {
-    return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + `/${prams2}`)
+    if (store.getters.isSx) {
+      return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + '/1')
+    }
+    return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + '/0')
   },
   // 获取违规类型枚举
   queryViolationType(params) {

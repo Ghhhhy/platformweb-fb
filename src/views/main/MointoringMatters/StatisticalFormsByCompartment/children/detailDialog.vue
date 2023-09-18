@@ -1,8 +1,7 @@
 <template>
-  <div v-loading="tableLoading" style="height: 100%">
+  <div style="height: 100%">
     <vxe-modal
       v-model="showViolations"
-      v-loading="tableLoading"
       :title="title"
       width="96%"
       height="90%"
