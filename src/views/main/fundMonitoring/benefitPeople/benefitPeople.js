@@ -335,6 +335,14 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '证件号码',
+      width: 180,
+      field: 'idenNo',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
       title: '姓名',
       width: 180,
       field: 'perName',
@@ -381,7 +389,7 @@ export let proconf = {
     {
       title: '企业名称',
       width: 180,
-      field: 'corpName;',
+      field: 'corpName',
       sortable: false,
       filters: false,
       align: 'center'

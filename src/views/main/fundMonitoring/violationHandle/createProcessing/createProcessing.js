@@ -8,6 +8,8 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{mofDivCode}-{mofDivName}',
+    exportFormatter: true,
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     }
@@ -20,14 +22,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '单位编码',
-    width: 180,
-    field: 'agencyCode',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '单位编码',
+  //   width: 180,
+  //   field: 'agencyCode',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '预算单位',
     width: 180,
@@ -35,6 +37,8 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{agencyCode}-{agencyName}',
+    exportFormatter: true,
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
     }
@@ -147,7 +151,8 @@ const budgetImpColumns = [
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
     formatter({ row }) {
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
-    }
+    },
+    tooltipFormat: '{trackProCode}-{trackProName}'
   },
   {
     title: '预算项目',
@@ -156,6 +161,8 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
+    tooltipFormat: '{proCode}-{proName}',
+    exportFormatter: true,
     formatter({ row }) {
       return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
     }
@@ -655,6 +662,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{proCode}-{proName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       }
@@ -817,6 +826,8 @@ export const proconf = {
         options: [],
         defaultValue: ''
       },
+      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
@@ -828,6 +839,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{agencyCode}-{agencyName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
@@ -889,6 +902,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
@@ -909,14 +924,14 @@ export const proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '预算单位编码',
-      'width': 180,
-      field: 'agencycode',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '预算单位编码',
+    //   'width': 180,
+    //   field: 'agencycode',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '预算单位名称',
       'width': 180,
@@ -2623,6 +2638,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       }
@@ -2634,6 +2651,8 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
+      tooltipFormat: '{agencyCode}-{agencyName}',
+      exportFormatter: true,
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       }
@@ -2835,7 +2854,7 @@ export const proconf = {
           }
         }),
         defaultValue: '',
-        props: { disabled: true }
+        props: { placeholder: '预警级别', disabled: true }
       },
       name: '$vxeSelect'
     },

@@ -581,7 +581,7 @@ export default {
     dialogClose() {
       console.log('==========')
       this.fiRuleCode = ''
-      this.$emit('close')
+      this.$emit('close', this.title)
       this.$parent.showDialogVisible = false
       // if (this.param5.isCreate === 'true') {
       //   this.$parent.queryTableDatas()
