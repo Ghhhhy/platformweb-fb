@@ -1334,10 +1334,10 @@ export default {
     getChildrenNewData1(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.name
         item.code = item.id
         item.guid = item.id
-        item.name = item.text
+        // item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
