@@ -93,6 +93,7 @@ export default {
       isShowQueryConditions: true,
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
+      hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
       detailVisible: true,
       tableFooterConfig: {
         showFooter: false
@@ -104,7 +105,8 @@ export default {
         currentPage: 1,
         pageSize: 20
       },
-      tableData: [],
+      tableData: [
+      ],
       condition: {},
       tableToolbarConfig: {
         // table工具栏配置
@@ -348,6 +350,16 @@ export default {
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       // 有效的cellValue
@@ -421,6 +433,9 @@ export default {
   },
   watch: {},
   created() {
+    if (this.hideColumnLinkStr.projectCode === 'SH') {
+      this.tableFooterConfig.showFooter = true
+    }
   }
 }
 </script>
