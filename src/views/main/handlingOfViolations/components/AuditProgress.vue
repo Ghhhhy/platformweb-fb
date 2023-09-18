@@ -112,7 +112,7 @@ export default defineComponent({
           getAuditDescriptionColumn({ title: '处理说明/处理意见' })
         )
         let index = common.findIndex(item => item.field === 'createBy')
-        common.splice(index, 0, {
+        common.splice(index + 1, 0, {
           field: 'curStatusName',
           title: '处理状态',
           width: 220,
