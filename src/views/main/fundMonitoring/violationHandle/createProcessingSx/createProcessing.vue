@@ -50,6 +50,7 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AddDialog
       v-if="dialogVisible"
+      ref="AddDialog"
       :title="dialogTitle"
       :param5="param5"
       :warning-code="warningCode"
@@ -345,8 +346,9 @@ export default {
       this.warningCode = val.row.warningCode || ''
       this.dialogVisible = true
       this.dialogTitle = '查看详情信息'
-      //   }
-      // })
+      this.$nextTick(() => {
+        this.$refs.AddDialog.bussnessId = val.row.businessModuleCode
+      })
     },
     changeVisible(val) {
       console.log(val, '输出')

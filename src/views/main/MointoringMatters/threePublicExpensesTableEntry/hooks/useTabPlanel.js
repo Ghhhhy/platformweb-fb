@@ -75,7 +75,7 @@ function useTabPlanel(
   /**
    * 导出
    */
-  function exportHandle(successMsg) {
+  function exportHandle(successMsg, type = 'export') {
     try {
       exportInstance.exportExcel({
         isExportTree: true,
@@ -89,8 +89,8 @@ function useTabPlanel(
         isExportOriginalData: false, // 是否导出源数据
         isExportData: true, // 是否导出数据
         columns: unref(currentColumns), // 表头配置
-        fullData: unref(tableData),
-        datas: unref(tableData), // 源数据,
+        fullData: type !== 'template' ? unref(tableData) : [{}],
+        datas: type !== 'template' ? unref(tableData) : [{}], // 源数据,
         index: false // 是否添加序号,
       }, {})
       Message.success(successMsg || '导出成功！')
