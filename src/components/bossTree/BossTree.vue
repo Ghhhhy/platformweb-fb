@@ -225,7 +225,11 @@ export default {
       //   }
       // })
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      let filterByKey = 'label'
+      if (typeof this.treeProps === 'object' && JSON.stringify(this.treeProps) !== '{}') {
+        this.treeProps.label && (filterByKey = this.treeProps.label)
+      }
+      return data[filterByKey].indexOf(value) !== -1
     },
 
     // 获取缓存数据

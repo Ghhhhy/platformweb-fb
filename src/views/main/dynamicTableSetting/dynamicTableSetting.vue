@@ -310,7 +310,7 @@ export default {
       })
     },
     changeInput(val) {
-      this.treeleftTreeConfig.inputVal = val
+      this.$refs.testTree.filterText = val
     },
     confrimData(curTree) {
       this.confrimData.curRadio = curTree.code
@@ -782,7 +782,7 @@ export default {
   },
   mounted() {
     this.setLeftMenuTree()
-    if (this.$gloableToolFn.currentProvince === this.$gloableToolFn.FuJian) {
+    if (this.$gloableToolFn?.currentProvince === this.$gloableToolFn?.FuJian) {
       this.getProvince()
     }
   },
