@@ -76,6 +76,7 @@ import MonitProcFeedbackModal from './monitProcFeedbackModal.vue'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 import AddDialog from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/addDialog.vue'
 export default {
+  name: 'MonitProcFeedback',
   mixins: [loadBsConfig],
   components: {
     MonitProcFeedbackModal,
