@@ -109,7 +109,7 @@
     <ImportModel
       :file-config="fileConfig"
       :import-modal-visible.sync="importModalVisible"
-      @onDownloadTemplateClick="() => exportHandle('下载成功！')"
+      @onDownloadTemplateClick="() => exportHandle('下载成功！','template')"
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
