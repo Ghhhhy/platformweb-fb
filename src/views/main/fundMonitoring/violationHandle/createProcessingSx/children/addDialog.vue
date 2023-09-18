@@ -369,6 +369,7 @@ export default {
   },
   data() {
     return {
+      bussnessId: '',
       // 规则详情信息
       DetailData: {},
       dialogVisibleShow: false,
@@ -523,6 +524,13 @@ export default {
         this.$parent.getdata()
       }
     },
+    setFormItem() { // 设置详情信息字段
+      const routes = ['WarnRegionBySpecial', 'WarnRegion', 'CreateProcessingBySpecial', 'QueryProcessingBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'CreateProcessing', 'QueryProcessing']
+      console.log(123, routes, this.bussnessId)
+      if (['6', 2, '2'].includes(this.bussnessId) && routes.includes(this.$route.name)) {
+        this.incomeMsgConfig = proconf.bgtMsgConfig
+      }
+    },
     // 回显
     showInfo() {
       this.addLoading = true
@@ -533,6 +541,7 @@ export default {
       if (this.title === '查看详情信息') {
         HttpModule.budgetgetDetail(code).then(res => {
           this.addLoading = false
+          this.setFormItem()
           if (res.code === '000000') {
             // let handledata = res.data.executeData
             // handledata.createTime = res.data.createTime
@@ -582,6 +591,34 @@ export default {
               this.supplyDataList.payAcctNo = res.data.executeData.payAcctNo
               this.supplyDataList.payAcctBankName = res.data.executeData.payAcctBankName
               this.supplyDataList.useDes = res.data.executeData.useDes
+            }
+            if (res.data.baBgtInfoEntity !== null) {
+              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, timeoutIssueAmount, timeoutIssueTime, curAmt } = res.data.baBgtInfoEntity
+              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
+              this.supplyDataList.proName = proCode + '-' + proName
+              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
+              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
+              this.supplyDataList.fiscalYear = fiscalYear || ''
+              this.supplyDataList.recDivName = recDivName || ''
+              this.supplyDataList.mofDivName = mofDivName || ''
+              this.supplyDataList.proCode = proCode// 项目类别
+              this.supplyDataList.proName = proName || ''
+              this.supplyDataList.recTime = recTime || ''
+              this.supplyDataList.recAmount = recAmount || ''
+              this.supplyDataList.allocationAmount = allocationAmount || ''
+              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
+              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
+              this.supplyDataList.curAmt = curAmt || ''
+
+              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
+              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
+              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
+              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
+              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
+              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
+              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
+              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
+              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
