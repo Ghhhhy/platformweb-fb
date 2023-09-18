@@ -345,28 +345,28 @@
                 </el-main>
               </el-container>
             </el-col>
-            <!--<el-col :span="8">-->
-            <!--  <el-container>-->
-            <!--    <el-main width="100%">-->
-            <!--      <el-row>-->
-            <!--        <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>-->
-            <!--        <el-select-->
-            <!--          v-model="warnLocation"-->
-            <!--          :disabled="disabled"-->
-            <!--          placeholder="请选择提醒位置"-->
-            <!--          style="width:45%"-->
-            <!--        >-->
-            <!--          <el-option-->
-            <!--            v-for="item in warnLocationOptions"-->
-            <!--            :key="item.value"-->
-            <!--            :label="item.label"-->
-            <!--            :value="item.value"-->
-            <!--          />-->
-            <!--        </el-select>-->
-            <!--      </el-row>-->
-            <!--    </el-main>-->
-            <!--  </el-container>-->
-            <!--</el-col>-->
+            <el-col v-if="sx" :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
+                    <el-select
+                      v-model="warnLocation"
+                      :disabled="disabled"
+                      placeholder="请选择提醒位置"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnLocationOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -411,7 +411,6 @@
                 </el-main>
               </el-container>
             </el-col>
-
           </el-row>
           <el-row>
             <el-col :span="24">
@@ -471,52 +470,6 @@
               </el-container>
             </el-col>
           </el-row>
-          <!-- <el-row>
-            <el-col :span="8">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;主管部门</div>
-                    <el-select
-                      v-model="departmentCode"
-                      placeholder="请选择主管部门"
-                      style="width:45%"
-                      @change="changeDepartmentCode"
-                    >
-                      <el-option
-                        v-for="item in departmentCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-            <el-col :span="8">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;业务处室</div>
-                    <el-select
-                      v-model="manageCode"
-                      placeholder="请选择业务处室"
-                      style="width:45%"
-                      @change="changeManageCode"
-                    >
-                      <el-option
-                        v-for="item in manageCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row> -->
         </div>
       </div>
       <div style="margin-bottom: 10px; color: red">
@@ -662,6 +615,7 @@ export default {
         trigger: 'dblclick',
         mode: 'cell'
       },
+      sx: this.$store.getters.isSx,
       disabled: false,
       toolbarConfig: {
         batchModify: false,
@@ -1691,7 +1645,7 @@ export default {
         'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
         menuName: this.$store.state.curNavModule.name,
         'ruleFlag': that.ruleFlag,
-        // 'warnLocation': that.warnLocation,
+        'warnLocation': that.warnLocation,
         isFull: isFull,
         ruleElement: {
           payment: formDatas.payment,
@@ -2003,7 +1957,7 @@ export default {
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
+      this.warnLocation = this.$parent.DetailData.warnLocation
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
       this.implDesc = this.$parent.DetailData.implDesc
@@ -2015,7 +1969,7 @@ export default {
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
+      this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
       // this.regulationClass = this.$parent.DetailData.regulationClass
