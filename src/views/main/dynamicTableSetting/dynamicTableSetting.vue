@@ -12,7 +12,7 @@
         <div class="height-all left-tree-pane">
           <div class="mmc-left-tree-title">
             <BsTreeSet
-              :tree-config="treeConfig"
+
               @onAsideChange="leftVisible = false"
               @onChangeInput="changeInput"
               @onConfrimData="confrimData"
