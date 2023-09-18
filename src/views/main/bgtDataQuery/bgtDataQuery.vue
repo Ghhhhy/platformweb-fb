@@ -867,6 +867,23 @@ export default {
           this.isLoadingShow = false
         })
     },
+    getSearchDataListFn(searchFormConfig) {
+      let searchDataObj = {}
+      if (Array.isArray(searchFormConfig) && searchFormConfig.length) {
+        searchFormConfig.forEach(item => {
+          if (item.itemRender?.name === '$formTreeInput' || item.itemRender?.name === '$vxeTree') {
+            if (item.field) {
+              searchDataObj[item.field + 'code'] = []
+            }
+          } else {
+            if (item.field) {
+              searchDataObj[item.field] = []
+            }
+          }
+        })
+      }
+      return searchDataObj
+    },
     handleSureSetting() {
       let currentTbl = this.$refs.settingTableRef.getTableData().fullData
       let selectionData = this.$refs.settingTableRef.getSelectionData()
@@ -888,7 +905,7 @@ export default {
           })
         }
       })
-      this.queryFormData = this.$ToolFn.getSearchDataListFn(this.queryFormItemConfig)
+      this.queryFormData = this.getSearchDataListFn(this.queryFormItemConfig)
       this.tableColumnsConfig = []
       this.tableData = []
       if (fields.length > 0) {
@@ -1010,7 +1027,7 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryFormItemConfig.forEach(item => {
+      this.queryFormItemConfig?.forEach(item => {
         if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
           if (item.field) {
             if (item.field === 'cor_bgt_doc_no_') {
@@ -1147,7 +1164,7 @@ export default {
           }
         }
       }
-      this.queryFormItemConfig.forEach(item => {
+      this.queryFormItemConfig?.forEach(item => {
         if (item.islike === true && val[item.field]) {
           condition[item.field] = {}
           condition[item.field][item.liketype] = val[item.field]
