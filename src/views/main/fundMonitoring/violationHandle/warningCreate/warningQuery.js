@@ -482,7 +482,7 @@ const proconf = {
         props: {
           type: 'date', //
           placeholder: '指标接收截止时间',
-          'value-format': 'yyyy-MM-dd 00:00:00',
+          'value-format': 'yyyy-MM-dd 23:59:59',
           'label-format': 'yyyy-MM-dd'
         }
       }
@@ -516,7 +516,7 @@ const proconf = {
         props: {
           type: 'date', //
           placeholder: '支付截止时间',
-          'value-format': 'yyyy-MM-dd 00:00:00',
+          'value-format': 'yyyy-MM-dd 23:59:59',
           'label-format': 'yyyy-MM-dd'
         }
       }
