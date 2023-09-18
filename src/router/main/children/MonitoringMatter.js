@@ -1560,6 +1560,16 @@ export default [
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
   },
+  // 专项预警级别+区划全辖菜单
+  {
+    path: '/SXSpeStatisticalFormsByCompartment',
+    name: 'SXSpeStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
   // 陕西部分菜单单独分离出一个
   {
     path: '/SXWarningDetailsByRuleAll',
