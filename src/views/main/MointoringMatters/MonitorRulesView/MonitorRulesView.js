@@ -100,9 +100,9 @@ export let proconf = {
         props: {
           config: {
             valueKeys: ['label', 'value'],
-            format: '{label}',
+            format: '{value}-{label}',
             treeProps: {
-              labelFormat: '{label}', // {code}-{name}
+              labelFormat: '{value}-{label}', // {code}-{name}
               nodeKey: 'value',
               label: 'label',
               children: 'children'
