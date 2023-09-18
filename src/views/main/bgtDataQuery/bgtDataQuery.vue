@@ -602,7 +602,7 @@ export default {
       this.templateModal = true
     },
     handleTemplateUse() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -612,7 +612,7 @@ export default {
       this.cancelDialogCloseTemplate()
     },
     setDefalutTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -632,7 +632,7 @@ export default {
       })
     },
     deleteTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -710,8 +710,8 @@ export default {
           }
         ]
       }
-      let fields = self.$refs.settingTableRef.getTableData().fullData
-      this.$refs.settingTableRef.getSelectionData().forEach(item => {
+      let fields = self.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
+      this.$refs.settingTableRef.$refs.xGrid.getSelectRecords().forEach(item => {
         fields.forEach(items => {
           if (item.code === items.code) {
             items.checked = true
@@ -885,8 +885,8 @@ export default {
       return searchDataObj
     },
     handleSureSetting() {
-      let currentTbl = this.$refs.settingTableRef.getTableData().fullData
-      let selectionData = this.$refs.settingTableRef.getSelectionData()
+      let currentTbl = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
+      let selectionData = this.$refs.settingTableRef.$refs.xGrid.getSelectRecords()
       let fields = []
       let canUse = []
       selectionData.forEach((item) => {
@@ -1097,7 +1097,7 @@ export default {
     },
     handleToTop(index) {
       if (index !== 0) {
-        let tableData = this.$refs.settingTableRef.getTableData().fullData
+        let tableData = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
         let temp = tableData[index - 1]
         tableData[index - 1] = tableData[index]
         tableData[index] = temp
@@ -1106,7 +1106,7 @@ export default {
       }
     },
     handleToBottom(index) {
-      let tableData = this.$refs.settingTableRef.getTableData().fullData
+      let tableData = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
       if (index !== tableData.length - 1) {
         let temp = tableData[index + 1]
         tableData[index + 1] = tableData[index]
@@ -1255,11 +1255,13 @@ export default {
     }
   },
   created() {
+  },
+  mounted() {
     this.getInitTemplate()
     if (window.localStorage.getItem('bgtDataQuery') !== null) {
       let bgtDataQuery = JSON.parse(window.localStorage.getItem('bgtDataQuery'))
       this.settingTableData = bgtDataQuery.tableData
-      let currentTbl = this.$refs.settingTableRef.getTableData().fullData
+      let currentTbl = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
       let fields = []
       let canUse = []
       currentTbl.forEach((item) => {
@@ -1379,10 +1381,9 @@ export default {
         }, 1000)
       }
     }
-  },
-  mounted() {
     this.getFormTable()
   }
+
 }
 </script>
 <style lang="scss" scoped>
