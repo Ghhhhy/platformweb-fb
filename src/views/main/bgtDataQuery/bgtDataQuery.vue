@@ -666,11 +666,11 @@ export default {
     handleSave(eventType) {
       let self = this
       if (self.modalName === '') {
-        self.warning('请填写模板名称！')
+        self.$message.warning('请填写模板名称！')
         return
       }
       if (self.modalName.length > 20) {
-        self.warning('模板名称请小于20字！')
+        self.$message.warning('模板名称请小于20字！')
         return
       }
       let saveParam = {
