@@ -844,7 +844,7 @@ export default {
     },
     getTableData(params) {
       this.isLoadingShow = true
-      this.currentParams = params
+      this.currentParams = params || {}
       params.type = this.isShowDetails ? '1' : '0'
       HTTPModule.dataQueryPageInfo(params)
         .then((res) => {
@@ -1147,6 +1147,7 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     handleSearch(val) {
+      // debugger
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -1170,7 +1171,7 @@ export default {
           condition[item.field][item.liketype] = val[item.field]
         }
       })
-      Object.assign(this.currentParams.condition, condition)
+      Object.assign(this.currentParams.condition || {}, condition)
       this.getTableData(this.currentParams)
       this.$message.success('查询成功！')
     },
