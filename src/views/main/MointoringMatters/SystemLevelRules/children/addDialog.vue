@@ -50,8 +50,8 @@
             :footer-config="{ showFooter: false }"
             :table-columns-config="monitorTableColumnsConfig"
             :table-data="operationTableData"
-            :table-config="tableConfig"
-            :toolbar-config="buttonConfig"
+            :table-config="globalConfig"
+            :toolbar-config="toolbarConfig"
             :pager-config="false"
             @onToolbarBtnClick="onToolbarBtnClick"
           >
@@ -599,6 +599,29 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    toolbarConfig() {
+      return {
+        disabledMoneyConversion: false,
+        moneyConversion: false, // 是否有金额转换
+        import: false,
+        checkType: this.title !== '查看详情',
+        refresh: this.title !== '查看详情'
+      }
+    },
+    globalConfig() {
+      let config = { // 全局默认渲染列配置
+        // 全局配置
+        checkType: '', // hasCheckbox 可选值 ''||checkbox||radio
+        seq: false // 序号列
+      }
+      if (this.title === '查看详情') {
+        return {
+          ...config,
+          ...this.tableConfig
+        }
+      }
+      return this.tableConfig
     }
   },
   props: {
@@ -618,21 +641,7 @@ export default {
       },
       sx: this.$store.getters.isSx,
       disabled: false,
-      toolbarConfig: {
-        batchModify: false,
-        moneyConversion: false, // 是否有金额转换,
-        disabledMoneyConversion: false,
-        import: false,
-        calculator: false,
-        slots: {
-          tools: 'toolbarTools',
-          buttons: 'toolbarSlots'
-        },
-        buttons: [
-          { code: 'sure', name: '确定', status: 'primary', callback: this.sureButton },
-          { code: 'cancel', name: '取消', status: '', callback: this.cancelButton }
-        ]
-      },
+
       editRulesIn: {
         param: [{ required: true, type: 'float', trigger: 'change', message: '请输入规则定义的参数值' }]
       },
@@ -1228,6 +1237,10 @@ export default {
       this.$parent.dialogVisible = false
       this.$parent.dialogVisibleRules = false
       this.$parent?.queryTableDatas?.()
+      // 重置
+      this.searchDataList.ruleTemplateName = ''
+      this.searchDataList.businessSystemName = ''
+      this.searchDataList.businessModuleName = ''
     },
     // 处理字符串
     dealwithStr(str) {

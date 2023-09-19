@@ -748,6 +748,9 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
     this.setMonitorThemeTreeShow()
+    if (this.$store.state.curNavModule.f_FullName.substring(0, 3) === '系统级') { // 系统级别去掉触发菜单
+      this.PoliciesTableColumns.splice(this.PoliciesTableColumns.findIndex(item => item.field === 'businessFunctionName'), 1)
+    }
     // this.queryTableDatas()
   }
 }
