@@ -40,6 +40,14 @@
   box-sizing: border-box;
   padding-top: 0 !important;
 }
+.TabKeepRouter-con .tabList{
+  height: 39px !important;
+  line-height: 39px !important;
+}
+/*定义CSS变量*/
+.fn-inline.tabList::-webkit-scrollbar {
+  height: 4px !important;
+}
 .tab-option-content.fn-inline{
   height: 40px !important;
   line-height: 40px;
@@ -115,5 +123,11 @@
   .TabKeepRouter-con .tab-option-select p{
     vertical-align: middle;
     margin: 0px 4px 0 0 !important;
+  }
+  .TabKeepRouter-con .tab-con-main .offset{
+    padding: 0 10px;
+    box-sizing: border-box;
+    height: 39px;
+    line-height: 39px;
   }
 }
