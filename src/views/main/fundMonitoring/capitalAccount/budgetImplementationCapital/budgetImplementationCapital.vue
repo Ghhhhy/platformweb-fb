@@ -284,15 +284,28 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    // this.tableLoading = true
-    // setTimeout(() => {
-    //   this.tableLoading = false
-    //   this.initTableData()
-    // }, 2000)
-    // this.initTableData()
-  },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+        this.getMofDiv()
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+        this.searchDataList.fiscalYear = new Date().getFullYear()
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -329,6 +342,7 @@ export default {
         }
       })
       this.searchDataList = searchDataObj
+      this.searchDataList.fiscalYear = new Date().getFullYear()
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -562,7 +576,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -692,7 +706,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -765,6 +779,15 @@ export default {
           textDecoration: 'underline'
         }
       }
+    },
+    isConfigTable() {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
+  },
+  mounted() {
+    if (this.hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
     }
   },
   created() {

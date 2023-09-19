@@ -307,10 +307,28 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    this.getNewData()
-  },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+        this.getPro()
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+        this.searchDataList.fiscalYear = new Date().getFullYear()
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -337,6 +355,7 @@ export default {
         }
       })
       this.searchDataList = searchDataObj
+      this.searchDataList.fiscalYear = new Date().getFullYear()
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -569,7 +588,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -660,7 +679,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -752,6 +771,16 @@ export default {
           textDecoration: 'underline'
         }
       }
+    },
+    isConfigTable() {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
+  },
+  mounted() {
+    this.getNewData()
+    if (this.hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
     }
   },
   created() {
