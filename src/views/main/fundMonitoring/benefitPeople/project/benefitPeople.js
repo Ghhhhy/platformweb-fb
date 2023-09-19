@@ -356,6 +356,10 @@ export let proconf = {
       field: 'toPeopFamily',
       sortable: false,
       filters: false,
+      tooltipFormat: ({ row, column }) => {
+        const mapEnmu = { '01': '到人', '02': '到户' }
+        return mapEnmu[row.toPeopFamily] || ''
+      },
       formatter: ({ row }) => {
         const mapEnmu = { '01': '到人', '02': '到户' }
         return mapEnmu[row.toPeopFamily] || ''
@@ -465,7 +469,9 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
+      tooltipFormat: ({ row, column }) => {
+        return row.proCode + '-' + row.proName
+      },
       formatter: ({ row }) => {
         return row.proCode + '-' + row.proName
       }
@@ -477,7 +483,9 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
+      tooltipFormat: ({ row, column }) => {
+        return row.agencyCode + '-' + row.agencyName
+      },
       formatter: ({ row }) => {
         return row.agencyCode + '-' + row.agencyName
       }
