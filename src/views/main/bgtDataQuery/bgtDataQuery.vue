@@ -1262,7 +1262,7 @@ export default {
     if (window.localStorage.getItem('bgtDataQuery') !== null) {
       let bgtDataQuery = JSON.parse(window.localStorage.getItem('bgtDataQuery'))
       this.settingTableData = bgtDataQuery.tableData
-      let currentTbl = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
+      let currentTbl = this.$refs.mainTableRef.$refs.xGrid.getTableData().fullData
       let fields = []
       let canUse = []
       currentTbl.forEach((item) => {
