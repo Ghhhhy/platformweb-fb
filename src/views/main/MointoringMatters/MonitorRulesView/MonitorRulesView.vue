@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      isleaf: false,
       selectionData: [],
       leftTreeFilterText: '',
       // BsQuery 查询栏
@@ -700,7 +701,10 @@ export default {
       })
     },
     onClickmethod(node) {
+      console.log('node.node', node.node)
       let code = node.node.code
+      this.isleaf = node.node.isleaf
+      this.regulationClass = node.node.superguid
       if (this.isZDZJ) {
         this.warningLevel = node.node.code === '0' ? '' : node.node.code
       }
@@ -710,22 +714,8 @@ export default {
         this.getItem(code, treeData)
         this.queryTableDatas()
       } else {
-        let regulationClass = ''
-        let regulationType = ''
-        let regulationCode = ''
-        if (code.length === 2) {
-          regulationClass = node.node.code
-        } else if (node.node.code.length === 4) {
-          regulationClass = node.node.code
-          regulationType = this.regulationType
-        } else {
-          regulationClass = node.node.code
-          regulationType = this.regulationType
-          regulationCode = node.node.code
-        }
-        this.regulation_class = regulationClass
-        this.regulation_type = regulationType
-        this.regulation_code = regulationCode
+        this.regulationType = node.node.regulationType
+        this.regulation_code = node.node.code
         this.queryTableDatas()
       }
     },
@@ -789,9 +779,8 @@ export default {
         menuType: 1,
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
-        regulation_class: this.regulation_class,
-        regulation_type: this.regulation_type,
-        code: this.regulation_class
+        regulation_class: this.regulationClass,
+        regulation_type: this.regulationType
       }
       if (!this.isSx) {
         if (this.treeType === '1') {
@@ -800,7 +789,6 @@ export default {
           delete param.triggerClass
           delete param.fiRuleTypeCode
           delete param.regulation_class
-          delete param.regulation_type
         } else {
           param.isDir = this.isDir
           param.isSpeType = this.isSpeType
@@ -809,8 +797,7 @@ export default {
         if (!this.isZDZJ) {
           delete param.regulation_code
           delete param.regulation_class
-          delete param.regulation_type
-          param.regulationClass = this.regulation_class
+          param.regulationClass = this.regulationClass
           param.code = this.regulationClass
         }
       }
@@ -818,6 +805,11 @@ export default {
         param.businessModelCode = this.leftNode.code
       } else if (this.leftNode.businessType === 3) {
         param.businessFeaturesCode = this.leftNode.code
+      }
+      if (this.isleaf) {
+        param.regulation_code = this.regulation_code
+      } else {
+        delete param.regulation_code
       }
       this.tableLoading = true
       HttpModule.queryMonitorTableDatas(param).then(res => {
