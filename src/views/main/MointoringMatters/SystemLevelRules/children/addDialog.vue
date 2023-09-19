@@ -1237,6 +1237,10 @@ export default {
       this.$parent.dialogVisible = false
       this.$parent.dialogVisibleRules = false
       this.$parent?.queryTableDatas?.()
+      // 重置
+      this.searchDataList.ruleTemplateName = ''
+      this.searchDataList.businessSystemName = ''
+      this.searchDataList.businessModuleName = ''
     },
     // 处理字符串
     dealwithStr(str) {
