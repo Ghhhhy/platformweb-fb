@@ -40,7 +40,7 @@
           :title="menuName"
           :default-money-unit="10000"
           :cell-style="cellStyle"
-          :show-zero="false"
+          :show-zero="showZeroState"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
@@ -144,6 +144,8 @@ export default {
   },
   data() {
     return {
+      hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
+      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
@@ -305,10 +307,28 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    this.getNewData()
-  },
   methods: {
+    // 载入表头
+    async loadConfig(Type, id) {
+      let params = {
+        tableId: {
+          id: id,
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+        }
+      }
+      if (Type === 'BsTable') {
+        let configData = await this.loadBsConfig(params)
+        this.tableColumnsConfig = configData.itemsConfig
+        this.getPro()
+      }
+      if (Type === 'BsQuery') {
+        let configData = await this.loadBsConfig(params)
+        this.queryConfig = configData.itemsConfig
+        this.searchDataList.fiscalYear = new Date().getFullYear()
+      }
+    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -335,6 +355,7 @@ export default {
         }
       })
       this.searchDataList = searchDataObj
+      this.searchDataList.fiscalYear = new Date().getFullYear()
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -439,7 +460,10 @@ export default {
 
       this.queryTableDatas(node.guid)
     },
-    handleDetail(reportCode, mofDivCode, column) {
+    handleDetail(reportCode, mofDivCode, column, row) {
+      if (this.hideColumnLinkStr.projectCode === 'SH') {
+        if (row.children !== undefined) return
+      }
       let condition = ''
       if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
         switch (column) {
@@ -564,7 +588,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -604,12 +628,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key)
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key)
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = obj.row.name + '支出明细'
       }
     },
@@ -655,7 +679,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        proCodes: this.searchDataList.proCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.proCodes)
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -723,8 +747,22 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
+      if (this.hideColumnLinkStr.projectCode === 'SH') {
+        // 判断只有最底层有超链接
+        if (row.children !== undefined) return
+      }
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
@@ -733,6 +771,16 @@ export default {
           textDecoration: 'underline'
         }
       }
+    },
+    isConfigTable() {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
+  },
+  mounted() {
+    this.getNewData()
+    if (this.hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
     }
   },
   created() {
