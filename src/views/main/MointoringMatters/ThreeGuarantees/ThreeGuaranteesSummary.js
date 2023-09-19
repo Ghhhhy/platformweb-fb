@@ -145,7 +145,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({total_yss}-0==0)?0:(Math.round({total_zcs}/{total_yss}*100*10)/10)'
+          formula: '({total_yss}-0==0)?0:(Math.round({total_zcs}/{total_yss}*100*10)/10<0&&0)'
         }
       ]
     },
@@ -185,7 +185,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
+          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10<0&&0)'
         },
         {
           title: '预警',
@@ -256,7 +256,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeBgz}-0==0)?0:(Math.round({sbZxjeBgz}/{sbZbjeBgz}*100*10)/10)'
+          formula: '({sbZbjeBgz}-0==0)?0:(Math.round({sbZxjeBgz}/{sbZbjeBgz}*100*10)/10<0&&0)'
         },
         {
           title: '预警',
@@ -327,7 +327,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10)'
+          formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10<0&&0)'
         },
         {
           title: '预警',

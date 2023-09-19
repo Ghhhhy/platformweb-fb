@@ -76,6 +76,7 @@ import MonitProcFeedbackModal from './monitProcFeedbackModal.vue'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 import AddDialog from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/addDialog.vue'
 export default {
+  name: 'MonitProcFeedback',
   mixins: [loadBsConfig],
   components: {
     MonitProcFeedbackModal,
@@ -659,7 +660,8 @@ export default {
       HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
-          this.$set(this.queryConfig[0].itemRender, 'options', treeResdata)
+          let index = this.queryConfig.findIndex(item => item.field.indexOf('mofDivCode') > -1)
+          this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
@@ -678,7 +680,8 @@ export default {
       }
       api.getTreeAgency(param).then(res => {
         let treeResdata = res.data
-        this.queryConfig[0].itemRender.options = treeResdata
+        let index = this.queryConfig.findIndex(item => item.field.indexOf('agencyCode') > -1)
+        this.queryConfig[index].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {

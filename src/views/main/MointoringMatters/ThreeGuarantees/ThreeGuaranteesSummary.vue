@@ -52,7 +52,7 @@
           :toolbar-config="tableToolbarConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :default-money-unit="defaultMoneyUnit"
-          :show-zero="false"
+          :show-zero="true"
           :table-global-config="exportGlobalConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
