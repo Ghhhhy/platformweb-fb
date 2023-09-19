@@ -788,7 +788,7 @@ const proconf = {
     },
     {
       title: '资金用途',
-      field: 'useDes',
+      field: 'useDesc',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -798,7 +798,7 @@ const proconf = {
     },
     {
       title: '政府经济分类',
-      field: 'govEconomyType',
+      field: 'govBgtEcoName',
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -1082,7 +1082,7 @@ const proconf = {
     },
     {
       title: '资金用途',
-      field: 'useDes',
+      field: 'useDesc',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1092,7 +1092,7 @@ const proconf = {
     },
     {
       title: '政府经济分类',
-      field: 'govEconomyType',
+      field: 'govBgtEcoName',
       titleWidth: '180',
       span: 8,
       itemRender: {
