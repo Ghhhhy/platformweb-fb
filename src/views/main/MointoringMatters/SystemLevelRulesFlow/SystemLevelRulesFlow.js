@@ -203,30 +203,31 @@ export let proconf = {
 
         props: {
           config: {
-            placeholder: '业务功能'
-          }
-        }
-      }
-    },
-    {
-      title: '业务功能',
-      field: 'businessFunctionName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-
-        options: [
-        ],
-        props: {
-          config: {
-            placeholder: '业务功能'
+            placeholder: '业务模块'
           }
         }
       }
     }
+    // 测试提bug取消业务功能字段
+    // {
+    //   title: '业务功能',
+    //   field: 'businessFunctionName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeTree',
+    //   itemRender: {
+    //     name: '$vxeTree',
+
+    //     options: [
+    //     ],
+    //     props: {
+    //       config: {
+    //         placeholder: '业务功能'
+    //       }
+    //     }
+    //   }
+    // }
   ],
   sethighQueryData: {
     declareCode: '',
