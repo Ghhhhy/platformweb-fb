@@ -53,6 +53,7 @@
             :table-config="tableConfig"
             :toolbar-config="buttonConfig"
             :pager-config="false"
+            @onToolbarBtnClick="onToolbarBtnClick"
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
@@ -1876,6 +1877,18 @@ export default {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    onToolbarBtnClick({ context, table, code }) {
+      switch (code) {
+        // 刷新
+        case 'refresh':
+          this.refresh()
+          break
+      }
+    },
+    // 刷新按钮 刷新查询栏，提示刷新 table 数据
+    refresh() {
+      this.getTableData()
     }
   },
   watch: {
