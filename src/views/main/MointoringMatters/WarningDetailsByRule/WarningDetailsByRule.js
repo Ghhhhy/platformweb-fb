@@ -367,25 +367,15 @@ export let proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': ''
+      title: '预警级别',
+      'width': 180,
+      field: 'warnLevel',
+      sortable: false,
+      align: 'center',
+      filters: false,
+      cellRender: {
+        name: '$warningLevelRender'
+      }
     },
     {
       title: '管理级次',
@@ -581,25 +571,15 @@ export let proconf = {
       align: 'center'
     },
     {
-      'title': '预警级别',
-      'field': 'warnLevel',
-      'fixed': '',
-      'width': '100',
-      'type': 'html',
-      'align': 'center',
-      'formula': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '1',
-      'associatedQuery': {
-        'queryMethods': '',
-        'queryUrl': '',
-        'params': {}
-      },
-      'dragSort': null,
-      'className': '',
-      'combinedType_select_sort': '',
-      'filters': ''
+      title: '预警级别',
+      'width': 180,
+      field: 'warnLevel',
+      sortable: false,
+      align: 'center',
+      filters: false,
+      cellRender: {
+        name: '$warningLevelRender'
+      }
     },
     {
       title: '管理级次',
