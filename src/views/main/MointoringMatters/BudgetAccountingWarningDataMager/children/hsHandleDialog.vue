@@ -171,7 +171,8 @@ export default {
       handleResultoptions: [
         { value: '1', label: '放行' },
         { value: '2', label: '改正' },
-        { value: '3', label: '禁止' }
+        { value: '3', label: '禁止' },
+        { value: '4', label: '作废' }
       ],
       handletableData: [],
       handletableHsData: [],
