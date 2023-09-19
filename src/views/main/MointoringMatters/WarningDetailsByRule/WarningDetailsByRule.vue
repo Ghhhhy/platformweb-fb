@@ -923,6 +923,9 @@ export default {
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
+    if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
+      this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
+    }
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
       this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton
     }
