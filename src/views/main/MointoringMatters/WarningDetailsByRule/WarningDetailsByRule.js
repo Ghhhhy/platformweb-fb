@@ -523,6 +523,14 @@ export let proconf = {
       }
     },
     {
+      title: '处理信息',
+      field: 'handleResult',
+      'width': 180,
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
