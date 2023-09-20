@@ -1446,7 +1446,7 @@ export default {
     doInsert() {
       // 校验判断
       let datas = this.$refs.monitorTableRef.getSelectionData()
-      if (this.$parent.dialogTitle !== '修改' && datas.length !== 1) {
+      if (this.$parent.dialogTitle !== '修改' && this.$parent.dialogTitle !== '复制' && datas.length !== 1) {
         this.$XModal.message({ status: 'warning', message: '请选择一条模板信息！' })
         return
       }
