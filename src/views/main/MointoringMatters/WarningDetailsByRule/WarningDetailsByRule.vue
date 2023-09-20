@@ -39,6 +39,7 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
           :default-expanded-keys="defaultExpandedKeysIn"
           @onNodeClick="onClickmethod"
         />
