@@ -551,6 +551,13 @@ export const auditInfoColumns = [
     sortable: false
   },
   {
+    field: 'curStatusName',
+    title: '处理状态',
+    width: 220,
+    filters: false,
+    sortable: false
+  },
+  {
     field: 'handleTime',
     title: '处理日期',
     width: 160,
