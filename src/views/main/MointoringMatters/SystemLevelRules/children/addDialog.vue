@@ -1416,6 +1416,7 @@ export default {
             mofDivId: item.id
           }
           obj.agencyId = item.code
+          obj.agencyCode = item.code
           arr.push(obj)
         }
         if (item.children) {
@@ -1432,8 +1433,8 @@ export default {
             agencyCode: '',
             mofDivId: item.id
           }
-          obj.agencyId = item.code
-          obj.agencyCode = item.name.split('-')[0]
+          obj.agencyId = item.id
+          obj.agencyCode = item.code
           arr.push(obj)
         }
         if (item.children) {
