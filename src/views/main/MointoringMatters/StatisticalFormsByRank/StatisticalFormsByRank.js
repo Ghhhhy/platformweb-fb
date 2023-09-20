@@ -329,7 +329,7 @@ export let proconf = {
         },
         {
           title: '涉及金额',
-          field: 'correctedAmount ',
+          field: 'orderCorrectionAmount',
           width: '150',
           align: 'center'
         },
