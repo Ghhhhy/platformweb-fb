@@ -31,5 +31,9 @@ export default {
   getLeftTree(params) {
     // return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
     return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  // 获取主题树
+  getLeftTree1(params) {
+    return post('large-monitor-platform/lmp/regulation/queryRuleTree', params)
   }
 }

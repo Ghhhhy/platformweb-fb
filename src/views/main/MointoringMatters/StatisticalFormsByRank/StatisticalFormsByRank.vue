@@ -252,7 +252,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '预算执行监控统计_按预警级别'
+          this.menuName = this.$store.state.curNavModule.name
           this.radioShow = true
           break
       }

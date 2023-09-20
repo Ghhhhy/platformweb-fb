@@ -67,7 +67,7 @@
     <WarningDetails
       v-if="warningDetailsByRuleView"
       :id="warnLogId"
-      :regulation-class="regulationClass"
+      :regulation-class="propsRegulationClass"
       :business-module-code="businessModuleCode"
     />
     <!-- 附件弹框 -->
@@ -195,6 +195,7 @@ export default {
       functionCode: '',
       warnLogId: '',
       regulationClass: '',
+      propsRegulationClass: '',
       businessModuleCode: '',
       warningDetailsByRuleView: false,
       leftTreeVisible: false,
@@ -447,7 +448,7 @@ export default {
         case 'warnTotal':
           console.log('click:', obj.row)
           this.warnLogId = obj.row.id
-          this.regulationClass = obj.row.regulationClass
+          this.propsRegulationClass = obj.row.regulationClass
           this.businessModuleCode = obj.row.businessModuleCode
           this.warningDetailsByRuleView = true
           break

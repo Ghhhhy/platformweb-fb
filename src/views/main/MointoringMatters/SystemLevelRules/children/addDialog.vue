@@ -1416,6 +1416,7 @@ export default {
             mofDivId: item.id
           }
           obj.agencyId = item.code
+          obj.agencyCode = item.code
           arr.push(obj)
         }
         if (item.children) {
@@ -1432,8 +1433,8 @@ export default {
             agencyCode: '',
             mofDivId: item.id
           }
-          obj.agencyId = item.code
-          obj.agencyCode = item.name.split('-')[0]
+          obj.agencyId = item.id
+          obj.agencyCode = item.code
           arr.push(obj)
         }
         if (item.children) {
@@ -1446,7 +1447,7 @@ export default {
     doInsert() {
       // 校验判断
       let datas = this.$refs.monitorTableRef.getSelectionData()
-      if (this.$parent.dialogTitle !== '修改' && datas.length !== 1) {
+      if (this.$parent.dialogTitle !== '修改' && this.$parent.dialogTitle !== '复制' && datas.length !== 1) {
         this.$XModal.message({ status: 'warning', message: '请选择一条模板信息！' })
         return
       }
