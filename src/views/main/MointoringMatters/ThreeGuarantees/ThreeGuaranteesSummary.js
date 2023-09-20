@@ -3,7 +3,7 @@
 import moment from 'moment'
 import Vue from 'vue'
 const h = new Vue().$createElement
-const timeSeqProcess = (moment().month()+1) * 8//moment获取的月份序号(0-11)
+const timeSeqProcess = parseFloat(((moment().month()+1)/12).toFixed(3))*100 //moment获取的月份序号(0-11)
 const warningCell = (process,row) => {
   let  newPre=process
   if(typeof process==='string')  newPre=Number(process.replace("%",''))
