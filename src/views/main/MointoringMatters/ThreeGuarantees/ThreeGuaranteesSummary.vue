@@ -703,7 +703,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     // this.getLeftTreeData()
-    this.onStatusTabClick(proconf.toolBarStatusButtons[0])
+    // this.onStatusTabClick(proconf.toolBarStatusButtons[0])
   }
 }
 </script>
