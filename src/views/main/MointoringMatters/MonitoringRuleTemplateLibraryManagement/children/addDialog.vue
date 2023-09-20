@@ -304,6 +304,7 @@ export default {
         checkAll: true
       },
       condition: {},
+      propsRuleTemplateCode: this.ruleTemplateCode, // 初始化
       funcondition: {},
       tabbtn: ['监控事项挂接', '规则模板新增', '添加挂接函数'],
       activeIndex: 0,
@@ -760,7 +761,7 @@ export default {
       }
       // this.loadMonitor()
       let params = {
-        ruleTemplateCode: this.ruleTemplateCode
+        ruleTemplateCode: this.propsRuleTemplateCode
       }
       HttpModule.getDetail(params).then(res => {
         if (res.code === '000000') {
@@ -875,6 +876,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.ruleRemark = ''
+        this.ruleAccord = ''
+        this.fiRuleTypeValue = ''
+        this.ruleTemplateName = ''
+        this.propsRuleTemplateCode = ''
         this.tableData = []
       }).catch(() => {
         this.$message({
@@ -1011,7 +1017,7 @@ export default {
         let params = {}
         if (selection.length === 0) {
           params = {
-            ruleTemplateCode: this.ruleTemplateCode,
+            ruleTemplateCode: this.propsRuleTemplateCode,
             'ruleTemplateName': this.ruleTemplateName,
             'ruleRemark': this.ruleRemark,
             'ruleAccord': this.ruleAccord,
@@ -1022,7 +1028,7 @@ export default {
           }
         } else {
           params = {
-            ruleTemplateCode: this.ruleTemplateCode,
+            ruleTemplateCode: this.propsRuleTemplateCode,
             'declareCode': selection[0].declareCode,
             'ruleTemplateName': this.ruleTemplateName,
             'ruleRemark': this.ruleRemark,

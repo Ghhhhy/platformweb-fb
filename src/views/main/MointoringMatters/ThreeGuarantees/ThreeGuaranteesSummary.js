@@ -3,7 +3,7 @@
 import moment from 'moment'
 import Vue from 'vue'
 const h = new Vue().$createElement
-const timeSeqProcess = (moment().month()+1) * 8//moment获取的月份序号(0-11)
+const timeSeqProcess = parseFloat(((moment().month()+1)/12).toFixed(3))*100 //moment获取的月份序号(0-11)
 const warningCell = (process,row) => {
   let  newPre=process
   if(typeof process==='string')  newPre=Number(process.replace("%",''))
@@ -145,7 +145,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({total_yss}-0==0)?0:(Math.round({total_zcs}/{total_yss}*100*10)/10<0&&0)'
+          formula: '({total_yss}-0==0)?0:(Math.round({total_zcs}/{total_yss}*100*10)/10)'
         }
       ]
     },
@@ -185,7 +185,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10<0&&0)'
+          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
         },
         {
           title: '预警',
@@ -256,7 +256,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeBgz}-0==0)?0:(Math.round({sbZxjeBgz}/{sbZbjeBgz}*100*10)/10<0&&0)'
+          formula: '({sbZbjeBgz}-0==0)?0:(Math.round({sbZxjeBgz}/{sbZbjeBgz}*100*10)/10)'
         },
         {
           title: '预警',
@@ -327,7 +327,7 @@ export let proconf = {
           cellRender: {
             name: '$vxeRatio'
           },
-          formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10<0&&0)'
+          formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10)'
         },
         {
           title: '预警',
