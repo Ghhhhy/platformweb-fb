@@ -243,7 +243,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $gloableOptionRow: proconf.gloableOptionRow
+          $monitorGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
