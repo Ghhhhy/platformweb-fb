@@ -261,10 +261,15 @@
 import HTTPModule from '@/api/frame/main/baseConfigManage/customQueryService.js'
 import { proconf } from './js/bgtDataQuery.js'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
+// import { mockTableData } from './mockData'
 export default {
   mixins: [loadBsConfig],
   data() {
     return {
+      axiosFeild: {
+        codeField: 'rscode',
+        successCode: 200
+      },
       // queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
       queryConfigId: 'CBEE20182D8F42C184FDB1DB2ADDD21A',
       isShowDetails: false,
@@ -525,7 +530,7 @@ export default {
       }
       HTTPModule[method](this.amtDetailQueryParams).then(res => {
         this.amtDetailTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           let resData = res.data.rows
           resData.forEach(item => {
             for (let i in item) {
@@ -583,17 +588,17 @@ export default {
     },
     getFormTable() {
       this.loadConfig(this.queryConfigId)
-      this.loadConfig(this.amountQueryId)
-      this.loadConfig(this.payAmtQueryId)
-      this.loadConfig(this.planAmtQueryId)
-      this.loadConfig(this.clearAmtQueryId)
+      // this.loadConfig(this.amountQueryId)
+      // this.loadConfig(this.payAmtQueryId)
+      // this.loadConfig(this.planAmtQueryId)
+      // this.loadConfig(this.clearAmtQueryId)
     },
     templateManage() {
       let self = this
       self.templateTableLoading = true
       HTTPModule.getGrabTemplateList(this.temQueryparams).then(res => {
         self.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.templateTableData = res.data
         } else {
           self.$message.error(res.result)
@@ -624,7 +629,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.setDefaultGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('设置成功！')
           this.cancelDialogCloseTemplate()
         } else {
@@ -634,7 +639,7 @@ export default {
       })
     },
     deleteTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectRecords()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -644,7 +649,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.removeGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('删除成功！')
           this.getTemplateData()
           this.cancelDialogCloseTemplate()
@@ -731,7 +736,7 @@ export default {
       self.btnLoading = true
       HTTPModule.saveGrabTemplate(saveParam).then((res) => {
         self.btnLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.$message.success('保存成功')
           this.handleCloseTemplate()
           this.getTemplateData()
@@ -848,26 +853,26 @@ export default {
       this.isLoadingShow = true
       this.currentParams = params || {}
       params.type = this.isShowDetails ? '1' : '0'
-      HTTPModule.dataQueryPageInfo(params)
-        .then((res) => {
-          if (res.rscode === '200') {
-            this.isLoadingShow = false
-            this.tableData = res.data
-            this.tablePagerConfig.total = res.data.length
-            if (res.data.length > 0) {
-              this.tableFooterConfig.totalObj.amount = res.data.reduce((amount, item) => amount + Number(item.amount), 0)
-              this.tableFooterConfig.totalObj.pay_amt = res.data.reduce((payAmtSum, item) => payAmtSum + Number(item.pay_amt), 0)
-              this.tableFooterConfig.totalObj.plan_amt = res.data.reduce((planAmtSum, item) => planAmtSum + Number(item.plan_amt), 0)
-              this.tableFooterConfig.totalObj.clear_amt = res.data.reduce((clearAmtSum, item) => clearAmtSum + Number(item.clear_amt), 0)
-            }
-          } else {
-            this.isLoadingShow = false
-            this.$message.error(res.result)
-          }
-        })
-        .catch(() => {
+      HTTPModule.dataQueryPageInfo(params).then((res) => {
+        // res = mockTableData
+        // console.log(333, mockTableData)
+        if (res.rscode === 200) {
           this.isLoadingShow = false
-        })
+          this.tableData = res.data
+          this.tablePagerConfig.total = res.data.length
+          if (res.data.length > 0) {
+            this.tableFooterConfig.totalObj.amount = res.data.reduce((amount, item) => amount + Number(item.amount), 0)
+            this.tableFooterConfig.totalObj.pay_amt = res.data.reduce((payAmtSum, item) => payAmtSum + Number(item.pay_amt), 0)
+            this.tableFooterConfig.totalObj.plan_amt = res.data.reduce((planAmtSum, item) => planAmtSum + Number(item.plan_amt), 0)
+            this.tableFooterConfig.totalObj.clear_amt = res.data.reduce((clearAmtSum, item) => clearAmtSum + Number(item.clear_amt), 0)
+          }
+        } else {
+          this.isLoadingShow = false
+          this.$message.error(res.result)
+        }
+      }).catch(() => {
+        this.isLoadingShow = false
+      })
     },
     getSearchDataListFn(searchFormConfig) {
       let searchDataObj = {}
@@ -1214,7 +1219,7 @@ export default {
     },
     getInitTemplate() {
       HTTPModule.initTemplate().then(res => {
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           if (res.data && res.data.fields) {
             this.colFieldList = res.data.fields
           } else {
@@ -1261,6 +1266,7 @@ export default {
   },
   mounted() {
     this.getInitTemplate()
+    this.getTemplateData()
     if (window.localStorage.getItem('bgtDataQuery') !== null) {
       let bgtDataQuery = JSON.parse(window.localStorage.getItem('bgtDataQuery'))
       this.settingTableData = bgtDataQuery.tableData
