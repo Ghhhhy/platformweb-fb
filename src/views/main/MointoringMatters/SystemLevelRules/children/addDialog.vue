@@ -1095,6 +1095,7 @@ export default {
               agencyCode: ''
             }
             obj.mofDivId = item.id
+            obj.agencyCode = item.code
             arr.push(obj)
           }
         })
