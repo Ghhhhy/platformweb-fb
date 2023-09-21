@@ -176,7 +176,7 @@ export default defineComponent({
           label: 'name', // 树的显示lalel字段
           children: 'children'
         },
-        fetch: elementTreeApi.getAgencyTree,
+        fetch: elementTreeApi.getElementTree,
         beforeFetch: params => {
           return {
             ...params,
