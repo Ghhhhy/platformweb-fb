@@ -38,7 +38,7 @@
           :defaultexpandedkeys="['0']"
           :is-server="false"
           :ajax-type="'get'"
-          :server-uri="'pay-clear-service/v3/lefttree'"
+          :server-uri="'large-monitor-platform/lmp/elementQuery/lefttree'"
           :datas="treeData"
           :queryparams="treeQueryparams"
           :global-config="treeGlobalConfig"
@@ -260,12 +260,13 @@
 <script>
 import HTTPModule from '@/api/frame/main/baseConfigManage/customQueryService.js'
 import { proconf } from './js/bgtDataQuery.js'
-// import loadBsConfig from '@/views/main/dynamicTableSetting/config'
+import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 export default {
-  // mixins: [loadBsConfig],
+  mixins: [loadBsConfig],
   data() {
     return {
-      queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
+      // queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
+      queryConfigId: 'CBEE20182D8F42C184FDB1DB2ADDD21A',
       isShowDetails: false,
       scrollY: {
         scrollY: {
@@ -544,18 +545,19 @@ export default {
       this.queryAmtDetailData()
     },
     async loadConfig(id) {
+      if (!id) return
       let params = {
         tableId: {
-          id: '',
-          fiscalyear: this.$store.state.userInfo.year,
-          mof_div_code: this.$store.state.userInfo.province,
-          menuguid: this.$store.state.curNavModule.guid,
-          userguid: this.$store.state.userInfo.guid
+          id: id,
+          fiscalyear: this.$store.getters.getuserInfo.year,
+          mof_div_code: this.$store.getters.getuserInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
         }
       }
       if (id === this.amountQueryId) {
         params.tableId.id = id
         let configData = await this.loadBsConfig(params)
+        console.log('initQuery', configData)
         this.amtDetailTableColumnsConfigAmount = configData.itemsConfig
       }
       if (id === this.payAmtQueryId) {
