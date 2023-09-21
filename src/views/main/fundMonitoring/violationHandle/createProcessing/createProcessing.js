@@ -8,7 +8,9 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat: '{mofDivCode}-{mofDivName}',
+    tooltipFormat: ({ row, column }) => {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+    },
     exportFormatter: true,
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
@@ -37,7 +39,9 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat: '{agencyCode}-{agencyName}',
+    tooltipFormat: ({ row, column }) => {
+      return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
+    },
     exportFormatter: true,
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
@@ -150,9 +154,11 @@ const budgetImpColumns = [
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
     formatter({ row }) {
-      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     },
-    tooltipFormat: '{trackProCode}-{trackProName}'
+    tooltipFormat: ({ row, column }) => {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+    }
   },
   {
     title: '预算项目',
@@ -161,7 +167,9 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat: '{proCode}-{proName}',
+    tooltipFormat: ({ row, column }) => {
+      return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+    },
     exportFormatter: true,
     formatter({ row }) {
       return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
@@ -662,7 +670,9 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat: '{proCode}-{proName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
@@ -826,7 +836,9 @@ export const proconf = {
         options: [],
         defaultValue: ''
       },
-      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
@@ -839,7 +851,9 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat: '{agencyCode}-{agencyName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
@@ -902,7 +916,9 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
@@ -2638,7 +2654,9 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat: '{mofDivCode}-{mofDivName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
@@ -2651,7 +2669,9 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat: '{agencyCode}-{agencyName}',
+      tooltipFormat: ({ row, column }) => {
+        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
+      },
       exportFormatter: true,
       formatter({ row }) {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
