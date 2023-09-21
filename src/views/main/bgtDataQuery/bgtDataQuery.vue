@@ -266,6 +266,10 @@ export default {
   mixins: [loadBsConfig],
   data() {
     return {
+      axiosFeild: {
+        codeField: 'rscode',
+        successCode: 200
+      },
       // queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
       queryConfigId: 'CBEE20182D8F42C184FDB1DB2ADDD21A',
       isShowDetails: false,
@@ -526,7 +530,7 @@ export default {
       }
       HTTPModule[method](this.amtDetailQueryParams).then(res => {
         this.amtDetailTableLoading = false
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           let resData = res.data.rows
           resData.forEach(item => {
             for (let i in item) {
@@ -594,7 +598,7 @@ export default {
       self.templateTableLoading = true
       HTTPModule.getGrabTemplateList(this.temQueryparams).then(res => {
         self.templateTableLoading = false
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.templateTableData = res.data
         } else {
           self.$message.error(res.result)
@@ -625,7 +629,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.setDefaultGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('设置成功！')
           this.cancelDialogCloseTemplate()
         } else {
@@ -635,7 +639,7 @@ export default {
       })
     },
     deleteTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectRecords()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -645,7 +649,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.removeGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('删除成功！')
           this.getTemplateData()
           this.cancelDialogCloseTemplate()
@@ -732,7 +736,7 @@ export default {
       self.btnLoading = true
       HTTPModule.saveGrabTemplate(saveParam).then((res) => {
         self.btnLoading = false
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.$message.success('保存成功')
           this.handleCloseTemplate()
           this.getTemplateData()
@@ -1215,7 +1219,7 @@ export default {
     },
     getInitTemplate() {
       HTTPModule.initTemplate().then(res => {
-        if (res && res.rscode === '100000') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           if (res.data && res.data.fields) {
             this.colFieldList = res.data.fields
           } else {
@@ -1262,6 +1266,7 @@ export default {
   },
   mounted() {
     this.getInitTemplate()
+    this.getTemplateData()
     if (window.localStorage.getItem('bgtDataQuery') !== null) {
       let bgtDataQuery = JSON.parse(window.localStorage.getItem('bgtDataQuery'))
       this.settingTableData = bgtDataQuery.tableData
