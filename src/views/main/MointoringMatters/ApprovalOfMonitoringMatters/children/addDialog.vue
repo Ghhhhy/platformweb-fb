@@ -397,6 +397,7 @@ export default {
             this.$message.success('批复成功')
             this.$parent.dialogVisible = false
             this.$parent.queryTableDatas()
+            this.$parent.queryTableDatasCount()
           } else {
             this.$message.error(res.message)
           }
