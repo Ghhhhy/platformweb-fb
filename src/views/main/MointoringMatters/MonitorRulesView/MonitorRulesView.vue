@@ -243,7 +243,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $gloableOptionRow: proconf.gloableOptionRow
+          $monitorGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -799,6 +799,16 @@ export default {
           delete param.regulation_class
           param.regulationClass = this.regulationClass
           param.code = this.regulationClass
+        }
+      } else {
+        if (this.treeType === '1') {
+          delete param.regulation_code
+          delete param.triggerClass
+          delete param.fiRuleTypeCode
+          delete param.regulation_class
+          delete param.regulationClass
+          delete param.regulationCode
+          delete param.regulationType
         }
       }
       if (this.leftNode.businessType === 2) {
