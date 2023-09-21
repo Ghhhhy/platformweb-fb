@@ -8,7 +8,9 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat: '{mofDivCode}-{mofDivName}',
+    tooltipFormat: ({ row, column }) => {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+    },
     exportFormatter: true,
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
@@ -37,7 +39,9 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat: '{agencyCode}-{agencyName}',
+    tooltipFormat({ row }) {
+      return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
+    },
     exportFormatter: true,
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
@@ -149,10 +153,12 @@ const budgetImpColumns = [
     filters: false,
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
-    formatter({ row }) {
+    tooltipFormat({ row }) { // @BsUI >= 2.1.2-beta.12
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     },
-    tooltipFormat: '{trackProCode}-{trackProName}'
+    formatter({ row }) {
+      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    }
   },
   {
     title: '预算项目',
