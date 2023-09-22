@@ -92,7 +92,7 @@ export default {
         {
           title: '数据源sql',
           field: 'sqlCode',
-          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false, rows: 3, maxlength: 10000 } },
+          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', disabled: false, rows: 3, maxlength: 40000 } },
           span: 24
         }
       ],
