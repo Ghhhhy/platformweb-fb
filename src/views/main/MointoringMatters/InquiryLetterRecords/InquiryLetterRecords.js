@@ -48,6 +48,7 @@ export let proconf = {
         options: [],
         'props': {
           'config': {
+            format: '{name}',
             'treeProps': {
               'nodeKey': 'id',
               'label': 'label',
