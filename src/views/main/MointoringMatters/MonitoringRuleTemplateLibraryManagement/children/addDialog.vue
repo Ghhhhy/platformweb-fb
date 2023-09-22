@@ -74,6 +74,7 @@
                         ref="tree"
                         v-model="fiRuleTypeValue"
                         :datas="fiRuleTypeList"
+                        :disabled="disabled"
                         :isleaf="true"
                         style="width:45%"
                         formatter="#name"
