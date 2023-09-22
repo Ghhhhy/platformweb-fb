@@ -387,7 +387,7 @@ export default {
         },
         {
           field: 'fpAmount',
-          title: '分配金额',
+          title: '分配下级金额',
           align: 'right',
           cellRender: {
             name: '$vxeMoney'
@@ -396,7 +396,7 @@ export default {
         },
         {
           field: 'fpjd',
-          title: '分配进度',
+          title: '分配下级进度',
           align: 'right',
           formula: '({ysAmount}-0==0)?0:(({fpAmount})/{ysAmount}*100)',
           cellRender: {
