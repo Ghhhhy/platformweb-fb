@@ -45,6 +45,11 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :export-modal-config="{ fileName: menuName }"
+          :table-global-config="{
+            customExportConfig: {
+              fileName: menuName,
+            },
+          }"
           :cell-style="cellStyle"
           :show-zero="false"
           :formula-digits="1"
