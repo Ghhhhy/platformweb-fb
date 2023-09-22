@@ -1274,7 +1274,8 @@ export default {
       }
       HttpModule.getTreewhere(param).then(res => {
         let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig[0].itemRender.options = treeResdata
+        let index = this.queryConfig.findIndex(item => item.field === 'agencyCodeList')
+        this.queryConfig[index].itemRender.options = treeResdata
       })
     },
     getDealNo() {
@@ -1285,7 +1286,8 @@ export default {
     getChildrenNewData1(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.name
+        item.id = item.guid
         if (item.children) {
           that.getChildrenNewData1(item.children)
         }
