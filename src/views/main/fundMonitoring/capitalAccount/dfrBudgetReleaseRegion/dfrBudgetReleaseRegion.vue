@@ -635,6 +635,7 @@ export default {
         HttpModule.queryTableDatas(param).then((res) => {
           if (res.code === '000000') {
             this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
             this.tableLoading = false
           } else {
             this.$message.error(res.message)
