@@ -478,7 +478,8 @@ export default {
         agencyCodeList: this.agencyCodeList,
         regulationClass: this.$store.getters.getRegulationClass,
         fiRuleName: this.fiRuleName,
-        businessNo: this.payApplyNumber
+        businessNo: this.payApplyNumber,
+        jurisdiction: this.$store.getters.getIsJurisdiction
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
