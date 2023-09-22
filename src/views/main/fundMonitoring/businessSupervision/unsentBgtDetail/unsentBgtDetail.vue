@@ -557,7 +557,8 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
-        mofDivCodeList: this.codeList
+        mofDivCodeList: this.codeList,
+        reportCode: 'wfszbmxcx'
       }
       this.tableLoading = true
       let queryUrl = 'queryTableDatas'
