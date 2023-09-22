@@ -634,6 +634,7 @@ export default {
     getLeftTreeData() {
       let that = this
       let params = this.treeQueryparams
+      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
       HttpModule.getTreeData(params).then(res => {
         if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
@@ -669,6 +670,7 @@ export default {
   },
   created() {
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
+    console.log('this.$store.getters.treeQueryparamsCom,', this.$store.getters.treeQueryparamsCom)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
