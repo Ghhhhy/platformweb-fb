@@ -39,7 +39,7 @@
           row-id="id"
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
-          :table-global-config="!isSx ? tableGlobalConfigCop : {}"
+          :table-global-config=" tableGlobalConfigCop"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
