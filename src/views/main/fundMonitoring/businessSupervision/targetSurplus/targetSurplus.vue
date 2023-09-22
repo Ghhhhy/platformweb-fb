@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="$refs.queryFrom.reset(),queryTableDatas(false)"
           />
         </div>
       </template>
