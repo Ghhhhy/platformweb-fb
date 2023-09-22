@@ -173,12 +173,9 @@ const proconf = {
             },
             slots: { // 解决值太小没有展示的问题
               default({ row }) {
-                let amount1 = parseFloat(row.amountSnjxd || 0)
-                let amount2 = parseFloat(row.amountSjxd || 0)
-                let amount3 = parseFloat(row.amountXjxd || 0)
-                let amount4 = parseFloat(row.amountZjxd || 0)
+                let amount1 = parseFloat(row.amountZyxd || 0)
                 let amount5 = parseFloat(row.amountPayAll || 0)
-                let culAmount = amount1 + amount2 + amount3 + amount4
+                let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
                 return [
                   <div>{culAmount && culAmount2.toFixed(2)}%</div>
