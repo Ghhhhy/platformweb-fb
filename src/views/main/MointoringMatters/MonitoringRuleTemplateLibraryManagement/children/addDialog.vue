@@ -877,11 +877,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.ruleRemark = ''
-        this.ruleAccord = ''
-        this.fiRuleTypeValue = ''
-        this.ruleTemplateName = ''
-        this.propsRuleTemplateCode = ''
+        // this.ruleRemark = ''
+        // this.ruleAccord = ''
+        // this.fiRuleTypeValue = ''
+        // this.ruleTemplateName = ''
+        // this.propsRuleTemplateCode = ''
         this.tableData = []
       }).catch(() => {
         this.$message({
