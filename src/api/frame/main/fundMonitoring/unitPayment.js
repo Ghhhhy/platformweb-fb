@@ -22,5 +22,8 @@ export default {
   },
   queryCaliberDeclareContent(params) {
     return post('dfr-monitor-service/dfr/supervision/queryCaliberDeclareContent', params)
+  },
+  getTreewhere(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
   }
 }
