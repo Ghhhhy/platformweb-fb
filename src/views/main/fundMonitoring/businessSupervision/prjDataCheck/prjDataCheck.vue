@@ -567,7 +567,7 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },

@@ -384,10 +384,6 @@ export default {
           this.status = '1'
         }
         this.mofDivCode = obj.row.mofDivCode
-        console.log(this.status)
-        console.log(this.regulationType)
-        console.log(this.warnLevel)
-        console.log(this.mofDivCode)
         this.showViolations = true
       }
     },
@@ -507,6 +503,7 @@ export default {
       return datas
     },
     getLeftTreeData() {
+      this.treeQueryparams.elementCode = this.treeQueryparams.elementCode ? this.treeQueryparams.elementCode : this.treeQueryparams.elementcode
       HttpModule.getLeftTree(this.treeQueryparams).then(res => {
         if (res.rscode === '100000') {
           console.log(this.queryConfig)
@@ -533,10 +530,6 @@ export default {
     }
   },
   created() {
-    // let date = new Date()
-    // let year = date.toLocaleDateString().split('/')[0]
-    // this.searchDataList.fiscalYear = year
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
