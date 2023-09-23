@@ -17,7 +17,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="search"
+            @onSearchClick="mainPagerConfig.currentPage = 1,search()"
           />
         </div>
       </template>

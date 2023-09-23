@@ -2000,6 +2000,7 @@ export default {
       this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
+      this.regulationModelName = this.$parent.DetailData.regulationModelName
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
@@ -2023,7 +2024,7 @@ export default {
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
-      this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
+      this.regulationModelCode = this.$parent.DetailData.regulationModelCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.fiRuleTypeCode = this.$parent.DetailData.ruleTemplate.fiRuleTypeCode
       this.fiRuleTypeName = this.$parent.DetailData.ruleTemplate.fiRuleTypeName

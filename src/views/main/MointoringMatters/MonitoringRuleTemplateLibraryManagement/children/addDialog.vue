@@ -74,6 +74,7 @@
                         ref="tree"
                         v-model="fiRuleTypeValue"
                         :datas="fiRuleTypeList"
+                        :disabled="disabled"
                         :isleaf="true"
                         style="width:45%"
                         formatter="#name"
@@ -876,11 +877,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.ruleRemark = ''
-        this.ruleAccord = ''
-        this.fiRuleTypeValue = ''
-        this.ruleTemplateName = ''
-        this.propsRuleTemplateCode = ''
+        // this.ruleRemark = ''
+        // this.ruleAccord = ''
+        // this.fiRuleTypeValue = ''
+        // this.ruleTemplateName = ''
+        // this.propsRuleTemplateCode = ''
         this.tableData = []
       }).catch(() => {
         this.$message({
@@ -933,6 +934,10 @@ export default {
       // }
       if (this.ruleRemark === '') {
         this.$message.warning('请输入规则说明')
+        return
+      }
+      if (!this.tableData || !this.tableData.length) {
+        this.$message.warning('请选择一条监控事项挂接')
         return
       }
       if (this.ruleAccord === '') {

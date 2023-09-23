@@ -875,6 +875,7 @@ export default {
     changeValue() {
       let userInfo = this.$store.state.userInfo
       this.handler2 = userInfo.name
+      this.information2 = ''
       this.updateTime2 = moment().format('YYYY-MM-DD HH:mm:ss')
     },
     // 审核改变

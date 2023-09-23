@@ -101,6 +101,16 @@
               <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
             </div>
           </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
+            </div>
+          </template>
         </BsTable>
       </template>
     </BsMainFormListLayout>
@@ -167,6 +177,7 @@ export default {
   },
   data() {
     return {
+      reportTime: '',
       isFlush: false,
       detailVisible: false,
       detailData: [],
@@ -905,6 +916,7 @@ export default {
           if (res.code === '000000') {
             this.tableData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
+            this.reportTime = res.data.reportTime
             this.tabStatusNumConfig['1'] = res.data.totalCount
           } else {
             this.$message.error(res.result)

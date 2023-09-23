@@ -106,6 +106,7 @@ import AddDialog from './children/sangongaddDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'
+import moment from 'moment'
 const routerMap = {
   'sanGongMonitoeReportCreate': {
     axiosStr: 'sangongCreate',
@@ -301,15 +302,15 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      this.year = Number(obj.year)
-      this.startMonth = Number(obj.startMonth)
-      this.endMonth = Number(obj.endMonth)
-      this.createTime = obj.createTime.substring(0, 10)
+      // this.year = Number(obj.year)
+      // this.startMonth = Number(obj.startMonth)
+      // this.endMonth = Number(obj.endMonth)
+      // this.createTime = obj.createTime.substring(0, 10)
       this.fileName = obj.fileName
       this.createPerson = obj.createPerson
-      if (this.createTime) {
-        this.createTime = this.createTime + ' 00:00:00'
-      }
+      // if (this.createTime) {
+      //   this.createTime = this.createTime + ' 00:00:00'
+      // }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -555,10 +556,10 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
-        year: this.year,
-        startMonth: this.startMonth,
+        // year: this.searchDataList.year,
+        // startMonth: this.startMonth,
         // endMonth: this.endMonth,
-        createTime: this.createTime,
+        createTime: this.searchDataList.createTime,
         fileName: this.fileName,
         createPerson: this.createPerson,
         reportType: routerMap[this.$route.name].code,
@@ -633,13 +634,10 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    let month = date.toLocaleDateString().split('/')[1]
-    let day = date.toLocaleDateString().split('/')[2]
+    let year = moment().year()
     this.searchDataList.year = year
-    this.searchDataList.createTime = year + '-' + month + '-' + day
-    this.searchDataList.endMonth = month
+    this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
+    this.searchDataList.endMonth = moment().month() + 1
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

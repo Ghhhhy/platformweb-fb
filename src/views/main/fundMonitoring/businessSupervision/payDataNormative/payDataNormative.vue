@@ -577,7 +577,7 @@ export default {
           if (res.code === '000000') {
             this.tableFooterConfig.totalObj = res.data[0]
           } else {
-            this.$message.error(res.result)
+            this.$message.error(res.message)
           }
         })
       }
@@ -589,7 +589,7 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
