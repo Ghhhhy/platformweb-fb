@@ -425,7 +425,7 @@ export default {
     },
     // 搜索
     search(val, multipleValue = {}, isFlush = false) {
-      // this.searchDataList = val
+      this.searchDataList = val
       let condition = this.getConditionList()
       for (let key in condition) {
         if (

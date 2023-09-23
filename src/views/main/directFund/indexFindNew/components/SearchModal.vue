@@ -33,6 +33,7 @@
           @radioChange="checkboxChange"
           @ajaxData="pageChangeHandle"
           @cellClick="cellClick"
+          @onToolbarBtnClick="onToolbarOperrateClick"
         />
       </div>
       <div v-show="selectRow.length > 0" class="formClass1">
@@ -48,6 +49,7 @@
           :table-columns-config="BtableColumnsConfig"
           @cellClick="BcellClick"
           @ajaxData="pageDownChangeHandle"
+          @onToolbarBtnClick="onToolbarOperrateClick1"
         />
       </div>
     </vxe-modal>
@@ -191,7 +193,10 @@ export default {
       tableLoading: false,
       editRules: {},
       editConfig: {},
-      footerConfig: {},
+      footerConfig: {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
+      },
       pagerConfig: {
         total: 0,
         pageSize: 20,
@@ -278,10 +283,29 @@ export default {
       this.getTopTableData()
     },
     pageDownChangeHandle({ currentPage, pageSize }) { // 表格分页点击
-      debugger
       this.BpagerConfig.currentPage = currentPage
       this.BpagerConfig.pageSize = pageSize
       this.getBottomTableData()
+    },
+    onToolbarOperrateClick({ code }) {
+      console.log(123, code)
+      switch (code) {
+        case 'refresh':
+          this.onSearchClick()
+          // this.reloadTableConlums(this.tableColumnsConfig)
+          // this.refreshTable()
+          break
+      }
+    },
+    onToolbarOperrateClick1({ code }) {
+      console.log(123, code)
+      switch (code) {
+        case 'refresh':
+          this.getBottomTableData(this.selectRow[0])
+          // this.reloadTableConlums(this.tableColumnsConfig)
+          // this.refreshTable()
+          break
+      }
     },
     BcellClick(obj, context, from) {
       if (obj.column.property === 'payAppAmt') { // 指标明细
@@ -383,6 +407,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -392,6 +417,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -411,6 +437,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -474,6 +501,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -483,6 +511,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -502,6 +531,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {

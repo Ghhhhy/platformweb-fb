@@ -51,6 +51,9 @@ export default {
   querySum (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/sum', params)
   },
+  getTreewhere(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
+  },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
   },

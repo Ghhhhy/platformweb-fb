@@ -71,7 +71,7 @@
               <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
             </div>
           </template>
-          <template v-if="!isSx" v-slot:toolbar-custom-slot>
+          <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
               <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
@@ -650,6 +650,7 @@ export default {
           if (res.code === '000000') {
             this.tableData = res.data.data
             this.tableLoading = false
+            this.reportTime = res.data.reportTime || ''
           } else {
             this.$message.error(res.message)
           }

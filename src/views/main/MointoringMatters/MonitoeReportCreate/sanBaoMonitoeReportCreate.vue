@@ -29,7 +29,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -41,7 +40,6 @@
           :tree-data="treeData"
           :filter-text="treeGlobalConfig.inputVal"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -140,6 +138,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandedKeysIn: [],
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -303,6 +302,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       // this.year = Number(obj.year)
       // this.startMonth = Number(obj.startMonth)
       // this.endMonth = Number(obj.endMonth)
@@ -469,13 +469,20 @@ export default {
       })
     },
     onClickmethod(node) {
-      // this.node = node.node
-      // let code = node.node.code
-      // this.codeList = []
-      // let treeData = node.treeData
-      // this.getItem(code, treeData)
-      // console.log(this.codeList)
+      this.node = node.node
+      let code = node.node.code
+      console.log(node)
+      this.codeList = []
+      let treeData = node.treeData
+      this.getItem(code, treeData)
+      console.log(this.codeList)
+      let formData = this.$refs.queryFrom.getFormData()
+      this.searchDataList.createTime = formData.createTime
+      this.searchDataList.createPerson = formData.createPerson
+      this.searchDataList.fileName = formData.fileName
+      this.queryTableDatas()
       // const param = {
+      //   createTime: this.searchDataList.createTime,
       //   page: this.mainPagerConfig.currentPage, // 页码
       //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
       //   'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
@@ -508,8 +515,6 @@ export default {
       //     this.$message.error(res.result)
       //   }
       // })
-      this.leftTreeNodeCode = node.node.code
-      this.queryTableDatas()
     },
     treeSetConfrimData(curTree) {
       console.log(curTree)
@@ -557,20 +562,21 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      let codeList = []
-      if (this.leftTreeNodeCode !== '') { codeList.push(this.leftTreeNodeCode) }
       const param = {
         // year: this.searchDataList.year,
         // startMonth: this.startMonth,
         // endMonth: this.endMonth,
         createTime: this.searchDataList.createTime,
-        fileName: this.fileName,
-        createPerson: this.createPerson,
+        fileName: this.searchDataList.fileName,
+        createPerson: this.searchDataList.createPerson,
         reportType: routerMap[this.$route.name].code,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        mofDivCodeList: codeList
+        mofDivCodeList: this.codeList,
+        menuType: 1,
+        regulationStatus: this.regulationStatus // 规则状态：1.新增  2.送审  3.审核
       }
+      param.createTime && (param.createTime = moment(this.searchDataList.createTime).format('YYYY-MM-DD 00:00:00'))
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
       } else if (this.leftNode.businessType === 3) {
@@ -616,7 +622,7 @@ export default {
     getLeftTreeData() {
       console.log(this.userInfo)
       let params = this.$store.getters.treeQueryparamsCom
-      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
+      params.elementCode = params.elementCode || params.elementcode
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
@@ -642,8 +648,9 @@ export default {
   created() {
     let year = moment().year()
     this.searchDataList.year = year
-    this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
+    // this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
     this.searchDataList.endMonth = moment().month() + 1
+    // this.codeList = [this.$store.state.userInfo.province]// 初始化区划查询
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

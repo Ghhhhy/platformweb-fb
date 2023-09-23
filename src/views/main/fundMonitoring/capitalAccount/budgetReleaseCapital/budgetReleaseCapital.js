@@ -90,7 +90,7 @@ let proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: store.state.userInfo.year,
+    fiscalYear: '',
     mofDivCodes: '',
     endTime: ''
   },
