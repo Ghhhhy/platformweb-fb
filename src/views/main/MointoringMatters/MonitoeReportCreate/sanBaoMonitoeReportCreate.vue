@@ -148,6 +148,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      leftTreeNodeCode: '',
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
@@ -468,46 +469,47 @@ export default {
       })
     },
     onClickmethod(node) {
-      this.node = node.node
-      let code = node.node.code
-      console.log(node)
-      this.codeList = []
-      let treeData = node.treeData
-      this.getItem(code, treeData)
-      console.log(this.codeList)
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        'regulationModelName': this.regulationModelName,
-        id: this.condition.agency_code,
-        menuType: 1,
-        province: '',
-        mofDivCodeList: this.codeList,
-        reportType: routerMap[this.$route.name].code
-      }
-      if (this.leftNode.businessType === 2) {
-        param.businessModelCode = this.leftNode.code
-      } else if (this.leftNode.businessType === 3) {
-        param.businessFeaturesCode = this.leftNode.code
-      }
-      this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
+      // this.node = node.node
+      // let code = node.node.code
+      // this.codeList = []
+      // let treeData = node.treeData
+      // this.getItem(code, treeData)
+      // console.log(this.codeList)
+      // const param = {
+      //   page: this.mainPagerConfig.currentPage, // 页码
+      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
+      //   'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+      //   'warningLevel': this.warningLevel, // 预警级别
+      //   'handleType': this.handleType, // 处理方式
+      //   'businessModelCode': '', // 业务模块
+      //   'businessFeaturesCode': '', // 业务功能
+      //   'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+      //   'isEnable': this.isEnable,
+      //   'regulationName': this.regulationName,
+      //   'regulationModelName': this.regulationModelName,
+      //   id: this.condition.agency_code,
+      //   menuType: 1,
+      //   province: '',
+      //   mofDivCodeList: this.codeList,
+      //   reportType: routerMap[this.$route.name].code
+      // }
+      // if (this.leftNode.businessType === 2) {
+      //   param.businessModelCode = this.leftNode.code
+      // } else if (this.leftNode.businessType === 3) {
+      //   param.businessFeaturesCode = this.leftNode.code
+      // }
+      // this.tableLoading = true
+      // HttpModule.queryMonitorTableDatas(param).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.results
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      this.leftTreeNodeCode = node.node.code
+      this.queryTableDatas()
     },
     treeSetConfrimData(curTree) {
       console.log(curTree)
@@ -555,6 +557,8 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let codeList = []
+      if (this.leftTreeNodeCode !== '') { codeList.push(this.leftTreeNodeCode) }
       const param = {
         // year: this.searchDataList.year,
         // startMonth: this.startMonth,
@@ -564,7 +568,8 @@ export default {
         createPerson: this.createPerson,
         reportType: routerMap[this.$route.name].code,
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: codeList
       }
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
@@ -611,6 +616,7 @@ export default {
     getLeftTreeData() {
       console.log(this.userInfo)
       let params = this.$store.getters.treeQueryparamsCom
+      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
