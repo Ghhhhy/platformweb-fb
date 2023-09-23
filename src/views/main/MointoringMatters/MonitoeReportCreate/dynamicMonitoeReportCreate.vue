@@ -544,7 +544,13 @@ export default {
         fileName: this.fileName,
         createPerson: this.createPerson,
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: this.codeList
+      }
+      if (this.leftNode.businessType === 2) {
+        param.businessModelCode = this.leftNode.code
+      } else if (this.leftNode.businessType === 3) {
+        param.businessFeaturesCode = this.leftNode.code
       }
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
