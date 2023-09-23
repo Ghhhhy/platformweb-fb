@@ -29,7 +29,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -41,7 +40,6 @@
           :tree-data="treeData"
           :filter-text="treeGlobalConfig.inputVal"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -140,6 +138,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandedKeysIn: [],
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -302,6 +301,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       // this.year = Number(obj.year)
       // this.startMonth = Number(obj.startMonth)
       // this.endMonth = Number(obj.endMonth)
@@ -475,39 +475,45 @@ export default {
       let treeData = node.treeData
       this.getItem(code, treeData)
       console.log(this.codeList)
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        'regulationModelName': this.regulationModelName,
-        id: this.condition.agency_code,
-        menuType: 1,
-        province: '',
-        mofDivCodeList: this.codeList,
-        reportType: routerMap[this.$route.name].code
-      }
-      if (this.leftNode.businessType === 2) {
-        param.businessModelCode = this.leftNode.code
-      } else if (this.leftNode.businessType === 3) {
-        param.businessFeaturesCode = this.leftNode.code
-      }
-      this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
+      let formData = this.$refs.queryFrom.getFormData()
+      this.searchDataList.createTime = formData.createTime
+      this.searchDataList.createPerson = formData.createPerson
+      this.searchDataList.fileName = formData.fileName
+      this.queryTableDatas()
+      // const param = {
+      //   createTime: this.searchDataList.createTime,
+      //   page: this.mainPagerConfig.currentPage, // 页码
+      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
+      //   'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+      //   'warningLevel': this.warningLevel, // 预警级别
+      //   'handleType': this.handleType, // 处理方式
+      //   'businessModelCode': '', // 业务模块
+      //   'businessFeaturesCode': '', // 业务功能
+      //   'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+      //   'isEnable': this.isEnable,
+      //   'regulationName': this.regulationName,
+      //   'regulationModelName': this.regulationModelName,
+      //   id: this.condition.agency_code,
+      //   menuType: 1,
+      //   province: '',
+      //   mofDivCodeList: this.codeList,
+      //   reportType: routerMap[this.$route.name].code
+      // }
+      // if (this.leftNode.businessType === 2) {
+      //   param.businessModelCode = this.leftNode.code
+      // } else if (this.leftNode.businessType === 3) {
+      //   param.businessFeaturesCode = this.leftNode.code
+      // }
+      // this.tableLoading = true
+      // HttpModule.queryMonitorTableDatas(param).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.results
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
     },
     treeSetConfrimData(curTree) {
       console.log(curTree)
@@ -560,12 +566,16 @@ export default {
         // startMonth: this.startMonth,
         // endMonth: this.endMonth,
         createTime: this.searchDataList.createTime,
-        fileName: this.fileName,
-        createPerson: this.createPerson,
+        fileName: this.searchDataList.fileName,
+        createPerson: this.searchDataList.createPerson,
         reportType: routerMap[this.$route.name].code,
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: this.codeList,
+        menuType: 1,
+        regulationStatus: this.regulationStatus // 规则状态：1.新增  2.送审  3.审核
       }
+      param.createTime && (param.createTime = moment(this.searchDataList.createTime).format('YYYY-MM-DD 00:00:00'))
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
       } else if (this.leftNode.businessType === 3) {
@@ -636,8 +646,9 @@ export default {
   created() {
     let year = moment().year()
     this.searchDataList.year = year
-    this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
+    // this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
     this.searchDataList.endMonth = moment().month() + 1
+    // this.codeList = [this.$store.state.userInfo.province]// 初始化区划查询
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
