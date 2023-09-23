@@ -398,10 +398,10 @@ export default {
         pageSize: 20
       },
       amtDetailType: '1',
-      amountQueryId: '6ACA4D6BC4264EDC8523044897FAFF31',
-      payAmtQueryId: '686A3B189F5A49028DC9ADF91CC2CC94',
-      planAmtQueryId: '742827FA532A4FEBA351A118D8DFAA82',
-      clearAmtQueryId: '851AED1ED08F47F49040A50BDD7E5934',
+      amountQueryId: 'C9C2B60A6F26475084EB3576435B7A89', // '6ACA4D6BC4264EDC8523044897FAFF31',
+      payAmtQueryId: 'F28B5451E7B84E6E87C2DA920FC9F74E', // '686A3B189F5A49028DC9ADF91CC2CC94',
+      planAmtQueryId: 'AAA5B9C66A5B478C875E6E900F743AD9', // '742827FA532A4FEBA351A118D8DFAA82',
+      clearAmtQueryId: '7B9C09F1DCCD464CB8FDBBDEB413E36C', // '851AED1ED08F47F49040A50BDD7E5934',
       menuName: '指标数据查询',
       tableTreeConfig: {
         transform: true,
@@ -448,7 +448,7 @@ export default {
       treeTemplateSel: null,
       temOption: [],
       temQueryparams: {
-        menuId: 'Home'
+        menuId: this.$store.state.curNavModule.guid || 'Home'
       },
       templateModal: false,
       templateTableLoading: false,
@@ -588,10 +588,10 @@ export default {
     },
     getFormTable() {
       this.loadConfig(this.queryConfigId)
-      // this.loadConfig(this.amountQueryId)
-      // this.loadConfig(this.payAmtQueryId)
-      // this.loadConfig(this.planAmtQueryId)
-      // this.loadConfig(this.clearAmtQueryId)
+      this.loadConfig(this.amountQueryId)
+      this.loadConfig(this.payAmtQueryId)
+      this.loadConfig(this.planAmtQueryId)
+      this.loadConfig(this.clearAmtQueryId)
     },
     templateManage() {
       let self = this
