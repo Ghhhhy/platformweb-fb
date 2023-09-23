@@ -147,6 +147,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      leftTreeNodeCode: '',
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
@@ -561,6 +562,8 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let codeList = []
+      if (this.leftTreeNodeCode !== '') { codeList.push(this.leftTreeNodeCode) }
       const param = {
         // year: this.searchDataList.year,
         // startMonth: this.startMonth,
@@ -621,6 +624,7 @@ export default {
     getLeftTreeData() {
       console.log(this.userInfo)
       let params = this.$store.getters.treeQueryparamsCom
+      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
