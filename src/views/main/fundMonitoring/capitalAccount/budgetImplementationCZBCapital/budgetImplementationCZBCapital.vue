@@ -70,6 +70,16 @@
               </div>
             </div>
           </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
+            </div>
+          </template>
         </BsTable>
       </template>
     </BsMainFormListLayout>
@@ -120,6 +130,7 @@ export default {
   },
   data() {
     return {
+      reportTime: '',
       isFlush: false,
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
@@ -501,6 +512,7 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data
           this.tableLoading = false
+          this.reportTime = res.data.reportTime || ''
         } else {
           this.$message.error(res.message)
         }
