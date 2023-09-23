@@ -191,7 +191,10 @@ export default {
       tableLoading: false,
       editRules: {},
       editConfig: {},
-      footerConfig: {},
+      footerConfig: {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
+      },
       pagerConfig: {
         total: 0,
         pageSize: 20,
@@ -383,6 +386,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -392,6 +396,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -411,6 +416,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -474,6 +480,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -483,6 +490,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
@@ -502,6 +510,7 @@ export default {
           cellRender: {
             name: '$vxeMoney'
           },
+          combinedType: ['subTotal', 'total', 'treeTotal'],
           sort: true
         },
         {
