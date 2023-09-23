@@ -150,77 +150,7 @@ export let proconf = {
       ]
     },
     {
-      title: '（一）保基本民生',
-      width: '150',
-      align: 'center',
-      children: [
-        {
-          title: '预算数',
-          field: 'sbZbjeBjbms',
-          width: 200,
-          align: 'right',
-          filters: false,
-          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
-          cellRender: {
-            name: '$vxeMoney'
-          }
-        },
-        {
-          title: '支出数',
-          field: 'sbZxjeBjbms',
-          width: 200,
-          align: 'right',
-          filters: false,
-          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
-          cellRender: {
-            name: '$vxeMoney'
-          }
-        },
-        {
-          title: '执行进度',
-          field: 'bms_zxjd',
-          width: 200,
-          align: 'right',
-          filters: false,
-          cellRender: {
-            name: '$vxeRatio'
-          },
-          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
-        },
-        {
-          title: '预警',
-          field: 'bms_yj',
-          width: 200,
-          align: 'center',
-          filters: false,
-          cellRender: {
-            name: '$vxeInput'
-          },
-          formatter({ row }) {
-            return warningCell(row.bms_zxjd).label
-          },
-          slots: {
-            default({ row }) {
-              return [
-                <div style={{backgroundColor:warningCell(row.bms_zxjd).color}}>{warningCell(row.bms_zxjd).label}</div>
-              ]
-            }
-          },
-          exportFormatter: true,
-          customerExportStyle:({row})=>{
-            return {
-              fill:{
-                bgColor: 'ffffffff',
-                fgColor: `ff${warningCell(row.bms_zxjd).color.replace('#','')}`,
-                patternType: 'solid'
-              }
-            }
-          },
-        }
-      ]
-    },
-    {
-      title: '（二）保工资',
+      title: '（一）保工资',
       width: '150',
       align: 'center',
       children: [
@@ -291,7 +221,7 @@ export let proconf = {
       ]
     },
     {
-      title: '（三）保运转',
+      title: '（二）保运转',
       width: '150',
       align: 'center',
       children: [
@@ -358,6 +288,76 @@ export let proconf = {
               }
             }
           }
+        }
+      ]
+    },
+    {
+      title: '（三）保基本民生',
+      width: '150',
+      align: 'center',
+      children: [
+        {
+          title: '预算数',
+          field: 'sbZbjeBjbms',
+          width: 200,
+          align: 'right',
+          filters: false,
+          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+          cellRender: {
+            name: '$vxeMoney'
+          }
+        },
+        {
+          title: '支出数',
+          field: 'sbZxjeBjbms',
+          width: 200,
+          align: 'right',
+          filters: false,
+          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+          cellRender: {
+            name: '$vxeMoney'
+          }
+        },
+        {
+          title: '执行进度',
+          field: 'bms_zxjd',
+          width: 200,
+          align: 'right',
+          filters: false,
+          cellRender: {
+            name: '$vxeRatio'
+          },
+          formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
+        },
+        {
+          title: '预警',
+          field: 'bms_yj',
+          width: 200,
+          align: 'center',
+          filters: false,
+          cellRender: {
+            name: '$vxeInput'
+          },
+          formatter({ row }) {
+            return warningCell(row.bms_zxjd).label
+          },
+          slots: {
+            default({ row }) {
+              return [
+                <div style={{backgroundColor:warningCell(row.bms_zxjd).color}}>{warningCell(row.bms_zxjd).label}</div>
+              ]
+            }
+          },
+          exportFormatter: true,
+          customerExportStyle:({row})=>{
+            return {
+              fill:{
+                bgColor: 'ffffffff',
+                fgColor: `ff${warningCell(row.bms_zxjd).color.replace('#','')}`,
+                patternType: 'solid'
+              }
+            }
+          },
         }
       ]
     },
