@@ -12,6 +12,9 @@ export default {
   addPolicies(params) {
     return post('large-monitor-platform/lmp/filter/add', params)
   },
+  addPolicies1(params) {
+    return post('large-monitor-platform/lmp/askType/add', params)
+  },
   // 回显修改信息
   getDetail(params) {
     return get('large-monitor-platform/lmp/askType/detail/' + params)

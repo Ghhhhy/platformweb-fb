@@ -213,7 +213,7 @@ export default {
           askTypeDesc: this.askTypeDesc
         }
         this.addLoading = true
-        HttpModule.addPolicies(param).then(res => {
+        HttpModule.addPolicies1(param).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             this.$message.success('新增成功')
