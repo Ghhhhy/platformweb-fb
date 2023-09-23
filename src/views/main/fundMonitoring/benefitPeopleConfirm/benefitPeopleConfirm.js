@@ -357,6 +357,37 @@ export let proconf = {
       align: 'center'
     },
     {
+      title: '姓名',
+      width: 180,
+      field: 'perName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    }, {
+      title: '证件号码',
+      width: 180,
+      field: 'idenNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '企业名称',
+      width: 180,
+      field: 'corpName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '统一社会信用代码',
+      width: 180,
+      field: 'unifsocCredCode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '指标文号',
       width: 180,
       field: 'corBgtDocNoName',
