@@ -50,7 +50,7 @@
           :table-config="tableConfig"
           :pager-config="false"
           :toolbar-config="tableToolbarConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true,accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :default-money-unit="defaultMoneyUnit"
           :show-zero="true"
           :table-global-config="exportGlobalConfig"
