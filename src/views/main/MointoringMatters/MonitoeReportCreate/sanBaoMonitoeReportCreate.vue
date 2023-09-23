@@ -562,8 +562,6 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      let codeList = []
-      if (this.leftTreeNodeCode !== '') { codeList.push(this.leftTreeNodeCode) }
       const param = {
         // year: this.searchDataList.year,
         // startMonth: this.startMonth,
@@ -624,7 +622,7 @@ export default {
     getLeftTreeData() {
       console.log(this.userInfo)
       let params = this.$store.getters.treeQueryparamsCom
-      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
+      params.elementCode = params.elementCode || params.elementcode
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
