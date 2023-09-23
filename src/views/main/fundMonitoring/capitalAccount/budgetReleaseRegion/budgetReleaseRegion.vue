@@ -755,6 +755,7 @@ export default {
           if (res.code === '000000') {
             this.tableData = res.data.data
             this.tableLoading = false
+            this.reportTime = res.data.reportTime || ''
           } else {
             this.$message.error(res.message)
           }
