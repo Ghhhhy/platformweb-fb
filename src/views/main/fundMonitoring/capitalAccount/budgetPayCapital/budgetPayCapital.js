@@ -593,7 +593,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
+            formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}+{amountzjpay}'
           },
           {
             title: '地方安排',
