@@ -788,7 +788,7 @@ const proconf = {
     },
     {
       title: '资金用途',
-      field: 'useDesc',
+      field: 'useDes',
       span: 8,
       titleWidth: '180',
       itemRender: {
@@ -1901,7 +1901,7 @@ const proconf = {
     receiveAccount: '',
     receiveBankName: '',
     paymentAmount: '',
-    useOfFunds: '',
+    useDes: '',
     govEconomyType: '',
     deptEconomyType: '',
     natureOfFunds: '',
