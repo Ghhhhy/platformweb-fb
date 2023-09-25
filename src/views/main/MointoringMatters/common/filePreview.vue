@@ -282,8 +282,13 @@ export default {
       console.log(cur)
       let fileSuffix = this.file.suffix
       this.title = this.file.filename
-      // let newUrl = 'https://' + cur + '/filePreviewService' + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
-      let newUrl = window.gloableToolFn.serverGatewayMap.development.filePreviewService + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
+      let filePreviewService = ''
+      if (process.env.NODE_ENV === 'development') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService
+      } else if (process.env.NODE_ENV === 'production') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService
+      }
+      let newUrl = filePreviewService + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
       this.url = newUrl
       console.log(newUrl)
       this.positivePlayerOptions.sources[0].src = this.url
