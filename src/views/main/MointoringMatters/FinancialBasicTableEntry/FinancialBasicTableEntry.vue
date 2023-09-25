@@ -2947,14 +2947,14 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
