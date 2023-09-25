@@ -445,7 +445,7 @@ var userBehaviorMonitor = {
 		if(!datas){
 			return false;
 		}
-    if(process.env.NODE_ENV === 'development') return
+    // if(process.env.NODE_ENV === 'development') return
 		 $.ajax({
 			url: `${window.location.origin}/${window.gloableToolFn.serverGatewayMap['production']['mp-d-aggregation-service']}/v1/collector/behavior?${new Date().getTime()}`,
 			data:{
