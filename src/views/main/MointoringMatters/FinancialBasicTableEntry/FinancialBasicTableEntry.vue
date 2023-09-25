@@ -2927,7 +2927,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
