@@ -824,7 +824,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
@@ -844,14 +844,14 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
