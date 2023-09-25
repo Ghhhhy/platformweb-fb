@@ -97,7 +97,7 @@ export default {
         },
         align: 'center',
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: this.$store.getters.isSx
       },
       tableColumnsConfig: [],
       pagerConfig: {
