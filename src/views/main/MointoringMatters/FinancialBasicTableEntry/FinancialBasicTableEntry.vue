@@ -2961,7 +2961,7 @@ export default {
         }
       }
       HttpModule.getLeftTree(params).then(res => {
-        if (res.rscode === '000000') {
+        if (res.code === '000000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
         } else {
