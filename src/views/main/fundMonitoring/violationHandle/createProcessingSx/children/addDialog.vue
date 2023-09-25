@@ -380,6 +380,9 @@ export default {
       }, {
         value: '3',
         label: '需要核实（下发单位）'
+      }, {
+        value: '7',
+        label: '单位已整改'
       }],
       value: '',
       value1: '',
@@ -682,8 +685,10 @@ export default {
           }
           if (this.detailData[0].status === '2') {
             this.value = '2'
-          } else {
+          } else if (this.detailData[0].status === '3') {
             this.value = '3'
+          } else {
+            this.value = '7'
           }
           if (this.detailData[0].status === '8') {
             this.value1 = '8'
@@ -723,7 +728,7 @@ export default {
         }
         switch (this.param5.retroact) {
           case 'company':
-            this.value = this.status === '2' ? '2' : '3'
+            this.value = this.status === '2' ? '2' : this.status === '3' ? '3' : '7'
             if (this.status === '8') {
               this.handler1 = userInfo.name
               this.updateTime1 = moment().format('YYYY-MM-DD HH:mm:ss')
@@ -775,7 +780,7 @@ export default {
             this.commentDept = 1
             break
           case 'department':
-            this.value = this.detailData[0].status + '' === '2' ? '2' : '3'
+            this.value = this.detailData[0].status + '' === '2' ? '2' : this.detailData[0].status + '' === '3' ? '3' : '7'
             this.hsValue = this.detailData[0].status + '' === '4' ? '4' : '5'
             this.handler2 = this.detailData[0].handler2 ? this.detailData[0].handler2 : userInfo.name
             this.phone2 = this.detailData[0].phone2
@@ -1029,7 +1034,7 @@ export default {
         this.commentDept = '3'
         this.status = 3
       }
-      if (this.param5.retroact === 'department' && this.value === '2' && (flag === '1' || flag === 1)) {
+      if (this.param5.retroact === 'department' && (this.value === '2' || this.value === '7') && (flag === '1' || flag === 1)) {
         this.commentDept = '2'
         this.status = 2
       }

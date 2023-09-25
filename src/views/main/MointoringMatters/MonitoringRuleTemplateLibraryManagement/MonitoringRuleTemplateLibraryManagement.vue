@@ -7,7 +7,7 @@
         <BsTabPanel
           ref="tabPanel"
           :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="false"
+          :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
@@ -17,7 +17,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="mainPagerConfig.currentPage = 1,search()"
+            @onSearchClick="(obj) => { mainPagerConfig.currentPage = 1,search(obj) }"
           />
         </div>
       </template>

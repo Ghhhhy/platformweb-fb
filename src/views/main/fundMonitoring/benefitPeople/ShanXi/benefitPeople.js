@@ -517,22 +517,23 @@ export let proconf = {
     {
       title: '资金管理处室',
       width: 180,
-      field: 'zjglcs',
+      field: 'bgtMofDepCode',
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{bgtMofDepCode}-{bgtMofDepName}'
-        }
+      // cellRender: {
+      //   name: '$vxeInput',
+      //   options: [],
+      //   defaultValue: ''
+      // },
+      // formula: '{bgtMofDepCode}-{bgtMofDepName}'
+      formatter({ row }) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
       },
-      props: {
-        format: '{bgtMofDepCode}-{bgtMofDepName}'
-      }
+      exportFormatter: true
+      // props: {
+      //   format: '{bgtMofDepCode}-{bgtMofDepName}'
+      // }
     },
     {
       title: '预算项目',
@@ -549,18 +550,22 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
+      // formula: '',
+      // cellRender: {
+      //   name: '$vxeInput',
+      //   options: [],
+      //   defaultValue: '',
+      //   props: {
+      //     format: '{agencyCode}-{agencyName}'
+      //   }
+      // },
+      // props: {
+      //   format: '{agencyCode}-{agencyName}'
+      // }
+      formatter({ row }) {
+        return `${row.agencyCode}-${row.agencyName}`
       },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      exportFormatter: true
     },
     {
       title: '上级指标文号',
@@ -577,18 +582,22 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{expFuncCode}-{expFuncName}'
-        }
+      // formula: '',
+      // cellRender: {
+      //   name: '$vxeInput',
+      //   options: [],
+      //   defaultValue: '',
+      //   props: {
+      //     format: '{expFuncCode}-{expFuncName}'
+      //   }
+      // },
+      // props: {
+      //   format: '{expFuncCode}-{expFuncName}'
+      // }
+      formatter({ row }) {
+        return `${row.expFuncCode}-${row.expFuncName}`
       },
-      props: {
-        format: '{expFuncCode}-{expFuncName}'
-      }
+      exportFormatter: true
     },
     {
       title: '指标类型',
@@ -597,18 +606,22 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{bgtTypeCode}-{bgtTypeName}'
-        }
+      // formula: '',
+      // cellRender: {
+      //   name: '$vxeInput',
+      //   options: [],
+      //   defaultValue: '',
+      //   props: {
+      //     format: '{bgtTypeCode}-{bgtTypeName}'
+      //   }
+      // },
+      // props: {
+      //   format: '{bgtTypeCode}-{bgtTypeName}'
+      // }
+      formatter({ row }) {
+        return `${row.bgtTypeCode}-${row.bgtTypeName}`
       },
-      props: {
-        format: '{bgtTypeCode}-{bgtTypeName}'
-      }
+      exportFormatter: true
     }
   ]
 }

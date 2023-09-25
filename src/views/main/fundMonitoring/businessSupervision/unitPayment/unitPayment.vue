@@ -571,7 +571,7 @@ export default {
         queryUrl = 'queryTableDatasPage'
         HttpModule.querySum(param).then(res => {
           if (res.code === '000000') {
-            this.tableFooterConfig.totalObj = res.data[0]
+            this.tableFooterConfig.totalObj = res.data?.data[0]
           } else {
             this.$message.error(res.message)
           }
@@ -673,6 +673,8 @@ export default {
       // })
     },
     getLeftTreeData() {
+      this.treeQueryparams.elementCode = this.treeQueryparams.elementCode ? this.treeQueryparams.elementCode : this.treeQueryparams.elementcode
+      console.log('this.treeQueryparams.elementCode:', this.treeQueryparams.elementCode)
       HttpModule.getTreeData(this.treeQueryparams).then(res => {
         if (res.data) {
           let treeResdata = this.getChildrenData(res.data)
@@ -709,7 +711,7 @@ export default {
     },
     getDep() {
       const param = {
-        elementcode: 'hold6',
+        elementCode: 'hold6',
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province,
         wheresql: 'and code != \'00\''
@@ -754,11 +756,11 @@ export default {
       this.queryCaliberDeclareContent()
       this.getAgency()
       this.getDep()
-      this.tableColumnsConfig = this.queryConfig.filter(item => {
+      this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
         return item.key !== 'project'
       })
     } else {
-      this.tableColumnsConfig = this.queryConfig.filter(item => {
+      this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
         return item.key !== 'sx'
       })
       this.queryConfig = this.queryConfig.filter(item => {
