@@ -77,9 +77,11 @@ export default {
     tableGlobalConfig() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
-        addReportTitleColumn: true,
-        fileName: this.menuName,
-        dataType
+        customExportConfig: {
+          addReportTitleColumn: true,
+          fileName: this.menuName,
+          dataType
+        }
       }
     }
   },
