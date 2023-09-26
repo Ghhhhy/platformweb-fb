@@ -771,6 +771,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getMofDiv()
+    console.log(111)
     this.queryTableDatas()
     if (this.isSx) {
       this.queryCaliberDeclareContent()
