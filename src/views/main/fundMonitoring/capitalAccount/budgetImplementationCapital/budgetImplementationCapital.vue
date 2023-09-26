@@ -932,6 +932,10 @@ export default {
       this.$XEUtils.getWhatDay(new Date(), -1),
       'yyyy-MM-dd'
     )
+    if (!this.isSx) {
+      this.searchDataList.mofDivCodes_name = ''
+      this.searchDataList.mofDivCodes = []
+    }
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

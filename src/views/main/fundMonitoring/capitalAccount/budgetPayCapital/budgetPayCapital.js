@@ -55,7 +55,7 @@ const proconf = {
         name: '$vxeTree',
         options: [],
         props: {
-          defaultCheckedKeys: [store.state?.userInfo?.province],
+          defaultCheckedKeys: [],
           config: {
             valueKeys: ['code', 'name', 'id'],
             format: '{name}',
@@ -93,8 +93,8 @@ const proconf = {
     fiscalYear: store.state?.userInfo?.year,
     mofDivCodes: [],
     mofDivCodes_code__multiple: [],
-    mofDivCodes_code: store.state?.userInfo?.province,
-    mofDivCodes_name: store.state?.userInfo?.admdivname,
+    mofDivCodes_code: [],
+    mofDivCodes_name: [],
     endTime: ''
   },
   basicInfo: {
