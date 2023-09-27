@@ -55,7 +55,7 @@ const proconf = {
         name: '$vxeTree',
         options: [],
         props: {
-          defaultCheckedKeys: [store.state?.userInfo?.province],
+          defaultCheckedKeys: [],
           config: {
             valueKeys: ['code', 'name', 'id'],
             format: '{name}',

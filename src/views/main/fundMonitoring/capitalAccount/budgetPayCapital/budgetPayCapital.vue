@@ -764,7 +764,12 @@ export default {
         'yyyy-MM-dd'
       )
     }
-
+    if (!this.isSx) {
+      this.searchDataList.mofDivCodes_name = ''
+      this.searchDataList.mofDivCodes = []
+      this.searchDataList.mofDivCodes_code__multiple = []
+      this.searchDataList.mofDivCodes_code = []
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
     this.roleguid = this.$store.state.curNavModule.roleguid
