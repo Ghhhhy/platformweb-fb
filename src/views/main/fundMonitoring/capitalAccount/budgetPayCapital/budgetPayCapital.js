@@ -93,8 +93,8 @@ const proconf = {
     fiscalYear: store.state?.userInfo?.year,
     mofDivCodes: [],
     mofDivCodes_code__multiple: [],
-    mofDivCodes_code: [],
-    mofDivCodes_name: [],
+    mofDivCodes_code: store.state?.userInfo?.province,
+    mofDivCodes_name: store.state?.userInfo?.admdivname,
     endTime: ''
   },
   basicInfo: {
