@@ -376,7 +376,7 @@ export default {
         })
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
+      HttpModule.queryTableDatasSx(param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
