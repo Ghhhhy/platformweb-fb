@@ -97,6 +97,7 @@ import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import DescDialog from './children/descDialog'
 import store from '@/store/index'
 import { mapState } from 'vuex'
+const routeNameLsit = ['MonitorRulesViewByZd']
 // import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
@@ -377,7 +378,6 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
-      this.isDir = obj.isDir
       this.isSpeType = obj.isSpeType
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
@@ -769,7 +769,6 @@ export default {
         regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         isEnable: this.isEnable,
         triggerClass: this.triggerClass,
-        isDir: this.isDir,
         isSpeType: this.isSpeType,
         regulationName: this.regulationName,
         regulationClass: this.regulationClass,
@@ -790,7 +789,6 @@ export default {
           delete param.fiRuleTypeCode
           delete param.regulation_class
         } else {
-          param.isDir = this.isDir
           param.isSpeType = this.isSpeType
           delete param.regulationCode
         }
@@ -820,6 +818,9 @@ export default {
         param.regulation_code = this.regulation_code
       } else {
         delete param.regulation_code
+      }
+      if (routeNameLsit.includes(this.$route.name)) {
+        param.isDir = '1'
       }
       this.tableLoading = true
       HttpModule.queryMonitorTableDatas(param).then(res => {
