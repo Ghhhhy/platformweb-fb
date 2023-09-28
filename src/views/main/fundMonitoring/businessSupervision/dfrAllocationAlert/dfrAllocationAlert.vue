@@ -376,7 +376,9 @@ export default {
         })
       }
       this.tableLoading = true
-      HttpModule.queryTableDatasSx(param).then((res) => {
+      let axiosQueryUrl = 'queryTableDatas'
+      this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+      HttpModule[axiosQueryUrl](param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
