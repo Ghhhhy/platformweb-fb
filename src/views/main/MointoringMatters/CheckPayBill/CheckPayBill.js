@@ -15,7 +15,7 @@ export let proconf = {
           { value: '财政监督报告', label: '财政监督报告' }
         ],
         props: {
-          placeholder: '请选择'
+          placeholder: '对比结果'
         }
       }
     },
@@ -25,13 +25,12 @@ export let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      name: '$vxeTime',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTime',
+        option: [],
         props: {
-          placeholder: '开始时间',
-          type: 'time',
-          clearable: true
-          // valueFormat: 'yyyy-mm'
+          placeholder: '开始时间'
         }
       }
     },
@@ -41,13 +40,11 @@ export let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      name: '$vxeTime',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTime',
         props: {
-          placeholder: '终止时间',
-          type: 'time',
-          clearable: true
-          // valueFormat: 'yyyy-mm-ss'
+          placeholder: '终止时间'
         }
       }
     },
@@ -57,10 +54,14 @@ export let proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeInput',
+      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeInput',
-        options: [],
+        name: '$vxeSelect',
+        options: [
+          { value: '预决算报告', label: '预决算报告' },
+          { value: '审计报告', label: '审计报告' },
+          { value: '财政监督报告', label: '财政监督报告' }
+        ],
         props: {
           placeholder: '资金名称'
         }
@@ -125,39 +126,60 @@ export let proconf = {
     },
     {
       title: '操作',
-      className: 'gloableOptionRow',
+      filed: 'opration',
       align: 'center',
       fixed: 'right',
       sortable: false,
       filters: false,
       cellRender: {
         // name: '$vxeTableHref',
-        name: '$vxeTableOptionRow',
+        // name: '$vxeTableOptionRow',
+        name: '$customerRender',
         props: {
-          statusField: 'acceptDivision',
-          options: {
-            // 暂时这样写
-            22: [
-              {
-                label: '查看明细',
-                code: 'detail',
-                class: 'detail',
-                btnStatus: '',
-                type: 'text' // text||button
-              }
-            ],
-            default: [
-              {
-                label: '查看明细',
-                code: 'detail',
-                class: 'detail',
-                btnStatus: '',
-                type: 'text' // text||button
-              }
-            ]
-          }
+          statusField: 'acceptDivision'
+          // options: {
+          //   // 暂时这样写
+          //   22: [
+          //     {
+          //       label: '查看明细',
+          //       code: 'detail',
+          //       class: 'detail',
+          //       btnStatus: '',
+          //       type: 'text' // text||button
+          //     }
+          //   ],
+          //   default: [
+          //     {
+          //       label: '查看明细',
+          //       code: 'detail',
+          //       class: 'detail',
+          //       btnStatus: '',
+          //       type: 'text' // text||button
+          //     }
+          //   ]
+          // }
         }
-      }
+      },
+      name: '$customerRender'
     }
-  ]
+  ],
+  toolBarStatusButtons: [
+    {
+      type: 'button',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      iconUrl: '',
+      label: '全部',
+      code: '1',
+      curValue: ''
+    }
+  ],
+  // BsToolBar 右侧按钮
+  statusRightToolBarButton: {
+    '1': [
+      { code: 'add', label: '新增', status: 'primary' },
+      { code: 'update', label: '修改' },
+      { code: 'delete', label: '删除' }
+    ]
+  }
 }

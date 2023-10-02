@@ -1,27 +1,18 @@
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
-      <template v-slot:mainTree>
-        <div class="left-tree">
-          <div class="mmc-left-tree-title">
-            <BsTreeSet
-              ref="treeSetBottom"
-              :tree-config="setConfigBottom"
-              @onChangeInput="changeInputBottom"
-            />
-          </div>
-          <div class="mmc-left-tree-body">
-            <BsTree
-              :queryparams="treeQueryparamsBottom"
-              :config="treeConfigBottom"
-              :filter-text="filterTextBottom"
-              :tree-data="jigouTreeData"
-              @onNodeClick="onNodeClickBottom"
-            />
-          </div>
-        </div>
+      <template v-slot:topTabPane>
+        <BsTabPanel
+          ref="tabPanel"
+          show-zero
+          :show-num="true"
+          :is-open="isShowQueryConditions"
+          :tab-status-btn-config="toolBarStatusBtnConfig"
+          :tab-status-num-config="tabStatusNumConfig"
+          @onQueryConditionsClick="onQueryConditionsClick"
+        />
       </template>
-      <template v-slot:mainForm>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -29,52 +20,120 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
-          <BsTable
-            ref="mainTableRef"
-            :table-config="tableConfig"
-            :table-global-config="tableGlobalConfig"
-            :toolbar-config="toolbarConfig"
-            :height="420"
-            :pager-config="{}"
-            :tree-config="treeConfig"
-            :footer-config="footerConfig"
-            :table-columns-config="tableColumnsConfig"
-            :table-data="tableData"
-            @onOptionRowClick="onOptionRowClick"
-          >
-            <template v-slot:toolbarSlots>
-              <div class="table-toolbar-left">
-                <div class="table-toolbar-left-title">
-                  <span class="fn-inline">{{ menuName }}</span>
-                  <i class="fn-inline"></i>
-                </div>
-              </div>
-            </template>
-          </BsTable>
         </div>
       </template>
+      <template v-slot:mainTree>
+        <BsTreeSet
+          ref="treeSet"
+          v-model="showAside"
+          :tree-config="setConfig"
+          @onChangeInput="changeInput"
+          @onAsideChange="asideChange"
+        />
+        <!-- <BsTreeSet
+          ref="treeSetBottom"
+          v-model="leftTreeVisible"
+          :tree-config="setConfigBottom"
+          @onAsideChange="asideChange"
+          @onChangeInput="changeInputBottom"
+        /> -->
+        <BsTree
+          :queryparams="treeQueryparams"
+          :config="treeConfig"
+          :filter-text="filterText"
+          :tree-data="treeData"
+          @onNodeClick="onNodeClick"
+        />
+        <!-- <BsTree
+          ref="leftTree"
+          open-loading
+          :queryparams="treeQueryparamsBottom"
+          :config="treeConfigBottom"
+          :tree-data="treeData"
+          @onNodeClick="onNodeClickBottom"
+        /> -->
+      </template>
+      <template v-slot:mainForm>
+        <BsTable
+          ref="mainTableRef"
+          :table-config="tableConfig"
+          :table-global-config="tableGlobalConfig"
+          :toolbar-config="toolbarConfig"
+          :height="420"
+          :pager-config="{}"
+          :tree-config="treeConfigTable"
+          :footer-config="footerConfig"
+          :table-columns-config="tableColumnsConfig"
+          :table-data="tableData"
+          @onOptionRowClick="onOptionRowClick"
+        >
+          <template v-slot:toolbarSlots>
+            <div class="table-toolbar-left">
+              <div
+                v-if="leftTreeVisible === false"
+                class="table-toolbar-contro-leftvisible"
+                @click="leftTreeVisible = true"
+              ></div>
+              <div class="table-toolbar-left-title">
+                <span class="fn-inline">{{ menuName }}</span>
+                <i class="fn-inline"></i>
+              </div>
+            </div>
+          </template>
+        </BsTable>
+      </template>
     </BsMainFormListLayout>
+    <CheckPayBillModal
+      v-if="showModal"
+      ref="CheckPayBillModal"
+      @close="closeModal"
+    />
   </div>
 </template>
 
 <script>
 import { proconf } from './CheckPayBill.js'
+import CheckPayBillModal from './CheckPayBillModal.vue'
 export default {
+  components: {
+    CheckPayBillModal
+  },
   data() {
     return {
       tableLoading: false,
-      setConfigBottom: {},
       searchDataList: {},
       queryConfig: proconf.highQueryConfig,
       isShowQueryConditions: true,
       leftTreeVisible: true,
+      // 头部工具栏 BsTabPanel config
+      toolBarStatusBtnConfig: {
+        changeBtns: true,
+        buttons: proconf.toolBarStatusButtons,
+        curButton: {
+          type: 'button',
+          iconName: 'base-all.png',
+          iconNameActive: 'base-all-active.png',
+          iconUrl: '',
+          label: '全部',
+          code: '1',
+          curValue: '1'
+        },
+        buttonsInfo: proconf.statusRightToolBarButton,
+        methods: {
+          bsToolbarClickEvent: this.onStatusTabClick
+        }
+      },
+      // 弹框
+      showModal: false,
+      // 左侧树
       showAside: false,
-      treeQueryparamsBottom: { elementCode: 'AGENCY' },
-      treeConfigBottom: {
-        showFilter: true, // 是否显示过滤
+      setConfig: {},
+      treeQueryparams: { elementCode: 'AGENCY' },
+      treeConfig: {
+        showFilter: false, // 是否显示过滤
         levelno: -1, // 可选层级
         valueKeys: ['code', 'name', 'id'],
-        placeholder: '请输入内容',
+        placeholder: '请选择',
         treeProps: {
           // 树配置选项
           labelFormat: '{code}-{name}', //  {code}-{name}
@@ -93,8 +152,8 @@ export default {
         clearable: true, // 可清除
         defaultExpandAll: true // 默认是否展开所有节点
       },
-      filterTextBottom: '', // 树字段过滤
-      jigouTreeData: [
+      filterText: '', // 树字段过滤
+      treeData: [
         {
           id: '1',
           code: '100',
@@ -122,9 +181,29 @@ export default {
           ]
         }
       ],
+
       // BsTable表格
       menuName: '转移支付资金上下级对账结果列表',
       tableConfig: {
+        renderers: {
+          // 修改 配置 下发 删除
+          $customerRender: {
+            renderDefault: (h, cellRender, { row, rowIndex }, context) => {
+              let vnode = (
+                <div>
+                  <a
+                    style="cursor: pointer"
+                    onClick={() => this.handleRowClick(row)}
+                  >
+                    查看详情
+                  </a>
+                </div>
+              )
+              // {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
+              return [vnode]
+            }
+          }
+        },
         globalConfig: {
           // 全局默认渲染列配置
           // 全局配置
@@ -152,7 +231,7 @@ export default {
           buttons: 'toolbarSlots'
         }
       },
-      treeConfig: {
+      treeConfigTable: {
         expandAll: true,
         indent: 10,
         accordion: false
@@ -193,39 +272,34 @@ export default {
     }
   },
   methods: {
-    search() {},
-    onOptionRowClick({ row, optionType }, context) {
-      switch (optionType) {
-        case 'detail':
-          console.log('操作按钮点击事件回调方式二', 'detail', row)
-          break
-        default:
-      }
+    asideChange() {
+      this.leftTreeVisible = false
     },
-    asideChange(val) {
-      this.$message({
-        showClose: true,
-        message: val,
-        type: 'success'
-      })
+    onQueryConditionsClick() {
+      this.isShowQueryConditions = !this.isShowQueryConditions
     },
-    changeInputTop(val) {
-      this.filterTextTop = val
+    search(val) {
+      console.log(val)
     },
-    // 点击树节点
-    onNodeClickTop({ node, treeData }, $event, treeContext) {
-      this.$message({
-        showClose: true,
-        message: node.label,
-        type: 'success'
-      })
-      console.log(node, treeData, $event, treeContext)
+    handleRowClick(row) {
+      console.log('点击每行的方法', row)
+      console.log(this.showModal, '111')
+      this.showModal = !this.showModal
+      // this.fiRuleCode = row.fiRuleCode || ''
+      // this.warningCode = row.warningCode || ''
+      // this.dialogVisible = true
+      // this.dialogTitle = '查看详情信息'
     },
-    changeInputBottom(val) {
-      this.filterTextBottom = val
+    closeModal(value) {
+      console.log(value, '222')
+      this.showModal = false
+    },
+
+    changeInput(val) {
+      this.filterText = val
     },
     // 点击树节点
-    onNodeClickBottom({ node, treeData }, $event, treeContext) {
+    onNodeClick({ node, treeData }, $event, treeContext) {
       this.$message({
         showClose: true,
         message: node.label,
@@ -241,20 +315,19 @@ export default {
 /* ::v-deep .vxe-tools--wrapper {
   display: none;
 } */
-.T-search {
+/* .T-search {
   background: none !important;
-}
-.unit-tree-main.unit-tree-main-nodrop
+} */
+/* .unit-tree-main.unit-tree-main-nodrop
   .selection-tree-nodrop
   .vxe-input-filter-tree {
   margin-bottom: 0px !important;
-}
-.tree-set__content {
+} */
+/* .tree-set__content {
   display: none !important;
-}
+} */
 .left-tree {
   height: 100%;
-  background-color: white !important;
 }
 .left-tree-body {
   height: 100%;
