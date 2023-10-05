@@ -16,6 +16,19 @@ argv.remain.forEach((item) => {
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== 'production' ? 'error' : false,
   publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_CONF_PUBLIC_PATH || './') : (process.env.VUE_APP_CONF_PUBLIC_PATH || './'),
+  devServer: {
+    hot: true,
+    proxy: {
+      '/datav': {
+        target: 'http://223.223.190.114:12217', // 开发环境数据可视化服务
+        changOrigin: true // 允许跨域
+      },
+      '/mp-t-file-service': {
+        target: 'http://223.223.190.114:12216', // 开发环境文件服务
+        changOrigin: true // 允许跨域
+      }
+    }
+  },
   chainWebpack: config => {
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')
