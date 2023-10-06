@@ -147,6 +147,15 @@ const proconf = {
         cellRender: { name: '$vxeMoney' }
       },
       {
+        title: '中央下达(不含分配下级)',
+        width: 100,
+        field: 'amountZyxdBhxj',
+        align: 'right',
+        visible: store.getters.isSx,
+        type: 'amountZyxd',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
         title: '整合',
         width: 200,
         field: 'amountZhje',
