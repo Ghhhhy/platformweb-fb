@@ -8,7 +8,6 @@
           :show-num="true"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
@@ -30,13 +29,6 @@
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
         />
-        <!-- <BsTreeSet
-          ref="treeSetBottom"
-          v-model="leftTreeVisible"
-          :tree-config="setConfigBottom"
-          @onAsideChange="asideChange"
-          @onChangeInput="changeInputBottom"
-        /> -->
         <BsTree
           :queryparams="treeQueryparams"
           :config="treeConfig"
@@ -44,17 +36,9 @@
           :tree-data="treeData"
           @onNodeClick="onNodeClick"
         />
-        <!-- <BsTree
-          ref="leftTree"
-          open-loading
-          :queryparams="treeQueryparamsBottom"
-          :config="treeConfigBottom"
-          :tree-data="treeData"
-          @onNodeClick="onNodeClickBottom"
-        /> -->
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <!-- <BsTable
           ref="mainTableRef"
           :table-config="tableConfig"
           :table-global-config="tableGlobalConfig"
@@ -65,7 +49,6 @@
           :footer-config="footerConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          @onOptionRowClick="onOptionRowClick"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -80,7 +63,19 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </BsTable> -->
+        <ReportView
+          v-if="true"
+          ref="reportView"
+          class="platfromreport"
+          codes="nmfxbb"
+          :editable="editable"
+          :init-params="initParams"
+          :init-business-context="initBusinessContext"
+          :enable-row-readable-authority="true"
+          @export-excel="exportExcel"
+          @print-pdf="printPdf"
+        />
       </template>
     </BsMainFormListLayout>
     <CheckPayBillModal
@@ -268,7 +263,17 @@ export default {
           result: '比对成功',
           time: '9.27'
         }
-      ]
+      ],
+      // datav表格数据
+      reportParams: {},
+      editable: {},
+      businessContext: {
+        token: this.$store.getters.getLoginAuthentication.tokenid
+      },
+      ifRenderReport: true,
+      code: 'nmfxbb',
+      paramsObj: '',
+      searchObj: {}
     }
   },
   methods: {
@@ -306,8 +311,174 @@ export default {
         type: 'success'
       })
       console.log(node, treeData, $event, treeContext)
+    },
+    // datav表格
+    // batchExportExcel(excelParams) {
+    //   this.$refs.reportView.batchExportExcel(excelParams) // 选中报表批量导出成Excel
+    // },
+    // batchExportPDF(excelParams) {
+    //   this.$refs.reportView.batchExportPDF(excelParams) // 选中报表批量导出成PDF
+    // },
+    // exportCurrentExcel() {
+    //   this.$refs.reportView.exportExcel() // 当前报表导出成Excel
+    // },
+    // exportCurrentPDF() {
+    //   this.$refs.reportView.exportPDF() // 当前报表导出成PDF
+    // },
+    // print() {
+    //   this.$refs.reportView.print() // 打印当前报表
+    // },
+    // batchPrint(draftList) {
+    //   this.$refs.reportView.batchPrint(draftList) // 打印当前报表
+    // },
+    // submit() {
+    //   console.log(82, this.$refs.reportView.getExcelData())
+    //   return this.$refs.reportView.getSubmitFillData() // 提交前调用报表插件的
+    // },
+    // getExcelData() {
+    //   return this.$refs.reportView.getExcelData()
+    // },
+    // encodeExcelPassword(password) {
+    //   return this.$refs.reportView.excelPasswordEncode(password)
+    // },
+    initParams(params) {
+      return new Promise((resolve) => {
+        let paramsTemp = { ...this.paramsObj }
+        console.log('当前报表参数为：', paramsTemp)
+        Object.keys(params).map((key) => {
+          if (Object.hasOwnProperty.call(this.paramsObj, key)) {
+            paramsTemp[key] = this.paramsObj[key]
+          }
+        })
+        resolve(paramsTemp)
+      })
+    },
+    // searchData() {
+    //   this.$refs.report_view.searchData(this.paramsObj) // 查询当前报表数据
+    // },
+    // /**
+    //  * @description: 报表参数变了，刷新报表数据
+    //  * @param {*}
+    //  * @return {*}
+    //  */
+    // refreshReport() {
+    //   const { code, paramsObj } = this.reportParams
+    //   this.code = code
+    //   this.paramsObj = paramsObj
+    //   // this.searchData()
+    // },
+    // parentCallSearch() {
+    //   this.refreshReport()
+    //   this.ifRenderReport = false
+    //   this.$nextTick(() => {
+    //     this.ifRenderReport = true
+    //   })
+    // },
+    // /**
+    //  * 若无权限控制，则插件中不需要绑定该方法
+    //  * 设置业务上下文信息businessContext
+    //  * 上下文信息会在数据获取时传递给应用后端进行权限控制 **/
+    initBusinessContext() {
+      return new Promise((resolve) => {
+        resolve(this.businessContext)
+      })
+    },
+    // getInstance() {
+    //   let self = this
+    //   var Xsheet = window.bossJS.Xsheet
+    //   return Xsheet.getInstance({
+    //     config: {
+    //       appId: self.$store.state.loginAuthentication.appguid || 'gov-aims'
+    //     }
+    //   })
+    // },
+    printPdf(options) {
+      let instance = this.getInstance()
+      let exportPages = instance.printingSheetRequest(options)
+      let _this = this
+      exportPages
+        .done(function (data) {
+          _this.$refs.reportview.batchPrintDone()
+          console.log('print pdf success', data)
+        })
+        .fail(function (obj) {
+          _this.$refs.reportview.batchPrintFail()
+          console.log('print pdf error', obj)
+        })
+    },
+    exportExcel(options) {
+      let instance = this.getInstance()
+      let exportPages = instance.printingSheetRequest(options)
+      let _this = this
+      exportPages
+        .done(function (data) {
+          _this.$refs.reportView.exportExcelDone()
+          console.log('img print success', data)
+        })
+        .fail(function (obj) {
+          _this.$refs.reportView.exportExcelFail()
+          console.log('export excel error', obj)
+        })
     }
+    // getreportParams() {
+    //   let paramsObj = {}
+    //   const { code, city } = this.$store.getters.getMenuParams5
+    //   // eslint-disable-next-line no-unused-vars
+    //   let param = this.$store.getters.getMenuParams5.paramsObj
+    //   if (param) {
+    //     param = param.substr(1) // 删除第一个字符
+    //     param = param.substr(0, param.length - 1) // 删除最后一字符
+    //     let arr = param.split(',')
+    //     arr.map((item, index) => {
+    //       if (!item.split(':')[0]) {
+    //         return
+    //       }
+    //       paramsObj[item.split(':')[0]] = item.split(':')[1]
+    //     })
+    //   }
+    //   paramsObj['fiscal_year'] = this.$store.state.userInfo.year
+    //   return {
+    //     code,
+    //     city,
+    //     paramsObj
+    //   }
+    // }
   }
+  // watch: {
+  //   reportParams: {
+  //     // 查询参数
+  //     handler(newVal, oldVal) {
+  //       console.log(!newVal.code, 50144)
+  //       if (!newVal.code) {
+  //         this.ifRenderReport = false
+  //         return false
+  //       }
+  //       // if (newVal && oldVal && JSON.stringfy(newVal) === JSON.stringfy(oldVal)) {
+  //       //   this.ifRenderReport = false
+  //       //   return false
+  //       // }{}
+  //       if (this.isload) {
+  //         this.refreshReport()
+  //         // this.ifRenderReport = false
+  //         this.$nextTick(() => {
+  //           this.ifRenderReport = true
+  //         })
+  //       }
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   },
+  //   editable: {
+  //     handler(newVal, oldVal) {
+  //       this.parentCallSearch()
+  //     },
+  //     deep: true,
+  //     immediate: true
+  //   }
+  // },
+  // mounted() {
+  //   window.bossJS.init && window.bossJS.init()
+  // }
 }
 </script>
 
