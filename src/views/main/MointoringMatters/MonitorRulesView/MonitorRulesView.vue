@@ -97,7 +97,7 @@ import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import DescDialog from './children/descDialog'
 import store from '@/store/index'
 import { mapState } from 'vuex'
-const routeNameLsit = ['MonitorRulesViewByZd']
+const routeNameLsit = ['MonitorRulesViewByZd', 'MonitorRulesViewZD']
 // import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
@@ -138,6 +138,7 @@ export default {
   },
   data() {
     return {
+      leftTreeClickNode: {},
       isleaf: false,
       selectionData: [],
       leftTreeFilterText: '',
@@ -701,6 +702,7 @@ export default {
       })
     },
     onClickmethod(node) {
+      this.leftTreeClickNode = node.node
       console.log('node.node', node.node)
       let code = node.node.code
       this.isleaf = node.node.isleaf
@@ -821,6 +823,7 @@ export default {
       }
       if (routeNameLsit.includes(this.$route.name)) {
         param.isDir = '1'
+        param.warningLevel = this.leftTreeClickNode.warnLevel
       }
       this.tableLoading = true
       HttpModule.queryMonitorTableDatas(param).then(res => {
@@ -988,6 +991,10 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.initRegulationClass()
+    if (routeNameLsit.includes(this.$route.name)) { // 直达资金下面的菜单 左侧树变成预警级别
+      this.treeData = this.$store.state.warnInfo.warnLevelOptions
+      return
+    }
     this.setMonitorThemeTreeShow()
     // this.queryTableDatas()
   }
