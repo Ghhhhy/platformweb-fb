@@ -499,6 +499,14 @@ const proconf = {
       align: 'right'
     },
     {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'createPersonName',
+      sortable: false,
+      align: 'right'
+    },
+    {
       title: '整改意见',
       field: 'rectifyAsk',
       sortable: false,
@@ -1375,6 +1383,14 @@ const proconf = {
       sortable: false,
       align: 'right',
       cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'createPersonName',
+      sortable: false,
+      align: 'center'
     },
     {
       title: '整改结果',

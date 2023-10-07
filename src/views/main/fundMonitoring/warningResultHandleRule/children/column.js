@@ -203,6 +203,14 @@ const proconf = {
       align: 'right'
     },
     {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'affirmPersomName',
+      sortable: false,
+      align: 'center'
+    },
+    {
       title: '整改时间',
       filters: false,
       width: 140,
@@ -477,6 +485,14 @@ const proconf = {
     {
       title: '预警时间',
       field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定人',
+      field: 'affirmPersomName',
       filters: false,
       width: 140,
       sortable: false,
@@ -875,6 +891,14 @@ const proconf = {
     {
       title: '预警时间',
       field: 'fiDate',
+      filters: false,
+      width: 140,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '认定人',
+      field: 'affirmPersomName',
       filters: false,
       width: 140,
       sortable: false,
@@ -1291,6 +1315,13 @@ const proconf = {
       field: 'fiDate',
       filters: false,
       width: 140,
+      sortable: false,
+      align: 'center'
+    }, {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'affirmPersomName',
       sortable: false,
       align: 'center'
     },

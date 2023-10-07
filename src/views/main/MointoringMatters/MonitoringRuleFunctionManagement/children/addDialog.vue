@@ -216,7 +216,8 @@ export default {
       queryType: '',
       queryTypeOptions: [
         { id: 'inTable', label: '表内', value: '1' },
-        { id: 'outTable', label: '表间', value: '2' }
+        { id: 'outTable', label: '表间', value: '2' },
+        { id: 'inTableAll', label: '表内批量', value: '31' }
       ],
       functionName: '',
       functionApi: '',
