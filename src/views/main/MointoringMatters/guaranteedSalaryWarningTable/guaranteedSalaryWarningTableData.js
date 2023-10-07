@@ -2,6 +2,13 @@
 import store from '@/store/index'
 import Vue from 'vue'
 const h = new Vue().$createElement
+const dict=[
+  { label:"绿色",value:"1",},
+  { label:"黄色",value:"2",},
+  { label:"红色一档",value:"3",},
+  { label:"红色二档",value:"4",},
+  { label:"红色三档",value:"5",},
+]
 export const mockQueryData = [
   {
     title: '日期',
@@ -14,7 +21,7 @@ export const mockQueryData = [
       format: 'YYYY-MM-DD',
       props: {
         type: 'date', //
-        placeholder: '请选择日期'
+        placeholder: '请选择截至日期',
       }
     }
   },
@@ -30,11 +37,13 @@ export const mockQueryData = [
       props: {
         placeholder: '请选择区划',
         isServer: true,
+        format: '{code}-{name}',
         config: {
           treeProps: {
             nodeKey: 'guid',
             label: 'name',
-            children: 'children'
+            children: 'children',
+            labelFormat:"{code}-{name}"
           },
           placeholder: '请选择区划',
           multiple: true,
@@ -58,13 +67,13 @@ export const mockQueryData = [
     align: 'center',
     itemRender: {
       name: '$vxeSelect',
-      options:[],
-      options: store.state.warnInfo.warnLevelOptions.map(item => {
-        return {
-          ...item,
-          value: String(item.value)
-        }
-      }),
+      options:dict,
+      // options: store.state.warnInfo.warnLevelOptions.map(item => {
+      //   return {
+      //     ...item,
+      //     value: String(item.value)
+      //   }
+      // }),
       defaultValue: '',
       props: {}
     },
@@ -78,20 +87,12 @@ export const mockQueryParams = {
   startDays: ''
 }
 export const mockTableColumns = [
-  // {
-  //   title: '区划',
-  //   width: '180',
-  //   field: 'mofDivName',
-  //   align: 'left',
-  //   type: 'treeNode',
-  //   treeNode: true
-  // },
   {
     title: '区划',
     align: 'left',
     treeNode: true,
     width: 260,
-    field: 'mofDivName',
+    field: 'name',
     filters: false,
     cellRender: {
       name: '$vxeIcon'
@@ -105,7 +106,7 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     cellRender: {
-      name: '$vxeInput'
+      name: '$vxeMoney'
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
@@ -117,7 +118,7 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     cellRender: {
-      name: '$vxeInput'
+      name: '$vxeMoney'
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
@@ -150,7 +151,7 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     formatter({ row }) {
-      return row.warningLevel
+      return row.sbGzSxjd
     },
     cellRender: {
       name: '$vxeRatio'
@@ -171,20 +172,26 @@ export const mockTableColumns = [
     },
     slots: {
       default({ row }) {
+        const style={width:'100%',height:'100%' }
+        if(row.rgbColor){
+          style['background-color']=`#${row.rgbColor.replace('#', '')}`
+        }
         return [
-          <div style={{width:'100%',height:'100%', 'background-color': row.color }}></div>
+          <div style={style}>{dict.find(item=>{return item.value==row.warningLevel})?.label||''}</div>
         ]
       }
     },
     exportFormatter: true,
     customerExportStyle: ({ row }) => {
-      return {
-        fill: {
+      const fill={
           bgColor: 'ffffffff',
-          fgColor: `ff${row.color?.replace('#', '')}`,
+          fgColor:'ffffffff',
           patternType: 'solid'
-        }
       }
+      if(row.rgbColor){
+        fill['fgColor']=`ff${row.rgbColor.replace('#', '')}`
+      }
+      return {fill}
     }
   }
 ]

@@ -16,8 +16,8 @@
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="queryData"
-          @onSearchClick="mainPagerConfig.page = 1, onSearch()"
-          @onSearchResetClick="reset(), onSearch()"
+          @onSearchClick="onSearch"
+          @onSearchResetClick="reset(), search()"
         />
       </template>
       <template v-slot:mainForm>
@@ -26,6 +26,8 @@
           v-bind="staticConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :title="menuName"
+          v-on="staticEvents"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -41,47 +43,63 @@
   </div>
 </template>
 <script lang="js">
-import { ref, defineComponent } from '@vue/composition-api'
+// /* eslint-disable */
+import { ref, defineComponent, onMounted } from '@vue/composition-api'
 import httpMudules from '@/api/frame/main/Monitoring/guaranteedSalaryWarningTable.js'
 // import useTable from '@/hooks/useTable'
 import { mockQueryData, mockQueryParams, mockTableColumns } from './guaranteedSalaryWarningTableData'
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      search()
+    })
+    let cursionData = (arr) => {
+      return arr.map(item => {
+        let newObj = { ...item }
+        if (item.sbGzKhjd) {
+          newObj.sbGzKhjd = Number(parseFloat(item.sbGzKhjd).toFixed(1))
+        } else {
+          newObj.sbGzKhjd = Number('0.0')
+        }
+        if (item.children) {
+          newObj.children = cursionData(item.children)
+        }
+        return newObj
+      })
+    }
     const tableLoading = ref(false)
     const queryConfig = ref(mockQueryData)
     const queryData = ref(mockQueryParams)
     const menuName = ref('“保工资”预警表')
-    const onSearch = () => {
+    let tableData = ref([])
+    const onSearch = (e) => {
       let parmas = {
-
+        startDays: e.startDays,
+        mofDivCode: e.agencyCode_code__multiple,
+        warningLevel: e.warningLevel
+        // page: 1, // 页码
+        // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数
       }
-      httpMudules.queryTableDatas(parmas).then(res => {
-        console.log(789, res)
+      queryData.value = parmas
+      search()
+    }
+    const search = () => {
+      httpMudules.queryTableDatas(queryData.value).then(res => {
+        if (res.code === '000000' && res.data.length) {
+          let newList = cursionData(res.data)
+          tableData.value = newList
+        }
       })
     }
-    const reset = () => {}
-    let tableData = ref([{
-      id: 1,
-      dealNo: 123123,
-      mofDivName: '123',
-      warningLevel: '1',
-      color: '#FFFF00',
-      sbGzKhjd: '70',
-      sbZxjeBgz: '456',
-      sbZbjeBgz: '789',
-      children: [
-        {
-          id: 2,
-          dealNo: 123123,
-          mofDivName: '123',
-          warningLevel: '1',
-          color: '#EF949F',
-          sbGzKhjd: '70',
-          sbZxjeBgz: '456',
-          sbZbjeBgz: '789'
-        }
-      ]
-    }])
+    const reset = () => {
+      queryData.value = {
+        startDays: '',
+        mofDivCode: '',
+        warningLevel: ''
+        // page: 1, // 页码
+        // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数
+      }
+    }
     let tableColumnsConfig = ref(mockTableColumns)
     const staticConfig = ref({
       'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' },
@@ -100,25 +118,40 @@ export default defineComponent({
           buttons: 'toolbarSlots'
         }
       },
+      pagerConfig: false,
+      // pagerConfig: {
+      //   page: 1,
+      //   pageSize: 10
+      // },
       cellStyle: ({ row, columns }) => {}
     })
-    const mainPagerConfig = ref({
-      page: 1,
-      pageSize: 10
-    })
     const staticEvents = ref({
-      cellClick: () => { },
-      ajaxTableData: () => { },
-      onToolbarBtnClick: () => { }
+      cellClick: (obj, context, e) => {
+        let key = obj.column.property
+        console.log(key, obj.row)
+      },
+      ajaxData: ({ params, currentPage, pageSize }) => {
+        // staticConfig.value.pagerConfig.currentPage = currentPage
+        // staticConfig.value.pagerConfig.pageSize = pageSize
+        search()
+      },
+      onToolbarBtnClick: ({ context, table, code }) => {
+        switch (code) {
+          // 刷新
+          case 'refresh':
+            this.refresh()
+            break
+        }
+      }
     })
     return {
       staticConfig,
-      mainPagerConfig,
       staticEvents,
       tableColumnsConfig,
       tableData,
       reset,
       onSearch,
+      search,
       menuName,
       queryData,
       queryConfig,
