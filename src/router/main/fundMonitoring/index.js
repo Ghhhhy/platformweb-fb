@@ -1181,6 +1181,15 @@ const routers = [
     },
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
+  {
+    path: '/guaranteedSalaryWarningTable', // 三保监控预警结果查询
+    name: 'guaranteedSalaryWarningTable',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/MointoringMatters/guaranteedSalaryWarningTable/guaranteedSalaryWarningTable.vue')
+  },
   ...workFlowRouters
 ]
 
