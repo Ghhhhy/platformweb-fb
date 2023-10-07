@@ -105,7 +105,7 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     cellRender: {
-      name: '$vxeMoney'
+      name: '$vxeInput'
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
@@ -117,7 +117,7 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     cellRender: {
-      name: '$vxeMoney'
+      name: '$vxeInput'
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
@@ -129,19 +129,31 @@ export const mockTableColumns = [
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     cellRender: {
-      name: '$vxeMoney'
+      name: '$vxeRatio'
+    },
+    slots: {
+      default({ row }) {
+        return [
+          <div class="fsc" style="height:100%;">
+            <el-progress style="width:100%;" percentage={row.sbGzKhjd}></el-progress>
+          </div>
+        ]
+      }
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
   {
     title: '序时进度',
-    field: 'XSJD',
+    field: 'sbGzSxjd',
     width: 200,
     align: 'right',
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
+    formatter({ row }) {
+      return row.warningLevel
+    },
     cellRender: {
-      name: '$vxeMoney'
+      name: '$vxeRatio'
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
@@ -160,7 +172,7 @@ export const mockTableColumns = [
     slots: {
       default({ row }) {
         return [
-          <div style={{ backgroundColor: row.color }}>{row.warningLevel}</div>
+          <div style={{width:'100%',height:'100%', 'background-color': row.color }}></div>
         ]
       }
     },
