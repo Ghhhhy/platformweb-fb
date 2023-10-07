@@ -763,6 +763,11 @@ export default {
     setFormItem() { // 设置详情信息字段
       if (['6', 2, '2'].includes(this.bussnessId)) {
         this.incomeMsgConfig = proconf.bgtMsgConfig
+      } else if (!this.param5.show) {
+        // 现在默认隐藏4个字段
+        this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+          return !['payBusType', 'todoName', 'voidOrNot', 'useDes'].includes(item.field)
+        })
       }
     },
     moneyFormat(amt) {
