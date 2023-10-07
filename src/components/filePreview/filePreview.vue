@@ -255,6 +255,7 @@ export default {
       if (!this.$store.getters.isSx) {
         window.open(`${process.env.BASE_URL}fileView.html?fileguid=` + this.fileGuid + '&appid=' + this.appId)
         this.dialogVisible = false
+        return
       }
       this.loading = true
       let filePreviewService = ''
