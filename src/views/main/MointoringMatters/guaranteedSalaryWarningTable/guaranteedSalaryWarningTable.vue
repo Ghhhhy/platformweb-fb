@@ -1,4 +1,3 @@
-<!-- 预警明细查询（按规则） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%" class="createProcessing">
     <BsMainFormListLayout :default-split-pane-left-width="14">
@@ -61,7 +60,28 @@ export default defineComponent({
       })
     }
     const reset = () => {}
-    let tableData = ref([{ id: 1, dealNo: 123123, mofDivName: '123', children: [{ id: 3, dealNo: 123123, mofDivName: '123', children: [] }] }])
+    let tableData = ref([{
+      id: 1,
+      dealNo: 123123,
+      mofDivName: '123',
+      warningLevel: '1',
+      color: '#FFFF00',
+      sbGzKhjd: '70',
+      sbZxjeBgz: '456',
+      sbZbjeBgz: '789',
+      children: [
+        {
+          id: 2,
+          dealNo: 123123,
+          mofDivName: '123',
+          warningLevel: '1',
+          color: '#EF949F',
+          sbGzKhjd: '70',
+          sbZxjeBgz: '456',
+          sbZbjeBgz: '789'
+        }
+      ]
+    }])
     let tableColumnsConfig = ref(mockTableColumns)
     const staticConfig = ref({
       'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' },
@@ -69,8 +89,6 @@ export default defineComponent({
       tableFooterConfig: {},
       toolbarConfig: {
         // table工具栏配置
-        disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
