@@ -249,12 +249,12 @@ export default {
       this.loading = true
       let filePreviewService = ''
       if (process.env.NODE_ENV === 'development') {
-        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService
+        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService + '/v1/file_preview'
       } else if (process.env.NODE_ENV === 'production') {
-        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService
+        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService + 'v1/file_preview'
       }
-      const urlObj = filePreviewService + '/v1/file_preview'
-      this.$http.get(urlObj, { appId: this.appId, fileId: this.fileGuid }).then(res => {
+      // const urlObj = filePreviewService + '/v1/file_preview'
+      this.$http.get(filePreviewService, { appId: this.appId, fileId: this.fileGuid }).then(res => {
         if (res.code === 200) {
           this.file = res.data
           this.buildFileType()
