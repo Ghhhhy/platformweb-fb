@@ -1098,19 +1098,6 @@ export default [
         '../../../views/main/MointoringMatters/CheckPayBill/CheckPayBill.vue'
       )
   },
-  // // 测试
-  // {
-  //   path: '/datavTest',
-  //   name: 'datavTest',
-  //   meta: {
-  //     keepAlive: true,
-  //     requireAuth: true
-  //   },
-  //   component: () =>
-  //     import(
-  //       '../../../views/main/MointoringMatters/CheckPayBill/CheckPayBill.vue'
-  //     )
-  // },
   // 财政运行基础表录入
   {
     path: '/FinancialBasicTableEntry',

@@ -1,24 +1,38 @@
+<!--
+ * @Author: hupengcheng 1286335855@qq.com
+ * @Date: 2023-10-06 15:48:40
+ * @LastEditors: hupengcheng 1286335855@qq.com
+ * @LastEditTime: 2023-10-08 17:13:34
+ * @FilePath: \platformweb-fb\src\views\main\MointoringMatters\CheckPayBill\CheckPayBill.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
     <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
       <template v-slot:topTabPane>
-        <BsTabPanel
+        <!-- <BsTabPanel
           ref="tabPanel"
           show-zero
           :show-num="true"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
-        />
+        /> -->
       </template>
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
+          <!-- <BsQuery
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
-          />
+          /> -->
+          <!-- <BsForm
+            ref="queryFrom"
+            :form-items-config="formSchemas"
+            :form-data-list="formData.value"
+            @itemChange="itemChange"
+          /> -->
         </div>
       </template>
       <template v-slot:mainTree>
@@ -65,16 +79,15 @@
           </template>
         </BsTable> -->
         <ReportView
-          v-if="true"
-          ref="reportView"
+          v-if="isShowReport"
+          ref="reportViewRef"
           class="platfromreport"
-          codes="nmfxbb"
-          :editable="editable"
+          codes="354692d064e511eeb7ea51396d5e9d2f"
           :init-params="initParams"
-          :init-business-context="initBusinessContext"
-          :enable-row-readable-authority="true"
-          @export-excel="exportExcel"
-          @print-pdf="printPdf"
+          :is-custom-excel-link="true"
+          @custom-excel-link="excelLinkHandle"
+          @exportExcelByServiceBefore="exportExcelByServiceBefore"
+          @exportExcelByServiceAfter="exportExcelByServiceAfter"
         />
       </template>
     </BsMainFormListLayout>
@@ -88,6 +101,9 @@
 
 <script>
 import { proconf } from './CheckPayBill.js'
+// import useForm from '@/hooks/useForm/index.js'
+// import { getSchemas } from './model/data'
+import { getTreeData } from '@/api/frame/main/common'
 import CheckPayBillModal from './CheckPayBillModal.vue'
 export default {
   components: {
@@ -271,20 +287,38 @@ export default {
         token: this.$store.getters.getLoginAuthentication.tokenid
       },
       ifRenderReport: true,
-      code: 'nmfxbb',
-      paramsObj: '',
-      searchObj: {}
+      code: '',
+      searchObj: {},
+      curDivCode: '',
+      isShowReport: false
     }
   },
+  computed: {
+    paramsObj() {
+      return {
+        mofDivCode: this.curDivCode
+      }
+    }
+  },
+  created() {
+    this.getMofDivTreeData()
+  },
   methods: {
+    async getMofDivTreeData() {
+      const { year, province } = this.$store.state.userInfo
+      const res = await getTreeData({ year: year, province: province })
+      console.log(res)
+      this.treeData = res?.data || []
+    },
     asideChange() {
-      this.leftTreeVisible = false
+      // this.leftTreeVisible = false
     },
     onQueryConditionsClick() {
       this.isShowQueryConditions = !this.isShowQueryConditions
     },
     search(val) {
-      console.log(val)
+      console.log(val, 'query查询条件')
+      this.paramsObj = val
     },
     handleRowClick(row) {
       console.log('点击每行的方法', row)
@@ -305,44 +339,15 @@ export default {
     },
     // 点击树节点
     onNodeClick({ node, treeData }, $event, treeContext) {
-      this.$message({
-        showClose: true,
-        message: node.label,
-        type: 'success'
-      })
-      console.log(node, treeData, $event, treeContext)
+      console.log(node, '-----')
+      this.isShowReport = true
+      this.curDivCode = node?.code
+      this.$refs?.reportViewRef?.searchData()
     },
     // datav表格
-    // batchExportExcel(excelParams) {
-    //   this.$refs.reportView.batchExportExcel(excelParams) // 选中报表批量导出成Excel
-    // },
-    // batchExportPDF(excelParams) {
-    //   this.$refs.reportView.batchExportPDF(excelParams) // 选中报表批量导出成PDF
-    // },
-    // exportCurrentExcel() {
-    //   this.$refs.reportView.exportExcel() // 当前报表导出成Excel
-    // },
-    // exportCurrentPDF() {
-    //   this.$refs.reportView.exportPDF() // 当前报表导出成PDF
-    // },
-    // print() {
-    //   this.$refs.reportView.print() // 打印当前报表
-    // },
-    // batchPrint(draftList) {
-    //   this.$refs.reportView.batchPrint(draftList) // 打印当前报表
-    // },
-    // submit() {
-    //   console.log(82, this.$refs.reportView.getExcelData())
-    //   return this.$refs.reportView.getSubmitFillData() // 提交前调用报表插件的
-    // },
-    // getExcelData() {
-    //   return this.$refs.reportView.getExcelData()
-    // },
-    // encodeExcelPassword(password) {
-    //   return this.$refs.reportView.excelPasswordEncode(password)
-    // },
     initParams(params) {
       return new Promise((resolve) => {
+        console.log(this.paramsObj, '2222')
         let paramsTemp = { ...this.paramsObj }
         console.log('当前报表参数为：', paramsTemp)
         Object.keys(params).map((key) => {
@@ -353,27 +358,26 @@ export default {
         resolve(paramsTemp)
       })
     },
-    // searchData() {
-    //   this.$refs.report_view.searchData(this.paramsObj) // 查询当前报表数据
-    // },
-    // /**
-    //  * @description: 报表参数变了，刷新报表数据
-    //  * @param {*}
-    //  * @return {*}
-    //  */
-    // refreshReport() {
-    //   const { code, paramsObj } = this.reportParams
-    //   this.code = code
-    //   this.paramsObj = paramsObj
-    //   // this.searchData()
-    // },
-    // parentCallSearch() {
-    //   this.refreshReport()
-    //   this.ifRenderReport = false
-    //   this.$nextTick(() => {
-    //     this.ifRenderReport = true
-    //   })
-    // },
+    setExportLoading() {
+      this.$loading({
+        lock: true,
+        text: '报表数据导出中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    },
+    exportExcelByServiceBefore() {
+      this.setExportLoading()
+    },
+    exportExcelByServiceAfter() {
+      this.$loading().close()
+    },
+    exportCurrentExcel() {
+      this.$refs.reportView.exportExcel() // 当前报表导出成Excel
+    },
+    exportCurrentPDF() {
+      this.$refs.reportView.exportPDF() // 当前报表导出成PDF
+    },
     // /**
     //  * 若无权限控制，则插件中不需要绑定该方法
     //  * 设置业务上下文信息businessContext
@@ -383,15 +387,15 @@ export default {
         resolve(this.businessContext)
       })
     },
-    // getInstance() {
-    //   let self = this
-    //   var Xsheet = window.bossJS.Xsheet
-    //   return Xsheet.getInstance({
-    //     config: {
-    //       appId: self.$store.state.loginAuthentication.appguid || 'gov-aims'
-    //     }
-    //   })
-    // },
+    getInstance() {
+      let self = this
+      var Xsheet = window.bossJS.Xsheet
+      return Xsheet.getInstance({
+        config: {
+          appId: self.$store.state.loginAuthentication.appguid || 'gov-aims'
+        }
+      })
+    },
     printPdf(options) {
       let instance = this.getInstance()
       let exportPages = instance.printingSheetRequest(options)
@@ -419,66 +423,12 @@ export default {
           _this.$refs.reportView.exportExcelFail()
           console.log('export excel error', obj)
         })
+    },
+    excelLinkHandle(payload) {
+      console.log(payload, '---')
+      this.showModal = !this.showModal
     }
-    // getreportParams() {
-    //   let paramsObj = {}
-    //   const { code, city } = this.$store.getters.getMenuParams5
-    //   // eslint-disable-next-line no-unused-vars
-    //   let param = this.$store.getters.getMenuParams5.paramsObj
-    //   if (param) {
-    //     param = param.substr(1) // 删除第一个字符
-    //     param = param.substr(0, param.length - 1) // 删除最后一字符
-    //     let arr = param.split(',')
-    //     arr.map((item, index) => {
-    //       if (!item.split(':')[0]) {
-    //         return
-    //       }
-    //       paramsObj[item.split(':')[0]] = item.split(':')[1]
-    //     })
-    //   }
-    //   paramsObj['fiscal_year'] = this.$store.state.userInfo.year
-    //   return {
-    //     code,
-    //     city,
-    //     paramsObj
-    //   }
-    // }
   }
-  // watch: {
-  //   reportParams: {
-  //     // 查询参数
-  //     handler(newVal, oldVal) {
-  //       console.log(!newVal.code, 50144)
-  //       if (!newVal.code) {
-  //         this.ifRenderReport = false
-  //         return false
-  //       }
-  //       // if (newVal && oldVal && JSON.stringfy(newVal) === JSON.stringfy(oldVal)) {
-  //       //   this.ifRenderReport = false
-  //       //   return false
-  //       // }{}
-  //       if (this.isload) {
-  //         this.refreshReport()
-  //         // this.ifRenderReport = false
-  //         this.$nextTick(() => {
-  //           this.ifRenderReport = true
-  //         })
-  //       }
-  //     },
-  //     deep: true,
-  //     immediate: true
-  //   },
-  //   editable: {
-  //     handler(newVal, oldVal) {
-  //       this.parentCallSearch()
-  //     },
-  //     deep: true,
-  //     immediate: true
-  //   }
-  // },
-  // mounted() {
-  //   window.bossJS.init && window.bossJS.init()
-  // }
 }
 </script>
 

@@ -1,24 +1,24 @@
 export let proconf = {
   highQueryConfig: [
-    {
-      title: '类别',
-      field: 'typeName',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '预决算报告', label: '预决算报告' },
-          { value: '审计报告', label: '审计报告' },
-          { value: '财政监督报告', label: '财政监督报告' }
-        ],
-        props: {
-          placeholder: '对比结果'
-        }
-      }
-    },
+    // {
+    //   title: '类别',
+    //   field: 'typeName',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '预决算报告', label: '预决算报告' },
+    //       { value: '审计报告', label: '审计报告' },
+    //       { value: '财政监督报告', label: '财政监督报告' }
+    //     ],
+    //     props: {
+    //       placeholder: '对比结果'
+    //     }
+    //   }
+    // },
     {
       title: '开始时间',
       field: 'beginYear',
@@ -47,41 +47,41 @@ export let proconf = {
           placeholder: '终止时间'
         }
       }
-    },
-    {
-      title: '资金名称',
-      field: 'moneyName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '预决算报告', label: '预决算报告' },
-          { value: '审计报告', label: '审计报告' },
-          { value: '财政监督报告', label: '财政监督报告' }
-        ],
-        props: {
-          placeholder: '资金名称'
-        }
-      }
-    },
-    {
-      title: '指标公文号',
-      field: 'documentNumber',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '指标公文号'
-        }
-      }
     }
+    // {
+    //   title: '资金名称',
+    //   field: 'moneyName',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '预决算报告', label: '预决算报告' },
+    //       { value: '审计报告', label: '审计报告' },
+    //       { value: '财政监督报告', label: '财政监督报告' }
+    //     ],
+    //     props: {
+    //       placeholder: '资金名称'
+    //     }
+    //   }
+    // },
+    // {
+    //   title: '指标公文号',
+    //   field: 'documentNumber',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '指标公文号'
+    //     }
+    //   }
+    // }
   ],
   tableColumnsConfig: [
     {
