@@ -57,9 +57,9 @@ export default defineComponent({
       return arr.map(item => {
         let newObj = { ...item }
         if (item.sbGzKhjd) {
-          newObj.sbGzKhjd = Number(parseFloat(item.sbGzKhjd).toFixed(1))
+          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd).toFixed(1)
         } else {
-          newObj.sbGzKhjd = Number('0.0')
+          newObj.sbGzKhjd = '0.0'
         }
         if (item.children) {
           newObj.children = cursionData(item.children)

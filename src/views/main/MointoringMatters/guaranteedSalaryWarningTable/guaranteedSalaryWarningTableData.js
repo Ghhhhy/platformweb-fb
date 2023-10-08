@@ -145,13 +145,13 @@ export const mockTableColumns = [
   },
   {
     title: '序时进度',
-    field: 'sbGzSxjd',
+    field: 'sbGzXsjd',
     width: 200,
     align: 'right',
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     formatter({ row }) {
-      return row.sbGzSxjd
+      return row.sbGzXsjd
     },
     cellRender: {
       name: '$vxeRatio'
