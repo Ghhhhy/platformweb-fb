@@ -168,7 +168,7 @@ export const mockTableColumns = [
       name: '$vxeInput'
     },
     formatter({ row }) {
-      return row.warningLevel
+      return dict.find(item=>{return item.value==row.warningLevel})?.label||''
     },
     slots: {
       default({ row }) {
