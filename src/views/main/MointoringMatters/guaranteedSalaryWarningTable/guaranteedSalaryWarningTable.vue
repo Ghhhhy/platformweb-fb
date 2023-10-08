@@ -84,7 +84,9 @@ export default defineComponent({
       search()
     }
     const search = () => {
+      tableLoading.value = true
       httpMudules.queryTableDatas(queryData.value).then(res => {
+        tableLoading.value = false
         if (res.code === '000000' && res.data.length) {
           let newList = cursionData(res.data)
           tableData.value = newList
