@@ -57,9 +57,14 @@ export default defineComponent({
       return arr.map(item => {
         let newObj = { ...item }
         if (item.sbGzKhjd) {
-          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd).toFixed(1)
+          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd * 100).toFixed(1)
         } else {
           newObj.sbGzKhjd = '0.0'
+        }
+        if (item.sbGzXsjd) {
+          newObj.sbGzXsjd = parseFloat(item.sbGzXsjd * 100).toFixed(1)
+        } else {
+          newObj.sbGzXsjd = '0.0'
         }
         if (item.children) {
           newObj.children = cursionData(item.children)
@@ -95,7 +100,7 @@ export default defineComponent({
     }
     const reset = () => {
       queryData.value = {
-        startDays: '',
+        startDays: null,
         mofDivCode: '',
         warningLevel: ''
         // page: 1, // 页码

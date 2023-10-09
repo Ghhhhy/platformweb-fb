@@ -84,7 +84,7 @@ export const mockQueryData = [
 export const mockQueryParams = {
   warningLevel: '',
   agencyCode: '',
-  startDays: ''
+  startDays: null
 }
 export const mockTableColumns = [
   {
@@ -131,6 +131,9 @@ export const mockTableColumns = [
     filters: false,
     cellRender: {
       name: '$vxeRatio'
+    },
+    formatter({ row }) {
+      return row.sbGzKhjd
     },
     slots: {
       default({ row }) {
