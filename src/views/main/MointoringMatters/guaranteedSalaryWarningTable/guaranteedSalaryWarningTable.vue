@@ -49,6 +49,7 @@ import httpMudules from '@/api/frame/main/Monitoring/guaranteedSalaryWarningTabl
 // import useTable from '@/hooks/useTable'
 import { mockQueryData, mockQueryParams, mockTableColumns } from './guaranteedSalaryWarningTableData'
 import moment from 'moment'
+import moment from 'moment'
 export default defineComponent({
   setup() {
     onMounted(() => {
