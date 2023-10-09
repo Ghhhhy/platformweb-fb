@@ -21,7 +21,7 @@ export const mockQueryData = [
       format: 'YYYY-MM-DD',
       props: {
         type: 'date', //
-        placeholder: '请选择截至日期',
+        placeholder: '请选择截止日期',
       }
     }
   },
@@ -46,7 +46,7 @@ export const mockQueryData = [
             labelFormat:"{code}-{name}"
           },
           placeholder: '请选择区划',
-          multiple: true,
+          multiple: false,
           isleaf: false,
           axiosConfig: {
             method: 'post',
@@ -63,26 +63,41 @@ export const mockQueryData = [
   },
   {
     title: '预警级别',
-    field: 'warningLevel',
+    field: 'warningLevels',
     align: 'center',
     itemRender: {
-      name: '$vxeSelect',
-      options:dict,
-      // options: store.state.warnInfo.warnLevelOptions.map(item => {
-      //   return {
-      //     ...item,
-      //     value: String(item.value)
-      //   }
-      // }),
+      name: '$vxeTree',
+      options:[
+        { name:"绿色",code:"1",},
+        { name:"黄色",code:"2",},
+        { name:"红色",code:"red",children:[
+            { name:"红色一档",code:"3",},
+            { name:"红色二档",code:"4",},
+            { name:"红色三档",code:"5",},
+          ]
+        },
+      ],
       defaultValue: '',
-      props: {}
-    },
-    sortable: 'true',
-    name: '$vxeSelect'
+      format: '{name}',
+      props: {
+        format: '{name}',
+        config: {
+          treeProps: {
+            nodeKey: 'code',
+            label: 'name',
+            labelFormat:"{code}-{name}",
+            children: 'children',
+          },
+          placeholder: '请选择预警级别',
+          multiple: true,
+          isleaf: true,
+        },
+      }
+    }
   }
 ]
 export const mockQueryParams = {
-  warningLevel: '',
+  warningLevels: '',
   agencyCode: '',
   startDays: null
 }
@@ -158,6 +173,15 @@ export const mockTableColumns = [
     },
     cellRender: {
       name: '$vxeRatio'
+    },
+    slots: {
+      default({ row }) {
+        return [
+          <div class="fsc" style="height:100%;">
+            <el-progress style="width:100%;" percentage={row.sbGzXsjd}></el-progress>
+          </div>
+        ]
+      }
     },
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
