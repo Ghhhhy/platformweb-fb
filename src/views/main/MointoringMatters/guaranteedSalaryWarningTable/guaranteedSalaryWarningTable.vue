@@ -48,6 +48,7 @@ import { ref, defineComponent, onMounted } from '@vue/composition-api'
 import httpMudules from '@/api/frame/main/Monitoring/guaranteedSalaryWarningTable.js'
 // import useTable from '@/hooks/useTable'
 import { mockQueryData, mockQueryParams, mockTableColumns } from './guaranteedSalaryWarningTableData'
+import moment from 'moment'
 export default defineComponent({
   setup() {
     onMounted(() => {
@@ -78,19 +79,25 @@ export default defineComponent({
     const menuName = ref('“保工资”预警表')
     let tableData = ref([])
     const onSearch = (e) => {
-      let parmas = {
-        startDays: e.startDays,
-        mofDivCode: e.agencyCode_code,
-        warningLevel: e.warningLevel
-        // page: 1, // 页码
-        // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数
-      }
-      queryData.value = parmas
+      console.log('e', e)
+      // let parmas = {
+      //   startDays: e.startDays,
+      //   mofDivCode: e.agencyCode_code,
+      //   warningLevels: e.warningLevels
+      //   // page: 1, // 页码
+      //   // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数
+      // }
+      queryData.value = e
       search()
     }
     const search = () => {
       tableLoading.value = true
-      httpMudules.queryTableDatas(queryData.value).then(res => {
+      let params = {
+        startDays: moment(queryData.value.startDays).format('YYYY-MM-DD 00:00:00'),
+        mofDivCode: queryData.value.agencyCode_code,
+        warningLevels: queryData.value.warningLevels_code__multiple
+      }
+      httpMudules.queryTableDatas(params).then(res => {
         tableLoading.value = false
         if (res.code === '000000' && res.data.length) {
           let newList = cursionData(res.data)
@@ -102,7 +109,7 @@ export default defineComponent({
       queryData.value = {
         startDays: null,
         mofDivCode: '',
-        warningLevel: ''
+        warningLevels: ''
         // page: 1, // 页码
         // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数
       }
