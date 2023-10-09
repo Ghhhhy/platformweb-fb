@@ -84,7 +84,7 @@ export const mockQueryData = [
 export const mockQueryParams = {
   warningLevel: '',
   agencyCode: '',
-  startDays: ''
+  startDays: null
 }
 export const mockTableColumns = [
   {
@@ -132,6 +132,9 @@ export const mockTableColumns = [
     cellRender: {
       name: '$vxeRatio'
     },
+    formatter({ row }) {
+      return row.sbGzKhjd
+    },
     slots: {
       default({ row }) {
         return [
@@ -145,13 +148,13 @@ export const mockTableColumns = [
   },
   {
     title: '序时进度',
-    field: 'sbGzSxjd',
+    field: 'sbGzXsjd',
     width: 200,
     align: 'right',
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
     filters: false,
     formatter({ row }) {
-      return row.sbGzSxjd
+      return row.sbGzXsjd
     },
     cellRender: {
       name: '$vxeRatio'
@@ -168,7 +171,7 @@ export const mockTableColumns = [
       name: '$vxeInput'
     },
     formatter({ row }) {
-      return row.warningLevel
+      return dict.find(item=>{return item.value==row.warningLevel})?.label||''
     },
     slots: {
       default({ row }) {

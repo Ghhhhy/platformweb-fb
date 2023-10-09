@@ -57,9 +57,14 @@ export default defineComponent({
       return arr.map(item => {
         let newObj = { ...item }
         if (item.sbGzKhjd) {
-          newObj.sbGzKhjd = Number(parseFloat(item.sbGzKhjd).toFixed(1))
+          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd * 100).toFixed(1)
         } else {
-          newObj.sbGzKhjd = Number('0.0')
+          newObj.sbGzKhjd = '0.0'
+        }
+        if (item.sbGzXsjd) {
+          newObj.sbGzXsjd = parseFloat(item.sbGzXsjd * 100).toFixed(1)
+        } else {
+          newObj.sbGzXsjd = '0.0'
         }
         if (item.children) {
           newObj.children = cursionData(item.children)
@@ -84,7 +89,9 @@ export default defineComponent({
       search()
     }
     const search = () => {
+      tableLoading.value = true
       httpMudules.queryTableDatas(queryData.value).then(res => {
+        tableLoading.value = false
         if (res.code === '000000' && res.data.length) {
           let newList = cursionData(res.data)
           tableData.value = newList
@@ -93,7 +100,7 @@ export default defineComponent({
     }
     const reset = () => {
       queryData.value = {
-        startDays: '',
+        startDays: null,
         mofDivCode: '',
         warningLevel: ''
         // page: 1, // 页码
