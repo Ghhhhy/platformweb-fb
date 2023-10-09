@@ -80,7 +80,7 @@ export default defineComponent({
     const onSearch = (e) => {
       let parmas = {
         startDays: e.startDays,
-        mofDivCode: e.agencyCode_code__multiple,
+        mofDivCode: e.agencyCode_code,
         warningLevel: e.warningLevel
         // page: 1, // 页码
         // pageSize: staticConfig.value.pagerConfig.pageSize // 每页条数

@@ -46,7 +46,7 @@ export const mockQueryData = [
             labelFormat:"{code}-{name}"
           },
           placeholder: '请选择区划',
-          multiple: true,
+          multiple: false,
           isleaf: false,
           axiosConfig: {
             method: 'post',
