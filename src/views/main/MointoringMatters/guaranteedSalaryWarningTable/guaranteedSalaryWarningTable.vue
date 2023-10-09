@@ -44,7 +44,7 @@
 </template>
 <script lang="js">
 // /* eslint-disable */
-import { ref, defineComponent, onMounted } from '@vue/composition-api'
+import { ref, defineComponent, onMounted, onUnmounted } from '@vue/composition-api'
 import httpMudules from '@/api/frame/main/Monitoring/guaranteedSalaryWarningTable.js'
 // import useTable from '@/hooks/useTable'
 import { mockQueryData, mockQueryParams, mockTableColumns } from './guaranteedSalaryWarningTableData'
@@ -53,6 +53,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       search()
+    })
+    onUnmounted(() => {
+      this.component('CustomerElProgress', null)
     })
     let cursionData = (arr) => {
       return arr.map(item => {

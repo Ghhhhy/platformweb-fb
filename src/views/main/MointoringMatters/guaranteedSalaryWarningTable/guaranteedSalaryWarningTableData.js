@@ -2,12 +2,14 @@
 import store from '@/store/index'
 import Vue from 'vue'
 const h = new Vue().$createElement
+import CustomerElProgress from './component/progress.vue'
+Vue.component('CustomerElProgress',CustomerElProgress)
 const dict=[
   { label:"绿色",value:"1",},
   { label:"黄色",value:"2",},
-  { label:"红色一档",value:"3",},
-  { label:"红色二档",value:"4",},
-  { label:"红色三档",value:"5",},
+  { label:"红色第一档",value:"3",},
+  { label:"红色第二档",value:"4",},
+  { label:"红色第三档",value:"5",},
 ]
 export const mockQueryData = [
   {
@@ -85,7 +87,7 @@ export const mockQueryData = [
           treeProps: {
             nodeKey: 'code',
             label: 'name',
-            labelFormat:"{code}-{name}",
+            labelFormat:"{name}",
             children: 'children',
           },
           placeholder: '请选择预警级别',
@@ -154,7 +156,7 @@ export const mockTableColumns = [
       default({ row }) {
         return [
           <div class="fsc" style="height:100%;">
-            <el-progress style="width:100%;" percentage={row.sbGzKhjd}></el-progress>
+            <el-progress style="width:100%;" progressScale={row.sbZxjeBgz} percentage={row.sbGzKhjd}></el-progress>
           </div>
         ]
       }
@@ -178,7 +180,7 @@ export const mockTableColumns = [
       default({ row }) {
         return [
           <div class="fsc" style="height:100%;">
-            <el-progress style="width:100%;" percentage={row.sbGzXsjd}></el-progress>
+            <CustomerElProgress style="width:100%;"  progressScale={row.sbGzKhjd} percentage={row.sbGzXsjd}></CustomerElProgress>
           </div>
         ]
       }
@@ -195,7 +197,7 @@ export const mockTableColumns = [
       name: '$vxeInput'
     },
     formatter({ row }) {
-      return dict.find(item=>{return item.value==row.warningLevel})?.label||''
+      return row.warningLevelStr||''
     },
     slots: {
       default({ row }) {
@@ -204,7 +206,7 @@ export const mockTableColumns = [
           style['background-color']=`#${row.rgbColor.replace('#', '')}`
         }
         return [
-          <div style={style}>{dict.find(item=>{return item.value==row.warningLevel})?.label||''}</div>
+          <div style={style}>{row.warningLevelStr||''}</div>
         ]
       }
     },
