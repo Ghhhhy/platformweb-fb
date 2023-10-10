@@ -201,7 +201,7 @@ export const mockTableColumns = [
     },
     slots: {
       default({ row }) {
-        const style={width:'100%',height:'100%' }
+        const style={width:'100%',height:'98%' }
         if(row.rgbColor){
           style['background-color']=`#${row.rgbColor.replace('#', '')}`
         }
