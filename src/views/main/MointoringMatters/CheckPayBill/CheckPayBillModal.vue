@@ -55,6 +55,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入指标标题'
             }
@@ -67,6 +69,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '抢输入指标文号'
             }
@@ -79,6 +83,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '抢输入指标金额'
             }
@@ -91,6 +97,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入发文时间'
             }
@@ -103,6 +111,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入指标说明'
             }
@@ -115,6 +125,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入项目编码'
             }
@@ -127,6 +139,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入项目名称'
             }
@@ -139,6 +153,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入资金性质'
             }
@@ -151,6 +167,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入支出功能分类科目'
             }
@@ -163,6 +181,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入转移支付功能分类科目'
             }
@@ -175,6 +195,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入政府支出经济分类'
             }
@@ -187,6 +209,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: '请输入分配方式'
             }
@@ -199,6 +223,8 @@ export default {
           itemRender: {
             name: '$vxeInput',
             props: {
+              readonly: true,
+              disabled: true,
               type: 'text',
               placeholder: ''
             }
@@ -211,6 +237,9 @@ export default {
     dialogClose() {
       this.dialogVisible = false
       this.$emit('close', this.dialogClose)
+    },
+    onSureClick() {
+      this.dialogClose()
     }
   },
   watch: {},

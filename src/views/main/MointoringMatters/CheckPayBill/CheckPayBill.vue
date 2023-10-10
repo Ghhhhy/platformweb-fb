@@ -2,7 +2,7 @@
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-10-06 15:48:40
  * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-08 17:13:34
+ * @LastEditTime: 2023-10-10 17:41:48
  * @FilePath: \platformweb-fb\src\views\main\MointoringMatters\CheckPayBill\CheckPayBill.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -101,8 +101,6 @@
 
 <script>
 import { proconf } from './CheckPayBill.js'
-// import useForm from '@/hooks/useForm/index.js'
-// import { getSchemas } from './model/data'
 import { getTreeData } from '@/api/frame/main/common'
 import CheckPayBillModal from './CheckPayBillModal.vue'
 export default {
@@ -164,34 +162,7 @@ export default {
         defaultExpandAll: true // 默认是否展开所有节点
       },
       filterText: '', // 树字段过滤
-      treeData: [
-        {
-          id: '1',
-          code: '100',
-          name: '山西省',
-          label: '100-山西省',
-          children: [
-            {
-              id: '11',
-              code: '101',
-              name: '太原',
-              label: '101-太原'
-            },
-            {
-              id: '12',
-              code: '102',
-              name: '大同',
-              label: '102-大同'
-            },
-            {
-              id: '13',
-              code: '103',
-              name: '运城',
-              label: '103-运城'
-            }
-          ]
-        }
-      ],
+      treeData: [],
 
       // BsTable表格
       menuName: '转移支付资金上下级对账结果列表',
@@ -281,13 +252,6 @@ export default {
         }
       ],
       // datav表格数据
-      reportParams: {},
-      editable: {},
-      businessContext: {
-        token: this.$store.getters.getLoginAuthentication.tokenid
-      },
-      ifRenderReport: true,
-      code: '',
       searchObj: {},
       curDivCode: '',
       isShowReport: false
@@ -316,24 +280,15 @@ export default {
     onQueryConditionsClick() {
       this.isShowQueryConditions = !this.isShowQueryConditions
     },
-    search(val) {
-      console.log(val, 'query查询条件')
-      this.paramsObj = val
-    },
     handleRowClick(row) {
       console.log('点击每行的方法', row)
       console.log(this.showModal, '111')
       this.showModal = !this.showModal
-      // this.fiRuleCode = row.fiRuleCode || ''
-      // this.warningCode = row.warningCode || ''
-      // this.dialogVisible = true
-      // this.dialogTitle = '查看详情信息'
     },
     closeModal(value) {
       console.log(value, '222')
       this.showModal = false
     },
-
     changeInput(val) {
       this.filterText = val
     },
@@ -378,24 +333,15 @@ export default {
     exportCurrentPDF() {
       this.$refs.reportView.exportPDF() // 当前报表导出成PDF
     },
-    // /**
-    //  * 若无权限控制，则插件中不需要绑定该方法
-    //  * 设置业务上下文信息businessContext
-    //  * 上下文信息会在数据获取时传递给应用后端进行权限控制 **/
-    initBusinessContext() {
-      return new Promise((resolve) => {
-        resolve(this.businessContext)
-      })
-    },
-    getInstance() {
-      let self = this
-      var Xsheet = window.bossJS.Xsheet
-      return Xsheet.getInstance({
-        config: {
-          appId: self.$store.state.loginAuthentication.appguid || 'gov-aims'
-        }
-      })
-    },
+    // getInstance() {
+    //   let self = this
+    //   var Xsheet = window.bossJS.Xsheet
+    //   return Xsheet.getInstance({
+    //     config: {
+    //       appId: self.$store.state.loginAuthentication.appguid || 'gov-aims'
+    //     }
+    //   })
+    // },
     printPdf(options) {
       let instance = this.getInstance()
       let exportPages = instance.printingSheetRequest(options)

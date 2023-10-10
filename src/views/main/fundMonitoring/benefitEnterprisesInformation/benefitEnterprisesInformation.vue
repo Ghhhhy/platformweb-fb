@@ -25,11 +25,11 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div
+              <!-- <div
                 v-if="leftTreeVisible === false"
                 class="table-toolbar-contro-leftvisible"
                 @click="leftTreeVisible = true"
-              ></div>
+              ></div> -->
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -39,13 +39,25 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
+    <AddDialog v-if="showModal" ref="dialogRef" :title="dialogTitle" :row="rowData" @close="dialogClose" />
   </div>
 </template>
 
 <script>
+import api from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
+import AddDialog from './children/AddDialog.vue'
 export default {
+  components: {
+    AddDialog
+  },
   data() {
     return {
+      tableLoading: false,
+      leftTreeVisible: false,
+      // 弹窗
+      showModal: false,
+      dialogTitle: '',
+      rowData: {},
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -69,6 +81,7 @@ export default {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
       },
+
       // BsTable表格
       menuName: '企业信息列表',
       tableConfig: {
@@ -77,16 +90,16 @@ export default {
           $customerRender: {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
-                <div>
+                <div style="display:flex;justify-content: space-around;">
                   <a
                     style="cursor: pointer"
-                    onClick={() => this.handleRowClick(row)}
+                    onClick={() => this.editRow(row)}
                   >
                     修改
                   </a>
                   <a
                     style="cursor: pointer"
-                    onClick={() => this.handleRowClick(row)}
+                    onClick={() => this.deleteRow(row)}
                   >
                     删除
                   </a>
@@ -181,38 +194,15 @@ export default {
             // name: '$vxeTableHref',
             // name: '$vxeTableOptionRow',
             name: '$customerRender',
-            props: {
-              statusField: 'acceptDivision'
-              // options: {
-              //   // 暂时这样写
-              //   22: [
-              //     {
-              //       label: '查看明细',
-              //       code: 'detail',
-              //       class: 'detail',
-              //       btnStatus: '',
-              //       type: 'text' // text||button
-              //     }
-              //   ],
-              //   default: [
-              //     {
-              //       label: '查看明细',
-              //       code: 'detail',
-              //       class: 'detail',
-              //       btnStatus: '',
-              //       type: 'text' // text||button
-              //     }
-              //   ]
-              // }
-            }
+            props: {}
           },
           name: '$customerRender'
         }
       ],
       tableData: [
         {
-          corpName: 'test1',
-          unifsocCredCode: '111111111111',
+          corpName: '企业名称',
+          unifsocCredCode: '企业社会统一征信代码',
           corpType: '国企',
           corpAddress: '重庆',
           corpPersonNum: '999',
@@ -223,12 +213,17 @@ export default {
       ]
     }
   },
+  created() {
+    api.getReportTasks().then(res => {
+      console.log(res)
+    })
+  },
   methods: {
     // 按钮触发后，回调方式
     bsToolbarClickEvent(obj, $this) {
       switch (obj.code) {
         case 'add':
-          this.newDataForm()
+          this.addNewDataForm()
           break
         case 'delete':
           var selectionRow = this.$refs.mainTableRef.selection
@@ -237,6 +232,7 @@ export default {
             return
           }
           var deleteIds = []
+          console.log(selectionRow, '行数据')
           selectionRow.forEach(function(item, index) {
             deleteIds.push(item.taskId)
           })
@@ -246,36 +242,53 @@ export default {
           console.log('default fallback')
       }
     },
+    // 新增数据
+    addNewDataForm() {
+      this.dialogTitle = '新增企业信息'
+      this.showModal = true
+    },
+    // 批量删除任务
     deleteTask(deleteIds) {
       this.$confirm('此操作将永久删除选中数据, 是否继续?', '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // this.showLoading = true
-        // var _this = this
-        // console.log(deleteIds, 'deleteids')
-        // api
-        //   .deleteTask(deleteIds)
-        //   .then(res => {
-        //     _this.showLoading = false
-        //     if (res.rscode === '200') {
-        //       this.$message({
-        //         type: 'success',
-        //         message: '删除成功!'
-        //       })
-        //       _this.initTableData()
-        //     } else {
-        //       let message = res?.errorMessage || res?.result
-        //       this.$message.error('删除失败!' + message)
-        //     }
-        //   }).catch(_this.showLoading = false)
+        this.showLoading = true
+        var _this = this
+        console.log(deleteIds, 'deleteids')
+        api.deleteTasks(deleteIds)
+          .then(res => {
+            _this.showLoading = false
+            if (res.rscode === '200') {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              _this.initTableData()
+            } else {
+              let message = res?.errorMessage || res?.result
+              this.$message.error('删除失败!' + message)
+            }
+          }).catch(_this.showLoading = false)
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
         })
       })
+    },
+    // 修改行
+    editRow(row) {
+      this.dialogTitle = '修改企业信息'
+      this.showModal = true
+      this.rowData = row
+    },
+    // 删除某一行
+    deleteRow(row) {},
+    dialogClose() {
+      this.showModal = false
+      this.rowData = {}
     }
   }
 }
