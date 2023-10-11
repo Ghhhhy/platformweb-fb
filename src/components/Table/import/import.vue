@@ -33,6 +33,7 @@
         </div>
         <div class="idtu-import-btn">
           <vxe-button
+            v-deClick
             class="download-button-btn"
             type="primary"
             :disabled="fileConfig.fileName === ''"
