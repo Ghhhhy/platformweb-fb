@@ -120,7 +120,7 @@ export default {
     }
   }
 }
-</script>，
+</script>
 
 <style lang='scss'>
 .T-mainFormListLayout-modulebox {

@@ -423,7 +423,11 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
+      let axiosStr = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        axiosStr = 'queryTableDatasSx'
+      }
+      HttpModule[axiosStr](param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.data
           this.caliberDeclareContent = res.data.description || ''

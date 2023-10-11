@@ -1,3 +1,11 @@
+/*
+ * @Author: hupengcheng 1286335855@qq.com
+ * @Date: 2023-09-12 15:58:40
+ * @LastEditors: hupengcheng 1286335855@qq.com
+ * @LastEditTime: 2023-10-09 13:53:09
+ * @FilePath: \platformweb-fb\public\static\js\config\serverGatewayMap.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 const api = 'http://223.223.190.114:12218'
 // const api = 'http://223.223.190.114:21105'
 // const api = 'http://10.100.32.125:7914'
