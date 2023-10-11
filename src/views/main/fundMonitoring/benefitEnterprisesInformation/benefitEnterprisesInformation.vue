@@ -226,10 +226,11 @@ export default {
     }
   },
   created() {
-    // this.initTableDate(this.params)
+    this.initTableData(this.params)
   },
   methods: {
     initTableData(params) {
+      console.log(111)
       this.showLoading = true
       api.getReportTasks(params).then((res) => {
         this.showLoading = false
@@ -259,7 +260,7 @@ export default {
         current: currentPage,
         size: pageSize
       })
-      // this.initTableDate(this.params)
+      this.initTableData(this.params)
     },
     // 按钮触发后，回调方式
     bsToolbarClickEvent(obj, $this) {
