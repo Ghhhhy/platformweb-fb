@@ -603,16 +603,29 @@ const proconf = {
     },
     {
       title: '监控规则',
-      field: 'fiRuleName',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          placeholder: '监控规则'
+          format: '{code}',
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '监控规则',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
