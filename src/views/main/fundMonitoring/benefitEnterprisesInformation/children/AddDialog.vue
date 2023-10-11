@@ -1,11 +1,7 @@
 <!--处理弹框-->
 <template>
   <div v-loading="tableLoading">
-    <vxe-modal
-      v-model="dialogVisible"
-      :title="title"
-      @close="dialogClose"
-    >
+    <vxe-modal v-model="dialogVisible" :title="title" @close="dialogClose">
       <BsForm
         ref="refForm"
         :form-items-config="formItemsConfig"
@@ -22,6 +18,7 @@
   </div>
 </template>
 <script>
+import api from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
 import VXETable from 'vxe-table'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 export default {
@@ -41,6 +38,7 @@ export default {
   },
   data() {
     return {
+      isAdd: true,
       tableLoading: false,
       dialogVisible: true,
       formData: {
@@ -188,10 +186,15 @@ export default {
   },
   created() {
     this.formData = this.row
+    console.log(Object.keys(this.formData).length === 0)
+    Object.keys(this.formData).length === 0
+      ? (this.isAdd = true)
+      : (this.isAdd = false)
   },
   methods: {
     itemChange({ $form, property, itemValue, data }, bsform) {
       console.log(property, itemValue, data)
+      this.formData = data
     },
     dialogClose() {
       this.dialogVisible = false
@@ -202,24 +205,36 @@ export default {
       // this.tableLoading = true
       const form = this.$refs.refForm.formOptionsFn()
       console.log(form, 'form_')
+      var _this = this
       form
         .validate()
-        .then((res) => {
-          this.$message({
-            showClose: true,
-            message: '校验成功',
-            type: 'success'
-          })
+        .then(() => {
+          this.tableLoading = true
+          if (_this.isAdd) {
+            api.addTask(this.formData).then((res) => {
+              if (res.rscode === '200') {
+                _this.$message.success('添加成功')
+                _this.tableLoading = false
+              }
+            })
+          } else {
+            api.updateTask(_this.formData).then((res) => {
+              if (res.rscode === '200') {
+                _this.$message.success('修改成功')
+                _this.tableLoading = false
+              }
+            })
+          }
         })
         .catch((err) => {
+          _this.$message.error('添加失败')
           console.log('error', err)
+          _this.tableLoading = false
         })
     }
   },
   watch: {},
-  mounted() {
-    console.log('当前传过来得formData')
-  },
+  mounted() {},
   destoryed() {
     VXETable.renderer.delete('$customerFileRender')
   }

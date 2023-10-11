@@ -7,7 +7,6 @@
           show-zero
           :show-num="true"
           :tab-status-btn-config="toolBarStatusBtnConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
       <template v-slot:mainForm>
@@ -17,11 +16,12 @@
           :table-global-config="tableGlobalConfig"
           :toolbar-config="toolbarConfig"
           :height="420"
-          :pager-config="{}"
+          :pager-config="pagerConfig"
           :tree-config="treeConfigTable"
           :footer-config="footerConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          @ajaxData="ajaxData"
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
@@ -39,7 +39,13 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
-    <AddDialog v-if="showModal" ref="dialogRef" :title="dialogTitle" :row="rowData" @close="dialogClose" />
+    <AddDialog
+      v-if="showModal"
+      ref="dialogRef"
+      :title="dialogTitle"
+      :row="rowData"
+      @close="dialogClose"
+    />
   </div>
 </template>
 
@@ -91,10 +97,7 @@ export default {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
                 <div style="display:flex;justify-content: space-around;">
-                  <a
-                    style="cursor: pointer"
-                    onClick={() => this.editRow(row)}
-                  >
+                  <a style="cursor: pointer" onClick={() => this.editRow(row)}>
                     修改
                   </a>
                   <a
@@ -141,6 +144,15 @@ export default {
         expandAll: true,
         indent: 10,
         accordion: false
+      },
+      pagerConfig: {
+        total: 0,
+        pageSize: 20,
+        currentPage: 1
+      },
+      params: {
+        current: 1,
+        size: 20
       },
       tableColumnsConfig: [
         {
@@ -214,11 +226,41 @@ export default {
     }
   },
   created() {
-    api.getReportTasks().then(res => {
-      console.log(res)
-    })
+    // this.initTableDate(this.params)
   },
   methods: {
+    initTableData(params) {
+      this.showLoading = true
+      api.getReportTasks(params).then((res) => {
+        this.showLoading = false
+        if (res.rscode === '200') {
+          this.tableData = res.data.objects
+          // 将返回值中的页面参数同步
+          this.pagerConfig.total = res.data.total
+          this.pagerConfig.pageSize = res.data.size
+          this.pagerConfig.currentPage = res.data.current
+        } else {
+          this.tableData = []
+          this.pagerConfig.total = 0
+          this.pagerConfig.currentPage = 1
+          this.pagerConfig.pageSize = 20
+        }
+      }).finally(() => {
+        this.showLoading = false
+      })
+    },
+    // 表格数据加载
+    ajaxData({ params, currentPage, pageSize }) {
+      console.log(params, currentPage, pageSize)
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.params = Object.assign(this.params, {
+        params,
+        current: currentPage,
+        size: pageSize
+      })
+      // this.initTableDate(this.params)
+    },
     // 按钮触发后，回调方式
     bsToolbarClickEvent(obj, $this) {
       switch (obj.code) {
@@ -233,7 +275,7 @@ export default {
           }
           var deleteIds = []
           console.log(selectionRow, '行数据')
-          selectionRow.forEach(function(item, index) {
+          selectionRow.forEach(function (item, index) {
             deleteIds.push(item.taskId)
           })
           this.deleteTask(deleteIds)
@@ -247,36 +289,40 @@ export default {
       this.dialogTitle = '新增企业信息'
       this.showModal = true
     },
-    // 批量删除任务
+    // 删除任务
     deleteTask(deleteIds) {
       this.$confirm('此操作将永久删除选中数据, 是否继续?', '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.showLoading = true
-        var _this = this
-        console.log(deleteIds, 'deleteids')
-        api.deleteTasks(deleteIds)
-          .then(res => {
-            _this.showLoading = false
-            if (res.rscode === '200') {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-              _this.initTableData()
-            } else {
-              let message = res?.errorMessage || res?.result
-              this.$message.error('删除失败!' + message)
-            }
-          }).catch(_this.showLoading = false)
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
       })
+        .then(() => {
+          this.showLoading = true
+          var _this = this
+          console.log(deleteIds, 'deleteids')
+          api
+            .deleteTask(deleteIds)
+            .then((res) => {
+              _this.showLoading = false
+              if (res.rscode === '200') {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                })
+                _this.initTableData()
+              } else {
+                let message = res?.errorMessage || res?.result
+                this.$message.error('删除失败!' + message)
+              }
+            })
+            .catch((_this.showLoading = false))
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
     // 修改行
     editRow(row) {
@@ -285,7 +331,10 @@ export default {
       this.rowData = row
     },
     // 删除某一行
-    deleteRow(row) {},
+    deleteRow({ taskId }) {
+      // console.log([taskId])
+      this.deleteTask([taskId])
+    },
     dialogClose() {
       this.showModal = false
       this.rowData = {}
