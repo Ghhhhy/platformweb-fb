@@ -482,7 +482,9 @@ export default {
         })
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let axiosQueryUrl = 'queryTableDatas'
+      this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+      HttpModule[axiosQueryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.data
@@ -524,7 +526,9 @@ export default {
             agencyCode: row.agencyCode,
             agencyName: row.agencyName
           }
-          HttpModule.queryTableDatas(param).then(res => {
+          let axiosQueryUrl = 'queryTableDatas'
+          this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+          HttpModule[axiosQueryUrl](param).then(res => {
             if (res.code === '000000') {
               const childs = res.data.data
               resolve(childs)

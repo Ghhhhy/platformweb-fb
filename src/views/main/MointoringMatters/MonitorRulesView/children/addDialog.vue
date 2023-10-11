@@ -1503,7 +1503,6 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择触发菜单！' })
         return
       }
-      console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         const params = {
           'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
@@ -1672,19 +1671,19 @@ export default {
         }
       })
     },
-    // getRuletype() {
-    //   const params = {
-    //     'dictType': 'rule_type'
-    //   }
-    //   HttpModule.getRuletype(params).then(res => {
-    //     if (res.code === '000000') {
-    //       let treeResdata = this.getRuletypeChildrenData(res.data.results)
-    //       this.ruletypeoptions = treeResdata
-    //     } else {
-    //       this.$message.error('下拉树加载失败')
-    //     }
-    //   })
-    // },
+    getRuletype() {
+      const params = {
+        'dictType': 'rule_type'
+      }
+      HttpModule.getRuletype(params).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRuletypeChildrenData(res.data.results)
+          this.ruletypeoptions = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
     getRuletypeChildrenData(datas) {
       let that = this
       datas.forEach(item => {
@@ -1879,9 +1878,9 @@ export default {
     }
     this.getSysLists()
     this.getRegulation()
-    // if (this.isSx) {
-    //   this.getRuletype()
-    // }
+    if (this.isSx) {
+      this.getRuletype()
+    }
     // this.regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
   }
 }

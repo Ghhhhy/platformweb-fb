@@ -92,6 +92,18 @@ export let proconf = {
   },
   PoliciesTableColumns: [
     {
+      title: '区划',
+      field: 'mofDivName',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '业务处',
+      field: 'orgname',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '用户账号',
       field: 'code',
       sortable: false,
@@ -104,26 +116,14 @@ export let proconf = {
       align: 'left'
     },
     {
-      title: '区划',
-      field: 'mofDivName',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '所属机构',
-      field: 'orgname',
+      title: '距今天数（天）',
+      field: 'logOutDays',
       sortable: false,
       align: 'left'
     },
     {
       title: '最后登录时间',
       field: 'loginTime',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '距今天数（天）',
-      field: 'logOutDays',
       sortable: false,
       align: 'left'
     }

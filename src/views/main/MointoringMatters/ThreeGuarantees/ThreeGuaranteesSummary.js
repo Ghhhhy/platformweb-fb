@@ -56,41 +56,23 @@ export let proconf = {
       { code: 'del', label: '删除' }
     ]
   },
-  // highQueryConfig: [
-  //   {
-  //     title: '数据源名称',
-  //     field: 'dataSourceName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '数据源名称'
-  //       }
-  //     }
-  //   },
-  //   {
-  //     title: '业务模块',
-  //     field: 'businessModuleName',
-  //     width: '8',
-  //     align: 'left',
-  //     formula: '',
-  //     name: '$vxeInput',
-  //     itemRender: {
-  //       name: '$vxeInput',
-  //       options: [],
-  //       props: {
-  //         placeholder: '业务模块'
-  //       }
-  //     }
-  //   }
-  // ],
+  highQueryConfig: [
+    {
+      title: '截止时间',
+      field: 'endTime',
+      width: '8',
+      formula: '',
+      name: '$vxeTime',
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYYMMDD'
+        }
+      }
+    }
+  ],
   highQueryData: {
-    dataSourceName: '',
-    businessModuleName: ''
+    endTime: ''
   },
   PoliciesTableColumns: [
     // {

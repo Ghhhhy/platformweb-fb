@@ -382,7 +382,9 @@ export default {
           }
         })
       }
-      HttpModule.queryTableDatas(param).then((res) => {
+      let axiosQueryUrl = 'queryTableDatas'
+      this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+      HttpModule[axiosQueryUrl](param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data
           this.tableLoading = false

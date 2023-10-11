@@ -12,7 +12,7 @@
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
-      <!-- <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -21,7 +21,7 @@
             @onSearchClick="search"
           />
         </div>
-      </template> -->
+      </template>
       <!-- <template v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
@@ -332,14 +332,7 @@ export default {
           }
         }
       }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
-      }
-      if (this.searchDataList.businessModuleName && this.searchDataList.businessModuleName.trim() !== '') {
-        condition.businessModuleName = this.searchDataList.businessModuleName
-      }
       this.condition = condition
-      console.log(this.condition)
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -462,14 +455,10 @@ export default {
     onClickmethod(node) {
       this.node = node.node
       let code = node.node.code
-      console.log(node)
       this.codeList = []
       let treeData = node.treeData
       this.getItem(code, treeData)
-      console.log(this.codeList)
       const param = {
-        // page: this.mainPagerConfig.currentPage, // 页码
-        // pageSize: this.mainPagerConfig.pageSize, // 每页条数
         mofDivCodeList: this.codeList
       }
       HttpModule.queryTableDatas(param).then((res) => {
@@ -570,12 +559,7 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      const param = {
-        // page: this.mainPagerConfig.currentPage, // 页码
-        // pageSize: this.mainPagerConfig.pageSize // 每页条数
-        // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
-        // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
-      }
+      const param = this.searchDataList
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false

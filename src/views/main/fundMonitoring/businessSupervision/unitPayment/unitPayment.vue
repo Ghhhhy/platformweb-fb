@@ -529,9 +529,10 @@ export default {
         // mofDivCodeList: obj.row.code,
         fiscalYear: this.searchDataList.fiscalYear,
         agencyCode: obj.row.agencyCode,
+        agencyName: obj.row.agencyName,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        pageSize: this.pagerConfig.pageSize,
-        page: this.pagerConfig.currentPage
+        pageSize: this.mainPagerConfig.pageSize,
+        page: this.mainPagerConfig.currentPage
       }
       this.detailQueryParam = params
       this.detailType = reportCode

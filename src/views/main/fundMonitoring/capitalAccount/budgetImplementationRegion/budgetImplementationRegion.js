@@ -130,11 +130,19 @@ const proconf = {
           name: '$vxeIcon'
         }
       },
-
       {
         title: '中央下达',
         width: 100,
         field: 'amountZyxd',
+        align: 'right',
+        type: 'amountZyxd',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '中央下达(不含分配下级)',
+        width: 100,
+        field: 'amountZyxdBhxj',
+        visible: store.getters.isSx,
         align: 'right',
         type: 'amountZyxd',
         cellRender: { name: '$vxeMoney' }

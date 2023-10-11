@@ -147,6 +147,15 @@ const proconf = {
         cellRender: { name: '$vxeMoney' }
       },
       {
+        title: '中央下达(不含分配下级)',
+        width: 100,
+        field: 'amountZyxdBhxj',
+        align: 'right',
+        visible: store.getters.isSx,
+        type: 'amountZyxd',
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
         title: '整合',
         width: 200,
         field: 'amountZhje',
@@ -204,7 +213,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -272,7 +281,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !store.getters.isSx
           },
           {
             title: '分配本级',
@@ -340,7 +349,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !store.getters.isSx
           },
           {
             title: '已分配',
@@ -639,6 +648,60 @@ const proconf = {
     ],
     tableData: []
   }
+}
+if (store.getters.isSx) {
+  const sxColumns = {
+    title: '镇级',
+    width: 200,
+    align: 'center',
+    children: [
+      {
+        title: '整合金额',
+        width: 200,
+        field: 'amountZjzhje',
+        align: 'right',
+        type: 'amountXjzhje',
+        sortable: true,
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '已分配',
+        field: 'amountZjfp',
+        width: 200,
+        align: 'right',
+        sortable: true,
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '未分配',
+        field: 'amountZjwfp',
+        width: 200,
+        align: 'right',
+        sortable: true,
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '已支出',
+        field: 'amountZjpay',
+        width: 200,
+        align: 'right',
+        sortable: true,
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '分配进度',
+        field: 'zLoad',
+        width: 200,
+        align: 'right',
+        sortable: true,
+        formula: '({amountZjfp}+{amountZjwfp}-0==0)?0:({amountZjfp}/({amountZjfp}+{amountZjwfp})*100)',
+        cellRender: {
+          name: '$vxeRatio'
+        }
+      }
+    ]
+  }
+  proconf.basicInfo.tableColumnsConfig = proconf.basicInfo.tableColumnsConfig.concat(sxColumns)
 }
 export default function (tableType, configType) {
   if (tableType && configType) {

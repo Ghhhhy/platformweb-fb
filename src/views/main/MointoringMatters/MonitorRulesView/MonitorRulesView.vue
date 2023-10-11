@@ -97,6 +97,7 @@ import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import DescDialog from './children/descDialog'
 import store from '@/store/index'
 import { mapState } from 'vuex'
+const routeNameLsit = ['MonitorRulesViewByZd', 'MonitorRulesViewZD']
 // import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
@@ -137,6 +138,7 @@ export default {
   },
   data() {
     return {
+      leftTreeClickNode: {},
       isleaf: false,
       selectionData: [],
       leftTreeFilterText: '',
@@ -377,7 +379,6 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
-      this.isDir = obj.isDir
       this.isSpeType = obj.isSpeType
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
@@ -701,6 +702,7 @@ export default {
       })
     },
     onClickmethod(node) {
+      this.leftTreeClickNode = node.node
       console.log('node.node', node.node)
       let code = node.node.code
       this.isleaf = node.node.isleaf
@@ -769,7 +771,6 @@ export default {
         regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         isEnable: this.isEnable,
         triggerClass: this.triggerClass,
-        isDir: this.isDir,
         isSpeType: this.isSpeType,
         regulationName: this.regulationName,
         regulationClass: this.regulationClass,
@@ -790,7 +791,6 @@ export default {
           delete param.fiRuleTypeCode
           delete param.regulation_class
         } else {
-          param.isDir = this.isDir
           param.isSpeType = this.isSpeType
           delete param.regulationCode
         }
@@ -820,6 +820,10 @@ export default {
         param.regulation_code = this.regulation_code
       } else {
         delete param.regulation_code
+      }
+      if (routeNameLsit.includes(this.$route.name)) {
+        param.isDir = '1'
+        param.warningLevel = this.leftTreeClickNode.warnLevel
       }
       this.tableLoading = true
       HttpModule.queryMonitorTableDatas(param).then(res => {
@@ -987,6 +991,10 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.initRegulationClass()
+    if (routeNameLsit.includes(this.$route.name)) { // 直达资金下面的菜单 左侧树变成预警级别
+      this.treeData = this.$store.state.warnInfo.warnLevelOptions
+      return
+    }
     this.setMonitorThemeTreeShow()
     // this.queryTableDatas()
   }

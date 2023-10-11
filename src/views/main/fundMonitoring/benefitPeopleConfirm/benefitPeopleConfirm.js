@@ -340,6 +340,14 @@ export let proconf = {
   ],
   PoliciesTableColumns1: (ctx) => [
     {
+      title: '资金名称',
+      width: 180,
+      field: 'trackProName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '金额(元)',
       width: 180,
       field: 'payAmt',
