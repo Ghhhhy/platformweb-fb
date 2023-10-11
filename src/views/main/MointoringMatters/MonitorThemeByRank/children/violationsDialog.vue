@@ -73,6 +73,7 @@ import { proconf } from './violationsDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitorThemeByRank.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import BsAttachment from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/common/GlAttachment.vue'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog,
@@ -439,6 +440,9 @@ export default {
         inquiriesStatus: this.inquiriesStatus,
         regulationClass: this.regulationClass,
         regulationType: this.regulationType
+      }
+      if (param.endTime && this.$store.getters.isSx) {
+        param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
