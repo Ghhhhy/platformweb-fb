@@ -10,6 +10,6 @@ export default {
   },
   // 获取表格数据
   queryTableDatasSx (params) {
-    return post('dfr-monitor-service/dfr/supervision/query', params)
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
   }
 }
