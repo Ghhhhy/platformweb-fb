@@ -7,5 +7,8 @@ export default {
   },
   detailPageQuery (params) {
     return post('dfr-monitor-service/dfr/targetSurplus/queryDetailList', params)
+  },
+  queryTableDatasSx (params) {
+    return post('dfr-monitor-service/dfr/supervision/query', params)
   }
 }
