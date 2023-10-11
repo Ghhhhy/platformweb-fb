@@ -1085,6 +1085,19 @@ export default [
         '../../../views/main/MointoringMatters/BasicDatabaseMaintenance/BasicDatabaseMaintenance.vue'
       )
   },
+  // 上下级对账管理
+  {
+    path: '/checkPayBill',
+    name: 'checkPayBill',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/CheckPayBill/CheckPayBill.vue'
+      )
+  },
   // 财政运行基础表录入
   {
     path: '/FinancialBasicTableEntry',
