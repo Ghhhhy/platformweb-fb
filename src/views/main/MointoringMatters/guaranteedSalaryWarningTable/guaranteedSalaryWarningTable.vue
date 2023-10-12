@@ -57,19 +57,18 @@ export default defineComponent({
     onUnmounted(() => {
       this.component('CustomerElProgress', null)
     })
+    const formatKeyList = ['sbGzKhjd', 'sbGzXsjd']
     let cursionData = (arr) => {
       return arr.map(item => {
         let newObj = { ...item }
-        if (item.sbGzKhjd) {
-          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd * 100).toFixed(1)
-        } else {
-          newObj.sbGzKhjd = '0.0'
-        }
-        if (item.sbGzXsjd) {
-          newObj.sbGzXsjd = parseFloat(item.sbGzXsjd * 100).toFixed(1)
-        } else {
-          newObj.sbGzXsjd = '0.0'
-        }
+        // sbGzKhjd 考核进度,sbGzXsjd 序时进度,sbZxjd 执行进度 让后端返回的 '0.37777...8' 变成'37.8' 这种
+        formatKeyList.forEach(field => {
+          if (item[field]) {
+            newObj[field] = parseFloat(item[field] * 100).toFixed(1)
+          } else {
+            newObj[field] = '0.0'
+          }
+        })
         if (item.children) {
           newObj.children = cursionData(item.children)
         }
@@ -141,6 +140,9 @@ export default defineComponent({
           tools: 'toolbarTools',
           buttons: 'toolbarSlots'
         }
+      },
+      tableConfig: {
+        wordLength: 6// 自定义溢出(?)字展示文字提示
       },
       pagerConfig: false,
       // pagerConfig: {
