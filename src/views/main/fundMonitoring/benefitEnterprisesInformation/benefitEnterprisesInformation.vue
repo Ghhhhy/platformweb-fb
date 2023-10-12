@@ -245,6 +245,7 @@ export default {
           name: '$customerRender'
         }
       ],
+      // 展示在页面中的data数据
       tableData: [
         // {
         //   corpName: '企业名称',
@@ -290,10 +291,6 @@ export default {
         .then((res) => {
           this.tableLoading = false
           if (res.code === '000000') {
-            // this.tableData = {
-            //   ...res.data.results
-            //   // corpType: res.data.results.cropType === '0' ? '国企' : res.data.results.cropType
-            // }
             this.tableData = res.data.results
             this.tableData.forEach((item) => {
               if (item.corpType === '0') {
@@ -405,6 +402,20 @@ export default {
     editRow(row) {
       this.dialogTitle = '修改企业信息'
       this.showModal = true
+      if (row.corpType === '国企') {
+        row.corpType = '0'
+      } else if (row.corpType === '民营企业') {
+        row.corpType = '1'
+      } else if (row.corpType === '外企') {
+        row.corpType = '2'
+      } else if (row.corpType === '其他') {
+        row.corpType = '3'
+      }
+      if (row.isImportant === '是') {
+        row.isImportant = '0'
+      } else if (row.isImportant === '否') {
+        row.isImportant = '1'
+      }
       this.rowData = row
     },
     // 删除某一行

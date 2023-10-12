@@ -201,6 +201,7 @@ export default {
       form
         .validate()
         .then(() => {
+          console.log(this.formData)
           this.tableLoading = true
           if (_this.isAdd) {
             api.addTask(this.formData).then((res) => {
