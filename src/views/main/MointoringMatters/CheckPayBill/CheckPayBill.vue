@@ -2,7 +2,7 @@
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-10-06 15:48:40
  * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-11 18:17:42
+ * @LastEditTime: 2023-10-12 14:44:32
  * @FilePath: \platformweb-fb\src\views\main\MointoringMatters\CheckPayBill\CheckPayBill.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -263,6 +263,7 @@ export default {
     paramsObj() {
       return {
         mofDivCode: this.curDivCode
+        // mofDivCode: '230183000'
       }
     }
   },
@@ -292,7 +293,6 @@ export default {
         this.curDivCode += `${item.code}` + ','
         this.xjAllCode(item)
       })
-      console.log(this.curDivCode)
     },
     // 点击树节点
     onNodeClick({ node, treeData }, $event, treeContext) {
@@ -302,12 +302,14 @@ export default {
       } else {
         // 有下级区划全部拼接成一个字符串进行传参
         // node.children.forEach((item) => {
-        this.curDivCode += node?.code + ','
+        this.curDivCode = node?.code + ','
         // })
         this.xjAllCode(node)
+        this.curDivCode = this.curDivCode.slice(0, -1)
       }
+      console.log(this.curDivCode)
       this.isShowReport = true
-      this.curDivCode = node?.code
+      // this.curDivCode = node?.code
       this.$refs?.reportViewRef?.searchData()
     },
     // datav表格
