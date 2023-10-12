@@ -21,6 +21,7 @@
           :footer-config="footerConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxData"
         >
           <template v-slot:toolbarSlots>
@@ -50,7 +51,7 @@
 </template>
 
 <script>
-import api from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
 import AddDialog from './children/AddDialog.vue'
 export default {
   components: {
@@ -212,33 +213,45 @@ export default {
         }
       ],
       tableData: [
-        {
-          corpName: '企业名称',
-          unifsocCredCode: '企业社会统一征信代码',
-          corpType: '国企',
-          corpAddress: '重庆',
-          corpPersonNum: '999',
-          isImportant: '是',
-          createTime: '2023-10-08',
-          update_time: '2023-10-09'
-        }
+        // {
+        //   corpName: '企业名称',
+        //   unifsocCredCode: '企业社会统一征信代码',
+        //   corpType: '国企',
+        //   corpAddress: '重庆',
+        //   corpPersonNum: '999',
+        //   isImportant: '是',
+        //   createTime: '2023-10-08',
+        //   update_time: '2023-10-09'
+        // }
       ]
     }
   },
   created() {
-    // this.initTableDate(this.params)
+    this.queryTableDatas(this.params)
   },
   methods: {
-    initTableData(params) {
+    onToolbarBtnClick({ context, table, code }) {
+      switch (code) {
+        // 刷新
+        case 'refresh':
+          this.refresh()
+          break
+      }
+    },
+    refresh() {
+      this.queryTableDatas()
+      // this.queryTableDatasCount()
+    },
+    queryTableDatas(params) {
       this.showLoading = true
-      api.getReportTasks(params).then((res) => {
+      HttpModule.getReportTasks(params).then((res) => {
         this.showLoading = false
-        if (res.rscode === '200') {
-          this.tableData = res.data.objects
+        if (res.code === '000000') {
+          this.tableData = res.data.results
           // 将返回值中的页面参数同步
-          this.pagerConfig.total = res.data.total
-          this.pagerConfig.pageSize = res.data.size
-          this.pagerConfig.currentPage = res.data.current
+          this.pagerConfig.total = res.data.totalCount
+          // this.pagerConfig.pageSize = res.data.size
+          // this.pagerConfig.currentPage = res.data.current
         } else {
           this.tableData = []
           this.pagerConfig.total = 0
@@ -300,8 +313,7 @@ export default {
           this.showLoading = true
           var _this = this
           console.log(deleteIds, 'deleteids')
-          api
-            .deleteTask(deleteIds)
+          HttpModule.deleteTask(deleteIds)
             .then((res) => {
               _this.showLoading = false
               if (res.rscode === '200') {

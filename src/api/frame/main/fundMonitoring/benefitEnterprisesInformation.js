@@ -6,11 +6,11 @@
  * @FilePath: \platformweb-fb\src\api\frame\main\fundMonitoring\benefitEnterprisesInformation.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { get, post } from '@/api/http'
+import { post } from '@/api/http'
 export default {
   // 获取表格数据
   getReportTasks(params = {}) {
-    return get('large-monitor-platform/lmp/corpInfo/query', params)
+    return post('large-monitor-platform/lmp/corpInfo/query', params)
   },
   // 删除
   deleteTask(params) {
