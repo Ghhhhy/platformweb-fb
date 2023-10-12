@@ -17,7 +17,8 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="search"
+            @onSearchClick="onSearchClick"
+            @onSearchResetClick="onSearchResetClick"
           />
         </div>
       </template>
@@ -71,21 +72,23 @@ export default {
   },
   data() {
     return {
-      queryConfig: {
-        title: '开始时间',
-        field: 'beginYear',
-        width: 180,
-        align: 'left',
-        formula: '',
-        name: '$vxeTime',
-        itemRender: {
-          name: '$vxeTime',
-          option: [],
-          props: {
-            placeholder: '开始时间'
+      searchDataList: {},
+      queryConfig: [
+        {
+          title: '企业名称',
+          field: 'corpName',
+          width: 180,
+          align: 'left',
+          formula: '',
+          name: '$vxeInput',
+          itemRender: {
+            name: '$vxeInput',
+            props: {
+              placeholder: '企业名称'
+            }
           }
         }
-      },
+      ],
       isShowQueryConditions: false,
       tableLoading: false,
       leftTreeVisible: false,
@@ -96,19 +99,21 @@ export default {
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
+        buttons: [
+          {
+            type: 'button',
+            label: '全部',
+            code: 'whole'
+          }
+        ],
         curButton: {
           type: 'button',
-          iconName: 'base-all.png',
-          iconNameActive: 'base-all-active.png',
-          iconUrl: '',
           label: '全部',
-          code: '1',
-          curValue: '1'
+          code: 'whole'
         },
         buttonsInfo: {
-          1: [
+          'whole': [
             { code: 'add', label: '新增', status: 'primary' },
-            { code: 'update', label: '修改' },
             { code: 'delete', label: '删除' }
           ]
         },
@@ -116,7 +121,6 @@ export default {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
       },
-
       // BsTable表格
       menuName: '企业信息列表',
       tableConfig: {
@@ -180,6 +184,7 @@ export default {
         currentPage: 1
       },
       params: {
+        corpName: '',
         page: 1,
         pageSize: 20
       },
@@ -221,7 +226,7 @@ export default {
         },
         {
           title: '更新时间',
-          field: 'update_time',
+          field: 'updateTime',
           align: 'center'
         },
         {
@@ -249,7 +254,7 @@ export default {
         //   corpPersonNum: '999',
         //   isImportant: '是',
         //   createTime: '2023-10-08',
-        //   update_time: '2023-10-09'
+        //   updateTime: '2023-10-09'
         // }
       ]
     }
@@ -258,6 +263,13 @@ export default {
     this.queryTableDatas(this.params)
   },
   methods: {
+    onSearchResetClick() {
+      this.searchDataList = {}
+    },
+    onSearchClick(obj) {
+      this.params.corpName = obj.corpName
+      this.queryTableDatas(this.params)
+    },
     onQueryConditionsClick() {
       this.isShowQueryConditions = !this.isShowQueryConditions
     },
@@ -271,19 +283,36 @@ export default {
     },
     refresh() {
       this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     queryTableDatas(params) {
-      this.showLoading = true
+      this.tableLoading = true
       HttpModule.getReportTasks(params)
         .then((res) => {
-          this.showLoading = false
+          this.tableLoading = false
           if (res.code === '000000') {
             // this.tableData = {
             //   ...res.data.results
             //   // corpType: res.data.results.cropType === '0' ? '国企' : res.data.results.cropType
             // }
             this.tableData = res.data.results
+            this.tableData.forEach((item) => {
+              if (item.corpType === '0') {
+                item.corpType = '国企'
+              } else if (item.corpType === '1') {
+                item.corpType = '民营企业'
+              } else if (item.corpType === '2') {
+                item.corpType = '外企'
+              } else {
+                item.corpType = '其他'
+              }
+            })
+            this.tableData.forEach((item) => {
+              if (item.isImportant === '0') {
+                item.isImportant = '是'
+              } else {
+                item.isImportant = '否'
+              }
+            })
             // 将返回值中的页面参数同步
             this.pagerConfig.total = res.data.totalCount
             // this.pagerConfig.pageSize = res.data.size
@@ -296,7 +325,7 @@ export default {
           }
         })
         .finally(() => {
-          this.showLoading = false
+          this.tableLoading = false
         })
     },
     // 表格数据加载
@@ -331,7 +360,6 @@ export default {
           this.deleteTask(deleteIds)
           break
         default:
-          console.log('default fallback')
       }
     },
     // 新增数据
