@@ -107,8 +107,11 @@ export default defineComponent({
       httpMudules.queryTableDatas(params).then(res => {
         tableLoading.value = false
         staticConfig.value.isFlushAction = false
-        if (res.code === '000000' && res.data.length) {
-          let newList = cursionData(res.data)
+        if (res.code === '000000') {
+          let newList = []
+          if (res.data.length > 0) {
+            newList = cursionData(res.data)
+          }
           tableData.value = newList
         }
       })
