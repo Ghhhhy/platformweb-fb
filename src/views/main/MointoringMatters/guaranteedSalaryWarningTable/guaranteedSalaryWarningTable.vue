@@ -103,9 +103,11 @@ export default defineComponent({
         mofDivCode: queryData.value.agencyCode_code,
         warningLevels: queryData.value.warningLevels_code__multiple
       }
+      staticConfig.value.isFlushAction && (params.isFlush = true)
       params.startDays && (params.startDays = moment(params.startDays).format('YYYY-MM-DD 00:00:00'))
       httpMudules.queryTableDatas(params).then(res => {
         tableLoading.value = false
+        staticConfig.value.isFlushAction = false
         if (res.code === '000000' && res.data.length) {
           let newList = cursionData(res.data)
           tableData.value = newList
@@ -125,6 +127,7 @@ export default defineComponent({
     const staticConfig = ref({
       'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' },
       'row-id': 'id',
+      isFlushAction: false,
       tableFooterConfig: {},
       toolbarConfig: {
         // table工具栏配置
@@ -160,7 +163,8 @@ export default defineComponent({
         switch (code) {
           // 刷新
           case 'refresh':
-            this.refresh()
+            staticConfig.value.isFlushAction = true
+            search()
             break
         }
       }
