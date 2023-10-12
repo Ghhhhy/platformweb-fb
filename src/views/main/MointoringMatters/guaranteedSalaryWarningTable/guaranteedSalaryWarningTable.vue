@@ -57,7 +57,7 @@ export default defineComponent({
     onUnmounted(() => {
       this.component('CustomerElProgress', null)
     })
-    const formatKeyList = ['sbGzKhjd', 'sbGzXsjd', 'sbZxjd']
+    const formatKeyList = ['sbGzKhjd', 'sbGzXsjd']
     let cursionData = (arr) => {
       return arr.map(item => {
         let newObj = { ...item }
@@ -140,6 +140,9 @@ export default defineComponent({
           tools: 'toolbarTools',
           buttons: 'toolbarSlots'
         }
+      },
+      tableConfig: {
+        wordLength: 6// 自定义溢出(?)字展示文字提示
       },
       pagerConfig: false,
       // pagerConfig: {
