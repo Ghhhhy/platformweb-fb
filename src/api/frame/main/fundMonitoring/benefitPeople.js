@@ -1,6 +1,10 @@
 import { post, get, postFormData } from '@/api/http'
 export default {
   // 获取左侧树
+  batchSaveCorpData(params) {
+    return post('large-monitor-platform/lmp/corpInfo/adds', params)
+  },
+  // 获取左侧树
   getTreeData(params) {
     return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
   },
@@ -46,6 +50,10 @@ export default {
   // 到人到户导入 | 企业补贴导入
   importPersonAndCompany (params) {
     return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/savePayDetailExcel', params)
+  },
+  // 到人到户导入 | 企业补贴导入
+  queryCompanyInfo (params) {
+    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryCorpInfo', params)
   },
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
