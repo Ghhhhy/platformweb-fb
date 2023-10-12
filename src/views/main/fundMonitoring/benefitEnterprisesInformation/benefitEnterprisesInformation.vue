@@ -6,8 +6,20 @@
           ref="tabPanel"
           show-zero
           :show-num="true"
+          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
+          @onQueryConditionsClick="onQueryConditionsClick"
         />
+      </template>
+      <template v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
       </template>
       <template v-slot:mainForm>
         <BsTable
@@ -21,6 +33,7 @@
           :footer-config="footerConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxData"
         >
           <template v-slot:toolbarSlots>
@@ -50,7 +63,7 @@
 </template>
 
 <script>
-import api from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
+import HttpModule from '@/api/frame/main/fundMonitoring/benefitEnterprisesInformation.js'
 import AddDialog from './children/AddDialog.vue'
 export default {
   components: {
@@ -58,6 +71,22 @@ export default {
   },
   data() {
     return {
+      queryConfig: {
+        title: '开始时间',
+        field: 'beginYear',
+        width: 180,
+        align: 'left',
+        formula: '',
+        name: '$vxeTime',
+        itemRender: {
+          name: '$vxeTime',
+          option: [],
+          props: {
+            placeholder: '开始时间'
+          }
+        }
+      },
+      isShowQueryConditions: false,
       tableLoading: false,
       leftTreeVisible: false,
       // 弹窗
@@ -151,8 +180,8 @@ export default {
         currentPage: 1
       },
       params: {
-        current: 1,
-        size: 20
+        page: 1,
+        pageSize: 20
       },
       tableColumnsConfig: [
         {
@@ -212,43 +241,63 @@ export default {
         }
       ],
       tableData: [
-        {
-          corpName: '企业名称',
-          unifsocCredCode: '企业社会统一征信代码',
-          corpType: '国企',
-          corpAddress: '重庆',
-          corpPersonNum: '999',
-          isImportant: '是',
-          createTime: '2023-10-08',
-          update_time: '2023-10-09'
-        }
+        // {
+        //   corpName: '企业名称',
+        //   unifsocCredCode: '企业社会统一征信代码',
+        //   corpType: '国企',
+        //   corpAddress: '重庆',
+        //   corpPersonNum: '999',
+        //   isImportant: '是',
+        //   createTime: '2023-10-08',
+        //   update_time: '2023-10-09'
+        // }
       ]
     }
   },
   created() {
-    this.initTableData(this.params)
+    this.queryTableDatas(this.params)
   },
   methods: {
-    initTableData(params) {
-      console.log(111)
+    onQueryConditionsClick() {
+      this.isShowQueryConditions = !this.isShowQueryConditions
+    },
+    onToolbarBtnClick({ context, table, code }) {
+      switch (code) {
+        // 刷新
+        case 'refresh':
+          this.refresh()
+          break
+      }
+    },
+    refresh() {
+      this.queryTableDatas()
+      // this.queryTableDatasCount()
+    },
+    queryTableDatas(params) {
       this.showLoading = true
-      api.getReportTasks(params).then((res) => {
-        this.showLoading = false
-        if (res.rscode === '200') {
-          this.tableData = res.data.objects
-          // 将返回值中的页面参数同步
-          this.pagerConfig.total = res.data.total
-          this.pagerConfig.pageSize = res.data.size
-          this.pagerConfig.currentPage = res.data.current
-        } else {
-          this.tableData = []
-          this.pagerConfig.total = 0
-          this.pagerConfig.currentPage = 1
-          this.pagerConfig.pageSize = 20
-        }
-      }).finally(() => {
-        this.showLoading = false
-      })
+      HttpModule.getReportTasks(params)
+        .then((res) => {
+          this.showLoading = false
+          if (res.code === '000000') {
+            // this.tableData = {
+            //   ...res.data.results
+            //   // corpType: res.data.results.cropType === '0' ? '国企' : res.data.results.cropType
+            // }
+            this.tableData = res.data.results
+            // 将返回值中的页面参数同步
+            this.pagerConfig.total = res.data.totalCount
+            // this.pagerConfig.pageSize = res.data.size
+            // this.pagerConfig.currentPage = res.data.current
+          } else {
+            this.tableData = []
+            this.pagerConfig.total = 0
+            this.pagerConfig.currentPage = 1
+            this.pagerConfig.pageSize = 20
+          }
+        })
+        .finally(() => {
+          this.showLoading = false
+        })
     },
     // 表格数据加载
     ajaxData({ params, currentPage, pageSize }) {
@@ -257,10 +306,10 @@ export default {
       this.pagerConfig.pageSize = pageSize
       this.params = Object.assign(this.params, {
         params,
-        current: currentPage,
-        size: pageSize
+        page: currentPage,
+        pageSize: pageSize
       })
-      this.initTableData(this.params)
+      this.queryTableDatas(this.params)
     },
     // 按钮触发后，回调方式
     bsToolbarClickEvent(obj, $this) {
@@ -277,7 +326,7 @@ export default {
           var deleteIds = []
           console.log(selectionRow, '行数据')
           selectionRow.forEach(function (item, index) {
-            deleteIds.push(item.taskId)
+            deleteIds.push(item.id)
           })
           this.deleteTask(deleteIds)
           break
@@ -301,16 +350,15 @@ export default {
           this.showLoading = true
           var _this = this
           console.log(deleteIds, 'deleteids')
-          api
-            .deleteTask(deleteIds)
+          HttpModule.deleteTask(deleteIds)
             .then((res) => {
               _this.showLoading = false
-              if (res.rscode === '200') {
+              if (res.code === '000000') {
                 this.$message({
                   type: 'success',
                   message: '删除成功!'
                 })
-                _this.initTableData()
+                _this.queryTableDatas()
               } else {
                 let message = res?.errorMessage || res?.result
                 this.$message.error('删除失败!' + message)
@@ -332,13 +380,14 @@ export default {
       this.rowData = row
     },
     // 删除某一行
-    deleteRow({ taskId }) {
+    deleteRow({ id }) {
       // console.log([taskId])
-      this.deleteTask([taskId])
+      this.deleteTask([id])
     },
     dialogClose() {
       this.showModal = false
       this.rowData = {}
+      this.refresh()
     }
   }
 }

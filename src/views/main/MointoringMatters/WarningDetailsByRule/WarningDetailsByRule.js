@@ -47,7 +47,7 @@ export let proconf = {
     },
     {
       title: '预警级别',
-      field: 'warningLevel',
+      field: 'warnLevel',
       'width': 180,
       align: 'left',
       formula: '',
@@ -562,14 +562,14 @@ export let proconf = {
       filters: false,
       align: 'left'
     },
-    {
-      title: '触发菜单',
-      'width': 180,
-      field: 'fromMenuName',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '触发菜单',
+    //   'width': 180,
+    //   field: 'fromMenuName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       title: '区划',
       'width': 180,

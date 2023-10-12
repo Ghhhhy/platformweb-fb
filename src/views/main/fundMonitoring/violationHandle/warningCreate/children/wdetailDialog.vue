@@ -1117,9 +1117,14 @@ export default {
         xPayDateStart: this.searchDataList.xPayDateStart,
         xPayDateEnd: this.searchDataList.xPayDateEnd,
         roleId: this.$store.state.curNavModule.roleguid,
-        menuId: this.$store.state.curNavModule.guid
+        menuId: this.$store.state.curNavModule.guid,
+        ruleCodes: []
       }
-
+      if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
+        params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
+          return item.split('##')[0]
+        })
+      }
       // 有菜单有主题参数则 则用主题参数
       if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
         params.regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
@@ -1276,9 +1281,11 @@ export default {
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recEndTime' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = ''
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'ruleCodes' })].itemRender.props['value'] = ''
       this.$refs.queryFrom.reset()
       this.agencyCodeList = []
       this.searchDataList.agencyCodeList = []
+      this.searchDataList.ruleCodes = ''
       this.searchDataList.businessNo = ''
       this.searchDataList.fiRuleName = ''
       this.searchDataList.regulationClassName = ''
@@ -1387,6 +1394,28 @@ export default {
       return detailData
       // this.handletableData = res.data?.regulationList
     },
+    getFiRule() {
+      const param = {
+        fiscalYear: this.$store.state.userInfo.year
+      }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '0201'
+      }
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+      HttpModule.getRuleTreeData(param).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = res.data
+          let index = this.queryConfig.findIndex(item => item.field === 'ruleCodes')
+          this.queryConfig[index].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     getDetailFormItem() {
       let detailColumns = []
       if (['6', 2, '2'].includes(this.bussnessId)) {
@@ -1469,6 +1498,7 @@ export default {
     console.log('this.param5', this.param5)
     this.userInfo = this.$store.state.userInfo
     this.setShowBusinesTree()
+    this.getFiRule()
     this.$set(this.searchDataList, 'warnStartDate', this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'warnEndDate', this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'dealWarnStartDate', this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'))
@@ -1477,6 +1507,7 @@ export default {
     this.$set(this.searchDataList, 'recEndTime', this.queryData.recEndTime)
     this.$set(this.searchDataList, 'xPayDateStart', this.queryData.xPayDateStart)
     this.$set(this.searchDataList, 'xPayDateEnd', this.queryData.xPayDateEnd)
+    this.$set(this.searchDataList, 'ruleCodes', this.queryData.ruleCodes)
     // 回显时间
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
@@ -1486,6 +1517,7 @@ export default {
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'recEndTime' })].itemRender.props['value'] = this.searchDataList.recEndTime
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = this.searchDataList.xPayDateStart
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = this.searchDataList.xPayDateEnd
+    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'ruleCodes' })].itemRender.props['value'] = this.searchDataList.ruleCodes
   }
 }
 </script>
