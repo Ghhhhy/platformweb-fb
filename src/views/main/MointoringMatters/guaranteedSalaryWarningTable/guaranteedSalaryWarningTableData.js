@@ -156,7 +156,7 @@ export const mockTableColumns = [
       default({ row }) {
         return [
           <div class="fsc" style="height:100%;">
-            <el-progress style="width:100%;" progressScale={row.sbZxjeBgz} percentage={row.sbGzKhjd}></el-progress>
+            <CustomerElProgress style="width:100%;" progressScaleList={[{progressScale:row.sbZxjd,color:'#01a883'}]} percentage={row.sbGzKhjd}></CustomerElProgress>
           </div>
         ]
       }
@@ -180,7 +180,7 @@ export const mockTableColumns = [
       default({ row }) {
         return [
           <div class="fsc" style="height:100%;">
-            <CustomerElProgress style="width:100%;"  progressScale={row.sbGzKhjd} percentage={row.sbGzXsjd}></CustomerElProgress>
+            <CustomerElProgress style="width:100%;"  progressScaleList={[{progressScale:row.sbGzKhjd,color:'#ff4949'},{progressScale:row.sbZxjd,color:'#01a883'}]} percentage={row.sbGzXsjd}></CustomerElProgress>
           </div>
         ]
       }

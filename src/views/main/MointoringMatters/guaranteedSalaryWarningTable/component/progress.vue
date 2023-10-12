@@ -19,8 +19,8 @@
         <div class="el-progress-bar__inner" :style="barStyle">
           <div v-if="showText && textInside" class="el-progress-bar__innerText">{{ content }}</div>
         </div>
-        <div class="el-progress-bar__inner" :style="progressScaleStyle">
-          <div style="padding-right:1px;display:inline;backgroundColor:#ff4949;height:100%;"></div>
+        <div v-for="(item,index) in progressScaleList" :key="index" class="el-progress-bar__inner" :style="progressScaleStyle(item)">
+          <div style="padding-right:2px;display:inline;height:100%;" :style="{ backgroundColor: item.color }"></div>
         </div>
       </div>
     </div>
@@ -64,20 +64,20 @@ export default {
       default: 'line',
       validator: val => ['line', 'circle', 'dashboard'].indexOf(val) > -1
     },
-    progressScale: {
-      type: String,
-      default: ''
+    progressScaleList: {
+      type: Array,
+      default: () => []// [{progressScale:0.5,color:'#ff4949'}]
     },
     percentage: {
       type: Number,
       default: 0,
       required: true,
-      validator: val => val >= 0 && val <= 100
+      validator: val => Number(val) >= 0 && Number(val) <= 100
     },
     status: {
       type: String,
-      default: '',
-      validator: val => ['success', 'exception', 'warning'].indexOf(val) > -1
+      default: ''
+      // validator: val => ['success', 'exception', 'warning'].indexOf(val) > -1
     },
     strokeWidth: {
       type: Number,
@@ -111,16 +111,6 @@ export default {
       const style = {}
       style.width = this.percentage + '%'
       style.backgroundColor = this.getCurrentColor(this.percentage)
-      return style
-    },
-    progressScaleStyle(){
-      const style = {
-        position:'absolute',
-        width:this.progressScale+"%",
-        left:0,
-        top:0,
-        'text-align':'right',
-      }
       return style
     },
     relativeStrokeWidth() {
@@ -211,6 +201,16 @@ export default {
     }
   },
   methods: {
+    progressScaleStyle(item){
+      const style = {
+        position:'absolute',
+        width:item.progressScale+"%",
+        left:0,
+        top:0,
+        'text-align':'right',
+      }
+      return style
+    },
     getCurrentColor(percentage) {
       if (typeof this.color === 'function') {
         return this.color(percentage)
