@@ -154,15 +154,7 @@ export default {
           titleWidth: 100,
           titleAlign: 'left',
           itemRender: {
-            name: '$vxeSelect',
-            options: [
-              { value: '0', label: '0 ~ 100' },
-              { value: '1', label: '100 ~ 500' },
-              { value: '2', label: '500 ~ 1000' },
-              { value: '3', label: '1000 ~ 5000' },
-              { value: '4', label: '5000 ~ 10000' },
-              { value: '5', label: '10000以上' }
-            ],
+            name: '$vxeInput',
             props: { required: true, placeholder: '请选择企业人数' }
           }
         },
@@ -212,16 +204,18 @@ export default {
           this.tableLoading = true
           if (_this.isAdd) {
             api.addTask(this.formData).then((res) => {
-              if (res.rscode === '200') {
+              if (res.code === '000000') {
                 _this.$message.success('添加成功')
                 _this.tableLoading = false
+                this.dialogClose()
               }
             })
           } else {
             api.updateTask(_this.formData).then((res) => {
-              if (res.rscode === '200') {
+              if (res.code === '000000') {
                 _this.$message.success('修改成功')
                 _this.tableLoading = false
+                this.dialogClose()
               }
             })
           }

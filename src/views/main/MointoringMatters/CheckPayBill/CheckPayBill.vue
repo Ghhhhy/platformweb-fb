@@ -2,7 +2,7 @@
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-10-06 15:48:40
  * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-10 17:41:48
+ * @LastEditTime: 2023-10-12 14:44:32
  * @FilePath: \platformweb-fb\src\views\main\MointoringMatters\CheckPayBill\CheckPayBill.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -41,7 +41,6 @@
           v-model="showAside"
           :tree-config="setConfig"
           @onChangeInput="changeInput"
-          @onAsideChange="asideChange"
         />
         <BsTree
           :queryparams="treeQueryparams"
@@ -94,6 +93,7 @@
     <CheckPayBillModal
       v-if="showModal"
       ref="CheckPayBillModal"
+      :data="detailFormData"
       @close="closeModal"
     />
   </div>
@@ -101,6 +101,7 @@
 
 <script>
 import { proconf } from './CheckPayBill.js'
+import HttpModule from '@/api/frame/main/Monitoring/CheckPayBill.js'
 import { getTreeData } from '@/api/frame/main/common'
 import CheckPayBillModal from './CheckPayBillModal.vue'
 export default {
@@ -254,13 +255,15 @@ export default {
       // datav表格数据
       searchObj: {},
       curDivCode: '',
-      isShowReport: false
+      isShowReport: false,
+      detailFormData: {} // 点击查看详情的数据表单
     }
   },
   computed: {
     paramsObj() {
       return {
         mofDivCode: this.curDivCode
+        // mofDivCode: '230183000'
       }
     }
   },
@@ -274,29 +277,39 @@ export default {
       console.log(res)
       this.treeData = res?.data || []
     },
-    asideChange() {
-      // this.leftTreeVisible = false
-    },
-    onQueryConditionsClick() {
-      this.isShowQueryConditions = !this.isShowQueryConditions
-    },
     handleRowClick(row) {
       console.log('点击每行的方法', row)
       console.log(this.showModal, '111')
       this.showModal = !this.showModal
     },
     closeModal(value) {
-      console.log(value, '222')
       this.showModal = false
     },
     changeInput(val) {
       this.filterText = val
     },
+    xjAllCode(node) {
+      node.children.forEach((item) => {
+        this.curDivCode += `${item.code}` + ','
+        this.xjAllCode(item)
+      })
+    },
     // 点击树节点
     onNodeClick({ node, treeData }, $event, treeContext) {
       console.log(node, '-----')
+      if (node.children.length === 0) {
+        this.curDivCode = node?.code
+      } else {
+        // 有下级区划全部拼接成一个字符串进行传参
+        // node.children.forEach((item) => {
+        this.curDivCode = node?.code + ','
+        // })
+        this.xjAllCode(node)
+        this.curDivCode = this.curDivCode.slice(0, -1)
+      }
+      console.log(this.curDivCode)
       this.isShowReport = true
-      this.curDivCode = node?.code
+      // this.curDivCode = node?.code
       this.$refs?.reportViewRef?.searchData()
     },
     // datav表格
@@ -372,7 +385,19 @@ export default {
     },
     excelLinkHandle(payload) {
       console.log(payload, '---')
-      this.showModal = !this.showModal
+      this.tableLoading = true
+      HttpModule.getReportDetail({ 'guid': payload.target.excelLinkParams.guid }).then(res => {
+        // if (res.rscode === '100000') {
+        console.log(res, '111')
+        this.detailFormData = res.data
+        console.log(this.detailFormData, '222')
+        // } else {
+        //   this.$confirm.error('查看失败')
+        // }
+      }).finally(() => {
+        this.tableLoading = false
+        this.showModal = !this.showModal
+      })
     }
   }
 }
