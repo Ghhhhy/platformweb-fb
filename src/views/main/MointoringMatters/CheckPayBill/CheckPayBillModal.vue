@@ -10,9 +10,8 @@
         ref="refForm"
         :form-items-config="formItemsConfig"
         :form-data-list="formData"
-        @itemChange="onItemChange"
       />
-      <div>比对状态: 比对一致</div>
+      <div>比对状态: {{ formData.compareStatus === '1' ? '比对一致' : '比对不一致' }}</div>
       <el-divider />
       <div style="width: 100%;display: flex;justify-content: center;">
         <vxe-button @click="onSureClick">确定</vxe-button>
@@ -27,29 +26,44 @@ import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 export default {
   name: 'HandleDialog',
   mixins: [loadBsConfig],
-  props: {},
+  props: {
+    data: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       tableLoading: false,
       dialogVisible: true,
       formData: {
-        supBgtDocNo: '财政部关于下达2023年',
-        corBgtDocNo: '100111',
-        amount: '90.000.000.00',
-        docDate: '2023-06-09',
-        bgtDec: '财政部关于下达2023年中央专项彩票公益金支持欠发达革命老区乡村振兴项目资金预算的通知',
-        proCode: '10000017Z175070060003',
-        proName: '中央专项彩票公益金支持欠发达革命老区乡村振兴项目资金',
-        fundTypeName: '政府性基金预算资金',
-        expFuncName: '2296011-用于巩固脱贫攻坚成果衔接乡村振兴的彩票公益金支出',
-        tpFuncName: '2300409-农林水',
-        govBgtEco: '51301-上下级政府间转移性支出',
-        distriType: '因素法',
-        isTrack: '是'
-      },
+        ...this.data,
+        fundType: this.data.fundTypeCode + '-' + this.data.fundTypeName,
+        expFunc: this.data.expFuncCode + '-' + this.data.expFuncName,
+        tpFunc: this.data.tpFuncCode + '-' + this.data.tpFuncName,
+        govBgtEco: this.data.govBgtEcoCode + '-' + this.data.govBgtEcoName,
+        distriType: this.data.distriTypeCode + '-' + this.data.distriTypeName
+      } || {},
+      // formData: {
+      //   supBgtDocNo: '财政部关于下达2023年',
+      //   corBgtDocNo: '100111',
+      //   amount: '90.000.000.00',
+      //   docDate: '2023-06-09',
+      //   bgtDec: '财政部关于下达2023年中央专项彩票公益金支持欠发达革命老区乡村振兴项目资金预算的通知',
+      //   proCode: '10000017Z175070060003',
+      //   proName: '中央专项彩票公益金支持欠发达革命老区乡村振兴项目资金',
+      //   fundTypeName: '政府性基金预算资金', 11
+      //   expFuncName: '2296011-用于巩固脱贫攻坚成果衔接乡村振兴的彩票公益金支出', 111
+      //   tpFuncName: '2300409-农林水', 111
+      //   govBgtEco: '51301-上下级政府间转移性支出', 111
+      //   distriTypeName: '因素法', 111
+      //   isTrack: '是'
+      // },
       formItemsConfig: [
         {
-          field: 'supBgtDocNo',
+          field: 'bgtDocTitle',
           title: '指标标题',
           span: 12,
           itemRender: {
@@ -63,7 +77,7 @@ export default {
           }
         },
         {
-          field: 'corBgtDocNo',
+          field: 'corBgtDocNoName',
           title: '指标文号',
           span: 12,
           itemRender: {
@@ -147,7 +161,7 @@ export default {
           }
         },
         {
-          field: 'fundTypeName',
+          field: 'fundType',
           title: '资金性质',
           span: 12,
           itemRender: {
@@ -161,7 +175,7 @@ export default {
           }
         },
         {
-          field: 'expFuncName',
+          field: 'expFunc',
           title: '支出功能分类科目',
           span: 12,
           itemRender: {
@@ -175,7 +189,7 @@ export default {
           }
         },
         {
-          field: 'tpFuncName',
+          field: 'tpFunc',
           title: '转移支付功能分类科目',
           span: 12,
           itemRender: {
@@ -245,7 +259,6 @@ export default {
   watch: {},
   created() {},
   mounted() {
-    console.log('当前传过来得formData', this.createDataList)
   },
   destoryed() {
     VXETable.renderer.delete('$customerFileRender')
