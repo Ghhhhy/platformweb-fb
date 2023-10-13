@@ -237,6 +237,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '系统级监控规则',
       params5: '',
+      param5: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -723,7 +724,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: this.params5,
+        regulationClass: this.param5 === '6' ? '' : this.params5,
         firulecode: this.regulation_code,
         triggerClass: this.triggerClass,
         isSign: this.isSign,
@@ -739,32 +740,39 @@ export default {
         roleId: this.roleguid
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.handleTime === null) {
-              item.handleTime = '-'
-            }
-            // if (item.warnLevel === 1) {
-            //   item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            // } else if (item.warnLevel === 2) {
-            //   item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            // } else if (item.warnLevel === 3) {
-            //   item.warnLevel = '<span style="color:red">红色预警</span>'
-            // } else if (item.warnLevel === 5) {
-            //   item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            // } else if (item.warnLevel === 4) {
-            //   item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            // }
-          })
-          this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      if (this.param5 === '6') {
+        HttpModule.queryTableDatas1(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        HttpModule.queryTableDatas(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
     },
     // 操作日志
     queryActionLog(row) {
@@ -921,6 +929,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.getters.getRegulationClass
+    this.param5 = this.$store.state.curNavModule.param5
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }

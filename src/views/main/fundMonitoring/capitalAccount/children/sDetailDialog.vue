@@ -391,7 +391,7 @@ export default {
       return strTwo
     },
     isConfigTable() {
-      console.log(this.sDetailType, 'sDetailType')
+      console.log(this.sDetailType, '第三层钻取表格参数! --动态')
       switch (this.sDetailType) {
         case 'zxjdzbmx_fzjfp':// 第三层 预算金额 分配金额
           this.loadConfig('BsTable', 'Table301')
@@ -409,14 +409,19 @@ export default {
           this.loadConfig('BsTable', 'Table303')
           this.loadConfig('BsQuery', 'Query303')
           break
-        case 'zdzjzbmx_fzjfp':
+        case 'zdzjzbmx_fzjfp':// 预算金额 中央直达资金
           this.loadConfig('BsTable', 'Table301')
+          this.loadConfig('BsQuery', 'Query301')
+          break
+        case 'zdzjzcmx_fdq':// 支付金额 中央安排
+          this.loadConfig('BsTable', 'Table302')
           this.loadConfig('BsQuery', 'Query301')
           break
       }
       this.queryTableDatas()
     },
     showInfoForVisible() {
+      console.log(this.sDetailType, '第三层钻取表格参数! --静态')
       switch (this.sDetailType) {
         case 'zdzjzcmx_fdq':
         case 'zyzjzcmx_fdq':
@@ -472,8 +477,6 @@ export default {
     if (this.isSx) {
       this.showInfo()
     } else {
-      // this.showInfo()
-      console.log(this.sDetailType, 'this.sDetailType')
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
       if (hideColumnLinkStr === (undefined && null && '') || hideColumnLinkStr.isConfigTable === (undefined && null && '')) {
         this.showInfoForVisible()
@@ -482,7 +485,6 @@ export default {
       } else {
         this.showInfoForVisible()
       }
-    // this.showInfoForVisible()// SH判断不同地区 然后动态展示不同的列 逻辑同showInfo
     }
   },
   watch: {
