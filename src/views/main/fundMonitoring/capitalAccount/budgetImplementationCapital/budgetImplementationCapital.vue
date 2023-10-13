@@ -39,7 +39,7 @@
           :default-money-unit="10000"
           :title="menuName"
           :cell-style="cellStyle"
-          :show-zero="false"
+          :show-zero="showZeroState"
           :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
@@ -161,6 +161,8 @@ export default {
       isFlush: false,
       otherSysImportModal: false, // 华青数据导入弹窗显隐
       caliberDeclareContent: '', // 口径说明
+      hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
+      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       reportTime: '', // 拉取支付报表的最新时间
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -301,18 +303,6 @@ export default {
       sDetailQueryParam: {}
     }
   },
-  mounted() {
-    if (this.paramS5.isConfigTable === '1') {
-      this.loadConfig('BsTable', 'Table101')
-      this.loadConfig('BsQuery', 'Query101')
-    }
-    // this.tableLoading = true
-    // setTimeout(() => {
-    //   this.tableLoading = false
-    //   this.initTableData()
-    // }, 2000)
-    // this.initTableData()
-  },
   methods: {
     // 载入表头
     async loadConfig(Type, id) {
@@ -327,22 +317,13 @@ export default {
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
+        this.getMofDiv()
       }
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
-        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
-        this.getMofDiv()
+        this.queryConfig = configData.itemsConfig
+        this.searchDataList.fiscalYear = new Date().getFullYear()
       }
-    },
-    transJson3 (str) {
-      let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
-        acc[key] = value
-        strTwo = acc
-        return acc
-      }, {})
-      return strTwo
     },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
@@ -380,6 +361,7 @@ export default {
         }
       })
       this.searchDataList = searchDataObj
+      this.searchDataList.fiscalYear = new Date().getFullYear()
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -618,7 +600,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes || '')
+        mofDivCodes: (this.searchDataList.mofDivCodes && typeof this.searchDataList.mofDivCodes === 'string') ? this.getTrees(this.searchDataList.mofDivCodes) : []
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -850,7 +832,7 @@ export default {
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
         fiscalYear: this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
+        mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
       this.isFlush && (param.isFlush = true)
       this.tableLoading = true
@@ -899,6 +881,16 @@ export default {
       })
       return datas
     },
+    transJson3(str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
@@ -925,6 +917,15 @@ export default {
           }
         }
       }
+    },
+    isConfigTable() {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
+    }
+  },
+  mounted() {
+    if (this.hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
     }
   },
   created() {

@@ -197,7 +197,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5).hasOwnProperty('show') ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
+        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5)?.show === 'show' ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
