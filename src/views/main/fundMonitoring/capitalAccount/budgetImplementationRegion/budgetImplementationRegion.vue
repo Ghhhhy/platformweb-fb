@@ -419,16 +419,6 @@ export default {
         this.searchDataList.fiscalYear = new Date().getFullYear()
       }
     },
-    transJson3(str) {
-      let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
-        acc[key] = value
-        strTwo = acc
-        return acc
-      }, {})
-      return strTwo
-    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -633,7 +623,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: (this.searchDataList.proCodes&&typeof this.searchDataList.proCodes==='string') ? this.getTrees(this.searchDataList.proCodes):[]
+        proCodes: (this.searchDataList.proCodes && typeof this.searchDataList.proCodes === 'string') ? this.getTrees(this.searchDataList.proCodes) : []
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -989,14 +979,6 @@ export default {
     this.getNewData()
     if (this.hideColumnLinkStr.isConfigTable === '1') {
       this.isConfigTable()
-    }
-  },
-  mounted() {
-    console.log(this.paramS5, 'paramS5paramS5')
-    this.getNewData()
-    if (this.paramS5.isConfigTable === '1') {
-      this.loadConfig('BsTable', 'Table101')
-      this.loadConfig('BsQuery', 'Query101')
     }
   },
   created() {

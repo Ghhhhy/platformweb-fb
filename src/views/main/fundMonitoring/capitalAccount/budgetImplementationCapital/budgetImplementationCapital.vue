@@ -325,16 +325,6 @@ export default {
         this.searchDataList.fiscalYear = new Date().getFullYear()
       }
     },
-    transJson3(str) {
-      let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
-        acc[key] = value
-        strTwo = acc
-        return acc
-      }, {})
-      return strTwo
-    },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
@@ -610,7 +600,7 @@ export default {
         isCz: isCz,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
-        mofDivCodes: (this.searchDataList.mofDivCodes&&typeof this.searchDataList.mofDivCodes==='string') ? this.getTrees(this.searchDataList.mofDivCodes): []
+        mofDivCodes: (this.searchDataList.mofDivCodes && typeof this.searchDataList.mofDivCodes === 'string') ? this.getTrees(this.searchDataList.mofDivCodes) : []
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -891,7 +881,7 @@ export default {
       })
       return datas
     },
-    transJson3 (str) {
+    transJson3(str) {
       let strTwo = ''
       str.split(',').reduce((acc, curr) => {
         const [key, value] = curr.split('=')
