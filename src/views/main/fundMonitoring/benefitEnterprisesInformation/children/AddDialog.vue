@@ -78,13 +78,13 @@ export default {
             trigger: 'change'
           }
         ],
-        corpPersonNum: [
-          {
-            required: true,
-            message: '请选择企业人数',
-            trigger: 'change'
-          }
-        ],
+        // corpPersonNum: [
+        //   {
+        //     required: true,
+        //     message: '请选择企业人数',
+        //     trigger: 'change'
+        //   }
+        // ],
         isImportant: [
           {
             required: true,
