@@ -60,6 +60,7 @@ export default {
     Vue.directive('xResize', {
       inserted: (el, binding) => {
         // 添加拖动dom
+        let originBorder = el.style['border-right']
         el.style.position = 'relative'
         const dargNodeDom = document.createElement('div')
         dargNodeDom.style.position = 'absolute'
@@ -107,10 +108,12 @@ export default {
           startWidth = el.offsetWidth
           startX = e.clientX
           isResizing = true
+          el.style['border-right'] = '1px dashed'
           document.addEventListener('mousemove', move)
         })
         document.addEventListener('mouseup', () => {
           isResizing = false
+          el.style['border-right'] = originBorder
           document.removeEventListener('mousemove', move)
         })
       }
