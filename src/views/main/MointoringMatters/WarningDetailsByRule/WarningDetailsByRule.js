@@ -586,7 +586,12 @@ export let proconf = {
       align: 'center',
       filters: false,
       cellRender: {
-        name: '$warningLevelRender'
+        'name': '$vxeSelect',
+        options: [
+          { value: 1, label: '拦截' },
+          { value: 2, label: '预警' },
+          { value: 3, label: '冻结' }
+        ]
       }
     },
     {

@@ -5,6 +5,9 @@ export default {
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfos', params)
   },
+  queryTableDatas1(params) {
+    return post('large-monitor-platform/lmp/executeWarn/payDiBillInfo', params)
+  },
   // 获取违规明细
   getViolationsDetailDatas(params) {
     return post('large-monitor-platform/lmp/warn/rpt/queryRptInfoByRule', params)
