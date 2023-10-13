@@ -57,19 +57,18 @@ export default defineComponent({
     onUnmounted(() => {
       this.component('CustomerElProgress', null)
     })
+    const formatKeyList = ['sbGzKhjd', 'sbGzXsjd']
     let cursionData = (arr) => {
       return arr.map(item => {
         let newObj = { ...item }
-        if (item.sbGzKhjd) {
-          newObj.sbGzKhjd = parseFloat(item.sbGzKhjd * 100).toFixed(1)
-        } else {
-          newObj.sbGzKhjd = '0.0'
-        }
-        if (item.sbGzXsjd) {
-          newObj.sbGzXsjd = parseFloat(item.sbGzXsjd * 100).toFixed(1)
-        } else {
-          newObj.sbGzXsjd = '0.0'
-        }
+        // sbGzKhjd 考核进度,sbGzXsjd 序时进度,sbZxjd 执行进度 让后端返回的 '0.37777...8' 变成'37.8' 这种
+        formatKeyList.forEach(field => {
+          if (item[field]) {
+            newObj[field] = parseFloat(item[field] * 100).toFixed(1)
+          } else {
+            newObj[field] = '0.0'
+          }
+        })
         if (item.children) {
           newObj.children = cursionData(item.children)
         }
@@ -103,11 +102,16 @@ export default defineComponent({
         mofDivCode: queryData.value.agencyCode_code,
         warningLevels: queryData.value.warningLevels_code__multiple
       }
+      staticConfig.value.isFlushAction && (params.isFlush = true)
       params.startDays && (params.startDays = moment(params.startDays).format('YYYY-MM-DD 00:00:00'))
       httpMudules.queryTableDatas(params).then(res => {
         tableLoading.value = false
-        if (res.code === '000000' && res.data.length) {
-          let newList = cursionData(res.data)
+        staticConfig.value.isFlushAction = false
+        if (res.code === '000000') {
+          let newList = []
+          if (res.data.length > 0) {
+            newList = cursionData(res.data)
+          }
           tableData.value = newList
         }
       })
@@ -125,6 +129,7 @@ export default defineComponent({
     const staticConfig = ref({
       'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' },
       'row-id': 'id',
+      isFlushAction: false,
       tableFooterConfig: {},
       toolbarConfig: {
         // table工具栏配置
@@ -138,6 +143,9 @@ export default defineComponent({
           tools: 'toolbarTools',
           buttons: 'toolbarSlots'
         }
+      },
+      tableConfig: {
+        wordLength: 6// 自定义溢出(?)字展示文字提示
       },
       pagerConfig: false,
       // pagerConfig: {
@@ -160,7 +168,8 @@ export default defineComponent({
         switch (code) {
           // 刷新
           case 'refresh':
-            this.refresh()
+            staticConfig.value.isFlushAction = true
+            search()
             break
         }
       }
