@@ -137,7 +137,7 @@ export default {
         },
         // 去掉编辑按钮
         // buttonsInfo: proconf.statusRightToolBarButton,
-        buttonsInfo: {},
+        buttonsInfo: !this.$store.getters.isSx ? proconf.statusRightToolBarButton : {},
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
