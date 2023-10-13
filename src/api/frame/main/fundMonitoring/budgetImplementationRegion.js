@@ -8,12 +8,22 @@ import { Base64 } from 'js-base64'
 // import { encode, decode } from 'js-base64';
 export default {
   // 获取表格数据
+  queryTableDatasPage (params) {
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
+  },
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/zdzjledger/query', params)
   },
+  queryCaliberDeclareContent(params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/queryCaliberDeclareContent', params)
+  },
   // 明细分页查询
   detailPageQuery (params) {
-    if (store.state.userInfo.province.slice(0, 2) !== '31') {
+    const conditionMap = {
+      0: store.state.userInfo.province.slice(0, 2) !== '31',
+      1: !store.getters.isSx
+    }
+    if (Object.values(conditionMap).every(one => one)) {
       params = Base64.encode(JSON.stringify(params))
     }
     return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)
@@ -28,10 +38,21 @@ export default {
   },
   // 获取左侧树
   getTreeData(params) {
-    return get('large-monitor-platform/lmp/mofDivTree', params)
+    let url = 'large-monitor-platform/lmp/mofDivTree'
+    if (store.getters.isSx) {
+      url = 'mp-b-basedata-service/v2/basedata/simpletree/where'
+    }
+    return get(url, params)
   },
   getMofTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/query', params)
+  },
+  // 获取合计
+  querySum (params) {
+    return post('dfr-monitor-service/dfr/zdzjledger/sum', params)
+  },
+  getTreewhere(params) {
+    return get('mp-b-basedata-service/v2/basedata/simpletree/where', params)
   },
   getProTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryPro', params)
@@ -63,5 +84,12 @@ export default {
   },
   queryDetail(params) {
     return post('dfr-monitor-service/dfr/zdzjledger/queryDetail', params)
+  },
+  getCzProTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryCzPro', params)
+  },
+  // 新表格查询
+  queryTableData(params) {
+    return post('dfr-monitor-service/dfr/autoLedger/query', params)
   }
 }

@@ -16,10 +16,10 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;枚举值标签</div>
+                    <div class="sub-title-add" style="width:120px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;枚举值名称</div>
                     <el-input
                       v-model="dictInfoName"
-                      placeholder="请输入枚举值标签"
+                      placeholder="请输入枚举值名称"
                       style="width:45%"
                     />
                   </el-row>

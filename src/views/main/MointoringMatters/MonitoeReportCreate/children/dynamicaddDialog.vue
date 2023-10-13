@@ -24,7 +24,7 @@
                         :datas="askProvinceOptions"
                         :reloaddata="false"
                         :isleaf="true"
-                        :showcheckbox="true"
+                        :showcheckbox="false"
                         @input="selectProvince"
                       />
                     </div>
@@ -33,7 +33,7 @@
               </el-container>
             </el-col>
           </el-row>
-          <!-- <el-row>
+          <el-row>
             <el-col :span="20">
               <el-container>
                 <el-main width="100%">
@@ -61,7 +61,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;开始月份</div>
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;月份</div>
                     <el-select
                       v-model="startMonth"
                       placeholder="请选择开始月份"
@@ -80,7 +80,7 @@
               </el-container>
             </el-col>
           </el-row>
-          <el-row>
+          <!-- <el-row>
             <el-col :span="20">
               <el-container>
                 <el-main width="100%">
@@ -150,7 +150,8 @@ export default {
       year: '',
       yearOptions: [
         { value: 2021, label: '2021年' },
-        { value: 2022, label: '2022年' }
+        { value: 2022, label: '2022年' },
+        { value: 2023, label: '2023年' }
       ],
       startMonth: '',
       endMonth: '',
@@ -182,14 +183,18 @@ export default {
     // 保存新增的计划信息
     doInsert() {
       console.log(this.askProvince)
-      // if (this.year === '') {
-      //   this.$message.warning('请选择年份')
-      //   return
-      // }
-      // if (this.startMonth === '') {
-      //   this.$message.warning('请选择开始月份')
-      //   return
-      // }
+      if (this.provinceNameList.length === 0) {
+        this.$message.warning('请选择区划')
+        return
+      }
+      if (this.year === '') {
+        this.$message.warning('请选择年份')
+        return
+      }
+      if (this.startMonth === '') {
+        this.$message.warning('请选择开始月份')
+        return
+      }
       // if (this.endMonth === '') {
       //   this.$message.warning('请选择结束月份')
       //   return
@@ -215,6 +220,8 @@ export default {
           this.$parent.previewStartMonth = this.startMonth
           this.$parent.previewEndMonth = this.endMonth
           this.$parent.provinceNameList = this.provinceNameList
+          this.$parent.provinceCode = this.askProvince.split('##').filter(item => item)[1]
+          this.$parent.provinceName = this.askProvince.split('##').filter(item => item)[2]
         } else {
           this.$message.error(res.message)
         }
@@ -236,22 +243,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = { ...that.treeQueryparams, ...this.$store.getters.treeQueryparamsCom }
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)

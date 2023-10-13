@@ -5,7 +5,7 @@
     >
       <svg-icon name="map-top-border" class-name="map-tips-top-border" />
       <svg-icon name="map-bottom-border" class-name="map-tips-bottom-border" />
-      <div class="map-tips-title">{{ mapTipsInfo.title }}预警数量</div>
+      <div class="map-tips-title">{{ mapTipsInfo.title.replace('本级','') }}预警数量</div>
       <!--该容器用来显示超出滚动条 最多展示十个-->
       <div
         class="map-tips-scroll"
@@ -39,7 +39,7 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
-import useMap from '@/hooks/useMap/index.js'
+import { useMap } from '../hooks/useMap'
 
 export default defineComponent({
   setup() {

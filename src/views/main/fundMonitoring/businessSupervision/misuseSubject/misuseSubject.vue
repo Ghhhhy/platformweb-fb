@@ -37,6 +37,7 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -49,7 +50,7 @@
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">疑似错用科目(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -97,8 +98,14 @@ export default {
       this.getSearchDataList()
     }
   },
+  computed: {
+    isSx() { // 判断是不是陕西项目
+      return this.$store.getters.isSx
+    }
+  },
   data() {
     return {
+      param5: {},
       reportTime: '', // 拉取支付报表的最新时间
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
@@ -166,6 +173,7 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
+        // autoHidden: true,
         total: 0,
         currentPage: 1,
         pageSize: 50
@@ -363,10 +371,18 @@ export default {
         pageSize: this.pagerConfig.pageSize
       }
       this.tableLoading = true
-      HttpModule.queryTableDeatilDatas(params).then((res) => {
+      let queryUrl = 'queryTableDeatilDatas'
+      if (this.isSx) {
+        queryUrl = 'queryTableDatas'
+      }
+      HttpModule[queryUrl](params).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.detailData = res.data.results
+          if (this.isSx) {
+            this.detailData = res.data
+          } else {
+            this.detailData = res.data.results
+          }
           this.detailVisible = true
           this.detailType = type
           this.detailTotalCount = res.data.totalCount
@@ -378,7 +394,20 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-
+      if (this.isSx) {
+        switch (key) {
+          case 'jOut':
+            this.handleDetail('jOut', obj.row.recDivCode)
+            this.detailTitle = '支出明细'
+            break
+          case 'sbbjfpAmount':
+          case 'xbjfpAmount':
+          case 'sbjfpAmount':
+            this.handleDetail('sbbjfpAmount', obj.row.recDivCode)
+            this.detailTitle = '直达资金项目明细'
+        }
+        return
+      }
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
@@ -457,12 +486,13 @@ export default {
       return this.tableData
     },
     getNewData() {
-      // this.tableLoading = true
-      // setTimeout(() => {
-      //   this.tableLoading = false
-      //   // this.tableData = getFormData('basicInfo', 'tableData')
-      //   this.initTableData(getFormData('basicInfo', 'tableData'))
-      // }, 2000)
+      if (!this.isSx) return
+      this.tableLoading = true
+      setTimeout(() => {
+        this.tableLoading = false
+        // this.tableData = getFormData('basicInfo', 'tableData')
+        this.initTableData(getFormData('basicInfo', 'tableData'))
+      }, 2000)
       // this.initTableData(getFormData('basicInfo', 'tableData'))
     },
     cellDblclick(obj) {
@@ -472,6 +502,15 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
+      if (this.isSx) {
+        if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+        return
+      }
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
@@ -487,6 +526,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
+    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     this.queryTableDatas()
   }
 }

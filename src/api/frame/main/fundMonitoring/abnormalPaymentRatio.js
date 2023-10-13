@@ -7,5 +7,9 @@ export default {
   // 获取表格数据
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/abnormalPaymentRatio/pageQuery', params)
+  },
+  // 获取表格数据
+  queryTableDatasSx (params) {
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
   }
 }

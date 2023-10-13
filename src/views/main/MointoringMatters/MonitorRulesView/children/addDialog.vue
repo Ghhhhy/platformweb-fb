@@ -308,6 +308,28 @@
                   </el-main>
                 </el-container>
               </el-col>
+              <el-col v-if="sx" :span="8">
+                <el-container>
+                  <el-main width="100%">
+                    <el-row>
+                      <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
+                      <el-select
+                        v-model="warnLocation"
+                        :disabled="disabled"
+                        placeholder="请选择提醒位置"
+                        style="width:45%"
+                      >
+                        <el-option
+                          v-for="item in warnLocationOptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
+                    </el-row>
+                  </el-main>
+                </el-container>
+              </el-col>
               <el-col :span="8">
                 <el-container>
                   <el-main width="100%">
@@ -335,7 +357,6 @@
                           :disabled="true"
                           placeholder="请选择函数逻辑关系"
                           style="width:45%"
-                          @change="chooseRuleFlag"
                         >
                           <el-option
                             v-for="item in ruleFlagOptions"
@@ -404,7 +425,6 @@
                           :datas="ruletypeoptions"
                           :reloaddata="false"
                           :isleaf="true"
-                          @input="selectRuletype"
                         />
                       </div>
                     </el-row>
@@ -836,7 +856,9 @@ export default {
       isShowRuletype: false,
       ruletypeoptions: [],
       ruletype: '',
-      ruleType: ''
+      ruleType: '',
+      sx: this.$store.getters.isSx,
+      functionParameter: ''
     }
   },
   methods: {
@@ -1348,22 +1370,10 @@ export default {
         }
         if (this.$parent.dialogTitle !== '新增') {
           let tempArr = []
-          // let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
           this.$parent.DetailData.regulationScope?.forEach(item => {
             let str = item.mofDivId.toString()
-            // if (regulationType === '部门级') {
-            //   str = item.mofDivId.toString()
-            // } else {
-            //   str = item.mofDivId.toString()
-            // }
             tempArr.push(str)
           })
-
-          // this.$parent.DetailData.regulationScope.forEach(item => {
-          //   let str = item.mofDivCode.toString()
-          //   tempArr.push(str)
-          // })
-          console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
           this.defaultCheckedKeys = tempArr
         } else {
@@ -1493,7 +1503,6 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择触发菜单！' })
         return
       }
-      console.log('debugger')
       if (this.$parent.dialogTitle === '修改') {
         const params = {
           'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}

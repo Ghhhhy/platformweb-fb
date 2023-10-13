@@ -27,7 +27,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -38,7 +37,6 @@
           :config="leftTreeConfig"
           :tree-data="treeData"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -99,6 +97,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandedKeysIn: [],
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -643,7 +642,8 @@ export default {
       }
       HttpModule.getTreewhere(param).then((res) => {
         let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig[5].itemRender.options = treeResdata
+        let index = this.queryConfig.findIndex(item => item.field === 'agencyCodeList')
+        this.queryConfig[index].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {

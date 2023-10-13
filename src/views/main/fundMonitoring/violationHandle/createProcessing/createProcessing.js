@@ -39,7 +39,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat({ row }) {
+    tooltipFormat: ({ row, column }) => {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
     },
     exportFormatter: true,
@@ -157,7 +157,10 @@ const budgetImpColumns = [
       return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
     },
     formatter({ row }) {
-      return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+    },
+    tooltipFormat: ({ row, column }) => {
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     }
   },
   {
@@ -167,7 +170,7 @@ const budgetImpColumns = [
     sortable: false,
     filters: false,
     align: 'center',
-    tooltipFormat({ row }) {
+    tooltipFormat: ({ row, column }) => {
       return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
     },
     exportFormatter: true,
@@ -670,7 +673,7 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
       },
       exportFormatter: true,
@@ -836,7 +839,7 @@ export const proconf = {
         options: [],
         defaultValue: ''
       },
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       },
       exportFormatter: true,
@@ -851,7 +854,7 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       },
       exportFormatter: true,
@@ -916,7 +919,7 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       },
       exportFormatter: true,
@@ -2654,7 +2657,7 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
       },
       exportFormatter: true,
@@ -2669,7 +2672,7 @@ export const proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      tooltipFormat({ row }) {
+      tooltipFormat: ({ row, column }) => {
         return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
       },
       exportFormatter: true,

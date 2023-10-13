@@ -514,6 +514,14 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'createPersonName',
+      sortable: false,
+      align: 'left'
+    },
+    {
       title: '整改意见',
       field: 'rectifyAsk',
       sortable: false,
@@ -1110,6 +1118,14 @@ const proconf = {
       field: 'matterDetail',
       width: 140,
       filters: false,
+      sortable: false,
+      align: 'center'
+    },
+    {
+      title: '整改人',
+      filters: false,
+      width: 140,
+      field: 'createPersonName',
       sortable: false,
       align: 'center'
     },

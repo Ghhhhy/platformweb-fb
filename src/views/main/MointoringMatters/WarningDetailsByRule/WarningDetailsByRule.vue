@@ -1,14 +1,13 @@
 <!-- 预警明细查询（按规则） -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <!-- <BsMainFormListLayout :left-visible.sync="leftTreeVisible"> -->
-    <BsMainFormListLayout>
+    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+      <!-- <BsMainFormListLayout> -->
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
           show-zero
-          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -38,9 +37,9 @@
         <BsTree
           ref="leftTree"
           open-loading
-          :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
           :default-expanded-keys="defaultExpandedKeysIn"
           @onNodeClick="onClickmethod"
         />
@@ -48,13 +47,11 @@
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
-          :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
-          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -137,7 +134,7 @@ export default {
         text: '全部'
       }],
       treeTypeConfig: {
-        curRadio: '2',
+        curRadio: '1',
         radioGroup: [
           {
             code: '1',
@@ -150,7 +147,7 @@ export default {
         ]
       },
       codeList: [],
-      treeType: '2',
+      treeType: '1',
       treeGlobalConfig: {
         inputVal: ''
       },
@@ -306,6 +303,7 @@ export default {
       this.businessTime = obj.businessTime
       this.endTime = obj.endTime
       this.useDes = obj.useDes
+      this.searchDataList.businessNo = obj.businessNo
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
       }
@@ -486,7 +484,7 @@ export default {
           }
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
-          this.fiRuleCode = this.selectData.firulecode
+          this.fiRuleCode = this.selectData.fiRuleCode
           // this.mainPagerConfig.currentPage = 1
           break
         case 'violation':
@@ -730,12 +728,15 @@ export default {
         triggerClass: this.triggerClass,
         isSign: this.isSign,
         businessTime: this.businessTime,
+        businessNo: this.searchDataList.businessNo,
         endTime: this.endTime,
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
         regulation_class: this.regulation_class,
         regulation_type: this.regulation_type,
-        useDes: this.useDes
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        useDes: this.useDes,
+        roleId: this.roleguid
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -746,11 +747,22 @@ export default {
             if (item.handleTime === null) {
               item.handleTime = '-'
             }
+            // if (item.warnLevel === 1) {
+            //   item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+            // } else if (item.warnLevel === 2) {
+            //   item.warnLevel = '<span style="color:orange">橙色预警</span>'
+            // } else if (item.warnLevel === 3) {
+            //   item.warnLevel = '<span style="color:red">红色预警</span>'
+            // } else if (item.warnLevel === 5) {
+            //   item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+            // } else if (item.warnLevel === 4) {
+            //   item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            // }
           })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
@@ -812,7 +824,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
@@ -832,14 +844,14 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
@@ -893,34 +905,6 @@ export default {
       })
 
       return datas
-    },
-    cellStyle({ row, rowIndex, column }) {
-      if (['warnLevel'].includes(column.property)) {
-        switch (row.warnLevel) {
-          case 3:
-            return {
-              color: '#BBBB00'
-            }
-          case 2:
-            return {
-              color: 'orange'
-            }
-          case 1:
-            return {
-              color: 'red'
-            }
-          case 4:
-            return {
-              color: 'blue'
-            }
-          case 5:
-            return {
-              color: 'gray'
-            }
-          default:
-            break
-        }
-      }
     }
   },
   created() {
@@ -936,14 +920,17 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
-    this.params5 = this.$store.state.curNavModule.param5
+    this.params5 = this.$store.getters.getRegulationClass
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
+    }
+    if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
+      this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
       this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton
     }
-    this.getLeftTreeData1()
+    this.getLeftTreeData()
     this.queryTableDatas()
   }
 }

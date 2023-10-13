@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[theme]" style="height: calc(100vh / var(--bs-zoom) - 10px)">
+  <div id="app" :class="[theme,'v20230824']" style="height: calc(100vh / var(--bs-zoom) - 10px)">
     <div class="app-main">
       <!-- <keep-alive>
         <router-view v-if="$route.meta.keepAlive && ifrouteractive" />
@@ -112,6 +112,7 @@ export default {
             } else {
               this.$store.commit('setUserInfo', res.data)
               this.$store.dispatch('asyncUserRoles')
+              this.$store.dispatch('asyncGetProject')
               this.$store.dispatch('sendLoginLogInfo')
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)

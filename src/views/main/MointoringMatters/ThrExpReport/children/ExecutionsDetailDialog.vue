@@ -18,6 +18,7 @@
     </div>
     <BsTable
       ref="mainTableRef"
+      :footer-config="tableFooterConfig"
       :table-config="tableConfig"
       :table-columns-config="tableColumnsConfig"
       :table-data="tableData"
@@ -62,6 +63,10 @@ export default {
       executionsDetailVisible: true,
       // 表格尾部合计配置
       tableFooterConfig: {
+        totalObj: {
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
         showFooter: true
       },
       tableColumnsConfig: [
@@ -184,6 +189,13 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
+          let payAppAmt = 0
+          this.tableData.forEach(item => {
+            if (item.payAppAmt) {
+              payAppAmt += item.payAppAmt
+            }
+          })
+          this.tableFooterConfig.totalObj.payAppAmt = payAppAmt
         } else {
           this.$message.error(res.message)
         }

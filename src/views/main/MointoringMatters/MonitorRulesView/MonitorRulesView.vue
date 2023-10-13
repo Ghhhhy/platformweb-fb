@@ -20,7 +20,7 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchClick="search"
+            @onSearchClick="(obj) => { mainPagerConfig.currentPage = 1,search(obj) }"
           />
         </div>
       </template>
@@ -97,6 +97,7 @@ import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import DescDialog from './children/descDialog'
 import store from '@/store/index'
 import { mapState } from 'vuex'
+const routeNameLsit = ['MonitorRulesViewByZd', 'MonitorRulesViewZD']
 // import globalGatewayAgentConf from '../../../../../public/static/js/config/serverGatewayMap.js'
 export default {
   components: {
@@ -137,6 +138,9 @@ export default {
   },
   data() {
     return {
+      leftTreeClickNode: {},
+      isleaf: false,
+      selectionData: [],
       leftTreeFilterText: '',
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
@@ -241,7 +245,7 @@ export default {
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
-          $gloableOptionRow: proconf.gloableOptionRow
+          $monitorGloableOptionRow: proconf.gloableOptionRow
         },
         methods: {
           onOptionRowClick: this.onOptionRowClick
@@ -375,7 +379,6 @@ export default {
       this.warningLevel = obj.warningLevel
       this.handleType = obj.handleType
       this.regulationName = obj.regulationName
-      this.isDir = obj.isDir
       this.isSpeType = obj.isSpeType
       this.regulationType = obj.regulationType
       this.regulationModelName = obj.regulationModelName
@@ -439,7 +442,7 @@ export default {
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
-          this.DetailData = res.data
+          this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -448,7 +451,7 @@ export default {
     update(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
-          this.DetailData = res.data
+          this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }
@@ -467,6 +470,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.selectionData = datas
           this.formDatas = datas[0].ruleElement
           this.provinceList = datas[0].codeList
           this.getDetail(datas[0].regulationCode)
@@ -698,7 +702,11 @@ export default {
       })
     },
     onClickmethod(node) {
+      this.leftTreeClickNode = node.node
+      console.log('node.node', node.node)
       let code = node.node.code
+      this.isleaf = node.node.isleaf
+      this.regulationClass = node.node.superguid
       if (this.isZDZJ) {
         this.warningLevel = node.node.code === '0' ? '' : node.node.code
       }
@@ -708,22 +716,8 @@ export default {
         this.getItem(code, treeData)
         this.queryTableDatas()
       } else {
-        let regulationClass = ''
-        let regulationType = ''
-        let regulationCode = ''
-        if (code.length === 2) {
-          regulationClass = node.node.code
-        } else if (node.node.code.length === 4) {
-          regulationClass = node.node.code
-          regulationType = this.regulationType
-        } else {
-          regulationClass = node.node.code
-          regulationType = this.regulationType
-          regulationCode = node.node.code
-        }
-        this.regulation_class = regulationClass
-        this.regulation_type = regulationType
-        this.regulation_code = regulationCode
+        this.regulationType = node.node.regulationType
+        this.regulation_code = node.node.code
         this.queryTableDatas()
       }
     },
@@ -777,7 +771,6 @@ export default {
         regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         isEnable: this.isEnable,
         triggerClass: this.triggerClass,
-        isDir: this.isDir,
         isSpeType: this.isSpeType,
         regulationName: this.regulationName,
         regulationClass: this.regulationClass,
@@ -787,9 +780,8 @@ export default {
         menuType: 1,
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
-        regulation_class: this.regulation_class,
-        regulation_type: this.regulation_type,
-        code: this.regulation_class
+        regulation_class: this.regulationClass,
+        regulation_type: this.regulationType
       }
       if (!this.isSx) {
         if (this.treeType === '1') {
@@ -798,24 +790,40 @@ export default {
           delete param.triggerClass
           delete param.fiRuleTypeCode
           delete param.regulation_class
-          delete param.regulation_type
         } else {
-          param.isDir = this.isDir
           param.isSpeType = this.isSpeType
           delete param.regulationCode
         }
         if (!this.isZDZJ) {
           delete param.regulation_code
           delete param.regulation_class
-          delete param.regulation_type
-          param.regulationClass = this.regulation_class
+          param.regulationClass = this.regulationClass
           param.code = this.regulationClass
+        }
+      } else {
+        if (this.treeType === '1') {
+          delete param.regulation_code
+          delete param.triggerClass
+          delete param.fiRuleTypeCode
+          delete param.regulation_class
+          delete param.regulationClass
+          delete param.regulationCode
+          delete param.regulationType
         }
       }
       if (this.leftNode.businessType === 2) {
         param.businessModelCode = this.leftNode.code
       } else if (this.leftNode.businessType === 3) {
         param.businessFeaturesCode = this.leftNode.code
+      }
+      if (this.isleaf) {
+        param.regulation_code = this.regulation_code
+      } else {
+        delete param.regulation_code
+      }
+      if (routeNameLsit.includes(this.$route.name)) {
+        param.isDir = '1'
+        param.warningLevel = this.leftTreeClickNode.warnLevel
       }
       this.tableLoading = true
       HttpModule.queryMonitorTableDatas(param).then(res => {
@@ -967,7 +975,6 @@ export default {
         if (!this.regulationClass) this.regulationClass = '09,08,07'
         if (this.isSx) this.regulationClass = '0201'
       }
-      console.log(778, this.regulationClass)
     },
     initTreeType() {
       if (this.isZDZJ) { // 如果是直达资金监控规则库
@@ -984,6 +991,10 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.initRegulationClass()
+    if (routeNameLsit.includes(this.$route.name)) { // 直达资金下面的菜单 左侧树变成预警级别
+      this.treeData = this.$store.state.warnInfo.warnLevelOptions
+      return
+    }
     this.setMonitorThemeTreeShow()
     // this.queryTableDatas()
   }

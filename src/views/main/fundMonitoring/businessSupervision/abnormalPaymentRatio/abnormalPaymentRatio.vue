@@ -36,47 +36,36 @@
           ref="leftTree"
           open-loading
           :filter-text="leftTreeFilterText"
-          :config="{ showFilter: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name',children: 'children' } }"
+          :config="leftTreeConfig"
           :tree-data="treeData"
+          :default-expanded-keys="['619900000', '619800000']"
           @onNodeClick="onClickmethod"
         />
       </template>
       <template v-slot:mainForm>
         <BsTable
-          id="1001"
-          ref="bsTableRef"
-          row-id="id"
-          :table-config="tableConfig"
+          ref="mainTableRef"
+          :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', accordion: false,
-                          iconOpen: 'el-icon-remove', lazy: true, hasChild: 'hasChild', loadMethod: loadChildrenMethod }"
-          :toolbar-config="tableToolbarConfig"
+          :table-config="tableConfig"
           :pager-config="mainPagerConfig"
-          :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
+          :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
         >
-          >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
             <p v-html="caliberDeclareContent"></p>
           </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">资金支付比例异常情况(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
-            </div>
-          </template>
-          <template v-slot:toolbar-custom-slot>
-            <div class="dfr-report-time-wrapper">
-              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
-                <div class="dfr-report-time-content">
-                  <i class="ri-history-fill"></i>
-                  <span class="dfr-report-time">{{ reportTime }}</span>
-                </div>
-              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -94,8 +83,7 @@
 <script>
 import { proconf } from './abnormalPaymentRatio'
 import HttpModule from '@/api/frame/main/fundMonitoring/abnormalPaymentRatio.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
-
+import { getMofDivTree, querySum, queryCaliberDeclareContent, getTreewhere } from '@/api/frame/common/tree/mofDivTree'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -107,6 +95,11 @@ export default {
       this.getSearchDataList()
     }
   },
+  computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    }
+  },
   data() {
     return {
       reportTime: '', // 拉取支付报表的最新时间
@@ -115,6 +108,8 @@ export default {
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
       radioShow: true,
+      agencyIdList: [],
+      bgtMofDepIdList: [],
       breakRuleVisible: false,
       codeList: [],
       leftTreeFilterText: '',
@@ -133,10 +128,9 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -201,14 +195,23 @@ export default {
       regulationStatus: '1',
       mainPagerConfig: {
         autoHidden: true,
-        total: 1,
+        total: 0,
         currentPage: 1,
         pageSize: 999999
       },
       tableConfig: {
+        renderers: {
+          // 编辑 附件 操作日志
+          $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
+        }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          amount: 0,
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       // 操作日志
       logData: [],
@@ -258,15 +261,22 @@ export default {
         isLazeLoad: false, // 是否调用接口远程懒加载数据
         readonly: true,
         clearable: true
-      }
+      },
+      agencyCodeName: '',
+      manageMofDepCodeName: ''
     }
   },
   mounted() {
   },
   methods: {
     search(obj) {
+      this.agencyIdList = obj.agencyCodeList_id__multiple
+      this.bgtMofDepIdList = obj.manageMofDepCodeList_id__multiple
       console.log(obj)
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
+      this.agencyCodeName = obj.agencyCodeName
+      this.manageMofDepCodeName = obj.manageMofDepCodeName
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -456,8 +466,25 @@ export default {
         agencyCode: '',
         agencyName: ''
       }
+      if (this.isSx) {
+        delete param.agencyCode
+        delete param.agencyName
+        param.agencyCodeName = this.agencyCodeName
+        param.agencyIdList = this.agencyIdList
+        param.bgtMofDepIdList = this.bgtMofDepIdList
+        param.manageMofDepCodeName = this.manageMofDepCodeName
+        querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let axiosQueryUrl = 'queryTableDatas'
+      this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+      HttpModule[axiosQueryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.data
@@ -466,10 +493,24 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       }).finally(() => {
         this.tableLoading = false
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'zjzfblycqkb',
+        isPayWarn: '1'
+      }
+      this.tableLoading = true
+      queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
+        }
       })
     },
     loadChildrenMethod ({ row }) {
@@ -485,7 +526,9 @@ export default {
             agencyCode: row.agencyCode,
             agencyName: row.agencyName
           }
-          HttpModule.queryTableDatas(param).then(res => {
+          let axiosQueryUrl = 'queryTableDatas'
+          this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+          HttpModule[axiosQueryUrl](param).then(res => {
             if (res.code === '000000') {
               const childs = res.data.data
               resolve(childs)
@@ -525,24 +568,59 @@ export default {
       let that = this
       getMofDivTree(that.treeQueryparams).then(res => {
         if (res.data && Array.isArray(res.data)) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = res.data
+          let treeResdata = that.getChildrenData(res.data)
+          treeResdata.forEach(item => {
+            item.label = item.code + '-' + item.name
+          })
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          that.treeData = result
         } else {
           this.$message.error('左侧树加载失败')
         }
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[1].itemRender.options = treeResdata
+      })
+    },
+    getDep() {
+      const param = {
+        elementcode: 'hold6',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province,
+        wheresql: 'and code != \'00\''
+      }
+      getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[2].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     },
     getChildrenData(datas) {
       let that = this
@@ -565,6 +643,15 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getLeftTreeData()
     this.queryTableDatas()
+    if (this.isSx) {
+      this.queryCaliberDeclareContent()
+      this.getAgency()
+      this.getDep()
+    } else {
+      this.queryConfig = this.queryConfig.filter(item => {
+        return !['agencyCodeList', 'manageMofDepCodeList'].includes(item.field)
+      })
+    }
   }
 }
 </script>

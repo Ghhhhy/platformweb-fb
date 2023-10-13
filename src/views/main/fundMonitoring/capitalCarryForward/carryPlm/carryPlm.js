@@ -24,6 +24,26 @@ const proconf = {
     ]
   },
   highQueryConfig: [
+    {
+      title: '业务年度',
+      field: 'fiscalYear',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '2020', label: '2020年' },
+          { value: '2021', label: '2021年' },
+          { value: '2022', label: '2022年' },
+          { value: '2023', label: '2023年' }
+        ],
+        props: {
+          placeholder: '业务年度'
+        }
+      }
+    }
   ],
   highQueryData: {
     fiscalYear: ''
@@ -33,7 +53,9 @@ const proconf = {
     tableConfig: {
       globalConfig: {
         // 全局配置
-        seq: true // 序号列
+        checkType: 'checkbox',
+        seq: false, // 序号列
+        useMoneyFilter: true
       }
     },
     tableColumnsConfig: [
@@ -42,8 +64,6 @@ const proconf = {
         type: 'name',
         align: 'left',
         treeNode: true,
-        sortable: false,
-        filters: false,
         width: 260,
         field: 'name',
         cellRender: { name: '$vxeIcon' }
@@ -56,28 +76,25 @@ const proconf = {
           {
             title: '指标金额',
             field: 'amountBgt',
-            sortable: false,
-            filters: false,
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '支出金额',
             field: 'amountPay',
-            sortable: false,
-            filters: false,
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '指标余额',
             field: 'aAmount11',
             width: 200,
-            sortable: false,
-            filters: false,
             align: 'right',
+            sortable: true,
             formula: '{amountBgt}-{amountPay}',
             cellRender: {
               name: '$vxeMoney'
@@ -93,10 +110,9 @@ const proconf = {
           {
             title: '结转金额',
             field: 'amountCurCarry',
-            sortable: false,
-            filters: false,
             width: 200,
             align: 'right',
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -104,16 +120,14 @@ const proconf = {
             field: 'amountCurPay',
             width: 200,
             align: 'right',
-            sortable: false,
-            filters: false,
+            sortable: true,
             cellRender: { name: '$vxeMoney' }
           },
           {
             title: '指标金额',
             field: 'aAmount1',
-            sortable: false,
-            filters: false,
             width: 200,
+            sortable: true,
             formula: '{amountCurCarry}-{amountCurPay}',
             align: 'right',
             cellRender: {

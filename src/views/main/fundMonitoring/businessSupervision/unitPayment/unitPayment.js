@@ -40,12 +40,65 @@ export let proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '预算单位',
+      field: 'agencyCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '预算单位',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
+    {
+      title: '所属处室',
+      field: 'manageMofDepCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '所属处室',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
     regulationType: '',
     warningLevel: '',
-    firulename: ''
+    firulename: '',
+    fiscalYear: store.state?.userInfo?.year,
+    agencyCodeName: '',
+    manageMofDepCodeName: ''
   },
   // 新增弹窗高级查询
   sethighQueryConfig: [
@@ -88,6 +141,7 @@ export let proconf = {
     {
       title: '单位名称',
       width: 280,
+      key: 'project',
       field: 'agencyCodeName',
       treeNode: true,
       align: 'left',
@@ -99,28 +153,68 @@ export let proconf = {
       }
     },
     {
+      title: '区划名称',
+      width: 180,
+      field: 'mofDivCodeName',
+      key: 'sx',
+      treeNode: true,
+      sortable: true,
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      width: 180,
+      key: 'sx',
+      field: 'agencyCodeName',
+      treeNode: true,
+      sortable: true,
+      align: 'center'
+    },
+    {
+      title: '所属处室',
+      width: 180,
+      key: 'sx',
+      field: 'manageMofDepCodeName',
+      treeNode: true,
+      sortable: true,
+      align: 'center'
+    },
+    {
       title: '指标金额',
       width: 180,
       field: 'amount',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '实际支付',
       width: 180,
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
       cellRender: { name: '$vxeMoney' }
     },
     {
       title: '支付进度',
       width: 180,
       field: 'process',
-      sortable: false,
+      sortable: true,
+
       filters: false,
       align: 'center',
       props: {

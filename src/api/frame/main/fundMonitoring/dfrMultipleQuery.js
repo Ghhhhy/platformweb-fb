@@ -11,6 +11,9 @@ export default {
   getTreeData1(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
   },
+  getMofTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/getBgtMof', params)
+  },
   // 获取表格数据 处室指标查询-处室指标综合查看文号汇总
   queryTableDatas (params) {
     return post('dfr-monitor-service/dfr/dfrMultipleQuery/query', params)
@@ -58,5 +61,8 @@ export default {
   // 市县指标查询-市县补助指标汇总明细
   queryDetailMofDiv1 (params) {
     return post('dfr-monitor-service/dfr/dfrMultipleQuery/queryDetailMofDiv1', params)
+  },
+  querySum (params) {
+    return post('dfr-monitor-service/dfr/dfrMultipleQuery/querySum', params)
   }
 }

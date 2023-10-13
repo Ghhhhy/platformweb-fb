@@ -309,7 +309,10 @@ export let proconf = {
       field: 'warnTotal',
       sortable: false,
       width: 170,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeTableHref'
+      }
     },
     {
       title: '执行状态',

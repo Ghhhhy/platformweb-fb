@@ -1,5 +1,6 @@
 //  监控函数api
 import { post, get } from '@/api/http'
+import store from '@/store/index'
 export default {
   // 查询附件
   getFile(params) {
@@ -40,7 +41,10 @@ export default {
   },
   // 预算回显信息
   budgetgetDetail(params, prams2 = 0) {
-    return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + `/${prams2}`)
+    if (store.getters.isSx) {
+      return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + '/1')
+    }
+    return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + '/0')
   },
   // 获取违规类型枚举
   queryViolationType(params) {
@@ -107,6 +111,10 @@ export default {
   getbusLists(params) {
     return post('large-monitor-platform/lmp/businessFunctions/list', params)
   },
+  // 监控预警结果查询
+  queryWarningInfoAll(params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarningInfoAll', params)
+  },
   // 获取日志
   getLogs(param) {
     return get('large-monitor-platform/lmp/totalWarn/log/' + param)
@@ -142,5 +150,22 @@ export default {
   },
   workFlowGetLogs(params) {
     return post('large-monitor-platform/lmp/workFlow/workFlowGetLogs', params)
+  },
+  // 获取单据号
+  queryDealNo() {
+    return post('large-monitor-platform/lmp/totalWarn/beforeAdd')
+  },
+  queryWarningForDeal (params) {
+    return post('large-monitor-platform/lmp/totalWarn/queryWarningForDeal', params)
+  },
+  getIssueCount(params) {
+    return post('large-monitor-platform/lmp/totalWarn/getIssueCount', params)
+  },
+  getIssueDetail(params) {
+    return post('large-monitor-platform/lmp/totalWarn/issueDetail', params)
+  },
+  // 反馈
+  handleFeedbackForDeal (params) {
+    return post('large-monitor-platform/lmp/totalWarn/updateForIssue', params)
   }
 }

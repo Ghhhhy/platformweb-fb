@@ -20,7 +20,16 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
             @itemChange="itemChange"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
@@ -32,11 +41,27 @@
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
         />
+        <BsBossTree
+          v-if="isSx"
+          ref="leftTree"
+          :defaultexpandedkeys="['B99903EABA534E01AFB5E4829A5A0054', '1DB3224A3EDC4227BE18604A99D6507D']"
+          style="overflow: hidden"
+          :is-server="false"
+          :ajax-type="treeAjaxType"
+          :server-uri="treeServerUri"
+          :datas="treeData"
+          :footer-config="tableFooterConfig"
+          :queryparams="treeQueryparams"
+          :global-config="treeGlobalConfig"
+          :clickmethod="onClickmethod"
+        />
         <BsTree
+          v-else
           ref="leftTree"
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -44,15 +69,17 @@
         <BsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
-          :table-global-config="tableGlobalConfigCop"
+          :table-global-config="!isSx ? tableGlobalConfigCop : {}"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :default-money-unit="10000"
           :title="menuName"
           :pager-config="mainPagerConfig"
-          :cell-style="cellStyle"
+          :cell-style="!isSx ? cellStyle : {}"
           :toolbar-config="tableToolbarConfig"
+          :export-modal-config="{ fileName: menuName }"
+          :formula-digits="1"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -69,6 +96,19 @@
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+            <div v-if="isSx" class="timeRefreshTip">
+              <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
+            </div>
+          </template>
+          <template v-slot:toolbar-custom-slot>
+            <div class="dfr-report-time-wrapper">
+              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+                <div class="dfr-report-time-content">
+                  <i class="ri-history-fill"></i>
+                  <span class="dfr-report-time">{{ reportTime }}</span>
+                </div>
+              </el-tooltip>
             </div>
           </template>
         </BsTable>
@@ -106,17 +146,16 @@
 <script>
 import { proconf } from './budgetDisburseObject'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
-// import store from '@/store/index'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import regionMixin from '../mixins/regionMixin'
 import DetailDialog from '../children/xmdetailDialog.vue'
 export default {
   mixins: [regionMixin],
-  components: {
-    DetailDialog
-  },
   computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -128,6 +167,9 @@ export default {
       }
     }
   },
+  components: {
+    DetailDialog
+  },
   watch: {
     queryConfig() {
       this.getSearchDataList()
@@ -135,6 +177,8 @@ export default {
   },
   data() {
     return {
+      reportTime: '',
+      isFlush: false,
       detailVisible: false,
       detailData: [],
       projectVisible: false,
@@ -164,7 +208,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
+      treeQueryparams: this.isSx ? { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' } : { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -230,7 +274,7 @@ export default {
         }
       },
       tableLoading: false,
-      tableColumnsConfig: proconf[`PoliciesTableColumns${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`],
+      tableColumnsConfig: this.isSx ? proconf.PoliciesTableColumns : proconf[`PoliciesTableColumns${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`],
       // tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -254,8 +298,22 @@ export default {
         pageSize: 20
       },
       tableConfig: proconf.tableConfig,
+      // 表格尾部合计配置
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          amountYszje: 0,
+          amountYszyap: 0,
+          amountYssnjap: 0,
+          amountYssjap: 0,
+          amountYsxjap: 0,
+          amountZczje: 0,
+          amountZczyap: 0,
+          amountZcsnjap: 0,
+          amountZcsjap: 0,
+          amountZcxjap: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.isSx
       },
       // 操作日志
       logData: [],
@@ -285,97 +343,13 @@ export default {
       regulationclass: '',
       firulename: '',
       tableData: [],
-      // tableData: [
-      //   {
-      //     mofDivName: '合计',
-      //     proCode: '',
-      //     proCodeName: '',
-      //     yaAmount: 1522615641.58,
-      //     yzyapAmount: 941648.5,
-      //     ysjapAmount: 949219.64,
-      //     yshjapAmount: 818,
-      //     yxjapAmount: 8597,
-      //     zaAmount: 7974456.95,
-      //     zzyapAmount: 9874,
-      //     zsjapAmount: 811874,
-      //     zshjapAmount: 5298,
-      //     zxjapAmount: 4819.85,
-      //     amountName: '',
-      //     agencyCodeName: '',
-      //     xjExpFuncName: '',
-      //     sfUseful: '',
-      //     grantFrom: '',
-      //     sfaccount: ''
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '610000000000021041340',
-      //     proCodeName: '优抚对象补助资金',
-      //     yaAmount: 1522615641.58,
-      //     yzyapAmount: 941648.5,
-      //     ysjapAmount: 949219.64,
-      //     yshjapAmount: 818,
-      //     yxjapAmount: 8597,
-      //     zaAmount: 7974456.95,
-      //     zzyapAmount: 9874,
-      //     zsjapAmount: 811874,
-      //     zshjapAmount: 5298,
-      //     zxjapAmount: 4819.85,
-      //     amountName: '学生资助补助经费',
-      //     agencyCodeName: '[208003]西安理工大学',
-      //     xjExpFuncName: '[2050299]其他普通教育支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '61000000000002116515',
-      //     proCodeName: '高校学生国家奖助学金',
-      //     yaAmount: 1525641.58,
-      //     yzyapAmount: 9648.5,
-      //     ysjapAmount: 94919.64,
-      //     yshjapAmount: 18,
-      //     yxjapAmount: 8497,
-      //     zaAmount: 79756.95,
-      //     zzyapAmount: 98754,
-      //     zsjapAmount: 8118474,
-      //     zshjapAmount: 52948,
-      //     zxjapAmount: 4819.5,
-      //     amountName: '优抚对象补助经费',
-      //     agencyCodeName: '[208001]省教育厅机关',
-      //     xjExpFuncName: '[2080899]其他优抚支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   },
-      //   {
-      //     mofDivName: '[6100]陕西省本级',
-      //     proCode: '610000000000021046440',
-      //     proCodeName: '家庭经济困难学生生活补助',
-      //     yaAmount: 1521.58,
-      //     yzyapAmount: 948.5,
-      //     ysjapAmount: 949.64,
-      //     yshjapAmount: 88,
-      //     yxjapAmount: 97,
-      //     zaAmount: 797.95,
-      //     zzyapAmount: 74,
-      //     zsjapAmount: 814,
-      //     zshjapAmount: 52,
-      //     zxjapAmount: 49.85,
-      //     amountName: '学生资助补助经费',
-      //     agencyCodeName: '[208007]陕西科技大学',
-      //     xjExpFuncName: '[2050299]其他普通教育支出',
-      //     sfUseful: '利民',
-      //     grantFrom: '',
-      //     sfaccount: '是'
-      //   }
-      // ],
-      mofDivCode: this.$store.state.userInfo.province,
+      mofDivCode: '610000000',
       fiscalYear: '',
       speTypeName: '',
-      expFuncName: '',
+      trackProName: '',
+      expFuncCodeName: '',
       proName: '',
+      agencyCodeName: '',
       hqlm: '',
       endTime: '',
       leftTreeConfig: { // 左侧单位树配置
@@ -384,13 +358,14 @@ export default {
         scrollLoad: false, // 是否开启滚动加载
         isleaf: 0, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
         levelno: -1, // 可选层级
-        valueKeys: ['code', 'name', 'id', 'codeFragment'],
+        valueKeys: this.isSx ? ['code', 'name', 'id'] : ['code', 'name', 'id', 'codeFragment'],
         format: '{code}-{name}',
         placeholder: '请选择',
+        codeList: [],
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
-          labelFormat: '{code}-{name}', // {code}-{name}
+          labelFormat: this.isSx ? '{label}' : '{code}-{name}', // {code}-{name}
           nodeKey: 'code', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
@@ -406,6 +381,9 @@ export default {
   },
   methods: {
     cellClick(obj, context, e) {
+      if (this.isSx) {
+        return
+      }
       if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
         return
       }
@@ -463,6 +441,9 @@ export default {
       }
     },
     cellStyle({ row, rowIndex, column }) {
+      if (this.isSx) {
+        return
+      }
       if (!rowIndex) return
       // 有效的cellValue
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
@@ -518,19 +499,34 @@ export default {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
     },
     search(obj) {
-      console.log(obj)
-      this.searchDataList = obj
-      this.fiscalYear = obj.fiscalYear ? this.$store.state.userInfo.year : obj.fiscalYear
-      this.speTypeName = obj.speTypeName
-      this.expFuncName = obj.expFuncName
-      this.proName = obj.proName
-      this.hqlm = obj.hqlm
-      this.endTime = obj.endTime
-      this.proCodes = obj.proCodes_code__multiple
-      this.expFuncCodes = obj.expFuncCodes_code__multiple
-      this.manageMofDeps = obj.manageMofDeps_code__multiple
-      this.queryTableDatas()
+      if (this.isSx) {
+        console.log(obj)
+        this.searchDataList = obj
+        this.fiscalYear = obj.fiscalYear
+        this.trackProName = obj.trackProName
+        this.expFuncCodeName = obj.expFuncCodeName
+        this.proName = obj.proName
+        this.hqlm = obj.hqlm
+        this.endTime = obj.endTime
+        this.agencyCodeName = obj.agencyCodeName
+        this.proCodes = obj.proCodes
+        this.queryTableDatas()
       // this.queryTableDatasCount()
+      } else {
+        console.log(obj)
+        this.searchDataList = obj
+        this.fiscalYear = obj.fiscalYear ? this.$store.state.userInfo.year : obj.fiscalYear
+        this.speTypeName = obj.speTypeName
+        this.expFuncName = obj.expFuncName
+        this.proName = obj.proName
+        this.hqlm = obj.hqlm
+        this.endTime = obj.endTime
+        this.proCodes = obj.proCodes_code__multiple
+        this.expFuncCodes = obj.expFuncCodes_code__multiple
+        this.manageMofDeps = obj.manageMofDeps_code__multiple
+        this.queryTableDatas()
+      // this.queryTableDatasCount()
+      }
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -706,10 +702,16 @@ export default {
       this.breakRuleVisible = val
     },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          this.refresh()
+          this.$confirm(refreshTips, '操作确认提示', {
+            type: 'warning'
+          }).then(() => {
+            this.refresh(true)
+          })
           break
       }
     },
@@ -717,32 +719,56 @@ export default {
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
     },
-    // onClickmethod({ node }) {
-    //   // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-    //   //   return
-    //   // }
-    //   if (node.id !== '0') {
-    //     console.log(node)
-    //     this.mofDivCode = node.code
-    //   } else {
-    //     this.condition = {}
-    //   }
-    //   this.queryTableDatas()
-    // },
     onClickmethod(node) {
-      let code = node.node.code
-      this.codeList = []
-      let treeData = node.treeData
-      // 非顶级区划则获取区划code，否则查询表体数据时codeList为空进行查询
-      if (code !== node.treeData?.[0].code) {
-        this.getItem(code, treeData)
-      }
-      if (node.id !== '0') {
-        this.mofdivcode = node.node.code
+      if (this.isSx) {
+        // if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
+        //   return
+        // }
+        let code = node.code
+        this.codeList = []
+        console.log('node', node)
+        // let treeData = node.treeData
+        this.getItem(code, this.treeData)
+        if (node.id !== '0') {
+        // this.mofdivcode = node.code
+        } else {
+          this.condition = {}
+        }
+        this.queryTableDatas()
       } else {
-        this.mofdivcode = {}
+        let code = node.node.code
+        this.codeList = []
+        let treeData = node.treeData
+        // 非顶级区划则获取区划code，否则查询表体数据时codeList为空进行查询
+        if (code !== node.treeData?.[0].code) {
+          this.getItem(code, treeData)
+        }
+        if (node.id !== '0') {
+          this.mofdivcode = node.node.code
+        } else {
+          this.mofdivcode = {}
+        }
+        this.queryTableDatas()
       }
-      this.queryTableDatas()
+    },
+    getItem(code, data) {
+      data.forEach(item => {
+        if (code === item.code) {
+          let data = []
+          data.push(item)
+          this.getCodeList(data)
+        } else if (item.children) {
+          this.getItem(code, item.children)
+        }
+      })
+    },
+    getCodeList(data) {
+      data.forEach(item => {
+        this.codeList.push(item.code)
+        if (item.children) {
+          this.getCodeList(item.children)
+        }
+      })
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -756,9 +782,9 @@ export default {
       this.billguid = row.attachment_id
       this.showAttachmentDialog = true
     },
-
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
+      this.isFlush = true
       this.queryTableDatas()
       // this.queryTableDatasCount()
     },
@@ -773,14 +799,37 @@ export default {
       })
     },
     getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getProTreeData({ fiscalYear }).then(res => {
-        if (res.code === '000000') {
-          let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[2].itemRender.options = treeResdata
-        } else {
-          this.$message.error(res.message)
+      if (this.isSx) {
+        HttpModule.getProTreeData().then(res => {
+          if (res.code === '000000') {
+            console.log('data', res.data)
+            let treeResdata = this.getChildrenNewData1(res.data)
+            this.queryConfig[1].itemRender.options = treeResdata
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        HttpModule.getProTreeData({ fiscalYear }).then(res => {
+          if (res.code === '000000') {
+            let treeResdata = this.getChildrenNewData1(res.data)
+            this.queryConfig[2].itemRender.options = treeResdata
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
         }
       })
+
+      return datas
     },
     getExcFunc() {
       HttpModule.getExpFuncTreeData().then(res => {
@@ -792,16 +841,7 @@ export default {
         }
       })
     },
-    getChildrenNewData1(datas) {
-      let that = this
-      datas.forEach(item => {
-        item.label = item.name
-        if (item.children) {
-          that.getChildrenNewData1(item.children)
-        }
-      })
-      return datas
-    },
+
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
@@ -833,56 +873,101 @@ export default {
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
     },
-    getItem(code, data) {
-      data.forEach(item => {
-        if (code === item.code) {
-          let data = []
-          data.push(item)
-          this.getCodeList(data)
-        } else if (item.children) {
-          this.getItem(code, item.children)
-        }
-      })
-    },
-    getCodeList(data) {
-      data.forEach(item => {
-        this.codeList.push(item.code)
-        if (item.children) {
-          this.getCodeList(item.children)
-        }
-      })
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
     },
     // 查询 table 数据
     queryTableDatas() {
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
-        mofDivCode: this.mofDivCode, // 获取左侧树
-        speTypeName: this.speTypeName,
-        expFuncName: this.expFuncName,
-        proName: this.proName,
-        endTime: this.endTime,
-        hqlm: this.hqlm,
-        iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
-        mofDivCodes: this.codeList,
-        proCodes: this.proCodes === '' ? [] : this.proCodes,
-        expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
-        manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps
-      }
-      this.tableLoading = true
-      HttpModule.xmPageQuery(param).then(res => {
-        if (res.code === '000000') {
-          if (res.data) {
+      if (this.isSx) {
+        const param = {
+          page: this.mainPagerConfig.currentPage, // 页码
+          pageSize: this.mainPagerConfig.pageSize, // 每页条数
+          fiscalYear: this.searchDataList.fiscalYear,
+          reportCode: this.$store.state.curNavModule.name === '参照直达资金项目台账' ? 'czzdzjxmtz' : 'zdzjxmtz',
+          // mofDivCode: this.mofDivCode, // 获取左侧树
+          trackProName: this.trackProName,
+          expFuncCodeName: this.expFuncCodeName,
+          proName: this.proName,
+          mofDivCodeList: this.codeList,
+          endTime: this.endTime,
+          hqlm: this.hqlm,
+          agencyCode: this.agencyCodeName === '' ? '' : this.getTrees(this.agencyCodeName)[0],
+          iszd: this.$store.state.curNavModule.name === '参照直达资金项目台账' ? 2 : 1, // 菜单参照直达标识
+          proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+        }
+        this.isFlush && (param.isFlush = true)
+        this.tableLoading = true
+        HttpModule.querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+        HttpModule.queryTableDatasPage(param).then(res => {
+          this.tableLoading = false
+          this.isFlush = false
+          if (res.code === '000000') {
             this.tableData = res.data.results
             this.mainPagerConfig.total = res.data.totalCount
+            this.reportTime = res.data.reportTime
             this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.result)
           }
-        } else {
-          this.$message.error(res.result)
+        })
+      } else {
+        const param = {
+          page: this.mainPagerConfig.currentPage, // 页码
+          pageSize: this.mainPagerConfig.pageSize, // 每页条数
+          fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
+          mofDivCode: this.mofDivCode, // 获取左侧树
+          speTypeName: this.speTypeName,
+          expFuncName: this.expFuncName,
+          proName: this.proName,
+          endTime: this.endTime,
+          hqlm: this.hqlm,
+          iscz: this.transJson(this.params5)?.iscz || false, // 菜单参照直达标识
+          mofDivCodes: this.codeList,
+          proCodes: this.proCodes === '' ? [] : this.proCodes,
+          expFuncCodes: this.expFuncCodes === '' ? [] : this.expFuncCodes,
+          manageMofDeps: this.manageMofDeps === '' ? [] : this.manageMofDeps
         }
-      }).finally(() => {
-        this.tableLoading = false
+        this.isFlush && (param.isFlush = true)
+        this.tableLoading = true
+        HttpModule.xmPageQuery(param).then(res => {
+          if (res.code === '000000') {
+            if (res.data) {
+              this.tableData = res.data.results
+              this.mainPagerConfig.total = res.data.totalCount
+              this.tabStatusNumConfig['1'] = res.data.totalCount
+            }
+          } else {
+            this.$message.error(res.result)
+          }
+        }).finally(() => {
+          this.isFlush = false
+          this.tableLoading = false
+        })
+      }
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: this.$store.state.curNavModule.name === '参照直达资金项目台账' ? 'czzdzjxmtz' : 'zdzjxmtz'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
+        }
       })
     },
     // 操作日志
@@ -911,68 +996,148 @@ export default {
       // })
     },
     getLeftTreeData() {
-      let that = this
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementCode: 'admdiv',
-          province: '610000000',
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      HttpModule.getTreeData(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = res.data
+      if (this.isSx) {
+        let that = this
+        let params = {}
+        if (this.userInfo.province.substring(2, 9) === '0000000') {
+          params = {
+            elementcode: 'admdiv',
+            province: this.userInfo.province,
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
+          }
+        } else if (
+          this.userInfo.province.substring(4, 9) === '00000' && this.userInfo.province.substring(2, 9) !== '0000000'
+        ) {
+          params = {
+            elementcode: 'admdiv',
+            province: this.userInfo.province,
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
+          }
         } else {
-          this.$message.error('左侧树加载失败')
+          params = {
+            elementcode: 'admdiv',
+            province: this.userInfo.province,
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
+          }
+        }
+        HttpModule.getTreeData(params).then(res => {
+          if (res.rscode === '100000') {
+            let treeResdata = that.getChildrenData(res.data)
+            // treeResdata.forEach(item => {
+            //   item.label = item.id + '-' + item.businessName
+            // })
+            // const result = [
+            //   {
+            //     id: 'root',
+            //     label: '全部',
+            //     code: 'root',
+            //     isleaf: '0',
+            //     children: treeResdata
+            //   }
+            // ]
+            this.treeData = treeResdata
+          } else {
+            this.$message.error('左侧树加载失败')
+          }
+        })
+      } else {
+        let that = this
+        let params = {}
+        if (this.userInfo.province === '610000000') {
+          params = {
+            elementCode: 'admdiv',
+            province: '610000000',
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + 61 + '%\''
+          }
+        } else if (
+          this.userInfo.province === '610100000' ||
+          this.userInfo.province === '610100000' ||
+          this.userInfo.province === '610200000' ||
+          this.userInfo.province === '610300000' ||
+          this.userInfo.province === '610400000' ||
+          this.userInfo.province === '610500000' ||
+          this.userInfo.province === '610600000' ||
+          this.userInfo.province === '610700000' ||
+          this.userInfo.province === '610800000' ||
+          this.userInfo.province === '610900000' ||
+          this.userInfo.province === '611000000' ||
+          this.userInfo.province === '611200000'
+        ) {
+          params = {
+            elementCode: 'admdiv',
+            province: this.userInfo.province,
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
+          }
+        } else {
+          params = {
+            elementCode: 'admdiv',
+            province: this.userInfo.province,
+            year: this.userInfo.year,
+            wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
+          }
+        }
+        HttpModule.getTreeData(params).then(res => {
+          if (res.data) {
+            // let treeResdata = that.getChildrenData(res.data)
+            // treeResdata.forEach(item => {
+            //   item.label = item.id + '-' + item.businessName
+            // })
+            // const result = [
+            //   {
+            //     id: 'root',
+            //     label: '全部',
+            //     code: 'root',
+            //     isleaf: '0',
+            //     children: treeResdata
+            //   }
+            // ]
+            that.treeData = res.data
+          } else {
+            this.$message.error('左侧树加载失败')
+          }
+        })
+      }
+    },
+    getCzPro() {
+      HttpModule.getCzProTreeData().then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
         }
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[4].itemRender.options = treeResdata
+      })
+    },
+    isCz() {
+      if (this.$store.state.curNavModule.name === '参照直达资金项目台账') {
+        this.getCzPro()
+      } else {
+        this.getPro()
+      }
     },
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || item.name
+        item.label = this.isSx ? item.text : (item.text || item.name)
         if (item.children) {
           that.getChildrenData(item.children)
         }
@@ -982,6 +1147,12 @@ export default {
     }
   },
   created() {
+    if (this.isSx) {
+      this.searchDataList.endTime = this.$XEUtils.toDateString(
+        this.$XEUtils.getWhatDay(new Date(), -1),
+        'yyyy-MM-dd'
+      )
+    }
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
@@ -989,11 +1160,18 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
-    this.getPro()
-    this.getManageMofDep()
-    this.getExcFunc()
+    if (!this.isSx) {
+      this.getPro()
+      this.getManageMofDep()
+      this.getExcFunc()
+    }
     this.getLeftTreeData()
     this.queryTableDatas()
+    if (this.isSx) {
+      this.getAgency()
+      this.isCz()
+      this.queryCaliberDeclareContent()
+    }
   }
 }
 </script>

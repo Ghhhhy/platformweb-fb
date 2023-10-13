@@ -25,6 +25,8 @@
         :default-expanded-keys="expandedkeys"
         :default-checked-keys="checkedkeys"
         :filter-node-method="filterNode"
+        v-bind="$attrs"
+        v-on="$listeners"
         @check="nodecheckmethod"
         @node-click="clickmethod"
         @check-change="checkChange"
@@ -223,7 +225,11 @@ export default {
       //   }
       // })
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      let filterByKey = 'label'
+      if (typeof this.treeProps === 'object' && JSON.stringify(this.treeProps) !== '{}') {
+        this.treeProps.label && (filterByKey = this.treeProps.label)
+      }
+      return data[filterByKey].indexOf(value) !== -1
     },
 
     // 获取缓存数据

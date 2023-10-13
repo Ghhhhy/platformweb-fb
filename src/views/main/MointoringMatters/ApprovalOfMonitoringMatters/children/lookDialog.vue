@@ -105,7 +105,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;监控机构审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;{{ $store.getters.state.budgetlevelcode === '4' ? '省' : '' }}监控机构审核意见</div>
                     <el-select
                       v-model="monitorFlowOpinion"
                       placeholder="监控机构审核意见"

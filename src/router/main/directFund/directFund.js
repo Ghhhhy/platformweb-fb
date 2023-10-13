@@ -85,7 +85,7 @@ export default [
   {
     path: '/indexFind', // 指标查询
     name: 'IndexFind',
-    component: () => import('@/views/main/directFund/indexFind/index.vue')
+    component: () => import('@/views/main/directFund/indexFindNew/indexFindNew.vue')
   },
   {
     path: '/directFundsChart', // 直达资金图表

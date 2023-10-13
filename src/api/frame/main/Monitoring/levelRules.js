@@ -144,5 +144,13 @@ export default {
     const formData = new FormData()
     formData.append('code', code || 'pay')
     return post('large-monitor-platform/lmp/elementQuery/queryTreedElementByCode', formData, null, 'multipart/form-data')
+  },
+  // 新增数据
+  updateDataView(params) {
+    return post('large-monitor-platform/lmp/regulation/viewUpdate', params, null, 'multipart/form-data', 'openapi')
+  },
+  // 获取三公规则分类
+  getRuletype(params) {
+    return post('large-monitor-platform/lmp/dictInfo/pageQuery', params)
   }
 }

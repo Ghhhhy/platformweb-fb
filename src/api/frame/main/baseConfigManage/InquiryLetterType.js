@@ -10,6 +10,9 @@ export default {
   },
   // 新增
   addPolicies(params) {
+    return post('large-monitor-platform/lmp/filter/add', params)
+  },
+  addPolicies1(params) {
     return post('large-monitor-platform/lmp/askType/add', params)
   },
   // 回显修改信息
@@ -45,5 +48,8 @@ export default {
   },
   getTreeAgency(params) {
     return post('large-monitor-platform/lmp/elementQuery/elementtree', params)
+  },
+  querySum(params) {
+    return post('dfr-monitor-service/dfr/supervision/sum', params)
   }
 }

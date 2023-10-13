@@ -363,7 +363,7 @@ export default {
     audieData(param) {
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         } else {
@@ -587,13 +587,13 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
+        warningLevel: this.warningLevel, // 预警级别
         'handleType': this.handleType, // 处理方式
         'businessModelCode': '', // 业务模块
         'businessFeaturesCode': '', // 业务功能
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationName: this.regulationName,
         regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         code: this.condition.agency_code,
         menuType: 2
@@ -623,14 +623,14 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationType: regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+        warningLevel: this.warningLevel, // 预警级别
+        handleType: this.handleType, // 处理方式
+        businessModelCode: '', // 业务模块
+        businessFeaturesCode: '', // 业务功能
+        regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+        isEnable: this.isEnable,
+        regulationName: this.regulationName,
         regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
         code: this.condition.agency_code,
         menuType: 2
@@ -668,12 +668,13 @@ export default {
       })
     },
     getRegulation() {
+      let that = this
       HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getRegulationChildrenData1(res.data)
-          this.queryConfig[0].itemRender.options = treeResdata
+          let treeResdata = that.getRegulationChildrenData1(res.data)
+          that.queryConfig[0].itemRender.options = treeResdata
         } else {
-          this.$message.error('下拉树加载失败')
+          that.$message.error('下拉树加载失败')
         }
       })
     },
@@ -684,7 +685,7 @@ export default {
         item.name = item.ruleName
         item.label = item.code + '-' + item.ruleName
         if (item.children.length > 0) {
-          that.getRegulationChildrenData(item.children)
+          that.getRegulationChildrenData1(item.children)
           item.leaf = false
         } else {
           item.leaf = true

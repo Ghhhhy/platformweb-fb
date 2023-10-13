@@ -1,19 +1,18 @@
 <!-- 问询函类型设置 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout :left-visible.sync="leftTreeVisible">
+    <BsMainFormListLayout>
       <template v-slot:topTap></template>
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
           show-zero
-          :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
-      <!-- <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -22,8 +21,8 @@
             @onSearchClick="search"
           />
         </div>
-      </template> -->
-      <template v-slot:mainTree>
+      </template>
+      <!-- <template v-slot:mainTree>
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
@@ -41,7 +40,7 @@
           @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
-      </template>
+      </template> -->
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
@@ -49,9 +48,12 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
+          :pager-config="false"
           :toolbar-config="tableToolbarConfig"
+          :tree-config="{ dblExpandAll: true, dblExpand: true,accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :default-money-unit="defaultMoneyUnit"
+          :show-zero="true"
+          :table-global-config="exportGlobalConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -84,9 +86,20 @@
 import { proconf } from './ThreeGuaranteesSummary'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/ThreeGuaranteesSummary.js'
+import moment from 'moment'
 export default {
   components: {
     AddDialog
+  },
+  computed: {
+    exportGlobalConfig() {
+      return {
+        customExportConfig: {
+          fileName: `${this.menuName}-${moment().format('YYYY-MM-DD')}`,
+          showZero: true
+        }
+      }
+    }
   },
   watch: {
     queryConfig() {
@@ -168,6 +181,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -182,6 +196,10 @@ export default {
         pageSize: 20
       },
       tableConfig: {
+        globalConfig: {
+          // 全局配置
+          seq: true // 序号列
+        },
         renderers: {
           // 编辑 附件 操作日志
           $payVoucherInputGloableOptionRow: proconf.gloableOptionRow
@@ -192,15 +210,17 @@ export default {
       },
       tableFooterConfig: {
         totalObj: {
+          total_yss: 0,
+          total_zcs: 0,
+          sbZbjeBjbms: 0,
+          sbZxjeBjbms: 0,
           sbZbjeBgz: 0,
           sbZxjeBgz: 0,
           sbZbjeByz: 0,
-          sbZxjeByz: 0,
-          sbZbjeBjbms: 0,
-          sbZxjeBjbms: 0
+          sbZxjeByz: 0
         },
         combinedType: ['switchTotal'],
-        showFooter: true
+        showFooter: false
       },
       // 操作日志
       logData: [],
@@ -289,7 +309,7 @@ export default {
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.refresh()
-      this.$refs.mainTableRef.$refs.xGrid.clearScroll()
+      // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
     search(val) {
@@ -312,14 +332,7 @@ export default {
           }
         }
       }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
-      }
-      if (this.searchDataList.businessModuleName && this.searchDataList.businessModuleName.trim() !== '') {
-        condition.businessModuleName = this.searchDataList.businessModuleName
-      }
       this.condition = condition
-      console.log(this.condition)
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -442,14 +455,10 @@ export default {
     onClickmethod(node) {
       this.node = node.node
       let code = node.node.code
-      console.log(node)
       this.codeList = []
       let treeData = node.treeData
       this.getItem(code, treeData)
-      console.log(this.codeList)
       const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
         mofDivCodeList: this.codeList
       }
       HttpModule.queryTableDatas(param).then((res) => {
@@ -550,12 +559,7 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize // 每页条数
-        // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
-        // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
-      }
+      const param = this.searchDataList
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -682,7 +686,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getLeftTreeData()
+    // this.getLeftTreeData()
+    // this.onStatusTabClick(proconf.toolBarStatusButtons[0])
   }
 }
 </script>

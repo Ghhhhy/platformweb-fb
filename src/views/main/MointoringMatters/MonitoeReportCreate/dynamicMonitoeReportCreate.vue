@@ -21,6 +21,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="onSearchResetClick"
           />
         </div>
       </template>
@@ -90,6 +91,8 @@
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
+      :province-code="provinceCode"
+      :province-name="provinceName"
       :province-name-list="provinceNameList"
     />
   </div>
@@ -120,6 +123,8 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      provinceCode: '',
+      provinceName: '',
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
@@ -279,6 +284,15 @@ export default {
       if (this.createTime) {
         this.createTime = this.createTime + ' 00:00:00'
       }
+      this.queryTableDatas()
+    },
+    onSearchResetClick() {
+      this.year = ''
+      this.startMonth = ''
+      this.endMonth = ''
+      this.createTime = ''
+      this.fileName = ''
+      this.createPerson = ''
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -521,34 +535,40 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     // 查询 table 数据
-    // queryTableDatas() {
-    //   const param = {
-    //     year: this.year,
-    //     startMonth: this.startMonth,
-    //     endMonth: this.endMonth,
-    //     createTime: this.createTime,
-    //     fileName: this.fileName,
-    //     createPerson: this.createPerson,
-    //     page: this.mainPagerConfig.currentPage, // 页码
-    //     pageSize: this.mainPagerConfig.pageSize // 每页条数
-    //   }
-    //   if (this.leftNode.businessType === 2) {
-    //     param.businessModelCode = this.leftNode.code
-    //   } else if (this.leftNode.businessType === 3) {
-    //     param.businessFeaturesCode = this.leftNode.code
-    //   }
-    //   this.tableLoading = true
-    //   HttpModule.queryMonitorTableDatas(param).then(res => {
-    //     this.tableLoading = false
-    //     if (res.code === '000000') {
-    //       this.tableData = res.data.results
-    //       this.mainPagerConfig.total = res.data.totalCount
-    //       this.tabStatusNumConfig['1'] = res.data.totalCount
-    //     } else {
-    //       this.$message.error(res.result)
-    //     }
-    //   })
-    // },
+    queryTableDatas() {
+      const param = {
+        year: this.year,
+        startMonth: this.startMonth,
+        endMonth: this.endMonth,
+        createTime: this.createTime,
+        fileName: this.fileName,
+        createPerson: this.createPerson,
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: this.codeList
+      }
+      if (this.leftNode.businessType === 2) {
+        param.businessModelCode = this.leftNode.code
+      } else if (this.leftNode.businessType === 3) {
+        param.businessFeaturesCode = this.leftNode.code
+      }
+      if (this.leftNode.businessType === 2) {
+        param.businessModelCode = this.leftNode.code
+      } else if (this.leftNode.businessType === 3) {
+        param.businessFeaturesCode = this.leftNode.code
+      }
+      this.tableLoading = true
+      HttpModule.queryMonitorTableDatas(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
+        } else {
+          this.$message.error(res.result)
+        }
+      })
+    },
     // 操作日志
     queryActionLog(row) {
       let data = {

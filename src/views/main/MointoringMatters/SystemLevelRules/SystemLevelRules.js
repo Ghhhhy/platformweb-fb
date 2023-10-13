@@ -38,6 +38,7 @@ export let proconf = {
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'approval', label: '送审' },
       // { code: 'revoke', label: '撤销' },
+      { code: 'copy', label: '复制' },
       { code: 'change', label: '修改' },
       { code: 'check', label: '查看' },
       { code: 'del', label: '删除' }
@@ -148,6 +149,7 @@ export let proconf = {
     }
   ],
   highQueryData: {
+    fiRuleTypeCodeName: '',
     regulationType: '',
     warningLevel: '',
     handleType: '',
@@ -214,21 +216,21 @@ export let proconf = {
           placeholder: '业务模块'
         }
       }
-    },
-    {
-      title: '业务功能',
-      field: 'businessFunctionName',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '业务功能'
-        }
-      }
+    // },
+    // {
+    //   title: '业务功能',
+    //   field: 'businessFunctionName',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeInput',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [],
+    //     props: {
+    //       placeholder: '业务功能'
+    //     }
+    //   }
     }
   ],
   sethighQueryData: {
@@ -558,14 +560,14 @@ export let proconf = {
           {
             value: 3,
             label: '政府支出经济分类',
-            urlC: 'DEPBGTECO',
-            name: 'dep_bgt_eco'
+            urlC: 'GOVBGTECO',
+            name: 'gov_bgt_eco'
           },
           {
             value: 4,
             label: '部门支出经济分类',
-            urlC: 'GOVBGTECO',
-            name: 'gov_bgt_eco'
+            urlC: 'DEPBGTECO',
+            name: 'dep_bgt_eco'
           },
           {
             value: 5,

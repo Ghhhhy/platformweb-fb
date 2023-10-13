@@ -100,9 +100,9 @@ export let proconf = {
         props: {
           config: {
             valueKeys: ['label', 'value'],
-            format: '{label}',
+            format: '{value}-{label}',
             treeProps: {
-              labelFormat: '{label}', // {code}-{name}
+              labelFormat: '{value}-{label}', // {code}-{name}
               nodeKey: 'value',
               label: 'label',
               children: 'children'
@@ -666,7 +666,7 @@ export let proconf = {
     },
     {
       title: '操作',
-      field: 'gloableOptionRow',
+      field: 'monitorGloableOptionRow',
       className: 'gloableOptionRow',
       align: 'center',
       fixed: 'right',
@@ -674,7 +674,7 @@ export let proconf = {
       filters: false,
       width: 100,
       cellRender: {
-        name: '$gloableOptionRow'
+        name: '$monitorGloableOptionRow'
       }
     }
   ],

@@ -19,7 +19,16 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <template v-slot:mainForm>
@@ -37,7 +46,9 @@
           :pager-config="pagerConfig"
           :default-money-unit="10000"
           :cell-style="cellStyle"
-          :show-zero="false"
+          :show-zero="!isSx"
+          :export-modal-config="{ fileName: menuName }"
+          :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -54,6 +65,9 @@
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+            <div v-if="isSx" class="timeRefreshTip">
+              <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
             </div>
           </template>
           <template v-slot:toolbar-custom-slot>
@@ -94,6 +108,9 @@ export default {
     SDetailDialog
   },
   computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -118,6 +135,7 @@ export default {
   },
   data() {
     return {
+      isFlush: false,
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 上次取数时间
       leftTreeVisible: false,
@@ -224,6 +242,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        expandAll: this.isSx, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -342,7 +361,11 @@ export default {
       }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.queryTableDatas()
+      if (this.isSx) {
+        this.refresh()
+      } else {
+        this.queryTableDatas()
+      }
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
@@ -367,7 +390,11 @@ export default {
         }
       }
       this.condition = condition
-      this.queryTableDatas(isFlush)
+      if (this.isSx) {
+        this.queryTableDatas()
+      } else {
+        this.queryTableDatas(isFlush)
+      }
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
@@ -381,10 +408,12 @@ export default {
     //   }
     // },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+          this.$confirm(refreshTips, '操作确认提示', {
             type: 'warning'
           }).then(() => {
             this.refresh(true)
@@ -407,80 +436,155 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(type, speTypeCode) {
-      let isCz = ''
-      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
-        isCz = '2'
-      } else {
-        isCz = '1'
-      }
-      let params = {
-        reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
-        speTypeCode: speTypeCode,
-        isCz: isCz,
-        mofDivCode: '',
-        fiscalYear: this.searchDataList.fiscalYear
-      }
-      this.detailVisible = true
-      this.tableLoading = true
-      HttpModule.queryTableDatas(params).then((res) => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.detailData = res.data
-          this.detailType = type
-        } else {
-          this.$message.error(res.message)
+      if (this.isSx) {
+        let params = {
+          reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
+          speTypeCode: speTypeCode,
+          mofDivCode: '',
+          fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
         }
-      })
+        this.detailVisible = true
+        this.tableLoading = true
+        HttpModule.queryTableDatas(params).then((res) => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.detailData = res.data
+            this.detailType = type
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        let isCz = ''
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+          isCz = '2'
+        } else {
+          isCz = '1'
+        }
+        let params = {
+          reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
+          speTypeCode: speTypeCode,
+          isCz: isCz,
+          mofDivCode: '',
+          fiscalYear: this.searchDataList.fiscalYear
+        }
+        this.detailVisible = true
+        this.tableLoading = true
+        HttpModule.queryTableDatas(params).then((res) => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.detailData = res.data
+            this.detailType = type
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      let key = obj.column.property
+      if (this.isSx) {
+        let key = obj.column.property
+        switch (key) {
+          case 'jOut':
+            this.handleDetail('jOut', obj.row.speTypeCode)
+            this.detailTitle = '支出明细'
+            break
+          case 'sbbjfpAmount':
+          case 'xbjfpAmount':
+          case 'sbjfpAmount':
+            this.handleDetail('sbbjfpAmount', obj.row.speTypeCode)
+            this.detailTitle = '直达资金项目明细'
+        }
+      } else {
+        let key = obj.column.property
 
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
 
-      switch (key) {
-        case 'jOut':
-          this.handleDetail('jOut', obj.row.speTypeCode)
-          this.detailTitle = '支出明细'
-          break
-        case 'sbbjfpAmount':
-        case 'xbjfpAmount':
-        case 'sbjfpAmount':
-          this.handleDetail('sbbjfpAmount', obj.row.speTypeCode)
-          this.detailTitle = '直达资金项目明细'
+        switch (key) {
+          case 'jOut':
+            this.handleDetail('jOut', obj.row.speTypeCode)
+            this.detailTitle = '支出明细'
+            break
+          case 'sbbjfpAmount':
+          case 'xbjfpAmount':
+          case 'sbjfpAmount':
+            this.handleDetail('sbbjfpAmount', obj.row.speTypeCode)
+            this.detailTitle = '直达资金项目明细'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
-      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
+      this.isFlush = true
+      if (this.isSx) {
+        this.queryTableDatas()
+      } else {
+        this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
+      }
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
-      console.log(this.searchDataList)
+      if (this.isSx) {
+        const param = {
+          reportCode: 'zdzjzc_fkm',
+          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        }
+        this.isFlush && (param.isFlush = true)
+        this.tableLoading = true
+        HttpModule.queryTableDatas(param).then((res) => {
+          if (res.code === '000000') {
+            this.tableData = res.data.data
+            this.tableLoading = false
+            this.reportTime = res.data.reportTime || ''
+          } else {
+            this.$message.error(res.message)
+          }
+        }).finally(() => {
+          this.isFlush = false
+        })
+      } else {
+        console.log(this.searchDataList)
+        const param = {
+          // reportCode: 'zdzjzc_fkm',
+          reportCode: this.transJson(this.params5 || '')?.reportCode,
+          fiscalYear: this.searchDataList.fiscalYear,
+          expFuncCode: this.searchDataList?.expFuncCode_code || '',
+          endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        }
+        this.isFlush && (param.isFlush = true)
+        this.tableLoading = true
+        HttpModule.queryTableDatas(param).then((res) => {
+          if (res.code === '000000') {
+            if (res.data) {
+              this.tableData = res.data.data
+              this.reportTime = res.data.reportTime || ''
+              this.caliberDeclareContent = res.data.description || ''
+            }
+          } else {
+            this.$message.error(res.message)
+          }
+        }).finally(() => {
+          this.isFlush = false
+          this.tableLoading = false
+        })
+      }
+    },
+    queryCaliberDeclareContent(val) {
       const param = {
-        isFlush,
-        // reportCode: 'zdzjzc_fkm',
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
-        fiscalYear: this.searchDataList.fiscalYear,
-        expFuncCode: this.searchDataList?.expFuncCode_code || '',
-        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
+        reportCode: 'zdzjzc_fkm'
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
         if (res.code === '000000') {
-          if (res.data) {
-            this.tableData = res.data.data
-            this.reportTime = res.data.reportTime || ''
-            this.caliberDeclareContent = res.data.description || ''
-          }
+          this.caliberDeclareContent = res.data || ''
         } else {
           this.$message.error(res.message)
         }
-      }).finally(() => {
-        this.tableLoading = false
       })
     },
     initTableData() {
@@ -494,17 +598,31 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      if (this.isSx) {
+        if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      } else {
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     }
   },
   created() {
+    if (this.isSx) {
+      this.searchDataList.endTime = this.$XEUtils.toDateString(
+        this.$XEUtils.getWhatDay(new Date(), -1),
+        'yyyy-MM-dd'
+      )
+    }
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name
@@ -512,6 +630,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.queryTableDatas()
+    if (this.isSx) {
+      this.queryCaliberDeclareContent()
+    }
   }
 }
 </script>

@@ -218,11 +218,14 @@ export default {
         line-height: 60px;
       }
       .custom-title{
+        display: inline-block;
+        width: 220px;
         font-size: 22px;
         color: #2E3133;
         letter-spacing: 0;
         text-align: left;
         margin-left: 13px;
+        vertical-align: middle;
       }
     }
 

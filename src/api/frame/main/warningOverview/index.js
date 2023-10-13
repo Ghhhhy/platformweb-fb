@@ -11,6 +11,12 @@ const API_URLS = {
   MONITOR_PROCESSING: 'large-monitor-platform/lmp/warn/statistics/monitorProcessing',
   // 按区划、月份查看所有违规情况
   GET_WARN_BY_MOFDIV_CODE: 'large-monitor-platform/lmp/warn/statistics/getWarnByMofDivCode',
+  // 规则启用情况
+  RULR_ACTIVATE_INFO: 'large-monitor-platform/lmp/warn/statistics/ruleActivateInfo',
+  // 监控预警处理率排名
+  RANK_PROCESSING: 'large-monitor-platform/lmp/warn/statistics/rankProcessing',
+  // 直达资金管理工作排名
+  LEDGER_PROCESSING: 'dfr-monitor-service/dfr/zdzjledger/query',
   // 地图json获取
   MAP_JSON: 'large-monitor-platform/lmp/city/queryCityJson'
 }
@@ -57,9 +63,31 @@ export const getWarnByMofDivCode = (params) => {
 }
 
 /**
+ * 规则启用情况
+ * @returns {Promise | Promise<unknown>}
+ */
+export const ruleActivateInfo = () => {
+  return post(API_URLS.RULR_ACTIVATE_INFO)
+}
+
+/**
+ * 监控预警处理率排名
+ * @returns {Promise | Promise<unknown>}
+ */
+export const rankProcessing = (params) => {
+  return post(API_URLS.RANK_PROCESSING, params)
+}
+/**
+ * 直达资金管理工作排名
+ * @returns {Promise | Promise<unknown>}
+ */
+export const ledgerProcessing = (params) => {
+  return post(API_URLS.LEDGER_PROCESSING, params)
+}
+/**
  * 地图Json
  * @returns {Promise | Promise<unknown>}
  */
-export const MAP_JSON = (params) => {
-  // return post(API_URLS.MAP_JSON, params)
+export const mapJson = (params) => {
+  return post(API_URLS.MAP_JSON, params)
 }

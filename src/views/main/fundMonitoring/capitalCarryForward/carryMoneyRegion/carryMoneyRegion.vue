@@ -12,7 +12,7 @@
           @onQueryConditionsClick='onQueryConditionsClick'
         />
       </template> -->
-      <!--      <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -21,7 +21,7 @@
             @onSearchClick="search"
           />
         </div>
-      </template>-->
+      </template>
       <template v-slot:mainForm>
         <BsTable
           id="1001"
@@ -341,13 +341,13 @@ export default {
     queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
-        reportCode: this.params5
+        reportCode: this.params5 || 'CarryMoneyRegion'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
           this.caliberDeclareContent = res.data.description || ''
-          this.tableData = res.data
+          this.tableData = res.data.data
           this.tableLoading = false
         } else {
           this.$message.error(res.message)

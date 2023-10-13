@@ -555,7 +555,7 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         reportCode: 'xmsjgfxjc',
         fiscalYear: this.fiscalYear,
-        proNameRule: this.proNameRule,
+        proNameStr: this.proNameRule,
         mofDivCodeList: this.codeList
       }
       this.tableLoading = true
@@ -567,7 +567,7 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },

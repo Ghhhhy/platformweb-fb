@@ -16,7 +16,7 @@
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
-            :query-form-item-config="queryConfig"
+            :query-form-item-config="queryFormItem"
             :query-form-data="searchDataList"
             @onSearchClick="search"
           />
@@ -49,6 +49,7 @@
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
+          :export-modal-config="{ fileName: menuName }"
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
@@ -83,12 +84,23 @@
 <script>
 import { proconf } from './payDataNormative'
 import HttpModule from '@/api/frame/main/fundMonitoring/payDataNormative.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree.js'
+// import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
   components: {
     // AddDialog
+  },
+  computed: {
+    queryFormItem() {
+      if (this.$store.getters.isSx) {
+        return this.queryConfig.filter(item => {
+          const notShowField = ['payTimeStr']
+          return !notShowField.includes(item.field)
+        })
+      }
+      return this.queryConfig
+    }
   },
   watch: {
     queryConfig() {
@@ -122,7 +134,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -188,7 +200,11 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       fiscalYear: this.$store.state.userInfo.year,
       userDesStr: '',
@@ -255,6 +271,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
       this.userDesStr = obj.userDesStr
       this.payAcctNameStr = obj.payAcctNameStr
@@ -553,8 +570,18 @@ export default {
         payTimeStr: this.payTimeStr,
         mofDivCodeList: this.codeList
       }
-      this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let queryUrl = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        queryUrl = 'queryTableDatasPage'
+        HttpModule.querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+      HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -562,7 +589,20 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
+        }
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'zfsjgfxjc'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
         }
       })
     },
@@ -593,43 +633,9 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementCode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      getMofDivTree(params).then(res => {
+      let params = this.treeQueryparams
+      params.elementCode = params.elementCode ? params.elementCode : params.elementcode
+      HttpModule.getTreeData(params).then(res => {
         if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
@@ -664,6 +670,7 @@ export default {
   },
   created() {
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
+    console.log('this.$store.getters.treeQueryparamsCom,', this.$store.getters.treeQueryparamsCom)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
@@ -671,6 +678,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getLeftTreeData()
     this.queryTableDatas()
+    this.$store.getters.isSx && this.queryCaliberDeclareContent()
   }
 }
 </script>

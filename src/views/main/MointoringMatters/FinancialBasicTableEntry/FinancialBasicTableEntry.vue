@@ -2238,6 +2238,7 @@ import { Import } from '@/components/Table/import/import/import.js'
 import $print from './print.js'
 import ImportModel from '@/components/Table/import/import.vue'
 import importFunction from './function.js'
+import moment from 'moment'
 export default {
   components: {
     GlAttachment, ImportModel
@@ -2905,7 +2906,8 @@ export default {
       }
       this.condition = condition
       console.log(this.condition)
-      this.month = Number(this.condition.month[0])
+      this.month = Number(this.condition.month[0]) || moment().month() + 1
+      this.searchDataList.month = this.month
       this.queryTableDatas()
     },
     // tab切换
@@ -2925,7 +2927,7 @@ export default {
       let params = {}
       if (this.userInfo.province === '610000000') {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: '610000000',
           year: '2021',
           wheresql: 'and code like \'' + 61 + '%\''
@@ -2945,21 +2947,21 @@ export default {
         this.userInfo.province === '611200000'
       ) {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
-          elementcode: 'admdiv',
+          elementCode: 'admdiv',
           province: this.userInfo.province,
           year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       HttpModule.getLeftTree(params).then(res => {
-        if (res.rscode === '100000') {
+        if (res.rscode === '000000' || res.code === '000000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
         } else {
@@ -3340,8 +3342,7 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let month = date.toLocaleDateString().split('/')[1]
+    let month = moment().month() + 1
     this.searchDataList.month = month
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid

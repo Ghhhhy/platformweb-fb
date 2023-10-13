@@ -29,7 +29,6 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -39,8 +38,8 @@
           open-loading
           :config="leftTreeConfig"
           :tree-data="treeData"
+          :filter-text="treeGlobalConfig.inputVal"
           :default-expanded-keys="defaultExpandedKeysIn"
-          @onNodeCheckClick="onNodeCheckClick"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -87,20 +86,47 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
+      :file-name="propsFileName"
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
       :province-name-list="provinceNameList"
+      :province-code="provinceCode"
+      :province-name="provinceName"
+      :report-type="reportType"
     />
   </div>
 </template>
 
 <script>
 import { proconf } from './sanBaoMonitoeReportCreate'
-import AddDialog from './children/sanbaoaddDialog'
+import AddDialog from './children/sangongaddDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'
+import moment from 'moment'
+const routerMap = {
+  'sanGongMonitoeReportCreate': {
+    axiosStr: 'sangongCreate',
+    code: '2'
+  },
+  'SpeProMonitoeReportCreate': {
+    axiosStr: 'speProCreate',
+    code: '3'
+  },
+  'sanBaoMonitoeReportCreate': {
+    axiosStr: 'sanbaoCreate',
+    code: '4'
+  },
+  'dynamicMonitoeReportCreate': {
+    axiosStr: 'dynamicCreate',
+    code: '5'
+  },
+  'directFundsCreate': {
+    axiosStr: 'directFundsCreate',
+    code: '6'
+  }
+}
 export default {
   components: {
     AddDialog, GlAttachment, FilePreview
@@ -112,6 +138,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandedKeysIn: [],
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -120,6 +147,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      leftTreeNodeCode: '',
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
@@ -255,13 +283,17 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
+      propsFileName: '',
       createPerson: '',
       previewYear: '',
       previewStartMonth: '',
       previewEndMonth: '',
       previewCode: '',
       previewName: '',
-      provinceNameList: ''
+      provinceNameList: '',
+      provinceCode: '',
+      provinceName: '',
+      reportType: ''
     }
   },
   mounted() {
@@ -270,15 +302,16 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      this.year = Number(obj.year)
-      this.startMonth = Number(obj.startMonth)
-      this.endMonth = Number(obj.endMonth)
-      this.createTime = obj.createTime.substring(0, 10)
+      this.searchDataList = obj
+      // this.year = Number(obj.year)
+      // this.startMonth = Number(obj.startMonth)
+      // this.endMonth = Number(obj.endMonth)
+      // this.createTime = obj.createTime.substring(0, 10)
       this.fileName = obj.fileName
       this.createPerson = obj.createPerson
-      if (this.createTime) {
-        this.createTime = this.createTime + ' 00:00:00'
-      }
+      // if (this.createTime) {
+      //   this.createTime = this.createTime + ' 00:00:00'
+      // }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -443,38 +476,45 @@ export default {
       let treeData = node.treeData
       this.getItem(code, treeData)
       console.log(this.codeList)
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
-        'handleType': this.handleType, // 处理方式
-        'businessModelCode': '', // 业务模块
-        'businessFeaturesCode': '', // 业务功能
-        'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        'regulationModelName': this.regulationModelName,
-        id: this.condition.agency_code,
-        menuType: 1,
-        province: '',
-        mofDivCodeList: this.codeList
-      }
-      if (this.leftNode.businessType === 2) {
-        param.businessModelCode = this.leftNode.code
-      } else if (this.leftNode.businessType === 3) {
-        param.businessFeaturesCode = this.leftNode.code
-      }
-      this.tableLoading = true
-      HttpModule.queryMonitorTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.mainPagerConfig.total = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
+      let formData = this.$refs.queryFrom.getFormData()
+      this.searchDataList.createTime = formData.createTime
+      this.searchDataList.createPerson = formData.createPerson
+      this.searchDataList.fileName = formData.fileName
+      this.queryTableDatas()
+      // const param = {
+      //   createTime: this.searchDataList.createTime,
+      //   page: this.mainPagerConfig.currentPage, // 页码
+      //   pageSize: this.mainPagerConfig.pageSize, // 每页条数
+      //   'regulationType': this.regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
+      //   'warningLevel': this.warningLevel, // 预警级别
+      //   'handleType': this.handleType, // 处理方式
+      //   'businessModelCode': '', // 业务模块
+      //   'businessFeaturesCode': '', // 业务功能
+      //   'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
+      //   'isEnable': this.isEnable,
+      //   'regulationName': this.regulationName,
+      //   'regulationModelName': this.regulationModelName,
+      //   id: this.condition.agency_code,
+      //   menuType: 1,
+      //   province: '',
+      //   mofDivCodeList: this.codeList,
+      //   reportType: routerMap[this.$route.name].code
+      // }
+      // if (this.leftNode.businessType === 2) {
+      //   param.businessModelCode = this.leftNode.code
+      // } else if (this.leftNode.businessType === 3) {
+      //   param.businessFeaturesCode = this.leftNode.code
+      // }
+      // this.tableLoading = true
+      // HttpModule.queryMonitorTableDatas(param).then(res => {
+      //   this.tableLoading = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.results
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
     },
     treeSetConfrimData(curTree) {
       console.log(curTree)
@@ -521,34 +561,39 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     // 查询 table 数据
-    // queryTableDatas() {
-    //   const param = {
-    //     year: this.year,
-    //     startMonth: this.startMonth,
-    //     endMonth: this.endMonth,
-    //     createTime: this.createTime,
-    //     fileName: this.fileName,
-    //     createPerson: this.createPerson,
-    //     page: this.mainPagerConfig.currentPage, // 页码
-    //     pageSize: this.mainPagerConfig.pageSize // 每页条数
-    //   }
-    //   if (this.leftNode.businessType === 2) {
-    //     param.businessModelCode = this.leftNode.code
-    //   } else if (this.leftNode.businessType === 3) {
-    //     param.businessFeaturesCode = this.leftNode.code
-    //   }
-    //   this.tableLoading = true
-    //   HttpModule.queryMonitorTableDatas(param).then(res => {
-    //     this.tableLoading = false
-    //     if (res.code === '000000') {
-    //       this.tableData = res.data.results
-    //       this.mainPagerConfig.total = res.data.totalCount
-    //       this.tabStatusNumConfig['1'] = res.data.totalCount
-    //     } else {
-    //       this.$message.error(res.result)
-    //     }
-    //   })
-    // },
+    queryTableDatas() {
+      const param = {
+        // year: this.searchDataList.year,
+        // startMonth: this.startMonth,
+        // endMonth: this.endMonth,
+        createTime: this.searchDataList.createTime,
+        fileName: this.searchDataList.fileName,
+        createPerson: this.searchDataList.createPerson,
+        reportType: routerMap[this.$route.name].code,
+        page: this.mainPagerConfig.currentPage, // 页码
+        pageSize: this.mainPagerConfig.pageSize, // 每页条数
+        mofDivCodeList: this.codeList,
+        menuType: 1,
+        regulationStatus: this.regulationStatus // 规则状态：1.新增  2.送审  3.审核
+      }
+      param.createTime && (param.createTime = moment(this.searchDataList.createTime).format('YYYY-MM-DD 00:00:00'))
+      if (this.leftNode.businessType === 2) {
+        param.businessModelCode = this.leftNode.code
+      } else if (this.leftNode.businessType === 3) {
+        param.businessFeaturesCode = this.leftNode.code
+      }
+      this.tableLoading = true
+      HttpModule.queryMonitorTableDatas(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.mainPagerConfig.total = res.data.totalCount
+          this.tabStatusNumConfig['1'] = res.data.totalCount
+        } else {
+          this.$message.error(res.result)
+        }
+      })
+    },
     // 操作日志
     queryActionLog(row) {
       let data = {
@@ -576,42 +621,8 @@ export default {
     },
     getLeftTreeData() {
       console.log(this.userInfo)
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.userInfo.province,
-          year: this.userInfo.year,
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
+      let params = this.$store.getters.treeQueryparamsCom
+      params.elementCode = params.elementCode || params.elementcode
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {
@@ -635,13 +646,11 @@ export default {
     }
   },
   created() {
-    let date = new Date()
-    let year = date.toLocaleDateString().split('/')[0]
-    let month = date.toLocaleDateString().split('/')[1]
-    let day = date.toLocaleDateString().split('/')[2]
+    let year = moment().year()
     this.searchDataList.year = year
-    this.searchDataList.createTime = year + '-' + month + '-' + day
-    this.searchDataList.endMonth = month
+    // this.searchDataList.createTime = moment().format('YYYY-MM-DD 00:00:00')
+    this.searchDataList.endMonth = moment().month() + 1
+    // this.codeList = [this.$store.state.userInfo.province]// 初始化区划查询
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.menuName = this.$store.state.curNavModule.name

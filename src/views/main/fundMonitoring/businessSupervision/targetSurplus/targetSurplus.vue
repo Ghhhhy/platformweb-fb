@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="$refs.queryFrom.reset(),queryTableDatas(false)"
           />
         </div>
       </template>
@@ -361,7 +362,7 @@ export default {
     handleDetail(reportCode, mofDivCode, column) {
       let params = {
         reportCode: reportCode,
-        mofDivCodeList: mofDivCode,
+        mofDivCode: mofDivCode,
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.pagerConfig.pageSize,
@@ -422,7 +423,11 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
+      let axiosStr = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        axiosStr = 'queryTableDatasSx'
+      }
+      HttpModule[axiosStr](param).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.data
           this.caliberDeclareContent = res.data.description || ''

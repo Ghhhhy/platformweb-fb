@@ -38,7 +38,7 @@
           :defaultexpandedkeys="['0']"
           :is-server="false"
           :ajax-type="'get'"
-          :server-uri="'pay-clear-service/v3/lefttree'"
+          :server-uri="'large-monitor-platform/lmp/elementQuery/lefttree'"
           :datas="treeData"
           :queryparams="treeQueryparams"
           :global-config="treeGlobalConfig"
@@ -260,12 +260,18 @@
 <script>
 import HTTPModule from '@/api/frame/main/baseConfigManage/customQueryService.js'
 import { proconf } from './js/bgtDataQuery.js'
-// import loadBsConfig from '@/views/main/dynamicTableSetting/config'
+import loadBsConfig from '@/views/main/dynamicTableSetting/config'
+// import { mockTableData } from './mockData'
 export default {
-  // mixins: [loadBsConfig],
+  mixins: [loadBsConfig],
   data() {
     return {
-      queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
+      axiosFeild: {
+        codeField: 'rscode',
+        successCode: 200
+      },
+      // queryConfigId: '1B7EAFCAC74B49938E59A647BB96A6A5',
+      queryConfigId: 'CBEE20182D8F42C184FDB1DB2ADDD21A',
       isShowDetails: false,
       scrollY: {
         scrollY: {
@@ -392,10 +398,10 @@ export default {
         pageSize: 20
       },
       amtDetailType: '1',
-      amountQueryId: '6ACA4D6BC4264EDC8523044897FAFF31',
-      payAmtQueryId: '686A3B189F5A49028DC9ADF91CC2CC94',
-      planAmtQueryId: '742827FA532A4FEBA351A118D8DFAA82',
-      clearAmtQueryId: '851AED1ED08F47F49040A50BDD7E5934',
+      amountQueryId: 'C9C2B60A6F26475084EB3576435B7A89', // '6ACA4D6BC4264EDC8523044897FAFF31',
+      payAmtQueryId: 'F28B5451E7B84E6E87C2DA920FC9F74E', // '686A3B189F5A49028DC9ADF91CC2CC94',
+      planAmtQueryId: 'AAA5B9C66A5B478C875E6E900F743AD9', // '742827FA532A4FEBA351A118D8DFAA82',
+      clearAmtQueryId: '7B9C09F1DCCD464CB8FDBBDEB413E36C', // '851AED1ED08F47F49040A50BDD7E5934',
       menuName: '指标数据查询',
       tableTreeConfig: {
         transform: true,
@@ -442,7 +448,7 @@ export default {
       treeTemplateSel: null,
       temOption: [],
       temQueryparams: {
-        menuId: 'Home'
+        menuId: this.$store.state.curNavModule.guid || 'Home'
       },
       templateModal: false,
       templateTableLoading: false,
@@ -524,7 +530,7 @@ export default {
       }
       HTTPModule[method](this.amtDetailQueryParams).then(res => {
         this.amtDetailTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           let resData = res.data.rows
           resData.forEach(item => {
             for (let i in item) {
@@ -544,18 +550,19 @@ export default {
       this.queryAmtDetailData()
     },
     async loadConfig(id) {
+      if (!id) return
       let params = {
         tableId: {
-          id: '',
-          fiscalyear: this.$store.state.userInfo.year,
-          mof_div_code: this.$store.state.userInfo.province,
-          menuguid: this.$store.state.curNavModule.guid,
-          userguid: this.$store.state.userInfo.guid
+          id: id,
+          fiscalyear: this.$store.getters.getuserInfo.year,
+          mof_div_code: this.$store.getters.getuserInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
         }
       }
       if (id === this.amountQueryId) {
         params.tableId.id = id
         let configData = await this.loadBsConfig(params)
+        console.log('initQuery', configData)
         this.amtDetailTableColumnsConfigAmount = configData.itemsConfig
       }
       if (id === this.payAmtQueryId) {
@@ -591,7 +598,7 @@ export default {
       self.templateTableLoading = true
       HTTPModule.getGrabTemplateList(this.temQueryparams).then(res => {
         self.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.templateTableData = res.data
         } else {
           self.$message.error(res.result)
@@ -602,7 +609,7 @@ export default {
       this.templateModal = true
     },
     handleTemplateUse() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -612,7 +619,7 @@ export default {
       this.cancelDialogCloseTemplate()
     },
     setDefalutTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -622,7 +629,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.setDefaultGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('设置成功！')
           this.cancelDialogCloseTemplate()
         } else {
@@ -632,7 +639,7 @@ export default {
       })
     },
     deleteTemplate() {
-      let selection = this.$refs.templateTableRef.getSelectionData()
+      let selection = this.$refs.templateTableRef.$refs.xGrid.getSelectRecords()
       if (selection.length !== 1) {
         this.$message.warning('请选择有且仅有一个模版!')
         return
@@ -642,7 +649,7 @@ export default {
       this.templateTableLoading = true
       HTTPModule.removeGrabTemplate(this.temActionParams).then(res => {
         this.templateTableLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           this.$message.success('删除成功！')
           this.getTemplateData()
           this.cancelDialogCloseTemplate()
@@ -666,11 +673,11 @@ export default {
     handleSave(eventType) {
       let self = this
       if (self.modalName === '') {
-        self.warning('请填写模板名称！')
+        self.$message.warning('请填写模板名称！')
         return
       }
       if (self.modalName.length > 20) {
-        self.warning('模板名称请小于20字！')
+        self.$message.warning('模板名称请小于20字！')
         return
       }
       let saveParam = {
@@ -710,8 +717,8 @@ export default {
           }
         ]
       }
-      let fields = self.$refs.settingTableRef.getTableData().fullData
-      this.$refs.settingTableRef.getSelectionData().forEach(item => {
+      let fields = self.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
+      this.$refs.settingTableRef.$refs.xGrid.getSelectRecords().forEach(item => {
         fields.forEach(items => {
           if (item.code === items.code) {
             items.checked = true
@@ -729,7 +736,7 @@ export default {
       self.btnLoading = true
       HTTPModule.saveGrabTemplate(saveParam).then((res) => {
         self.btnLoading = false
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           self.$message.success('保存成功')
           this.handleCloseTemplate()
           this.getTemplateData()
@@ -844,32 +851,49 @@ export default {
     },
     getTableData(params) {
       this.isLoadingShow = true
-      this.currentParams = params
+      this.currentParams = params || {}
       params.type = this.isShowDetails ? '1' : '0'
-      HTTPModule.dataQueryPageInfo(params)
-        .then((res) => {
-          if (res.rscode === '200') {
-            this.isLoadingShow = false
-            this.tableData = res.data
-            this.tablePagerConfig.total = res.data.length
-            if (res.data.length > 0) {
-              this.tableFooterConfig.totalObj.amount = res.data.reduce((amount, item) => amount + Number(item.amount), 0)
-              this.tableFooterConfig.totalObj.pay_amt = res.data.reduce((payAmtSum, item) => payAmtSum + Number(item.pay_amt), 0)
-              this.tableFooterConfig.totalObj.plan_amt = res.data.reduce((planAmtSum, item) => planAmtSum + Number(item.plan_amt), 0)
-              this.tableFooterConfig.totalObj.clear_amt = res.data.reduce((clearAmtSum, item) => clearAmtSum + Number(item.clear_amt), 0)
+      HTTPModule.dataQueryPageInfo(params).then((res) => {
+        // res = mockTableData
+        // console.log(333, mockTableData)
+        if (res.rscode === 200) {
+          this.isLoadingShow = false
+          this.tableData = res.data
+          this.tablePagerConfig.total = res.data.length
+          if (res.data.length > 0) {
+            this.tableFooterConfig.totalObj.amount = res.data.reduce((amount, item) => amount + Number(item.amount), 0)
+            this.tableFooterConfig.totalObj.pay_amt = res.data.reduce((payAmtSum, item) => payAmtSum + Number(item.pay_amt), 0)
+            this.tableFooterConfig.totalObj.plan_amt = res.data.reduce((planAmtSum, item) => planAmtSum + Number(item.plan_amt), 0)
+            this.tableFooterConfig.totalObj.clear_amt = res.data.reduce((clearAmtSum, item) => clearAmtSum + Number(item.clear_amt), 0)
+          }
+        } else {
+          this.isLoadingShow = false
+          this.$message.error(res.result)
+        }
+      }).catch(() => {
+        this.isLoadingShow = false
+      })
+    },
+    getSearchDataListFn(searchFormConfig) {
+      let searchDataObj = {}
+      if (Array.isArray(searchFormConfig) && searchFormConfig.length) {
+        searchFormConfig.forEach(item => {
+          if (item.itemRender?.name === '$formTreeInput' || item.itemRender?.name === '$vxeTree') {
+            if (item.field) {
+              searchDataObj[item.field + 'code'] = []
             }
           } else {
-            this.isLoadingShow = false
-            this.$message.error(res.result)
+            if (item.field) {
+              searchDataObj[item.field] = []
+            }
           }
         })
-        .catch(() => {
-          this.isLoadingShow = false
-        })
+      }
+      return searchDataObj
     },
     handleSureSetting() {
-      let currentTbl = this.$refs.settingTableRef.getTableData().fullData
-      let selectionData = this.$refs.settingTableRef.getSelectionData()
+      let currentTbl = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
+      let selectionData = this.$refs.settingTableRef.$refs.xGrid.getSelectRecords()
       let fields = []
       let canUse = []
       selectionData.forEach((item) => {
@@ -888,7 +912,7 @@ export default {
           })
         }
       })
-      this.queryFormData = this.$ToolFn.getSearchDataListFn(this.queryFormItemConfig)
+      this.queryFormData = this.getSearchDataListFn(this.queryFormItemConfig)
       this.tableColumnsConfig = []
       this.tableData = []
       if (fields.length > 0) {
@@ -1010,7 +1034,7 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryFormItemConfig.forEach(item => {
+      this.queryFormItemConfig?.forEach(item => {
         if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
           if (item.field) {
             if (item.field === 'cor_bgt_doc_no_') {
@@ -1080,7 +1104,7 @@ export default {
     },
     handleToTop(index) {
       if (index !== 0) {
-        let tableData = this.$refs.settingTableRef.getTableData().fullData
+        let tableData = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
         let temp = tableData[index - 1]
         tableData[index - 1] = tableData[index]
         tableData[index] = temp
@@ -1089,7 +1113,7 @@ export default {
       }
     },
     handleToBottom(index) {
-      let tableData = this.$refs.settingTableRef.getTableData().fullData
+      let tableData = this.$refs.settingTableRef.$refs.xGrid.getTableData().fullData
       if (index !== tableData.length - 1) {
         let temp = tableData[index + 1]
         tableData[index + 1] = tableData[index]
@@ -1130,6 +1154,7 @@ export default {
       this.isShowQueryConditions = isOpen
     },
     handleSearch(val) {
+      // debugger
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -1147,13 +1172,13 @@ export default {
           }
         }
       }
-      this.queryFormItemConfig.forEach(item => {
+      this.queryFormItemConfig?.forEach(item => {
         if (item.islike === true && val[item.field]) {
           condition[item.field] = {}
           condition[item.field][item.liketype] = val[item.field]
         }
       })
-      Object.assign(this.currentParams.condition, condition)
+      Object.assign(this.currentParams.condition || {}, condition)
       this.getTableData(this.currentParams)
       this.$message.success('查询成功！')
     },
@@ -1194,7 +1219,7 @@ export default {
     },
     getInitTemplate() {
       HTTPModule.initTemplate().then(res => {
-        if (res && res.rscode === '200') {
+        if (res && res[this.axiosFeild['codeField']] === this.axiosFeild['successCode']) {
           if (res.data && res.data.fields) {
             this.colFieldList = res.data.fields
           } else {
@@ -1238,11 +1263,14 @@ export default {
     }
   },
   created() {
+  },
+  mounted() {
     this.getInitTemplate()
+    this.getTemplateData()
     if (window.localStorage.getItem('bgtDataQuery') !== null) {
       let bgtDataQuery = JSON.parse(window.localStorage.getItem('bgtDataQuery'))
       this.settingTableData = bgtDataQuery.tableData
-      let currentTbl = this.$refs.settingTableRef.getTableData().fullData
+      let currentTbl = this.$refs.mainTableRef.$refs.xGrid.getTableData().fullData
       let fields = []
       let canUse = []
       currentTbl.forEach((item) => {
@@ -1362,10 +1390,9 @@ export default {
         }, 1000)
       }
     }
-  },
-  mounted() {
     this.getFormTable()
   }
+
 }
 </script>
 <style lang="scss" scoped>

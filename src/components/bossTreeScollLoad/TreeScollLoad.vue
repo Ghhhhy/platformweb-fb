@@ -61,7 +61,8 @@ export default {
         return {
           limit: 40,
           offset: 0,
-          province: this.$store.state.userInfo.province
+          province: this.$store.state.userInfo.province,
+          strReg: ''
         }
       }
     },
@@ -177,14 +178,18 @@ export default {
         offset: 0,
         province: this.$store.state.userInfo.province,
         fiscalYear: this.$store.state.userInfo.fiscalYear,
-        strReg: val
+        strReg: val || ''
       }
       this.data = []
       this.$http.get('mp-b-user-service/v2/users/fuzzy/page', this.params).then(res => {
         let result = res
-        if (result.data.length) {
+        if (result?.data?.length) {
           this.data = this.treeFormat(result.data)
           console.log('self.data', self.data)
+          this.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(this.data)
+        } else if (typeof res === 'string') {
+          this.data = JSON.parse(result).data || []
+          this.data.length && (this.data = this.treeFormat(this.data))
           this.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(this.data)
         }
       })
@@ -195,8 +200,14 @@ export default {
       await this.$http[this.server.ajaxType](this.server.serverUri, this.params).then(res => {
         self.treeLoading = false
         let result = res
+        if (typeof res === 'string') {
+          this.data = JSON.parse(result).data || []
+          this.data.length && (this.data = this.treeFormat(this.data))
+          this.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(this.data)
+          return
+        }
         if (result.rscode === '100000') {
-          if (result.data.length) {
+          if (result?.data.length) {
             self.data = self.data.concat(this.treeFormat(result.data))
             self.params.offset += 40
             self.$parent.$parent.$parent.$parent.onUserTreeLoadFinish(self.data)

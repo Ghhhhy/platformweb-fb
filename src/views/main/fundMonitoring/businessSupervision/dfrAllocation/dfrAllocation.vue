@@ -28,6 +28,7 @@
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
+          :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :calculate-constraint-config="calculateConstraintConfig"
@@ -35,14 +36,19 @@
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
           :default-money-unit="10000"
+          :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent && $store.getters.isSx" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div class="table-toolbar-left-title">
-                <span class="fn-inline">直达资金分配表(单位:万元)</span>
+                <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
             </div>
@@ -57,6 +63,7 @@
 <script>
 import getFormData from './dfrAllocation.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/dfrAllocation.js'
+import { querySum, queryCaliberDeclareContent } from '@/api/frame/common/tree/mofDivTree'
 export default {
   watch: {
     $refs: {
@@ -71,12 +78,22 @@ export default {
   },
   data() {
     return {
+      caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
       sDetailData: [],
       isShowQueryConditions: true,
       radioShow: true,
+      tableFooterConfig: {
+        totalObj: {
+          budgetSum: 0,
+          xdamount: 0,
+          payAppAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
+      },
       breakRuleVisible: false,
       // // 头部工具栏 BsTabPanel config
       // toolBarStatusBtnConfig: {
@@ -148,6 +165,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
+        // expandAll: true, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -161,9 +179,6 @@ export default {
       //   currentPage: 1,
       //   pageSize: 20
       // },
-      tableFooterConfig: {
-        showFooter: false
-      },
       // 操作日志
       logData: [],
       showLogView: false,
@@ -345,22 +360,47 @@ export default {
           }
         }
       }
+      this.tableData1[0].speTypeCode = ''
+      this.tableData1[0].children[0].speTypeCode = ''
+      this.tableData1[0].children[1].speTypeCode = ''
       console.log('tabledata1', this.tableData1)
       return this.tableData1
     },
     // 查询 table 数据
     queryTableDatas(val) {
       const param = {
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjfpb',
         speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : ''
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then((res) => {
-        if (res.code === '000000') {
-          if (res.data.data) {
-            this.tableData = this.initTableData(res.data.data)
+      if (this.$store.getters.isSx) {
+        querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.result)
           }
+        })
+      }
+      let axiosQueryUrl = 'queryTableDatas'
+      this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
+      HttpModule[axiosQueryUrl](param).then((res) => {
+        if (res.code === '000000') {
+          this.tableData = res.data
           this.tableLoading = false
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'zdzjfpb'
+      }
+      this.tableLoading = true
+      queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
         } else {
           this.$message.error(res.message)
         }
@@ -374,12 +414,13 @@ export default {
     }
   },
   created() {
-    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
+    this.$store.getters.isSx && this.queryCaliberDeclareContent()
   }
 }
 </script>

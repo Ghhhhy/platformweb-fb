@@ -128,6 +128,7 @@
                       <!--  />-->
                       <!--</el-select>-->
                       <BsTree
+                        :key="refleshKey"
                         v-model="businessFunctionCodeModal"
                         :is-drop-select-tree="true"
                         :editable="true"
@@ -251,6 +252,28 @@
                 </el-container>
               </el-col>
             </el-row>
+            <el-col v-if="sx" :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
+                    <el-select
+                      v-model="warnLocation"
+                      :disabled="disabled"
+                      placeholder="请选择提醒位置"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnLocationOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -353,7 +376,7 @@
                         :disabled="disabled"
                         :rows="2"
                         :maxlength="200"
-                        placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
+                        placeholder="请输入预警提示"
                         style=" width:90%"
                       />
                     </el-row>
@@ -534,6 +557,8 @@ export default {
   },
   data() {
     return {
+      refleshKey: Date.now(),
+      sx: this.$store.getters.isSx,
       warnType: '',
       warnTypeOptions: [
         { value: '1', label: '流向' },
@@ -641,6 +666,12 @@ export default {
       triggerClassoptions: [
         { value: 1, label: '实时触发' },
         { value: 2, label: '定时触发' }
+      ],
+      warnLocation: 3,
+      warnLocationOptions: [
+        { value: 1, label: '门户' },
+        { value: 2, label: '核算' },
+        { value: 3, label: '不提示' }
       ],
       ruleDisabled: false,
       formItemsConfigMessage: proconf.formItemsConfigMessage,
@@ -1083,6 +1114,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       let self = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1096,7 +1128,7 @@ export default {
       let regulationType = this.$store.state.curNavModule.f_FullName.substring(0, 3)
       // let regulationType = this.$parent.DetailData.regulationType
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
@@ -1141,6 +1173,7 @@ export default {
           //   tempArr.push(str)
           // })
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
           console.log(this.treeData, 'ddddd')
         }
       })
@@ -1164,7 +1197,7 @@ export default {
       let param = { operate: operate, menuName: this.$store.state.curNavModule.name, regulationCodes: [this.$parent.DetailData.regulationCode], ruleFlowOpinion: this.ruleFlowOpinion }
       HttpModule.audieData(param).then(res => {
         if (res.code === '000000') {
-          this.$message.warning('操作成功')
+          this.$message.success('操作成功')
           console.log(this.paymentLen)
           this.formItemsConfigMessage.splice(1, this.paymentLen)
           this.paymentLen = 0
@@ -1338,7 +1371,7 @@ export default {
     this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
     this.mountTableData = this.$parent.DetailData.regulationConfig
     this.ruleFlag = this.$parent.DetailData.ruleFlag
-    // this.warnLocation = this.$parent.DetailData.warnLocation
+    this.warnLocation = this.$parent.DetailData.warnLocation
     this.policiesDescription = this.$parent.DetailData.warningTips
     // 不可编辑
     // this.buttonConfig = {}
@@ -1405,8 +1438,6 @@ export default {
     }
     this.regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
     this.getSysLists()
-    this.getDepLists()
-    this.getRegulation()
   }
 }
 </script>

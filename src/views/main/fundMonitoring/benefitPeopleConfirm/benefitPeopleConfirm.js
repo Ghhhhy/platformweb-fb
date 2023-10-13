@@ -340,6 +340,14 @@ export let proconf = {
   ],
   PoliciesTableColumns1: (ctx) => [
     {
+      title: '资金名称',
+      width: 180,
+      field: 'trackProName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
       title: '金额(元)',
       width: 180,
       field: 'payAmt',
@@ -352,6 +360,37 @@ export let proconf = {
       title: '支付凭证号',
       width: 180,
       field: 'payCertNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '姓名',
+      width: 180,
+      field: 'perName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    }, {
+      title: '证件号码',
+      width: 180,
+      field: 'idenNo',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '企业名称',
+      width: 180,
+      field: 'corpName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '统一社会信用代码',
+      width: 180,
+      field: 'unifsocCredCode',
       sortable: false,
       filters: false,
       align: 'center'

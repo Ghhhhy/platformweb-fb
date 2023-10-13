@@ -14,6 +14,21 @@
           {{ item }}
         </div>
       </div>
+      <div v-show="!disabled" style="width:100%;height: 80px;margin:0 15px">
+        <div type="flex" justify="end">
+          <div style="width:100%">
+            <vxe-button
+              id="savebutton"
+              v-deClick
+              :loading="submitLoading"
+              style="float:right;margin-right:35px"
+              status="primary"
+              @click="doInsert"
+            >保存</vxe-button>
+            <vxe-button style="float:right;margin-right:20px" @click="dialogClose">取消</vxe-button>
+          </div>
+        </div>
+      </div>
     </div>
     <!--模板信息-->
     <div v-show="ruleSetShow" class="payVoucherInput" style="margin-top:50px;">
@@ -35,9 +50,10 @@
             :footer-config="{ showFooter: false }"
             :table-columns-config="monitorTableColumnsConfig"
             :table-data="operationTableData"
-            :table-config="tableConfig"
-            :toolbar-config="buttonConfig"
+            :table-config="globalConfig"
+            :toolbar-config="toolbarConfig"
             :pager-config="false"
+            @onToolbarBtnClick="onToolbarBtnClick"
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
@@ -158,6 +174,7 @@
                     <!--</el-select>-->
                     <BsTree
                       ref="businessFunctionCodeModalRef"
+                      :key="refleshKey"
                       v-model="businessFunctionCodeModal"
                       :is-drop-select-tree="true"
                       :editable="true"
@@ -329,28 +346,28 @@
                 </el-main>
               </el-container>
             </el-col>
-            <!--<el-col :span="8">-->
-            <!--  <el-container>-->
-            <!--    <el-main width="100%">-->
-            <!--      <el-row>-->
-            <!--        <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>-->
-            <!--        <el-select-->
-            <!--          v-model="warnLocation"-->
-            <!--          :disabled="disabled"-->
-            <!--          placeholder="请选择提醒位置"-->
-            <!--          style="width:45%"-->
-            <!--        >-->
-            <!--          <el-option-->
-            <!--            v-for="item in warnLocationOptions"-->
-            <!--            :key="item.value"-->
-            <!--            :label="item.label"-->
-            <!--            :value="item.value"-->
-            <!--          />-->
-            <!--        </el-select>-->
-            <!--      </el-row>-->
-            <!--    </el-main>-->
-            <!--  </el-container>-->
-            <!--</el-col>-->
+            <el-col v-if="sx" :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;提醒位置</div>
+                    <el-select
+                      v-model="warnLocation"
+                      :disabled="disabled"
+                      placeholder="请选择提醒位置"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in warnLocationOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -395,7 +412,6 @@
                 </el-main>
               </el-container>
             </el-col>
-
           </el-row>
           <el-row>
             <el-col :span="24">
@@ -409,7 +425,7 @@
                       :disabled="disabled"
                       :rows="2"
                       :maxlength="200"
-                      placeholder="请使用英文逗号“,”隔开进行填写，例如：楼阁修建,高尔夫球场,名画；"
+                      placeholder="请填写预警提示"
                       style=" width:90%"
                     />
                   </el-row>
@@ -417,52 +433,44 @@
               </el-container>
             </el-col>
           </el-row>
-          <!-- <el-row>
-            <el-col :span="8">
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;主管部门</div>
-                    <el-select
-                      v-model="departmentCode"
-                      placeholder="请选择主管部门"
-                      style="width:45%"
-                      @change="changeDepartmentCode"
-                    >
-                      <el-option
-                        v-for="item in departmentCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则描述</div>
+                    <el-input
+                      v-model="fiRuleDesc"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      placeholder="请填写规则描述"
+                      style=" width:90%"
+                    />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
-            <el-col :span="8">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;业务处室</div>
-                    <el-select
-                      v-model="manageCode"
-                      placeholder="请选择业务处室"
-                      style="width:45%"
-                      @change="changeManageCode"
-                    >
-                      <el-option
-                        v-for="item in manageCodeoptions"
-                        :key="item.id"
-                        :label="item.businessName"
-                        :value="item.id"
-                      />
-                    </el-select>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;规则依据</div>
+                    <el-input
+                      v-model="implDesc"
+                      type="textarea"
+                      :disabled="disabled"
+                      :rows="2"
+                      placeholder="请填写规则依据"
+                      style=" width:90%"
+                    />
                   </el-row>
                 </el-main>
               </el-container>
             </el-col>
-          </el-row> -->
+          </el-row>
         </div>
       </div>
       <div style="margin-bottom: 10px; color: red">
@@ -555,7 +563,8 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'id', label: 'name',children: 'children' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
                 </el-row>
@@ -564,7 +573,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-show="!disabled" slot="footer" style="width:100%;height: 80px;margin:0 15px">
+      <!-- <div v-show="!disabled" slot="footer" style="width:100%;height: 80px;margin:0 15px">
         <div v-if="showbox" id="bigbox"></div>
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="end">
@@ -573,7 +582,7 @@
             <el-button style="float:right;margin-right:20px" @click="dialogClose">取消</el-button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </vxe-modal>
 </template>
@@ -590,6 +599,29 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    toolbarConfig() {
+      return {
+        disabledMoneyConversion: false,
+        moneyConversion: false, // 是否有金额转换
+        import: false,
+        checkType: this.title !== '查看详情',
+        refresh: this.title !== '查看详情'
+      }
+    },
+    globalConfig() {
+      let config = { // 全局默认渲染列配置
+        // 全局配置
+        checkType: '', // hasCheckbox 可选值 ''||checkbox||radio
+        seq: false // 序号列
+      }
+      if (this.title === '查看详情') {
+        return {
+          ...config,
+          ...this.tableConfig
+        }
+      }
+      return this.tableConfig
     }
   },
   props: {
@@ -600,28 +632,16 @@ export default {
   },
   data() {
     return {
+      refleshKey: Date.now(),
       submitLoading: false,
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
         mode: 'cell'
       },
+      sx: this.$store.getters.isSx,
       disabled: false,
-      toolbarConfig: {
-        batchModify: false,
-        moneyConversion: false, // 是否有金额转换,
-        disabledMoneyConversion: false,
-        import: false,
-        calculator: false,
-        slots: {
-          tools: 'toolbarTools',
-          buttons: 'toolbarSlots'
-        },
-        buttons: [
-          { code: 'sure', name: '确定', status: 'primary', callback: this.sureButton },
-          { code: 'cancel', name: '取消', status: '', callback: this.cancelButton }
-        ]
-      },
+
       editRulesIn: {
         param: [{ required: true, type: 'float', trigger: 'change', message: '请输入规则定义的参数值' }]
       },
@@ -739,6 +759,8 @@ export default {
       fiRuleTypeCodeName: '',
       policiesName: '',
       policiesDescription: '',
+      fiRuleDesc: '',
+      implDesc: '',
       dialogVisible: true,
       addLoading: false,
       token: '',
@@ -913,6 +935,8 @@ export default {
         this.handleType = 3
       } else if (val === 4) {
         this.handleType = 4
+      } else if (val === 5) {
+        this.handleType = 5
       }
     },
     choosehandleType(val) {
@@ -924,12 +948,14 @@ export default {
         this.warningLevel = 3
       } else if (val === 4) {
         this.warningLevel = 4
+      } else if (val === 5) {
+        this.warningLevel = 5
       }
     },
     chooseTriggerClass(val) {
       if (val === 2) {
-        this.warningLevel = 4
-        this.handleType = 4
+        this.warningLevel = 5
+        this.handleType = 5
       }
       if (val === 1) {
         this.warningLevel = 1
@@ -1069,6 +1095,7 @@ export default {
               agencyCode: ''
             }
             obj.mofDivId = item.id
+            obj.agencyCode = item.code
             arr.push(obj)
           }
         })
@@ -1211,6 +1238,10 @@ export default {
       this.$parent.dialogVisible = false
       this.$parent.dialogVisibleRules = false
       this.$parent?.queryTableDatas?.()
+      // 重置
+      this.searchDataList.ruleTemplateName = ''
+      this.searchDataList.businessSystemName = ''
+      this.searchDataList.businessModuleName = ''
     },
     // 处理字符串
     dealwithStr(str) {
@@ -1272,7 +1303,10 @@ export default {
     getChildrenNewData1(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text
+        item.label = item.name
+        item.code = item.id
+        item.guid = item.id
+        // item.name = item.text
         item.disabled = true
         if (item.children) {
           that.getChildrenNewData1(item.children)
@@ -1283,6 +1317,7 @@ export default {
     },
     // 获取生效范围
     getWhereTree() {
+      this.defaultCheckedKeys = []
       // let that = this
       let result = this.dealwithStr(this.$store.state.userInfo.province)
       // this.$store.state.userInfo.orgCode
@@ -1295,7 +1330,7 @@ export default {
       }
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
-        param.elementCode = 'AGENCY'
+        param.elementCode = 'DEPARTMENT'
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
@@ -1314,6 +1349,7 @@ export default {
               label: '全部',
               code: 'root',
               isleaf: '0',
+              disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',
               children: this.$parent.dialogTitle === '查看详情' ? this.getChildrenNewData1(res.data) : this.getChildrenNewData(res.data)
             }
@@ -1341,18 +1377,78 @@ export default {
           // })
           console.log(tempArr)
           this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          this.defaultCheckedKeys = tempArr
         } else {
           let tempArr = []
-          tempArr.push('B99903EABA534E01AFB5E4829A5A0054')
-          this.$refs.rightTree.treeOptionFn().setCheckedKeys(tempArr)
+          tempArr.push('root')
+          let arr = []
+          this.scope = this.getArr(this.treeData, arr)
+          if (regulationType === '部门级') {
+            arr = []
+            this.scope = this.getArr(this.treeData, arr)
+          } else if (regulationType === '财政级') {
+            arr = []
+            this.scope = this.getArr1(this.treeData, arr)
+            console.log(this.scope)
+          }
+          this.$nextTick(() => {
+            let dataArr = []
+            this.scope.forEach(item => {
+              let str = ''
+              if (regulationType !== '系统级') {
+                str = item.agencyId.toString()
+              } else {
+                str = item.mofDivId.toString()
+              }
+              dataArr.push(str)
+            })
+            this.$refs.rightTree.treeOptionFn().setCheckedKeys(dataArr)
+            this.defaultCheckedKeys = dataArr
+          })
         }
       })
+    },
+    getArr(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: item.code,
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.code
+          obj.agencyCode = item.code
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr(item.children, arr)
+        }
+      })
+      return arr
+    },
+    getArr1(data, arr) {
+      data.forEach(item => {
+        if (item.isleaf) {
+          let obj = {
+            mofDivCode: '',
+            agencyCode: '',
+            mofDivId: item.id
+          }
+          obj.agencyId = item.id
+          obj.agencyCode = item.code
+          arr.push(obj)
+        }
+        if (item.children) {
+          this.getArr1(item.children, arr)
+        }
+      })
+      return arr
     },
     // 保存新增的计划信息
     doInsert() {
       // 校验判断
       let datas = this.$refs.monitorTableRef.getSelectionData()
-      if (this.$parent.dialogTitle !== '修改' && datas.length !== 1) {
+      if (this.$parent.dialogTitle !== '修改' && this.$parent.dialogTitle !== '复制' && datas.length !== 1) {
         this.$XModal.message({ status: 'warning', message: '请选择一条模板信息！' })
         return
       }
@@ -1400,6 +1496,14 @@ export default {
         this.$message.warning('请选择业务模块')
         return
       }
+      if (!this.fiRuleDesc) {
+        this.$XModal.message({ status: 'warning', message: '请填写规则描述！' })
+        return
+      }
+      if (!this.implDesc) {
+        this.$XModal.message({ status: 'warning', message: '请填写规则依据！' })
+        return
+      }
       if (this.businessModuleName === null) {
         this.$message.warning('请选择业务模块')
         return
@@ -1424,8 +1528,9 @@ export default {
         this.$XModal.message({ status: 'warning', message: '请选择预警提示！' })
         return
       }
-      if (this.monitorRuleName.length > 100) {
-        this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于50位' })
+      console.log('this.monitorRuleName.length', this.monitorRuleName.length)
+      if (this.monitorRuleName.length > 120) {
+        this.$XModal.message({ status: 'warning', message: '规则名称长度应小于等于120位' })
         return
       }
       if (this.policiesDescription.length > 200) {
@@ -1549,12 +1654,14 @@ export default {
         'regulationModelCode': that.regulationModelCode, // 模板编码
         'regulationModelName': that.crTemplate, // 模板名称
         'warningTips': that.policiesDescription, // 预警提示
+        fiRuleDesc: that.fiRuleDesc,
+        implDesc: that.implDesc,
         'regulationStatus': this.$parent.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'regulationConfig': datas1,
         'regulationScope': that.scope, // 规则生效范围{mofDivCode: '', angencyCode: ''}
         menuName: this.$store.state.curNavModule.name,
         'ruleFlag': that.ruleFlag,
-        // 'warnLocation': that.warnLocation,
+        'warnLocation': that.warnLocation,
         isFull: isFull,
         ruleElement: {
           payment: formDatas.payment,
@@ -1585,6 +1692,7 @@ export default {
         param.regulationCode = this.$parent.DetailData.regulationCode
         HttpModule.updateData(param).then(res => {
           if (res.code === '000000') {
+            this.dialogVisible = false
             that.$message.success('修改成功')
             this.formItemsConfigMessage.splice(1, this.paymentLen)
             this.paymentLen = 0
@@ -1607,6 +1715,7 @@ export default {
       } else {
         HttpModule.addData(param).then(res => {
           if (res.code === '000000') {
+            this.dialogVisible = false
             that.$message.success('新增成功')
             this.formItemsConfigMessage.splice(1, this.paymentLen)
             this.paymentLen = 0
@@ -1783,6 +1892,18 @@ export default {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    onToolbarBtnClick({ context, table, code }) {
+      switch (code) {
+        // 刷新
+        case 'refresh':
+          this.refresh()
+          break
+      }
+    },
+    // 刷新按钮 刷新查询栏，提示刷新 table 数据
+    refresh() {
+      this.getTableData()
     }
   },
   watch: {
@@ -1864,19 +1985,22 @@ export default {
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
+      this.warnLocation = this.$parent.DetailData.warnLocation
       this.policiesDescription = this.$parent.DetailData.warningTips
+      this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
+      this.implDesc = this.$parent.DetailData.implDesc
       // 不可编辑
       // this.buttonConfig = {}
       this.disabled = true
       this.editConfig = false
-    } else if (this.$parent.dialogTitle === '修改') {
+    } else if (this.$parent.dialogTitle === '修改' || this.$parent.dialogTitle === '复制') {
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag
-      // this.warnLocation = this.$parent.DetailData.warnLocation
+      this.warnLocation = this.$parent.DetailData.warnLocation
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
+      this.regulationModelName = this.$parent.DetailData.regulationModelName
       // this.regulationClass = this.$parent.DetailData.regulationClass
       this.getRegulation()
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
@@ -1900,7 +2024,7 @@ export default {
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
-      this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
+      this.regulationModelCode = this.$parent.DetailData.regulationModelCode
       this.mountTableData = this.$parent.DetailData.regulationConfig
       this.fiRuleTypeCode = this.$parent.DetailData.ruleTemplate.fiRuleTypeCode
       this.fiRuleTypeName = this.$parent.DetailData.ruleTemplate.fiRuleTypeName
@@ -1910,6 +2034,8 @@ export default {
         this.fiRuleTypeCodeName = ''
       }
       this.policiesDescription = this.$parent.DetailData.warningTips
+      this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
+      this.implDesc = this.$parent.DetailData.implDesc
       this.scope = this.$parent.DetailData.regulationScope
     }
     if (this.$parent.dialogTitle !== '新增') {

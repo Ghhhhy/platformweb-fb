@@ -41,7 +41,6 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <div class="table-toolbar-contro-leftvisible"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -63,7 +62,7 @@
     <el-dialog title="确定要撤销选中数据吗？" width="600px" :visible.sync="dialogTableVisible">
       <div slot="footer" class="dialog-footer">
         <el-input v-model="drawInformation" type="textarea" :rows="2" placeholder="请输入内容" />
-        <el-button type="primary" @click="mulWithdraw">确定</el-button>
+        <el-button v-deClick v-loading="tableLoading" type="primary" @click="mulWithdraw">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -77,6 +76,7 @@ import MonitProcFeedbackModal from './monitProcFeedbackModal.vue'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 import AddDialog from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/addDialog.vue'
 export default {
+  name: 'MonitProcFeedback',
   mixins: [loadBsConfig],
   components: {
     MonitProcFeedbackModal,
@@ -660,7 +660,8 @@ export default {
       HttpModule.getMofTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
-          this.$set(this.queryConfig[0].itemRender, 'options', treeResdata)
+          let index = this.queryConfig.findIndex(item => item.field.indexOf('mofDivCode') > -1)
+          this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
@@ -679,7 +680,8 @@ export default {
       }
       api.getTreeAgency(param).then(res => {
         let treeResdata = res.data
-        this.queryConfig[0].itemRender.options = treeResdata
+        let index = this.queryConfig.findIndex(item => item.field.indexOf('agencyCode') > -1)
+        this.queryConfig[index].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {
@@ -780,20 +782,4 @@ float: right;
  .createProcessing .unit-tree-main .el-tree-node__content .custom-node-bg{
   background-color: transparent !important;
 } */
-
-.warningLevel2{
-  color: red;
-}
-.warningLevel2{
-  color:#FF6F20
-}
-.warningLevel3{
-  color: #FFD43C;
-}
-.warningLevel4{
-  color: blue;
-}
-.warningLevel5{
-  color: #F1F1F1;
-}
 </style>

@@ -39,7 +39,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
-              <!-- <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div> -->
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -68,6 +68,20 @@ import HttpModule from '@/api/frame/main/baseConfigManage/ThreeGuaranteesSummary
 export default {
   components: {
     AddDialog
+  },
+  computed: {
+    treeQueryparamsCom() {
+      let obj = this.treeQueryparams
+      let budgetlevelcode = this.$store.state.userInfo.budgetlevelcode
+      if (budgetlevelcode === '4') { // 市级
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 4) + '%\''
+      } else if (budgetlevelcode === '5') { // xianji
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 6) + '%\''
+      } else if (budgetlevelcode === '2') { // sheng ji
+        obj.wheresql = 'and code like \'' + this.$store.state.userInfo.province.slice(0, 2) + '%\''
+      }
+      return obj
+    }
   },
   watch: {
     queryConfig() {
@@ -185,7 +199,7 @@ export default {
       dataSourceCode: '',
       param: '',
       dataId: '',
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
       mofDivCodeList: []
     }
   },
@@ -600,23 +614,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
-        params = {
-          elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else {
-        params = {
-          elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      HttpModule.getLeftTree(params).then(res => {
+      HttpModule.getLeftTree(that.treeQueryparamsCom).then(res => {
         if (res.rscode === '100000') {
           console.log(this.queryConfig)
           let treeResdata = that.getRegulationChildrenData(res.data)

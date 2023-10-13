@@ -75,5 +75,24 @@ align-items: center;
 .timeRefreshTip{
   height: 100%;
   line-height: 32px;
-  width: 600px;
+  width: 650px;
+  color: red;
+}
+.vxe-toolbar .vxe-button--wrapper{
+  justify-content: flex-start !important;
+}
+.warningLevel3{//红色预警
+  color: red !important;
+}
+.warningLevel2{//橙色
+  color:#FF6F20 !important;
+}
+.warningLevel1{//黄色预警
+  color: #FFD43C !important;
+}
+.warningLevel5{//蓝色
+  color: blue !important;
+}
+.warningLevel4{//灰色
+  color: #F1F1F1 !important;
 }

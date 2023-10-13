@@ -340,6 +340,15 @@ export default {
         }
       })
     },
+    copyData(val) {
+      HttpModule.getDetailData(val).then(res => {
+        if (res.code === '000000') {
+          this.DetailData = res.data
+          this.dialogVisible = true
+          this.dialogTitle = '复制'
+        }
+      })
+    },
     getDetail(val) {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
@@ -409,6 +418,15 @@ export default {
           }
           this.formDatas = datas2[0].ruleElement
           this.changeData(datas2[0].regulationCode)
+          break
+        case 'copy':
+          let datas4 = this.$refs.mainTableRef.getSelectionData()
+          if (datas4.length !== 1) {
+            this.$message.warning('请选择一条数据')
+            return
+          }
+          this.formDatas = datas4[0].ruleElement
+          this.copyData(datas4[0].regulationCode)
           break
         // 删除
         case 'del':
@@ -551,14 +569,15 @@ export default {
       const params = {
         regulationType: regulationType,
         id: this.condition.agency_code,
-        'warningLevel': this.warningLevel, // 预警级别
+        warningLevel: this.warningLevel, // 预警级别
         'handleType': this.handleType, // 处理方式
         'businessModelCode': '', // 业务模块
         'businessFeaturesCode': '', // 业务功能
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
-        regulationClass: this.regulationClass,
+        regulationName: this.regulationName,
+        regulationClass: this.regulationClass ? this.regulationClass : this.transJson(this.$store.state.curNavModule?.param5).regulationClass,
+        code: this.condition.agency_code,
         menuType: 1
       }
       HttpModule.queryTableDatasCount(params).then(res => {
@@ -586,13 +605,14 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         'regulationType': regulationType, // 规则类型：1.系统级  2.财政级  3.部门级
-        'warningLevel': this.warningLevel, // 预警级别
+        warningLevel: this.warningLevel, // 预警级别
         'handleType': this.handleType, // 处理方式
         'businessModelCode': '', // 业务模块
         'businessFeaturesCode': '', // 业务功能
         'regulationStatus': this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
         'isEnable': this.isEnable,
-        'regulationName': this.regulationName,
+        regulationName: this.regulationName,
+        fiRuleTypeCodeName: this.fiRuleTypeCodeName,
         regulationClass: this.regulationClass,
         id: this.condition.agency_code,
         menuType: 1
@@ -607,6 +627,23 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          // TODO
+          // if (this.$store.getters.isSx) {
+          //   this.tableData.forEach(item => {
+          //     if (item.warningLevel === 1) {
+          //       item.warningLevel = '<span style="color:#BBBB00">黄色预警</span>'
+          //     } else if (item.warningLevel === 2) {
+          //       item.warningLevel = '<span style="color:orange">橙色预警</span>'
+          //     } else if (item.warningLevel === 3) {
+          //       item.warningLevel = '<span style="color:red">红色预警</span>'
+          //     } else if (item.warningLevel === 5) {
+          //       item.warningLevel = '<span style="color:blue">蓝色预警</span>'
+          //     } else if (item.warningLevel === 4) {
+          //       item.warningLevel = '<span style="color:gray">灰色预警</span>'
+          //     }
+          //   })
+          // }
+
           this.mainPagerConfig.total = res.data.totalCount
           this.queryTableDatasCount()
         } else {
@@ -711,6 +748,9 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name.substring(0, 5)
     this.setMonitorThemeTreeShow()
+    if (this.$store.state.curNavModule.f_FullName.substring(0, 3) === '系统级') { // 系统级别去掉触发菜单
+      this.PoliciesTableColumns.splice(this.PoliciesTableColumns.findIndex(item => item.field === 'businessFunctionName'), 1)
+    }
     // this.queryTableDatas()
   }
 }

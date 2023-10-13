@@ -1,137 +1,147 @@
 <!--处理弹框-->
 <template>
-  <vxe-modal
-    v-model="dialogHsVisible"
-    :title="title"
-    width="96%"
-    height="90%"
-    :show-footer="true"
-    @close="dialogClose"
-  >
-    <div v-loading="addLoading" class="payVoucherInput">
-      <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">规则信息</div>
-      <BsTable
-        ref="handleTableRef"
-        height="200px"
-        :footer-config="false"
-        :table-columns-config="handletableColumnsConfig"
-        :table-data="handletableData"
-        :table-config="handletableConfig"
-        :toolbar-config="false"
-        :pager-config="false"
-      />
-      <div>
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">凭证信息</div>
-        <BsForm
-          ref="incomeMsgRef"
-          :form-items-config="incomeMsgConfig"
-          :form-data-list="supplyDataList"
-          :form-config="formConfig"
+  <div>
+    <vxe-modal
+      v-model="dialogHsVisible"
+      :title="title"
+      width="96%"
+      height="90%"
+      :show-footer="true"
+      @close="dialogClose"
+    >
+      <div v-loading="addLoading" class="payVoucherInput">
+        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">规则信息</div>
+        <BsTable
+          ref="handleTableRef"
+          height="200px"
+          :footer-config="false"
+          :table-columns-config="handletableColumnsConfig"
+          :table-data="handletableData"
+          :table-config="handletableConfig"
+          :toolbar-config="false"
+          :pager-config="false"
+          @cellClick="cellClick"
         />
-      </div>
-      <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
-      <BsTable
-        ref="handleTableRef"
-        height="200px"
-        :footer-config="false"
-        :table-columns-config="handletableColumnsHsConfig"
-        :table-data="handletableHsData"
-        :table-config="handletableConfig"
-        :toolbar-config="false"
-        :pager-config="false"
-      />
-      <div style="margin-top:10px">
-        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">处理信息</div>
-        <el-row>
-          <el-col :span="12">
-            <el-container>
-              <el-main width="100%">
-                <el-row>
-                  <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理结果</div>
-                  <el-select
-                    v-model="handleResult"
-                    :disabled="edit"
-                    placeholder="处理结果"
-                    style="width:45%"
-                  >
-                    <el-option
-                      v-for="item in handleResultoptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    />
-                  </el-select>
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-          <el-col v-if="showbtn === false" :span="12">
-            <el-container>
-              <el-main width="100%">
-                <el-row>
-                  <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理人</div>
-                  <el-input
-                    v-model="handlePersonName"
-                    :disabled="edit"
-                    placeholder="处理人"
-                    style="width:45%"
-                  />
-                  </el-select>
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-          <el-col v-if="showbtn === false" :span="12">
-            <el-container>
-              <el-main width="100%">
-                <el-row>
-                  <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理时间</div>
-                  <el-input
-                    v-model="handleTime"
-                    :disabled="edit"
-                    placeholder="处理时间"
-                    style="width:45%"
-                  />
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-          <el-col :span="24">
-            <el-container>
-              <el-main width="100%">
-                <el-row>
-                  <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理意见</div>
-                  <el-input
-                    v-model="handleDesc"
-                    :disabled="edit"
-                    placeholder="处理意见"
-                    style="width:90%"
-                  />
-                </el-row>
-              </el-main>
-            </el-container>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <div slot="footer" style="height: 80px;margin:0 15px">
-      <div v-if="showbox" id="bigbox"></div>
-      <el-divider style="color:#E7EBF0" />
-      <div type="flex" justify="space-around">
         <div>
-          <vxe-button @click="dialogClose">取消</vxe-button>
-          <vxe-button v-if="showbtn === true" id="savebutton" status="primary" @click="doInsert">确定</vxe-button>
+          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">凭证信息</div>
+          <BsForm
+            ref="incomeMsgRef"
+            :form-items-config="incomeMsgConfig"
+            :form-data-list="supplyDataList"
+            :form-config="formConfig"
+          />
+        </div>
+        <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+        <BsTable
+          ref="handleTableRef"
+          height="200px"
+          :footer-config="false"
+          :table-columns-config="handletableColumnsHsConfig"
+          :table-data="handletableHsData"
+          :table-config="handletableConfig"
+          :toolbar-config="false"
+          :pager-config="false"
+        />
+        <div style="margin-top:10px">
+          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">处理信息</div>
+          <el-row>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理结果</div>
+                    <el-select
+                      v-model="handleResult"
+                      :disabled="edit"
+                      placeholder="处理结果"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in handleResultoptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col v-if="showbtn === false" :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理人</div>
+                    <el-input
+                      v-model="handlePersonName"
+                      :disabled="edit"
+                      placeholder="处理人"
+                      style="width:45%"
+                    />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col v-if="showbtn === false" :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理时间</div>
+                    <el-input
+                      v-model="handleTime"
+                      :disabled="edit"
+                      placeholder="处理时间"
+                      style="width:45%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="24">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;处理意见</div>
+                    <el-input
+                      v-model="handleDesc"
+                      :disabled="edit"
+                      placeholder="处理意见"
+                      style="width:90%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
         </div>
       </div>
-    </div>
-  </vxe-modal>
+      <div slot="footer" style="height: 80px;margin:0 15px">
+        <div v-if="showbox" id="bigbox"></div>
+        <el-divider style="color:#E7EBF0" />
+        <div type="flex" justify="space-around">
+          <div>
+            <vxe-button @click="dialogClose">取消</vxe-button>
+            <vxe-button v-if="showbtn === true" id="savebutton" status="primary" @click="doInsert">确定</vxe-button>
+          </div>
+        </div>
+      </div>
+    </vxe-modal>
+    <AddDialog
+      v-if="dialogVisibleShow"
+      :title="dialogTitle"
+    />
+  </div>
 </template>
 <script>
 import { proconf } from '../BudgetAccountingWarningDataMager.js'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
+import AddDialog from './addDialog'
 export default {
   name: 'HandleDialog',
-  components: {},
+  components: {
+    AddDialog
+  },
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
@@ -159,8 +169,10 @@ export default {
       handleTime: '',
       handleDesc: '',
       handleResultoptions: [
-        { value: '1', label: '通过' },
-        { value: '2', label: '退回' }
+        { value: '1', label: '放行' },
+        { value: '2', label: '改正' },
+        { value: '3', label: '禁止' },
+        { value: '4', label: '作废' }
       ],
       handletableData: [],
       handletableHsData: [],
@@ -194,7 +206,10 @@ export default {
       fileDataBakDel: [],
       attachmentId: '',
       showbox: false,
-      showbtn: false
+      showbtn: false,
+      dialogVisibleShow: false,
+      dialogTitle: '查看详情',
+      DetailData: {}
     }
   },
   methods: {
@@ -276,6 +291,32 @@ export default {
           }
         })
       }
+    },
+    cellClick(obj, context, e) {
+      console.log(obj)
+      let key = obj.column.property
+      switch (key) {
+        case 'regulationName':
+          HttpModule.getDetailData(obj.row.regulationCode).then((res) => {
+            if (res.code === '000000') {
+              this.DetailData = res.data
+              this.dialogTitle = '查看详情'
+              this.dialogVisibleShow = true
+            }
+          })
+          break
+        default:
+          break
+      }
+    },
+    getDetail(val) {
+      HttpModule.getDetailData(val).then(res => {
+        if (res.code === '000000') {
+          this.DetailData = res.data
+          this.dialogVisibleShow = true
+          this.dialogTitle = '查看详情'
+        }
+      })
     }
   },
   watch: {

@@ -24,6 +24,8 @@ export let proconf = {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' },
+      { code: 'copy', label: '复制' },
+      { code: 'check', label: '查看详情' },
       { code: 'del', label: '删除' }
     ]
   },
@@ -31,6 +33,8 @@ export let proconf = {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
       { code: 'change', label: '修改' },
+      { code: 'copy', label: '复制' },
+      { code: 'check', label: '查看详情' },
       { code: 'del', label: '删除' }
     ]
   },
@@ -54,10 +58,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'left',
-      width: 150,
-      formatter({ row }) {
-        return row.fiRuleTypeCode && row.fiRuleTypeName ? `${(row.fiRuleTypeCode + '').slice(0, 1) === '1' ? '中央' : '地方'}-${row.fiRuleTypeName}` : ''
-      }
+      width: 150
     },
     {
       title: '事项名称',
@@ -312,6 +313,7 @@ export let proconf = {
         name: '$vxeSelect',
         options: [
           { value: '预算执行', label: '预算执行' },
+          { value: '预算管理', label: '预算管理' },
           { value: '单位核算', label: '单位核算' }
         ],
         props: {
@@ -397,14 +399,6 @@ export let proconf = {
           {
             'value': '2',
             'label': '自定义SQL'
-          },
-          {
-            'value': '3',
-            'label': '自定义接口'
-          },
-          {
-            'value': '4',
-            'label': '自定义校验接口'
           }
         ],
         'defaultValue': '',

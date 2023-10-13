@@ -8,7 +8,7 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           ref="tabPanel"
-          :is-open="isShowQueryConditions"
+          is-open
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
@@ -20,7 +20,6 @@
             ref="queryFrom"
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
-            @onSearchResetClick="reset"
             @onSearchClick="search"
           />
         </div>
@@ -43,7 +42,7 @@
         <BsBossTree
           ref="leftTree"
           v-loading="treeLoadingState"
-          :defaultexpandedkeys="['root']"
+          :defaultexpandedkeys="['root','1DB3224A3EDC4227BE18604A99D6507D']"
           style="overflow: hidden"
           :is-server="false"
           :ajax-type="treeAjaxType"
@@ -55,42 +54,49 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 50%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
-            </div>
-          </template>
-        </BsTable>
-        <BsTable
-          ref="mainTableRef1"
-          v-loading="tableLoading2"
-          style="height: 50%"
-          :footer-config="tableFooterConfig1"
-          :table-columns-config="tableColumnsConfig1"
-          :table-data="tableData1"
-          :table-config="tableConfig1"
-          :pager-config="mainPagerConfig1"
-          :toolbar-config="tableToolbarConfig1"
-          @onToolbarBtnClick="onToolbarBtnClick1"
-          @ajaxData="ajaxTableData1"
-          @cellClick="cellClick"
-        />
+        <div style="height: 100%; overflow-y: hidden;">
+          <BsSplitPane
+            split="horizontal"
+            :min-percent="0"
+          >
+            <template slot="paneL">
+              <BsTable
+                ref="mainTableRef"
+                v-loading="tableLoading1"
+                style="height: calc(100% - 10px)"
+                :footer-config="tableFooterConfig"
+                :table-columns-config="tableColumnsConfig"
+                :default-money-unit="10000"
+                :table-data="tableData"
+                :table-config="tableConfig"
+                :pager-config="mainPagerConfig"
+                :toolbar-config="tableToolbarConfig"
+                @checkboxChange="checkboxChange"
+                @checkboxAll="checkboxChange"
+                @onToolbarBtnClick="onToolbarBtnClick"
+                @ajaxData="ajaxTableData"
+                @cellClick="cellClick"
+              />
+            </template>
+            <template slot="paneR">
+              <BsTable
+                ref="mainTableRef1"
+                v-loading="tableLoading2"
+                style="height: calc(100% - 10px); position: relative; z-index: 10"
+                :footer-config="tableFooterConfig1"
+                :table-columns-config="tableColumnsConfig1"
+                :table-data="tableData1"
+                :table-config="tableConfig1"
+                :default-money-unit="10000"
+                :pager-config="mainPagerConfig1"
+                :toolbar-config="tableToolbarConfig1"
+                @onToolbarBtnClick="onToolbarBtnClick1"
+                @ajaxData="ajaxTableData1"
+                @cellClick="cellClick"
+              />
+            </template>
+          </BsSplitPane>
+        </div>
       </template>
     </BsMainFormListLayout>
   </div>
@@ -131,7 +137,7 @@ export default {
           datatype: '(\'16\',\'85\',\'241\',\'242\',\'301\',\'302\')'
         },
         {
-          label: '区级指标查询',
+          label: '市县指标查询',
           code: 3,
           datatype: '(\'3\',\'14\',\'17\',\'23\',\'25\',\'32\')'
         }
@@ -269,14 +275,25 @@ export default {
       tableFooterConfig: {
         showFooter: false
       },
+      // 表格尾部合计配置
       tableFooterConfig1: {
-        showFooter: false
+        totalObj: {
+          zbye: 0,
+          zzblje: 0,
+          amount: 0,
+          yapje: 0,
+          djAmount: 0,
+          zcAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       fiscalYear: '',
       expFuncCode: '',
       proCodes: '',
       isHook: '0',
       proCode1: '',
+      expFuncCodeName: '',
       bgtMofDepCode: '',
       agencyCode: '',
       mofDivCode: '',
@@ -333,7 +350,6 @@ export default {
       regulationclass: '',
       firulename: '',
       payAmt: '',
-      bgtId: '',
       mofdivcode: '',
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -393,7 +409,7 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        // this.refresh1()
+        this.refresh1()
       } else if (obj.code === 2) {
         // 单位指标查询
         self.toolBarStatusBtnConfig.buttons = proconf.statusButtons1
@@ -401,7 +417,6 @@ export default {
         self.toolBarStatusBtnConfig.methods = {
           bsToolbarClickEvent: this.bsToolbarClickEvent1
         }
-        // console.log('55555555555555', this.$refs.tabPanel)
         // this.$refs.tabPanel.initFirst()
         this.panStatus = 2
         this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
@@ -417,7 +432,7 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        // this.refresh1()
+        this.refresh1()
       } else if (obj.code === 3) {
         // 市县指标查询
         this.toolBarStatusBtnConfig.buttons = proconf.statusButtons2
@@ -441,8 +456,9 @@ export default {
         this.mainPagerConfig1.currentPage = 1
         this.getLeftTreeData()
         this.refresh()
-        // this.refresh1()
+        this.refresh1()
       }
+      this.$forceUpdate(true)
     },
     changes() {
       let datas1 = this.$refs.mainTableRef1.getSelectionData()
@@ -490,7 +506,8 @@ export default {
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      // this.refresh1()
+      this.refresh1()
+      this.$forceUpdate(true)
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     bsToolbarClickEvent1(obj, $this) {
@@ -507,8 +524,8 @@ export default {
           this.panStatus = 2
           this.tableColumnsConfig = proconf.AgencyPoliciesTableColumns
           this.tableColumnsConfig1 = proconf.AgencyPoliciesTableColumns1
-          this.$refs.mainTableRef.initFirst()
-          this.$refs.mainTableRef1.initFirst()
+          // this.$refs.mainTableRef.initFirst()
+          // this.$refs.mainTableRef1.initFirst()
           break
         case '2':
           this.fiscalYear = ''
@@ -535,7 +552,7 @@ export default {
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      // this.refresh1()
+      this.refresh1()
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     bsToolbarClickEvent2(obj, $this) {
@@ -570,24 +587,17 @@ export default {
       this.mainPagerConfig.currentPage = 1
       this.mainPagerConfig1.currentPage = 1
       this.refresh()
-      // this.refresh1()
+      this.refresh1()
+      this.$forceUpdate(true)
       // this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     search(obj) {
       this.fiscalYear = obj.fiscalYear
       this.proCodes = obj.proCodes
-      this.expFuncCode = obj.expFuncCode
+      this.expFuncCodeName = obj.expFuncCode
       this.refresh()
-      // this.refresh1()
+      this.refresh1()
       // this.queryTableDatasCount()
-    },
-    reset(obj) {
-      this.bgtId = ''
-      this.fiscalYear = obj.fiscalYear
-      this.proCodes = obj.proCodes
-      this.expFuncCode = obj.expFuncCode
-      this.refresh()
-      // this.refresh1()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -644,8 +654,6 @@ export default {
       return condition
     },
     checkboxChange(checked, row) {
-      this.bgtId = checked.row.bgtId || ''
-      this.mofDivCode = checked.row.mofDivCode || ''
       this.queryDtos = []
       if (this.tabSelect.code === 1) {
         switch (this.toolBarStatusSelect.code) {
@@ -657,10 +665,10 @@ export default {
                 proName: '',
                 expFuncCode: ''
               }
-              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName?.split('-')[0]
+              queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
               queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
-              queryDto.expFuncCode = checked.selection[i].expFuncName?.split('-')[0]
+              queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               this.queryDtos[i] = queryDto
             }
             this.queryTableDatas1()
@@ -687,13 +695,13 @@ export default {
             for (let i = 0; i < checked.selection.length; i++) {
               let queryDto = {
                 bgtMofDepCode: '',
-                corBgtDocNoName: '',
+                corBgtDocNo: '',
                 proName: '',
                 expFuncCode: '',
                 agencyCode: ''
               }
               queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
-              queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
+              queryDto.corBgtDocNo = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
               queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               queryDto.agencyCode = checked.selection[i].agencyName.split('-')[0]
@@ -705,13 +713,13 @@ export default {
             for (let i = 0; i < checked.selection.length; i++) {
               let queryDto = {
                 bgtMofDepCode: '',
-                corBgtDocNoName: '',
+                corBgtDocNo: '',
                 proName: '',
                 expFuncCode: '',
                 agencyCode: ''
               }
               queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
-              queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
+              queryDto.corBgtDocNo = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
               queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               queryDto.agencyCode = checked.selection[i].agencyName.split('-')[0]
@@ -734,7 +742,7 @@ export default {
                 proName: ''
               }
               queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
-              queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
+              queryDto.corBgtDocNo = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
               queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               queryDto.recDivCode = checked.selection[i].recDivName.split('-')[0]
@@ -752,7 +760,7 @@ export default {
                 proName: ''
               }
               queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
-              queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
+              queryDto.corBgtDocNo = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
               queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               queryDto.recDivCode = checked.selection[i].recDivName.split('-')[0]
@@ -820,7 +828,7 @@ export default {
           this.bgtMofDepCode = ''
         }
         this.queryTableDatas()
-        // this.queryTableDatas1()
+        this.queryTableDatas1()
       } else if (this.panStatus === 1) {
         if (node.id !== 'root') {
           this.bgtMofDepCode = node.code
@@ -829,7 +837,7 @@ export default {
           this.bgtMofDepCode = ''
         }
         this.queryTableDatasByDep()
-        // this.queryTableDatasByDep1()
+        this.queryTableDatasByDep1()
       } else if (this.panStatus === 2) {
         if (node.id !== 'root') {
           this.agencyCode = node.code
@@ -838,7 +846,7 @@ export default {
           this.agencyCode = ''
         }
         this.queryTableDatasByAgency()
-        // this.queryTableDatasByAgency1()
+        this.queryTableDatasByAgency1()
       } else if (this.panStatus === 3) {
         if (node.id !== 'root') {
           this.agencyCode = node.code
@@ -847,7 +855,7 @@ export default {
           this.agencyCode = ''
         }
         this.queryTableByAgency()
-        // this.queryTableByAgency1()
+        this.queryTableByAgency1()
       } else if (this.panStatus === 5) {
         if (node.id !== 'root') {
           let code = node.code
@@ -859,7 +867,7 @@ export default {
           this.recDivCode = ''
         }
         this.queryMofDiv()
-        // this.queryDetailMofDiv()
+        this.queryDetailMofDiv()
       } else if (this.panStatus === 6) {
         if (node.id !== 'root') {
           let code = node.code
@@ -870,7 +878,7 @@ export default {
           this.recDivCode = ''
         }
         this.queryMofDiv1()
-        // this.queryDetailMofDiv1()
+        this.queryDetailMofDiv1()
       }
     },
     treeSetConfrimData(curTree) {
@@ -929,12 +937,12 @@ export default {
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
       this.mainPagerConfig.pageSize = pageSize
-      this.queryTableDatas()
+      this.refresh()
     },
     ajaxTableData1({ params, currentPage, pageSize }) {
       this.mainPagerConfig1.currentPage = currentPage
       this.mainPagerConfig1.pageSize = pageSize
-      this.queryTableDatas1()
+      this.refresh1()
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -950,16 +958,15 @@ export default {
       return proCodes
     },
     // 查询 table 数据
-    // 综合查询处室指标综合查看文号汇总
     queryTableDatas() {
       const param = {
+        reportCode: 'cszbzhckwhhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_cszbzhckwhhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -973,46 +980,49 @@ export default {
         }
       })
     },
-    // 综合查询处室指标综合查看汇总
     queryTableDatasByDep() {
       const param = {
+        reportCode: 'cszbzhckhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_cszbzhckhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
-      HttpModule.queryTableDatasByDep(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
     // 查询 table1 数据
-    // 综合查询处室指标综合查看文号汇总明细
     queryTableDatas1() {
       const param = {
+        reportCode: 'cszbzhckwhhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
+        fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
-        bgtId: this.bgtId,
-        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'zhcx_cszbzhckwhhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryTableDatas1(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -1022,19 +1032,18 @@ export default {
         }
       })
     },
-    // 综合查询单位指标综合查看文号汇总
     queryTableDatasByAgency() {
       const param = {
+        reportCode: 'dwzbzhckwhhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckwhhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
-      HttpModule.queryTableDatasByAgency(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -1046,22 +1055,26 @@ export default {
       })
     },
     // 查询 table1 数据
-    // 综合查询单位指标综合查看文号汇总明细
     queryTableDatasByAgency1() {
       const param = {
+        reportCode: 'dwzbzhckwhhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
+        fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
-        bgtId: this.bgtId,
-        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckwhhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryTableDatasByAgency1(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -1073,16 +1086,16 @@ export default {
     },
     queryTableByAgency() {
       const param = {
+        reportCode: 'dwzbzhckhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
-      HttpModule.queryTableByAgency(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -1094,22 +1107,26 @@ export default {
       })
     },
     // 查询 table1 数据
-    // 综合查询处室指标综合查看汇总
     queryTableByAgency1() {
       const param = {
+        reportCode: 'dwzbzhckhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
+        fiscalYear: this.fiscalYear,
         agencyCode: this.agencyCode,
         queryDtos: this.queryDtos,
-        bgtId: this.bgtId,
-        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        sqlCode: 'zhcx_dwzbzhckhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryTableByAgency1(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -1119,45 +1136,48 @@ export default {
         }
       })
     },
-    // 综合查询处室指标综合查看汇总明细
     queryTableDatasByDep1() {
       const param = {
+        reportCode: 'cszbzhckhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
-        fiscalYear: this.$refs.queryFrom.$refs.queryForm.getFormData().fiscalYear,
+        fiscalYear: this.fiscalYear,
         bgtMofDepCode: this.bgtMofDepCode,
         queryDtos: this.queryDtos,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.$refs.queryFrom.$refs.queryForm.getFormData().expFuncCode,
-        bgtId: this.bgtId,
-        mofDivCode: this.$refs.queryFrom.$refs.queryForm.getFormData().mofDivCode,
-        sqlCode: 'zhcx_cszbzhckhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryTableDatasByDep1(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
           this.mainPagerConfig1.total = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
     },
-    // 综合查询市县补助指标文号汇总
     queryMofDiv() {
       const param = {
+        reportCode: 'sxbzzbwhhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         recDivCodeList: this.codeList,
         recDivCode: this.recDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbwhhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
-      HttpModule.queryMofDiv(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -1167,23 +1187,27 @@ export default {
         }
       })
     },
-    // 综合查询市县补助指标文号汇总明细
     queryDetailMofDiv() {
       const param = {
+        reportCode: 'sxbzzbwhhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         recDivCode: this.recDivCode,
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        bgtId: this.bgtId,
-        mofDivCode: this.mofDivCode,
-        sqlCode: 'zhcx_sxbzzbwhhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryDetailMofDiv(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -1196,17 +1220,17 @@ export default {
     },
     queryMofDiv1() {
       const param = {
+        reportCode: 'sxbzzbhz',
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         recDivCodeList: this.codeList,
         recDivCode: this.recDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbhz'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading1 = true
-      HttpModule.queryMofDiv1(param).then(res => {
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -1218,20 +1242,25 @@ export default {
     },
     queryDetailMofDiv1() {
       const param = {
+        reportCode: 'sxbzzbhzmx',
         page: this.mainPagerConfig1.currentPage, // 页码
         pageSize: this.mainPagerConfig1.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
         recDivCode: this.recDivCode,
         recDivCodeList: this.codeList,
         queryDtos: this.queryDtos,
-        bgtId: this.bgtId,
-        mofDivCode: this.mofDivCode,
-        trackProCodeList: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
-        expFuncCode: this.expFuncCode,
-        sqlCode: 'zhcx_sxbzzbhz_mx'
+        proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
+        expFuncCodeName: this.expFuncCodeName
       }
       this.tableLoading2 = true
-      HttpModule.queryDetailMofDiv1(param).then(res => {
+      HttpModule.querySum(param).then(res => {
+        if (res.code === '000000') {
+          this.tableFooterConfig1.totalObj = res.data[0]
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+      HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -1341,9 +1370,20 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || (`${item.code}-${item.name}`)
+        item.label = item.text
         if (item.children) {
           that.getChildrenData(item.children)
+        }
+      })
+
+      return datas
+    },
+    getMofChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.code + '-' + item.name
+        if (item.children) {
+          that.getMofChildrenData(item.children)
         }
       })
 
@@ -1390,6 +1430,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

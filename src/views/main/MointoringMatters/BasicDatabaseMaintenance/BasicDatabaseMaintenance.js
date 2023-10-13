@@ -32,15 +32,13 @@ export let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
+        name: '$vxeInput',
         props: {
-          placeholder: '年份'
+          placeholder: '年度',
+          type: 'year',
+          clearable: true,
+          valueFormat: 'yyyy'
         }
       }
     },
@@ -97,7 +95,8 @@ export let proconf = {
   highQueryData: {
     warningLevel: '',
     handleType: '',
-    regulationType: ''
+    regulationType: '',
+    year: ''
   },
   PoliciesTableColumns: [
     {

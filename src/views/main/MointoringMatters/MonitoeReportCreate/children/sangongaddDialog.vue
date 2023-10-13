@@ -98,6 +98,28 @@
 <script>
 // import { proconf } from '../PoliciesAndRegulationsManagement.js'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
+const routerMap = {
+  'sanGongMonitoeReportCreate': {
+    axiosStr: 'sangongCreate',
+    code: '2'
+  },
+  'SpeProMonitoeReportCreate': {
+    axiosStr: 'speProCreate',
+    code: '3'
+  },
+  'sanBaoMonitoeReportCreate': {
+    axiosStr: 'sanbaoCreate',
+    code: '4'
+  },
+  'dynamicMonitoeReportCreate': {
+    axiosStr: 'dynamicCreate',
+    code: '5'
+  },
+  'directFundsCreate': {
+    axiosStr: 'directFundsCreate',
+    code: '6'
+  }
+}
 export default {
   name: 'AddDialog',
   components: {},
@@ -195,7 +217,7 @@ export default {
           // this.$parent.previewEndMonth = this.endMonth
           this.$parent.provinceCode = this.provinceCode
           this.$parent.provinceName = this.provinceName
-          this.$parent.reportType = '2'
+          this.$parent.reportType = routerMap[this.$route.name].code
         } else {
           this.$message.error(res.message)
         }

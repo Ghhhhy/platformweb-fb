@@ -330,38 +330,49 @@ export default {
     },
     // 将word等文件转成pdf进行预览
     toPdf() {
-      window.open(`${process.env.BASE_URL}fileView.html?fileguid=` + this.fileGuid + '&appid=' + this.appId)
-      // this.loading = true
-      // const urlObj = 'filePreviewService/v1/file_preview'
-      // this.$http.get(urlObj, { appId: this.appId, fileId: this.fileGuid })
-      //   .then(res => {
-      //     if (res.code === 200) {
-      //       this.file = res.data
-      //       this.buildFileType()
-      //       this.fileShow = true
-      //       this.errorShow = false
-      //       this.loading = false
-      //     } else {
-      //       this.$message({ type: 'warning', message: res.msg })
-      //       this.fileShow = false
-      //       this.errorShow = true
-      //       this.loading = false
-      //       this.resize = false
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //     this.$message({ type: 'error', message: error })
-      //     this.fileShow = false
-      //     this.errorShow = true
-      //     this.loading = false
-      //     this.resize = false
-      //   })
+      this.loading = true
+      let filePreviewService = ''
+      if (process.env.NODE_ENV === 'development') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService
+      } else if (process.env.NODE_ENV === 'production') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService
+      }
+      const urlObj = filePreviewService + '/v1/file_preview'
+      this.$http.get(urlObj, { appId: this.appId, fileId: this.fileGuid })
+        .then(res => {
+          if (res.code === 200) {
+            this.file = res.data
+            this.buildFileType()
+            this.fileShow = true
+            this.errorShow = false
+            this.loading = false
+          } else {
+            this.$message({ type: 'warning', message: res.msg })
+            this.fileShow = false
+            this.errorShow = true
+            this.loading = false
+            this.resize = false
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.$message({ type: 'error', message: error })
+          this.fileShow = false
+          this.errorShow = true
+          this.loading = false
+          this.resize = false
+        })
     },
     buildFileType() {
       let fileSuffix = this.file.suffix
       this.title = this.file.filename
-      let newUrl = window.gloableToolFn.serverGatewayMap.development.filePreviewService + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
+      let filePreviewService = ''
+      if (process.env.NODE_ENV === 'development') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService
+      } else if (process.env.NODE_ENV === 'production') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService
+      }
+      let newUrl = filePreviewService + '/' + this.file.path.split('/').splice(3).toString().replace(/,/g, '/')
       this.url = newUrl
       console.log(newUrl)
       this.positivePlayerOptions.sources[0].src = this.url

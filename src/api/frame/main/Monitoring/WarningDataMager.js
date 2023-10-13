@@ -65,5 +65,9 @@ export default {
   },
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  // 操作日志
+  queryActionLog(params) {
+    return post('large-monitor-platform/lmp/matter/queryActionLog', params)
   }
 }

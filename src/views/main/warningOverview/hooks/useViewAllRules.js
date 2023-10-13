@@ -7,7 +7,7 @@ import { scientificNotation } from '@/utils/scientificNotation'
 export const useViewAllRules = (selectValue) => {
   const chartOption = ref({
     title: {
-      text: '所有违规数据查看',
+      text: '监控预警数据查询（按区划/月份）',
       top: 16,
       left: 20,
       textStyle: {

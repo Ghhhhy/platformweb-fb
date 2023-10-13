@@ -1,7 +1,8 @@
+import store from '@/store/index'
 export default {
   methods: {
     itemChange({ property, itemValue, data }) {
-      if (property === 'fiscalYear' && itemValue) {
+      if (property === 'fiscalYear' && itemValue && !store.getters.isSx) {
         const formSchema = this.queryConfig.find(item => item.field === 'mofDivCodes')
         if (!formSchema) return
 

@@ -10,11 +10,10 @@
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
-          :is-hide-query="true"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
-      <!-- <template v-slot:query>
+      <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
@@ -23,7 +22,7 @@
             @onSearchClick="search"
           />
         </div>
-      </template> -->
+      </template>
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
@@ -39,6 +38,7 @@
         >
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
+              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
               <div class="table-toolbar-left-title">
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
@@ -64,6 +64,7 @@
 import { proconf } from './CentralTransferPayment'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/CentralTransferPayment.js'
+import transJson from '@/utils/transformMenuQuery'
 export default {
   components: {
     AddDialog
@@ -80,7 +81,7 @@ export default {
       breakRuleVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
-        changeBtns: false,
+        changeBtns: true,
         buttons: proconf.toolBarStatusButtons,
         curButton: {
           type: 'button',
@@ -157,7 +158,9 @@ export default {
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
-      menuName: '',
+      menuName: transJson(this.$store.state.curNavModule.param5)?.regulationClass === '0207'
+        ? '专项支付项目列表'
+        : '中央转移支付项目列表',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -171,8 +174,10 @@ export default {
       condition: {},
       dataSourceCode: '',
       param: '',
-      leftTreeVisible: false,
-      regulationClass: ''
+      proName: '',
+      fundCategoryName: '',
+      cfsHotTopicCateName: '',
+      proFundName: ''
     }
   },
   mounted() {
@@ -202,21 +207,6 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
-          if (item.field) {
-            if (item.field === 'cor_bgt_doc_no_') {
-              condition[item.field + 'name'] = []
-            } else {
-              condition[item.field + 'code'] = []
-            }
-          }
-        } else {
-          if (item.field) {
-            condition[item.field] = []
-          }
-        }
-      })
       return condition
     },
     // 切换状态栏
@@ -226,13 +216,15 @@ export default {
         return
       }
       this.toolBarStatusSelect = obj
-      // switch (obj.curValue) {
-      //   // 全部
-      //   case '1':
-      //     this.menuName = '中央转移支付项目列表'
-      //     this.radioShow = true
-      //     break
-      // }
+      switch (obj.curValue) {
+        // 全部
+        case '1':
+          this.menuName = transJson(this.$store.state.curNavModule.param5)?.regulationClass === '0207'
+            ? '专项支付项目列表'
+            : '中央转移支付项目列表'
+          this.radioShow = true
+          break
+      }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.refresh()
@@ -259,11 +251,17 @@ export default {
           }
         }
       }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
+      if (this.searchDataList.proName && this.searchDataList.proName.trim() !== '') {
+        condition.proName = this.searchDataList.proName
       }
-      if (this.searchDataList.businessModuleName && this.searchDataList.businessModuleName.trim() !== '') {
-        condition.businessModuleName = this.searchDataList.businessModuleName
+      if (this.searchDataList.fundCategoryName && this.searchDataList.fundCategoryName.trim() !== '') {
+        condition.fundCategoryName = this.searchDataList.fundCategoryName
+      }
+      if (this.searchDataList.cfsHotTopicCateName && this.searchDataList.cfsHotTopicCateName.trim() !== '') {
+        condition.cfsHotTopicCateName = this.searchDataList.cfsHotTopicCateName
+      }
+      if (this.searchDataList.proFundName && this.searchDataList.proFundName.trim() !== '') {
+        condition.proFundName = this.searchDataList.proFundName
       }
       this.condition = condition
       console.log(this.condition)
@@ -304,12 +302,13 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      let askTypeCode = []
+      console.log(selection)
+      let ids = []
       selection.forEach(item => {
-        askTypeCode.push(item.askTypeCode)
+        ids.push(item.id)
       })
       let param = {
-        askTypeCode: askTypeCode
+        ids: ids
       }
       this.$confirm('是否确定删除 ?', '提示', {
         confirmButtonText: '确定',
@@ -449,12 +448,19 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
+        proName: this.condition.proName,
+        fundCategoryName: this.condition.fundCategoryName,
+        cfsHotTopicCateName: this.condition.cfsHotTopicCateName,
+        proFundName: this.condition.proFundName,
         page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        regulationClass: this.regulationClass
-        // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
-        // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
+        pageSize: this.mainPagerConfig.pageSize // 每页条数
       }
+
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -490,9 +496,6 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.menuName = this.$store.state.curNavModule.name
-    this.params5 = this.$store.state.curNavModule.param5
-    this.regulationClass = this.transJson(this.params5 || '')?.regulationClass
   }
 }
 </script>

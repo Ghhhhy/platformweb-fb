@@ -1,3 +1,11 @@
+<!--
+ * @Author: hupengcheng 1286335855@qq.com
+ * @Date: 2023-09-12 15:58:42
+ * @LastEditors: hupengcheng 1286335855@qq.com
+ * @LastEditTime: 2023-09-27 11:49:27
+ * @FilePath: \platformweb-fb\src\views\main\MointoringMatters\BasicDatabaseMaintenance\BasicDatabaseMaintenance.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <!-- 监控规则查看 -->
 <template>
   <div v-loading="tableLoading" style="height: 100%">
@@ -29,7 +37,7 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
+          :tree-config="treeTypeConfig"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -108,11 +116,13 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      // treeServerUri: 'pay-clear-service/v2/lefttree',
-      treeQueryparams: { elementCode: 'AGENCY', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and province =' + this.$store.state.userInfo.province },
-      treeServerUri: 'http://10.77.18.172:32303/lmp/mofDivTree',
+      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
+      treeTypeConfig: {
+        curRadio: 'AGENCY'
+      },
       leftTreeVisible: true,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
@@ -247,7 +257,6 @@ export default {
 
   methods: {
     search(obj) {
-      console.log(obj)
       this.year = Number(obj.year)
       this.typeName = obj.typeName
       this.basicName = obj.basicName
@@ -404,6 +413,9 @@ export default {
           break
       }
     },
+    onNodeCheckClick() {
+      this.refresh()
+    },
     // 左侧树
     changeInput(val) {
       this.treeGlobalConfig.inputVal = val
@@ -430,11 +442,9 @@ export default {
     onClickmethod(node) {
       this.node = node.node
       let code = node.node.code
-      console.log(node)
       this.codeList = []
       let treeData = node.treeData
       this.getItem(code, treeData)
-      console.log(this.codeList)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -450,6 +460,7 @@ export default {
         id: this.condition.agency_code,
         menuType: 1,
         province: '',
+        year: this.year || this.userInfo.year,
         mofDivCodeList: this.codeList
       }
       if (this.leftNode.businessType === 2) {
@@ -591,22 +602,22 @@ export default {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
           province: this.userInfo.province,
-          year: '2021',
+          year: this.userInfo.year,
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
       let that = this
       HttpModule.getLeftTree(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          that.treeData = res.data
+        if (res.rscode === '100000') {
+          let treeResdata = that.getChildrenData(res.data)
+          that.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -625,6 +636,10 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.year = year
+    this.year = year
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

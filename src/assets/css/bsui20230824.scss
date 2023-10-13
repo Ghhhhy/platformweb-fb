@@ -30,7 +30,7 @@
 .app-main-body-tab-router{
   height: 40px !important;
   line-height: 40px;
-  overflow: hidden;
+  // overflow: hidden;
   box-sizing: border-box;
 }
 .fn-inline.tabList{
@@ -40,12 +40,94 @@
   box-sizing: border-box;
   padding-top: 0 !important;
 }
+.TabKeepRouter-con .tabList{
+  height: 39px !important;
+  line-height: 39px !important;
+}
+/*定义CSS变量*/
+.fn-inline.tabList::-webkit-scrollbar {
+  height: 4px !important;
+}
 .tab-option-content.fn-inline{
-  height: 40px !important;
-  line-height: 40px;
+  height: 39px !important;
+  line-height: 39px;
   box-sizing: border-box;
 }
 .quick-nav-box.quick-nav-btn{
   height: 40px;
   line-height: 40px !important;
+}
+.fn-inline.pointer.left.offset.ishideprev{
+  height: 40px;
+  box-sizing: border-box;
+}
+.tab-con-main.fn-inline{
+  height: 100%;
+  box-sizing: border-box;
+}
+.tab-option-content.fn-inline{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.TabKeepRouter-con{
+  .tab-option.fn-inline{
+    margin-top: 0 !important;
+  }
+}
+.fn-inline.base-font.baseqiehuanqiyou{
+  height: 40px ;
+  box-sizing: border-box;
+
+}
+.fn-inline.pointer.next.offset.ishideprev{
+  box-sizing: border-box;
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+}
+.tab-picker{
+  margin: 0 10px 0 0 !important; 
+  height: 40px;
+  line-height: 40px;
+  box-sizing: border-box;
+}
+
+.TabKeepRouter-con{
+  .tab-option-select{
+    height: 24px !important;
+    line-height: 24px !important;
+    span{
+      padding-bottom: 0px !important;
+    }
+    p{
+      margin: 0px 4px 0 0 !important;
+    }
+  }
+  .tab-clection{
+    margin-top:0 !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.quick-nav {//60px->48px 48px->40px  108-12-8
+  top: 88px !important;
+}
+.FiscalCloud.v20230824{
+  .vxe-table{
+    .vxe-table--footer-wrapper.fixed-left--wrapper {
+      margin-top: -10px !important;
+    }
+  }
+  .TabKeepRouter-con .tab-option-select p{
+    vertical-align: middle;
+    margin: 0px 4px 0 0 !important;
+  }
+  .TabKeepRouter-con .tab-con-main .offset{
+    padding: 0 10px;
+    box-sizing: border-box;
+    height: 39px;
+    line-height: 39px;
+  }
 }

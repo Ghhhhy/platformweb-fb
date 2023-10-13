@@ -4,7 +4,6 @@
       <template v-slot:topTabPane>
         <BsTabPanel
           :tab-status-btn-config="tabStatusBtnConfig"
-          :is-open="isShowSearchForm"
           @tabClick="onTabClick"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
@@ -41,7 +40,7 @@
             <div
               v-if="!leftTreeVisible"
               class="ri-indent-wrapper"
-              style="marginright: 8px"
+              style="marginRight: 8px"
               @click="setLeftTreeVisible"
             >
               <i class="ri-indent-decrease"></i>
@@ -110,7 +109,7 @@
     <ImportModel
       :file-config="fileConfig"
       :import-modal-visible.sync="importModalVisible"
-      @onDownloadTemplateClick="() => exportHandle('下载成功！')"
+      @onDownloadTemplateClick="() => exportHandle('下载成功！','template')"
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
     />
@@ -200,7 +199,7 @@ export default defineComponent({
           ...params,
           elementcode: 'admdiv',
           province,
-          year,
+          year: year,
           wheresql: 'and code like ' + getWheresql(province) + '%'
         }
       },

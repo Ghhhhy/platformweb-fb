@@ -20,7 +20,16 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
             @itemChange="itemChange"
-          />
+          >
+            <template v-if="isSx" v-slot:action-button-before>
+              <vxe-button
+                content="人工读取"
+                status="primary"
+                size="medium"
+                @click="onToolbarBtnClick({ code: 'refresh' })"
+              />
+            </template>
+          </BsQuery>
         </div>
       </template>
       <template v-slot:mainForm>
@@ -56,6 +65,9 @@
                 <span class="fn-inline">{{ menuName }}</span>
                 <i class="fn-inline"></i>
               </div>
+            </div>
+            <div v-if="isSx" class="timeRefreshTip">
+              <div>系统自动更新时间点：1.早上8：00前更新完成。</div>
             </div>
           </template>
           <template v-slot:toolbar-custom-slot>
@@ -100,6 +112,9 @@ export default {
     SDetailDialog
   },
   computed: {
+    isSx() {
+      return this.$store.getters.isSx
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -124,6 +139,7 @@ export default {
   },
   data() {
     return {
+      isFlush: false,
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
       sDetailVisible: false,
@@ -386,10 +402,12 @@ export default {
     //   }
     // },
     onToolbarBtnClick({ context, table, code }) {
+      let refreshTips = '重新加载数据可能需要等待较长时间，确认继续？'
+      if (this.isSx) refreshTips = '此操作会读取最新业务数据情况，报表分析最新业务数据进行展示，等待时间较长，请确认读取'
       switch (code) {
         // 刷新
         case 'refresh':
-          this.$confirm('重新加载数据可能需要等待较长时间，确认继续？', '操作确认提示', {
+          this.$confirm(refreshTips, '操作确认提示', {
             type: 'warning'
           }).then(() => {
             this.refresh(true)
@@ -413,7 +431,7 @@ export default {
     },
     handleDetail(reportCode, recDivCode) {
       let isCz = ''
-      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+      if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
         isCz = '2'
       } else {
         isCz = '1'
@@ -424,6 +442,13 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         reportCode: reportCode,
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
+      }
+      if (this.$store.getters.isSx) {
+        params = {
+          reportCode: reportCode === 'hjqybzje' ? 'xmhjqymx' : 'xmhjrymx',
+          mofDivCode: recDivCode,
+          fiscalYear: this.searchDataList.fiscalYear
+        }
       }
       this.tableLoading = true
       setTimeout(() => {
@@ -445,7 +470,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      if (!this.projectCode === 'FJ') { // 福建的不要钻取
+      if (this.projectCode !== 'FJ') { // 福建的不要钻取
         const rowIndex = obj?.rowIndex
         if (!rowIndex) return
         let key = obj.column.property
@@ -467,6 +492,7 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
+      this.isFlush = true
       this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
       // this.queryTableDatasCount()
     },
@@ -503,13 +529,13 @@ export default {
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
-        isFlush,
         // reportCode: 'zdzjhqlmffmx',
-        reportCode: this.transJson(this.params5 || '')?.reportCode,
+        reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjhqlmffmx',
         fiscalYear: this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
+      this.isFlush && (param.isFlush = true)
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
@@ -522,6 +548,7 @@ export default {
           this.$message.error(res.message)
         }
       }).finally(() => {
+        this.isFlush = false
         this.tableLoading = false
       })
     },

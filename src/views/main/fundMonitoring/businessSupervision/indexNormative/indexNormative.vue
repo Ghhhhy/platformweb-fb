@@ -37,7 +37,9 @@
           open-loading
           :tree-data="treeData"
           :filter-text="leftTreeFilterText"
-          :config="treeGlobalConfig.treeConfig"
+          :config="leftTreeConfig"
+
+          :default-expanded-keys="['619900000', '619800000']"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -50,6 +52,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :export-modal-config="{ fileName: menuName }"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -83,7 +86,7 @@
 <script>
 import { proconf } from './indexNormative'
 import HttpModule from '@/api/frame/main/fundMonitoring/indexNormative.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree.js'
+// import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -120,10 +123,9 @@ export default {
         curRadio: 'AGENCY'
       },
       treeGlobalConfig: {
-        inputVal: '',
-        treeConfig: { rootName: '全部', showFilter: false, disabled: false, treeProps: { labelFormat: '{code}-{name}', nodeKey: 'code', label: 'name', children: 'children' } }
+        inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -212,7 +214,11 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          amount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       // 操作日志
       logData: [],
@@ -272,6 +278,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
       this.corBgtDocNo = obj.corBgtDocNo
       this.queryTableDatas()
@@ -559,7 +566,18 @@ export default {
         mofDivCodeList: this.codeList
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let queryUrl = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        queryUrl = 'queryTableDatasPage'
+        HttpModule.querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+      HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -567,7 +585,20 @@ export default {
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
+        }
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'zbsjgfxjc'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
         }
       })
     },
@@ -597,59 +628,10 @@ export default {
       // })
     },
     getLeftTreeData() {
-      let that = this
-      let params = {}
-      if (this.userInfo.province === '610000000') {
-        params = {
-          elementCode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + 61 + '%\''
-        }
-      } else if (
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610100000' ||
-        this.userInfo.province === '610200000' ||
-        this.userInfo.province === '610300000' ||
-        this.userInfo.province === '610400000' ||
-        this.userInfo.province === '610500000' ||
-        this.userInfo.province === '610600000' ||
-        this.userInfo.province === '610700000' ||
-        this.userInfo.province === '610800000' ||
-        this.userInfo.province === '610900000' ||
-        this.userInfo.province === '611000000' ||
-        this.userInfo.province === '611200000'
-      ) {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\''
-        }
-      } else {
-        params = {
-          elementCode: 'admdiv',
-          province: this.userInfo.province,
-          year: '2021',
-          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
-        }
-      }
-      getMofDivTree(params).then(res => {
-        if (res.data) {
-          // let treeResdata = that.getChildrenData(res.data)
-          // treeResdata.forEach(item => {
-          //   item.label = item.id + '-' + item.businessName
-          // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          that.treeData = res.data
+      HttpModule.getTreeData(this.treeQueryparams).then(res => {
+        if (res.rscode === '100000') {
+          let treeResdata = this.getChildrenData(res.data)
+          this.treeData = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
         }
@@ -676,6 +658,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getLeftTreeData()
     this.queryTableDatas()
+    this.$store.getters.isSx && this.queryCaliberDeclareContent()
   }
 }
 </script>

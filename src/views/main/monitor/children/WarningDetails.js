@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -60,7 +60,7 @@ export let proconf = {
   //   },
     {
       title: '规则名称',
-      field: 'firulename',
+      field: 'ruleName',
       width: '8',
       align: 'left',
       formula: '',
@@ -290,12 +290,23 @@ export let proconf = {
       field: 'warnLevel',
       sortable: false,
       filters: false,
-      align: 'center'
+      cellRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     {
       title: '管理级次',
       'width': 180,
-      field: 'regulationType',
+      field: 'regulationtype',
       sortable: false,
       filters: false,
       align: 'center'
@@ -327,7 +338,7 @@ export let proconf = {
     {
       title: '规则名称',
       'width': 180,
-      field: 'fiRuleName',
+      field: 'firulename',
       sortable: false,
       filters: false,
       align: 'center'
@@ -354,14 +365,14 @@ export let proconf = {
       },
       'name': '$vxeSelect'
     },
-    {
-      title: '业务单号',
-      'width': 180,
-      field: 'businessNo',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
+    // {
+    //   title: '业务单号',
+    //   'width': 180,
+    //   field: 'businessNo',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     /* {
       'title': '支付申请金额',
       'field': 'paymentamount',
@@ -402,22 +413,22 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
-    },
-    {
-      title: '预警数据创建时间',
-      'width': 180,
-      field: 'businessTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
-    },
-    {
-      title: '预警处理时间',
-      'width': 180,
-      field: 'handleTime',
-      sortable: false,
-      filters: false,
-      align: 'center'
     }
+    // {
+    //   title: '预警数据创建时间',
+    //   'width': 180,
+    //   field: 'businessTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   title: '预警处理时间',
+    //   'width': 180,
+    //   field: 'handleTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // }
   ]
 }

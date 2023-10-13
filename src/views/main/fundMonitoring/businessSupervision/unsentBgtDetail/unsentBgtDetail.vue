@@ -50,6 +50,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :export-modal-config="{ fileName: menuName }"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -82,8 +83,7 @@
 
 <script>
 import { proconf } from './unsentBgtDetail'
-import HttpModule from '@/api/frame/main/fundMonitoring/unsentBgtDetail.js'
-import { getMofDivTree } from '@/api/frame/common/tree/mofDivTree'
+import HttpModule from '@/api/frame/main/fundMonitoring/supervision.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -122,7 +122,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
+      treeQueryparams: this.$store.getters.treeQueryparamsCom,
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: '',
       treeAjaxType: 'get',
@@ -211,7 +211,11 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          curAmt: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: this.$store.getters.isSx
       },
       // 操作日志
       logData: [],
@@ -271,6 +275,7 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
+      this.searchDataList = obj
       this.fiscalYear = obj.fiscalYear
       this.queryTableDatas()
       // this.queryTableDatasCount()
@@ -552,10 +557,23 @@ export default {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         fiscalYear: this.fiscalYear,
-        mofDivCodeList: this.codeList
+        mofDivCodeList: this.codeList,
+        reportCode: 'wfszbmxcx'
       }
       this.tableLoading = true
-      HttpModule.queryTableDatas(param).then(res => {
+      let queryUrl = 'queryTableDatas'
+      if (this.$store.getters.isSx) {
+        param.reportCode = 'wfszbmxcx'
+        queryUrl = 'queryTableDatasPage'
+        HttpModule.querySum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfig.totalObj = res.data[0]
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+      HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -563,7 +581,20 @@ export default {
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
+        }
+      })
+    },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'wfszbmxcx'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
         }
       })
     },
@@ -594,7 +625,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      getMofDivTree(that.treeQueryparams).then(res => {
+      HttpModule.getTreeData(this.treeQueryparams).then(res => {
         if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           // treeResdata.forEach(item => {
@@ -636,12 +667,13 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.getLeftTreeData()
     this.queryTableDatas()
+    this.$store.getters.isSx && this.queryCaliberDeclareContent()
   }
 }
 </script>
 <style scoped>
 .radio-right{
-  float: right;
+float: right;
 }
 .Titans-table ::v-deep  .vxe-body--row.row-yellow {
   background-color: yellow;

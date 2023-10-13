@@ -260,6 +260,12 @@ export default {
       this.parentRule = this.selectData.parentId + '##' + this.selectData.parentId + '##' + this.selectData.parentName
     },
     selectRule(val) {
+      if (this.$store.getters.isSx) {
+        const selectedId = val.split('##').filter(item => item)[0]
+        const selectedRow = this.findSelectedRow(this.parentRuleoptions, selectedId)
+        this.levelNo = Number(selectedRow.levelNo) + 1
+        return
+      }
       // BossTreeInput组件封装有问题（未知人员封装），会清空时执行emitClearLineData将结果赋值为initId+当前时间戳
       // 为了不给其他页面造成影响，暂时当前页面判断处理
       if (val.includes('initId')) {
@@ -309,6 +315,22 @@ export default {
         }
       })
       return result
+    },
+    findSelectedRow(treeData, id) {
+      const selectedKey = 'guid'
+      const childKey = 'children'
+      const cursion = (treeData, id) => {
+        for (let i = 0; i < treeData.length; i++) {
+          const item = treeData[i]
+          if (item[selectedKey] === id) {
+            return item
+          } else if (item[childKey] && item[childKey].length) {
+            let result = cursion(item[childKey], id)
+            if (result) return result
+          }
+        }
+      }
+      return cursion(treeData, id)
     },
     // 业务系统下拉树
     getSysLists() {
@@ -399,6 +421,7 @@ export default {
             this.$message.success('修改成功')
             this.$parent.dialogVisible = false
             this.$parent.queryTableDatas()
+            this.$parent.getLeftTreeData()
           } else {
             this.$message.error(res.message)
           }

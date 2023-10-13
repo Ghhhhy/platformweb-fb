@@ -252,8 +252,41 @@ export default {
     },
     // 将word等文件转成pdf进行预览
     toPdf() {
-      window.open(`${process.env.BASE_URL}fileView.html?fileguid=` + this.fileGuid + '&appid=' + this.appId)
-      this.dialogVisible = false
+      if (!this.$store.getters.isSx) {
+        window.open(`${process.env.BASE_URL}fileView.html?fileguid=` + this.fileGuid + '&appid=' + this.appId)
+        this.dialogVisible = false
+        return
+      }
+      this.loading = true
+      let filePreviewService = ''
+      if (process.env.NODE_ENV === 'development') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.development.filePreviewService + '/v1/file_preview'
+      } else if (process.env.NODE_ENV === 'production') {
+        filePreviewService = window.gloableToolFn.serverGatewayMap.production.filePreviewService + 'v1/file_preview'
+      }
+      // const urlObj = filePreviewService + '/v1/file_preview'
+      this.$http.get(filePreviewService, { appId: this.appId, fileId: this.fileGuid }).then(res => {
+        if (res.code === 200) {
+          this.file = res.data
+          this.buildFileType()
+          this.fileShow = true
+          this.errorShow = false
+          this.loading = false
+        } else {
+          this.$message({ type: 'warning', message: res.msg })
+          this.fileShow = false
+          this.errorShow = true
+          this.loading = false
+          this.resize = false
+        }
+      }).catch(error => {
+        console.log(error)
+        this.$message({ type: 'error', message: error })
+        this.fileShow = false
+        this.errorShow = true
+        this.loading = false
+        this.resize = false
+      })
       // his.loading = true
       // let filePreviewService = ''
       // if (process.env.NODE_ENV === 'development') {

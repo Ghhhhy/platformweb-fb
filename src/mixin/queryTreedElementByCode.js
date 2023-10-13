@@ -53,10 +53,10 @@ export default {
     decodeBusinessFunction(codeNameArr) {
       return codeNameArr.reduce((arr, item) => {
         const [code, name] = item.split('##')
-        code && arr[0].push(code)
-        name && arr[1].push(name)
+        code && arr['codeArr'].push(code)
+        name && arr['nameArr'].push(name)
         return arr
-      }, [[], []])
+      }, { codeArr: [], nameArr: [] })
     }
   },
   mounted() {
@@ -83,13 +83,14 @@ export default {
         if (curVal === preVal) return
         if (curVal) {
           const codeNameStrArr = curVal.split(',')
-          const [codeArr, nameArr] = this.decodeBusinessFunction(codeNameStrArr)
+          const { codeArr, nameArr } = this.decodeBusinessFunction(codeNameStrArr)
           this.businessFunctionCode = codeArr
           this.businessFunctionName = nameArr
         } else {
           this.businessFunctionCode = []
           this.businessFunctionName = []
         }
+        this.refleshKey = Date.now()
       },
       immediate: true
     }
