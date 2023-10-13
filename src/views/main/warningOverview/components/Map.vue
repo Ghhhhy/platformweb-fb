@@ -33,7 +33,7 @@
         @click.native="mapTipsTrigger"
       />
     </div>
-    <div ref="shanxiMapRef" class="shanxi-map" style="width: 515px; height: 586px"></div>
+    <div ref="shanxiMapRef" class="shanxi-map"></div>
   </div>
 </template>
 
@@ -62,6 +62,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .map-shanxi-container {
   position: relative;
+  width:230px;
+  display:inline-block;
+  height: 586px;
 
   .map-tips {
     position: absolute;
