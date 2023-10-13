@@ -8,6 +8,7 @@ import store from './store/index'
 import { setupElementUI } from './plugin/setupElementUI'
 import ElementUI from './common/js/lib/elementUI/elementUI.js'
 import loadingDirective from './directive/loading.js'
+import customerDirective from './directive/customerDirective.js'
 
 // 注册compoistion-api
 import { setupCompositionApi } from './plugin/setupCompositionApi'
@@ -51,6 +52,7 @@ console.log('git提交记录', process.env)
 Vue.use(ElementUI)
 // 自定义loading指令覆盖element-ui的loading指令
 Vue.use(loadingDirective)
+Vue.use(customerDirective)
 Vue.use(html2canvasDirective)
 Vue.use(Echarts)
 Vue.use(TableConfig)
