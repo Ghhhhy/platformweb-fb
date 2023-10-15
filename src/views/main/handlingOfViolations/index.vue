@@ -180,7 +180,8 @@ export default defineComponent({
         beforeFetch: params => {
           return {
             ...params,
-            isUnit: unref(isDivisionPage) ? 'department' : 'company'
+            elementCode: unref(isDivisionPage) ? 'dept' : 'manage_mof_dep' // 传参设置默认值
+            // isUnit: unref(isDivisionPage) ? 'department' : 'company'//这个isUnit是这个elementTreeApi.getAgencyTree,接口才需要传的
           }
         },
         afterFetch: data => {
