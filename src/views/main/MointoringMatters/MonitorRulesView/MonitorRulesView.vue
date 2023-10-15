@@ -450,6 +450,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
+          this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -459,6 +460,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
+          this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }
