@@ -110,7 +110,7 @@ export default defineComponent({
 
     // 页面路由
     const pagePath = ref(route.path)
-
+    /* eslint-disable-next-line */
     const { isDivisionPage } = useIs({}, pagePath)
 
     // 是否是单位页面（单位反馈、单位审核）
@@ -180,7 +180,8 @@ export default defineComponent({
         beforeFetch: params => {
           return {
             ...params,
-            isUnit: unref(isDivisionPage) ? 'department' : 'company'
+            elementCode: 'ANGENCY' // 传参设置默认值
+            // isUnit: unref(isDivisionPage) ? 'department' : 'company'//这个isUnit是这个elementTreeApi.getAgencyTree,接口才需要传的
           }
         },
         afterFetch: data => {
