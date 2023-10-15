@@ -846,9 +846,12 @@ export default {
       paymentLen: 0,
       paymentData: [],
       formDatas: {
+        payment: '',
         useDes: '',
         payeeAcctNo: '',
-        payeeAcctName: ''
+        payeeAcctName: '',
+        des: '',
+        basis: ''
       },
       formValidationConfigMessage: proconf.formValidationConfigMessage,
       regulationClassName: '',
@@ -1820,7 +1823,7 @@ export default {
     if (this.$parent.formDatas) {
       this.formDatas = this.$parent.formDatas
       if (this.formDatas.payment) {
-        this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
+        this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(item => item)
         if (this.isSx) {
           this.formDatas.payment__multiple = this.formDatas.payment.split(',')
         }
