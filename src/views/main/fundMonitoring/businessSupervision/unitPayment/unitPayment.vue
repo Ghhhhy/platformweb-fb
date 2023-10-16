@@ -84,6 +84,7 @@
           :export-modal-config="{ fileName: menuName }"
           :toolbar-config="tableToolbarConfig"
           :default-money-unit="10000"
+          show-zero
           @ajaxData="ajaxTableData"
           @onToolbarBtnClick="onToolbarBtnClick"
         >

@@ -551,7 +551,7 @@ export default {
     handleDetail(reportCode, mofDivCode, column, row) {
       if (this.isSx) {
         let condition = ''
-        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
+        if (this.transJson(this.$store?.state?.curNavModule?.param5 || '')?.isCity) {
           switch (column) {
             case 'amountSnjwfp':
             case 'amountSnjxd':
@@ -613,7 +613,7 @@ export default {
             break
         }
         let isCz = ''
-        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
           isCz = '2'
         } else {
           isCz = '1'
