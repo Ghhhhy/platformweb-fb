@@ -361,8 +361,13 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.log(obj.column.property)
+      if (obj.column.property === 'name') {
+        return
+      }
+      console.log(444)
+      this.tableLoading = true
       // let key = obj.column.property
-
       // 无效的cellValue
       if (!this.isSx) {
         const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
@@ -374,7 +379,7 @@ export default {
         this.$refs.notFillModal.clickRowData = { ...obj.row, isSubCode: obj.column.own.isSubCode }
         this.$refs.notFillModal.onSearch()
       }
-
+      // this.tableLoading = false
       // switch (key) {
       //   case 'jOut':
       //     this.handleDetail('jOut', obj.row.recDivCode)
@@ -449,7 +454,7 @@ export default {
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data
+          this.tableData = res.data.data
           this.caliberDeclareContent = res.data.description || ''
           this.reportTime = res.data.reportTime || ''
           this.tableLoading = false
