@@ -78,13 +78,13 @@ export default {
             trigger: 'change'
           }
         ],
-        corpPersonNum: [
-          {
-            required: true,
-            message: '请选择企业人数',
-            trigger: 'change'
-          }
-        ],
+        // corpPersonNum: [
+        //   {
+        //     required: true,
+        //     message: '请选择企业人数',
+        //     trigger: 'change'
+        //   }
+        // ],
         isImportant: [
           {
             required: true,
@@ -201,6 +201,7 @@ export default {
       form
         .validate()
         .then(() => {
+          console.log(this.formData)
           this.tableLoading = true
           if (_this.isAdd) {
             api.addTask(this.formData).then((res) => {
