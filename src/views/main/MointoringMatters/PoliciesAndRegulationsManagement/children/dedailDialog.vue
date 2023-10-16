@@ -12,7 +12,7 @@
       <div>
         <div>
           <el-row>
-            <el-col :span="8">
+            <el-col :span="16">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -27,6 +27,8 @@
                 </el-main>
               </el-container>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -46,23 +48,6 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;预算单位</div>
-                    <el-input
-                      v-model="agencyName"
-                      placeholder="请输入预算单位"
-                      :disabled="true"
-                      style="width:45%"
-                    />
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;财政区划</div>
                     <el-input
                       v-model="mofDivName"
@@ -74,6 +59,8 @@
                 </el-main>
               </el-container>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -104,8 +91,6 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="8">
               <el-container>
                 <el-main width="100%">
@@ -166,7 +151,56 @@
                 </el-main>
               </el-container>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;是否公开</div>
+                    <el-select
+                      v-model="value"
+                      disabled
+                      placeholder="请选择是否公开"
+                      style="width:45%"
+                      @change="changePublic"
+                    >
+                      <el-option
+                        v-for="item in isPublicList"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col v-if="value === '2'" :span="8">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;使用范围</div>
+                    <el-select
+                      v-model="useMof"
+                      disabled
+                      placeholder="请选择使用范围"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in isUseMof"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -239,6 +273,28 @@ export default {
       // 文件上传相关参数
       fileList: [],
       fileData: [],
+      isPublicList: [
+        {
+          value: '1',
+          label: '是'
+        },
+        {
+          value: '2',
+          label: '否'
+        }
+      ],
+      value: '1',
+      isUseMof: [
+        {
+          value: '1',
+          label: '仅本级使用'
+        },
+        {
+          value: '2',
+          label: '本级和下级使用'
+        }
+      ],
+      useMof: '',
       fileDataBakDel: [],
       showbox: false
     }
@@ -260,6 +316,8 @@ export default {
       this.updatePersonName = this.detailData.updatePersonName
       this.updateTime = this.detailData.updateTime
       this.province = this.detailData.province
+      this.value = this.detailData.isPublic + ''
+      this.useMof = this.detailData.useMof + ''
     }
   },
   watch: {
