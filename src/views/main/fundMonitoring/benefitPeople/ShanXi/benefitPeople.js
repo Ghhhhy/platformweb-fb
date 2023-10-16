@@ -626,9 +626,9 @@ let proconf = {
   ]
 }
 if (isSx) {
-  proconf.PoliciesTableColumns1 = proconf.PoliciesTableColumns1.filter(item => {
-    return !['hookAmt', 'bgtMofDepCode'].includes(item.field)
-  })
+  // proconf.PoliciesTableColumns1 = proconf.PoliciesTableColumns1.filter(item => {
+  //   return !['hookAmt', 'bgtMofDepCode'].includes(item.field)
+  // })
 }
 export { proconf }
 /**
