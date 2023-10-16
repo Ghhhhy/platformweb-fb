@@ -717,6 +717,12 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let regulationClassParam
+      if (this.$store.getters.isFuJian) {
+        regulationClassParam = this.param5 === '6' ? '' : this.params5
+      } else {
+        regulationClassParam = this.params5
+      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -724,7 +730,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: this.param5 === '6' ? '' : this.params5,
+        regulationClass: regulationClassParam,
         firulecode: this.regulation_code,
         triggerClass: this.triggerClass,
         isSign: this.isSign,
@@ -740,7 +746,7 @@ export default {
         roleId: this.roleguid
       }
       this.tableLoading = true
-      if (this.param5 === '6') {
+      if (this.param5 === '6' && this.$store.getters.isFuJian) {
         HttpModule.queryTableDatas1(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
@@ -933,6 +939,10 @@ export default {
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
+    if (this.$store.getters.isFuJian) {
+      this.queryConfig = this.param5 === '6' ? proconf.highQueryConfigPay : proconf.highQueryConfig
+    }
+
     if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
       this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }
