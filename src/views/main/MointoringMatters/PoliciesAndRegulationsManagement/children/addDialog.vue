@@ -39,9 +39,52 @@
                     >
                       <el-option
                         v-for="item in provinceOptions"
-                        :key="item.id || item.ID"
-                        :label="item.dictInfoName || item.rule_name || item.RULE_NAME"
-                        :value="item.dictInfoName || item.rule_name || item.RULE_NAME"
+                        :key="item.id"
+                        :label="item.dictInfoName"
+                        :value="item.dictInfoName"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;是否公开</div>
+                    <el-select
+                      v-model="value"
+                      placeholder="请选择是否公开"
+                      style="width:45%"
+                      @change="changePublic"
+                    >
+                      <el-option
+                        v-for="item in isPublicList"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+            <el-col v-if="value === 2" :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;使用范围</div>
+                    <el-select
+                      v-model="useMof"
+                      placeholder="请选择使用范围"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in isUseMof"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value"
                       />
                     </el-select>
                   </el-row>
@@ -57,6 +100,7 @@
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;政策法规描述</div>
                     <el-input
                       v-model="description"
+                      type="textarea"
                       placeholder="请输入政策法规描述"
                       style="margin-bottom:15px; width:73.5%"
                     />
@@ -68,7 +112,14 @@
         </div>
       </div>
       <!-- 上传附件 -->
-      <BsUploadBak ref="myUpload" :attachment-id="regulationsCode" :file-list="fileList" :file-data-bak-del.sync="fileDataBakDel" :file-data.sync="fileData" />
+      <BsUploadBak
+        ref="myUpload"
+        :attachment-id="regulationsCode"
+        :file-list="fileList"
+        :file-data-bak-del.sync="fileDataBakDel"
+        :file-data.sync="fileData"
+        :size-num="100"
+      />
     </div>
     <div slot="footer" style="height: 80px;margin:0 15px">
       <div v-if="showbox" id="bigbox"></div>
@@ -117,6 +168,28 @@ export default {
       fileDataBakDel: [],
       showbox: false,
       province: '',
+      isPublicList: [
+        {
+          value: 1,
+          label: '是'
+        },
+        {
+          value: 2,
+          label: '否'
+        }
+      ],
+      value: 1,
+      isUseMof: [
+        {
+          value: 1,
+          label: '仅本级使用'
+        },
+        {
+          value: 2,
+          label: '本级和下级使用'
+        }
+      ],
+      useMof: '',
       provinceOptions: []
     }
   },
@@ -147,6 +220,8 @@ export default {
           this.regulationsName = res.data.regulationsName
           this.description = res.data.description
           this.province = res.data.province
+          this.value = res.data.isPublic * 1
+          this.useMof = res.data.useMof * 1
         } else {
           this.$message.error(res.message)
         }
@@ -180,6 +255,10 @@ export default {
         this.$message.warning('请输入政策法规描述')
         return
       }
+      if (this.value === 2 && this.useMof === '') {
+        this.$message.warning('请选择使用范围')
+        return
+      }
       if (this.regulationsName.length > 100) {
         this.$message.warning('政策法规名称长度应小于等于100位')
         return
@@ -194,7 +273,9 @@ export default {
           regulationsName: this.regulationsName,
           description: this.description,
           province: this.province,
-          menuName: this.$store.state.curNavModule.name
+          menuName: this.$store.state.curNavModule.name,
+          useMof: this.useMof,
+          isPublic: this.value
         }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {
@@ -212,7 +293,9 @@ export default {
           regulationsCode: this.regulationsCode,
           regulationsName: this.regulationsName,
           description: this.description,
-          province: this.province
+          province: this.province,
+          useMof: this.useMof,
+          isPublic: this.value
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {
