@@ -1,7 +1,7 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 import { padStart } from 'xe-utils/methods'
-
-export let proconf = {
+const isSx = store.getters.isSx
+let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
@@ -625,7 +625,12 @@ export let proconf = {
     }
   ]
 }
-
+if (isSx) {
+  proconf.PoliciesTableColumns1 = proconf.PoliciesTableColumns1.filter(item => {
+    return !['hookAmt', 'bgtMofDepCode'].includes(item.field)
+  })
+}
+export { proconf }
 /**
  * 将时间戳转dateString
  * @param timestamp
