@@ -709,6 +709,17 @@ export default {
         }
       })
     },
+    getProTreeData() {
+      HttpModule.getProTreeData().then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          let index = this.queryConfig.findIndex(item => item.field === 'proCodes')
+          this.queryConfig[index].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     getPro() {
       const param = {
         elementCode: 'AGENCY',
@@ -755,6 +766,7 @@ export default {
     this.getLeftTreeData()
     this.getAgency()
     this.getPro()
+    this.getProTreeData()
   }
 }
 </script>

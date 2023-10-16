@@ -61,7 +61,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;开始月份</div>
+                    <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;月份</div>
                     <el-select
                       v-model="startMonth"
                       placeholder="请选择月份"
@@ -90,12 +90,24 @@
         <div>
           <vxe-button @click="dialogClose">取消</vxe-button>
           <vxe-button id="savebutton" status="primary" @click="doInsert">预览</vxe-button>
+          <vxe-button id="importbutton" status="primary" @click="importbutton">导入</vxe-button>
         </div>
       </div>
     </div>
+    <ImportModel
+      ref="ImportModel"
+      :file-config="fileConfig"
+      :import-modal-visible.sync="importModalVisible"
+      @onDownloadTemplateClick="onDownloadTemplateClick"
+      @onImportClick="onImportClick"
+      @onImportFileClick="onImportFileClick"
+    />
   </vxe-modal>
 </template>
 <script>
+import ImportModel from '@/components/TableBak/import/import.vue'
+import { checkRscode } from '@/utils/checkRscode'
+import { readLocalFile } from '@/utils/readLocalFile'
 // import { proconf } from '../PoliciesAndRegulationsManagement.js'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 const routerMap = {
@@ -122,7 +134,9 @@ const routerMap = {
 }
 export default {
   name: 'AddDialog',
-  components: {},
+  components: {
+    ImportModel
+  },
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
@@ -143,6 +157,7 @@ export default {
       // 文件上传相关参数
       fileList: [],
       fileData: [],
+      fileName: '',
       fileDataBakDel: [],
       attachmentId: '',
       showbox: false,
@@ -170,11 +185,78 @@ export default {
       ],
       askProvince: '',
       askProvinceOptions: [],
-      treeQueryparams: { elementcode: 'admdiv', province: '610000000', year: '2021', wheresql: 'and code like \'' + 61 + '%\'' },
-      provinceNameList: []
+      provinceNameList: [],
+      importModalVisible: false, // 导入弹框
+      fileConfig: {
+        fileName: '',
+        file: null,
+        maxSize: 1024 * 1024 * 10
+      } // 导入文件配置
     }
   },
   methods: {
+    importbutton() {
+      // if (this.askProvince === '') {
+      //   this.$message.warning('请选择区划')
+      //   return
+      // }
+      if (this.year === '') {
+        this.$message.warning('请选择年份')
+        return
+      }
+      if (this.startMonth === '') {
+        this.$message.warning('请选择月份')
+        return
+      }
+      // debugger
+      this.fileConfig = {
+        fileName: '',
+        file: null,
+        maxSize: 1024 * 1024 * 10
+      }
+      this.importModalVisible = true
+      this.$refs.ImportModel.showDownLoadTemplate = false
+      this.$set(this.$refs.ImportModel, 'fileList', [])
+    },
+    async onImportFileClick() {
+      const { file } = await readLocalFile({
+        types: ['xlsx', 'xls', 'docx', 'doc']
+      })
+      if (file.size >= this.fileConfig.maxSize) {
+        this.$message.error('文件太大')
+        return
+      }
+      this.fileConfig.file = file
+      this.fileConfig.fileName = file.name
+      this.$set(this.$refs.ImportModel, 'fileList', [{ fileName: file.name }])
+    },
+    async onImportClick() {
+      if (!this.fileConfig?.file) {
+        this.$message.warning('请先选择导入文件')
+        return
+      }
+      let params = {
+        year: this.year,
+        month: this.startMonth,
+        mofDivCode: this.provinceCode,
+        mofDivName: this.provinceName,
+        file: this.fileConfig.file,
+        type: routerMap[this.$route.name].code
+      }
+      checkRscode(
+        await HttpModule.importPersonAndCompany(params)
+      )
+      this.$message.success('导入成功')
+      this.dtos = []
+      this.importModalVisible = false
+      this.$parent.dialogVisible = false
+      this.$parent.fileName = ''
+      this.$parent.queryTableDatas()
+      // this.queryTableDatas1()
+    },
+    onDownloadTemplateClick() {
+      console.log('点击下载模板')
+    },
     dialogClose() {
       this.$parent.dialogVisible = false
       this.$parent.queryTableDatas()
@@ -201,17 +283,20 @@ export default {
       let param = {
         year: this.year,
         month: this.startMonth,
+        fileName: this.fileName,
+        reportType: routerMap[this.$route.name].code,
         // endMonth: this.endMonth,
         provinceCode: this.provinceCode,
         provinceName: this.provinceName
       }
       this.addLoading = true
-      HttpModule.sangonglook(param).then(res => {
+      HttpModule.preViewCreate(routerMap[this.$route.name].axiosStr, param).then(res => {
         this.addLoading = false
         if (res.code === '000000') {
           this.$parent.filePreviewDialogVisible = true
           this.$parent.fileGuid = res.data.fileguid
           this.$parent.delId = res.data.id
+          this.$parent.propsFileName = res.data.fileName
           this.$parent.previewYear = this.year
           this.$parent.previewStartMonth = this.startMonth
           // this.$parent.previewEndMonth = this.endMonth
