@@ -99,20 +99,17 @@ export default {
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
-        buttons: [
-          {
-            type: 'button',
-            label: '全部',
-            code: 'whole'
-          }
-        ],
         curButton: {
           type: 'button',
+          iconName: 'base-all.png',
+          iconNameActive: 'base-all-active.png',
+          iconUrl: '',
           label: '全部',
-          code: 'whole'
+          code: '1',
+          curValue: '1'
         },
         buttonsInfo: {
-          'whole': [
+          1: [
             { code: 'add', label: '新增', status: 'primary' },
             { code: 'delete', label: '删除' }
           ]
