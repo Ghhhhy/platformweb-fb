@@ -85,7 +85,7 @@
       :file-guid="fileGuid"
       :app-id="appId"
       :del-id="delId"
-      :file-name="fileName"
+      :file-name="propsFileName"
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
@@ -258,6 +258,7 @@ export default {
       endMonth: '',
       createTime: '',
       fileName: '',
+      propsFileName: '',
       createPerson: '',
       previewYear: '',
       previewStartMonth: '',
