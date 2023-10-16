@@ -122,8 +122,15 @@ export default {
     isSx() { // 判断是不是陕西项目
       return this.$store.getters.isSx
     },
-    setupAuth() { // 县级 市级没有 启用 停用 修改权限
-      return this.$store.state.userInfo.budgetlevelcode === '4' || this.$store.state.userInfo.budgetlevelcode === '5'
+    setupAuth() {
+      var mofStart = this.$store.state.userInfo.province.substring(0, 4)
+      if (mofStart === '3502' || mofStart === '4403' || mofStart === '3302' || mofStart === '2102' || mofStart === '3702') {
+        // 计划单列市中， 县级没有启用 停用 修改权限
+        return this.$store.state.userInfo.budgetlevelcode === '5'
+      } else {
+        // 正常省中 县级，市级没有 启用 停用 修改权限
+        return this.$store.state.userInfo.budgetlevelcode === '4' || this.$store.state.userInfo.budgetlevelcode === '5'
+      }
     },
     isZDZJ() { // 是否是直达资金路由
       return this.param5.dfr === 'dfr' || this.param5.dfr === '0201'
@@ -197,7 +204,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5).hasOwnProperty('show') ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
+        buttonsInfo: this.isZDZJ ? proconf.dfrStatusRightToolBarButton : (this.transJson(this.$store.state.curNavModule.param5)?.show === 'show' ? proconf.statusRightToolBarButtonByBusDept : proconf.statusRightToolBarButton),
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -443,6 +450,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
+          this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
           this.dialogVisible = true
           this.dialogTitle = '查看详情'
         }
@@ -452,6 +460,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = { ...res.data, ruleTypeCode: this.selectionData[0]?.ruleTypeCode, ruleTypeName: this.selectionData[0]?.ruleTypeName }
+          this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
           this.dialogVisible = true
           this.dialogTitle = '修改'
         }

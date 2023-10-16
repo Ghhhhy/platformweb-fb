@@ -28,9 +28,11 @@
               <RuleScroll />
             </div>
           </div>
-          <div class="map-and-menu">
-            <Map />
-            <MenuModel />
+          <div class="addParentBox">
+            <div class="map-and-menu">
+              <Map />
+              <MenuModel />
+            </div>
           </div>
         </div>
         <div class="warning-overview-bottom">
@@ -335,10 +337,14 @@ export default defineComponent({
 @import "../../px-to-vw-page/common/style/module-wrapper";
 @import "../../px-to-vw-page/common/style/vxe-table-style";
 .warning-overview {
+  .addParentBox{
+    width:1346px;
+    overflow-x:scroll;
+  }
   padding: 0 24px 24px;
   box-sizing: border-box;
   .warning-overview-body {
-    min-width: 1872px;
+    // min-width: 1872px;
     margin: 0 auto;
   }
   &-header {
@@ -388,7 +394,7 @@ export default defineComponent({
 }
 .warning-overview-top {
   display: flex;
-  height: 586px;
+  height: 614px;
 
   .rule-container {
     width: 538px;
@@ -411,7 +417,8 @@ export default defineComponent({
   }
 
   .map-and-menu {
-    display: flex;
+    // display: flex;
+    width: 1346px;
   }
 }
 

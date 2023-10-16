@@ -103,12 +103,19 @@
       :title="dialogTitle"
       :select-data="selectData"
     />
+    <CorpAddDialog
+      v-if="addCorpDialogVisible"
+      :title="corpDialogTitle"
+      :file-configcorp="fileConfig"
+      :select-data="importCorpData"
+    />
   </div>
 </template>
 
 <script>
 import { proconf } from './benefitPeople'
 import AddDialog from '@/views/main/fundMonitoring/benefitPeople/children/AddDialog.vue'
+import CorpAddDialog from '@/views/main/fundMonitoring/benefitPeople/children/CorpAddDialog.vue'
 import ImportModel from '@/components/Table/import/import.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
 
@@ -120,7 +127,8 @@ import { downloadByUrl } from '@/utils/download'
 export default {
   components: {
     ImportModel,
-    AddDialog
+    AddDialog,
+    CorpAddDialog
     // AddDialog
   },
   computed: {
@@ -139,7 +147,9 @@ export default {
   data() {
     return {
       selectData: {},
+      importCorpData: [],
       addDialogVisible: false,
+      addCorpDialogVisible: false,
       // 左侧树过滤值
       treeFilterText: '',
       matchHoot: true,
@@ -147,6 +157,11 @@ export default {
       isAmount: false,
       importModalVisible: false, // 导入弹框
       fileConfig: {
+        fileName: '',
+        file: null,
+        maxSize: 1024 * 1024 * 10
+      }, // 导入文件配置
+      fileConfigcorp: {
         fileName: '',
         file: null,
         maxSize: 1024 * 1024 * 10
@@ -306,6 +321,7 @@ export default {
       // 新增弹窗
       dialogVisible: false,
       dialogTitle: '新增',
+      corpDialogTitle: '企业性质标识',
       addTableData: [],
       // 请求 & 角色权限相关配置
       menuName: '系统级监控规则',
@@ -365,15 +381,36 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      checkRscode(
-        await HttpModule.importPersonAndCompany(this.fileConfig)
-      )
-      this.$message.success('导入成功')
-      this.dtos = []
-      this.importModalVisible = false
+      if (this.fileConfig.fileType === '2') {
+        await HttpModule.queryCompanyInfo(this.fileConfig).then(async res => {
+          if (res.rscode === '100000') {
+            if (res.data && res.data.length > 0) {
+              this.importCorpData = res.data
+              this.fileConfigcorp = this.fileConfig
+              this.addCorpDialogVisible = true
+            } else {
+              checkRscode(
+                await HttpModule.importPersonAndCompany(this.fileConfig)
+              )
+              this.$message.success('导入成功')
+              this.dtos = []
+              this.importModalVisible = false
 
-      this.queryTableDatas()
-      this.queryTableDatas1()
+              this.queryTableDatas()
+              this.queryTableDatas1()
+            }
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+      } else {
+        checkRscode(
+          await HttpModule.importPersonAndCompany(this.fileConfig)
+        )
+        this.$message.success('导入成功')
+        this.dtos = []
+        this.importModalVisible = false
+      }
     },
     async onImportFileClick() {
       const { file } = await readLocalFile({

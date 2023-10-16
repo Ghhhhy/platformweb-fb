@@ -153,6 +153,9 @@ const budgetImpColumns = [
     filters: false,
     align: 'center',
     exportFormatter: true, // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
+    // tooltipFormat({ row }) { // @BsUI >= 2.1.2-beta.12
+    //   return row.trackProCode && row.trackProName ? `${row.trackProCode}-${row.trackProName}` : ''
+    // },
     formatter({ row }) {
       return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
     },

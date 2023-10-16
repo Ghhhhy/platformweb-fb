@@ -32,10 +32,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .menu-model-container {
   position: relative;
-  width: 823px;
+  display:inline-block;
   .menu-model-icon {
-    width: 100%;
-    height: 100%;
+    width: 820px;
+    height: 585px;
   }
 
   .menu-model-item {

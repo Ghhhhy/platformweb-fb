@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: 强子
+ * @Date: 2023-10-13 10:38:06
+ * @LastEditors: 强子
+ * @LastEditTime: 2023-10-13 10:43:20
+ */
 import { post } from '@/api/http'
 export default {
   // 汇总数据查询

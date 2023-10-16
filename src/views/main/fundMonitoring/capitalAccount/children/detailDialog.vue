@@ -80,6 +80,7 @@ export default {
       isShowQueryConditions: true,
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
+      hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
       detailVisible: true,
       // 表格尾部合计配置
       tableFooterConfig: {
@@ -272,6 +273,35 @@ export default {
       }).finally(() => {
         this.$parent.tableLoading = false
       })
+    },
+    isConfigTable() {
+      if (this.detailType === 'zdzjxmmx_fzj' || this.detailType === 'zdzjxmmx_fdq') {
+        this.detailQueryParam.reportCode = 'zdzjxmmx'
+      }
+      switch (this.detailType) {
+        // 分地区 支出金额
+        case 'zdzjzcmx_fdq':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          break
+        // 分地区 (市 区 镇) 分配本级
+        case 'zdzjxmmx_fdq':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          break
+        // 分资金 支出金额
+        case 'zdzjzcmx_fzj':
+          this.loadConfig('BsTable', 'Table201')
+          this.loadConfig('BsQuery', 'Query201')
+          break
+        // 分资金 (市 区 镇) 分配本级
+        case 'zdzjxmmx_fzj':
+          this.loadConfig('BsTable', 'Table202')
+          this.loadConfig('BsQuery', 'Query202')
+          break
+        default:
+          break
+      }
     },
     showInfo() {
       // this.tableData = this.detailData
@@ -525,6 +555,16 @@ export default {
       this.$parent.sDetailVisible = true
       this.$parent.sDetailType = reportCode
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       if (this.$store.getters.isSx) {
         if ((this.detailType === 'fdqzdzjxmmx' || this.detailType === 'zdzjxmmx(czb)') && row.cenTraProName !== '合计') {
@@ -650,14 +690,19 @@ export default {
     if (this.$store.getters.isSx) {
       this.showInfoSx()
     } else {
-      this.showInfo()
-    }
-    if (this.transJson(this.$store.state.curNavModule.param5 || '')?.isConfigTable === '1') {
-      this.ConfigTable()
+      if (this.hideColumnLinkStr.isConfigTable === '1') {
+        this.isConfigTable()
+      } else {
+        this.showInfo()
+      }
     }
   },
   watch: {},
-  created() {}
+  created() {
+    if (this.hideColumnLinkStr.projectCode === 'SH') {
+      this.tableFooterConfig.showFooter = true
+    }
+  }
 }
 </script>
 <style lang="scss">

@@ -48,7 +48,7 @@
           :title="menuName"
           :default-money-unit="10000"
           :cell-style="cellStyle"
-          :show-zero="false"
+          :show-zero="showZeroState"
           :formula-digits="1"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
@@ -159,6 +159,8 @@ export default {
   },
   data() {
     return {
+      hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
+      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       searchDataListOld: {},
       reportTime: '',
       isFlush: false,
@@ -409,22 +411,13 @@ export default {
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
+        this.getPro()
       }
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
-        this.queryConfig = configData.itemsConfig || getFormData('highQueryConfig')
-        this.getPro()
+        this.queryConfig = configData.itemsConfig
+        this.searchDataList.fiscalYear = new Date().getFullYear()
       }
-    },
-    transJson3 (str) {
-      let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
-        acc[key] = value
-        strTwo = acc
-        return acc
-      }, {})
-      return strTwo
     },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit = level === 1 ? '元' : '万元'
@@ -452,6 +445,7 @@ export default {
         }
       })
       this.searchDataList = searchDataObj
+      this.searchDataList.fiscalYear = new Date().getFullYear()
     },
     // 初始化高级查询参数condition
     getConditionList() {
@@ -629,7 +623,7 @@ export default {
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
+        proCodes: (this.searchDataList.proCodes && typeof this.searchDataList.proCodes === 'string') ? this.getTrees(this.searchDataList.proCodes) : []
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -673,12 +667,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row, obj.column)
+          this.handleDetail(xmSource, obj.row.code, key, obj.row)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row, obj.column)
+          this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = obj.row.name + '支出明细'
       }
     },
@@ -940,6 +934,16 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
+    transJson3 (str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       // 拿到那些可以进行超链接的表格行
       const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
@@ -965,14 +969,16 @@ export default {
           }
         }
       }
+    },
+    isConfigTable() {
+      this.loadConfig('BsTable', 'Table101')
+      this.loadConfig('BsQuery', 'Query101')
     }
   },
   mounted() {
-    console.log(this.paramS5, 'paramS5paramS5')
     this.getNewData()
-    if (this.paramS5.isConfigTable === '1') {
-      this.loadConfig('BsTable', 'Table101')
-      this.loadConfig('BsQuery', 'Query101')
+    if (this.hideColumnLinkStr.isConfigTable === '1') {
+      this.isConfigTable()
     }
   },
   created() {
