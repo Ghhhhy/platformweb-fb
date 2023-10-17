@@ -96,6 +96,23 @@ export let proconf = {
       align: 'center'
     },
     {
+      field: 'isPublic',
+      title: '是否公开',
+      cellRender: {
+        name: '$vxeSelect',
+        options: [{
+          value: 1,
+          label: '是'
+        }, {
+          value: 2,
+          label: '否'
+        }],
+        props: {
+          placeholder: '是否公开'
+        }
+      }
+    },
+    {
       title: '操作',
       field: 'gloableOptionRow',
       className: 'gloableOptionRow',

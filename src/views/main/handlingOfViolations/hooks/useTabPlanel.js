@@ -88,6 +88,14 @@ function useTabPlanel(
       Message.warning('请勾选需要撤回的数据')
       return
     }
+    let waringLevelMap = {}
+    checkedRecords.value.forEach(item => {
+      waringLevelMap[item.warnLevel] = item.warnLevel
+    })
+    if (Object.keys(waringLevelMap).length > 1) {
+      Message.warning('请选择同一预警级别')
+      return
+    }
     MessageBox.confirm('确认撤回所选数据吗？', '温馨提示', {
       type: 'warning',
       callback: async action => {

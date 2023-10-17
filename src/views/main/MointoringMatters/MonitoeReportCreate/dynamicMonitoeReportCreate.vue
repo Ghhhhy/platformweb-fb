@@ -91,6 +91,7 @@
       :preview-year="previewYear"
       :preview-start-month="previewStartMonth"
       :preview-end-month="previewEndMonth"
+      :file-name="propsFileName"
       :province-code="provinceCode"
       :province-name="provinceName"
       :province-name-list="provinceNameList"
@@ -100,7 +101,7 @@
 
 <script>
 import { proconf } from './sanGongMonitoeReportCreate'
-import AddDialog from './children/dynamicaddDialog'
+import AddDialog from './children/sangongaddDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'
@@ -117,6 +118,7 @@ export default {
     return {
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
+      propsFileName: '',
       searchDataList: proconf.highQueryData,
       radioShow: true,
       breakRuleVisible: false,

@@ -1,6 +1,7 @@
 <template>
   <vxeModal
     v-model="detailVisible"
+    v-loading="formLoading"
     v-bind="modalLayout"
     @close="dialogClose"
   >
@@ -28,6 +29,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/notFillBenefitDetail.js'
 import store from '@/store/index'
 export default defineComponent({
   setup(_this, { emit }, ctx) {
+    let formLoading = ref(false)
     let clickRowData = ref({})
     const detailVisible = ref(false)
     const modalLayout = reactive({
@@ -79,6 +81,7 @@ export default defineComponent({
       emit('closeModal')
     }
     const onSearch = () => {
+      formLoading.value = true
       const params = {
         fiscalYear: store.state.userInfo.year,
         mofDivCode: clickRowData.value.code,
@@ -88,6 +91,7 @@ export default defineComponent({
         if (res.code === '000000') {
           tableData.value = res.data
         }
+        formLoading.value = false
       })
     }
     onMounted(() => {
@@ -103,7 +107,8 @@ export default defineComponent({
       dialogClose,
       onSearch,
       tableLisenter,
-      clickRowData
+      clickRowData,
+      formLoading
     }
   }
 })

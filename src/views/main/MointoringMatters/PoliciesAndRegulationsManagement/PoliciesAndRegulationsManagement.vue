@@ -379,12 +379,11 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      const province = node.name === '全部分类' ? '' : node.name
-      // let province = ''
-      // province = node.name
-      // if (node.children && node.children.length !== 0 && node.id !== '0') {
-      //   province = ''
-      // }
+      let province = ''
+      province = node.name
+      if (node.children && node.children.length !== 0 && node.id !== '0') {
+        province = ''
+      }
       this.queryTableDatas(province)
     },
     treeSetConfrimData(curTree) {
