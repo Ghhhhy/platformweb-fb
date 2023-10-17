@@ -9,7 +9,7 @@ import { setupElementUI } from './plugin/setupElementUI'
 import ElementUI from './common/js/lib/elementUI/elementUI.js'
 import loadingDirective from './directive/loading.js'
 import customerDirective from './directive/customerDirective.js'
-
+import { BSURL } from '@/api/requestUrl.js'
 // 注册compoistion-api
 import { setupCompositionApi } from './plugin/setupCompositionApi'
 import { setupSvg } from './plugin/setupSvg'
@@ -37,6 +37,7 @@ import './plugin/http'
 import './plugin/UI'
 import './plugin/bs-ui' // 组件库出现问题阻塞时，注释掉当前行即可
 import '@/assets/css/reset.scss'
+window.BSURL = BSURL
 // import Base64 from 'js-base64'
 
 // Vue.use(Base64)

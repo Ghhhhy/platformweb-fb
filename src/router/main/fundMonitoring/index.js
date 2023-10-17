@@ -623,6 +623,14 @@ const routers = [
       )
   },
   {
+    path: '/workflowOversightManagement',
+    name: 'workflowOversightManagement',
+    meta: {
+      keepAlive: true
+    },
+    component: () => import('@/views/main/fundMonitoring/workflowOversightManagement/workflowOversightManagement.vue')
+  },
+  {
     path: '/SproWarningResultHandleRuleProvince',
     name: 'SproWarningResultHandleRuleProvince',
     meta: {

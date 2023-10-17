@@ -19,6 +19,7 @@
         />
         <BsTable
           ref="detailTable"
+          show-zero
           style="height:calc(100% - 56px)"
           :loading="tableLoading"
           :table-data="tableData"

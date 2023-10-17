@@ -67,7 +67,9 @@ module.exports = {
    * 【】value值用于标识该变量能否被重写，类似于const的作用。true为允许变量被重写
    * 【】注意：要启用no-global-assign规则来禁止对只读的全局变量进行修改。
    */
-  globals: {},
+  globals: {
+    BSURL: true
+  },
   /**
    * 规则继承
    * http://eslint.cn/docs/user-guide/configuring#extending-configuration-files
