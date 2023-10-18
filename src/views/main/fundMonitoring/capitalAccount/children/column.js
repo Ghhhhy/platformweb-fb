@@ -2208,9 +2208,17 @@ if (store.getters.isSx) {
     ythzcColumn: [
       {
         title: '区划',
-        field: 'mofDiv',
+        width: 180,
+        field: 'mofDivCode',
         sortable: false,
-        align: 'center'
+        filters: false,
+        align: 'center',
+        formatter({ row }) {
+          if (row.mofDivName && row.mofDivCode) {
+            return `${row.mofDivName}-${row.mofDivCode}`
+          }
+          return row.mofDivCode
+        }
       },
       {
         title: '月份',
@@ -2381,10 +2389,16 @@ if (store.getters.isSx) {
       {
         title: '区划',
         width: 180,
-        field: 'mofDiv',
+        field: 'mofDivCode',
         sortable: false,
         filters: false,
-        align: 'center'
+        align: 'center',
+        formatter({ row }) {
+          if (row.mofDivName && row.mofDivCode) {
+            return `${row.mofDivName}-${row.mofDivCode}`
+          }
+          return row.mofDivCode
+        }
       }
     ],
     personalColumn: [

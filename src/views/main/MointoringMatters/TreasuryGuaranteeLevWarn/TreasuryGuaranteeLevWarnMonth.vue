@@ -67,7 +67,7 @@
 <script>
 import { proconf } from './TreasuryGuaranteeLevWarn'
 import HttpModule from '@/api/frame/main/Monitoring/TreasuryGuaranteeLevWarn.js'
-
+import { post } from '@/api/http'
 export default {
   components: {},
   watch: {
@@ -129,6 +129,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
+      titleList: [],
       tableColumnsConfig: proconf.PoliciesTableColumns,
       tableColumnsConfig1: proconf.PoliciesTableColumns,
       mountTableColumnsConfig: proconf.PoliciesTableColumns2,
@@ -408,7 +409,7 @@ export default {
         mofDivName: this.searchDataList.mofDivName,
         mofDivCodeList: this.mofDivCodeList
       }
-      this.tableColumnsConfig = [
+      let staticList = [
         {
           title: '区划编码',
           field: 'mofDivCode',
@@ -428,57 +429,60 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          if (res.data.titleList.length) {
-            res.data.titleList.forEach((item, index) => {
-              this.tableColumnsConfig.splice(2 + index, 0, {
-                title: item.monthName,
-                field: item.month,
-                sortable: false,
-                align: 'left',
-                children: [
-                  {
-                    title: '库款保障水平',
-                    field: item.treasuryGuaranteeLevel,
-                    width: '150',
-                    align: 'center'
-                  },
-                  {
-                    title: '状态',
-                    field: item.status,
-                    width: '150',
-                    type: 'html',
-                    align: 'center',
-                    'cellRender': {
-                      'name': '$vxeSelect',
-                      'options': [
-                        {
-                          'value': '1',
-                          'label': '库款预警'
-                        },
-                        {
-                          'value': '2',
-                          'label': '库款偏低'
-                        },
-                        {
-                          'value': '3',
-                          'label': '库款正常'
-                        },
-                        {
-                          'value': '4',
-                          'label': '库款闲置'
-                        },
-                        {
-                          'value': '-',
-                          'label': '-'
-                        }
-                      ],
-                      'defaultValue': '',
-                      'props': {}
+          if (Array.isArray(res.data.titleList)) {
+            this.titleList = res.data.titleList
+            this.tableColumnsConfig = staticList.concat(
+              this.titleList.map((item, index) => {
+                return {
+                  title: item.monthName,
+                  field: item.month,
+                  sortable: false,
+                  align: 'left',
+                  children: [
+                    {
+                      title: '库款保障水平',
+                      field: item.treasuryGuaranteeLevel,
+                      width: '150',
+                      align: 'center'
+                    },
+                    {
+                      title: '状态',
+                      field: item.status,
+                      width: '150',
+                      type: 'html',
+                      align: 'center',
+                      'cellRender': {
+                        'name': '$vxeSelect',
+                        'options': [
+                          {
+                            'value': '1',
+                            'label': '库款预警'
+                          },
+                          {
+                            'value': '2',
+                            'label': '库款偏低'
+                          },
+                          {
+                            'value': '3',
+                            'label': '库款正常'
+                          },
+                          {
+                            'value': '4',
+                            'label': '库款闲置'
+                          },
+                          {
+                            'value': '-',
+                            'label': '-'
+                          }
+                        ],
+                        'defaultValue': '',
+                        'props': {}
+                      }
                     }
-                  }
-                ]
+                  ]
+                }
               })
-            })
+            )
           }
           this.tableData = res.data.dataList
           this.mainPagerConfig.total = res.data.dataList.length
@@ -519,7 +523,9 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      HttpModule.getLeftTree(this.treeQueryparamsCom).then(res => {
+      let url = BSURL.lmp_mofDivTree
+      if (this.$store.getters.isSx) url = BSURL.api_simpleTreeWhere
+      post(url, this.treeQueryparamsCom).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
           this.queryConfig[2].itemRender.options = treeResdata
