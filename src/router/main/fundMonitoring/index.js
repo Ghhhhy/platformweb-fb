@@ -2,7 +2,7 @@
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-09-12 15:58:42
  * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-08 14:14:01
+ * @LastEditTime: 2023-10-17 10:49:29
  * @FilePath: \platformweb-fb\src\router\main\fundMonitoring\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -831,6 +831,15 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/main/fundMonitoring/benefitEnterprisesInformation/benefitEnterprisesInformation.vue')
+  },
+  {
+    path: '/benefitDistributionRegion', // 惠企利民--发放情况统计（按地区）
+    name: 'benefitDistributionRegion',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/benefitDistributionRegion/benefitDistributionRegion.vue')
   },
   {
     path: '/benefitPeopleConfirm', // 惠企利民确认
