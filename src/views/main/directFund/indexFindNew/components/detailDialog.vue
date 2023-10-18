@@ -183,6 +183,7 @@ export default {
       let params = this.detailRow// 外面传入的row，作为参数
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
+      params.reportCode = 'zdzjzcmx'
       this.tableLoading = true
       await this.$http.post('dfr-monitor-service/dfr/bgtInfoQuery/queryPayDeatil', params).then((res) => {
         if (res.code === '000000' && res.data) {

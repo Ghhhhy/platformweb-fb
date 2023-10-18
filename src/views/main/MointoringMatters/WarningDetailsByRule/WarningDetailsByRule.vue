@@ -237,7 +237,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '系统级监控规则',
       params5: '',
-      param5: '',
+      paramObj: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -717,12 +717,6 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
-      let regulationClassParam
-      if (this.$store.getters.isFuJian) {
-        regulationClassParam = this.param5 === '6' ? '' : this.params5
-      } else {
-        regulationClassParam = this.params5
-      }
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -730,7 +724,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: regulationClassParam,
+        regulationClass: this.params5,
         firulecode: this.regulation_code,
         triggerClass: this.triggerClass,
         isSign: this.isSign,
@@ -738,15 +732,15 @@ export default {
         businessNo: this.searchDataList.businessNo,
         endTime: this.endTime,
         mofDivCodeList: this.codeList,
-        regulation_code: this.regulation_code,
-        regulation_class: this.regulation_class,
-        regulation_type: this.regulation_type,
+        // regulation_code: this.regulation_code,
+        // regulation_class: this.regulation_class,
+        // regulation_type: this.regulation_type,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         useDes: this.useDes,
         roleId: this.roleguid
       }
       this.tableLoading = true
-      if (this.param5 === '6' && this.$store.getters.isFuJian) {
+      if (this.paramObj.queryPayData && this.$store.getters.isFuJian) {
         HttpModule.queryTableDatas1(param).then(res => {
           this.tableLoading = false
           if (res.code === '000000') {
@@ -832,6 +826,18 @@ export default {
           that.$message.error('下拉树加载失败')
         }
       })
+    },
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
     },
     getLeftTreeData() {
       console.log(this.userInfo)
@@ -935,12 +941,13 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.getters.getRegulationClass
-    this.param5 = this.$store.state.curNavModule.param5
+    this.paramObj = this.transJson(this.$store.state.curNavModule.param5)
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
+
     if (this.$store.getters.isFuJian) {
-      this.queryConfig = this.param5 === '6' ? proconf.highQueryConfigPay : proconf.highQueryConfig
+      this.queryConfig = Boolean.valueOf(this.paramObj.queryPayData) ? proconf.highQueryConfigPay : proconf.highQueryConfig
     }
 
     if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
