@@ -444,6 +444,7 @@ export default {
       this.queryTableDatas(node.guid)
     },
     handleDetail(type, recDivCode, column) {
+      console.log(column, recDivCode)
       if (this.isSx) {
         let params = {
           reportCode: type === 'jOut' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
@@ -494,7 +495,7 @@ export default {
               condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
               break
             case 'shbjfpaAmount':
-              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              condition = ' substr(mof_div_code,7,3)=\'000\' '
               break
             case 'xyfpaAmount':
               condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
@@ -508,6 +509,7 @@ export default {
           isCz = '1'
         }
         console.info('recDivCode==' + recDivCode)
+        console.log(condition)
         let params = {
           condition: condition,
           isCz: isCz,
@@ -533,6 +535,7 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
+      console.log(obj, '钻取列')
       if (this.isSx) {
         let key = obj.column.property
         switch (key) {
