@@ -126,12 +126,12 @@ export default defineComponent({
       tableFooterConfig: {},
       toolbarConfig: {
         // table工具栏配置
-        // custom: true, // 选配展示列
-        // moneyConversion:false,
-        // slots: {
-        //   tools: 'toolbarTools',
-        //   buttons: 'toolbarSlots'
-        // }
+        custom: true, // 选配展示列
+        moneyConversion: false,
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
       },
       tableConfig: {
         wordLength: 6// 自定义溢出(?)字展示文字提示
