@@ -381,7 +381,7 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      if (this.fileConfig.fileType === '2') {
+      if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
         await HttpModule.queryCompanyInfo(this.fileConfig).then(async res => {
           if (res.rscode === '100000') {
             if (res.data && res.data.length > 0) {
