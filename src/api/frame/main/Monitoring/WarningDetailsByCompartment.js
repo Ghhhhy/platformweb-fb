@@ -5,6 +5,9 @@ export default {
   queryTableDatas(params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfos', params)
   },
+  queryTableDatas1(params) {
+    return post('large-monitor-platform/lmp/executeWarn/payDiBillInfo', params)
+  },
   queryTableDatasSum(params) {
     return post('large-monitor-platform/lmp/executeWarn/warnInfosSum', params)
   },
