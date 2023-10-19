@@ -66,7 +66,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
-          format: 'YYYYMMDD'
+          format: 'YYYY-MM-DD'
         }
       }
     }
