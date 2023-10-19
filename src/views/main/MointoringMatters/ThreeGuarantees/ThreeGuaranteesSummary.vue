@@ -44,16 +44,25 @@
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
+          row-id="id"
           :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="false"
           :toolbar-config="tableToolbarConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true,accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{
+            dblExpandAll: true,
+            dblExpand: true,
+            accordion: false,
+            iconClose: 'el-icon-circle-plus',
+            iconOpen: 'el-icon-remove',
+            expandRowKeys: defaultExpandKey,
+          }"
           :default-money-unit="defaultMoneyUnit"
           :show-zero="true"
           :table-global-config="exportGlobalConfig"
+          :cell-style="cellStyle"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -79,6 +88,7 @@
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <ThreeGuaranteesSummaryModal v-if="showModal" ref="ThreeGuaranteesSummaryModal" />
   </div>
 </template>
 
@@ -87,9 +97,28 @@ import { proconf } from './ThreeGuaranteesSummary'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/ThreeGuaranteesSummary.js'
 import moment from 'moment'
+import ThreeGuaranteesSummaryModal from './children/ThreeGuaranteesSummaryModal.vue'
+const cursionTreeList = (tree) => {
+  const arr = []
+  const levelNo = [0, 1]
+  if (!Array.isArray(tree) || !tree.length) return
+  const cursionTree = (tree, level = 0) => {
+    tree.forEach((item) => {
+      if (levelNo.includes(level)) {
+        arr.push(item.id)
+      }
+      if (Array.isArray(item.children) && item.children && item.children.length) {
+        cursionTree(item.children, level + 1)
+      }
+    })
+  }
+  cursionTree(tree)
+  return arr
+}
 export default {
   components: {
-    AddDialog
+    AddDialog,
+    ThreeGuaranteesSummaryModal
   },
   computed: {
     exportGlobalConfig() {
@@ -108,6 +137,7 @@ export default {
   },
   data() {
     return {
+      defaultExpandKey: [],
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -181,7 +211,7 @@ export default {
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
-        expandAll: true, // 展开所有
+        expandAll: false, // 展开所有
         print: false, // 打印
         zoom: true, // 缩放
         custom: true, // 选配展示列
@@ -225,6 +255,7 @@ export default {
       // 操作日志
       logData: [],
       showLogView: false,
+      showModal: false,
       // 新增弹窗
       dialogVisible: false,
       dialogTitle: '新增',
@@ -525,8 +556,32 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
-      console.log(key, obj.row)
-      switch (key) {
+      console.log('=====当前点击行key====', key)
+      console.log('=====当前点击行row====', obj.row)
+      console.log('=====当前点击行column====', obj.column)
+      const { canInsert } = obj.column.own || { canInsert: false }
+      if (canInsert) {
+        this.showModal = true
+        this.$nextTick(() => {
+          if (obj.row.children && Array.isArray(obj.row.children)) {
+            this.$refs.ThreeGuaranteesSummaryModal.clickType = 'total'
+          } else {
+            this.$refs.ThreeGuaranteesSummaryModal.clickType = 'region'
+          }
+          this.$refs.ThreeGuaranteesSummaryModal.tableType = obj.column.own.tableType
+          this.$refs.ThreeGuaranteesSummaryModal.dialogVisible = true
+        })
+      }
+    },
+    cellStyle(obj, context, e) {
+      const { canInsert } = obj.column.own || { canInsert: false }
+      const validCellValue = (obj.row[obj.column.property] * 1)// 是否是有效值
+      if (validCellValue && canInsert) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+          // cursor: 'pointer'
+        }
       }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
@@ -565,6 +620,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.defaultExpandKey = cursionTreeList(res.data.results)
           let sbZbjeBgz = 0
           let sbZxjeBgz = 0
           let sbZbjeByz = 0

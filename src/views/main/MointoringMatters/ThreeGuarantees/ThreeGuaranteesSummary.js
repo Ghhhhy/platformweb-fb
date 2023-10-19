@@ -86,6 +86,7 @@ export let proconf = {
       treeNode: true,
       align: 'left',
       width: 260,
+      fixed:'left',
       field: 'mofDivName',
       filters: false
     },
@@ -97,10 +98,12 @@ export let proconf = {
         {
           title: '预算数',
           field: 'total_yss',
+          tableType:'bgt',
           width: 200,
           align: 'right',
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           filters: false,
+          canInsert:true,
           cellRender: {
             name: '$vxeMoney'
           },
@@ -109,10 +112,12 @@ export let proconf = {
         {
           title: '支出数',
           field: 'total_zcs',
+          tableType:'pay',
           width: 200,
           align: 'right',
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           filters: false,
+          canInsert:true,
           cellRender: {
             name: '$vxeMoney'
           },
@@ -139,8 +144,10 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeBgz',
+          tableType:'bgt',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -150,8 +157,10 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeBgz',
+          tableType:'pay',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -185,7 +194,7 @@ export let proconf = {
           slots: {
             default({ row }) {
               return [
-                <div style={{backgroundColor:warningCell(row.bgz_zxjd).color}}>{warningCell(row.bgz_zxjd).label}</div>
+                <div style={{backgroundColor:warningCell(row.bgz_zxjd).color,height:"98%"}}>{warningCell(row.bgz_zxjd).label}</div>
               ]
             }
           },
@@ -210,8 +219,10 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeByz',
+          tableType:'bgt',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -221,8 +232,10 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeByz',
+          tableType:'pay',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -256,7 +269,7 @@ export let proconf = {
           slots: {
             default({ row }) {
               return [
-                <div style={{backgroundColor:warningCell(row.byz_zxjd).color}}>{warningCell(row.byz_zxjd).label}</div>
+                <div style={{backgroundColor:warningCell(row.byz_zxjd).color,height:"98%"}}>{warningCell(row.byz_zxjd).label}</div>
               ]
             }
           },
@@ -281,8 +294,10 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeBjbms',
+          tableType:'bgt',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -292,8 +307,10 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeBjbms',
+          tableType:'pay',
           width: 200,
           align: 'right',
+          canInsert:true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -326,7 +343,7 @@ export let proconf = {
           slots: {
             default({ row }) {
               return [
-                <div style={{backgroundColor:warningCell(row.bms_zxjd).color}}>{warningCell(row.bms_zxjd).label}</div>
+                <div style={{backgroundColor:warningCell(row.bms_zxjd).color,height:"98%"}}>{warningCell(row.bms_zxjd).label}</div>
               ]
             }
           },
