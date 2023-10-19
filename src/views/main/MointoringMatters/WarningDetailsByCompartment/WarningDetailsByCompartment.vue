@@ -231,6 +231,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '系统级监控规则',
       params5: '',
+      paramObj: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -282,6 +283,18 @@ export default {
   mounted() {
   },
   methods: {
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
+    },
     search(obj) {
       console.log(obj)
       this.searchDataList = obj
@@ -684,7 +697,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
-        regulationClass: this.params5,
+        regulationClass: this.paramObj.regulationClass,
         mofDivCodeList: this.codeList,
         mofdivcode: this.mofdivcode || '',
         triggerClass: this.triggerClass,
@@ -703,33 +716,51 @@ export default {
           this.$message.error(res.result)
         }
       })
-      HttpModule.queryTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.handleTime === null) {
-              item.handleTime = '-'
-            }
-            // debugger
-            if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
-            }
-          })
-          this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
-        } else {
-          this.$message.error(res.result)
-        }
-      })
+      if (this.paramObj.queryPayData && this.$store.getters.isFuJian) {
+        HttpModule.queryTableDatas1(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        HttpModule.queryTableDatas(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+              // debugger
+              if (item.warnLevel === 1) {
+                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+              } else if (item.warnLevel === 2) {
+                item.warnLevel = '<span style="color:orange">橙色预警</span>'
+              } else if (item.warnLevel === 3) {
+                item.warnLevel = '<span style="color:red">红色预警</span>'
+              } else if (item.warnLevel === 5) {
+                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+              } else if (item.warnLevel === 4) {
+                item.warnLevel = '<span style="color:gray">灰色预警</span>'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.result)
+          }
+        })
+      }
     },
     // 操作日志
     queryActionLog(row) {
@@ -858,6 +889,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
+    this.paramObj = this.transJson(this.$store.state.curNavModule.param5)
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
