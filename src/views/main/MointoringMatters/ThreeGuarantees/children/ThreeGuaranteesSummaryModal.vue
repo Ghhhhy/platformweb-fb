@@ -120,8 +120,13 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params) => post(BSURL.lmp_mofDivTree, params),
+      fetch: (params) => post(BSURL.dfr_supervisionQuery, params),
       beforeFetch: params => {
+        if(tableType.value === 'bgt'){
+          params.reportCode='sbzcyjhzb_ysmx'
+        }else{
+          params.reportCode='sbzcyjhzb_zcmx'
+        }
         return params
       },
       columns: cellClickColumns,

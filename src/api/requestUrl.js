@@ -7,6 +7,7 @@ const BSURL = {
 
   // dfr-monitor-service/dfr 直达资金
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
+  dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query',
 
   // mp-b-basedata-service 平台
   api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where'
