@@ -62,10 +62,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .map-shanxi-container {
   position: relative;
-  width:230px;
+  min-width:515px;
   display:inline-block;
   height: 586px;
-
+  .shanxi-map{
+    width:100%;
+    height:100%;
+  }
   .map-tips {
     position: absolute;
     top: 0;

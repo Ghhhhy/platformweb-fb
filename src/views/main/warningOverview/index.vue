@@ -68,7 +68,7 @@
               />
             </div>
           </div>
-          <div class="warning-data">
+          <div v-param5Show="'showSanGong'" class="warning-data">
             <div class="module-wrapper">
               <p class="f20 rule-swiper-title">全省“三公”经费预警处理率排名</p>
               <vxe-grid
