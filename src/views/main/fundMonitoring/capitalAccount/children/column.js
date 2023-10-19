@@ -2215,9 +2215,9 @@ if (store.getters.isSx) {
         align: 'center',
         formatter({ row }) {
           if (row.mofDivName && row.mofDivCode) {
-            return `${row.mofDivName}-${row.mofDivCode}`
+            return `${row.mofDivCode}-${row.mofDivName}`
           }
-          return row.mofDivCode
+          return row.mofDivName
         }
       },
       {
@@ -2395,9 +2395,9 @@ if (store.getters.isSx) {
         align: 'center',
         formatter({ row }) {
           if (row.mofDivName && row.mofDivCode) {
-            return `${row.mofDivName}-${row.mofDivCode}`
+            return `${row.mofDivCode}-${row.mofDivName}`
           }
-          return row.mofDivCode
+          return row.mofDivName
         }
       }
     ],
