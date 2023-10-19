@@ -74,7 +74,7 @@ const defaultTableColumns = [
   },
   {
     title: '三保标识',
-    field: 'SBBS',
+    field: 'sbSign',
     tableType: 'bgt',
     filters: true,
     width: 180,
@@ -141,7 +141,7 @@ const defaultTableColumns = [
   // --支付
   {
     title: '资金用途',
-    field: 'proName',
+    field: 'useDes',
     width: 180,
     sortable: false,
     filters: true,
@@ -151,7 +151,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付申请单号',
-    field: 'proName',
+    field: 'payAppNo',
     width: 180,
     sortable: false,
     filters: true,
@@ -161,7 +161,7 @@ const defaultTableColumns = [
   },
   {
     title: '付款方账户名称',
-    field: 'proName',
+    field: 'payAcctName',
     sortable: false,
     width: 180,
     filters: true,
@@ -171,7 +171,7 @@ const defaultTableColumns = [
   },
   {
     title: '付款方账号',
-    field: 'proName',
+    field: 'payAcctNo',
     width: 180,
     sortable: false,
     filters: true,
@@ -181,7 +181,7 @@ const defaultTableColumns = [
   },
   {
     title: '收款方账户名称',
-    field: 'proName',
+    field: 'payeeAcctName',
     width: 180,
     sortable: false,
     filters: true,
@@ -191,7 +191,7 @@ const defaultTableColumns = [
   },
   {
     title: '收款方账号',
-    field: 'proName',
+    field: 'payeeAcctNo',
     sortable: false,
     width: 180,
     filters: true,
@@ -201,7 +201,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付金额',
-    field: 'proName',
+    field: 'payAppAmt',
     width: 180,
     filters: true,
     sortable: false,
@@ -212,7 +212,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付时间',
-    field: 'proName',
+    field: 'xpayDate',
     width: 180,
     sortable: false,
     tableType: 'pay',

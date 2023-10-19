@@ -20,6 +20,7 @@ function useTable(
     afterFetch: config?.afterFetch, // 后置钩子
     finallyFetch: config?.finallyFetch, // 赋值完成的钩子
     getSubmitFormData: config?.getSubmitFormData, // 获取搜索栏form表单值
+    tableToolbarConfig: config?.tableToolbarConfig,
     openPager:
       typeof config?.openPager !== 'undefined' ? config?.openPager : true, // 是否开启分页
     dataKey:
@@ -49,7 +50,8 @@ function useTable(
       tools: 'toolbarTools',
       buttons: 'toolbarSlots'
     },
-    exportCustom: false// 自定义导出
+    exportCustom: false, // 自定义导出
+    ...configIn.tableToolbarConfig
   })
   if (configIn.isUnitFeedbackMenu) {
     tableToolbarConfig.exportCustom = true
