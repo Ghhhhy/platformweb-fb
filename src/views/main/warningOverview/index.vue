@@ -68,7 +68,7 @@
               />
             </div>
           </div>
-          <div v-param5Show="'showSanGong'" class="warning-data">
+          <div v-param5Show="showSanGong" class="warning-data">
             <div class="module-wrapper">
               <p class="f20 rule-swiper-title">全省“三公”经费预警处理率排名</p>
               <vxe-grid
@@ -185,8 +185,28 @@ export default defineComponent({
       tableData3
     }
   },
+  created() {
+    this.params5 = this.transJson(this.$store.state.curNavModule.param5)
+    this.showSanGong = Boolean.valueOf(this.params5.showSanGong)
+  },
+  methods: {
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
+    }
+  },
   data() {
     return {
+      params5: null,
+      showSanGong: true,
       tableColumnsConfig1: [
         {
           title: '名次',
