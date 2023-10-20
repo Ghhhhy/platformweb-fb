@@ -4,7 +4,7 @@ const BSURL = {
   // large-monitor-platform/lmp  大监控
   lmp_workflowOversightManagement: 'large-monitor-platform/lmp/ruleClassify/pageQuery',
   lmp_mofDivTree: 'large-monitor-platform/lmp/mofDivTree',
-
+  lmp_warningResultHandleRuleQueryDetail: 'large-monitor-platform/lmp/loginLog/queryDetail',
   // dfr-monitor-service/dfr 直达资金
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
   dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query',
