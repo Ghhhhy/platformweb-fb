@@ -60,11 +60,15 @@ export default defineComponent({
     const clickCodeMap = {
       bgt: {
         reportCode: 'sbzcyjhzb_ysmx',
-        title:'预算明细'
+        title:'预算明细',
+        total:bgtTotalTableColumns,
+        region:bgtRegionTableColumns,
       },
       pay: {
         reportCode: 'sbzcyjhzb_zcmx',
-        title:'支出明细'
+        title:'支出明细',
+        total:payTotalTableColumns,
+        region:payRegionTableColumns,
       },
     }
     const { $route } = getCurrentInstance().proxy
@@ -91,15 +95,7 @@ export default defineComponent({
       dialogVisible.value = false
     }
     const cellClickColumns = computed(() => {
-      if (tableType.value === 'bgt' && clickType.value === 'total') {
-        return bgtTotalTableColumns
-      } else if (tableType.value === 'bgt' && clickType.value === 'region') {
-        return bgtRegionTableColumns
-      } else if (tableType.value === 'pay' && clickType.value === 'total') {
-        return payTotalTableColumns
-      } else if (tableType.value === 'pay' && clickType.value === 'region') {
-        return payRegionTableColumns
-      }
+      return clickCodeMap[tableType.value][clickType.value]
     })
     
     const [
