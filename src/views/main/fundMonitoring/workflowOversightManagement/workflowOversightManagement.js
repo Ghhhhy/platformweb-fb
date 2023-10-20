@@ -52,12 +52,11 @@ export const mockQueryData = [
     width: 180,
     itemRender: {
       name: '$vxeSelect',
-      options: store.state.warnInfo.warnLevelOptions.map(item => {
-        return {
-          ...item,
-          value: String(item.value)
-        }
-      }),
+      options: [
+        { label:'红灯（禁止）' , value: '1'},
+        { label:'黄灯（冻结）' , value: '2'},
+        { label:'黄色警铃（警示）' , value: '3'}
+      ],
       defaultValue: '',
       props: { disabled: false, placeholder: '预警级别' }
     },
@@ -71,7 +70,7 @@ export const mockQueryData = [
     itemRender: {
       name: '$vxeInput',
       defaultValue: '',
-      props: { disabled: false, placeholder: '停留时间大于等于（小时）' }
+      props: { disabled: false, placeholder: '停留时间大于等于（天）' }
     },
     name: '$vxeInput'
   },
@@ -98,9 +97,9 @@ export const mockTableColumns = [
     sortable: false,
     align: 'center',
     filters: false,
-    cellRender: {
-      name: '$warningLevelRender'
-    }
+    // cellRender: {
+    //   name: '$warningLevelRender'
+    // }
   },
   {
     title: '监控规则',
@@ -129,8 +128,18 @@ export const mockTableColumns = [
     align: 'center',
     treeNode: true,
     width: 260,
-    field: 'affirmAgencyName',
+    field: 'username',
     filters: false,
+    slots: {
+      default({row}) {
+        return [
+          <div>
+            <span style={{marginRight: '5px'}}>{ row.username }</span>
+            {row.username ? <el-button style={{padding: '5px 12px'}} size="small" type="info" icon="el-icon-more"></el-button> : ''}
+          </div>
+        ]
+      }
+    },
   },
   {
     title: '流程到达时间',
@@ -141,7 +150,7 @@ export const mockTableColumns = [
     filters: false,
   },
   {
-    title: '当前节点停留时间（小时）',
+    title: '当前节点停留时间（天）',
     align: 'center',
     treeNode: true,
     width: 260,
@@ -155,20 +164,20 @@ export const mockTableColumns = [
   //   align: 'right',
   //   combinedType: ['average', 'subTotal', 'total', 'totalAll'],
   //   filters: false,
-  //   formatter({ row }) {
-  //     return row.sbGzXsjd
-  //   },
-  //   cellRender: {
-  //     name: '$vxeRatio'
-  //   },
-  //   tooltipFormat: ({ row, column }) => {
-  //     const {sbZbjeBgz,sbZxjeBgz}=row
-  //     let sbZxjd='0.0'
-  //     if(Number(sbZbjeBgz)){
-  //       sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
-  //     }
-  //     return `执行进度：${sbZxjd}%`
-  //   },
+  //   // formatter({ row }) {
+  //   //   return row.sbGzXsjd
+  //   // },
+  //   // cellRender: {
+  //   //   name: '$vxeRatio'
+  //   // },
+  //   // tooltipFormat: ({ row, column }) => {
+  //   //   const {sbZbjeBgz,sbZxjeBgz}=row
+  //   //   let sbZxjd='0.0'
+  //   //   if(Number(sbZbjeBgz)){
+  //   //     sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
+  //   //   }
+  //   //   return `执行进度：${sbZxjd}%`
+  //   // },
   //   slots: {
   //   },
   //   // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'

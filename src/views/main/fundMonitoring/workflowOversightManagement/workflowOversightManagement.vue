@@ -1,16 +1,6 @@
 <template>
   <div v-loading="tableLoading" style="height: 100%" class="createProcessing">
     <BsMainFormListLayout :default-split-pane-left-width="14">
-      <!-- <template v-slot:topTabPane>
-        <BsTabPanel
-          ref="tabPanel"
-          is-open
-          is-hide-query
-          :tab-status-btn-config="tabStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
-          @btnClick="onTabPanelBtnClick"
-        />
-      </template> -->
       <template v-slot:query>
         <BsQuery
           ref="queryFrom"
@@ -24,9 +14,11 @@
         <BsTable
           ref="mainTableRef"
           v-bind="staticConfig"
+          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
-          :title="menuName"
+          :table-config="staticConfig.tableConfig"
+          :pager-config="staticConfig.pagerConfig"
           v-on="staticEvents"
         >
           <template v-slot:toolbarSlots>
@@ -40,17 +32,20 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
+    <detailDialog v-if="detailVisbile" :detaildata="detailData" @close="close" />
   </div>
 </template>
 <script lang="js">
 // /* eslint-disable */
 import { post } from '@/api/http'
 import { ref, defineComponent, onMounted } from '@vue/composition-api'
-
 import { mockQueryData, mockTableColumns } from './workflowOversightManagement'
+import detailDialog from './children/detailDialog.vue'
 // import moment from 'moment'
 export default defineComponent({
-
+  components: {
+    detailDialog
+  },
   setup() {
     const mainTableRef = ref()
     onMounted(() => {
@@ -84,17 +79,21 @@ export default defineComponent({
       regulationClass: ''
     })
     const menuName = ref('流程督办管理')
+    const tableGlobalConfig = ref({
+      showOverflow: true
+    })
     let tableData = ref([])
     const onSearch = (e) => {
       queryData.value = e
       search()
     }
+    const warnLevelArr = ['红灯（禁止）', '黄灯（冻结）', '黄色警铃（警示）']
     const search = () => {
       tableLoading.value = true
       let params = {
-        mofDivCodes: queryData.value.mofDivCodes_code,
+        mofDivCode: queryData.value.mofDivCodes_code,
         warnLevel: queryData.value.warnLevel,
-        stopTime: queryData.value.stopTime,
+        stopTime: (queryData.value.stopTime * 24).toFixed(1),
         regulationClass: '',
         page: staticConfig.value.pagerConfig.page,
         pageSize: staticConfig.value.pagerConfig.pageSize
@@ -105,6 +104,14 @@ export default defineComponent({
         staticConfig.value.isFlushAction = false
         if (res.code === '000000') {
           tableData.value = res.data.results
+          staticConfig.value.pagerConfig.total = res.data.totalCount
+          console.log(tableData.value)
+          tableData.value.forEach((item) => {
+            item.stopTime = (item.stopTime / 24).toFixed(1)
+          })
+          tableData.value.forEach((item) => {
+            item.warnLevel = warnLevelArr[Number(item.warnLevel) - 1]
+          })
         }
       })
     }
@@ -127,26 +134,59 @@ export default defineComponent({
       toolbarConfig: {
         // table工具栏配置
         // custom: true, // 选配展示列
-        // moneyConversion:false,
-        // slots: {
-        //   tools: 'toolbarTools',
-        //   buttons: 'toolbarSlots'
-        // }
+        moneyConversion: false,
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
       },
       tableConfig: {
-        wordLength: 6// 自定义溢出(?)字展示文字提示
+        wordLength: 6, // 自定义溢出(?)字展示文字提示
+        // renderers: {
+        //   $affirmAgencyNameRender: {
+        //     renderDefault: (h, cellRender, { row, rowIndex }, context) => {
+        //       let vnode = (
+        //         <div>
+        //           <a
+        //             style="cursor: pointer"
+        //           >
+        //             查看详情
+        //           </a>
+        //         </div>
+        //       )
+        //       // {this.queryData.flowStatus === '2' ? <el-button type="primary" size="mini" onClick={() => this.withdraw(row)}>撤回</el-button> : ''}
+        //       return [vnode]
+        //     }
+        //   }
+        // },
+        globalConfig: {
+          // 全局默认渲染列配置
+          // 全局配置
+          checkType: 'checkbox',
+          seq: true
+        }
       },
-      // pagerConfig: false,
       pagerConfig: {
         page: 1,
-        pageSize: 10
+        pageSize: 20,
+        total: 0
       },
       cellStyle: ({ row, columns }) => {}
     })
+    // 弹窗
+    let detailVisbile = ref(false)
+    let detailData = ref({})
+    const close = () => {
+      detailVisbile.value = false
+    }
     const staticEvents = ref({
       cellClick: (obj, context, e) => {
         let key = obj.column.property
         console.log(key, obj.row)
+        if (key === 'username' && obj.row.userName !== null) {
+          detailVisbile.value = true
+          detailData.value = obj.row
+        }
       },
       ajaxData: ({ params, currentPage, pageSize }) => {
         staticConfig.value.pagerConfig.page = currentPage
@@ -175,9 +215,17 @@ export default defineComponent({
       queryData,
       queryConfig,
       tableLoading,
-      mainTableRef
+      mainTableRef,
+      detailDialog,
+      detailVisbile,
+      close,
+      tableGlobalConfig,
+      detailData
     }
   }
 })
 
 </script>
+<style scoped>
+
+</style>
