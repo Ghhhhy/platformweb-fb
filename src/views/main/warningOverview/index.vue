@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="warning-overview-bottom">
-          <div class="do-info">
+          <div v-param5Show="'showQuanShengYuJin'" class="do-info">
             <div class="module-wrapper">
               <p class="f20 rule-swiper-title">全省监控预警处理率排名</p>
               <vxe-grid
@@ -52,7 +52,7 @@
               />
             </div>
           </div>
-          <div class="do-info">
+          <div v-param5Show="'showZhiDaZiJin'" class="do-info">
             <div class="module-wrapper">
               <p class="f20 rule-swiper-title">直达资金管理工作情况排名</p>
               <vxe-grid
@@ -68,7 +68,7 @@
               />
             </div>
           </div>
-          <div class="warning-data">
+          <div v-param5Show="'showSanGong'" class="warning-data">
             <div class="module-wrapper">
               <p class="f20 rule-swiper-title">全省“三公”经费预警处理率排名</p>
               <vxe-grid
@@ -429,7 +429,8 @@ export default defineComponent({
   .do-info,
   .warning-data {
     height: 298px;
-    width: 616px;
+    width:100%;
+
   }
   .do-info {
     margin-right: 16px;

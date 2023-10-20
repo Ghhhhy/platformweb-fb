@@ -1,6 +1,7 @@
 <template>
   <div class="map-shanxi-container">
     <div
+      v-param5Show="'showMapTips'"
       class="map-tips"
     >
       <svg-icon name="map-top-border" class-name="map-tips-top-border" />
@@ -62,10 +63,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .map-shanxi-container {
   position: relative;
-  width:230px;
+  min-width:515px;
   display:inline-block;
   height: 586px;
-
+  .shanxi-map{
+    width:100%;
+    height:100%;
+  }
   .map-tips {
     position: absolute;
     top: 0;

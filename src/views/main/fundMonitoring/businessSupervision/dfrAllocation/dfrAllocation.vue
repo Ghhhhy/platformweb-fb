@@ -40,6 +40,7 @@
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @onToolbarBtnClick="onToolbarBtnClick"
+          @ajaxData="ajaxTableData"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent && $store.getters.isSx" v-slot:caliberDeclare>
@@ -153,10 +154,10 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
-        autoHidden: true,
+        // autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -294,6 +295,11 @@ export default {
     //       break
     //   }
     // },
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.queryTableDatas()
+    },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
         // 刷新
@@ -370,7 +376,9 @@ export default {
     queryTableDatas(val) {
       const param = {
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjfpb',
-        speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : ''
+        speTypeName: this.condition.speTypeName ? this.condition.speTypeName[0] : '',
+        page: this.pagerConfig.currentPage, // 页码
+        pageSize: this.pagerConfig.pageSize // 每页条数
       }
       this.tableLoading = true
       if (this.$store.getters.isSx) {
@@ -385,9 +393,10 @@ export default {
       let axiosQueryUrl = 'queryTableDatas'
       this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
       HttpModule[axiosQueryUrl](param).then((res) => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data
-          this.tableLoading = false
+          this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }

@@ -133,7 +133,7 @@ export default defineComponent({
       tableFooterConfig: {},
       toolbarConfig: {
         // table工具栏配置
-        // custom: true, // 选配展示列
+        custom: true, // 选配展示列
         moneyConversion: false,
         slots: {
           tools: 'toolbarTools',

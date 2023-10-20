@@ -214,10 +214,7 @@ export let proconf = {
       field: 'dayNum',
       sortable: false,
       width: 120,
-      align: 'left',
-      cellRender: {
-        name: '$gloableOptionRow'
-      }
+      align: 'left'
     }
   ],
   gloableOptionRow: {

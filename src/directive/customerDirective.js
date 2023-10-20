@@ -11,7 +11,7 @@ export default {
             el.parentNode.removeChild(el)
           }
         } else if (typeof bindConfig === 'function') {
-          let isShow = binding.value()
+          let isShow = binding.value(params5Obj)
           if (!isShow) {
             el.parentNode.removeChild(el)
           }
