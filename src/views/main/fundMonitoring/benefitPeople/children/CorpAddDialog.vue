@@ -178,7 +178,7 @@ export default {
       let { tableData } = this.$refs.mainTableRef.getTableData()
       this.tableData = this.deepCopy(tableData)
       HttpModule.batchSaveCorpData(this.tableData).then(async res => {
-        if (res.code === '100000') {
+        if (res.code === '000000') {
           checkRscode(
             await HttpModule.importPersonAndCompany(this.fileConfigcorp)
           )
