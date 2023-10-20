@@ -54,26 +54,18 @@ export default defineComponent({
   },
   setup() {
     /**
-     * @interface reportCodeMap<{ $route.name : reportCode }>
+     * @interface clickCodeMap<{ $route.name : reportCode }>
      */
     /*eslint-disable */
-    const reportCodeMap = {
-      'CarryImplementationRegion': {
-        reportCode: 'jzzjysxd_level1',
-        querykey: 'mofDivCode'
+    const clickCodeMap = {
+      bgt: {
+        reportCode: 'sbzcyjhzb_ysmx',
+        title:'预算明细'
       },
-      'CarryImplementationCapital': {
-        reportCode: 'jzzjysxd_level1',
-        querykey: 'trackProCode'
+      pay: {
+        reportCode: 'sbzcyjhzb_zcmx',
+        title:'支出明细'
       },
-      'CarryPayRegion': {
-        reportCode: 'jzzjzcxd_level1',
-        querykey: 'mofDivCode'
-      },
-      'CarryPayCapital': {
-        reportCode: 'jzzjzcxd_level1',
-        querykey: 'trackProCode'
-      }
     }
     const { $route } = getCurrentInstance().proxy
     const CarrImplRegiSecondModal = ref()
@@ -83,14 +75,17 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
-    const modalStaticProperty = {
-      title: '项目明细',
-      width: '96%',
-      height: '80%',
-      position: 'center',
-      minWidth: '900',
-      showFooter: false
-    }
+
+    const modalStaticProperty = computed(()=>{
+      return{
+        title: clickCodeMap[tableType.value]?.title,
+        width: '96%',
+        height: '80%',
+        position: 'center',
+        minWidth: '900',
+        showFooter: false
+      }
+    })
     const dialogVisible = ref(false)
     const dialogClose = () => {
       dialogVisible.value = false
@@ -120,13 +115,9 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params) => post(BSURL.dfr_supervisionQuery, params),
+      fetch: (params={}) => post(BSURL.dfr_supervisionQuery, params),
       beforeFetch: params => {
-        if(tableType.value === 'bgt'){
-          params.reportCode='sbzcyjhzb_ysmx'
-        }else{
-          params.reportCode='sbzcyjhzb_zcmx'
-        }
+        params.reportCode=clickCodeMap[tableType.value]?.reportCode
         return params
       },
       columns: cellClickColumns,
