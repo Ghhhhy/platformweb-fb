@@ -118,7 +118,7 @@ const defaultTableColumns = [
   },
   {
     title: '序时进度',
-    field: 'sbZxjd',
+    field: 'sbXsjd',
     tableType: 'bgt',
     width: 180,
     align: 'right',

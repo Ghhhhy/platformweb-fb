@@ -429,7 +429,8 @@ export default defineComponent({
   .do-info,
   .warning-data {
     height: 298px;
-    width: 616px;
+    width:100%;
+
   }
   .do-info {
     margin-right: 16px;

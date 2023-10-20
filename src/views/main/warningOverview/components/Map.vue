@@ -1,6 +1,7 @@
 <template>
   <div class="map-shanxi-container">
     <div
+      v-param5Show="'showMapTips'"
       class="map-tips"
     >
       <svg-icon name="map-top-border" class-name="map-tips-top-border" />

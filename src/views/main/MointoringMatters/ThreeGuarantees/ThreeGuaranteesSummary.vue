@@ -559,7 +559,7 @@ export default {
       console.log('=====当前点击行key====', key)
       console.log('=====当前点击行row====', obj.row)
       console.log('=====当前点击行column====', obj.column)
-      const { canInsert } = obj.column.own || { canInsert: false }
+      const { canInsert } = obj.column.own
       if (canInsert) {
         this.showModal = true
         this.$nextTick(() => {
@@ -570,11 +570,12 @@ export default {
           }
           this.$refs.ThreeGuaranteesSummaryModal.tableType = obj.column.own.tableType
           this.$refs.ThreeGuaranteesSummaryModal.dialogVisible = true
+          this.$refs.ThreeGuaranteesSummaryModal.init()
         })
       }
     },
     cellStyle(obj, context, e) {
-      const { canInsert } = obj.column.own || { canInsert: false }
+      const { canInsert } = obj.column.own
       const validCellValue = (obj.row[obj.column.property] * 1)// 是否是有效值
       if (validCellValue && canInsert) {
         return {
