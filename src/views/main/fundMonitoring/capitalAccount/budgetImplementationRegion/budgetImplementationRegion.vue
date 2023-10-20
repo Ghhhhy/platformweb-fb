@@ -667,12 +667,12 @@ export default {
         case 'amountSnjbjfp':
         case 'amountSbjfp':
         case 'amountXjfp':
-          this.handleDetail(xmSource, obj.row.code, key, obj.row)
+          this.handleDetail(xmSource, obj.row, obj.column)
           this.detailTitle = '项目明细'
           break
         // 支出走地区支付明细
         case 'amountPayAll':
-          this.handleDetail(zcSource, obj.row.code, key, obj.row)
+          this.handleDetail(zcSource, obj.row, obj.column)
           this.detailTitle = obj.row.name + '支出明细'
       }
     },
