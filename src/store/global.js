@@ -154,6 +154,7 @@ export const mutations = {
 
     state.userInfo = userInfoobj
     store.dispatch('mapInfo/getMapJson')
+    localStorage.setItem('user', JSON.stringify(userInfoobj))
   },
   setJixiao(state, obj) {
     state.jixiao = obj
