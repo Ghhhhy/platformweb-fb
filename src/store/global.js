@@ -164,6 +164,7 @@ export const mutations = {
   },
   setCurNavModule(state, curNavModule) {
     state.curNavModule = curNavModule
+    localStorage.setItem('menuinfo', JSON.stringify(curNavModule))
   },
   setCurMenuObj(state, obj) {
     state.curMenuObj = obj
