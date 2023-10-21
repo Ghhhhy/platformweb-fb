@@ -382,10 +382,11 @@ export default {
         if (res.code === '000000') {
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
-          this.tableLoading = false
         } else {
           this.$message.error(res.message)
         }
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
     cellDblclick(obj) {
