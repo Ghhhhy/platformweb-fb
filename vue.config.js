@@ -19,6 +19,13 @@ module.exports = {
   devServer: {
     hot: true,
     proxy: {
+      '/apaas/boss/': {
+        target: 'http://223.223.190.114:12218',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apaas/boss/': '/apaas/boss/'
+        }
+      },
       '/datav': {
         target: 'http://223.223.190.114:12217', // 开发环境数据可视化服务
         changOrigin: true // 允许跨域
