@@ -74,6 +74,7 @@
                 :footer-config="tableFooterConfig1"
                 :table-columns-config="tableColumnsConfig1"
                 :table-data="tableData1"
+                show-zero
                 :table-config="tableConfig1"
                 :pager-config="mainPagerConfig1"
                 :toolbar-config="tableToolbarConfig1"
