@@ -565,7 +565,7 @@ export default {
       const param = {
         year: this.year,
         startMonth: this.startMonth,
-        endMonth: this.endMonth,
+        // endMonth: this.endMonth,
         createTime: this.createTime,
         fileName: this.fileName,
         createPerson: this.createPerson,
