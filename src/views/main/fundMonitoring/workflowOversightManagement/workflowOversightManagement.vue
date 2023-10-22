@@ -38,6 +38,7 @@
 <script lang="js">
 // /* eslint-disable */
 import { post } from '@/api/http'
+import store from '@/store/index'
 import { ref, defineComponent, onMounted } from '@vue/composition-api'
 import { mockQueryData, mockTableColumns } from './workflowOversightManagement'
 import detailDialog from './children/detailDialog.vue'
@@ -87,9 +88,12 @@ export default defineComponent({
       queryData.value = e
       search()
     }
-    const warnLevelArr = ['红灯（禁止）', '黄灯（冻结）', '黄色警铃（警示）']
+    const warnLevelArr = store.state.warnInfo.warnLevelOptions.slice(0, 3).map(item => {
+      return `${item.warnName}` + `(${item.warnTips})`
+    })
+    console.log(warnLevelArr)
     const search = () => {
-      tableLoading.value = true
+      tableLoading.value = false
       let params = {
         mofDivCode: queryData.value.mofDivCodes_code,
         warnLevel: queryData.value.warnLevel,
@@ -183,7 +187,7 @@ export default defineComponent({
       cellClick: (obj, context, e) => {
         let key = obj.column.property
         console.log(key, obj.row)
-        if (key === 'username' && obj.row.userName !== null) {
+        if (key === 'userName' && obj.row.userName !== null) {
           detailVisbile.value = true
           detailData.value = obj.row
         }

@@ -52,11 +52,17 @@ export const mockQueryData = [
     width: 180,
     itemRender: {
       name: '$vxeSelect',
-      options: [
-        { label:'红灯（禁止）' , value: '1'},
-        { label:'黄灯（冻结）' , value: '2'},
-        { label:'黄色警铃（警示）' , value: '3'}
-      ],
+      // options: [
+      //   { label:'红灯（禁止）' , value: '1'},
+      //   { label:'黄灯（冻结）' , value: '2'},
+      //   { label:'黄色警铃（警示）' , value: '3'}
+      // ],
+      options:store.state.warnInfo.warnLevelOptions.slice(0,3).map(item=>{
+        return {
+          label: item.warnName + `(${item.warnTips})`,
+          value: String(item.value)
+        }
+      }),
       defaultValue: '',
       props: { disabled: false, placeholder: '预警级别' }
     },
@@ -128,14 +134,14 @@ export const mockTableColumns = [
     align: 'center',
     treeNode: true,
     width: 260,
-    field: 'username',
+    field: 'userName',
     filters: false,
     slots: {
       default({row}) {
         return [
           <div>
-            <span style={{marginRight: '5px'}}>{ row.username }</span>
-            {row.username ? <el-button style={{padding: '5px 12px'}} size="small" type="info" icon="el-icon-more"></el-button> : ''}
+            <span style={{marginRight: '5px'}}>{ row.userName }</span>
+            {row.userName ? <el-button style={{padding: '5px 12px'}} size="small" type="info" icon="el-icon-more"></el-button> : ''}
           </div>
         ]
       }
