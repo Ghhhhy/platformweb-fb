@@ -99,7 +99,7 @@
 
 <script>
 import { proconf } from './sanGongMonitoeReportCreate'
-import AddDialog from './children/SpeProaddDialog'
+import AddDialog from './children/sangongaddDialog'
 import HttpModule from '@/api/frame/main/Monitoring/MonitoeReportCreate.js'
 import GlAttachment from '../common/GlAttachment'
 import FilePreview from './children/filePreview.vue'

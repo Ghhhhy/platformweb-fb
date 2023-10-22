@@ -126,7 +126,7 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'total_zxjd',
-          width: 200,
+          width: 100,
           align: 'right',
           filters: false,
           cellRender: {
@@ -170,7 +170,7 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'bgz_zxjd',
-          width: 200,
+          width: 100,
           align: 'right',
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
@@ -245,7 +245,7 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'byz_zxjd',
-          width: 200,
+          width: 100,
           align: 'right',
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
@@ -254,36 +254,36 @@ export let proconf = {
           },
           formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10)'
         },
-        {
-          title: '预警',
-          field: 'byz_yj',
-          width: 200,
-          align: 'center',
-          filters: false,
-          cellRender: {
-            name: '$vxeInput'
-          },
-          formatter({ row }) {
-            return warningCell(row.byz_zxjd).label
-          },
-          slots: {
-            default({ row }) {
-              return [
-                <div style={{backgroundColor:warningCell(row.byz_zxjd).color,height:"98%"}}>{warningCell(row.byz_zxjd).label}</div>
-              ]
-            }
-          },
-          exportFormatter: true,
-          customerExportStyle:({row})=>{
-            return {
-              fill:{
-                bgColor: 'ffffffff',//背景色
-                fgColor: `ff${warningCell(row.byz_zxjd).color.replace('#','')}`,//前景色
-                patternType: 'solid'//设置填充时的图案样式
-              }
-            }
-          }
-        }
+      //   {
+      //     title: '预警',
+      //     field: 'byz_yj',
+      //     width: 200,
+      //     align: 'center',
+      //     filters: false,
+      //     cellRender: {
+      //       name: '$vxeInput'
+      //     },
+      //     formatter({ row }) {
+      //       return warningCell(row.byz_zxjd).label
+      //     },
+      //     slots: {
+      //       default({ row }) {
+      //         return [
+      //           <div style={{backgroundColor:warningCell(row.byz_zxjd).color,height:"98%"}}>{warningCell(row.byz_zxjd).label}</div>
+      //         ]
+      //       }
+      //     },
+      //     exportFormatter: true,
+      //     customerExportStyle:({row})=>{
+      //       return {
+      //         fill:{
+      //           bgColor: 'ffffffff',//背景色
+      //           fgColor: `ff${warningCell(row.byz_zxjd).color.replace('#','')}`,//前景色
+      //           patternType: 'solid'//设置填充时的图案样式
+      //         }
+      //       }
+      //     }
+      //   }
       ]
     },
     {
@@ -320,7 +320,7 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'bms_zxjd',
-          width: 200,
+          width: 100,
           align: 'right',
           filters: false,
           cellRender: {
@@ -328,36 +328,36 @@ export let proconf = {
           },
           formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
         },
-        {
-          title: '预警',
-          field: 'bms_yj',
-          width: 200,
-          align: 'center',
-          filters: false,
-          cellRender: {
-            name: '$vxeInput'
-          },
-          formatter({ row }) {
-            return warningCell(row.bms_zxjd).label
-          },
-          slots: {
-            default({ row }) {
-              return [
-                <div style={{backgroundColor:warningCell(row.bms_zxjd).color,height:"98%"}}>{warningCell(row.bms_zxjd).label}</div>
-              ]
-            }
-          },
-          exportFormatter: true,
-          customerExportStyle:({row})=>{
-            return {
-              fill:{
-                bgColor: 'ffffffff',
-                fgColor: `ff${warningCell(row.bms_zxjd).color.replace('#','')}`,
-                patternType: 'solid'
-              }
-            }
-          },
-        }
+        // {
+        //   title: '预警',
+        //   field: 'bms_yj',
+        //   width: 200,
+        //   align: 'center',
+        //   filters: false,
+        //   cellRender: {
+        //     name: '$vxeInput'
+        //   },
+        //   formatter({ row }) {
+        //     return warningCell(row.bms_zxjd).label
+        //   },
+        //   slots: {
+        //     default({ row }) {
+        //       return [
+        //         <div style={{backgroundColor:warningCell(row.bms_zxjd).color,height:"98%"}}>{warningCell(row.bms_zxjd).label}</div>
+        //       ]
+        //     }
+        //   },
+        //   exportFormatter: true,
+        //   customerExportStyle:({row})=>{
+        //     return {
+        //       fill:{
+        //         bgColor: 'ffffffff',
+        //         fgColor: `ff${warningCell(row.bms_zxjd).color.replace('#','')}`,
+        //         patternType: 'solid'
+        //       }
+        //     }
+        //   },
+        // }
       ]
     },
     {
