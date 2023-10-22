@@ -283,7 +283,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '主题分类列表'
+          this.menuName = '监控主题列表'
           this.radioShow = true
           break
       }
