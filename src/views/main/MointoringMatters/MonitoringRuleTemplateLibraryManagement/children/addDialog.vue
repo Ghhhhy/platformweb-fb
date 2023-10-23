@@ -937,8 +937,10 @@ export default {
         return
       }
       if (!this.tableData || !this.tableData.length) {
-        this.$message.warning('请选择一条监控事项挂接')
-        return
+        if (this.transJson(this.$store.state.curNavModule.param5).needHook === '1') {
+          this.$message.warning('请选择一条监控事项挂接')
+          return
+        }
       }
       if (this.ruleAccord === '') {
         this.$message.warning('请输入规则依据')
