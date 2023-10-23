@@ -434,7 +434,9 @@ export default {
       if (!rowIndex) return
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
-
+      if (this.$store.getters.isSx) {
+        return
+      }
       if (validCellValue && !row.children && column.own.canInsert) {
         return {
           color: '#4293F4',
@@ -450,6 +452,9 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
+      if (this.$store.getters.isSx) {
+        return
+      }
       // switch (key) {
       // case 'amountsjfpbjall':
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
