@@ -498,7 +498,7 @@ export default {
               condition = ' substr(mof_div_code,7,3)=\'000\' '
               break
             case 'xyfpaAmount':
-              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+              condition = ' substr(mof_div_code,5,5) = \'00000\' and substr(mof_div_code,7,3)=\'000\' '
               break
           }
         }
