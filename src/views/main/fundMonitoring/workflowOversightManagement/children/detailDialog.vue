@@ -61,7 +61,8 @@ export default defineComponent({
     let tableData = ref([])
     const getData = () => {
       post(BSURL.lmp_warningResultHandleRuleQueryDetail, {
-        manageMofDepId: '227DCC7BD4FA406A8D0B2E7FCD639D3C'
+        // manageMofDepId: '227DCC7BD4FA406A8D0B2E7FCD639D3C'
+        manageMofDepId: props.detaildata.manageMofDepId
       }).then(res => {
         tableLoading.value = false
         if (res.code === '000000') {
