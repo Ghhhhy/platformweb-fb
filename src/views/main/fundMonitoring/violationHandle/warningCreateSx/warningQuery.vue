@@ -31,7 +31,7 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config="{ dblExpandAll: true, dblExpand: true,accordion: false,expandAll: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
