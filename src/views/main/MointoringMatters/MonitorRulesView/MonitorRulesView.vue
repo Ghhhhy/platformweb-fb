@@ -392,6 +392,7 @@ export default {
       this.isEnable = obj.isEnable
       this.triggerClass = obj.triggerClass
       this.fiRuleTypeCode = obj.fiRuleTypeCode_name
+      this.isDir = obj.isDir
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -790,7 +791,8 @@ export default {
         mofDivCodeList: this.codeList,
         regulation_code: this.regulation_code,
         regulation_class: this.regulationClass,
-        regulation_type: this.regulationType
+        regulation_type: this.regulationType,
+        isDir: this.isDir
       }
       if (!this.isSx) {
         if (this.treeType === '1') {
