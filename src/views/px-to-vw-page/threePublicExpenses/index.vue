@@ -58,6 +58,7 @@ export default defineComponent({
   min-height: 100%;
   padding: 0 24px 16px;
   box-sizing: border-box;
+  overflow-x:scroll;
 
   .three-guarantees-expenditure-header {
     height: 56px;
@@ -68,6 +69,7 @@ export default defineComponent({
     font-weight: bold;
     text-align: center;
     box-sizing: border-box;
+    overflow-x:scroll;
   }
 
   .main-content {
