@@ -341,7 +341,7 @@ export default {
       searchDataList: {
         fiscalYear: this.$store.state?.userInfo?.year,
         mofDivCodes: [this.$store.state?.userInfo?.province],
-        mofDivCodes_code__multiple: [this.$store.state?.userInfo?.province],
+        // mofDivCodes_code__multiple: [this.$store.state?.userInfo?.province],
         mofDivCodes_code: this.$store.state?.userInfo?.province,
         mofDivCodes_name: this.$store.state?.userInfo?.admdivname,
         endTime: ''
