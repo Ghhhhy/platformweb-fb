@@ -192,6 +192,12 @@ export const mutations = {
   },
   setProjectList(state, list) {
     list && list.length && (state.projectList = list)
+  },
+  setRankingModalVisible(state, visible = false) {
+    state.rankingModalVisible = visible
+  },
+  setEscalationModalVisible(state, visible = false) {
+    state.escalationModalVisible = visible
   }
 }
 export const actions = {

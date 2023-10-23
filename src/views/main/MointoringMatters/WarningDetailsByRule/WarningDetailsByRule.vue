@@ -155,7 +155,8 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: 'large-monitor-platform/lmp/businessFunctions/tree',
       treeAjaxType: 'get',
-      leftTreeVisible: true,
+      // fixme ch 福建暂时隐藏
+      leftTreeVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,

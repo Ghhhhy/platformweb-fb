@@ -488,7 +488,9 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(province) {
+      this.params5 = this.transJson(this.$store.state.curNavModule.param5)
       const param = {
+        type: this.params5.type,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         regulationsName: this.condition.regulationsName ? this.condition.regulationsName.toString() : '',
@@ -518,6 +520,18 @@ export default {
       })
 
       return datas
+    },
+    transJson(str) {
+      if (!str) return
+      var params = str.split(',')
+      var result = {}
+      if (params && params.length > 0) {
+        for (var i = 0; i < params.length; i++) {
+          var map = params[i].split('=')
+          result[map[0]] = map[1]
+        }
+      }
+      return result
     },
     getLeftTreeData() {
       let that = this

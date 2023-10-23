@@ -337,6 +337,7 @@ export default defineComponent({
 @import "../../px-to-vw-page/common/style/module-wrapper";
 @import "../../px-to-vw-page/common/style/vxe-table-style";
 .warning-overview {
+  overflow-x:scroll;
   .addParentBox{
     width:1346px;
     overflow-x:scroll;

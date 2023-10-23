@@ -137,7 +137,7 @@ export default {
         },
         // 去掉编辑按钮
         // buttonsInfo: proconf.statusRightToolBarButton,
-        buttonsInfo: !this.$store.getters.isSx ? proconf.statusRightToolBarButton : {},
+        buttonsInfo: this.$store.getters.isSx ? proconf.statusRightToolBarButton : {},
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -283,7 +283,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '规则分类列表'
+          this.menuName = '监控主题列表'
           this.radioShow = true
           break
       }
