@@ -92,6 +92,7 @@
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <ImportModel
+      ref="ImportModel"
       :file-config="fileConfig"
       :import-modal-visible.sync="importModalVisible"
       @onDownloadTemplateClick="onDownloadTemplateClick"
@@ -381,8 +382,10 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
+      this.$refs.ImportModel.disabled = true
       if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
         await HttpModule.queryCompanyInfo(this.fileConfig).then(async res => {
+          this.$refs.ImportModel.disabled = false
           if (res.rscode === '100000') {
             if (res.data && res.data.length > 0) {
               this.importCorpData = res.data
@@ -407,6 +410,7 @@ export default {
         checkRscode(
           await HttpModule.importPersonAndCompany(this.fileConfig)
         )
+        this.$refs.ImportModel.disabled = false
         this.$message.success('导入成功')
         this.dtos = []
         this.importModalVisible = false

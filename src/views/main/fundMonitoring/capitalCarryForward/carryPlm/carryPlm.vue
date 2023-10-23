@@ -343,6 +343,7 @@ export default {
     queryTableDatas(isFlush = true) {
       const param = {
         reportCode: this.params5 || 'zdjzxmqsmzqglqkb',
+        fiscalYear: this.searchDataList.fiscalYear,
         isFlush
       }
       this.tableLoading = true

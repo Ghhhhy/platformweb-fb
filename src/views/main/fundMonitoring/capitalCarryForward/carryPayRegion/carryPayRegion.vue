@@ -123,6 +123,7 @@ export default {
       leftTreeVisible: false,
       sDetailVisible: false,
       sDetailTitle: '',
+      isFlush: false,
       sDetailData: [],
       isShowQueryConditions: true,
       radioShow: true,
@@ -411,17 +412,20 @@ export default {
       this.queryTableDatas(node.guid)
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
-    refresh(isFlush = true) {
+    refresh() {
+      this.isFlush = true
       // this.queryTableDatas()
-      this.search(this.$refs.queryFrom.getFormData(), null, isFlush)
+      this.search(this.$refs.queryFrom.getFormData(), null)
       // this.queryTableDatasCount()
     },
     // 查询 table 数据
-    queryTableDatas(isFlush = true) {
+    queryTableDatas() {
       const param = {
         reportCode: 'jzzjzc_fdq',
-        isFlush,
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+      }
+      if (this.isFlush && !this.$store.getters.isSx) {
+        param.isFlush = true
       }
       if (this.$store.getters.isFuJian) {
         param.endTime = this.searchDataList.endTime
@@ -429,6 +433,7 @@ export default {
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
+        this.isFlush = false
         if (res.code === '000000') {
           if (res.data) {
             this.tableData = res.data.data

@@ -36,7 +36,7 @@
             v-deClick
             class="download-button-btn"
             type="primary"
-            :disabled="fileConfig.fileName === ''"
+            :disabled="fileConfig.fileName === '' || disabled"
             content="导入"
             @click="onImportClick"
           />
@@ -76,7 +76,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      disabled: false
+    }
   },
   methods: {
     // 关闭对话框
