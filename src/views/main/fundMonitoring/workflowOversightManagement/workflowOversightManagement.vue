@@ -32,7 +32,7 @@
         </BsTable>
       </template>
     </BsMainFormListLayout>
-    <detailDialog v-if="detailVisbile" :detaildata="detailData" @close="close" />
+    <detailDialog v-if="detailVisbile" :detaildata="detailData" :rowindex="rowIndex" @close="close" />
   </div>
 </template>
 <script lang="js">
@@ -92,6 +92,7 @@ export default defineComponent({
       return `${item.warnName}` + `(${item.warnTips})`
     })
     console.log(warnLevelArr)
+    let curDataArr = ref([])
     const search = () => {
       tableLoading.value = true
       let params = {
@@ -110,11 +111,19 @@ export default defineComponent({
           tableData.value = res.data.results
           staticConfig.value.pagerConfig.total = res.data.totalCount
           console.log(tableData.value)
+          curDataArr.value = JSON.parse(JSON.stringify(res.data.results))
           tableData.value.forEach((item) => {
             item.stopTime = (item.stopTime / 24).toFixed(1)
           })
           tableData.value.forEach((item) => {
             item.warnLevel = warnLevelArr[Number(item.warnLevel) - 1]
+          })
+          tableData.value.forEach((item) => {
+            let tempUserName = ''
+            item.userName.forEach((subItem) => {
+              tempUserName += subItem.name + ','
+            })
+            item.userName = tempUserName.substring(0, tempUserName.length - 1)
           })
         }
       })
@@ -180,16 +189,19 @@ export default defineComponent({
     // 弹窗
     let detailVisbile = ref(false)
     let detailData = ref({})
+    let rowIndex = ref()
     const close = () => {
       detailVisbile.value = false
     }
     const staticEvents = ref({
       cellClick: (obj, context, e) => {
         let key = obj.column.property
-        console.log(key, obj.row)
+        console.log(key, obj.rowIndex)
+        console.log(curDataArr.value)
         if (key === 'userName' && obj.row.userName !== '') {
           detailVisbile.value = true
-          detailData.value = obj.row
+          detailData.value = curDataArr.value
+          rowIndex.value = obj.rowIndex
         }
       },
       ajaxData: ({ params, currentPage, pageSize }) => {
@@ -224,7 +236,8 @@ export default defineComponent({
       detailVisbile,
       close,
       tableGlobalConfig,
-      detailData
+      detailData,
+      rowIndex
     }
   }
 })
