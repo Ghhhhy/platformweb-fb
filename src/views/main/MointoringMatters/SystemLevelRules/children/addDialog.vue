@@ -628,6 +628,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    showType: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -1024,7 +1028,8 @@ export default {
     // tab切换
     tabClick(index) {
       // 在模板信息页必须勾选且点击之后才能进行tab切换
-      if (this.activeIndex === 0 && index !== 0 && this.tilte !== '查看详情') {
+      /*eslint-disable */
+      if (this.activeIndex === 0 && index !== 0 && this.showType != '1') {
         this.$XModal.message({ status: 'warning', message: '请选择一条数据数据并点击确定！' })
         return
       }
