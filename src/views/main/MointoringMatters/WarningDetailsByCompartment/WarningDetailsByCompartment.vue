@@ -145,7 +145,8 @@ export default {
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: 'large-monitor-platform/lmp/businessFunctions/tree',
       treeAjaxType: 'get',
-      leftTreeVisible: true,
+      // fixme ch 福建暂时隐藏
+      leftTreeVisible: false,
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -892,6 +893,9 @@ export default {
     this.paramObj = this.transJson(this.$store.state.curNavModule.param5)
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
+    }
+    if (this.$store.getters.isFuJian) {
+      this.queryConfig = Boolean.valueOf(this.paramObj.queryPayData) ? proconf.highQueryConfigPay : proconf.highQueryConfig
     }
     if (this.params5 === '6' || this.params5 === '7') {
       this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton

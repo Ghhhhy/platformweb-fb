@@ -325,12 +325,19 @@ export default {
     getLeftTreeData() {
       let that = this
       let params = {}
-      if (this.$store.state.userInfo.province?.slice(0, 2) === '61') {
+      if (this.$store.state.userInfo.province?.slice(3, 9) === '0000000') {
         params = {
           elementcode: 'admdiv',
-          province: '610000000',
-          year: '2021',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
           wheresql: 'and code like \'' + 61 + '%\''
+        }
+      } else if (this.$store.state.userInfo.province?.slice(4, 9) === '00000') {
+        params = {
+          elementcode: 'admdiv',
+          province: this.$store.state.userInfo.province,
+          year: this.$store.state.userInfo.year,
+          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 4) + '%\''
         }
       } else {
         params = {

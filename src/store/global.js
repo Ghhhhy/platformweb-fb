@@ -154,6 +154,7 @@ export const mutations = {
 
     state.userInfo = userInfoobj
     store.dispatch('mapInfo/getMapJson')
+    localStorage.setItem('user', JSON.stringify(userInfoobj))
   },
   setJixiao(state, obj) {
     state.jixiao = obj
@@ -163,6 +164,7 @@ export const mutations = {
   },
   setCurNavModule(state, curNavModule) {
     state.curNavModule = curNavModule
+    localStorage.setItem('menuinfo', JSON.stringify(curNavModule))
   },
   setCurMenuObj(state, obj) {
     state.curMenuObj = obj
@@ -190,6 +192,12 @@ export const mutations = {
   },
   setProjectList(state, list) {
     list && list.length && (state.projectList = list)
+  },
+  setRankingModalVisible(state, visible = false) {
+    state.rankingModalVisible = visible
+  },
+  setEscalationModalVisible(state, visible = false) {
+    state.escalationModalVisible = visible
   }
 }
 export const actions = {

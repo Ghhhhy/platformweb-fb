@@ -18,6 +18,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="onSearchResetClick"
           />
         </div>
       </template>
@@ -77,9 +78,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    queryConfig() {
-      this.getSearchDataList()
     }
   },
   data() {
@@ -161,7 +159,8 @@ export default {
       billguid: '',
       condition: {},
       selectData: '',
-      queryConfig: getFormData('highQueryConfig'),
+      queryConfig: [],
+      defaultRuleItem: {},
       searchDataList: getFormData('highQueryData'),
       detailVisible: false,
       detailType: '',
@@ -276,8 +275,14 @@ export default {
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
+    onSearchResetClick() {
+      this.searchDataList.regulationClass = ''
+      this.searchDataList.regulationClass_code = ''
+      this.searchDataList.regulationClass_name = ''
+      this.condition.fiRuleName = ''
+      this.queryTableDatas()
+    },
     search(val) {
-      this.regulationClass = val.regulationClass_code
       this.searchDataList = val
       console.log(val)
       let condition = this.getConditionList()
@@ -443,7 +448,7 @@ export default {
           page: this.pagerConfig.currentPage, // 页码
           pageSize: this.pagerConfig.pageSize, // 每页条数
           firulename: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-          regulationClass: this.regulationClass || transJson(this.$store.state.curNavModule.param5)?.regulationClass
+          regulationClass: this.searchDataList.regulationClass_code
         }
         this.tableLoading = true
         HttpModule.queryWarningInfoAll(param).then((res) => {
@@ -460,17 +465,8 @@ export default {
           page: this.pagerConfig.currentPage, // 页码
           pageSize: this.pagerConfig.pageSize, // 每页条数
           fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-          regulationClass: this.regulationClass
+          regulationClass: this.searchDataList.regulationClass_code
         }
-        if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-          param.regulationClass = '0201'
-        }
-
-        const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
-        if (regulationClass) {
-          param.regulationClass = regulationClass
-        }
-
         this.tableLoading = true
         HttpModule.queryWarningForDeal(param).then((res) => {
           this.tableLoading = false
@@ -491,19 +487,51 @@ export default {
     },
     getRegulation() {
       // 如果菜单参数有主题 当前模块就使用该主题查询
+      let queryConfig = getFormData('highQueryConfig')
+      const index = queryConfig.findIndex(item => item.field === 'regulationClass')
       if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
-        const index = this.queryConfig.findIndex(item => item.field === 'regulationClass')
-        index > -1 && this.queryConfig?.splice(index, 1)
+        index > -1 && queryConfig?.splice(index, 1)
         return
       }
-      HttpModule.getTree(0).then(res => {
+      return HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getRegulationChildrenData1(res.data)
-          this.queryConfig[0].itemRender.options = treeResdata
+          this.setDefaultRegulationClassValue(queryConfig, treeResdata)
         } else {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    setDefaultRegulationClassValue(queryConfig, treeResdata) {
+      const index = queryConfig.findIndex(item => item.field === 'regulationClass')
+      const treeConfig = queryConfig[queryConfig.findIndex(item => item.field === 'regulationClass')]
+      const flatten = (arr) => {
+        return arr.reduce((prev, item) => {
+          return prev.concat(Array.isArray(item.children) && item.children.length ? flatten(item.children) : item)
+        }, [])
+      }
+      let dfrDafaultCode = '0201'
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        dfrDafaultCode = '0201'
+      }
+      const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        dfrDafaultCode = regulationClass
+      }
+      const item = flatten(treeResdata).find(item => item.code === dfrDafaultCode)
+      const defaultValue = (treeConfig.itemRender.props.valueKeys || ['code', 'name', 'id']).map(field => item[field]).join('##')
+      queryConfig[index].itemRender = {
+        ...queryConfig[index].itemRender,
+        options: treeResdata,
+        props: {
+          ...queryConfig[index].itemRender.props
+        }
+      }
+      this.defaultRuleItem = item
+      this.searchDataList.regulationClass = defaultValue
+      this.searchDataList.regulationClass_code = item.code
+      this.searchDataList.regulationClass_name = item.name
+      this.queryConfig = queryConfig
     },
     getRegulationChildrenData1(datas) {
       let that = this
@@ -522,14 +550,14 @@ export default {
       return datas
     }
   },
-  created() {
+  async created() {
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    await this.getRegulation()
     this.queryTableDatas()
-    this.getRegulation()
     if (getFormData('monitorResultPages').includes(this.$route.name)) {
       this.warningDec = '预警级别说明：1.红色预警--拦截 2.橙色预警--预警（需上传附件）3.黄色预警--预警（无需上传附件）4.灰色预警--禁止 5.蓝色预警--记录'
     }

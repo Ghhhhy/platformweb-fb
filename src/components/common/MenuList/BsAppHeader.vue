@@ -394,6 +394,7 @@ export default {
       this.$store.commit('setLoginAuthentication', {})
       // 清除store中数据
       this.$store.commit('setCurNavModule', {})
+      localStorage.removeItem('user')
       this.clearBossTree()
     },
     // 菜单搜索

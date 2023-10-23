@@ -254,7 +254,7 @@ export default {
       console.log('getLeftTreeData')
       let that = this
       let params = {}
-      if (this.$store.state.province === '610000000') {
+      if (this.$store.state.userInfo.province === '610000000') {
         params = {
           elementCode: 'admdiv',
           province: '610000000',
