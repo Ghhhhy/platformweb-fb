@@ -8,6 +8,7 @@
           :show-num="true"
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
+          :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
@@ -28,7 +29,6 @@
           :table-config="tableConfig"
           :table-global-config="tableGlobalConfig"
           :toolbar-config="toolbarConfig"
-          :height="420"
           :pager-config="pagerConfig"
           :tree-config="treeConfigTable"
           :footer-config="footerConfig"
@@ -96,6 +96,9 @@ export default {
       showModal: false,
       dialogTitle: '',
       rowData: {},
+      tabStatusNumConfig: {
+        'whole': 0
+      },
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -105,11 +108,18 @@ export default {
           iconNameActive: 'base-all-active.png',
           iconUrl: '',
           label: '全部',
-          code: '1',
+          code: 'whole',
           curValue: '1'
         },
+        buttons: [
+          {
+            type: 'button',
+            label: '全部',
+            code: 'whole'
+          }
+        ],
         buttonsInfo: {
-          1: [
+          'whole': [
             { code: 'add', label: '新增', status: 'primary' },
             { code: 'delete', label: '删除' }
           ]
@@ -309,6 +319,7 @@ export default {
             })
             // 将返回值中的页面参数同步
             this.pagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['whole'] = res.data.totalCount
             // this.pagerConfig.pageSize = res.data.size
             // this.pagerConfig.currentPage = res.data.current
           } else {

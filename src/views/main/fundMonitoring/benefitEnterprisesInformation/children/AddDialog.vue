@@ -71,13 +71,13 @@ export default {
         //     trigger: 'change'
         //   }
         // ]
-        corpAddress: [
-          {
-            required: true,
-            message: '请输入办公地点',
-            trigger: 'change'
-          }
-        ],
+        // corpAddress: [
+        //   {
+        //     required: true,
+        //     message: '请输入办公地点',
+        //     trigger: 'change'
+        //   }
+        // ],
         // corpPersonNum: [
         //   {
         //     required: true,
