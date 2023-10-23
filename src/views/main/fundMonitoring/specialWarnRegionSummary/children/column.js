@@ -495,17 +495,17 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
-    {
-      title: '部门支出经济分类',
-      filters: false,
-      width: 140,
-      field: 'depBgtEcoName',
-      formatter({ row }) {
-        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
-      },
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '部门支出经济分类',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'depBgtEcoName',
+    //   formatter({ row }) {
+    //     return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+    //   },
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '本级项目名称',
       filters: false,
@@ -677,17 +677,17 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
-    {
-      title: '部门支出经济分类',
-      filters: false,
-      width: 140,
-      field: 'depBgtEcoName',
-      formatter({ row }) {
-        return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
-      },
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '部门支出经济分类',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'depBgtEcoName',
+    //   formatter({ row }) {
+    //     return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
+    //   },
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '本级项目名称',
       filters: false,
@@ -982,17 +982,17 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
-    {
-      title: '部门支出经济分类',
-      filters: false,
-      width: 140,
-      field: 'zfDepBgtEcoName',
-      formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
-      },
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '部门支出经济分类',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfDepBgtEcoName',
+    //   formatter({ row }) {
+    //     return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+    //   },
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '支付方式',
       filters: false,
@@ -1219,17 +1219,17 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
-    {
-      title: '部门支出经济分类',
-      filters: false,
-      width: 140,
-      field: 'zfDepBgtEcoName',
-      formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
-      },
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '部门支出经济分类',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfDepBgtEcoName',
+    //   formatter({ row }) {
+    //     return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+    //   },
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '支付方式',
       filters: false,
@@ -1445,17 +1445,17 @@ const proconf = {
       sortable: false,
       align: 'left'
     },
-    {
-      title: '部门支出经济分类',
-      filters: false,
-      width: 140,
-      field: 'zfDepBgtEcoName',
-      formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
-      },
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '部门支出经济分类',
+    //   filters: false,
+    //   width: 140,
+    //   field: 'zfDepBgtEcoName',
+    //   formatter({ row }) {
+    //     return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+    //   },
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '支付方式',
       filters: false,
