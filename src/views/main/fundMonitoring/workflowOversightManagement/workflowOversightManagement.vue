@@ -93,7 +93,7 @@ export default defineComponent({
     })
     console.log(warnLevelArr)
     const search = () => {
-      tableLoading.value = false
+      tableLoading.value = true
       let params = {
         mofDivCode: queryData.value.mofDivCodes_code,
         warnLevel: queryData.value.warnLevel,
@@ -187,7 +187,7 @@ export default defineComponent({
       cellClick: (obj, context, e) => {
         let key = obj.column.property
         console.log(key, obj.row)
-        if (key === 'userName' && obj.row.userName !== null) {
+        if (key === 'userName' && obj.row.userName !== '') {
           detailVisbile.value = true
           detailData.value = obj.row
         }
