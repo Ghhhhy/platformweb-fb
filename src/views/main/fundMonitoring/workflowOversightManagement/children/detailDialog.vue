@@ -2,7 +2,7 @@
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-10-18 15:30:23
  * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-20 16:11:34
+ * @LastEditTime: 2023-10-23 16:42:09
  * @FilePath: \platformweb-fb\src\views\main\fundMonitoring\workflowOversightManagement\children\dialog.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -21,17 +21,25 @@
 </template>
 
 <script lang="js">
-import { post } from '@/api/http'
-import { ref, defineComponent, onMounted } from '@vue/composition-api'
+// import { post } from '@/api/http'
+import { ref, defineComponent } from '@vue/composition-api'
 export default defineComponent({
   props: {
     detaildata: {
       type: Object,
       default: {}
+    },
+    rowindex: {
+      type: String,
+      default: ''
     }
   },
   setup(props, { emit }) {
-    let tableLoading = ref(true)
+    console.log(props.detaildata[props.rowindex])
+    /* eslint-disable */
+    // const data = eval('(' + props.detaildata + ')')
+    // console.log(data);
+    let tableLoading = ref(false)
     let detailVisible = ref(true)
     let title = ref('当前节点处理人')
     const dialogClose = () => {
@@ -54,33 +62,34 @@ export default defineComponent({
       },
       {
         title: '电话',
-        field: 'phone',
+        field: 'phonenumber',
         align: 'center'
       }
     ]
     let tableData = ref([])
-    const getData = () => {
-      post(BSURL.lmp_warningResultHandleRuleQueryDetail, {
-        // manageMofDepId: '227DCC7BD4FA406A8D0B2E7FCD639D3C'
-        manageMofDepId: props.detaildata.manageMofDepId
-      }).then(res => {
-        tableLoading.value = false
-        if (res.code === '000000') {
-          tableData.value = res.data
-          pagerConfig.value.total = res.data.length
-        }
-      }).finally(() => {
-        tableLoading.value = false
-      })
-    }
+    tableData.value = props.detaildata[props.rowindex].userName
+    // const getData = () => {
+    //   post(BSURL.lmp_warningResultHandleRuleQueryDetail, {
+    //     // manageMofDepId: '227DCC7BD4FA406A8D0B2E7FCD639D3C'
+    //     manageMofDepId: props.detaildata.manageMofDepId
+    //   }).then(res => {
+    //     tableLoading.value = false
+    //     if (res.code === '000000') {
+    //       tableData.value = res.data
+    //       pagerConfig.value.total = res.data.length
+    //     }
+    //   }).finally(() => {
+    //     tableLoading.value = false
+    //   })
+    // }
     let pagerConfig = ref({
       page: 1,
       pageSize: 20,
-      total: 0
+      total: props.detaildata[props.rowindex].userName.length
     })
-    onMounted(() => {
-      getData()
-    })
+    // onMounted(() => {
+    //   getData()
+    // })
     return {
       tableLoading,
       detailVisible,
@@ -89,7 +98,7 @@ export default defineComponent({
       tableColumnsConfig,
       tableData,
       footerConfig,
-      getData,
+      // getData,
       pagerConfig
     }
   }

@@ -141,7 +141,7 @@ export const mockTableColumns = [
         return [
           <div>
             <span style={{marginRight: '5px'}}>{ row.userName }</span>
-            {row.userName ? <el-button style={{padding: '5px 12px'}} size="small" type="info" icon="el-icon-more"></el-button> : ''}
+            {row.userName !== '' ? <el-button style={{padding: '5px 12px'}} size="small" type="info" icon="el-icon-more"></el-button> : ''}
           </div>
         ]
       }
