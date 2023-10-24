@@ -76,6 +76,7 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
+      :show-type="showType"
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
@@ -119,6 +120,7 @@ export default {
       treeGlobalConfig: {
         inputVal: ''
       },
+      showType: '',
       treeQueryparams: { },
       // treeServerUri: 'pay-clear-service/v2/lefttree',
       treeServerUri: 'large-monitor-platform/lmp/businessFunctions/tree',
@@ -363,7 +365,7 @@ export default {
       console.log(obj.code)
       let datas3 = this.$refs.mainTableRef.getSelectionData()
       let regulationCodes = []
-
+      this.showType = ''
       switch (obj.code) {
         // 新增
         case 'add':
@@ -400,6 +402,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
+          this.showType = '1'
           // this.cancelCheck()
           let datas = this.$refs.mainTableRef.getSelectionData()
           if (datas.length !== 1) {
