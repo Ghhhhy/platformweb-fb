@@ -63,7 +63,7 @@
       :title="errorTitle"
       :error-msg="errorMsg"
     />
-    <checkDialog v-if="dialogVisible" :title="dialogTitle" />
+    <checkDialog v-if="dialogVisible" :show-type="showType" :title="dialogTitle" />
     <WarningDetails
       v-if="warningDetailsByRuleView"
       :id="warnLogId"
@@ -96,6 +96,7 @@ export default {
   },
   data() {
     return {
+      showType: '',
       addDialogVisible: false,
       DetailData: {},
       isShowQueryConditions: true,
@@ -435,11 +436,13 @@ export default {
     cellClick(obj, context, e) {
       console.log(obj)
       let key = obj.column.property
+      this.showType = ''
       switch (key) {
         case 'fiRuleName':
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
+              this.showType = '1'
               this.dialogTitle = '查看详情'
               this.dialogVisible = true
             }

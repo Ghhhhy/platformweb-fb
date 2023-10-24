@@ -634,7 +634,9 @@ export default {
           this.$message.error(res.result)
         }
       })
-      HttpModule.queryTableDatas1(param).then(res => {
+      let axiosUrl = 'queryTableDatas1'
+      this.isSx && (axiosUrl = 'queryTableDatas1Sx')
+      HttpModule[axiosUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results

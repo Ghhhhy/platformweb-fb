@@ -8,6 +8,9 @@ export default {
   queryTableDatas1(params) {
     return post('dfr-monitor-service/dfr/dataExtraction/payDetail', params)
   },
+  queryTableDatas1Sx(params) {
+    return post('dfr-monitor-service/dfr/supervision/pageQuery', params)
+  },
   // 新增
   addPolicies(params) {
     return post('large-monitor-platform/lmp/filter/add', params)
