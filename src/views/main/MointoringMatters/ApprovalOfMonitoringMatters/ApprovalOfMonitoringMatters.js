@@ -1,5 +1,25 @@
-// import store from '@/store/index'
-export let proconf = {
+import store from '@/store/index'
+let proconf = {
+  highQueryConfig: [
+    {
+      title: '监控事项名称',
+      field: 'declareName',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '监控事项名称'
+        }
+      }
+    }
+  ],
+  highQueryData: {
+    declareName: ''
+  },
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
@@ -47,7 +67,8 @@ export let proconf = {
       { code: 'approval', label: '批复', status: 'primary' },
       { code: 'check', label: '查看' },
       // { code: 'del', label: '删除' }
-      { code: 'returnData', label: '退回' }
+      { code: 'returnData', label: '退回' },
+      { code: 'allBack', label: '退回录入岗' }
     ],
     '2': [
       { code: 'revoke', label: '撤销' }
@@ -163,4 +184,13 @@ export let proconf = {
       ]
     }
   }
+}
+if (!store.getters.isSx) { // 非陕西去掉退回录入岗
+  const notShowField = ['allBack']// 非
+  proconf.statusRightToolBarButton = proconf.statusRightToolBarButton.filter(item => {
+    return !notShowField.includes(item.field)
+  })
+}
+export {
+  proconf
 }

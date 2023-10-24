@@ -12,6 +12,16 @@
           @onQueryConditionsClick="onQueryConditionsClick"
         />
       </template>
+      <template v-if="$store.getters.isSx" v-slot:query>
+        <div v-show="isShowQueryConditions" class="main-query">
+          <BsQuery
+            ref="queryFrom"
+            :query-form-item-config="queryConfig"
+            :query-form-data="searchDataList"
+            @onSearchClick="search"
+          />
+        </div>
+      </template>
       <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
       <template v-slot:mainTree>
         <BsTreeSet
@@ -68,11 +78,17 @@
       title="查看"
       :declare-code="declareCode"
     />
+    <LookDialogSx
+      v-if="lookdialogVisibleSx"
+      title="查看"
+      :declare-code="declareCode"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
     <GlAttachment
       v-if="showGlAttachmentDialog"
       :user-info="userInfo"
+      :mof-div-code="fileMofDivCode"
       :billguid="billguid"
     />
   </div>
@@ -82,19 +98,22 @@
 import { proconf } from './ApprovalOfMonitoringMatters'
 import AddDialog from './children/addDialog'
 import LookDialog from './children/lookDialog'
+import LookDialogSx from './children/lookDialogSx'
 import HttpModule from '@/api/frame/main/Monitoring/Declaration.js'
 import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     AddDialog,
     GlAttachment,
-    LookDialog
+    LookDialog,
+    LookDialogSx
   },
   watch: {
   },
   data() {
     return {
       lookdialogVisible: false,
+      lookdialogVisibleSx: false,
       showGlAttachmentDialog: false,
       declareCode: '',
       radioShow: true,
@@ -106,7 +125,7 @@ export default {
         inputVal: ''
       },
       treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
-      treeServerUri: 'http://10.77.18.172:32303//lmp/mofDivTree',
+      treeServerUri: 'http://10.77.18.172:32303/v2/basedata/simpletree/where',
       treeAjaxType: 'get',
       treeData: [],
       leftTreeVisible: true,
@@ -225,12 +244,21 @@ export default {
         readonly: true,
         clearable: true,
         codeList: []
-      }
+      },
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      declareName: '',
+      fileMofDivCode: ''
     }
   },
   mounted() {
   },
   methods: {
+    search(obj) {
+      console.log(obj)
+      this.declareName = obj.declareName
+      this.queryTableDatas()
+    },
     getLeftTreeData() {
       console.log('getLeftTreeData')
       let that = this
@@ -282,7 +310,7 @@ export default {
     getChildrenData(datas) {
       let that = this
       datas.forEach(item => {
-        item.label = item.text || `${item.code}-${item.name}`
+        item.label = item.text
         if (item.children) {
           that.getChildrenData(item.children)
         }
@@ -333,6 +361,9 @@ export default {
         case 'returnData':
           this.returnData(obj, context, e)
           break
+        case 'allBack':
+          this.allBack(obj, context, e)
+          break
         // 刷新
         case 'add-toolbar-refresh':
           this.refresh()
@@ -364,6 +395,31 @@ export default {
       HttpModule.flowBack(params).then(res => {
         if (res.code === '000000') {
           this.$message.success('退回成功')
+          this.queryTableDatas()
+          this.queryTableDatasCount()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    allBack() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length < 1) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let declareCodes = []
+      selection.forEach(item => {
+        declareCodes.push(item.declareCode)
+      })
+      const params = {
+        menuId: this.$store.state.curNavModule.guid,
+        declareCodes: declareCodes,
+        menuName: this.$store.state.curNavModule.name
+      }
+      HttpModule.allBack(params).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('退回录入岗成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
         } else {
@@ -454,6 +510,7 @@ export default {
         return
       }
       this.billguid = row.declareCode
+      this.fileMofDivCode = row.mofDivCode
       // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
@@ -594,7 +651,11 @@ export default {
         this.$message.warning('请选择一条数据')
         return
       }
-      this.lookdialogVisible = true
+      if (this.$store.getters.isSx) {
+        this.lookdialogVisibleSx = true
+      } else {
+        this.lookdialogVisible = true
+      }
       this.declareCode = selection[0].declareCode
     },
     queryTableDatasCount() {
@@ -616,7 +677,7 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        declareName: '',
+        declareName: this.declareName,
         agencyCodes: [],
         manageMofCodes: [],
         mofDivCode: this.mofDivCode,

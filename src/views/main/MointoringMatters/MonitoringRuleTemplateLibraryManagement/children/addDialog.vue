@@ -301,6 +301,7 @@ export default {
   },
   data() {
     return {
+      functionParameter: '',
       checkboxConfig: {
         checkAll: true
       },

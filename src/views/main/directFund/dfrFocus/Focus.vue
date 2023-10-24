@@ -22,7 +22,7 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
           >
-            <template v-if="!isSx" #action-button-before>
+            <template #action-button-before>
               <vxe-button size="medium" status="primary" @click="onSearchClick">搜索</vxe-button>
               <vxe-button size="medium" status="primary" @click="onSearchResetClick">重置</vxe-button>
             </template>
@@ -33,7 +33,7 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
+          :tree-config="{}"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
