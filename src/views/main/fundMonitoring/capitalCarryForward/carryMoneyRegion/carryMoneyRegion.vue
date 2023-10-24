@@ -341,7 +341,7 @@ export default {
     queryTableDatas(isFlush = true) {
       const param = {
         isFlush,
-        reportCode: this.params5 || 'CarryMoneyRegion'
+        reportCode: this.params5.reportCode || 'zdjzzjfdqjzqkb'
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
