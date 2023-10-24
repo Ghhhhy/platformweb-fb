@@ -187,7 +187,7 @@ let proconf = {
 }
 if (!store.getters.isSx) { // 非陕西去掉退回录入岗
   const notShowField = ['allBack']// 非
-  proconf.statusRightToolBarButton = proconf.statusRightToolBarButton.filter(item => {
+  proconf.statusRightToolBarButton[1] = proconf.statusRightToolBarButton[1].filter(item => {
     return !notShowField.includes(item.field)
   })
 }
