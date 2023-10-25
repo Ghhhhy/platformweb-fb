@@ -175,13 +175,16 @@ const proconf = {
             width: 100,
             field: 'jLoad',
             sortable: true,
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
+            formula: store.getters.isSx ? '({amountZyxdBhxj}-0==0)?0:Math.round(({amountPayAll}/{amountZyxdBhxj}*100)*10)/10' : '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
             cellRender: {
               name: '$vxeRatio'
             },
             slots: { // 解决值太小没有展示的问题
               default({ row }) {
                 let amount1 = parseFloat(row.amountZyxd || 0)
+                if (store.getters.isSx) {
+                  amount1 = parseFloat(row.amountZyxdBhxj || 0)
+                }
                 let amount5 = parseFloat(row.amountPayAll || 0)
                 let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
