@@ -202,7 +202,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: proconf.PoliciesTableColumns(this),
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置

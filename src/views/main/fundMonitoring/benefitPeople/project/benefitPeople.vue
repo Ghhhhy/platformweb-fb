@@ -1,95 +1,111 @@
 <!--支付数据规范性检查-->
 <template>
-  <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout>
-      <template v-slot:topTabPane>
-        <BsTabPanel
-          ref="tabPanel"
-          :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
-        />
-      </template>
-      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainForm>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig1"
-            :query-form-data="searchDataList1"
-            @onSearchClick="search1"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef1"
-          v-loading="tableLoading2"
-          style="height: 40%"
-          :footer-config="tableFooterConfig1"
-          :table-columns-config="tableColumnsConfig1"
-          :table-global-config="{ customExportConfig: { fileName: '支付凭证信息' } }"
-          :table-data="tableData1"
-          :table-config="tableConfig1"
-          :pager-config="mainPagerConfig1"
-          :toolbar-config="tableToolbarConfig1"
-          @checkboxChange="checkboxChange1"
-          @checkboxAll="checkboxChange1"
-          @onToolbarBtnClick="onToolbarBtnClick1"
-          @ajaxData="ajaxTableData1"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title">
-                <span class="fn-inline">支付凭证信息</span>
-                <i class="fn-inline"></i>
-              </div>
-            </div>
+  <div v-loading="tableLoading" style="width:100%;height: 100%">
+    <BsTabPanel
+      ref="tabPanelTop"
+      is-hide-query
+      :tab-status-btn-config="toolBarStatusBtnConfigTop"
+    />
+    <div style="padding:0 20px;">
+      <BsTabPanel
+        ref="tabPanel"
+        style="margin-top:10px;"
+        :is-open="isShowQueryConditions"
+        :tab-status-btn-config="toolBarStatusBtnConfig"
+        :tab-status-num-config="tabStatusNumConfig"
+        @onQueryConditionsClick="onQueryConditionsClick"
+      />
+    </div>
+    <div style="display:flex;width:100%;height:calc(100% - 106px)">
+      <div v-xResize class="m-left-content" style="width:50%;height:100%;margin-right:10px;padding-left:20px;">
+        <BsMainFormListLayout>
+          <template v-slot:topTabPane>
           </template>
-        </BsTable>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 40%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-global-config="{ customExportConfig: { fileName: '惠民支付明细数据' } }"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left" style="display: flex; align-items: center">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
-                <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
-              </div>
+          <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
+          <template v-slot:mainForm>
+            <div v-show="isShowQueryConditions" class="main-query">
+              <BsQuery
+                ref="queryFrom"
+                :query-form-item-config="queryConfig1"
+                :query-form-data="searchDataList1"
+                @onSearchClick="search1"
+              />
             </div>
+            <BsTable
+              ref="mainTableRef1"
+              v-loading="tableLoading2"
+              :footer-config="tableFooterConfig1"
+              :table-columns-config="tableColumnsConfig1"
+              :table-global-config="{ customExportConfig: { fileName: '支付凭证信息' } }"
+              :table-data="tableData1"
+              :table-config="tableConfig1"
+              :pager-config="mainPagerConfig1"
+              :toolbar-config="tableToolbarConfig1"
+              @checkboxChange="checkboxChange1"
+              @checkboxAll="checkboxChange1"
+              @onToolbarBtnClick="onToolbarBtnClick1"
+              @ajaxData="ajaxTableData1"
+              @cellClick="cellClick"
+            >
+              <template v-slot:toolbarSlots>
+                <div class="table-toolbar-left">
+                  <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
+                  <div class="table-toolbar-left-title">
+                    <span class="fn-inline">支付凭证信息</span>
+                    <i class="fn-inline"></i>
+                  </div>
+                </div>
+              </template>
+            </BsTable>
           </template>
-        </BsTable>
-      </template>
-    </BsMainFormListLayout>
+        </BsMainFormListLayout>
+      </div>
+      <div class="m-right-content" style="minWidth:100px;flex:1;padding-right:20px;">
+        <BsMainFormListLayout>
+          <template v-slot:mainForm>
+            <div v-show="isShowQueryConditions" class="main-query">
+              <BsQuery
+                ref="queryFrom"
+                :query-form-item-config="queryConfig"
+                :query-form-data="searchDataList"
+                @onSearchClick="search"
+              />
+            </div>
+            <BsTable
+              ref="mainTableRef"
+              v-loading="tableLoading1"
+              :footer-config="tableFooterConfig"
+              :table-columns-config="tableColumnsConfig"
+              :table-global-config="{ customExportConfig: { fileName: '惠民支付明细数据' } }"
+              :table-data="tableData"
+              :table-config="tableConfig"
+              :pager-config="mainPagerConfig"
+              :toolbar-config="tableToolbarConfig"
+              @checkboxChange="checkboxChange"
+              @checkboxAll="checkboxChange"
+              @onToolbarBtnClick="onToolbarBtnClick"
+              @ajaxData="ajaxTableData"
+              @cellClick="cellClick"
+            >
+              <template v-slot:toolbarSlots>
+                <div class="table-toolbar-left" style="display: flex; align-items: center">
+                  <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
+                  <div class="table-toolbar-left-title left-title-clear-float">
+                    <span class="fn-inline">惠民支付明细数据</span>
+                    <i class="fn-inline"></i>
+                  </div>
+                  <div v-if="matchHoot">
+                    <span>匹配条件：</span>
+                    <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
+                    <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
+                  </div>
+                </div>
+              </template>
+            </BsTable>
+          </template>
+        </BsMainFormListLayout>
+      </div>
+    </div>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <ImportModel
       ref="ImportModel"
@@ -216,6 +232,9 @@ export default {
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
+      },
+      toolBarStatusBtnConfigTop: {
+        buttons: proconf.statusButtonsTop
       },
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
@@ -1082,6 +1101,39 @@ export default {
 }
 /deep/.T-search{
   background-color: var(--hightlight-color) !important;
+}
+.m-right-content{
+  /deep/ .vxe-table{
+    border-left:0px !important;
+  }
+  /deep/ .vxe-grid--toolbar-wrapper{
+    border-bottom:0;
+    border-left:0;
+  }
+  /deep/ .mmc-right{
+    border-top:0px solid !important;
+    padding:0 !important;
+  }
+  /deep/ .mmc-formlist{
+    border-bottom:0;
+  }
+}
+.m-left-content{
+  /deep/ .vxe-table{
+    border-left:0px !important;
+  }
+  /deep/ .vxe-grid--toolbar-wrapper{
+    border-bottom:0;
+    border-left:0;
+  }
+  /deep/ .mmc-right{
+    border-top:0px solid !important;
+    padding:0 !important;
+
+  }
+  /deep/ .mmc-formlist{
+    border-bottom:0;
+  }
 }
 </style>
 <style scoped>

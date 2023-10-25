@@ -196,9 +196,11 @@ export default {
       })
     },
     initConfig() {
-      this.tableColumnsConfig = proconf.payColumn
-      this.tableColumnsConfig.forEach((v) => {
-        v.width = '220'
+      this.tableColumnsConfig = proconf.payColumn.map(item => {
+        return {
+          ...item,
+          width: 150
+        }
       })
       this.queryConfig = proconf.highQueryConfig2
       this.searchDataList = proconf.highQueryData2
