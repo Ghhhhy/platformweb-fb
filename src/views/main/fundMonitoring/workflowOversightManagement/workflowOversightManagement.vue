@@ -120,7 +120,7 @@ export default defineComponent({
           })
           tableData.value.forEach((item) => {
             let tempUserName = ''
-            item.userName.forEach((subItem) => {
+            item.userName.slice(0, 2).forEach((subItem) => {
               tempUserName += subItem.name + ','
             })
             item.userName = tempUserName.substring(0, tempUserName.length - 1)
