@@ -99,6 +99,7 @@ export default {
       showType: '',
       addDialogVisible: false,
       DetailData: {},
+      formDatas: {}, // checkDialog需要用到
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -442,6 +443,7 @@ export default {
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
+              this.formDatas = res.data.regulationElementEntitieList[0]
               this.showType = '1'
               this.dialogTitle = '查看详情'
               this.dialogVisible = true
