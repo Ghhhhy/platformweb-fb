@@ -13,11 +13,11 @@ export default {
   },
   // 查询一卡通数据
   pageQuery (params) {
-    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/pageQuery', params)
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryBenefitImportData', params) // pageQuery
   },
   // 查询一体化支付凭证数据
   pagePayQuery (params) {
-    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/pagePayQuery', params)
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryPayCertInfo', params) // pagePayQuery
   },
   // 导入一卡通数据
   addBenefitPeople (params) {
@@ -29,7 +29,7 @@ export default {
   },
   // 取消挂接
   notHook (params) {
-    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHook', params)
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', params) // notHook
   },
   // 通过支付接口取消挂接
   notHookByInterFace (params) {
@@ -49,7 +49,7 @@ export default {
   },
   // 到人到户导入 | 企业补贴导入
   importPersonAndCompany (params) {
-    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/savePayDetailExcel', params)
+    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/importPayDetailExcel ', params)
   },
   // 到人到户导入 | 企业补贴导入
   queryCompanyInfo (params) {

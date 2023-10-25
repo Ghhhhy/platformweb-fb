@@ -179,22 +179,28 @@ export let proconf = {
   ],
   statusButtonsTop: [
     {
-      code: '3',
-      label: '实拨',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
-      type: 'button',
-      curValue: '3'
-    },
-    {
       code: '4',
       label: '集中支付',
       iconName: 'base-all.png',
       iconNameActive: 'base-all-active.png',
       type: 'button',
       curValue: '4'
+    },
+    {
+      code: '3',
+      label: '实拨',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '3'
     }
   ],
+  curStatusButtonTop: {
+    label: '集中支付',
+    code: '4',
+    type: 'button',
+    curValue: '4'
+  },
   statusButtons: [
     {
       code: '1',
