@@ -957,7 +957,7 @@ export default {
       }
     },
     chooseTriggerClass(val) {
-      if (val === 2) {
+      if (val === 2 && this.sx) {
         this.warningLevel = 5
         this.handleType = 5
       }
