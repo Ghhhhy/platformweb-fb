@@ -76,6 +76,7 @@
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
+      :click-type="clickType"
       :modify-data="modifyData"
       :button-type="buttonType"
     />
@@ -88,6 +89,14 @@
 import { proconf } from './SystemLevelRulesFlow'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
+const clickTypeEnum = {
+  '新增': 1,
+  '查看详情': 2,
+  '审批': 3,
+  1: '新增',
+  2: '查看详情',
+  3: '审批'
+}
 export default {
   components: {
     AddDialog
@@ -204,6 +213,7 @@ export default {
       // 新增弹窗
       dialogVisible: false,
       dialogTitle: '新增',
+      clickType: '',
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
@@ -256,7 +266,6 @@ export default {
           this.DetailData = res.data
           this.DetailData.ruleFlowOpinion = this.ruleFlowOpinion
           this.dialogVisible = true
-          this.dialogTitle = '查看详情'
         }
       })
     },
@@ -407,6 +416,8 @@ export default {
           } else {
             this.provinceList = datas3[0].codeList
             this.formDatas = datas3[0].ruleElement
+            this.clickType = clickTypeEnum['审批']
+            this.dialogTitle = '审批'
             this.getDetail(regulationCodes[0])
           }
           break
@@ -458,6 +469,8 @@ export default {
           this.provinceList = datas3[0].codeList
           this.formDatas = datas3[0].ruleElement
           this.ruleFlowOpinion = datas3[0].ruleFlowOpinion
+          this.clickType = clickTypeEnum['查看详情']
+          this.dialogTitle = '查看详情'
           this.getDetail(datas[0].regulationCode)
           break
         default:
@@ -552,6 +565,7 @@ export default {
         this.addTableData = []
       }
       this.dialogTitle = '新增'
+      this.clickType = clickTypeEnum['新增']
       this.addTableData.push(row)
       this.dialogVisible = true
     },
@@ -567,6 +581,7 @@ export default {
       this.dialogVisible = true
       // this.selectSumId = this.$refs.mainTableRef.getSelectionData()[0].sum_id
       this.dialogTitle = '新增'
+      this.clickType = clickTypeEnum['新增']
     },
     queryTableDatasCount() {
       let that = this

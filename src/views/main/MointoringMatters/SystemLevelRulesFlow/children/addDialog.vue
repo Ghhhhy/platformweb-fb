@@ -535,7 +535,15 @@ import { proconf } from '../SystemLevelRulesFlow.js'
 import HttpModule from '@/api/frame/main/Monitoring/levelRules.js'
 import queryTreedElementByCodeMixin from '@/mixin/queryTreedElementByCode.js'
 import functionSelectMixin from '@/mixin/functionSelectMixin.js'
-
+/* eslint-disable-next-line */
+const clickTypeEnum = {
+  '新增': 1,
+  '查看详情': 2,
+  '审批': 3,
+  1: '新增',
+  2: '查看详情',
+  3: '审批'
+}
 export default {
   name: 'AddDialog',
   mixins: [queryTreedElementByCodeMixin, functionSelectMixin],
@@ -546,6 +554,10 @@ export default {
     }
   },
   props: {
+    clickType: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: ''
@@ -1377,7 +1389,7 @@ export default {
     // this.buttonConfig = {}
     this.disabled = true
     this.editConfig = false
-
+    const isShowDetail = this.clickType === 2 || this.clickType === 3
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
@@ -1387,12 +1399,12 @@ export default {
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}
             if (item === '1') {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+              datas = isShowDetail ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
             } else {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+              datas = isShowDetail ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
             }
             this.formItemsConfigMessage.splice(1 + index, 0, datas)
-            if (this.$parent.dialogTitle === '查看详情') {
+            if (isShowDetail) {
               this.formItemsConfigMessage.forEach(item => {
                 item.itemRender.props.disabled = true
               })
@@ -1431,7 +1443,7 @@ export default {
         }
       }
     }
-    if (this.$parent.dialogTitle === '查看详情') {
+    if (isShowDetail) {
       this.formItemsConfigMessage.forEach(item => {
         item.itemRender.props.disabled = true
       })
