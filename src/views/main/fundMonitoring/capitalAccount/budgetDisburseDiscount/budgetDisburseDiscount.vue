@@ -468,13 +468,66 @@ export default {
       //   }
       // })
     },
+    cellHide(hideStr, column, row) {
+      /**
+       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
+       */
+      let hideSetting = hideStr.split(';')
+      hideSetting.length && (hideSetting = hideSetting.filter(item => item !== ''))
+      let settingItemList = hideSetting.map((item, index) => {
+        let itemArr = item.split(':')
+        if (!itemArr[0] || !itemArr[1] || itemArr.length !== 2) {
+          let str = ''
+          if (index === 0) {
+            str = '第1个\';\'前面'
+          } else if (index === hideSetting.length - 1) {
+            str = '最后一个\';\'后面'
+          } else {
+            str = `第${index}个';'后面${index + 1}个';'前面`
+          }
+          this.$message({
+            duration: 0,
+            showClose: true,
+            message: `${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`,
+            type: 'error'
+          })
+          throw new Error(`${str}的隐藏列配置项语法错误 请检查菜单配置的隐藏参数 错误配置参数为  ${item}`)
+        }
+        let obj = {}
+        obj[itemArr[0]] = itemArr[1]
+        return obj
+      })
+      let cellCol = column.property
+      let cellRow = row.code
+      for (let i = 0; i < settingItemList.length; i++) {
+        const item = settingItemList[i]
+        // 隐藏整列判断
+        if ('col' in item && item['col'].split('&').includes(cellCol)) {
+          return true
+        }
+        // 隐藏整行判断
+        if ('row' in item && item['row'].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某列下的 每行对应的code
+        if ('cellCol' in item && item[cellCol].split('&').includes(cellRow)) {
+          return true
+        }
+        // 隐藏某行下 对应每列的点
+        if ('cellRow' in item && item[cellRow].split('&').includes(cellCol)) {
+          return true
+        }
+      }
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       if (this.projectCode !== 'FJ') { // 福建的不要钻取
         const rowIndex = obj?.rowIndex
         if (!rowIndex) return
         let key = obj.column.property
-
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) return
         // 无效的cellValue
         const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
         if (isInvalidCellValue) return
@@ -605,6 +658,8 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
+      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) return
       // 有效的cellValue
       if (this.projectCode !== 'FJ') { // 福建的不要钻取
         const validCellValue = (row[column.property] * 1)
