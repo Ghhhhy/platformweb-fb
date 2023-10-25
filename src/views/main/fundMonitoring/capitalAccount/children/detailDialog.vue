@@ -536,7 +536,8 @@ export default {
           isCz: this.detailQueryParam.isCz,
           condition: this.detailQueryParam.condition,
           mofDivCode: this.detailQueryParam.mofDivCode,
-          fiscalYear: this.$parent.fiscalYear
+          fiscalYear: this.$parent.fiscalYear,
+          endTime: this.detailQueryParam.endTime ? this.detailQueryParam.endTime : ''
         }
         this.$parent.sDetailQueryParam = params
         this.$parent.sDetailVisible = true
