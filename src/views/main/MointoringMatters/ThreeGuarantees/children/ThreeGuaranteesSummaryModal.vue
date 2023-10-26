@@ -95,7 +95,10 @@ export default defineComponent({
       dialogVisible.value = false
     }
     const cellClickColumns = computed(() => {
-      return clickCodeMap[tableType.value][clickType.value]
+      if(tableType.value&&clickType.value){
+        return clickCodeMap[tableType.value][clickType.value]
+      }
+      return []
     })
     
     const [
@@ -129,6 +132,7 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
+      defaultMoneyUnit: computed(()=>tableType.value === 'bgt' ? 1 : 10000),
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
