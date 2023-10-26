@@ -136,10 +136,10 @@ export default {
         )
         .then((res) => {
           // data.tokenid = '22c0bab04c9b4b34fc7a0f6f754b9c97'
-          if (res.rscode === '100000') {
+          if (res.rscode === '100000' || res.code === '201') {
             let obj = self.getUrlAllParams()
             window.location.href = window.location.origin + window.location.pathname + '?' + self.objToQueryUrlString(Object.assign(obj, {
-              tokenid: res.data.tokenid,
+              tokenid: res.tokenid ? res.tokenid : res.data.tokenid,
               appguid: self.optionsRes[self.value].guid || 'fiscal'
             }))
             // this.$store.commit('setAppData', {
