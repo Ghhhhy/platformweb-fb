@@ -287,6 +287,7 @@ export default {
                 condition[key].push(item)
               })
             }
+            condition.trackProCode = val.trackProCode_id__multiple
           }
         }
       }
@@ -425,7 +426,7 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(val) {
-      const param = {
+      let param = {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
@@ -440,6 +441,28 @@ export default {
         dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
         menuId: this.$store.state.curNavModule.guid,
         businessModuleName: this.searchDataList.businessModuleName === '' ? '' : this.searchDataList.businessModuleName
+      }
+      console.log('this.$store.getters.isNeiMeng', this.$store.getters.isNeiMeng)
+      if (this.$store.getters.isNeiMeng) {
+        param = {
+          fiscalYear: this.$store.state.userInfo.year,
+          fiRuleCode: this.searchDataList.fiRuleCode ? this.searchDataList.fiRuleCode.split('#')[0] : '',
+          ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
+          xpayDate: this.searchDataList.xpayDate ? this.searchDataList.xpayDate : '',
+          triggerMonitorDate: this.searchDataList.triggerMonitorDate ? this.searchDataList.triggerMonitorDate : '',
+          trackProCodeList: this.condition.trackProCode,
+          roleId: this.$store.state.curNavModule.roleguid,
+          menuId: this.$store.state.curNavModule.guid,
+          roleguid: this.$store.state.curNavModule.roleguid,
+          warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
+          warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
+          dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
+          dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+          recStartTime: this.searchDataList.recStartTime,
+          recEndTime: this.searchDataList.recEndTime,
+          xPayDateStart: this.searchDataList.xPayDateStart,
+          xPayDateEnd: this.searchDataList.xPayDateEnd
+        }
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'

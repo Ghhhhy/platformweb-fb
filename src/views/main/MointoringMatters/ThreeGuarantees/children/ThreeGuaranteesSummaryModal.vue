@@ -95,7 +95,10 @@ export default defineComponent({
       dialogVisible.value = false
     }
     const cellClickColumns = computed(() => {
-      return clickCodeMap[tableType.value][clickType.value]
+      if(tableType.value&&clickType.value){
+        return clickCodeMap[tableType.value][clickType.value]
+      }
+      return []
     })
     
     const [
