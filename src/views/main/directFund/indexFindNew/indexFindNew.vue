@@ -328,7 +328,8 @@ export default {
       const params = {
         current: currentPage, // 分页-当前页号
         size: pageSize, // 分页-规模
-        fiscalYear: this.$store.state.userInfo.year
+        fiscalYear: this.$store.state.userInfo.year,
+        reportCode: this.transJson(this.$store.getters.getCurNavModule.param5 || '')?.reportCode
       }
       await this.$http.post('dfr-monitor-service/dfr/bgtInfoQuery/queryHomePage', params).then((res) => {
         if (res.code === '000000' && res.data) {
