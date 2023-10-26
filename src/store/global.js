@@ -45,6 +45,14 @@ export const getters = {
     const province = state.userInfo.province
     return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目
   },
+  isNeiMeng() { // 判断是不是内蒙项目
+    return state.userInfo.province.slice(0, 2) === '15'
+  },
+  isSx() { // 判断是否是陕西项目
+    return state.projectList.some(item => {
+      return item.configKey === 'sx' && item.configValue === 'true'
+    })
+  },
   treeQueryparamsCom() {
     let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
     let budgetlevelcode = state.userInfo.budgetlevelcode
@@ -68,11 +76,6 @@ export const getters = {
       obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
     }
     return obj
-  },
-  isSx() { // 判断是否是陕西项目
-    return state.projectList.some(item => {
-      return item.configKey === 'sx' && item.configValue === 'true'
-    })
   },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
