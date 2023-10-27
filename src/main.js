@@ -9,7 +9,7 @@ import { setupElementUI } from './plugin/setupElementUI'
 import ElementUI from './common/js/lib/elementUI/elementUI.js'
 import loadingDirective from './directive/loading.js'
 import customerDirective from './directive/customerDirective.js'
-import { BSURL } from '@/api/requestUrl.js'
+import { BSURL } from '@/api/BSURL.js'
 // 注册compoistion-api
 import { setupCompositionApi } from './plugin/setupCompositionApi'
 import { setupSvg } from './plugin/setupSvg'
