@@ -126,7 +126,8 @@ export const mockTableColumns = [
     align: 'center',
     treeNode: true,
     width: 260,
-    field: 'affirmDeptName',
+    // field: 'affirmDeptName',
+    field: 'menuName',
     filters: false,
   },
   {
