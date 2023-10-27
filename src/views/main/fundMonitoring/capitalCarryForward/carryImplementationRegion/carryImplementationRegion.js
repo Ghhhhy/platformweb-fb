@@ -656,7 +656,7 @@ export const carryImplementationRegionModalColumns = [
   // },
   {
     title: '资金名称',
-    field: 'track_pro_name',
+    field: 'trackProName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -666,7 +666,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '预算单位',
-    field: 'agency_name',
+    field: 'agencyName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -676,7 +676,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '项目名称',
-    field: 'pro_name',
+    field: 'proName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -686,7 +686,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '支出功能科目',
-    field: 'exp_func_name',
+    field: 'xjExpFuncName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -705,7 +705,7 @@ export const carryImplementationRegionModalColumns = [
         sortable: false,
         filters: false,
         canInsert: true,
-        formula: '{jzamount_zy}+{jzamount_snj}+{jzamount_sj}+{jzamount_xj}',
+        formula: '{jzAmountZy}+{jzAmountsSnj}+{jzAmountSj}+{jzamountXj}',
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeMoney' }
@@ -714,7 +714,7 @@ export const carryImplementationRegionModalColumns = [
         title: '中央安排',
         sortable: false,
         filters: false,
-        field: 'jzamount_zy',
+        field: 'jzAmountZy',
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeMoney' }
@@ -723,7 +723,7 @@ export const carryImplementationRegionModalColumns = [
         title: '省级安排',
         sortable: false,
         filters: false,
-        field: 'jzamount_snj',
+        field: 'jzAmountsSnj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -734,7 +734,7 @@ export const carryImplementationRegionModalColumns = [
         title: '市级安排',
         sortable: false,
         filters: false,
-        field: 'jzamount_sj',
+        field: 'jzAmountSj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -745,7 +745,7 @@ export const carryImplementationRegionModalColumns = [
         title: '县级安排',
         sortable: false,
         filters: false,
-        field: 'jzamount_xj',
+        field: 'jzamountXj',
         width: 100,
         align: 'right',
         cellRender: {
@@ -761,7 +761,7 @@ export const carryImplementationRegionModalColumns = [
     children: [
       {
         title: '总金额',
-        field: 'jzpayamount',
+        field: 'jzPayAmount',
         sortable: false,
         filters: false,
         canInsert: true,

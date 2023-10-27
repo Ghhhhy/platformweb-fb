@@ -149,6 +149,7 @@
 </template>
 
 <script>
+import { post } from '@/api/http'
 import { proconf } from './benefitPeople'
 import AddDialog from '@/views/main/fundMonitoring/benefitPeople/children/AddDialog.vue'
 import CorpAddDialog from '@/views/main/fundMonitoring/benefitPeople/children/CorpAddDialog.vue'
@@ -785,7 +786,15 @@ export default {
       }
     },
     delete(datas) {
-      HttpModule.delete(datas).then((res) => {
+      // HttpModule.delete(datas).then((res) => {
+      //   if (res.code === '000000') {
+      //     this.$message.success('删除成功')
+      //     this.queryTableDatas()
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeopleDelete, datas).then((res) => {
         if (res.code === '000000') {
           this.$message.success('删除成功')
           this.queryTableDatas()
@@ -817,7 +826,32 @@ export default {
       })
     },
     notHook(datas2) {
-      HttpModule.notHookByInterFace(datas2).then((res) => {
+      datas2 = datas2.map(item => {
+        return {
+          payCertNo: item.payCertNo
+        }
+      })
+      // HttpModule.notHook(datas2).then((res) => {
+      //   if (res.code === '000000') {
+      //     this.$message.success('取消成功')
+      //     this.proCode = ''
+      //     this.proName = ''
+      //     this.payCertNo = ''
+      //     this.amount = ''
+      //     this.payAmt = ''
+      //     this.mofdivName = ''
+      //     this.agencyName = ''
+      //     this.agencyCodeList = []
+      //     this.corBgtDocNoName = ''
+      //     this.useDes = ''
+      //     this.dtos = []
+      //     this.queryTableDatas()
+      //     this.queryTableDatas1()
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeopleNotHook, datas2).then((res) => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''
@@ -969,7 +1003,17 @@ export default {
         importType: this.importType
       }
       this.tableLoading1 = true
-      HttpModule.pageQuery(param).then((res) => {
+      // HttpModule.pageQuery(param).then((res) => {
+      //   this.tableLoading1 = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.records
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //     // this.tabStatusNumConfig['1'] = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeoplePageQuery, param).then((res) => {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.records
@@ -1000,7 +1044,16 @@ export default {
         importType: this.importType
       }
       this.tableLoading2 = true
-      HttpModule.pagePayQuery(param).then((res) => {
+      // HttpModule.pagePayQuery(param).then((res) => {
+      //   this.tableLoading2 = false
+      //   if (res.code === '000000') {
+      //     this.tableData1 = res.data.results
+      //     this.mainPagerConfig1.total = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeoplePagePayQuery, param).then((res) => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
