@@ -291,7 +291,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
+      cellRender: { name: '$vxeMoney' },
+      combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
     },
     // {
     //   title: '项目代码',
@@ -468,7 +469,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
+      cellRender: { name: '$vxeMoney' },
+      combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
     },
     {
       title: '支付凭证号',
