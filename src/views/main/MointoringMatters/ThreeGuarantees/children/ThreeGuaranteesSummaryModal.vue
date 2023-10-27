@@ -124,7 +124,7 @@ export default defineComponent({
         disabledMoneyConversion: false,
         moneyConversion: true, // 是否有金额转换
       },
-      dataKey: 'data.data'
+      dataKey: 'data'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
