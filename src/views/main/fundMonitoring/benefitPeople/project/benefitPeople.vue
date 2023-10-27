@@ -338,7 +338,7 @@ export default {
       },
       tableConfig1: {},
       tableFooterConfig: {
-        showFooter: false
+        showFooter: true
       },
       tableFooterConfig1: {
         showFooter: false
