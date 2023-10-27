@@ -686,7 +686,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '支出功能科目',
-    field: 'xjExpFuncName',
+    field: 'xjExpFunc',
     align: 'left',
     sortable: false,
     filters: false,
@@ -833,7 +833,7 @@ export const carrImplRegiSecondModalColumns = [
   // },
   {
     title: '处室名称',
-    field: 'CSHJ',
+    field: 'bgtMofDepName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -853,7 +853,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '中央直达资金名称',
-    field: 'ZYZDZJMC',
+    field: 'cenTraProName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -862,8 +862,8 @@ export const carrImplRegiSecondModalColumns = [
     cellRender: { name: '$vxeInput' }
   },
   {
-    title: '支出科目编码',
-    field: 'ZCKMBM',
+    title: '支出功能科目编码',
+    field: 'xjExpFuncCode',
     align: 'left',
     sortable: false,
     filters: false,
@@ -872,8 +872,8 @@ export const carrImplRegiSecondModalColumns = [
     cellRender: { name: '$vxeInput' }
   },
   {
-    title: '支出科目名称',
-    field: 'ZCKMMC',
+    title: '支出功能科目名称',
+    field: 'xjExpFuncName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -883,7 +883,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '本级专项资金名称',
-    field: 'BJZXZJMC',
+    field: 'speTypeName',
     align: 'left',
     sortable: false,
     filters: false,
@@ -893,7 +893,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '上级文号',
-    field: 'SJWH',
+    field: 'supBgtDocNo',
     align: 'left',
     sortable: false,
     filters: false,
@@ -903,7 +903,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '本级文号',
-    field: 'BJWH',
+    field: 'corBgtDocNo',
     align: 'left',
     sortable: false,
     filters: false,
@@ -913,7 +913,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '预算金额',
-    field: 'YSJE',
+    field: 'jzAmountYs',
     align: 'left',
     sortable: false,
     filters: false,
@@ -923,7 +923,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '支出金额',
-    field: 'payAppAmt',
+    field: 'jzPayAmount',
     align: 'left',
     sortable: false,
     filters: false,
