@@ -18,6 +18,7 @@
     <!-- <template v-slot:mainForm> -->
     <BsTable
       ref="waitTable"
+      v-loading="tableLoadingState"
       v-bind="tableStaticProperty"
       class="Titans-table"
       :table-columns-config="columns"
