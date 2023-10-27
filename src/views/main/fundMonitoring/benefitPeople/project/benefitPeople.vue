@@ -338,10 +338,12 @@ export default {
       },
       tableConfig1: {},
       tableFooterConfig: {
-        showFooter: true
+        showFooter: true,
+        combinedType: ['subTotal']
       },
       tableFooterConfig1: {
-        showFooter: false
+        showFooter: true,
+        combinedType: ['subTotal']
       },
       fiscalYear: '',
       isHook: '0',
