@@ -30,6 +30,7 @@
 import { defineComponent, reactive, ref, onMounted, getCurrentInstance, computed } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 // import usevModel from "@/"
+import { post } from '@/api/http'
 import store from '@/store/index'
 // import { message } from 'element-ui'
 export default defineComponent({
@@ -158,11 +159,11 @@ export default defineComponent({
         sortable: false,
         filters: false,
         tooltipFormat: ({ row, column }) => {
-          const mapEnmu = new WeakMap({ '01': '到人', '02': '到户' })
+          const mapEnmu = { '01': '到人', '02': '到户' }
           return mapEnmu[row.toPeopFamily] || ''
         },
         formatter: ({ row }) => {
-          const mapEnmu = new WeakMap({ '01': '到人', '02': '到户' })
+          const mapEnmu = { '01': '到人', '02': '到户' }
           return mapEnmu[row.toPeopFamily] || ''
         },
         align: 'center'
@@ -229,7 +230,7 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params = {}) => this.$http.post(BSURL.dfr_benefitEnterprisesAndPeoplePageQueryFfb, params),
+      fetch: (params = {}) => post(BSURL.dfr_benefitEnterprisesAndPeoplePageQueryFfb, params),
       beforeFetch: params => {
         const queryForm = {
           ...params,
