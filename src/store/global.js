@@ -30,7 +30,7 @@ export const state = { // 实时监听state值的变化(最新状态)
   ],
   rankingModalVisible: true, // 直达资金收支进度排行弹窗
   escalationModalVisible: false, // 财政上报提醒弹窗
-  monitorWarningModalVisible: true // 预警信息发送
+  monitorWarningModalVisible: false // 预警信息发送
 }
 export const getters = {
   dict() { // 预警级别option
