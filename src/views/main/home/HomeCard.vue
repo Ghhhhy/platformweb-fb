@@ -1,19 +1,19 @@
 <!-- 卡片菜单 -->
 <template>
-  <div class="card-menu">
+  <div v-loading="tableLoading" class="card-menu">
     <CardMenu />
     <!--直达资金支出进度排名-->
     <ExpenditureProgressRankingModal v-if="visible" v-model="visible" />
     <!--财政上报确认提醒-->
     <EscalationModal v-if="visibles" v-model="visibles" />
     <!-- 监控平台首页时推送监控预警信息 -->
-    <div v-loading="tableLoading">
+    <div>
       <vxe-modal
         v-model="dialogVisible"
         title="保工资预警"
         @close="dialogClose"
       >
-        <MonitorWarningInformation />
+        <MonitorWarningInformation :data="monitorDetailData" />
       </vxe-modal>
     </div>
   </div>
@@ -27,7 +27,6 @@ import EscalationModal from './EscalationModal'
 import MonitorWarningInformation from './MonitorWarningInformation/MonitorWarningInformation.vue'
 import api from '@/api/frame/main/fundMonitoring/escalation'
 import { checkRscode } from '@/utils/checkRscode'
-import { BSURL } from '../../../api/BSURL'
 // 直达资金应用code
 const dfrCode = 'DFR'
 export default {
@@ -74,13 +73,21 @@ export default {
   },
   data() {
     return {
+      tableLoading: false,
+      monitorDetailData: []
     }
   },
   methods: {
     getSalaryNoticeData() {
-      console.log(12321)
-      post(BSURL.lmp_guaranteedSalaryNotice, { tokenid: 'fb54af34a862bd70cbaa188dc372efb7' }).then(res => {
-        console.log(res)
+      this.tableLoading = true
+      post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
+        if (res.code === '000000') {
+          this.dialogVisible = res.data.notifacationSwitch
+          this.monitorDetailData = res.data.salaryVOS
+        }
+        this.tableLoading = false
+      }).catch(() => {
+        this.tableLoading = false
       })
     },
     dialogClose() {
