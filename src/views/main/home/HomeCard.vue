@@ -7,13 +7,13 @@
     <!--财政上报确认提醒-->
     <EscalationModal v-if="visibles" v-model="visibles" />
     <!-- 监控平台首页时推送监控预警信息 -->
-    <div>
+    <div v-loading="tableLoading">
       <vxe-modal
         v-model="dialogVisible"
         title="保工资预警"
         @close="dialogClose"
       >
-        <MonitorWarningInformation :data="monitorDetailData" />
+        <MonitorWarningInformation />
       </vxe-modal>
     </div>
   </div>
@@ -27,6 +27,7 @@ import EscalationModal from './EscalationModal'
 import MonitorWarningInformation from './MonitorWarningInformation/MonitorWarningInformation.vue'
 import api from '@/api/frame/main/fundMonitoring/escalation'
 import { checkRscode } from '@/utils/checkRscode'
+import { BSURL } from '../../../api/BSURL'
 // 直达资金应用code
 const dfrCode = 'DFR'
 export default {
