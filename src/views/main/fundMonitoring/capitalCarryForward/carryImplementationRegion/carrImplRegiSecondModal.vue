@@ -1,6 +1,7 @@
 <template>
   <vxe-modal
     v-model="dialogVisible"
+    v-loading="tableLoadingState"
     v-bind="modalStaticProperty"
     class="carrImplRegiSecondModal"
     @close="dialogClose"
@@ -36,7 +37,7 @@
 import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
-// import store from '@/store/index'
+import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
 export default defineComponent({
@@ -95,6 +96,7 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
+        tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCodeMap[$route.name].reportCode,
           ...params
@@ -102,14 +104,21 @@ export default defineComponent({
         copyObj[reportCodeMap[$route.name].querykey] = injectData.code
         return copyObj
       },
+      afterFetch: tableData => {
+        return tableData
+      },
+      finallyFetch: res => {
+        tableLoadingState.value = false
+        return res
+      },
       columns: carrImplRegiSecondModalColumns,
-      dataKey: 'data.data'
+      dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
       showOverflow: true,
-      height: '100%',
+      // height: '100%',
       align: 'left'
     })
     const init = () => {

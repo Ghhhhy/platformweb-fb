@@ -599,7 +599,7 @@ export default {
       let queryObj = {
         payAppNumber: this.$refs.queryFrom.getFormData().payAppNumber,
         // year: this.$refs.queryFrom.year,
-        agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
+        // agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
         proName: this.$refs.queryFrom.getFormData().proName,
         useDes: this.$refs.queryFrom.getFormData().useDes,
         payAcctName: this.$refs.queryFrom.getFormData().payAcctName,
@@ -619,7 +619,7 @@ export default {
         // payeeAcctName: this.payeeAcctName,
         fiscalYear: this.$refs.queryFrom.getFormData().year,
         // setModeName: this.setModeName,
-        // agencyCode: this.agencyCode,
+        agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         ...queryObj

@@ -1,6 +1,7 @@
 <template>
   <vxe-modal
     v-model="dialogVisible"
+    v-loading="tableLoadingState"
     v-bind="modalStaticProperty"
     class="carryImplementationRegionModal"
     @close="dialogClose"
@@ -43,7 +44,7 @@ import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@
 import useTable from '@/hooks/useTable'
 import { carryImplementationRegionModalColumns } from './carryImplementationRegion.js'
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
-// import store from '@/store/index'
+import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
 export default defineComponent({
@@ -105,6 +106,7 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
+        tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCodeMap[$route.name].reportCode,
           ...params
@@ -112,14 +114,31 @@ export default defineComponent({
         copyObj[reportCodeMap[$route.name].querykey] = injectData.code
         return copyObj
       },
+      afterFetch: tableData => {
+        // tableData.value = res.data.results
+        console.log(tableData)
+        // console.log(tableData.value)
+        tableData.results = tableData.results.map(item => {
+          return {
+            ...item,
+            xjExpFunc: (item.xjExpFuncCode + item.xjExpFuncName) ? (item.xjExpFuncCode + item.xjExpFuncName) : ''
+          }
+        })
+        console.log(tableData)
+        return tableData
+      },
+      finallyFetch: res => {
+        tableLoadingState.value = false
+        return res
+      },
       columns: carryImplementationRegionModalColumns,
-      dataKey: 'data.data'
+      dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
       showOverflow: true,
-      height: '100%',
+      // height: '100%',
       align: 'left',
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
@@ -148,7 +167,6 @@ export default defineComponent({
     const isShowQueryConditions = ref(true)
     let selectData = ref([])
     onMounted(() => {
-
     })
     return {
       columns,

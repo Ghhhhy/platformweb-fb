@@ -18,6 +18,7 @@
     <!-- <template v-slot:mainForm> -->
     <BsTable
       ref="waitTable"
+      v-loading="tableLoadingState"
       v-bind="tableStaticProperty"
       class="Titans-table"
       :table-columns-config="columns"
@@ -124,7 +125,7 @@ export default defineComponent({
         disabledMoneyConversion: false,
         moneyConversion: true, // 是否有金额转换
       },
-      dataKey: 'data.data'
+      dataKey: 'data'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
@@ -132,6 +133,7 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
+      defaultMoneyUnit: computed(()=>tableType.value === 'bgt' ? 1 : 10000),
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
