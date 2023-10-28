@@ -99,7 +99,6 @@ export default {
       showType: '',
       addDialogVisible: false,
       DetailData: {},
-      formDatas: {}, // checkDialog需要用到
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -204,7 +203,7 @@ export default {
       errorTitle: '错误信息',
       errorDialogVisible: false,
       errorMsg: '',
-      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + this.$store.state.userInfo.province.slice(0, 2) + '%\'' },
+      treeQueryparams: { elementCode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       fiscalYear: '',
       mofDivCodeList: []
     }
@@ -443,7 +442,6 @@ export default {
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
-              this.formDatas = res.data.regulationElementEntitieList[0]
               this.showType = '1'
               this.dialogTitle = '查看详情'
               this.dialogVisible = true
@@ -593,7 +591,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.getLeftTreeData()
+    this.getLeftTreeData()
   },
   mounted() {
     HttpModule.monitorTheme(0).then((res) => {

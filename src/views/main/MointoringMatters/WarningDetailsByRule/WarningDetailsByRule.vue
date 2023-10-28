@@ -238,7 +238,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '系统级监控规则',
       params5: '',
-      paramObj: {},
+      paramObj: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -741,25 +741,39 @@ export default {
         roleId: this.roleguid
       }
       this.tableLoading = true
-      let axiosUrl = BSURL.lmp_executeWarnWarnInfos
-      if (this.$store.getters.isFuJian && this.paramObj?.queryPayData) {
-        axiosUrl = BSURL.lmp_executeWarnPayDiBillInfo
+      if (this.paramObj.queryPayData && this.$store.getters.isFuJian) {
+        HttpModule.queryTableDatas1(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        HttpModule.queryTableDatas(param).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.tableData = res.data.results
+            this.tableData.forEach(item => {
+              if (item.handleTime === null) {
+                item.handleTime = '-'
+              }
+            })
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          } else {
+            this.$message.error(res.message)
+          }
+        })
       }
-      this.$http.post(axiosUrl, param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          this.tableData = res.data.results
-          this.tableData.forEach(item => {
-            if (item.handleTime === null) {
-              item.handleTime = '-'
-            }
-          })
-          this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
-        } else {
-          this.$message.error(res.message)
-        }
-      })
     },
     // 操作日志
     queryActionLog(row) {
@@ -928,7 +942,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.getters.getRegulationClass
-    this.paramObj = this.transJson(this.$store.state.curNavModule.param5) || {}
+    this.paramObj = this.transJson(this.$store.state.curNavModule.param5)
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
