@@ -29,6 +29,7 @@ import api from '@/api/frame/main/fundMonitoring/escalation'
 import { checkRscode } from '@/utils/checkRscode'
 // 直达资金应用code
 const dfrCode = 'DFR'
+const lmpCode = 'LMP'
 export default {
   name: 'HomeCard',
   components: {
@@ -63,7 +64,8 @@ export default {
     dialogVisible: {
       get() {
         return (
-          this.$store.state.monitorWarningModalVisible
+          this.$store.state.monitorWarningModalVisible &&
+          this.$store.state.userInfo?.app?.code?.toUpperCase() === lmpCode
         )
       },
       set(val) {
