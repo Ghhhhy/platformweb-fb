@@ -35,6 +35,7 @@
 </template>
 <script lang="js">
 import { ref, defineComponent, onMounted } from '@vue/composition-api'
+import store from '@/store/index'
 import router from '@/router'
 // import useTable from '@/hooks/useTable'
 import { mockTableColumns } from './MonitorWarningInformation'
@@ -105,6 +106,12 @@ export default defineComponent({
       router.push({
         name: 'guaranteedSalaryWarningTable'
       })
+      const route = {
+        url: '/guaranteedSalaryWarningTable',
+        code: '892',
+        name: ' “保工资”预警表 '
+      }
+      store.commit('setCurMenuObj', route)
     }
     let tableColumnsConfig = ref(mockTableColumns)
     const staticConfig = ref({
