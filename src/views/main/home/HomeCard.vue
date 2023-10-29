@@ -76,21 +76,25 @@ export default {
   data() {
     return {
       tableLoading: false,
-      monitorDetailData: []
+      monitorDetailData: [],
+      number: 0
     }
   },
   methods: {
     getSalaryNoticeData() {
-      this.tableLoading = true
-      post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
-        if (res.code === '000000') {
-          this.dialogVisible = res.data.notifacationSwitch
-          this.monitorDetailData = res.data.salaryVOS
-        }
-        this.tableLoading = false
-      }).catch(() => {
-        this.tableLoading = false
-      })
+      this.number++
+      if (this.number > 1) {
+        this.tableLoading = true
+        post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
+          if (res.code === '000000') {
+            this.dialogVisible = res.data.notifacationSwitch
+            this.monitorDetailData = res.data.salaryVOS
+          }
+          this.tableLoading = false
+        }).catch(() => {
+          this.tableLoading = false
+        })
+      }
     },
     dialogClose() {
       this.dialogVisible = false
