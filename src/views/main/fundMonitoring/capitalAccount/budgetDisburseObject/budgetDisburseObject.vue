@@ -139,7 +139,7 @@
       <iframe :src="frameSrc" style="height:100%; width:100%;margin:0;border:0;"> </iframe>
 
     </vxe-modal>
-    <budgetDisburseObjectModal ref="budgetDisburseObjectModal" :click-row="clickRow" />
+
   </div>
 </template>
 
@@ -150,7 +150,6 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import regionMixin from '../mixins/regionMixin'
 import DetailDialog from '../children/xmdetailDialog.vue'
-import budgetDisburseObjectModal from './budgetDisburseObjectModal.vue'
 export default {
   mixins: [regionMixin],
   computed: {
@@ -169,8 +168,7 @@ export default {
     }
   },
   components: {
-    DetailDialog,
-    budgetDisburseObjectModal
+    DetailDialog
   },
   watch: {
     queryConfig() {
@@ -342,7 +340,6 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
-      clickRow: {},
       regulationclass: '',
       firulename: '',
       tableData: [],
@@ -435,14 +432,13 @@ export default {
         }
       }
     },
-    showBudgetDisburseObjectModal(row) {
-      this.clickRow = row
-      this.$refs.budgetDisburseObjectModal.dialogVisible = true
-      this.$refs.budgetDisburseObjectModal.init()
-    },
     cellClick(obj, context, e) {
-      if (this.isSx) { return }
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
+      if (this.isSx) {
+        return
+      }
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+        return
+      }
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
@@ -456,10 +452,6 @@ export default {
       if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) return
       if (obj.column.property !== 'proName' && isInvalidCellValue) return
       if (!linkFiscal && obj.column.property === 'proName') return
-      if (key === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.isSubCode)) {
-        this.showBudgetDisburseObjectModal(obj.row)
-        return
-      }
       switch (key) {
         case 'amountYszyap':
           this.handleDetail('zdzjxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
@@ -518,12 +510,6 @@ export default {
       // console.log(column.property)
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
-      if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.isSubCode)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
       if (['amountYszyap', 'amountZczyap', 'proName'].includes(column.property)) {
         // if (['proName'].includes(column.property)) {
         return {
