@@ -7,6 +7,7 @@ const BSURL = {
   lmp_warningResultHandleRuleQueryDetail: 'large-monitor-platform/lmp/loginLog/queryDetail',
   lmp_executeWarnWarnInfos: 'large-monitor-platform/lmp/executeWarn/warnInfos', // 监控主题分析  预警明细查询 表格table查询
   lmp_executeWarnPayDiBillInfo: 'large-monitor-platform/lmp/executeWarn/payDiBillInfo', // 福建-预算执行-监控预警明细查询
+  lmp_guaranteedSalaryNotice: 'https://console-docs.apipost.cn/preview/2d115ee89cd1b106/608cc5a5de50187a', // 保工资预警提醒
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
   dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query',
