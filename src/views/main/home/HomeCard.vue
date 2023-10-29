@@ -83,7 +83,7 @@ export default {
   methods: {
     getSalaryNoticeData() {
       this.number++
-      if (this.number > 1) {
+      if (this.number <= 1) {
         this.tableLoading = true
         post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
           if (res.code === '000000') {
