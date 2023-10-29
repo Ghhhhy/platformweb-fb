@@ -612,6 +612,15 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '整改人',
+      field: 'createPersonName',
+      visible: store.getters.isFuJian,
+      sortable: false,
+      width: 140,
+      filters: false,
+      align: 'left'
+    },
+    {
       title: '逾期天数',
       field: 'yqDay',
       sortable: false,
@@ -1406,6 +1415,15 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
+      align: 'left'
+    },
+    {
+      title: '整改人',
+      field: 'createPersonName',
+      visible: store.getters.isFuJian,
+      sortable: false,
+      width: 140,
+      filters: false,
       align: 'left'
     },
     {
