@@ -13,7 +13,7 @@
         title="保工资预警"
         @close="dialogClose"
       >
-        <MonitorWarningInformation ref="MonitorWarningInformation" :data="monitorDetailData" />
+        <MonitorWarningInformation ref="MonitorWarningInformation" />
       </vxe-modal>
     </div>
   </div>
@@ -63,10 +63,7 @@ export default {
     },
     dialogVisible: {
       get() {
-        return (
-          this.$store.state.monitorWarningModalVisible &&
-          this.$store.state.userInfo?.app?.code?.toUpperCase() === lmpCode
-        )
+        return (this.$store.state.monitorWarningModalVisible && this.$store.state.userInfo?.app?.code?.toUpperCase() === lmpCode)
       },
       set(val) {
         this.$store.commit('setMonitorWarningModalVisible', val)
@@ -85,7 +82,11 @@ export default {
       post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
         if (res.code === '000000') {
           this.dialogVisible = res.data.notifacationSwitch
-          this.$refs.MonitorWarningInformation.init(res.data.salaryVOS || [])
+          if (res.data.notifacationSwitch) {
+            this.$nextTick(() => {
+              this.$refs.MonitorWarningInformation.init(res.data.salaryVOS || [])
+            })
+          }
         }
         this.tableLoading = false
       }).catch(() => {
@@ -115,11 +116,12 @@ export default {
     }
   },
   created() {
-    this.dialogVisible && this.getSalaryNoticeData()
     this.getMenus()
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
+    !this.$store.state.hasQueryMonitorWarningModalVisible && this.getSalaryNoticeData()
+    this.$store.commit('setHasQueryMonitorWarningModalVisible')
     // this.initEscalationVisible()
   }
 }

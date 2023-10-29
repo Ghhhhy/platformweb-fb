@@ -40,12 +40,6 @@ import router from '@/router'
 // import useTable from '@/hooks/useTable'
 import { mockTableColumns } from './MonitorWarningInformation'
 export default defineComponent({
-  props: {
-    data: {
-      type: Array,
-      default: []
-    }
-  },
   setup(props, { emit }) {
     const tableLoading = ref(false)
     let tableData = ref([])
