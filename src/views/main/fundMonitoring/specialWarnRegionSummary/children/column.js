@@ -585,6 +585,14 @@ const proconf = {
       align: 'left'
     },
     {
+      title: '整改人',
+      field: 'createPersonName',
+      sortable: false,
+      width: 140,
+      filters: false,
+      align: 'left'
+    },
+    {
       title: '整改时间',
       field: 'rectifyTime',
       sortable: false,
@@ -1373,6 +1381,15 @@ const proconf = {
       width: 140,
       filters: false,
       sortable: false,
+      align: 'left'
+    },
+    {
+      title: '整改人',
+      field: 'createPersonName',
+      visible: store.getters.isFuJian,
+      sortable: false,
+      width: 140,
+      filters: false,
       align: 'left'
     },
     {
