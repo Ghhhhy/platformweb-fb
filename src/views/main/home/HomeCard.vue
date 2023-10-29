@@ -94,6 +94,8 @@ export default {
         }).catch(() => {
           this.tableLoading = false
         })
+      } else {
+        this.dialogClose()
       }
     },
     dialogClose() {
