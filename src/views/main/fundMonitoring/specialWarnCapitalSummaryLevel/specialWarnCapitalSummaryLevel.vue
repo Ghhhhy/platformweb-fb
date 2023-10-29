@@ -529,12 +529,8 @@ export default {
       }
       return ruleCodes
     },
-    getRuleCode() {
-      const param = {
-        fiscalYear: this.$store.state.userInfo?.year,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09'
-      }
-      HttpModule.getRuleTreeData(param).then(res => {
+    getRuleCode(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getRuleTreeData({ fiscalYear }).then(res => {
         if (res.code === '000000') {
           console.log('data', res.data)
           let treeResdata = this.getChildrenNewData(res.data)

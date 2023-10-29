@@ -155,7 +155,7 @@ export default {
           titleAlign: 'left',
           itemRender: {
             name: '$vxeInput',
-            props: { required: true, placeholder: '请选择企业人数' }
+            props: { type: 'text', placeholder: '请选择企业人数' }
           }
         },
         {
@@ -178,6 +178,7 @@ export default {
   },
   created() {
     this.formData = this.row
+    console.log(this.formData)
     console.log(Object.keys(this.formData).length === 0)
     Object.keys(this.formData).length === 0
       ? (this.isAdd = true)
@@ -204,7 +205,7 @@ export default {
           console.log(this.formData)
           this.tableLoading = true
           if (_this.isAdd) {
-            api.addTask(this.formData).then((res) => {
+            api.addTask(_this.formData).then((res) => {
               if (res.code === '000000') {
                 _this.$message.success('添加成功')
                 _this.tableLoading = false

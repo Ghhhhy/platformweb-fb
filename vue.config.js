@@ -41,12 +41,6 @@ module.exports = {
     config.plugins.delete('prefetch')
     // 移除 preload 插件
     config.plugins.delete('preload')
-    config.optimization.splitChunks({
-      chunks: 'all',
-      minSize: 1000000, // 1MB (in bytes)
-      maxSize: 2000000 // 2MB (in bytes)
-    })// 分包大小控制（超过2mb才会分包，）
-    // config.plugin('webpack-bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)//开启报告分析server
     config.module
       .rule('file')
       .test(/\.(zip|xls|pdf|doc|docx)(\?.*)?$/)

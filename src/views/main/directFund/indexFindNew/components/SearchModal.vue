@@ -69,6 +69,16 @@
       :dialog-visible.sync="detailVisible2"
       :detail-row="detailRow2"
     />
+    <ProjectItem
+      v-if="addDialogVisible"
+      ref="projectDialog"
+      :dialog-visible.sync="addDialogVisible"
+      :pro-guid="proGuid"
+      :pro-code="proCode"
+      :mof-div-code="mofDivCode"
+      :click-row-data="clickRowData"
+    />o-guid="proGuid"
+    />
   </div>
 
 </template>
@@ -78,6 +88,7 @@ import commonMixin from '@//mixin/commonMixin'
 import DetailDialog from './detailDialog.vue'
 import BottomTargetDialog from './bottomTargetDialog.vue'
 import BottomPayDialog from './bottomPayDialog.vue'
+import ProjectItem from '../../../fundMonitoring/capitalAccount/children/ProjectItem.vue'
 // import { post } from '@/api/http'
 export default {
   name: 'SearchModal',
@@ -85,7 +96,8 @@ export default {
   components: {
     DetailDialog,
     BottomTargetDialog,
-    BottomPayDialog
+    BottomPayDialog,
+    ProjectItem
   },
   props: {
     dialogVisible: {
@@ -105,6 +117,11 @@ export default {
   },
   data() {
     return {
+      addDialogVisible: false,
+      proGuid: '',
+      fiscalYear: '',
+      mofDivCode: '',
+      clickRowData: {},
       queryFormItemConfig: [
         // {
         //   title: '处室',
@@ -242,6 +259,9 @@ export default {
         this.detailRow = obj.row
         this.detailVisible = true
       } else if (obj.column.property === 'proName') {
+        this.detailRow = obj.row
+        this.detailVisible = true
+        console.log(obj.row.proGuid)
         if (!obj.row.proGuid) {
           this.$message.warning('未返proGuid,无法查看项目信息')
           return
@@ -250,38 +270,75 @@ export default {
         this.mofDivCode = obj.row?.mofDivCode || ''
         this.fiscalYear = obj.row?.fiscalYear || ''
         let groupUrl = ''
-        let groupsSx = { // 陕西 重点转移
-          group1: ['6100'], // 省本级
-          group2: [
-            '6101' // 西安堆
-          ],
-          group3: [
-            '6103' // 关中
-          ],
-          group4: [
-            '6102' // 陕北
-          ],
-          group5: [
-            '6107' // 陕南
-          ]
-        }
-        let getProjectUrl = {
-          group1: 'http://10.77.18.172:34224/#',
-          group2: 'http://10.77.18.172:50252/#',
-          group3: 'http://10.77.18.172:50252/#',
-          group4: 'http://10.77.18.172:50252/#',
-          group5: 'http://10.77.18.172:50252/#'
-        }
-        let groups = (this.$store.getters.isSx ? groupsSx : window.gloableToolFn.serverGatewayMap.getGroups) || {}
-        Object.keys(groups).forEach(key => {
-          console.log(key, '-------------')
-          if (groups[key].indexOf(this.mofDivCode?.slice(0, 4)) !== -1) {
-            groupUrl = this.$store.getters.isSx ? getProjectUrl[key] : window.gloableToolFn.serverGatewayMap.getprojectUrl[key]
-            let url = `${groupUrl}/ProjectDetailIframe?isShowHead=0&tokenid=${this.$store.getters.getLoginAuthentication.tokenid}&appguid=ystztj&proGuid=${this.proGuid}&mofDivCode=${this.mofDivCode}&fiscalYear=${this.fiscalYear}`
-            console.log('访问地址：', url)
-            window.open(url)
+        if (this.$store.getters.isSx) {
+          let groupsSx = { // 陕西 重点转移
+            group1: ['6100'], // 省本级
+            group2: [
+              '6101' // 西安堆
+            ],
+            group3: [
+              '6103' // 关中
+            ],
+            group4: [
+              '6102' // 陕北
+            ],
+            group5: [
+              '6107' // 陕南
+            ]
           }
-        })
+          let getProjectUrl = {
+            group1: 'http://10.77.18.172:34224/#',
+            group2: 'http://10.77.18.172:50252/#',
+            group3: 'http://10.77.18.172:50252/#',
+            group4: 'http://10.77.18.172:50252/#',
+            group5: 'http://10.77.18.172:50252/#'
+          }
+          let groups = (this.$store.getters.isSx ? groupsSx : window.gloableToolFn.serverGatewayMap.getGroups) || {}
+          Object.keys(groups).forEach(key => {
+            console.log(key, '-------------')
+            if (groups[key].indexOf(this.mofDivCode?.slice(0, 4)) !== -1) {
+              groupUrl = this.$store.getters.isSx ? getProjectUrl[key] : window.gloableToolFn.serverGatewayMap.getprojectUrl[key]
+              let url = `${groupUrl}/ProjectDetailIframe?isShowHead=0&tokenid=${this.$store.getters.getLoginAuthentication.tokenid}&appguid=ystztj&proGuid=${this.proGuid}&mofDivCode=${this.mofDivCode}&fiscalYear=${this.fiscalYear}`
+              console.log('访问地址：', url)
+              window.open(url)
+            }
+          })
+        } else {
+          this.clickRowData = obj.row
+          let field = this.tableColumnsConfig[0].field
+          // 第一行为合计则不可钻取
+          if (obj.row[field].replace(/\s*/g, '') === '合计') return
+          if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
+            if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+              if (!obj.row.proGuid) {
+                // this.$message.warning('未返proGuid,无法查看项目信息')
+                return
+              }
+              this.proGuid = obj.row.proGuid || ''
+              this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+              this.addDialogVisible = true
+            }
+          } else if (this.$store.state.userInfo.province?.slice(0, 2) === '22') { // 吉林
+            // const isInvalidCellValue11 = !(obj.row[obj.column.property] * 1)
+            if (!this.clickRowData.proGuid || this.clickRowData.trackProName === '合计') { // 吉林第一行数据为合计  由后端返回  直接不准点击
+              return
+            }
+            if (obj.column.property === 'proName' || obj.column.property === 'proCodeName') {
+              this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+              this.addDialogVisible = true
+            }
+          } else {
+            if ((['proCode'].includes(obj.column.property) || ['proName'].includes(obj.column.property)) && this.transJson(this.params5 || '')?.projectCode !== 'SH') {
+              if (!obj.row.proGuid) {
+                // this.$message.warning('未返proGuid,无法查看项目信息')
+                return
+              }
+              this.proGuid = obj.row.proGuid || ''
+              this.mofDivCode = obj.row.mofDivCode?.slice(0, 9) || ''
+              this.addDialogVisible = true
+            }
+          }
+        }
       }
     },
     cellStyle({ row, rowIndex, column }) {

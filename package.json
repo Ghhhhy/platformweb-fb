@@ -8,7 +8,6 @@
     "serve": "vue-cli-service serve --mode dev",
     "serve:hb": "vue-cli-service serve --mode hbdev",
     "build": "vue-cli-service build --mode prod",
-    "build:report": "vue-cli-service build --report",
     "build:hb": "vue-cli-service build --mode hbprod",
     "build:stage": "vue-cli-service build --mode stage",
     "analyz": "npm_config_report=true npm run build",
@@ -143,7 +142,6 @@
     "vue-style-loader": "4.1.2",
     "vue-template-compiler": "2.6.11",
     "webpack": "4.41.5",
-    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "3.3.1"
   }
 }
