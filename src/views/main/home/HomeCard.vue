@@ -13,7 +13,7 @@
         title="保工资预警"
         @close="dialogClose"
       >
-        <MonitorWarningInformation :data="monitorDetailData" />
+        <MonitorWarningInformation ref="MonitorWarningInformation" :data="monitorDetailData" />
       </vxe-modal>
     </div>
   </div>
@@ -76,27 +76,21 @@ export default {
   data() {
     return {
       tableLoading: false,
-      monitorDetailData: [],
-      number: 0
+      monitorDetailData: []
     }
   },
   methods: {
     getSalaryNoticeData() {
-      this.number++
-      if (this.number <= 1) {
-        this.tableLoading = true
-        post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
-          if (res.code === '000000') {
-            this.dialogVisible = res.data.notifacationSwitch
-            this.monitorDetailData = res.data.salaryVOS
-          }
-          this.tableLoading = false
-        }).catch(() => {
-          this.tableLoading = false
-        })
-      } else {
-        this.dialogClose()
-      }
+      this.tableLoading = true
+      post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
+        if (res.code === '000000') {
+          this.dialogVisible = res.data.notifacationSwitch
+          this.$refs.MonitorWarningInformation.init(res.data.salaryVOS || [])
+        }
+        this.tableLoading = false
+      }).catch(() => {
+        this.tableLoading = false
+      })
     },
     dialogClose() {
       this.dialogVisible = false
@@ -121,7 +115,7 @@ export default {
     }
   },
   created() {
-    this.getSalaryNoticeData()
+    this.dialogVisible && this.getSalaryNoticeData()
     this.getMenus()
     console.log('this.$store.state', this.$store.state)
   },
