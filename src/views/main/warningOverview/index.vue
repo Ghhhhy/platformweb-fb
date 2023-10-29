@@ -10,17 +10,17 @@
               <!--<RuleUseInfoChart />-->
               <div class="f20 rule-swiper-title">监控整体情况</div>
               <div class="width1 color1 mgr15">
-                <div class="rule-swiper-title">本月预警数据：<div class="font-style">{{ warnMonthList.warnCount || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本月预警数据：<div class="font-style" @click="menuClick1">{{ warnMonthList.warnCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">本月已处理：<div class="font-style">{{ warnMonthList.handAmount || '0' }}笔</div></div>
               </div>
 
               <div class="width2 color2 mgr15">
-                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style">{{ warnYearList.warnCount || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style" @click="menuClick1">{{ warnYearList.warnCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">本年累计已处理：<div class="font-style">{{ warnYearList.handAmount || '0' }}笔</div></div>
               </div>
 
               <div class="width3 color3 mgr15">
-                <div class="rule-swiper-title">所有规则：<div class="font-style">{{ ruleList.ruleCount || '0' }}笔</div></div>
+                <div class="rule-swiper-title">所有规则：<div class="font-style" @click="menuClick2">{{ ruleList.ruleCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">启用规则：<div class="font-style">{{ ruleList.activeRuleCount || '0' }}笔</div></div>
               </div>
             </div>
@@ -100,7 +100,7 @@ import ViewAllRules from './components/ViewAllRules'
 import MonitoringHandlingInfo from './components/MonitoringHandlingInfo'
 import { getWarnByMofDivCode, ruleActivateInfo, rankProcessing, ledgerProcessing } from '@/api/frame/main/warningOverview'
 import store from '@/store/index'
-
+import router from '@/router'
 export default defineComponent({
   components: { Map, MenuModel, RuleUseInfoChart, RuleScroll, ViewAllRules, MonitoringHandlingInfo },
   setup() {
@@ -176,13 +176,37 @@ export default defineComponent({
       })
     }
     getLedgerProcessing()
+    const menuClick1 = () => {
+      router.push({
+        name: 'SproWarnRegionSummary'
+      })
+      const route = {
+        url: '/SproWarnRegionSummary',
+        code: '892',
+        name: '重点监督预警汇总_分地区'
+      }
+      store.commit('setCurMenuObj', route)
+    }
+    const menuClick2 = () => {
+      router.push({
+        name: 'MonitorRulesViewShow'
+      })
+      const route = {
+        url: '/MonitorRulesViewShow',
+        code: '892',
+        name: '监控规则库查看'
+      }
+      store.commit('setCurMenuObj', route)
+    }
     return {
       warnMonthList,
       warnYearList,
       ruleList,
       tableData1,
       tableData2,
-      tableData3
+      tableData3,
+      menuClick1,
+      menuClick2
     }
   },
   data() {
