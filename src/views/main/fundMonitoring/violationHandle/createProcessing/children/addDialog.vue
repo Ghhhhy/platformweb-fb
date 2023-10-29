@@ -368,10 +368,6 @@ export default {
       return false
     },
     fileIsRequired2() {
-      // CompanyRetroactBySpecial 内蒙专项违规处理单反馈（单位） 附件上传非必填
-      if ((this.$route.name === 'CompanyRetroactBySpecial') && this.$store.getters.isNeiMeng) {
-        return false
-      }
       if (this.param5.retroact === 'company' && this.detailData.length && this.detailData[0].uploadFile) {
         return true
       }
