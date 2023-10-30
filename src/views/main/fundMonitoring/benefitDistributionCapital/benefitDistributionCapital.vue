@@ -16,7 +16,7 @@
         </div>
       </template>
       <template v-slot:mainForm>
-        <!-- <BsTable
+        <BsTable
           ref="bsTableRef"
           row-id="id"
           :table-config="tableConfig"
@@ -26,7 +26,6 @@
           :pager-config="false"
           :edit-config="{ enabled: false }"
           :tree-config="treeConfig"
-          :footer-config="footerConfig"
           :show-zero="false"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
@@ -40,18 +39,7 @@
               </div>
             </div>
           </template>
-        </BsTable> -->
-        <ReportView
-          v-if="true"
-          ref="reportViewRef"
-          class="platfromreport"
-          codes="nmfxbb"
-          :init-params="initParams"
-          :is-custom-excel-link="true"
-          @custom-excel-link="excelLinkHandle"
-          @exportExcelByServiceBefore="exportExcelByServiceBefore"
-          @exportExcelByServiceAfter="exportExcelByServiceAfter"
-        />
+        </BsTable>
       </template>
     </BsMainFormListLayout>
     <detailDialog v-if="dialogVisible" @close="close" />
@@ -60,8 +48,9 @@
 
 <script>
 import detailDialog from './children/detailDialog.vue'
-import { getTreeData } from '@/api/frame/main/common'
-import { proconf } from './benefitDistributionRegion'
+// import { getTreeData } from '@/api/frame/main/common'
+import httpModule from '@/api/frame/main/fundMonitoring/benefitDistributionCapital.js'
+import { proconf } from './benefitDistributionCapital'
 export default {
   components: {
     detailDialog
@@ -100,8 +89,8 @@ export default {
           }
         },
         {
-          title: '区划名称',
-          field: 'mofDivCodes',
+          title: '资金名称',
+          field: 'cenTraProName',
           width: '8',
           align: 'left',
           name: '$vxeTree',
@@ -110,10 +99,10 @@ export default {
             options: [],
             props: {
               queryparams: {
-                elementCode: 'mofDivCodes'
+                elementCode: 'cenTraProName'
               },
               config: {
-                placeholder: '区划名称',
+                placeholder: '资金名称',
                 disabled: false,
                 multiple: false,
                 treeProps: {
@@ -135,10 +124,10 @@ export default {
       ],
       searchDataList: {
         fiscalYear: this.$store.state.userInfo.year,
-        mofDivCodes: ''
+        cenTraProName: ''
       },
       // table
-      menuName: '惠企利民发放情况统计（按地区）',
+      menuName: '惠企利民发放情况统计（按资金）',
       tableConfig: {
         globalConfig: {
           // 全局默认渲染列配置
@@ -179,20 +168,20 @@ export default {
         {
           children: [
             {
-              mofDivName: '福州市',
+              cenTraProName: '福州市',
               id: '09',
               children: [
                 {
-                  projectName: '惠企利民',
-                  mofDivName: '鼓楼区',
+                  mofDivName: '惠企利民',
+                  cenTraProName: '鼓楼区',
                   id: '2',
                   count: '123'
                 }
               ]
             }
           ],
-          projectName: '监控监控监控监控监控监控监控监控监控监控',
-          mofDivName: '福建省',
+          mofDivName: '监控监控监控监控监控监控监控监控监控监控',
+          cenTraProName: '福建省',
           id: '#',
           count: '123123123123',
           money: '456',
@@ -207,24 +196,17 @@ export default {
     }
   },
   created() {
-    this.getMofDivTreeData()
-  },
-  computed: {
-    paramsObj() {
-      return {
-        mofDivCode: '230183000'
-      }
-    }
+    this.getcenTraProTreeData()
   },
   methods: {
-    async getMofDivTreeData() {
-      const { year, province } = this.$store.state.userInfo
-      const res = await getTreeData({ year: year, province: province })
-      this.queryConfig[1].itemRender.options = res?.data || []
+    getcenTraProTreeData() {
+      const { year } = this.$store.state.userInfo
+      httpModule.getProTreeData({ fiscalYear: year }).then(res => {
+        this.queryConfig[1].itemRender.options = res?.data || []
+      })
     },
     search(val, multipleValue) {
       console.log(val, multipleValue)
-      this.$refs?.reportViewRef?.searchData()
     },
     cellClick(obj, context, e) {
       console.log(obj.column.property)
@@ -233,51 +215,6 @@ export default {
     },
     close() {
       this.dialogVisible = false
-    },
-    // datav
-    initParams(params) {
-      return new Promise((resolve) => {
-        console.log(this.paramsObj, '2222')
-        let paramsTemp = { ...this.paramsObj }
-        console.log('当前报表参数为：', paramsTemp)
-        Object.keys(params).map((key) => {
-          if (Object.hasOwnProperty.call(this.paramsObj, key)) {
-            paramsTemp[key] = this.paramsObj[key]
-          }
-        })
-        resolve(paramsTemp)
-      })
-    },
-    excelLinkHandle(payload) {
-      console.log(payload, '---')
-      this.tableLoading = true
-      /* eslint-disable */
-      HttpModule.getReportDetail({ 'guid': payload.target.excelLinkParams.guid }).then(res => {
-        // if (res.rscode === '100000') {
-        console.log(res, '111')
-        this.detailFormData = res.data
-        console.log(this.detailFormData, '222')
-        // } else {
-        //   this.$confirm.error('查看失败')
-        // }
-      }).finally(() => {
-        this.tableLoading = false
-        this.showModal = !this.showModal
-      })
-    },
-    setExportLoading() {
-      this.$loading({
-        lock: true,
-        text: '报表数据导出中...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-    },
-    exportExcelByServiceBefore() {
-      this.setExportLoading()
-    },
-    exportExcelByServiceAfter() {
-      this.$loading().close()
     }
   }
 }
