@@ -166,7 +166,10 @@ export default defineComponent({
       queryFooterData()
     }
     const queryFooterData = () => {
-      post(BSURL.dfr_supervisionSum, queryData.value).then(res => {
+      const params = { ...queryData.value }
+      delete params.page
+      delete params.pageSize
+      post(BSURL.dfr_supervisionSum, params).then(res => {
         if (res && res.code === '000000' && res.data) {
           tableStaticProperty.value.footerConfig.totalObj = res.data
         }
