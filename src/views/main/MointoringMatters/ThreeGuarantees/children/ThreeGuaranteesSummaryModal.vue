@@ -5,20 +5,9 @@
     class="carryImplementationRegionModal"
     @close="dialogClose"
   >
-    <!-- <BsMainFormListLayout> -->
-    <!-- <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            @onSearchClick="fetchTableData"
-            @onSearchResetClick="resetFetchTableData"
-          />
-        </div>
-      </template> -->
-    <!-- <template v-slot:mainForm> -->
     <BsTable
       ref="waitTable"
-      v-loading="tableLoadingState"
+      :loading="tableLoadingState"
       v-bind="tableStaticProperty"
       class="Titans-table"
       :table-columns-config="columns"
@@ -33,8 +22,6 @@
         单位：万元
       </template>
     </BsTable>
-    <!-- </template> -->
-    <!-- </BsMainFormListLayout> -->
   </vxe-modal>
 </template>
 
@@ -51,8 +38,7 @@ import {
 import store from '@/store/index'
 // import { message } from 'element-ui'
 export default defineComponent({
-  components: {
-  },
+  components: {},
   setup() {
     /**
      * @interface clickCodeMap<{ $route.name : reportCode }>
@@ -117,7 +103,7 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params = {}) => post(BSURL.dfr_supervisionQuery, params),
+      fetch: (params = {}) => post(BSURL.dfr_supervisionPageQuery, params),
       beforeFetch: params => {
         params.reportCode = clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode
         params.mofDivCode = clickRowInfo.value.mofDivCode
@@ -135,7 +121,7 @@ export default defineComponent({
         disabledMoneyConversion: false,
         moneyConversion: true // 是否有金额转换
       },
-      dataKey: 'data'
+      dataKey: 'data.result'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
@@ -165,6 +151,7 @@ export default defineComponent({
       }
     }
     const init = () => {
+      tableData.value = []
       resetFetchTableData()
     }
     const searchDataList = reactive({})
