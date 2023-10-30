@@ -148,6 +148,18 @@ export default [
       )
   },
   {
+    path: '/MapRuleSetting',
+    name: 'MapRuleSetting',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MapRuleSetting/MapRuleSetting.vue'
+      )
+  },
+  {
     path: '/SystemLevelRulesBySpe',
     name: 'SystemLevelRulesBySpe',
     meta: {

@@ -29,7 +29,8 @@ export const state = { // 实时监听state值的变化(最新状态)
     { warningLabel: '蓝色预警', color: '#0000ff', colorStyle: 'color: #0000ff;' }
   ],
   rankingModalVisible: true, // 直达资金收支进度排行弹窗
-  escalationModalVisible: false // 财政上报提醒弹窗
+  escalationModalVisible: false, // 财政上报提醒弹窗
+  monitorWarningModalVisible: false // 预警信息发送
 }
 export const getters = {
   dict() { // 预警级别option
@@ -201,6 +202,9 @@ export const mutations = {
   },
   setEscalationModalVisible(state, visible = false) {
     state.escalationModalVisible = visible
+  },
+  setMonitorWarningModalVisible(state, visible = false) {
+    state.monitorWarningModalVisible = visible
   }
 }
 export const actions = {
