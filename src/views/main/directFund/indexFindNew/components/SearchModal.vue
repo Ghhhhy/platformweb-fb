@@ -260,7 +260,7 @@ export default {
         this.detailVisible = true
       } else if (obj.column.property === 'proName') {
         this.detailRow = obj.row
-        this.detailVisible = true
+        // this.detailVisible = true
         console.log(obj.row.proGuid)
         if (!obj.row.proGuid) {
           this.$message.warning('未返proGuid,无法查看项目信息')
