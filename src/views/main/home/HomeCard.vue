@@ -7,13 +7,13 @@
     <!--财政上报确认提醒-->
     <EscalationModal v-if="visibles" v-model="visibles" />
     <!-- 监控平台首页时推送监控预警信息 -->
-    <div v-loading="tableLoading">
+    <div>
       <vxe-modal
         v-model="dialogVisible"
         title="保工资预警"
         @close="dialogClose"
       >
-        <MonitorWarningInformation />
+        <MonitorWarningInformation ref="MonitorWarningInformation" />
       </vxe-modal>
     </div>
   </div>
@@ -27,9 +27,9 @@ import EscalationModal from './EscalationModal'
 import MonitorWarningInformation from './MonitorWarningInformation/MonitorWarningInformation.vue'
 import api from '@/api/frame/main/fundMonitoring/escalation'
 import { checkRscode } from '@/utils/checkRscode'
-import { BSURL } from '../../../api/BSURL'
 // 直达资金应用code
 const dfrCode = 'DFR'
+const lmpCode = 'LMP'
 export default {
   name: 'HomeCard',
   components: {
@@ -63,9 +63,7 @@ export default {
     },
     dialogVisible: {
       get() {
-        return (
-          this.$store.state.monitorWarningModalVisible
-        )
+        return (this.$store.state.monitorWarningModalVisible && this.$store.state.userInfo?.app?.code?.toUpperCase() === lmpCode)
       },
       set(val) {
         this.$store.commit('setMonitorWarningModalVisible', val)
@@ -84,7 +82,11 @@ export default {
       post(BSURL.lmp_guaranteedSalaryNotice).then(res => {
         if (res.code === '000000') {
           this.dialogVisible = res.data.notifacationSwitch
-          this.monitorDetailData = res.data.salaryVOS
+          if (res.data.notifacationSwitch) {
+            this.$nextTick(() => {
+              this.$refs.MonitorWarningInformation.init(res.data.salaryVOS || [])
+            })
+          }
         }
         this.tableLoading = false
       }).catch(() => {
@@ -114,11 +116,12 @@ export default {
     }
   },
   created() {
-    this.getSalaryNoticeData()
     this.getMenus()
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
+    !this.$store.state.hasQueryMonitorWarningModalVisible && this.getSalaryNoticeData()
+    this.$store.commit('setHasQueryMonitorWarningModalVisible')
     // this.initEscalationVisible()
   }
 }

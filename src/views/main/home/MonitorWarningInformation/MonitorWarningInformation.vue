@@ -40,49 +40,16 @@ import router from '@/router'
 // import useTable from '@/hooks/useTable'
 import { mockTableColumns } from './MonitorWarningInformation'
 export default defineComponent({
-  props: {
-    data: {
-      type: Array,
-      default: []
-    }
-  },
   setup(props, { emit }) {
     const tableLoading = ref(false)
     let tableData = ref([])
     let defaultExpandKey = ref([])
+    const init = (data) => {
+      tableData.value = data
+      defaultExpandKey.value = cursionTreeList(data)
+    }
     onMounted(() => {
-      console.log(props.data)
-      // tableData.value = [
-      //   {
-      //     id: 'B99903EABA534E01AFB5E4829A5A0054',
-      //     parentId: '0',
-      //     levelNo: 1,
-      //     sbZbjeBgz: 144300667572.31,
-      //     sbZxjeBgz: 23290604604.56,
-      //     code: '619900000',
-      //     name: '陕西省',
-      //     mofDivCode: null,
-      //     mofDivName: null,
-      //     sbGzKhjd: '0.8',
-      //     sbZxjd: null,
-      //     sbGzXsjd: '0.8333333333333334',
-      //     rgbColor: '#EF949F',
-      //     warningLevel: 5,
-      //     warningLevelStr: '红色三档',
-      //     children: [
-      //       {
-      //         name: '福州',
-      //         sbZbjeBgz: '4141565753',
-      //         sbZxjeBgz: '2446412412',
-      //         sbGzKhjd: '89',
-      //         sbGzXsjd: '35',
-      //         warningLevelStr: '2'
-      //       }
-      //     ]
-      //   }
-      // ]
-      tableData.value = props.data
-      defaultExpandKey.value = cursionTreeList(tableData.value)
+
     })
     const cursionTreeList = (tree) => {
       const arr = []
@@ -149,6 +116,7 @@ export default defineComponent({
       staticConfig,
       tableColumnsConfig,
       tableData,
+      init,
       tableLoading,
       goToDetail,
       defaultExpandKey
