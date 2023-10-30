@@ -12,7 +12,7 @@ const api = 'http://223.223.190.114:12218'
 // const api = 'http://43.143.57.251:6007'
 
 // 帆软报表服务地址
-let reportService = 'https://10.77.36.65:8080'
+let reportService = 'http://10.100.59.193:48000/boss/ReportServer?reportlet='
 
 window.gloableToolFn = {
   serverGatewayMap: {
