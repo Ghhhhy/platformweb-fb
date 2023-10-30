@@ -81,6 +81,9 @@ var userBehaviorMonitor = {
 			usertype = that.userInfo.usertype;
 		}
 			$(document).on("mousedown",function(e){
+      if(window.gloableToolFn.openBehaviorcollector===false){
+        return
+      }
 			var e= window.event ||e; //事件兼容写法
 			if($(e.target).is("a")){
 				var clickA ={}
@@ -445,7 +448,6 @@ var userBehaviorMonitor = {
 		if(!datas){
 			return false;
 		}
-    if(window.gloableToolFn.openBehaviorcollector===false) return
     // if(process.env.NODE_ENV === 'development') return
 		 $.ajax({
 			url: `${window.location.origin}/${window.gloableToolFn.serverGatewayMap['production']['mp-d-aggregation-service']}/v1/collector/behavior?${new Date().getTime()}`,
