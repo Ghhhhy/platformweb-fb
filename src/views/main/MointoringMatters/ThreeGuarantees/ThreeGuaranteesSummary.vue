@@ -568,7 +568,9 @@ export default {
           } else {
             this.$refs.ThreeGuaranteesSummaryModal.clickType = 'region'
           }
-          this.$refs.ThreeGuaranteesSummaryModal.tableType = obj.column.own.tableType
+          this.$refs.ThreeGuaranteesSummaryModal.clickColumnsInfo = obj.column.own
+          this.$refs.ThreeGuaranteesSummaryModal.parentQueryData = this.searchDataList
+          this.$refs.ThreeGuaranteesSummaryModal.clickRowInfo = obj.row
           this.$refs.ThreeGuaranteesSummaryModal.dialogVisible = true
           this.$refs.ThreeGuaranteesSummaryModal.init()
         })
