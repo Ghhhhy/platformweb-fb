@@ -39,6 +39,7 @@ export default {
   },
   data() {
     return {
+      visible: false,
       detailDialogVisible: false,
       tableData: [
         {
@@ -168,8 +169,7 @@ export default {
     },
     save() {},
     addRow() {
-      console.log(123)
-      this.$refs.addDetailDialog.dialogVisible = true
+      this.$refs.addDetailDialog.addDetailDialogVisible = true
     }
   }
 }

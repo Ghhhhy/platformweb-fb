@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vxe-modal v-model="dialogVisible" title="新增规则明细" @close="dialogClose">
+    <vxe-modal v-model="addDetailDialogVisible" title="新增规则明细" @close="dialogClose">
       <BsForm
         ref="refForm"
         :form-items-config="formItemsConfig"
@@ -19,7 +19,7 @@
 export default {
   data() {
     return {
-      dialogVisible: false,
+      addDetailDialogVisible: false,
       formItemsConfig: [
         {
           field: 'indicatorsTargetvalue',
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     dialogClose() {
-      this.dialogVisible = false
+      this.addDetailDialogVisible = false
     },
     onSureClick() {
       const form = this.$refs.refForm.formOptionsFn()
