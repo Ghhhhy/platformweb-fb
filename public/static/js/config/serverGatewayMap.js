@@ -12,7 +12,7 @@ const api = 'http://223.223.190.114:12218'
 // const api = 'http://43.143.57.251:6007'
 
 // 帆软报表服务地址
-let reportService = 'http://10.100.59.193:48000/boss/ReportServer?reportlet='
+let reportService = 'https://10.77.36.65:8080'
 
 window.gloableToolFn = {
   serverGatewayMap: {
@@ -31,6 +31,7 @@ window.gloableToolFn = {
       // 'mp-d-aggregation-service': '/api/mp-d-aggregation-service',
       // --------------------------- 文件相关服务 --------------------------------//
       fileservice: '/apaas/api/fileservice/',
+      reportServiceProxy: '/reportService/',
       filePreviewService: '/apaas/api/filePreviewService/',
       // --------------------------- 后台服务 -----------------------------------//
       'large-monitor-platform': '',
