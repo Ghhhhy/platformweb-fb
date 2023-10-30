@@ -866,7 +866,7 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, obj.column, obj.row)) {
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
         return
       }
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -1062,7 +1062,7 @@ export default {
         const validCellValue = (row[column.property] * 1)
         if (!validCellValue) return
       }
-      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, column, row)) {
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
         return
       }
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -1087,7 +1087,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')

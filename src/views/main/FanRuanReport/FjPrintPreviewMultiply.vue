@@ -50,7 +50,7 @@ export default {
     checkReport(cpt) {
       //  serverGatewayMap.gloableUrl.getReportUrl
       // this.$gloableToolFn.getReportUrl()
-      let url = window.gloableToolFn.getReportUrl() + '/fine-report/boss/ReportServer?reportlet=' + cpt + '.cpt&x=1' + '&menuguid=' + this.menuId +
+      let url = window.gloableToolFn.getReportUrl() + window.gloableToolFn.serverGatewayMap.production.reportServiceProxy + 'fine-report/boss/ReportServer?reportlet=' + cpt + '.cpt&x=1' + '&menuguid=' + this.menuId +
         '&roleguid=' + this.roleguid + '&tokenid=' + this.tokenid + '&userguid=' + this.userInfo.guid + '&fiscal_year=' + this.userInfo.year + '&mof_div_code=' + this.userInfo.province
       window.open(url)
       // let src = '<iframe frameborder=no width=100% height=100% src=' + url + '></iframe>'
