@@ -122,7 +122,7 @@ export default defineComponent({
         disabledMoneyConversion: false,
         moneyConversion: true // 是否有金额转换
       },
-      dataKey: 'data.result'
+      dataKey: 'data.results'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
@@ -136,7 +136,7 @@ export default defineComponent({
           payappamt: 0,
           payamount: 0
         },
-        combinedType: ['subTotal'],
+        combinedType: ['switchTotal'],
         showFooter: true
       },
       defaultMoneyUnit: 1,
@@ -168,9 +168,7 @@ export default defineComponent({
     const queryFooterData = () => {
       post(BSURL.dfr_supervisionSum, queryData.value).then(res => {
         if (res && res.code === '000000' && res.data) {
-          Object.keys(tableStaticProperty.value.footerConfig.totalObj).forEach(keys => {
-            tableStaticProperty.value.footerConfig.totalObj[keys] = res.data[keys]
-          })
+          tableStaticProperty.value.footerConfig.totalObj = res.data
         }
       })
     }
