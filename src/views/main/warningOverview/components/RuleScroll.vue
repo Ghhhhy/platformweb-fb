@@ -25,7 +25,7 @@
             class="swiper-slide rule-swiper-slide"
           >
             <el-tooltip class="item" effect="light" :content="`${item.fiRuleCode || item.firulecode}-${item.fiRuleName || item.firulename}`" placement="top-start">
-              <div class="rule-content">{{ item.fiRuleCode || item.firulecode }}-{{ item.fiRuleName || item.firulename }}</div>
+              <div class="rule-content" @click="showDetailDialog(item)">{{ item.fiRuleCode || item.firulecode }}-{{ item.fiRuleName || item.firulename }}</div>
             </el-tooltip>
             <div class="right-time">
               <span>{{ item.createTime }}</span>
@@ -34,16 +34,20 @@
         </div>
       </div>
     </div>
+    <ScrollDetailDialog v-if="showDialog" ref="scrollDialogRef" :dataitem="scrollDetailData" @close="close" />
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, unref, onMounted, onBeforeUnmount, watch, nextTick } from '@vue/composition-api'
 import Swiper from 'swiper'
-
+import ScrollDetailDialog from './ScrollDetailDialog.vue'
 import { getLatestData } from '@/api/frame/main/warningOverview'
 
 export default defineComponent({
+  components: {
+    ScrollDetailDialog
+  },
   setup() {
     // 规则列表数据
     const news = ref([])
@@ -151,7 +155,18 @@ export default defineComponent({
     const updateSwiper = () => {
       unref(news)?.length <= 5 ? disableSwiper() : enableSwiper()
     }
-
+    /**
+     * 滚动显示图钻取
+     */
+    let scrollDetailData = ref({})
+    let showDialog = ref(false)
+    const showDetailDialog = (item) => {
+      showDialog.value = true
+      scrollDetailData.value = item
+    }
+    const close = () => {
+      showDialog.value = false
+    }
     watch(news, () => {
       updateSwiper()
     }, { deep: true })
@@ -168,7 +183,11 @@ export default defineComponent({
       news,
       showRuleCurrentSymbol,
       swiperEnterHandle,
-      swiperLeaveHandle
+      swiperLeaveHandle,
+      showDetailDialog,
+      scrollDetailData,
+      showDialog,
+      close
     }
   }
 })
