@@ -95,6 +95,24 @@ export default defineComponent({
       }
       search()
     }
+    let defaultExpandKey = ref([])
+    const cursionTreeList = (tree) => {
+      const arr = []
+      const levelNo = [0, 1]
+      if (!Array.isArray(tree) || !tree.length) return
+      const cursionTree = (tree, level = 0) => {
+        tree.forEach((item) => {
+          if (levelNo.includes(level)) {
+            arr.push(item.id)
+          }
+          if (Array.isArray(item.children) && item.children && item.children.length) {
+            cursionTree(item.children, level + 1)
+          }
+        })
+      }
+      cursionTree(tree)
+      return arr
+    }
     const search = () => {
       tableLoading.value = true
       let params = {
@@ -113,6 +131,7 @@ export default defineComponent({
             newList = cursionData(res.data)
           }
           tableData.value = newList
+          defaultExpandKey.value = cursionTreeList(tableData.value)
         }
       })
     }
@@ -127,7 +146,7 @@ export default defineComponent({
     }
     let tableColumnsConfig = ref(mockTableColumns)
     const staticConfig = ref({
-      'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' },
+      'tree-config': { dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', expandRowKeys: defaultExpandKey },
       'row-id': 'id',
       isFlushAction: false,
       tableFooterConfig: {},
@@ -152,7 +171,7 @@ export default defineComponent({
       //   page: 1,
       //   pageSize: 10
       // },
-      cellStyle: ({ row, columns }) => {}
+      cellStyle: ({ row, columns }) => { }
     })
     const staticEvents = ref({
       cellClick: (obj, context, e) => {
