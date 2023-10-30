@@ -87,6 +87,7 @@ const proconf = {
       'width': '8',
       'align': 'left',
       'formula': '',
+      'type': 'miniRange',
       'name': '$vxeMoney',
       'itemRender': {
         'name': '$vxeMoney',
@@ -110,6 +111,7 @@ const proconf = {
       'width': '8',
       'align': 'left',
       'formula': '',
+      'type': 'maxRange',
       'name': '$vxeMoney',
       'itemRender': {
         'name': '$vxeMoney',

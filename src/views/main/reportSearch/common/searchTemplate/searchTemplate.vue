@@ -397,28 +397,68 @@ export default {
       this.queryTableDatasCount()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
+    // 前端筛选过滤数据
+    frontQueryTableDatas(val, multipleValue = {}) {
+      console.log(val, multipleValue)
+      let curTableData = window.deepCopy(this.tableData)
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
+          if (item.field && val[item.field + 'code']) {
+            curTableData = curTableData.filter(l =>
+              l[item.field] === val[item.field + 'code']
+            )
+          }
+        } else if (item.type === 'miniRange') {
+          if (item.field && val[item.field]) {
+            curTableData = curTableData.filter(m =>
+              m[item.field] > val[item.field]
+            )
+          }
+        } else if (item.type === 'maxRange') {
+          if (item.field && val[item.field]) {
+            curTableData = curTableData.filter(k =>
+              k[item.field] < val[item.field]
+            )
+          }
+        } else if (item.type === 'vxeSelect') {
+          if (item.field && val[item.field]) {
+            curTableData = curTableData.filter(k =>
+              k[item.field] === val[item.field]
+            )
+          }
+        }
+      })
+      this.tableData = curTableData
+    },
     // 搜索
     search(val, multipleValue = {}) {
-      this.searchDataList = val
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof this.searchDataList[key] === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
-                condition[key].push(item)
-              })
+      if (this.pagerConfig.pageSize === 999999) {
+        this.frontQueryTableDatas(val, multipleValue)
+      } else {
+        this.searchDataList = val
+        let condition = this.getConditionList()
+        for (let key in condition) {
+          if (
+            (this.searchDataList[key] !== undefined) &
+            (this.searchDataList[key] !== null)
+          ) {
+            if (Array.isArray(this.searchDataList[key])) {
+              condition[key] = this.searchDataList[key]
+            } else if (typeof this.searchDataList[key] === 'string') {
+              if (this.searchDataList[key].trim() !== '') {
+                this.searchDataList[key].split(',').forEach((item) => {
+                  condition[key].push(item)
+                })
+              }
             }
           }
         }
+        this.condition = condition
+        this.queryTableDatas()
       }
-      this.condition = condition
-      this.queryTableDatas()
     },
     // 切换操作按钮
     // operationToolbarButtonClickEvent(obj, context, e) {
