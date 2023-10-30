@@ -68,7 +68,7 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
-
+    const queryData = ref({})
     const modalStaticProperty = computed(() => {
       return {
         title: clickCodeMap[clickColumnsInfo.value.tableType]?.title,
@@ -114,6 +114,7 @@ export default defineComponent({
         } else if (clickColumnsInfo.value.tableType === 'pay') {
           params.xpayDate = parentQueryData.value.endTime
         }
+        queryData.value = params
         return params
       },
       columns: cellClickColumns,
@@ -129,6 +130,15 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
+      footerConfig: {
+        totalObj: {
+          amount: 0,
+          payappamt: 0,
+          payamount: 0
+        },
+        combinedType: ['subTotal'],
+        showFooter: true
+      },
       defaultMoneyUnit: 1,
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
@@ -153,6 +163,16 @@ export default defineComponent({
     const init = () => {
       tableData.value = []
       resetFetchTableData()
+      queryFooterData()
+    }
+    const queryFooterData = () => {
+      post(BSURL.dfr_supervisionSum, queryData.value).then(res => {
+        if (res && res.code === '000000' && res.data) {
+          Object.keys(tableStaticProperty.value.footerConfig.totalObj).forEach(keys => {
+            tableStaticProperty.value.footerConfig.totalObj[keys] = res.data[keys]
+          })
+        }
+      })
     }
     const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
