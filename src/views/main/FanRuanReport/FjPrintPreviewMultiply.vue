@@ -6,6 +6,15 @@
 // 好了
 // const serverGatewayMap = window.gloableToolFn.serverGatewayMap
 export default {
+  beforeRouteEnter(to, from, next) {
+    window.gloableToolFn.openBehaviorcollectorOld = window.gloableToolFn.openBehaviorcollector
+    window.gloableToolFn.openBehaviorcollector = false
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    window.gloableToolFn.openBehaviorcollector = window.gloableToolFn.openBehaviorcollectorOld
+    next()
+  },
   name: 'PrintPreview',
   data() {
     return {
@@ -60,6 +69,9 @@ export default {
   },
   created() {
     this.initParams5()
+  },
+  beforeDestroy() {
+    window.gloableToolFn.openBehaviorcollector = window.gloableToolFn.openBehaviorcollectorOld
   },
   watch: {
     visible: {
