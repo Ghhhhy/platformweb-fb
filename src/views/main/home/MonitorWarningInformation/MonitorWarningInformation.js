@@ -3,13 +3,13 @@ import store from '@/store/index'
 import Vue from 'vue'
 const h = new Vue().$createElement
 import CustomerElProgress from './component/progress.vue'
-Vue.component('CustomerElProgress',CustomerElProgress)
-const dict=[
-  { label:"绿色",value:"1",},
-  { label:"黄色",value:"2",},
-  { label:"红色第一档",value:"3",},
-  { label:"红色第二档",value:"4",},
-  { label:"红色第三档",value:"5",},
+Vue.component('CustomerElProgress', CustomerElProgress)
+const dict = [
+  { label: "绿色", value: "1", },
+  { label: "黄色", value: "2", },
+  { label: "红色第一档", value: "3", },
+  { label: "红色第二档", value: "4", },
+  { label: "红色第三档", value: "5", },
 ]
 export const mockQueryData = [
   {
@@ -45,7 +45,7 @@ export const mockQueryData = [
             nodeKey: 'guid',
             label: 'name',
             children: 'children',
-            labelFormat:"{code}-{name}"
+            labelFormat: "{code}-{name}"
           },
           placeholder: '请选择区划',
           multiple: false,
@@ -69,13 +69,14 @@ export const mockQueryData = [
     align: 'center',
     itemRender: {
       name: '$vxeTree',
-      options:[
-        { name:"绿色",code:"1",},
-        { name:"黄色",code:"2",},
-        { name:"红色",code:"red",children:[
-            { name:"红色一档",code:"3",},
-            { name:"红色二档",code:"4",},
-            { name:"红色三档",code:"5",},
+      options: [
+        { name: "绿色", code: "1", },
+        { name: "黄色", code: "2", },
+        {
+          name: "红色", code: "red", children: [
+            { name: "红色一档", code: "3", },
+            { name: "红色二档", code: "4", },
+            { name: "红色三档", code: "5", },
           ]
         },
       ],
@@ -87,7 +88,7 @@ export const mockQueryData = [
           treeProps: {
             nodeKey: 'code',
             label: 'name',
-            labelFormat:"{name}",
+            labelFormat: "{name}",
             children: 'children',
           },
           placeholder: '请选择预警级别',
@@ -166,7 +167,7 @@ export const mockTableColumns = [
         // }
         return [
           <div class="fsc" style="height:100%;">
-            <CustomerElProgress style="width:100%;" progressScaleList={[{progressScale:(row.sbGzKhjd)*100,color:'#01a883'}]} percentage={Number(((row.sbGzKhjd)*100).toFixed(1))}></CustomerElProgress>
+            <CustomerElProgress style="width:100%;" progressScaleList={[{ progressScale: (row.sbGzKhjd) * 100, color: '#01a883' }]} percentage={Number(((row.sbGzKhjd) * 100).toFixed(1))}></CustomerElProgress>
           </div>
         ]
       }
@@ -195,7 +196,7 @@ export const mockTableColumns = [
         // }
         return [
           <div class="fsc" style="height:100%;">
-            <CustomerElProgress style="width:100%;"  progressScaleList={[{progressScale:(row.sbGzXsjd)*100,color:'#01a883'}]} percentage={Number(((row.sbGzXsjd)*100).toFixed(1))}></CustomerElProgress>
+            <CustomerElProgress style="width:100%;" progressScaleList={[{ progressScale: (row.sbGzXsjd) * 100, color: '#01a883' }]} percentage={Number(((row.sbGzXsjd) * 100).toFixed(1))}></CustomerElProgress>
           </div>
         ]
       }
@@ -212,30 +213,30 @@ export const mockTableColumns = [
       name: '$vxeInput'
     },
     formatter({ row }) {
-      return row.warningLevelStr||''
+      return row.warningLevelStr || ''
     },
     slots: {
       default({ row }) {
-        const style={width:'100%',height:'98%' }
-        if(row.rgbColor){
-          style['background-color']=`#${row.rgbColor.replace('#', '')}`
+        const style = { width: '100%', height: '98%' }
+        if (row.rgbColor) {
+          style['background-color'] = `#${row.rgbColor.replace('#', '')}`
         }
         return [
-          <div style={style}>{row.warningLevelStr||''}</div>
+          <div style={style}>{row.warningLevelStr || ''}</div>
         ]
       }
     },
     exportFormatter: true,
     customerExportStyle: ({ row }) => {
-      const fill={
-          bgColor: 'ffffffff',
-          fgColor:'ffffffff',
-          patternType: 'solid'
+      const fill = {
+        bgColor: 'ffffffff',
+        fgColor: 'ffffffff',
+        patternType: 'solid'
       }
-      if(row.rgbColor){
-        fill['fgColor']=`ff${row.rgbColor.replace('#', '')}`
+      if (row.rgbColor) {
+        fill['fgColor'] = `ff${row.rgbColor.replace('#', '')}`
       }
-      return {fill}
+      return { fill }
     }
   }
 ]
