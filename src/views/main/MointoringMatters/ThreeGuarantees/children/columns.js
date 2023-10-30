@@ -12,7 +12,7 @@ const defaultTableColumns = [
   },
   {
     title: '业务主管处室',
-    field: 'manageMofDepCode',
+    field: 'managemofdepcode',
     width: 180,
     align: 'left',
     formula: '',
@@ -26,14 +26,14 @@ const defaultTableColumns = [
     title: '预算单位',
     width: 180,
     filters: true,
-    field: 'agencyName',
+    field: 'agencyname',
     sortable: true,
     align: 'center',
     cellRender: { name: '$vxeInput' }
   },
   {
     title: '预算项目名称',
-    field: 'proName',
+    field: 'proname',
     width: 180,
     filters: true,
     sortable: false,
@@ -43,7 +43,7 @@ const defaultTableColumns = [
   },
   {
     title: '项目名称',
-    field: 'proName',
+    field: 'proname',
     sortable: false,
     filters: true,
     width: 180,
@@ -55,14 +55,14 @@ const defaultTableColumns = [
     title: '指标文号',
     width: 180,
     filters: true,
-    field: 'corBgtDocNo',
+    field: 'corbgtdocno',
     sortable: false,
     align: 'left',
     cellRender: { name: '$vxeInput' }
   },
   {
     title: '指标摘要',
-    field: 'bgtRemName',
+    field: 'bgtremname',
     width: 180,
     filters: true,
     tableType: 'bgt',
@@ -74,7 +74,7 @@ const defaultTableColumns = [
   },
   {
     title: '三保标识',
-    field: 'sbSign',
+    field: 'sbsign',
     tableType: 'bgt',
     filters: true,
     width: 180,
@@ -95,7 +95,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付金额',
-    field: 'payAmount',
+    field: 'payamount',
     filters: true,
     tableType: 'bgt',
     width: 180,
@@ -107,7 +107,7 @@ const defaultTableColumns = [
   },
   {
     title: '执行进度',
-    field: 'sbZxjd',
+    field: 'sbzxjd',
     filters: true,
     tableType: 'bgt',
     width: 180,
@@ -118,7 +118,7 @@ const defaultTableColumns = [
   },
   {
     title: '序时进度',
-    field: 'sbXsjd',
+    field: 'sbxsjd',
     tableType: 'bgt',
     width: 180,
     align: 'right',
@@ -129,7 +129,7 @@ const defaultTableColumns = [
   },
   {
     title: '预警',
-    field: 'sbYj',
+    field: 'sbyj',
     width: 180,
     tableType: 'bgt',
     align: 'right',
@@ -141,7 +141,7 @@ const defaultTableColumns = [
   // --支付
   {
     title: '资金用途',
-    field: 'useDes',
+    field: 'usedes',
     width: 180,
     sortable: false,
     filters: true,
@@ -151,7 +151,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付申请单号',
-    field: 'payAppNo',
+    field: 'payappno',
     width: 180,
     sortable: false,
     filters: true,
@@ -161,7 +161,7 @@ const defaultTableColumns = [
   },
   {
     title: '付款方账户名称',
-    field: 'payAcctName',
+    field: 'payacctname',
     sortable: false,
     width: 180,
     filters: true,
@@ -171,7 +171,7 @@ const defaultTableColumns = [
   },
   {
     title: '付款方账号',
-    field: 'payAcctNo',
+    field: 'payacctno',
     width: 180,
     sortable: false,
     filters: true,
@@ -181,7 +181,7 @@ const defaultTableColumns = [
   },
   {
     title: '收款方账户名称',
-    field: 'payeeAcctName',
+    field: 'payeeacctname',
     width: 180,
     sortable: false,
     filters: true,
@@ -191,7 +191,7 @@ const defaultTableColumns = [
   },
   {
     title: '收款方账号',
-    field: 'payeeAcctNo',
+    field: 'payeeacctno',
     sortable: false,
     width: 180,
     filters: true,
@@ -201,7 +201,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付金额',
-    field: 'payAppAmt',
+    field: 'payappamt',
     width: 180,
     filters: true,
     sortable: false,
@@ -212,7 +212,7 @@ const defaultTableColumns = [
   },
   {
     title: '支付时间',
-    field: 'xpayDate',
+    field: 'xpaydate',
     width: 180,
     sortable: false,
     tableType: 'pay',

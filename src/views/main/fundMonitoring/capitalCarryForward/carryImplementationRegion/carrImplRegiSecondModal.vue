@@ -105,8 +105,6 @@ export default defineComponent({
         return copyObj
       },
       afterFetch: tableData => {
-        tableData.results.shift()
-        console.log(tableData)
         return tableData
       },
       finallyFetch: res => {

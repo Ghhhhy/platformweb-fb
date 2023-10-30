@@ -77,6 +77,8 @@ window.gloableToolFn = {
   },
   // 是否开启水印
   enableWaterMark: false,
+  // behaviorcollector-开启行为采集
+  openBehaviorcollector: true,
   getReportUrl: () => reportService,
   getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
   getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/',

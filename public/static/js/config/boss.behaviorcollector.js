@@ -81,6 +81,9 @@ var userBehaviorMonitor = {
 			usertype = that.userInfo.usertype;
 		}
 			$(document).on("mousedown",function(e){
+      if(window.gloableToolFn.openBehaviorcollector===false){
+        return
+      }
 			var e= window.event ||e; //事件兼容写法
 			if($(e.target).is("a")){
 				var clickA ={}

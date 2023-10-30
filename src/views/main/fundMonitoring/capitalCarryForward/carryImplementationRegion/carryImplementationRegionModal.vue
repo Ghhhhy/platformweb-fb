@@ -118,6 +118,13 @@ export default defineComponent({
         // tableData.value = res.data.results
         console.log(tableData)
         // console.log(tableData.value)
+        tableData.results = tableData.results.map(item => {
+          return {
+            ...item,
+            xjExpFunc: (item.xjExpFuncCode + item.xjExpFuncName) ? (item.xjExpFuncCode + item.xjExpFuncName) : ''
+          }
+        })
+        console.log(tableData)
         return tableData
       },
       finallyFetch: res => {

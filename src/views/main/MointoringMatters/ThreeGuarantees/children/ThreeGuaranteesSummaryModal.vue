@@ -18,6 +18,7 @@
     <!-- <template v-slot:mainForm> -->
     <BsTable
       ref="waitTable"
+      v-loading="tableLoadingState"
       v-bind="tableStaticProperty"
       class="Titans-table"
       :table-columns-config="columns"
@@ -47,7 +48,7 @@ import {
   payTotalTableColumns,
   payRegionTableColumns
 } from './columns'
-// import store from '@/store/index'
+import store from '@/store/index'
 // import { message } from 'element-ui'
 export default defineComponent({
   components: {
@@ -56,33 +57,35 @@ export default defineComponent({
     /**
      * @interface clickCodeMap<{ $route.name : reportCode }>
      */
-    /*eslint-disable */
     const clickCodeMap = {
       bgt: {
         reportCode: 'sbzcyjhzb_ysmx',
-        title:'预算明细',
-        total:bgtTotalTableColumns,
-        region:bgtRegionTableColumns,
+        title: '预算明细',
+        total: bgtTotalTableColumns,
+        region: bgtRegionTableColumns
       },
       pay: {
         reportCode: 'sbzcyjhzb_zcmx',
-        title:'支出明细',
-        total:payTotalTableColumns,
-        region:payRegionTableColumns,
-      },
+        title: '支出明细',
+        total: payTotalTableColumns,
+        region: payRegionTableColumns
+      }
     }
+    /* eslint-disable-next-line */
     const { $route } = getCurrentInstance().proxy
     const CarrImplRegiSecondModal = ref()
     const waitTable = ref(null)
-    const tableType = ref('')
+    const clickColumnsInfo = ref({})
+    const clickRowInfo = ref({})
     const clickType = ref('')
+    const parentQueryData = ref({})
     const injectData = ref({
       mofDivCode: ''
     })
 
-    const modalStaticProperty = computed(()=>{
-      return{
-        title: clickCodeMap[tableType.value]?.title,
+    const modalStaticProperty = computed(() => {
+      return {
+        title: clickCodeMap[clickColumnsInfo.value.tableType]?.title,
         width: '96%',
         height: '80%',
         position: 'center',
@@ -95,12 +98,12 @@ export default defineComponent({
       dialogVisible.value = false
     }
     const cellClickColumns = computed(() => {
-      if(tableType.value&&clickType.value){
-        return clickCodeMap[tableType.value][clickType.value]
+      if (clickColumnsInfo.value.tableType && clickType.value) {
+        return clickCodeMap[clickColumnsInfo.value.tableType][clickType.value]
       }
       return []
     })
-    
+
     const [
       {
         columns,
@@ -114,17 +117,25 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params={}) => post(BSURL.dfr_supervisionQuery, params),
+      fetch: (params = {}) => post(BSURL.dfr_supervisionQuery, params),
       beforeFetch: params => {
-        params.reportCode=clickCodeMap[tableType.value]?.reportCode
+        params.reportCode = clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode
+        params.mofDivCode = clickRowInfo.value.mofDivCode
+        params.threesafe_symbolcat_code = clickColumnsInfo.value.threesafe_symbolcat_code
+        params.fiscal_year = store.getters.getuserInfo.year
+        if (clickColumnsInfo.value.tableType === 'bgt') {
+          params.endTime = parentQueryData.value.endTime
+        } else if (clickColumnsInfo.value.tableType === 'pay') {
+          params.xpayDate = parentQueryData.value.endTime
+        }
         return params
       },
       columns: cellClickColumns,
-      tableToolbarConfig:{
+      tableToolbarConfig: {
         disabledMoneyConversion: false,
-        moneyConversion: true, // 是否有金额转换
+        moneyConversion: true // 是否有金额转换
       },
-      dataKey: 'data.data'
+      dataKey: 'data'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
@@ -132,7 +143,7 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
-      defaultMoneyUnit: computed(()=>tableType.value === 'bgt' ? 1 : 10000),
+      defaultMoneyUnit: 1,
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
@@ -144,7 +155,6 @@ export default defineComponent({
         }
       }
     })
-    console.log('columns',columns)
     const cellClick = ({ row, rowIndex, column }) => {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
@@ -184,9 +194,10 @@ export default defineComponent({
       waitTable,
       CarrImplRegiSecondModal,
       injectData,
-      tableType,
+      clickColumnsInfo,
+      clickRowInfo,
       clickType,
-      cellClickColumns,
+      parentQueryData,
       init
     }
   }
