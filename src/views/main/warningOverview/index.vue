@@ -189,12 +189,12 @@ export default defineComponent({
     }
     const menuClick2 = () => {
       router.push({
-        name: 'MonitorRulesViewShow'
+        name: 'MonitorRulesViewFJ'
       })
       const route = {
-        url: '/MonitorRulesViewShow',
+        url: '/MonitorRulesViewFJ',
         code: '892',
-        name: '监控规则库查看'
+        name: ' 监控规则库 '
       }
       store.commit('setCurMenuObj', route)
     }
