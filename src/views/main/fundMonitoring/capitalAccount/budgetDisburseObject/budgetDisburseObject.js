@@ -375,7 +375,12 @@ let proconf = {
       title: '发放表',
       align: 'left',
       width: 160,
-      field: 'ffb'
+      field: 'ffb',
+      formatter({ row }) {
+        if (row.ffb) return row.ffb
+        if (['惠企', '利民', '惠企利民'].includes(row.hqlm) && !row.ffb) return '详情查看'
+        return ''
+      }
     },
     {
       title: '是否拨入专户项目',

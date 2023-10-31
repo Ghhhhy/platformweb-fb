@@ -236,7 +236,7 @@ export default defineComponent({
           ...params,
           fiscalYear: store.getters.getuserInfo.year,
           mofDivCode: props.clickRow.mofDivCode,
-          isSubCode: props.clickRow.isSubCode,
+          hqlm: props.clickRow.hqlm,
           proCode: props.clickRow.proCode,
           proName: props.clickRow.proName
         }
