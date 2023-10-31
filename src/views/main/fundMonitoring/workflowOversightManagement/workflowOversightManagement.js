@@ -130,7 +130,7 @@ export const mockTableColumns = [
     filters: false,
   },
   {
-    title: '当前菜单',
+    title: '菜单节点',
     align: 'center',
     treeNode: true,
     width: 260,
