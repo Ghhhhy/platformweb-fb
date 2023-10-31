@@ -174,7 +174,6 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'jLoad',
-            sortable: true,
             formula: store.getters.isSx ? '({amountZyxdBhxj}-0==0)?0:Math.round(({amountPayAll}/{amountZyxdBhxj}*100)*10)/10' : '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -263,7 +262,6 @@ const proconf = {
             width: 160,
             areaType: 'province',
             align: 'right',
-            sortable: true,
             formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -339,7 +337,6 @@ const proconf = {
             width: 120,
             areaType: 'city',
             align: 'right',
-            sortable: true,
             formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -416,7 +413,6 @@ const proconf = {
             width: 120,
             areaType: 'county',
             align: 'right',
-            sortable: true,
             formula: '({amountXjxd}-0==0)?0:Math.round(({amountXjfp}/{amountXjxd}*100)*10)/10',
             cellRender: {
               name: '$vxeRatio'
@@ -474,7 +470,6 @@ const proconf = {
             width: 120,
             areaType: 'town',
             align: 'right',
-            sortable: true,
             formula: '({amountZjfp}+{amountZjwfp}-0==0)?0:({amountZjfp}/({amountZjfp}+{amountZjwfp})*100)',
             cellRender: {
               name: '$vxeRatio'
