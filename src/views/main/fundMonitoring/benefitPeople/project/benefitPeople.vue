@@ -1,95 +1,130 @@
 <!--支付数据规范性检查-->
 <template>
-  <div v-loading="tableLoading" style="height: 100%">
-    <BsMainFormListLayout>
-      <template v-slot:topTabPane>
-        <BsTabPanel
-          ref="tabPanel"
-          :is-open="isShowQueryConditions"
-          :tab-status-btn-config="toolBarStatusBtnConfig"
-          :tab-status-num-config="tabStatusNumConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
-        />
-      </template>
-      <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
-      <template v-slot:mainForm>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig1"
-            :query-form-data="searchDataList1"
-            @onSearchClick="search1"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef1"
-          v-loading="tableLoading2"
-          style="height: 40%"
-          :footer-config="tableFooterConfig1"
-          :table-columns-config="tableColumnsConfig1"
-          :table-global-config="{ customExportConfig: { fileName: '支付凭证信息' } }"
-          :table-data="tableData1"
-          :table-config="tableConfig1"
-          :pager-config="mainPagerConfig1"
-          :toolbar-config="tableToolbarConfig1"
-          @checkboxChange="checkboxChange1"
-          @checkboxAll="checkboxChange1"
-          @onToolbarBtnClick="onToolbarBtnClick1"
-          @ajaxData="ajaxTableData1"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title">
-                <span class="fn-inline">支付凭证信息</span>
-                <i class="fn-inline"></i>
-              </div>
+  <div v-loading="tableLoading" style="width: 100%; height: 100%">
+    <BsTabPanel
+      ref="tabPanelTop"
+      is-hide-query
+      :tab-status-btn-config="toolBarStatusBtnConfigTop"
+    />
+    <div style="padding: 0 20px">
+      <BsTabPanel
+        ref="tabPanel"
+        style="margin-top: 10px"
+        :is-open="isShowQueryConditions"
+        :tab-status-btn-config="toolBarStatusBtnConfig"
+        :tab-status-num-config="tabStatusNumConfig"
+        @onQueryConditionsClick="onQueryConditionsClick"
+      />
+    </div>
+    <div style="display: flex; width: 100%; height: calc(100% - 106px)">
+      <div
+        v-xResize
+        class="m-left-content"
+        style="width: 50%; height: 100%; margin-right: 10px; padding-left: 20px"
+      >
+        <BsMainFormListLayout>
+          <template v-slot:topTabPane> </template>
+          <!-- leftVisible不为undefined为渲染mainTree和mainForm插槽 ，否则渲染mainCon插槽-->
+          <template v-slot:mainForm>
+            <div v-show="isShowQueryConditions" class="main-query">
+              <BsQuery
+                ref="queryFrom"
+                :query-form-item-config="queryConfig1"
+                :query-form-data="searchDataList1"
+                @onSearchClick="search1"
+              />
             </div>
+            <BsTable
+              ref="mainTableRef1"
+              v-loading="tableLoading2"
+              :footer-config="tableFooterConfig1"
+              :table-columns-config="tableColumnsConfig1"
+              :table-global-config="{
+                customExportConfig: { fileName: '支付凭证信息' },
+              }"
+              :table-data="tableData1"
+              :table-config="tableConfig1"
+              :pager-config="mainPagerConfig1"
+              :toolbar-config="tableToolbarConfig1"
+              @checkboxChange="checkboxChange1"
+              @checkboxAll="checkboxChange1"
+              @onToolbarBtnClick="onToolbarBtnClick1"
+              @ajaxData="ajaxTableData1"
+              @cellClick="cellClick"
+            >
+              <template v-slot:toolbarSlots>
+                <div class="table-toolbar-left">
+                  <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
+                  <div class="table-toolbar-left-title">
+                    <span class="fn-inline">支付凭证信息</span>
+                    <i class="fn-inline"></i>
+                  </div>
+                </div>
+              </template>
+            </BsTable>
           </template>
-        </BsTable>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            :query-form-item-config="queryConfig"
-            :query-form-data="searchDataList"
-            @onSearchClick="search"
-          />
-        </div>
-        <BsTable
-          ref="mainTableRef"
-          v-loading="tableLoading1"
-          style="height: 40%"
-          :footer-config="tableFooterConfig"
-          :table-columns-config="tableColumnsConfig"
-          :table-global-config="{ customExportConfig: { fileName: '惠民支付明细数据' } }"
-          :table-data="tableData"
-          :table-config="tableConfig"
-          :pager-config="mainPagerConfig"
-          :toolbar-config="tableToolbarConfig"
-          @checkboxChange="checkboxChange"
-          @checkboxAll="checkboxChange"
-          @onToolbarBtnClick="onToolbarBtnClick"
-          @ajaxData="ajaxTableData"
-          @cellClick="cellClick"
-        >
-          <template v-slot:toolbarSlots>
-            <div class="table-toolbar-left" style="display: flex; align-items: center">
-              <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
-              <div class="table-toolbar-left-title left-title-clear-float">
-                <span class="fn-inline">惠民支付明细数据</span>
-                <i class="fn-inline"></i>
-              </div>
-              <div v-if="matchHoot">
-                <span>匹配条件：</span>
-                <el-checkbox v-model="isProName" @change="changes">项目名称</el-checkbox>
-                <el-checkbox v-model="isAmount" @change="changes">金额</el-checkbox>
-              </div>
+        </BsMainFormListLayout>
+      </div>
+      <div
+        class="m-right-content"
+        style="minwidth: 100px; flex: 1; padding-right: 20px"
+      >
+        <BsMainFormListLayout>
+          <template v-slot:mainForm>
+            <div v-show="isShowQueryConditions" class="main-query">
+              <BsQuery
+                ref="queryFrom"
+                :query-form-item-config="queryConfig"
+                :query-form-data="searchDataList"
+                @onSearchClick="search"
+              />
             </div>
+            <BsTable
+              ref="mainTableRef"
+              v-loading="tableLoading1"
+              :footer-config="tableFooterConfig"
+              :table-columns-config="tableColumnsConfig"
+              :table-global-config="{
+                customExportConfig: { fileName: '惠民支付明细数据' },
+              }"
+              :table-data="tableData"
+              :table-config="tableConfig"
+              :pager-config="mainPagerConfig"
+              :toolbar-config="tableToolbarConfig"
+              @checkboxChange="checkboxChange"
+              @checkboxAll="checkboxChange"
+              @onToolbarBtnClick="onToolbarBtnClick"
+              @ajaxData="ajaxTableData"
+              @cellClick="cellClick"
+            >
+              <template v-slot:toolbarSlots>
+                <div
+                  class="table-toolbar-left"
+                  style="display: flex; align-items: center"
+                >
+                  <!--              <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = false"></div>-->
+                  <div class="table-toolbar-left-title left-title-clear-float">
+                    <span class="fn-inline">惠民支付明细数据</span>
+                    <i class="fn-inline"></i>
+                  </div>
+                  <div v-if="matchHoot">
+                    <span>匹配条件：</span>
+                    <el-checkbox
+                      v-model="isProName"
+                      @change="changes"
+                    >项目名称</el-checkbox>
+                    <el-checkbox
+                      v-model="isAmount"
+                      @change="changes"
+                    >金额</el-checkbox>
+                  </div>
+                </div>
+              </template>
+            </BsTable>
           </template>
-        </BsTable>
-      </template>
-    </BsMainFormListLayout>
+        </BsMainFormListLayout>
+      </div>
+    </div>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <ImportModel
       ref="ImportModel"
@@ -114,6 +149,7 @@
 </template>
 
 <script>
+import { post } from '@/api/http'
 import { proconf } from './benefitPeople'
 import AddDialog from '@/views/main/fundMonitoring/benefitPeople/children/AddDialog.vue'
 import CorpAddDialog from '@/views/main/fundMonitoring/benefitPeople/children/CorpAddDialog.vue'
@@ -158,6 +194,7 @@ export default {
       isAmount: false,
       importModalVisible: false, // 导入弹框
       fileConfig: {
+        importType: this.importType,
         fileName: '',
         file: null,
         maxSize: 1024 * 1024 * 10
@@ -179,17 +216,19 @@ export default {
       searchDataList1: proconf.highQueryData1,
       radioShow: true,
       breakRuleVisible: false,
-      treeData: [{
-        children: [],
-        code: 0,
-        id: 0,
-        label: '0-全部分类',
-        name: '全部分类',
-        parentId: null,
-        parentRuleName: null,
-        ruleLevel: 0,
-        ruleName: '全部分类'
-      }],
+      treeData: [
+        {
+          children: [],
+          code: 0,
+          id: 0,
+          label: '0-全部分类',
+          name: '全部分类',
+          parentId: null,
+          parentRuleName: null,
+          ruleLevel: 0,
+          ruleName: '全部分类'
+        }
+      ],
       treeTypeConfig: {
         curRadio: 'AGENCY'
       },
@@ -217,10 +256,19 @@ export default {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
       },
+      toolBarStatusBtnConfigTop: {
+        buttons: proconf.statusButtonsTop,
+        curButton: proconf.curStatusButtonTop,
+        methods: {
+          bsToolbarClickEvent: this.bsToolbarClickEventTop
+        }
+      },
+      // 实拨和集中支付的参数 查询数据时实拨为2 ，集中支付为1
+      importType: '1',
       buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
-        '1': 0,
-        '2': 0
+        1: 0,
+        2: 0
       },
       isShowQueryConditions: true,
       toolBarStatusSelect: {
@@ -288,13 +336,14 @@ export default {
           sortable: false
         }
       },
-      tableConfig1: {
-      },
+      tableConfig1: {},
       tableFooterConfig: {
-        showFooter: false
+        showFooter: true,
+        combinedType: ['subTotal']
       },
       tableFooterConfig1: {
-        showFooter: false
+        showFooter: true,
+        combinedType: ['subTotal']
       },
       fiscalYear: '',
       isHook: '0',
@@ -347,7 +396,8 @@ export default {
       firulename: '',
       payAmt: '',
       mofdivcode: '',
-      leftTreeConfig: { // 左侧单位树配置
+      leftTreeConfig: {
+        // 左侧单位树配置
         showFilter: false, // 是否显示过滤
         isInitLoadData: false,
         scrollLoad: false, // 是否开启滚动加载
@@ -374,8 +424,7 @@ export default {
       treeLoadingState: false
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     async onImportClick() {
       if (!this.fileConfig?.file) {
@@ -384,7 +433,7 @@ export default {
       }
       this.$refs.ImportModel.disabled = true
       if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
-        await HttpModule.queryCompanyInfo(this.fileConfig).then(async res => {
+        await HttpModule.queryCompanyInfo(this.fileConfig).then(async (res) => {
           this.$refs.ImportModel.disabled = false
           if (res.rscode === '100000') {
             if (res.data && res.data.length > 0) {
@@ -407,9 +456,7 @@ export default {
           }
         })
       } else {
-        checkRscode(
-          await HttpModule.importPersonAndCompany(this.fileConfig)
-        )
+        checkRscode(await HttpModule.importPersonAndCompany(this.fileConfig))
         this.$refs.ImportModel.disabled = false
         this.$message.success('导入成功')
         this.dtos = []
@@ -434,12 +481,10 @@ export default {
           downloadFileName: '企业补贴发放明细表模板.xls'
         }
       }
-      const { localFileName, downloadFileName } = fileMap[this.fileConfig.fileType] || fileMap[1]
+      const { localFileName, downloadFileName } =
+        fileMap[this.fileConfig.fileType] || fileMap[1]
       console.log(window.location)
-      downloadByUrl(
-        `./static/files/${localFileName}`,
-        downloadFileName
-      )
+      downloadByUrl(`./static/files/${localFileName}`, downloadFileName)
     },
     triggerImportOption(config = {}) {
       // 触发导入
@@ -465,7 +510,20 @@ export default {
       }
       this.queryTableDatas()
     },
+    bsToolbarClickEventTop(obj) {
+      if (obj.code === '3') { // 实拨
+        this.importType = 2
+        this.refresh()
+        this.refresh1()
+      } else if (obj.code === '4') { // 集中支付
+        if (this.importType === '1') return
+        this.importType = '1'
+        this.refresh()
+        this.refresh1()
+      }
+    },
     bsToolbarClickEvent(obj, $this) {
+      console.log(obj)
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
         return
@@ -536,8 +594,11 @@ export default {
     getSearchDataList() {
       // 下拉树
       let searchDataObj = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''
           }
@@ -553,8 +614,11 @@ export default {
     getSearchDataList1() {
       // 下拉树
       let searchDataObj = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             searchDataObj[item.field + 'code'] = ''
           }
@@ -569,8 +633,11 @@ export default {
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+      this.queryConfig.forEach((item) => {
+        if (
+          item.itemRender.name === '$formTreeInput' ||
+          item.itemRender.name === '$vxeTree'
+        ) {
           if (item.field) {
             if (item.field === 'cor_bgt_doc_no_') {
               condition[item.field + 'name'] = []
@@ -620,7 +687,10 @@ export default {
     checkboxChange1(checked, row) {
       switch (this.toolBarStatusSelect.code) {
         case '1':
-          if (checked.selection.length !== 1 && checked.selection.length !== 0) {
+          if (
+            checked.selection.length !== 1 &&
+            checked.selection.length !== 0
+          ) {
             this.$message.info('请选择一条支付凭证信息进行匹配')
             break
           }
@@ -707,6 +777,7 @@ export default {
         case 'company-import':
           this.importModalVisible = true
           this.fileConfig = {
+            importType: this.importType,
             fileName: '',
             file: null,
             fileType: obj.code === 'person-import' ? '1' : '2'
@@ -717,7 +788,15 @@ export default {
       }
     },
     delete(datas) {
-      HttpModule.delete(datas).then(res => {
+      // HttpModule.delete(datas).then((res) => {
+      //   if (res.code === '000000') {
+      //     this.$message.success('删除成功')
+      //     this.queryTableDatas()
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeopleDelete, datas).then((res) => {
         if (res.code === '000000') {
           this.$message.success('删除成功')
           this.queryTableDatas()
@@ -730,9 +809,7 @@ export default {
       this.addDialogVisible = true
       this.dialogTitle = '修改'
     },
-    async importSuccessCallback(file) {
-
-    },
+    async importSuccessCallback(file) {},
     hook(datas1, datas2) {
       const param = {
         payCertNo: datas1.payCertNo,
@@ -740,7 +817,7 @@ export default {
         payCers: datas1,
         payCertId: datas2.payCertId
       }
-      HttpModule.update(param).then(res => {
+      HttpModule.update(param).then((res) => {
         if (res.code === '000000') {
           this.$message.success('挂接成功')
           this.queryTableDatas()
@@ -751,7 +828,32 @@ export default {
       })
     },
     notHook(datas2) {
-      HttpModule.notHookByInterFace(datas2).then(res => {
+      datas2 = datas2.map(item => {
+        return {
+          payCertNo: item.payCertNo
+        }
+      })
+      // HttpModule.notHook(datas2).then((res) => {
+      //   if (res.code === '000000') {
+      //     this.$message.success('取消成功')
+      //     this.proCode = ''
+      //     this.proName = ''
+      //     this.payCertNo = ''
+      //     this.amount = ''
+      //     this.payAmt = ''
+      //     this.mofdivName = ''
+      //     this.agencyName = ''
+      //     this.agencyCodeList = []
+      //     this.corBgtDocNoName = ''
+      //     this.useDes = ''
+      //     this.dtos = []
+      //     this.queryTableDatas()
+      //     this.queryTableDatas1()
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeopleNotHook, datas2).then((res) => {
         if (res.code === '000000') {
           this.$message.success('取消成功')
           this.proCode = ''
@@ -773,10 +875,9 @@ export default {
       })
     },
     read() {
-      const param = {
-      }
+      const param = {}
       this.tableLoading = true
-      HttpModule.addBenefitPeople(param).then(res => {
+      HttpModule.addBenefitPeople(param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('读取成功')
@@ -900,13 +1001,24 @@ export default {
         payAmt: this.payAmt,
         mofDivName: this.mofdivName,
         dtos: this.dtos,
-        roleId: this.roleId
+        roleId: this.roleId,
+        importType: this.importType
       }
       this.tableLoading1 = true
-      HttpModule.pageQuery(param).then(res => {
+      // HttpModule.pageQuery(param).then((res) => {
+      //   this.tableLoading1 = false
+      //   if (res.code === '000000') {
+      //     this.tableData = res.data.records
+      //     this.mainPagerConfig.total = res.data.totalCount
+      //     // this.tabStatusNumConfig['1'] = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeoplePageQuery, param).then((res) => {
         this.tableLoading1 = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
+          this.tableData = res.data.records
           this.mainPagerConfig.total = res.data.totalCount
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
@@ -930,10 +1042,20 @@ export default {
         roleId: this.roleId,
         mofDivName: this.mofdivName,
         dtos: this.dtos,
-        agencyCodeList: this.agencyCodeList
+        agencyCodeList: this.agencyCodeList,
+        importType: this.importType
       }
       this.tableLoading2 = true
-      HttpModule.pagePayQuery(param).then(res => {
+      // HttpModule.pagePayQuery(param).then((res) => {
+      //   this.tableLoading2 = false
+      //   if (res.code === '000000') {
+      //     this.tableData1 = res.data.results
+      //     this.mainPagerConfig1.total = res.data.totalCount
+      //   } else {
+      //     this.$message.error(res.result)
+      //   }
+      // })
+      post(BSURL.dfr_benefitPeoplePagePayQuery, param).then((res) => {
         this.tableLoading2 = false
         if (res.code === '000000') {
           this.tableData1 = res.data.results
@@ -979,7 +1101,7 @@ export default {
     },
     getLeftTreeData() {
       let that = this
-      this.offset = (that.treeCurrentPage - 1) * (this.treePageSize)
+      this.offset = (that.treeCurrentPage - 1) * this.treePageSize
       this.treeLoadingState = true
       let params = {
         elementcode: 'pro',
@@ -991,39 +1113,40 @@ export default {
       }
       this.wheresql && (params.wheresql = this.wheresql)
 
-      HttpModule.getTreeData1(params).then(res => {
-        // if (res.code === '000000') {
-        //   let treeResdata = res.data
-        //   treeResdata.forEach(item => {
-        //     item.label = item.code + '-' + item.name
-        //   })
-        //   const result = [
-        //     {
-        //       id: 'root',
-        //       label: '全部',
-        //       code: 'root',
-        //       isleaf: '0',
-        //       children: treeResdata
-        //     }
-        //   ]
-        //   that.treeData = result
-        //   that.proTotal = res.data.length
-        // } else {
-        //   this.$message.error('左侧树加载失败')
-        // }
-      }).finally(() => {
-        this.treeLoadingState = false
-      })
+      HttpModule.getTreeData1(params)
+        .then((res) => {
+          // if (res.code === '000000') {
+          //   let treeResdata = res.data
+          //   treeResdata.forEach(item => {
+          //     item.label = item.code + '-' + item.name
+          //   })
+          //   const result = [
+          //     {
+          //       id: 'root',
+          //       label: '全部',
+          //       code: 'root',
+          //       isleaf: '0',
+          //       children: treeResdata
+          //     }
+          //   ]
+          //   that.treeData = result
+          //   that.proTotal = res.data.length
+          // } else {
+          //   this.$message.error('左侧树加载失败')
+          // }
+        })
+        .finally(() => {
+          this.treeLoadingState = false
+        })
     },
     handleCurrentChange(val) {
       this.treeCurrentPage = val
       this.getLeftTreeData()
     },
-    handleSizeChange(val) {
-    },
+    handleSizeChange(val) {},
     getChildrenData(datas) {
       let that = this
-      datas.forEach(item => {
+      datas.forEach((item) => {
         item.label = item.text
         if (item.children) {
           that.getChildrenData(item.children)
@@ -1040,14 +1163,14 @@ export default {
         year: this.$store.state.userInfo.year,
         province: this.$store.state.userInfo.province
       }
-      HttpModule.getTreewhere(param).then(res => {
+      HttpModule.getTreewhere(param).then((res) => {
         let treeResdata = this.getChildrenNewData1(res.data)
         this.queryConfig1[2].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {
       let that = this
-      datas.forEach(item => {
+      datas.forEach((item) => {
         item.label = item.code + '-' + item.name
         if (item.children) {
           that.getChildrenNewData1(item.children)
@@ -1058,7 +1181,10 @@ export default {
     }
   },
   created() {
-    console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
+    console.log(
+      'this.$store.state.curNavModule',
+      this.$store.state.curNavModule
+    )
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
@@ -1076,29 +1202,62 @@ export default {
 .T-mainFormListLayout-modulebox .table-toolbar-left {
   font-size: 14px;
 }
-.Titans-table .table-toolbar-left .table-toolbar-left-title.left-title-clear-float {
+.Titans-table
+  .table-toolbar-left
+  .table-toolbar-left-title.left-title-clear-float {
   float: none;
   margin-bottom: 4px;
 }
-/deep/.T-search{
+/deep/.T-search {
   background-color: var(--hightlight-color) !important;
+}
+.m-right-content {
+  /deep/ .vxe-table {
+    border-left: 0px !important;
+  }
+  /deep/ .vxe-grid--toolbar-wrapper {
+    border-bottom: 0;
+    border-left: 0;
+  }
+  /deep/ .mmc-right {
+    border-top: 0px solid !important;
+    padding: 0 !important;
+  }
+  /deep/ .mmc-formlist {
+    border-bottom: 0;
+  }
+}
+.m-left-content {
+  /deep/ .vxe-table {
+    border-left: 0px !important;
+  }
+  /deep/ .vxe-grid--toolbar-wrapper {
+    border-bottom: 0;
+    border-left: 0;
+  }
+  /deep/ .mmc-right {
+    border-top: 0px solid !important;
+    padding: 0 !important;
+  }
+  /deep/ .mmc-formlist {
+    border-bottom: 0;
+  }
 }
 </style>
 <style scoped>
-.radio-right{
+.radio-right {
   float: right;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-yellow {
+.Titans-table ::v-deep .vxe-body--row.row-yellow {
   background-color: yellow;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-blue {
+.Titans-table ::v-deep .vxe-body--row.row-blue {
   background-color: blue;
   color: #fff;
 }
-.Titans-table ::v-deep  .vxe-body--row.row-red {
+.Titans-table ::v-deep .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
 }
-
 </style>

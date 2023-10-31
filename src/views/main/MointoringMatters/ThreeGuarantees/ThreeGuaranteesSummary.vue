@@ -202,7 +202,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
+      tableColumnsConfig: proconf.PoliciesTableColumns(this),
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -568,7 +568,9 @@ export default {
           } else {
             this.$refs.ThreeGuaranteesSummaryModal.clickType = 'region'
           }
-          this.$refs.ThreeGuaranteesSummaryModal.tableType = obj.column.own.tableType
+          this.$refs.ThreeGuaranteesSummaryModal.clickColumnsInfo = obj.column.own
+          this.$refs.ThreeGuaranteesSummaryModal.parentQueryData = this.searchDataList
+          this.$refs.ThreeGuaranteesSummaryModal.clickRowInfo = obj.row
           this.$refs.ThreeGuaranteesSummaryModal.dialogVisible = true
           this.$refs.ThreeGuaranteesSummaryModal.init()
         })

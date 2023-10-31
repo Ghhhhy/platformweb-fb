@@ -187,5 +187,14 @@ export default [
       import(
         '@/views/main/bgtDataQuery/bgtDataQuery.vue'
       )
+  },
+  {
+    path: '/FanRuanReport',
+    name: 'FanRuanReport',
+    meta: {
+      keepAlive: false,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/FanRuanReport/FjPrintPreviewMultiply.vue')
   }
 ]

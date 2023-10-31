@@ -301,6 +301,7 @@ export default {
   },
   data() {
     return {
+      functionParameter: '',
       checkboxConfig: {
         checkAll: true
       },
@@ -647,7 +648,7 @@ export default {
         manageMofCodes: this.manageMofCodes,
         mofDivCodes: [],
         menuId: this.$store.state.curNavModule.guid,
-        flowStatus: ''
+        flowStatus: '5'
       }
       this.addLoading = true
       HttpModule1.queryTableDatas(param).then(res => {

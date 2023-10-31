@@ -560,6 +560,7 @@ export default {
           isCz: this.detailQueryParam.isCz,
           condition: this.detailQueryParam.condition,
           mofDivCode: this.detailQueryParam.mofDivCode,
+          endTime: this.detailQueryParam.endTime,
           fiscalYear: this.$parent.fiscalYear,
           bgtId: row.bgtId
         }

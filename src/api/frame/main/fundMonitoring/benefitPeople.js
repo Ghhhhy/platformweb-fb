@@ -49,7 +49,7 @@ export default {
   },
   // 到人到户导入 | 企业补贴导入
   importPersonAndCompany (params) {
-    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/savePayDetailExcel', params)
+    return postFormData('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/importPayDetailExcel ', params)
   },
   // 到人到户导入 | 企业补贴导入
   queryCompanyInfo (params) {

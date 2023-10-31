@@ -1,10 +1,10 @@
 <!--监控事项批复新增页面弹框-->
 <template>
   <vxe-modal
-    v-model="lookdialogVisible"
-    title="查看"
-    width="70%"
-    height="60%"
+    v-model="dialogVisible"
+    :title="title"
+    width="85%"
+    height="80%"
     :show-footer="true"
     @close="dialogClose"
   >
@@ -16,7 +16,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;申报名称</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;申报名称</div>
                     <el-input
                       v-model="declareName"
                       :disabled="edit"
@@ -31,8 +31,29 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;政策法规名称</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;政策法规名称</div>
+                    <vxe-tooltip
+                      v-if="regulationsNameTips"
+                      effect="dark"
+                      :content="regulationsNameTips"
+                      placement="top-center"
+                    >
+                      <el-select
+                        v-model="regulationsCode"
+                        :disabled="edit"
+                        placeholder="请选择政策法规名称"
+                        style="width:45%"
+                      >
+                        <el-option
+                          v-for="item in regulationsCodeoptions"
+                          :key="item.regulationsCode"
+                          :label="item.regulationsName"
+                          :value="item.regulationsCode"
+                        />
+                      </el-select>
+                    </vxe-tooltip>
                     <el-select
+                      v-else
                       v-model="regulationsCode"
                       :disabled="edit"
                       placeholder="请选择政策法规名称"
@@ -55,8 +76,23 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;申报事项</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;申报事项</div>
+                    <vxe-tooltip
+                      v-if="declareMatter"
+                      effect="dark"
+                      :content="declareMatter"
+                      placement="top-center"
+                    >
+                      <el-input
+                        v-model="declareMatter"
+                        type="textarea"
+                        :disabled="edit"
+                        placeholder="请输入申报事项"
+                        style=" width:45%"
+                      />
+                    </vxe-tooltip>
                     <el-input
+                      v-else
                       v-model="declareMatter"
                       type="textarea"
                       :disabled="edit"
@@ -72,7 +108,22 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;申报目的</div>
+                    <vxe-tooltip
+                      v-if="declareTarget"
+                      effect="dark"
+                      :content="declareTarget"
+                      placement="top-center"
+                    >
+                      <el-input
+                        v-model="declareTarget"
+                        type="textarea"
+                        :disabled="edit"
+                        placeholder="请输入申报目的"
+                        style="width:45%"
+                      />
+                    </vxe-tooltip>
                     <el-input
+                      v-else
                       v-model="declareTarget"
                       type="textarea"
                       :disabled="edit"
@@ -90,7 +141,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;申报人电话</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;申报人电话</div>
                     <el-input
                       v-model="declarePersonTel"
                       :disabled="edit"
@@ -105,7 +156,32 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;{{ $store.getters.state.budgetlevelcode === '4' ? '省' : '' }}监控机构审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;财政审核意见</div>
+                    <el-select
+                      v-model="financeFlowOpinion"
+                      placeholder="财政审核意见"
+                      :disabled="edit"
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in financeFlowOpinions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
+          <el-row />
+          <el-row>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;监控机构审核意见</div>
                     <el-select
                       v-model="monitorFlowOpinion"
                       placeholder="监控机构审核意见"
@@ -127,7 +203,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;区本级审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;区县监控机构审核意见</div>
                     <el-input
                       v-model="flowOptionByQu"
                       :disabled="edit"
@@ -155,7 +231,7 @@
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;市本级审核意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;市本级监控机构审核意见</div>
                     <el-input
                       v-model="flowOptionByShi"
                       :disabled="edit"
@@ -179,66 +255,16 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
-          <!--<el-row>
-            <el-col :span="24">
+            <el-col :span="12">
               <el-container>
                 <el-main width="100%">
                   <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;财政审核意见</div>
-                    <el-select
-                      v-model="financeFlowOpinion"
-                      placeholder="财政审核意见"
-                      :disabled="edit"
-                      style="width:45%"
-                    >
-                      <el-option
-                        v-for="item in financeFlowOpinions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;监控机构审核意见</div>
-                    <el-select
-                      v-model="monitorFlowOpinion"
-                      placeholder="监控机构审核意见"
-                      :disabled="edit"
-                      style="width:45%"
-                    >
-                      <el-option
-                        v-for="item in monitorFlowOpinions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      />
-                    </el-select>
-                  </el-row>
-                </el-main>
-              </el-container>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-container>
-                <el-main width="100%">
-                  <el-row>
-                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">&nbsp;监控系统管理员批复意见</div>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控系统管理员批复结果</div>
                     <el-select
                       v-model="replyFlowOpinion"
-                      :disabled="edit"
-                      placeholder="监控系统管理员批复意见"
+                      placeholder="监控系统管理员批复结果"
                       style="width:45%"
+                      @change="changeFlow"
                     >
                       <el-option
                         v-for="item in replyFlowOpinions"
@@ -251,7 +277,23 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>-->
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;监控系统管理员批复意见</div>
+                    <el-input
+                      v-model="replyFlowOpinion1"
+                      placeholder="请输入监控系统管理员批复意见"
+                      style="width:45%"
+                    />
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -261,8 +303,9 @@
       <div type="flex" justify="space-around">
         <div>
           <!--附件预览-->
-          <vxe-button id="savebutton" status="primary" @click="showAttachmentMask">附件预览</vxe-button>
-          <vxe-button @click="dialogClose">确定</vxe-button>
+          <vxe-button id="savebutton" @click="showAttachmentMask">附件预览</vxe-button>
+          <vxe-button @click="dialogClose">取消</vxe-button>
+          <vxe-button id="savebutton" status="primary" @click="doInsert">{{ buttonName }}</vxe-button>
         </div>
       </div>
     </div>
@@ -277,9 +320,21 @@ export default {
   computed: {
     curNavModule() {
       return this.$store.state.curNavModule
+    },
+    regulationsNameTips() {
+      const current = this.regulationsCodeoptions
+        ?.filter(item => this.regulationsCode?.includes(item.regulationsCode))
+        ?.map(item => item.regulationsName)
+        ?.join(',')
+      const noMatched = Array.isArray(this.regulationsCode) ? this.regulationsCode.join(',') : this.regulationsCode
+      return current || noMatched
     }
   },
   props: {
+    title: {
+      type: String,
+      default: ''
+    },
     declareCode: {
       type: String,
       default: ''
@@ -288,9 +343,10 @@ export default {
   data() {
     return {
       edit: true,
-      replyFlowOpinion: '',
+      replyFlowOpinion1: '',
       flowOptionByShi: '',
       flowOptionByQu: '',
+      replyFlowOpinion: '',
       replyFlowOpinions: [
         { value: '批复通过', label: '批复通过' },
         { value: '退回修改', label: '退回修改' }
@@ -311,7 +367,7 @@ export default {
       regulationsCodeoptions: [],
       declareName: '',
       declareMatter: '',
-      lookdialogVisible: true,
+      dialogVisible: true,
       addLoading: false,
       token: '',
       isContinuity: false,
@@ -320,7 +376,8 @@ export default {
       fileData: [],
       fileDataBakDel: [],
       attachmentId: '',
-      showbox: false
+      showbox: false,
+      buttonName: '批复'
     }
   },
   methods: {
@@ -329,7 +386,7 @@ export default {
       this.$parent.showAttachment1(this.declareCode)
     },
     dialogClose() {
-      this.$parent.lookdialogVisible = false
+      this.$parent.dialogVisible = false
       this.$parent.queryTableDatas()
     },
     // 政策法规编码
@@ -339,6 +396,14 @@ export default {
           this.regulationsCodeoptions = res.data.results
         }
       })
+    },
+    changeFlow(val) {
+      console.log(val)
+      if (val === '退回修改') {
+        this.buttonName = '退回'
+      } else {
+        this.buttonName = '批复'
+      }
     },
     // 修改回显
     showInfo() {
@@ -356,13 +421,63 @@ export default {
           this.regulationsCode = res.data.regulationsCode.toString()
           this.financeFlowOpinion = res.data.financeFlowOpinion
           this.monitorFlowOpinion = res.data.monitorFlowOpinion
-          this.replyFlowOpinion = res.data.replyFlowOpinion
+          this.replyFlowOpinion1 = res.data.replyFlowOpinion
           this.flowOptionByQu = res.data.flowOptionByQu
           this.flowOptionByShi = res.data.flowOptionByShi
         } else {
           this.$message.error(res.message)
         }
       })
+    },
+    // 批复
+    doInsert() {
+      if (this.replyFlowOpinion === '') {
+        this.$message.warning('请选择监控系统管理员批复结果')
+        return
+      }
+      if (this.replyFlowOpinion1 === '' || this.replyFlowOpinion1 === null) {
+        this.$message.warning('请输入监控系统管理员批复意见')
+        return
+      }
+      let declareCodes = []
+      declareCodes.push(this.declareCode)
+      let param = {
+        'declareCodes': declareCodes,
+        'flowOperation': 3,
+        'flowOpinion': this.replyFlowOpinion1,
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name
+      }
+      if (this.replyFlowOpinion === '批复通过') {
+        this.addLoading = true
+        HttpModule.flow(param).then(res => {
+          this.addLoading = false
+          if (res.code === '000000') {
+            this.$message.success('批复成功')
+            this.$parent.dialogVisible = false
+            this.$parent.queryTableDatas()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        const params = {
+          menuId: this.$store.state.curNavModule.guid,
+          declareCodes: declareCodes,
+          flowOpinion: this.replyFlowOpinion1,
+          menuName: this.$store.state.curNavModule.name
+        }
+        HttpModule.flowBack(params).then(res => {
+          if (res.code === '000000') {
+            this.$message.success('退回成功')
+            this.$parent.dialogVisible = false
+            this.$parent.queryTableDatas()
+            this.$parent.queryTableDatasCount()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
     }
   },
   watch: {

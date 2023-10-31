@@ -22,7 +22,7 @@
             :query-form-data="searchDataList"
             @onSearchClick="search"
           >
-            <template v-if="!isSx" #action-button-before>
+            <template #action-button-before>
               <vxe-button size="medium" status="primary" @click="onSearchClick">搜索</vxe-button>
               <vxe-button size="medium" status="primary" @click="onSearchResetClick">重置</vxe-button>
             </template>
@@ -33,7 +33,7 @@
         <BsTreeSet
           ref="treeSet"
           v-model="leftTreeVisible"
-          :tree-config="false"
+          :tree-config="{}"
           @onChangeInput="changeInput"
           @onAsideChange="asideChange"
           @onConfrimData="treeSetConfrimData"
@@ -599,7 +599,7 @@ export default {
       let queryObj = {
         payAppNumber: this.$refs.queryFrom.getFormData().payAppNumber,
         // year: this.$refs.queryFrom.year,
-        agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
+        // agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
         proName: this.$refs.queryFrom.getFormData().proName,
         useDes: this.$refs.queryFrom.getFormData().useDes,
         payAcctName: this.$refs.queryFrom.getFormData().payAcctName,
@@ -619,7 +619,7 @@ export default {
         // payeeAcctName: this.payeeAcctName,
         fiscalYear: this.$refs.queryFrom.getFormData().year,
         // setModeName: this.setModeName,
-        // agencyCode: this.agencyCode,
+        agencyCode: this.agencyCode,
         mofDivCodeList: this.codeList,
         proCodes: this.proCodes === '' ? [] : this.getTrees(this.proCodes),
         ...queryObj

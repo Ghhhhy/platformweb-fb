@@ -167,6 +167,17 @@ export let proconf = {
       cellRender: {
         name: '$vxeMoney'
       }
+    },
+    {
+      title: '直达资金标识',
+      width: 180,
+      field: 'directFlagCode',
+      sortable: false,
+      filters: false,
+      align: 'right',
+      formatter({ row }) {
+        return row.directFlagCode === '01' ? '是' : '否'
+      }
     }
   ]
 }

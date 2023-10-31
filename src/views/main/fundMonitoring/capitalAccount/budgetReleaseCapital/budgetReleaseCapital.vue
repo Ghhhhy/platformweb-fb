@@ -813,7 +813,7 @@ export default {
           reportCode: 'zyhdfysxd_fzjzd',
           fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-          mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
+          mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
         }
         this.isFlush && (param.isFlush = true)
         this.tableLoading = true

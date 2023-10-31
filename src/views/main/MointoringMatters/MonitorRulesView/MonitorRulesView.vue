@@ -21,6 +21,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="(obj) => { mainPagerConfig.currentPage = 1,search(obj) }"
+            @onSearchResetClick="onSearchResetClick"
           />
         </div>
       </template>
@@ -380,6 +381,21 @@ export default {
       //   this.warningLevel = '2'
       //   obj.data.warningLevel = '2'
       // }
+    },
+    onSearchResetClick() {
+      this.warningLevel = ''
+      this.handleType = ''
+      this.regulationName = ''
+      this.isSpeType = ''
+      this.regulationType = ''
+      this.regulationModelName = ''
+      this.isEnable = ''
+      this.triggerClass = ''
+      this.fiRuleTypeCode = ''
+      this.isDir = ''
+      this.$refs.leftTree.treeOptionFn().setCurrentKey(null)
+      this.leftTreeClickNode = {}
+      this.queryTableDatas()
     },
     search(obj) {
       console.log(obj)
@@ -811,6 +827,10 @@ export default {
           param.regulationClass = this.regulationClass
           param.code = this.regulationClass
         }
+        // 监控中台模板规则库 点击左侧树接口传参错误 为了不影响其他功能 用此判断
+        if (this.$route.name === 'MonitorRulesView' && this.treeType === '2') {
+          param.regulationClass = this.leftTreeClickNode.code
+        }
       } else {
         if (this.treeType === '1') {
           delete param.regulation_code
@@ -1004,6 +1024,8 @@ export default {
     this.initRegulationClass()
     if (routeNameLsit.includes(this.$route.name)) { // 直达资金下面的菜单 左侧树变成预警级别
       this.treeData = this.$store.state.warnInfo.warnLevelOptions
+      this.leftTreeConfig.treeProps.nodeKey = 'value'
+      this.queryConfig = proconf.highQueryConfig.filter(item => item.field !== 'warningLevel')
       return
     }
     this.setMonitorThemeTreeShow()

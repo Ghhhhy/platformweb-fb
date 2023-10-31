@@ -177,6 +177,30 @@ export let proconf = {
       }
     }
   ],
+  statusButtonsTop: [
+    {
+      code: '4',
+      label: '集中支付',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '4'
+    },
+    {
+      code: '3',
+      label: '实拨',
+      iconName: 'base-all.png',
+      iconNameActive: 'base-all-active.png',
+      type: 'button',
+      curValue: '3'
+    }
+  ],
+  curStatusButtonTop: {
+    label: '集中支付',
+    code: '4',
+    type: 'button',
+    curValue: '4'
+  },
   statusButtons: [
     {
       code: '1',
@@ -267,7 +291,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
+      cellRender: { name: '$vxeMoney' },
+      combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
     },
     // {
     //   title: '项目代码',
@@ -444,7 +469,8 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      cellRender: { name: '$vxeMoney' }
+      cellRender: { name: '$vxeMoney' },
+      combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
     },
     {
       title: '支付凭证号',

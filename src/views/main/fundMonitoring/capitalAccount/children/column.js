@@ -1990,61 +1990,71 @@ if (store.getters.isSx) {
         title: '预算单位',
         field: 'agencyName',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '项目名称',
         field: 'proName',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '指标文号',
         field: 'corBgtDocNoName',
         sortable: false,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '用途',
         field: 'useDes',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '支付申请单号',
         field: 'payAppNo',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '付款方账户名称',
         field: 'payAcctName',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '付款方账号',
         field: 'payAcctNo',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '收款方账户名称',
         field: 'payeeAcctName',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '收款方账号',
         field: 'payeeAcctNo',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       },
       {
         title: '支付金额',
         field: 'payAppAmt',
         sortable: true,
         align: 'right',
+        width: 150,
         combinedType: [
           'average',
           'subTotal',
@@ -2057,7 +2067,8 @@ if (store.getters.isSx) {
         title: '付款日期',
         field: 'xpayDate',
         sortable: true,
-        align: 'center'
+        align: 'center',
+        width: 150
       }
     ],
     // 项目明细

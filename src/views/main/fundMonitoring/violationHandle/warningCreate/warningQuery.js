@@ -785,6 +785,9 @@ const proconf = {
     tableData: []
   }
 }
+export {
+  proconf
+}
 export default function (tableType, configType) {
   if (tableType && configType) {
     return window.deepCopy(proconf[tableType][configType])

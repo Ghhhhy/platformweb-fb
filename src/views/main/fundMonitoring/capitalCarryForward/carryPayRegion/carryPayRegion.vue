@@ -445,6 +445,19 @@ export default {
         }
       })
     },
+    queryCaliberDeclareContent(val) {
+      const param = {
+        reportCode: 'jzzjzc_fdq'
+      }
+      this.tableLoading = true
+      HttpModule.queryCaliberDeclareContent(param).then((res) => {
+        if (res.code === '000000') {
+          this.caliberDeclareContent = res.data || ''
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     getTrees(val) {
       if (val === undefined) {
         return
@@ -470,6 +483,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.queryTableDatas(false)
+    if (this.$store.getters.isSx) {
+      this.queryCaliberDeclareContent()
+    }
     this.getPro()
   }
 }

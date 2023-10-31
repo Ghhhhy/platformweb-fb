@@ -566,7 +566,7 @@ export default {
           }
         }
         let condition = ''
-        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity || this.transJson2(this.params5 || '')?.projectCode === 'SH') {
+        if (this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity) {
           switch (column) {
             case 'amountSnjwfp':
             case 'amountSnjxd':
@@ -587,29 +587,6 @@ export default {
             case 'amountXjwfp':
             case 'amountXjfp':
               condition = ' substr(mof_div_code,7,3) <> \'000\' '
-              break
-          }
-        } else if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-          switch (column) {
-            case 'amountSnjwfp':
-            case 'amountSnjxd':
-            case 'amountSnjpay':
-            case 'amountSnjbjfp':
-            case 'amountSnjxjfp':
-              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
-              break
-            case 'amountSjxd':
-            case 'amountSjpay':
-            case 'amountSjwfp':
-            case 'amountSbjfp':
-            case 'amountSxjfp':
-              condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
-              break
-            case 'amountXjxd':
-            case 'amountXjpay':
-            case 'amountXjwfp':
-            case 'amountXjfp':
-              condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
               break
           }
         } else {
@@ -637,6 +614,29 @@ export default {
               break
           }
         }
+        switch (column) {
+          // 支出明细
+          case 'amountSnjwfp':
+          case 'amountSnjxd':
+          case 'amountSnjpay':
+          case 'amountSnjbjfp':
+          case 'amountSnjxjfp':
+            condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+            break
+          case 'amountSjxd':
+          case 'amountSjpay':
+          case 'amountSjwfp':
+          case 'amountSbjfp':
+          case 'amountSxjfp':
+            condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+            break
+          case 'amountXjxd':
+          case 'amountXjpay':
+          case 'amountXjwfp':
+          case 'amountXjfp':
+            condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+            break
+        }
         let isBj = ''
         switch (column) {
           case 'amountSnjbjfp':
@@ -652,7 +652,7 @@ export default {
             break
         }
         let isCz = ''
-        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
           isCz = '2'
         } else {
           isCz = '1'
@@ -677,16 +677,6 @@ export default {
         }
         this.detailType = reportCode
         this.detailVisible = true
-      // this.tableLoading = true
-      // HttpModule.queryTableDatas(params).then((res) => {
-      //   this.tableLoading = false
-      //   if (res.code === '000000') {
-      //     this.detailData = res.data
-      //     this.detailType = type
-      //   } else {
-      //     this.$message.error(res.message)
-      //   }
-      // })
       } else {
         let that = this
         // 拿到那些可以进行超链接的表格行
@@ -819,7 +809,7 @@ export default {
             break
         }
         let isCz = ''
-        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
           isCz = '2'
         } else {
           isCz = '1'
@@ -876,7 +866,7 @@ export default {
         xmSource = 'zxjdxmmx_fzj'
         zcSource = 'zxjdzcmx_fzj'
       }
-      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, obj.column, obj.row)) {
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
         return
       }
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -1072,7 +1062,7 @@ export default {
         const validCellValue = (row[column.property] * 1)
         if (!validCellValue) return
       }
-      if (hideColumnLinkStr.hideCellCell && this.cellHide(hideColumnLinkStr.hideCellCell, column, row)) {
+      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) {
         return
       }
       const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
@@ -1097,7 +1087,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')

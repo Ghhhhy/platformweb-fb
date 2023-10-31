@@ -1,4 +1,5 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+import { proconf as warningQuery } from '@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.js'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -751,6 +752,10 @@ const proconf = {
     ],
     tableData: []
   }
+}
+if (store.getters.isNeiMeng) { // 内蒙要求 [直达资金监控处理单查询] 查询条件和 [直达资金监控处理单查询(全辖)] 相同
+  proconf.highQueryConfig = warningQuery.highQueryConfig
+  proconf.highQueryData = warningQuery.highQueryData
 }
 export default function (tableType, configType) {
   if (tableType && configType) {

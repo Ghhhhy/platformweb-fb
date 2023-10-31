@@ -29,7 +29,9 @@ export const state = { // 实时监听state值的变化(最新状态)
     { warningLabel: '蓝色预警', color: '#0000ff', colorStyle: 'color: #0000ff;' }
   ],
   rankingModalVisible: true, // 直达资金收支进度排行弹窗
-  escalationModalVisible: false // 财政上报提醒弹窗
+  escalationModalVisible: false, // 财政上报提醒弹窗
+  monitorWarningModalVisible: false, // 预警信息发送
+  hasQueryMonitorWarningModalVisible: false
 }
 export const getters = {
   dict() { // 预警级别option
@@ -44,6 +46,14 @@ export const getters = {
   isFuJian() { // 判断是不是福建项目
     const province = state.userInfo.province
     return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目
+  },
+  isNeiMeng() { // 判断是不是内蒙项目
+    return state.userInfo.province.slice(0, 2) === '15'
+  },
+  isSx() { // 判断是否是陕西项目
+    return state.projectList.some(item => {
+      return item.configKey === 'sx' && item.configValue === 'true'
+    })
   },
   treeQueryparamsCom() {
     let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
@@ -68,11 +78,6 @@ export const getters = {
       obj.wheresql = 'and code like \'' + state.userInfo.province.slice(0, 2) + '%\''
     }
     return obj
-  },
-  isSx() { // 判断是否是陕西项目
-    return state.projectList.some(item => {
-      return item.configKey === 'sx' && item.configValue === 'true'
-    })
   },
   isloading(state) { // 承载变化的login的值.  //.$store.getters.isloading
     return state.loading
@@ -198,6 +203,12 @@ export const mutations = {
   },
   setEscalationModalVisible(state, visible = false) {
     state.escalationModalVisible = visible
+  },
+  setMonitorWarningModalVisible(state, visible = false) {
+    state.monitorWarningModalVisible = visible
+  },
+  setHasQueryMonitorWarningModalVisible(state) {
+    state.hasQueryMonitorWarningModalVisible = true
   }
 }
 export const actions = {

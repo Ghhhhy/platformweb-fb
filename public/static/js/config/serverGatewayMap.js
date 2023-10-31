@@ -31,6 +31,7 @@ window.gloableToolFn = {
       // 'mp-d-aggregation-service': '/api/mp-d-aggregation-service',
       // --------------------------- 文件相关服务 --------------------------------//
       fileservice: '/apaas/api/fileservice/',
+      reportServiceProxy: '/reportService/',
       filePreviewService: '/apaas/api/filePreviewService/',
       // --------------------------- 后台服务 -----------------------------------//
       'large-monitor-platform': '',
@@ -77,6 +78,8 @@ window.gloableToolFn = {
   },
   // 是否开启水印
   enableWaterMark: false,
+  // behaviorcollector-开启行为采集
+  openBehaviorcollector: true,
   getReportUrl: () => reportService,
   getIssueUrl: 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html',
   getBbsUrl: 'https://yth.czj.sh.cegn.cn/shbbs/',

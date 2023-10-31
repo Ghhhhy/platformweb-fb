@@ -1,12 +1,14 @@
 // import store from '@/store/index'
-/* eslint-disable */
 import moment from 'moment'
 import Vue from 'vue'
+/* eslint-disable-next-line */
 const h = new Vue().$createElement
-const timeSeqProcess = parseFloat(((moment().month()+1)/12).toFixed(3))*100 //moment获取的月份序号(0-11)
-const warningCell = (process,row) => {
-  let  newPre=process
-  if(typeof process==='string')  newPre=Number(process.replace("%",''))
+const warningCell = (process, ctx) => {
+  let newPre = process
+  const getCurDays = ctx.searchDataList.endTime || moment()
+  const getCurMonth = moment(getCurDays).month()
+  let timeSeqProcess = parseFloat(((getCurMonth + 1) / 12).toFixed(3)) * 100 // moment获取的月份序号(0-11)
+  if (typeof process === 'string') newPre = Number(process.replace('%', ''))
   if (timeSeqProcess <= newPre) {
     return {
       label: '正常进度',
@@ -24,8 +26,8 @@ const warningCell = (process,row) => {
     }
   }
   return {
-    label:'-',
-    color:'#000000'
+    label: '-',
+    color: '#000000'
   }
 }
 export let proconf = {
@@ -74,7 +76,7 @@ export let proconf = {
   highQueryData: {
     endTime: ''
   },
-  PoliciesTableColumns: [
+  PoliciesTableColumns: (ctx) => [
     // {
     //   title: '区划编码',
     //   field: 'mofDivCode',
@@ -86,7 +88,7 @@ export let proconf = {
       treeNode: true,
       align: 'left',
       width: 260,
-      fixed:'left',
+      fixed: 'left',
       field: 'mofDivName',
       filters: false
     },
@@ -98,12 +100,12 @@ export let proconf = {
         {
           title: '预算数',
           field: 'total_yss',
-          tableType:'bgt',
+          tableType: 'bgt',
           width: 200,
           align: 'right',
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           filters: false,
-          canInsert:true,
+          canInsert: true,
           cellRender: {
             name: '$vxeMoney'
           },
@@ -112,12 +114,12 @@ export let proconf = {
         {
           title: '支出数',
           field: 'total_zcs',
-          tableType:'pay',
+          tableType: 'pay',
           width: 200,
           align: 'right',
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           filters: false,
-          canInsert:true,
+          canInsert: true,
           cellRender: {
             name: '$vxeMoney'
           },
@@ -144,10 +146,11 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeBgz',
-          tableType:'bgt',
+          tableType: 'bgt',
           width: 200,
           align: 'right',
-          canInsert:true,
+          canInsert: true,
+          threesafe_symbolcat_code: '003001',
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -157,10 +160,11 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeBgz',
-          tableType:'pay',
+          tableType: 'pay',
           width: 200,
           align: 'right',
-          canInsert:true,
+          threesafe_symbolcat_code: '003001',
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -189,21 +193,21 @@ export let proconf = {
             name: '$vxeInput'
           },
           formatter({ row }) {
-            return warningCell(row.bgz_zxjd).label
+            return warningCell(row.bgz_zxjd, ctx).label
           },
           slots: {
             default({ row }) {
               return [
-                <div style={{backgroundColor:warningCell(row.bgz_zxjd).color,height:"98%"}}>{warningCell(row.bgz_zxjd).label}</div>
+                <div style={{ backgroundColor: warningCell(row.bgz_zxjd, ctx).color, height: '98%' }}>{warningCell(row.bgz_zxjd, ctx).label}</div>
               ]
             }
           },
           exportFormatter: true,
-          customerExportStyle:({row})=>{
+          customerExportStyle: ({ row }) => {
             return {
-              fill:{
+              fill: {
                 bgColor: 'ffffffff',
-                fgColor: `ff${warningCell(row.bgz_zxjd).color.replace('#','')}`,
+                fgColor: `ff${warningCell(row.bgz_zxjd, ctx).color.replace('#', '')}`,
                 patternType: 'solid'
               }
             }
@@ -219,10 +223,11 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeByz',
-          tableType:'bgt',
+          tableType: 'bgt',
+          threesafe_symbolcat_code: '003002',
           width: 200,
           align: 'right',
-          canInsert:true,
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -232,10 +237,11 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeByz',
-          tableType:'pay',
+          tableType: 'pay',
+          threesafe_symbolcat_code: '003002',
           width: 200,
           align: 'right',
-          canInsert:true,
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -253,37 +259,37 @@ export let proconf = {
             name: '$vxeRatio'
           },
           formula: '({sbZbjeByz}-0==0)?0:(Math.round({sbZxjeByz}/{sbZbjeByz}*100*10)/10)'
-        },
-      //   {
-      //     title: '预警',
-      //     field: 'byz_yj',
-      //     width: 200,
-      //     align: 'center',
-      //     filters: false,
-      //     cellRender: {
-      //       name: '$vxeInput'
-      //     },
-      //     formatter({ row }) {
-      //       return warningCell(row.byz_zxjd).label
-      //     },
-      //     slots: {
-      //       default({ row }) {
-      //         return [
-      //           <div style={{backgroundColor:warningCell(row.byz_zxjd).color,height:"98%"}}>{warningCell(row.byz_zxjd).label}</div>
-      //         ]
-      //       }
-      //     },
-      //     exportFormatter: true,
-      //     customerExportStyle:({row})=>{
-      //       return {
-      //         fill:{
-      //           bgColor: 'ffffffff',//背景色
-      //           fgColor: `ff${warningCell(row.byz_zxjd).color.replace('#','')}`,//前景色
-      //           patternType: 'solid'//设置填充时的图案样式
-      //         }
-      //       }
-      //     }
-      //   }
+        }
+        //   {
+        //     title: '预警',
+        //     field: 'byz_yj',
+        //     width: 200,
+        //     align: 'center',
+        //     filters: false,
+        //     cellRender: {
+        //       name: '$vxeInput'
+        //     },
+        //     formatter({ row }) {
+        //       return warningCell(row.byz_zxjd).label
+        //     },
+        //     slots: {
+        //       default({ row }) {
+        //         return [
+        //           <div style={{backgroundColor:warningCell(row.byz_zxjd).color,height:"98%"}}>{warningCell(row.byz_zxjd).label}</div>
+        //         ]
+        //       }
+        //     },
+        //     exportFormatter: true,
+        //     customerExportStyle:({row})=>{
+        //       return {
+        //         fill:{
+        //           bgColor: 'ffffffff',//背景色
+        //           fgColor: `ff${warningCell(row.byz_zxjd).color.replace('#','')}`,//前景色
+        //           patternType: 'solid'//设置填充时的图案样式
+        //         }
+        //       }
+        //     }
+        //   }
       ]
     },
     {
@@ -294,10 +300,11 @@ export let proconf = {
         {
           title: '预算数',
           field: 'sbZbjeBjbms',
-          tableType:'bgt',
+          tableType: 'bgt',
           width: 200,
+          threesafe_symbolcat_code: '003003',
           align: 'right',
-          canInsert:true,
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -307,10 +314,11 @@ export let proconf = {
         {
           title: '支出数',
           field: 'sbZxjeBjbms',
-          tableType:'pay',
+          tableType: 'pay',
+          threesafe_symbolcat_code: '003003',
           width: 200,
           align: 'right',
-          canInsert:true,
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -327,7 +335,7 @@ export let proconf = {
             name: '$vxeRatio'
           },
           formula: '({sbZbjeBjbms}-0==0)?0:(Math.round({sbZxjeBjbms}/{sbZbjeBjbms}*100*10)/10)'
-        },
+        }
         // {
         //   title: '预警',
         //   field: 'bms_yj',
