@@ -461,6 +461,8 @@ export default {
         this.$message.success('导入成功')
         this.dtos = []
         this.importModalVisible = false
+        this.refresh()
+        this.refresh1()
       }
     },
     async onImportFileClick() {
