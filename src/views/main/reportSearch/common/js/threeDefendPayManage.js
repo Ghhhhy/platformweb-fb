@@ -27,7 +27,7 @@ const proconf = {
   highQueryConfig: [
     {
       title: '区划',
-      field: 'nm-agencyCode',
+      field: 'mofDivCode',
       align: 'left',
       name: '$vxeTree',
       itemRender: {
@@ -46,7 +46,7 @@ const proconf = {
               labelFormat: '{code}-{name}'
             },
             placeholder: '请选择区划',
-            multiple: false,
+            multiple: true,
             isleaf: false,
             axiosConfig: {
               method: 'post',
@@ -63,7 +63,7 @@ const proconf = {
     },
     {
       title: '级次',
-      field: 'nm-levels',
+      field: 'levels',
       width: '8',
       align: 'left',
       formula: '',
@@ -82,8 +82,8 @@ const proconf = {
       }
     },
     {
-      'title': '当年当月累计最小收入',
-      'field': 'nm-amountSnjzhje1',
+      'title': '当年累计预算执行最小进度（三保）',
+      'field': 'minBudgetProgress',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -93,7 +93,7 @@ const proconf = {
         'options': [],
         'defaultValue': '',
         'props': {
-          'placeholder': '当年当月累计最小收入'
+          'placeholder': '当年累计预算执行最小进度（三保）'
         }
       },
       'fixed': '',
@@ -105,8 +105,8 @@ const proconf = {
       'className': ''
     },
     {
-      'title': '当年当月累计最大收入',
-      'field': 'nm-amountSnjzhje2',
+      'title': '当年累计预算执行最大进度（三保）',
+      'field': 'maxBudgetProgress',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -116,7 +116,7 @@ const proconf = {
         'options': [],
         'defaultValue': '',
         'props': {
-          'placeholder': '当年当月累计最大收入'
+          'placeholder': '当年累计预算执行最大进度（三保）'
         }
       },
       'fixed': '',
@@ -128,8 +128,8 @@ const proconf = {
       'className': ''
     },
     {
-      'title': '上年同期累计最小收入',
-      'field': 'nm-amountSnjxd1',
+      'title': '最小进度差',
+      'field': 'minVariance',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -139,7 +139,7 @@ const proconf = {
         'options': [],
         'defaultValue': '',
         'props': {
-          'placeholder': '上年同期累计最小收入'
+          'placeholder': '最小进度差'
         }
       },
       'fixed': '',
@@ -151,8 +151,8 @@ const proconf = {
       'className': ''
     },
     {
-      'title': '上年同期累计最大收入',
-      'field': 'nm-amountSnjxd2',
+      'title': '最大进度差',
+      'field': 'maxVariance',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -162,53 +162,7 @@ const proconf = {
         'options': [],
         'defaultValue': '',
         'props': {
-          'placeholder': '上年同期累计最大收入'
-        }
-      },
-      'fixed': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '',
-      'filters': '',
-      'associatedQuery': '',
-      'className': ''
-    },
-    {
-      'title': '最小增幅',
-      'field': 'nm-sLoad1',
-      'width': '8',
-      'align': 'left',
-      'formula': '',
-      'name': '$vxeMoney',
-      'itemRender': {
-        'name': '$vxeMoney',
-        'options': [],
-        'defaultValue': '',
-        'props': {
-          'placeholder': '最小增幅'
-        }
-      },
-      'fixed': '',
-      'constraint': '',
-      'combinedType': '',
-      'sortable': '',
-      'filters': '',
-      'associatedQuery': '',
-      'className': ''
-    },
-    {
-      'title': '最大增幅',
-      'field': 'nm-sLoad2',
-      'width': '8',
-      'align': 'left',
-      'formula': '',
-      'name': '$vxeMoney',
-      'itemRender': {
-        'name': '$vxeMoney',
-        'options': [],
-        'defaultValue': '',
-        'props': {
-          'placeholder': '最大增幅'
+          'placeholder': '最大进度差'
         }
       },
       'fixed': '',
@@ -238,12 +192,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'nm-name',
+        'type': 'mofDivName',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'name',
+        'field': 'mofDivName',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -251,10 +205,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 200,
-        'field': 'code',
+        'field': 'mofDivCode',
         'filters': true,
         'align': 'right',
-        'type': 'nm-code',
+        'type': 'mofDivCode',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -262,9 +216,9 @@ const proconf = {
       {
         'title': '级次（省、市、县）',
         'filters': true,
-        'field': 'nm-amountZyxd',
+        'field': 'levels',
         'align': 'right',
-        'type': 'nm-amountZyxd',
+        'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -272,9 +226,9 @@ const proconf = {
       {
         'title': '当年累计预算执行进度 (三保）',
         'width': 350,
-        'field': 'nm-amountSnjzhje',
+        'field': 'budgetProgress',
         'align': 'right',
-        'type': 'nm-amountSnjzhje',
+        'type': 'budgetProgress',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -282,10 +236,10 @@ const proconf = {
       },
       {
         'title': '序时进度',
-        'field': 'nm-amountSnjxd',
+        'field': 'chronologicalProgress',
         'width': 350,
         'align': 'right',
-        'formula': 'Math.round(({nm-amountSnjxd})/12)',
+        // 'formula': 'Math.round(({nm-amountSnjxd})/12)',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -293,11 +247,11 @@ const proconf = {
       },
       {
         'title': '进度差（%）',
-        'field': 'nm-sLoad',
+        'field': 'variance',
         'filters': true,
         'width': 200,
         'align': 'right',
-        'formula': 'Math.round(({nm-amountSnjzhje}-{nm-amountSnjxd}))',
+        'formula': 'Math.round(({budgetProgress}-{chronologicalProgress}))',
         'cellRender': {
           'name': '$vxeMoney'
         }

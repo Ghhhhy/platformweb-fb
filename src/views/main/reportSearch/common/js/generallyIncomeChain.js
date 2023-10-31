@@ -27,7 +27,7 @@ const proconf = {
   highQueryConfig: [
     {
       title: '区划',
-      field: 'nm-agencyCode',
+      field: 'mofDivCode',
       align: 'left',
       name: '$vxeTree',
       itemRender: {
@@ -46,7 +46,7 @@ const proconf = {
               labelFormat: '{code}-{name}'
             },
             placeholder: '请选择区划',
-            multiple: false,
+            multiple: true,
             isleaf: false,
             axiosConfig: {
               method: 'post',
@@ -63,7 +63,7 @@ const proconf = {
     },
     {
       title: '级次',
-      field: 'nm-levels',
+      field: 'levels',
       width: '8',
       align: 'left',
       formula: '',
@@ -83,7 +83,7 @@ const proconf = {
     },
     {
       'title': '上月最小收入',
-      'field': 'nm-amountSnjzhje1',
+      'field': 'minLastMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -107,7 +107,7 @@ const proconf = {
     },
     {
       'title': '上月最大收入',
-      'field': 'nm-amountSnjzhje2',
+      'field': 'maxLastMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -131,7 +131,7 @@ const proconf = {
     },
     {
       'title': '当月最小收入',
-      'field': 'nm-amountSnjxd1',
+      'field': 'minCurrentMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -154,7 +154,7 @@ const proconf = {
     },
     {
       'title': '当月最大收入',
-      'field': 'nm-amountSnjxd2',
+      'field': 'maxCurrentMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -177,7 +177,7 @@ const proconf = {
     },
     {
       'title': '最小增幅',
-      'field': 'nm-sLoad1',
+      'field': 'minAmplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -200,7 +200,7 @@ const proconf = {
     },
     {
       'title': '最大增幅',
-      'field': 'nm-sLoad2',
+      'field': 'maxAmplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -240,12 +240,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'nm-name',
+        'type': 'mofDivName',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'name',
+        'field': 'mofDivName',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -253,10 +253,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 300,
-        'field': 'code',
+        'field': 'mofDivCode',
         'filters': true,
         'align': 'right',
-        'type': 'nm-code',
+        'type': 'mofDivCode',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -264,9 +264,9 @@ const proconf = {
       {
         'title': '级次（省、市、县）',
         'filters': true,
-        'field': 'nm-amountZyxd',
+        'field': 'levels',
         'align': 'right',
-        'type': 'nm-amountZyxd',
+        'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -281,9 +281,9 @@ const proconf = {
           {
             'title': '上月',
             'width': 250,
-            'field': 'nm-amountSnjzhje',
+            'field': 'lastMonth',
             'align': 'right',
-            'type': 'nm-amountSnjzhje',
+            'type': 'lastMonth',
             'cellRender': {
               'name': '$vxeMoney'
             },
@@ -291,7 +291,7 @@ const proconf = {
           },
           {
             'title': '当月',
-            'field': 'nm-amountSnjxd',
+            'field': 'currentMonth',
             'width': 250,
             'align': 'right',
             'cellRender': {
@@ -301,11 +301,11 @@ const proconf = {
           },
           {
             'title': '增幅',
-            'field': 'nm-sLoad',
+            'field': 'amplitude',
             'filters': true,
             'width': 300,
             'align': 'right',
-            'formula': 'Math.round(({nm-amountSnjxd}-{nm-amountSnjzhje})/{nm-amountSnjzhje})',
+            'formula': 'Math.round(({ currentMonth}-{ lastMonth})/{ lastMonth})',
             'cellRender': {
               'name': '$vxeMoney'
             }

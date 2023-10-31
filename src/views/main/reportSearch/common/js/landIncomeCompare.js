@@ -27,7 +27,7 @@ const proconf = {
   highQueryConfig: [
     {
       title: '区划',
-      field: 'nm-agencyCode',
+      field: 'mofDivCode',
       align: 'left',
       name: '$vxeTree',
       itemRender: {
@@ -46,7 +46,7 @@ const proconf = {
               labelFormat: '{code}-{name}'
             },
             placeholder: '请选择区划',
-            multiple: false,
+            multiple: true,
             isleaf: false,
             axiosConfig: {
               method: 'post',
@@ -63,7 +63,7 @@ const proconf = {
     },
     {
       title: '级次',
-      field: 'nm-levels',
+      field: 'levels',
       width: '8',
       align: 'left',
       formula: '',
@@ -82,13 +82,13 @@ const proconf = {
       }
     },
     {
-      field: 'income_sort_',
-      title: '收入科目（二级）',
+      field: 'incomeSortCode',
+      title: '收入科目（土地出让收入）',
       width: '8',
       itemRender: {
         name: '$formTreeInput',
         props: {
-          'placeholder': '收入科目（二级）',
+          'placeholder': '收入科目（土地出让收入）',
           type: 'text',
           isleaf: true,
           isServer: true,
@@ -105,7 +105,7 @@ const proconf = {
     },
     {
       'title': '当年当月累计最小收入',
-      'field': 'nm-amountSnjzhje1',
+      'field': 'minCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -128,7 +128,7 @@ const proconf = {
     },
     {
       'title': '当年当月累计最大收入',
-      'field': 'nm-amountSnjzhje2',
+      'field': 'maxCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -151,7 +151,7 @@ const proconf = {
     },
     {
       'title': '上年同期累计最小收入',
-      'field': 'nm-amountSnjxd1',
+      'field': 'minLastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -174,7 +174,7 @@ const proconf = {
     },
     {
       'title': '上年同期累计最大收入',
-      'field': 'nm-amountSnjxd2',
+      'field': 'maxLastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -197,7 +197,7 @@ const proconf = {
     },
     {
       'title': '最小增幅',
-      'field': 'nm-sLoad1',
+      'field': 'minAmplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -220,7 +220,7 @@ const proconf = {
     },
     {
       'title': '最大增幅',
-      'field': 'nm-sLoad2',
+      'field': 'maxAmplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -260,12 +260,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'nm-name',
+        'type': 'mofDivName',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 240,
-        'field': 'name',
+        'field': 'mofDivName',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -273,10 +273,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 150,
-        'field': 'code',
+        'field': 'mofDivCode',
         'filters': true,
         'align': 'right',
-        'type': 'nm-code',
+        'type': 'mofDivCode',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -286,9 +286,9 @@ const proconf = {
         'min-width': '200px',
         'max-width': '300px',
         'filters': true,
-        'field': 'nm-amountZyxd',
+        'field': 'levels',
         'align': 'right',
-        'type': 'nm-amountZyxd',
+        'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -297,9 +297,9 @@ const proconf = {
         'title': '收入科目编码（土地出让收入）',
         'width': 260,
         'filters': true,
-        'field': 'nm-income_sort_code',
+        'field': 'incomeSortCode',
         'align': 'right',
-        'type': 'nm-income_sort_code',
+        'type': 'incomeSortCode',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -308,9 +308,9 @@ const proconf = {
         'title': '收入科目名称（土地出让收入）',
         'width': 260,
         'filters': true,
-        'field': 'nm-income_sort_name',
+        'field': 'incomeSortName',
         'align': 'right',
-        'type': 'nm-income_sort_name',
+        'type': 'incomeSortName',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -318,9 +318,9 @@ const proconf = {
       {
         'title': '当年当月累计收入（土地出让二级科目）',
         'width': 320,
-        'field': 'nm-amountSnjzhje',
+        'field': 'currentMonthAmount',
         'align': 'right',
-        'type': 'nm-amountSnjzhje',
+        'type': 'currentMonthAmount',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -328,7 +328,7 @@ const proconf = {
       },
       {
         'title': '上年同期累计收入（土地出让二级科目）',
-        'field': 'nm-amountSnjxd',
+        'field': 'lastCurrentMonthAmount',
         'width': 320,
         'align': 'right',
         'cellRender': {
@@ -338,11 +338,11 @@ const proconf = {
       },
       {
         'title': '增幅',
-        'field': 'nm-sLoad',
+        'field': 'amplitude',
         'filters': true,
         'width': 100,
         'align': 'right',
-        'formula': 'Math.round(({nm-amountSnjzhje}-{nm-amountSnjxd})/{nm-amountSnjxd})',
+        'formula': 'Math.round(({currentMonthAmount}-{lastCurrentMonthAmount})/{lastCurrentMonthAmount})',
         'cellRender': {
           'name': '$vxeMoney'
         }
