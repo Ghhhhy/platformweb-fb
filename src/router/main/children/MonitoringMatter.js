@@ -1597,6 +1597,16 @@ export default [
   },
   // 陕西部分菜单单独分离出一个
   {
+    path: '/SXWarningDetailsByRule',
+    name: 'SXWarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  // 陕西部分菜单单独分离出一个
+  {
     path: '/SXWarningDetailsByRuleAll',
     name: 'SXWarningDetailsByRuleAll',
     meta: {
