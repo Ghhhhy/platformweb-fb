@@ -442,8 +442,12 @@ export default {
     },
     cellClick(obj, context, e) {
       if (this.isSx) { return }
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
       const rowIndex = obj?.rowIndex
+      if (obj.column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.hqlm)) {
+        this.showBudgetDisburseObjectModal(obj.row)
+        return
+      }
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
       if (!rowIndex) return
       let key = obj.column.property
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
@@ -456,10 +460,6 @@ export default {
       if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) return
       if (obj.column.property !== 'proName' && isInvalidCellValue) return
       if (!linkFiscal && obj.column.property === 'proName') return
-      if (key === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.isSubCode)) {
-        this.showBudgetDisburseObjectModal(obj.row)
-        return
-      }
       switch (key) {
         case 'amountYszyap':
           this.handleDetail('zdzjxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
@@ -506,6 +506,12 @@ export default {
       if (this.isSx) {
         return
       }
+      if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.hqlm)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
+      }
       if (!rowIndex) return
       // 有效的cellValue
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
@@ -518,12 +524,7 @@ export default {
       // console.log(column.property)
       // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
       // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
-      if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.isSubCode)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
-        }
-      }
+
       if (['amountYszyap', 'amountZczyap', 'proName'].includes(column.property)) {
         // if (['proName'].includes(column.property)) {
         return {

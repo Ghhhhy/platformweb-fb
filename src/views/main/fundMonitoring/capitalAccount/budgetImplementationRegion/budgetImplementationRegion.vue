@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
-      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
+      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' || this.$store.getters.isSx,
       searchDataListOld: {},
       reportTime: '',
       isFlush: false,

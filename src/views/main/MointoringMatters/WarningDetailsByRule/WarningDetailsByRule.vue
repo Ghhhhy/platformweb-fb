@@ -295,7 +295,10 @@ export default {
   methods: {
     search(obj) {
       console.log(obj)
-      this.warningLevel = obj.warningLevel
+      this.warningLevel = obj.warnLevel
+      if (this.$store.getters.isFuJian) {
+        this.warningLevel = obj.warningLevel// 福建字段取值不同
+      }
       this.regulationType = obj.regulationType
       this.regulation_type = obj.regulationType
       this.firulename = obj.firulename
@@ -733,12 +736,17 @@ export default {
         businessNo: this.searchDataList.businessNo,
         endTime: this.endTime,
         mofDivCodeList: this.codeList,
+        regulationType: this.regulationType,
         // regulation_code: this.regulation_code,
         // regulation_class: this.regulation_class,
         // regulation_type: this.regulation_type,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         useDes: this.useDes,
         roleId: this.roleguid
+      }
+      if (this.$store.getters.isSx) {
+        param.regulation_type = this.regulationType
+        delete param.regulationType
       }
       this.tableLoading = true
       let axiosUrl = BSURL.lmp_executeWarnWarnInfos

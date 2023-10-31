@@ -1021,7 +1021,7 @@ export default {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.records
-          this.mainPagerConfig.total = res.data.totalCount
+          this.mainPagerConfig.total = res.data.total
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
           this.$message.error(res.result)
