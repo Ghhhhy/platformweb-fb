@@ -5,20 +5,9 @@
     class="carryImplementationRegionModal"
     @close="dialogClose"
   >
-    <!-- <BsMainFormListLayout> -->
-    <!-- <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
-          <BsQuery
-            ref="queryFrom"
-            @onSearchClick="fetchTableData"
-            @onSearchResetClick="resetFetchTableData"
-          />
-        </div>
-      </template> -->
-    <!-- <template v-slot:mainForm> -->
     <BsTable
       ref="waitTable"
-      v-loading="tableLoadingState"
+      :loading="tableLoadingState"
       v-bind="tableStaticProperty"
       class="Titans-table"
       :table-columns-config="columns"
@@ -33,8 +22,6 @@
         单位：万元
       </template>
     </BsTable>
-    <!-- </template> -->
-    <!-- </BsMainFormListLayout> -->
   </vxe-modal>
 </template>
 
@@ -51,8 +38,7 @@ import {
 import store from '@/store/index'
 // import { message } from 'element-ui'
 export default defineComponent({
-  components: {
-  },
+  components: {},
   setup() {
     /**
      * @interface clickCodeMap<{ $route.name : reportCode }>
@@ -82,7 +68,7 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
-
+    const queryData = ref({})
     const modalStaticProperty = computed(() => {
       return {
         title: clickCodeMap[clickColumnsInfo.value.tableType]?.title,
@@ -117,7 +103,7 @@ export default defineComponent({
         onToolbarBtnClick
       }
     ] = useTable({
-      fetch: (params = {}) => post(BSURL.dfr_supervisionQuery, params),
+      fetch: (params = {}) => post(BSURL.dfr_supervisionPageQuery, params),
       beforeFetch: params => {
         params.reportCode = clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode
         params.mofDivCode = clickRowInfo.value.mofDivCode
@@ -128,6 +114,7 @@ export default defineComponent({
         } else if (clickColumnsInfo.value.tableType === 'pay') {
           params.xpayDate = parentQueryData.value.endTime
         }
+        queryData.value = params
         return params
       },
       columns: cellClickColumns,
@@ -135,7 +122,7 @@ export default defineComponent({
         disabledMoneyConversion: false,
         moneyConversion: true // 是否有金额转换
       },
-      dataKey: 'data'
+      dataKey: 'data.results'
     }, false)
     const tableStaticProperty = reactive({
       border: true,
@@ -143,6 +130,15 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
+      footerConfig: {
+        totalObj: {
+          amount: 0,
+          payappamt: 0,
+          payamount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
+      },
       defaultMoneyUnit: 1,
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
@@ -165,7 +161,19 @@ export default defineComponent({
       }
     }
     const init = () => {
+      tableData.value = []
       resetFetchTableData()
+      queryFooterData()
+    }
+    const queryFooterData = () => {
+      const params = { ...queryData.value }
+      delete params.page
+      delete params.pageSize
+      post(BSURL.dfr_supervisionSum, params).then(res => {
+        if (res && res.code === '000000' && res.data) {
+          tableStaticProperty.value.footerConfig.totalObj = res.data
+        }
+      })
     }
     const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
