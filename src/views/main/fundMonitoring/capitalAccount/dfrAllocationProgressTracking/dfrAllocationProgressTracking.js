@@ -716,23 +716,23 @@ let proconf = {
               name: '$vxeRatio'
             }
           },
-          {
-            title: '本级已支出',
-            field: 'amountSnjpay',
-            width: 200,
-            align: 'right',
-            cellRender: { name: '$vxeMoney' }
-          },
-          {
-            title: '支出进度',
-            field: 'snpayLoad',
-            width: 200,
-            align: 'right',
-            formula: '({amountSnjbjfp}-0==0)?0:Math.round({amountSnjpay}/{amountSnjbjfp}*100*10)/10',
-            cellRender: {
-              name: '$vxeRatio'
-            }
-          }
+          // {
+          //   title: '本级已支出',
+          //   field: 'amountSnjpay',
+          //   width: 200,
+          //   align: 'right',
+          //   cellRender: { name: '$vxeMoney' }
+          // },
+          // {
+          //   title: '支出进度',
+          //   field: 'snpayLoad',
+          //   width: 200,
+          //   align: 'right',
+          //   formula: '({amountSnjbjfp}-0==0)?0:Math.round({amountSnjpay}/{amountSnjbjfp}*100*10)/10',
+          //   cellRender: {
+          //     name: '$vxeRatio'
+          //   }
+          // }
         ]
       },
       {
@@ -773,23 +773,23 @@ let proconf = {
               name: '$vxeRatio'
             }
           },
-          {
-            title: '已支出',
-            field: 'amountXjpay',
-            width: 200,
-            align: 'right',
-            cellRender: { name: '$vxeMoney' }
-          },
-          {
-            title: '支出进度',
-            field: 'xpayLoad',
-            width: 200,
-            align: 'right',
-            formula: '({amountXjfp}-0==0)?0:Math.round({amountXjpay}/{amountXjfp}*100*10)/10',
-            cellRender: {
-              name: '$vxeRatio'
-            }
-          }
+          // {
+          //   title: '已支出',
+          //   field: 'amountXjpay',
+          //   width: 200,
+          //   align: 'right',
+          //   cellRender: { name: '$vxeMoney' }
+          // },
+          // {
+          //   title: '支出进度',
+          //   field: 'xpayLoad',
+          //   width: 200,
+          //   align: 'right',
+          //   formula: '({amountXjfp}-0==0)?0:Math.round({amountXjpay}/{amountXjfp}*100*10)/10',
+          //   cellRender: {
+          //     name: '$vxeRatio'
+          //   }
+          // }
         ]
       }
     ],
