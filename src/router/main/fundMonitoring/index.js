@@ -954,6 +954,18 @@ const routers = [
       )
   },
   {
+    path: '/dfrMultipleQueryNM', // 直达资金综合查询
+    name: 'dfrMultipleQueryNM',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/dfrMultipleQueryNeiMengGu/dfrMultipleQueryNM.vue'
+      )
+  },
+  {
     path: '/specialMultipleQuery', // 专项资金综合查询
     name: 'specialMultipleQuery',
     meta: {
