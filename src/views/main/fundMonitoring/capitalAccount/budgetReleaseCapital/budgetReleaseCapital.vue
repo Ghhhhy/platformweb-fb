@@ -51,7 +51,7 @@
           :cell-style="cellStyle"
           :export-modal-config="{ fileName: menuName }"
           :formula-digits="1"
-          :show-zero="false"
+          :show-zero="$store.getters.isSx"
           @editClosed="onEditClosed"
           @cellDblclick="cellDblclick"
           @cellClick="cellClick"
@@ -799,7 +799,7 @@ export default {
     },
     getTrees(val) {
       let mofDivCodes = []
-      if (val.trim() !== '') {
+      if (val && typeof val === 'string' && val.trim() !== '') {
         val.split(',').forEach((item) => {
           mofDivCodes.push(item.split('##')[0])
         })
