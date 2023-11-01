@@ -245,13 +245,13 @@ export default {
       if (this.$store.getters.isSx) {
         const diffItemList = ['govEconomyType', 'deptEconomyType']
         return defaultColumns.map(item => {
-          if (diffItemList.includes(item.filed)) {
-            const key1 = item.filed.replace('Type', 'Code')
-            const key2 = item.filed.replace('Type', 'Name')
+          if (diffItemList.includes(item.field)) {
+            const key1 = item.field.replace('Type', 'Code')
+            const key2 = item.field.replace('Type', 'Name')
             return {
               ...item,
               formatter({ row }) {
-                return row[key1] && row[key2] ? `${row[key1]}-${row[key2]}` : row[item.field]
+                return row[key1] && row[key2] ? `${row[key1]}-${row[key2]}` : row[key2]
               }
             }
           }
