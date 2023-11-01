@@ -75,9 +75,9 @@
         <template v-else>
           <BsTable
             ref="mainTableRef"
-            :footer-config="tableFooterConfig"
             :table-columns-config="tableColumnsConfig"
             :table-data="tableData"
+            v-bind="detailTableProperty"
             :table-config="tableConfig"
             :pager-config="mainPagerConfig"
             :toolbar-config="tableToolbarConfig"
@@ -126,148 +126,9 @@ export default {
     AddDialog,
     GlAttachment
   },
-  watch: {
-    queryConfig() {
-      this.getSearchDataList()
-    }
-  },
-  data() {
-    return {
-      controlTypeByNumber: '',
-      // 表尾合计
-      footerConfig: {
-        showFooter: true,
-        totalObj: {
-          count: 0,
-          nowCount: 0
-        },
-        combinedType: ['switchTotal']
-      },
-      flag: 1,
-      isNeedFiRuleCode: true,
-      isShowQueryConditions: true,
-      radioShow: true,
-      breakRuleVisible: false,
-      treeTypeConfig: {
-        curRadio: 'AGENCY'
-      },
-      treeGlobalConfig: {
-        inputVal: ''
-      },
-      treeQueryparams: { },
-      treeServerUri: 'large-monitor-platform/lmp/businessFunctions/getBusinessTree/7',
-      treeAjaxType: 'post',
-      treeData: [],
-      leftTreeVisible: true,
-      // 头部工具栏 BsTabPanel config
-      toolBarStatusBtnConfig: {
-        changeBtns: true,
-        buttons: proconf.toolBarStatusButtons,
-        curButton: {
-          type: 'button',
-          iconName: 'base-all.png',
-          iconNameActive: 'base-all-active.png',
-          iconUrl: '',
-          label: '待处理',
-          code: '0',
-          curValue: '0'
-        },
-        buttonsInfo: null,
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        }
-      },
-      buttonsInfo: proconf.statusRightToolBarButton,
-      buttons: proconf.statusRightToolBarButton,
-      detailButtons: proconf.detailButtons,
-      tabStatusNumConfig: {
-        '0': 0,
-        '1': 0,
-        '2': 0,
-        '3': 0,
-        '4': 0
-      },
-      // BsQuery 查询栏
-      warnLevel: '3',
-      queryConfig: proconf.highQueryConfig,
-      searchDataList: proconf.highQueryData,
-      toolBarStatusSelect: {
-        type: 'button',
-        iconName: 'base-all.png',
-        iconNameActive: 'base-all-active.png',
-        iconUrl: '',
-        label: '待处理',
-        code: '0',
-        curValue: '0'
-      },
-      // table 相关配置
-      tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
-      tableData: [],
-      tableTotalData: [],
-      tableToolbarConfig: {
-        // table工具栏配置
-        disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
-        search: false, // 是否有search
-        import: false, // 导入
-        export: true, // 导出
-        print: false, // 打印
-        zoom: true, // 缩放
-        custom: true, // 选配展示列
-        slots: {
-          tools: 'toolbarTools',
-          buttons: 'toolbarSlots'
-        }
-      },
-      mainPagerConfig: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 20
-      },
-      totalPagerConfig: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 20
-      },
-      tableConfig: {
-        renderers: {
-          // 编辑 附件 操作日志
-          $gloableOptionRow: proconf.gloableOptionRow
-        },
-        methods: {
-          onOptionRowClick: this.onOptionRowClick
-        }
-      },
-      tableFooterConfig: {
-        showFooter: false
-      },
-      // 操作日志
-      logData: [],
-      showLogView: false,
-      // 新增弹窗
-      dialogVisible: false,
-      dialogTitle: '详细信息',
-      addTableData: [],
-      modifyData: {},
-      // 请求 & 角色权限相关配置
-      menuName: '',
-      menuNames: '',
-      params5: '',
-      menuId: '',
-      tokenid: '',
-      userInfo: {},
-      roleguid: this.$store.state.curNavModule.roleguid,
-      appId: 'pay_voucher',
-      isHaveZero: '0',
-      // 文件
-      showAttachmentDialog: false,
-      billguid: '',
-      condition: {},
-      warningCode: '',
-      businessId: '',
-      formVisible: true,
-      totalTableColumnsConfig: [
+  computed: {
+    totalTableColumnsConfig() {
+      let defaultColumns = [
         {
           title: '触发菜单名称',
           field: 'menuNameList',
@@ -372,7 +233,189 @@ export default {
         //     }
         //   }
         // }
-      ],
+      ]
+      if (this.toolBarStatusSelect.code === '0' && this.$store.getters.isSx) {
+        const notShowField = ['nowCount']
+        return defaultColumns.filter((item) => !notShowField.includes(item.field))
+      }
+      return defaultColumns
+    },
+    tableColumnsConfig() {
+      let defaultColumns = proconf.PoliciesTableColumns
+      if (this.$store.getters.isSx) {
+        const diffItemList = ['govEconomyType', 'deptEconomyType']
+        return defaultColumns.map(item => {
+          if (diffItemList.includes(item.filed)) {
+            const key1 = item.filed.replace('Type', 'Code')
+            const key2 = item.filed.replace('Type', 'Name')
+            return {
+              ...item,
+              formatter({ row }) {
+                return row[key1] && row[key2] ? `${row[key1]}-${row[key2]}` : row[item.field]
+              }
+            }
+          }
+          return item
+        })
+      }
+      return defaultColumns
+    },
+    detailTableProperty() {
+      const property = {
+        footerConfig: {
+          combinedType: [
+            'total'
+          ],
+          showFooter: false
+        }
+      }
+      if (this.$store.getters.isSx) {
+        property.footerConfig.showFooter = true
+      }
+      return property
+    }
+  },
+  watch: {
+    queryConfig() {
+      this.getSearchDataList()
+    }
+  },
+  data() {
+    return {
+      controlTypeByNumber: '',
+      // 表尾合计
+      footerConfig: {
+        showFooter: true,
+        totalObj: {
+          count: 0,
+          nowCount: 0
+        },
+        combinedType: ['switchTotal']
+      },
+      flag: 1,
+      isNeedFiRuleCode: true,
+      isShowQueryConditions: true,
+      radioShow: true,
+      breakRuleVisible: false,
+      treeTypeConfig: {
+        curRadio: 'AGENCY'
+      },
+      treeGlobalConfig: {
+        inputVal: ''
+      },
+      treeQueryparams: { },
+      treeServerUri: 'large-monitor-platform/lmp/businessFunctions/getBusinessTree/7',
+      treeAjaxType: 'post',
+      treeData: [],
+      leftTreeVisible: true,
+      // 头部工具栏 BsTabPanel config
+      toolBarStatusBtnConfig: {
+        changeBtns: true,
+        buttons: proconf.toolBarStatusButtons,
+        curButton: {
+          type: 'button',
+          iconName: 'base-all.png',
+          iconNameActive: 'base-all-active.png',
+          iconUrl: '',
+          label: '待处理',
+          code: '0',
+          curValue: '0'
+        },
+        buttonsInfo: null,
+        methods: {
+          bsToolbarClickEvent: this.onStatusTabClick
+        }
+      },
+      buttonsInfo: proconf.statusRightToolBarButton,
+      buttons: proconf.statusRightToolBarButton,
+      detailButtons: proconf.detailButtons,
+      tabStatusNumConfig: {
+        '0': 0,
+        '1': 0,
+        '2': 0,
+        '3': 0,
+        '4': 0
+      },
+      // BsQuery 查询栏
+      warnLevel: '3',
+      queryConfig: proconf.highQueryConfig,
+      searchDataList: proconf.highQueryData,
+      toolBarStatusSelect: {
+        type: 'button',
+        iconName: 'base-all.png',
+        iconNameActive: 'base-all-active.png',
+        iconUrl: '',
+        label: '待处理',
+        code: '0',
+        curValue: '0'
+      },
+      // table 相关配置
+      tableLoading: false,
+      tableData: [],
+      tableTotalData: [],
+      tableToolbarConfig: {
+        // table工具栏配置
+        disabledMoneyConversion: false,
+        moneyConversion: false, // 是否有金额转换
+        search: false, // 是否有search
+        import: false, // 导入
+        export: true, // 导出
+        print: false, // 打印
+        zoom: true, // 缩放
+        custom: true, // 选配展示列
+        slots: {
+          tools: 'toolbarTools',
+          buttons: 'toolbarSlots'
+        }
+      },
+      mainPagerConfig: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20
+      },
+      totalPagerConfig: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20
+      },
+      tableConfig: {
+        renderers: {
+          // 编辑 附件 操作日志
+          $gloableOptionRow: proconf.gloableOptionRow
+        },
+        methods: {
+          onOptionRowClick: this.onOptionRowClick
+        }
+      },
+      tableFooterConfig: {
+        showFooter: false
+      },
+      // 操作日志
+      logData: [],
+      showLogView: false,
+      // 新增弹窗
+      dialogVisible: false,
+      dialogTitle: '详细信息',
+      addTableData: [],
+      modifyData: {},
+      // 请求 & 角色权限相关配置
+      menuName: '',
+      menuNames: '',
+      params5: '',
+      menuId: '',
+      tokenid: '',
+      userInfo: {},
+      roleguid: this.$store.state.curNavModule.roleguid,
+      appId: 'pay_voucher',
+      isHaveZero: '0',
+      // 文件
+      showAttachmentDialog: false,
+      billguid: '',
+      condition: {},
+      warningCode: '',
+      businessId: '',
+      formVisible: true,
+
       fiRuleCode: '',
       showGlAttachmentDialog: false,
       agencyCodeList: [],
