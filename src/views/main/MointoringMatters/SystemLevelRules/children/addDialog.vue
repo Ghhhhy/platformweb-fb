@@ -960,6 +960,9 @@ export default {
       if (val === 2 && this.sx) {
         this.warningLevel = 5
         this.handleType = 5
+      } else {
+        this.warningLevel = 4
+        this.handleType = 4
       }
       if (val === 1) {
         this.warningLevel = 1
