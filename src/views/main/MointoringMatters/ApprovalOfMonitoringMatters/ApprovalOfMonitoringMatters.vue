@@ -35,10 +35,8 @@
         <BsTree
           ref="leftTree"
           open-loading
-          :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
           :tree-data="treeData"
-          :default-expanded-keys="defaultExpandedKeysIn"
           @onNodeClick="onClickmethod"
         />
       </template>

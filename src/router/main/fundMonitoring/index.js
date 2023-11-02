@@ -894,6 +894,14 @@ const routers = [
       )
   },
   {
+    path: '/AllocationProgress', // 直达资金分配进度跟踪表
+    name: 'AllocationProgress',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/dfrAllocationProgressTracking/dfrAllocationProgressTracking.vue'
+      )
+  },
+  {
     path: '/userProRelation', // 用户资金权限配置
     name: 'userProRelation',
     meta: {
@@ -951,6 +959,18 @@ const routers = [
     component: () =>
       import(
         '../../../views/main/fundMonitoring/dfrMultipleQuery/dfrMultipleQuery.vue'
+      )
+  },
+  {
+    path: '/dfrMultipleQueryNM', // 直达资金综合查询
+    name: 'dfrMultipleQueryNM',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/dfrMultipleQueryNeiMengGu/dfrMultipleQueryNM.vue'
       )
   },
   {

@@ -706,7 +706,11 @@ export default {
       let zcSource = 'zdzjzcmx_fdq'
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
         xmSource = 'zxjdxmmx_fdq'
-        zcSource = 'zxjdzcmx_fdq'
+        if (this.$store.getters.isNeiMeng) {
+          zcSource = 'zdzjzcmx_fdq_ys'// 内蒙古要求和中央和地方资金支出分地区直达区分开，RH_1042
+        } else {
+          zcSource = 'zxjdzcmx_fdq'
+        }
       }
       if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
         xmSource = 'zyzfxmmx'
