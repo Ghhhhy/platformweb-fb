@@ -155,6 +155,7 @@ export default defineComponent({
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (validCellValue && !row.children && column.own.canInsert) {
+        debugger
         CarrImplRegiSecondModal.value.dialogVisible = true
         CarrImplRegiSecondModal.value.injectData = row
         CarrImplRegiSecondModal.value.init()
