@@ -363,7 +363,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountSnjzyxd}-0==0)?0:Math.round(({amountSnjzybjfp}+{amountSnjzyxjfp})/{amountSnjzyxd}*100*10)/10'
+                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSnjzybjfp}+{amountSnjzyxjfp})/{amountZjzl}*100*10)/10'
                 // formula: '({amountSnjfpbjZyap}+{amountSnjfpxjZyap})/{amountSnjysZyap}'
               },
               {
@@ -372,7 +372,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountSnjdfdf}-0==0)?0:Math.round(({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountSnjdfdf}*10)/10'
+                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountZjzl}*10)/10'
                 // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
               },
               {
@@ -602,7 +602,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountSjzydf}-0==0)?0:Math.round(({amountSjzybjfp}+{amountSjzyxjfp})*100/{amountSjzydf}*10)/10'
+                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSjzybjfp}+{amountSjzyxjfp})*100/{amountZjzl}*10)/10'
                 // formula: '({amountSjfpbjZyap}+{amountSjfpxjZyap})/{amountSjysZyap}'
               },
               {
@@ -611,7 +611,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountSjdfdf}-0)==0?0:Math.round(({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountSjdfdf}*10)/10'
+                formula: '({amountZjzl}-0)==0?0:Math.round(({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountZjzl}*10)/10'
                 // formula: '({amountSjfpbjDfap}+{amountSjfpxjDfap})/{amountSjysDfap}'
               },
               {
@@ -811,7 +811,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpZyap}/{amountXjysZyap})'
-                formula: '({amountXjzydf}-0==0)?0:Math.round({amountXjzybjfp}*100/{amountXjzydf}*10)/10'
+                formula: '(amountZjzl)?0:Math.round({amountXjzybjfp}*100/{amountZjzl}*10)/10'
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpZyap / row.amountXjysZyap
                 // }
@@ -823,7 +823,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpDfap}/{amountXjysDfap})'
-                formula: '({amountXjdfdf}-0==0)?0:Math.round({amountXjdfbjfp}*100/{amountXjdfdf}*10)/10'
+                formula: '({amountZjzl}-0==0)?0:Math.round({amountXjdfbjfp}*100/{amountZjzl}*10)/10'
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpDfap / row.amountXjysDfap
                 // }

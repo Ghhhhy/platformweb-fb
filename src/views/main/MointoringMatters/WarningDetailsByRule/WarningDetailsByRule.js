@@ -1,5 +1,5 @@
-// import store from '@/store/index'
-export let proconf = {
+import store from '@/store/index'
+let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
@@ -54,16 +54,14 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          { value: '1', label: '黄色预警' },
-          { value: '2', label: '橙色预警' },
-          { value: '3', label: '红色预警' },
-          { value: '4', label: '灰色预警' },
-          { value: '5', label: '蓝色预警' }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: { disabled: false, placeholder: '预警级别' }
       }
     },
     {
@@ -873,4 +871,13 @@ export let proconf = {
       ]
     }
   }
+}
+if (store.getters.isSx) { // 陕西的预警级别   展示的是预警文字（黄色预警这种） 而不是预警处理提示
+  let index = proconf.PoliciesTableColumns1.findIndex(item => item.field === 'warnLevel' || item.title === '预警级别')
+  proconf.PoliciesTableColumns1[index].cellRender = {
+    name: '$warningLevelRender'
+  }
+}
+export {
+  proconf
 }

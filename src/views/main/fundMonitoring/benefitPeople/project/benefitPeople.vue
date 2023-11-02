@@ -428,7 +428,9 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      this.$refs.ImportModel.disabled = true
+      if (this.$store.getters.isNeiMeng) {
+        this.$refs.ImportModel.disabled = true
+      }
       if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
         await HttpModule.queryCompanyInfo(this.fileConfig).then(async (res) => {
           this.$refs.ImportModel.disabled = false
@@ -458,6 +460,8 @@ export default {
         this.$message.success('导入成功')
         this.dtos = []
         this.importModalVisible = false
+        this.refresh()
+        this.refresh1()
       }
     },
     async onImportFileClick() {
@@ -973,7 +977,7 @@ export default {
         this.tableLoading1 = false
         if (res.code === '000000') {
           this.tableData = res.data.records
-          this.mainPagerConfig.total = res.data.totalCount
+          this.mainPagerConfig.total = res.data.total
           // this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
           this.$message.error(res.result)

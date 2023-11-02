@@ -296,6 +296,11 @@ export default {
             this.supplyDataList.payeeAcctBankName = res.data.executeData.payeeAcctBankName
             this.supplyDataList.corBgtDocNoName = res.data.executeData.corBgtDocNoName
             this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
+            if (this.$store.getters.isSx) {
+              this.supplyDataList.depBgtEcoName = ['depBgtEcoCode', 'depBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.govBgtEcoName = ['govBgtEcoCode', 'govBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.expFuncName = ['expFuncCode', 'expFuncName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+            }
           }
           if (res.data.payVoucherVo !== null) {
             this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType

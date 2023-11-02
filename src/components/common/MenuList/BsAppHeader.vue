@@ -162,6 +162,10 @@
           <vxe-form>
             <table class="layout-table">
               <tr>
+                <th>
+                </th>
+              </tr>
+              <tr>
                 <td class="label"><label>旧密码：</label></td>
                 <td><vxe-input v-model="oldPwd" type="password" /></td>
               </tr>

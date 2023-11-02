@@ -372,7 +372,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({amountSnjdfdf}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountSnjdfdf})'
+                formula: '(({amountSnjzyxd}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountSnjzyxd})'
                 // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
               },
               {
@@ -611,7 +611,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({amountSjdfdf}-0==0)?0:({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountSjdfdf})'
+                formula: '(({amountSjzydf}-0==0)?0:({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountSjzydf})'
                 // formula: '({amountSjfpbjDfap}+{amountSjfpxjDfap})/{amountSjysDfap}'
               },
               {

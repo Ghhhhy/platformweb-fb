@@ -31,6 +31,7 @@ window.gloableToolFn = {
       // 'mp-d-aggregation-service': '/api/mp-d-aggregation-service',
       // --------------------------- 文件相关服务 --------------------------------//
       fileservice: '/apaas/api/fileservice/',
+      reportServiceProxy: '/reportService/',
       filePreviewService: '/apaas/api/filePreviewService/',
       // --------------------------- 后台服务 -----------------------------------//
       'large-monitor-platform': '',

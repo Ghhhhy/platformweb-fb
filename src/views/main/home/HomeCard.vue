@@ -11,6 +11,7 @@
       <vxe-modal
         v-model="dialogVisible"
         title="保工资预警"
+        style="z-index:101;"
         @close="dialogClose"
       >
         <MonitorWarningInformation ref="MonitorWarningInformation" />

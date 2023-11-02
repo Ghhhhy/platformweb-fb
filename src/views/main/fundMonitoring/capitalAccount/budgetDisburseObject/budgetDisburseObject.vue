@@ -382,7 +382,7 @@ export default {
   methods: {
     cellHide(hideStr, column, row) {
       /**
-       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')
@@ -433,13 +433,13 @@ export default {
       }
     },
     cellClick(obj, context, e) {
-      if (this.isSx) {
-        return
-      }
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') {
-        return
-      }
+      if (this.isSx) { return }
       const rowIndex = obj?.rowIndex
+      if (obj.column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.hqlm)) {
+        this.showBudgetDisburseObjectModal(obj.row)
+        return
+      }
+      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
       if (!rowIndex) return
       let key = obj.column.property
       console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
@@ -497,6 +497,12 @@ export default {
     cellStyle({ row, rowIndex, column }) {
       if (this.isSx) {
         return
+      }
+      if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.hqlm)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
+        }
       }
       if (!rowIndex) return
       // 有效的cellValue

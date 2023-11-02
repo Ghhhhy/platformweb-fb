@@ -423,6 +423,7 @@ export default {
       dialogVisibleShow: false,
       dialogVisibleKjsm: false,
       dialogVisibleKjsmBut: false,
+      formDatas: {},
       dialogTitle: '查看详情',
       options: [{
         value: '2',
@@ -548,6 +549,7 @@ export default {
             if (res.code === '000000') {
               this.DetailData = res.data
               this.dialogTitle = '查看详情'
+              this.formDatas = res.data.regulationElementEntitieList[0]
               this.dialogVisibleShow = true
             }
           })

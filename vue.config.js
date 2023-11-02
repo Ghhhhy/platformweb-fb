@@ -7,7 +7,7 @@ const pxtoviewport = require(resolve('src/plugin/postcss-px-to-viewport'))
 const ProjectVersion = require('./buildinfo.js')
 Object.assign(process.env, ProjectVersion)
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // 获取自定义参数
 const argv = JSON.parse(process.env.npm_config_argv)
 argv.remain.forEach((item) => {

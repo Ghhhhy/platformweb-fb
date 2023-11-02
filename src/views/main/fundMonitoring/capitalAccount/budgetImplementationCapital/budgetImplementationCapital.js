@@ -268,7 +268,7 @@ const proconf = {
             width: 200,
             align: 'right',
             sortable: true,
-            formula: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -336,7 +336,7 @@ const proconf = {
             width: 200,
             align: 'right',
             sortable: true,
-            formula: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }
@@ -393,7 +393,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
+            formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
             }

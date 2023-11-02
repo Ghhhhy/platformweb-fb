@@ -18,7 +18,9 @@ const BSURL = {
   lmp_guaranteedSalaryNotice: 'large-monitor-platform/lmp/three/guaranteedSalaryNotice', // 保工资预警提醒
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
-  dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query',
+  dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query', // 陕西 通用报表查询
+  dfr_supervisionPageQuery: 'dfr-monitor-service/dfr/supervision/pageQuery', // 陕西 通用报表查询 分页模式
+  dfr_supervisionSum: 'dfr-monitor-service/dfr/supervision/sum', // 陕西 通用报表查询合计行
   dfr_benefitEnterprisesAndPeoplePageQueryFfb: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/pageQueryFfb', // 直达资金项目台账_惠企利民发放表明细查询
   dfr_benefitPeoplePageQuery: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryBenefitImportData', // 惠企利民支付明细导入_明细数据查询
   dfr_benefitPeoplePagePayQuery: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryPayCertInfo', // 惠企利民支付明细导入_支付凭证数据查询

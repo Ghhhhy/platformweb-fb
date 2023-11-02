@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
-      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
+      showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH' || this.$store.getters.isSx,
       searchDataListOld: {},
       reportTime: '',
       isFlush: false,
@@ -641,7 +641,7 @@ export default {
     },
     cellHide(hideStr, column, row) {
       /**
-       * hideCellCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
+       * hideCell=col:amountZyxd;row:10000013Z135050009055&10000013Z135060000035;amountSnjbjfp:10000013Z135080000029&10000013Z135110079006;10000013Z135080000005:amountSnjxjfp&amountSnjbjfp;
        * 以对象的形式配置  col:所需隐藏的列的filed  row:所需隐藏行的code  列filed:某x行code&某y行code  行code:某列field&某列field
        */
       let hideSetting = hideStr.split(';')
@@ -706,7 +706,11 @@ export default {
       let zcSource = 'zdzjzcmx_fdq'
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
         xmSource = 'zxjdxmmx_fdq'
-        zcSource = 'zxjdzcmx_fdq'
+        if (this.$store.getters.isNeiMeng) {
+          zcSource = 'zdzjzcmx_fdq_ys'// 内蒙古要求和中央和地方资金支出分地区直达区分开，RH_1042
+        } else {
+          zcSource = 'zxjdzcmx_fdq'
+        }
       }
       if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
         xmSource = 'zyzfxmmx'
