@@ -715,7 +715,7 @@ let proconf = {
             cellRender: {
               name: '$vxeRatio'
             }
-          },
+          }
           // {
           //   title: '本级已支出',
           //   field: 'amountSnjpay',
@@ -772,7 +772,7 @@ let proconf = {
             cellRender: {
               name: '$vxeRatio'
             }
-          },
+          }
           // {
           //   title: '已支出',
           //   field: 'amountXjpay',

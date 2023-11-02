@@ -138,7 +138,7 @@ export default {
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
       tableColumnsConfig: this.transJson(this.$store?.state?.curNavModule?.param5)?.tableHeadType === '1'
-        ? getFormData('basicInfo', `tableColumnsConfigZx`)
+        ? getFormData('basicInfo', 'tableColumnsConfigZx')
         : getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`),
       tableData: [],
       obj: {},
