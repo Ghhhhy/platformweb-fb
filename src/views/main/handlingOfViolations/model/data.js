@@ -1,5 +1,6 @@
 import store from '@/store/index'
 import router from '@/router'
+import { transJson2 } from '@/utils/params'
 
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
 
@@ -381,7 +382,16 @@ export const getUnitColumns = () => {
     }
   ]
 }
-
+// 支付申请编号
+export const getPayAppNo = (params = {}) => {
+  return {
+    title: '支付申请编号',
+    field: 'payAppNo',
+    width: 180,
+    sortable: false,
+    filters: false
+  }
+}
 // 预警日期
 export const getCreateTimeColumn = (params = {}) => {
   return {
@@ -501,6 +511,10 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     // getWarnTypeColumn(),
     getIsDirColumn()
   ]
+  const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
+  if (projectCode !== 'SH') {
+    columns.unshift(getPayAppNo())
+  }
   columns.forEach(column => {
     column.sortable = column.sortable || false
     column.align = column.align || 'center'
@@ -795,13 +809,13 @@ export const fjAddColumns = [
   //   sortable: false,
   //   filters: false
   // },
-  {
-    title: '支付申请编号',
-    field: 'payAppNo',
-    width: 180,
-    sortable: false,
-    filters: false
-  },
+  // {
+  //   title: '支付申请编号',
+  //   field: 'payAppNo',
+  //   width: 180,
+  //   sortable: false,
+  //   filters: false
+  // },
   // {
   //   title: '支付金额',
   //   field: 'payAppAmt',
