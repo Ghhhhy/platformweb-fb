@@ -111,7 +111,7 @@ export default defineComponent({
           reportCode: reportCodeMap[$route.name].reportCode,
           ...params
         }
-        copyObj[reportCodeMap[$route.name].querykey] = injectData.code
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
         return copyObj
       },
       afterFetch: tableData => {
