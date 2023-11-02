@@ -955,8 +955,8 @@ export default {
         this.$message.warning('请选择挂接函数')
         return
       }
-      if (this.ruleTemplateName.length > 20) {
-        this.$message.warning('规则模板名称长度应小于等于20位')
+      if (this.ruleTemplateName.length > 90) {
+        this.$message.warning('规则模板名称长度应小于等于90位')
         return
       }
       if (this.ruleRemark.length > 100) {
