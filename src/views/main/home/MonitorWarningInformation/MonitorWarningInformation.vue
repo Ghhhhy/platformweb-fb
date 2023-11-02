@@ -41,11 +41,29 @@ import router from '@/router'
 import { mockTableColumns } from './MonitorWarningInformation'
 export default defineComponent({
   setup(props, { emit }) {
+    const formatKeyList = ['sbGzKhjd', 'sbGzXsjd']
+    let cursionData = (arr) => {
+      return arr.map(item => {
+        let newObj = { ...item }
+        // sbGzKhjd 考核进度,sbGzXsjd 序时进度,sbZxjd 执行进度 让后端返回的 '0.37777...8' 变成'37.8' 这种
+        formatKeyList.forEach(field => {
+          if (item[field]) {
+            newObj[field] = parseFloat(item[field] * 100).toFixed(1)
+          } else {
+            newObj[field] = '0.0'
+          }
+        })
+        if (item.children) {
+          newObj.children = cursionData(item.children)
+        }
+        return newObj
+      })
+    }
     const tableLoading = ref(false)
     let tableData = ref([])
     let defaultExpandKey = ref([])
     const init = (data) => {
-      tableData.value = data
+      tableData.value = cursionData(data)
       defaultExpandKey.value = cursionTreeList(data)
     }
     onMounted(() => {

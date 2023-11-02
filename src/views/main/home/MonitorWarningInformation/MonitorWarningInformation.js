@@ -150,24 +150,24 @@ export const mockTableColumns = [
     cellRender: {
       name: '$vxeRatio'
     },
-    // tooltipFormat: ({ row, column }) => {
-    //   const {sbZbjeBgz,sbZxjeBgz}=row
-    //   let sbZxjd='0.0'
-    //   if(Number(sbZbjeBgz)){
-    //     sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
-    //   }
-    //   return `执行进度：${sbZxjd}%`
-    // },
+    tooltipFormat: ({ row, column }) => {
+      const {sbZbjeBgz,sbZxjeBgz}=row
+      let sbZxjd='0.0'
+      if(Number(sbZbjeBgz)){
+        sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
+      }
+      return `执行进度：${sbZxjd}%`
+    },
     slots: {
       default({ row }) {
-        // const {sbZbjeBgz,sbZxjeBgz}=row
-        // let sbZxjd=0
-        // if(Number(sbZbjeBgz)){
-        //   sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
-        // }
+        const {sbZbjeBgz,sbZxjeBgz}=row
+        let sbZxjd=0
+        if(Number(sbZbjeBgz)){
+          sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
+        }
         return [
           <div class="fsc" style="height:100%;">
-            <CustomerElProgress style="width:100%;" progressScaleList={[{ progressScale: (row.sbGzKhjd) * 100, color: '#01a883' }]} percentage={Number(((row.sbGzKhjd) * 100).toFixed(1))}></CustomerElProgress>
+            <CustomerElProgress style="width:100%;" progressScaleList={[{progressScale:sbZxjd,color:'#01a883'}]} percentage={row.sbGzKhjd}></CustomerElProgress>
           </div>
         ]
       }
@@ -187,16 +187,24 @@ export const mockTableColumns = [
     cellRender: {
       name: '$vxeRatio'
     },
+    tooltipFormat: ({ row, column }) => {
+      const {sbZbjeBgz,sbZxjeBgz}=row
+      let sbZxjd='0.0'
+      if(Number(sbZbjeBgz)){
+        sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
+      }
+      return `执行进度：${sbZxjd}%`
+    },
     slots: {
       default({ row }) {
-        // const {sbZbjeBgz,sbZxjeBgz}=row
-        // let sbZxjd=0
-        // if(Number(sbZbjeBgz)){
-        //   sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
-        // }
+        const {sbZbjeBgz,sbZxjeBgz}=row
+        let sbZxjd=0
+        if(Number(sbZbjeBgz)){
+          sbZxjd=Number((parseFloat(sbZxjeBgz/sbZbjeBgz)*100).toFixed(1))
+        }
         return [
           <div class="fsc" style="height:100%;">
-            <CustomerElProgress style="width:100%;" progressScaleList={[{ progressScale: (row.sbGzXsjd) * 100, color: '#01a883' }]} percentage={Number(((row.sbGzXsjd) * 100).toFixed(1))}></CustomerElProgress>
+            <CustomerElProgress style="width:100%;"  progressScaleList={[{progressScale:row.sbGzKhjd,color:'#ff4949'},{progressScale:sbZxjd,color:'#01a883'}]} percentage={row.sbGzXsjd}></CustomerElProgress>
           </div>
         ]
       }
