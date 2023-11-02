@@ -87,7 +87,7 @@ const proconf = {
       'width': '8',
       'align': 'left',
       'formula': '',
-      'type': 'miniRange',
+      'typeKeyValue': 'LastMonth',
       'name': '$vxeMoney',
       'itemRender': {
         'name': '$vxeMoney',
@@ -108,6 +108,7 @@ const proconf = {
     {
       'title': '上月最大收入',
       'field': 'maxLastMonth',
+      'typeKeyValue': 'LastMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -132,6 +133,7 @@ const proconf = {
     {
       'title': '当月最小收入',
       'field': 'minCurrentMonth',
+      'typeKeyValue': 'CurrentMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -155,6 +157,7 @@ const proconf = {
     {
       'title': '当月最大收入',
       'field': 'maxCurrentMonth',
+      'typeKeyValue': 'CurrentMonth',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -178,6 +181,7 @@ const proconf = {
     {
       'title': '最小增幅',
       'field': 'minAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -201,6 +205,7 @@ const proconf = {
     {
       'title': '最大增幅',
       'field': 'maxAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',

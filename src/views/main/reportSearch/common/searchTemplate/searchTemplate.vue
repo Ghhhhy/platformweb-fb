@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="(e1,e2) => { searchFun(e1,e2,false) }"
+            @onSearchResetClick="resetFun"
           >
             <template v-if="isSx" v-slot:action-button-before>
               <vxe-button
@@ -123,7 +124,6 @@
 import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import regionMixin from '../mixins/regionMixin.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 export default {
   mixins: [regionMixin],
   computed: {
@@ -151,9 +151,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    queryConfig() {
-      this.getSearchDataList()
     }
   },
   data() {
@@ -161,7 +158,6 @@ export default {
       hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
       showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       roleguid: this.$store.state.curNavModule.roleguid,
-      searchDataListOld: {},
       reportTime: '',
       caliberDeclareContent: '', // 口径说明
       leftTreeVisible: false,
@@ -178,7 +174,6 @@ export default {
           unit: '万元'
         }
       },
-      buttonsInfo: {},
       tabStatusNumConfig: {
         1: 0
       },
@@ -233,8 +228,8 @@ export default {
         }
       },
       toolbarConfig: {
-        disabledMoneyConversion: false },
-      ifRenderExpandContentTable: true,
+        disabledMoneyConversion: false
+      },
       pagerConfig: {
         autoHidden: true,
         total: 1,
@@ -258,43 +253,19 @@ export default {
           buttons: 'toolbarSlots'
         }
       },
-      // mainPagerConfig: {
-      //   total: 0,
-      //   currentPage: 1,
-      //   pageSize: 20
-      // },
-      tableFooterConfig: {
-        showFooter: false
-      },
-      expandConfig: {
-        showIcon: false,
-        lazy: true,
-        expandAll: true
-      },
       // 操作日志
       logData: [],
       showLogView: false,
-      // 新增弹窗
-      dialogVisible: false,
-      dialogTitle: '新增',
-      addTableData: [],
-      modifyData: {},
       // 请求 & 角色权限相关配置
       menuName: '',
       params5: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
-      isHaveZero: '0',
-      billguid: '',
       condition: {},
-      selectData: '',
       queryConfig: [],
-      searchDataList: {
-        fiscalYear: this.$store.state.userInfo.year,
-        proCodes: '',
-        endTime: ''
-      },
+      recordSearchDataList: {},
+      searchDataList: {},
       detailVisible: false,
       detailType: '',
       sDetailType: '',
@@ -318,12 +289,10 @@ export default {
       if (Type === 'BsTable') {
         let configData = await this.loadBsConfig(params)
         this.tableColumnsConfig = configData.itemsConfig
-        this.getPro()
       }
       if (Type === 'BsQuery') {
         let configData = await this.loadBsConfig(params)
         this.queryConfig = configData.itemsConfig
-        this.searchDataList.fiscalYear = new Date().getFullYear()
       }
     },
     switchMoneyUnit(level) {
@@ -333,45 +302,81 @@ export default {
     onQueryConditionsClick(isOpen) {
       this.isShowQueryConditions = isOpen
     },
-    // 初始化高级查询data
-    getSearchDataList() {
-      // 下拉树
-      let searchDataObj = {}
+    // 初始化高级查询参数condition
+    clearConditionList() {
+      let clearCondition = {}
       this.queryConfig.forEach((item) => {
-        if (
-          item.itemRender.name === '$formTreeInput' ||
-          item.itemRender.name === '$vxeTree'
-        ) {
-          if (item.field) {
-            searchDataObj[item.field + 'code'] = ''
+        let fieldValue = item.field
+        if (item.itemRender.name === '$vxeTree') {
+          if (fieldValue) {
+            clearCondition[item.field] = []
           }
+        } else if (item.itemRender.name === '$formTreeInput') {
+          if (item.field === 'incomeSort') {
+            clearCondition[item.field + 'Name'] = ''
+            clearCondition[item.field + 'Code'] = ''
+          }
+        } else if (item.itemRender.name === '$vxeSelect') {
+          clearCondition[item.field] = []
         } else {
           if (item.field) {
-            searchDataObj[item.field] = ''
+            clearCondition[fieldValue] = ''
           }
         }
       })
-      this.searchDataList = searchDataObj
-      this.searchDataList.fiscalYear = new Date().getFullYear()
+      return clearCondition
     },
     // 初始化高级查询参数condition
     getConditionList() {
       let condition = {}
       this.queryConfig.forEach((item) => {
-        if (
-          item.itemRender.name === '$formTreeInput' ||
-          item.itemRender.name === '$vxeTree'
-        ) {
-          if (item.field) {
-            if (item.field === 'cor_bgt_doc_no_') {
-              condition[item.field + 'name'] = []
+        let fieldValue = item.field
+        let curValue = this.searchDataList[fieldValue]
+        if (item.itemRender.name === '$vxeTree') {
+          if (fieldValue) {
+            if (fieldValue === 'mofDivCode') {
+              if (Array.isArray(this.searchDataList[item.field])) {
+                condition[fieldValue] = curValue
+              } else {
+                let newFieldName = fieldValue + '_code__multiple'
+                if (this.searchDataList[newFieldName]) {
+                  condition[fieldValue] = this.searchDataList[newFieldName]
+                } else {
+                  if (curValue.trim() !== '') {
+                    condition[fieldValue] = []
+                    curValue.split(',').forEach((item) => {
+                      condition[fieldValue].push(item)
+                    })
+                  }
+                }
+              }
             } else {
-              condition[item.field + 'code'] = []
+              condition[item.field] = curValue
             }
+          }
+        } else if (item.itemRender.name === '$formTreeInput') {
+          if (item.field === 'incomeSort') {
+            condition[item.field + 'Name'] = this.searchDataList[item.field + 'name']
+            condition[item.field + 'Code'] = this.searchDataList[item.field + 'code']
+          }
+        } else if (item.itemRender.name === '$vxeSelect') {
+          let levelsArr = []
+          if (item.field === 'levels') {
+            if (curValue) {
+              levelsArr.push(curValue)
+            }
+            condition[item.field] = levelsArr
+          }
+        } else if (item.itemRender.name === '$vxeMoney') {
+          let newFieldName = fieldValue + '__moneySwitchinput'
+          if (this.searchDataList[newFieldName]) {
+            condition[fieldValue] = this.searchDataList[newFieldName]
+          } else {
+            condition[fieldValue] = curValue
           }
         } else {
           if (item.field) {
-            condition[item.field] = []
+            condition[fieldValue] = curValue
           }
         }
       })
@@ -394,12 +399,10 @@ export default {
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.queryTableDatas()
-      this.queryTableDatasCount()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 前端筛选过滤数据
     frontQueryTableDatas(val, multipleValue = {}) {
-      console.log(val, multipleValue)
       let curTableData = window.deepCopy(this.tableData)
       this.queryConfig.forEach((item) => {
         if (
@@ -438,30 +441,18 @@ export default {
         }
       })
       this.tableData = curTableData
-      this.tableLoading = false
     },
     // 搜索
     search(val, multipleValue = {}) {
       this.searchDataList = val
       let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof this.searchDataList[key] === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              condition[key] = []
-              this.searchDataList[key].split(',').forEach((item) => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
-      }
-      this.condition = condition
+      this.recordSearchDataList = condition
+      this.queryTableDatas()
+    },
+    // 重置功能方法
+    resetFun() {
+      let clearCondition = this.clearConditionList()
+      this.recordSearchDataList = clearCondition
       this.queryTableDatas()
     },
     // 搜索功能方法
@@ -499,17 +490,6 @@ export default {
     },
     changeVisible(val) {
       this.breakRuleVisible = val
-    },
-    onClickmethod(node) {
-      if (node.id !== '0') {
-        let key =
-          this.$refs.treeSet.treeConfigIn.curRadio.toLowerCase() + '_code'
-        this.condition[key] = node.id
-      } else {
-        this.condition = {}
-      }
-
-      this.queryTableDatas(node.guid)
     },
     handleDetail(reportCode, row, column) {
       let that = this
@@ -579,10 +559,8 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
-        fiscalYear: this.searchDataList.fiscalYear,
-        condition: condition,
-        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: (this.searchDataList.proCodes && typeof this.searchDataList.proCodes === 'string') ? this.getTrees(this.searchDataList.proCodes) : []
+        fiscalYear: this.$store.state.userInfo?.year || new Date().getFullYear(),
+        condition: condition
       }
       this.detailQueryParam = params
       this.detailType = reportCode
@@ -603,7 +581,6 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       let key = obj.column.property
-
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
@@ -612,10 +589,6 @@ export default {
       if (this.transJson(this.params5 || '')?.reportCode === 'zxjd_fdq') {
         xmSource = 'zxjdxmmx_fdq'
         zcSource = 'zxjdzcmx_fdq'
-      }
-      if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
-        xmSource = 'zyzfxmmx'
-        zcSource = 'zyzfzcmx_fdq'
       }
       if (this.transJson(this.params5 || '')?.reportCode === 'zyzfyszxqkfdq') {
         xmSource = 'zyzfxmmx'
@@ -645,74 +618,56 @@ export default {
     // 表格单元行单击
     cellClickSx(obj, context, e) {
     },
-    handleDetailSx(reportCode, row, column) {
-    },
-    // 表格单元行单击
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       this.search(this.$refs.queryFrom.getFormData(), '')
-      // this.queryTableDatasCount()
-    },
-    getPro(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getProTreeData({ fiscalYear }).then(res => {
-        if (res.code === '000000') {
-          // let treeResdata = this.getChildrenNewData1(res.data)
-          // this.queryConfig[1].itemRender.options = treeResdata
-          this.searchDataList = this.searchDataListOld
-          this.searchDataList.proCodes = ''
-          this.$set(this, 'searchDataList', this.searchDataListOld)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
-    getChildrenNewData1(datas) {
-      let that = this
-      datas.forEach(item => {
-        item.label = item.name
-        if (item.children) {
-          that.getChildrenNewData1(item.children)
-        }
-      })
-      return datas
-    },
-    getTrees(val) {
-      let proCodes = []
-      if (val.trim() !== '') {
-        val.split(',').forEach((item) => {
-          proCodes.push(item.split('##')[0])
-        })
-      }
-      return proCodes
     },
     // 获取表格数据
     async queryTableDatas() {
-      const param = {
-        page: this.pagerConfig.currentPage, // 页码
-        pageSize: this.pagerConfig.pageSize, // 每页条数
-        fiscalYear: this.$store.state.userInfo?.year || '2023',
-        mofDivCodeList: [],
-        reportCode: this.transJson(this.params5 || '')?.reportCode || 'wfszbmxcx',
-        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
+      let curThis = this
+      let infoValue = ''
+      this.queryConfig.forEach((item) => {
+        let fieldValue = item.field
+        let fieldName = item.typeKeyValue
+        if (fieldName && (fieldValue === 'min' + fieldName)) {
+          let minValue = this.recordSearchDataList['min' + item.typeKeyValue]
+          let maxValue = this.recordSearchDataList['max' + item.typeKeyValue]
+          if (minValue && maxValue && (Number(maxValue) < Number(minValue))) {
+            let curTitle = item.title
+            let maxTitle = curTitle.replace('小', '大')
+            let messageValue = curTitle + '应小于' + maxTitle + ','
+            infoValue = infoValue + messageValue
+          }
+        }
+      })
+      if (infoValue) {
+        infoValue = infoValue + '请修改搜索条件！'
+        this.$message.info(infoValue)
+        return
       }
-      console.log(this)
-      this.tableLoading = true
-
+      let curParam = {
+        page: curThis.pagerConfig.currentPage, // 页码
+        pageSize: curThis.pagerConfig.pageSize, // 每页条数
+        fiscalYear: curThis.$store.state.userInfo?.year || new Date().getFullYear(),
+        reportCode: curThis.transJson(curThis.params5 || '')?.reportCode || 'wfszbmxcx'
+      }
+      curParam = { ...curParam, ...curThis.recordSearchDataList }
+      console.log(curThis)
+      curThis.tableLoading = true
       // dfr-monitor-service/dfr/zdzjledger/query
       // dfr-monitor-service/dfr/supervision/query
-      await this.$http.post('dfr-monitor-service/dfr/zdzjledger/query', param).then((res) => {
+      await curThis.$http.post('dfr-monitor-service/dfr/supervision/query', curParam).then((res) => {
         if (res.code === '000000') {
           if (res.data) {
-            this.tableData = res.data.data
-            this.reportTime = res.data.reportTime || ''
-            this.caliberDeclareContent = res.data.description || ''
+            curThis.tableData = res.data.data
+            curThis.reportTime = res.data.reportTime || ''
+            curThis.caliberDeclareContent = res.data.description || ''
           }
         } else {
-          this.$message.error(res.message)
+          curThis.$message.error(res.message)
         }
       }).finally(() => {
-        this.tableLoading = false
+        curThis.tableLoading = false
       })
     },
     initTableData(tableDataTest) {
@@ -817,11 +772,11 @@ export default {
     } else {
       this.getFormData = require('./searchTemplate.js').default
     }
-    // this.buttonsInfo = this.getFormData('statusRightToolBarButtonByBusDept')
     this.tableConfig = this.getFormData('basicInfo', 'tableConfig')
     this.tableColumnsConfig = this.getFormData('basicInfo', `tableColumnsConfig${this.transJson(this.$store?.state?.curNavModule?.param5)?.isCity ? 'City' : ''}`)
     this.queryConfig = this.getFormData('highQueryConfig')
-    this.getPro()
+    let clearCondition = this.clearConditionList()
+    this.recordSearchDataList = clearCondition
     this.queryTableDatas(false)
   }
 }

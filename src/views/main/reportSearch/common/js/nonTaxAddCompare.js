@@ -82,23 +82,25 @@ const proconf = {
       }
     },
     {
-      field: 'income_sort_',
+      field: 'incomeSort',
       title: '收入科目（二级）',
       width: '8',
       itemRender: {
         name: '$formTreeInput',
         props: {
-          'placeholder': '收入科目（二级）',
+          placeholder: '收入科目（二级）',
           type: 'text',
           isleaf: true,
           isServer: true,
           elecode: 'income_sort',
           editConfig: {
+            placeholder: '收入科目（二级）',
             initLoadTree: false
           },
-          serverUri: 'mp-b-budget-service/v1/common/budget/elementtree',
+          serverUri: 'mp-b-basedata-service/v2/basedata/INCOMESORT/150000000',
           queryparams: {
-            eleCode: 'income_sort'
+            date: '2023',
+            level_no: '2'
           }
         }
       }
@@ -106,6 +108,7 @@ const proconf = {
     {
       'title': '当年当月累计最小收入',
       'field': 'minCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -129,6 +132,7 @@ const proconf = {
     {
       'title': '当年当月累计最大收入',
       'field': 'maxCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -152,6 +156,7 @@ const proconf = {
     {
       'title': '上年同期累计最小收入',
       'field': 'minLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -175,6 +180,7 @@ const proconf = {
     {
       'title': '上年同期累计最大收入',
       'field': 'maxLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -198,6 +204,7 @@ const proconf = {
     {
       'title': '最小增幅',
       'field': 'minAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -221,6 +228,7 @@ const proconf = {
     {
       'title': '最大增幅',
       'field': 'maxAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -297,9 +305,9 @@ const proconf = {
         'title': '收入科目编码（二级）',
         'width': 200,
         'filters': true,
-        'field': 'nm-income_sort_code',
+        'field': 'incomeSortCode',
         'align': 'right',
-        'type': 'nm-income_sort_code',
+        'type': 'incomeSortCode',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -308,9 +316,9 @@ const proconf = {
         'title': '收入科目名称（二级）',
         'width': 200,
         'filters': true,
-        'field': 'nm-income_sort_name',
+        'field': 'incomeSortName',
         'align': 'right',
-        'type': 'nm-income_sort_name',
+        'type': 'incomeSortName',
         'cellRender': {
           'name': '$vxeInput'
         }

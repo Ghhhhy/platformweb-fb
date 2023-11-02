@@ -82,23 +82,24 @@ const proconf = {
       }
     },
     {
-      field: 'income_sort_',
+      field: 'incomeSort',
       title: '收入科目（土地出让收入）',
       width: '8',
       itemRender: {
         name: '$formTreeInput',
         props: {
-          'placeholder': '收入科目（土地出让收入）',
+          placeholder: '收入科目（土地出让收入）',
           type: 'text',
           isleaf: true,
           isServer: true,
           elecode: 'income_sort',
           editConfig: {
+            placeholder: '收入科目（土地出让收入）',
             initLoadTree: false
           },
-          serverUri: 'mp-b-budget-service/v1/common/budget/elementtree',
+          serverUri: 'mp-b-basedata-service/v2/basedata/INCOMESORT/150000000',
           queryparams: {
-            eleCode: 'income_sort'
+            date: '2023'
           }
         }
       }
@@ -106,6 +107,7 @@ const proconf = {
     {
       'title': '当年当月累计最小收入',
       'field': 'minCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -129,6 +131,7 @@ const proconf = {
     {
       'title': '当年当月累计最大收入',
       'field': 'maxCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -152,6 +155,7 @@ const proconf = {
     {
       'title': '当年累计一般公共预算最小收入',
       'field': 'minYearBudgetAmount',
+      'typeKeyValue': 'YearBudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -175,6 +179,7 @@ const proconf = {
     {
       'title': '当年累计一般公共预算最大收入',
       'field': 'maxYearBudgetAmount',
+      'typeKeyValue': 'YearBudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',

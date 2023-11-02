@@ -82,30 +82,65 @@ const proconf = {
       }
     },
     {
-      field: 'incomeSortCode',
+      field: 'incomeSort',
       title: '收入科目（土地出让收入）',
       width: '8',
+      name: '$vxeTree',
       itemRender: {
-        name: '$formTreeInput',
+        name: '$vxeTree',
+        options: [],
+        defaultValue: '',
         props: {
-          'placeholder': '收入科目（土地出让收入）',
-          type: 'text',
-          isleaf: true,
+          placeholder: '收入科目（土地出让收入）',
           isServer: true,
-          elecode: 'income_sort',
-          editConfig: {
-            initLoadTree: false
+          format: '{code}-{name}',
+          config: {
+            treeProps: {
+              nodeKey: 'guid',
+              label: 'name',
+              labelFormat: '{code}-{name}'
+            },
+            placeholder: '请选择收入科目（土地出让收入）',
+            multiple: false,
+            isleaf: false,
+            axiosConfig: {
+              method: 'get',
+              successCode: '100000',
+              statusField: 'rscode',
+              url: 'mp-b-basedata-service/v2/basedata/INCOMESORT/150000000'
+            }
           },
-          serverUri: 'mp-b-budget-service/v1/common/budget/elementtree',
           queryparams: {
-            eleCode: 'income_sort'
+            date: '2023',
+            code: '1030148'
           }
         }
       }
+      // itemRender: {
+      //   name: '$vxeTree',
+      //   props: {
+      //     placeholder: '收入科目（土地出让收入）',
+      //     type: 'text',
+      //     isleaf: true,
+      //     isServer: true,
+      //     elecode: 'income_sort',
+      //     editConfig: {
+      //       placeholder: '收入科目（土地出让收入）',
+      //       initLoadTree: false
+      //     },
+      //     ajaxType: 'get',
+      //     serverUri: 'mp-b-basedata-service/v2/basedata/INCOMESORT/150000000',
+      //     queryparams: {
+      //       date: '2023',
+      //       code: '1030148'
+      //     }
+      //   }
+      // }
     },
     {
       'title': '当年当月累计最小收入',
       'field': 'minCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -129,6 +164,7 @@ const proconf = {
     {
       'title': '当年当月累计最大收入',
       'field': 'maxCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -152,6 +188,7 @@ const proconf = {
     {
       'title': '上年同期累计最小收入',
       'field': 'minLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -175,6 +212,7 @@ const proconf = {
     {
       'title': '上年同期累计最大收入',
       'field': 'maxLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -198,6 +236,7 @@ const proconf = {
     {
       'title': '最小增幅',
       'field': 'minAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -221,6 +260,7 @@ const proconf = {
     {
       'title': '最大增幅',
       'field': 'maxAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',

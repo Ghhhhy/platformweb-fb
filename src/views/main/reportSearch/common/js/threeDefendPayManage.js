@@ -84,6 +84,7 @@ const proconf = {
     {
       'title': '当年累计预算执行最小进度（三保）',
       'field': 'minBudgetProgress',
+      'typeKeyValue': 'BudgetProgress',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -107,6 +108,7 @@ const proconf = {
     {
       'title': '当年累计预算执行最大进度（三保）',
       'field': 'maxBudgetProgress',
+      'typeKeyValue': 'BudgetProgress',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -130,6 +132,7 @@ const proconf = {
     {
       'title': '最小进度差',
       'field': 'minVariance',
+      'typeKeyValue': 'Variance',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -153,6 +156,7 @@ const proconf = {
     {
       'title': '最大进度差',
       'field': 'maxVariance',
+      'typeKeyValue': 'Variance',
       'width': '8',
       'align': 'left',
       'formula': '',

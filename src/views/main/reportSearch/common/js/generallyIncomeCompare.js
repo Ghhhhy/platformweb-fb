@@ -84,6 +84,7 @@ const proconf = {
     {
       'title': '当月一般公共预算最小收入',
       'field': 'minBudgetAmount',
+      'typeKeyValue': 'BudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -107,6 +108,7 @@ const proconf = {
     {
       'title': '当月一般公共预算最大收入',
       'field': 'maxBudgetAmount',
+      'typeKeyValue': 'BudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -130,6 +132,7 @@ const proconf = {
     {
       'title': '上年同期当月最小收入',
       'field': 'minLastBudgetAmount',
+      'typeKeyValue': 'LastBudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -153,6 +156,7 @@ const proconf = {
     {
       'title': '上年同期当月最大收入',
       'field': 'maxLastBudgetAmount',
+      'typeKeyValue': 'LastBudgetAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -176,6 +180,7 @@ const proconf = {
     {
       'title': '最小增幅',
       'field': 'minAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -199,6 +204,7 @@ const proconf = {
     {
       'title': '最大增幅',
       'field': 'maxAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',

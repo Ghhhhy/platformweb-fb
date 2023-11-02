@@ -84,6 +84,7 @@ const proconf = {
     {
       'title': '当年当月累计最小收入',
       'field': 'minCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -107,6 +108,7 @@ const proconf = {
     {
       'title': '当年当月累计最大收入',
       'field': 'maxCurrentMonthAmount',
+      'typeKeyValue': 'CurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -130,6 +132,7 @@ const proconf = {
     {
       'title': '上年同期累计最小收入',
       'field': 'minLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -153,6 +156,7 @@ const proconf = {
     {
       'title': '上年同期累计最大收入',
       'field': 'maxLastCurrentMonthAmount',
+      'typeKeyValue': 'LastCurrentMonthAmount',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -176,6 +180,7 @@ const proconf = {
     {
       'title': '最小增幅',
       'field': 'minAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
@@ -199,6 +204,7 @@ const proconf = {
     {
       'title': '最大增幅',
       'field': 'maxAmplitude',
+      'typeKeyValue': 'Amplitude',
       'width': '8',
       'align': 'left',
       'formula': '',
