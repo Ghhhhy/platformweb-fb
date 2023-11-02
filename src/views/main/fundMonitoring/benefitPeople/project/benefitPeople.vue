@@ -431,7 +431,9 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      this.$refs.ImportModel.disabled = true
+      if (this.$store.getters.isNeiMeng) {
+        this.$refs.ImportModel.disabled = true
+      }
       if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
         await HttpModule.queryCompanyInfo(this.fileConfig).then(async (res) => {
           this.$refs.ImportModel.disabled = false

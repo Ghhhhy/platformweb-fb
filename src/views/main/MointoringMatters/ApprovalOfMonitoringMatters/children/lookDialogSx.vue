@@ -388,7 +388,7 @@ export default {
       this.$parent.showAttachment1(this.declareCode)
     },
     dialogClose() {
-      this.$parent.lookdialogVisible = false
+      this.$parent.lookdialogVisibleSx = false
       this.$parent.queryTableDatas()
     },
     // 政策法规编码
