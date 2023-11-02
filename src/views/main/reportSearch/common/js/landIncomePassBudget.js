@@ -82,29 +82,6 @@ const proconf = {
       }
     },
     {
-      field: 'incomeSort',
-      title: '收入科目（土地出让收入）',
-      width: '8',
-      itemRender: {
-        name: '$formTreeInput',
-        props: {
-          placeholder: '收入科目（土地出让收入）',
-          type: 'text',
-          isleaf: true,
-          isServer: true,
-          elecode: 'income_sort',
-          editConfig: {
-            placeholder: '收入科目（土地出让收入）',
-            initLoadTree: false
-          },
-          serverUri: 'mp-b-basedata-service/v2/basedata/INCOMESORT/150000000',
-          queryparams: {
-            date: '2023'
-          }
-        }
-      }
-    },
-    {
       'title': '当年当月累计最小收入',
       'field': 'minCurrentMonthAmount',
       'typeKeyValue': 'CurrentMonthAmount',
@@ -223,7 +200,7 @@ const proconf = {
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
-        'width': 240,
+        'width': 330,
         'field': 'mofDivName',
         'cellRender': {
           'name': '$vxeIcon'
@@ -231,7 +208,7 @@ const proconf = {
       },
       {
         'title': '区划代码',
-        'width': 150,
+        'width': 330,
         'field': 'mofDivCode',
         'filters': true,
         'align': 'right',
@@ -253,30 +230,8 @@ const proconf = {
         }
       },
       {
-        'title': '收入科目编码（土地出让收入）',
-        'width': 260,
-        'filters': true,
-        'field': 'incomeSortCode',
-        'align': 'right',
-        'type': 'incomeSortCode',
-        'cellRender': {
-          'name': '$vxeInput'
-        }
-      },
-      {
-        'title': '收入科目名称（土地出让收入）',
-        'width': 260,
-        'filters': true,
-        'field': 'incomeSortName',
-        'align': 'right',
-        'type': 'incomeSortName',
-        'cellRender': {
-          'name': '$vxeInput'
-        }
-      },
-      {
         'title': '当年当月累计收入（土地出让收入）',
-        'width': 320,
+        'width': 420,
         'field': 'currentMonthAmount',
         'align': 'right',
         'type': 'currentMonthAmount',
@@ -288,7 +243,7 @@ const proconf = {
       {
         'title': '当年累计一般公共预算收入',
         'field': 'yearBudgetAmount',
-        'width': 320,
+        'width': 420,
         'align': 'right',
         'cellRender': {
           'name': '$vxeMoney'
