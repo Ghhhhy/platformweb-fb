@@ -658,8 +658,10 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
-      const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) return
+      if (!this.$store.getters.isSx) {
+        const hideColumnLinkStr = this.transJson3(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) return
+      }
       // 有效的cellValue
       if (this.projectCode !== 'FJ') { // 福建的不要钻取
         const validCellValue = (row[column.property] * 1)

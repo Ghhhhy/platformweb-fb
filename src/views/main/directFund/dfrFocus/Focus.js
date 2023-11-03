@@ -108,27 +108,54 @@ export let proconf = {
         }
       }
     },
+    // {
+    //   title: '预算单位',
+    //   field: 'agencyCode',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeTree',
+    //   itemRender: {
+    //     name: '$vxeTree',
+    //     options: [],
+    //     'props': {
+    //       'config': {
+    //         'treeProps': {
+    //           'nodeKey': 'id',
+    //           'label': 'label',
+    //           'children': 'children'
+    //         },
+    //         'placeholder': '预算单位',
+    //         'multiple': false,
+    //         'readonly': true,
+    //         'isleaf': true
+    //       }
+    //     }
+    //   }
+    // },
     {
       title: '预算单位',
       field: 'agencyCode',
       width: '8',
       align: 'left',
-      formula: '',
       name: '$vxeTree',
       itemRender: {
         name: '$vxeTree',
         options: [],
-        'props': {
-          'config': {
-            'treeProps': {
-              'nodeKey': 'id',
-              'label': 'label',
-              'children': 'children'
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
             },
-            'placeholder': '预算单位',
-            'multiple': false,
-            'readonly': true,
-            'isleaf': true
+            placeholder: '请选择预算单位',
+            multiple: true,
+            readonly: false,
+            isleaf: true
           }
         }
       }

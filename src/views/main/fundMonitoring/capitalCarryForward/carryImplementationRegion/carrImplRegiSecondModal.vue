@@ -101,7 +101,7 @@ export default defineComponent({
           reportCode: reportCodeMap[$route.name].reportCode,
           ...params
         }
-        copyObj[reportCodeMap[$route.name].querykey] = injectData.code
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
         return copyObj
       },
       afterFetch: tableData => {
@@ -144,6 +144,7 @@ export default defineComponent({
       isShowQueryConditions,
       tableStaticProperty,
       waitTable,
+      injectData,
       init
     }
   }
