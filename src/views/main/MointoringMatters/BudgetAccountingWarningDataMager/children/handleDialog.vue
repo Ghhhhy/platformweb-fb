@@ -300,6 +300,14 @@ export default {
               this.supplyDataList.depBgtEcoName = ['depBgtEcoCode', 'depBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
               this.supplyDataList.govBgtEcoName = ['govBgtEcoCode', 'govBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
               this.supplyDataList.expFuncName = ['expFuncCode', 'expFuncName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.fundTypeName = ['fundTypeCode', 'fundTypeName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.payTypeName = ['payTypeCode', 'fundTypeName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.setModeName = ['setModeCode', 'setModeName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.manageMofDepName = ['manageMofDepCode', 'manageMofDepName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.isSalName = ['isSalCode', 'isSalName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.isFunName = ['isFunCode', 'isFunName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.thrExpName = ['thrExpCode', 'thrExpName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
+              this.supplyDataList.isDirName = ['isDirCode', 'isDirName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
             }
           }
           if (res.data.payVoucherVo !== null) {
