@@ -234,10 +234,10 @@ export default {
         //   }
         // }
       ]
-      if (this.toolBarStatusSelect.code === '0' && this.$store.getters.isSx) {
-        const notShowField = ['nowCount']
-        return defaultColumns.filter((item) => !notShowField.includes(item.field))
-      }
+      // if (this.toolBarStatusSelect.code === '0' && this.$store.getters.isSx) {
+      //   const notShowField = ['nowCount']
+      //   return defaultColumns.filter((item) => !notShowField.includes(item.field))
+      // }
       return defaultColumns
     },
     tableColumnsConfig() {
