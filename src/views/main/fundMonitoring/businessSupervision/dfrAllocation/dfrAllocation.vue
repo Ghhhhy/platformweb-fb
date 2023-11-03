@@ -395,7 +395,7 @@ export default {
       HttpModule[axiosQueryUrl](param).then((res) => {
         this.tableLoading = false
         if (res.code === '000000') {
-          if(this.$store.getters.isSx){
+          if (this.$store.getters.isSx) {
             this.tableData = res.data.results
           } else {
             this.tableData = res.data
