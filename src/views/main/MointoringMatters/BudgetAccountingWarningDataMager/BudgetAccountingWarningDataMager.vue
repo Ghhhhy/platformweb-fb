@@ -1013,6 +1013,10 @@ export default {
           that.tableData = res.data.results
           this.tableData.forEach(item => {
             item.agency = item.agencyCode + '-' + item.agencyName
+            item.deptEconomyCode = item.depBgtEcoCode
+            item.deptEconomyName = item.depBgtEcoName
+            item.govEconomyCode = item.govBgtEcoCode
+            item.govEconomyName = item.govBgtEcoName
           })
           that.mainPagerConfig.total = res.data.totalCount
           // that.tabStatusNumConfig[param.handleResult] = res.data.totalCount
