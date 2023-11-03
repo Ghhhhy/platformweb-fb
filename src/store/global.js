@@ -171,6 +171,9 @@ export const mutations = {
     state.curNavModule = curNavModule
     localStorage.setItem('menuinfo', JSON.stringify(curNavModule))
   },
+  setUserTokenId(tokenId) {
+    localStorage.setItem('tokenid', tokenId)
+  },
   setCurMenuObj(state, obj) {
     state.curMenuObj = obj
   },
