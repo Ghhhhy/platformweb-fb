@@ -174,6 +174,9 @@ export const mutations = {
   setCurMenuObj(state, obj) {
     state.curMenuObj = obj
   },
+  setUserTokenId(tokenId) {
+    localStorage.setItem('tokenid', tokenId)
+  },
   setAppData(state, obj) {
     state.appData = obj
   },
