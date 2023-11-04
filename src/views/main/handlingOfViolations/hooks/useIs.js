@@ -33,6 +33,9 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
     console.log('判断是否单位', unref(isUnitMenu))
+    if (store.getters.isFuJian) { // 福建  放开禁止按钮
+      return true
+    }
     if (unref(isUnitMenu)) {
       return false
     }
