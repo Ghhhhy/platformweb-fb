@@ -411,6 +411,11 @@ export default defineComponent({
         // 禁止额外参数标识
         if (forbidStatus) {
           params.forbidStatus = forbidStatus
+          if (store.getters.isFuJian) {
+            params.isStop = '1'
+          } else {
+            params.isStop = '0'
+          }
         }
         // 走请求逻辑
         checkRscode(await bpmFlow(params))
