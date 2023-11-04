@@ -99,6 +99,7 @@ import {
 import { getAgencyNameColumn } from '@/views/main/handlingOfViolations/model/data.js'
 import elementTreeApi from '@/api/frame/common/tree/unitTree'
 import { useFooter } from '../common/hooks/useFooter'
+import store from '@/store/'
 
 export default defineComponent({
   components: {
@@ -137,7 +138,7 @@ export default defineComponent({
     } = useTree(
       {
         treeProps: {
-          nodeKey: 'code',
+          nodeKey: store.getters.isFuJian ? 'guid' : 'code',
           labelFormat: isSH ? undefined : '{name}'
         },
         fetch: elementTreeApi.getAgencyTree,
@@ -145,6 +146,8 @@ export default defineComponent({
           return [
             {
               name: '全部',
+              guid: 'ALL_NODE_CODE',
+              code: 'ALL_NODE_CODE',
               customCode: 'ALL_NODE_CODE',
               children: data || []
             }
