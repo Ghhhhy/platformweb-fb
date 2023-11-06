@@ -766,7 +766,7 @@ export default {
       } else if (!this.param5.show) {
         // 现在默认隐藏4个字段
         this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-          return !['payBusType', 'todoName', 'voidOrNot', 'useDes'].includes(item.field)
+          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
         })
       }
     },

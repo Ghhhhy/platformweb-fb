@@ -139,7 +139,7 @@
       <iframe :src="frameSrc" style="height:100%; width:100%;margin:0;border:0;"> </iframe>
 
     </vxe-modal>
-
+    <budgetDisburseObjectModal ref="budgetDisburseObjectModal" :click-row="clickRowData" />
   </div>
 </template>
 
@@ -340,6 +340,7 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
+      clickRowData: {},
       regulationclass: '',
       firulename: '',
       tableData: [],
@@ -431,6 +432,14 @@ export default {
           return true
         }
       }
+    },
+    showBudgetDisburseObjectModal(row) {
+      this.$set(this.clickRowData, 'mofDivCode', row.mofDivCode)
+      this.$set(this.clickRowData, 'hqlm', row.hqlm)
+      this.$set(this.clickRowData, 'proCode', row.proCode)
+      this.$set(this.clickRowData, 'proName', row.proName)
+      this.$refs.budgetDisburseObjectModal.dialogVisible = true
+      this.$refs.budgetDisburseObjectModal.init()
     },
     cellClick(obj, context, e) {
       if (this.isSx) { return }

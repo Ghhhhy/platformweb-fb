@@ -890,7 +890,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.state.curNavModule.param5
-    this.paramObj = this.transJson(this.$store.state.curNavModule.param5)
+    this.paramObj = this.transJson(this.$store.state.curNavModule.param5 || '') || {}
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }

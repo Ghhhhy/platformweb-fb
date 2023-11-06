@@ -9,18 +9,18 @@
             <div class="rule-use-wrapper">
               <!--<RuleUseInfoChart />-->
               <div class="f20 rule-swiper-title">监控整体情况</div>
-              <div class="width1 color1 mgr15">
-                <div class="rule-swiper-title">本月预警数据：<div class="font-style" @dblclick="menuClick1">{{ warnMonthList.warnCount || '0' }}笔</div></div>
+              <div class="verTop width1 color1 mgr15">
+                <div class="rule-swiper-title">本月预警数据：<div class="font-style" @click="menuClick1">{{ warnMonthList.warnCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">本月已处理：<div class="font-style">{{ warnMonthList.handAmount || '0' }}笔</div></div>
               </div>
 
-              <div class="width2 color2 mgr15">
-                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style" @dblclick="menuClick1">{{ warnYearList.warnCount || '0' }}笔</div></div>
+              <div class="verTop width2 color2 mgr15">
+                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style" @click="menuClick1">{{ warnYearList.warnCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">本年累计已处理：<div class="font-style">{{ warnYearList.handAmount || '0' }}笔</div></div>
               </div>
 
-              <div class="width3 color3 mgr15">
-                <div class="rule-swiper-title">所有规则：<div class="font-style" @dblclick="menuClick2">{{ ruleList.ruleCount || '0' }}笔</div></div>
+              <div class="verTop width3 color3 mgr15">
+                <div class="rule-swiper-title">所有规则：<div class="font-style" @click="menuClick2">{{ ruleList.ruleCount || '0' }}笔</div></div>
                 <div class="rule-swiper-title">启用规则：<div class="font-style">{{ ruleList.activeRuleCount || '0' }}笔</div></div>
               </div>
             </div>
@@ -435,7 +435,9 @@ export default defineComponent({
       height: 266px;
       background: #fff;
     }
-
+    .verTop{
+      vertical-align: top;
+    }
     .rule-scroll-wrapper {
       height: 298px;
     }

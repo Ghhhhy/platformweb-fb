@@ -886,6 +886,10 @@ export default {
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
+      // 陕西 县级不请求树结构
+      if (this.$store.getters.isSx && this.$store.state.userInfo.budgetlevelcode === '5') {
+        return
+      }
       let that = this
       HttpModule.getLeftTree(params).then(res => {
         if (res.rscode === '100000') {

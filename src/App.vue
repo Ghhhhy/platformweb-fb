@@ -76,6 +76,7 @@ export default {
       tokenid = tokenid || this.getCookie('tokenid')
       appguid = appguid || this.getCookie('appguid')
       if (tokenid) {
+        this.$store.commit('setUserTokenId', tokenid)
         this.$store.commit('setLoginAuthentication', {
           tokenid,
           appguid

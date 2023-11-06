@@ -723,6 +723,7 @@ export default {
       })
     },
     getPro() {
+      let self = this
       const param = {
         elementCode: 'AGENCY',
         date: this.$store.state.userInfo.year,
@@ -734,11 +735,14 @@ export default {
       }
       HttpModule.getTreeAgency(param).then(res => {
         if (res.code === '000000') {
-          let treeResdata = this.getChildrenNewData(res.data)
-          this.queryConfig[2].itemRender.options = treeResdata
-          this.searchDataList = { ...this.searchDataList }
+          let treeResdata = self.getChildrenNewData(res.data)
+          treeResdata.forEach(item => {
+            item['id'] = item.guid
+          })
+          self.queryConfig[2].itemRender.options = treeResdata
+          self.searchDataList = { ...this.searchDataList }
         } else {
-          this.$message.error(res.message)
+          self.$message.error(res.message)
         }
       })
     },

@@ -1,8 +1,8 @@
 /*
  * @Author: hupengcheng 1286335855@qq.com
  * @Date: 2023-09-12 15:58:42
- * @LastEditors: hupengcheng 1286335855@qq.com
- * @LastEditTime: 2023-10-26 15:21:43
+ * @LastEditors: 强子
+ * @LastEditTime: 2023-11-02 17:28:02
  * @FilePath: \platformweb-fb\src\router\main\fundMonitoring\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -1252,6 +1252,78 @@ const routers = [
       requireAuth: true
     },
     component: () => import('@/views/main/MointoringMatters/guaranteedSalaryWarningTable/guaranteedSalaryWarningTable.vue')
+  },
+  {
+    path: '/generallyIncomeChain', // 内蒙1一般公共预算收入当月环比增幅超过50%
+    name: 'generallyIncomeChain',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/generallyIncomeCompare', // 内蒙2一般公共预算收入当月同比增幅超过50%
+    name: 'generallyIncomeCompare',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/generallyIncomeAddCompare', // 内蒙3一般公共预算收入累计同比增幅超20%
+    name: 'generallyIncomeAddCompare',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/revenueAddCompare', // 内蒙4税收收入二级科目累计同比增幅超50%
+    name: 'revenueAddCompare',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/nonTaxAddCompare', // 内蒙5非税收入二级科目累计同比增幅超50%
+    name: 'nonTaxAddCompare',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/landIncomeCompare', // 内蒙6土地出让累计收入同比增幅超100%
+    name: 'landIncomeCompare',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/revenueProportion', // 内蒙7税收占比小于80%
+    name: 'revenueProportion',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/landIncomePassBudget', // 内蒙8土地出让收入大于一般公共预算收入
+    name: 'landIncomePassBudget',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
+  {
+    path: '/threeDefendPayManage', // 内蒙9“三保”支出管理
+    name: 'threeDefendPayManage',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
   },
   ...workFlowRouters
 ]
