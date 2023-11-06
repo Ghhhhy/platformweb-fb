@@ -8,6 +8,7 @@
           is-hide-query
           show-zero
           :tab-status-btn-config="toolBarStatusBtnConfig"
+          :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick"
           @btnClick="onTabPanelBtnClick"
         />
@@ -84,10 +85,11 @@ export default defineComponent({
       isShowQueryConditions: true,
       queryConfig: queryColumns,
       searchDataList: {
-        agencyCode: ''
+        mofDivCode: ''
       },
       search: () => {
         fetchTableData()
+        queryCount()
       }
     })
     const [
@@ -111,7 +113,7 @@ export default defineComponent({
           page: params.page,
           pageSize: params.pageSize,
           createBill: query.searchDataList.createBill,
-          agencyCode: params.agencyCode.split('##')[2]
+          mofDivCode: params.mofDivCode.split('##')[2]
         })
         return obj
       }, // 前置钩子
@@ -176,10 +178,10 @@ export default defineComponent({
           }
         }
       },
-      // tabStatusNumConfig: {
-      //   '0': 0,
-      //   '1': 0
-      // },
+      tabStatusNumConfig: {
+        '1': 0,
+        '2': 0
+      },
       onQueryConditionsClick: (obj) => {
       },
       onTabPanelBtnClick: (obj) => {
@@ -192,6 +194,17 @@ export default defineComponent({
         createWorkFlowSign()
       }
     })
+    const queryCount = () => {
+      let params = {
+        mofDivCode: query.searchDataList.mofDivCode.split('##')[2] || ''
+      }
+      post(BSURL.lmp_totalWarnPageQueryForCreateCount, params).then(res => {
+        if (res.code === '000000') {
+          tabPanel.tabStatusNumConfig[1] = res.data?.find(item => item.createBill === 1)?.count || 0
+          tabPanel.tabStatusNumConfig[2] = res.data?.find(item => item.createBill === 2)?.count || 0
+        }
+      })
+    }
     const showDialogVisible = ref(false)
     const detailModalLayout = reactive({
       ref: 'ShowDialog',

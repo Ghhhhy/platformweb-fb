@@ -181,7 +181,7 @@ export const tableColumns = [
 export const queryColumns = [
   { // 各地省份树结构
     title: '区划',
-    field: 'agencyCode',
+    field: 'mofDivCode',
     align: 'left',
     name: '$vxeTree',
     itemRender: {
