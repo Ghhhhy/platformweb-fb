@@ -66,6 +66,9 @@ export default {
     },
     /* eslint-disable no-alert, no-console */
     formItemConfig() {
+      const isViolated = this.createDataList.handleResult === '2'// 是否违规 2 违规
+      const isDistribute = this.createDataList.issueFlag === '2'// 是否下发 2 下发
+      const isRectified = this.createDataList.issueType === '2'// 是否是整改  2 整改
       return [
         {
           field: 'fiRuleName',
@@ -108,7 +111,7 @@ export default {
           field: 'violateType',
           title: '违规类型',
           titleWidth: '180',
-          visible: this.createDataList.handleResult === '2',
+          visible: isViolated,
           span: 8,
           itemRender: {
             name: '$select',
@@ -121,7 +124,7 @@ export default {
           field: 'issueFlag',
           span: 8,
           titleWidth: '180',
-          visible: this.createDataList.handleResult === '2',
+          visible: isViolated,
           itemRender: {
             name: '$select',
             options: [
@@ -136,7 +139,7 @@ export default {
           field: 'issueType',
           span: 8,
           titleWidth: '180',
-          visible: this.createDataList.issueFlag === '1',
+          visible: isDistribute,
           itemRender: {
             name: '$select',
             options: [
@@ -219,7 +222,7 @@ export default {
           titleWidth: '180',
           field: 'information1',
           class: 'one-row',
-          visible: this.createDataList.issueType === '2',
+          visible: isRectified,
           align: 'center',
           itemRender: {
             name: '$textarea',
