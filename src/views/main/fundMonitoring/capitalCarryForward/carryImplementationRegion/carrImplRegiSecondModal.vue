@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
+import { defineComponent, reactive, ref, computed, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
 import store from '@/store/index'
@@ -44,6 +44,7 @@ export default defineComponent({
   components: {},
   setup() {
     const reportCode = ref('')
+    const tableType = ref('')
     /* eslint-disable-next-line */
     const { $route } = getCurrentInstance().proxy
     const waitTable = ref(null)
@@ -92,7 +93,7 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: carrImplRegiSecondModalColumns,
+      columns: computed(() => carrImplRegiSecondModalColumns.filter(item => item.tableType === tableType.value || !item.tableType)),
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -122,6 +123,7 @@ export default defineComponent({
       dialogVisible,
       dialogClose,
       reportCode,
+      tableType,
       fetchTableData,
       isShowQueryConditions,
       tableStaticProperty,

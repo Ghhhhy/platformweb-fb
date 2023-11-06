@@ -658,9 +658,9 @@ export const carryImplementationRegionModalColumns = [
     title: '资金名称',
     field: 'trackProName',
     align: 'left',
+    tableType: 'bgt',
     sortable: false,
     filters: false,
-    // treeNode: true,
     width: 260,
     cellRender: { name: '$vxeInput' }
   },
@@ -670,7 +670,6 @@ export const carryImplementationRegionModalColumns = [
     align: 'left',
     sortable: false,
     filters: false,
-    // treeNode: true,
     width: 260,
     cellRender: { name: '$vxeInput' }
   },
@@ -680,17 +679,87 @@ export const carryImplementationRegionModalColumns = [
     align: 'left',
     sortable: false,
     filters: false,
-    // treeNode: true,
     width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '金额',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAppAmt',
+    width: 260,
+    align: 'right',
+    combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+    cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '用途',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'useDes',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctName',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctName',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款日期',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'xpayDate',
+    width: 260,
+    align: 'center',
     cellRender: { name: '$vxeInput' }
   },
   {
     title: '支出功能科目',
     field: 'xjExpFunc',
     align: 'left',
+    tableType: 'bgt',
     sortable: false,
     filters: false,
-    // treeNode: true,
     width: 260,
     cellRender: { name: '$vxeInput' }
   },
@@ -698,13 +767,15 @@ export const carryImplementationRegionModalColumns = [
     title: '预算金额',
     width: 100,
     align: 'center',
+    tableType: 'bgt',
     children: [
       {
         title: '总金额',
         field: 'YSJEZJE',
         sortable: false,
         filters: false,
-        reportCode: 'jzzjysxd_ysje',
+        tableType: 'bgt',
+        reportCode: 'jzzjysxdYsje',
         canInsert: true,
         formula: '{jzAmountZy}+{jzAmountsSnj}+{jzAmountSj}+{jzamountXj}',
         width: 100,
@@ -759,10 +830,12 @@ export const carryImplementationRegionModalColumns = [
     title: '支付金额',
     width: 100,
     align: 'center',
+    tableType: 'bgt',
     children: [
       {
         title: '总金额',
         field: 'ZFJEZJE',
+        tableType: 'pay',
         sortable: false,
         filters: false,
         reportCode: 'jzzjysxd_zcje',
@@ -785,7 +858,7 @@ export const carryImplementationRegionModalColumns = [
         title: '省级安排',
         sortable: false,
         filters: false,
-        field: 'SJAP',
+        field: 'SHENGJAP',
         width: 100,
         align: 'right',
         cellRender: {
@@ -796,7 +869,7 @@ export const carryImplementationRegionModalColumns = [
         title: '市级安排',
         sortable: false,
         filters: false,
-        field: 'SJAP',
+        field: 'SHIJAP',
         width: 100,
         align: 'right',
         cellRender: {
@@ -820,6 +893,18 @@ export const carryImplementationRegionModalColumns = [
     title: '惠企利民',
     field: 'hqlm',
     align: 'left',
+    tableType: 'bgt',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '发放表',
+    field: 'fpb',
+    align: 'left',
+    tableType: 'bgt',
     sortable: false,
     filters: false,
     // treeNode: true,
@@ -834,7 +919,99 @@ export const carrImplRegiSecondModalColumns = [
   //   width: '80'
   // },
   {
+    title: '预算单位',
+    field: 'agencyName',
+    align: 'left',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '项目名称',
+    field: 'proName',
+    align: 'left',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '金额',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAppAmt',
+    width: 260,
+    align: 'right',
+    combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+    cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '用途',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'useDes',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctName',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctName',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款日期',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'xpayDate',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
     title: '处室名称',
+    tableType: 'bgt',
     field: 'bgtMofDepName',
     align: 'left',
     sortable: false,
@@ -845,6 +1022,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '单位名称',
+    tableType: 'bgt',
     field: 'agencyName',
     align: 'left',
     sortable: false,
@@ -855,6 +1033,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '中央直达资金名称',
+    tableType: 'bgt',
     field: 'cenTraProName',
     align: 'left',
     sortable: false,
@@ -865,6 +1044,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '支出功能科目编码',
+    tableType: 'bgt',
     field: 'xjExpFuncCode',
     align: 'left',
     sortable: false,
@@ -875,6 +1055,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '支出功能科目名称',
+    tableType: 'bgt',
     field: 'xjExpFuncName',
     align: 'left',
     sortable: false,
@@ -885,6 +1066,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '本级专项资金名称',
+    tableType: 'bgt',
     field: 'speTypeName',
     align: 'left',
     sortable: false,
@@ -895,6 +1077,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '上级文号',
+    tableType: 'bgt',
     field: 'supBgtDocNo',
     align: 'left',
     sortable: false,
@@ -905,6 +1088,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '本级文号',
+    tableType: 'bgt',
     field: 'corBgtDocNo',
     align: 'left',
     sortable: false,
@@ -915,6 +1099,7 @@ export const carrImplRegiSecondModalColumns = [
   },
   {
     title: '预算金额',
+    tableType: 'bgt',
     field: 'jzAmountYs',
     align: 'left',
     sortable: false,
@@ -922,17 +1107,17 @@ export const carrImplRegiSecondModalColumns = [
     // treeNode: true,
     width: 260,
     cellRender: { name: '$vxeInput' }
-  },
-  {
-    title: '支出金额',
-    field: 'jzPayAmount',
-    align: 'left',
-    sortable: false,
-    filters: false,
-    // treeNode: true,
-    width: 260,
-    cellRender: { name: '$vxeInput' }
   }
+  // {
+  //   title: '支出金额',
+  //   field: 'jzPayAmount',
+  //   align: 'left',
+  //   sortable: false,
+  //   filters: false,
+  //   // treeNode: true,
+  //   width: 260,
+  //   cellRender: { name: '$vxeInput' }
+  // }
 ]
 export default function (tableType, configType) {
   if (tableType && configType) {

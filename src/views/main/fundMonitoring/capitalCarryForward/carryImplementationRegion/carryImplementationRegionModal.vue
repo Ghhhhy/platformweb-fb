@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
+import { defineComponent, reactive, ref, onMounted, computed, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { carryImplementationRegionModalColumns } from './carryImplementationRegion.js'
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
@@ -58,19 +58,23 @@ export default defineComponent({
     const reportCodeMap = {
       'CarryImplementationRegion': {
         reportCode: 'jzzjysxd_level1',
-        querykey: 'mofDivCode'
+        querykey: 'mofDivCode',
+        tableType: 'bgt'
       },
       'CarryImplementationCapital': {
         reportCode: 'jzzjysxd_level1',
-        querykey: 'trackProCode'
+        querykey: 'trackProCode',
+        tableType: 'bgt'
       },
       'CarryPayRegion': {
         reportCode: 'jzzjzcxd_level1',
-        querykey: 'mofDivCode'
+        querykey: 'mofDivCode',
+        tableType: 'pay'
       },
       'CarryPayCapital': {
         reportCode: 'jzzjzcxd_level1',
-        querykey: 'trackProCode'
+        querykey: 'trackProCode',
+        tableType: 'pay'
       }
     }
     const reportInsert = ref(false)
@@ -133,7 +137,7 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: carryImplementationRegionModalColumns,
+      columns: computed(() => carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -161,6 +165,7 @@ export default defineComponent({
       if (validCellValue && !row.children && column.own.canInsert) {
         CarrImplRegiSecondModal.value.dialogVisible = true
         column.own.reportCode && (CarrImplRegiSecondModal.value.reportCode = column.own.reportCode)
+        CarrImplRegiSecondModal.value.tableType = column.own.tableType
         CarrImplRegiSecondModal.value.injectData = row
         CarrImplRegiSecondModal.value.init()
       }
