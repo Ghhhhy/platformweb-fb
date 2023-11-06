@@ -408,6 +408,7 @@ export default {
         this.init()
       } else {
         this.$refs.businessMsgRef1.reset()
+        this.$emit('close')
       }
     }
   },

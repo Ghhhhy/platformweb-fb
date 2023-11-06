@@ -106,7 +106,13 @@
       @close="closeAttachment"
     />
     <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
-    <HandleInitialScreeningModal v-model="showHandleInitialScreeningModal" :selected-data="showDetailData" :show-type="showType" :bussness-id="bussnessId" />
+    <HandleInitialScreeningModal
+      v-model="showHandleInitialScreeningModal"
+      :selected-data="showDetailData"
+      :show-type="showType"
+      :bussness-id="bussnessId"
+      @close="refresh"
+    />
   </vxe-modal>
 </template>
 <script>
