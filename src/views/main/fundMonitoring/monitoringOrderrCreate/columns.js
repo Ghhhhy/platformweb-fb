@@ -12,7 +12,8 @@ export const tableColumns = [
     align: 'center',
     tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
-      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      // return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      return row.mofDivCode
     },
     exportFormatter: true
   },
@@ -41,23 +42,23 @@ export const tableColumns = [
   {
     title: '业务数据单号',
     width: 180,
-    field: 'businessNo',
+    field: 'dealNo',
     sortable: false,
     filters: false,
     align: 'center'
   },
-  {
-    title: '主题',
-    width: 180,
-    field: 'regulationClassName',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
+  // {
+  //   title: '主题',
+  //   width: 180,
+  //   field: 'regulationClassName',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'center'
+  // },
   {
     title: '违规时间',
     width: 180,
-    field: 'warnTime',
+    field: 'createTime',
     sortable: false,
     filters: false,
     align: 'center'
@@ -144,21 +145,21 @@ export const tableColumns = [
     },
     name: '$vxeSelect'
   },
-  {
-    title: '支付金额',
-    field: 'paymentAmount',
-    sortable: false,
-    filters: false,
-    align: 'right',
-    width: 160,
-    combinedType: [
-      'average',
-      'subTotal',
-      'total',
-      'totalAll'
-    ],
-    cellRender: { name: '$vxeMoney' }
-  },
+  // {
+  //   title: '支付金额',
+  //   field: 'paymentAmount',
+  //   sortable: false,
+  //   filters: false,
+  //   align: 'right',
+  //   width: 160,
+  //   combinedType: [
+  //     'average',
+  //     'subTotal',
+  //     'total',
+  //     'totalAll'
+  //   ],
+  //   cellRender: { name: '$vxeMoney' }
+  // },
   {
     title: '操作',
     field: 'opration',
