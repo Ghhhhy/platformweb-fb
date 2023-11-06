@@ -43,27 +43,8 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 export default defineComponent({
   components: {},
   setup() {
-    /**
-     * @interface reportCodeMap<{ $route.name : reportCode }>
-     */
-    const reportCodeMap = {
-      'CarryImplementationRegion': {
-        reportCode: 'jzzjysxd_ysje',
-        querykey: 'mofDivCode'
-      },
-      'CarryImplementationCapital': {
-        reportCode: 'jzzjysxd_ysje',
-        querykey: 'trackProCode'
-      },
-      'CarryPayRegion': {
-        reportCode: 'jzzjysxd_zcje',
-        querykey: 'mofDivCode'
-      },
-      'CarryPayCapital': {
-        reportCode: 'jzzjysxd_zcje',
-        querykey: 'trackProCode'
-      }
-    }
+    const reportCode = ref('')
+    /* eslint-disable-next-line */
     const { $route } = getCurrentInstance().proxy
     const waitTable = ref(null)
     const injectData = ref({
@@ -96,12 +77,12 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
+        debugger
         tableLoadingState.value = true
         let copyObj = {
-          reportCode: reportCodeMap[$route.name].reportCode,
+          reportCode: reportCode.value,
           ...params
         }
-        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
         return copyObj
       },
       afterFetch: tableData => {
@@ -140,6 +121,7 @@ export default defineComponent({
       modalStaticProperty,
       dialogVisible,
       dialogClose,
+      reportCode,
       fetchTableData,
       isShowQueryConditions,
       tableStaticProperty,

@@ -704,6 +704,7 @@ export const carryImplementationRegionModalColumns = [
         field: 'YSJEZJE',
         sortable: false,
         filters: false,
+        reportCode: 'jzzjysxd_ysje',
         canInsert: true,
         formula: '{jzAmountZy}+{jzAmountsSnj}+{jzAmountSj}+{jzamountXj}',
         width: 100,
@@ -761,11 +762,12 @@ export const carryImplementationRegionModalColumns = [
     children: [
       {
         title: '总金额',
-        field: 'jzPayAmount',
+        field: 'ZFJEZJE',
         sortable: false,
         filters: false,
+        reportCode: 'jzzjysxd_zcje',
         canInsert: true,
-        // formula: '{amountProvince}+{amountCity}+{amountCounty}',
+        formula: '{jzPayAmount}+{amountProvince}+{amountCity}+{amountCounty}',
         width: 100,
         align: 'right',
         cellRender: { name: '$vxeMoney' }
