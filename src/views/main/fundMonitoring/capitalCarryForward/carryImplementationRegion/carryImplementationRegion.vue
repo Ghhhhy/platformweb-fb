@@ -69,7 +69,7 @@
 <script>
 import getFormData from './carryImplementationRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
-import CarryImplementationRegionModal from './carryImplementationRegionModal.vue'
+import CarryImplementationRegionModal from '@/views/main/fundMonitoring/capitalCarryForward/@components/carrImplRegiSecondModal.vue'
 export default {
   components: {
     CarryImplementationRegionModal
