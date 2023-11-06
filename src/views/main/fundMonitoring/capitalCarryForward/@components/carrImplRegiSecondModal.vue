@@ -78,7 +78,7 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
-        debugger
+        // debugger
         tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCode.value,
