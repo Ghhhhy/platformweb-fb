@@ -106,7 +106,7 @@
       @close="closeAttachment"
     />
     <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
-    <HandleInitialScreeningModal v-model="showHandleInitialScreeningModal" />
+    <HandleInitialScreeningModal v-model="showHandleInitialScreeningModal" :selected-data="showDetailData" :show-type="showType" :bussness-id="bussnessId" />
   </vxe-modal>
 </template>
 <script>
@@ -186,6 +186,7 @@ export default {
       // 操作日志
       isFlow: false,
       showHandleInitialScreeningModal: false,
+      showType: '',
       logData: [],
       showLogView: false,
       title: '',
@@ -704,6 +705,29 @@ export default {
       this.showDialogTitle = '监控问询单信息'
     },
     handleInitialScreening(obj) {
+      let selection = this.$refs.mainTableRef.selection
+      if (selection.length === 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let mofDivCodeList = {}
+      let agencyCodeList = {}
+      let fiRuleCodeList = {}
+      selection.forEach(item => {
+        mofDivCodeList[item.mofDivCode] = item.mofDivName
+        agencyCodeList[item.agencyCode] = item.agencyCode
+        fiRuleCodeList[item.fiRuleCode] = item.fiRuleCode
+      })
+      if (Object.keys(mofDivCodeList).length > 1) {
+        this.$message.warning('请选择同一区划')
+        return
+      }
+      if (Object.keys(agencyCodeList).length > 1 || Object.keys(fiRuleCodeList).length > 1) {
+        this.$message.warning('请选择同一单位编码和同一规则编码')
+        return
+      }
+      this.showDetailData = selection
+      this.showType = 'add'
       this.showHandleInitialScreeningModal = true
     },
     handleNormal() {
