@@ -141,7 +141,9 @@ export let proconf = {
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    startTime: '',
+    endTime: ''
   },
   PoliciesTableColumns: [
     {

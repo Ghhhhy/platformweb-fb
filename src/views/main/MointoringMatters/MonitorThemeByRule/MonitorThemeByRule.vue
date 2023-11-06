@@ -184,7 +184,9 @@ export default {
       regulationClass: '',
       fiRuleNameQuery: '',
       warnLevel: '',
-      queryFormData: {}
+      queryFormData: {},
+      startTime: '',
+      endTime: ''
     }
   },
   mounted() {
@@ -274,6 +276,16 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.fiRuleNameQuery = val.fiRuleName
+      if (val.endTime.length !== 0) {
+        this.endTime = val.endTime.toString().substring(0, 10) + ' 23:59:59'
+      } else {
+        this.endTime = ''
+      }
+      if (val.startTime.length !== 0) {
+        this.startTime = val.startTime.toString().substring(0, 10) + ' 00:00:00'
+      } else {
+        this.startTime = ''
+      }
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -432,7 +444,9 @@ export default {
         fiRuleName: this.fiRuleNameQuery,
         fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         jurisdiction: this.$store.getters.getIsJurisdiction,
-        warnLevel: this.warnLevel
+        warnLevel: this.warnLevel,
+        startTime: this.startTime,
+        endTime: this.endTime
       }
       this.queryFormData = { ...param }
       this.tableLoading = true
