@@ -413,6 +413,7 @@ export default defineComponent({
           params.forbidStatus = forbidStatus
           if (store.getters.isFuJian) {
             params.isStop = '1'
+            params.actionType = '2'
           } else {
             params.isStop = '0'
           }
