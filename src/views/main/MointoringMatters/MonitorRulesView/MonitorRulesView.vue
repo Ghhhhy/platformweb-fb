@@ -120,6 +120,13 @@ export default {
   },
   computed: {
     ...mapState(['userRolesData']),
+    tableColumnsConfig() {
+      if (this.$store.getters.isFuJian) {
+        const fieldList = ['mofDivName', 'regulationClassName', 'fiRuleTypeName', 'regulationType', 'regulationName', 'warningLevel', 'handleType', 'businessModuleName', 'isEnable']
+        return proconf.PoliciesTableColumns.filter(item => fieldList.includes(item.field))
+      }
+      return proconf.PoliciesTableColumns
+    },
     isSx() { // 判断是不是陕西项目
       return this.$store.getters.isSx
     },
@@ -210,7 +217,6 @@ export default {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
-      buttonsInfo: proconf.statusRightToolBarButtonByBusDept,
       tabStatusNumConfig: {
         '1': 0
       },
@@ -226,7 +232,6 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns,
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
