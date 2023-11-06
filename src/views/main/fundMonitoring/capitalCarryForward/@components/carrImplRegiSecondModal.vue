@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
+import { defineComponent, reactive, ref, computed, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
+import { carrImplRegiSecondModalColumns } from './columns.js'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
@@ -44,6 +44,7 @@ export default defineComponent({
   components: {},
   setup() {
     const reportCode = ref('')
+    const tableType = ref('')
     /* eslint-disable-next-line */
     const { $route } = getCurrentInstance().proxy
     const waitTable = ref(null)
@@ -77,7 +78,7 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
-        debugger
+        // debugger
         tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCode.value,
@@ -92,7 +93,7 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: carrImplRegiSecondModalColumns,
+      columns: computed(() => carrImplRegiSecondModalColumns.filter(item => item.tableType === tableType.value || !item.tableType)),
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -122,6 +123,7 @@ export default defineComponent({
       dialogVisible,
       dialogClose,
       reportCode,
+      tableType,
       fetchTableData,
       isShowQueryConditions,
       tableStaticProperty,
