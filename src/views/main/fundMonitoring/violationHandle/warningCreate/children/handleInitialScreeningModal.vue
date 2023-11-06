@@ -26,16 +26,17 @@
       </vxe-form-item>
     </vxe-form>
     <template #footer>
-      <el-button v-if="showType === 'edit'" size="small" type="primary" @click="handleClick">确定</el-button>
+      <vxe-button v-if="showType === 'add'" v-deClick size="small" type="primary" @click="handleClick">确定</vxe-button>
     </template>
   </vxe-modal>
 </template>
 <script>
 /* eslint-disable-next-line */
 import store from '@/store/index'
+import moment from 'moment'
 const showTypeMap = {
   'detail': '查看详情',
-  'add': '新增',
+  'add': '初筛',
   'edit': '修改'
 }
 // lodash pick方法
@@ -51,7 +52,27 @@ const pickObjectField = (obj = {}, field) => {
 }
 export default {
   name: 'HandleInitialScreeningModal',
-  components: { },
+  components: {},
+  props: {
+    value: {
+      type: Boolean,
+      required: true
+    },
+    showType: {
+      type: String,
+      default: 'edit'
+    },
+    selectedData: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    bussnessId: {
+      type: String,
+      default: '7'// 预算执行
+    }
+  },
   computed: {
     showDialogVisible: {
       get() {
@@ -83,7 +104,7 @@ export default {
         },
         {
           title: '区划',
-          field: 'mofDivCode',
+          field: 'mofDivName',
           span: 8,
           titleWidth: '180',
           visible: true,
@@ -262,27 +283,18 @@ export default {
           { required: isRectified, message: '请选择整改期限' }
         ],
         rectifyTime: [
-          { required: isViolated && isDistribute, message: '请选择整改时间' }
+          { required: isViolated && !isDistribute, message: '请选择整改时间' }
         ],
         rectifyDetail: [
-          { required: isViolated && isDistribute, message: '请输入整改情况描述' }
+          { required: isViolated && !isDistribute, message: '请输入整改情况描述' }
         ],
         fileList: [
-          { type: 'array', min: 1, trigger: 'change', required: isViolated && isDistribute, message: '请上传附件' }
+          { type: 'array', min: (isViolated && !isDistribute) ? 1 : 0, trigger: 'change', required: isViolated && !isDistribute, message: '请上传附件' }
         ]
       }
     }
   },
-  props: {
-    value: {
-      type: Boolean,
-      required: true
-    },
-    showType: {
-      type: String,
-      default: 'edit'
-    }
-  },
+
   data() {
     return {
       formStaticProperty: {
@@ -300,7 +312,7 @@ export default {
       budgetlevelFieldNum: 0,
       createDataList: {
         fiRuleName: '',
-        mofDivCode: '',
+        mofDivName: '',
         handleResult: '',
         violateType: '',
         issueFlag: '',
@@ -320,36 +332,24 @@ export default {
   methods: {
     init() {
       if (this.showType === 'add') {
+        this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
         this.createDataList.attachmentid1 = this.$ToolFn.utilFn.getUuid()
         this.createDataList.fileList = []
+        this.createDataList.handler1 = store.getters.getuserInfo.name
+        this.createDataList.updatetime1 = moment().format('YYYY-MM-DD HH:mm:ss')
       } else {
-        const defaultObj = {
-          fiRuleName: '',
-          mofDivCode: '',
-          handleResult: '',
-          violateType: '',
-          issueFlag: '',
-          issueType: '',
-          ZGQX: '',
-          rectifyDetail: '',
-          handler1: '',
-          updatetime1: '',
-          doubtViolateExplain: '',
-          information1: '',
-          rectifyTime: '',
-          fileList: [], // 仅作为回显
-          attachmentid1: ''
-        }
-        this.createDataList = pickObjectField(defaultObj, this.formItemConfig.map(item => item.field))
-        // this.getFileList()
+        this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
+        this.getFileList()
       }
       this.getViolationType()
     },
     getViolationType() {
       let params = { page: 1, size: 99999 }
-      this.$http.post(BSURL.lmp_dictionary_violationTypePageQuery, params).then(res => {
+      this.$http.get(BSURL.lmp_dictionary_violationTypePageQuery, params).then(res => {
         if (res.code === '000000') {
-          this.violateTypeList = res.data.results
+          this.violateTypeList = res.data.results.map(item => {
+            return { label: item.name, value: item.code }
+          })
         }
       })
     },
@@ -373,21 +373,45 @@ export default {
       try {
         let valid = await this.$refs.businessMsgRef1?.validate()
         if (valid !== undefined) return undefined
-        const params = {
-          ...this.createDataList
+        let dataList = this.selectedData.map(item => {
+          return {
+            ...this.createDataList,
+            agencyId: this.createDataList.agencyId,
+            manageMofDepId: this.createDataList.manageMofDepId,
+            agencyName: this.createDataList.agencyName,
+            agencyCode: this.createDataList.agencyCode,
+            bgtMofDepId: item.bgtMofDepId,
+            warnid: item.warnid,
+            fiRuleCode: item.fiRuleCode,
+            warningCode: item.warningCode
+          }
+        })
+        let params = {
+          businessModuleCode: this.bussnessId,
+          menuId: this.$store.state.curNavModule.guid,
+          menuName: this.$store.state.curNavModule.name,
+          dataList
         }
         delete params.fileList// 仅作为回显
         this.$http.post(BSURL.lmp_totalWarnAdd, params).then(res => {
-
+          if (res.code === '000000') {
+            this.showDialogVisible = false
+          } else {
+            this.$message.error(res.message)
+          }
         })
       } catch (error) {
         console.log('校验错误信息list', error)
       }
     }
   },
-  watch: {},
+  watch: {
+    value(n, o) {
+      if (n) this.init()
+    }
+  },
   created() {
-    this.init()
+
   }
 }
 </script>
