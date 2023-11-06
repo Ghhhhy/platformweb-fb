@@ -18,6 +18,8 @@ const BSURL = {
   lmp_guaranteedSalaryNotice: 'large-monitor-platform/lmp/three/guaranteedSalaryNotice', // 保工资预警提醒
   lmp_dictionary_violationTypePageQuery: 'large-monitor-platform/lmp/violationType/pageQuery', // 字典 违规处室生成  获取违规类型枚举
   lmp_totalWarnAdd: 'large-monitor-platform/lmp/totalWarn/add', // 福建 违规处理单生成
+  lmp_totalWarnPageQueryForCreate: 'large-monitor-platform/lmp/totalWarn/pageQueryForCreate', // 福建 监控处理单生成  分页查询页面
+  lmp_totalWarnCreateUpdate: 'large-monitor-platform/lmp/totalWarn/createUpdate', // 福建 监控处理单生成  生成工作流接口
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
   dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query', // 陕西 通用报表查询

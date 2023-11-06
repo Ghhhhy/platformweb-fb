@@ -35,6 +35,17 @@ for (let i = 2; i < 7; i++) {
     workFlowRouters.push(element)
   })
 }
+workFlowRouters = workFlowRouters.concat([
+  {
+    path: '/monitoringOrderrCreate',
+    name: 'monitoringOrderrCreate',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/monitoringOrderrCreate/monitoringOrderrCreate.vue')
+  }
+])
 export {
   workFlowRouters
 }
