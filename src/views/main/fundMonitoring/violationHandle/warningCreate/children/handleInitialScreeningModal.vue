@@ -376,7 +376,7 @@ export default {
         if (valid !== undefined) return undefined
         let dataList = this.selectedData.map(item => {
           return {
-            ...pickObjectField(this.createDataList, this.formItemConfig.map(item => item.field && item.visible)),
+            ...pickObjectField(this.createDataList, this.formItemConfig.filter(item => item.visible).map(item => item.field)),
             agencyId: this.createDataList.agencyId,
             manageMofDepId: this.createDataList.manageMofDepId,
             agencyName: this.createDataList.agencyName,
