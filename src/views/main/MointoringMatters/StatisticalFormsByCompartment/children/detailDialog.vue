@@ -479,7 +479,9 @@ export default {
         regulationClass: this.$store.getters.getRegulationClass,
         fiRuleName: this.fiRuleName,
         businessNo: this.payApplyNumber,
-        jurisdiction: this.$store.getters.getIsJurisdiction
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        startTime: this.searchDataList.startTime,
+        endTime: this.searchDataList.endTime
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
@@ -558,6 +560,8 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.$store.getters.isSx && this.getAgency()
+    this.queryConfig[4].value = this.$parent.searchDataList.startTime
+    this.queryConfig[5].value = this.$parent.searchDataList.endTime
   }
 }
 </script>

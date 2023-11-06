@@ -424,7 +424,9 @@ export default {
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
         roleId: this.roleguid,
-        jurisdiction: this.$store.getters.getIsJurisdiction
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        startTime: this.searchDataList.startTime,
+        endTime: this.searchDataList.endTime
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
