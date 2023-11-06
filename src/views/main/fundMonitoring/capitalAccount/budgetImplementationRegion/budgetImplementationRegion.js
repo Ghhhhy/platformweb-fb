@@ -416,7 +416,21 @@ const proconf = {
             formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
             cellRender: {
               name: '$vxeRatio'
-            }
+            },
+            visible: !store.getters.isSx
+          },
+          {
+            title: '分配进度',
+            field: 'xLoad',
+            width: 120,
+            areaType: 'county',
+            align: 'right',
+            // formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10',
+            cellRender: {
+              name: '$vxeRatio'
+            },
+            visible: store.getters.isSx
           }
         ]
       },
