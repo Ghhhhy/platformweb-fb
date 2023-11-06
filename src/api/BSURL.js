@@ -16,6 +16,8 @@ const BSURL = {
   lmp_executeWarnWarnInfos: 'large-monitor-platform/lmp/executeWarn/warnInfos', // 监控主题分析  预警明细查询 表格table查询
   lmp_executeWarnPayDiBillInfo: 'large-monitor-platform/lmp/executeWarn/payDiBillInfo', // 福建-预算执行-监控预警明细查询
   lmp_guaranteedSalaryNotice: 'large-monitor-platform/lmp/three/guaranteedSalaryNotice', // 保工资预警提醒
+  lmp_dictionary_violationTypePageQuery: 'large-monitor-platform/lmp/violationType/pageQuery', // 字典 违规处室生成  获取违规类型枚举
+  lmp_totalWarnAdd: 'large-monitor-platform/lmp/totalWarn/add', // 福建 违规处理单生成
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
   dfr_supervisionQuery: 'dfr-monitor-service/dfr/supervision/query', // 陕西 通用报表查询
@@ -27,7 +29,8 @@ const BSURL = {
   dfr_benefitPeopleNotHook: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', // 惠企利民支付明细导入_取消挂接
   dfr_benefitPeopleDelete: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/deleteBenefitData', // 惠企利民支付明细导入_删除惠企明细数据
   // mp-b-basedata-service 平台
-  api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where'
+  api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
+  api_fileservice_v2_files: 'fileservice/v2/files'// 平台获取文件列表
 
 }
 export {
