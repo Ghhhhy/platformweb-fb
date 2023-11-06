@@ -106,18 +106,19 @@
       @close="closeAttachment"
     />
     <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
+    <HandleInitialScreeningModal v-model="showHandleInitialScreeningModal" />
   </vxe-modal>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
+import HandleInitialScreeningModal from './handleInitialScreeningModal.vue'
 import proconf, {
   statusButtons,
   curStatusButton,
   curStatusButton1,
   curStatusButton2,
   curStatusButton3,
-  buttons1,
-  buttons2
+  buttonsInfo
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
@@ -130,7 +131,8 @@ export default {
   name: 'DetailDialogs',
   components: {
     GlAttachment,
-    ShowDialog
+    ShowDialog,
+    HandleInitialScreeningModal
     // BsTable1
   },
   computed: {
@@ -183,6 +185,7 @@ export default {
     return {
       // 操作日志
       isFlow: false,
+      showHandleInitialScreeningModal: false,
       logData: [],
       showLogView: false,
       title: '',
@@ -204,11 +207,9 @@ export default {
       showLog: false,
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
-        // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        // buttonsInfo: buttons1,
-        buttonsInfo: this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true' ? buttons2 : buttons1,
+        buttonsInfo: buttonsInfo,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
@@ -632,6 +633,9 @@ export default {
         case 'normal': //
           self.handleNormal(obj)
           break
+        case 'initialScreening': //
+          self.handleInitialScreening(obj)
+          break
         // 查看详情
         case 'show_detail':
           this.showDetail()
@@ -698,6 +702,9 @@ export default {
       this.showDetailData = selection
       this.showDialogVisible = true
       this.showDialogTitle = '监控问询单信息'
+    },
+    handleInitialScreening(obj) {
+      this.showHandleInitialScreeningModal = true
     },
     handleNormal() {
       let selection = this.$refs.mainTableRef.selection
