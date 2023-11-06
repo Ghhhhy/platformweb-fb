@@ -341,9 +341,9 @@ export default {
         this.createDataList.updatetime1 = moment().format('YYYY-MM-DD HH:mm:ss')
       } else {
         this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
+        this.createDataList.attachmentid1 = this.selectedData[0].attachmentid1
         this.getFileList()
       }
-      this.getViolationType()
     },
     getViolationType() {
       let params = { page: 1, size: 99999 }
@@ -390,7 +390,6 @@ export default {
           menuName: this.$store.state.curNavModule.name,
           dataList
         }
-        delete params.fileList// 仅作为回显
         this.$http.post(BSURL.lmp_totalWarnAdd, params).then(res => {
           if (res.code === '000000') {
             this.showDialogVisible = false
@@ -413,7 +412,7 @@ export default {
     }
   },
   created() {
-
+    this.getViolationType()
   }
 }
 </script>
