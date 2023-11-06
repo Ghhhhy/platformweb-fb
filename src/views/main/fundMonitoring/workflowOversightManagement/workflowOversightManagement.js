@@ -64,7 +64,7 @@ export const mockQueryData = [
         }
       }),
       defaultValue: '',
-      props: { disabled: false, placeholder: '预警级别' }
+      props: { disabled: false, clearable: true,placeholder: '预警级别' }
     },
     name: '$vxeSelect'
   },
@@ -160,6 +160,7 @@ export const mockTableColumns = [
     align: 'center',
     treeNode: true,
     width: 260,
+    sortable: false,
     field: 'affirmTime',
     filters: false,
   },
