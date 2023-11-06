@@ -42,8 +42,8 @@
 <script>
 import { defineComponent, reactive, ref, onMounted, computed, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carryImplementationRegionModalColumns } from './carryImplementationRegion.js'
-import CarrImplRegiSecondModal from './columns.vue'
+import { carryImplementationRegionModalColumns } from './columns.js'
+import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
