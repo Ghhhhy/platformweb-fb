@@ -27,6 +27,7 @@
     </vxe-form>
     <template #footer>
       <vxe-button v-if="showType === 'add'" v-deClick size="small" type="primary" @click="handleClick">确定</vxe-button>
+      <vxe-button size="small" @click="showDialogVisible = false">取消</vxe-button>
     </template>
   </vxe-modal>
 </template>
@@ -280,7 +281,7 @@ export default {
           { required: isViolated, message: '请选择下发类型' }
         ],
         ZGQX: [
-          { required: isRectified, message: '请选择整改期限' }
+          { required: isDistribute && isRectified, message: '请选择整改期限' }
         ],
         rectifyTime: [
           { required: isViolated && !isDistribute, message: '请选择整改时间' }
@@ -333,6 +334,7 @@ export default {
     init() {
       if (this.showType === 'add') {
         this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
+        this.createDataList.handleResult = ''
         this.createDataList.attachmentid1 = this.$ToolFn.utilFn.getUuid()
         this.createDataList.fileList = []
         this.createDataList.handler1 = store.getters.getuserInfo.name
@@ -363,7 +365,6 @@ export default {
         if (res.rscode === '100000') {
           // 获取附件信息
           this.$set(this.createDataList, 'fileList', JSON.parse(res.data))
-          // this.createDataList.fileList = JSON.parse(res.data)
         } else {
           this.$message.error(res.result)
         }
@@ -375,7 +376,7 @@ export default {
         if (valid !== undefined) return undefined
         let dataList = this.selectedData.map(item => {
           return {
-            ...this.createDataList,
+            ...pickObjectField(this.createDataList, this.formItemConfig.map(item => item.field && item.visible)),
             agencyId: this.createDataList.agencyId,
             manageMofDepId: this.createDataList.manageMofDepId,
             agencyName: this.createDataList.agencyName,
@@ -407,7 +408,11 @@ export default {
   },
   watch: {
     value(n, o) {
-      if (n) this.init()
+      if (n) {
+        this.init()
+      } else {
+        this.$refs.businessMsgRef1.reset()
+      }
     }
   },
   created() {
