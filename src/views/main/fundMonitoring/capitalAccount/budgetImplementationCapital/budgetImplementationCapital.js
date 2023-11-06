@@ -367,6 +367,26 @@ const proconf = {
             visible: !store.getters.isSx
           },
           {
+            title: '分配本级',
+            field: 'amountXbjfp',
+            width: 120,
+            areaType: 'county',
+            align: 'right',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' },
+            visible: store.getters.isSx
+          },
+          {
+            title: '分配下级',
+            field: 'amountXxjfp',
+            width: 120,
+            areaType: 'county',
+            align: 'right',
+            sortable: true,
+            cellRender: { name: '$vxeMoney' },
+            visible: store.getters.isSx
+          },
+          {
             title: '已分配',
             field: 'amountXjfp',
             width: 100,
@@ -397,7 +417,21 @@ const proconf = {
             formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
             cellRender: {
               name: '$vxeRatio'
-            }
+            },
+            visible: !store.getters.isSx
+          },
+          {
+            title: '分配进度',
+            field: 'xLoad',
+            width: 120,
+            areaType: 'county',
+            align: 'right',
+            // formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
+            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10',
+            cellRender: {
+              name: '$vxeRatio'
+            },
+            visible: store.getters.isSx
           }
         ]
       }
