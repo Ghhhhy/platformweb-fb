@@ -73,6 +73,7 @@ export default defineComponent({
         querykey: 'trackProCode'
       }
     }
+    const reportInsert = ref(false)
     const { $route } = getCurrentInstance().proxy
     const CarrImplRegiSecondModal = ref()
     const waitTable = ref(null)
@@ -88,6 +89,7 @@ export default defineComponent({
       showFooter: false
     }
     const dialogVisible = ref(false)
+    const routeList = ref(['CarryPayRegion', 'carryPayCapital'])
     const dialogClose = () => {
       dialogVisible.value = false
     }
@@ -143,6 +145,7 @@ export default defineComponent({
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
+        if (routeList.value.includes($route.name)) return
         if (validCellValue && !row.children && column.own.canInsert) {
           return {
             color: '#4293F4',
@@ -154,8 +157,10 @@ export default defineComponent({
     const cellClick = ({ row, rowIndex, column }) => {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
+      if (routeList.value.includes($route.name)) return
       if (validCellValue && !row.children && column.own.canInsert) {
         CarrImplRegiSecondModal.value.dialogVisible = true
+        column.own.reportCode && (CarrImplRegiSecondModal.value.reportCode = column.own.reportCode)
         CarrImplRegiSecondModal.value.injectData = row
         CarrImplRegiSecondModal.value.init()
       }
@@ -184,6 +189,7 @@ export default defineComponent({
       searchDataList,
       isShowQueryConditions,
       tableStaticProperty,
+      reportInsert,
       cellClick,
       selectData,
       waitTable,

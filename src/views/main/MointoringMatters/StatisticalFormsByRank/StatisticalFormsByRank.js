@@ -102,10 +102,38 @@ export let proconf = {
           }
         }
       }
+    },
+    {
+      title: '预警开始时间',
+      field: 'startTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '预警开始时间'
+        }
+      }
+    },
+    {
+      title: '预警结束时间',
+      field: 'endTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD hh:mm:ss',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '预警结束时间'
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    startTime: '',
+    endTime: ''
   },
   PoliciesTableColumns: [
     {

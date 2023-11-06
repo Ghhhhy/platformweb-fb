@@ -87,10 +87,42 @@ export let proconf = {
           }
         }
       }
+    },
+    {
+      title: '开始时间',
+      field: 'startTime',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeNewInput',
+      itemRender: {
+        name: '$vxeNewInput',
+        options: [],
+        props: {
+          type: 'date'
+        }
+      }
+    },
+    {
+      title: '截止时间',
+      field: 'endTime',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeNewInput',
+      itemRender: {
+        name: '$vxeNewInput',
+        options: [],
+        props: {
+          type: 'date'
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    startTime: '',
+    endTime: ''
   },
   PoliciesTableColumns: [
     {
