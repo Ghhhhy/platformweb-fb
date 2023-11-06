@@ -113,7 +113,7 @@ export default defineComponent({
           page: params.page,
           pageSize: params.pageSize,
           createBill: query.searchDataList.createBill,
-          mofDivCode: params.mofDivCode.split('##')[2]
+          mofDivCode: params.mofDivCode.split('##')[0]
         })
         return obj
       }, // 前置钩子
@@ -196,7 +196,7 @@ export default defineComponent({
     })
     const queryCount = () => {
       let params = {
-        mofDivCode: query.searchDataList.mofDivCode.split('##')[2] || ''
+        mofDivCode: queryFrom.value?.getFormData()?.mofDivCode?.split('##')[0] || ''
       }
       post(BSURL.lmp_totalWarnPageQueryForCreateCount, params).then(res => {
         if (res.code === '000000') {
