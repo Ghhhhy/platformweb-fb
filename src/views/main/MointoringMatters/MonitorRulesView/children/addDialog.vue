@@ -656,6 +656,28 @@ export default {
   mixins: [queryTreedElementByCodeMixin, functionSelectMixin],
   components: {},
   computed: {
+    mountTableColumnsConfig() {
+      if (this.$store.getters.isFuJian) {
+        const fieldList = ['functionParameter', 'paramType', 'param']// 福建去掉这3个字段
+        const addedColumn = [{ // 新增一个列
+          title: '参数值描述',
+          sortable: false,
+          field: 'paramDesc',
+          align: 'left',
+          formula: '',
+          name: '$vxeInput',
+          editRender: {
+            name: '$vxeInput',
+            options: [],
+            props: {
+              placeholder: '参数值描述'
+            }
+          }
+        }]
+        return proconf.mountTableColumnsConfig.filter(item => !fieldList.includes(item.field)).concat(addedColumn)
+      }
+      return proconf.mountTableColumnsConfig
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -754,7 +776,6 @@ export default {
       monitorRuleName: '',
       regulationType: '',
       quhua: '',
-      mountTableColumnsConfig: proconf.mountTableColumnsConfig,
       mountTableData: [],
       // BsQuery 查询栏
       queryConfig: proconf.sethighQueryConfig,
