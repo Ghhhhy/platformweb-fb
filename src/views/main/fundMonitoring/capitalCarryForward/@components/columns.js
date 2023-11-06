@@ -125,7 +125,7 @@ export const carryImplementationRegionModalColumns = [
         sortable: false,
         filters: false,
         tableType: 'bgt',
-        reportCode: 'jzzjysxdYsje',
+        reportCode: 'jzzjysxd_ysje',
         canInsert: true,
         formula: '{jzAmountZy}+{jzAmountsSnj}+{jzAmountSj}+{jzamountXj}',
         width: 100,
