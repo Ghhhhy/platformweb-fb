@@ -424,6 +424,7 @@ export default {
       this.dealNo = obj.dealNo
       this.regulationClassName = obj.regulationClassName
       this.warnTime = obj.warnTime
+      this.warnStartTime = obj.warnStartTime
       this.triggerClass = obj.triggerClass
       this.warningLevel = obj.warningLevel
       this.agencyName = obj.agencyName
@@ -533,6 +534,7 @@ export default {
       this.$refs.queryFrom.reset()
       this.dealNo = ''
       this.regulationClassName = ''
+      this.warnStartTime = ''
       this.warnTime = ''
       this.triggerClass = ''
       this.warningLevel = ''
@@ -651,6 +653,16 @@ export default {
       })
     },
     getdata() {
+      let curFormData = this
+      if (curFormData['warnTime'] !== null && curFormData['warnTime'] !== undefined && curFormData['warnTime'].toString().length > 8) {
+        if (curFormData['warnStartTime'].toString() > curFormData['warnTime'].toString()) {
+          this.$message({
+            type: 'warning',
+            message: '选择违规时间范围时开始时间应小于结束时间，请重新选择!'
+          })
+          return
+        }
+      }
       console.log('status1', this.status)
       let param = {
         page: this.mainPagerConfig.currentPage, // unitStatus页码
@@ -670,6 +682,7 @@ export default {
         isProcessed: this.isProcessed,
         isAgencyDone: this.isAgencyDone,
         regulationClassName: this.regulationClassName,
+        warnStartTime: this.warnStartTime,
         warnTime: this.warnTime,
         triggerClass: this.triggerClass,
         warningLevel: this.warningLevel,
