@@ -156,7 +156,7 @@ let proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            formula: '({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
+            formula: '({amountZjzl}-0==0?0:{amountZjzc}/{amountZjzl}*100)'
           }
         ]
       },
@@ -272,7 +272,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjzyxd}-0==0?0:Math.round({amountSnjzypay}/{amountSnjzyxd}*100*10)/10'
+                formula: '({amountSnjzyxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100)'
               },
               {
                 title: '地方安排',
@@ -280,7 +280,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjdfdf}-0==0?0:Math.round({amountSnjdfpay}/{amountSnjdfdf}*100*10/10)'
+                formula: '{amountSnjdfdf}-0==0?0:{amountSnjdfpay}/{amountSnjdfdf}*100'
               },
               {
                 title: '总进度',
@@ -290,7 +290,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{saaAmount}-0==0?0:Math.round({sapAmount}/{saaAmount}*100*10)/10'
+                formula: '{saaAmount}-0==0?0:{sapAmount}/{saaAmount}*100'
               }
             ]
           }
@@ -408,7 +408,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjzydf}-0==0?0:Math.round({amountSjzypay}/{amountSjzydf}*100*10)/10'
+                formula: '{amountSjzydf}-0==0?0:{amountSjzypay}/{amountSjzydf}*100'
               },
               {
                 title: '地方安排',
@@ -416,7 +416,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjdfdf}-0==0?0:Math.round({amountSjdfpay}/{amountSjdfdf}*100*10)/10'
+                formula: '{amountSjdfdf}-0==0?0:{amountSjdfpay}/{amountSjdfdf}*100'
               },
               {
                 title: '总进度',
@@ -426,7 +426,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{shaaAmount}-0==0?0:Math.round({shapAmount}/{shaaAmount}*100*10)/10'
+                formula: '({shaaAmount}-0==0?0:{shapAmount}/{shaaAmount})*100'
               }
             ]
           }
@@ -544,7 +544,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjzydf}-0==0?0:Math.round({amountXjzypay}/{amountXjzydf}*100*10)/10'
+                formula: '{amountXjzydf}-0==0?0:{amountXjzypay}/{amountXjzydf}*100'
               },
               {
                 title: '地方安排',
@@ -552,7 +552,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjdfdf}-0==0?0:Math.round({amountXjdfpay}/{amountXjdfdf}*100*10)/10'
+                formula: '{amountXjdfdf}-0==0?0:{amountXjdfpay}/{amountXjdfdf}*100'
               },
               {
                 title: '总进度',
@@ -562,7 +562,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{xaaAmount}-0==0?0:Math.round({xapAmount}/{xaaAmount}*100*10)/10'
+                formula: '{xaaAmount}-0==0?0:({xapAmount}/{xaaAmount})*100'
               }
             ]
           }
