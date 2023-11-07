@@ -656,6 +656,16 @@ export default {
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
     },
+    transJson3(str) {
+      let strTwo = ''
+      str.split(',').reduce((acc, curr) => {
+        const [key, value] = curr.split('=')
+        acc[key] = value
+        strTwo = acc
+        return acc
+      }, {})
+      return strTwo
+    },
     cellStyle({ row, rowIndex, column }) {
       if (!rowIndex) return
       if (!this.$store.getters.isSx) {
