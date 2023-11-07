@@ -380,6 +380,18 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/receSupeMoniInquForm/receSupeMoniInquForm.vue')
   },
   {
+    path: '/receSupeMoniInquFormByDfr', // 主管处室反馈
+    name: 'receSupeMoniInquFormByDfr',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/violationHandle/receSupeMoniInquForm/receSupeMoniInquForm.vue'
+      )
+  },
+  {
     path: '/DepartmentRetroact', // 主管处室反馈
     name: 'DepartmentRetroact',
     meta: {
