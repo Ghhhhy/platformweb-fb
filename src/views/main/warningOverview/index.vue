@@ -237,6 +237,7 @@ export default defineComponent({
           title: '问询处理率',
           field: 'rankAskProcess',
           sortable: false,
+          visible: !store.getters.isFuJian,
           align: 'center',
           formatter: ({ row }) => {
             return row.rankAskProcess ? `${row.rankAskProcess}%` : '0%'

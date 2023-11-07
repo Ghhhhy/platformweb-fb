@@ -363,7 +363,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSnjzybjfp}+{amountSnjzyxjfp})/{amountZjzl}*100*10)/10'
+                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjzybjfp}+{amountSnjzyxjfp})/{aAmount}*100*10)/10'
                 // formula: '({amountSnjfpbjZyap}+{amountSnjfpxjZyap})/{amountSnjysZyap}'
               },
               {
@@ -372,7 +372,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountZjzl}*10)/10'
+                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{aAmount}*10)/10'
                 // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
               },
               {
@@ -383,7 +383,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({saAmount}-0==0)?0:Math.round(({amountSnjfpAll}+{ssxfpaAmount})/{saAmount}*100*10)/10'
+                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjfpAll}+{ssxfpaAmount})/{aAmount}*100*10)/10'
               }
             ]
           }
@@ -602,7 +602,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountZjzl}-0==0)?0:Math.round(({amountSjzybjfp}+{amountSjzyxjfp})*100/{amountZjzl}*10)/10'
+                formula: '({aAmount}-0==0)?0:Math.round(({amountSjzybjfp}+{amountSjzyxjfp})*100/{aAmount}*10)/10'
                 // formula: '({amountSjfpbjZyap}+{amountSjfpxjZyap})/{amountSjysZyap}'
               },
               {
@@ -611,7 +611,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountZjzl}-0)==0?0:Math.round(({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountZjzl}*10)/10'
+                formula: '({aAmount}-0)==0?0:Math.round(({amountSjdfbjfp}+{amountSjdfxjfp})*100/{aAmount}*10)/10'
                 // formula: '({amountSjfpbjDfap}+{amountSjfpxjDfap})/{amountSjysDfap}'
               },
               {
@@ -622,7 +622,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shiaAmount}-0)==0?0:Math.round(({amountSjfpbjAll}+{shxjfpaAmount})/{shiaAmount}*100*10)/10'
+                formula: '({aAmount}-0)==0?0:Math.round(({amountSjfpbjAll}+{shxjfpaAmount})/{aAmount}*100*10)/10'
               }
             ]
           }
@@ -811,7 +811,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpZyap}/{amountXjysZyap})'
-                formula: '(amountZjzl)?0:Math.round({amountXjzybjfp}*100/{amountZjzl}*10)/10'
+                formula: '(aAmount)?0:Math.round({amountXjzybjfp}*100/{aAmount}*10)/10'
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpZyap / row.amountXjysZyap
                 // }
@@ -823,7 +823,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpDfap}/{amountXjysDfap})'
-                formula: '({amountZjzl}-0==0)?0:Math.round({amountXjdfbjfp}*100/{amountZjzl}*10)/10'
+                formula: '({aAmount}-0==0)?0:Math.round({amountXjdfbjfp}*100/{aAmount}*10)/10'
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpDfap / row.amountXjysDfap
                 // }
@@ -836,7 +836,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({xaAmount}-0)==0?0:Math.round({amountXjfpAll}/{xaAmount}*100*10)/10'
+                formula: '({aAmount}-0)==0?0:Math.round({amountXjfpAll}/{aAmount}*100*10)/10'
                 // formatter: ({ row }) => {
                 //   return row.xzyjd / 2 + row.xdfjd / 2
                 // }

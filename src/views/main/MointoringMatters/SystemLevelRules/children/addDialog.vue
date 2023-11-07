@@ -702,7 +702,7 @@ export default {
         { value: '3', label: '610102000-新城区本级' },
         { value: '4', label: '610102998-新城区辖区' }
       ],
-      warningLevel: 1,
+      warningLevel: this.$store.state.warnInfo.warnLevelOptions[0].value,
       warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
       handleType: 1,
       handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
@@ -1971,6 +1971,10 @@ export default {
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      // setTimeout(() => {
+      //   const oneRow = this.$refs.monitorTableRef.getTableData().tableData[0]
+      //   this.$refs.monitorTableRef.tableOptionFn().setCheckboxRow(oneRow, true)
+      // }, 0)
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
@@ -2020,6 +2024,10 @@ export default {
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      // setTimeout(() => {
+      //   const oneRow = this.$refs.monitorTableRef.getTableData().tableData[0]
+      //   this.$refs.monitorTableRef.tableOptionFn().setCheckboxRow(oneRow, true)
+      // }, 0)
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
