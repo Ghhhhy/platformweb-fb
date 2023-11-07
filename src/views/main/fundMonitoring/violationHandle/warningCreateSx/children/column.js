@@ -1314,18 +1314,7 @@ const proconf = {
       field: 'agencyName',
       sortable: false,
       filters: false,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        defaultValue: '',
-        props: {
-          format: '{agencyCode}-{agencyName}'
-        }
-      },
-      props: {
-        format: '{agencyCode}-{agencyName}'
-      }
+      align: 'center'
     },
     {
       title: '业务数据单号',
