@@ -934,5 +934,190 @@ export const fjAddColumns = [
     width: 180,
     sortable: false,
     filters: false
+  },
+  {
+    title: '操作',
+    field: 'gloableOptionRow',
+    className: 'gloableOptionRow',
+    align: 'center',
+    fixed: 'right',
+    sortable: false,
+    filters: false,
+    width: 100,
+    cellRender: {
+      name: '$gloableOptionRow'
+    }
   }
 ]
+export let proconf = {
+  fjAddColumns: [
+    // {
+    //   title: '预算单位编码',
+    //   field: 'agencyCode',
+    //   width: 180,
+    //   sortable: false,
+    //   filters: false
+    // },
+    // {
+    //   title: '预算单位名称',
+    //   field: 'agencyName',
+    //   width: 180,
+    //   sortable: false,
+    //   filters: false
+    // },
+    // {
+    //   title: '支付申请编号',
+    //   field: 'payAppNo',
+    //   width: 180,
+    //   sortable: false,
+    //   filters: false
+    // },
+    // {
+    //   title: '支付金额',
+    //   field: 'payAppAmt',
+    //   width: 180,
+    //   sortable: false,
+    //   filters: false
+    // },
+    {
+      title: '资金用途',
+      field: 'useDes',
+      width: 180,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '支出项目',
+      field: 'proName',
+      width: 180,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '结算方式',
+      field: 'setModeName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '付款人姓名',
+      field: 'payAcctName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '付款编号',
+      field: 'payAcctNo',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '银行',
+      field: 'payAcctBankName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '付款人账号',
+      field: 'payeeAcctName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '政府经济分类编码',
+      field: 'govBgtEcoCode',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '政府经济分类名称',
+      field: 'govBgtEcoName',
+      width: 180,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '功能分类编码',
+      field: 'expFuncCode',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '功能分类名称',
+      field: 'expFuncName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '部门经济分类编码',
+      field: 'depBgtEcoCode',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '部门经济分开名称',
+      field: 'depBgtEcoName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '资金性质',
+      field: 'fundTypeName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '申请人',
+      field: 'applyName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '申请人电话',
+      field: 'applyDial',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '资金归口',
+      field: 'bgtMofDepName',
+      width: 180,
+      sortable: false,
+      filters: false
+    }, {
+      title: '业务类型',
+      field: 'payBusTypeName',
+      width: 180,
+      sortable: false,
+      filters: false
+    },
+    {
+      title: '操作',
+      field: 'gloableOptionRow',
+      className: 'gloableOptionRow',
+      align: 'center',
+      fixed: 'right',
+      sortable: false,
+      filters: false,
+      width: 100,
+      cellRender: {
+        name: '$gloableOptionRow'
+      }
+    }
+  ],
+  // table 操作按钮
+  gloableOptionRow: {
+    renderDefault(h, cellRender, params, context) {
+      let self = context.$grid.$parent
+      let { row, column } = params
+      return [
+        <el-tooltip content="操作日志" placement="top" effect="light">
+          <a class="gloable-option-row-optionlog gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'report' })}>操作日志</a>
+        </el-tooltip>,
+        <el-tooltip content="运行轨迹" placement="top" effect="light">
+          <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'processTrack' })}>运行轨迹</a>
+        </el-tooltip>
+      ]
+    }
+  }
+}
