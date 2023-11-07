@@ -105,7 +105,7 @@ export const carryImplementationRegionModalColumns = [
   },
   {
     title: '支出功能科目',
-    field: 'xjExpFunc',
+    field: 'xjExpFuncName',
     align: 'left',
     tableType: 'bgt',
     sortable: false,
@@ -450,7 +450,7 @@ export const carrImplRegiSecondModalColumns = [
   {
     title: '预算金额',
     tableType: 'bgt',
-    field: 'jzAmountYs',
+    field: 'jzPayAmount',
     align: 'left',
     sortable: false,
     filters: false,
