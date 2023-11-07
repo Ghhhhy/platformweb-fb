@@ -271,7 +271,8 @@ export default {
         ...this.createDataList,
         ...formData,
         actionType: '2',
-        menuId: this.$store.state.curNavModule.guid
+        menuId: this.$store.state.curNavModule.guid,
+        menuName: this.$store.state.curNavModule.name
       }
       HttpModule.workFlowUpdate([params]).then(res => {
         this.tableLoading = false
