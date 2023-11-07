@@ -3,7 +3,7 @@
     v-model="dialogVisible"
     v-loading="tableLoadingState"
     v-bind="modalStaticProperty"
-    class="carrImplRegiSecondModal"
+    class="carryImplementationRegionModal"
     @close="dialogClose"
   >
     <BsMainFormListLayout>
@@ -27,50 +27,65 @@
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="pagerChange"
-        />
+          @cellClick="cellClick"
+        >
+          <template v-slot:toolbar-custom-slot>
+            单位：万元
+          </template>
+        </BsTable>
       </template>
     </BsMainFormListLayout>
+    <CarrImplRegiSecondModal ref="CarrImplRegiSecondModal" />
   </vxe-modal>
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from '@vue/composition-api'
+import { defineComponent, reactive, ref, onMounted, computed, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carrImplRegiSecondModalColumns } from './carryImplementationRegion.js'
+import { carryImplementationRegionModalColumns } from './columns.js'
+import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
 export default defineComponent({
-  components: {},
+  components: {
+    CarrImplRegiSecondModal
+  },
   setup() {
     /**
      * @interface reportCodeMap<{ $route.name : reportCode }>
      */
     const reportCodeMap = {
       'CarryImplementationRegion': {
-        reportCode: 'jzzjysxd_ysje',
-        querykey: 'mofDivCode'
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'mofDivCode',
+        tableType: 'bgt'
       },
       'CarryImplementationCapital': {
-        reportCode: 'jzzjysxd_ysje',
-        querykey: 'trackProCode'
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'trackProCode',
+        tableType: 'bgt'
       },
       'CarryPayRegion': {
-        reportCode: 'jzzjysxd_zcje',
-        querykey: 'mofDivCode'
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'mofDivCode',
+        tableType: 'pay'
       },
       'CarryPayCapital': {
-        reportCode: 'jzzjysxd_zcje',
-        querykey: 'trackProCode'
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'trackProCode',
+        tableType: 'pay'
       }
     }
+    const reportInsert = ref(false)
     const { $route } = getCurrentInstance().proxy
+    const CarrImplRegiSecondModal = ref()
     const waitTable = ref(null)
     const injectData = ref({
       mofDivCode: ''
     })
     const modalStaticProperty = {
-      title: '支出明细',
+      title: '项目明细',
       width: '96%',
       height: '80%',
       position: 'center',
@@ -78,6 +93,7 @@ export default defineComponent({
       showFooter: false
     }
     const dialogVisible = ref(false)
+    const routeList = ref(['CarryPayRegion', 'carryPayCapital'])
     const dialogClose = () => {
       dialogVisible.value = false
     }
@@ -86,9 +102,9 @@ export default defineComponent({
         columns,
         tableData,
         resetFetchTableData,
+        fetchTableData,
         tableLoadingState,
         pagerChange,
-        fetchTableData,
         pagerConfig,
         tableToolbarConfig,
         onToolbarBtnClick
@@ -101,17 +117,27 @@ export default defineComponent({
           reportCode: reportCodeMap[$route.name].reportCode,
           ...params
         }
-        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
         return copyObj
       },
       afterFetch: tableData => {
+        // tableData.value = res.data.results
+        console.log(tableData)
+        // console.log(tableData.value)
+        tableData.results = tableData.results.map(item => {
+          return {
+            ...item,
+            xjExpFunc: (item.xjExpFuncCode + item.xjExpFuncName) ? (item.xjExpFuncCode + item.xjExpFuncName) : ''
+          }
+        })
+        console.log(tableData)
         return tableData
       },
       finallyFetch: res => {
         tableLoadingState.value = false
         return res
       },
-      columns: carrImplRegiSecondModalColumns,
+      columns: computed(() => carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -119,20 +145,45 @@ export default defineComponent({
       resizable: true,
       showOverflow: true,
       // height: '100%',
-      align: 'left'
+      align: 'left',
+      cellStyle: ({ row, rowIndex, column }) => {
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (routeList.value.includes($route.name)) return
+        if (validCellValue && !row.children && column.own.canInsert) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+      }
     })
+    const cellClick = ({ row, rowIndex, column }) => {
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (routeList.value.includes($route.name)) return
+      if (validCellValue && !row.children && column.own.canInsert) {
+        CarrImplRegiSecondModal.value.dialogVisible = true
+        column.own.reportCode && (CarrImplRegiSecondModal.value.reportCode = column.own.reportCode)
+        CarrImplRegiSecondModal.value.tableType = column.own.tableType
+        CarrImplRegiSecondModal.value.injectData = row
+        CarrImplRegiSecondModal.value.init()
+      }
+    }
     const init = () => {
       resetFetchTableData()
     }
+    const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
+    let selectData = ref([])
     onMounted(() => {
-
     })
     return {
       columns,
       tableData,
       resetFetchTableData,
       tableLoadingState,
+      fetchTableData,
       pagerChange,
       tableToolbarConfig,
       onToolbarBtnClick,
@@ -140,10 +191,14 @@ export default defineComponent({
       modalStaticProperty,
       dialogVisible,
       dialogClose,
-      fetchTableData,
+      searchDataList,
       isShowQueryConditions,
       tableStaticProperty,
+      reportInsert,
+      cellClick,
+      selectData,
       waitTable,
+      CarrImplRegiSecondModal,
       injectData,
       init
     }
@@ -152,13 +207,11 @@ export default defineComponent({
 
 </script>
 <style lang="less" scoped>
-.carrImplRegiSecondModal{
+.carryImplementationRegionModal{
+
   /deep/ .vxe-pager--total{
     display: none;
   }
-}
-/deep/ .vxe-pager--total{
-  display: none;
 }
 .waitTable{
   /deep/ .T-mainFormListLayout-modulebox{

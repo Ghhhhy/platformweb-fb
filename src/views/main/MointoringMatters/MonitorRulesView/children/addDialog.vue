@@ -662,7 +662,7 @@ export default {
         const addedColumn = [{ // 新增一个列
           title: '参数值描述',
           sortable: false,
-          field: 'paramDesc',
+          field: 'description',
           align: 'left',
           formula: '',
           name: '$vxeInput',

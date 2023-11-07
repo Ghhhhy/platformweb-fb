@@ -98,7 +98,7 @@ export default defineComponent({
       let params = {
         mofDivCode: queryData.value.mofDivCodes_code,
         warnLevel: queryData.value.warnLevel,
-        stopTime: (queryData.value.stopTime * 24).toFixed(1),
+        stopTime: queryData.value.stopTime,
         regulationClass: '',
         page: staticConfig.value.pagerConfig.page,
         pageSize: staticConfig.value.pagerConfig.pageSize
@@ -112,9 +112,6 @@ export default defineComponent({
           staticConfig.value.pagerConfig.total = res.data.totalCount
           console.log(tableData.value)
           curDataArr.value = JSON.parse(JSON.stringify(res.data.results))
-          tableData.value.forEach((item) => {
-            item.stopTime = (item.stopTime / 24).toFixed(1)
-          })
           tableData.value.forEach((item) => {
             item.warnLevel = warnLevelArr[Number(item.warnLevel) - 1]
           })

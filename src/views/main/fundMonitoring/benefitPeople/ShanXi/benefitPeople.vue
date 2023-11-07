@@ -102,6 +102,7 @@
     <ImportModel
       :file-config="fileConfig"
       :import-modal-visible.sync="importModalVisible"
+      :import-type="importType"
       @onDownloadTemplateClick="onDownloadTemplateClick"
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
@@ -111,14 +112,14 @@
 
 <script>
 import { proconf } from './benefitPeople'
-import ImportModel from '@/components/Table/import/import.vue'
+import ImportModel from '@/components/Table/import/importSx.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
 import { Export } from '@/components/Table/export/export/export'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import { downloadByUrl } from '@/utils/download'
 import { readLocalFile } from '@/utils/readLocalFile'
-import { checkRscode } from '@/utils/checkRscode'
+// import { checkRscode } from '@/utils/checkRscode'
 export default {
   components: {
     ImportModel
@@ -359,20 +360,16 @@ export default {
         tabSelect: '0'
       },
       importData: [], // 导入数据
-      treeLoadingState: false
+      treeLoadingState: false,
+      importFileInfos: {},
+      importType: 1
     }
   },
   mounted() {
   },
   methods: {
-    async onImportClick() {
-      if (!this.fileConfig?.file) {
-        this.$message.warning('请先选择导入文件')
-        return
-      }
-      checkRscode(
-        await HttpModule.importBenefit(this.fileConfig)
-      )
+    async onImportClick(fileDataList) {
+      await HttpModule.importBenefit(fileDataList)
       this.$message.success('导入成功')
       this.dtos = []
       this.importModalVisible = false
@@ -683,6 +680,11 @@ export default {
           break
         case 'person-import':
         case 'company-import':
+          if (obj.code === 'person-import') {
+            this.importType = 1
+          } else {
+            this.importType = 2
+          }
           this.importModalVisible = true
           this.fileConfig = {
             fileName: '',
@@ -693,6 +695,18 @@ export default {
         default:
           break
       }
+    },
+    doUpload(obj, context, e) {
+      let that = this
+      // let columnsConfig = JSON.parse(data.editTableCols)
+      // let tmpColumnsConfig = []
+      // columnsConfig.forEach(item => {
+      //   if (item.visible) {
+      //     tmpColumnsConfig.push(item)
+      //   }
+      // })
+      that.importFileInfos = { sheets: [{ name: that.$store.state.curNavModule.name, columns: {} }] }
+      that.$refs.importfile.showImportDialog()
     },
     importSuccessCallback(res) {
       console.log('res:', res)

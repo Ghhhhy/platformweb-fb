@@ -182,7 +182,9 @@ export default {
       fiscalYear: '',
       fiRuleName: '',
       mofDivCodeList: [],
-      agencyCodeList: []
+      agencyCodeList: [],
+      startTime: '',
+      endTime: ''
     }
   },
   mounted() {
@@ -294,7 +296,8 @@ export default {
       this.condition = condition
       console.log(this.condition)
       let fiscalYear = this.condition.fiscalYear[0]
-
+      this.startTime = this.searchDataList.startTime
+      this.endTime = this.searchDataList.endTime
       this.agencyCodeList = val.agencyCodeList_code__multiple
       this.fiscalYear = val.fiscalYear
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
@@ -407,7 +410,9 @@ export default {
         regulationClass: this.params5,
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
-        fiRuleName: this.fiRuleName
+        fiRuleName: this.fiRuleName,
+        startTime: this.startTime,
+        endTime: this.endTime
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {

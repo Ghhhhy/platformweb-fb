@@ -106,18 +106,25 @@
       @close="closeAttachment"
     />
     <BsOperationLog :logs-data="logData" :show-log-view.sync="showLogView" />
+    <HandleInitialScreeningModal
+      v-model="showHandleInitialScreeningModal"
+      :selected-data="showDetailData"
+      :show-type="showType"
+      :bussness-id="bussnessId"
+      @close="refresh"
+    />
   </vxe-modal>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
+import HandleInitialScreeningModal from './handleInitialScreeningModal.vue'
 import proconf, {
   statusButtons,
   curStatusButton,
   curStatusButton1,
   curStatusButton2,
   curStatusButton3,
-  buttons1,
-  buttons2
+  buttonsInfo
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
@@ -130,7 +137,8 @@ export default {
   name: 'DetailDialogs',
   components: {
     GlAttachment,
-    ShowDialog
+    ShowDialog,
+    HandleInitialScreeningModal
     // BsTable1
   },
   computed: {
@@ -183,6 +191,8 @@ export default {
     return {
       // 操作日志
       isFlow: false,
+      showHandleInitialScreeningModal: false,
+      showType: '',
       logData: [],
       showLogView: false,
       title: '',
@@ -204,11 +214,9 @@ export default {
       showLog: false,
       showGlAttachmentDialog: false,
       tabStatusBtnConfig: {
-        // changeBtns: true,
         buttons: statusButtons,
         curButton: curStatusButton,
-        // buttonsInfo: buttons1,
-        buttonsInfo: this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true' ? buttons2 : buttons1,
+        buttonsInfo: buttonsInfo,
         methods: {
           bsToolbarClickEvent: this.bsToolbarClickEvent
         }
@@ -632,6 +640,9 @@ export default {
         case 'normal': //
           self.handleNormal(obj)
           break
+        case 'initialScreening': //
+          self.handleInitialScreening(obj)
+          break
         // 查看详情
         case 'show_detail':
           this.showDetail()
@@ -698,6 +709,32 @@ export default {
       this.showDetailData = selection
       this.showDialogVisible = true
       this.showDialogTitle = '监控问询单信息'
+    },
+    handleInitialScreening(obj) {
+      let selection = this.$refs.mainTableRef.selection
+      if (selection.length === 0) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      let mofDivCodeList = {}
+      let agencyCodeList = {}
+      let fiRuleCodeList = {}
+      selection.forEach(item => {
+        mofDivCodeList[item.mofDivCode] = item.mofDivName
+        agencyCodeList[item.agencyCode] = item.agencyCode
+        fiRuleCodeList[item.fiRuleCode] = item.fiRuleCode
+      })
+      if (Object.keys(mofDivCodeList).length > 1) {
+        this.$message.warning('请选择同一区划')
+        return
+      }
+      if (Object.keys(agencyCodeList).length > 1 || Object.keys(fiRuleCodeList).length > 1) {
+        this.$message.warning('请选择同一单位编码和同一规则编码')
+        return
+      }
+      this.showDetailData = selection
+      this.showType = 'add'
+      this.showHandleInitialScreeningModal = true
     },
     handleNormal() {
       let selection = this.$refs.mainTableRef.selection
