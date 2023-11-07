@@ -26,7 +26,6 @@
           <!--          </div>-->
           <el-upload
             ref="fileupload"
-            :on-change="handle"
             class=""
             :limit="1"
             drag
