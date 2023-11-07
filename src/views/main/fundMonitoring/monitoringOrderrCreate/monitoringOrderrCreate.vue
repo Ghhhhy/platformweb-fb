@@ -232,7 +232,9 @@ export default defineComponent({
       const params = {
         dealNo: tableLayOut.seletion[0].dealNo
       }
-      post(BSURL.lmp_totalWarnCreateUpdate, params).then(res => {
+      var paramArray = []
+      paramArray.push(params)
+      post(BSURL.lmp_totalWarnCreateUpdate, paramArray).then(res => {
         if (res.code === '000000') {
           message.success('生成成功')
           query.search()
