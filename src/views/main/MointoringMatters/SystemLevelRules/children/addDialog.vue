@@ -704,7 +704,7 @@ export default {
       ],
       warningLevel: this.$store.state.warnInfo.warnLevelOptions[0].value,
       warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
-      handleType: 1,
+      handleType: this.$store.state.warnInfo.warnControlTypeOptions[0].value,
       handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       triggerClass: 1,
       triggerClassoptions: [
@@ -960,7 +960,7 @@ export default {
       if (val === 2 && this.sx) {
         this.warningLevel = 5
         this.handleType = 5
-      } else {
+      } else if (val === 2 && this.$store.getters.isXm) {
         this.warningLevel = 4
         this.handleType = 4
       }
