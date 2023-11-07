@@ -10,7 +10,8 @@
           :is-open="isShowQueryConditions"
           :tab-status-btn-config="toolBarStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
-          @onQueryConditionsClick="onQueryConditionsClick"
+          @tabClick="onStatusTabClick"
+          @btnClick="operationToolbarButtonClickEvent"
         />
       </template>
       <template v-slot:query>
@@ -139,10 +140,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton,
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        }
+        buttonsInfo: proconf.statusRightToolBarButton
       },
       tabStatusNumConfig: {
         '1': 0
@@ -203,7 +201,7 @@ export default {
       addTableData: [],
       regulationsCode: '',
       // 请求 & 角色权限相关配置
-      menuName: '',
+      menuName: '监控规则联系人列表',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -289,7 +287,7 @@ export default {
           wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\''
         }
       }
-      HttpModule.getLeftTree(params).then(res => {
+      return HttpModule.getLeftTree(params).then(res => {
         if (res.data) {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
@@ -406,19 +404,7 @@ export default {
     },
     // 切换状态栏
     onStatusTabClick(obj) {
-      if (!obj.type) {
-        this.operationToolbarButtonClickEvent(obj)
-        return
-      }
       this.toolBarStatusSelect = obj
-      switch (obj.curValue) {
-        // 全部
-        case '1':
-          this.menuName = '监控规则联系人列表'
-          // this.getSearchDataList()
-          this.radioShow = true
-          break
-      }
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
       this.refresh()
@@ -650,7 +636,7 @@ export default {
       return datas
     }
   },
-  created() {
+  async created() {
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     if (this.menuId === '266A441A752111ECA9A7B8F0F910FFFB') {
@@ -659,7 +645,8 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.getLeftTreeData()
+    await this.getLeftTreeData()
+    this.onClickmethod({ node: this.treeData[0] })
     this.getRegulation()
   }
 }
