@@ -14,6 +14,10 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   const isDivisionReAudit = computed(() => {
     return unref(pagePath) === RouterPathEnum().DIVISION_REAUDIT
   })
+  // 是否是处室复审页面（终审） //福建没有按主题区分 不加regulationClass也有处理预警相关的能力
+  const isReallyDivisionReAudit = computed(() => {
+    return ['divisionReAudit', 'divisionReAuditBySpe'].includes(unref(pagePath))
+  })
 
   // 是否是单位反馈页面
   const isUnitFeedbackPage = computed(() => {
@@ -32,7 +36,7 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   // 是否允许禁止操作
   // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
-    if (store.getters.isFuJian && isDivisionReAudit.value) { // 福建  处室复审界面 放开禁止按钮
+    if (store.getters.isFuJian && isReallyDivisionReAudit.value) { // 福建  处室复审界面 放开禁止按钮
       return true
     }
     if (unref(isUnitMenu)) {
