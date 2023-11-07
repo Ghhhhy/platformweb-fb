@@ -557,6 +557,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '单号'
         }
       }
@@ -572,6 +573,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '主题'
         }
       }
@@ -647,6 +649,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '监控规则'
         }
       }
@@ -662,6 +665,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '追踪项目'
         }
       }
@@ -705,6 +709,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '预算单位'
         }
       }
@@ -720,6 +725,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '监控规则'
         }
       }
@@ -779,6 +785,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则名称'
         }
       }
@@ -817,6 +824,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }

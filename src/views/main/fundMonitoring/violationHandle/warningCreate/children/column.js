@@ -543,6 +543,7 @@ const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '业务数据单号'
         }
       }
@@ -558,6 +559,7 @@ const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '主题'
         }
       }
@@ -641,6 +643,7 @@ const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '追踪项目'
         }
       }

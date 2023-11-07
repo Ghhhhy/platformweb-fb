@@ -83,6 +83,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -97,6 +98,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '处室名称'
         }
       }
@@ -112,6 +114,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '预算单位'
         }
       }
@@ -126,6 +129,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '用途'
         }
       }
@@ -140,6 +144,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '付款人名称'
         }
       }
@@ -154,6 +159,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '收款人名称'
         }
       }
