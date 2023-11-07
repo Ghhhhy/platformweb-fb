@@ -10,6 +10,7 @@
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
+            v-if="!isFuJian"
             ref="queryFrom"
             @onSearchClick="fetchTableData"
             @onSearchResetClick="resetFetchTableData"
@@ -103,6 +104,7 @@ export default defineComponent({
       // height: '100%',
       align: 'left'
     })
+    const isFuJian = ref(store.getters.isFuJian)
     const init = () => {
       resetFetchTableData()
     }
@@ -114,6 +116,7 @@ export default defineComponent({
       columns,
       tableData,
       resetFetchTableData,
+      isFuJian,
       tableLoadingState,
       pagerChange,
       tableToolbarConfig,
