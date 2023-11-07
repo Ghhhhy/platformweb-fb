@@ -960,7 +960,7 @@ export default {
       if (val === 2 && this.sx) {
         this.warningLevel = 5
         this.handleType = 5
-      } else if (val === 2 && this.$stroe.getters.isXm) {
+      } else if (val === 2 && this.$store.getters.isXm) {
         this.warningLevel = 4
         this.handleType = 4
       }
