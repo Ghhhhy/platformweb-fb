@@ -557,6 +557,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '单号'
         }
       }
@@ -572,12 +573,28 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '主题'
         }
       }
     },
     {
-      title: '违规时间',
+      title: '违规开始时间',
+      field: 'warnStartTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '违规开始时间'
+        }
+      }
+    },
+    {
+      title: '违规结束时间',
       field: 'warnTime',
       width: 200,
       align: 'center',
@@ -587,7 +604,7 @@ export const proconf = {
         props: {
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
-          placeholder: '违规时间'
+          placeholder: '违规结束时间'
         }
       }
     },
@@ -647,6 +664,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '监控规则'
         }
       }
@@ -662,6 +680,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '追踪项目'
         }
       }
@@ -688,6 +707,7 @@ export const proconf = {
     dealNo: '',
     regulationClassName: '',
     warnTime: '',
+    warnStartTime: '',
     agencyName: '',
     triggerClass: '',
     warningLevel: '',
@@ -705,6 +725,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '预算单位'
         }
       }
@@ -720,6 +741,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '监控规则'
         }
       }
@@ -779,6 +801,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则名称'
         }
       }
@@ -817,6 +840,7 @@ export const proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }
