@@ -144,11 +144,11 @@ export let proconf = {
         options: [],
         props: {
           config: {
-            valueKeys: ['code', 'name', 'id'],
+            valueKeys: ['code', 'name', 'guid'],
             format: '{name}',
             treeProps: {
               labelFormat: '{code}-{name}', // {code}-{name}
-              nodeKey: 'id',
+              nodeKey: 'guid',
               label: 'label',
               children: 'children'
             },
