@@ -263,7 +263,7 @@ let proconf = {
                 field: 'numberSnjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountSnjxd}-0==0?0:Math.round({amountSnjpay}/{amountSnjxd}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjpay}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -273,7 +273,7 @@ let proconf = {
                 field: 'numberSnjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountSnjZjzlSjap}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountSnjZjzlSjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -283,7 +283,7 @@ let proconf = {
                 field: 'numberSnjZcjdzje',
                 width: 100,
                 align: 'right',
-                formula: '{amountSnjZjzlZje}-0==0?0:Math.round({amountSnjZcjeZje}/{amountSnjZjzlZje}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeZje}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -418,7 +418,7 @@ let proconf = {
                 field: 'numberSjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountSjxd}-0==0?0:Math.round({amountSjpay}/{amountSjxd}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSjpay}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -428,7 +428,7 @@ let proconf = {
                 field: 'numberSjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountSjZjzlSnjap}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountSjZjzlSnjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -438,7 +438,7 @@ let proconf = {
                 field: 'numberSjZcjdSjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountSjZjzlSjap}-0==0?0:Math.round({amountSjZcjeSjap}/{amountSjZjzlSjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -448,7 +448,7 @@ let proconf = {
                 field: 'numberSjZcjdZje',
                 width: 100,
                 align: 'right',
-                formula: '{amountSjZjzlZje}-0==0?0:Math.round({amountSjZcjeZje}/{amountSjZjzlZje}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeZje}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -605,7 +605,7 @@ let proconf = {
                 field: 'numberXjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountXjxd}-0==0?0:Math.round({amountXjpay}/{amountXjxd}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountXjpay}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -615,7 +615,7 @@ let proconf = {
                 field: 'numberXjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountXjZjzlSnjap}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountXjZjzlSnjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -625,7 +625,7 @@ let proconf = {
                 field: 'numberXjZcjdSjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountXjZjzlSjap}-0==0?0:Math.round({amountXjZcjeSjap}/{amountXjZjzlSjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -635,7 +635,7 @@ let proconf = {
                 field: 'numberXjZcjdXjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountXjZjzlXjap}-0==0?0:Math.round({amountXjZcjeXjap}/{amountXjZjzlXjap}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeXjap}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -645,7 +645,7 @@ let proconf = {
                 field: 'numberXjZcjdZje',
                 width: 100,
                 align: 'right',
-                formula: '{amountXjZjzlZje}-0==0?0:Math.round({amountXjZcjeZje}/{amountXjZjzlZje}*100*10)/10',
+                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeZje}/{amountZyxd}*100*10)/10',
                 cellRender: {
                   name: '$vxeRatio'
                 }
