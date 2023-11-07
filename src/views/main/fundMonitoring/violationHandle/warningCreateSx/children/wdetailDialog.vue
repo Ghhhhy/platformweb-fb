@@ -1245,6 +1245,7 @@ export default {
           if (res.code === '000000') {
             this.tableData = res.data.results
             this.tableData.forEach(item => {
+              item.agencyName = item.agencyCode + '-' + item.agencyName
               if (item.warnLevel === 1) {
                 item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
               } else if (item.warnLevel === 2) {
