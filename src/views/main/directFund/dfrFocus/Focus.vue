@@ -594,6 +594,15 @@ export default {
       //   }
       // })
     },
+    getTrees(val) {
+      let proCodes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          proCodes.push(item.split('##')[0])
+        })
+      }
+      return proCodes
+    },
     // 查询 table 数据
     queryTableDatas() {
       let queryObj = {
