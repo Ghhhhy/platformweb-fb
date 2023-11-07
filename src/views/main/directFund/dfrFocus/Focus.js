@@ -252,17 +252,36 @@ export let proconf = {
       }
     },
     {
-      'title': '付款日期',
-      'field': 'xpayDate',
-      'width': '8',
-      'align': 'left',
-      'formula': '',
-      'name': '$vxeTime',
-      'itemRender': {
-        'name': '$vxeTime',
-        'options': [],
-        'props': {
-          'placeholder': '付款日期'
+      title: '付款开始时间',
+      field: 'xpayStartDate',
+      sortable: false,
+      width: '8',
+      formula: '',
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '付款开始时间'
+        }
+      }
+    },
+    {
+      title: '付款结束时间',
+      field: 'xpayEndDate',
+      sortable: false,
+      width: '8',
+      formula: '',
+      align: 'left',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        format: 'YYYY-MM-DD',
+        props: {
+          type: 'date', //
+          placeholder: '付款结束时间'
         }
       }
     }

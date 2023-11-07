@@ -1127,6 +1127,16 @@ export default {
       }
     },
     queryTableDatas() {
+      let curFormData = { ...this.searchDataList }
+      if (curFormData['warnTime'] !== null && curFormData['warnTime'] !== undefined && curFormData['warnTime'].toString().length > 8) {
+        if (curFormData['warnStartTime'].toString() > curFormData['warnTime'].toString()) {
+          this.$message({
+            type: 'warning',
+            message: '选择违规时间范围时开始时间应小于结束时间，请重新选择!'
+          })
+          return
+        }
+      }
       let params = {
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
@@ -1137,7 +1147,8 @@ export default {
         isNormal: this.isNormal,
         isHandle: this.isHandle,
         regulationClassName: this.condition.regulationClassName ? this.condition.regulationClassName[0] : '',
-        warnTime: this.condition.warnTime ? this.condition.warnTime[0] : '',
+        warnStartTime: curFormData.warnStartTime && moment(curFormData.warnStartTime).format('YYYY-MM-DD'),
+        warnTime: curFormData.warnTime && moment(curFormData.warnTime).format('YYYY-MM-DD'),
         triggerClass: this.condition.triggerClass ? this.condition.triggerClass[0] : '',
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
@@ -1328,6 +1339,7 @@ export default {
       this.searchDataList.regulationClassName = ''
       this.searchDataList.trackProName = ''
       this.searchDataList.triggerClass = ''
+      this.searchDataList.warnStartTime = ''
       this.searchDataList.warnTime = ''
       this.searchDataList.warnStartDate = ''
       this.searchDataList.warnEndDate = ''
@@ -1343,6 +1355,7 @@ export default {
       this.condition.regulationClassName = ''
       this.condition.trackProName = ''
       this.condition.triggerClass = ''
+      this.condition.warnStartTime = ''
       this.condition.warnTime = ''
       this.queryTableDatas()
     },
