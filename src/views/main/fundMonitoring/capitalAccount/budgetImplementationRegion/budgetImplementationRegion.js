@@ -166,7 +166,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'amountPayAll',
-            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
+            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}',
             cellRender: { name: '$vxeMoney' }
           },
           {
