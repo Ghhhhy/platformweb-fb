@@ -1,8 +1,8 @@
 import store from '@/store/index'
 import router from '@/router'
 import { transJson2 } from '@/utils/params'
-
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
+import { $title } from '@/hooks/useTitle/useTitle.js'
 
 /**
  * 页面标识映射节点类型：用于给接口做权限区分
@@ -844,25 +844,25 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   }, {
-    title: '付款人姓名',
+    title: $title('payAcctName'),
     field: 'payAcctName',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '付款编号',
+    title: $title('payAcctNo'),
     field: 'payAcctNo',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '银行',
+    title: $title('payAcctBankName'),
     field: 'payAcctBankName',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '付款人账号',
+    title: $title('payeeAcctName'),
     field: 'payeeAcctName',
     width: 180,
     sortable: false,
@@ -1000,25 +1000,25 @@ export let proconf = {
       sortable: false,
       filters: false
     }, {
-      title: '付款人姓名',
+      title: $title('payAcctName'),
       field: 'payAcctName',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '付款编号',
+      title: $title('payAcctNo'),
       field: 'payAcctNo',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '银行',
+      title: $title('payAcctBankName'),
       field: 'payAcctBankName',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '付款人账号',
+      title: $title('payeeAcctName'),
       field: 'payeeAcctName',
       width: 180,
       sortable: false,
