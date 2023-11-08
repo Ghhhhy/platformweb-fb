@@ -580,7 +580,7 @@ export default {
       this.tableLoading = true
       let queryUrl = 'queryTableDatasProject'
       if (this.$store.getters.isSx) {
-        queryUrl = 'queryTableDatas'
+        queryUrl = 'queryTableDatasPage'
         HttpModule.querySum(param).then(res => {
           if (res.code === '000000') {
             this.tableFooterConfig.totalObj = res.data[0]
