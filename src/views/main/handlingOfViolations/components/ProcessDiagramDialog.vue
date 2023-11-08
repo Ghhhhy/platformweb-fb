@@ -51,7 +51,7 @@ export default {
       defineUrl: '/process-diagram?processDefinitionId=',
       definetTitle: '流程定义图',
       procInstId: 'c927453f1b0e11ee8151fa163eb17d1a',
-      processDefKey: 'project-process',
+      processDefKey: 'lmp_warnprocess_sh',
       url: '',
       title: ''
     }
@@ -71,7 +71,7 @@ export default {
         year: userInfo.year
       }
       post('large-monitor-platform/lmp/warnProcess/taskinfos', param).then(res => {
-        if (res.rscode === '100000') {
+        if (res.code === '100000') {
           const procInstId = res.data[0].procInstId
           this.procInstId = procInstId
           this.setUrl()
