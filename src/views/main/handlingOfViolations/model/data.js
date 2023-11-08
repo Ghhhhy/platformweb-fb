@@ -899,7 +899,7 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   }, {
-    title: '部门经济分开名称',
+    title: '部门经济分类名称',
     field: 'depBgtEcoName',
     width: 180,
     sortable: false,
@@ -1055,7 +1055,7 @@ export let proconf = {
       sortable: false,
       filters: false
     }, {
-      title: '部门经济分开名称',
+      title: '部门经济分类名称',
       field: 'depBgtEcoName',
       width: 180,
       sortable: false,
