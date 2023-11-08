@@ -147,7 +147,7 @@ export const tableColumns = [
       'totalAll'
     ],
     cellRender: { name: '$vxeMoney' }
-  },
+  }
   // {
   //   title: '操作',
   //   field: 'opration',
