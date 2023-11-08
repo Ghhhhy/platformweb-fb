@@ -12,8 +12,8 @@ export const tableColumns = [
     align: 'center',
     tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
-      // return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      return row.mofDivCode
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      // return row.mofDivCode
     },
     exportFormatter: true
   },
@@ -31,35 +31,19 @@ export const tableColumns = [
     exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
 
   },
-  // {
-  //   title: '业务处室',
-  //   width: 180,
-  //   field: 'manageMofDepName',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'center'
-  // },
   {
     title: '业务数据单号',
     width: 180,
-    field: 'dealNo',
+    field: 'payAppNo',
     sortable: false,
     filters: false,
     align: 'center'
   },
-  // {
-  //   title: '主题',
-  //   width: 180,
-  //   field: 'regulationClassName',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'center'
-  // },
   {
-    title: '违规时间',
+    title: '下发时间',
     width: 180,
     field: 'createTime',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'center'
   },
@@ -91,7 +75,12 @@ export const tableColumns = [
     field: 'fiRuleName',
     sortable: false,
     filters: false,
-    align: 'center'
+    align: 'center',
+    tooltipFormat: '{fiRuleCode}-{fiRuleName}',
+    formatter({ row }) {
+      return row.fiRuleCode && row.fiRuleName ? `${row.fiRuleCode}-${row.fiRuleName}` : ''
+    },
+    exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
   },
   {
     title: '预警级别',
@@ -144,7 +133,7 @@ export const tableColumns = [
       props: {}
     },
     name: '$vxeSelect'
-  },
+  }
   // {
   //   title: '支付金额',
   //   field: 'paymentAmount',
@@ -160,24 +149,24 @@ export const tableColumns = [
   //   ],
   //   cellRender: { name: '$vxeMoney' }
   // },
-  {
-    title: '操作',
-    field: 'opration',
-    width: '230',
-    slots: {
-      default(row) {
-        let vnode = (
-          <div class="fcc">
-            {/* <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button> */}
-            {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
-          </div>
-        )
-        return [
-          vnode
-        ]
-      }
-    }
-  }
+  // {
+  //   title: '操作',
+  //   field: 'opration',
+  //   width: '230',
+  //   slots: {
+  //     default(row) {
+  //       let vnode = (
+  //         <div class="fcc">
+  //           {/* <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button> */}
+  //           {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
+  //         </div>
+  //       )
+  //       return [
+  //         vnode
+  //       ]
+  //     }
+  //   }
+  // }
 ]
 export const queryColumns = [
   { // 各地省份树结构

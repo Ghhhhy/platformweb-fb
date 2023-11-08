@@ -264,6 +264,8 @@ export default {
       regulation_type: '',
       regulation_code: '',
       useDes: '',
+      trackProCode: '',
+      trackProName: '',
       defaultExpandedKeysIn: ['0'],
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -308,6 +310,8 @@ export default {
       this.businessTime = obj.businessTime
       this.endTime = obj.endTime
       this.useDes = obj.useDes
+      this.trackProName = obj.trackProName
+      this.trackProCode = obj.trackProCode
       this.searchDataList.businessNo = obj.businessNo
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
@@ -742,7 +746,9 @@ export default {
         // regulation_type: this.regulation_type,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         useDes: this.useDes,
-        roleId: this.roleguid
+        roleId: this.roleguid,
+        trackProCode: this.trackProCode,
+        trackProName: this.trackProName
       }
       if (this.$store.getters.isSx) {
         param.regulation_type = this.regulationType
