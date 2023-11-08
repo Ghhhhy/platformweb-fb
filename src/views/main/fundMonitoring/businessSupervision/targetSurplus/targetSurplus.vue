@@ -429,7 +429,7 @@ export default {
       }
       HttpModule[axiosStr](param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          this.tableData = res.data
           this.caliberDeclareContent = res.data.description || ''
           this.reportTime = res.data.reportTime || ''
         } else {

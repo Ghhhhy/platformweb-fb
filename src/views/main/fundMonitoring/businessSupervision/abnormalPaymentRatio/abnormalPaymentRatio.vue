@@ -197,7 +197,7 @@ export default {
         autoHidden: true,
         total: 0,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableConfig: {
         renderers: {
@@ -476,6 +476,9 @@ export default {
         querySum(param).then(res => {
           if (res.code === '000000') {
             this.tableFooterConfig.totalObj = res.data[0]
+            this.$nextTick(function () {
+              this.$refs.mainTableRef.updateFooter()
+            })
           } else {
             this.$message.error(res.message)
           }
@@ -487,7 +490,7 @@ export default {
       HttpModule[axiosQueryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          this.tableData = res.data.results
           this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
