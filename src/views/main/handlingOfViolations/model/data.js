@@ -1127,11 +1127,8 @@ export let proconf = {
       let self = context.$grid.$parent
       let { row, column } = params
       return [
-        <el-tooltip content="操作日志" placement="top" effect="light">
-          <a class="gloable-option-row-optionlog gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'report' })}>操作日志</a>
-        </el-tooltip>,
         <el-tooltip content="运行轨迹" placement="top" effect="light">
-          <a class="gloable-option-row-edit gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'processTrack' })}>运行轨迹</a>
+          <a class="gloable-option-row-optionlog gloable-option-row  fn-inline" onClick={() => self.onOptionRowClick({ row, column, optionType: 'processTrack' })}>运行轨迹</a>
         </el-tooltip>
       ]
     }
