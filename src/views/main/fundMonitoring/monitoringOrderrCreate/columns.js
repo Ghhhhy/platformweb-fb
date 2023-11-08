@@ -98,7 +98,7 @@ export const tableColumns = [
       props: { disabled: true, placeholder: '预警级别' }
     },
     name: '$vxeSelect'
-  }
+  },
   // {
   //   title: '处理方式',
   //   field: 'handleType',
@@ -133,21 +133,21 @@ export const tableColumns = [
   //   },
   //   name: '$vxeSelect'
   // }
-  // {
-  //   title: '支付金额',
-  //   field: 'paymentAmount',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'right',
-  //   width: 160,
-  //   combinedType: [
-  //     'average',
-  //     'subTotal',
-  //     'total',
-  //     'totalAll'
-  //   ],
-  //   cellRender: { name: '$vxeMoney' }
-  // },
+  {
+    title: '支付金额',
+    field: 'payAppAmt',
+    sortable: false,
+    filters: false,
+    align: 'right',
+    width: 160,
+    combinedType: [
+      'average',
+      'subTotal',
+      'total',
+      'totalAll'
+    ],
+    cellRender: { name: '$vxeMoney' }
+  },
   // {
   //   title: '操作',
   //   field: 'opration',
