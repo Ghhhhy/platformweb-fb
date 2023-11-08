@@ -500,7 +500,9 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getAmountColumn(),
     getWarnLevelColumn(warnLevelRenderName),
     getControlTypeColumn(),
-    getWarningCodeColumn(),
+    getWarningCodeColumn({
+      visible: !store.getters.isFuJian// 福建去掉处理单编号
+    }),
     getAgencyNameColumn(),
     getMofDivCodeColumn(),
     getDeptNameColumn(),
