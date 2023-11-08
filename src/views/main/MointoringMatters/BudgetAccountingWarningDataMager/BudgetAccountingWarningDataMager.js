@@ -757,6 +757,26 @@ export let proconf = {
       }
     },
     {
+      field: 'trackProCode',
+      title: '专项资金编码',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '专项资金编码' }
+      }
+    },
+    {
+      field: 'trackProName',
+      title: '专项资金名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '专项资金名称' }
+      }
+    },
+    {
       title: '资金用途',
       field: 'useDes',
       span: 8,
