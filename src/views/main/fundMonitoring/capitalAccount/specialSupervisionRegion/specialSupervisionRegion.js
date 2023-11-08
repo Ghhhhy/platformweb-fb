@@ -151,8 +151,8 @@ const proconf = {
         title: '支出',
         width: 260,
         align: 'center',
-        visible: store.getters.isSx,
-        children: store.getters.isSx ? [
+        visible: store.getters.isSx || store.getters.isFuJian,
+        children: store.getters.isSx || store.getters.isFuJian ? [
           {
             title: '金额',
             align: 'right',
