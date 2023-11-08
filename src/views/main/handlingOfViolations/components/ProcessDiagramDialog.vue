@@ -71,7 +71,7 @@ export default {
         year: userInfo.year
       }
       post('large-monitor-platform/lmp/warnProcess/taskinfos', param).then(res => {
-        if (res.rscode === '100000') {
+        if (res.code === '100000') {
           const procInstId = res.data[0].procInstId
           this.procInstId = procInstId
           this.setUrl()
