@@ -69,14 +69,14 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
-    const modalStaticProperty = {
-      title: '支出明细',
+    const modalStaticProperty = ref({
+      title: tableType.value === 'pay' ? '支出明细' : '预算明细',
       width: '96%',
       height: '80%',
       position: 'center',
       minWidth: '900',
       showFooter: false
-    }
+    })
     const dialogVisible = ref(false)
     const dialogClose = () => {
       dialogVisible.value = false

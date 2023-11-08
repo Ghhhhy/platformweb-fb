@@ -1,8 +1,8 @@
 import store from '@/store/index'
 import router from '@/router'
 import { transJson2 } from '@/utils/params'
-
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
+import { $title } from '@/hooks/useTitle/useTitle.js'
 
 /**
  * 页面标识映射节点类型：用于给接口做权限区分
@@ -500,7 +500,9 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     getAmountColumn(),
     getWarnLevelColumn(warnLevelRenderName),
     getControlTypeColumn(),
-    getWarningCodeColumn(),
+    getWarningCodeColumn({
+      visible: !store.getters.isFuJian// 福建去掉处理单编号
+    }),
     getAgencyNameColumn(),
     getMofDivCodeColumn(),
     getDeptNameColumn(),
@@ -645,23 +647,35 @@ export const getReceiptsColumns = () => {
     {
       title: '支出功能分类',
       field: 'expFuncName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.expFuncCode, row.expFuncName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '政府经济分类',
       field: 'govBgtEcoName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.govBgtEcoCode, row.govBgtEcoName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '部门经济分类',
       field: 'depBgtEcoName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.depBgtEcoCode, row.depBgtEcoName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '收款人全称',
@@ -844,25 +858,25 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   }, {
-    title: '付款人姓名',
+    title: $title('payAcctName'),
     field: 'payAcctName',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '付款编号',
+    title: $title('payAcctNo'),
     field: 'payAcctNo',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '银行',
+    title: $title('payAcctBankName'),
     field: 'payAcctBankName',
     width: 180,
     sortable: false,
     filters: false
   }, {
-    title: '付款人账号',
+    title: $title('payeeAcctName'),
     field: 'payeeAcctName',
     width: 180,
     sortable: false,
@@ -899,7 +913,7 @@ export const fjAddColumns = [
     sortable: false,
     filters: false
   }, {
-    title: '部门经济分开名称',
+    title: '部门经济分类名称',
     field: 'depBgtEcoName',
     width: 180,
     sortable: false,
@@ -1000,25 +1014,25 @@ export let proconf = {
       sortable: false,
       filters: false
     }, {
-      title: '付款人姓名',
+      title: $title('payAcctName'),
       field: 'payAcctName',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '付款编号',
+      title: $title('payAcctNo'),
       field: 'payAcctNo',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '银行',
+      title: $title('payAcctBankName'),
       field: 'payAcctBankName',
       width: 180,
       sortable: false,
       filters: false
     }, {
-      title: '付款人账号',
+      title: $title('payeeAcctName'),
       field: 'payeeAcctName',
       width: 180,
       sortable: false,
@@ -1055,7 +1069,7 @@ export let proconf = {
       sortable: false,
       filters: false
     }, {
-      title: '部门经济分开名称',
+      title: '部门经济分类名称',
       field: 'depBgtEcoName',
       width: 180,
       sortable: false,
@@ -1069,12 +1083,14 @@ export let proconf = {
     }, {
       title: '申请人',
       field: 'applyName',
+      visible: store.getters.isSx,
       width: 180,
       sortable: false,
       filters: false
     }, {
       title: '申请人电话',
       field: 'applyDial',
+      visible: store.getters.isSx,
       width: 180,
       sortable: false,
       filters: false
