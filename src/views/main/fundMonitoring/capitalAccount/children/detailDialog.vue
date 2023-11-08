@@ -327,6 +327,7 @@ export default {
         case 'zxjdzcmx_fzj':
         case 'zxjdzcmx_fdq':
         case 'zyzfzcmx_fdq':
+        case 'zyzfzcmx_fdq_ys':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
