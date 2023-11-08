@@ -10,6 +10,7 @@
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
+            v-if="!isFuJian"
             ref="queryFrom"
             @onSearchClick="fetchTableData"
             @onSearchResetClick="resetFetchTableData"
@@ -77,6 +78,7 @@ export default defineComponent({
         tableType: 'pay'
       }
     }
+    const isFuJian = ref(store.getters.isFuJian)
     const reportInsert = ref(false)
     const { $route } = getCurrentInstance().proxy
     const CarrImplRegiSecondModal = ref()
@@ -200,6 +202,7 @@ export default defineComponent({
       waitTable,
       CarrImplRegiSecondModal,
       injectData,
+      isFuJian,
       init
     }
   }
