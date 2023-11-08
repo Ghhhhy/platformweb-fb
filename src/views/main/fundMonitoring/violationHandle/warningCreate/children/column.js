@@ -288,6 +288,22 @@ const budgetManagementColumns = [
     align: 'center'
   },
   {
+    title: '指标管理处室编码',
+    width: 180,
+    field: 'bgtMofDepCode',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '指标管理处室名称',
+    width: 180,
+    field: 'bgtMofDepName',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
     field: 'curAmt',
     title: '指标余额',
     titleWidth: '180',
@@ -1409,6 +1425,24 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '支付日期' }
       }
+    }, {
+      title: '指标管理处室编码',
+      field: 'bgtMofDepCode',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '指标管理处室编码' }
+      }
+    }, {
+      title: '指标管理处室名称',
+      field: 'bgtMofDepName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '指标管理处室名称' }
+      }
     }
 
   ],
@@ -1527,6 +1561,26 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '超时下达时间', disabled: true }
+      }
+    },
+    {
+      field: 'bgtMofDepCode',
+      title: '指标管理处室编码',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标管理处室编码', disabled: true }
+      }
+    },
+    {
+      field: 'bgtMofDepName',
+      title: '指标管理处室名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标管理处室名称', disabled: true }
       }
     }
 
