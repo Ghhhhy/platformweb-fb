@@ -47,31 +47,30 @@ export const tableColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '监控类型',
-    field: 'triggerClass',
-    align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: [
-        {
-          value: 1,
-          label: '事中触发'
-        },
-        {
-          value: 2,
-          label: '定时触发'
-        }
-      ],
-      defaultValue: '',
-      props: {}
-    },
-    name: '$vxeSelect'
-  },
+  // {
+  //   title: '监控类型',
+  //   field: 'triggerClass',
+  //   align: 'center',
+  //   width: 180,
+  //   cellRender: {
+  //     name: '$vxeSelect',
+  //     options: [
+  //       {
+  //         value: 1,
+  //         label: '事中触发'
+  //       },
+  //       {
+  //         value: 2,
+  //         label: '定时触发'
+  //       }
+  //     ],
+  //     defaultValue: '',
+  //     props: {}
+  //   },
+  //   name: '$vxeSelect'
+  // },
   {
     title: '监控规则',
-    width: 180,
     field: 'fiRuleName',
     sortable: false,
     filters: false,
@@ -99,41 +98,41 @@ export const tableColumns = [
       props: { disabled: true, placeholder: '预警级别' }
     },
     name: '$vxeSelect'
-  },
-  {
-    title: '处理方式',
-    field: 'handleType',
-    align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: [
-        {
-          value: 1,
-          label: '拦截'
-        },
-        {
-          value: 2,
-          label: '预警，需上传附件'
-        },
-        {
-          value: 3,
-          label: '预警，无需上传附件'
-        },
-        {
-          value: 4,
-          label: '提醒'
-        },
-        {
-          value: 5,
-          label: '记录'
-        }
-      ],
-      defaultValue: '',
-      props: {}
-    },
-    name: '$vxeSelect'
   }
+  // {
+  //   title: '处理方式',
+  //   field: 'handleType',
+  //   align: 'center',
+  //   width: 180,
+  //   cellRender: {
+  //     name: '$vxeSelect',
+  //     options: [
+  //       {
+  //         value: 1,
+  //         label: '拦截'
+  //       },
+  //       {
+  //         value: 2,
+  //         label: '预警，需上传附件'
+  //       },
+  //       {
+  //         value: 3,
+  //         label: '预警，无需上传附件'
+  //       },
+  //       {
+  //         value: 4,
+  //         label: '提醒'
+  //       },
+  //       {
+  //         value: 5,
+  //         label: '记录'
+  //       }
+  //     ],
+  //     defaultValue: '',
+  //     props: {}
+  //   },
+  //   name: '$vxeSelect'
+  // }
   // {
   //   title: '支付金额',
   //   field: 'paymentAmount',
