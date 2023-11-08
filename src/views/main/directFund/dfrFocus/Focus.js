@@ -134,33 +134,6 @@ export let proconf = {
     //   }
     // },
     {
-      title: '预算单位',
-      field: 'agencyCode',
-      width: '8',
-      align: 'left',
-      name: '$vxeTree',
-      itemRender: {
-        name: '$vxeTree',
-        options: [],
-        props: {
-          config: {
-            valueKeys: ['code', 'name', 'guid'],
-            format: '{name}',
-            treeProps: {
-              labelFormat: '{code}-{name}', // {code}-{name}
-              nodeKey: 'guid',
-              label: 'label',
-              children: 'children'
-            },
-            placeholder: '请选择预算单位',
-            multiple: true,
-            readonly: false,
-            isleaf: true
-          }
-        }
-      }
-    },
-    {
       title: '专项名称',
       field: 'proCodes',
       width: '8',

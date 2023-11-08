@@ -562,6 +562,19 @@ export default [
         '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
       )
   },
+  // 预警数据审核（三保）
+  {
+    path: '/BudgetAccountingWarningDataMagerBySb',
+    name: 'BudgetAccountingWarningDataMagerBySb',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
+      )
+  },
   // 单位核算预警数据管理
   {
     path: '/AgencyBusinessAccountingWarningDataMager',
