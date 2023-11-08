@@ -200,8 +200,8 @@ export default defineComponent({
       }
       post(BSURL.lmp_totalWarnPageQueryForCreateCount, params).then(res => {
         if (res.code === '000000') {
-          tabPanel.tabStatusNumConfig[1] = res.data?.find(item => item.createBill === 1)?.count || 0
-          tabPanel.tabStatusNumConfig[2] = res.data?.find(item => item.createBill === 2)?.count || 0
+          tabPanel.tabStatusNumConfig[1] = res?.data[1] || 0
+          tabPanel.tabStatusNumConfig[2] = res?.data[2] || 0
         }
       })
     }
@@ -229,13 +229,15 @@ export default defineComponent({
       showDialogVisible.value = true
     }
     const createWorkFlowSign = () => {
-      const params = {
-        dealNo: tableLayOut.seletion[0].dealNo
-      }
+      const params = tableLayOut.seletion.map(item => {
+        return { dealNo: item.dealNo }
+      })
       post(BSURL.lmp_totalWarnCreateUpdate, params).then(res => {
         if (res.code === '000000') {
           message.success('生成成功')
           query.search()
+        } else {
+          message.error('请求失败')
         }
       })
     }
