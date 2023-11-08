@@ -23,5 +23,6 @@ const locationMapping = new Map([
   [store.getters.isFuJian, 'isFuJian']
 ])
 export const $title = (field) => {
+  if (!field) return ''
   return languageDictionary[field][locationMapping.get(true)]
 }
