@@ -245,6 +245,7 @@ export default {
       params.payeeAcctName = this.condition.payeeAcctName ? this.condition.payeeAcctName[0] : ''
       params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
+      let that = this
       if (this.$store.getters.isSx) {
         params.payAppNo = this.condition.payAppNo ? this.condition.payAppNo[0] : ''
         params.speTypeName = this.condition.speTypeName ? this.condition.speTypeName[0] : ''
@@ -254,6 +255,9 @@ export default {
         HttpModule.querySum(params).then(res => {
           if (res.code === '000000') {
             this.tableFooterConfig.totalObj = res.data[0]
+            this.$nextTick(function () {
+              that.$refs.mainTableRef.updateFooter()
+            })
           } else {
             this.$message.error(res.result)
           }
