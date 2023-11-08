@@ -647,23 +647,35 @@ export const getReceiptsColumns = () => {
     {
       title: '支出功能分类',
       field: 'expFuncName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.expFuncCode, row.expFuncName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '政府经济分类',
       field: 'govBgtEcoName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.govBgtEcoCode, row.govBgtEcoName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '部门经济分类',
       field: 'depBgtEcoName',
-      width: 100,
+      width: 130,
       sortable: false,
-      filters: false
+      filters: false,
+      formatter({ row }) {
+        const mapping = [row.depBgtEcoCode, row.depBgtEcoName]
+        return mapping.filter(Boolean).join('-')
+      }
     },
     {
       title: '收款人全称',
