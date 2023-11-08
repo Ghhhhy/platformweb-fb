@@ -1069,12 +1069,14 @@ export let proconf = {
     }, {
       title: '申请人',
       field: 'applyName',
+      visible: store.getters.isSx,
       width: 180,
       sortable: false,
       filters: false
     }, {
       title: '申请人电话',
       field: 'applyDial',
+      visible: store.getters.isSx,
       width: 180,
       sortable: false,
       filters: false
