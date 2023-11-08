@@ -44,6 +44,23 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 export default defineComponent({
   components: {},
   setup() {
+    /**
+     * @interface reportCodeMap<{ $route.name : reportCode }>
+     */
+    const reportCodeMap = {
+      'CarryImplementationRegion': {
+        querykey: 'mofDivCode'
+      },
+      'CarryImplementationCapital': {
+        querykey: 'trackProCode'
+      },
+      'CarryPayRegion': {
+        querykey: 'mofDivCode'
+      },
+      'CarryPayCapital': {
+        querykey: 'trackProCode'
+      }
+    }
     const reportCode = ref('')
     const tableType = ref('')
     /* eslint-disable-next-line */
@@ -85,6 +102,7 @@ export default defineComponent({
           reportCode: reportCode.value,
           ...params
         }
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
         return copyObj
       },
       afterFetch: tableData => {
