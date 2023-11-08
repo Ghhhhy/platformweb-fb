@@ -183,6 +183,28 @@ let proconf = {
           placeholder: '支付申请编号'
         }
       }
+    },
+    {
+      title: '专项资金编码',
+      field: 'trackProCode',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '专项资金编码'
+        }
+      }
+    },
+    {
+      title: '专项资金名称',
+      field: 'trackProName',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '专项资金名称'
+        }
+      }
     }
   ],
   highQueryConfigPay: [
@@ -720,6 +742,15 @@ let proconf = {
       filters: false,
       align: 'left'
     },
+
+    {
+      title: '支付金额',
+      width: 180,
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
     // {
     //   title: '触发菜单',
     //   'width': 180,
@@ -764,6 +795,22 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '专项资金编码',
+      'width': 180,
+      field: 'trackProCode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '专项资金名称',
+      'width': 180,
+      field: 'trackProName',
       sortable: false,
       filters: false,
       align: 'center'
