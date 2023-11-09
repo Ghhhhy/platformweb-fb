@@ -624,9 +624,7 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = this.searchDataList
-      param['reportCode'] = 'sbzcyjhzb'
-      debugger
-      console.log(this.param5)
+      param['reportCode'] = this.param5.reportCode
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -750,7 +748,7 @@ export default {
     },
     initParams5() {
       // 初始化param5
-      let param5Str = this.curNavModule.param5
+      let param5Str = this.$store.state.curNavModule.param5
       if (param5Str && param5Str !== '') {
         let param5Strs = param5Str.split(',')
         param5Strs.forEach(s => {
