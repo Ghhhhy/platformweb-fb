@@ -166,7 +166,6 @@ const useMap = (regulationClass = '') => {
    * @returns {Promise<*[]>}
    */
   const getMapInitInfo = async () => {
-    const { province } = store.state.userInfo
     const { data } = await businessStatistics({ mofDivCode: '', regulationClass })
     mapTipsInfo.detail = data || []
 
