@@ -225,6 +225,7 @@ export default {
       // console.log(this.includedComponents)
     },
     tabTabs(value) {
+      this.showType = 'router'
       if (value !== '') {
         if (
           this.getDataType(this.curRouteTabObj) === 'Object' &&
@@ -256,7 +257,6 @@ export default {
             this.iframeSrc = value.indexOf('?') >= 0 ? value + '&bosssoftTokenid=' + this.$store.state.loginAuthentication.tokenid : value + '?bosssoftTokenid=' + this.$store.state.loginAuthentication.tokenid
             this.showType = 'iframe'
           } else {
-            this.showType = 'router'
             this.iframeSrc = ''
             this.$router.push(
               {
