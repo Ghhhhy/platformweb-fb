@@ -13,7 +13,7 @@ const useMap = (regulationClass = '') => {
   // 地图数据
   const mapData = ref([])
   // 当前区划code
-  const mofDivCode = ref(store.state.userInfo.province.slice(0, 2))
+  const mofDivCode = ref('')
 
   // 地图tips信息
   const mapTipsInfo = reactive({
@@ -142,11 +142,11 @@ const useMap = (regulationClass = '') => {
       const { fromActionPayload, fromAction } = params
       const dataIndex = fromActionPayload.dataIndexInside
       if (fromAction === 'unselect') {
-        const { province, admdivname } = store.state.userInfo
-        mofDivCode.value = province?.slice(0, 2)
+        const { admdivname } = store.state.userInfo
+        mofDivCode.value = ''
         mapTipsInfo.title = admdivname
       } else if (fromAction === 'select') {
-        mofDivCode.value = unref(mapData)[dataIndex].mofDivCode?.toString().slice(0, 4)
+        mofDivCode.value = unref(mapData)[dataIndex].mofDivCode
         mapTipsInfo.title = unref(mapData)[fromActionPayload.dataIndexInside].name + '所辖县区'
       }
     })
@@ -167,7 +167,7 @@ const useMap = (regulationClass = '') => {
    */
   const getMapInitInfo = async () => {
     const { province } = store.state.userInfo
-    const { data } = await businessStatistics({ mofDivCode: province.slice(0, 2), regulationClass })
+    const { data } = await businessStatistics({ mofDivCode: '', regulationClass })
     mapTipsInfo.detail = data || []
 
     mapData.value = mapGecJson.features.map((item) => {
