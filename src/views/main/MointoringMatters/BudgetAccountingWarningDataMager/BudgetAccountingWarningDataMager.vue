@@ -197,6 +197,20 @@ export default {
             'total',
             'totalAll'
           ]
+        },
+        {
+          title: '金额',
+          field: 'paymentAmount',
+          align: 'right',
+          sortable: true,
+          filters: false,
+          combinedType: [
+            'average',
+            'subTotal',
+            'total',
+            'totalAll'
+          ],
+          cellRender: { name: '$vxeMoney' }
         }
         // {
         //   title: '今日新增',
