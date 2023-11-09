@@ -67,6 +67,10 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <!--口径说明插槽-->
+          <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
+            <p v-html="caliberDeclareContent"></p>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="leftTreeVisible === false" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -276,7 +280,9 @@ export default {
       condition: {},
       dataSourceCode: '',
       param: '',
-      dataId: ''
+      dataId: '',
+      param5: {},
+      caliberDeclareContent: '' // 口径说明
     }
   },
   mounted() {
@@ -618,6 +624,9 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = this.searchDataList
+      param['reportCode'] = 'sbzcyjhzb'
+      debugger
+      console.log(this.param5)
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -658,6 +667,7 @@ export default {
           this.tableFooterConfig.totalObj.sbZxjeBjbms = sbZxjeBjbms
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
+          this.caliberDeclareContent = res.data.description || ''
         } else {
           this.$message.error(res.message)
         }
@@ -737,16 +747,28 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    initParams5() {
+      // 初始化param5
+      let param5Str = this.curNavModule.param5
+      if (param5Str && param5Str !== '') {
+        let param5Strs = param5Str.split(',')
+        param5Strs.forEach(s => {
+          let ss = s.split('=')
+          let key = ss[0]
+          let value = ss[1]
+          this.param5[key] = value
+        })
+      }
     }
   },
   created() {
+    this.initParams5()
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.getLeftTreeData()
-    // this.onStatusTabClick(proconf.toolBarStatusButtons[0])
   }
 }
 </script>
