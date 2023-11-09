@@ -374,7 +374,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100'
+                formula: '{aAmount}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
               },
               {
                 title: '省级安排',
@@ -382,7 +382,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100'
+                formula: '{aAmount}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
               },
               {
                 title: '总进度',
@@ -392,7 +392,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{saAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{saAmount}*100'
+                formula: '{aAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{aAmount}*100'
               }
             ]
           }
@@ -652,7 +652,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjzydf}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{amountSjzydf}*100'
+                formula: '{aAmount}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{aAmount}*100'
               },
               {
                 title: '省级安排',
@@ -660,7 +660,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjsnjdf}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{amountSjsnjdf}*100'
+                formula: '{aAmount}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{aAmount}*100'
               },
               {
                 title: '市级安排',
@@ -668,7 +668,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjsjdf}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{amountSjsjdf}*100'
+                formula: '{aAmount}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{aAmount}*100'
               },
               {
                 title: '总进度',
@@ -678,7 +678,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{shiaAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{shiaAmount}*100'
+                formula: '{aAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{aAmount}*100'
               }
             ]
           }
@@ -936,7 +936,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100'
+                formula: '{aAmount}-0==0?0:{amountXjzybjfp}/{aAmount}*100'
               },
               {
                 title: '省级安排',
@@ -944,7 +944,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100'
+                formula: '{aAmount}-0 == 0?0:{amountXjsnjbjfp}/{aAmount}*100'
               },
               {
                 title: '市级安排',
@@ -952,7 +952,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjsjdf}-0 == 0?0:{amountXjsjbjfp}/{amountXjsjdf}*100'
+                formula: '{aAmount}-0 == 0?0:{amountXjsjbjfp}/{aAmount}*100'
               },
               {
                 title: '县级安排',
@@ -960,7 +960,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100'
+                formula: '{aAmount}-0 == 0?0:{amountXjxjbjfp}/{aAmount}*100'
               },
               {
                 title: '总进度',
@@ -970,7 +970,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100'
+                formula: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
               }
             ]
           }
