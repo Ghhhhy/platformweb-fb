@@ -93,7 +93,6 @@ import { transJson2 } from '@/utils/params'
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
 import ProcessDiagramDialog from './components/ProcessDiagramDialog.vue'
-import { post } from '@/api/http'
 import {
   searchFormCommonSchemas,
   getCommonColumns,
@@ -116,6 +115,8 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const menuName = ref(store.getters.getCurNavModule.name)
+    const menuGuid = ref(store.getters.getCurNavModule.guid)
+    const param5Str = ref(store.state.curNavModule.param5)
     const route = root.$route
     const showProcessDiagramDialog = false
     const processDiagramDialogType = 'track'
@@ -214,6 +215,18 @@ export default defineComponent({
       // 单位反馈不请求
       !unref(isUnitMenu)
     )
+
+    const param5 = {}
+    if (param5Str.value && param5Str.value !== '') {
+      let param5Strs = param5Str.value.split(',')
+      param5Strs.forEach(s => {
+        let ss = s.split('=')
+        let key = ss[0]
+        let value = ss[1]
+        param5[key] = value
+      })
+    }
+
     const currentTreeNode = ref(null)
     /**
      * 指标数节点点击
@@ -365,6 +378,11 @@ export default defineComponent({
           return item.field !== 'isDir'
         })
       }
+      if (param5.isEndAudit === '1' && currentTab.value.code !== '1') {
+        initColumns = initColumns.filter(item => {
+          return item.field !== 'gloableOptionRow'
+        })
+      }
       columns.value = initColumns
     }
 
@@ -390,21 +408,6 @@ export default defineComponent({
 
     function onOptionRowClick({ row, optionType }, context) {
       switch (optionType) {
-        // 操作日志
-        case 'report':
-          let data = {
-            roleguid: this.$store.state.curNavModule.roleguid,
-            data: {
-              statusCode: currentTab.value.code,
-              id: row.id,
-              appId: 'lmp_warnprocess_sh'
-            }
-          }
-          post('large-monitor-platform/lmp/matter/queryActionLog', data).then(res => {
-            this.logData = res.data
-            this.showLogView = true
-          })
-          break
         // 流程运行轨迹
         case 'processTrack':
           this.dataInfo = row
@@ -468,6 +471,9 @@ export default defineComponent({
       isUnitMenu,
       auditVisible,
       menuName,
+      menuGuid,
+      param5,
+      param5Str,
 
       logData,
       showLogView,
