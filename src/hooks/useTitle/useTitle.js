@@ -20,9 +20,19 @@ const languageDictionary = {
 }
 const locationMapping = new Map([
   [true, 'default'],
-  [store.getters.isFuJian, 'isFuJian']
+  [store.getters.isFuJian, 'isFuJian'],
+  [store.getters.isSx, 'isSx'],
+  [store.getters.isNeiMeng, 'isNeiMeng']
 ])
 export const $title = (field) => {
   if (!field) return ''
-  return languageDictionary[field][locationMapping.get(true)]
+  const fieldList = field.split('.').filter(Boolean)
+  const result = fieldList.reduce((pre, cur) => {
+    if (Object.prototype.toString.call(pre[cur]) === '[object Object]') {
+      return pre[cur]
+    } else {
+      throw new Error('$title传参错误')
+    }
+  }, languageDictionary)
+  return result[locationMapping.get(true)] || result['default']
 }
