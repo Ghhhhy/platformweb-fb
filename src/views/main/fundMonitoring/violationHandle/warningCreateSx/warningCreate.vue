@@ -504,7 +504,7 @@ export default {
     },
     setDefaultRegulationClassValue(queryConfig, treeResdata) {
       const index = queryConfig.findIndex(item => item.field === 'regulationClass')
-      const treeConfig = queryConfig[queryConfig.findIndex(item => item.field === 'regulationClass')]
+      // const treeConfig = queryConfig[queryConfig.findIndex(item => item.field === 'regulationClass')]
       const flatten = (arr) => {
         return arr.reduce((prev, item) => {
           return prev.concat(Array.isArray(item.children) && item.children.length ? flatten(item.children) : item)
@@ -519,7 +519,7 @@ export default {
         dfrDafaultCode = regulationClass
       }
       const item = flatten(treeResdata).find(item => item.code === dfrDafaultCode)
-      const defaultValue = (treeConfig.itemRender.props.valueKeys || ['code', 'name', 'id']).map(field => item[field]).join('##')
+      // const defaultValue = (treeConfig.itemRender.props.valueKeys || ['code', 'name', 'id']).map(field => item[field]).join('##')
       queryConfig[index].itemRender = {
         ...queryConfig[index].itemRender,
         options: treeResdata,
@@ -528,9 +528,9 @@ export default {
         }
       }
       this.defaultRuleItem = item
-      this.searchDataList.regulationClass = defaultValue
-      this.searchDataList.regulationClass_code = item.code
-      this.searchDataList.regulationClass_name = item.name
+      // this.searchDataList.regulationClass = defaultValue
+      // this.searchDataList.regulationClass_code = item.code
+      // this.searchDataList.regulationClass_name = item.name
       this.queryConfig = queryConfig
     },
     getRegulationChildrenData1(datas) {
