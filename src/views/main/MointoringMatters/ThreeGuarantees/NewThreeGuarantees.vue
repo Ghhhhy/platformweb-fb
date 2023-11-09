@@ -483,7 +483,8 @@ export default {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        mofDivCodeList: this.mofDivCodeList
+        mofDivCodeList: this.mofDivCodeList,
+        endTime: this.condition.endTime ? this.condition.endTime[0] : ''
         // dataSourceName: this.condition.dataSourceName ? this.condition.dataSourceName.toString() : '',
         // businessModuleName: this.condition.businessModuleName ? this.condition.businessModuleName.toString() : ''
       }
