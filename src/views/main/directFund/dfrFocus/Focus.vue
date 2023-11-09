@@ -89,6 +89,7 @@
 import { proconf } from './Focus'
 import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/InquiryLetterType.js'
+import moment from 'moment'
 export default {
   components: {
     AddDialog
@@ -241,7 +242,6 @@ export default {
       useDes: '',
       payAcctName: '',
       payeeAcctName: '',
-      xpayDate: '',
       setModeName: '',
       year: '',
       agencyCode: '',
@@ -341,7 +341,6 @@ export default {
       this.useDes = val.useDes
       this.payAcctName = val.payAcctName
       this.payeeAcctName = val.payeeAcctName
-      this.xpayDate = val.xpayDate.substring(0, 10)
       this.setModeName = val.setModeName
       this.year = val.year
       this.agencyCode = val.agencyCode_code
@@ -605,16 +604,27 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas() {
+      let curFormData = this.$refs.queryFrom.getFormData()
       let queryObj = {
-        payAppNumber: this.$refs.queryFrom.getFormData().payAppNumber,
+        payAppNumber: curFormData.payAppNumber,
         // year: this.$refs.queryFrom.year,
-        agencyCode: this.$refs.queryFrom.getFormData().agencyCode,
-        proName: this.$refs.queryFrom.getFormData().proName,
-        useDes: this.$refs.queryFrom.getFormData().useDes,
-        payAcctName: this.$refs.queryFrom.getFormData().payAcctName,
-        payeeAcctName: this.$refs.queryFrom.getFormData().payeeAcctName,
-        setModeName: this.$refs.queryFrom.getFormData().setModeName,
-        xpayDate: this.$refs.queryFrom.getFormData().xpayDate
+        // agencyCode: curFormData.agencyCode,
+        proName: curFormData.proName,
+        useDes: curFormData.useDes,
+        payAcctName: curFormData.payAcctName,
+        payeeAcctName: curFormData.payeeAcctName,
+        setModeName: curFormData.setModeName,
+        xpayStartDate: curFormData.xpayStartDate === '' || curFormData.xpayStartDate === undefined ? '' : moment(curFormData.xpayStartDate).format('YYYY-MM-DD') + ' 00:00:00',
+        xpayEndDate: curFormData.xpayEndDate === '' || curFormData.xpayEndDate === undefined ? '' : moment(curFormData.xpayEndDate).format('YYYY-MM-DD') + ' 23:59:59'
+      }
+      if (queryObj['xpayEndDate'] !== null && queryObj['xpayEndDate'] !== undefined && queryObj['xpayEndDate'].toString().length > 8) {
+        if (queryObj['xpayStartDate'].toString() > queryObj['xpayEndDate'].toString()) {
+          this.$message({
+            type: 'warning',
+            message: '选择付款时间范围时开始时间应小于结束时间，请重新选择!'
+          })
+          return
+        }
       }
       const param = {
         reportCode: 'zdzjzcmx',

@@ -394,21 +394,21 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      let key = obj.column.property
+      // let key = obj.column.property
 
       // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (isInvalidCellValue) return
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      // if (isInvalidCellValue) return
 
-      switch (key) {
-        case 'amountz':
-          this.handleDetail('zdzjdfjemx', obj.row.code)
-          this.detailTitle = '直达资金待分指标明细'
-          break
-        case 'amountc':
-          this.handleDetail('czzdzjdfjemx', obj.row.code)
-          this.detailTitle = '参照直达资金待分指标明细'
-      }
+      // switch (key) {
+      //   case 'amountz':
+      //     this.handleDetail('zdzjdfjemx', obj.row.code)
+      //     this.detailTitle = '直达资金待分指标明细'
+      //     break
+      //   case 'amountc':
+      //     this.handleDetail('czzdzjdfjemx', obj.row.code)
+      //     this.detailTitle = '参照直达资金待分指标明细'
+      // }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
@@ -429,7 +429,7 @@ export default {
       }
       HttpModule[axiosStr](param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          this.tableData = res.data
           this.caliberDeclareContent = res.data.description || ''
           this.reportTime = res.data.reportTime || ''
         } else {
@@ -492,14 +492,14 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline',
-          cursor: 'pinter'
-        }
-      }
+      // const validCellValue = (row[column.property] * 1)
+      // if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
+      //   return {
+      //     color: '#4293F4',
+      //     textDecoration: 'underline',
+      //     cursor: 'pinter'
+      //   }
+      // }
     }
   },
   created() {

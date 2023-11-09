@@ -54,10 +54,14 @@
           </div>
           <div v-param5Show="'showZhiDaZiJin'" class="do-info">
             <div class="module-wrapper">
-              <p class="f20 rule-swiper-title">直达资金管理工作情况排名</p>
+              <div class="fbc" style="padding:0 22px;">
+                <p class="f20 rule-swiper-title">直达资金管理工作情况排名</p>
+                <i class="vxe-icon--refresh" @click="handleReflush"></i>
+              </div>
               <vxe-grid
                 :columns="tableColumnsConfig2"
                 :data="tableData2"
+                :loading="tableDataLoading"
                 height="224"
                 auto-resize
                 sync-resize
@@ -108,6 +112,8 @@ export default defineComponent({
     const warnMonthList = ref({})
     const warnYearList = ref({})
     const ruleList = ref({})
+    const tableDataLoading = ref(false)
+    let isFlush = false
     const tableData1 = ref([])
     const tableData2 = ref([])
     const tableData3 = ref([])
@@ -118,6 +124,10 @@ export default defineComponent({
     async function getMonthData() {
       const { data } = await getWarnByMofDivCode({ type: 2 })
       warnMonthList.value = data[0] || {}
+    }
+    const handleReflush = () => {
+      isFlush = true
+      getRankQSProcessing()
     }
     getMonthData()
     /**
@@ -161,7 +171,14 @@ export default defineComponent({
      * @return {Promise<void>}
      */
     async function getRankQSProcessing() {
-      const { data } = await rankProcessing({ fiscalYear: store.state.userInfo.year, regulationClass: '0201' })
+      let params = {
+        fiscalYear: store.state.userInfo.year, regulationClass: '0201'
+      }
+      if (isFlush) params.isFlush = true
+      tableDataLoading.value = true
+      const { data } = await rankProcessing(params)
+      tableDataLoading.value = false
+      isFlush = false
       tableData2.value = data || []
     }
     getRankQSProcessing()
@@ -206,7 +223,9 @@ export default defineComponent({
       tableData2,
       tableData3,
       menuClick1,
-      menuClick2
+      menuClick2,
+      tableDataLoading,
+      handleReflush
     }
   },
   data() {
@@ -237,6 +256,7 @@ export default defineComponent({
           title: '问询处理率',
           field: 'rankAskProcess',
           sortable: false,
+          visible: !store.getters.isFuJian,
           align: 'center',
           formatter: ({ row }) => {
             return row.rankAskProcess ? `${row.rankAskProcess}%` : '0%'

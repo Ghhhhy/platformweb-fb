@@ -325,7 +325,8 @@ export default {
         doubtViolateExplain: '',
         information1: '',
         rectifyTime: '',
-        attachmentid1: ''
+        attachmentid1: '',
+        fileList: []
       },
       violateTypeList: []
     }

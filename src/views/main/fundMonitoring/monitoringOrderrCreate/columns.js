@@ -12,8 +12,8 @@ export const tableColumns = [
     align: 'center',
     tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
-      // return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
-      return row.mofDivCode
+      return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      // return row.mofDivCode
     },
     exportFormatter: true
   },
@@ -31,67 +31,55 @@ export const tableColumns = [
     exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
 
   },
-  // {
-  //   title: '业务处室',
-  //   width: 180,
-  //   field: 'manageMofDepName',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'center'
-  // },
   {
     title: '业务数据单号',
     width: 180,
-    field: 'dealNo',
+    field: 'payAppNo',
     sortable: false,
+    filters: false,
+    align: 'center'
+  },
+  {
+    title: '下发时间',
+    width: 180,
+    field: 'createTime',
+    sortable: true,
     filters: false,
     align: 'center'
   },
   // {
-  //   title: '主题',
+  //   title: '监控类型',
+  //   field: 'triggerClass',
+  //   align: 'center',
   //   width: 180,
-  //   field: 'regulationClassName',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'center'
+  //   cellRender: {
+  //     name: '$vxeSelect',
+  //     options: [
+  //       {
+  //         value: 1,
+  //         label: '事中触发'
+  //       },
+  //       {
+  //         value: 2,
+  //         label: '定时触发'
+  //       }
+  //     ],
+  //     defaultValue: '',
+  //     props: {}
+  //   },
+  //   name: '$vxeSelect'
   // },
   {
-    title: '违规时间',
-    width: 180,
-    field: 'createTime',
-    sortable: false,
-    filters: false,
-    align: 'center'
-  },
-  {
-    title: '监控类型',
-    field: 'triggerClass',
-    align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: [
-        {
-          value: 1,
-          label: '事中触发'
-        },
-        {
-          value: 2,
-          label: '定时触发'
-        }
-      ],
-      defaultValue: '',
-      props: {}
-    },
-    name: '$vxeSelect'
-  },
-  {
     title: '监控规则',
-    width: 180,
     field: 'fiRuleName',
     sortable: false,
     filters: false,
-    align: 'center'
+    align: 'center',
+    tooltipFormat: '{fiRuleCode}-{fiRuleName}',
+    formatter({ row }) {
+      return row.fiRuleCode && row.fiRuleName ? `${row.fiRuleCode}-${row.fiRuleName}` : ''
+    },
+    exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
   },
   {
     title: '预警级别',
@@ -111,73 +99,73 @@ export const tableColumns = [
     },
     name: '$vxeSelect'
   },
-  {
-    title: '处理方式',
-    field: 'handleType',
-    align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: [
-        {
-          value: 1,
-          label: '拦截'
-        },
-        {
-          value: 2,
-          label: '预警，需上传附件'
-        },
-        {
-          value: 3,
-          label: '预警，无需上传附件'
-        },
-        {
-          value: 4,
-          label: '提醒'
-        },
-        {
-          value: 5,
-          label: '记录'
-        }
-      ],
-      defaultValue: '',
-      props: {}
-    },
-    name: '$vxeSelect'
-  },
   // {
-  //   title: '支付金额',
-  //   field: 'paymentAmount',
-  //   sortable: false,
-  //   filters: false,
-  //   align: 'right',
-  //   width: 160,
-  //   combinedType: [
-  //     'average',
-  //     'subTotal',
-  //     'total',
-  //     'totalAll'
-  //   ],
-  //   cellRender: { name: '$vxeMoney' }
-  // },
+  //   title: '处理方式',
+  //   field: 'handleType',
+  //   align: 'center',
+  //   width: 180,
+  //   cellRender: {
+  //     name: '$vxeSelect',
+  //     options: [
+  //       {
+  //         value: 1,
+  //         label: '拦截'
+  //       },
+  //       {
+  //         value: 2,
+  //         label: '预警，需上传附件'
+  //       },
+  //       {
+  //         value: 3,
+  //         label: '预警，无需上传附件'
+  //       },
+  //       {
+  //         value: 4,
+  //         label: '提醒'
+  //       },
+  //       {
+  //         value: 5,
+  //         label: '记录'
+  //       }
+  //     ],
+  //     defaultValue: '',
+  //     props: {}
+  //   },
+  //   name: '$vxeSelect'
+  // }
   {
-    title: '操作',
-    field: 'opration',
-    width: '230',
-    slots: {
-      default(row) {
-        let vnode = (
-          <div class="fcc">
-            {/* <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button> */}
-            {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
-          </div>
-        )
-        return [
-          vnode
-        ]
-      }
-    }
+    title: '支付金额',
+    field: 'payAppAmt',
+    sortable: false,
+    filters: false,
+    align: 'right',
+    width: 160,
+    combinedType: [
+      'average',
+      'subTotal',
+      'total',
+      'totalAll'
+    ],
+    cellRender: { name: '$vxeMoney' }
   }
+  // {
+  //   title: '操作',
+  //   field: 'opration',
+  //   width: '230',
+  //   slots: {
+  //     default(row) {
+  //       let vnode = (
+  //         <div class="fcc">
+  //           {/* <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button> */}
+  //           {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
+  //         </div>
+  //       )
+  //       return [
+  //         vnode
+  //       ]
+  //     }
+  //   }
+  // }
 ]
 export const queryColumns = [
   { // 各地省份树结构

@@ -51,6 +51,7 @@
             @register="registerTable"
             @ajaxData="pagerChange"
             @onToolbarBtnClick="onToolbarBtnClick"
+            @onOptionRowClick="onOptionRowClick"
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
@@ -62,12 +63,19 @@
         </div>
       </template>
     </BsMainFormListLayout>
+    <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AuditModal
       v-if="auditVisible"
       v-model="auditVisible"
       :checked-records="checkedRecords"
       :menu-name="menuName"
       @success="resetFetchTableData"
+    />
+    <ProcessDiagramDialog
+      v-if="showProcessDiagramDialog"
+      :show-process-diagram-dialog.sync="showProcessDiagramDialog"
+      :data-info="dataInfo"
+      :type="processDiagramDialogType"
     />
   </div>
 </template>
@@ -84,7 +92,8 @@ import store from '@/store'
 import { transJson2 } from '@/utils/params'
 import elementTreeApi from '@/api/frame/common/tree/unitTree.js'
 import { pageQueryIndex } from '@/api/frame/main/handlingOfViolations/index.js'
-
+import ProcessDiagramDialog from './components/ProcessDiagramDialog.vue'
+import { post } from '@/api/http'
 import {
   searchFormCommonSchemas,
   getCommonColumns,
@@ -95,18 +104,24 @@ import {
   pagePathMapNodeType,
   searchFormAllTabSchema,
   getStatusCodeOptions,
-  fjAddColumns
+  proconf
 } from './model/data'
 import { TabEnum, RouterPathEnum } from './model/enum'
 import transJson from '@/utils/transformMenuQuery.js'
 
 export default defineComponent({
   components: {
-    AuditModal
+    AuditModal,
+    ProcessDiagramDialog
   },
   setup(_, { root }) {
     const menuName = ref(store.getters.getCurNavModule.name)
     const route = root.$route
+    const showProcessDiagramDialog = false
+    const processDiagramDialogType = 'track'
+    const dataInfo = {}
+    const logData = []
+    const showLogView = false
 
     // 页面路由
     const pagePath = ref(route.path)
@@ -276,7 +291,14 @@ export default defineComponent({
         isUnitFeedbackMenu
       }
     })
+
+    tableConfig.renderers['$gloableOptionRow'] = proconf.gloableOptionRow
     tableConfig.showOverflow = false
+    // tableConfig['methods']['onOptionRowClick'] = onOptionRowClick
+    // function onOptionRowClick({ row, optionType }, context) {
+    //   debugger
+    //   console.log(row)
+    // }
     // 选中行
     const checkedRecords = ref([])
 
@@ -336,7 +358,7 @@ export default defineComponent({
       }
       const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
       if (projectCode !== 'SH') {
-        initColumns = initColumns.concat(fjAddColumns)
+        initColumns = initColumns.concat(proconf.fjAddColumns)
       }
       if (isUnitFeedbackBySpe) {
         initColumns = initColumns.filter(item => {
@@ -364,6 +386,32 @@ export default defineComponent({
       resetConfig()
 
       resetFetchTableData()
+    }
+
+    function onOptionRowClick({ row, optionType }, context) {
+      switch (optionType) {
+        // 操作日志
+        case 'report':
+          let data = {
+            roleguid: this.$store.state.curNavModule.roleguid,
+            data: {
+              statusCode: currentTab.value.code,
+              id: row.id,
+              appId: 'lmp_warnprocess_sh'
+            }
+          }
+          post('large-monitor-platform/lmp/matter/queryActionLog', data).then(res => {
+            this.logData = res.data
+            this.showLogView = true
+          })
+          break
+        // 流程运行轨迹
+        case 'processTrack':
+          this.dataInfo = row
+          this.showProcessDiagramDialog = true
+          break
+        default:
+      }
     }
 
     /**
@@ -421,6 +469,13 @@ export default defineComponent({
       auditVisible,
       menuName,
 
+      logData,
+      showLogView,
+
+      showProcessDiagramDialog,
+      dataInfo,
+      processDiagramDialogType,
+
       treeLoading,
       treeProps,
       treeData,
@@ -442,6 +497,7 @@ export default defineComponent({
       tabStatusBtnConfig,
       isShowSearchForm,
       onTabClick,
+      onOptionRowClick,
       modalType,
       onQueryConditionsClick,
 

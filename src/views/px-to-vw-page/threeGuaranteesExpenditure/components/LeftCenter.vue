@@ -57,13 +57,13 @@ export default defineComponent({
           return formatterThousands(cellValue)
         }
       },
-      {
-        field: 'budgetProgress',
-        title: '预算进度',
-        width: `${computedPx(100)}px`,
-        align: 'center',
-        headerAlign: 'center'
-      },
+      // {
+      //   field: 'budgetProgress',
+      //   title: '预算进度',
+      //   width: `${computedPx(100)}px`,
+      //   align: 'center',
+      //   headerAlign: 'center'
+      // },
       {
         field: 'executionsAmount',
         title: '执行数',

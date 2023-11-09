@@ -702,9 +702,9 @@ export default {
         { value: '3', label: '610102000-新城区本级' },
         { value: '4', label: '610102998-新城区辖区' }
       ],
-      warningLevel: 1,
+      warningLevel: this.$store.state.warnInfo.warnLevelOptions[0].value,
       warningLeveloptions: this.$store.state.warnInfo.warnLevelOptions,
-      handleType: 1,
+      handleType: this.$store.state.warnInfo.warnControlTypeOptions[0].value,
       handleTypeoptions: this.$store.state.warnInfo.warnControlTypeOptions,
       triggerClass: 1,
       triggerClassoptions: [
@@ -960,7 +960,7 @@ export default {
       if (val === 2 && this.sx) {
         this.warningLevel = 5
         this.handleType = 5
-      } else {
+      } else if (val === 2 && this.$store.getters.isXm) {
         this.warningLevel = 4
         this.handleType = 4
       }
@@ -1344,6 +1344,9 @@ export default {
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
         param.elementCode = 'DEPARTMENT'
+        if(this.$store.getters.isSx){
+          param.elementCode = 'AGENCY'
+        }
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
       }
       if (regulationType === '财政级') {
@@ -1971,6 +1974,10 @@ export default {
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      // setTimeout(() => {
+      //   const oneRow = this.$refs.monitorTableRef.getTableData().tableData[0]
+      //   this.$refs.monitorTableRef.tableOptionFn().setCheckboxRow(oneRow, true)
+      // }, 0)
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName
@@ -2020,6 +2027,10 @@ export default {
       this.triggerClass = this.$parent.DetailData.triggerClass
       this.handleType = this.$parent.DetailData.handleType
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
+      // setTimeout(() => {
+      //   const oneRow = this.$refs.monitorTableRef.getTableData().tableData[0]
+      //   this.$refs.monitorTableRef.tableOptionFn().setCheckboxRow(oneRow, true)
+      // }, 0)
 
       this.crTemplate = this.$parent.DetailData.ruleTemplate.ruleTemplateName
       // this.businessModule = this.$parent.DetailData.ruleTemplate.businessModuleName

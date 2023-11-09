@@ -10,6 +10,7 @@
       <template v-slot:query>
         <div v-show="isShowQueryConditions" class="main-query">
           <BsQuery
+            v-if="!isFuJian"
             ref="queryFrom"
             @onSearchClick="fetchTableData"
             @onSearchResetClick="resetFetchTableData"
@@ -43,6 +44,23 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 export default defineComponent({
   components: {},
   setup() {
+    /**
+     * @interface reportCodeMap<{ $route.name : reportCode }>
+     */
+    const reportCodeMap = {
+      'CarryImplementationRegion': {
+        querykey: 'mofDivCode'
+      },
+      'CarryImplementationCapital': {
+        querykey: 'trackProCode'
+      },
+      'CarryPayRegion': {
+        querykey: 'mofDivCode'
+      },
+      'CarryPayCapital': {
+        querykey: 'trackProCode'
+      }
+    }
     const reportCode = ref('')
     const tableType = ref('')
     /* eslint-disable-next-line */
@@ -51,14 +69,14 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
-    const modalStaticProperty = {
-      title: '支出明细',
+    const modalStaticProperty = ref({
+      title: tableType.value === 'pay' ? '支出明细' : '预算明细',
       width: '96%',
       height: '80%',
       position: 'center',
       minWidth: '900',
       showFooter: false
-    }
+    })
     const dialogVisible = ref(false)
     const dialogClose = () => {
       dialogVisible.value = false
@@ -84,6 +102,7 @@ export default defineComponent({
           reportCode: reportCode.value,
           ...params
         }
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
         return copyObj
       },
       afterFetch: tableData => {
@@ -103,6 +122,7 @@ export default defineComponent({
       // height: '100%',
       align: 'left'
     })
+    const isFuJian = ref(store.getters.isFuJian)
     const init = () => {
       resetFetchTableData()
     }
@@ -114,6 +134,7 @@ export default defineComponent({
       columns,
       tableData,
       resetFetchTableData,
+      isFuJian,
       tableLoadingState,
       pagerChange,
       tableToolbarConfig,
