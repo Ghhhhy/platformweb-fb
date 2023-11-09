@@ -982,6 +982,13 @@ export default {
         if (formulaMap.has(item.field)) {
           item.formula = formulaMap.get(item.field)
         }
+        // 陕西支出合计向上汇总，特殊判断
+        if (this.isSx && item.field === 'amountPayAll') {
+          item.formula = '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
+        }
+        if (this.isSx && item.field === 'amountFpjd') {
+          item.formula = '({amountZyxd}-0==0)?0:Math.round((({amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay})/{amountZyxd}*100)*10)/10'
+        }
       })
       console.log(head, 'ddddhead')
       return head
