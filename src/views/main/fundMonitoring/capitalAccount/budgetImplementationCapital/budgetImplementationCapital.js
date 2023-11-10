@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -179,7 +180,7 @@ const proconf = {
             cellRender: { name: '$vxeMoney' },
             width: 200,
             field: 'amountPayAll',
-            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
+            formula: $formula('budgetImplementationCapital.amountPayAll')
           },
           {
             title: '进度',
@@ -187,7 +188,7 @@ const proconf = {
             width: 200,
             field: 'jLoad',
             sortable: true,
-            formula: store.getters.isSx ? '({amountZyxdBhxj}-0==0)?0:Math.round(({amountPayAll}/{amountZyxdBhxj}*100)*10)/10' : '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
+            formula: $formula('budgetImplementationCapital.jLoad'),
             cellRender: {
               name: '$vxeRatio'
             },
@@ -269,7 +270,7 @@ const proconf = {
             width: 200,
             align: 'right',
             sortable: true,
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationCapital.sLoad'),
             cellRender: {
               name: '$vxeRatio'
             }
@@ -337,7 +338,7 @@ const proconf = {
             width: 200,
             align: 'right',
             sortable: true,
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationCapital.aLoad'),
             cellRender: {
               name: '$vxeRatio'
             }

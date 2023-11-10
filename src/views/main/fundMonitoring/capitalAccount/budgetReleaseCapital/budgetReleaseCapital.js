@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -363,7 +364,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjzybjfp}+{amountSnjzyxjfp})/{aAmount}*100*10)/10'
+                formula: $formula('budgetReleaseCapital.szyjd')
                 // formula: '({amountSnjfpbjZyap}+{amountSnjfpxjZyap})/{amountSnjysZyap}'
               },
               {
@@ -372,7 +373,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{aAmount}*10)/10'
+                formula: $formula('budgetReleaseCapital.sdfjd')
                 // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
               },
               {
@@ -383,7 +384,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0==0)?0:Math.round(({amountSnjfpAll}+{ssxfpaAmount})/{aAmount}*100*10)/10'
+                formula: $formula('budgetReleaseCapital.sajd')
               }
             ]
           }
@@ -602,7 +603,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({aAmount}-0==0)?0:Math.round(({amountSjzybjfp}+{amountSjzyxjfp})*100/{aAmount}*10)/10'
+                formula: $formula('budgetReleaseCapital.shzyjd')
                 // formula: '({amountSjfpbjZyap}+{amountSjfpxjZyap})/{amountSjysZyap}'
               },
               {
@@ -611,7 +612,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({aAmount}-0)==0?0:Math.round(({amountSjdfbjfp}+{amountSjdfxjfp})*100/{aAmount}*10)/10'
+                formula: $formula('budgetReleaseCapital.shdfjd')
                 // formula: '({amountSjfpbjDfap}+{amountSjfpxjDfap})/{amountSjysDfap}'
               },
               {
@@ -622,7 +623,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0)==0?0:Math.round(({amountSjfpbjAll}+{shxjfpaAmount})/{aAmount}*100*10)/10'
+                formula: $formula('budgetReleaseCapital.shajd')
               }
             ]
           }
@@ -811,7 +812,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpZyap}/{amountXjysZyap})'
-                formula: '(aAmount)?0:Math.round({amountXjzybjfp}*100/{aAmount}*10)/10'
+                formula: $formula('budgetReleaseCapital.xzyjd')
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpZyap / row.amountXjysZyap
                 // }
@@ -823,7 +824,7 @@ let proconf = {
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
                 // formula: '({amountXjfpDfap}/{amountXjysDfap})'
-                formula: '({aAmount}-0==0)?0:Math.round({amountXjdfbjfp}*100/{aAmount}*10)/10'
+                formula: $formula('budgetReleaseCapital.xdfjd')
                 // formatter: ({ row }) => {
                 //   return row.amountXjfpDfap / row.amountXjysDfap
                 // }
@@ -836,7 +837,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0)==0?0:Math.round({amountXjfpAll}/{aAmount}*100*10)/10'
+                formula: $formula('budgetReleaseCapital.xajd')
                 // formatter: ({ row }) => {
                 //   return row.xzyjd / 2 + row.xdfjd / 2
                 // }
