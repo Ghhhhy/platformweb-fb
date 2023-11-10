@@ -257,6 +257,15 @@ export default {
       console.log(obj.column.property)
       if (obj.column.property === 'payAppAmt') {
         this.detailRow = obj.row
+        if (this.currentValue.sfzd === '其他') {
+          this.detailRow.isDirCode = '09'
+        }
+        if (this.currentValue.sfzd === '中央直达资金') {
+          this.detailRow.isDirCode = '01'
+        }
+        if (this.currentValue.sfzd === '中央参照直达资金') {
+          this.detailRow.isDirCode = '02'
+        }
         this.detailVisible = true
       } else if (obj.column.property === 'proName') {
         this.detailRow = obj.row
