@@ -390,11 +390,11 @@ export default {
         this.mofDivCode = obj.row?.mofDivCode || ''
         this.fiscalYear = obj.row?.fiscalYear || ''
         let groupUrl = ''
-        let groups = window.gloableToolFn.serverGatewayMap.getGroups || {}
+        let groups = window.gloableToolFn.getGroups || {}
         Object.keys(groups).forEach(key => {
           console.log(key, '-------------')
           if (groups[key].indexOf(this.mofDivCode?.slice(0, 4)) !== -1) {
-            groupUrl = window.gloableToolFn.serverGatewayMap.getProjectUrl[key]
+            groupUrl = window.gloableToolFn.getProjectUrl[key]
             let url = `${groupUrl}/ProjectDetailIframe?isShowHead=0&tokenid=${this.$store.getters.getLoginAuthentication.tokenid}&appguid=ystztj&proGuid=${this.proGuid}&mofDivCode=${this.mofDivCode}&fiscalYear=${this.fiscalYear}`
             console.log('访问地址：', url)
             window.open(url)
