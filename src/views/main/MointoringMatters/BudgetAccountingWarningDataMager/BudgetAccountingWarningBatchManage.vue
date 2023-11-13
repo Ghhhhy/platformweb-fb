@@ -189,7 +189,7 @@ export default {
           bsToolbarClickEvent: this.onStatusTabClick
         }
       },
-      buttonsInfo: proconf.statusRightToolBarButton,
+      buttonsInfo: proconf.detailButtons,
       buttons: proconf.statusRightToolBarButton,
       detailButtons: proconf.detailButtons,
       tabStatusNumConfig: {
@@ -408,102 +408,7 @@ export default {
         condition.createTime = createTime1
       }
       this.condition = condition
-      if (this.formVisible) {
-        const param = {
-          page: this.mainPagerConfig.currentPage, // 页码
-          pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          handleResult: this.toolBarStatusSelect.curValue,
-          businessId: this.businessId,
-          'status': this.condition.status ? this.condition.status.toString() : '',
-          'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
-          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
-          warnLevel: '3',
-          agencyCodeList: this.agencyCodeList,
-          regulationClass: ''
-        }
-        if (this.toolBarStatusSelect.curValue === '4') {
-          // delete param.handleResult
-          param.voidOrNot = 1
-        }
-        this.tableLoading = true
-        HttpModule.getTotalTableData(param).then(res => {
-          this.tableLoading = false
-          if (res.code === '000000') {
-            // this.tableTotalData = res.data.results
-            this.totalPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
-            this.tableTotalData = res.data.results.map(item => {
-              let deepObj = this.deepCopy(item)
-              deepObj.warnLevel1 = item.warnLevel
-              if (item.warnLevel === 1) {
-                deepObj.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                deepObj.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 3) {
-                deepObj.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 5) {
-                deepObj.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              } else if (item.warnLevel === 4) {
-                deepObj.warnLevel = '<span style="color:gray">灰色预警</span>'
-              }
-              // if (item.nowCount > 0) {
-              //   deepObj.nowCount = `<span style="color:red">${item.nowCount}</span>`
-              // }
-              return deepObj
-            })
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else {
-        // this.queryConfig = proconf.highQueryConfig1
-        // this.searchDataList = { ...proconf.highQueryData1, ...val }
-        const param = {
-          page: this.mainPagerConfig.currentPage, // 页码
-          pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          handleResult: this.toolBarStatusSelect.curValue,
-          businessId: this.businessId,
-          fiRuleCode: this.fiRuleCode,
-          'status': this.condition.status ? this.condition.status.toString() : '',
-          'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
-          'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
-          agencyCodeList: this.agencyCodeList,
-          warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
-          warnLevel: '3',
-          regulationClass: ''
-        }
-        if (this.toolBarStatusSelect.curValue === '4') {
-          // delete param.handleResult
-          param.voidOrNot = 1
-        }
-        this.tableLoading = true
-        HttpModule.queryTableDatas(param).then(res => {
-          this.tableLoading = false
-          if (res.code === '000000') {
-            this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              item.agency = item.agencyCode + '-' + item.agencyName
-              item.warnLevel1 = item.warnLevel
-              if (item.warnLevel === 1) {
-                item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                item.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 3) {
-                item.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 5) {
-                item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              } else if (item.warnLevel === 4) {
-                item.warnLevel = '<span style="color:gray">灰色预警</span>'
-              }
-            })
-            this.mainPagerConfig.total = res.data.totalCount
-            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }
+      this.queryTableDatas()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
@@ -568,10 +473,6 @@ export default {
         case 'report':
           this.queryActionLog(row)
           break
-        // 附件
-        case 'attachment':
-          this.showAttachment(row)
-          break
         default:
       }
     },
@@ -588,96 +489,7 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
-        return
-      }
-      if (this.formVisible) {
-        this.queryConfig = proconf.highQueryConfig
-        this.searchDataList = proconf.highQueryData
-        const param = {
-          page: this.mainPagerConfig.currentPage, // 页码
-          pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          businessId: node.id,
-          fiRuleCode: this.fiRuleCode,
-          handleResult: this.toolBarStatusSelect.curValue,
-          'status': this.condition.status ? this.condition.status.toString() : '',
-          'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: node.businessName,
-          warnLevel: '3',
-          agencyCodeList: this.agencyCodeList,
-          regulationClass: ''
-        }
-        if (this.toolBarStatusSelect.curValue === '4') {
-          // delete param.handleResult
-          param.voidOrNot = 1
-        }
-        this.tableLoading = true
-        HttpModule.getTotalTableData(param).then(res => {
-          this.tableLoading = false
-          if (res.code === '000000') {
-            this.totalPagerConfig.total = res.data.totalCount
-            // this.tableTotalData = res.data.results
-            this.tableTotalData = res.data.results.map(item => {
-              let deepObj = this.deepCopy(item)
-              deepObj.warnLevel1 = item.warnLevel
-              if (item.warnLevel === 1) {
-                deepObj.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-              } else if (item.warnLevel === 2) {
-                deepObj.warnLevel = '<span style="color:orange">橙色预警</span>'
-              } else if (item.warnLevel === 3) {
-                deepObj.warnLevel = '<span style="color:red">红色预警</span>'
-              } else if (item.warnLevel === 5) {
-                deepObj.warnLevel = '<span style="color:blue">蓝色预警</span>'
-              } else if (item.warnLevel === 4) {
-                deepObj.warnLevel = '<span style="color:gray">灰色预警</span>'
-              }
-              // if (item.nowCount > 0) {
-              //   deepObj.nowCount = `<span style="color:red">${item.nowCount}</span>`
-              // }
-              return deepObj
-            })
-            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else {
-        this.getAgency()
-        this.queryConfig = proconf.highQueryConfig1
-        this.searchDataList = proconf.highQueryData1
-        const param = {
-          page: this.mainPagerConfig.currentPage, // 页码
-          pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          businessId: node.id,
-          fiRuleCode: this.fiRuleCode,
-          handleResult: this.toolBarStatusSelect.curValue,
-          'status': this.condition.status ? this.condition.status.toString() : '',
-          'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-          'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: node.businessName,
-          agencyCodeList: this.agencyCodeList,
-          regulationClass: ''
-        }
-        if (this.toolBarStatusSelect.curValue === '4') {
-          param.voidOrNot = 1
-          // delete param.handleResult
-        }
-        this.tableLoading = true
-        HttpModule.queryTableDatas(param).then(res => {
-          this.tableLoading = false
-          if (res.code === '000000') {
-            this.mainPagerConfig.total = res.data.totalCount
-            this.tableData = res.data.results
-            this.tableData.forEach(item => {
-              item.agency = item.agencyCode + '-' + item.agencyName
-            })
-            this.tabStatusNumConfig[this.toolBarStatusSelect.curValue] = res.data.totalCount
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }
+      if (node.children !== null && node.children.length !== 0 && node.id !== '0') {}
     },
     treeSetConfrimData(curTree) {
       this.treeQueryparams.elementCode = curTree.code
@@ -685,17 +497,6 @@ export default {
     },
     asideChange() {
       this.leftTreeVisible = false
-    },
-    // 查看附件
-    showAttachment(row) {
-      console.log('查看附件')
-      if (row.attachmentid === null || row.attachmentid === '') {
-        this.$message.warning('该数据无附件')
-        return
-      }
-      this.billguid = row.attachmentid
-      // this.showAttachmentDialog = true
-      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -706,16 +507,10 @@ export default {
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
-      if (this.formVisible) {
-        this.queryConfig = proconf.highQueryConfig
-        this.searchDataList = proconf.highQueryData
-        this.getTotalTableData()
-      } else {
-        this.getAgency()
-        this.queryConfig = proconf.highQueryConfig1
-        this.searchDataList = proconf.highQueryData1
-        this.queryTableDatas()
-      }
+      this.getAgency()
+      this.queryConfig = proconf.highQueryConfig
+      this.searchDataList = proconf.highQueryData
+      this.queryTableDatas()
     },
     ajaxTableData({ params, currentPage, pageSize }) {
       this.mainPagerConfig.currentPage = currentPage
@@ -725,75 +520,7 @@ export default {
     ajaxTotalData({ params, currentPage, pageSize }) {
       this.totalPagerConfig.currentPage = currentPage
       this.totalPagerConfig.pageSize = pageSize
-      this.getTotalTableData()
-    },
-    getAllTotalTableData(params) {
-      HttpModule.getAllTotalTableData(params).then(res => {
-        if (res.code === '000000') {
-          this.tabStatusNumConfig['0'] = res.data.noDealCount
-          this.tabStatusNumConfig['1'] = res.data.dealCount
-          this.tabStatusNumConfig['2'] = res.data.noPassCount
-          this.tabStatusNumConfig['4'] = res.data.obsoleteCount
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
-    getTotalTableData() {
-      const param = {
-        page: this.mainPagerConfig.currentPage, // 页码
-        pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        businessId: this.businessId,
-        fiRuleCode: this.fiRuleCode,
-        handleResult: this.toolBarStatusSelect.curValue,
-        'status': this.condition.status ? this.condition.status.toString() : '',
-        'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-        'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-        agencyCodeList: this.agencyCodeList,
-        controlType: this.controlTypeByNumber,
-        warnLevel: this.warnLevel,
-        menuName: this.menuName,
-        regulationClass: ''
-      }
-      if (this.toolBarStatusSelect.curValue === '4') {
-        param.voidOrNot = 1
-        // delete param.handleResult
-      }
-      this.tableLoading = true
-      let that = this
-      HttpModule.queryTableDatas(param).then(res => {
-        this.tableLoading = false
-        if (res.code === '000000') {
-          that.tableData = res.data.results
-          this.tableData.forEach(item => {
-            item.agency = item.agencyCode + '-' + item.agencyName
-            // item.deptEconomyCode = item.depBgtEcoCode
-            // item.deptEconomyName = item.depBgtEcoName
-            // item.govEconomyCode = item.govBgtEcoCode
-            // item.govEconomyName = item.govBgtEcoName
-          })
-          that.mainPagerConfig.total = res.data.totalCount
-          const param = {
-            fiRuleCode: this.fiRuleCode,
-            menuNameList: this.menuName,
-            flag: this.flag,
-            warnLevel: this.warnLevel
-          }
-          HttpModule.getAllTotalTableData(param).then(res => {
-            if (res.code === '000000') {
-              this.tabStatusNumConfig['0'] = res.data.noDealCount
-              this.tabStatusNumConfig['1'] = res.data.dealCount
-              this.tabStatusNumConfig['2'] = res.data.noPassCount
-              // this.tabStatusNumConfig['3'] = res.data.obsoleteCount
-              this.tabStatusNumConfig['4'] = res.data.obsoleteCount
-            } else {
-              this.$message.error(res.message)
-            }
-          })
-        } else {
-          that.$message.error(res.message)
-        }
-      })
+      this.queryTableDatas()
     },
     // 查询 table 数据
     queryTableDatas() {
@@ -814,7 +541,6 @@ export default {
       }
       if (this.toolBarStatusSelect.curValue === '4') {
         param.voidOrNot = 1
-        // delete param.handleResult
       }
       this.tableLoading = true
       let that = this
@@ -830,7 +556,6 @@ export default {
             item.govEconomyName = item.govBgtEcoName
           })
           that.mainPagerConfig.total = res.data.totalCount
-          // that.tabStatusNumConfig[param.handleResult] = res.data.totalCount
           const param = {
             fiRuleCode: this.fiRuleCode,
             menuNameList: this.menuName,
@@ -842,7 +567,6 @@ export default {
               this.tabStatusNumConfig['0'] = res.data.noDealCount
               this.tabStatusNumConfig['1'] = res.data.dealCount
               this.tabStatusNumConfig['2'] = res.data.noPassCount
-              // this.tabStatusNumConfig['3'] = res.data.obsoleteCount
               this.tabStatusNumConfig['4'] = res.data.obsoleteCount
             } else {
               this.$message.error(res.message)
@@ -895,7 +619,7 @@ export default {
   },
   mounted() {
     this.getAgency()
-    this.getTotalTableData()
+    this.queryTableDatas()
   },
   created() {
     this.params5 = this.$store.state.curNavModule.param5
@@ -904,11 +628,6 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // const params = {
-    //   regulationClass: '',
-    //   warnLevel: this.warnLevel
-    // }
-    // this.getAllTotalTableData(params)
   }
 }
 </script>
