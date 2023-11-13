@@ -655,17 +655,28 @@ export const proconf = {
     },
     {
       title: '监控规则',
-      field: 'fiRuleName',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          clearable: true,
-          placeholder: '监控规则'
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '监控规则',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -712,7 +723,8 @@ export const proconf = {
     triggerClass: '',
     warningLevel: '',
     fiRuleName: '',
-    trackProName: ''
+    trackProName: '',
+    ruleCodes: []
   },
   createHighQueryConfig: [
     {
