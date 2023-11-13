@@ -770,6 +770,11 @@ export default {
             if (item.handleTime === null) {
               item.handleTime = '-'
             }
+            if (this.params5 === '0205') {
+              item.govBgtEcoName = item.govBgtEcoCode + '-' + item.govBgtEcoName
+              item.depBgtEcoName = item.depBgtEcoCode + '-' + item.depBgtEcoName
+              item.thrExpName = item.thrExpCode + '-' + item.thrExpName
+            }
           })
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
@@ -952,6 +957,13 @@ export default {
     this.paramObj = this.transJson(this.$store.state.curNavModule.param5) || {}
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
+    }
+    if (this.params5 === '0205') {
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsToThrExp
+      this.footerConfig = {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
+      }
     }
     if (this.params5 === '0207') {
       this.tableColumnsConfig = proconf.PoliciesTableColumnsFullJurisdiction

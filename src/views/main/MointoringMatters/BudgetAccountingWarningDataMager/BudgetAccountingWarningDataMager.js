@@ -907,6 +907,26 @@ export let proconf = {
       }
     },
     {
+      title: '当前岗',
+      field: 'todoName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '当前岗' }
+      }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '是否作废' }
+      }
+    },
+    {
       title: '联系人',
       field: 'applyName',
       span: 8,

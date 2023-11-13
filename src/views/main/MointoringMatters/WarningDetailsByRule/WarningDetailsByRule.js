@@ -183,6 +183,24 @@ let proconf = {
           placeholder: '支付申请编号'
         }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
     }
   ],
   highQueryConfigPay: [
@@ -525,6 +543,24 @@ let proconf = {
           placeholder: '专项资金名称'
         }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: '180',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -821,6 +857,28 @@ let proconf = {
       align: 'center'
     },
     {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
       'title': '操作',
       'field': 'gloableOptionRow',
       'className': 'gloableOptionRow',
@@ -1005,6 +1063,28 @@ let proconf = {
       filters: false,
       align: 'center'
     },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
     // {
     //   title: '违规处理时间',
     //   'width': 180,
@@ -1174,28 +1254,6 @@ let proconf = {
       filters: false,
       align: 'center'
     },
-    // {
-    //   'title': '处理情况',
-    //   'field': 'status',
-    //   'align': 'center',
-    //   'width': 180,
-    //   'cellRender': {
-    //     'name': '$vxeSelect',
-    //     options: [
-    //       {
-    //         'value': '1',
-    //         'label': '待处理'
-    //       },
-    //       {
-    //         'value': '2',
-    //         'label': '已处理'
-    //       }
-    //     ],
-    //     'defaultValue': '',
-    //     'props': {}
-    //   },
-    //   'name': '$vxeSelect'
-    // },
     {
       title: '监控类型',
       field: 'triggerClass',
@@ -1228,6 +1286,28 @@ let proconf = {
       sortable: false,
       filters: false,
       align: 'center'
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     },
     // {
     //   title: '违规处理时间',
@@ -1407,6 +1487,298 @@ let proconf = {
       filters: false,
       align: 'center'
     },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    }
+  ],
+  PoliciesTableColumnsToThrExp: [
+    {
+      title: '是否疑似违规',
+      field: 'isSign',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          { value: 0, label: '疑点信息' },
+          { value: 1, label: '正常' },
+          { value: 2, label: '违规' }
+        ],
+        props: {
+          placeholder: '是否标记'
+        }
+      }
+    },
+    {
+      title: '处理信息',
+      field: 'handleResult',
+      'width': 180,
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '规则名称',
+      'width': 180,
+      field: 'firulename',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '主题',
+      'width': 180,
+      field: 'regulationClassName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '资金用途',
+      'width': 180,
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '支付申请编号',
+      width: 180,
+      field: 'businessNo',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '支付金额',
+      field: 'payAppAmt',
+      sortable: false,
+      filters: false,
+      align: 'right',
+      width: 180,
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney' }
+    },
+    // {
+    //   title: '触发菜单',
+    //   'width': 180,
+    //   field: 'fromMenuName',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    {
+      title: '区划',
+      'width': 180,
+      field: 'mofDiv',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预警级别',
+      'width': 180,
+      field: 'warnLevel',
+      sortable: false,
+      align: 'center',
+      filters: false,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          { value: 1, label: '拦截' },
+          { value: 2, label: '预警' },
+          { value: 3, label: '冻结' }
+        ]
+      }
+    },
+    {
+      title: '管理级次',
+      'width': 180,
+      field: 'regulationtype',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      'width': 180,
+      field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '专项资金编码',
+      'width': 180,
+      field: 'trackProCode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '专项资金名称',
+      'width': 180,
+      field: 'trackProName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '政府经济分类',
+      'width': 180,
+      field: 'govBgtEcoName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '部门经济分类',
+      'width': 180,
+      field: 'depBgtEcoName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '三公经费标识',
+      'width': 180,
+      field: 'thrExpName',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    // {
+    //   'title': '处理情况',
+    //   'field': 'status',
+    //   'align': 'center',
+    //   'width': 180,
+    //   'cellRender': {
+    //     'name': '$vxeSelect',
+    //     options: [
+    //       {
+    //         'value': '1',
+    //         'label': '待处理'
+    //       },
+    //       {
+    //         'value': '2',
+    //         'label': '已处理'
+    //       }
+    //     ],
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   'name': '$vxeSelect'
+    // },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          { value: 1, label: '事中触发' },
+          { value: 2, label: '定时触发' }
+        ],
+        props: {
+          placeholder: '监控类型'
+        }
+      }
+    },
+    {
+      title: '监控拦截时间',
+      'width': 180,
+      field: 'createTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '业务数据开始时间',
+      'width': 180,
+      field: 'businessTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    // {
+    //   title: '违规处理时间',
+    //   'width': 180,
+    //   field: 'handleTime',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
     {
       'title': '操作',
       'field': 'gloableOptionRow',
