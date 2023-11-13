@@ -508,6 +508,7 @@ export const proconf = {
               'children': 'children'
             },
             'placeholder': '预算单位',
+            clearable: true,
             'multiple': true,
             'readonly': true,
             'isleaf': true
@@ -587,6 +588,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '违规开始时间'
@@ -602,6 +604,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '违规结束时间'
@@ -627,6 +630,7 @@ export const proconf = {
           }
         ],
         props: {
+          clearable: true,
           placeholder: '监控类型'
         },
         defaultValue: ''
@@ -649,6 +653,7 @@ export const proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       }
@@ -673,6 +678,7 @@ export const proconf = {
               children: 'children'
             },
             placeholder: '监控规则',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -778,6 +784,7 @@ export const proconf = {
           { value: '3', label: '部门级' }
         ],
         props: {
+          clearable: true,
           placeholder: '管理级次'
         }
       }
@@ -798,6 +805,7 @@ export const proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       }
