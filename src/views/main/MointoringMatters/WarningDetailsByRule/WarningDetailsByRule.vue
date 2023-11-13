@@ -52,6 +52,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :footer-config="footerConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -289,7 +290,9 @@ export default {
         readonly: true,
         clearable: true,
         leftTreeFilterText: ''
-      }
+      },
+      // 表尾合计
+      footerConfig: {}
     }
   },
   mounted() {
@@ -964,11 +967,24 @@ export default {
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }
-
+    if (this.params5 === '0207') {
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsFullJurisdiction
+      this.footerConfig = {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
+      }
+      this.queryConfig = proconf.highQueryConfigFullJurisdiction
+    }
+    if (this.params5 === '0106') {
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsToBudgetExecute
+      this.footerConfig = {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
+      }
+    }
     if (this.$store.getters.isFuJian) {
       this.queryConfig = Boolean.valueOf(this.paramObj.queryPayData) ? proconf.highQueryConfigPay : proconf.highQueryConfig
     }
-
     if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
       this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }

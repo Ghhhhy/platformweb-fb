@@ -488,11 +488,13 @@ export default {
     getRegulation() {
       // 如果菜单参数有主题 当前模块就使用该主题查询
       let queryConfig = getFormData('highQueryConfig')
-      const index = queryConfig.findIndex(item => item.field === 'regulationClass')
-      if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
-        index > -1 && queryConfig?.splice(index, 1)
-        return
-      }
+      // const index = queryConfig.findIndex(item => item.field === 'regulationClass')
+      // if (transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
+      //   if (this.$store.getters.isSx) {
+      //     this.searchDataList['regulationClass_code'] = transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      //   }
+      //   index > -1 && queryConfig?.splice(index, 1)
+      // }
       return HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getRegulationChildrenData1(res.data)
@@ -510,7 +512,7 @@ export default {
           return prev.concat(Array.isArray(item.children) && item.children.length ? flatten(item.children) : item)
         }, [])
       }
-      let dfrDafaultCode = '0201'
+      let dfrDafaultCode = ''
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         dfrDafaultCode = '0201'
       }
@@ -519,7 +521,6 @@ export default {
         dfrDafaultCode = regulationClass
       }
       const item = flatten(treeResdata).find(item => item.code === dfrDafaultCode)
-      const defaultValue = (treeConfig.itemRender.props.valueKeys || ['code', 'name', 'id']).map(field => item[field]).join('##')
       queryConfig[index].itemRender = {
         ...queryConfig[index].itemRender,
         options: treeResdata,
@@ -527,11 +528,16 @@ export default {
           ...queryConfig[index].itemRender.props
         }
       }
-      this.defaultRuleItem = item
-      this.searchDataList.regulationClass = defaultValue
-      this.searchDataList.regulationClass_code = item.code
-      this.searchDataList.regulationClass_name = item.name
-      this.queryConfig = queryConfig
+      if (dfrDafaultCode) {
+        const defaultValue = (treeConfig.itemRender.props.valueKeys || ['code', 'name', 'id']).map(field => item[field]).join('##')
+        this.defaultRuleItem = item
+        this.searchDataList.regulationClass = defaultValue
+        this.searchDataList.regulationClass_code = item.code
+        this.searchDataList.regulationClass_name = item.name
+        this.queryConfig = queryConfig
+      } else {
+        this.queryConfig = queryConfig
+      }
     },
     getRegulationChildrenData1(datas) {
       let that = this

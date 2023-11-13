@@ -121,8 +121,8 @@ export default {
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
-    !this.$store.state.hasQueryMonitorWarningModalVisible && this.getSalaryNoticeData()
-    this.$store.commit('setHasQueryMonitorWarningModalVisible')
+    // !this.$store.state.hasQueryMonitorWarningModalVisible && this.getSalaryNoticeData()
+    // this.$store.commit('setHasQueryMonitorWarningModalVisible')
     // this.initEscalationVisible()
   }
 }
