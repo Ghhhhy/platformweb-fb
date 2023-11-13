@@ -198,6 +198,24 @@ export let proconf = {
           type: 'float'
         }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
     }
   ],
   highQueryConfigPay: [
@@ -850,31 +868,28 @@ export let proconf = {
       filters: false,
       align: 'center'
     },
-    // {
-    //   title: '违规处理时间',
-    //   'width': 180,
-    //   field: 'handleTime',
-    //   sortable: false,
-    //   filters: false,
-    //   align: 'center'
-    // },
-    // {
-    //   title: '是否标记',
-    //   field: 'isSign',
-    //   'width': 180,
-    //   align: 'left',
-    //   formula: '',
-    //   'cellRender': {
-    //     'name': '$vxeSelect',
-    //     options: [
-    //       { value: 0, label: '否' },
-    //       { value: 1, label: '是' }
-    //     ],
-    //     props: {
-    //       placeholder: '是否标记'
-    //     }
-    //   }
-    // },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
     {
       'title': '操作',
       'field': 'gloableOptionRow',

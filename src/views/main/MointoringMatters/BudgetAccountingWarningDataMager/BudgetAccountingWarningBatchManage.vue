@@ -155,7 +155,7 @@ export default {
         },
         combinedType: ['switchTotal']
       },
-      flag: 1,
+      flag: 2,
       isNeedFiRuleCode: true,
       isShowQueryConditions: true,
       radioShow: true,
@@ -347,23 +347,6 @@ export default {
         return
       }
       this.toolBarStatusSelect = obj
-      let data = [
-        { value: '0', label: '待处理' }
-      ]
-      let data1 = [
-        { value: '1', label: '放行' },
-        { value: '2', label: '改正' },
-        { value: '3', label: '禁止' }
-      ]
-      switch (obj.curValue) {
-        // 全部
-        case '0':
-          this.queryConfig[0].itemRender.options = data
-          break
-        case '1':
-          this.queryConfig[0].itemRender.options = data1
-          break
-      }
       this.menuNames = '预警数据列表'
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
@@ -473,6 +456,10 @@ export default {
         case 'report':
           this.queryActionLog(row)
           break
+        // 附件
+        case 'attachment':
+          this.showAttachment(row)
+          break
         default:
       }
     },
@@ -497,6 +484,17 @@ export default {
     },
     asideChange() {
       this.leftTreeVisible = false
+    },
+    // 查看附件
+    showAttachment(row) {
+      console.log('查看附件')
+      if (row.attachmentid === null || row.attachmentid === '') {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachmentid
+      // this.showAttachmentDialog = true
+      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
@@ -609,8 +607,37 @@ export default {
       let that = this
       datas.forEach(item => {
         item.label = item.text
+        if (!item.label) {
+          item.label = item.code + '-' + item.name
+        }
         if (item.children) {
           that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
+    getRegulation() {
+      let self = this
+      HttpModule.getTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData1(res.data)
+          self.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
+        }
+      })
+    },
+    getRegulationChildrenData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        // item.code = item.code
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData1(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
         }
       })
 
@@ -628,6 +655,7 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    this.getRegulation()
   }
 }
 </script>
