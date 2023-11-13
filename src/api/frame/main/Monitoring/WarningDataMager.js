@@ -1,5 +1,6 @@
 //  监控函数api
 import { get, post, del } from '@/api/http'
+import store from '@/store/index'
 export default {
   // 查询附件
   getFile(params) {
@@ -42,6 +43,9 @@ export default {
   },
   // 预算回显信息
   budgetgetDetail(params) {
+    if (store.getters.isSx) {
+      return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params + '/1')
+    }
     return get('large-monitor-platform/lmp/executeWarn/getDetail/' + params)
   },
   // 预算批复回显信息
@@ -69,5 +73,8 @@ export default {
   // 操作日志
   queryActionLog(params) {
     return post('large-monitor-platform/lmp/matter/queryActionLog', params)
+  },
+  getTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }

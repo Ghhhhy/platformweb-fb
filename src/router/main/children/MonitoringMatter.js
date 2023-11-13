@@ -575,6 +575,19 @@ export default [
         '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningDataMager.vue'
       )
   },
+  // 预警数据批量处理
+  {
+    path: '/BudgetAccountingWarningBatchManage',
+    name: 'BudgetAccountingWarningBatchManage',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/BudgetAccountingWarningDataMager/BudgetAccountingWarningBatchManage.vue'
+      )
+  },
   // 单位核算预警数据管理
   {
     path: '/AgencyBusinessAccountingWarningDataMager',
