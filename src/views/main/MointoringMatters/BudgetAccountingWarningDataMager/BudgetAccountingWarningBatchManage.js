@@ -34,27 +34,46 @@ export let proconf = {
   },
   highQueryConfig: [
     {
-      title: '状态',
-      field: 'status',
+      title: '监控规则名称',
+      field: 'fiRuleName',
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      name: '$vxeInput',
       itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            'value': '0',
-            'label': '待处理'
-          }
-        ],
+        name: '$vxeInput',
         props: {
-          placeholder: '状态'
+          placeholder: '监控规则名称'
         }
       }
     },
     {
-      title: '支付申请编号',
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    },
+    {
+      title: '支付申请单号',
       field: 'payAppNo',
       width: '8',
       align: 'left',
@@ -62,24 +81,8 @@ export let proconf = {
       name: '$vxeInput',
       itemRender: {
         name: '$vxeInput',
-        options: [],
         props: {
-          placeholder: '支付申请编号'
-        }
-      }
-    },
-    {
-      title: '监控时间',
-      field: 'createTime',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeTime',
-      itemRender: {
-        name: '$vxeTime',
-        options: [],
-        props: {
-          placeholder: '监控时间'
+          placeholder: '支付申请单号'
         }
       }
     },
@@ -107,42 +110,6 @@ export let proconf = {
           }
         }
       }
-    },
-    {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: '1',
-            label: '黄色预警'
-          },
-          {
-            value: '2',
-            label: '橙色预警'
-          },
-          {
-            value: '3',
-            label: '红色预警'
-          },
-          {
-            value: '4',
-            label: '灰色预警'
-          },
-          {
-            value: '5',
-            label: '蓝色预警'
-          }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
     }
   ],
   highQueryData: {
@@ -154,6 +121,27 @@ export let proconf = {
     payApplyNumber: ''
   },
   PoliciesTableColumns: [
+    {
+      title: '监控主题',
+      width: '180px',
+      field: 'regulationClassName',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '规则编码',
+      width: '180px',
+      field: 'fiRuleCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '规则名称',
+      width: '180px',
+      field: 'fiRuleName',
+      sortable: false,
+      align: 'left'
+    },
     {
       title: '触发菜单名称',
       width: '180px',

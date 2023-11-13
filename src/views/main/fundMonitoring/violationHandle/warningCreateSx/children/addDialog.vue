@@ -765,9 +765,11 @@ export default {
         this.incomeMsgConfig = proconf.bgtMsgConfig
       } else if (!this.param5.show) {
         // 现在默认隐藏4个字段
-        this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-        })
+        if (!this.$store.getters.isSx) {
+          this.incomeMsgConfig = proconf.msgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        }
       }
     },
     moneyFormat(amt) {

@@ -167,6 +167,24 @@ const proconf = {
           placeholder: '监控规则'
         }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -362,6 +380,28 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   // 认定正常明细
@@ -651,6 +691,28 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '业务数据时间' }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   msgConfig: [
@@ -1554,6 +1616,28 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '业务数据时间' }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   doneNum: [
@@ -1874,6 +1958,28 @@ const proconf = {
       cellRender: {
         name: '$ReportTaskGloableOptionRow'
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   msgData: {

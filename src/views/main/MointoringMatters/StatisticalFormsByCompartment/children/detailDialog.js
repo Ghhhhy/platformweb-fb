@@ -107,7 +107,8 @@ export let proconf = {
         name: '$vxeNewInput',
         options: [],
         props: {
-          type: 'date'
+          type: 'date',
+          placeholder: '开始时间'
         }
       }
     },
@@ -122,7 +123,26 @@ export let proconf = {
         name: '$vxeNewInput',
         options: [],
         props: {
-          type: 'date'
+          type: 'date',
+          placeholder: '截止时间'
+        }
+      }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
         }
       }
     }
@@ -274,6 +294,28 @@ export let proconf = {
       width: '150',
       sortable: true,
       align: 'center'
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   // table 操作按钮
