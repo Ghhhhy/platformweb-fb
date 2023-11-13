@@ -295,41 +295,55 @@ export default {
         return
       }
       this.tabSelect = obj.curValue
+      let diffColumns = []
       if (this.tabSelect === '1') {
         this.title = '红灯-未处理明细'
         this.detailType = 'numbernofileNum'
-        this.tableColumnsConfig = proconf.redUndoNum
+        diffColumns = proconf.redUndoNum
       } else if (this.tabSelect === '2') {
         this.title = '红灯-已整改明细'
         this.detailType = 'numberfileNum'
-        this.tableColumnsConfig = proconf.redDoneNum
+        diffColumns = proconf.redDoneNum
       } else if (this.tabSelect === '5') {
         this.title = '黄灯-未处理明细'
         this.detailType = 'numberwarnUndoNum'
-        this.tableColumnsConfig = proconf.orangeUndoNum
+        diffColumns = proconf.orangeUndoNum
       } else if (this.tabSelect === '6') {
         this.title = '黄灯-已认定明细'
         this.detailType = 'numberwarndoNum'
-        this.tableColumnsConfig = proconf.orangeDoneNum
+        diffColumns = proconf.orangeDoneNum
       } else if (this.tabSelect === '7') {
         this.title = '黄灯-认定违规-未处理明细'
         this.detailType = 'numberwarnUndoNoNum'
-        this.tableColumnsConfig = proconf.yellowUndoNum
+        diffColumns = proconf.yellowUndoNum
       } else if (this.tabSelect === '8') {
         this.title = '黄灯-认定违规-已认定明细'
-        this.tableColumnsConfig = proconf.yellowDoneNum
+        diffColumns = proconf.yellowDoneNum
         this.detailType = 'numberwarndidNum'
       } else if (this.tabSelect === '9') {
         this.title = '黄色警铃-未处理明细'
         this.detailType = 'numberhqlmUndoNum'
-        this.tableColumnsConfig = proconf.yellowUndoNumw
+        diffColumns = proconf.yellowUndoNumw
       } else if (this.tabSelect === '10') {
         this.title = '黄色警铃-已整改明细'
         this.detailType = 'numberhqlmdoNum'
-        this.tableColumnsConfig = proconf.yellowDoneNumw
+        diffColumns = proconf.yellowDoneNumw
       } else {
         this.tableColumnsConfig1 = this.tableColumnsConfig
         this.params.status = '1'
+      }
+      this.tableColumnsConfig = diffColumns
+      if (this.$store.getters.isFuJian) { // 福建个性化需求
+        const specialColumns = [
+          {
+            title: '资金归口',
+            field: 'bgtMofDepName',
+            width: 140,
+            align: 'left',
+            filters: false
+          }
+        ]
+        this.tableColumnsConfig = diffColumns.concat(specialColumns)
       }
       this.condition = {}
       this.pagerConfig.currentPage = 1
@@ -466,49 +480,63 @@ export default {
       this.mofDivCode = this.detailData[1]
       this.fiscalYear = this.detailData[2]
       this.trackProCodes = this.detailData[3]
+      let diffColumns = []
       switch (this.title) {
         case '红灯-未处理明细':
-          this.tableColumnsConfig = proconf.redUndoNum
+          diffColumns = proconf.redUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons
           this.tabStatusBtnConfig.curButton = curStatusButton
           break
         case '红灯-已整改明细':
-          this.tableColumnsConfig = proconf.redDoneNum
+          diffColumns = proconf.redDoneNum
           this.tabStatusBtnConfig.buttons = statusButtons
           this.tabStatusBtnConfig.curButton = curStatusButton1
           break
         case '黄灯-未处理明细':
-          this.tableColumnsConfig = proconf.orangeUndoNum
+          diffColumns = proconf.orangeUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons1
           this.tabStatusBtnConfig.curButton = curStatusButton3
           break
         case '黄灯-已认定明细':
-          this.tableColumnsConfig = proconf.orangeDoneNum
+          diffColumns = proconf.orangeDoneNum
           this.tabStatusBtnConfig.buttons = statusButtons1
           this.tabStatusBtnConfig.curButton = curStatusButton4
           break
         case '黄灯-认定违规-未处理明细':
-          this.tableColumnsConfig = proconf.yellowUndoNum
+          diffColumns = proconf.yellowUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons1
           this.tabStatusBtnConfig.curButton = curStatusButton5
           break
         case '黄灯-认定违规-已认定明细':
-          this.tableColumnsConfig = proconf.yellowDoneNum
+          diffColumns = proconf.yellowDoneNum
           this.tabStatusBtnConfig.buttons = statusButtons1
           this.tabStatusBtnConfig.curButton = curStatusButton6
           break
         case '黄色警铃-未处理明细':
-          this.tableColumnsConfig = proconf.yellowUndoNumw
+          diffColumns = proconf.yellowUndoNumw
           this.tabStatusBtnConfig.curButton = curStatusButton10
           this.tabStatusBtnConfig.buttons = statusButtons0
           break
         case '黄色警铃-已整改明细':
-          this.tableColumnsConfig = proconf.yellowDoneNumw
+          diffColumns = proconf.yellowDoneNumw
           this.tabStatusBtnConfig.curButton = curStatusButton11
           this.tabStatusBtnConfig.buttons = statusButtons0
           break
         default:
           break
+      }
+      this.tableColumnsConfig = diffColumns
+      if (this.$store.getters.isFuJian) { // 福建个性化需求
+        const specialColumns = [
+          {
+            title: '资金归口',
+            field: 'bgtMofDepName',
+            width: 140,
+            align: 'left',
+            filters: false
+          }
+        ]
+        this.tableColumnsConfig = diffColumns.concat(specialColumns)
       }
     },
     queryTableDatas(type, mofDivCode) {
