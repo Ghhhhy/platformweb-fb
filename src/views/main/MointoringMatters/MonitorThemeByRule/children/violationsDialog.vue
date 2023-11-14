@@ -215,7 +215,8 @@ export default {
       warningCode: '',
       fiscalYear: this.queryFormData.fiscalYear,
       endTime: '',
-      businessTime: ''
+      businessTime: '',
+      voidOrNot: '2'
     }
   },
   mounted() {
@@ -316,6 +317,7 @@ export default {
       this.fiscalYear = val.fiscalYear
       this.businessTime = val.businessTime
       this.endTime = val.endTime
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -430,7 +432,8 @@ export default {
         fiRuleCode: this.fiRuleCode,
         mofDivCodeList: this.queryFormData.mofDivCodeList,
         fiRuleName: this.queryFormData.fiRuleName,
-        jurisdiction: this.$store.getters.getIsJurisdiction
+        jurisdiction: this.$store.getters.getIsJurisdiction,
+        voidOrNot: this.voidOrNot
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

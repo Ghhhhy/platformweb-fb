@@ -56,6 +56,10 @@ export default {
   budgethandleDetail(params) {
     return post('large-monitor-platform/lmp/executeWarn/handleData', params)
   },
+  // 批量处理预警信息
+  batchBudgetHandleDetail(params) {
+    return post('large-monitor-platform/lmp/executeWarn/batchHandleData', params)
+  },
   // 获取表格数据
   querygetTableDatas(params) {
     return get('large-monitor-platform/v2/payvoucher/loadtabledatas', params)
@@ -76,5 +80,8 @@ export default {
   },
   getTree(params) {
     return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  batchRevoke(params) {
+    return post('large-monitor-platform/lmp/executeWarn/repealData', params)
   }
 }

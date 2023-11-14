@@ -198,7 +198,8 @@ export default {
       warningCode: '',
       fiscalYear: '',
       businessTime: '',
-      endTime: ''
+      endTime: '',
+      voidOrNot: '2'
     }
   },
   mounted() {
@@ -299,6 +300,7 @@ export default {
       this.fiscalYear = val.fiscalYear
       this.endTime = val.endTime
       this.businessTime = val.businessTime
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -406,7 +408,8 @@ export default {
         mofDivCode: this.mofDivCode,
         regulationClass: this.regulationClass,
         businessTime: this.businessTime,
-        endTime: this.endTime
+        endTime: this.endTime,
+        voidOrNot: this.voidOrNot
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

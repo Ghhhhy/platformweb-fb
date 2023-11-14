@@ -261,6 +261,7 @@ export default {
       fiRuleCode: '',
       businessTime: '',
       endTime: '',
+      voidOrNot: '2',
       showGlAttachmentDialog: false,
       regulation_type: '',
       regulation_code: '',
@@ -316,6 +317,7 @@ export default {
       this.trackProName = obj.trackProName
       this.trackProCode = obj.trackProCode
       this.searchDataList.businessNo = obj.businessNo
+      this.voidOrNot = obj.voidOrNot
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
       }
@@ -751,7 +753,8 @@ export default {
         useDes: this.useDes,
         roleId: this.roleguid,
         trackProCode: this.trackProCode,
-        trackProName: this.trackProName
+        trackProName: this.trackProName,
+        voidOrNot: this.voidOrNot
       }
       if (this.$store.getters.isSx) {
         param.regulation_type = this.regulationType

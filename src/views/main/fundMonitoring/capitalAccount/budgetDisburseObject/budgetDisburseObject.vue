@@ -76,7 +76,7 @@
           :default-money-unit="10000"
           :title="menuName"
           :pager-config="mainPagerConfig"
-          :cell-style="!isSx ? cellStyle : {}"
+          :cell-style="cellStyle"
           :toolbar-config="tableToolbarConfig"
           :export-modal-config="{ fileName: menuName }"
           :formula-digits="1"
@@ -128,6 +128,13 @@
       :detail-data="detailData"
       :detail-query-param="detailQueryParam"
     />
+    <SxDetailDialog
+      v-if="sxDetailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
     <vxe-modal
       v-if="projectVisible"
       v-model="projectVisible"
@@ -150,6 +157,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegi
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 import regionMixin from '../mixins/regionMixin'
 import DetailDialog from '../children/xmdetailDialog.vue'
+import SxDetailDialog from '../children/detailDialog.vue'
 import budgetDisburseObjectModal from './budgetDisburseObjectModal.vue'
 export default {
   mixins: [regionMixin],
@@ -170,7 +178,8 @@ export default {
   },
   components: {
     DetailDialog,
-    budgetDisburseObjectModal
+    budgetDisburseObjectModal,
+    SxDetailDialog
   },
   watch: {
     queryConfig() {
@@ -182,9 +191,13 @@ export default {
       reportTime: '',
       isFlush: false,
       detailVisible: false,
+      sxDetailVisible: false,
       detailData: [],
       projectVisible: false,
       projectTitle: '',
+      detailTitle: '',
+      detailType: '',
+      detailQueryParam: '',
       frameSrc: '',
       // BsQuery 查询栏
       caliberDeclareContent: '', // 口径说明
@@ -444,46 +457,103 @@ export default {
       this.$refs.budgetDisburseObjectModal.init()
     },
     cellClick(obj, context, e) {
-      if (this.isSx) { return }
-      const rowIndex = obj?.rowIndex
-      if (obj.column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.hqlm)) {
-        this.showBudgetDisburseObjectModal(obj.row)
-        return
+      if (this.isSx) {
+        // switch (obj.column.property) {
+        //   case 'amountYszje':
+        //   case 'amountYszyap':
+        //   case 'amountYssnjap':
+        //   case 'amountYssjap':
+        //   case 'amountYsxjap':
+        //     this.handleDetailSx('zdzjzbmx_fzjfp', obj.row, obj.column.property)
+        //     this.detailTitle = '预算明细'
+        //     break
+        //   case 'amountZczje':
+        //   case 'amountZczyap':
+        //   case 'amountZcsnjap':
+        //   case 'amountZcsjap':
+        //   case 'amountZcxjap':
+        //     this.handleDetailSx('zdzjzcmx_fdq', obj.row.code, obj.column.property)
+        //     this.detailTitle = '直达资金支出明细'
+        //     break
+        // }
+      } else {
+        const rowIndex = obj?.rowIndex
+        if (obj.column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.hqlm)) {
+          this.showBudgetDisburseObjectModal(obj.row)
+          return
+        }
+        if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
+        if (!rowIndex) return
+        let key = obj.column.property
+        console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
+        // 无效的cellValue
+        let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
+          ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        const hideColumnLinkStr = this.transJson(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) return
+        if (obj.column.property !== 'proName' && isInvalidCellValue) return
+        if (!linkFiscal && obj.column.property === 'proName') return
+        switch (key) {
+          case 'amountYszyap':
+            this.handleDetail('zdzjxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
+            this.detailTitle = '预算明细'
+            break
+          case 'amountZczyap':
+            this.handleDetail('zdzjxmtz_zcmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
+            this.detailTitle = '支出明细'
+            break
+          case 'proName':
+            this.projectTitle = '项目明细'
+            // this.projectVisible = true
+            let url = this.getFiscalServer(obj.row.proCode) + '/#/PersonProject/DirectProjectDetail' +
+              '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
+              '&appguid=fiscal&guid=' + obj.row.guid + '&mofDivCode=' + obj.row.mofDivCode +
+              '&fiscalYear=' + obj.row.fiscalYear + '#/'
+            // console.info(url)
+            window.open(url, '_blank')
+            // this.frameSrc = url
+            break
+        }
       }
-      if (this.$store.state.userInfo.province?.slice(0, 4) === '3502') { return }
-      if (!rowIndex) return
-      let key = obj.column.property
-      console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
-      // 无效的cellValue
-      let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
-        ? this.transJson(this.$store.state.curNavModule.param5).linkFiscal : false
-      // 无效的cellValue
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      const hideColumnLinkStr = this.transJson(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) return
-      if (obj.column.property !== 'proName' && isInvalidCellValue) return
-      if (!linkFiscal && obj.column.property === 'proName') return
-      switch (key) {
+    },
+    handleDetailSx(reportCode, rowData, column) {
+      let condition = ''
+      switch (column) {
+        // 全部及中央
+        case 'amountYszje':
         case 'amountYszyap':
-          this.handleDetail('zdzjxmtz_ysmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
-          this.detailTitle = '预算明细'
-          break
+        case 'amountZczje':
         case 'amountZczyap':
-          this.handleDetail('zdzjxmtz_zcmx', '1', obj.row.mofdivcode, obj.row.proCode, obj.row.proName, obj.row.agencyCode, obj.row.agencyName, obj.row.speTypeCode, obj.row.speTypeName, key)
-          this.detailTitle = '支出明细'
+          condition = '1=1'
           break
-        case 'proName':
-          this.projectTitle = '项目明细'
-          // this.projectVisible = true
-          let url = this.getFiscalServer(obj.row.proCode) + '/#/PersonProject/DirectProjectDetail' +
-            '?tokenid=' + this.$store.getters.getLoginAuthentication.tokenid +
-            '&appguid=fiscal&guid=' + obj.row.guid + '&mofDivCode=' + obj.row.mofDivCode +
-            '&fiscalYear=' + obj.row.fiscalYear + '#/'
-          // console.info(url)
-          window.open(url, '_blank')
-          // this.frameSrc = url
+        // 省级
+        case 'amountYssnjap':
+        case 'amountZcsnjap':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        // 市级
+        case 'amountYssjap':
+        case 'amountZcsjap':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        // 县级
+        case 'amountYsxjap':
+        case 'amountZcxjap':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
           break
       }
+      let params = {
+        condition: condition,
+        reportCode: reportCode,
+        endTime: this.endTime,
+        fiscalYear: this.fiscalYear,
+        ...rowData
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.sxDetailVisible = true
     },
     // 根据项目编码获取分堆地址
     getFiscalServer(proCode) {
@@ -507,32 +577,33 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (this.isSx) {
-        return
-      }
-      if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.hqlm)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+        if (['amountYszje', 'amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap', 'amountZczje', 'amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
-      }
-      if (!rowIndex) return
-      // 有效的cellValue
-      console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
-      let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
-      const validCellValue = (row[column.property] * 1)
-      const hideColumnLinkStr = this.transJson(this.$store.state.curNavModule.param5)
-      if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) return
-      if (column.property !== 'proName' && !validCellValue) return
-      if (!linkFiscal && column.property === 'proName') return
-      // console.log(column.property)
-      // if (['amountYszje','amountYszyap', 'amountYssnjap', 'amountYssjap', 'amountYsxjap',
-      // 'amountZczje','amountZczyap', 'amountZcsnjap', 'amountZcsjap', 'amountZcxjap' ].includes(column.property)) {
-
-      if (['amountYszyap', 'amountZczyap', 'proName'].includes(column.property)) {
-        // if (['proName'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline'
+      } else {
+        if (column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(row.hqlm)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+        if (!rowIndex) return
+        // 有效的cellValue
+        console.info('transJson==' + this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal)
+        let linkFiscal = (this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== null || this.transJson(this.$store?.state?.curNavModule?.param5)?.linkFiscal !== undefined)
+        const validCellValue = (row[column.property] * 1)
+        const hideColumnLinkStr = this.transJson(this.$store.state.curNavModule.param5)
+        if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, column, row)) return
+        if (column.property !== 'proName' && !validCellValue) return
+        if (!linkFiscal && column.property === 'proName') return
+        if (['amountYszyap', 'amountZczyap', 'proName'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
         }
       }
     },
