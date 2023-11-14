@@ -407,6 +407,7 @@ export default {
       }
       HttpModule.batchRevoke(param).then(res => {
         if (res.code === '000000') {
+          this.$message.success('撤销成功！')
           this.queryTableDatas()
         } else {
           this.$message.error(res.message)
