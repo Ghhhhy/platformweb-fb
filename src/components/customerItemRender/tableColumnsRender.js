@@ -8,7 +8,7 @@ export const customerTableCellRender = {
       let { row, column } = params
       return [
         <el-tooltip content="" placement="" effect="light">
-          <span class="gloable-option-row-attachment gloable-option-row  fn-inline" style={ store.getters.dict.find(item=>item.value==row[column.property]).colorStyle}>{store.getters.dict.find(item=>item.value==Number(row[column.property])).warningLabel}</span>
+          <span class="gloable-option-row-attachment gloable-option-row  fn-inline" style={ store.getters.dict.find(item=>item.value==row[column.property])?.colorStyle}>{store.getters.dict.find(item=>item.value==Number(row[column.property]))?.label}</span>
         </el-tooltip>
       ]
     }
