@@ -300,7 +300,7 @@ export default {
       this.fiscalYear = val.fiscalYear
       this.endTime = val.endTime
       this.businessTime = val.businessTime
-      this.voidOrNot = val.businessTime
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
