@@ -14,7 +14,8 @@ export default {
     },
     xLoad: {
       default: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
-      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10'
+      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+      isSx: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10'
     },
     amountPayAll: {
       default: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
