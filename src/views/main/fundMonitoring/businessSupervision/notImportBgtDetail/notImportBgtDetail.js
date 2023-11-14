@@ -1,5 +1,5 @@
 import store from '@/store/index'
-export let proconf = {
+let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
@@ -138,6 +138,15 @@ export let proconf = {
       }
     }
   ]
+}
+if (store.getters.isFuJian) {
+  const notShowFiled = ['recDivName', 'agencyName']
+  proconf.PoliciesTableColumns = proconf.PoliciesTableColumns.filter(item => {
+    return !notShowFiled.includes(item.field)
+  })
+}
+export {
+  proconf
 }
 export default function (tableType, configType) {
   if (tableType && configType) {

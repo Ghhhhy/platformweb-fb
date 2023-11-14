@@ -166,7 +166,7 @@ export default {
         '2': 0,
         '3': 0
       },
-      isShowQueryConditions: true,
+      isShowQueryConditions: !this.$store.getters.isFuJian,
       toolBarStatusSelect: {
         type: 'button',
         iconName: 'base-all.png',
