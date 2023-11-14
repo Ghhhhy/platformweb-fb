@@ -401,10 +401,17 @@ export default {
         this.$message.warning('请选择一条数据进行撤销操作！')
         return
       }
-      const tempWarnIdList = Array.from(new Set(selection.map(item => item.warningInfoId)))
-      this.warningInfoId = tempWarnIdList
-      this.batchDialogVisible = true
-      this.dialogTitle = '处理'
+      const param = {
+        id: selection[0].warningInfoId,
+        mofDivCode: selection[0].mofDivCode
+      }
+      HttpModule.batchRevoke(param).then(res => {
+        if (res.code === '000000') {
+          this.queryTableDatas()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     changeVisible(val) {
       this.breakRuleVisible = val

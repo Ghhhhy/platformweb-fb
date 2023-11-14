@@ -80,5 +80,8 @@ export default {
   },
   getTree(params) {
     return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  batchRevoke(params) {
+    return post('large-monitor-platform/lmp/executeWarn/repealData', params)
   }
 }
