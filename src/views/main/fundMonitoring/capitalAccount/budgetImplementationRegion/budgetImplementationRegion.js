@@ -188,8 +188,12 @@ const proconf = {
                 let amount5 = parseFloat(row.amountPayAll || 0)
                 let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
+                let precision = 1
+                if (store.getters.isSx) {
+                  precision = 2
+                }
                 return [
-                  <div>{culAmount && culAmount2.toFixed(2)}%</div>
+                  <div>{culAmount && culAmount2.toFixed(precision)}%</div>
                 ]
               }
             }
