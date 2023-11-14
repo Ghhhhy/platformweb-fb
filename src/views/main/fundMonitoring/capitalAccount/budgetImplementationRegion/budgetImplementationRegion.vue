@@ -626,6 +626,9 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: (this.searchDataList.proCodes && typeof this.searchDataList.proCodes === 'string') ? this.getTrees(this.searchDataList.proCodes) : []
       }
+      if (this.$store.getters.isFuJian) {
+        params.mofDivCode = row.code// 福建sql查询出来得code 就是区划mofDivCode
+      }
       this.detailQueryParam = params
       this.detailType = reportCode
       this.detailVisible = true

@@ -14,11 +14,35 @@ export default {
     },
     xLoad: {
       default: '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
-      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10'
+      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+      isSx: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10'
     },
     amountPayAll: {
       default: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
       isSx: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
+    }
+  },
+  budgetImplementationRegion: {
+    amountPayAll: {
+      default: '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
+      isSx: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
+    },
+    jLoad: {
+      default: '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
+      isSx: '({amountZyxdBhxj}-0==0)?0:Math.round(({amountPayAll}/{amountZyxdBhxj}*100)*10)/10'
+    },
+    sLoad: {
+      default: '({amountSnjxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountSnjxd}*100*10)/10',
+      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10'
+    },
+    aLoad: {
+      default: '({amountSjxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountSjxd}*100*10)/10',
+      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10'
+    },
+    xLoad: {
+      default: '({amountXjxd}-0==0)?0:Math.round(({amountXjfp}/{amountXjxd}*100)*10)/10',
+      isNeiMeng: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
+      isSx: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10'
     }
   },
   budgetReleaseCapital: {

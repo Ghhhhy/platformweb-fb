@@ -201,8 +201,12 @@ const proconf = {
                 let amount5 = parseFloat(row.amountPayAll || 0)
                 let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
+                let precision = 1
+                if (store.getters.isSx) {
+                  precision = 2
+                }
                 return [
-                  <div>{culAmount && culAmount2.toFixed(2)}%</div>
+                  <div>{culAmount && culAmount2.toFixed(precision)}%</div>
                 ]
               }
             }
@@ -415,24 +419,11 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationCapital.aLoad'),
             cellRender: {
               name: '$vxeRatio'
             },
             visible: !store.getters.isSx
-          },
-          {
-            title: '分配进度',
-            field: 'xLoad',
-            width: 120,
-            areaType: 'county',
-            align: 'right',
-            // formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10',
-            cellRender: {
-              name: '$vxeRatio'
-            },
-            visible: store.getters.isSx
           }
         ]
       }

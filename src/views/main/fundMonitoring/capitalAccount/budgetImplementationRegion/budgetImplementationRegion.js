@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -166,7 +167,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'amountPayAll',
-            formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}',
+            formula: $formula('budgetImplementationRegion.amountPayAll'),
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -174,7 +175,7 @@ const proconf = {
             align: 'right',
             width: 100,
             field: 'jLoad',
-            formula: store.getters.isSx ? '({amountZyxdBhxj}-0==0)?0:Math.round(({amountPayAll}/{amountZyxdBhxj}*100)*10)/10' : '({amountZyxd}-0==0)?0:Math.round(({amountPayAll}/{amountZyxd}*100)*10)/10',
+            formula: $formula('budgetImplementationRegion.jLoad'),
             cellRender: {
               name: '$vxeRatio'
             },
@@ -187,8 +188,12 @@ const proconf = {
                 let amount5 = parseFloat(row.amountPayAll || 0)
                 let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
+                let precision = 1
+                if (store.getters.isSx) {
+                  precision = 2
+                }
                 return [
-                  <div>{culAmount && culAmount2.toFixed(2)}%</div>
+                  <div>{culAmount && culAmount2.toFixed(precision)}%</div>
                 ]
               }
             }
@@ -262,7 +267,7 @@ const proconf = {
             width: 160,
             areaType: 'province',
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSnjbjfp}+{amountSnjxjfp})/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationRegion.sLoad'),
             cellRender: {
               name: '$vxeRatio'
             }
@@ -337,7 +342,7 @@ const proconf = {
             width: 120,
             areaType: 'city',
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountSbjfp}+{amountSxjfp})/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationRegion.aLoad'),
             cellRender: {
               name: '$vxeRatio'
             }
@@ -386,7 +391,16 @@ const proconf = {
             areaType: 'county',
             align: 'right',
             sortable: true,
-            cellRender: { name: '$vxeMoney' }
+            cellRender: { name: '$vxeMoney' },
+            visible: !store.getters.isFuJian
+          },
+          {
+            title: '已分配',
+            field: 'amountXjfp',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            visible: store.getters.isFuJian
           },
           {
             title: '未分配',
@@ -413,24 +427,10 @@ const proconf = {
             width: 120,
             areaType: 'county',
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
+            formula: $formula('budgetImplementationRegion.xLoad'),
             cellRender: {
               name: '$vxeRatio'
-            },
-            visible: !store.getters.isSx
-          },
-          {
-            title: '分配进度',
-            field: 'xLoad',
-            width: 120,
-            areaType: 'county',
-            align: 'right',
-            // formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10',
-            cellRender: {
-              name: '$vxeRatio'
-            },
-            visible: store.getters.isSx
+            }
           }
         ]
       },

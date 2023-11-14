@@ -552,10 +552,12 @@ export let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
+      },
       cellRender: {
         name: '$warningLevelRender',
-        options: store.state.warnInfo.warnLevelOptions,
         props: {
           placeholder: '预警级别'
         }
