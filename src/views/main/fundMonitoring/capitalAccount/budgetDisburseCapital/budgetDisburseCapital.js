@@ -60,13 +60,13 @@ let proconf = {
             valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              labelFormat: store.getters.isFuJian ? '{code}-{name}' : '{codeFragment}-{name}', // {code}-{name}
               nodeKey: 'id',
               label: 'label',
               children: 'children'
             },
             placeholder: '地区',
-            multiple: false,
+            multiple: store.getters.isFuJian,
             readonly: false,
             isleaf: true
           }

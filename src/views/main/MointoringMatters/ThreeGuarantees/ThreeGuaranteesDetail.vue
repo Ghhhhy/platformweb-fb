@@ -347,7 +347,8 @@ export default {
         proCatName: this.condition.proCatName,
         agencyCodeList: this.agencyCodeList,
         corBgtDocNo: this.condition.corBgtDocNo,
-        mofDivCodeList: this.mofdivcodelist
+        mofDivCodeList: this.mofdivcodelist,
+        endTime: this.searchDataList.endTime ? this.searchDataList.endTime : ''
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

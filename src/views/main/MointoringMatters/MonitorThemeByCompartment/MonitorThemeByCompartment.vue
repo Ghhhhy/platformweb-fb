@@ -554,7 +554,6 @@ export default {
           item.leaf = true
         }
       })
-
       return datas
     },
     getLeftTreeData() {

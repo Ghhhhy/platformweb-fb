@@ -396,7 +396,7 @@ export default {
       switch (obj.curValue) {
         // 全部
         case '1':
-          this.menuName = '直达资金预算下达_分资金(单位:万元)'
+          this.menuName = `直达资金预算下达_分资金(单位:${this.tableGlobalConfig.customExportConfig.unit})`
           this.radioShow = true
           break
       }

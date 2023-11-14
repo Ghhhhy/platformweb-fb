@@ -22,11 +22,11 @@ export const state = { // 实时监听state值的变化(最新状态)
   userRolesData: [], // 用户角色
   projectList: [], // 项目列表
   colorList: [
-    { warningLabel: '黄色预警', color: '#FFD43C', colorStyle: 'color: #FFD43C;' },
-    { warningLabel: '橙色预警', color: '#FF6F20', colorStyle: 'color: #FF6F20;' },
-    { warningLabel: '红色预警', color: '#ff0000', colorStyle: 'color: #ff0000;' },
-    { warningLabel: '灰色预警', color: '#F1F1F1', colorStyle: 'color: #F1F1F1;' },
-    { warningLabel: '蓝色预警', color: '#0000ff', colorStyle: 'color: #0000ff;' }
+    { warningLabel: '黄', color: '#FFD43C', colorStyle: 'color: #FFD43C;' },
+    { warningLabel: '橙', color: '#FF6F20', colorStyle: 'color: #FF6F20;' },
+    { warningLabel: '红', color: '#ff0000', colorStyle: 'color: #ff0000;' },
+    { warningLabel: '灰', color: '#F1F1F1', colorStyle: 'color: #F1F1F1;' },
+    { warningLabel: '蓝', color: '#0000ff', colorStyle: 'color: #0000ff;' }
   ],
   rankingModalVisible: true, // 直达资金收支进度排行弹窗
   escalationModalVisible: false, // 财政上报提醒弹窗
@@ -39,7 +39,9 @@ export const getters = {
       return {
         ...item,
         value: String(item.value),
-        ...state.colorList.find(colorItem => { return colorItem.warningLabel === item.label || colorItem.warningLabel === item.warnName })
+        ...state.colorList.find(colorItem => {
+          return (item.label.indexOf(colorItem.warningLabel) > -1)
+        })
       }
     })
   },
@@ -50,6 +52,10 @@ export const getters = {
   isXm() { // 厦门项目
     const province = state.userInfo.province
     return province.slice(0, 2) === '35' && province.slice(0, 4) === '3502'// 3502 去掉厦门项目
+  },
+  isQingHai() { // 青海项目
+    const province = state.userInfo.province
+    return province.slice(0, 2) === '63'
   },
   isNeiMeng() { // 判断是不是内蒙项目
     return state.userInfo.province.slice(0, 2) === '15'

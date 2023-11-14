@@ -1,7 +1,7 @@
 // import store from '@/store/index'
 export let proconf = {
-  // BsToolBar 状态栏
-  toolBarStatusButtons: [
+  // BsToolBar 预警批量处理状态栏
+  batchToolBarStatusButtons: [
     {
       type: 'button',
       iconName: 'base-daiban.png',
@@ -19,157 +19,61 @@ export let proconf = {
       label: '已处理',
       code: '1',
       curValue: '1'
-    },
-    {
-      type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
-      iconUrl: '',
-      label: '已作废',
-      code: '4',
-      curValue: '4'
     }
-  /*   {
-      type: 'button',
-      iconName: 'base-all.png',
-      iconNameActive: 'base-all-active.png',
-      iconUrl: '',
-      label: '已退回',
-      code: '2',
-      curValue: '2'
-    } */
   ],
   // BsToolBar 右侧按钮
   detailButtons: {
     '0': [
-      { code: 'handle', label: '处理', status: 'primary' },
-      { code: 'toorbar_checktotal', label: '查看汇总' },
+      { code: 'batch-handle', label: '批量处理', status: 'primary' },
       { code: 'lookDetail', label: '查看详情' }
     ],
     '1': [
-      { code: 'toorbar_checktotal', label: '查看汇总' },
+      { code: 'batch-revoke', label: '撤销' },
       { code: 'lookDetail', label: '查看详情' }
-    ],
-    '2': [
-      { code: 'toorbar_checktotal', label: '查看汇总' },
-      { code: 'lookDetail', label: '查看详情' }
-    ],
-    '4': [
-      { code: 'toorbar_checktotal', label: '查看汇总' },
-      { code: 'lookDetail', label: '查看详情' }
-    ]
-  },
-  statusRightToolBarButton: {
-    '0': [
-      { code: 'toorbar_checkinfo', label: '查看明细', status: 'primary' }
-    ],
-    '1': [
-      { code: 'toorbar_checkinfo', label: '查看明细', status: 'primary' }
-    ],
-    '2': [
-      { code: 'toorbar_checkinfo', label: '查看明细', status: 'primary' }
-    ],
-    '4': [
-      { code: 'toorbar_checkinfo', label: '查看明细', status: 'primary' }
     ]
   },
   highQueryConfig: [
     {
-      title: '状态',
-      field: 'status',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            'value': '0',
-            'label': '待处理'
-          }
-        ],
-        props: {
-          placeholder: '状态'
-        }
-      }
-    },
-    {
-      title: '支付申请编号',
-      field: 'payApplyNumber',
+      title: '监控规则名称',
+      field: 'fiRuleName',
       width: '8',
       align: 'left',
       formula: '',
       name: '$vxeInput',
       itemRender: {
         name: '$vxeInput',
-        options: [],
         props: {
-          placeholder: '支付申请编号'
+          placeholder: '监控规则名称'
         }
       }
     },
     {
-      title: '监控时间',
-      field: 'createTime',
+      title: '监控主题',
+      field: 'regulationClass',
       width: '8',
       align: 'left',
       formula: '',
-      name: '$vxeTime',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeTime',
+        name: '$vxeTree',
         options: [],
-        props: {
-          placeholder: '监控时间'
-        }
-      }
-    },
-    {
-      title: '预警数量大于',
-      field: 'warnTotal',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '预警数量大于'
-        }
-      }
-    }
-  ],
-  highQueryData: {
-    status: '',
-    businessFunctionCode: '',
-    createTime: '',
-    warnTotal: '',
-    payApplyNumber: ''
-  },
-  highQueryConfig1: [
-    {
-      title: '状态',
-      field: 'status',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            'value': '0',
-            'label': '待处理'
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
           }
-        ],
-        props: {
-          placeholder: '状态'
         }
       }
     },
     {
-      title: '支付申请编号',
+      title: '支付申请单号',
       field: 'payAppNo',
       width: '8',
       align: 'left',
@@ -177,24 +81,8 @@ export let proconf = {
       name: '$vxeInput',
       itemRender: {
         name: '$vxeInput',
-        options: [],
         props: {
-          placeholder: '支付申请编号'
-        }
-      }
-    },
-    {
-      title: '监控时间',
-      field: 'createTime',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeTime',
-      itemRender: {
-        name: '$vxeTime',
-        options: [],
-        props: {
-          placeholder: '监控时间'
+          placeholder: '支付申请单号'
         }
       }
     },
@@ -222,45 +110,9 @@ export let proconf = {
           }
         }
       }
-    },
-    {
-      title: '预警级别',
-      field: 'warnLevel',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: '1',
-            label: '黄色预警'
-          },
-          {
-            value: '2',
-            label: '橙色预警'
-          },
-          {
-            value: '3',
-            label: '红色预警'
-          },
-          {
-            value: '4',
-            label: '灰色预警'
-          },
-          {
-            value: '5',
-            label: '蓝色预警'
-          }
-        ],
-        props: {
-          placeholder: '预警级别'
-        }
-      }
     }
   ],
-  highQueryData1: {
+  highQueryData: {
     status: '',
     businessFunctionCode: '',
     createTime: '',
@@ -269,6 +121,27 @@ export let proconf = {
     payApplyNumber: ''
   },
   PoliciesTableColumns: [
+    {
+      title: '监控主题',
+      width: '180px',
+      field: 'regulationClassName',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '规则编码',
+      width: '180px',
+      field: 'fiRuleCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '规则名称',
+      width: '180px',
+      field: 'fiRuleName',
+      sortable: false,
+      align: 'left'
+    },
     {
       title: '触发菜单名称',
       width: '180px',
@@ -904,26 +777,6 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
-      }
-    },
-    {
-      title: '当前岗',
-      field: 'todoName',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '当前岗' }
-      }
-    },
-    {
-      title: '是否作废',
-      field: 'voidOrNot',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '是否作废' }
       }
     },
     {

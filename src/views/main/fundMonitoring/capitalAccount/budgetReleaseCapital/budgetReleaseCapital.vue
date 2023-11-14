@@ -309,7 +309,7 @@ export default {
                 valueKeys: ['code', 'name', 'id', 'codeFragment'],
                 format: '{name}',
                 treeProps: {
-                  labelFormat: '{codeFragment}-{name}', // {code}-{name}
+                  labelFormat: this.$store.getters.isFuJian ? '{code}-{name}' : '{codeFragment}-{name}', // {code}-{name}
                   nodeKey: 'id',
                   label: 'label',
                   children: 'children'
@@ -765,27 +765,17 @@ export default {
       // this.queryTableDatasCount()
     },
     getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
-      if (this.isSx) {
-        HttpModule.getMofTreeData().then(res => {
-          if (res.code === '000000') {
-            console.log('data', res.data)
-            let treeResdata = this.getChildrenNewData1(res.data)
-            this.queryConfig[1].itemRender.options = treeResdata
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      } else {
-        HttpModule.getMofTreeData({ fiscalYear }).then(res => {
-          if (res.code === '000000') {
-            console.log('data', res.data)
-            let treeResdata = this.getChildrenNewData1(res.data)
-            this.queryConfig[1].itemRender.options = treeResdata
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }
+      let params = { fiscalYear }
+      if (this.isSx) params = {}
+      let index = this.queryConfig.findIndex(item => item.field === 'mofDivCodes')
+      HttpModule.getMofTreeData(params).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[index].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     getChildrenNewData1(datas) {
       let that = this

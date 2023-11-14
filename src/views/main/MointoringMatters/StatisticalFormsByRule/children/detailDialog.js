@@ -93,6 +93,24 @@ export let proconf = {
           }
         }
       }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -242,6 +260,28 @@ export let proconf = {
       width: '150',
       sortable: true,
       align: 'center'
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
     }
   ],
   // table 操作按钮

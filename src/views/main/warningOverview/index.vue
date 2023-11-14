@@ -168,7 +168,7 @@ export default defineComponent({
     getRankSGProcessing()
     /**
      * 全省监控预警
-     * @return {Promise<void>}
+     * @return {Promise<*[]>}
      */
     async function getRankQSProcessing() {
       let params = {
@@ -176,23 +176,43 @@ export default defineComponent({
       }
       if (isFlush) params.isFlush = true
       tableDataLoading.value = true
-      const { data } = await rankProcessing(params)
-      tableDataLoading.value = false
-      isFlush = false
-      tableData2.value = data || []
+      try {
+        const [response1, response2] = await Promise.all([
+          rankProcessing(params),
+          ledgerProcessing({ fiscalYear: store.state.userInfo.year, reportCode: 'zdzjzcjdpm' })
+        ])
+        return [response1.data, response2.data]
+      } catch (error) {
+        console.error(error)
+      } finally {
+        tableDataLoading.value = false
+        isFlush = false
+      }
     }
-    getRankQSProcessing()
+    getRankQSProcessing().then(([data1, data2]) => {
+      const payData = data2?.length > 0 && data2.sort((a, b) => { return b['amountPayPro'] - a['amountPayPro'] }).map(({ mofDivName, amountPayPro }) => {
+        return { mofDivName, amountPayPro }
+      })
+      const ysData = data2?.length > 0 && data2.sort((a, b) => { return b['amountPro'] - a['amountPro'] }).map(({ mofDivName, amountPro }) => {
+        return { mofDivName, amountPro }
+      })
+      tableData2.value = data1?.length > 0 && data1.map((item, index) => {
+        if (ysData[index] && payData[index]) {
+          return { mofDivName1: ysData[index].mofDivName || '', amountPro: ysData[index].amountPro < 100 ? ysData[index].amountPro : '100', mofDivName2: payData[index].mofDivName || '', amountPayPro: payData[index].amountPayPro < 100 ? payData[index].amountPayPro : '100', mofDivName3: item['mofDivName'], rankProcess: item['rankProcess'] }
+        }
+      })
+    })
     /**
      * 直达资金管理工作排名
      * @return {Promise<void>}
      */
-    async function getLedgerProcessing() {
-      const { data } = await ledgerProcessing({ fiscalYear: store.state.userInfo.year, reportCode: 'zdzjzcjdpm' })
-      tableData2.value = data?.length > 0 && data.map(({ mofDivName, amountPro, amountPayPro }) => {
-        return { mofDivName, amountPro, amountPayPro, rankProcess: tableData2['rankProcess'] }
-      })
-    }
-    getLedgerProcessing()
+    // async function getLedgerProcessing() {
+    //   const { data } = await ledgerProcessing({ fiscalYear: store.state.userInfo.year, reportCode: 'zdzjzcjdpm' })
+    //   tableData2.value = data?.length > 0 && data.map(({ mofDivName, amountPro, amountPayPro }) => {
+    //     return { mofDivName, amountPro, amountPayPro, rankProcess: tableData2['rankProcess'] }
+    //   })
+    // }
+    // getLedgerProcessing()
     const menuClick1 = () => {
       router.push({
         name: 'SproWarnRegionSummary'
@@ -278,7 +298,7 @@ export default defineComponent({
           children: [
             {
               title: '区划名称',
-              field: 'mofDivName',
+              field: 'mofDivName1',
               sortable: false,
               align: 'center'
             },
@@ -301,7 +321,7 @@ export default defineComponent({
           children: [
             {
               title: '区划名称',
-              field: 'mofDivName',
+              field: 'mofDivName2',
               sortable: false,
               align: 'center'
             },
@@ -324,7 +344,7 @@ export default defineComponent({
           children: [
             {
               title: '区划名称',
-              field: 'mofDivName',
+              field: 'mofDivName3',
               sortable: false,
               align: 'center'
             },

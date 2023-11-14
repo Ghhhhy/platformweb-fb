@@ -257,6 +257,15 @@ export default {
       console.log(obj.column.property)
       if (obj.column.property === 'payAppAmt') {
         this.detailRow = obj.row
+        if (this.currentValue.sfzd === '其他') {
+          this.detailRow.isDirCode = '09'
+        }
+        if (this.currentValue.sfzd === '中央直达资金') {
+          this.detailRow.isDirCode = '01'
+        }
+        if (this.currentValue.sfzd === '中央参照直达资金') {
+          this.detailRow.isDirCode = '02'
+        }
         this.detailVisible = true
       } else if (obj.column.property === 'proName') {
         this.detailRow = obj.row
@@ -271,33 +280,11 @@ export default {
         this.fiscalYear = obj.row?.fiscalYear || ''
         let groupUrl = ''
         if (this.$store.getters.isSx) {
-          let groupsSx = { // 陕西 重点转移
-            group1: ['6100'], // 省本级
-            group2: [
-              '6101' // 西安堆
-            ],
-            group3: [
-              '6103' // 关中
-            ],
-            group4: [
-              '6102' // 陕北
-            ],
-            group5: [
-              '6107' // 陕南
-            ]
-          }
-          let getProjectUrl = {
-            group1: 'http://10.77.18.172:34224/#',
-            group2: 'http://10.77.18.172:50252/#',
-            group3: 'http://10.77.18.172:50252/#',
-            group4: 'http://10.77.18.172:50252/#',
-            group5: 'http://10.77.18.172:50252/#'
-          }
-          let groups = (this.$store.getters.isSx ? groupsSx : window.gloableToolFn.serverGatewayMap.getGroups) || {}
+          let groups = window.gloableToolFn.getGroups || {}
           Object.keys(groups).forEach(key => {
             console.log(key, '-------------')
             if (groups[key].indexOf(this.mofDivCode?.slice(0, 4)) !== -1) {
-              groupUrl = this.$store.getters.isSx ? getProjectUrl[key] : window.gloableToolFn.serverGatewayMap.getprojectUrl[key]
+              groupUrl = window.gloableToolFn.getProjectUrl[key]
               let url = `${groupUrl}/ProjectDetailIframe?isShowHead=0&tokenid=${this.$store.getters.getLoginAuthentication.tokenid}&appguid=ystztj&proGuid=${this.proGuid}&mofDivCode=${this.mofDivCode}&fiscalYear=${this.fiscalYear}`
               console.log('访问地址：', url)
               window.open(url)
@@ -403,32 +390,11 @@ export default {
         this.mofDivCode = obj.row?.mofDivCode || ''
         this.fiscalYear = obj.row?.fiscalYear || ''
         let groupUrl = ''
-        let groups = { // 陕西 重点转移
-          group1: ['6100'], // 省本级
-          group2: [
-            '6101' // 西安堆
-          ],
-          group3: [
-            '6103' // 关中
-          ],
-          group4: [
-            '6102' // 陕北
-          ],
-          group5: [
-            '6107' // 陕南
-          ]
-        }
-        let getProjectUrl = {
-          group1: 'http://10.77.18.172:34224/#',
-          group2: 'http://10.77.18.172:50252/#',
-          group3: 'http://10.77.18.172:50252/#',
-          group4: 'http://10.77.18.172:50252/#',
-          group5: 'http://10.77.18.172:50252/#'
-        }
+        let groups = window.gloableToolFn.getGroups || {}
         Object.keys(groups).forEach(key => {
           console.log(key, '-------------')
           if (groups[key].indexOf(this.mofDivCode?.slice(0, 4)) !== -1) {
-            groupUrl = getProjectUrl[key]
+            groupUrl = window.gloableToolFn.getProjectUrl[key]
             let url = `${groupUrl}/ProjectDetailIframe?isShowHead=0&tokenid=${this.$store.getters.getLoginAuthentication.tokenid}&appguid=ystztj&proGuid=${this.proGuid}&mofDivCode=${this.mofDivCode}&fiscalYear=${this.fiscalYear}`
             console.log('访问地址：', url)
             window.open(url)

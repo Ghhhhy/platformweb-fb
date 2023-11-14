@@ -3035,7 +3035,7 @@ const buttonsInfo = {
       if (transJson(store.state.curNavModule.param5)?.isQuery) {
         return []
       }
-      if (store.getters.isFuJian) {
+      if (store.getters.isFuJian || store.getters.isQingHai) {
         return [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return [{ label: '生成', code: 'create', status: 'primary' }]
