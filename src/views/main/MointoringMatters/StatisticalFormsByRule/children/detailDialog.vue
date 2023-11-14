@@ -224,7 +224,8 @@ export default {
       showAttachmentDialog: false,
       billguid: '',
       condition: {},
-      showViolations: true
+      showViolations: true,
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -357,6 +358,7 @@ export default {
       this.agencyCodeList = val.agencyCodeList_code__multiple
       this.payApplyNumber = val.payApplyNumber
       this.fiRuleName = val.fiRuleName
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -487,8 +489,8 @@ export default {
         businessNo: this.payApplyNumber,
         regulationClass: this.regulationClass,
         jurisdiction: this.jurisdiction,
-        warnLevel: this.warnLevel
-
+        warnLevel: this.warnLevel,
+        voidOrNot: this.voidOrNot
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

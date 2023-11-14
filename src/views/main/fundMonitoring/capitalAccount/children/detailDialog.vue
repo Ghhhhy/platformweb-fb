@@ -207,6 +207,7 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
+      this.$parent.sxDetailVisible = false
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -442,6 +443,7 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+        case 'zdzjxmtz_zcs':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -474,6 +476,7 @@ export default {
           this.tableColumnsConfig = proconf.zyxdProfzjwfpxColumn
           break
         case 'zdzjzbmx_fzjfp':
+        case 'zdzjxmtz_yss':
           this.tableColumnsConfig = proconf.targetColumn
           this.queryConfig = proconf.highQueryConfig1
           this.searchDataList = proconf.highQueryData1
