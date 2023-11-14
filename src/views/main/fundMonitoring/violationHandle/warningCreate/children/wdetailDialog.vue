@@ -1440,6 +1440,8 @@ export default {
         detailData.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
         detailData.expFuncName = res.data.baBgtInfoEntity.expFuncName
         detailData.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+        detailData.bgtMofDepCode = res.data.baBgtInfoEntity.bgtMofDepCode
+        detailData.bgtMofDepName = res.data.baBgtInfoEntity.bgtMofDepName
       }
       return detailData
       // this.handletableData = res.data?.regulationList
