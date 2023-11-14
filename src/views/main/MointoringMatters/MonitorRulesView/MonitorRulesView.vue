@@ -54,7 +54,6 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
-          :cell-class-name="cellClassName"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -873,25 +872,7 @@ export default {
         }
       })
     },
-    cellClassName ({ row, rowIndex, column, columnIndex }) {
-      // console.log(row)
-      // console.log(column.property)
-      if (column.property === 'warningLevel' && row.warningLevel === '1') {
-        return 'add-yellow'
-      }
-      if (column.property === 'warningLevel' && row.warningLevel === '2') {
-        return 'add-orange'
-      }
-      if (column.property === 'warningLevel' && row.warningLevel === '3') {
-        return 'add-red'
-      }
-      if (column.property === 'warningLevel' && row.warningLevel === '5') {
-        return 'add-blue'
-      }
-      if (column.property === 'warningLevel' && row.warningLevel === '4') {
-        return 'add-gray'
-      }
-    },
+
     // 操作日志
     queryActionLog(row) {
       const param = {
