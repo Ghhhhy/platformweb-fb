@@ -131,6 +131,7 @@ export let proconf = {
           { value: '3', label: '部门级' }
         ],
         props: {
+          clearable: true,
           placeholder: '管理级次'
         }
       }
@@ -149,6 +150,7 @@ export let proconf = {
           { value: '0', label: '否' }
         ],
         props: {
+          clearable: true,
           placeholder: '是否直达资金'
         }
       }
@@ -167,6 +169,7 @@ export let proconf = {
           { value: '0', label: '否' }
         ],
         props: {
+          clearable: true,
           placeholder: '是否专项主题'
         }
       }
@@ -186,6 +189,7 @@ export let proconf = {
         }),
         defaultValue: '',
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       },
@@ -207,6 +211,7 @@ export let proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '处理方式'
         }
       }
@@ -241,6 +246,7 @@ export let proconf = {
           { value: '0', label: '否' }
         ],
         props: {
+          clearable: true,
           placeholder: '是否启用'
         }
       }
@@ -259,6 +265,7 @@ export let proconf = {
           { value: '2', label: '定时触发' }
         ],
         props: {
+          clearable: true,
           placeholder: '触发方式'
         }
       }

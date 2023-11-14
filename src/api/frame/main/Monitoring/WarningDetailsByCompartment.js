@@ -53,5 +53,8 @@ export default {
   // 获取附件
   getReport(params) {
     return post('large-monitor-platform/lmp/totalWarn/report', params)
+  },
+  getRuleTreeData(params) {
+    return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
   }
 }

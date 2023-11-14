@@ -334,7 +334,7 @@ export default {
         let curValue = this.searchDataList[fieldValue]
         if (item.itemRender.name === '$vxeTree') {
           if (fieldValue) {
-            if (fieldValue === 'mofDivCode') {
+            if (fieldValue === 'mofDivCodes') {
               if (Array.isArray(this.searchDataList[item.field])) {
                 condition[fieldValue] = curValue
               } else {
@@ -555,7 +555,7 @@ export default {
       }
       let params = {
         reportCode: reportCode,
-        mofDivCode: row.mofDivCode,
+        mofDivCodes: row.mofDivCode,
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,

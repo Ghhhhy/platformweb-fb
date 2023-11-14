@@ -813,6 +813,7 @@ const proconf = {
   ],
   highQueryData: {
     agencyCodeList: '',
+    payCertNo: '',
     businessNo: '',
     regulationClassName: '',
     warnTime: '',
@@ -2903,10 +2904,40 @@ const proconf = {
     // 6和1 代表 支付
     // 8和2  代表 指标[]
     const isIndex = [6, '6', 2, '2'].includes(business)
+    const isBgtIndex = [8, '8', 2, 2].includes(business)
     const re = ['0207'].includes(regulationClass)
     console.log('000000000000000', store.state.warnInfo.warnLevelOptions)
     let columns1 = business && isIndex ? budgetImpColumns.filter(item => { return item.field !== 'paymentAmount' }) : budgetImpColumns
     let columns = business && isIndex && re ? budgetManagementColumns : columns1
+    // 厦门
+    if (business && !isBgtIndex) {
+      const { province } = store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        columns.splice(3, 0, {
+          title: '支付凭证号',
+          width: 180,
+          field: 'payCertNo',
+          sortable: false,
+          filters: false,
+          align: 'center'
+        })
+        this.highQueryConfig.splice(1, 0, {
+          title: '支付凭证号',
+          field: 'payCertNo',
+          width: 180,
+          align: 'left',
+          formula: '',
+          name: '$vxeInput',
+          itemRender: {
+            name: '$vxeInput',
+            props: {
+              clearable: true,
+              placeholder: '支付凭证号'
+            }
+          }
+        })
+      }
+    }
     const tempOperatorColumns = [...operatorColumns]
     if (showLog) {
       tempOperatorColumns.splice(1, 0, {
