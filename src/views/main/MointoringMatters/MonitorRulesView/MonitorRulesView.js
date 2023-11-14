@@ -554,7 +554,7 @@ export let proconf = {
       formula: '',
       name: '$vxeSelect',
       cellRender: {
-        name: '$vxeSelect',
+        name: '$warningLevelRender',
         options: store.state.warnInfo.warnLevelOptions,
         props: {
           placeholder: '预警级别'
