@@ -40,6 +40,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '数据源名称'
         }
       }
@@ -55,6 +56,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '业务模块'
         }
       }

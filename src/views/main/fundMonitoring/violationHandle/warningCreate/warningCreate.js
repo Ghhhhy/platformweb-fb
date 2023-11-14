@@ -362,6 +362,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '监控规则',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -376,9 +377,11 @@ const proconf = {
       align: 'left',
       itemRender: {
         name: '$vxeTime',
+        clearable: true,
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '警告开始时间'
         }
@@ -394,6 +397,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '警告结束时间'
         }
@@ -409,6 +413,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '开始处理时间'
         }
@@ -424,6 +429,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '结束处理时间'
         }
@@ -443,6 +449,7 @@ const proconf = {
           { value: '预算管理', label: '预算管理' }
         ],
         props: {
+          clearable: true,
           placeholder: '业务模块'
         }
       }

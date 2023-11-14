@@ -59,7 +59,6 @@
             :toolbar-config="tableToolbarConfig"
             @onToolbarBtnClick="onToolbarBtnClick"
             @ajaxData="ajaxTableData"
-            @cellClick="cellClick"
           >
             <template v-slot:toolbarSlots>
               <div class="table-toolbar-left">
@@ -82,6 +81,11 @@
       :fi-rule-code="fiRuleCode"
       :is-need-fi-rule-code="isNeedFiRuleCode"
     />
+    <BatchHandleDialog
+      v-if="batchDialogVisible"
+      :title="dialogTitle"
+      :warning-info-id="warningInfoId"
+    />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
     <GlAttachment
@@ -95,12 +99,14 @@
 <script>
 import { proconf } from './BudgetAccountingWarningBatchManage'
 import AddDialog from './children/handleDialog'
+import BatchHandleDialog from './children/batchHandleDialog'
 import HttpModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import GlAttachment from '../common/GlAttachment'
 export default {
   components: {
     AddDialog,
-    GlAttachment
+    GlAttachment,
+    BatchHandleDialog
   },
   computed: {
     tableColumnsConfig() {
@@ -236,11 +242,6 @@ export default {
         currentPage: 1,
         pageSize: 20
       },
-      totalPagerConfig: {
-        total: 0,
-        currentPage: 1,
-        pageSize: 20
-      },
       tableConfig: {
         renderers: {
           // 编辑 附件 操作日志
@@ -258,6 +259,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
+      batchDialogVisible: false,
       dialogTitle: '详细信息',
       addTableData: [],
       modifyData: {},
@@ -282,7 +284,8 @@ export default {
       fiRuleCode: '',
       showGlAttachmentDialog: false,
       agencyCodeList: [],
-      selectData: {}
+      selectData: {},
+      warningInfoId: []
     }
   },
   methods: {
@@ -307,26 +310,6 @@ export default {
       })
       this.searchDataList = searchDataObj
     },
-    // 初始化高级查询参数condition
-    getConditionList() {
-      let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
-          if (item.field) {
-            if (item.field === 'cor_bgt_doc_no_') {
-              condition[item.field + 'name'] = []
-            } else {
-              condition[item.field + 'code'] = []
-            }
-          }
-        } else {
-          if (item.field) {
-            condition[item.field] = []
-          }
-        }
-      })
-      return condition
-    },
     deepCopy(obj) {
       // 深拷贝通用方法
       let me = this
@@ -350,56 +333,29 @@ export default {
       this.menuNames = '预警数据列表'
       this.condition = {}
       this.mainPagerConfig.currentPage = 1
-      this.totalPagerConfig.currentPage = 1
       this.refresh()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
     // 搜索
     search(val) {
-      console.log(val)
-      this.searchDataList = val
-      this.agencyCodeList = val.agencyCodeList_code__multiple
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof (this.searchDataList[key]) === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach(item => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
-      }
-      if (this.searchDataList.status && this.searchDataList.status.trim() !== '') {
-        condition.status = this.searchDataList.status
-      }
-      if (this.searchDataList.warnTotal && this.searchDataList.warnTotal.trim() !== '') {
-        condition.warnTotal = this.searchDataList.warnTotal
-      }
-      if (this.searchDataList.businessFunctionCode && this.searchDataList.businessFunctionCode.trim() !== '') {
-        condition.businessFunctionCode = this.searchDataList.businessFunctionCode
-      }
-      if (this.searchDataList.createTime && this.searchDataList.createTime.trim() !== '') {
-        let createTime = this.searchDataList.createTime.toString()
-        let createTime1 = createTime.substring(0, 10)
-        condition.createTime = createTime1
-      }
-      this.condition = condition
+      this.searchDataList.agencyCodeList = val.agencyCodeList_code__multiple
+      this.searchDataList.payApplyNumber = val.payApplyNumber
+      this.searchDataList.fiRuleName = val.fiRuleName
+      this.searchDataList.regulationClassList = val.regulationClass_code__multiple
       this.queryTableDatas()
     },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
-      console.log(obj.code)
       switch (obj.code) {
         // 查看
         case 'lookDetail':
           this.lookDetail()
+          break
+        case 'batch-handle':
+          this.handle()
+          break
+        case 'batch-revoke':
+          this.revoke()
           break
         // 刷新
         case 'add-toolbar-refresh':
@@ -422,31 +378,47 @@ export default {
       }
       this.selectData = selection[0]
       this.warningCode = selection[0].warningCode
+      this.fiRuleCode = selection[0].fiRuleCode
       this.dialogVisible = true
       this.dialogTitle = '详细信息'
     },
-    // 处理
+    // 批量处理
     handle() {
-      if (this.toolBarStatusSelect.curValue !== '0') {
-        this.$message.warning('请选择待处理数据')
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length === 0) {
+        this.$message.warning('请至少选择一条数据！')
         return
       }
+      const tempWarnIdList = Array.from(new Set(selection.map(item => item.warningInfoId)))
+      this.warningInfoId = tempWarnIdList
+      this.batchDialogVisible = true
+      this.dialogTitle = '处理'
+    },
+    // 单笔撤销
+    revoke() {
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length !== 1) {
-        this.$message.warning('请选择一条数据')
+        this.$message.warning('请选择一条数据进行撤销操作！')
         return
       }
-      this.warningCode = selection[0].warningCode
-      this.dialogVisible = true
-      this.dialogTitle = '处理'
+      const param = {
+        id: selection[0].warningInfoId,
+        mofDivCode: selection[0].mofDivCode
+      }
+      HttpModule.batchRevoke(param).then(res => {
+        if (res.code === '000000') {
+          this.$message.success('撤销成功！')
+          this.queryTableDatas()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     changeVisible(val) {
       this.breakRuleVisible = val
     },
     // table 右侧操作按钮
     onOptionRowClick({ row, optionType }, context) {
-      // console.log(context.$parent.$parent.$parent)
-      console.log(row.attachment_id)
       switch (optionType) {
         // 新增
         case 'add':
@@ -487,21 +459,12 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      console.log('查看附件')
       if (row.attachmentid === null || row.attachmentid === '') {
         this.$message.warning('该数据无附件')
         return
       }
       this.billguid = row.attachmentid
-      // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
-    },
-    // 表格单元行单击
-    cellClick(obj, context, e) {
-      let key = obj.column.property
-      console.log(key, obj.row)
-      switch (key) {
-      }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
@@ -515,27 +478,18 @@ export default {
       this.mainPagerConfig.pageSize = pageSize
       this.queryTableDatas()
     },
-    ajaxTotalData({ params, currentPage, pageSize }) {
-      this.totalPagerConfig.currentPage = currentPage
-      this.totalPagerConfig.pageSize = pageSize
-      this.queryTableDatas()
-    },
     // 查询 table 数据
     queryTableDatas() {
       const param = {
+        ...this.searchDataList,
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         businessId: this.businessId,
-        fiRuleCode: this.fiRuleCode,
         handleResult: this.toolBarStatusSelect.curValue,
-        'status': this.condition.status ? this.condition.status.toString() : '',
-        'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
-        'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
         agencyCodeList: this.agencyCodeList,
         controlType: this.controlTypeByNumber,
         warnLevel: this.warnLevel,
-        menuName: this.menuName,
-        regulationClass: ''
+        menuName: this.menuName
       }
       if (this.toolBarStatusSelect.curValue === '4') {
         param.voidOrNot = 1
@@ -555,7 +509,7 @@ export default {
           })
           that.mainPagerConfig.total = res.data.totalCount
           const param = {
-            fiRuleCode: this.fiRuleCode,
+            fiRuleCode: '',
             menuNameList: this.menuName,
             flag: this.flag,
             warnLevel: this.warnLevel
@@ -640,7 +594,6 @@ export default {
           item.leaf = true
         }
       })
-
       return datas
     }
   },

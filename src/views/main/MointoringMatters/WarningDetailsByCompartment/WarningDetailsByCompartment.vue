@@ -278,7 +278,8 @@ export default {
       regulation_class: '',
       showGlAttachmentDialog: false,
       endTime: '',
-      businessTime: ''
+      businessTime: '',
+      voidOrNot: '2'
     }
   },
   mounted() {
@@ -308,6 +309,7 @@ export default {
       this.useDes = obj.useDes
       this.businessTime = obj.businessTime
       this.endTime = obj.endTime
+      this.voidOrNot = obj.voidOrNot
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
       }
@@ -705,6 +707,7 @@ export default {
         businessNo: this.businessNo,
         useDes: this.useDes,
         endTime: this.endTime,
+        voidOrNot: this.voidOrNot,
         businessTime: this.businessTime,
         minPayAmount: this.searchDataList?.minPayAmount,
         maxPayAmount: this.searchDataList?.maxPayAmount

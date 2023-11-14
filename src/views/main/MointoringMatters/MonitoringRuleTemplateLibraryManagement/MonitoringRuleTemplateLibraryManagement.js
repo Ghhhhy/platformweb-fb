@@ -173,6 +173,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '事项名称'
         }
       }
@@ -188,6 +189,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '申报人'
         }
       }
@@ -203,6 +205,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '所属财政'
         }
       }
@@ -218,6 +221,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '所属机构'
         }
       }
@@ -239,6 +243,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }
@@ -298,6 +303,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则函数名称'
         }
       }
@@ -317,6 +323,7 @@ export let proconf = {
           { value: '单位核算', label: '单位核算' }
         ],
         props: {
+          clearable: true,
           placeholder: '业务模块'
         }
       }

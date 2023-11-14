@@ -39,6 +39,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -54,6 +55,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '资金分类名称'
         }
       }
@@ -69,6 +71,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '热点分类名称'
         }
       }
@@ -84,6 +87,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '中央项目资金名称'
         }
       }

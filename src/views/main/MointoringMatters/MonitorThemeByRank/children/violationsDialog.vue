@@ -219,7 +219,8 @@ export default {
       warningCode: '',
       fiscalYear: '',
       businessTime: '',
-      endTime: ''
+      endTime: '',
+      voidOrNot: '2'
     }
   },
   mounted() {
@@ -320,6 +321,7 @@ export default {
       this.fiscalYear = val.fiscalYear
       this.endTime = val.endTime
       this.businessTime = val.businessTime
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -439,7 +441,8 @@ export default {
         endTime: this.endTime,
         inquiriesStatus: this.inquiriesStatus,
         regulationClass: this.regulationClass,
-        regulationType: this.regulationType
+        regulationType: this.regulationType,
+        voidOrNot: this.voidOrNot
       }
       if (param.endTime && this.$store.getters.isSx) {
         param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')

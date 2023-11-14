@@ -216,7 +216,8 @@ export default {
       showAttachmentDialog: false,
       billguid: '',
       condition: {},
-      showViolations: true
+      showViolations: true,
+      voidOrNot: '2'
     }
   },
   mounted() {
@@ -349,6 +350,7 @@ export default {
       this.agencyCodeList = val.agencyCodeList_code__multiple
       this.payApplyNumber = val.payApplyNumber
       this.fiRuleName = val.fiRuleName
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -481,7 +483,8 @@ export default {
         businessNo: this.payApplyNumber,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         startTime: this.searchDataList.startTime,
-        endTime: this.searchDataList.endTime
+        endTime: this.searchDataList.endTime,
+        voidOrNot: this.voidOrNot
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

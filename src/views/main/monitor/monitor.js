@@ -41,6 +41,7 @@ export let proconf = {
           { value: '2', label: '自动' }
         ],
         props: {
+          clearable: true,
           placeholder: '触发方式'
         }
       }
@@ -58,6 +59,7 @@ export let proconf = {
           { value: '2', label: '增量查询' }
         ],
         props: {
+          clearable: true,
           placeholder: '查询方式'
         }
       }
@@ -94,6 +96,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '规则名称'
         }
       }
@@ -112,6 +115,7 @@ export let proconf = {
           { value: '2', label: '执行结束' }
         ],
         props: {
+          clearable: true,
           placeholder: '执行状态'
         }
       }
@@ -123,6 +127,7 @@ export let proconf = {
         name: '$vxeInput',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'hh:mm:ss:c',
           type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '执行开始时间'
@@ -136,6 +141,7 @@ export let proconf = {
         name: '$vxeInput',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'hh:mm:ss',
           type: 'datetime', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '执行结束时间'
@@ -159,6 +165,7 @@ export let proconf = {
               'label': 'label',
               'children': 'children'
             },
+            clearable: true,
             'placeholder': '区划',
             'multiple': true,
             'readonly': true,
@@ -181,6 +188,7 @@ export let proconf = {
           { value: '2021', label: '2021' }
         ],
         props: {
+          clearable: true,
           placeholder: '年度'
         }
       }

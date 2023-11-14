@@ -553,7 +553,7 @@ export default {
           case '4':
             this.detailType = 'blueUndoNum'
             break
-          default :
+          default:
             break
         }
       } else if (this.tabSelect === '2') {
@@ -575,7 +575,7 @@ export default {
           case '4':
             this.detailType = 'blueNormalNum'
             break
-          default :
+          default:
             break
         }
       } else if (this.tabSelect === '4') {
@@ -597,7 +597,7 @@ export default {
           case '4':
             this.detailType = 'blueNotRectifiedNum'
             break
-          default :
+          default:
             break
         }
       } else if (this.tabSelect === '3') {
@@ -619,7 +619,7 @@ export default {
           case '4':
             this.detailType = 'blueDoneNum'
             break
-          default :
+          default:
             break
         }
       }
@@ -743,7 +743,7 @@ export default {
         return
       }
       var warnIds = []
-      selection.forEach(function(item, index) {
+      selection.forEach(function (item, index) {
         warnIds.push(item.warnid)
       })
       this.$confirm('此操作将标记选中数据为正常, 是否继续?', '提示', {
@@ -1168,6 +1168,9 @@ export default {
         menuId: this.$store.state.curNavModule.guid,
         ruleCodes: []
       }
+      if (curFormData.payCertNo) {
+        params.payCertNo = curFormData.payCertNo
+      }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
         params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
           return item.split('##')[0]
@@ -1334,6 +1337,9 @@ export default {
       this.agencyCodeList = []
       this.searchDataList.agencyCodeList = []
       this.searchDataList.ruleCodes = ''
+      if (this.searchDataList.payCertNo) {
+        this.searchDataList.payCertNo = ''
+      }
       this.searchDataList.businessNo = ''
       this.searchDataList.fiRuleName = ''
       this.searchDataList.regulationClassName = ''
@@ -1350,6 +1356,9 @@ export default {
       this.searchDataList.xPayDateStart = ''
       this.searchDataList.xPayDateEnd = ''
       this.condition.agencyCodeList = []
+      if (this.condition.payCertNo) {
+        this.condition.payCertNo = ''
+      }
       this.condition.businessNo = ''
       this.condition.fiRuleName = ''
       this.condition.regulationClassName = ''
@@ -1440,6 +1449,8 @@ export default {
         detailData.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
         detailData.expFuncName = res.data.baBgtInfoEntity.expFuncName
         detailData.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+        detailData.bgtMofDepCode = res.data.baBgtInfoEntity.bgtMofDepCode
+        detailData.bgtMofDepName = res.data.baBgtInfoEntity.bgtMofDepName
       }
       return detailData
       // this.handletableData = res.data?.regulationList
@@ -1490,7 +1501,7 @@ export default {
         return
       }
       var backIds = []
-      selection.forEach(function(item, index) {
+      selection.forEach(function (item, index) {
         backIds.push({ warnid: item.warnid, dealNo: item.dealNo })
       })
       this.$confirm('确定退回选中数据?', '提示', {
@@ -1522,6 +1533,13 @@ export default {
           message: '已取消退回'
         })
       })
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
     }
   },
   async mounted() {
