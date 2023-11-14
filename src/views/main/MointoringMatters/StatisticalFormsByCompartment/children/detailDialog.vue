@@ -217,7 +217,7 @@ export default {
       billguid: '',
       condition: {},
       showViolations: true,
-      voidOrNot: ''
+      voidOrNot: '2'
     }
   },
   mounted() {

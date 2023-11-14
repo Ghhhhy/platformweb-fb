@@ -279,7 +279,7 @@ export default {
       showGlAttachmentDialog: false,
       endTime: '',
       businessTime: '',
-      voidOrNot: ''
+      voidOrNot: '2'
     }
   },
   mounted() {

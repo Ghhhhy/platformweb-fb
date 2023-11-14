@@ -199,7 +199,7 @@ export default {
       fiscalYear: '',
       businessTime: '',
       endTime: '',
-      voidOrNot: ''
+      voidOrNot: '2'
     }
   },
   mounted() {

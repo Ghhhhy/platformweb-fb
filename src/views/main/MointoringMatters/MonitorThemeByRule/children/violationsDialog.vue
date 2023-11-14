@@ -216,7 +216,7 @@ export default {
       fiscalYear: this.queryFormData.fiscalYear,
       endTime: '',
       businessTime: '',
-      voidOrNot: ''
+      voidOrNot: '2'
     }
   },
   mounted() {

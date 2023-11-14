@@ -261,7 +261,7 @@ export default {
       fiRuleCode: '',
       businessTime: '',
       endTime: '',
-      voidOrNot: '',
+      voidOrNot: '2',
       showGlAttachmentDialog: false,
       regulation_type: '',
       regulation_code: '',
