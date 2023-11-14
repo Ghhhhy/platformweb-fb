@@ -415,10 +415,11 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: $formula('budgetImplementationCapital.xLoad'),
+            formula: $formula('budgetImplementationCapital.aLoad'),
             cellRender: {
               name: '$vxeRatio'
-            }
+            },
+            visible: !store.getters.isSx
           }
         ]
       }

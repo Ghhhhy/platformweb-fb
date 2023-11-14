@@ -387,7 +387,16 @@ const proconf = {
             areaType: 'county',
             align: 'right',
             sortable: true,
-            cellRender: { name: '$vxeMoney' }
+            cellRender: { name: '$vxeMoney' },
+            visible: !store.getters.isFuJian
+          },
+          {
+            title: '已分配',
+            field: 'amountXjfp',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeMoney' },
+            visible: store.getters.isFuJian
           },
           {
             title: '未分配',
