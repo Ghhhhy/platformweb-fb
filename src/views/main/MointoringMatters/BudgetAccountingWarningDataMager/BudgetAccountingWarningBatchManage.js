@@ -74,7 +74,7 @@ export let proconf = {
     },
     {
       title: '支付申请单号',
-      field: 'payAppNo',
+      field: 'payApplyNumber',
       width: '8',
       align: 'left',
       formula: '',
@@ -113,12 +113,10 @@ export let proconf = {
     }
   ],
   highQueryData: {
-    status: '',
-    businessFunctionCode: '',
-    createTime: '',
-    warnLevel: '',
-    warnTotal: '',
-    payApplyNumber: ''
+    fiRuleName: '',
+    regulationClassList: [],
+    payApplyNumber: '',
+    agencyCodeList: []
   },
   PoliciesTableColumns: [
     {
