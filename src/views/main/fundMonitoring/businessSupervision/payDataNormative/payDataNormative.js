@@ -35,6 +35,7 @@ export let proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -59,6 +60,7 @@ export let proconf = {
           { value: '5', label: '包含特殊字符且不包含~' }
         ],
         props: {
+          clearable: true,
           placeholder: '用途'
         }
       }
@@ -80,6 +82,7 @@ export let proconf = {
           { value: '9', label: '全部为数字' }
         ],
         props: {
+          clearable: true,
           placeholder: '付款账户名称'
         }
       }
@@ -99,6 +102,7 @@ export let proconf = {
           { value: '6', label: '包含中文字符' }
         ],
         props: {
+          clearable: true,
           placeholder: '付款账户'
         }
       }
@@ -120,6 +124,7 @@ export let proconf = {
           { value: '4', label: '不包含汉字内容' }
         ],
         props: {
+          clearable: true,
           placeholder: '收款账户名称'
         }
       }
@@ -140,6 +145,7 @@ export let proconf = {
           { value: '6', label: '包含中文字符' }
         ],
         props: {
+          clearable: true,
           placeholder: '收款账号'
         }
       }
@@ -159,6 +165,7 @@ export let proconf = {
           { value: '2', label: '不包含汉字内容' }
         ],
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -178,6 +185,7 @@ export let proconf = {
           { value: '8', label: '导入日期早于支付日期' }
         ],
         props: {
+          clearable: true,
           placeholder: '付款日期'
         }
       }
@@ -222,6 +230,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }

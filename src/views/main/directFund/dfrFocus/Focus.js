@@ -44,6 +44,7 @@ export let proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -68,6 +69,7 @@ export let proconf = {
               children: 'children'
             },
             placeholder: '预算单位',
+            clearable: true,
             multiple: false,
             readonly: true,
             isleaf: true
@@ -86,6 +88,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -104,6 +107,7 @@ export let proconf = {
           { value: '2023', label: '2023' }
         ],
         props: {
+          clearable: true,
           placeholder: '年份'
         }
       }
@@ -153,6 +157,7 @@ export let proconf = {
               children: 'children'
             },
             placeholder: '专项名称',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -171,6 +176,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '资金用途'
         }
       }
@@ -186,6 +192,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '付款方账户名称'
         }
       }
@@ -201,6 +208,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '收款方账户名称'
         }
       }
@@ -220,6 +228,7 @@ export let proconf = {
           { value: '现金支票', label: '现金支票' }
         ],
         props: {
+          clearable: true,
           placeholder: '结算方式'
         }
       }
@@ -236,6 +245,7 @@ export let proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '付款开始时间'
         }
@@ -253,6 +263,7 @@ export let proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '付款结束时间'
         }

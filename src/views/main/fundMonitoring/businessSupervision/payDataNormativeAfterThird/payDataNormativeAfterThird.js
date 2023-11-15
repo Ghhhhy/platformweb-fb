@@ -34,6 +34,7 @@ export let proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -65,6 +66,7 @@ export let proconf = {
           { value: '12', label: '12月' }
         ],
         props: {
+          clearable: true,
           placeholder: '月份'
         }
       }
@@ -103,6 +105,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }
