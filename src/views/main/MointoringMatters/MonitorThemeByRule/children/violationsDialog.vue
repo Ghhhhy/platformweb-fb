@@ -433,7 +433,7 @@ export default {
         mofDivCodeList: this.queryFormData.mofDivCodeList,
         fiRuleName: this.queryFormData.fiRuleName,
         jurisdiction: this.$store.getters.getIsJurisdiction,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

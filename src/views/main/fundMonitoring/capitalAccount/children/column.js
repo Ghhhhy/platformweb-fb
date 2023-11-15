@@ -726,6 +726,87 @@ let proconf = {
       align: 'left'
     }
   ],
+  budgetColumn: [
+    {
+      title: '指标文号',
+      width: 140,
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '上级指标文号',
+      field: 'supBgtDocNo',
+      width: 180,
+      align: 'left',
+      filters: false
+    },
+    {
+      title: '业务处室',
+      width: 180,
+      field: 'manageMofDep',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '资金主管处室',
+      width: 180,
+      field: 'bgtMofDep',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '金额',
+      field: 'amount',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '单位',
+      width: 180,
+      field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '功能科目',
+      width: 180,
+      field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '预算项目',
+      width: 180,
+      field: 'proName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '直达资金标识',
+      width: 180,
+      field: 'isDirName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '预算级次',
+      width: 180,
+      field: 'budgetLevelName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    }
+  ],
   // 指标明细
   targetColumn: [
     {
@@ -2145,6 +2226,87 @@ if (store.getters.isSx) {
         align: 'center'
       }
     ],
+    budgetColumn: [
+      {
+        title: '指标文号',
+        width: 140,
+        field: 'corBgtDocNo',
+        sortable: false,
+        align: 'left'
+      },
+      {
+        title: '上级指标文号',
+        field: 'supBgtDocNo',
+        width: 180,
+        align: 'left',
+        filters: false
+      },
+      {
+        title: '业务处室',
+        width: 180,
+        field: 'manageMofDep',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '资金主管处室',
+        width: 180,
+        field: 'bgtMofDep',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '金额',
+        field: 'amount',
+        width: 140,
+        sortable: true,
+        align: 'right',
+        combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '单位',
+        width: 180,
+        field: 'agencyCodeName',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '功能科目',
+        width: 180,
+        field: 'expFunc',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '预算项目',
+        width: 180,
+        field: 'proName',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '直达资金标识',
+        width: 180,
+        field: 'isDir',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '预算级次',
+        width: 180,
+        field: 'budgetLevel',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      }
+    ],
     // 指标明细
     targetColumn: [
       {
@@ -3255,19 +3417,6 @@ if (store.getters.isSx) {
       corBgtDocNoName: ''
     },
     highQueryConfig1: [
-      // {
-      //   title: '处室名称',
-      //   field: 'bgtMofDepName',
-      //   width: 200,
-      //   align: 'center',
-      //   filters: false,
-      //   itemRender: {
-      //     name: '$vxeInput',
-      //     props: {
-      //       placeholder: '处室名称'
-      //     }
-      //   }
-      // },
       {
         title: '单位名称',
         field: 'agencyName',
@@ -3348,6 +3497,34 @@ if (store.getters.isSx) {
       // }
 
     ],
+    highQueryConfigToBudget: [
+      {
+        title: '单位名称',
+        field: 'agencyName',
+        width: 200,
+        align: 'center',
+        filters: false,
+        itemRender: {
+          name: '$vxeInput',
+          props: {
+            placeholder: '单位名称'
+          }
+        }
+      },
+      {
+        title: '上级指标文号',
+        field: 'supBgtDocNo',
+        width: 200,
+        align: 'center',
+        filters: false,
+        itemRender: {
+          name: '$vxeInput',
+          props: {
+            placeholder: '上级指标文号'
+          }
+        }
+      }
+    ],
     highQueryData1: {
       bgtMofDepName: '',
       agencyName: '',
@@ -3356,6 +3533,10 @@ if (store.getters.isSx) {
       sSpeTypeName: '',
       corBgtDocNo: '',
       xjCorBgtDocNo: ''
+    },
+    highQueryDataToBudget: {
+      agencyName: '',
+      supBgtDocNo: ''
     }
   }
 }

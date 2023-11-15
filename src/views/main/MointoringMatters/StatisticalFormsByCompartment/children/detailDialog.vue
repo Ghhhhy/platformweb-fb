@@ -484,7 +484,7 @@ export default {
         jurisdiction: this.$store.getters.getIsJurisdiction,
         startTime: this.searchDataList.startTime,
         endTime: this.searchDataList.endTime,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {
