@@ -41,6 +41,7 @@ const proconf = {
         ],
         defaultValue: store.state?.userInfo?.year,
         props: {
+          clearable: true,
           placeholder: '业务年度'
         }
       }
@@ -66,6 +67,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '地区',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -82,6 +84,7 @@ const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '截止日期'

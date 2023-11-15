@@ -1734,6 +1734,7 @@ export default {
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     console.log(this.$parent.DetailData.regulationType)
+    this.formItemsConfigMessage = [...proconf.formItemsConfigMessage]
     this.param5 = this.transJson(this.$store.state.curNavModule.param5)
     if (this.$parent.DetailData.regulationType === 1) {
       this.regulationType = '系统级'

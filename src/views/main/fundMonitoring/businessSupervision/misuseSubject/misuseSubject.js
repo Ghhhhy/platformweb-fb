@@ -41,6 +41,7 @@ const proconf = {
         // ],
         // defaultValue: store.state?.userInfo?.year,
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'

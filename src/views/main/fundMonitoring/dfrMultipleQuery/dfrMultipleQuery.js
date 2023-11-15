@@ -37,6 +37,7 @@ export let proconf = {
           { value: '2023', label: '2023年' }
         ],
         props: {
+          clearable: true,
           placeholder: '业务年度'
         }
       }
@@ -61,6 +62,7 @@ export let proconf = {
               children: 'children'
             },
             placeholder: '专项资金',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -78,6 +80,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '支出功能分类'
         }
       }

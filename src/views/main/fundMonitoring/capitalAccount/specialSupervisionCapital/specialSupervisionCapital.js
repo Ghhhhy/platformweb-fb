@@ -42,7 +42,8 @@ let proconf = {
         props: {
           type: 'year',
           valueFormat: 'yyyy',
-          placeholder: '业务年度'
+          placeholder: '业务年度',
+          clearable: true
         }
       }
     },
@@ -66,6 +67,7 @@ let proconf = {
               children: 'children'
             },
             placeholder: '地区',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -82,6 +84,7 @@ let proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '截止日期'
@@ -706,6 +709,7 @@ if (store.getters.isSx) {
           //   { value: '2023', label: '2023年' }
           // ],
           props: {
+            clearable: true,
             type: 'year',
             valueFormat: 'yyyy',
             placeholder: '业务年度'
@@ -732,6 +736,7 @@ if (store.getters.isSx) {
                 children: 'children'
               },
               placeholder: '地区',
+              clearable: true,
               multiple: true,
               readonly: false,
               isleaf: true
@@ -748,6 +753,7 @@ if (store.getters.isSx) {
         itemRender: {
           name: '$vxeTime',
           props: {
+            clearable: true,
             format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
             type: 'date',
             placeholder: '截止日期'
