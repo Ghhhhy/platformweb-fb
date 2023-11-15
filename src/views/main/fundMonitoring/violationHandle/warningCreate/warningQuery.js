@@ -334,6 +334,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '规则',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -347,6 +348,7 @@ const proconf = {
         name: '$vxeInput',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '支付时间'
@@ -360,6 +362,7 @@ const proconf = {
         name: '$vxeInput',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           placeholder: '触发监控时间'
@@ -386,6 +389,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '追踪项目',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -403,6 +407,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '警告开始时间'
         }
@@ -418,6 +423,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '警告结束时间'
         }
@@ -433,6 +439,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '开始处理时间'
         }
@@ -448,6 +455,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '结束处理时间'
         }
@@ -463,6 +471,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '指标接收开始时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
@@ -480,6 +489,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '指标接收截止时间',
           'value-format': 'yyyy-MM-dd 23:59:59',
@@ -497,6 +507,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '支付开始时间',
           'value-format': 'yyyy-MM-dd 00:00:00',
@@ -514,6 +525,7 @@ const proconf = {
         defaultValue: '',
         format: 'YYYY-MM-DD',
         props: {
+          clearable: true,
           type: 'date', //
           placeholder: '支付截止时间',
           'value-format': 'yyyy-MM-dd 23:59:59',
@@ -531,6 +543,7 @@ const proconf = {
         name: '$vxeTime',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD',
           type: 'date',
           placeholder: '支付时间'
@@ -544,6 +557,7 @@ const proconf = {
         name: '$vxeTime',
         defaultValue: '',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD',
           type: 'date',
           placeholder: '触发监控时间'

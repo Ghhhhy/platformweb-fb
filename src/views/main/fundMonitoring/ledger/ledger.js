@@ -32,6 +32,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '报表名称'
         }
       }
@@ -45,6 +46,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '报表编码'
         }
       }

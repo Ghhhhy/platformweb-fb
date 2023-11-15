@@ -103,6 +103,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '监控规则名称'
         }
       }
@@ -122,6 +123,7 @@ export let proconf = {
         }),
         defaultValue: '',
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       },
@@ -143,6 +145,7 @@ export let proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '处理方式'
         }
       }
@@ -183,6 +186,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }
@@ -198,6 +202,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '业务系统'
         }
       }
@@ -213,6 +218,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '业务模块'
         }
       }

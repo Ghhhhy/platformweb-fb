@@ -55,6 +55,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
+  {
+    title: '支付凭证号',
+    width: 180,
+    field: 'payCertNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
   // {
   //   title: '凭证时间',
   //   width: 180,
@@ -508,6 +516,7 @@ export const proconf = {
               'children': 'children'
             },
             'placeholder': '预算单位',
+            clearable: true,
             'multiple': true,
             'readonly': true,
             'isleaf': true
@@ -587,6 +596,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '违规开始时间'
@@ -602,6 +612,7 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '违规结束时间'
@@ -627,6 +638,7 @@ export const proconf = {
           }
         ],
         props: {
+          clearable: true,
           placeholder: '监控类型'
         },
         defaultValue: ''
@@ -649,23 +661,36 @@ export const proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       }
     },
     {
       title: '监控规则',
-      field: 'fiRuleName',
+      field: 'ruleCodes',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          clearable: true,
-          placeholder: '监控规则'
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '监控规则',
+            clearable: true,
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
@@ -682,6 +707,22 @@ export const proconf = {
         props: {
           clearable: true,
           placeholder: '追踪项目'
+        }
+      }
+    },
+    {
+      title: '支付凭证号',
+      field: 'payCertNo',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          clearable: true,
+          placeholder: '支付凭证号'
         }
       }
     },
@@ -712,7 +753,8 @@ export const proconf = {
     triggerClass: '',
     warningLevel: '',
     fiRuleName: '',
-    trackProName: ''
+    trackProName: '',
+    ruleCodes: []
   },
   createHighQueryConfig: [
     {
@@ -766,6 +808,7 @@ export const proconf = {
           { value: '3', label: '部门级' }
         ],
         props: {
+          clearable: true,
           placeholder: '管理级次'
         }
       }
@@ -786,6 +829,7 @@ export const proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       }

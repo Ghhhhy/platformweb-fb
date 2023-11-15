@@ -45,6 +45,7 @@ export let proconf = {
           { value: '4', label: '自定义校验接口' }
         ],
         props: {
+          clearable: true,
           placeholder: '函数类型'
         }
       }
@@ -60,6 +61,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '函数名称'
         }
       }
@@ -75,6 +77,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '函数参数'
         }
       }
@@ -90,6 +93,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '函数接口'
         }
       }
@@ -109,6 +113,7 @@ export let proconf = {
           { value: '单位核算', label: '单位核算' }
         ],
         props: {
+          clearable: true,
           placeholder: '业务模块'
         }
       }
