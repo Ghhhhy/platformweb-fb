@@ -42,6 +42,7 @@ const proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
