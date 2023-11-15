@@ -1290,6 +1290,7 @@ export default {
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     console.log(this.$parent.DetailData.regulationType)
+    this.formItemsConfigMessage = [...proconf.formItemsConfigMessage]
     this.getWhereTree()
     if (this.$parent.DetailData.regulationType === 1) {
       this.regulationType = '系统级'
@@ -1428,13 +1429,13 @@ export default {
           this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
-            let datas = {}
-            if (item === '1') {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
-            } else {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
-            }
-            this.formItemsConfigMessage.splice(1 + index, 0, datas)
+            // let datas = {}
+            // if (item === '1') {
+            //   datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            // } else {
+            //   datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+            // }
+            // this.formItemsConfigMessage.splice(1 + index, 0, datas)
             if (this.$parent.dialogTitle === '查看详情') {
               this.formItemsConfigMessage.forEach(item => {
                 item.itemRender.props.disabled = true

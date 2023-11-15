@@ -228,7 +228,8 @@ export default {
       attachmentId: '',
       showbox: false,
       showbtn: false,
-      DetailData: {}
+      DetailData: {},
+      formDatas: {}
     }
   },
   methods: {
@@ -449,6 +450,7 @@ export default {
           HttpModule.getDetailData(obj.row.regulationCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
+              this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
               this.dialogTitle = '查看详情'
               this.dialogVisibleShow = true
             }
@@ -462,6 +464,7 @@ export default {
       HttpModule.getDetailData(val).then(res => {
         if (res.code === '000000') {
           this.DetailData = res.data
+          this.formDatas = Object.assign(this.formDatas, res.data.regulationElementEntitieList[0])
           this.dialogVisibleShow = true
           this.dialogTitle = '查看详情'
         }
