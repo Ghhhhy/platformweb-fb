@@ -32,6 +32,7 @@ const BSURL = {
   dfr_benefitPeoplePagePayQuery: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryPayCertInfo', // 惠企利民支付明细导入_支付凭证数据查询
   dfr_benefitPeopleNotHook: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', // 惠企利民支付明细导入_取消挂接
   dfr_benefitPeopleDelete: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/deleteBenefitData', // 惠企利民支付明细导入_删除惠企明细数据
+  dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
   // mp-b-basedata-service 平台
   api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
   api_fileservice_v2_files: 'fileservice/v2/files'// 平台获取文件列表
