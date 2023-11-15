@@ -161,6 +161,11 @@
       :s-detail-query-param="sDetailQueryParam"
       :s-detail-type="sDetailType"
     />
+    <SxDetailDialog
+      v-if="sxDetailVisible"
+      :title="detailTitle"
+      :detail-query-param="detailQueryParam"
+    />
     <ImportModal
       v-if="otherSysImportModal"
       v-model="otherSysImportModal"
@@ -172,6 +177,7 @@
 import getFormData from './specialSupervisionCapital.js'
 import DetailDialog from '../children/zxdetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
+import SxDetailDialog from './components/detailDialog.vue'
 import ImportModal from './components/ImportModal'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import { checkRscode } from '@/utils/checkRscode'
@@ -185,14 +191,16 @@ const dictionary = {
   '省级分配下级': 'amountSnjxjfp',
   '市级分配本级': 'amountSbjfp',
   '市级分配下级': 'amountSxjfp',
-  '县级已分配': 'amountXjfp'
+  '县级已分配': 'amountXjfp',
+  '预警数量': 'warnCount'
 }
 export default {
   mixins: [capitalMixin],
   components: {
     DetailDialog,
     SDetailDialog,
-    ImportModal
+    ImportModal,
+    SxDetailDialog
   },
   computed: {
     menuSettingConfig() { // 路由菜单配置信息
@@ -368,7 +376,8 @@ export default {
       mofDivCodes: [],
       detailData: [],
       detailQueryParam: {},
-      sDetailQueryParam: {}
+      sDetailQueryParam: {},
+      sxDetailVisible: false
     }
   },
   mounted() {
@@ -874,6 +883,7 @@ export default {
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
       const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const isSX = this.$store.getters.isSx
       if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
@@ -893,7 +903,17 @@ export default {
       } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
         this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
+      } else if (isSX && key === dictionary['预警数量']) {
+        this.handleDetailSx('zxjd_fzj', obj.row.code, key, obj.row)
+        this.detailTitle = '预警明细列表'
       }
+    },
+    handleDetailSx(reportCode, proCode, column, row) {
+      let params = {
+        trackProCode: row.trackProCode
+      }
+      this.detailQueryParam = params
+      this.sxDetailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
@@ -1070,13 +1090,15 @@ export default {
       const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
       const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
       const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const isSX = this.$store.getters.isSx
       const key = column.property
       const canInsertMap = { // 取自cellClick逻辑
         0: !zcjeShow && key === dictionary['支出-金额'],
         1: ((isSH || isFJ) || isFJ) && key === dictionary['中央下达'],
         2: !fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key),
         3: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH,
-        4: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH
+        4: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH,
+        5: isSX && key === dictionary['预警数量']
       }
       if (Object.values(canInsertMap).some(item => item) && this.linkStyle(row, rowIndex, column)) {
         return {
@@ -1142,6 +1164,7 @@ export default {
       let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
       // 根据code隐藏对应行
       let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
+      debugger
       if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
         if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
           return true
@@ -1155,7 +1178,7 @@ export default {
           return true
         }
       } else {
-        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property)) {
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp', 'warnCount'].includes(column.property)) {
           return true
         }
       }
