@@ -55,6 +55,14 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
+  {
+    title: '支付凭证号',
+    width: 180,
+    field: 'payCertNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
   // {
   //   title: '凭证时间',
   //   width: 180,
@@ -699,6 +707,22 @@ export const proconf = {
         props: {
           clearable: true,
           placeholder: '追踪项目'
+        }
+      }
+    },
+    {
+      title: '支付凭证号',
+      field: 'payCertNo',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          clearable: true,
+          placeholder: '支付凭证号'
         }
       }
     },

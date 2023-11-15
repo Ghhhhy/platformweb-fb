@@ -332,6 +332,7 @@ export default {
       fiRuleCode: '',
       warningCode: '',
       dealNo: '',
+      payCertNo: '',
       status: null,
       detailData: [],
       isCreate: false,
@@ -430,6 +431,7 @@ export default {
       this.agencyName = obj.agencyName
       this.issueTime = obj.issueTime
       this.fiRuleName = obj.fiRuleName
+      this.payCertNo = obj.payCertNo
       let newFieldName = 'ruleCodes_code__multiple'
       if (obj[newFieldName]) {
         this.ruleCodes = obj[newFieldName]
@@ -557,6 +559,7 @@ export default {
       this.warningLevel = ''
       this.agencyName = ''
       this.issueTime = ''
+      this.payCertNo = ''
       this.fiRuleName = ''
       this.ruleCodes = []
       this.violateType = ''
@@ -647,7 +650,8 @@ export default {
         mofDivCodeList: this.codeList,
         mofDivCode: this.mofDivCode || '',
         trackProName: this.trackProName || '',
-        roleguid: this.roleguid
+        roleguid: this.roleguid,
+        payCertNo: this.payCertNo
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -674,7 +678,7 @@ export default {
     getdata() {
       let curFormData = this
       if (curFormData['warnTime'] !== null && curFormData['warnTime'] !== undefined && curFormData['warnTime'].toString().length > 8) {
-        if (curFormData['warnStartTime'].toString() > curFormData['warnTime'].toString()) {
+        if (curFormData['warnStartTime'].toString() >= curFormData['warnTime'].toString()) {
           this.$message({
             type: 'warning',
             message: '选择违规时间范围时开始时间应小于结束时间，请重新选择!'
@@ -708,7 +712,8 @@ export default {
         warningLevel: this.warningLevel,
         businessModelCode: this.bussnessId || undefined,
         trackProName: this.trackProName || '',
-        menuId: this.$store.state.curNavModule.guid
+        menuId: this.$store.state.curNavModule.guid,
+        payCertNo: this.payCertNo
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
