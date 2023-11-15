@@ -41,6 +41,7 @@ const proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -68,6 +69,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '地区',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -84,6 +86,7 @@ const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           'value-format': 'yyyy-MM-dd 23:59:59',
           type: 'date',

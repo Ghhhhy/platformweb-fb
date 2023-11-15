@@ -491,7 +491,7 @@ export default {
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
         warnLogId: this.$parent?.currentRow.warnLogId,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       if (this.isRegulationClass10()) {
         param = {

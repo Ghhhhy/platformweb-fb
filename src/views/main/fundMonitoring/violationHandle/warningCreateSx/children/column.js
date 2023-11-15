@@ -195,7 +195,8 @@ const proconf = {
     triggerClass: '',
     warningLevel: '',
     fiRuleName: '',
-    dealNo: ''
+    dealNo: '',
+    voidOrNot: ''
   },
   // 预警数据明细
   undoNum: [

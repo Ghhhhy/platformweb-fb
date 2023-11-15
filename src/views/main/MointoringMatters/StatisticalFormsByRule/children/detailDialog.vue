@@ -490,7 +490,7 @@ export default {
         regulationClass: this.regulationClass,
         jurisdiction: this.jurisdiction,
         warnLevel: this.warnLevel,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

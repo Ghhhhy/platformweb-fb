@@ -35,6 +35,7 @@ let proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -61,6 +62,7 @@ let proconf = {
               children: 'children'
             },
             placeholder: '处室名称',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -88,6 +90,7 @@ let proconf = {
               children: 'children'
             },
             placeholder: '资金名称',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -129,6 +132,7 @@ let proconf = {
               children: 'children'
             },
             placeholder: '功能科目',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -146,6 +150,7 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -167,6 +172,7 @@ let proconf = {
           { value: '03', label: '惠企利民' }
         ],
         props: {
+          clearable: true,
           placeholder: '惠企利民'
         }
       }
@@ -180,6 +186,7 @@ let proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
           placeholder: '截止日期'
@@ -225,6 +232,7 @@ let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }

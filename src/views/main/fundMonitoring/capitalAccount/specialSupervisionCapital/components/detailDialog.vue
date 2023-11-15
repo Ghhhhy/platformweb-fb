@@ -1,15 +1,14 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <vxe-modal
-      v-model="violationsView"
-      v-loading="showLoading"
+      v-model="showViolations"
       :title="title"
       width="96%"
       height="90%"
-      :show-footer="true"
+      :show-footer="false"
       @close="dialogClose"
     >
-      <div v-loading="showLoading" style="height: 100%">
+      <div v-loading="tableLoading" style="height: 100%">
         <BsMainFormListLayout>
           <template v-slot:topTap></template>
           <template v-slot:topTabPane>
@@ -20,6 +19,7 @@
               :tab-status-btn-config="toolBarStatusBtnConfig"
               :tab-status-num-config="tabStatusNumConfig"
               @onQueryConditionsClick="onQueryConditionsClick"
+              @btnClick="onTabPanelBtnClick"
             />
           </template>
           <template v-slot:query>
@@ -43,6 +43,7 @@
               :toolbar-config="tableToolbarConfig"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
+              @cellClick="cellClick"
             >
               <template v-slot:toolbarSlots>
                 <div class="table-toolbar-left">
@@ -59,58 +60,31 @@
     </vxe-modal>
     <DetailDialog
       v-if="dialogVisible"
-      ref="DetailDialog"
       :title="dialogTitle"
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
-    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid-list="billguidList" />
   </div>
 </template>
 
 <script>
-import { proconf } from './violationsDialog'
-import HttpModule from '@/api/frame/main/Monitoring/MonitorThemeByRank.js'
+import { proconf } from './detailDialog.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
-import BsAttachment from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/common/GlAttachment.vue'
-import moment from 'moment'
+import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRule.js'
 export default {
   components: {
-    DetailDialog,
-    BsAttachment
+    DetailDialog
   },
   props: {
     title: {
       type: String,
       default: ''
     },
-    warnLevel: {
-      type: String,
-      default: ''
-    },
-    status: {
-      type: String,
-      default: ''
-    },
-    regulationType: {
-      type: String,
-      default: ''
-    },
-    regulationClass: {
-      type: String,
-      default: ''
-    },
-    mofDivCode: {
-      type: String,
-      default: ''
-    },
-    fiRuleCode: {
-      type: String,
-      default: ''
-    },
-    inquiriesStatus: {
-      type: String,
-      default: ''
+    detailQueryParam: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   watch: {
@@ -120,6 +94,8 @@ export default {
   },
   data() {
     return {
+      showInfo: false,
+      warningCode: '',
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
@@ -157,7 +133,7 @@ export default {
         curValue: '1'
       },
       // table 相关配置
-      showLoading: false,
+      tableLoading: false,
       tableColumnsConfig: proconf.PoliciesTableColumns,
       tableData: [],
       tableToolbarConfig: {
@@ -189,19 +165,24 @@ export default {
           onOptionRowClick: this.onOptionRowClick
         }
       },
+      // 表格尾部合计配置
       tableFooterConfig: {
-        showFooter: false
+        totalObj: {
+          paymentAmount: 0
+        },
+        combinedType: ['switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
-      dialogTitle: '预警明细查看',
+      dialogTitle: '新增',
       addTableData: [],
       modifyData: {},
       // 请求 & 角色权限相关配置
-      menuName: '预警明细查看',
+      menuName: '违规情况查看',
       params5: '',
       menuId: '',
       tokenid: '',
@@ -212,14 +193,8 @@ export default {
       // 文件
       showAttachmentDialog: false,
       billguid: '',
-      billguidList: [],
       condition: {},
-      violationsView: true,
-      showViolations: false,
-      warningCode: '',
-      fiscalYear: '',
-      businessTime: '',
-      endTime: '',
+      showViolations: true,
       voidOrNot: '2'
     }
   },
@@ -227,8 +202,7 @@ export default {
   },
   methods: {
     dialogClose() {
-      this.$parent.violationsView = false
-      // this.$parent.queryTableDatas()
+      this.$parent.sxDetailVisible = false
     },
     // 展开折叠查询框
     onQueryConditionsClick(isOpen) {
@@ -289,39 +263,44 @@ export default {
       this.refresh()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
+    onTabPanelBtnClick(obj) { // 按钮点击
+      let temp = this.$refs.bsTableRef.getSelectionData()
+      let warnids = []
+      let param = {
+        warnids
+      }
+      switch (obj.code) {
+        case 'sign': // 生成
+          if (temp.length >= 1) {
+            temp.forEach(v => {
+              warnids.push(v.warnid)
+            })
+            HttpModule.doMark(param).then(res => {
+              this.tableLoading = false
+              if (res.code === '000000') {
+                this.$message.success('标记成功！请前往监控问询单生成界面查看')
+                this.refresh()
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+            this.$message.warning('请至少选择一条数据')
+          }
+          break
+        default:
+          console.log('default fallback')
+      }
+    },
     // 搜索
     search(val) {
-      console.log(val)
+      if (val.endTime) {
+        val.endTime = val.endTime + ' 23:59:59'
+      }
+      if (val.businessTime) {
+        val.businessTime = val.businessTime + ' 00:00:00'
+      }
       this.searchDataList = val
-      let condition = this.getConditionList()
-      for (let key in condition) {
-        if (
-          (this.searchDataList[key] !== undefined) &
-          (this.searchDataList[key] !== null)
-        ) {
-          if (Array.isArray(this.searchDataList[key])) {
-            condition[key] = this.searchDataList[key]
-          } else if (typeof (this.searchDataList[key]) === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach(item => {
-                condition[key].push(item)
-              })
-            }
-          }
-        }
-      }
-      if (this.searchDataList.dataSourceName && this.searchDataList.dataSourceName.trim() !== '') {
-        condition.dataSourceName = this.searchDataList.dataSourceName
-      }
-      if (this.searchDataList.businessModuleCode && this.searchDataList.businessModuleCode.trim() !== '') {
-        condition.businessModuleCode = this.searchDataList.businessModuleCode
-      }
-      this.condition = condition
-      console.log(this.condition)
-      this.fiscalYear = val.fiscalYear
-      this.endTime = val.endTime
-      this.businessTime = val.businessTime
-      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -347,13 +326,6 @@ export default {
           this.dialogTitle = '详细信息'
           this.warningCode = this.selectData.warningCode
           this.fiRuleCode = this.selectData.fiRuleCode
-          this.$nextTick(() => {
-            if (Number(selection[0].warnLevel) === 3) {
-              this.$refs.DetailDialog.violationShow = true
-            } else {
-              this.$refs.DetailDialog.violationShow = false
-            }
-          })
           break
         case 'sign': // 生成
           let temp = this.$refs.mainTableRef.getSelectionData()
@@ -414,8 +386,24 @@ export default {
     // 查看附件
     showAttachment(row) {
       this.billguid = row.attachment_id
-      this.billguidList = [row.attachmentid1, row.attachmentid3].filter(item => item)
       this.showAttachmentDialog = true
+    },
+    // 表格单元行单击
+    cellClick(obj, context, e) {
+      let key = obj.column.property
+      // console.log(key, obj.row)
+      if (key.substring(0, 3) === 'red' || key.substring(0, 6) === 'yellow' || key.substring(0, 6) === 'orange') {
+        if (key.substring(0, 3) === 'red') {
+          this.warnLevel = '3'
+        }
+        if (key.substring(0, 6) === 'yellow') {
+          this.warnLevel = '1'
+        }
+        if (key.substring(0, 3) === 'orange') {
+          this.warnLevel = '2'
+        }
+        this.violationsView = true
+      }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
@@ -428,45 +416,79 @@ export default {
       this.queryTableDatas()
     },
     // 查询 table 数据
+    // queryTableDatas() {
+    //   console.log(this.fiRuleCode)
+    //   const param = {
+    //     page: this.mainPagerConfig.currentPage, // 页码
+    //     pageSize: this.mainPagerConfig.pageSize, // 每页条数
+    //     fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
+    //     fiRuleCode: this.fiRuleCode,
+    //     warnLevel: this.warnLevel,
+    //     status: this.status,
+    //     regulationType: this.regulationType,
+    //     mofDivCode: this.mofDivCode,
+    //     agencyCodeList: this.agencyCodeList,
+    //     regulationClass: this.$store.getters.getRegulationClass,
+    //     fiRuleName: this.fiRuleName,
+    //     businessNo: this.payApplyNumber,
+    //     jurisdiction: this.$store.getters.getIsJurisdiction,
+    //     startTime: this.searchDataList.startTime,
+    //     endTime: this.searchDataList.endTime,
+    //     voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+    //   }
+    //   this.tableLoading = true
+    //   HttpModule.getViolationsDetailDatas(param).then(res => {
+    //     this.tableLoading = false
+    //     if (res.code === '000000') {
+    //       this.tableData = res.data.results
+    //       this.tableData.forEach(item => {
+    //         if (item.agencyCode && item.agencyName) {
+    //           item.agency = item.agencyCode + '-' + item.agencyName
+    //         }
+    //         if (item.warnLevel === 3) {
+    //           item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
+    //         } else if (item.warnLevel === 2) {
+    //           item.warnLevel = '<span style="color:orange">橙色预警</span>'
+    //         } else if (item.warnLevel === 1) {
+    //           item.warnLevel = '<span style="color:red">红色预警</span>'
+    //         } else if (item.warnLevel === 4) {
+    //           item.warnLevel = '<span style="color:blue">蓝色预警</span>'
+    //         } else if (item.warnLevel === 5) {
+    //           item.warnLevel = '<span style="color:gray">灰色预警</span>'
+    //         }
+    //       })
+    //       this.mainPagerConfig.total = res.data.totalCount
+    //       this.tabStatusNumConfig['1'] = res.data.totalCount
+    //       this.tableFooterConfig.totalObj.paymentAmount = res.data.amountSum
+    //     } else {
+    //       this.$message.error(res.message)
+    //     }
+    //   })
+    // },
+    // 查询 table 数据
     queryTableDatas() {
-      console.log(this.fiRuleCode)
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
-        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
-        fiRuleCode: this.fiRuleCode,
-        warnLevel: this.warnLevel,
-        status: this.status,
-        businessTime: this.businessTime,
-        endTime: this.endTime,
-        inquiriesStatus: this.inquiriesStatus,
-        regulationClass: this.regulationClass,
-        regulationType: this.regulationType,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        warn_level: this.warningLevel, // 预警级别
+        jurisdiction: true,
+        ...this.searchDataList,
+        voidOrNot: this.searchDataList.voidOrNot ? this.searchDataList.voidOrNot : null,
+        ...this.detailQueryParam
       }
-      if (param.endTime && this.$store.getters.isSx) {
-        param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')
-      }
-      this.showLoading = true
-      HttpModule.getViolationsDetailDatas(param).then(res => {
-        this.showLoading = false
+      this.tableLoading = true
+      let axiosUrl = BSURL.lmp_executeWarnWarnInfos
+      this.$http.post(axiosUrl, param).then(res => {
+        this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tabStatusNumConfig['1'] = res.data.totalCount
           this.tableData.forEach(item => {
-            if (item.warnLevel === 1) {
-              item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
-              item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
-              item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 5) {
-              item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 4) {
-              item.warnLevel = '<span style="color:gray">灰色预警</span>'
+            if (item.handleTime === null) {
+              item.handleTime = '-'
             }
           })
           this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
         } else {
           this.$message.error(res.message)
         }
@@ -487,15 +509,38 @@ export default {
         console.log(this.logData)
         this.showLogView = true
       })
+    },
+    getAgency() {
+      const param = {
+        wheresql: 'and province =' + this.$store.state.userInfo.province,
+        elementCode: 'AGENCY',
+        // elementCode: 'AGENCY',
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      HttpModule.getTreewhere(param).then(res => {
+        let treeResdata = this.getChildrenNewData1(res.data)
+        this.queryConfig[3].itemRender.options = treeResdata
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+
+      return datas
     }
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    this.params5 = this.$store.state.curNavModule.param5
   }
 }
 </script>
@@ -514,5 +559,8 @@ float: right;
 .Titans-table ::v-deep  .vxe-body--row.row-red {
   background-color: red;
   color: #fff;
+}
+.T-mainFormListLayout-modulebox {
+  padding: 0 !important
 }
 </style>

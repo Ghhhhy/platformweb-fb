@@ -707,7 +707,7 @@ export default {
         businessNo: this.businessNo,
         useDes: this.useDes,
         endTime: this.endTime,
-        voidOrNot: this.voidOrNot,
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2',
         businessTime: this.businessTime,
         minPayAmount: this.searchDataList?.minPayAmount,
         maxPayAmount: this.searchDataList?.maxPayAmount
