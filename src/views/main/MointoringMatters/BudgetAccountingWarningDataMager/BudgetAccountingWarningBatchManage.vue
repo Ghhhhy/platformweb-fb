@@ -486,7 +486,6 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         businessId: this.businessId,
         handleResult: this.toolBarStatusSelect.curValue,
-        agencyCodeList: this.agencyCodeList,
         controlType: this.controlTypeByNumber,
         warnLevel: this.warnLevel,
         menuName: this.menuName
@@ -502,6 +501,8 @@ export default {
           that.tableData = res.data.results
           this.tableData.forEach(item => {
             item.agency = item.agencyCode + '-' + item.agencyName
+            item.funcType = item.expFuncCode + '-' + item.funcType
+            item.paymentMethod = item.payTypeCode + '-' + item.paymentMethod
             item.deptEconomyCode = item.depBgtEcoCode
             item.deptEconomyName = item.depBgtEcoName
             item.govEconomyCode = item.govBgtEcoCode
