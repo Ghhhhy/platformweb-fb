@@ -442,7 +442,7 @@ export default {
         inquiriesStatus: this.inquiriesStatus,
         regulationClass: this.regulationClass,
         regulationType: this.regulationType,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       if (param.endTime && this.$store.getters.isSx) {
         param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')

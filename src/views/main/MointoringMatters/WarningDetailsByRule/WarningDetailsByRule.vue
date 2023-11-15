@@ -754,7 +754,7 @@ export default {
         roleId: this.roleguid,
         trackProCode: this.trackProCode,
         trackProName: this.trackProName,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       if (this.$store.getters.isSx) {
         param.regulation_type = this.regulationType

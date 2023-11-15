@@ -409,7 +409,7 @@ export default {
         regulationClass: this.regulationClass,
         businessTime: this.businessTime,
         endTime: this.endTime,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

@@ -458,24 +458,24 @@ export default {
     },
     cellClick(obj, context, e) {
       if (this.isSx) {
-        // switch (obj.column.property) {
-        //   case 'amountYszje':
-        //   case 'amountYszyap':
-        //   case 'amountYssnjap':
-        //   case 'amountYssjap':
-        //   case 'amountYsxjap':
-        //     this.handleDetailSx('zdzjzbmx_fzjfp', obj.row, obj.column.property)
-        //     this.detailTitle = '预算明细'
-        //     break
-        //   case 'amountZczje':
-        //   case 'amountZczyap':
-        //   case 'amountZcsnjap':
-        //   case 'amountZcsjap':
-        //   case 'amountZcxjap':
-        //     this.handleDetailSx('zdzjzcmx_fdq', obj.row.code, obj.column.property)
-        //     this.detailTitle = '直达资金支出明细'
-        //     break
-        // }
+        switch (obj.column.property) {
+          case 'amountYszje':
+          case 'amountYszyap':
+          case 'amountYssnjap':
+          case 'amountYssjap':
+          case 'amountYsxjap':
+            this.handleDetailSx('zdzjxmtz_yss', obj.row, obj.column.property)
+            this.detailTitle = '预算明细'
+            break
+          case 'amountZczje':
+          case 'amountZczyap':
+          case 'amountZcsnjap':
+          case 'amountZcsjap':
+          case 'amountZcxjap':
+            this.handleDetailSx('zdzjxmtz_zcs', obj.row, obj.column.property)
+            this.detailTitle = '直达资金支出明细'
+            break
+        }
       } else {
         const rowIndex = obj?.rowIndex
         if (obj.column.property === 'ffb' && ['惠企', '利民', '惠企利民'].includes(obj.row.hqlm)) {
@@ -549,6 +549,7 @@ export default {
         reportCode: reportCode,
         endTime: this.endTime,
         fiscalYear: this.fiscalYear,
+        proCode1: rowData.proCode,
         ...rowData
       }
       this.detailQueryParam = params
