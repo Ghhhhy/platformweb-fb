@@ -21,6 +21,8 @@ const BSURL = {
   lmp_totalWarnPageQueryForCreate: 'large-monitor-platform/lmp/totalWarn/pageQueryForCreate', // 福建 监控处理单生成  分页查询页面
   lmp_totalWarnCreateUpdate: 'large-monitor-platform/lmp/totalWarn/createUpdate', // 福建 监控处理单生成  生成工作流接口
   lmp_totalWarnPageQueryForCreateCount: 'large-monitor-platform/lmp/totalWarn/pageQueryForCreateCount', // 福建 监控处理单生成 数量查询
+  lmp_executeWarnGetDetail: 'large-monitor-platform/lmp/executeWarn/getDetail/', // 预算执行 查看违规明细信息
+  lmp_workFlowWorkFlowUpdate: 'large-monitor-platform/lmp/workFlow/workFlowUpdate', // 事后工作流 违规处理弹窗 更新状态
 
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
