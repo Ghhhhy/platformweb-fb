@@ -253,6 +253,7 @@ export default {
         params.xjExpFuncName = this.condition.xjExpFuncName ? this.condition.xjExpFuncName[0] : ''
         params.sSpeTypeName = this.condition.sSpeTypeName ? this.condition.sSpeTypeName[0] : ''
         params.supBgtDocNo = this.condition.supBgtDocNo ? this.condition.supBgtDocNo[0] : ''
+        params.supBgtDocNoName = this.condition.supBgtDocNo ? this.condition.supBgtDocNo[0] : ''
         this.$parent.tableLoading = true
         HttpModule.querySum(params).then(res => {
           if (res.code === '000000') {
@@ -261,7 +262,7 @@ export default {
               that.$refs.mainTableRef.updateFooter()
             })
           } else {
-            this.$message.error(res.result)
+            this.$message.error(res.message)
           }
         })
       }

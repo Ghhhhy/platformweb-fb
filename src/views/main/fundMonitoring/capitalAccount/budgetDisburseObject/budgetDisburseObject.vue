@@ -549,6 +549,7 @@ export default {
         reportCode: reportCode,
         endTime: this.endTime,
         fiscalYear: this.fiscalYear,
+        proCode1: rowData.proCode,
         ...rowData
       }
       this.detailQueryParam = params
