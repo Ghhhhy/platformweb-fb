@@ -61,7 +61,7 @@ let proconf = {
             valueKeys: ['code', 'name', 'id', 'codeFragment'],
             format: '{name}',
             treeProps: {
-              labelFormat: '{codeFragment}-{name}', // {code}-{name}
+              labelFormat: store.getters.isSx ? '{codeFragment}-{name}' : '{code}-{name}', // {code}-{name}
               nodeKey: 'id',
               label: 'label',
               children: 'children'

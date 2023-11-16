@@ -90,7 +90,8 @@ export let proconf = {
           }
         ],
         props: {
-          placeholder: '状态'
+          placeholder: '状态',
+          clearable: true
         }
       }
     },
@@ -105,7 +106,8 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '支付申请编号'
+          placeholder: '支付申请编号',
+          clearable: true
         }
       }
     },
@@ -120,7 +122,8 @@ export let proconf = {
         name: '$vxeTime',
         options: [],
         props: {
-          placeholder: '监控时间'
+          placeholder: '监控时间',
+          clearable: true
         }
       }
     },
@@ -135,7 +138,8 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '预警数量大于'
+          placeholder: '预警数量大于',
+          clearable: true
         }
       }
     }
@@ -164,7 +168,8 @@ export let proconf = {
           }
         ],
         props: {
-          placeholder: '状态'
+          placeholder: '状态',
+          clearable: true
         }
       }
     },
@@ -179,7 +184,8 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '支付申请编号'
+          placeholder: '支付申请编号',
+          clearable: true
         }
       }
     },
@@ -194,7 +200,8 @@ export let proconf = {
         name: '$vxeTime',
         options: [],
         props: {
-          placeholder: '监控时间'
+          placeholder: '监控时间',
+          clearable: true
         }
       }
     },
@@ -216,6 +223,7 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '预算单位',
+            'clearable': true,
             'multiple': true,
             'readonly': true,
             'isleaf': false
@@ -255,7 +263,8 @@ export let proconf = {
           }
         ],
         props: {
-          placeholder: '预警级别'
+          placeholder: '预警级别',
+          clearable: true
         }
       }
     }
