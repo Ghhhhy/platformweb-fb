@@ -43,7 +43,8 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '监控规则名称'
+          placeholder: '监控规则名称',
+          clearable: true
         }
       }
     },
@@ -65,6 +66,7 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '监控主题',
+            'clearable': true,
             'multiple': true,
             'readonly': true,
             'isleaf': true
@@ -82,7 +84,8 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支付申请单号'
+          placeholder: '支付申请单号',
+          clearable: true
         }
       }
     },
@@ -104,6 +107,7 @@ export let proconf = {
               'children': 'children'
             },
             'placeholder': '预算单位',
+            'clearable': true,
             'multiple': true,
             'readonly': true,
             'isleaf': false

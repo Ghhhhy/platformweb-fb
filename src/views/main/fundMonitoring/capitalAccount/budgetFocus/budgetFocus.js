@@ -41,7 +41,8 @@ const proconf = {
         props: {
           type: 'year',
           valueFormat: 'yyyy',
-          placeholder: '业务年度'
+          placeholder: '业务年度',
+          clearable: true
         }
       }
     }
