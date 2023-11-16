@@ -464,7 +464,8 @@ export default {
         fiscalYear: this.fiscalYear,
         mofDivCodeList: this.codeList,
         agencyCode: '',
-        agencyName: ''
+        agencyName: '',
+        isDir: this.searchDataList.isDir
       }
       if (this.isSx) {
         delete param.agencyCode
