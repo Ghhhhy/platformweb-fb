@@ -725,14 +725,14 @@ export let proconf = {
           {
             value: 3,
             label: '政府支出经济分类',
-            urlC: 'DEPBGTECO',
-            name: 'dep_bgt_eco'
+            urlC: 'GOVBGTECO',
+            name: 'gov_bgt_eco'
           },
           {
             value: 4,
             label: '部门支出经济分类',
-            urlC: 'GOVBGTECO',
-            name: 'gov_bgt_eco'
+            urlC: 'DEPBGTECO',
+            name: 'dep_bgt_eco'
           },
           {
             value: 5,

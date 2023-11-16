@@ -678,7 +678,7 @@ export default {
     getdata() {
       let curFormData = this
       if (curFormData['warnTime'] !== null && curFormData['warnTime'] !== undefined && curFormData['warnTime'].toString().length > 8) {
-        if (curFormData['warnStartTime'].toString() >= curFormData['warnTime'].toString()) {
+        if (curFormData['warnStartTime'].toString() > curFormData['warnTime'].toString()) {
           this.$message({
             type: 'warning',
             message: '选择违规时间范围时开始时间应小于结束时间，请重新选择!'

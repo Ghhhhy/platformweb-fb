@@ -596,9 +596,10 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
-          clearable: true,
-          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          // format: 'YYYY-MM-DD 00:00:00', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
+          'label-format': 'yyyy-MM-dd',
+          'value-format': 'yyyy-MM-dd 00:00:00',
           placeholder: '违规开始时间'
         }
       }
@@ -612,10 +613,11 @@ export const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
-          clearable: true,
-          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          // format: 'YYYY-MM-DD 00:00:00', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
-          placeholder: '违规结束时间'
+          'label-format': 'yyyy-MM-dd',
+          'value-format': 'yyyy-MM-dd 23:59:59',
+          placeholder: '违规开始时间'
         }
       }
     },

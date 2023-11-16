@@ -1896,7 +1896,7 @@ export default {
         console.log(this.formDatas)
       }
     }
-    if (this.$parent.dialogTitle === '查看详情' || this.$parent.dialogTitle === '修改') {
+    if (this.$parent.dialogTitle !== '新增') {
       this.formItemsConfigMessage.forEach(item => {
         item.itemRender.props.disabled = true
       })
