@@ -217,7 +217,7 @@ export default {
       billguid: '',
       condition: {},
       showViolations: true,
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -484,7 +484,7 @@ export default {
         jurisdiction: this.$store.getters.getIsJurisdiction,
         startTime: this.searchDataList.startTime,
         endTime: this.searchDataList.endTime,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

@@ -659,6 +659,37 @@ export default {
           break
       }
     },
+    // 重新组装数据
+    reassemblingParameters(pickFiledObject = {}) {
+      const defaultReassemblingGroup = ['Code', 'Name']
+
+      // 指定哪些key需要pick 默认取filed
+      const filedList = this.incomeMsgConfig.map(item => item.field)
+      // 以下特殊key对应取后面值的code+name形式
+      const filedReassemblingGroup = {
+        natureOfFunds: 'fundTypeCode',
+        deptEconomyType: 'depBgtEcoCode',
+        govEconomyType: 'govBgtEcoCode',
+        settlementMethod: 'setModeCode',
+        directFund: 'isDirCode',
+        salaryMark: 'isSalCode',
+        funcType: 'expFuncCode',
+        businessOffice: 'manageMofDepCode',
+        paymentMethod: 'payTypeCode',
+        isThrExp: 'thrExpCode',
+        payBusType: 'payBusTypeCode'
+      }
+      const newParameters = {}
+      filedList.forEach(field => {
+        let valueList = [pickFiledObject[field]]
+        if (filedReassemblingGroup[field]) {
+          valueList = defaultReassemblingGroup.map(replaceField => filedReassemblingGroup[field].replace('Code', replaceField)).map(newField => pickFiledObject[newField])
+        }
+        let newValueString = valueList.filter(Boolean).join('-') || ''// 去掉无用值 拼接
+        newParameters[field] = newValueString
+      })
+      return newParameters
+    },
     // ajaxData({ params, currentPage, pageSize }) {
     //   this.handlemainPagerConfig.currentPage = currentPage
     //   this.handlemainPagerConfig.pageSize = pageSize
@@ -694,66 +725,19 @@ export default {
         HttpModule.budgetgetDetail(code, code2).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
-            // let handledata = res.data.executeData
-            // handledata.createTime = res.data.createTime
-            // handledata.createTime = res.data.warningCode
-            // handledata.createTime=res.data.createTime
-            // this.supplyDataList = handledata
-            this.supplyDataList = { ...res.data, ...res.data.executeData }
-            if (res.data.executeData !== null) {
-              this.supplyDataList.agencyName = res.data.executeData?.agencyCode + '-' + res.data.executeData?.agencyName
-              this.supplyDataList.proName = res.data.executeData?.proCode + '-' + res.data.executeData?.proName
-              this.supplyDataList.natureOfFunds = res.data.executeData?.fundTypeCode + '-' + res.data.executeData?.fundTypeName
-              this.supplyDataList.proCatName = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.proCatCode + '-' + res.data.executeData?.proCatName || ''
-              this.supplyDataList.deptEconomyType = res.data.executeData?.depBgtEcoCode + '-' + res.data.executeData?.depBgtEcoName
-              this.supplyDataList.govEconomyType = res.data.executeData?.govBgtEcoCode + '-' + res.data.executeData?.govBgtEcoName
-              this.supplyDataList.settlementMethod = res.data.executeData?.setModeCode + '-' + res.data.executeData?.setModeName
-              this.supplyDataList.directFund = res.data.executeData?.isDirCode === null ? '' : res.data.executeData?.isDirCode + '-' + res.data.executeData?.isDirName || ''
-              this.supplyDataList.salaryMark = res.data.executeData?.isSalCode === null ? '' : res.data.executeData?.isSalCode + '-' + res.data.executeData?.isSalName === null ? '' : res.data.executeData?.isSalName
-              this.supplyDataList.isUnionFunds = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
-              this.supplyDataList.fiDate = res.data.executeData?.fiDate
-              this.supplyDataList.funcType = res.data.executeData?.expFuncCode + '-' + res.data.executeData?.expFuncName
-              this.supplyDataList.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
-              this.supplyDataList.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
-              this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
-              this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
-              this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
-              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
-              this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
+            let supplayObject = {}
+            if (res.data.executeData) {
+              supplayObject = this.reassemblingParameters({ ...res.data, ...res.data.executeData })
+              supplayObject.isUnionFunds = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
+              supplayObject.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
             }
             if (res.data.payVoucherVo !== null) {
-              this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
-              this.supplyDataList.todoName = res.data.payVoucherVo.todoName
-              this.supplyDataList.voidOrNot = res.data.payVoucherVo.voidOrNot
+              supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.payVoucherVo) }
             }
             if (res.data.baBgtInfoEntity !== null) {
-              let { agencyCode, agencyName, timeoutIssueType, corBgtDocNo, fiscalYear, recDivName, mofDivName, proCode, proName, recTime, recAmount, allocationAmount, fiRuleName, timeoutIssueAmount, timeoutIssueTime } = res.data.baBgtInfoEntity
-              this.supplyDataList.agencyName = agencyCode + '-' + agencyName
-              this.supplyDataList.proName = proCode + '-' + proName
-              this.supplyDataList.timeoutIssueType = timeoutIssueType || ''
-              this.supplyDataList.corBgtDocNo = corBgtDocNo || ''
-              this.supplyDataList.fiscalYear = fiscalYear || ''
-              this.supplyDataList.recDivName = recDivName || ''
-              this.supplyDataList.mofDivName = mofDivName || ''
-              this.supplyDataList.proCode = proCode// 项目类别
-              this.supplyDataList.proName = proName || ''
-              this.supplyDataList.recTime = recTime || ''
-              this.supplyDataList.recAmount = recAmount || ''
-              this.supplyDataList.allocationAmount = allocationAmount || ''
-              this.supplyDataList.timeoutIssueAmount = timeoutIssueAmount || ''
-              this.supplyDataList.timeoutIssueTime = timeoutIssueTime || ''
-              this.supplyDataList.fiRuleName = fiRuleName || ''
-              this.supplyDataList.violateType11 = ''// 违规责任单位
-              this.supplyDataList.corBgtDocNo = res.data.baBgtInfoEntity.corBgtDocNo
-              this.supplyDataList.bgtDocTitle = res.data.baBgtInfoEntity.bgtDocTitle
-              this.supplyDataList.bgtDec = res.data.baBgtInfoEntity.bgtDec
-              this.supplyDataList.proCode = res.data.baBgtInfoEntity.proCode
-              this.supplyDataList.settlementMethod = res.data.baBgtInfoEntity.proName
-              this.supplyDataList.sourceTypeName = res.data.baBgtInfoEntity.sourceTypeName
-              this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
-              this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
-              this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+              supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.baBgtInfoEntity) }
             }
+            this.supplyDataList = supplayObject
             this.handletableData = res.data?.regulationList
           } else {
             this.$message.error(res.message)

@@ -261,7 +261,7 @@ export default {
       fiRuleCode: '',
       businessTime: '',
       endTime: '',
-      voidOrNot: '2',
+      voidOrNot: '',
       showGlAttachmentDialog: false,
       regulation_type: '',
       regulation_code: '',
@@ -754,7 +754,7 @@ export default {
         roleId: this.roleguid,
         trackProCode: this.trackProCode,
         trackProName: this.trackProName,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       if (this.$store.getters.isSx) {
         param.regulation_type = this.regulationType

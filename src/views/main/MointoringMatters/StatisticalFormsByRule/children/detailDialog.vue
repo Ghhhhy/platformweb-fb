@@ -225,7 +225,7 @@ export default {
       billguid: '',
       condition: {},
       showViolations: true,
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -490,7 +490,7 @@ export default {
         regulationClass: this.regulationClass,
         jurisdiction: this.jurisdiction,
         warnLevel: this.warnLevel,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       this.tableLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

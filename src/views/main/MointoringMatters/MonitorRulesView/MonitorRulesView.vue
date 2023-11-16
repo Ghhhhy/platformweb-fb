@@ -61,7 +61,7 @@
           <template v-slot:toolbar-custom-slot>
             <span class="fn-inline">开关：</span>
             <div class="toolbar-slot-custom-slot fn-inline mgr15">
-              <vxe-switch v-model="isEnableState" size="medium" open-label="已启用" close-label="未启用" @change="isEnableChange" />
+              <vxe-switch v-model="isEnableState" size="medium" open-label="规则已启用" close-label="规则未启用" @change="isEnableChange" />
             </div>
           </template>
           <template v-slot:toolbarSlots>

@@ -2,6 +2,7 @@
 <template>
   <div v-loading="tableLoading" style="width: 100%; height: 100%">
     <BsTabPanel
+      v-if="isShowPanelTop"
       ref="tabPanelTop"
       is-hide-query
       :tab-status-btn-config="toolBarStatusBtnConfigTop"
@@ -183,6 +184,7 @@ export default {
   },
   data() {
     return {
+      isShowPanelTop: true,
       selectData: {},
       importCorpData: [],
       addDialogVisible: false,
@@ -1182,6 +1184,13 @@ export default {
       })
 
       return datas
+    },
+    isXmProject() { // 是否是厦门项目
+      const { province } = this.$store.state.userInfo
+      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+        return true
+      }
+      return false
     }
   },
   created() {
@@ -1189,6 +1198,9 @@ export default {
       'this.$store.state.curNavModule',
       this.$store.state.curNavModule
     )
+    if (this.isXmProject()) {
+      this.isShowPanelTop = false
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

@@ -14,7 +14,17 @@
         :query-form-item-config="queryConfig"
         :query-form-data="searchDataList"
         @onSearchClick="search"
-      />
+      >
+        <template v-slot:action-button-before>
+          <vxe-button
+            v-if="$store.getters.isFuJian"
+            content="导出全部"
+            status="primary"
+            size="medium"
+            @click="serverExport"
+          />
+        </template>
+      </BsQuery>
     </div>
     <BsTable
       ref="mainTableRef"
@@ -28,6 +38,7 @@
       :export-modal-config="{ fileName: title }"
       :default-money-unit="10000"
       @cellClick="cellClick"
+      @register="register"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
     >
@@ -45,7 +56,18 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {},
   computed: {
@@ -267,6 +289,7 @@ export default {
         })
       }
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (this.$store.getters.isSx) {
           this.$parent.tableLoading = false

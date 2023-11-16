@@ -224,7 +224,7 @@ export default {
       billguid: '',
       condition: {},
       showViolations: true,
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -491,7 +491,7 @@ export default {
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
         warnLogId: this.$parent?.currentRow.warnLogId,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       if (this.isRegulationClass10()) {
         param = {

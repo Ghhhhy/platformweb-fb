@@ -100,8 +100,9 @@
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <ImportModel
-      :file-config="fileConfig"
+      v-if="importModalVisible"
       :import-modal-visible.sync="importModalVisible"
+      :file-config="fileConfig"
       :import-type="importType"
       @onDownloadTemplateClick="onDownloadTemplateClick"
       @onImportClick="onImportClick"
@@ -368,15 +369,6 @@ export default {
   mounted() {
   },
   methods: {
-    async onImportClick(fileDataList) {
-      await HttpModule.importBenefit(fileDataList)
-      this.$message.success('导入成功')
-      this.dtos = []
-      this.importModalVisible = false
-
-      this.queryTableDatas()
-      this.queryTableDatas1()
-    },
     async onImportFileClick() {
       const { file } = await readLocalFile({
         types: ['xlsx', 'xls']
@@ -696,25 +688,20 @@ export default {
           break
       }
     },
-    doUpload(obj, context, e) {
-      let that = this
-      // let columnsConfig = JSON.parse(data.editTableCols)
-      // let tmpColumnsConfig = []
-      // columnsConfig.forEach(item => {
-      //   if (item.visible) {
-      //     tmpColumnsConfig.push(item)
-      //   }
-      // })
-      that.importFileInfos = { sheets: [{ name: that.$store.state.curNavModule.name, columns: {} }] }
-      that.$refs.importfile.showImportDialog()
+    async onImportClick(fileDataList) {
+      this.importFileMethod(fileDataList)
     },
-    importSuccessCallback(res) {
-      console.log('res:', res)
-      HttpModule.importBenefit(res).then(res => {
+    importFileMethod(fileDataList) {
+      HttpModule.importBenefit(fileDataList).then(res => {
         if (res.code === '000000') {
           this.$message.success('导入成功')
+          this.$nextTick(() => {
+            this.importModalVisible = false
+          })
+          this.queryTableDatas()
+          this.queryTableDatas1()
         } else {
-          this.$message.error(res.result)
+          this.$message.error(res.message)
         }
       })
       this.refresh()
