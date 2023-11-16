@@ -12,6 +12,7 @@
           :tab-status-btn-config="queryConfigInfo"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="(open) => isShowQueryConditions = open"
+          @tabClick="onStatusTabClick"
           @btnClick="onTabPanelBtnClick"
         />
       </template>
@@ -51,7 +52,15 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
-    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" @close="showModal = false" />
+    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" :create-data-list="createDataList" @close="showModal = false" />
+    <fujianDetailDialog
+      v-if="fujianDialogVisible"
+      :title="dialogTitle"
+      :param5="menuSettingConfig"
+      :warning-code="warningCode"
+      :fi-rule-code="fiRuleCode"
+      :default-form-data="createDataList"
+    />
     <AddDialog
       v-if="dialogVisible"
       :title="dialogTitle"
@@ -75,12 +84,14 @@ import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import MonitProcFeedbackModal from './monitProcFeedbackModal.vue'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
 import AddDialog from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/addDialog.vue'
+import fujianDetailDialog from '@/views/main/monitProcFeedback/fujianDetailDialog.vue'
 export default {
   name: 'MonitProcFeedback',
   mixins: [loadBsConfig],
   components: {
     MonitProcFeedbackModal,
-    AddDialog
+    AddDialog,
+    fujianDetailDialog
   },
   computed: {
     menuSettingConfig() {
@@ -119,9 +130,6 @@ export default {
       queryConfigInfo: {},
       // 头部工具栏 BsTabPanel config
       toolBarStatusBtnConfig: {
-        methods: {
-          bsToolbarClickEvent: this.onStatusTabClick
-        },
         changeBtns: true
       },
       isShowQueryConditions: false,
@@ -203,6 +211,7 @@ export default {
       // 查看详情传参
       warningCode: '',
       dialogVisible: false,
+      fujianDialogVisible: false,
       dialogTitle: '',
       fiRuleCode: ''
       // -----
@@ -212,11 +221,34 @@ export default {
     this.updateRegulationClassNameFormConfig()
   },
   methods: {
-    handleRowClick(row) {
+    async handleRowClick(row) {
       console.log('点击每行的方法', row)
       this.fiRuleCode = row.fiRuleCode || ''
       this.warningCode = row.warningCode || ''
-      this.dialogVisible = true
+      let fujianActionBtnList = ['1-4']
+      if (this.$store.getters.isFuJian && fujianActionBtnList.includes(this.queryData.flowStatus)) {
+        let serverTime = await HttpModule.getCurrentTime()
+        let formItemText = row.mflowBizInfoList || []// 拿到上一个节点表单结构
+        let preNodeFormObj = {}// 上一个节点表单填得值
+        if (formItemText && formItemText.length) {
+          formItemText.forEach(item => {
+            preNodeFormObj[item.bizKey] = item.bizValue
+          })
+        }
+        let ortherData = {
+          serverTime: serverTime.data,
+          createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
+          userName: this.userInfo.name,
+          menuName: this.menuName
+        }
+        if (this.$route.name === 'monitProcFeedbackSpe' || this.$route.name === 'monitProcFeedbackDfr') {
+          ortherData.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
+        }
+        this.createDataList = { ...row, ...preNodeFormObj, ...ortherData }
+        this.fujianDialogVisible = true
+      } else {
+        this.dialogVisible = true
+      }
       this.dialogTitle = '查看详情信息'
     },
     showLogModel(row) {
@@ -465,10 +497,10 @@ export default {
         if (this.$route.name === 'monitProcFeedbackSpe' || this.$route.name === 'monitProcFeedbackDfr') {
           ortherData.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
         }
-        this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', { ...selection[0], ...preNodeFormObj, ...ortherData })
+        this.createDataList = { ...selection[0], ...preNodeFormObj, ...ortherData }
+        // this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', )
         this.$refs.MonitProcFeedbackModal.tabCode = obj.code
         this.$refs.MonitProcFeedbackModal.dialogVisible = true
-        this.$refs.MonitProcFeedbackModal.initModal()
       } else if (obj.code === 'dcl-cx') {
         let selection = this.$refs.mainTableRef.getSelectionData() || []
         if (selection.length === 0) {

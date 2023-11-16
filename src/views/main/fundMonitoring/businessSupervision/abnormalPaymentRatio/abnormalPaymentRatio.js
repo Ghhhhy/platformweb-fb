@@ -93,11 +93,30 @@ export let proconf = {
           }
         }
       }
+    },
+    {
+      title: '直达资金类型',
+      field: 'isDir',
+      width: '8',
+      align: 'left',
+      formula: '',
+      visible: store.getters.isFuJian,
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '01', label: '中央直达' },
+          { value: '02', label: '地方配套' }
+        ],
+        props: {
+          placeholder: '请选择直达资金类型'
+        }
+      }
     }
   ],
   highQueryData: {
     regulationType: '',
     warningLevel: '',
+    isDir: '',
     firulename: '',
     fiscalYear: store.state?.userInfo?.year,
     agencyCodeName: '',
