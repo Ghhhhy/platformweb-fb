@@ -10,14 +10,6 @@
       @close="dialogClose"
     >
       <div v-loading="addLoading" class="payVoucherInput">
-        <template v-if="$store.getters.isFuJian">
-          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
-          <BsForm
-            ref="incomeMsgRef"
-            :form-items-config="incomeMsgConfig"
-            :form-data-list="supplyDataList"
-          />
-        </template>
         <div v-for="(item,index) in formData" :key="item.titleName">
           <template v-if="item.type !== 'components'">
             <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ item.titleName }}</div>
@@ -68,7 +60,6 @@
 <script>
 // import { proconf } from './createProcessing.js'
 import { post, get } from '@/api/http'
-import { proconf } from '@//views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.js'// 福建 需要展示违规处理单详情里面的违规明细
 // import { checkPhone } from '@/utils/index.js'
 import VXETable from 'vxe-table'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
@@ -78,16 +69,6 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo
-    },
-    incomeMsgConfig() {
-      let defaultColumns = proconf.incomeMsgConfig// 事后工作流默认预算执行表单
-      const notShowField = ['payBusType', 'todoName', 'voidOrNot']
-      if (!this.param5.show) {
-        return defaultColumns.filter(item => {
-          return !notShowField.includes(item.field)
-        })
-      }
-      return defaultColumns
     }
   },
   props: {
@@ -306,25 +287,6 @@ export default {
     },
     initModal() {
       console.log('查看数据', Object.assign({}, this.createDataList))
-      if (this.$store.getters.isFuJian) {
-        let thirdCode = '0'
-        let codeList = [this.createDataList.warningCode, this.createDataList.fiRuleCode, thirdCode].filter(Boolean).join('/')
-        get(BSURL.lmp_executeWarnGetDetail + codeList).then(res => {
-          let supplayObject = {}
-          if (res.data.executeData) {
-            supplayObject = this.reassemblingParameters({ ...res.data, ...res.data.executeData })
-            supplayObject.isUnionFunds = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
-            supplayObject.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
-          }
-          if (res.data.payVoucherVo !== null) {
-            supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.payVoucherVo) }
-          }
-          if (res.data.baBgtInfoEntity !== null) {
-            supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.baBgtInfoEntity) }
-          }
-          this.supplyDataList = supplayObject
-        })
-      }
       this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
         res.forEach(item => {
           this.configTypeId[item.type] = item.id
