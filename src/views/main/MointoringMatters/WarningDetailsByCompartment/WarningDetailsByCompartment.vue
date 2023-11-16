@@ -279,7 +279,7 @@ export default {
       showGlAttachmentDialog: false,
       endTime: '',
       businessTime: '',
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -707,7 +707,7 @@ export default {
         businessNo: this.businessNo,
         useDes: this.useDes,
         endTime: this.endTime,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2',
+        voidOrNot: this.voidOrNot,
         businessTime: this.businessTime,
         minPayAmount: this.searchDataList?.minPayAmount,
         maxPayAmount: this.searchDataList?.maxPayAmount

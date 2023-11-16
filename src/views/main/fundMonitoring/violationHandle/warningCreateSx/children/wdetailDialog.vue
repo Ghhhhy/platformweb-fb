@@ -1171,7 +1171,7 @@ export default {
         fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         dealNo: this.condition.dealNo ? this.condition.dealNo[0] : '',
-        voidOrNot: this.condition.voidOrNot ? this.condition.voidOrNot[0] : '2'
+        voidOrNot: this.condition.voidOrNot ? this.condition.voidOrNot[0] : ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         params.regulationClass = '0201'
