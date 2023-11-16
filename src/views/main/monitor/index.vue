@@ -443,7 +443,7 @@ export default {
           HttpModule.getDetailData(obj.row.fiRuleCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
-              this.formDatas = res.data.regulationElementEntitieList[0]
+              this.formDatas = { ...res.data.regulationElementEntitieList[0] }
               this.showType = '1'
               this.dialogTitle = '查看详情'
               this.dialogVisible = true
