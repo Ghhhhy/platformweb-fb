@@ -1951,6 +1951,7 @@ export default {
   },
   created() {
     console.log(this.$parent.DetailData)
+    this.formItemsConfigMessage = [...proconf.formItemsConfigMessage]
     this.getWhereTree()
     if (this.$parent.dialogTitle === '新增') {
       this.getBusinessModelCodeDatas({ businessType: '1', parentId: 0 })
@@ -2066,7 +2067,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
         if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}
@@ -2115,7 +2116,7 @@ export default {
         }
       }
     }
-    if (this.$parent.dialogTitle === '查看详情') {
+    if (this.$parent.dialogTitle !== '新增') {
       this.formItemsConfigMessage.forEach(item => {
         item.itemRender.props.disabled = true
       })

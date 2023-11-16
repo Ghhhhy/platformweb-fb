@@ -1436,7 +1436,7 @@ export default {
             //   datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
             // }
             // this.formItemsConfigMessage.splice(1 + index, 0, datas)
-            if (this.$parent.dialogTitle === '查看详情') {
+            if (this.$parent.dialogTitle !== '修改') {
               this.formItemsConfigMessage.forEach(item => {
                 item.itemRender.props.disabled = true
               })
@@ -1475,7 +1475,7 @@ export default {
         }
       }
     }
-    if (this.$parent.dialogTitle === '查看详情' || this.$parent.dialogTitle === '修改') {
+    if (this.$parent.dialogTitle !== '新增') {
       this.formItemsConfigMessage.forEach(item => {
         item.itemRender.props.disabled = true
       })
