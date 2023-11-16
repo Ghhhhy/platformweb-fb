@@ -45,6 +45,14 @@ const budgetImpColumns = [
     exportFormatter: true // 导出formatter展示的数据 @BsUI >= 2.1.2-beta.12
 
   },
+  {
+    title: '支付凭证号',
+    width: 180,
+    field: 'payCertNo',
+    sortable: false,
+    filters: false,
+    align: 'center'
+  },
   // {
   //   title: '凭证时间',
   //   width: 180,
@@ -549,6 +557,21 @@ const proconf = {
       }
     },
     {
+      title: '支付凭证号',
+      field: 'payCertNo',
+      width: 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          clearable: true,
+          placeholder: '支付凭证号'
+        }
+      }
+    },
+    {
       title: '业务数据单号',
       width: 180,
       field: 'businessNo',
@@ -589,8 +612,10 @@ const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
-          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          // format: 'YYYY-MM-DD 00:00:00', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
+          'label-format': 'yyyy-MM-dd',
+          'value-format': 'yyyy-MM-dd 00:00:00',
           placeholder: '违规开始时间'
         }
       }
@@ -604,8 +629,10 @@ const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
-          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          // format: 'YYYY-MM-DD 00:00:00', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
+          'label-format': 'yyyy-MM-dd',
+          'value-format': 'yyyy-MM-dd 23:59:59',
           placeholder: '违规结束时间'
         }
       }
@@ -813,6 +840,7 @@ const proconf = {
   ],
   highQueryData: {
     agencyCodeList: '',
+    payCertNo: '',
     businessNo: '',
     regulationClassName: '',
     warnTime: '',
@@ -2903,10 +2931,17 @@ const proconf = {
     // 6和1 代表 支付
     // 8和2  代表 指标[]
     const isIndex = [6, '6', 2, '2'].includes(business)
+    // const isBgtIndex = [8, '8', 2, 2].includes(business)
     const re = ['0207'].includes(regulationClass)
     console.log('000000000000000', store.state.warnInfo.warnLevelOptions)
     let columns1 = business && isIndex ? budgetImpColumns.filter(item => { return item.field !== 'paymentAmount' }) : budgetImpColumns
     let columns = business && isIndex && re ? budgetManagementColumns : columns1
+    // 厦门
+    // if (business && !isBgtIndex) {
+    //   const { province } = store.state.userInfo
+    //   if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
+    //   }
+    // }
     const tempOperatorColumns = [...operatorColumns]
     if (showLog) {
       tempOperatorColumns.splice(1, 0, {

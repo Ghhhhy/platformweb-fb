@@ -21,21 +21,9 @@
           />
         </div>
         <div class="idtu-import">
-          <!--          <div class="idtu-import-btn btn" @click="onImportFileClick">-->
-          <!--            点击导入文件-->
-          <!--          </div>-->
-          <el-upload
-            ref="fileupload"
-            class=""
-            :limit="1"
-            drag
-            action=""
-            :show-file-list="false"
-            accept=".xls,.xlsx"
-            :before-upload="beforeUploadEvent"
-          >
-            <div class="el-upload__text" style="width: 100%;"><b><em>点击导入文件</em></b></div>
-          </el-upload>
+          <div class="idtu-import-btn btn" @click="onImportFileClick">
+            点击导入文件
+          </div>
           <div class="idtu-import-tip">
             {{ config.instructions }}
           </div>
@@ -96,11 +84,22 @@ export default {
   },
   data() {
     return {
-      disabled: false,
-      fileDataList: []
+      disabled: false
     }
   },
   methods: {
+    // 关闭对话框
+    closeAndClear() {
+      this.importModalVisible = false
+    },
+    onDownloadTemplateClick() {
+      // 下载最新模板
+      this.$emit('onDownloadTemplateClick', {}, this)
+    },
+    onImportFileClick() {
+      // 选择文件
+      this.$emit('onImportFileClick', {}, this)
+    },
     readFile(file) { // 文件读取
       return new Promise(resolve => {
         let reader = new FileReader()
@@ -110,15 +109,13 @@ export default {
         }
       })
     },
-    /**
-     * 导入附件解析方法（由于后端不更改，为适配后端接口由前端硬解析，由下标获取指定值，若模板字段位置发生变动或新增字段则需求修改代码）
-     * @param file
-     * @returns {Promise<void>}
-     */
-    async beforeUploadEvent(file) {
-      if (!file) {
+    async onImportClick() {
+      // 导入
+      debugger
+      let tempFileInfo = this.fileConfig.file
+      if (!tempFileInfo) {
       } else {
-        let data = await this.readFile(file)
+        let data = await this.readFile(tempFileInfo)
         let workbook = XLSX.read(data, { type: 'binary' })// 解析二进制格式数据
         let worksheet = workbook.Sheets[workbook.SheetNames[0]]// 获取第一个Sheet
         let result = XLSX.utils.sheet_to_json(worksheet)// json数据格式
@@ -164,18 +161,6 @@ export default {
         })
         this.$emit('onImportClick', saveFileList, this)
       }
-    },
-    // 关闭对话框
-    closeAndClear() {
-      this.importModalVisible = false
-    },
-    onDownloadTemplateClick() {
-      // 下载最新模板
-      this.$emit('onDownloadTemplateClick', {}, this)
-    },
-    onImportFileClick() {
-      // 选择文件
-      this.$emit('onImportFileClick', {}, this)
     }
   },
   mounted() {},
@@ -222,14 +207,14 @@ export default {
       font-weight: bold;
     }
     .idtu-importFile-tip{
-          text-align: left;
-    margin-top: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    background: #e3e2e2;
-    color: #3b9afb;
-    line-height: 20px;
-    padding: 10px 20px;
+      text-align: left;
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      background: #e3e2e2;
+      color: #3b9afb;
+      line-height: 20px;
+      padding: 10px 20px;
     }
   }
   .idtu-import-btn {

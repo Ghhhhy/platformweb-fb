@@ -41,6 +41,7 @@ const proconf = {
         //   { value: '2023', label: '2023年' }
         // ],
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -68,6 +69,7 @@ const proconf = {
               children: 'children'
             },
             placeholder: '地区',
+            clearable: true,
             multiple: true,
             readonly: false,
             isleaf: true
@@ -84,6 +86,7 @@ const proconf = {
       itemRender: {
         name: '$vxeTime',
         props: {
+          clearable: true,
           // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           'value-format': 'yyyy-MM-dd 23:59:59',
           type: 'date',
@@ -201,8 +204,12 @@ const proconf = {
                 let amount5 = parseFloat(row.amountPayAll || 0)
                 let culAmount = amount1
                 let culAmount2 = (amount5 / culAmount * 100)
+                let precision = 1
+                if (store.getters.isSx) {
+                  precision = 2
+                }
                 return [
-                  <div>{culAmount && culAmount2.toFixed(2)}%</div>
+                  <div>{culAmount && culAmount2.toFixed(precision)}%</div>
                 ]
               }
             }
@@ -415,24 +422,11 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: '({amountZyxd}-0==0)?0:Math.round({amountXjfp}/{amountZyxd}*100*10)/10',
+            formula: $formula('budgetImplementationCapital.aLoad'),
             cellRender: {
               name: '$vxeRatio'
             },
             visible: !store.getters.isSx
-          },
-          {
-            title: '分配进度',
-            field: 'xLoad',
-            width: 120,
-            areaType: 'county',
-            align: 'right',
-            // formula: '({amountZyxd}-0==0)?0:Math.round(({amountXjfp}/{amountZyxd}*100)*10)/10',
-            formula: '({amountZyxd}-0==0)?0:Math.round(({amountXbjfp}+{amountXxjfp})/{amountZyxd}*100*10)/10',
-            cellRender: {
-              name: '$vxeRatio'
-            },
-            visible: store.getters.isSx
           }
         ]
       }

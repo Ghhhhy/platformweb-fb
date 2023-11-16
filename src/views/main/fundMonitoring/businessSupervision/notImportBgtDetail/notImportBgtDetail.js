@@ -1,5 +1,5 @@
 import store from '@/store/index'
-export let proconf = {
+let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
     {
@@ -29,6 +29,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           type: 'year',
           valueFormat: 'yyyy',
           placeholder: '业务年度'
@@ -70,6 +71,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }
@@ -138,6 +140,15 @@ export let proconf = {
       }
     }
   ]
+}
+if (store.getters.isFuJian) {
+  const notShowFiled = ['recDivName', 'agencyName']
+  proconf.PoliciesTableColumns = proconf.PoliciesTableColumns.filter(item => {
+    return !notShowFiled.includes(item.field)
+  })
+}
+export {
+  proconf
 }
 export default function (tableType, configType) {
   if (tableType && configType) {

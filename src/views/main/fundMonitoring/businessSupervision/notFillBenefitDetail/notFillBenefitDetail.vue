@@ -309,7 +309,7 @@ export default {
           if (Array.isArray(this.searchDataList[key])) {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
-            if (this.searchDataList[key].trim() !== '') {
+            if (this.searchDataList[key]?.trim() !== '') {
               this.searchDataList[key].split(',').forEach((item) => {
                 condition[key].push(item)
               })
@@ -394,8 +394,8 @@ export default {
     },
     getTrees(val) {
       let proCodes = []
-      if (val.trim() !== '') {
-        val.split(',').forEach((item) => {
+      if (val?.trim() !== '') {
+        val?.split(',').forEach((item) => {
           proCodes.push(item.split('##')[0])
         })
       }

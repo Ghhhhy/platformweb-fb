@@ -265,6 +265,7 @@ export const queryColumns = [
       name: '$vxeInput',
       options: [],
       props: {
+        clearable: true,
         placeholder: '问询单编码'
       }
     }
@@ -279,6 +280,7 @@ export const queryColumns = [
     itemRender: {
       name: '$vxeInput',
       props: {
+        clearable: true,
         placeholder: '预算单位'
       }
     }
@@ -294,6 +296,7 @@ export const queryColumns = [
       name: '$vxeInput',
       options: [],
       props: {
+        clearable: true,
         placeholder: '违规类型'
       }
     }
@@ -309,6 +312,7 @@ export const queryColumns = [
       name: '$vxeInput',
       options: [],
       props: {
+        clearable: true,
         placeholder: '主题'
       }
     }
@@ -322,6 +326,7 @@ export const queryColumns = [
     itemRender: {
       name: '$vxeTime',
       props: {
+        clearable: true,
         format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
         type: 'date',
         placeholder: '违规时间-开始'
@@ -337,6 +342,7 @@ export const queryColumns = [
     itemRender: {
       name: '$vxeTime',
       props: {
+        clearable: true,
         format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
         type: 'date',
         placeholder: '违规时间-结束'
@@ -362,6 +368,7 @@ export const queryColumns = [
         }
       ],
       props: {
+        clearable: true,
         placeholder: '监控类型'
       },
       defaultValue: ''
@@ -383,6 +390,7 @@ export const queryColumns = [
         { value: '5', label: '蓝色预警' }
       ],
       props: {
+        clearable: true,
         placeholder: '预警级别'
       }
     }
@@ -398,6 +406,7 @@ export const queryColumns = [
       name: '$vxeInput',
       options: [],
       props: {
+        clearable: true,
         placeholder: '监控规则'
       }
     }

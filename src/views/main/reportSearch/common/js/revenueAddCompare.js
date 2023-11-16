@@ -27,7 +27,7 @@ const proconf = {
   highQueryConfig: [
     {
       title: '区划',
-      field: 'mofDivCode',
+      field: 'mofDivCodes',
       align: 'left',
       name: '$vxeTree',
       itemRender: {

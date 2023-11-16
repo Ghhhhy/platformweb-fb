@@ -549,7 +549,7 @@ export default {
             if (res.code === '000000') {
               this.DetailData = res.data
               this.dialogTitle = '查看详情'
-              this.formDatas = res.data.regulationElementEntitieList[0]
+              this.formDatas = Object.assign({}, res.data.regulationElementEntitieList[0])
               this.dialogVisibleShow = true
             }
           })

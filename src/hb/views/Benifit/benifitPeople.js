@@ -29,6 +29,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '支付凭证号'
         }
       }
@@ -43,6 +44,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '金额'
         }
       }
@@ -59,6 +61,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '支付凭证号'
         }
       }
@@ -73,6 +76,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -87,6 +91,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '预算单位'
         }
       }
@@ -101,6 +106,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '指标文号'
         }
       }
@@ -115,6 +121,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '资金用途'
         }
       }
@@ -133,6 +140,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
+          clearable: true,
           placeholder: '规则模板名称'
         }
       }

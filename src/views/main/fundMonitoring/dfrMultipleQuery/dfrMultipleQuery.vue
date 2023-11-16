@@ -668,7 +668,7 @@ export default {
               queryDto.bgtMofDepCode = checked.selection[i].bgtMofDepName.split('-')[0]
               queryDto.corBgtDocNoName = checked.selection[i].corBgtDocNoName
               queryDto.proName = checked.selection[i].proName
-              queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
+              // queryDto.expFuncCode = checked.selection[i].expFuncName.split('-')[0]
               this.queryDtos[i] = queryDto
             }
             this.queryTableDatas1()

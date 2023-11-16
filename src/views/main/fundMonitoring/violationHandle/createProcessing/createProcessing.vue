@@ -110,7 +110,6 @@ import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.
 import api from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import FilePreview from './children/filePreview'
 import GlAttachment from './children/common/GlAttachment'
-
 export default {
   components: {
     AddDialog,
@@ -154,6 +153,7 @@ export default {
   },
   data() {
     return {
+      ruleCodes: [],
       highLightRow: {},
       // BsQuery 查询栏
       queryConfig: proconf.highQueryConfig,
@@ -332,6 +332,7 @@ export default {
       fiRuleCode: '',
       warningCode: '',
       dealNo: '',
+      payCertNo: '',
       status: null,
       detailData: [],
       isCreate: false,
@@ -430,6 +431,24 @@ export default {
       this.agencyName = obj.agencyName
       this.issueTime = obj.issueTime
       this.fiRuleName = obj.fiRuleName
+      this.payCertNo = obj.payCertNo
+      let newFieldName = 'ruleCodes_code__multiple'
+      if (obj[newFieldName]) {
+        this.ruleCodes = obj[newFieldName]
+      } else {
+        let ruleCodesValue = obj.ruleCodes
+        if (Array.isArray(ruleCodesValue)) {
+          this.ruleCodes = ruleCodesValue
+        } else if (typeof ruleCodesValue === 'string') {
+          if (ruleCodesValue.trim() !== '') {
+            let ruleCodesCondition = []
+            ruleCodesValue?.split(',').forEach((item) => {
+              ruleCodesCondition.push(item.split('##')[0])
+            })
+            this.ruleCodes = ruleCodesCondition
+          }
+        }
+      }
       this.trackProName = obj.trackProName || ''
       this.violateType = obj.violateType
       this.agencyCodeList = obj.agencyCodeList_code__multiple
@@ -540,7 +559,9 @@ export default {
       this.warningLevel = ''
       this.agencyName = ''
       this.issueTime = ''
+      this.payCertNo = ''
       this.fiRuleName = ''
+      this.ruleCodes = []
       this.violateType = ''
       this.trackProName = ''
     },
@@ -623,12 +644,14 @@ export default {
         agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
+        ruleCodes: this.ruleCodes,
         violateType: this.violateType,
         status: this.status,
         mofDivCodeList: this.codeList,
         mofDivCode: this.mofDivCode || '',
         trackProName: this.trackProName || '',
-        roleguid: this.roleguid
+        roleguid: this.roleguid,
+        payCertNo: this.payCertNo
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -671,6 +694,7 @@ export default {
         agencyCodeList: this.agencyCodeList,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
+        ruleCodes: this.ruleCodes,
         violateType: this.violateType,
         mofDivCode: this.mofDivCode || '',
         isUnit: this.param5.retroact,
@@ -688,7 +712,8 @@ export default {
         warningLevel: this.warningLevel,
         businessModelCode: this.bussnessId || undefined,
         trackProName: this.trackProName || '',
-        menuId: this.$store.state.curNavModule.guid
+        menuId: this.$store.state.curNavModule.guid,
+        payCertNo: this.payCertNo
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
@@ -747,6 +772,7 @@ export default {
         agencyName: this.agencyName,
         issueTime: this.issueTime,
         fiRuleName: this.fiRuleName,
+        ruleCodes: this.ruleCodes,
         violateType: this.violateType,
         mofDivCode: this.mofDivCode || ''
       }
@@ -942,6 +968,7 @@ export default {
         mofdivname: this.mofdivname,
         agencycode: this.agencycode,
         firulename: this.firulename,
+        ruleCodes: this.ruleCodes,
         regulation_class: this.regulationclass,
         firulecode: this.fiRuleCode
       }
@@ -1216,6 +1243,27 @@ export default {
         let treeResdata = res.data
         this.queryConfig[0].itemRender.options = treeResdata
       })
+    },
+    getFiRule() {
+      const param = {
+        fiscalYear: this.$store.state.userInfo.year
+      }
+      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+        param.regulationClass = '0201'
+      }
+      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      if (regulationClass) {
+        param.regulationClass = regulationClass
+      }
+      HttpModule.getRuleTreeData(param).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = res.data
+          this.queryConfig[7].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     }
   },
   mounted() {
@@ -1238,6 +1286,7 @@ export default {
     this.getViolationType()
     this.getAgency()
     this.getCount()
+    this.getFiRule()
   }
 }
 </script>

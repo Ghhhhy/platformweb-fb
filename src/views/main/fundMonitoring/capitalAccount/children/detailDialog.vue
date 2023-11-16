@@ -14,7 +14,17 @@
         :query-form-item-config="queryConfig"
         :query-form-data="searchDataList"
         @onSearchClick="search"
-      />
+      >
+        <template v-slot:action-button-before>
+          <vxe-button
+            v-if="$store.getters.isFuJian"
+            content="导出全部"
+            status="primary"
+            size="medium"
+            @click="serverExport"
+          />
+        </template>
+      </BsQuery>
     </div>
     <BsTable
       ref="mainTableRef"
@@ -28,6 +38,7 @@
       :export-modal-config="{ fileName: title }"
       :default-money-unit="10000"
       @cellClick="cellClick"
+      @register="register"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
     >
@@ -45,7 +56,18 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {},
   computed: {
@@ -207,6 +229,7 @@ export default {
     },
     dialogClose() {
       this.$parent.detailVisible = false
+      this.$parent.sxDetailVisible = false
     },
     onToolbarBtnClick({ context, table, code }) {
       switch (code) {
@@ -251,6 +274,8 @@ export default {
         params.speTypeName = this.condition.speTypeName ? this.condition.speTypeName[0] : ''
         params.xjExpFuncName = this.condition.xjExpFuncName ? this.condition.xjExpFuncName[0] : ''
         params.sSpeTypeName = this.condition.sSpeTypeName ? this.condition.sSpeTypeName[0] : ''
+        params.supBgtDocNo = this.condition.supBgtDocNo ? this.condition.supBgtDocNo[0] : ''
+        params.supBgtDocNoName = this.condition.supBgtDocNo ? this.condition.supBgtDocNo[0] : ''
         this.$parent.tableLoading = true
         HttpModule.querySum(params).then(res => {
           if (res.code === '000000') {
@@ -259,11 +284,12 @@ export default {
               that.$refs.mainTableRef.updateFooter()
             })
           } else {
-            this.$message.error(res.result)
+            this.$message.error(res.message)
           }
         })
       }
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (this.$store.getters.isSx) {
           this.$parent.tableLoading = false
@@ -443,6 +469,7 @@ export default {
           this.tableColumnsConfig = proconf.expenditureColumn
           break
         case 'zdzjzcmx_fdq':
+        case 'zdzjxmtz_zcs':
           this.tableColumnsConfig = proconf.payColumn
           this.queryConfig = proconf.highQueryConfig2
           this.searchDataList = proconf.highQueryData2
@@ -478,6 +505,11 @@ export default {
           this.tableColumnsConfig = proconf.targetColumn
           this.queryConfig = proconf.highQueryConfig1
           this.searchDataList = proconf.highQueryData1
+          break
+        case 'zdzjxmtz_yss':
+          this.tableColumnsConfig = proconf.budgetColumn
+          this.queryConfig = proconf.highQueryConfigToBudget
+          this.searchDataList = proconf.highQueryDataToBudget
           break
         case 'fdqzdzjxmmx':
           this.tableColumnsConfig = proconf.proColumn

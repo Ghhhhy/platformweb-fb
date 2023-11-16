@@ -131,6 +131,7 @@ export let proconf = {
           { value: '3', label: '部门级' }
         ],
         props: {
+          clearable: true,
           placeholder: '管理级次'
         }
       }
@@ -149,6 +150,7 @@ export let proconf = {
           { value: '0', label: '否' }
         ],
         props: {
+          clearable: true,
           placeholder: '是否直达资金'
         }
       }
@@ -167,6 +169,7 @@ export let proconf = {
           { value: '0', label: '否' }
         ],
         props: {
+          clearable: true,
           placeholder: '是否专项主题'
         }
       }
@@ -186,6 +189,7 @@ export let proconf = {
         }),
         defaultValue: '',
         props: {
+          clearable: true,
           placeholder: '预警级别'
         }
       },
@@ -207,6 +211,7 @@ export let proconf = {
           }
         }),
         props: {
+          clearable: true,
           placeholder: '处理方式'
         }
       }
@@ -227,24 +232,25 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '是否启用',
-      field: 'isEnable',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '是' },
-          { value: '0', label: '否' }
-        ],
-        props: {
-          placeholder: '是否启用'
-        }
-      }
-    },
+    // {
+    //   title: '是否启用',
+    //   field: 'isEnable',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '1', label: '是' },
+    //       { value: '0', label: '否' }
+    //     ],
+    //     props: {
+    //       clearable: true,
+    //       placeholder: '是否启用'
+    //     }
+    //   }
+    // },
     {
       title: '触发方式',
       field: 'triggerClass',
@@ -259,6 +265,7 @@ export let proconf = {
           { value: '2', label: '定时触发' }
         ],
         props: {
+          clearable: true,
           placeholder: '触发方式'
         }
       }
@@ -545,10 +552,12 @@ export let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
-      name: '$vxeSelect',
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
+      },
       cellRender: {
         name: '$warningLevelRender',
-        options: store.state.warnInfo.warnLevelOptions,
         props: {
           placeholder: '预警级别'
         }
@@ -716,14 +725,14 @@ export let proconf = {
           {
             value: 3,
             label: '政府支出经济分类',
-            urlC: 'DEPBGTECO',
-            name: 'dep_bgt_eco'
+            urlC: 'GOVBGTECO',
+            name: 'gov_bgt_eco'
           },
           {
             value: 4,
             label: '部门支出经济分类',
-            urlC: 'GOVBGTECO',
-            name: 'gov_bgt_eco'
+            urlC: 'DEPBGTECO',
+            name: 'dep_bgt_eco'
           },
           {
             value: 5,

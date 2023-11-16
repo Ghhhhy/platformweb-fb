@@ -726,6 +726,87 @@ let proconf = {
       align: 'left'
     }
   ],
+  budgetColumn: [
+    {
+      title: '指标文号',
+      width: 140,
+      field: 'corBgtDocNo',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '上级指标文号',
+      field: 'supBgtDocNo',
+      width: 180,
+      align: 'left',
+      filters: false
+    },
+    {
+      title: '业务处室',
+      width: 180,
+      field: 'manageMofDep',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '资金主管处室',
+      width: 180,
+      field: 'bgtMofDep',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '金额',
+      field: 'amount',
+      width: 140,
+      sortable: true,
+      align: 'right',
+      combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '单位',
+      width: 180,
+      field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '功能科目',
+      width: 180,
+      field: 'agency',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '预算项目',
+      width: 180,
+      field: 'proName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '直达资金标识',
+      width: 180,
+      field: 'isDirName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    },
+    {
+      title: '预算级次',
+      width: 180,
+      field: 'budgetLevelName',
+      sortable: false,
+      filters: false,
+      align: 'left'
+    }
+  ],
   // 指标明细
   targetColumn: [
     {
@@ -1376,7 +1457,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '项目名称'
+          placeholder: '项目名称',
+          clearable: true
         }
       }
     }
@@ -1396,7 +1478,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1409,7 +1492,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '用途'
+          placeholder: '用途',
+          clearable: true
         }
       }
     },
@@ -1422,7 +1506,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '项目名称'
+          placeholder: '项目名称',
+          clearable: true
         }
       }
     },
@@ -1435,7 +1520,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '付款方账户名称'
+          placeholder: '付款方账户名称',
+          clearable: true
         }
       }
     },
@@ -1448,7 +1534,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '付款方账号'
+          placeholder: '付款方账号',
+          clearable: true
         }
       }
     },
@@ -1461,7 +1548,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '收款方账户名称'
+          placeholder: '收款方账户名称',
+          clearable: true
         }
       }
     },
@@ -1474,7 +1562,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '收款方账号'
+          placeholder: '收款方账号',
+          clearable: true
         }
       }
     },
@@ -1489,7 +1578,8 @@ let proconf = {
         props: {
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
-          placeholder: '付款日期'
+          placeholder: '付款日期',
+          clearable: true
         }
       }
     }
@@ -1528,7 +1618,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1541,7 +1632,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '中央直达资金名称'
+          placeholder: '中央直达资金名称',
+          clearable: true
         }
       }
     },
@@ -1554,7 +1646,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支出科目名称'
+          placeholder: '支出科目名称',
+          clearable: true
         }
       }
     },
@@ -1567,7 +1660,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '本级专项资金名称'
+          placeholder: '本级专项资金名称',
+          clearable: true
         }
       }
     },
@@ -1580,7 +1674,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '上级文号'
+          placeholder: '上级文号',
+          clearable: true
         }
       }
     }
@@ -1609,7 +1704,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1622,7 +1718,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '转移支付资金名称'
+          placeholder: '转移支付资金名称',
+          clearable: true
         }
       }
     },
@@ -1635,7 +1732,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支出科目名称'
+          placeholder: '支出科目名称',
+          clearable: true
         }
       }
     },
@@ -1648,7 +1746,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '本级专项资金名称'
+          placeholder: '本级专项资金名称',
+          clearable: true
         }
       }
     },
@@ -1661,7 +1760,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '上级文号'
+          placeholder: '上级文号',
+          clearable: true
         }
       }
     }
@@ -2143,6 +2243,87 @@ if (store.getters.isSx) {
         field: '',
         sortable: false,
         align: 'center'
+      }
+    ],
+    budgetColumn: [
+      {
+        title: '指标文号',
+        width: 140,
+        field: 'corBgtDocNo',
+        sortable: false,
+        align: 'left'
+      },
+      {
+        title: '上级指标文号',
+        field: 'supBgtDocNo',
+        width: 180,
+        align: 'left',
+        filters: false
+      },
+      {
+        title: '业务处室',
+        width: 180,
+        field: 'manageMofDep',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '资金主管处室',
+        width: 180,
+        field: 'bgtMofDep',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '金额',
+        field: 'amount',
+        width: 140,
+        sortable: true,
+        align: 'right',
+        combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+        cellRender: { name: '$vxeMoney' }
+      },
+      {
+        title: '单位',
+        width: 180,
+        field: 'agencyCodeName',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '功能科目',
+        width: 180,
+        field: 'expFunc',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '预算项目',
+        width: 180,
+        field: 'proName',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '直达资金标识',
+        width: 180,
+        field: 'isDir',
+        sortable: false,
+        filters: false,
+        align: 'left'
+      },
+      {
+        title: '预算级次',
+        width: 180,
+        field: 'budgetLevel',
+        sortable: false,
+        filters: false,
+        align: 'left'
       }
     ],
     // 指标明细
@@ -3255,19 +3436,6 @@ if (store.getters.isSx) {
       corBgtDocNoName: ''
     },
     highQueryConfig1: [
-      // {
-      //   title: '处室名称',
-      //   field: 'bgtMofDepName',
-      //   width: 200,
-      //   align: 'center',
-      //   filters: false,
-      //   itemRender: {
-      //     name: '$vxeInput',
-      //     props: {
-      //       placeholder: '处室名称'
-      //     }
-      //   }
-      // },
       {
         title: '单位名称',
         field: 'agencyName',
@@ -3348,6 +3516,34 @@ if (store.getters.isSx) {
       // }
 
     ],
+    highQueryConfigToBudget: [
+      {
+        title: '单位名称',
+        field: 'agencyName',
+        width: 200,
+        align: 'center',
+        filters: false,
+        itemRender: {
+          name: '$vxeInput',
+          props: {
+            placeholder: '单位名称'
+          }
+        }
+      },
+      {
+        title: '上级指标文号',
+        field: 'supBgtDocNo',
+        width: 200,
+        align: 'center',
+        filters: false,
+        itemRender: {
+          name: '$vxeInput',
+          props: {
+            placeholder: '上级指标文号'
+          }
+        }
+      }
+    ],
     highQueryData1: {
       bgtMofDepName: '',
       agencyName: '',
@@ -3356,6 +3552,10 @@ if (store.getters.isSx) {
       sSpeTypeName: '',
       corBgtDocNo: '',
       xjCorBgtDocNo: ''
+    },
+    highQueryDataToBudget: {
+      agencyName: '',
+      supBgtDocNo: ''
     }
   }
 }

@@ -223,7 +223,8 @@ export default {
       showAttachmentDialog: false,
       billguid: '',
       condition: {},
-      showViolations: true
+      showViolations: true,
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -353,6 +354,7 @@ export default {
       console.log(this.condition)
       this.payApplyNumber = val.payApplyNumber
       this.fiRuleName = val.fiRuleName
+      this.voidOrNot = val.voidOrNot
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -488,7 +490,8 @@ export default {
         businessNo: this.payApplyNumber,
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
-        warnLogId: this.$parent?.currentRow.warnLogId
+        warnLogId: this.$parent?.currentRow.warnLogId,
+        voidOrNot: this.voidOrNot
       }
       if (this.isRegulationClass10()) {
         param = {
@@ -506,7 +509,8 @@ export default {
           warnLogId: this.$parent?.currentRow?.warnLogId,
           businessTime: this.businessTime,
           endTime: this.endTime,
-          mark: 1 // 标识预警弹窗使用
+          mark: 1, // 标识预警弹窗使用
+          voidOrNot: this.voidOrNot
         }
       }
       this.tableLoading = true

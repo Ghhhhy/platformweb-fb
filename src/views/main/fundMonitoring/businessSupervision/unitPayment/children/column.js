@@ -668,6 +668,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -687,6 +688,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '单位名称'
         }
       }
@@ -819,6 +821,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '单位名称'
         }
       }
@@ -832,6 +835,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '中央直达资金名称'
         }
       }
@@ -845,6 +849,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '支出科目名称'
         }
       }
@@ -858,6 +863,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '本级专项资金名称'
         }
       }
@@ -871,6 +877,7 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '上级文号'
         }
       }
