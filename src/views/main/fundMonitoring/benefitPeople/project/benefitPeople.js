@@ -78,6 +78,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '项目名称'
         }
       }
@@ -100,6 +101,7 @@ export let proconf = {
               children: 'children'
             },
             placeholder: '预算单位',
+            clearable: true,
             multiple: true,
             readonly: true,
             isleaf: true
@@ -117,6 +119,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '指标文号'
         }
       }
@@ -131,6 +134,7 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
+          clearable: true,
           placeholder: '资金用途'
         }
       }
