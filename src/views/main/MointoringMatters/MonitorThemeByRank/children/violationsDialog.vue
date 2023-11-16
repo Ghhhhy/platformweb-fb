@@ -220,7 +220,7 @@ export default {
       fiscalYear: '',
       businessTime: '',
       endTime: '',
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -442,7 +442,7 @@ export default {
         inquiriesStatus: this.inquiriesStatus,
         regulationClass: this.regulationClass,
         regulationType: this.regulationType,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       if (param.endTime && this.$store.getters.isSx) {
         param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')

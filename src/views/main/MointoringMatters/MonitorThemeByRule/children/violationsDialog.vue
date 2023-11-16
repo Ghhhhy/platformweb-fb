@@ -216,7 +216,7 @@ export default {
       fiscalYear: this.queryFormData.fiscalYear,
       endTime: '',
       businessTime: '',
-      voidOrNot: '2'
+      voidOrNot: ''
     }
   },
   mounted() {
@@ -433,7 +433,7 @@ export default {
         mofDivCodeList: this.queryFormData.mofDivCodeList,
         fiRuleName: this.queryFormData.fiRuleName,
         jurisdiction: this.$store.getters.getIsJurisdiction,
-        voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
+        voidOrNot: this.voidOrNot
       }
       this.showLoading = true
       HttpModule.getViolationsDetailDatas(param).then(res => {

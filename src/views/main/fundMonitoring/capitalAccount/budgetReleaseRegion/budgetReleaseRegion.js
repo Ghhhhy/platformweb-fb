@@ -1689,7 +1689,8 @@ if (store.getters.isSx) {
                   width: 100,
                   align: 'right',
                   cellRender: { name: '$vxeMoney' },
-                  formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
+                  // formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
+                  formula: '({amountSnjzyxd}-{amountSnjzybjfp}-{amountSnjzyxjfp})'
                 },
                 {
                   title: '地方安排',

@@ -1248,6 +1248,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/ZhunHuMonitorWarningResults', // 财政专户预警结果查询
+    name: 'ZhunHuMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/guaranteedSalaryWarningTable', // 三保监控预警结果查询
     name: 'guaranteedSalaryWarningTable',
     meta: {

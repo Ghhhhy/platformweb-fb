@@ -43,16 +43,16 @@
             {{ fileConfig.fileName }}
           </div>
         </div>
-        <div class="idtu-import-btn">
-          <vxe-button
-            v-deClick
-            class="download-button-btn"
-            type="primary"
-            :disabled="fileConfig.fileName === '' || disabled"
-            content="导入"
-            @click="onImportClick"
-          />
-        </div>
+        <!--        <div class="idtu-import-btn">-->
+        <!--          <vxe-button-->
+        <!--            v-deClick-->
+        <!--            class="download-button-btn"-->
+        <!--            type="primary"-->
+        <!--            :disabled="fileConfig.fileName === '' || disabled"-->
+        <!--            content="导入"-->
+        <!--            @click="onImportClick"-->
+        <!--          />-->
+        <!--        </div>-->
       </div>
     </vxe-modal>
   </div>
