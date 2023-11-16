@@ -1257,6 +1257,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/ZhuanXiangMonitorWarningResults', // 预算执行专项监督预警结果查询
+    name: 'ZhuanXiangMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/guaranteedSalaryWarningTable', // 三保监控预警结果查询
     name: 'guaranteedSalaryWarningTable',
     meta: {
