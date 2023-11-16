@@ -58,6 +58,12 @@
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
         >
+          <template v-slot:toolbar-custom-slot>
+            <span class="fn-inline">开关：</span>
+            <div class="toolbar-slot-custom-slot fn-inline mgr15">
+              <vxe-switch v-model="isEnableState" size="medium" open-label="已启用" close-label="未启用" @change="isEnableChange" />
+            </div>
+          </template>
           <template v-slot:toolbarSlots>
             <div class="table-toolbar-left">
               <div v-if="!leftTreeVisible && showMonitorTree" class="table-toolbar-contro-leftvisible" @click="leftTreeVisible = true"></div>
@@ -329,13 +335,17 @@ export default {
       showMonitorTree: true, // 控制树的展示隐藏
       regulation_class: '',
       regulation_type: '',
-      regulation_code: ''
+      regulation_code: '',
+      isEnableState: true
     }
   },
   mounted() {
   },
 
   methods: {
+    isEnableChange() {
+      this.queryTableDatas()
+    },
     /**
      * 动态控制监控主题是树的显示  regulationClass
      * regulationClass 可由页面参数传入
@@ -799,7 +809,7 @@ export default {
         businessModelCode: '', // 业务模块
         businessFeaturesCode: '', // 业务功能
         regulationStatus: this.regulationStatus, // 规则状态：1.新增  2.送审  3.审核
-        isEnable: this.isEnable,
+        isEnable: this.isEnableState ? 1 : 0,
         triggerClass: this.triggerClass,
         isSpeType: this.isSpeType,
         regulationName: this.regulationName,

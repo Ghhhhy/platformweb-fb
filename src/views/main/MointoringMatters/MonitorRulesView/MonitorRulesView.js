@@ -232,25 +232,25 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '是否启用',
-      field: 'isEnable',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '1', label: '是' },
-          { value: '0', label: '否' }
-        ],
-        props: {
-          clearable: true,
-          placeholder: '是否启用'
-        }
-      }
-    },
+    // {
+    //   title: '是否启用',
+    //   field: 'isEnable',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '1', label: '是' },
+    //       { value: '0', label: '否' }
+    //     ],
+    //     props: {
+    //       clearable: true,
+    //       placeholder: '是否启用'
+    //     }
+    //   }
+    // },
     {
       title: '触发方式',
       field: 'triggerClass',
