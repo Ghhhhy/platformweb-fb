@@ -1457,7 +1457,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '项目名称'
+          placeholder: '项目名称',
+          clearable: true
         }
       }
     }
@@ -1477,7 +1478,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1490,7 +1492,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '用途'
+          placeholder: '用途',
+          clearable: true
         }
       }
     },
@@ -1503,7 +1506,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '项目名称'
+          placeholder: '项目名称',
+          clearable: true
         }
       }
     },
@@ -1516,7 +1520,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '付款方账户名称'
+          placeholder: '付款方账户名称',
+          clearable: true
         }
       }
     },
@@ -1529,7 +1534,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '付款方账号'
+          placeholder: '付款方账号',
+          clearable: true
         }
       }
     },
@@ -1542,7 +1548,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '收款方账户名称'
+          placeholder: '收款方账户名称',
+          clearable: true
         }
       }
     },
@@ -1555,7 +1562,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '收款方账号'
+          placeholder: '收款方账号',
+          clearable: true
         }
       }
     },
@@ -1570,7 +1578,8 @@ let proconf = {
         props: {
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
-          placeholder: '付款日期'
+          placeholder: '付款日期',
+          clearable: true
         }
       }
     }
