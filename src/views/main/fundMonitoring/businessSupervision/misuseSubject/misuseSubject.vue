@@ -173,7 +173,7 @@ export default {
       // editRules: getFormData('basicInfo', 'editRules'),
       ifRenderExpandContentTable: true,
       pagerConfig: {
-        // autoHidden: true,
+        autoHidden: true,
         total: 0,
         currentPage: 1,
         pageSize: 50

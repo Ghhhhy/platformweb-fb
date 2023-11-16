@@ -10,6 +10,14 @@
       @close="dialogClose"
     >
       <div v-loading="addLoading" class="payVoucherInput">
+        <template v-if="$store.getters.isFuJian">
+          <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">明细信息</div>
+          <BsForm
+            ref="incomeMsgRef"
+            :form-items-config="incomeMsgConfig"
+            :form-data-list="supplyDataList"
+          />
+        </template>
         <div v-for="(item,index) in formData" :key="item.titleName">
           <template v-if="item.type !== 'components'">
             <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">{{ item.titleName }}</div>
@@ -59,7 +67,8 @@
 </template>
 <script>
 // import { proconf } from './createProcessing.js'
-import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
+import { post, get } from '@/api/http'
+import { proconf } from '@//views/main/fundMonitoring/violationHandle/createProcessing/createProcessing.js'// 福建 需要展示违规处理单详情里面的违规明细
 // import { checkPhone } from '@/utils/index.js'
 import VXETable from 'vxe-table'
 import loadBsConfig from '@/views/main/dynamicTableSetting/config'
@@ -69,6 +78,16 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo
+    },
+    incomeMsgConfig() {
+      let defaultColumns = proconf.incomeMsgConfig// 事后工作流默认预算执行表单
+      const notShowField = ['payBusType', 'todoName', 'voidOrNot']
+      if (!this.param5.show) {
+        return defaultColumns.filter(item => {
+          return !notShowField.includes(item.field)
+        })
+      }
+      return defaultColumns
     }
   },
   props: {
@@ -90,6 +109,7 @@ export default {
       validateData: {},
       title: '监控处理单',
       dialogVisible: false,
+      supplyDataList: {},
       createValidate: {
 
         // phone1: [
@@ -119,7 +139,7 @@ export default {
         province: this.mofDivCode || this.userInfo.province,
         billguid: billguid
       }
-      return HttpModule.getFile(params).then((res) => {
+      return get(BSURL.api_fileservice_v2_files, params).then((res) => {
         let fileList = JSON.parse(res.data) || []
         fileList.length && fileList.forEach(element => {
           let size = element.filesize / 1024
@@ -274,7 +294,7 @@ export default {
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
       }
-      HttpModule.workFlowUpdate([params]).then(res => {
+      post(BSURL.lmp_workFlowWorkFlowUpdate, [params]).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
           this.$message.success('核实反馈成功')
@@ -286,6 +306,25 @@ export default {
     },
     initModal() {
       console.log('查看数据', Object.assign({}, this.createDataList))
+      if (this.$store.getters.isFuJian) {
+        let thirdCode = '0'
+        let codeList = [this.createDataList.warningCode, this.createDataList.fiRuleCode, thirdCode].filter(Boolean).join('/')
+        get(BSURL.lmp_executeWarnGetDetail + codeList).then(res => {
+          let supplayObject = {}
+          if (res.data.executeData) {
+            supplayObject = this.reassemblingParameters({ ...res.data, ...res.data.executeData })
+            supplayObject.isUnionFunds = res.data.executeData?.proCatCode === null ? '' : res.data.executeData?.isFunCode + '-' + (res.data.executeData?.isFunCode === 1 ? '是' : '否')
+            supplayObject.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+          }
+          if (res.data.payVoucherVo !== null) {
+            supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.payVoucherVo) }
+          }
+          if (res.data.baBgtInfoEntity !== null) {
+            supplayObject = { ...supplayObject, ...this.reassemblingParameters(res.data.baBgtInfoEntity) }
+          }
+          this.supplyDataList = supplayObject
+        })
+      }
       this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
         res.forEach(item => {
           this.configTypeId[item.type] = item.id
@@ -300,6 +339,37 @@ export default {
       if (!row.fileguid) return
       this.downloadParams.fileguid = row.fileguid
       this.$refs.attachmentUpload.downloadFileFile()
+    },
+    // 重新组装数据
+    reassemblingParameters(pickFiledObject = {}) {
+      const defaultReassemblingGroup = ['Code', 'Name']
+
+      // 指定哪些key需要pick 默认取filed
+      const filedList = this.incomeMsgConfig.map(item => item.field)
+      // 以下特殊key对应取后面值的code+name形式
+      const filedReassemblingGroup = {
+        natureOfFunds: 'fundTypeCode',
+        deptEconomyType: 'depBgtEcoCode',
+        govEconomyType: 'govBgtEcoCode',
+        settlementMethod: 'setModeCode',
+        directFund: 'isDirCode',
+        salaryMark: 'isSalCode',
+        funcType: 'expFuncCode',
+        businessOffice: 'manageMofDepCode',
+        paymentMethod: 'payTypeCode',
+        isThrExp: 'thrExpCode',
+        payBusType: 'payBusTypeCode'
+      }
+      const newParameters = {}
+      filedList.forEach(field => {
+        let valueList = [pickFiledObject[field]]
+        if (filedReassemblingGroup[field]) {
+          valueList = defaultReassemblingGroup.map(replaceField => filedReassemblingGroup[field].replace('Code', replaceField)).map(newField => pickFiledObject[newField])
+        }
+        let newValueString = valueList.filter(Boolean).join('-') || ''// 去掉无用值 拼接
+        newParameters[field] = newValueString
+      })
+      return newParameters
     },
     async loadConfig(configTypeId) { // 请求工作流formitem配置项
       let { form } = configTypeId

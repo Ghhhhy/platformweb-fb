@@ -21,6 +21,8 @@ const BSURL = {
   lmp_totalWarnPageQueryForCreate: 'large-monitor-platform/lmp/totalWarn/pageQueryForCreate', // 福建 监控处理单生成  分页查询页面
   lmp_totalWarnCreateUpdate: 'large-monitor-platform/lmp/totalWarn/createUpdate', // 福建 监控处理单生成  生成工作流接口
   lmp_totalWarnPageQueryForCreateCount: 'large-monitor-platform/lmp/totalWarn/pageQueryForCreateCount', // 福建 监控处理单生成 数量查询
+  lmp_executeWarnGetDetail: 'large-monitor-platform/lmp/executeWarn/getDetail/', // 预算执行 查看违规明细信息
+  lmp_workFlowWorkFlowUpdate: 'large-monitor-platform/lmp/workFlow/workFlowUpdate', // 事后工作流 违规处理弹窗 更新状态
 
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
@@ -32,6 +34,7 @@ const BSURL = {
   dfr_benefitPeoplePagePayQuery: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/queryPayCertInfo', // 惠企利民支付明细导入_支付凭证数据查询
   dfr_benefitPeopleNotHook: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', // 惠企利民支付明细导入_取消挂接
   dfr_benefitPeopleDelete: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/deleteBenefitData', // 惠企利民支付明细导入_删除惠企明细数据
+  dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
   // mp-b-basedata-service 平台
   api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
   api_fileservice_v2_files: 'fileservice/v2/files'// 平台获取文件列表
