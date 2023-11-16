@@ -1,6 +1,10 @@
 import store from '@/store/index'
 import transJson from '@/utils/transformMenuQuery'
 // 预算执行表头
+function unique(arr) {
+  const res = new Map()
+  return arr.filter((arr) => !res.has(arr.id) && res.set(arr.id, 1))
+}
 const budgetImpColumns = [
   {
     title: '区划',
@@ -2937,6 +2941,10 @@ const proconf = {
           }
         })
       }
+      let newArr = unique(columns)
+      let newArrTwo = unique(this.highQueryConfig)
+      columns = newArr
+      this.highQueryConfig = newArrTwo
     }
     const tempOperatorColumns = [...operatorColumns]
     if (showLog) {
