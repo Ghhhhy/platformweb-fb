@@ -8,35 +8,65 @@
     :show-footer="!$store.getters.isSx"
     @close="dialogClose"
   >
-    <BsTable
-      ref="mainTableRef"
-      :footer-config="$store.getters.isSx ? tableFooterConfigSx : tableFooterConfig"
-      :table-config="$store.getters.isSx ? tableConfigSx : tableConfig"
-      :table-columns-config="tableColumnsConfig"
-      :table-data="tableData"
-      :toolbar-config="tableToolbarConfig"
-      :cell-style="cellStyle"
-      :pager-config="pagerConfig"
-      :export-modal-config="{ fileName: title }"
-      @cellClick="cellClick"
-      @onToolbarBtnClick="onToolbarBtnClick"
-      @ajaxData="ajaxTableData"
-    >
-      <template v-slot:toolbarSlots>
-        <div class="table-toolbar-left">
-          <div class="table-toolbar-left-title">
-            <span class="fn-inline">{{ title }}{{ !$store.getters.isSx ? "(单位:万元)" : "" }}</span>
-            <i class="fn-inline"></i>
+    <div style="height: calc(100% - 80px)">
+      <div v-show="isShowQueryConditions" class="main-query">
+        <BsQuery
+          ref="queryFrom"
+        >
+          <template v-slot:action-button-before>
+            <vxe-button
+              v-if="$store.getters.isFuJian"
+              content="导出全部"
+              status="primary"
+              size="medium"
+              :loading="requestLoading"
+              @click="serverExport"
+            />
+          </template>
+        </BsQuery>
+      </div>
+      <BsTable
+        ref="mainTableRef"
+        :footer-config="$store.getters.isSx ? tableFooterConfigSx : tableFooterConfig"
+        :table-config="$store.getters.isSx ? tableConfigSx : tableConfig"
+        :table-columns-config="tableColumnsConfig"
+        :table-data="tableData"
+        :toolbar-config="tableToolbarConfig"
+        :cell-style="cellStyle"
+        :pager-config="pagerConfig"
+        :export-modal-config="{ fileName: title }"
+        @register="register"
+        @cellClick="cellClick"
+        @onToolbarBtnClick="onToolbarBtnClick"
+        @ajaxData="ajaxTableData"
+      >
+        <template v-slot:toolbarSlots>
+          <div class="table-toolbar-left">
+            <div class="table-toolbar-left-title">
+              <span class="fn-inline">{{ title }}{{ !$store.getters.isSx ? "(单位:万元)" : "" }}</span>
+              <i class="fn-inline"></i>
+            </div>
           </div>
-        </div>
-      </template>
-    </BsTable>
+        </template>
+      </BsTable>
+    </div>
   </vxe-modal>
 </template>
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {
   },
@@ -186,6 +216,7 @@ export default {
           }
         })
         this.$parent.tableLoading = true
+        this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
         HttpModule.detailPageQuery(params).then((res) => {
           this.$parent.tableLoading = false
           if (res.code === '000000') {
