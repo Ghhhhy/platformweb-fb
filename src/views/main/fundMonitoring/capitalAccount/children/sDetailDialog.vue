@@ -27,6 +27,7 @@
       :pager-config="pagerConfig"
       :default-money-unit="10000"
       :export-modal-config="{ fileName: title }"
+      @register="register"
       @onToolbarBtnClick="onToolbarBtnClick"
       @ajaxData="ajaxTableData"
     >
@@ -66,7 +67,18 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import proconf from './column.js'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'SDetailDialog',
   components: {},
   computed: {
@@ -233,6 +245,7 @@ export default {
         params = { ...params, ...this.drillingParam }
       }
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       if (this.isSx) {
         HttpModule.querySum(params).then(res => {
           if (res.code === '000000') {

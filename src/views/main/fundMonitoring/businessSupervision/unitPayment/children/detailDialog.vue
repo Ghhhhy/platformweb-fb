@@ -9,14 +9,22 @@
     @close="dialogClose"
   >
     <div style="height: calc(100% - 80px)">
-      <!-- <div v-show="isShowQueryConditions" class="main-query">
+      <div v-show="isShowQueryConditions" class="main-query">
         <BsQuery
           ref="queryFrom"
-          :query-form-item-config="queryConfig"
-          :query-form-data="searchDataList"
-          @onSearchClick="search"
-        />
-      </div> -->
+        >
+          <template v-slot:action-button-before>
+            <vxe-button
+              v-if="$store.getters.isFuJian"
+              content="导出全部"
+              status="primary"
+              size="medium"
+              :loading="requestLoading"
+              @click="serverExport"
+            />
+          </template>
+        </BsQuery>
+      </div>
       <BsTable
         ref="mainTableRef"
         :footer-config="tableFooterConfig"
@@ -29,6 +37,7 @@
         :title="title"
         show-zero
         :default-money-unit="10000"
+        @register="register"
         @cellClick="cellClick"
         @onToolbarBtnClick="onToolbarBtnClick"
         @ajaxData="ajaxTableData"
@@ -48,7 +57,18 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/unitPayment.js'
 import proconf from './column.js'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {
   },
@@ -211,6 +231,7 @@ export default {
       params.page = this.pagerConfig.currentPage // 页码
       params.pageSize = this.pagerConfig.pageSize // 每页条数
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.queryDetailDatas(params).then((res) => {
         this.$parent.tableLoading = false
         if (res.code === '000000') {
