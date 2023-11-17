@@ -303,6 +303,7 @@ export default {
       regulationType: '',
       warningLevel: '',
       DetailData: {},
+      regulationClass: '',
       regulationclass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || '',
       mofDivCode: '',
       isApprove: false,
