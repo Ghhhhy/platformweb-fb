@@ -492,6 +492,7 @@ export default {
       xmDisabled: false,
       // 规则详情信息
       DetailData: {},
+      formDatas: {},
       dialogVisibleShow: false,
       dialogVisibleKjsm: false,
       dialogTitle: '查看详情',
@@ -629,6 +630,7 @@ export default {
           HttpDetailModule.getDetailData(obj.row.regulationCode).then((res) => {
             if (res.code === '000000') {
               this.DetailData = res.data
+              this.formDatas = { ...res.data.regulationElementEntitieList[0] } // 用于子级弹窗页面 查看规则详情白名单回显
               this.dialogTitle = '查看详情'
               this.dialogVisibleShow = true
             }
