@@ -243,6 +243,9 @@ export default defineComponent({
         }
         return queryForm
       },
+      afterFeatch: (tableData) => {
+        return tableData
+      },
       columns: clickColumns,
       tableToolbarConfig: {
         disabledMoneyConversion: false,
