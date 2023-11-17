@@ -1,6 +1,7 @@
 <template>
   <vxe-modal
     v-model="dialogVisible"
+    v-loading="tableLoadingState"
     v-bind="modalStaticProperty"
     class="carryImplementationRegionModal"
     @close="dialogClose"
