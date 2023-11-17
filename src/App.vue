@@ -73,17 +73,15 @@ export default {
         })
     },
     getUrlSearchToken() {
-      let { tokenid, appguid, intoMune } = this.getUrlAllParams()
+      let { tokenid, appguid, intoMenu } = this.getUrlAllParams()
       tokenid = tokenid || this.getCookie('tokenid')
       appguid = appguid || this.getCookie('appguid')
-      if (intoMune) {
-        return
-      }
       if (tokenid) {
         localStorage.setItem('tokenid', tokenid)
         this.$store.commit('setLoginAuthentication', {
           tokenid,
-          appguid
+          appguid,
+          intoMenu
         })
         // 如果是通过外链进入预算系统，因为别的系统不会存储用户信息，所以需要请求用户信息
       } else {
@@ -92,6 +90,9 @@ export default {
       // iframe形式嵌入不用重置到首页
       if (window.self !== window.top) {
         import('./appMain.css')
+        return
+      }
+      if (intoMenu) {
         return
       }
       // 缓存url参数后更新URL
@@ -216,7 +217,51 @@ export default {
         }).catch(() => {
           this.$router.push('HomeCard')
         })
+      } else {
+        MenuModule.getMenuInfo().then((res) => {
+          console.log('菜单数据', res)
+          this.ifrouteractive = true
+          if (Array.isArray(res) && res.length) {
+            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            let intoMenu = this.getUrlAllParams().intoMenu
+            if (intoMenu) {
+              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
+              if (findIntoMenu !== null) {
+                window.history.pushState({}, '', window.location.pathname + '#/')
+                this.$router.push(findIntoMenu.url)
+              } else {
+                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
+                this.$router.push('HomeCard')
+              }
+            }
+          } else this.$router.push('HomeCard')
+        }).catch(() => {
+          this.$router.push('HomeCard')
+        })
       }
+    },
+    // 寻找到当前intoMenu的菜单
+    findObjByKeyValue(arr, key, value) {
+      console.log('arr', arr)
+      console.log('key', key)
+      console.log('value', value)
+      // 递归查找
+      function recursive(data) {
+        data.every((item) => {
+          // debugger
+          if (item[key] === value) {
+            findObj = item
+            return false
+          }
+          if (item.children && item.children.length) {
+            recursive(item.children)
+          }
+          return true
+        })
+      }
+      let findObj = null
+      recursive(arr)
+      return findObj
     }
   },
   async created () {
@@ -239,12 +284,12 @@ export default {
     this.showLogo()
     await this.getUrlSearchToken()
     await this.authentication()
+    await this.getMenuInfo()
     if (window.self === window.top) {
       console.log('=========处于非iframe环境=============')
       // 获取预警信息
       this.$store.dispatch('warnInfo/getWarnInfo')
     }
-    this.getMenuInfo()
   },
   watch: {}
 }

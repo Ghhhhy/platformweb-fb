@@ -452,27 +452,24 @@ export default {
       return obj
     },
     getMenus() {
-      // 三级菜单请求
       let self = this
-      MenuModule.getMenuInfo().then((res) => {
-        // this.navMenuData[0].children = res
-        // this.menuData = this.navMenuData
-        if (Array.isArray(res)) {
-          if (res.length) {
-            self.menuData = res
-            this.addDynamicRoutingRoute(this.recursiveChangeUrl(res))
-            this.onMenuSelectChange(this.defaultActiveMenu)
-            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
-            // 根据菜单信息获取待办
-            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
-          } else {
-            // this.$message({
-            //   dangerouslyUseHTMLString: true,
-            //   message: '当前用户'
-            // })
+      let { intoMenu } = this.$store.state.loginAuthentication
+      let menuItem = this.$store.state.systemMenu
+      if (menuItem.length) {
+        self.menuData = menuItem
+        // this.addDynamicRoutingRoute(this.recursiveChangeUrl(menuItem))
+        // this.onMenuSelectChange(this.defaultActiveMenu)
+        if (intoMenu) {
+          let findIntoMenu = self.findObjByKeyValue(menuItem, 'guid', intoMenu)
+          if (findIntoMenu !== null) {
+            self.$store.state.loginAuthentication.intoMenu = findIntoMenu
+            self.$store.commit('setCurMenuObj', findIntoMenu)
           }
+          setTimeout(() => {
+            this.ifrouteractive = true
+          }, 200)
         }
-      })
+      }
     },
     recursiveChangeUrl(data, reuseRouts = []) {
       // 递归获取动态复用路由
@@ -486,9 +483,19 @@ export default {
             item.url = this.updateUrl(item.url)
           }
           if (item.url && item.url.indexOf('ReuseRoute') >= 0) {
-            item.uucode = Math.floor(Math.random() * 100000000)
             reuseRouts.push(Object.assign({}, item))
-            item.url = item.uucode + item.url
+            item.url = item.code + item.url
+          } else if (/^\/[A-Za-z0-9]{1,}\/[A-Za-z0-9]{32}$/ig.test(item.url)) {
+            item.url = 'ReuseRoute' + item.url.split('/')[1]
+            reuseRouts.push(Object.assign({}, item))
+            item.url = item.code + item.url
+          } else if (/^[/]{1,}[A-Za-z0-9]{1,}$/ig.test(item.url)) {
+            let urlArr = item.url.split('/')
+            item.url = 'ReuseRoute' + urlArr[urlArr.length - 1]
+            reuseRouts.push(Object.assign({}, item))
+            item.url = item.code + item.url
+          } else {
+
           }
         }
       })
@@ -569,12 +576,12 @@ export default {
     }
   },
   watch: {
-    'this.$store.state.systemMenu': {
+    '$store.state.systemMenu': {
       handler(newValue, oldValue) {
         console.log('index进来没')
         if (newValue !== oldValue) {
           console.log('index进来了')
-          this.getMenusInfo()
+          this.getMenus()
         }
       },
       deep: true,
@@ -602,6 +609,7 @@ export default {
     },
     value: {
       handler(newValue) {
+        console.log('newValue', newValue)
         this.tabTabs(newValue)
         this.isCollection()
       },
