@@ -75,8 +75,10 @@ export default {
   computed: {
     handletableColumnsConfig() {
       if (this.param5.retroact === 'company' || this.param5.tableHide) {
+        console.log('compayHandletableColumnsConfig')
         return proconf.compayHandletableColumnsConfig
       } else { // 当配置了tableHide参数时，需要隐藏字段
+        console.log('handletableColumnsConfig')
         return proconf.handletableColumnsConfig
       }
     },
@@ -523,6 +525,7 @@ export default {
   },
   created() {
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
+    console.log('进入福建查看详情')
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
       this.setFormItem()
