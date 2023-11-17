@@ -807,7 +807,7 @@ export default {
   methods: {
     formItemChange(obj) {
       if (obj.property === 'payment') {
-        let data = obj.itemValue ? obj.itemValue.split(',').slice(1) : []
+        let data = obj.itemValue ? obj.itemValue.split(',').slice(0) : []
         let content = this.formItemsConfigMessage[0].itemRender.options
         this.formItemsConfigMessage.splice(1, this.paymentLen)
         if (this.paymentData) {
@@ -2067,7 +2067,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
         if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(0)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}
@@ -2117,7 +2117,7 @@ export default {
       }
     } else {
       if (this.$parent.formDatas) {
-        this.formDatas = this.$parent.formDatas
+        this.formDatas = {}
         if (this.formDatas.payment && this.formDatas.payment !== '') {
           this.formDatas.payment__multiple = this.formDatas.payment.split(',')
           this.paymentLen = this.formDatas.payment__multiple.length
