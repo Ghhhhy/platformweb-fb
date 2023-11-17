@@ -33,7 +33,6 @@
             :form-data-list="supplyDataList"
           />
         </div>
-        <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :default-form-data="defaultFormData" />
         <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold;">规则信息</div>
         <BsTable
           ref="handleTableRef"
@@ -46,6 +45,7 @@
           :pager-config="false"
           @cellClick="cellClick"
         />
+        <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :default-form-data="defaultFormData" />
       </div>
       <div slot="footer" style="height: 80px;margin:0 15px">
         <el-divider style="color:#E7EBF0" />
