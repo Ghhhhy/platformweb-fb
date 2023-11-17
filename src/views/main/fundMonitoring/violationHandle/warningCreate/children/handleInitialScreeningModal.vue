@@ -379,7 +379,7 @@ export default {
         let valid = await this.$refs.businessMsgRef1?.validate()
         if (valid !== undefined) return undefined
         let dataList = this.selectedData.map(item => {
-          return {
+          let data = {
             ...pickObjectField(this.createDataList, this.formItemConfig.filter(item => item.visible).map(item => item.field)),
             attachmentid1: this.createDataList.attachmentid1,
             bgtMofDepId: item.bgtMofDepId,
@@ -387,6 +387,10 @@ export default {
             fiRuleCode: item.fiRuleCode,
             warningCode: item.warningCode
           }
+          if (this.$store.getters.isFuJian) {
+            data.issueType = '1'
+          }
+          return data
         })
         let params = {
           businessModuleCode: this.bussnessId,
