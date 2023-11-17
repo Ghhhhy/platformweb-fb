@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import MenuModule from '@/api/frame/common/menu.js'
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
 
@@ -72,9 +73,12 @@ export default {
         })
     },
     getUrlSearchToken() {
-      let { tokenid, appguid } = this.getUrlAllParams()
+      let { tokenid, appguid, intoMune } = this.getUrlAllParams()
       tokenid = tokenid || this.getCookie('tokenid')
       appguid = appguid || this.getCookie('appguid')
+      if (intoMune) {
+        return
+      }
       if (tokenid) {
         localStorage.setItem('tokenid', tokenid)
         this.$store.commit('setLoginAuthentication', {
@@ -189,9 +193,34 @@ export default {
         }
       }
       return false
+    },
+    getMenuInfo() {
+      let tokenInfo = localStorage.getItem('tokenInfo')
+      if (!this.getUrlAllParams().tokenid && tokenInfo) {
+        MenuModule.getMenuInfo().then((res) => {
+          console.log('菜单数据', res)
+          this.ifrouteractive = true
+          if (Array.isArray(res) && res.length) {
+            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            let tokenInfo = localStorage.getItem('tokenInfo')
+            let intoMenu = JSON.parse(tokenInfo).intoMenu
+            if (intoMenu) {
+              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
+              if (findIntoMenu !== null) this.$router.push(findIntoMenu.url)
+              else {
+                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
+                this.$router.push('HomeCard')
+              }
+            }
+          } else this.$router.push('HomeCard')
+        }).catch(() => {
+          this.$router.push('HomeCard')
+        })
+      }
     }
   },
   async created () {
+    this.getUrlSearchToken()
   },
 
   async mounted() {
@@ -215,6 +244,7 @@ export default {
       // 获取预警信息
       this.$store.dispatch('warnInfo/getWarnInfo')
     }
+    this.getMenuInfo()
   },
   watch: {}
 }
