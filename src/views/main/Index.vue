@@ -533,6 +533,28 @@ export default {
     },
     onQuickNavClick(obj) {
       this.onMenuSelectChange(obj)
+    },
+    getMenusInfo() {
+      // 三级菜单请求
+      let self = this
+      let { intoMenu } = this.$store.state.loginAuthentication
+      let menuItem = this.$store.state.systemMenu
+      if (menuItem.length) {
+        self.menuData = menuItem
+        this.addDynamicRoutingRoute(this.recursiveChangeUrl(menuItem))
+        this.onMenuSelectChange(this.defaultActiveMenu)
+        // this.$store.commit('setSystemMenu', menuItem) // 将菜单存储到store
+        if (intoMenu) {
+          let findIntoMenu = self.findObjByKeyValue(menuItem, 'guid', intoMenu)
+          if (findIntoMenu !== null) {
+            self.$store.state.loginAuthentication.intoMenu = findIntoMenu
+            self.$store.commit('setCurMenuObj', findIntoMenu)
+          }
+          setTimeout(() => {
+            this.ifrouteractive = true
+          }, 200)
+        }
+      }
     }
   },
   mounted() {
@@ -547,6 +569,17 @@ export default {
     }
   },
   watch: {
+    'this.$store.state.systemMenu': {
+      handler(newValue, oldValue) {
+        console.log('index进来没')
+        if (newValue !== oldValue) {
+          console.log('index进来了')
+          this.getMenusInfo()
+        }
+      },
+      deep: true,
+      immediate: false
+    },
     curMenuObj: {
       handler(newValue) {
         let curKeepAlive = this.tabListCp.find(item => item.url === newValue.url)
