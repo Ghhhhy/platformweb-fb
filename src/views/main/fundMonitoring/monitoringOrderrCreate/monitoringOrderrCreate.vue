@@ -26,6 +26,7 @@
       <template v-slot:mainForm>
         <BsTable
           ref="mainTableRef"
+          v-loading="tableLoadingState"
           :footer-config="tableFooterConfig"
           :table-columns-config="columns"
           :table-data="tableData"
@@ -53,11 +54,13 @@
       v-bind="detailModalLayout"
       @close="closeHandle"
     />
+    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" :create-data-list="createDataList" @close="showModal = false" />
   </div>
 </template>
 
 <script lang="jsx">
-import { defineComponent, toRefs, reactive, ref } from '@vue/composition-api'
+import MonitProcFeedbackModal from '@/views/main/fundMonitoring/monitoringOrderrCreate/monitoringOrderrCreateModal.vue'
+import { defineComponent, computed, toRefs, reactive, ref, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { post } from '@/api/http'
 import { tableColumns, queryColumns, tabButtonColumns } from './columns'
@@ -67,11 +70,14 @@ import { message } from 'element-ui'
 // import transJson from '@/utils/transformMenuQuery'
 export default defineComponent({
   components: {
-    ShowDialog
+    ShowDialog,
+    MonitProcFeedbackModal
   },
   setup() {
     const queryFrom = ref()
     const mainTableRef = ref()
+    const _this = getCurrentInstance().proxy
+    const showModal = ref(false)
     const pickObjectField = (obj = {}, field) => {
       let newObj = {}
       Object.keys(obj).map(item => {
@@ -81,6 +87,14 @@ export default defineComponent({
       })
       return newObj
     }
+    const diffColumns = computed(() => {
+      if (!store.getters.isFuJian) { // 只有福建有操作列
+        return tableColumns(_this).filter(item => {
+          return item.field !== 'opration'
+        })
+      }
+      return tableColumns(_this)
+    })
     const query = reactive({
       isShowQueryConditions: true,
       queryConfig: queryColumns,
@@ -98,13 +112,14 @@ export default defineComponent({
         columns,
         tableData,
         pagerConfig,
+        tableLoadingState,
         tableToolbarConfig,
         fetchTableData,
         onToolbarBtnClick
       },
       register
     ] = useTable({
-      columns: tableColumns, // 表格列配置
+      columns: diffColumns, // 表格列配置
       // fetch: api.getDetail, // 请求数据方法
       fetch: (params) => post(BSURL.lmp_totalWarnPageQueryForCreate, params), // 请求数据方法
       dataKey: 'data.results',
@@ -241,6 +256,11 @@ export default defineComponent({
         }
       })
     }
+    const createDataList = ref({})
+    const handleRowClick = () => {
+      showModal.value = true
+      createDataList.value = {}
+    }
     const closeHandle = () => {
       query.search()
       showDialogVisible.value = false
@@ -259,6 +279,10 @@ export default defineComponent({
       detailModalLayout,
       showDetail,
       closeHandle,
+      handleRowClick,
+      createDataList,
+      showModal,
+      tableLoadingState,
       ...toRefs(fileModalRef),
       ...toRefs(customerProperty),
       ...toRefs(tabPanel),

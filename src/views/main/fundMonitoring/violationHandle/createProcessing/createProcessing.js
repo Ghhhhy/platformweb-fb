@@ -1478,6 +1478,7 @@ export const proconf = {
       'title': '预警级别',
       'field': 'warningLevel',
       'align': 'center',
+      width: 120,
       'cellRender': {
         'name': '$vxeSelect',
         options: store.state.warnInfo.warnLevelOptions.map(item => {
@@ -1496,6 +1497,7 @@ export const proconf = {
       'title': '处理方式',
       'field': 'handleType',
       'align': 'center',
+      width: 220,
       'cellRender': {
         'name': '$vxeSelect',
         'options': [
@@ -1517,6 +1519,33 @@ export const proconf = {
       },
       'sortable': 'true',
       'name': '$vxeSelect'
+    },
+    {
+      title: '规则描述',
+      field: 'ruleDesc',
+      sortable: false,
+      align: 'left',
+      cellRender: {
+        // name: '$vxeTableHref'
+      }
+    },
+    {
+      title: '规则依据',
+      field: 'ruleAccord',
+      sortable: false,
+      align: 'left',
+      cellRender: {
+        // name: '$vxeTableHref'
+      }
+    },
+    {
+      title: '政策法规',
+      field: 'regulationsName',
+      sortable: false,
+      align: 'left',
+      cellRender: {
+        // name: '$vxeTableHref'
+      }
     }
   ],
   incomeMsgConfig: [

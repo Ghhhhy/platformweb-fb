@@ -161,7 +161,7 @@ export default {
           field: 'issueType',
           span: 8,
           titleWidth: '180',
-          visible: isDistribute,
+          visible: isDistribute && !this.$store.getters.isFuJian, // 福建 去掉整改
           itemRender: {
             name: '$select',
             options: [
@@ -335,6 +335,9 @@ export default {
     init() {
       if (this.showType === 'add') {
         this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
+        if (this.$store.getters.isFuJian) {
+          this.createDataList.issueType = '1'
+        }
         this.createDataList.handleResult = ''
         this.createDataList.attachmentid1 = this.$ToolFn.utilFn.getUuid()
         this.createDataList.fileList = []
@@ -376,7 +379,7 @@ export default {
         let valid = await this.$refs.businessMsgRef1?.validate()
         if (valid !== undefined) return undefined
         let dataList = this.selectedData.map(item => {
-          return {
+          let data = {
             ...pickObjectField(this.createDataList, this.formItemConfig.filter(item => item.visible).map(item => item.field)),
             attachmentid1: this.createDataList.attachmentid1,
             bgtMofDepId: item.bgtMofDepId,
@@ -384,6 +387,10 @@ export default {
             fiRuleCode: item.fiRuleCode,
             warningCode: item.warningCode
           }
+          if (this.$store.getters.isFuJian) {
+            data.issueType = '1'
+          }
+          return data
         })
         let params = {
           businessModuleCode: this.bussnessId,

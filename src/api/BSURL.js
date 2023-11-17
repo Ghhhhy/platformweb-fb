@@ -37,7 +37,9 @@ const BSURL = {
   dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
   // mp-b-basedata-service 平台
   api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
-  api_fileservice_v2_files: 'fileservice/v2/files'// 平台获取文件列表
+  api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
+  api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表
+  api_tableconf: 'mp-b-perm-service/v1/tableconf'// 平台 查询单个动态表单JSON配置项
 
 }
 export {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import store from '@/store'
 /* eslint-disable-next-line */
 const h = new Vue().$createElement
-export const tableColumns = [
+export const tableColumns = (ctx) => [
   {
     title: '区划',
     width: 180,
@@ -74,6 +74,7 @@ export const tableColumns = [
     field: 'fiRuleName',
     sortable: false,
     filters: false,
+    minWidth: 180,
     align: 'center',
     tooltipFormat: '{fiRuleCode}-{fiRuleName}',
     formatter({ row }) {
@@ -84,20 +85,18 @@ export const tableColumns = [
   {
     title: '预警级别',
     field: 'warnLevel',
+    'width': 180,
     align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: store.state.warnInfo.warnLevelOptions.map(item => {
-        return {
-          ...item,
-          value: String(item.value)
-        }
-      }),
-      defaultValue: '',
-      props: { disabled: true, placeholder: '预警级别' }
+    filters: store.state.warnInfo.warnLevelOptions,
+    filterRender: {
+      name: '$vxeSelect'
     },
-    name: '$vxeSelect'
+    cellRender: {
+      name: '$warningLevelRender',
+      props: {
+        placeholder: '预警级别'
+      }
+    }
   },
   // {
   //   title: '处理方式',
@@ -147,25 +146,25 @@ export const tableColumns = [
       'totalAll'
     ],
     cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '操作',
+    field: 'opration',
+    width: '230',
+    slots: {
+      default(row) {
+        let vnode = (
+          <div class="fcc">
+            <el-button type="primary" size="mini" onClick={() => ctx.handleRowClick(row)}>查看详情</el-button>
+            {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
+          </div>
+        )
+        return [
+          vnode
+        ]
+      }
+    }
   }
-  // {
-  //   title: '操作',
-  //   field: 'opration',
-  //   width: '230',
-  //   slots: {
-  //     default(row) {
-  //       let vnode = (
-  //         <div class="fcc">
-  //           {/* <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button> */}
-  //           {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
-  //         </div>
-  //       )
-  //       return [
-  //         vnode
-  //       ]
-  //     }
-  //   }
-  // }
 ]
 export const queryColumns = [
   { // 各地省份树结构

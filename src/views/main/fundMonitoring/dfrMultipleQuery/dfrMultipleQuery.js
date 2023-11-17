@@ -181,15 +181,21 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput'
+      }
     },
     {
       title: '指标文号',
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -197,7 +203,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -205,7 +214,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -213,7 +225,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -222,7 +234,7 @@ export let proconf = {
       width: 180,
       field: 'sjzbdrje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -231,7 +243,7 @@ export let proconf = {
       width: 180,
       field: 'zbzhje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -240,7 +252,7 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -249,7 +261,7 @@ export let proconf = {
       width: 180,
       field: 'zbtjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -258,7 +270,7 @@ export let proconf = {
       width: 180,
       field: 'zbzjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -267,7 +279,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -277,7 +289,7 @@ export let proconf = {
       width: 180,
       field: 'bjAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -286,7 +298,7 @@ export let proconf = {
       width: 180,
       field: 'xjAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -295,7 +307,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjfpje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -305,7 +317,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{zbsjje}-{zbsjfpje}',
       cellRender: { name: '$vxeMoney' }
@@ -317,7 +329,10 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -325,7 +340,10 @@ export let proconf = {
       width: 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -333,7 +351,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -341,7 +362,10 @@ export let proconf = {
       width: 180,
       field: 'projectName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -349,7 +373,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -357,7 +384,7 @@ export let proconf = {
       width: 180,
       field: 'amount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -372,7 +399,7 @@ export let proconf = {
       width: 180,
       field: 'yapje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{amount}',
       combinedType: [
@@ -388,7 +415,7 @@ export let proconf = {
       width: 180,
       field: 'zzblje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -403,7 +430,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -418,7 +445,10 @@ export let proconf = {
       width: 180,
       field: 'zjbs',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -426,7 +456,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -434,7 +467,10 @@ export let proconf = {
       width: 180,
       field: 'bgtTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -442,7 +478,10 @@ export let proconf = {
       width: 180,
       field: 'fundTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -450,7 +489,10 @@ export let proconf = {
       width: 180,
       field: 'fiscalYear',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -458,7 +500,10 @@ export let proconf = {
       width: 180,
       field: 'supBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -466,7 +511,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -474,7 +522,10 @@ export let proconf = {
       width: 180,
       field: 'xygzdzxzj',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -482,7 +533,10 @@ export let proconf = {
       width: 180,
       field: 'payTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -490,7 +544,10 @@ export let proconf = {
       width: 180,
       field: 'zcjjflkm',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -498,7 +555,10 @@ export let proconf = {
       width: 180,
       field: 'govBgtEcoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     }
   ],
@@ -508,7 +568,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -516,7 +579,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -524,7 +590,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -532,7 +601,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -541,7 +610,7 @@ export let proconf = {
       width: 180,
       field: 'sjzbdrje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -550,7 +619,7 @@ export let proconf = {
       width: 180,
       field: 'zbzhje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -559,7 +628,7 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -568,7 +637,7 @@ export let proconf = {
       width: 180,
       field: 'zbtjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -577,7 +646,7 @@ export let proconf = {
       width: 180,
       field: 'zbzjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -586,7 +655,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -596,7 +665,7 @@ export let proconf = {
       width: 180,
       field: 'bjAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -605,7 +674,7 @@ export let proconf = {
       width: 180,
       field: 'xjAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -614,7 +683,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjfpje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{bjAmount}+{xjAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -624,7 +693,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{zbsjje}-{zbsjfpje}',
       cellRender: { name: '$vxeMoney' }
@@ -637,7 +706,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -645,7 +717,10 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -653,7 +728,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -661,7 +739,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -669,7 +750,10 @@ export let proconf = {
       width: 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -677,7 +761,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -686,7 +770,7 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -695,7 +779,7 @@ export let proconf = {
       width: 180,
       field: 'zbtjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -704,7 +788,7 @@ export let proconf = {
       width: 180,
       field: 'zbzjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -713,7 +797,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -723,7 +807,7 @@ export let proconf = {
       width: 180,
       field: 'zcAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -732,7 +816,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}-{zcAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -744,7 +828,10 @@ export let proconf = {
       width: 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -752,7 +839,10 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -760,7 +850,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -768,7 +861,10 @@ export let proconf = {
       width: 180,
       field: 'projectName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -776,7 +872,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -784,7 +883,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -799,7 +898,7 @@ export let proconf = {
       width: 180,
       field: 'zcAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -814,7 +913,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -830,7 +929,10 @@ export let proconf = {
       width: 180,
       field: 'zjbs',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -838,7 +940,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -846,7 +951,10 @@ export let proconf = {
       width: 180,
       field: 'bgtTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -854,7 +962,10 @@ export let proconf = {
       width: 180,
       field: 'fundTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -862,7 +973,10 @@ export let proconf = {
       width: 180,
       field: 'fiscalYear',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -870,7 +984,10 @@ export let proconf = {
       width: 180,
       field: 'supBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -879,7 +996,10 @@ export let proconf = {
       field: 'sjzx1',
       // formula: '{proName}',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -887,7 +1007,10 @@ export let proconf = {
       width: 180,
       field: 'xygzdzxzj',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -895,7 +1018,10 @@ export let proconf = {
       width: 180,
       field: 'payTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -903,7 +1029,10 @@ export let proconf = {
       width: 180,
       field: 'govBgtEcoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -911,7 +1040,10 @@ export let proconf = {
       width: 180,
       field: 'depBgtEcoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     }
   ],
@@ -921,7 +1053,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -929,7 +1064,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -937,7 +1075,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -945,7 +1086,10 @@ export let proconf = {
       width: 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -953,7 +1097,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -962,7 +1106,7 @@ export let proconf = {
       width: 180,
       field: 'zbtzje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -971,7 +1115,7 @@ export let proconf = {
       width: 180,
       field: 'zbtjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -980,7 +1124,7 @@ export let proconf = {
       width: 180,
       field: 'zbzjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -989,7 +1133,7 @@ export let proconf = {
       width: 180,
       field: 'zbsjje',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -999,7 +1143,7 @@ export let proconf = {
       width: 180,
       field: 'zcAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
@@ -1008,7 +1152,7 @@ export let proconf = {
       width: 180,
       field: 'zbye',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       formula: '{djAmount}-{zcAmount}',
       cellRender: { name: '$vxeMoney' }
@@ -1020,7 +1164,10 @@ export let proconf = {
       width: 180,
       field: 'recDivName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1028,7 +1175,10 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1036,7 +1186,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1044,7 +1197,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1052,7 +1208,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1060,7 +1219,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     }
@@ -1071,7 +1230,10 @@ export let proconf = {
       width: 180,
       field: 'recDivName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1079,7 +1241,10 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1087,7 +1252,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1095,7 +1263,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1103,7 +1274,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       combinedType: [
         'average',
@@ -1118,7 +1289,10 @@ export let proconf = {
       width: 180,
       field: 'zjbs',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1126,7 +1300,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1134,7 +1311,10 @@ export let proconf = {
       width: 180,
       field: 'bgtTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1142,7 +1322,10 @@ export let proconf = {
       width: 180,
       field: 'fundTypeName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1150,7 +1333,10 @@ export let proconf = {
       width: 180,
       field: 'fiscalYear',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1158,7 +1344,10 @@ export let proconf = {
       width: 180,
       field: 'supBgtDocNoName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1167,7 +1356,10 @@ export let proconf = {
       field: 'proName',
       // formula: '{proName}',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1175,7 +1367,10 @@ export let proconf = {
       width: 180,
       field: 'xygzdzxzj',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1183,7 +1378,10 @@ export let proconf = {
       width: 180,
       field: 'xjzcgnflkm',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     }
   ],
@@ -1193,7 +1391,10 @@ export let proconf = {
       width: 180,
       field: 'recDivName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1201,7 +1402,10 @@ export let proconf = {
       width: 180,
       field: 'bgtMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1209,7 +1413,10 @@ export let proconf = {
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1217,7 +1424,10 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
+      cellRender: {
+        name: '$vxeInput'
+      },
       align: 'center'
     },
     {
@@ -1225,7 +1435,7 @@ export let proconf = {
       width: 180,
       field: 'djAmount',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
     }
