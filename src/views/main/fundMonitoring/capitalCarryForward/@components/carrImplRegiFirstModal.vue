@@ -86,6 +86,7 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
+    const mofDivCodes = ref()
     const modalStaticProperty = {
       title: '项目明细',
       width: '96%',
@@ -117,9 +118,11 @@ export default defineComponent({
         tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCodeMap[$route.name].reportCode,
+          mofDivCodes: mofDivCodes.value,
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
+        console.log('copyObj', copyObj)
         return copyObj
       },
       afterFetch: tableData => {
@@ -203,6 +206,7 @@ export default defineComponent({
       CarrImplRegiSecondModal,
       injectData,
       isFuJian,
+      mofDivCodes,
       init
     }
   }

@@ -459,6 +459,8 @@ export default {
       // case 'amountsjfpbjall':
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
+      console.log('mofDivCodes', this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : [])
+      this.$refs.CarryImplementationRegionModal.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
       this.$refs.CarryImplementationRegionModal.init()
       // break
       // }
