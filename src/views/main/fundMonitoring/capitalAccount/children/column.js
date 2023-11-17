@@ -1618,7 +1618,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1631,7 +1632,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '中央直达资金名称'
+          placeholder: '中央直达资金名称',
+          clearable: true
         }
       }
     },
@@ -1644,7 +1646,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支出科目名称'
+          placeholder: '支出科目名称',
+          clearable: true
         }
       }
     },
@@ -1657,7 +1660,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '本级专项资金名称'
+          placeholder: '本级专项资金名称',
+          clearable: true
         }
       }
     },
@@ -1670,7 +1674,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '上级文号'
+          placeholder: '上级文号',
+          clearable: true
         }
       }
     }
@@ -1699,7 +1704,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '单位名称'
+          placeholder: '单位名称',
+          clearable: true
         }
       }
     },
@@ -1712,7 +1718,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '转移支付资金名称'
+          placeholder: '转移支付资金名称',
+          clearable: true
         }
       }
     },
@@ -1725,7 +1732,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支出科目名称'
+          placeholder: '支出科目名称',
+          clearable: true
         }
       }
     },
@@ -1738,7 +1746,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '本级专项资金名称'
+          placeholder: '本级专项资金名称',
+          clearable: true
         }
       }
     },
@@ -1751,7 +1760,8 @@ let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '上级文号'
+          placeholder: '上级文号',
+          clearable: true
         }
       }
     }

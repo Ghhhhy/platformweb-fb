@@ -30,7 +30,8 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '规则名称'
+          placeholder: '规则名称',
+          clearable: true
         }
       }
     },
@@ -48,7 +49,8 @@ export let proconf = {
           { value: '1', label: '定时' }
         ],
         props: {
-          placeholder: '监控类型'
+          placeholder: '监控类型',
+          clearable: true
         }
       }
     },
@@ -63,7 +65,8 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '资金用途'
+          placeholder: '资金用途',
+          clearable: true
         }
       }
     },
@@ -76,7 +79,8 @@ export let proconf = {
         props: {
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '业务数据开始时间'
+          placeholder: '业务数据开始时间',
+          clearable: true
         }
       }
     },
@@ -89,7 +93,8 @@ export let proconf = {
         props: {
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '业务数据结束时间'
+          placeholder: '业务数据结束时间',
+          clearable: true
         }
       }
     },
@@ -108,7 +113,8 @@ export let proconf = {
           { value: 2, label: '违规' }
         ],
         props: {
-          placeholder: '是否标记'
+          placeholder: '是否标记',
+          clearable: true
         }
       }
     },
@@ -119,7 +125,8 @@ export let proconf = {
       itemRender: {
         name: '$vxeInput',
         props: {
-          placeholder: '支付申请编号'
+          placeholder: '支付申请编号',
+          clearable: true
         }
       }
     },
@@ -137,7 +144,8 @@ export let proconf = {
           { value: '2', label: '否' }
         ],
         props: {
-          placeholder: '是否作废'
+          placeholder: '是否作废',
+          clearable: true
         }
       }
     }
