@@ -224,10 +224,14 @@ export default {
           if (Array.isArray(res) && res.length) {
             this.$store.commit('setSystemMenu', res) // 将菜单存储到store
             let intoMenu = this.getUrlAllParams().intoMenu
+            console.log('是否带有intomenu字段：' + intoMenu)
             if (intoMenu) {
               let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
               if (findIntoMenu !== null) {
                 window.history.pushState({}, '', window.location.pathname + '#/')
+                this.$store.commit('setCurMenuObj', findIntoMenu)
+                console.log(' 进入厦门代办了 ' + findIntoMenu.param5)
+                // sessionStorage.setItem('params5', findIntoMenu.param5)// 厦门有些菜单需要 但是不影响 可以去掉
                 this.$router.push(findIntoMenu.url)
               } else {
                 if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
