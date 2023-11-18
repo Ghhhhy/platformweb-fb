@@ -15,7 +15,18 @@
           :query-form-item-config="queryConfig"
           :query-form-data="searchDataList"
           @onSearchClick="search"
-        />
+        >
+          <template v-slot:action-button-before>
+            <vxe-button
+              v-if="$store.getters.isFuJian"
+              content="导出全部"
+              status="primary"
+              size="medium"
+              :loading="requestLoading"
+              @click="serverExport"
+            />
+          </template>
+        </BsQuery>
       </div>
       <BsTable
         ref="mainTableRef"
@@ -28,6 +39,7 @@
         :pager-config="pagerConfig"
         :export-modal-config="{ fileName: title }"
         :default-money-unit="10000"
+        @register="register"
         @cellClick="cellClick"
         @onToolbarBtnClick="onToolbarBtnClick"
         @ajaxData="ajaxTableData"
@@ -47,8 +59,18 @@
 <script>
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import proconf from './column.js'
-
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {
   },
@@ -219,6 +241,7 @@ export default {
       // params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       // params.budgetLevelCode = this.budgetLevelCode
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results

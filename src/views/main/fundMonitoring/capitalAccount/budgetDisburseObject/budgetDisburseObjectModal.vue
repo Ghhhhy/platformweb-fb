@@ -1,6 +1,7 @@
 <template>
   <vxe-modal
     v-model="dialogVisible"
+    v-loading="tableLoadingState"
     v-bind="modalStaticProperty"
     class="carryImplementationRegionModal"
     @close="dialogClose"
@@ -241,6 +242,9 @@ export default defineComponent({
           proName: props.clickRow.proName
         }
         return queryForm
+      },
+      afterFeatch: (tableData) => {
+        return tableData
       },
       columns: clickColumns,
       tableToolbarConfig: {

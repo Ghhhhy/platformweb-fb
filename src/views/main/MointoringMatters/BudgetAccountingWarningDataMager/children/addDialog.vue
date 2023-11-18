@@ -125,7 +125,6 @@
                         :disabled="disabled"
                         placeholder="请选择触发菜单"
                         style="width:45%"
-                        @change="changeFunCode"
                       >
                         <el-option
                           v-for="item in businessFunctionCodeoptions"
@@ -163,7 +162,6 @@
                         :disabled="disabled"
                         placeholder="请选择监控主题"
                         style="width:45%"
-                        @change="selectRule"
                       >
                         <el-option
                           v-for="item in regulationClassoptions"
@@ -211,7 +209,6 @@
                         :disabled="disabled"
                         placeholder="请选择处理方式"
                         style="width:45%"
-                        @change="choosehandleType"
                       >
                         <el-option
                           v-for="item in handleTypeoptions"
@@ -502,6 +499,7 @@ export default {
       configIn: {
         disabled: true
       },
+      functionParameter: '',
       treeData: [],
       editConfig: {
         trigger: 'dblclick',
@@ -769,8 +767,8 @@ export default {
           props: {
             config: {
               treeProps: {
-                nodeKey: 'id',
-                label: 'text',
+                nodeKey: 'code',
+                labelFormat: '{code}-{name}',
                 children: 'children' // 子级字段名
               },
               placeholder: `请选择${obj.label}`,
@@ -779,9 +777,12 @@ export default {
               isleaf: false,
               axiosConfig: {
                 method: 'get',
-                url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`
+                url: `mp-b-basedata-service/v2/elevalueset/view/jstreedata/${obj.urlC}`,
+                successCode: '100000', //  厦门BUG 成功code取值错误
+                statusField: 'rscode'// 厦门BUG 成功code取值错误
               }
             },
+            // value: '50101##工资奖金津补贴',
             queryparams: {
               tokenid: this.$store.getters.getLoginAuthentication.tokenid,
               appguid: 'apaas',
@@ -1258,6 +1259,10 @@ export default {
 
       return datas
     },
+    // 驼峰前面加下划线 在转小写
+    camelToUnderscore(str) {
+      return str.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase()
+    },
     getRegulation() {
       HttpModule.getTree(0).then(res => {
         if (res.code === '000000') {
@@ -1370,110 +1375,50 @@ export default {
       this.disabled = true
       this.editConfig = false
     }
-    // 监控白名单回显
-    if (this.$parent.dialogTitle !== '新增') {
-      if (this.$parent.formDatas) {
-        this.formDatas = this.$parent.formDatas
-        if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(1)
-          this.paymentLen = this.formDatas.payment__multiple.length
-          this.formDatas.payment__multiple.forEach((item, index) => {
-            let datas = {}
-            if (item === '1') {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
-            } else {
-              datas = this.$parent.dialogTitle === '查看详情' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
+    if (this.$parent.formDatas) {
+      this.formDatas = this.$parent.formDatas
+      if (this.formDatas.payment !== '') {
+        this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(Boolean)// 去掉无效空字符串
+        this.paymentLen = this.formDatas.payment__multiple.length
+        let findpayMentIndex = this.formItemsConfigMessage.findIndex(item => item.field === 'payment')// 精准寻找
+        this.formDatas.payment__multiple.forEach((item, index) => {
+          let datas = {}
+          if (item === '1') {
+            datas = this.$parent.dialogTitle !== '新增' ? this.createPro(this.formItemsConfigMessage[findpayMentIndex].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[findpayMentIndex].itemRender.options[item], false)
+          } else {
+            datas = this.$parent.dialogTitle !== '新增' ? this.createObj(this.formItemsConfigMessage[findpayMentIndex].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[findpayMentIndex].itemRender.options[item], false)
+            // 获取当前option的field
+            const field = this.formItemsConfigMessage[findpayMentIndex].itemRender.options[item].name
+            // 因为后端返回的是depBgtEcoCode 老架构写的是下划线形式 且取值是dep_bgt_eco 这种
+            const codeAndNameList = Object.keys(this.formDatas).filter(key => {
+              return this.camelToUnderscore(key).indexOf(field) > -1
+            }).map(key => this.formDatas[key]).filter(Boolean)
+            // 把类似  depBgtEcoCode+depBgtEcoName 组装成  code##name  的形式  用于BsTree回显
+            let joinList = codeAndNameList.map(item => item.split(',').filter(Boolean))
+            let reflowShowString = ''
+            if (joinList && joinList.length === 2) {
+              reflowShowString = joinList.reduce((pre, cur) => {
+                return pre.map((item, index) => `${item}##${cur[index]}`)
+              }).join(',')
             }
-            this.formItemsConfigMessage.splice(1 + index, 0, datas)
-            if (this.$parent.dialogTitle === '查看详情') {
-              this.formItemsConfigMessage.forEach(item => {
-                item.itemRender.props.disabled = true
-              })
-            } else {
-              this.formItemsConfigMessage.forEach(item => {
-                item.itemRender.props.disabled = false
-              })
-            }
-            // this.formDatas.agency_code = '000,000001,000002'
-            // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
-            this.formDatas.agency_code = this.formDatas.agencyCode
-            this.formDatas.agency_name = this.formDatas.agencyName
-            this.formDatas.pro_code = this.formDatas.proCode
-            this.formDatas.pro_name = this.formDatas.proName
-            this.formDatas.exp_func_code = this.formDatas.expFunCode
-            this.formDatas.exp_func_name = this.formDatas.expFunName
-            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
-            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
-            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
-            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
-            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
-            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
-          // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
-          // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
-          // let paramsCodes = ''
-          // let paramsNames = ''
-          // formDataParams.forEach(item => {
-          //   item = item.split('-')
-          //   paramsCodes += item[0]
-          //   paramsNames += item[1]
-          // })
-          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
-          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
-          })
-          console.log(this.formDatas)
-        }
-      }
-    } else {
-      if (this.$parent.formDatas) {
-        this.formDatas = this.$parent.formDatas
-        if (this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
-          this.paymentLen = this.formDatas.payment__multiple.length
-          this.formDatas.payment__multiple.forEach((item, index) => {
-            let datas = {}
-            if (item === '1') {
-              datas = this.$parent.dialogTitle !== '新增' ? this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createPro(this.formItemsConfigMessage[0].itemRender.options[item], false)
-            } else {
-              datas = this.$parent.dialogTitle !== '新增' ? this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], true) : this.createObj(this.formItemsConfigMessage[0].itemRender.options[item], false)
-            }
-            this.formItemsConfigMessage.splice(1 + index, 0, datas)
-            // if (this.$parent.dialogTitle === '查看详情') {
-            //   this.formItemsConfigMessage.forEach(item => {
-            //     item.itemRender.props.disabled = true
-            //   })
-            // } else {
-            //   this.formItemsConfigMessage.forEach(item => {
-            //     item.itemRender.props.disabled = false
-            //   })
-            // }
-            // this.formDatas.agency_code = '000,000001,000002'
-            // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
-            this.formDatas.agency_code = this.formDatas.agencyCode
-            this.formDatas.agency_name = this.formDatas.agencyName
-            this.formDatas.pro_code = this.formDatas.proCode
-            this.formDatas.pro_name = this.formDatas.proName
-            this.formDatas.exp_func_code = this.formDatas.excFunCode
-            this.formDatas.exp_func_name = this.formDatas.excFunName
-            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
-            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
-            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
-            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
-            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
-            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
-          // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
-          // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
-          // let paramsCodes = ''
-          // let paramsNames = ''
-          // formDataParams.forEach(item => {
-          //   item = item.split('-')
-          //   paramsCodes += item[0]
-          //   paramsNames += item[1]
-          // })
-          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
-          // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
-          })
-          console.log(this.formDatas)
-        }
+            datas.itemRender.props.value = reflowShowString
+          }
+          this.formItemsConfigMessage.splice(1 + index, 0, datas)
+        })
+
+        this.formDatas.agency_code = this.formDatas.agencyCode
+        this.formDatas.agency_name = this.formDatas.agencyName
+        this.formDatas.pro_code = this.formDatas.proCode
+        this.formDatas.pro_name = this.formDatas.proName
+        // this.formDatas.exp_func_code = this.formDatas.excFunCode
+        // this.formDatas.exp_func_name = this.formDatas.excFunName
+        // this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+        // this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+        // this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+        // this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+        // this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+        // this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+        console.log('this.formDatas', this.formDatas)
       }
     }
     if (this.$parent.dialogTitle === '查看详情' || this.$parent.dialogTitle === '修改') {

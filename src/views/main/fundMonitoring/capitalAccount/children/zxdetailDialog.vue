@@ -29,6 +29,8 @@
         :export-modal-config="{ fileName: title }"
         :default-money-unit="10000"
         @cellClick="cellClick"
+        @register="register"
+
         @onToolbarBtnClick="onToolbarBtnClick"
         @ajaxData="ajaxTableData"
       >
@@ -64,7 +66,19 @@ import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion
 import proconf from './column.js'
 import ProjectItem from './ProjectItem.vue'
 import ProjectItemSx from './ProjectItemSx.vue'
+import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
+
 export default {
+  mixins: [useExportAll(
+    {
+      ref: 'bsTableRef',
+      beforeRequest: (config, ctx) => {
+        config.fileName = ctx.title
+        config.params.pageSize = 9999
+      }
+    }
+  )
+  ],
   name: 'DetailDialog',
   components: {
     ProjectItem,
@@ -275,6 +289,7 @@ export default {
       params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
+      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results

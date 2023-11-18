@@ -334,7 +334,6 @@ let proconf = {
                 field: 'amountXjAll',
                 width: 100,
                 align: 'right',
-                canInsert: true,
                 sortable: true,
                 formula: '{amountXjSnjJz}+{amountXjSjJz}+{amountXjJz}',
                 cellRender: {
@@ -376,6 +375,7 @@ let proconf = {
                 field: 'amountXjPayAll',
                 width: 100,
                 align: 'right',
+                canInsert: true,
                 sortable: true,
                 formula: '{amountXjSnjJzPay}+{amountXjSjJzPay}+{amountXjJzPay}',
                 cellRender: {
