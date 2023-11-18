@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-import MenuModule from '@/api/frame/common/menu.js'
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
 
@@ -194,78 +193,9 @@ export default {
         }
       }
       return false
-    },
-    getMenuInfo() {
-      let tokenInfo = localStorage.getItem('tokenInfo')
-      if (!this.getUrlAllParams().tokenid && tokenInfo) {
-        MenuModule.getMenuInfo().then((res) => {
-          console.log('菜单数据', res)
-          this.ifrouteractive = true
-          if (Array.isArray(res) && res.length) {
-            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
-            let tokenInfo = localStorage.getItem('tokenInfo')
-            let intoMenu = JSON.parse(tokenInfo).intoMenu
-            if (intoMenu) {
-              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
-              if (findIntoMenu !== null) this.$router.push(findIntoMenu.url)
-              else {
-                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
-                this.$router.push('HomeCard')
-              }
-            }
-          } else this.$router.push('HomeCard')
-        }).catch(() => {
-          this.$router.push('HomeCard')
-        })
-      } else {
-        MenuModule.getMenuInfo().then((res) => {
-          console.log('菜单数据', res)
-          this.ifrouteractive = true
-          if (Array.isArray(res) && res.length) {
-            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
-            let intoMenu = this.getUrlAllParams().intoMenu
-            if (intoMenu) {
-              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
-              if (findIntoMenu !== null) {
-                window.history.pushState({}, '', window.location.pathname + '#/')
-                this.$router.push(findIntoMenu.url)
-              } else {
-                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
-                this.$router.push('HomeCard')
-              }
-            }
-          } else this.$router.push('HomeCard')
-        }).catch(() => {
-          this.$router.push('HomeCard')
-        })
-      }
-    },
-    // 寻找到当前intoMenu的菜单
-    findObjByKeyValue(arr, key, value) {
-      console.log('arr', arr)
-      console.log('key', key)
-      console.log('value', value)
-      // 递归查找
-      function recursive(data) {
-        data.every((item) => {
-          // debugger
-          if (item[key] === value) {
-            findObj = item
-            return false
-          }
-          if (item.children && item.children.length) {
-            recursive(item.children)
-          }
-          return true
-        })
-      }
-      let findObj = null
-      recursive(arr)
-      return findObj
     }
   },
   async created () {
-    this.getUrlSearchToken()
   },
 
   async mounted() {
@@ -284,7 +214,6 @@ export default {
     this.showLogo()
     await this.getUrlSearchToken()
     await this.authentication()
-    await this.getMenuInfo()
     if (window.self === window.top) {
       console.log('=========处于非iframe环境=============')
       // 获取预警信息

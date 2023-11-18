@@ -451,20 +451,10 @@ export default {
       })
       return obj
     },
-    findObjByKeyValue(arr, intoMenu) {
+    findObjByKeyValue(arr, key, intoMenu) {
       function recursive(arr) {
-        // data.every((item) => {
-        //   if (item.bgtIds !== undefined) {
-        //     findObj = item.bgtIds
-        //     return false
-        //   }
-        //   if (item.children && item.children.length) {
-        //     recursive(item.children)
-        //   }
-        //   return true
-        // })
         arr?.forEach(item => {
-          if (item.guid === intoMenu) {
+          if (item[key] === intoMenu) {
             findObj = item
           }
           item?.children?.length !== 0 && recursive(item.children)
@@ -475,27 +465,46 @@ export default {
       return findObj
     },
     getMenus() {
+      // 三级菜单请求
       let self = this
-      let { intoMenu } = this.$store.state.loginAuthentication
-      let menuItem = this.$store.state.systemMenu
-      if (menuItem.length) {
-        self.menuData = menuItem
-        if (intoMenu) {
-          let findIntoMenu = self.findObjByKeyValue(menuItem, intoMenu)
-          let routeObj = {
-            name: findIntoMenu.name,
-            url: '/' + findIntoMenu.url,
-            code: findIntoMenu.code
+      MenuModule.getMenuInfo().then((res) => {
+        // this.navMenuData[0].children = res
+        // this.menuData = this.navMenuData
+        if (Array.isArray(res)) {
+          if (res.length) {
+            self.menuData = res
+            this.addDynamicRoutingRoute(this.recursiveChangeUrl(res))
+            this.onMenuSelectChange(this.defaultActiveMenu)
+            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
+            // 根据菜单信息获取待办
+            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
+            let { intoMenu } = this.$store.state.loginAuthentication// 通过外部链接携带的跳转菜单信息
+            if (intoMenu) {
+              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
+              let routeObj = {
+                name: findIntoMenu.name,
+                url: '/' + findIntoMenu.url,
+                code: findIntoMenu.code
+              }
+              if (findIntoMenu) {
+                self.$store.state.loginAuthentication.intoMenu = findIntoMenu
+                self.$store.commit('setCurMenuObj', routeObj)
+              } else {
+                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
+                this.$router.push('HomeCard')
+              }
+              setTimeout(() => {
+                this.ifrouteractive = true
+              }, 200)
+            }
+          } else {
+            // this.$message({
+            //   dangerouslyUseHTMLString: true,
+            //   message: '当前用户'
+            // })
           }
-          if (findIntoMenu !== null) {
-            self.$store.state.loginAuthentication.intoMenu = findIntoMenu
-            self.$store.commit('setCurMenuObj', routeObj)
-          }
-          setTimeout(() => {
-            this.ifrouteractive = true
-          }, 200)
         }
-      }
+      })
     },
     recursiveChangeUrl(data, reuseRouts = []) {
       // 递归获取动态复用路由
@@ -602,17 +611,6 @@ export default {
     }
   },
   watch: {
-    '$store.state.systemMenu': {
-      handler(newValue, oldValue) {
-        console.log('index进来没')
-        if (newValue !== oldValue) {
-          console.log('index进来了')
-          this.getMenus()
-        }
-      },
-      deep: true,
-      immediate: false
-    },
     curMenuObj: {
       handler(newValue) {
         let curKeepAlive = this.tabListCp.find(item => item.url === newValue.url)
@@ -635,7 +633,6 @@ export default {
     },
     value: {
       handler(newValue) {
-        console.log('newValue', newValue)
         this.tabTabs(newValue)
         this.isCollection()
       },
