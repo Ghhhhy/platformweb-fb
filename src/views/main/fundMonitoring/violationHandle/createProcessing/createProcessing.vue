@@ -654,7 +654,7 @@ export default {
         roleguid: this.roleguid,
         payCertNo: this.payCertNo
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = this.param5?.regulationClass
@@ -715,7 +715,7 @@ export default {
         menuId: this.$store.state.curNavModule.guid,
         payCertNo: this.payCertNo
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = this.param5?.regulationClass
