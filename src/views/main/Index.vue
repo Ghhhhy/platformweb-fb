@@ -488,6 +488,7 @@ export default {
               }
               if (findIntoMenu) {
                 self.$store.state.loginAuthentication.intoMenu = findIntoMenu
+                self.$store.commit('setCurNavModule', findIntoMenu)
                 self.$store.commit('setCurMenuObj', routeObj)
               } else {
                 if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
