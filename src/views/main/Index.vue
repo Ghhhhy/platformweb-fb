@@ -451,29 +451,6 @@ export default {
       })
       return obj
     },
-    findObjByKeyValue(arr, intoMenu) {
-      function recursive(arr) {
-        // data.every((item) => {
-        //   if (item.bgtIds !== undefined) {
-        //     findObj = item.bgtIds
-        //     return false
-        //   }
-        //   if (item.children && item.children.length) {
-        //     recursive(item.children)
-        //   }
-        //   return true
-        // })
-        arr?.forEach(item => {
-          if (item.guid === intoMenu) {
-            findObj = item
-          }
-          item?.children?.length !== 0 && recursive(item.children)
-        })
-      }
-      let findObj = null
-      recursive(arr)
-      return findObj
-    },
     getMenus() {
       let self = this
       let { intoMenu } = this.$store.state.loginAuthentication
@@ -481,15 +458,10 @@ export default {
       if (menuItem.length) {
         self.menuData = menuItem
         if (intoMenu) {
-          let findIntoMenu = self.findObjByKeyValue(menuItem, intoMenu)
-          let routeObj = {
-            name: findIntoMenu.name,
-            url: '/' + findIntoMenu.url,
-            code: findIntoMenu.code
-          }
+          let findIntoMenu = self.findObjByKeyValue(menuItem, 'guid', intoMenu)
           if (findIntoMenu !== null) {
             self.$store.state.loginAuthentication.intoMenu = findIntoMenu
-            self.$store.commit('setCurMenuObj', routeObj)
+            self.$store.commit('setCurMenuObj', findIntoMenu)
           }
           setTimeout(() => {
             this.ifrouteractive = true
