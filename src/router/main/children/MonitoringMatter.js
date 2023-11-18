@@ -249,6 +249,16 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
       )
   },
+  // 监控规则查看
+  {
+    path: '/MonitorRulesViewFJWK',
+    name: 'MonitorRulesViewFJWK',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/MointoringMatters/MonitorRulesViewFJWK/MonitorRulesViewFJWK.vue')
+  },
   // 直达监控规则查看
   {
     path: '/MonitorRulesViewZD',
