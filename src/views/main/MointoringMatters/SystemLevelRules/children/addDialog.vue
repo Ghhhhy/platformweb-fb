@@ -1018,6 +1018,7 @@ export default {
             tempObj.description = item.description
             tempObj.functionName = item.functionName
             tempObj.functionCode = item.functionCode
+            tempObj.param = item.param
             that.mountTableData.push(tempObj)
           })
         } else {
@@ -2088,18 +2089,7 @@ export default {
             }
             // this.formDatas.agency_code = '000,000001,000002'
             // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
-            this.formDatas.agency_code = this.formDatas.agencyCode
-            this.formDatas.agency_name = this.formDatas.agencyName
-            this.formDatas.pro_code = this.formDatas.proCode
-            this.formDatas.pro_name = this.formDatas.proName
-            this.formDatas.exp_func_code = this.formDatas.expFunCode
-            this.formDatas.exp_func_name = this.formDatas.expFunName
-            this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
-            this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
-            this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
-            this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
-            this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
-            this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
+            
           // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
           // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
           // let paramsCodes = ''
@@ -2112,6 +2102,18 @@ export default {
           // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'code'] = paramsCodes
           // this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name + 'name'] = paramsNames
           })
+          this.formDatas.agency_code = this.formDatas.agencyCode
+          this.formDatas.agency_name = this.formDatas.agencyName
+          this.formDatas.pro_code = this.formDatas.proCode
+          this.formDatas.pro_name = this.formDatas.proName
+          this.formDatas.exp_func_code = this.formDatas.expFunCode
+          this.formDatas.exp_func_name = this.formDatas.expFunName
+          this.formDatas.dep_bgt_eco_code = this.formDatas.depBgtEcoCode
+          this.formDatas.dep_bgt_eco_name = this.formDatas.depBgtEcoName
+          this.formDatas.gov_bgt_eco_code = this.formDatas.govBgtEcoCode
+          this.formDatas.gov_bgt_eco_name = this.formDatas.govBgtEcoName
+          this.formDatas.cor_bgt_doc_no_code = this.formDatas.corBgtDocNoCode
+          this.formDatas.cor_bgt_doc_no_name = this.formDatas.corBgtDocNoName
           console.log(this.formDatas)
         }
       }
