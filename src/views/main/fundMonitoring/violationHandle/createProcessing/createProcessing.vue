@@ -936,10 +936,10 @@ export default {
     initButtons(param5) {
       let obj = {}
       console.log(param5)
-      if (param5.isRetroact === 'true' && param5.retroact === 'department') { // 主管处室反馈
+      if (param5?.isRetroact === 'true' && param5?.retroact === 'department') { // 主管处室反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactMofBtnConfig }
         obj.code = 'dcl'
-      } else if (param5.isRetroact === 'true' && param5.retroact === 'company') { // 单位反馈
+      } else if (param5?.isRetroact === 'true' && param5?.retroact === 'company') { // 单位反馈
         this.toolBarStatusBtnConfig = { ...this.toolBarStatusBtnConfig, ...proconf.retroactBtnConfig }
         obj.code = 'dhs'
       }
