@@ -85,28 +85,28 @@ const budgetImpColumns = [
     filters: false,
     align: 'center'
   },
-  {
-    title: '监控类型',
-    field: 'triggerClass',
-    align: 'center',
-    width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: [
-        {
-          value: 1,
-          label: '事中触发'
-        },
-        {
-          value: 2,
-          label: '定时触发'
-        }
-      ],
-      defaultValue: '',
-      props: {}
-    },
-    name: '$vxeSelect'
-  },
+  // {
+  //   title: '监控类型',
+  //   field: 'triggerClass',
+  //   align: 'center',
+  //   width: 180,
+  //   cellRender: {
+  //     name: '$vxeSelect',
+  //     options: [
+  //       {
+  //         value: 1,
+  //         label: '事中触发'
+  //       },
+  //       {
+  //         value: 2,
+  //         label: '定时触发'
+  //       }
+  //     ],
+  //     defaultValue: '',
+  //     props: {}
+  //   },
+  //   name: '$vxeSelect'
+  // },
   {
     title: '监控规则',
     width: 180,
@@ -637,31 +637,31 @@ const proconf = {
         }
       }
     },
-    {
-      title: '监控类型',
-      field: 'triggerClass',
-      formula: '',
-      align: 'left',
-      width: 180,
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '事中触发'
-          },
-          {
-            value: 2,
-            label: '定时触发'
-          }
-        ],
-        props: {
-          placeholder: '监控类型'
-        },
-        defaultValue: ''
-      },
-      name: '$vxeSelect'
-    },
+    // {
+    //   title: '监控类型',
+    //   field: 'triggerClass',
+    //   formula: '',
+    //   align: 'left',
+    //   width: 180,
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       {
+    //         value: 1,
+    //         label: '事中触发'
+    //       },
+    //       {
+    //         value: 2,
+    //         label: '定时触发'
+    //       }
+    //     ],
+    //     props: {
+    //       placeholder: '监控类型'
+    //     },
+    //     defaultValue: ''
+    //   },
+    //   name: '$vxeSelect'
+    // },
     {
       title: '监控规则',
       field: 'ruleCodes',
@@ -910,28 +910,28 @@ const proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '监控类型',
-      field: 'triggerClass',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '事中触发'
-          },
-          {
-            value: 2,
-            label: '定时触发'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
+    // {
+    //   title: '监控类型',
+    //   field: 'triggerClass',
+    //   align: 'center',
+    //   width: 180,
+    //   cellRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       {
+    //         value: 1,
+    //         label: '事中触发'
+    //       },
+    //       {
+    //         value: 2,
+    //         label: '定时触发'
+    //       }
+    //     ],
+    //     defaultValue: '',
+    //     props: {}
+    //   },
+    //   name: '$vxeSelect'
+    // },
     {
       title: '监控规则',
       width: 180,
@@ -2318,28 +2318,28 @@ const proconf = {
       filters: false,
       align: 'center'
     },
-    {
-      title: '监控类型',
-      field: 'triggerClass',
-      align: 'center',
-      width: 180,
-      cellRender: {
-        name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '事中触发'
-          },
-          {
-            value: 2,
-            label: '定时触发'
-          }
-        ],
-        defaultValue: '',
-        props: {}
-      },
-      name: '$vxeSelect'
-    },
+    // {
+    //   title: '监控类型',
+    //   field: 'triggerClass',
+    //   align: 'center',
+    //   width: 180,
+    //   cellRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       {
+    //         value: 1,
+    //         label: '事中触发'
+    //       },
+    //       {
+    //         value: 2,
+    //         label: '定时触发'
+    //       }
+    //     ],
+    //     defaultValue: '',
+    //     props: {}
+    //   },
+    //   name: '$vxeSelect'
+    // },
     {
       title: '监控规则',
       width: 180,

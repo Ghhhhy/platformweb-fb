@@ -304,7 +304,7 @@ export default {
       warningLevel: '',
       DetailData: {},
       regulationClass: '',
-      regulationclass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || '',
+      regulationclass: '',
       mofDivCode: '',
       isApprove: false,
       leftTreeConfig: { // 左侧单位树配置
@@ -416,7 +416,7 @@ export default {
     },
     updateRegulationClassNameFormConfig () {
       // 如果菜单参数有主题 当前模块就使用该主题查询
-      if (this.transJson(this.$store.state.curNavModule.param5)?.regulationClass) {
+      if (this.param5?.regulationClass) {
         const index = this.queryConfig.findIndex(item => item.field === 'regulationClassName')
         index > -1 && this.queryConfig?.splice(index, 1)
       }
@@ -572,7 +572,7 @@ export default {
         // 根据业务渲染列表
         this.currentNodeKey = node.code
         this.bussnessId = node.code
-        this.regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+        this.regulationClass = this.param5?.regulationClass
         this.tableColumnsConfig = proconf.getColumns(this.selectBtnType, this.bussnessId, this.showLog, this.regulationClass)
         this.getdata()
       }
@@ -657,8 +657,7 @@ export default {
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
-
-      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      const regulationClass = this.param5?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
@@ -719,8 +718,7 @@ export default {
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
-
-      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      const regulationClass = this.param5?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
@@ -1137,14 +1135,11 @@ export default {
     },
     getCount() {
       let param = {
-        isUnit: this.transJson(this.$store.state.curNavModule.param5).retroact,
+        isUnit: this.param5.retroact,
         roleId: this.$store.state.curNavModule.roleguid
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
-        param.regulationClass = '0201'
-      }
 
-      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      const regulationClass = this.param5?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
@@ -1249,10 +1244,10 @@ export default {
       const param = {
         fiscalYear: this.$store.state.userInfo.year
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
-      const regulationClass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass
+      const regulationClass = this.param5?.regulationClass
       if (regulationClass) {
         param.regulationClass = regulationClass
       }
@@ -1276,8 +1271,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.roleId = this.$store.state.curNavModule.roleguid
-    this.param5 = this.transJson(this.$store.state.curNavModule.param5)
-    this.regulationclass = this.transJson(this.$store.state.curNavModule.param5)?.regulationClass || ''
+    let paramsString = this.$store.state.curNavModule.param5
+    this.param5 = this.transJson(paramsString) || {}
+    this.regulationclass = this.param5?.regulationClass || ''
     // 动态控制是否展示树
     this.initButtons(this.param5)
     this.$nextTick(() => {

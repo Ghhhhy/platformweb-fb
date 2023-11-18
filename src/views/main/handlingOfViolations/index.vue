@@ -116,7 +116,7 @@ export default defineComponent({
   setup(_, { root }) {
     const menuName = ref(store.getters.getCurNavModule.name)
     const menuGuid = ref(store.getters.getCurNavModule.guid)
-    const param5Str = ref(store.state.curNavModule.param5)
+    const param5Str = ref(sessionStorage.getItem('params5') || store.state.curNavModule.param5)
     const route = root.$route
     const showProcessDiagramDialog = false
     const processDiagramDialogType = 'track'
@@ -273,7 +273,7 @@ export default defineComponent({
         const menuId = store.state.curNavModule?.guid || ''
         return {
           ...params,
-          regulationClass: transJson(store.state.curNavModule.param5)?.regulationClass,
+          regulationClass: sessionStorage.getItem('params5') || transJson(store.state.curNavModule.param5)?.regulationClass,
           nodeType: pagePathMapNodeType[unref(pagePath)],
           elementCode: unref(currentTreeNode)?.code,
           menuId
