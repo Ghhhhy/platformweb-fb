@@ -91,9 +91,9 @@ export default {
         import('./appMain.css')
         return
       }
-      if (intoMenu) {
-        return
-      }
+      // if (intoMenu) {
+      //   return
+      // }
       // 缓存url参数后更新URL
       window.history.pushState({}, '', window.location.pathname + '#/')
     },
