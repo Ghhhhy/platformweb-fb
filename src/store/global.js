@@ -194,6 +194,9 @@ export const mutations = {
   setLoginAuthentication(state, obj) {
     state.loginAuthentication = obj
   },
+  deleteLoginAuthenticationIntoMenu(){
+    delete state.loginAuthentication.intoMenu
+  },
   setModefiyData(state, arr) {
     state.modefiyData = arr
   },

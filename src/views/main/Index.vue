@@ -478,26 +478,6 @@ export default {
             this.$store.commit('setSystemMenu', res) // 将菜单存储到store
             // 根据菜单信息获取待办
             this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
-            let { intoMenu } = this.$store.state.loginAuthentication// 通过外部链接携带的跳转菜单信息
-            if (intoMenu) {
-              let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
-              let routeObj = {
-                name: findIntoMenu.name,
-                url: '/' + findIntoMenu.url,
-                code: findIntoMenu.code
-              }
-              if (findIntoMenu) {
-                self.$store.state.loginAuthentication.intoMenu = findIntoMenu
-                self.$store.commit('setCurNavModule', findIntoMenu)
-                self.$store.commit('setCurMenuObj', routeObj)
-              } else {
-                if (intoMenu.length > 5) this.$message.warning('未找到对应菜单！')
-                this.$router.push('HomeCard')
-              }
-              setTimeout(() => {
-                this.ifrouteractive = true
-              }, 200)
-            }
           } else {
             // this.$message({
             //   dangerouslyUseHTMLString: true,
@@ -576,28 +556,6 @@ export default {
     },
     onQuickNavClick(obj) {
       this.onMenuSelectChange(obj)
-    },
-    getMenusInfo() {
-      // 三级菜单请求
-      let self = this
-      let { intoMenu } = this.$store.state.loginAuthentication
-      let menuItem = this.$store.state.systemMenu
-      if (menuItem.length) {
-        self.menuData = menuItem
-        this.addDynamicRoutingRoute(this.recursiveChangeUrl(menuItem))
-        this.onMenuSelectChange(this.defaultActiveMenu)
-        // this.$store.commit('setSystemMenu', menuItem) // 将菜单存储到store
-        if (intoMenu) {
-          let findIntoMenu = self.findObjByKeyValue(menuItem, 'guid', intoMenu)
-          if (findIntoMenu !== null) {
-            self.$store.state.loginAuthentication.intoMenu = findIntoMenu
-            self.$store.commit('setCurMenuObj', findIntoMenu)
-          }
-          setTimeout(() => {
-            this.ifrouteractive = true
-          }, 200)
-        }
-      }
     }
   },
   mounted() {
