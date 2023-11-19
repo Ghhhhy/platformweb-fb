@@ -422,7 +422,7 @@ const proconf = {
             field: 'xLoad',
             width: 100,
             align: 'right',
-            formula: $formula('budgetImplementationCapital.aLoad'),
+            formula: $formula('budgetImplementationCapital.xLoad'),
             cellRender: {
               name: '$vxeRatio'
             },
