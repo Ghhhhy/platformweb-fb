@@ -1266,6 +1266,7 @@ export default {
 
   },
   created() {
+    this.findIntoMenu = JSON.parse(sessionStorage.getItem('findIntoMenu'))
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
