@@ -22,7 +22,6 @@
 
 <script>
 import { post } from '@/api/http'
-import MenuModule from '@/api/frame/common/menu.js'
 import ExpenditureProgressRankingModal from './ExpenditureProgressRankingModal'
 import EscalationModal from './EscalationModal'
 import MonitorWarningInformation from './MonitorWarningInformation/MonitorWarningInformation.vue'
@@ -104,20 +103,38 @@ export default {
       const { data } = checkRscode(await api.queryLogs(params))
       this.visibles = !!data.results?.length
     },
-    getMenus() {
-      MenuModule.getMenuInfo().then((res) => {
-        if (Array.isArray(res)) {
-          if (res.length) {
-            this.$store.commit('setSystemMenu', res) // 将菜单存储到store
-            // 根据菜单信息获取待办
-            this.$store.dispatch('todoInfo/getMenuMapTodoInfo', res || [])
+    findObjByKeyValue(arr, key, intoMenu) {
+      function recursive(arr) {
+        arr?.forEach(item => {
+          if (item[key] === intoMenu) {
+            findObj = item
           }
-        }
-      })
+          item?.children?.length !== 0 && recursive(item.children)
+        })
+      }
+      let findObj = null
+      recursive(arr)
+      return findObj
     }
   },
   created() {
-    this.getMenus()
+    if (this.$store.state.systemMenu) {
+      this.$store.dispatch('todoInfo/getMenuMapTodoInfo', this.$store.state.systemMenu || [])// 首页刷新需要重新请求代办信息
+      let { intoMenu } = this.$store.state.loginAuthentication// 通过外部链接携带的跳转菜单信息 并且需要先有首页 再跳转
+      if (intoMenu) {
+        let findIntoMenu = this.findObjByKeyValue(this.$store.state.systemMenu, 'guid', intoMenu)
+        this.$store.commit('deleteLoginAuthenticationIntoMenu')// 删除intoMenu 防止一直跳转
+        if (findIntoMenu) { // 设置菜单信息 例如params5等
+          this.$store.commit('setCurMenuObj', findIntoMenu)
+        } else {
+          this.$message.warning('未找到通过外部链接intoMenu的guid对应菜单！')
+          this.$router.push({
+            name: 'HomeCard'
+          })
+        }
+      }
+    }
+
     console.log('this.$store.state', this.$store.state)
   },
   async mounted() {
