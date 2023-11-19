@@ -196,12 +196,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'mofDivName',
+        'type': 'name',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 330,
-        'field': 'mofDivName',
+        'field': 'name',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -209,10 +209,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 330,
-        'field': 'mofDivCode',
+        'field': 'code',
         'filters': true,
         'align': 'right',
-        'type': 'mofDivCode',
+        'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -232,9 +232,9 @@ const proconf = {
       {
         'title': '当年当月累计收入（土地出让收入）',
         'width': 420,
-        'field': 'currentMonthAmount',
+        'field': 'amountCurrentMonth',
         'align': 'right',
-        'type': 'currentMonthAmount',
+        'type': 'amountCurrentMonth',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -242,7 +242,7 @@ const proconf = {
       },
       {
         'title': '当年累计一般公共预算收入',
-        'field': 'yearBudgetAmount',
+        'field': 'amountYearBudget',
         'width': 420,
         'align': 'right',
         'cellRender': {

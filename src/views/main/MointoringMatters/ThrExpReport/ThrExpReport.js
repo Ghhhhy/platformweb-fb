@@ -360,7 +360,7 @@ export let proconf = {
           children: [
             {
               title: '调整预算数',
-              field: 'vehicleSubtotalAdjustedBudgetAmount',
+              field: 'vehicleSubtotalAdjstBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -385,7 +385,7 @@ export let proconf = {
             },
             {
               title: '执行数',
-              field: 'vehicleSubtotalExecutionsAmount',
+              field: 'vehicleSubtotalExecuAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -432,7 +432,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehicleSubtotalExpenditureProgress',
+              field: 'vehicleSubtotalExpenitrePross',
               width: '150',
               align: 'center',
               type: 'html'
@@ -447,7 +447,7 @@ export let proconf = {
           children: [
             {
               title: '调整预算数',
-              field: 'vehiclePurchaseAdjustedBudgetAmount30913',
+              field: 'vehiclePrcheAdjstBugtAmnt30913',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -472,7 +472,7 @@ export let proconf = {
             },
             {
               title: '执行数',
-              field: 'vehiclePurchaseExecutionsAmount30913',
+              field: 'vehiclePurchaseExecuAmnt30913',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -519,7 +519,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehiclePurchaseExpenditureProgress30913',
+              field: 'vehiclePrcasExpendPrgrss30913',
               width: '150',
               align: 'center',
               type: 'html'
@@ -534,7 +534,7 @@ export let proconf = {
           children: [
             {
               title: '调整预算数',
-              field: 'vehiclePurchaseAdjustedBudgetAmount31013',
+              field: 'vehiclePrcasAdjstBugtAmnt31013',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -559,7 +559,7 @@ export let proconf = {
             },
             {
               title: '执行数',
-              field: 'vehiclePurchaseExecutionsAmount31013',
+              field: 'vehiclePurchaseExecuAmnt31013',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -606,7 +606,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehiclePurchaseExpenditureProgress31013',
+              field: 'vehiclePurchaseExpenProgs31013',
               width: '150',
               align: 'center',
               type: 'html'
@@ -621,7 +621,7 @@ export let proconf = {
           children: [
             {
               title: '调整预算数',
-              field: 'vehicleDevopsAdjustedBudgetAmount',
+              field: 'vehicleDevopsAdjustedBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -693,7 +693,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehicleDevopsExpenditureProgress',
+              field: 'vehicleDevopsExpendPrgs',
               width: '150',
               align: 'center',
               type: 'html'
@@ -1214,7 +1214,7 @@ export let proconf = {
         },
         {
           title: '预算调整数',
-          field: 'receptionBudgetAdjustmentAmount',
+          field: 'receptionBudgetAdjustmentAmnt',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -1338,7 +1338,7 @@ export let proconf = {
           children: [
             {
               title: '年初预算数',
-              field: 'vehicleSubtotalBeginningBudgetAmount',
+              field: 'vehicleSubtotalBeginBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1363,7 +1363,7 @@ export let proconf = {
             },
             {
               title: '预算调整数',
-              field: 'vehicleSubtotalBudgetAdjustmentAmount',
+              field: 'vehicleSubtotalBudgetAdjstAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1388,7 +1388,7 @@ export let proconf = {
             },
             {
               title: '调整预算数',
-              field: 'vehicleSubtotalAdjustedBudgetAmount',
+              field: 'vehicleSubtotalAdjstBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1414,7 +1414,7 @@ export let proconf = {
             {
               title: '执行数',
               // type: 'html',
-              field: 'vehicleSubtotalExecutionsAmount',
+              field: 'vehicleSubtotalExecuAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1439,7 +1439,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehicleSubtotalExpenditureProgress',
+              field: 'vehicleSubtotalExpenitrePross',
               width: '150',
               align: 'center',
               type: 'html'
@@ -1530,7 +1530,7 @@ export let proconf = {
             },
             {
               title: '调整预算数',
-              field: 'vehiclePurchaseAdjustedBudgetAmount30913',
+              field: 'vehiclePrcheAdjstBugtAmnt30913',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1556,7 +1556,7 @@ export let proconf = {
             {
               title: '执行数',
               // type: 'html',
-              field: 'vehiclePurchaseExecutionsAmount30913',
+              field: 'vehiclePurchaseExecuAmnt30913',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1581,7 +1581,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehiclePurchaseExpenditureProgress30913',
+              field: 'vehiclePrcasExpendPrgrss30913',
               width: '150',
               align: 'center',
               type: 'html'
@@ -1589,7 +1589,7 @@ export let proconf = {
             {
               title: '未列支金额',
               // type: 'html',
-              field: 'vehiclePurchaseUnlistedAmount30913',
+              field: 'vehiclePrcasUnlistedAmnt30913',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1672,7 +1672,7 @@ export let proconf = {
             },
             {
               title: '调整预算数',
-              field: 'vehiclePurchaseAdjustedBudgetAmount31013',
+              field: 'vehiclePrcasAdjstBugtAmnt31013',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1698,7 +1698,7 @@ export let proconf = {
             {
               title: '执行数',
               // type: 'html',
-              field: 'vehiclePurchaseExecutionsAmount31013',
+              field: 'vehiclePurchaseExecuAmnt31013',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1723,7 +1723,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehiclePurchaseExpenditureProgress31013',
+              field: 'vehiclePurchaseExpenProgs31013',
               width: '150',
               align: 'center',
               type: 'html'
@@ -1731,7 +1731,7 @@ export let proconf = {
             {
               title: '未列支金额',
               // type: 'html',
-              field: 'vehiclePurchaseUnlistedAmount31013',
+              field: 'vehiclePurchaseUnlistAmnt31013',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1764,7 +1764,7 @@ export let proconf = {
           children: [
             {
               title: '年初预算数',
-              field: 'vehicleDevopsBeginningBudgetAmount',
+              field: 'vehicleDevopsBeginBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1789,7 +1789,7 @@ export let proconf = {
             },
             {
               title: '预算调整数',
-              field: 'vehicleDevopsBudgetAdjustmentAmount',
+              field: 'vehicleDevopsBugtAdjstAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1814,7 +1814,7 @@ export let proconf = {
             },
             {
               title: '调整预算数',
-              field: 'vehicleDevopsAdjustedBudgetAmount',
+              field: 'vehicleDevopsAdjustedBugtAmnt',
               width: '150',
               align: 'center',
               'filters': '[object Object]',
@@ -1865,7 +1865,7 @@ export let proconf = {
             },
             {
               title: '支出进度',
-              field: 'vehicleDevopsExpenditureProgress',
+              field: 'vehicleDevopsExpendPrgs',
               width: '150',
               align: 'center',
               type: 'html'
@@ -3229,7 +3229,7 @@ export let proconf = {
       children: [
         {
           title: '合计',
-          field: 'vehiclePurchaseBeginningBudgetAmountSum',
+          field: 'vehiclePrcasBeginBugtAmntSum',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3254,7 +3254,7 @@ export let proconf = {
         },
         {
           title: '因公出国（境）(30212)',
-          field: 'vehiclePurchaseBeginningBudgetAmount30212',
+          field: 'vehiclePrcasBeginBugtAmnt30212',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3279,7 +3279,7 @@ export let proconf = {
         },
         {
           title: '公务接待费（30217）',
-          field: 'vehiclePurchaseBeginningBudgetAmount30217',
+          field: 'vehiclePrcasBeginBugtAmnt30217',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3305,7 +3305,7 @@ export let proconf = {
         {
           title: '公务用车运行维护(30231)',
           // type: 'html',
-          field: 'vehiclePurchaseBeginningBudgetAmount30231',
+          field: 'vehiclePrcasBeginBugtAmnt30231',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3331,7 +3331,7 @@ export let proconf = {
         {
           title: '公务用车购置(30913)',
           // type: 'html',
-          field: 'vehiclePurchaseBeginningBudgetAmount30913',
+          field: 'vehiclePrcasBeginBugtAmnt30913',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3357,7 +3357,7 @@ export let proconf = {
         {
           title: '公务用车购置(31013)',
           // type: 'html',
-          field: 'vehiclePurchaseBeginningBudgetAmount31013',
+          field: 'vehiclePrcasBeginBugtAmnt31013',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3391,7 +3391,7 @@ export let proconf = {
       children: [
         {
           title: '合计',
-          field: 'vehiclePurchaseBudgetAdjustmentAmountSum',
+          field: 'vehiclePrcasBugtAdjstAmntSum',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3416,7 +3416,7 @@ export let proconf = {
         },
         {
           title: '因公出国（境）(30212)',
-          field: 'vehiclePurchaseBudgetAdjustmentAmount30212',
+          field: 'vehiclePrcasBugtAdjstAmnt30212',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3441,7 +3441,7 @@ export let proconf = {
         },
         {
           title: '公务接待费（30217）',
-          field: 'vehiclePurchaseBudgetAdjustmentAmount30217',
+          field: 'vehiclePrcasBugtAdjstAmnt30217',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3467,7 +3467,7 @@ export let proconf = {
         {
           title: '公务用车运行维护(30231)',
           // type: 'html',
-          field: 'vehiclePurchaseBudgetAdjustmentAmount30231',
+          field: 'vehiclePrcasBugtAdjstAmnt30231',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3493,7 +3493,7 @@ export let proconf = {
         {
           title: '公务用车购置(30913)',
           // type: 'html',
-          field: 'vehiclePurchaseBudgetAdjustmentAmount30913',
+          field: 'vehiclePrcasBugtAdjstAmnt30913',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3519,7 +3519,7 @@ export let proconf = {
         {
           title: '公务用车购置(31013)',
           // type: 'html',
-          field: 'vehiclePurchaseBudgetAdjustmentAmount31013',
+          field: 'vehiclePrcasBugtAdjstAmnt31013',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3553,7 +3553,7 @@ export let proconf = {
       children: [
         {
           title: '合计',
-          field: 'vehiclePurchaseExecutionsAmountSum',
+          field: 'vehiclePurchaseExecuAmntSum',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3578,7 +3578,7 @@ export let proconf = {
         },
         {
           title: '因公出国（境）(30212)',
-          field: 'vehiclePurchaseExecutionsAmount30212',
+          field: 'vehiclePurchaseExecuAmnt30212',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3603,7 +3603,7 @@ export let proconf = {
         },
         {
           title: '公务接待费（30217）',
-          field: 'vehiclePurchaseExecutionsAmount30217',
+          field: 'vehiclePurchaseExecuAmnt30217',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3629,7 +3629,7 @@ export let proconf = {
         {
           title: '公务用车运行维护(30231)',
           // type: 'html',
-          field: 'vehiclePurchaseExecutionsAmount30231',
+          field: 'vehiclePurchaseExecuAmnt30231',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3655,7 +3655,7 @@ export let proconf = {
         {
           title: '公务用车购置(30913)',
           // type: 'html',
-          field: 'vehiclePurchaseExecutionsAmount30913',
+          field: 'vehiclePurchaseExecuAmnt30913',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3681,7 +3681,7 @@ export let proconf = {
         {
           title: '公务用车购置(31013)',
           // type: 'html',
-          field: 'vehiclePurchaseExecutionsAmount31013',
+          field: 'vehiclePurchaseExecuAmnt31013',
           width: '150',
           align: 'center',
           'filters': '[object Object]',
@@ -3715,42 +3715,42 @@ export let proconf = {
       children: [
         {
           title: '合计',
-          field: 'vehicleDevopsExpenditureProgressSum',
+          field: 'vehicleDevopsExpendPrgsSum',
           width: '150',
           align: 'center',
           type: 'html'
         },
         {
           title: '因公出国（境）(30212)',
-          field: 'vehicleDevopsExpenditureProgress30312',
+          field: 'vehicleDevopsExpendPrgs30312',
           width: '150',
           align: 'center',
           type: 'html'
         },
         {
           title: '公务接待费（30217）',
-          field: 'vehicleDevopsExpenditureProgress30217',
+          field: 'vehicleDevopsExpendPrgs30217',
           width: '150',
           align: 'center',
           type: 'html'
         },
         {
           title: '公务用车运行维护(30231)',
-          field: 'vehicleDevopsExpenditureProgress30231',
+          field: 'vehicleDevopsExpendPrgs30231',
           width: '150',
           align: 'center',
           type: 'html'
         },
         {
           title: '公务用车购置(30913)',
-          field: 'vehicleDevopsExpenditureProgress30913',
+          field: 'vehicleDevopsExpendPrgs30913',
           width: '150',
           align: 'center',
           type: 'html'
         },
         {
           title: '公务用车购置(31013)',
-          field: 'vehicleDevopsExpenditureProgress31013',
+          field: 'vehicleDevopsExpendPrgs31013',
           width: '150',
           align: 'center',
           type: 'html'

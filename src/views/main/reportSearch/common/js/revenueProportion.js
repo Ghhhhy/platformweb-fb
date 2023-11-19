@@ -244,12 +244,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'mofDivName',
+        'type': 'name',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'mofDivName',
+        'field': 'name',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -257,10 +257,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 200,
-        'field': 'mofDivCode',
+        'field': 'code',
         'filters': true,
         'align': 'right',
-        'type': 'mofDivCode',
+        'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -278,9 +278,9 @@ const proconf = {
       {
         'title': '当年当月累计收入（税收收入二级科目）',
         'width': 350,
-        'field': 'currentMonthAmount',
+        'field': 'amountCurrentMonth',
         'align': 'right',
-        'type': 'currentMonthAmount',
+        'type': 'amountCurrentMonth',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -288,7 +288,7 @@ const proconf = {
       },
       {
         'title': '上年同期累计收入（税收收入二级科目）',
-        'field': 'lastCurrentMonthAmount',
+        'field': 'amountLastMonth',
         'width': 350,
         'align': 'right',
         'cellRender': {

@@ -196,12 +196,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'mofDivName',
+        'type': 'name',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'mofDivName',
+        'field': 'name',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -209,10 +209,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 200,
-        'field': 'mofDivCode',
+        'field': 'code',
         'filters': true,
         'align': 'right',
-        'type': 'mofDivCode',
+        'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -257,7 +257,7 @@ const proconf = {
         'align': 'right',
         'formula': 'Math.round(({budgetProgress}-{chronologicalProgress}))',
         'cellRender': {
-          'name': '$vxeMoney'
+          'name': '$vxeRatio'
         }
       }
     ],
