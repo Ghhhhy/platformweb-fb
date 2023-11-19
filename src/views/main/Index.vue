@@ -481,10 +481,14 @@ export default {
             let { intoMenu } = this.$store.state.loginAuthentication// 通过外部链接携带的跳转菜单信息
             if (intoMenu) {
               let findIntoMenu = this.findObjByKeyValue(res, 'guid', intoMenu)
+              // let routeObj = {
+              //   name: findIntoMenu.name,
+              //   url: '/' + findIntoMenu.url,
+              //   code: findIntoMenu.code
+              // }
               let routeObj = {
-                name: findIntoMenu.name,
-                url: '/' + findIntoMenu.url,
-                code: findIntoMenu.code
+                ...findIntoMenu,
+                url: '/' + findIntoMenu.url
               }
               if (findIntoMenu) {
                 self.$store.state.loginAuthentication.intoMenu = findIntoMenu
