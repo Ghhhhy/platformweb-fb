@@ -244,12 +244,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'mofDivName',
+        'type': 'name',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'mofDivName',
+        'field': 'name',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -257,10 +257,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 300,
-        'field': 'mofDivCode',
+        'field': 'code',
         'filters': true,
         'align': 'right',
-        'type': 'mofDivCode',
+        'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -278,9 +278,9 @@ const proconf = {
       {
         'title': '当月一般公共预算收入',
         'width': 250,
-        'field': 'budgetAmount',
+        'field': 'amountBudget',
         'align': 'right',
-        'type': 'budgetAmount',
+        'type': 'amountBudget',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -288,7 +288,7 @@ const proconf = {
       },
       {
         'title': '上年同期当月收入',
-        'field': 'lastBudgetAmount',
+        'field': 'amountLastBudget',
         'width': 250,
         'align': 'right',
         'cellRender': {
@@ -298,13 +298,13 @@ const proconf = {
       },
       {
         'title': '增幅',
-        'field': 'amplitude',
+        'field': 'amplitudeUp',
         'filters': true,
         'width': 300,
         'align': 'right',
-        'formula': 'Math.round(({budgetAmount}-{lastBudgetAmount})/{lastBudgetAmount})',
+        'formula': 'Math.round(({amountBudget}-{amountLastBudget})/{amountLastBudget})',
         'cellRender': {
-          'name': '$vxeMoney'
+          'name': '$vxeRatio'
         }
       }
     ],
