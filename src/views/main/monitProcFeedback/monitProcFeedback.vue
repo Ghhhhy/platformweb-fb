@@ -18,6 +18,7 @@
       </template>
       <template v-slot:query>
         <BsQuery
+          v-if="BsQueryVisible"
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="queryData"
@@ -99,6 +100,9 @@ export default {
     },
     userInfo() {
       return this.$store.state.userInfo
+    },
+    BsQueryVisible() {
+      return this.queryConfig.length !== 0
     }
   },
   watch: {
