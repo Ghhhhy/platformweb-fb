@@ -120,5 +120,47 @@ export default {
       default: '({xaAmount}-0==0?0:{amountXjfpAll}/{xaAmount})*100',
       isNeiMeng: '({aAmount}-0==0?0:{amountXjfpAll}/{aAmount})*100'
     }
+  },
+  budgetPayRegion: {
+    pPro: {
+      default: '({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10',
+      isNeiMeng: '({amountZjzl}-0==0?0:{amountZjzc}/{amountZjzl}*100)'
+    },
+    szyappPro: {
+      default: '{amountSnjzyxd}-0==0?0:Math.round({amountSnjzypay}/{amountSnjzyxd}*100*10)/10',
+      isNeiMeng: '({amountSnjzyxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100)'
+    },
+    sdfappPro: {
+      default: '{amountSnjdfdf}-0==0?0:Math.round({amountSnjdfpay}/{amountSnjdfdf}*100*10/10)',
+      isNeiMeng: '{amountSnjdfdf}-0==0?0:{amountSnjdfpay}/{amountSnjdfdf}*100'
+    },
+    sapPro: {
+      default: '{saaAmount}-0==0?0:Math.round({sapAmount}/{saaAmount}*100*10)/10',
+      isNeiMeng: '{saaAmount}-0==0?0:{sapAmount}/{saaAmount}*100'
+    },
+    shzyappPro: {
+      default: '{amountSjzydf}-0==0?0:Math.round({amountSjzypay}/{amountSjzydf}*100*10)/10',
+      isNeiMeng: '{amountSjzydf}-0==0?0:{amountSjzypay}/{amountSjzydf}*100'
+    },
+    shdfappPro: {
+      default: '{amountSjdfdf}-0==0?0:Math.round({amountSjdfpay}/{amountSjdfdf}*100*10)/10',
+      isNeiMeng: '{amountSjdfdf}-0==0?0:{amountSjdfpay}/{amountSjdfdf}*100'
+    },
+    shapPro: {
+      default: '{shaaAmount}-0==0?0:Math.round({shapAmount}/{shaaAmount}*100*10)/10',
+      isNeiMeng: '({shaaAmount}-0==0?0:{shapAmount}/{shaaAmount})*100'
+    },
+    xzyapPro: {
+      default: '{amountXjzydf}-0==0?0:Math.round({amountXjzypay}/{amountXjzydf}*100*10)/10',
+      isNeiMeng: '{amountXjzydf}-0==0?0:{amountXjzypay}/{amountXjzydf}*100'
+    },
+    xdfappPro: {
+      default: '{amountXjdfdf}-0==0?0:Math.round({amountXjdfpay}/{amountXjdfdf}*100*10)/10',
+      isNeiMeng: '{amountXjdfdf}-0==0?0:{amountXjdfpay}/{amountXjdfdf}*100'
+    },
+    xapPro: {
+      default: '{xaaAmount}-0==0?0:Math.round({xapAmount}/{xaaAmount}*100*10)/10',
+      isNeiMeng: '{xaaAmount}-0==0?0:({xapAmount}/{xaaAmount})*100'
+    }
   }
 }
