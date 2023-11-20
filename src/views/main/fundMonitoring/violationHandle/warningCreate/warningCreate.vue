@@ -325,68 +325,22 @@ export default {
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       this.propsRegulationClass = obj.row.regulationClass
-      switch (key) {
-        case 'orangeUndoNum':
-          this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeNormalNum':
-          this.detailData = ['orangeNormalNum', obj.row.fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeNotRectifiedNum':
-          this.detailData = ['orangeNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'orangeDoneNum':
-          this.detailData = ['orangeDoneNum', obj.row.fiRuleCode]
-          this.colourType = '2'
-          this.detailVisible = true
-          break
-        case 'yellowUndoNum':
-          this.detailData = ['yellowUndoNum', obj.row.fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'yellowNormalNum':
-          this.detailData = ['yellowNormalNum', obj.row.fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'yellowNotRectifiedNum':
-          this.detailData = ['yellowNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'yellowDoneNum':
-          this.detailData = ['yellowDoneNum', obj.row.fiRuleCode]
-          this.colourType = '1'
-          this.detailVisible = true
-          break
-        case 'blueUndoNum':
-          this.detailData = ['blueUndoNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueNormalNum':
-          this.detailData = ['blueNormalNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueNotRectifiedNum':
-          this.detailData = ['blueNotRectifiedNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
-        case 'blueDoneNum':
-          this.detailData = ['blueDoneNum', obj.row.fiRuleCode]
-          this.colourType = '4'
-          this.detailVisible = true
-          break
+      if (key.startsWith('red')) {
+        this.colourType = '1'
+      } else if (key.startsWith('orange')) {
+        this.colourType = '2'
+      } else if (key.startsWith('yellow')) {
+        this.colourType = '3'
+      } else if (key.startsWith('blue')) {
+        this.colourType = '4'
+      } else if (key.startsWith('name')) {
+        return
+      } else {
+        // 灰色
+        this.colourType = '5'
       }
+      this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
+      this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {

@@ -3041,25 +3041,25 @@ const statusButtons = [
 const curStatusButton = {
   label: '预警数据',
   code: '1',
-  type: '',
+  type: 'button',
   curValue: '1'
 }
 const curStatusButton1 = {
   label: '认定正常',
   code: '2',
-  type: '',
+  type: 'button',
   curValue: '2'
 }
 const curStatusButton2 = {
   label: '已整改',
   code: '3',
-  type: '',
+  type: 'button',
   curValue: '3'
 }
 const curStatusButton3 = {
   label: '未完成',
   code: '4',
-  type: '',
+  type: 'button',
   curValue: '4'
 }
 export default proconf
