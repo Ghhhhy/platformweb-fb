@@ -850,6 +850,7 @@ export default {
       return condition
     },
     dialogClose() {
+      this.searchDataList.payCertNo = ''
       this.$parent.detailVisible = false
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') {
         return

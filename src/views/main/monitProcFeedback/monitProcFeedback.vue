@@ -740,6 +740,12 @@ export default {
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
       this.menuName = configQueryData.dataConfig.menuname
+      // 福建判断表格去掉财政区划
+      if (this.$store.getters.isFuJian) {
+        this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
+          return item.field !== 'mofDivName'
+        })
+      }
     },
     async loadTabConfig(configTypeId) {
       let { tabPanel } = configTypeId
@@ -772,6 +778,12 @@ export default {
         this.getMofDiv()// 财政区划添加下拉按钮选项
       } else if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && configQueryData.itemsConfig[0].field === 'agencyCodeList') {
         this.getAgency()// 预算单位加载
+      }
+      // 福建判断取消区划查询
+      if (this.$store.getters.isFuJian) {
+        this.queryConfig = this.queryConfig.filter(item => {
+          return item.field !== 'mofDivCodes'
+        })
       }
     }
   },
