@@ -2121,7 +2121,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = {}
         if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',')
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(item=>item)//过滤空字符串
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}

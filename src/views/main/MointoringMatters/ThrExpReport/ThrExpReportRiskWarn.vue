@@ -170,13 +170,13 @@ export default {
           goAbroadExecutionsAmount: 0,
           receptionAdjustedBudgetAmount: 0,
           receptionExecutionsAmount: 0,
-          vehicleSubtotalAdjustedBudgetAmount: 0,
-          vehicleSubtotalExecutionsAmount: 0,
-          vehiclePurchaseAdjustedBudgetAmount30913: 0,
-          vehiclePurchaseExecutionsAmount30913: 0,
-          vehiclePurchaseAdjustedBudgetAmount31013: 0,
-          vehiclePurchaseExecutionsAmount31013: 0,
-          vehicleDevopsAdjustedBudgetAmount: 0,
+          vehicleSubtotalAdjstBugtAmnt: 0,
+          vehicleSubtotalExecuAmnt: 0,
+          vehiclePrcheAdjstBugtAmnt30913: 0,
+          vehiclePurchaseExecuAmnt30913: 0,
+          vehiclePrcasAdjstBugtAmnt31013: 0,
+          vehiclePurchaseExecuAmnt31013: 0,
+          vehicleDevopsAdjustedBugtAmnt: 0,
           vehicleDevopsExecutionsAmount: 0,
           meetingAdjustedBudgetAmount: 0,
           meetingExecutionsAmount: 0,
@@ -240,16 +240,16 @@ export default {
         if (key === 'receptionExecutionsAmount') {
           this.depBgtEcoCodeList = ['30217']
         }
-        if (key === 'vehiclePurchaseExecutionsAmount30913') {
+        if (key === 'vehiclePurchaseExecuAmnt30913') {
           this.depBgtEcoCodeList = ['30913']
         }
-        if (key === 'vehiclePurchaseExecutionsAmount31013') {
+        if (key === 'vehiclePurchaseExecuAmnt31013') {
           this.depBgtEcoCodeList = ['31013']
         }
         if (key === 'vehicleDevopsExecutionsAmount') {
           this.depBgtEcoCodeList = ['30231']
         }
-        if (key === 'vehicleSubtotalExecutionsAmount') {
+        if (key === 'vehicleSubtotalExecuAmnt') {
           this.depBgtEcoCodeList = ['30231', '30913', '31013']
         }
         if (key === 'meetingExecutionsAmount') {
@@ -275,16 +275,16 @@ export default {
         if (key === 'receptionAdjustedBudgetAmount') {
           this.depBgtEcoCodeList = ['30217']
         }
-        if (key === 'vehiclePurchaseAdjustedBudgetAmount30913') {
+        if (key === 'vehiclePrcheAdjstBugtAmnt30913') {
           this.depBgtEcoCodeList = ['30913']
         }
-        if (key === 'vehiclePurchaseAdjustedBudgetAmount31013') {
+        if (key === 'vehiclePrcasAdjstBugtAmnt31013') {
           this.depBgtEcoCodeList = ['31013']
         }
-        if (key === 'vehicleDevopsAdjustedBudgetAmount') {
+        if (key === 'vehicleDevopsAdjustedBugtAmnt') {
           this.depBgtEcoCodeList = ['30231']
         }
-        if (key === 'vehicleSubtotalAdjustedBudgetAmount') {
+        if (key === 'vehicleSubtotalAdjstBugtAmnt') {
           this.depBgtEcoCodeList = ['30231', '30913', '31013']
         }
         if (key === 'meetingAdjustedBudgetAmount') {
@@ -471,13 +471,13 @@ export default {
           let goAbroadExecutionsAmount = 0
           let receptionAdjustedBudgetAmount = 0
           let receptionExecutionsAmount = 0
-          let vehicleSubtotalAdjustedBudgetAmount = 0
-          let vehicleSubtotalExecutionsAmount = 0
-          let vehiclePurchaseAdjustedBudgetAmount30913 = 0
-          let vehiclePurchaseExecutionsAmount30913 = 0
-          let vehiclePurchaseAdjustedBudgetAmount31013 = 0
-          let vehiclePurchaseExecutionsAmount31013 = 0
-          let vehicleDevopsAdjustedBudgetAmount = 0
+          let vehicleSubtotalAdjstBugtAmnt = 0
+          let vehicleSubtotalExecuAmnt = 0
+          let vehiclePrcheAdjstBugtAmnt30913 = 0
+          let vehiclePurchaseExecuAmnt30913 = 0
+          let vehiclePrcasAdjstBugtAmnt31013 = 0
+          let vehiclePurchaseExecuAmnt31013 = 0
+          let vehicleDevopsAdjustedBugtAmnt = 0
           let vehicleDevopsExecutionsAmount = 0
           let meetingAdjustedBudgetAmount = 0
           let meetingExecutionsAmount = 0
@@ -503,26 +503,26 @@ export default {
             if (item.receptionExecutionsAmount) {
               receptionExecutionsAmount += item.receptionExecutionsAmount
             }
-            if (item.vehicleSubtotalAdjustedBudgetAmount) {
-              vehicleSubtotalAdjustedBudgetAmount += item.vehicleSubtotalAdjustedBudgetAmount
+            if (item.vehicleSubtotalAdjstBugtAmnt) {
+              vehicleSubtotalAdjstBugtAmnt += item.vehicleSubtotalAdjstBugtAmnt
             }
-            if (item.vehicleSubtotalExecutionsAmount) {
-              vehicleSubtotalExecutionsAmount += item.vehicleSubtotalExecutionsAmount
+            if (item.vehicleSubtotalExecuAmnt) {
+              vehicleSubtotalExecuAmnt += item.vehicleSubtotalExecuAmnt
             }
-            if (item.vehiclePurchaseAdjustedBudgetAmount30913) {
-              vehiclePurchaseAdjustedBudgetAmount30913 += item.vehiclePurchaseAdjustedBudgetAmount30913
+            if (item.vehiclePrcheAdjstBugtAmnt30913) {
+              vehiclePrcheAdjstBugtAmnt30913 += item.vehiclePrcheAdjstBugtAmnt30913
             }
-            if (item.vehiclePurchaseExecutionsAmount30913) {
-              vehiclePurchaseExecutionsAmount30913 += item.vehiclePurchaseExecutionsAmount30913
+            if (item.vehiclePurchaseExecuAmnt30913) {
+              vehiclePurchaseExecuAmnt30913 += item.vehiclePurchaseExecuAmnt30913
             }
-            if (item.vehiclePurchaseAdjustedBudgetAmount31013) {
-              vehiclePurchaseAdjustedBudgetAmount31013 += item.vehiclePurchaseAdjustedBudgetAmount31013
+            if (item.vehiclePrcasAdjstBugtAmnt31013) {
+              vehiclePrcasAdjstBugtAmnt31013 += item.vehiclePrcasAdjstBugtAmnt31013
             }
-            if (item.vehiclePurchaseExecutionsAmount31013) {
-              vehiclePurchaseExecutionsAmount31013 += item.vehiclePurchaseExecutionsAmount31013
+            if (item.vehiclePurchaseExecuAmnt31013) {
+              vehiclePurchaseExecuAmnt31013 += item.vehiclePurchaseExecuAmnt31013
             }
-            if (item.vehicleDevopsAdjustedBudgetAmount) {
-              vehicleDevopsAdjustedBudgetAmount += item.vehicleDevopsAdjustedBudgetAmount
+            if (item.vehicleDevopsAdjustedBugtAmnt) {
+              vehicleDevopsAdjustedBugtAmnt += item.vehicleDevopsAdjustedBugtAmnt
             }
             if (item.vehicleDevopsExecutionsAmount) {
               vehicleDevopsExecutionsAmount += item.vehicleDevopsExecutionsAmount
@@ -562,13 +562,13 @@ export default {
           this.tableFooterConfig.totalObj.goAbroadExecutionsAmount = goAbroadExecutionsAmount
           this.tableFooterConfig.totalObj.receptionAdjustedBudgetAmount = receptionAdjustedBudgetAmount
           this.tableFooterConfig.totalObj.receptionExecutionsAmount = receptionExecutionsAmount
-          this.tableFooterConfig.totalObj.vehicleSubtotalAdjustedBudgetAmount = vehicleSubtotalAdjustedBudgetAmount
-          this.tableFooterConfig.totalObj.vehicleSubtotalExecutionsAmount = vehicleSubtotalExecutionsAmount
-          this.tableFooterConfig.totalObj.vehiclePurchaseAdjustedBudgetAmount30913 = vehiclePurchaseAdjustedBudgetAmount30913
-          this.tableFooterConfig.totalObj.vehiclePurchaseExecutionsAmount30913 = vehiclePurchaseExecutionsAmount30913
-          this.tableFooterConfig.totalObj.vehiclePurchaseAdjustedBudgetAmount31013 = vehiclePurchaseAdjustedBudgetAmount31013
-          this.tableFooterConfig.totalObj.vehiclePurchaseExecutionsAmount31013 = vehiclePurchaseExecutionsAmount31013
-          this.tableFooterConfig.totalObj.vehicleDevopsAdjustedBudgetAmount = vehicleDevopsAdjustedBudgetAmount
+          this.tableFooterConfig.totalObj.vehicleSubtotalAdjstBugtAmnt = vehicleSubtotalAdjstBugtAmnt
+          this.tableFooterConfig.totalObj.vehicleSubtotalExecuAmnt = vehicleSubtotalExecuAmnt
+          this.tableFooterConfig.totalObj.vehiclePrcheAdjstBugtAmnt30913 = vehiclePrcheAdjstBugtAmnt30913
+          this.tableFooterConfig.totalObj.vehiclePurchaseExecuAmnt30913 = vehiclePurchaseExecuAmnt30913
+          this.tableFooterConfig.totalObj.vehiclePrcasAdjstBugtAmnt31013 = vehiclePrcasAdjstBugtAmnt31013
+          this.tableFooterConfig.totalObj.vehiclePurchaseExecuAmnt31013 = vehiclePurchaseExecuAmnt31013
+          this.tableFooterConfig.totalObj.vehicleDevopsAdjustedBugtAmnt = vehicleDevopsAdjustedBugtAmnt
           this.tableFooterConfig.totalObj.vehicleDevopsExecutionsAmount = vehicleDevopsExecutionsAmount
           this.tableFooterConfig.totalObj.meetingAdjustedBudgetAmount = meetingAdjustedBudgetAmount
           this.tableFooterConfig.totalObj.meetingExecutionsAmount = meetingExecutionsAmount
