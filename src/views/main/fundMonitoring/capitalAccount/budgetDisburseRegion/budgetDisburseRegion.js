@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -274,7 +275,7 @@ let proconf = {
                 field: 'numberSnjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjpay}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSnjZcjdZyap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -284,7 +285,7 @@ let proconf = {
                 field: 'numberSnjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSnjZcjdSnjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -294,7 +295,7 @@ let proconf = {
                 field: 'numberSnjZcjdzje',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeZje}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSnjZcjdzje'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -435,7 +436,7 @@ let proconf = {
                 field: 'numberSjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSjpay}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSjZcjdZyap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -445,7 +446,7 @@ let proconf = {
                 field: 'numberSjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSjZcjdSnjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -455,7 +456,7 @@ let proconf = {
                 field: 'numberSjZcjdSjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSjZcjdSjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -465,7 +466,7 @@ let proconf = {
                 field: 'numberSjZcjdZje',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeZje}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberSjZcjdZje'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -628,7 +629,7 @@ let proconf = {
                 field: 'numberXjZcjdZyap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountXjpay}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberXjZcjdZyap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -638,7 +639,7 @@ let proconf = {
                 field: 'numberXjZcjdSnjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberXjZcjdSnjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -648,7 +649,7 @@ let proconf = {
                 field: 'numberXjZcjdSjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberXjZcjdSjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -658,7 +659,7 @@ let proconf = {
                 field: 'numberXjZcjdXjap',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeXjap}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberXjZcjdXjap'),
                 cellRender: {
                   name: '$vxeRatio'
                 }
@@ -668,7 +669,7 @@ let proconf = {
                 field: 'numberXjZcjdZje',
                 width: 100,
                 align: 'right',
-                formula: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeZje}/{amountZyxd}*100*10)/10',
+                formula: $formula('budgetDisburseRegion.numberXjZcjdZje'),
                 cellRender: {
                   name: '$vxeRatio'
                 }

@@ -162,5 +162,206 @@ export default {
       default: '{xaaAmount}-0==0?0:Math.round({xapAmount}/{xaaAmount}*100*10)/10',
       isNeiMeng: '{xaaAmount}-0==0?0:({xapAmount}/{xaaAmount})*100'
     }
+  },
+  budgetDisburseCapital: {
+    numberSnjZcjdZyap: {
+      default: '{amountSnjxd}-0==0?0:Math.round({amountSnjpay}/{amountSnjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberSnjZcjdSnjap: {
+      default: '{amountSnjZjzlSjap}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountSnjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSnjZcjdzje: {
+      default: '{amountSnjZjzlZje}-0==0?0:Math.round({amountSnjZcjeZje}/{amountSnjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeZje}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdZyap: {
+      default: '{amountSjxd}-0==0?0:Math.round({amountSjpay}/{amountSjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdSnjap: {
+      default: '{amountSjZjzlSnjap}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountSjZjzlSnjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdSjap: {
+      default: '{amountSjZjzlSjap}-0==0?0:Math.round({amountSjZcjeSjap}/{amountSjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdZje: {
+      default: '{amountSjZjzlZje}-0==0?0:Math.round({amountSjZcjeZje}/{amountSjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeZje}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdZyap: {
+      default: '{amountXjxd}-0==0?0:Math.round({amountXjpay}/{amountXjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdSnjap: {
+      default: '{amountXjZjzlSnjap}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountXjZjzlSnjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdSjap: {
+      default: '{amountXjZjzlSjap}-0==0?0:Math.round({amountXjZcjeSjap}/{amountXjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdXjap: {
+      default: '{amountXjZjzlXjap}-0==0?0:Math.round({amountXjZcjeXjap}/{amountXjZjzlXjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeXjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdZje: {
+      default: '{amountXjZjzlZje}-0==0?0:Math.round({amountXjZcjeZje}/{amountXjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeZje}/{amountZyxd}*100*10)/10'
+    }
+
+  },
+  budgetDisburseRegion: {
+    numberSnjZcjdZyap: {
+      default: '{amountSnjxd}-0==0?0:Math.round({amountSnjpay}/{amountSnjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberSnjZcjdSnjap: {
+      default: '{amountSnjZjzlSjap}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountSnjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSnjZcjdzje: {
+      default: '{amountSnjZjzlZje}-0==0?0:Math.round({amountSnjZcjeZje}/{amountSnjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSnjZcjeZje}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdZyap: {
+      default: '{amountSjxd}-0==0?0:Math.round({amountSjpay}/{amountSjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdSnjap: {
+      default: '{amountSjZjzlSnjap}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountSjZjzlSnjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdSjap: {
+      default: '{amountSjZjzlSjap}-0==0?0:Math.round({amountSjZcjeSjap}/{amountSjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeSjap}/{amountZyxd}*100*10)/10'
+    },
+    numberSjZcjdZje: {
+      default: '{amountSjZjzlZje}-0==0?0:Math.round({amountSjZcjeZje}/{amountSjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountSjZcjeZje}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdZyap: {
+      default: '{amountXjxd}-0==0?0:Math.round({amountXjpay}/{amountXjxd}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjpay}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdSnjap: {
+      default: '{amountXjZjzlSnjap}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountXjZjzlSnjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSnjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdSjap: {
+      default: '{amountXjZjzlSjap}-0==0?0:Math.round({amountXjZcjeSjap}/{amountXjZjzlSjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeSjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdXjap: {
+      default: '{amountXjZjzlXjap}-0==0?0:Math.round({amountXjZcjeXjap}/{amountXjZjzlXjap}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeXjap}/{amountZyxd}*100*10)/10'
+    },
+    numberXjZcjdZje: {
+      default: '{amountXjZjzlZje}-0==0?0:Math.round({amountXjZcjeZje}/{amountXjZjzlZje}*100*10)/10',
+      isNeiMeng: '{amountZyxd}-0==0?0:Math.round({amountXjZcjeZje}/{amountZyxd}*100*10)/10'
+    }
+  },
+  dfrBudgetReleaseCapital: {
+    szyjd: {
+      default: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+    },
+    sdfjd: {
+      default: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+    },
+    sajd: {
+      default: '{saAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{saAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{aAmount}*100'
+    },
+    shzyjd: {
+      default: '{amountSjzydf}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{amountSjzydf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{aAmount}*100'
+    },
+    shdfjd: {
+      default: '{amountSjsnjdf}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{amountSjsnjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{aAmount}*100'
+    },
+    sjsjapjd: {
+      default: '{amountSjsjdf}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{amountSjsjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{aAmount}*100'
+    },
+    shajd: {
+      default: '{shiaAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{shiaAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{aAmount}*100'
+    },
+    xzyjd: {
+      default: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:{amountXjzybjfp}/{aAmount}*100'
+    },
+    xdfjd: {
+      default: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjsnjbjfp}/{aAmount}*100'
+    },
+    xjsjapjd: {
+      default: '{amountXjsjdf}-0 == 0?0:{amountXjsjbjfp}/{amountXjsjdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjsjbjfp}/{aAmount}*100'
+    },
+    xjxjapjd: {
+      default: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjxjbjfp}/{aAmount}*100'
+    },
+    xajd: {
+      default: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
+    }
+  },
+  dfrBudgetReleaseRegion: {
+    szyjd: {
+      default: '{amountSnjzyxd}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{amountSnjzyxd}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+    },
+    sdfjd: {
+      default: '{amountSnjsnjdf}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{amountSnjsnjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+    },
+    sajd: {
+      default: '{saAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{saAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{aAmount}*100'
+    },
+    shzyjd: {
+      default: '{amountSjzydf}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{amountSjzydf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{aAmount}*100'
+    },
+    shdfjd: {
+      default: '{amountSjsnjdf}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{amountSjsnjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{aAmount}*100'
+    },
+    sjsjapjd: {
+      default: '{amountSjsjdf}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{amountSjsjdf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{aAmount}*100'
+    },
+    shajd: {
+      default: '{shiaAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{shiaAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{aAmount}*100'
+    },
+    xzyjd: {
+      default: '{amountXjzydf}-0==0?0:{amountXjzybjfp}/{amountXjzydf}*100',
+      isNeiMeng: '{aAmount}-0==0?0:{amountXjzybjfp}/{aAmount}*100'
+    },
+    xdfjd: {
+      default: '{amountXjsnjfdf}-0 == 0?0:{amountXjsnjbjfp}/{amountXjsnjfdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjsnjbjfp}/{aAmount}*100'
+    },
+    xjsjapjd: {
+      default: '{amountXjsjdf}-0 == 0?0:{amountXjsjbjfp}/{amountXjsjdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjsjbjfp}/{aAmount}*100'
+    },
+    xjxjapjd: {
+      default: '{amountXjxjdf}-0 == 0?0:{amountXjxjbjfp}/{amountXjxjdf}*100',
+      isNeiMeng: '{aAmount}-0 == 0?0:{amountXjxjbjfp}/{aAmount}*100'
+    },
+    xajd: {
+      default: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100',
+      isNeiMeng: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
+    }
   }
 }

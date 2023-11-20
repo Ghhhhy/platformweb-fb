@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -372,7 +373,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:({amountSnjzybjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.szyjd')
               },
               {
                 title: '省级安排',
@@ -380,7 +381,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:({amountSnjsnjbjfp}+{amountSnjsnjxjfp})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.sdfjd')
               },
               {
                 title: '总进度',
@@ -390,7 +391,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{aAmount}-0==0?0:({sbjfpaAmount}+{ssxfpaAmount})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.sajd')
               }
             ]
           }
@@ -650,7 +651,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:({amountSjzybjfp}+{amountSjzyxjfp})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.shzyjd')
               },
               {
                 title: '省级安排',
@@ -658,7 +659,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:({amountSjsnjxjfp}+{amountSjsnjbjfp})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.shdfjd')
               },
               {
                 title: '市级安排',
@@ -666,7 +667,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:({amountSjsjbjfp}+{amountSjsjxjfp})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.sjsjapjd')
               },
               {
                 title: '总进度',
@@ -676,7 +677,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{aAmount}-0==0?0:({shbjfpaAmount}+{shxjfpaAmount})/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.shajd')
               }
             ]
           }
@@ -934,7 +935,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0==0?0:{amountXjzybjfp}/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.xzyjd')
               },
               {
                 title: '省级安排',
@@ -942,7 +943,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0 == 0?0:{amountXjsnjbjfp}/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.xdfjd')
               },
               {
                 title: '市级安排',
@@ -950,7 +951,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0 == 0?0:{amountXjsjbjfp}/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.xjsjapjd')
               },
               {
                 title: '县级安排',
@@ -958,7 +959,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{aAmount}-0 == 0?0:{amountXjxjbjfp}/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.xjxjapjd')
               },
               {
                 title: '总进度',
@@ -968,7 +969,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
+                formula: $formula('dfrBudgetReleaseCapital.xajd')
               }
             ]
           }
