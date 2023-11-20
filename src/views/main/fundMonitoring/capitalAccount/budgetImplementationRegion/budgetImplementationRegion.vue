@@ -367,7 +367,23 @@ export default {
           }
         },
         {
-          title: '截止日期',
+          title: '开始日期',
+          field: 'startTime',
+          width: 100,
+          align: 'center',
+          filters: false,
+          itemRender: {
+            name: '$vxeTime',
+            props: {
+              // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+              'value-format': 'yyyy-MM-dd',
+              type: 'date',
+              placeholder: '开始日期'
+            }
+          }
+        },
+        {
+          title: '结束日期',
           field: 'endTime',
           width: 100,
           align: 'center',
@@ -378,15 +394,15 @@ export default {
               // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
               'value-format': 'yyyy-MM-dd 23:59:59',
               type: 'date',
-              placeholder: '截止日期'
+              placeholder: '结束日期'
             }
           }
         }
-
       ],
       searchDataList: {
         fiscalYear: this.$store.state.userInfo.year,
         proCodes: '',
+        startTime: '',
         endTime: ''
       },
       detailVisible: false,
@@ -623,6 +639,7 @@ export default {
         isCz: isCz,
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: (this.searchDataList.proCodes && typeof this.searchDataList.proCodes === 'string') ? this.getTrees(this.searchDataList.proCodes) : []
       }
@@ -870,6 +887,7 @@ export default {
         isCz: isCz,
         fiscalYear: this.searchDataList.fiscalYear,
         condition: condition,
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }
@@ -922,6 +940,7 @@ export default {
         // isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode,
         fiscalYear: this.searchDataList.fiscalYear || '',
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }

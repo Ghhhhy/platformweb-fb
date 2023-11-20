@@ -10,13 +10,13 @@
               <!--<RuleUseInfoChart />-->
               <div class="f20 rule-swiper-title">监控整体情况</div>
               <div class="verTop width1 color1 mgr15">
-                <div class="rule-swiper-title">本月预警数据：<div class="font-style" @click="menuClick1">{{ warnMonthList.warnCount || '0' }}笔</div></div>
-                <div class="rule-swiper-title">本月已处理：<div class="font-style">{{ warnMonthList.handAmount || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本月预警数据：<div class="font-style" @click="menuClick1">{{ formatterCount(warnMonthList.warnCount) || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本月已处理：<div class="font-style">{{ formatterCount(warnMonthList.handAmount) || '0' }}笔</div></div>
               </div>
 
               <div class="verTop width2 color2 mgr15">
-                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style" @click="menuClick1">{{ warnYearList.warnCount || '0' }}笔</div></div>
-                <div class="rule-swiper-title">本年累计已处理：<div class="font-style">{{ warnYearList.handAmount || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本年累计预警数据：<div class="font-style" @click="menuClick1">{{ formatterCount(warnYearList.warnCount) || '0' }}笔</div></div>
+                <div class="rule-swiper-title">本年累计已处理：<div class="font-style">{{ formatterCount(warnYearList.handAmount) || '0' }}笔</div></div>
               </div>
 
               <div class="verTop width3 color3 mgr15">
@@ -105,6 +105,7 @@ import MonitoringHandlingInfo from './components/MonitoringHandlingInfo'
 import { getWarnByMofDivCode, ruleActivateInfo, rankProcessing, ledgerProcessing } from '@/api/frame/main/warningOverview'
 import store from '@/store/index'
 import router from '@/router'
+import { formatterThousands } from '@/utils/thousands'
 export default defineComponent({
   components: { Map, MenuModel, RuleUseInfoChart, RuleScroll, ViewAllRules, MonitoringHandlingInfo },
   setup() {
@@ -117,6 +118,7 @@ export default defineComponent({
     const tableData1 = ref([])
     const tableData2 = ref([])
     const tableData3 = ref([])
+    const formatterCount = formatterThousands
     /**
      * 获取按月数据
      * @return {Promise<void>}
@@ -214,25 +216,50 @@ export default defineComponent({
     // }
     // getLedgerProcessing()
     const menuClick1 = () => {
-      router.push({
-        name: 'SproWarnRegionSummary'
-      })
-      const route = {
-        url: '/SproWarnRegionSummary',
-        code: '892',
-        name: ' 重点监督预警汇总_分地区 '
+      let route = {}
+      if (store.getters.isSx) {
+        router.push({
+          name: 'SXWarningDetailsByRuleAll'
+        })
+        route = {
+          url: '/SXWarningDetailsByRuleAll',
+          code: '892',
+          name: ' 预警明细查询(全辖) '
+        }
+      } else {
+        router.push({
+          name: 'SproWarnRegionSummary'
+        })
+        route = {
+          url: '/SproWarnRegionSummary',
+          code: '892',
+          name: ' 重点监督预警汇总_分地区 '
+        }
       }
       store.commit('setCurMenuObj', route)
     }
     const menuClick2 = () => {
-      router.push({
-        name: 'MonitorRulesViewFJ'
-      })
-      const route = {
-        url: '/MonitorRulesViewFJ',
-        code: '892',
-        name: ' 监控规则库 '
+      let route = {}
+      if (store.getters.isSx) {
+        router.push({
+          name: 'MonitorRulesView'
+        })
+        route = {
+          url: '/MonitorRulesView',
+          code: '892',
+          name: ' 监控规则库 '
+        }
+      } else {
+        router.push({
+          name: 'MonitorRulesViewFJ'
+        })
+        route = {
+          url: '/MonitorRulesViewFJ',
+          code: '892',
+          name: ' 监控规则库 '
+        }
       }
+
       store.commit('setCurMenuObj', route)
     }
     return {
@@ -245,7 +272,8 @@ export default defineComponent({
       menuClick1,
       menuClick2,
       tableDataLoading,
-      handleReflush
+      handleReflush,
+      formatterCount
     }
   },
   data() {

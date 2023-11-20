@@ -1031,11 +1031,14 @@ export default {
     cancelButton() { console.log('取消', this.$store.state.curNavModule.f_FullName.substring(0, 3)) },
     // tab切换
     tabClick(index) {
-      // 在模板信息页必须勾选且点击之后才能进行tab切换
-      /*eslint-disable */
-      if (this.activeIndex === 0 && index !== 0 && this.showType != '1') {
-        this.$XModal.message({ status: 'warning', message: '请选择一条数据数据并点击确定！' })
-        return
+      // 修改的时候可以随意切换
+      if (this.title !== '修改') {
+        // 在模板信息页必须勾选且点击之后才能进行tab切换
+        /*eslint-disable */
+        if (this.activeIndex === 0 && index !== 0 && this.showType != '1') {
+          this.$XModal.message({ status: 'warning', message: '请选择一条数据数据并点击确定！' })
+          return
+        }
       }
       this.activeIndex = index
       if (this.activeIndex === 0) {

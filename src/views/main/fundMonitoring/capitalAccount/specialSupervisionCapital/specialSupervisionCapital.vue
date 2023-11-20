@@ -678,6 +678,7 @@ export default {
           speTypeCode: '',
           isBj: isBj,
           isCz: isCz,
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           fiscalYear: this.searchDataList.fiscalYear,
           mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
@@ -835,6 +836,7 @@ export default {
           speTypeCode: '',
           isBj: isBj,
           isCz: isCz,
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           fiscalYear: this.searchDataList.fiscalYear,
           mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
@@ -970,6 +972,7 @@ export default {
           isFlush,
           reportCode: this.transJson(this.params5 || '')?.reportCode,
           fiscalYear: this.searchDataList.fiscalYear || '',
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
         }
@@ -995,6 +998,7 @@ export default {
           isFlush,
           reportCode: this.transJson(this.params5 || '')?.reportCode,
           fiscalYear: this.searchDataList.fiscalYear || '',
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           clear_date: this.condition.clear_date ? this.condition.clear_date[0] : '',
           mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes),
@@ -1216,7 +1220,7 @@ export default {
     }
     if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
       let arr = this.queryConfig.filter(item => {
-        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'endTime'
+        return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'startTime' || item.field === 'endTime'
       })
       this.$set(this, 'queryConfig', arr)
     }

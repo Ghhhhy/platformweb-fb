@@ -33,12 +33,6 @@ let proconf = {
       visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
         props: {
           clearable: true,
           type: 'year',
@@ -68,7 +62,7 @@ let proconf = {
             },
             placeholder: '地区',
             clearable: true,
-            multiple: false,
+            multiple: true,
             readonly: false,
             isleaf: true
           }

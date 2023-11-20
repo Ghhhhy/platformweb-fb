@@ -1153,16 +1153,17 @@ const proconf = {
     }
   ],
   msgConfig: [
-    // {
-    //   field: 'warningCode',
-    //   title: '监控数据编码',
-    //   titleWidth: '180',
-    //   span: 8,
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     props: { placeholder: '监控数据编码', disabled: true }
-    //   }
-    // },
+    {
+      field: 'warningCode',
+      title: '监控数据编码',
+      titleWidth: '180',
+      span: 8,
+      visible: !this.$store.getters.isFuJian,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '监控数据编码', disabled: true }
+      }
+    },
     {
       field: 'payAppNo',
       title: '支付申请编号',
@@ -1409,6 +1410,7 @@ const proconf = {
       field: 'createTime',
       span: 8,
       titleWidth: '180',
+      visible: this.$store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '创建时间' }

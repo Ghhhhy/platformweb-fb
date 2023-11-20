@@ -714,7 +714,7 @@ let proconf = {
       title: '规则编码',
       'width': 180,
       field: 'firulecode',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -722,7 +722,7 @@ let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -730,7 +730,7 @@ let proconf = {
       title: '主题',
       'width': 180,
       field: 'regulationClassName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -738,7 +738,7 @@ let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofdivcode',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -746,7 +746,7 @@ let proconf = {
       title: '预警级别',
       'width': 180,
       field: 'warnLevel',
-      sortable: false,
+      sortable: true,
       align: 'center',
       filters: false,
       cellRender: {
@@ -757,7 +757,7 @@ let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -765,7 +765,7 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -774,6 +774,7 @@ let proconf = {
       'field': 'status',
       'align': 'center',
       'width': 180,
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -795,7 +796,7 @@ let proconf = {
       title: '支付申请编码',
       'width': 180,
       field: 'fivouno',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -828,7 +829,7 @@ let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -836,7 +837,7 @@ let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -844,7 +845,7 @@ let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -852,7 +853,7 @@ let proconf = {
       title: '违规处理时间',
       'width': 180,
       field: 'handleTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -861,6 +862,7 @@ let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [
@@ -908,6 +910,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -924,7 +927,7 @@ let proconf = {
       title: '处理信息',
       field: 'handleResult',
       'width': 180,
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -932,7 +935,7 @@ let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -940,7 +943,7 @@ let proconf = {
       title: '主题',
       'width': 180,
       field: 'regulationClassName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -948,7 +951,7 @@ let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
@@ -956,7 +959,7 @@ let proconf = {
       title: '支付申请编号',
       width: 180,
       field: 'businessNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
@@ -972,7 +975,7 @@ let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofDiv',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -980,7 +983,7 @@ let proconf = {
       title: '预警级别',
       'width': 180,
       field: 'warnLevel',
-      sortable: false,
+      sortable: true,
       align: 'center',
       filters: false,
       cellRender: {
@@ -996,7 +999,7 @@ let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1004,7 +1007,7 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1035,6 +1038,7 @@ let proconf = {
       field: 'triggerClass',
       'width': 180,
       align: 'left',
+      sortable: true,
       formula: '',
       'cellRender': {
         'name': '$vxeSelect',
@@ -1051,7 +1055,7 @@ let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1059,7 +1063,7 @@ let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1068,6 +1072,7 @@ let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [
@@ -1123,6 +1128,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -1139,7 +1145,7 @@ let proconf = {
       title: '处理信息',
       field: 'handleResult',
       'width': 180,
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1147,7 +1153,7 @@ let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1155,7 +1161,7 @@ let proconf = {
       title: '主题',
       'width': 180,
       field: 'regulationClassName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1163,7 +1169,7 @@ let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
@@ -1171,14 +1177,14 @@ let proconf = {
       title: '支付申请编号',
       width: 180,
       field: 'businessNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
     {
       title: '支付金额',
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       width: 180,
@@ -1194,7 +1200,7 @@ let proconf = {
     //   title: '触发菜单',
     //   'width': 180,
     //   field: 'fromMenuName',
-    //   sortable: false,
+    //   sortable: true,
     //   filters: false,
     //   align: 'center'
     // },
@@ -1202,7 +1208,7 @@ let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofDiv',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1210,7 +1216,7 @@ let proconf = {
       title: '预警级别',
       'width': 180,
       field: 'warnLevel',
-      sortable: false,
+      sortable: true,
       align: 'center',
       filters: false,
       cellRender: {
@@ -1226,7 +1232,7 @@ let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1234,7 +1240,7 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1242,7 +1248,7 @@ let proconf = {
       title: '专项资金编码',
       'width': 180,
       field: 'trackProCode',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1250,7 +1256,7 @@ let proconf = {
       title: '专项资金名称',
       'width': 180,
       field: 'trackProName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1260,6 +1266,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -1275,7 +1282,7 @@ let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1283,7 +1290,7 @@ let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1292,6 +1299,7 @@ let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [
@@ -1313,7 +1321,7 @@ let proconf = {
     //   title: '违规处理时间',
     //   'width': 180,
     //   field: 'handleTime',
-    //   sortable: false,
+    //   sortable: true,
     //   filters: false,
     //   align: 'center'
     // },
@@ -1346,6 +1354,7 @@ let proconf = {
       field: 'isSign',
       'width': 180,
       align: 'left',
+      sortable: true,
       formula: '',
       'cellRender': {
         'name': '$vxeSelect',
@@ -1363,7 +1372,7 @@ let proconf = {
       title: '处理信息',
       field: 'handleResult',
       'width': 180,
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1371,7 +1380,7 @@ let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1379,7 +1388,7 @@ let proconf = {
       title: '主题',
       'width': 180,
       field: 'regulationClassName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1387,7 +1396,7 @@ let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
@@ -1395,14 +1404,14 @@ let proconf = {
       title: '支付申请编号',
       width: 180,
       field: 'businessNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
     {
       title: '金额',
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       width: 180,
@@ -1418,7 +1427,7 @@ let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofDiv',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1426,7 +1435,7 @@ let proconf = {
       title: '预警级别',
       'width': 180,
       field: 'warnLevel',
-      sortable: false,
+      sortable: true,
       align: 'center',
       filters: false,
       cellRender: {
@@ -1442,7 +1451,7 @@ let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1450,7 +1459,7 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1460,6 +1469,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -1475,7 +1485,7 @@ let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1483,7 +1493,7 @@ let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1492,6 +1502,7 @@ let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [
@@ -1539,6 +1550,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -1555,7 +1567,7 @@ let proconf = {
       title: '处理信息',
       field: 'handleResult',
       'width': 180,
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1563,7 +1575,7 @@ let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1571,7 +1583,7 @@ let proconf = {
       title: '主题',
       'width': 180,
       field: 'regulationClassName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1579,7 +1591,7 @@ let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
@@ -1587,14 +1599,14 @@ let proconf = {
       title: '支付申请编号',
       width: 180,
       field: 'businessNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'left'
     },
     {
       title: '支付金额',
       field: 'payAppAmt',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       width: 180,
@@ -1610,7 +1622,7 @@ let proconf = {
     //   title: '触发菜单',
     //   'width': 180,
     //   field: 'fromMenuName',
-    //   sortable: false,
+    //   sortable: true,
     //   filters: false,
     //   align: 'center'
     // },
@@ -1618,7 +1630,7 @@ let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofDiv',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1626,7 +1638,7 @@ let proconf = {
       title: '预警级别',
       'width': 180,
       field: 'warnLevel',
-      sortable: false,
+      sortable: true,
       align: 'center',
       filters: false,
       cellRender: {
@@ -1642,7 +1654,7 @@ let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1650,7 +1662,7 @@ let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1658,7 +1670,7 @@ let proconf = {
       title: '专项资金编码',
       'width': 180,
       field: 'trackProCode',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1666,7 +1678,7 @@ let proconf = {
       title: '专项资金名称',
       'width': 180,
       field: 'trackProName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1674,7 +1686,7 @@ let proconf = {
       title: '政府经济分类',
       'width': 180,
       field: 'govBgtEcoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1682,7 +1694,7 @@ let proconf = {
       title: '部门经济分类',
       'width': 180,
       field: 'depBgtEcoName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1690,7 +1702,7 @@ let proconf = {
       title: '三公经费标识',
       'width': 180,
       field: 'thrExpName',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1722,6 +1734,7 @@ let proconf = {
       'width': 180,
       align: 'left',
       formula: '',
+      sortable: true,
       'cellRender': {
         'name': '$vxeSelect',
         options: [
@@ -1737,7 +1750,7 @@ let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1745,7 +1758,7 @@ let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -1754,6 +1767,7 @@ let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [

@@ -13,6 +13,11 @@ export let proconf = {
     }
   ],
   // BsToolBar 右侧按钮
+  rightButton: {
+    '1': [
+      { code: 'del', label: '删除' }
+    ]
+  },
   statusRightToolBarButton: {
     '1': [
       { code: 'add', label: '新增', status: 'primary' },
@@ -135,19 +140,19 @@ export let proconf = {
       field: 'cfsHotTopicCateName',
       sortable: false,
       align: 'left'
-    },
-    {
-      title: '中央项目资金名称编码',
-      field: 'proFundCode',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '中央项目资金名称',
-      field: 'proFundName',
-      sortable: false,
-      align: 'left'
     }
+    // {
+    //   title: '中央项目资金名称编码',
+    //   field: 'fundCategoryCode',
+    //   sortable: false,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '中央项目资金名称',
+    //   field: 'fundCategoryName',
+    //   sortable: false,
+    //   align: 'left'
+    // }
     // ,{
     //   title: '数据源地址',
     //   field: 'adapterAddr',

@@ -598,6 +598,7 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: (this.searchDataList.mofDivCodes && typeof this.searchDataList.mofDivCodes === 'string') ? this.getTrees(this.searchDataList.mofDivCodes) : []
@@ -680,6 +681,7 @@ export default {
         isCz: isCz,
         speTypeCode: '',
         isBj: isBj,
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         fiscalYear: this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
@@ -885,6 +887,7 @@ export default {
         // isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
         fiscalYear: this.searchDataList.fiscalYear || '',
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }

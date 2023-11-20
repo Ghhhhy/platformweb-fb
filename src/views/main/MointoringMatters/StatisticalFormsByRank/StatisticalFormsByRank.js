@@ -144,6 +144,32 @@ export let proconf = {
       align: 'left'
     },
     {
+      title: '整体预警情况',
+      field: 'totals',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计预警',
+          field: 'wholeCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'wholeHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '未处理',
+          field: 'wholeNoHandleCount',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    },
+    {
       title: '红色预警',
       field: 'red',
       sortable: false,

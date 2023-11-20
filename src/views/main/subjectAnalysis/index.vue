@@ -10,8 +10,8 @@
             <div
               class="chart-title"
               @click.stop="menuClick({
-                name: '统计分析查询（按区划汇总）',
-                index: 0,
+                name: $store.getters.isSx ? '统计分析查询（区划+预警级别）（全辖）' : '统计分析查询（按区划汇总）',
+                index: $store.getters.isSx ? 3 : 0,
               })"
             >
               统计分析查询（按区划汇总）
@@ -22,8 +22,8 @@
             <div
               class="chart-title"
               @click.stop="menuClick({
-                name: '统计分析查询（按预警级别）',
-                index: 1,
+                name: $store.getters.isSx ? '统计分析查询（规则+预警级别）（全辖）' : '统计分析查询（按预警级别）',
+                index: $store.getters.isSx ? 4 : 1,
               })"
             >
               统计分析查询（按预警级别）
@@ -36,8 +36,8 @@
             <div
               class="chart-title"
               @click.stop="menuClick({
-                name: '统计分析查询（按区划）',
-                index: 2,
+                name: $store.getters.isSx ? '统计分析查询（规则+区划）（全辖）' : '统计分析查询（按区划）',
+                index: $store.getters.isSx ? 5 : 2,
               })"
             >
               统计分析查询（按区划）
@@ -61,7 +61,6 @@ import AdminDivSummarize from './components/AdminDivSummarize'
 import WarningLevel from './components/WarningLevel'
 import AdminDivScatter from './components/AdminDivScatter'
 
-import store from '@/store'
 import { menuModelData } from '../warningOverview/modal/data'
 // import { useComputedChartWidth } from '@/views/main/financial-portrayal/hooks/useComputedChartWidth'
 
@@ -74,12 +73,15 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const route = root.$route
+    const store = root.$store
 
     /**
      * 点击跳转报表
      * @param route
      */
     const menuClick = (obj) => {
+      debugger
+      console.log(store)
       const menu = menuModelData.find(item => item.name === route.query?.menuName)
       if (!menu) return
       const params = {
