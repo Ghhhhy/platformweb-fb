@@ -1,5 +1,4 @@
 import store from '@/store/index'
-import transJson from '@/utils/transformMenuQuery'
 // 预算执行表头
 const budgetImpColumns = [
   {
@@ -3063,40 +3062,11 @@ const curStatusButton3 = {
   type: '',
   curValue: '4'
 }
-// 下面这个尽量不要写console 有内存泄漏问题 并且仅作初始化 如果需要动态修改 请自行写computed
-const buttonsInfo = {
-  1: (
-    () => {
-      if (transJson(store.state.curNavModule.param5)?.isQuery) {
-        return []
-      }
-      if (store.getters.isFuJian || store.getters.isQingHai) {
-        return [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
-      }
-      return [{ label: '生成', code: 'create', status: 'primary' }]
-    }
-  )(),
-  2: [],
-  3: [
-    // {
-    //   label: '联查业务数据',
-    //   code: 'queryBusinessData',
-    //   status: 'primary'
-    // },
-    {
-      label: '整改详情',
-      code: 'show_detail',
-      status: 'primary'
-    }
-  ],
-  4: []
-}
 export default proconf
 export {
   statusButtons,
   curStatusButton,
   curStatusButton1,
   curStatusButton2,
-  curStatusButton3,
-  buttonsInfo
+  curStatusButton3
 }

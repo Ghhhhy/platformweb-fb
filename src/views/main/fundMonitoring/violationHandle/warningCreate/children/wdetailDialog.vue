@@ -123,8 +123,7 @@ import proconf, {
   curStatusButton,
   curStatusButton1,
   curStatusButton2,
-  curStatusButton3,
-  buttonsInfo
+  curStatusButton3
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
@@ -142,6 +141,27 @@ export default {
     // BsTable1
   },
   computed: {
+    tabStatusBtnConfig() {
+      let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
+      if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
+        firstBtn = []
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai) {
+        firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
+      }
+      return {
+        buttons: statusButtons,
+        curButton: curStatusButton,
+        buttonsInfo: {
+          1: firstBtn,
+          2: [],
+          3: [{ label: '整改详情', code: 'show_detail', status: 'primary' }],
+          4: []
+        },
+        methods: {
+          bsToolbarClickEvent: this.bsToolbarClickEvent
+        }
+      }
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -213,14 +233,6 @@ export default {
       billguidList: [],
       showLog: false,
       showGlAttachmentDialog: false,
-      tabStatusBtnConfig: {
-        buttons: statusButtons,
-        curButton: curStatusButton,
-        buttonsInfo: buttonsInfo,
-        methods: {
-          bsToolbarClickEvent: this.bsToolbarClickEvent
-        }
-      },
       tabStatusNumConfig: {
         '1': 0,
         '2': 0,
