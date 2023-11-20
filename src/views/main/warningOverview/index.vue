@@ -214,25 +214,50 @@ export default defineComponent({
     // }
     // getLedgerProcessing()
     const menuClick1 = () => {
-      router.push({
-        name: 'SproWarnRegionSummary'
-      })
-      const route = {
-        url: '/SproWarnRegionSummary',
-        code: '892',
-        name: ' 重点监督预警汇总_分地区 '
+      let route = {}
+      if (store.getters.isSx) {
+        router.push({
+          name: 'SXWarningDetailsByRuleAll'
+        })
+        route = {
+          url: '/SXWarningDetailsByRuleAll',
+          code: '892',
+          name: ' 预警明细查询(全辖) '
+        }
+      } else {
+        router.push({
+          name: 'SproWarnRegionSummary'
+        })
+        route = {
+          url: '/SproWarnRegionSummary',
+          code: '892',
+          name: ' 重点监督预警汇总_分地区 '
+        }
       }
       store.commit('setCurMenuObj', route)
     }
     const menuClick2 = () => {
-      router.push({
-        name: 'MonitorRulesViewFJ'
-      })
-      const route = {
-        url: '/MonitorRulesViewFJ',
-        code: '892',
-        name: ' 监控规则库 '
+      let route = {}
+      if (store.getters.isSx) {
+        router.push({
+          name: 'MonitorRulesView'
+        })
+        route = {
+          url: '/MonitorRulesView',
+          code: '892',
+          name: ' 监控规则库 '
+        }
+      } else {
+        router.push({
+          name: 'MonitorRulesViewFJ'
+        })
+        route = {
+          url: '/MonitorRulesViewFJ',
+          code: '892',
+          name: ' 监控规则库 '
+        }
       }
+
       store.commit('setCurMenuObj', route)
     }
     return {
