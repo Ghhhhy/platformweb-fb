@@ -561,9 +561,9 @@ const proconf = {
       width: 180,
       align: 'left',
       formula: '',
-      name: '$vxeInput',
+      name: '$input',
       itemRender: {
-        name: '$vxeInput',
+        name: '$input',
         props: {
           clearable: true,
           placeholder: '支付凭证号'
