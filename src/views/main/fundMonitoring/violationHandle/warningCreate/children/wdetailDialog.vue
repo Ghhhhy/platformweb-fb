@@ -17,6 +17,8 @@
           :tab-status-btn-config="tabStatusBtnConfig"
           :tab-status-num-config="tabStatusNumConfig"
           @onQueryConditionsClick="onQueryConditionsClick1"
+          @btnClick="operationToolbarButtonClickEvent"
+          @tabClick="bsToolbarClickEvent"
         >
           <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
@@ -131,7 +133,19 @@ import transJson from '@/utils/transformMenuQuery'
 import { filterText } from '@/utils/customerUtils'
 // import BsTable1 from '@/components/Table/Table.vue'
 import moment from 'moment'
-
+const tabSelectActionTypeMap = {
+  '1': 'UndoNum',
+  '2': 'NormalNum',
+  '3': 'DoneNum',
+  '4': 'NotRectifiedNum'
+}
+const colourTypeMap = {
+  '1': 'red',
+  '2': 'orange',
+  '3': 'yellow',
+  '4': 'blue',
+  '5': 'grey'
+}
 export default {
   name: 'DetailDialogs',
   components: {
@@ -149,16 +163,14 @@ export default {
         firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return {
+        changeBtns: true,
         buttons: statusButtons,
-        curButton: curStatusButton,
+        curButton: statusButtons.find(item => item.code === this.tabSelect),
         buttonsInfo: {
           1: firstBtn,
           2: [],
           3: [{ label: '整改详情', code: 'show_detail', status: 'primary' }],
           4: []
-        },
-        methods: {
-          bsToolbarClickEvent: this.bsToolbarClickEvent
         }
       }
     },
@@ -210,6 +222,7 @@ export default {
   data() {
     return {
       // 操作日志
+      tabSelect: '1', // 设置默认
       isFlow: false,
       showHandleInitialScreeningModal: false,
       showType: '',
@@ -336,7 +349,6 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
-      tabSelect: '',
       selectData: {},
       showBuinessTree: false,
       leftTreeVisible: false,
@@ -541,100 +553,10 @@ export default {
       this.showGlAttachmentDialog = false
     },
     bsToolbarClickEvent(obj, $this) {
-      if (!obj.type) {
-        this.operationToolbarButtonClickEvent(obj)
-        return
-      }
       this.tabSelect = obj.curValue
-      if (this.tabSelect === '1') {
-        // this.tableColumnsConfig = proconf.undoNum
-        this.tabStatusBtnConfig.curButton = curStatusButton
-        switch (this.colourType) {
-          case '3':
-            this.detailType = 'yellowUndoNum'
-            break
-          case '2':
-            this.detailType = 'orangeUndoNum'
-            break
-          case '1':
-            this.detailType = 'redUndoNum'
-            break
-          case '5':
-            this.detailType = 'greyUndoNum'
-            break
-          case '4':
-            this.detailType = 'blueUndoNum'
-            break
-          default:
-            break
-        }
-      } else if (this.tabSelect === '2') {
-        // this.tableColumnsConfig = proconf.undoNum
-        this.tabStatusBtnConfig.curButton = curStatusButton1
-        switch (this.colourType) {
-          case '3':
-            this.detailType = 'yellowNormalNum'
-            break
-          case '2':
-            this.detailType = 'orangeNormalNum'
-            break
-          case '1':
-            this.detailType = 'redNormalNum'
-            break
-          case '5':
-            this.detailType = 'greyNormalNum'
-            break
-          case '4':
-            this.detailType = 'blueNormalNum'
-            break
-          default:
-            break
-        }
-      } else if (this.tabSelect === '4') {
-        // this.tableColumnsConfig = proconf.notRectifiedNum
-        this.tabStatusBtnConfig.curButton = curStatusButton2
-        switch (this.colourType) {
-          case '3':
-            this.detailType = 'yellowNotRectifiedNum'
-            break
-          case '2':
-            this.detailType = 'orangeNotRectifiedNum'
-            break
-          case '1':
-            this.detailType = 'redNotRectifiedNum'
-            break
-          case '5':
-            this.detailType = 'greyNotRectifiedNum'
-            break
-          case '4':
-            this.detailType = 'blueNotRectifiedNum'
-            break
-          default:
-            break
-        }
-      } else if (this.tabSelect === '3') {
-        // this.tableColumnsConfig = proconf.doneNum
-        this.tabStatusBtnConfig.curButton = curStatusButton3
-        switch (this.colourType) {
-          case '3':
-            this.detailType = 'yellowDoneNum'
-            break
-          case '2':
-            this.detailType = 'orangeDoneNum'
-            break
-          case '1':
-            this.detailType = 'redDoneNum'
-            break
-          case '5':
-            this.detailType = 'greyDoneNum'
-            break
-          case '4':
-            this.detailType = 'blueDoneNum'
-            break
-          default:
-            break
-        }
-      }
+      const tabSelectActionType = tabSelectActionTypeMap[String(obj.curValue)]
+      const colorType = colourTypeMap[String(this.colourType)]
+      this.detailType = colorType + tabSelectActionType
       this.condition = {}
       this.pagerConfig.currentPage = 1
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
@@ -866,16 +788,31 @@ export default {
       }
     },
     showInfo() {
+      // debugger
       this.fiRuleCode = this.detailData[1]
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
+      const warningLevelOption = this.$store.getters.dict// 各个地区 warningLevel不同
+      // {[key:从处室生成/查询过来得colorType]:[value:对应各个地区得warningLevel]}
+      const colorTypeWarningLevelMap = { // 从处室生成/查询过来得colorType
+        '1': warningLevelOption.find(item => item.warningLabel === '红')?.value,
+        '2': warningLevelOption.find(item => item.warningLabel === '橙')?.value,
+        '3': warningLevelOption.find(item => item.warningLabel === '黄')?.value,
+        '4': warningLevelOption.find(item => item.warningLabel === '蓝')?.value,
+        '5': warningLevelOption.find(item => item.warningLabel === '灰')?.value// 目前只有陕西有灰
+      }
+      if (this.$store.getters.isFuJian) {
+        // 福建没有 橙 字段，橙色为黄色警铃
+        colorTypeWarningLevelMap['2'] = '2'
+        colorTypeWarningLevelMap['3'] = '3'
+      }
+      console.log('预警【处室点击列颜色预警 ：各个项目实际预警级别】映射表', colorTypeWarningLevelMap)
+      this.warnLevel = String(colorTypeWarningLevelMap[this.colourType])
       // 这里在获取一个业务类型 然后依据业务类型和具体的状态去动态构造表头数据
       switch (this.detailType) {
         case 'redUndoNum':
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.tabSelect = curStatusButton.curValue
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
@@ -885,9 +822,7 @@ export default {
           break
         case 'redNormalNum':
           this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton1
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.tabSelect = curStatusButton1.curValue
           this.isSign = '1'
           this.status = ''
           this.isNormal = true
@@ -899,12 +834,10 @@ export default {
         case 'redNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
           this.tableColumnsConfig = proconf.getColumns('redNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton3
-          this.tabStatusBtnConfig.buttons = statusButtons
+          this.tabSelect = curStatusButton3.curValue
           this.isNormal = false
           this.isHandle = false
           this.isProcessed = false
-          this.warnLevel = '3'
           this.isSign = '2'
           this.status = 7
           this.title = '认定违规-待整改明细'
@@ -912,9 +845,7 @@ export default {
         case 'redDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
           this.tableColumnsConfig = proconf.getColumns('redDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '3'
+          this.tabSelect = curStatusButton2.curValue
           this.isSign = '2'
           this.status = null
           this.isNormal = false
@@ -926,9 +857,7 @@ export default {
         case 'orangeUndoNum':
           //  this.tableColumnsConfig = proconf.undoNum
           this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '2'
+          this.tabSelect = curStatusButton.curValue
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
@@ -939,9 +868,7 @@ export default {
         case 'orangeNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
           this.tableColumnsConfig = proconf.getColumns('orangeNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton1
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '2'
+          this.tabSelect = curStatusButton1.curValue
           this.isSign = 2
           this.isNormal = true
           this.isHandle = false
@@ -952,9 +879,7 @@ export default {
         case 'orangeNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
           this.tableColumnsConfig = proconf.getColumns('orangeNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton3
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '2'
+          this.tabSelect = curStatusButton3.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -965,9 +890,7 @@ export default {
         case 'orangeDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
           this.tableColumnsConfig = proconf.getColumns('orangeDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '2'
+          this.tabSelect = curStatusButton2.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -978,9 +901,7 @@ export default {
         case 'yellowUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
           this.tableColumnsConfig = proconf.getColumns('yellowUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.tabSelect = curStatusButton.curValue
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -991,9 +912,7 @@ export default {
         case 'yellowNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
           this.tableColumnsConfig = proconf.getColumns('yellowNormalNum', this.bussnessId, this.showLog)
-          this.tabStatusBtnConfig.curButton = curStatusButton1
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.tabSelect = curStatusButton1.curValue
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -1004,9 +923,7 @@ export default {
         case 'yellowNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
           this.tableColumnsConfig = proconf.getColumns('yellowNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton3
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.tabSelect = curStatusButton3.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -1017,9 +934,7 @@ export default {
         case 'yellowDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
           this.tableColumnsConfig = proconf.getColumns('yellowDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '1'
+          this.tabSelect = curStatusButton2.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -1030,9 +945,7 @@ export default {
         case 'blueUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
           this.tableColumnsConfig = proconf.getColumns('blueUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.tabSelect = curStatusButton.curValue
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
@@ -1043,9 +956,7 @@ export default {
         case 'blueNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
           this.tableColumnsConfig = proconf.getColumns('blueNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton1
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.tabSelect = curStatusButton1.curValue
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
@@ -1056,9 +967,7 @@ export default {
         case 'blueNotRectifiedNum':// 未完成
           // this.tableColumnsConfig = proconf.notRectifiedNum
           this.tableColumnsConfig = proconf.getColumns('blueNotRectifiedNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton3
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.tabSelect = curStatusButton3.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
@@ -1069,9 +978,7 @@ export default {
         case 'blueDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
           this.tableColumnsConfig = proconf.getColumns('blueDoneNum', this.bussnessId, this.showLog, '', this.isFlow)
-          this.tabStatusBtnConfig.curButton = curStatusButton2
-          this.tabStatusBtnConfig.buttons = statusButtons
-          this.warnLevel = '4'
+          this.tabSelect = curStatusButton2.curValue
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
@@ -1118,7 +1025,7 @@ export default {
         //   this.title = '认定违规-已整改明细'
         //   break
       }
-      this.tabSelect = this.tabStatusBtnConfig.curButton.code
+      // this.tabSelect = this.tabStatusBtnConfig.curButton.code
       switch (this.warnLevel) {
         case '1':
           this.title = '红色预警-' + this.title
@@ -1560,12 +1467,14 @@ export default {
       index > -1 && this.queryConfig?.splice(index, 1)
     }
     this.detailType = this.detailData[0]
+    console.log('detailType', this.detailType)
     this.bussnessId = this.selectBid.toString()
     let { data } = await HttpModule.getIsFlow()// 判断是不是走工作流
     this.isFlow = data
     this.getAgency()
     this.showInfo()
     this.queryTableDatas()
+    console.log(this.tabStatusBtnConfig, 333)
   },
   watch: {
     queryConfig() {
