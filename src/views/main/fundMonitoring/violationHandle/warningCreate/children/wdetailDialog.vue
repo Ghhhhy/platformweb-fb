@@ -510,7 +510,7 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = { ...val, ...this.searchDataList }
+      this.searchDataList = val
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -1172,6 +1172,7 @@ export default {
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
         dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
         dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+        payCertNo: this.searchDataList.payCertNo,
         recStartTime: this.searchDataList.recStartTime,
         recEndTime: this.searchDataList.recEndTime,
         xPayDateStart: this.searchDataList.xPayDateStart,
@@ -1179,9 +1180,6 @@ export default {
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid,
         ruleCodes: []
-      }
-      if (curFormData.payCertNo) {
-        params.payCertNo = curFormData.payCertNo
       }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
         params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
