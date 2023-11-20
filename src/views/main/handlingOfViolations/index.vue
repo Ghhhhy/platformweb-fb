@@ -118,11 +118,11 @@ export default defineComponent({
     const menuGuid = ref(store.getters.getCurNavModule.guid)
     const param5Str = ref(sessionStorage.getItem('params5') || store.state.curNavModule.param5)
     const route = root.$route
-    const showProcessDiagramDialog = false
+    const showProcessDiagramDialog = ref(false)
     const processDiagramDialogType = 'track'
-    const dataInfo = {}
-    const logData = []
-    const showLogView = false
+    const dataInfo = ref({})
+    const logData = ref([])
+    const showLogView = ref(false)
 
     // 页面路由
     const pagePath = ref(route.path)
@@ -364,12 +364,12 @@ export default defineComponent({
         )
       }
       // 福建不要业务编码 以区划区分
-      if (this.$store.getters.isFuJian) {
+      if (store.getters.isFuJian) {
         initColumns = initColumns.filter(item => {
           return item.field !== 'businessNo' || item.field !== 'mofDivName'
         })
       }
-      const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
+      const projectCode = transJson2(store.state.curNavModule.param5 || '')?.projectCode
       if (projectCode !== 'SH') {
         initColumns = initColumns.concat(proconf.fjAddColumns)
       }
@@ -410,8 +410,8 @@ export default defineComponent({
       switch (optionType) {
         // 流程运行轨迹
         case 'processTrack':
-          this.dataInfo = row
-          this.showProcessDiagramDialog = true
+          dataInfo.value = row
+          showProcessDiagramDialog.value = true
           break
         default:
       }
@@ -450,11 +450,11 @@ export default defineComponent({
         formSchemas.value = searchFormCommonSchemas
       }
       // 福建判断取消区划查询
-      if (this.$store.getters.isFuJian) {
+      if (store.getters.isFuJian) {
         formSchemas.value = formSchemas.value.filter(item => {
           return item.field !== 'mofDivCodes'
         })
-        formSchemas.value.length === 0 && (this.isShowSearchForm = false)
+        formSchemas.value.length === 0 && (isShowSearchForm.value = false)
       }
     }
 
