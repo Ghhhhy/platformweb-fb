@@ -366,7 +366,7 @@ export default defineComponent({
       // 福建不要业务编码 以区划区分
       if (store.state.userInfo.province.startsWith('35')) {
         initColumns = initColumns.filter(item => {
-          return item.field !== 'businessNo'
+          return item.field !== 'businessNo' || item.field !== 'mofDivName'
         })
       }
       const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
@@ -448,6 +448,12 @@ export default defineComponent({
         })
       } else {
         formSchemas.value = searchFormCommonSchemas
+      }
+      // 福建判断取消区划查询
+      if (this.$store.getters.isFuJian) {
+        formSchemas.value = formSchemas.value.filter(item => {
+          return item.field !== 'mofDivCodes'
+        })
       }
     }
 
