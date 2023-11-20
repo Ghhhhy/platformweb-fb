@@ -2071,7 +2071,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = this.$parent.formDatas
         if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',').slice(0)
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(Boolean)
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}
