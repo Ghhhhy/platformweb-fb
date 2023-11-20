@@ -802,9 +802,10 @@ export default {
         '5': warningLevelOption.find(item => item.warningLabel === '灰')?.value// 目前只有陕西有灰
       }
       if (this.$store.getters.isFuJian) {
-        // 福建没有 橙 字段，橙色为黄色警铃
+        // 福建没有 橙 字段，橙色为黄色警铃 福建也缺蓝色预警
         colorTypeWarningLevelMap['2'] = '2'
         colorTypeWarningLevelMap['3'] = '3'
+        colorTypeWarningLevelMap['4'] = '4'
       }
       console.log('预警【处室点击列颜色预警 ：各个项目实际预警级别】映射表', colorTypeWarningLevelMap)
       this.warnLevel = String(colorTypeWarningLevelMap[this.colourType])
