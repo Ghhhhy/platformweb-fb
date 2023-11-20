@@ -563,7 +563,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'name',children: 'children' ,id: 'id' } }"
+                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'text',children: 'children' ,id: 'id' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
