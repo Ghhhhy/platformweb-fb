@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -366,8 +367,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({aAmount}-0==0)?0:({amountSnjzybjfp}+{amountSnjzyxjfp})*100/{aAmount})'
-                // formula: '({amountSnjfpbjZyap}+{amountSnjfpxjZyap})/{amountSnjysZyap}'
+                formula: $formula('budgetReleaseRegion.szyjd')
               },
               {
                 title: '地方安排',
@@ -375,8 +375,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({aAmount}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{aAmount})'
-                // formula: '({amountSnjfpbjDfap}{amountSnjfpxjDfap})/{amountSnjysDfap}'
+                formula: $formula('budgetReleaseRegion.sdfjd')
               },
               {
                 title: '总进度',
@@ -386,7 +385,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0==0?0:({amountSnjfpAll}+{ssxfpaAmount})/{aAmount})*100'
+                formula: $formula('budgetReleaseRegion.sajd')
               }
             ]
           }
@@ -605,7 +604,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({aAmount}-0==0)?0:({amountSjzybjfp}+{amountSjzyxjfp})*100/{aAmount})'
+                formula: $formula('budgetReleaseRegion.shzyjd')
                 // formula: '({amountSjfpbjZyap}+{amountSjfpxjZyap})/{amountSjysZyap}'
               },
               {
@@ -614,7 +613,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '(({aAmount}-0==0)?0:({amountSjdfbjfp}+{amountSjdfxjfp})*100/{aAmount})'
+                formula: $formula('budgetReleaseRegion.shdfjd')
                 // formula: '({amountSjfpbjDfap}+{amountSjfpxjDfap})/{amountSjysDfap}'
               },
               {
@@ -625,7 +624,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0)==0?0:({amountSjfpbjAll}+{shxjfpaAmount})/{aAmount}*100'
+                formula: $formula('budgetReleaseRegion.shajd')
               }
             ]
           }
@@ -813,11 +812,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                // formula: '({amountXjfpZyap}/{amountXjysZyap})'
-                formula: '(({aAmount}-0==0)?0:({amountXjzybjfp})*100/{aAmount})'
-                // formatter: ({ row }) => {
-                //   return row.amountXjfpZyap / row.amountXjysZyap
-                // }
+                formula: $formula('budgetReleaseRegion.xzyjd')
               },
               {
                 title: '地方安排',
@@ -825,11 +820,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                // formula: '({amountXjfpDfap}/{amountXjysDfap})'
-                formula: '(({aAmount}-0==0)?0:({amountXjdfbjfp})*100/{aAmount})'
-                // formatter: ({ row }) => {
-                //   return row.amountXjfpDfap / row.amountXjysDfap
-                // }
+                formula: $formula('budgetReleaseRegion.xdfjd')
               },
               {
                 title: '总进度',
@@ -839,10 +830,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({aAmount}-0==0?0:{amountXjfpAll}/{aAmount})*100'
-                // formatter: ({ row }) => {
-                //   return row.xzyjd / 2 + row.xdfjd / 2
-                // }
+                formula: $formula('budgetReleaseRegion.xajd')
               }
             ]
           }
