@@ -489,7 +489,7 @@ export default {
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
-          let progress = this.month / 12
+          let progress = this.month / 0.12
 
           let beginningBudgetAmount = 0
           let budgetAdjustmentAmount = 0
@@ -666,11 +666,13 @@ export default {
               trainUnlistedAmount += item.trainUnlistedAmount
             }
             Object.keys(item).forEach(t => {
-              if (t.includes('ExpenditureProgress')) {
-                if (item[t] > progress) {
-                  item[t] = '<span style="color:red">' + item[t] + '</span>'
+              if (t.includes('ExpenditureProgress') || t.includes('expenditureProgress')) {
+                if (item[t] === null) {
+                  item[t] = '<span>0</span>'
+                } else if ((item[t] * 100) > progress) {
+                  item[t] = '<span style="color:red">' + parseFloat((item[t] * 100).toFixed(2)) + '%</span>'
                 } else {
-                  item[t] = '<span>' + item[t] + '</span>'
+                  item[t] = '<span>' + parseFloat((item[t] * 100).toFixed(2)) + '%</span>'
                 }
               }
             })

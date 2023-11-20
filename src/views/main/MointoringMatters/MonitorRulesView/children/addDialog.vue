@@ -137,17 +137,19 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;业务菜单</div>
-                      <BsTree
-                        :key="refleshKey"
-                        v-model="businessFunctionCodeModal"
-                        :is-drop-select-tree="true"
-                        :editable="true"
-                        :tree-data="businessFunctionTreeData"
-                        :default-checked-keys="businessFunctionCode"
-                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
-                        class="businessFunctionTree"
-                        style="display: inline-block;"
-                      />
+                      <el-tooltip class="item" effect="dark" :content="businessFunctionCodeModal" placement="top-start">
+                        <BsTree
+                          :key="refleshKey"
+                          v-model="businessFunctionCodeModal"
+                          :is-drop-select-tree="true"
+                          :editable="true"
+                          :tree-data="businessFunctionTreeData"
+                          :default-checked-keys="businessFunctionCode"
+                          v-bind="{ config: { ...businessFunctionTreeConfig, disabled: disabledUpdate } }"
+                          class="businessFunctionTree"
+                          style="display: inline-block;"
+                        />
+                      </el-tooltip>
                     </el-row>
                   </el-main>
                   <!-- </template> -->

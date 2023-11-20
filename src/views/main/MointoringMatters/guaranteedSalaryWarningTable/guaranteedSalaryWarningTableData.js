@@ -140,6 +140,17 @@ export const mockTableColumns = [
     // formula: '{sbZbjeBjbms}+{sbZbjeBgz}+{sbZbjeByz}'
   },
   {
+    title: '执行进度',
+    field: 'sbZxjd',
+    width: 100,
+    align: 'right',
+    combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+    filters: false,
+    cellRender: {
+      name: '$vxeInput'
+    }
+  },
+  {
     title: '考核进度',
     field: 'sbGzKhjd',
     width: 200,

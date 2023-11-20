@@ -146,7 +146,7 @@ export default {
       }
     },
     isZDZJ() { // 是否是直达资金路由
-      return this.param5.dfr === 'dfr' || this.param5.dfr === '0201'
+      return this.param5 ? this.param5.dfr === 'dfr' || this.param5.dfr === '0201' : false
     },
     // 是否有直达资金以下dfrRoles权限
     isPermission() {
@@ -997,7 +997,7 @@ export default {
     },
     initRegulationClass() {
       let param5 = this.transJson(this.$store.state.curNavModule.param5)
-      this.regulationClass = param5.regulationClass
+      this.regulationClass = param5 ? param5.regulationClass : ''
       if (this.isZDZJ) { // 如果是直达资金监控规则库
         if (!this.regulationClass) this.regulationClass = '09,08,07'
         if (this.isSx) this.regulationClass = '0201'
