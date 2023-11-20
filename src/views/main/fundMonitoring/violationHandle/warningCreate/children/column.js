@@ -3073,7 +3073,7 @@ const buttonsInfo = {
       if (store.getters.isFuJian || store.getters.isQingHai) {
         return [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
-      return [{ label: '生成', code: 'create', status: 'primary' }]
+      // return [{ label: '生成', code: 'create', status: 'primary' }]
     }
   )(),
   2: [],
