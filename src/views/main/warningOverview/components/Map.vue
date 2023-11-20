@@ -23,7 +23,7 @@
             class="map-tips-detial-item"
           >
             <span class="map-tips-detial-item-label">{{ item.mofDivName }}</span>
-            <span class="map-tips-detial-item-value">{{ item.warnCount }}</span>
+            <span class="map-tips-detial-item-value">{{ formatterCount(item.warnCount) }}</span>
           </div>
         </div>
       </div>
@@ -41,9 +41,10 @@
 <script>
 import { defineComponent } from '@vue/composition-api'
 import { useMap } from '../hooks/useMap'
-
+import { formatterThousands } from '@/utils/thousands'
 export default defineComponent({
   setup() {
+    const formatterCount = formatterThousands
     const {
       shanxiMapRef,
       mapTipsInfo,
@@ -54,7 +55,8 @@ export default defineComponent({
       shanxiMapRef,
       mapTipsInfo,
       expendState,
-      mapTipsTrigger
+      mapTipsTrigger,
+      formatterCount
     }
   }
 })

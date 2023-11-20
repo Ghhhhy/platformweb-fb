@@ -68,6 +68,7 @@ export default defineComponent({
           } else {
             newObj[field] = '0.0'
           }
+          newObj['sbZxjd'] = (Number((parseFloat(newObj['sbZxjeBgz'] / newObj['sbZbjeBgz']) * 100).toFixed(1))) + '%'
         })
         if (item.children) {
           newObj.children = cursionData(item.children)

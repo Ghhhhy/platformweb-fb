@@ -96,19 +96,19 @@ export const useAdminDivSummarizeChart = () => {
       xAxisData.push(item.mofDivName)
       serieData[0].push({
         name: item.mofDivName,
-        value: item.warnCount1 || 0
+        value: item.warnCount01 || 0
       })
       serieData[1].push({
         name: item.mofDivName,
-        value: item.warnCount2 || 0
+        value: item.warnCount02 || 0
       })
       serieData[2].push({
         name: item.mofDivName,
-        value: item.warnCount3 || 0
+        value: item.warnCount03 || 0
       })
       serieData[3].push({
         name: item.mofDivName,
-        value: item.warnCount4 || 0
+        value: item.warnCount04 || 0
       })
     })
 
