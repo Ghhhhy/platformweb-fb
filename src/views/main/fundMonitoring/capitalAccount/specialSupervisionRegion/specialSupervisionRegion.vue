@@ -626,6 +626,7 @@ export default {
           isCz: isCz,
           fiscalYear: this.searchDataList.fiscalYear,
           condition: condition,
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
         }
@@ -789,6 +790,7 @@ export default {
           column: column,
           fiscalYear: this.searchDataList.fiscalYear,
           condition: condition,
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
           isZd: this.searchDataList.isZd || ''
@@ -1001,6 +1003,7 @@ export default {
           isFlush,
           reportCode: this.transJson(this.params5 || '')?.reportCode,
           fiscalYear: this.searchDataList.fiscalYear || '',
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
         }
@@ -1030,6 +1033,7 @@ export default {
           reportCode: this.transJson(this.params5 || '')?.reportCode,
           fiscalYear: this.searchDataList.fiscalYear || '',
           clear_date: this.condition.clear_date ? this.condition.clear_date[0] : '',
+          startTime: this.condition.startTime ? this.condition.startTime[0] : '',
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes),
           isZd: this.searchDataList.isZd || ''

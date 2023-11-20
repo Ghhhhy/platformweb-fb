@@ -92,7 +92,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton,
+        buttonsInfo: this.$store.getters.isSx ? proconf.rightButton : proconf.statusRightToolBarButton,
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }

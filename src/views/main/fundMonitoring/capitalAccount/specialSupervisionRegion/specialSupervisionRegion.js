@@ -76,7 +76,23 @@ const proconf = {
       }
     },
     {
-      title: '截止日期',
+      title: '开始日期',
+      field: 'startTime',
+      width: 100,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          clearable: true,
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '开始日期'
+        }
+      }
+    },
+    {
+      title: '结束日期',
       field: 'endTime',
       width: 100,
       align: 'center',
@@ -87,7 +103,7 @@ const proconf = {
           clearable: true,
           format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
           type: 'date',
-          placeholder: '截止日期'
+          placeholder: '结束日期'
         }
       }
     }
@@ -95,6 +111,7 @@ const proconf = {
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     proCodes: '',
+    startTime: '',
     endTime: '',
     isZd: ''
   },

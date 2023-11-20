@@ -31,7 +31,7 @@ export const menuModelData = [
   { code: '0102', name: '项目库管理', postion: { top: '327px', left: '448px' } },
   { code: '0104', name: '预算调整调剂', postion: { top: '72px', left: '308px' } },
   { code: '0105', name: '预算批复', postion: { top: '172px', left: '480px' } },
-  { code: '0106', name: '预算执行', isOpen: true, postion: { top: '238px', left: '622px' }, report: ['/StatisticalFormsByCompartment', '/StatisticalFormsByRank', '/StatisticalFormsByRule'] },
+  { code: '0106', name: '预算执行', isOpen: true, postion: { top: '238px', left: '622px' }, report: ['/StatisticalFormsByCompartment', '/StatisticalFormsByRank', '/StatisticalFormsByRule', '/SXStatisticalFormsByCompartment', '/SXStatisticalFormsByRank', '/SXStatisticalFormsByRule'] },
   { code: '0108', name: '决算和报告', postion: { top: '0px', left: '464px' } },
   { code: '0101', name: '基础信息管理', postion: { top: '82px', left: '610px' } },
   { code: '0201', name: '直达资金', postion: { top: '386px', left: '644px' } }

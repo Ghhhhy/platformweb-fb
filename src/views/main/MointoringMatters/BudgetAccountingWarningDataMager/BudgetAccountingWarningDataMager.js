@@ -906,6 +906,30 @@ export let proconf = {
       }
     },
     {
+      title: '是否政府采购',
+      field: 'isGovPurCode',
+      span: 8,
+      titleWidth: '180',
+      formula: '',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: '2',
+            label: '否'
+          },
+          {
+            value: '1',
+            label: '是'
+          }
+        ],
+        props: {
+          disabled: true,
+          placeholder: '是否政府采购'
+        }
+      }
+    },
+    {
       title: '监控时间',
       field: 'fiDate',
       span: 8,
