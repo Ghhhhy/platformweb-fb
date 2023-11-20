@@ -491,7 +491,11 @@ export default {
       HttpModule[axiosQueryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          this.tableData = res.data.results
+          if (this.$store.getters.isSx) {
+            this.tableData = res.data.results
+          } else {
+            this.tableData = res.data.data
+          }
           this.reportTime = res.data.reportTime || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount

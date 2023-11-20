@@ -473,7 +473,7 @@ export default {
     queryTableDatas(val) {
       const param = {
         fiscalYear: this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear,
-        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '09',
+        regulationClass: this.transJson(this.$store.state.curNavModule?.param5)?.regulationClass || '',
         proCodes: this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes),
         ruleCodes: this.searchDataList.ruleCodes === '' ? this.ruleCodes : this.getRuleTrees(this.searchDataList.ruleCodes),
         mofDivCodes: this.mofDivCodes,

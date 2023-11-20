@@ -175,10 +175,7 @@ export let proconf = {
       field: 'agencyCodeName',
       treeNode: true,
       sortable: true,
-      align: 'center',
-      cellRender: {
-        name: '$vxeIcon5'
-      }
+      align: 'center'
     },
     {
       title: '所属处室',
