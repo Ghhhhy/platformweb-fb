@@ -659,7 +659,7 @@ export default {
       await curThis.$http.post('dfr-monitor-service/dfr/supervision/query', curParam).then((res) => {
         if (res.code === '000000') {
           if (res.data) {
-            curThis.tableData = res.data.data
+            curThis.tableData = res.data
             curThis.reportTime = res.data.reportTime || ''
             curThis.caliberDeclareContent = res.data.description || ''
           }

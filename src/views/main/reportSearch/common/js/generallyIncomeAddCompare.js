@@ -244,12 +244,12 @@ const proconf = {
     tableColumnsConfig: [
       {
         'title': '地区名称',
-        'type': 'mofDivName',
+        'type': 'name',
         'treeNode': true,
         'fixed': 'left',
         'align': 'left',
         'width': 400,
-        'field': 'mofDivName',
+        'field': 'name',
         'cellRender': {
           'name': '$vxeIcon'
         }
@@ -257,10 +257,10 @@ const proconf = {
       {
         'title': '区划代码',
         'width': 300,
-        'field': 'mofDivCode',
+        'field': 'code',
         'filters': true,
         'align': 'right',
-        'type': 'mofDivCode',
+        'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
         }
@@ -278,9 +278,9 @@ const proconf = {
       {
         'title': '当年当月累计收入',
         'width': 250,
-        'field': 'currentMonthAmount',
+        'field': 'amountCurrentMonth',
         'align': 'right',
-        'type': 'currentMonthAmount',
+        'type': 'amountCurrentMonth',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -288,7 +288,7 @@ const proconf = {
       },
       {
         'title': '上年同期累计收入',
-        'field': 'lastCurrentMonthAmount',
+        'field': 'amountLastMonth',
         'width': 250,
         'align': 'right',
         'cellRender': {
@@ -298,13 +298,13 @@ const proconf = {
       },
       {
         'title': '增幅',
-        'field': 'amplitude',
+        'field': 'amplitudeUp',
         'filters': true,
         'width': 300,
         'align': 'right',
-        'formula': 'Math.round(({currentMonthAmount}-{lastCurrentMonthAmount})/{lastCurrentMonthAmount})',
+        'formula': 'Math.round(({amountCurrentMonth}-{amountLastMonth})/{amountLastMonth})',
         'cellRender': {
-          'name': '$vxeMoney'
+          'name': '$vxeRatio'
         }
       }
     ],
