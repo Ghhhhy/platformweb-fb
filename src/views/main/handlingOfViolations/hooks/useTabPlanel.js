@@ -198,7 +198,7 @@ function useTabPlanel(
         ? [...doAuditTabs, allTab]
         : [...doAuditTabs, returnTab, allTab],
     curButton: unref(currentTab),
-    buttonsInfo: transJson3(store.state.curNavModule.param5).projectCode === 'SH' ? tabMapButtonSH : tabMapButton
+    buttonsInfo: transJson3(store.state.curNavModule.param5)?.projectCode === 'SH' ? tabMapButtonSH : tabMapButton
   })
   console.log(tabStatusBtnConfig, 'tabStatusBtnConfigtabStatusBtnConfigtabStatusBtnConfig')
   //

@@ -513,7 +513,7 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
     // getWarnTypeColumn(),
     getIsDirColumn()
   ]
-  const projectCode = transJson2(store.state.curNavModule.param5 || '').projectCode
+  const projectCode = transJson2(store.state.curNavModule.param5 || '')?.projectCode
   if (projectCode !== 'SH') {
     columns.unshift(getPayAppNo())
   }

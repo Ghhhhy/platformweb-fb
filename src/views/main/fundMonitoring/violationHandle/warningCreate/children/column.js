@@ -1158,7 +1158,7 @@ const proconf = {
       title: '监控数据编码',
       titleWidth: '180',
       span: 8,
-      visible: !this.$store.getters.isFuJian,
+      visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '监控数据编码', disabled: true }
@@ -1410,7 +1410,7 @@ const proconf = {
       field: 'createTime',
       span: 8,
       titleWidth: '180',
-      visible: this.$store.getters.isFuJian,
+      visible: store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '创建时间' }
