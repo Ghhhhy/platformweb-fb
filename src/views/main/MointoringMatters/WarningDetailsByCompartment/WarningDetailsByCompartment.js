@@ -712,7 +712,7 @@ export let proconf = {
       title: '规则编码',
       'width': 180,
       field: 'fiRuleCode',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -720,7 +720,7 @@ export let proconf = {
       title: '规则名称',
       'width': 180,
       field: 'firulename',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -728,14 +728,14 @@ export let proconf = {
       title: '业务编号',
       'width': 180,
       field: 'businessNo',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
     {
       title: '支付金额',
       field: 'paymentAmount',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       width: 140,
@@ -751,7 +751,7 @@ export let proconf = {
       title: '资金用途',
       'width': 180,
       field: 'useDes',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -759,6 +759,7 @@ export let proconf = {
       'title': '触发方式',
       'field': 'triggerClass',
       'align': 'center',
+      sortable: true,
       'width': 180,
       'cellRender': {
         'name': '$vxeSelect',
@@ -781,7 +782,7 @@ export let proconf = {
       title: '监控拦截时间',
       'width': 180,
       field: 'createTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -789,7 +790,7 @@ export let proconf = {
       title: '区划',
       'width': 180,
       field: 'mofDiv',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -818,7 +819,7 @@ export let proconf = {
       title: '管理级次',
       'width': 180,
       field: 'regulationtype',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -826,7 +827,7 @@ export let proconf = {
       title: '预算单位',
       'width': 180,
       field: 'agency',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -864,7 +865,7 @@ export let proconf = {
       title: '业务数据开始时间',
       'width': 180,
       field: 'businessTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
