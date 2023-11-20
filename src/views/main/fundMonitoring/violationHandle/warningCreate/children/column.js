@@ -1153,16 +1153,16 @@ const proconf = {
     }
   ],
   msgConfig: [
-    {
-      field: 'warningCode',
-      title: '监控数据编码',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '监控数据编码', disabled: true }
-      }
-    },
+    // {
+    //   field: 'warningCode',
+    //   title: '监控数据编码',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '监控数据编码', disabled: true }
+    //   }
+    // },
     {
       field: 'payAppNo',
       title: '支付申请编号',
@@ -1365,13 +1365,13 @@ const proconf = {
       }
     },
     {
-      title: '业务处室',
-      field: 'businessOffice',
+      title: '直达资金标识',
+      field: 'directFund',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '业务处室' }
+        props: { disabled: true, placeholder: '直达资金标识' }
       }
     },
     {
@@ -1405,13 +1405,13 @@ const proconf = {
     //   }
     // },
     {
-      title: '直达资金标识',
-      field: 'directFund',
+      title: '创建时间',
+      field: 'createTime',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '直达资金标识' }
+        props: { disabled: true, placeholder: '创建时间' }
       }
     },
     {
@@ -1422,6 +1422,26 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { type: 'datetime', disabled: true, placeholder: '监控时间' }
+      }
+    },
+    {
+      title: '支付日期',
+      field: 'xpayDate',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '支付日期' }
+      }
+    },
+    {
+      title: '业务处室',
+      field: 'businessOffice',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '业务处室' }
       }
     },
     {
@@ -1454,24 +1474,6 @@ const proconf = {
         props: { disabled: true, placeholder: '是否作废' }
       }
     }, {
-      title: '追踪项目',
-      field: 'trackProName',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '追踪项目' }
-      }
-    }, {
-      title: '支付日期',
-      field: 'xpayDate',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '支付日期' }
-      }
-    }, {
       title: '指标管理处室编码',
       field: 'bgtMofDepCode',
       span: 8,
@@ -1489,8 +1491,17 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '指标管理处室名称' }
       }
+    },
+    {
+      title: '追踪项目',
+      field: 'trackProName',
+      span: 8,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '追踪项目' }
+      }
     }
-
   ],
   indexMsgConfig: [
     {
