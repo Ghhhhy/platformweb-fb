@@ -82,5 +82,43 @@ export default {
       default: '({xaAmount}-0)==0?0:Math.round({amountXjfpAll}/{xaAmount}*100*10)/10',
       isNeiMeng: '({aAmount}-0)==0?0:Math.round({amountXjfpAll}/{aAmount}*100*10)/10'
     }
+  },
+  budgetReleaseRegion: {
+    szyjd: {
+      default: '(({amountSnjzyxd}-0==0)?0:({amountSnjzybjfp}+{amountSnjzyxjfp})*100/{amountSnjzyxd})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountSnjzybjfp}+{amountSnjzyxjfp})*100/{aAmount})'
+    },
+    sdfjd: {
+      default: '(({amountSnjdfdf}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{amountSnjdfdf})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountSnjdfbjfp}+{amountSnjdfxjfp})*100/{aAmount})'
+    },
+    sajd: {
+      default: '({saAmount}-0==0?0:({amountSnjfpAll}+{ssxfpaAmount})/{saAmount})*100',
+      isNeiMeng: '({aAmount}-0==0?0:({amountSnjfpAll}+{ssxfpaAmount})/{aAmount})*100'
+    },
+    shzyjd: {
+      default: '(({amountSjzydf}-0==0)?0:({amountSjzybjfp}+{amountSjzyxjfp})*100/{amountSjzydf})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountSjzybjfp}+{amountSjzyxjfp})*100/{aAmount})'
+    },
+    shdfjd: {
+      default: '(({amountSjdfdf}-0==0)?0:({amountSjdfbjfp}+{amountSjdfxjfp})*100/{amountSjdfdf})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountSjdfbjfp}+{amountSjdfxjfp})*100/{aAmount})'
+    },
+    shajd: {
+      default: '({shiaAmount}-0)==0?0:({amountSjfpbjAll}+{shxjfpaAmount})/{shiaAmount}*100',
+      isNeiMeng: '({aAmount}-0)==0?0:({amountSjfpbjAll}+{shxjfpaAmount})/{aAmount}*100'
+    },
+    xzyjd: {
+      default: '(({amountXjzydf}-0==0)?0:({amountXjzybjfp})*100/{amountXjzydf})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountXjzybjfp})*100/{aAmount})'
+    },
+    xdfjd: {
+      default: '(({amountXjdfdf}-0==0)?0:({amountXjdfbjfp})*100/{amountXjdfdf})',
+      isNeiMeng: '(({aAmount}-0==0)?0:({amountXjdfbjfp})*100/{aAmount})'
+    },
+    xajd: {
+      default: '({xaAmount}-0==0?0:{amountXjfpAll}/{xaAmount})*100',
+      isNeiMeng: '({aAmount}-0==0?0:{amountXjfpAll}/{aAmount})*100'
+    }
   }
 }
