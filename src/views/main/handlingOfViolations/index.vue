@@ -454,6 +454,7 @@ export default defineComponent({
         formSchemas.value = formSchemas.value.filter(item => {
           return item.field !== 'mofDivCodes'
         })
+        formSchemas.value.length === 0 && (this.isShowSearchForm = false)
       }
     }
 
