@@ -364,7 +364,7 @@ export default defineComponent({
         )
       }
       // 福建不要业务编码 以区划区分
-      if (store.state.userInfo.province.startsWith('35')) {
+      if (this.$store.getters.isFuJian) {
         initColumns = initColumns.filter(item => {
           return item.field !== 'businessNo' || item.field !== 'mofDivName'
         })
