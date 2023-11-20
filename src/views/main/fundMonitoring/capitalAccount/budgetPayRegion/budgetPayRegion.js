@@ -1,4 +1,5 @@
 import store from '@/store/index'
+import { $formula } from '@/hooks/useFormula/useFormula'
 let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -159,7 +160,7 @@ let proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            formula: '({amountZjzl}-0==0?0:{amountZjzc}/{amountZjzl}*100)'
+            formula: $formula('budgetPayRegion.pPro')
           }
         ]
       },
@@ -275,7 +276,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '({amountSnjzyxd}-0==0?0:{amountSnjzypay}/{amountSnjzyxd}*100)'
+                formula: $formula('budgetPayRegion.szyappPro')
               },
               {
                 title: '地方安排',
@@ -283,7 +284,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSnjdfdf}-0==0?0:{amountSnjdfpay}/{amountSnjdfdf}*100'
+                formula: $formula('budgetPayRegion.sdfappPro')
               },
               {
                 title: '总进度',
@@ -293,7 +294,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{saaAmount}-0==0?0:{sapAmount}/{saaAmount}*100'
+                formula: $formula('budgetPayRegion.sapPro')
               }
             ]
           }
@@ -411,7 +412,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjzydf}-0==0?0:{amountSjzypay}/{amountSjzydf}*100'
+                formula: $formula('budgetPayRegion.shzyappPro')
               },
               {
                 title: '地方安排',
@@ -419,7 +420,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountSjdfdf}-0==0?0:{amountSjdfpay}/{amountSjdfdf}*100'
+                formula: $formula('budgetPayRegion.shdfappPro')
               },
               {
                 title: '总进度',
@@ -429,7 +430,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '({shaaAmount}-0==0?0:{shapAmount}/{shaaAmount})*100'
+                formula: $formula('budgetPayRegion.shapPro')
               }
             ]
           }
@@ -547,7 +548,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjzydf}-0==0?0:{amountXjzypay}/{amountXjzydf}*100'
+                formula: $formula('budgetPayRegion.xzyapPro')
               },
               {
                 title: '地方安排',
@@ -555,7 +556,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                formula: '{amountXjdfdf}-0==0?0:{amountXjdfpay}/{amountXjdfdf}*100'
+                formula: $formula('budgetPayRegion.xdfappPro')
               },
               {
                 title: '总进度',
@@ -565,7 +566,7 @@ let proconf = {
                 cellRender: {
                   name: '$vxeRatio'
                 },
-                formula: '{xaaAmount}-0==0?0:({xapAmount}/{xaaAmount})*100'
+                formula: $formula('budgetPayRegion.xapPro')
               }
             ]
           }
