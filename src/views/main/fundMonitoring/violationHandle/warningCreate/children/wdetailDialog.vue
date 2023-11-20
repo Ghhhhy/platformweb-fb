@@ -123,8 +123,7 @@ import proconf, {
   curStatusButton,
   curStatusButton1,
   curStatusButton2,
-  curStatusButton3,
-  buttonsInfo
+  curStatusButton3
 } from './column.js'
 import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
@@ -142,6 +141,27 @@ export default {
     // BsTable1
   },
   computed: {
+    tabStatusBtnConfig() {
+      let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
+      if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
+        firstBtn = []
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai) {
+        firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
+      }
+      return {
+        buttons: statusButtons,
+        curButton: curStatusButton,
+        buttonsInfo: {
+          1: firstBtn,
+          2: [],
+          3: [{ label: '整改详情', code: 'show_detail', status: 'primary' }],
+          4: []
+        },
+        methods: {
+          bsToolbarClickEvent: this.bsToolbarClickEvent
+        }
+      }
+    },
     curNavModule() {
       return this.$store.state.curNavModule
     },
@@ -213,14 +233,6 @@ export default {
       billguidList: [],
       showLog: false,
       showGlAttachmentDialog: false,
-      tabStatusBtnConfig: {
-        buttons: statusButtons,
-        curButton: curStatusButton,
-        buttonsInfo: buttonsInfo,
-        methods: {
-          bsToolbarClickEvent: this.bsToolbarClickEvent
-        }
-      },
       tabStatusNumConfig: {
         '1': 0,
         '2': 0,
@@ -498,7 +510,7 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = { ...val, ...this.searchDataList }
+      this.searchDataList = val
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -1160,6 +1172,7 @@ export default {
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
         dealWarnStartDate: this.searchDataList.dealWarnStartDate && moment(this.searchDataList.dealWarnStartDate).format('YYYY-MM-DD'),
         dealWarnEndDate: this.searchDataList.dealWarnEndDate && moment(this.searchDataList.dealWarnEndDate).format('YYYY-MM-DD'),
+        payCertNo: this.searchDataList.payCertNo,
         recStartTime: this.searchDataList.recStartTime,
         recEndTime: this.searchDataList.recEndTime,
         xPayDateStart: this.searchDataList.xPayDateStart,
@@ -1167,9 +1180,6 @@ export default {
         roleId: this.$store.state.curNavModule.roleguid,
         menuId: this.$store.state.curNavModule.guid,
         ruleCodes: []
-      }
-      if (curFormData.payCertNo) {
-        params.payCertNo = curFormData.payCertNo
       }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
         params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
