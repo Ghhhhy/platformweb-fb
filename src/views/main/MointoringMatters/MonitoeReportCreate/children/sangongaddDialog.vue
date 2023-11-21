@@ -23,7 +23,7 @@
                         v-model="askProvince"
                         :datas="askProvinceOptions"
                         :reloaddata="false"
-                        :isleaf="true"
+                        :isleaf="!isSx"
                         :showcheckbox="false"
                         @input="selectProvince"
                       />
@@ -183,6 +183,7 @@ export default {
         { value: '11', label: '十一月' },
         { value: '12', label: '十二月' }
       ],
+      isSx: true,
       askProvince: '',
       askProvinceOptions: [],
       provinceNameList: [],
@@ -371,6 +372,7 @@ export default {
   watch: {
   },
   created() {
+    this.isSx = this.$store.getters.isSx
     this.getLeftTreeData()
   }
 }
