@@ -63,6 +63,7 @@
 import { proconf } from './loginLog'
 // import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/baseConfigManage/loginLog.js'
+import moment from 'moment'
 export default {
   // components: {
   //   AddDialog
@@ -425,8 +426,10 @@ export default {
         orgname: this.condition.orgname ? this.condition.orgname.toString() : '',
         name: this.condition.name ? this.condition.name.toString() : '',
         code: this.condition.name ? this.condition.code.toString() : '',
-        mofDivCodes: this.searchDataList.mofDivCodes_code__multiple || []
+        mofDivCodes: this.searchDataList.mofDivCodes_code__multiple || [],
+        month: this.searchDataList.month
       }
+      if (param.month) (param.month = moment(param.month).format('YYYY-MM'))
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
