@@ -682,6 +682,7 @@ export default {
         case '1':
           break
         case '2':
+          if (this.$store.getters.isXm) return
           this.dtos.length = checked.selection.length
           for (let i = 0; i < this.dtos.length; i++) {
             this.$set(this.dtos, i, checked.selection[i].payCertId)
