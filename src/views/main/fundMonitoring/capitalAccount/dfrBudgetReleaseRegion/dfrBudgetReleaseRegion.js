@@ -345,7 +345,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
+                formula: $formula('budgetReleaseRegion.szywfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '省级安排',
@@ -353,7 +353,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
+                formula: $formula('budgetReleaseRegion.sdfwfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '总金额',
@@ -1213,7 +1213,7 @@ let proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjzyxd}-{amountSnjzybjfp}'
+                formula: $formula('budgetReleaseRegion.szywfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '市级安排',
@@ -1221,7 +1221,7 @@ let proconf = {
                 width: 200,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSnjsnjdf} - {amountSnjsnjbjfp}'
+                formula: $formula('budgetReleaseRegion.sdfwfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '总金额',

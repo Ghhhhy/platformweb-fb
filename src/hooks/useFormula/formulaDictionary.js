@@ -328,6 +328,10 @@ export default {
     xajd: {
       default: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100',
       isNeiMeng: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
+    },
+    shidfapAmount1: {
+      default: '{amountSjsjdf}-{amountSjsjbjfp}-{amountSjsjxjfp}',
+      isNeiMeng: '{amountSjsjdf}-{amountSjsjbjfp}'
     }
   },
   dfrBudgetReleaseRegion: {

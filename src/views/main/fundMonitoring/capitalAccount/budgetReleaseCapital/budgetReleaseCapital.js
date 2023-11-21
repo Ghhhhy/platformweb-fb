@@ -334,7 +334,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
+                formula: $formula('budgetReleaseRegion.szywfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '地方安排',
@@ -342,7 +342,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjdfdf}-{amountSnjdfbjfp})'
+                formula: $formula('budgetReleaseRegion.sdfwfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '总金额',
@@ -573,7 +573,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjzydf}-{amountSjzybjfp}'
+                formula: $formula('budgetReleaseRegion.shzywfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '地方安排',
@@ -581,7 +581,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '{amountSjdfdf}-{amountSjdfbjfp}'
+                formula: $formula('budgetReleaseRegion.shdfwfpAmount')// 同分地区的未分配计算
               },
               {
                 title: '总金额',
@@ -814,11 +814,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                // formula: '({amountXjfpZyap}/{amountXjysZyap})'
                 formula: $formula('budgetReleaseCapital.xzyjd')
-                // formatter: ({ row }) => {
-                //   return row.amountXjfpZyap / row.amountXjysZyap
-                // }
               },
               {
                 title: '地方安排',
@@ -826,11 +822,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeRatio' },
-                // formula: '({amountXjfpDfap}/{amountXjysDfap})'
                 formula: $formula('budgetReleaseCapital.xdfjd')
-                // formatter: ({ row }) => {
-                //   return row.amountXjfpDfap / row.amountXjysDfap
-                // }
               },
               {
                 title: '总进度',
@@ -841,9 +833,6 @@ let proconf = {
                   name: '$vxeRatio'
                 },
                 formula: $formula('budgetReleaseCapital.xajd')
-                // formatter: ({ row }) => {
-                //   return row.xzyjd / 2 + row.xdfjd / 2
-                // }
               }
             ]
           }
