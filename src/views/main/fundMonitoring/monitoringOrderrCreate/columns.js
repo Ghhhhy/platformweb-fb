@@ -9,6 +9,7 @@ export const tableColumns = (ctx) => [
     field: 'mofDivName',
     sortable: false,
     filters: false,
+    visible: !this.$store.getters.isFuJian,
     align: 'center',
     tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
@@ -172,6 +173,7 @@ export const queryColumns = [
     field: 'mofDivCode',
     align: 'left',
     name: '$vxeTree',
+    visible: !this.$store.getters.isFuJian,
     itemRender: {
       name: '$vxeTree',
       options: [],
