@@ -793,9 +793,9 @@ export default {
           if (res.code === '000000') {
             if (res.data) {
               this.tableData = res.data.data
-              // if (this.$store.getters.isFuJian) {
-              //   this.tableColumnsConfig=this.fuJianUseField(this.tableColumnsConfig, res.data.data[0])
-              // }
+              if (this.$store.getters.isFuJian) {
+                this.tableColumnsConfig = this.fuJianUseField(this.tableColumnsConfig, this.tableData[0])
+              }
               this.reportTime = res.data.reportTime || ''
               this.caliberDeclareContent = res.data.description || ''
             }
