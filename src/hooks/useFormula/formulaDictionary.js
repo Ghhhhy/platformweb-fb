@@ -119,6 +119,22 @@ export default {
     xajd: {
       default: '({xaAmount}-0==0?0:{amountXjfpAll}/{xaAmount})*100',
       isNeiMeng: '({aAmount}-0==0?0:{amountXjfpAll}/{aAmount})*100'
+    },
+    szywfpAmount: { // 省级-未分配-中央安排
+      default: '({amountSnjzyxd}-{amountSnjzybjfp})-{amountSnjzyxjfp}',
+      isNeiMeng: '({amountSnjzyxd}-{amountSnjzybjfp})'
+    },
+    sdfwfpAmount: { // 省级-未分配-地方安排
+      default: '({amountSnjdfdf}-{amountSnjdfbjfp}-{amountSnjdfxjfp})',
+      isNeiMeng: '({amountSnjdfdf}-{amountSnjdfbjfp})'
+    },
+    shzywfpAmount: { // 市级-未分配-中央安排
+      default: '({amountSjzydf}-{amountSjzybjfp}-{amountSjzyxjfp})',
+      isNeiMeng: '{amountSjzydf}-{amountSjzybjfp}'
+    },
+    shdfwfpAmount: { // 市级-未分配-地方安排
+      default: '({amountSjdfdf}-{amountSjdfbjfp}-{amountSjdfxjfp})',
+      isNeiMeng: '{amountSjdfdf}-{amountSjdfbjfp}'
     }
   },
   budgetPayRegion: {
@@ -312,6 +328,10 @@ export default {
     xajd: {
       default: '{xaAmount}-0==0?0:{xyfpaAmount}/{xaAmount}*100',
       isNeiMeng: '{aAmount}-0==0?0:{xyfpaAmount}/{aAmount}*100'
+    },
+    shidfapAmount1: {
+      default: '{amountSjsjdf}-{amountSjsjbjfp}-{amountSjsjxjfp}',
+      isNeiMeng: '{amountSjsjdf}-{amountSjsjbjfp}'
     }
   },
   dfrBudgetReleaseRegion: {

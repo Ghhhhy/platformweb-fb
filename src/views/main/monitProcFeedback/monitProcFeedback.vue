@@ -18,7 +18,7 @@
       </template>
       <template v-slot:query>
         <BsQuery
-          v-if="BsQueryVisible"
+          v-show="BsQueryVisible"
           ref="queryFrom"
           :query-form-item-config="queryConfig"
           :query-form-data="queryData"
