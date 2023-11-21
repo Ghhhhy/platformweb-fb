@@ -84,6 +84,21 @@ export let proconf = {
           }
         }
       }
+    },
+    {
+      title: '月份',
+      field: 'month',
+      width: '8',
+      align: 'left',
+      formula: '',
+      itemRender: {
+        name: '$input',
+        props: {
+          type: 'month',
+          clearable: true,
+          placeholder: '请选择月份'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -112,6 +127,12 @@ export let proconf = {
     {
       title: '用户名称',
       field: 'name',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '登录次数',
+      field: 'loginCount',
       sortable: false,
       align: 'left'
     },
