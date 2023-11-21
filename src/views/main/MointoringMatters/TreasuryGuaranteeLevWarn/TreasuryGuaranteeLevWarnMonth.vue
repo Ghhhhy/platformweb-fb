@@ -67,7 +67,7 @@
 <script>
 import { proconf } from './TreasuryGuaranteeLevWarn'
 import HttpModule from '@/api/frame/main/Monitoring/TreasuryGuaranteeLevWarn.js'
-import { post } from '@/api/http'
+import { get } from '@/api/http'
 export default {
   components: {},
   watch: {
@@ -525,7 +525,7 @@ export default {
       let that = this
       let url = BSURL.lmp_mofDivTree
       if (this.$store.getters.isSx) url = BSURL.api_simpleTreeWhere
-      post(url, this.treeQueryparamsCom).then(res => {
+      get(url, this.treeQueryparamsCom).then(res => {
         if (res.rscode === '100000') {
           let treeResdata = that.getRegulationChildrenData(res.data)
           this.queryConfig[2].itemRender.options = treeResdata
