@@ -286,7 +286,8 @@ export default defineComponent({
       isAllowDisabled,
       isUnitFeedbackPage,
       isBlueWarnLevel,
-      isDivisionPage
+      isDivisionPage,
+      isReallyDivisionReAudit
     } = useIs(currentNode, pagePath, checkedItemsObj)
 
     // // 是否显示表单
@@ -412,10 +413,12 @@ export default defineComponent({
         if (forbidStatus) {
           params.forbidStatus = forbidStatus
           if (store.getters.isFuJian) {
-            params.isStop = '1'
-            params.actionType = '2'
-          } else {
-            params.isStop = '0'
+            if (isReallyDivisionReAudit.value) {
+              params.isStop = '1'
+              params.actionType = '2'
+            } else {
+              params.dealResult = '禁止'
+            }
           }
         }
         // 走请求逻辑
