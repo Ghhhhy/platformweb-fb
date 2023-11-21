@@ -291,7 +291,7 @@ export default {
           this.tableColumnsConfig = proconf.notgetColumn
           break
         case '未导入惠企利民明细-已整改明细':
-          this.tableColumnsConfig = proconf.getColumn
+          this.tableColumnsConfig = this.$store.getters.isFuJian ? proconf.notgetColumn : proconf.getColumn
           break
         default:
           break

@@ -84,7 +84,6 @@ let proconf = {
   PoliciesTableColumns: [
     {
       title: '地区名称',
-      'width': 180,
       field: 'mofDivName',
       sortable: true,
       filters: false,
@@ -92,7 +91,6 @@ let proconf = {
     },
     {
       title: '上级文号',
-      'width': 180,
       field: 'supBgtDocNoName',
       sortable: true,
       filters: false,
@@ -100,7 +98,6 @@ let proconf = {
     },
     {
       title: '上级专项资金',
-      'width': 180,
       field: 'supSpeTypeName',
       sortable: true,
       filters: false,
@@ -108,7 +105,6 @@ let proconf = {
     },
     {
       title: '预算单位',
-      'width': 180,
       field: 'agencyName',
       sortable: true,
       filters: false,
@@ -116,7 +112,6 @@ let proconf = {
     },
     {
       title: '接收区划',
-      'width': 180,
       field: 'recDivName',
       sortable: true,
       filters: false,
@@ -124,7 +119,6 @@ let proconf = {
     },
     {
       title: '未接收金额',
-      width: 180,
       field: 'amount',
       sortable: true,
       filters: false,
@@ -142,9 +136,9 @@ let proconf = {
   ]
 }
 if (store.getters.isFuJian) {
-  const notShowFiled = ['recDivName', 'agencyName']
+  // const notShowFiled = ['recDivName', 'agencyName']
   proconf.PoliciesTableColumns = proconf.PoliciesTableColumns.filter(item => {
-    return !notShowFiled.includes(item.field)
+    return item.field !== 'agencyName'
   })
 }
 export {
