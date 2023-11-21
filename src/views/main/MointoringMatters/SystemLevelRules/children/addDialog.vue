@@ -1348,7 +1348,7 @@ export default {
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
         param.elementCode = 'DEPARTMENT'
-        if(this.$store.getters.isSx){
+        if(this.$store.getters.isSx||this.$store.getters.isFuJian){
           param.elementCode = 'AGENCY'
         }
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
