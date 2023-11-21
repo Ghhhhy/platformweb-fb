@@ -168,7 +168,7 @@ const proconf = {
             'field': 'sLoad',
             'width': 200,
             'align': 'right',
-            'formula': 'Math.round(({amountSnjzhje}-{amountSnjxd})/{amountSnjxd}',
+            'formula': 'Math.round(({amountSnjxd}-{amountSnjzhje})/{amountSnjxd}',
             'cellRender': {
               'name': '$vxeRatio'
             }
