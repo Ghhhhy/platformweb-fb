@@ -60,7 +60,7 @@
 
 <script lang="jsx">
 import MonitProcFeedbackModal from '@/views/main/fundMonitoring/monitoringOrderrCreate/monitoringOrderrCreateModal.vue'
-import { defineComponent, computed, toRefs, reactive, ref, getCurrentInstance } from '@vue/composition-api'
+import { defineComponent, nextTick, computed, toRefs, reactive, ref, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { post } from '@/api/http'
 import { tableColumns, queryColumns, tabButtonColumns } from './columns'
@@ -74,6 +74,7 @@ export default defineComponent({
     MonitProcFeedbackModal
   },
   setup() {
+    const MonitProcFeedbackModal = ref('')
     const queryFrom = ref()
     const mainTableRef = ref()
     const _this = getCurrentInstance().proxy
@@ -257,9 +258,20 @@ export default defineComponent({
       })
     }
     const createDataList = ref({})
-    const handleRowClick = () => {
+    const handleRowClick = (row) => {
       showModal.value = true
-      createDataList.value = {}
+      nextTick(() => {
+        let formItemText = row.mflowBizInfoList || []// 拿到上一个节点表单结构
+        let preNodeFormObj = {}// 上一个节点表单填得值
+        if (formItemText && formItemText.length) {
+          formItemText.forEach(item => {
+            preNodeFormObj[item.bizKey] = item.bizValue
+          })
+        }
+        createDataList.value = { ...row, ...preNodeFormObj }
+        MonitProcFeedbackModal.value.tabCode = row.code
+        MonitProcFeedbackModal.value.dialogVisible = true
+      })
     }
     const closeHandle = () => {
       query.search()
@@ -283,6 +295,7 @@ export default defineComponent({
       createDataList,
       showModal,
       tableLoadingState,
+      MonitProcFeedbackModal,
       ...toRefs(fileModalRef),
       ...toRefs(customerProperty),
       ...toRefs(tabPanel),

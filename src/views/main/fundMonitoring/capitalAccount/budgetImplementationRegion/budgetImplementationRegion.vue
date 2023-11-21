@@ -934,6 +934,22 @@ export default {
       }
       return proCodes
     },
+    // 福建 如果返回的字段columns的字段  则不用公司 用返回的字段
+    fuJianUseField(columns, row) {
+      let fieldList = Object.keys(row)
+      let deepCopy = window.deepCopy(columns)
+      let cursionTree = (columns, fieldList) => {
+        columns.forEach(item => {
+          if (Array.isArray(item.children) && item.children.length) {
+            cursionTree(item.children, fieldList)
+          } else if (fieldList.includes(item.field)) {
+            delete item.formula
+          }
+        })
+      }
+      cursionTree(deepCopy, fieldList)
+      return deepCopy
+    },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
       const param = {
@@ -953,6 +969,9 @@ export default {
         if (res.code === '000000') {
           if (res.data) {
             this.tableData = res.data.data
+            if (this.$store.getters.isFuJian) {
+              this.tableColumnsConfig = this.fuJianUseField(this.tableColumnsConfig, this.tableData[0])
+            }
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
           }

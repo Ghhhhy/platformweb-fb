@@ -9,7 +9,7 @@ export const tableColumns = (ctx) => [
     field: 'mofDivName',
     sortable: false,
     filters: false,
-    visible: !this.$store.getters.isFuJian,
+    visible: !store.getters.isFuJian,
     align: 'center',
     tooltipFormat: '{mofDivCode}-{mofDivName}',
     formatter({ row }) {
@@ -156,7 +156,7 @@ export const tableColumns = (ctx) => [
       default(row) {
         let vnode = (
           <div class="fcc">
-            <el-button type="primary" size="mini" onClick={() => ctx.handleRowClick(row)}>查看详情</el-button>
+            <el-button type="primary" size="mini" onClick={(row) => ctx.handleRowClick(row)}>查看详情</el-button>
             {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
           </div>
         )
@@ -173,7 +173,7 @@ export const queryColumns = [
     field: 'mofDivCode',
     align: 'left',
     name: '$vxeTree',
-    visible: !this.$store.getters.isFuJian,
+    visible: !store.getters.isFuJian,
     itemRender: {
       name: '$vxeTree',
       options: [],
