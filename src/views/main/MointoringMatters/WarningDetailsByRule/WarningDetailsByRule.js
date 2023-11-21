@@ -25,6 +25,12 @@ let proconf = {
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
+  statusRightToolBarButtonToSx: {
+    '1': [
+      { code: 'mark', label: '标记疑点', status: 'primary' },
+      { code: 'detail', label: '查看详情', status: 'primary' }
+    ]
+  },
   highQueryConfig: [
     {
       title: '管理级次',
@@ -711,6 +717,54 @@ let proconf = {
   ],
   PoliciesTableColumns: [
     {
+      title: '标记状态',
+      field: 'manualSign',
+      align: 'center',
+      sortable: true,
+      width: 180,
+      visible: !!store.getters.isSx,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '查看状态',
+      field: 'readStatus',
+      align: 'center',
+      sortable: true,
+      visible: !!store.getters.isSx,
+      width: 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
       title: '规则编码',
       'width': 180,
       field: 'firulecode',
@@ -904,6 +958,54 @@ let proconf = {
     }
   ],
   PoliciesTableColumns1: [
+    {
+      title: '标记状态',
+      field: 'manualSign',
+      align: 'center',
+      sortable: true,
+      width: 180,
+      visible: !!store.getters.isSx,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '查看状态',
+      field: 'readStatus',
+      align: 'center',
+      sortable: true,
+      visible: !!store.getters.isSx,
+      width: 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
     {
       title: '是否疑似违规',
       field: 'isSign',
@@ -1122,6 +1224,54 @@ let proconf = {
     }
   ],
   PoliciesTableColumnsFullJurisdiction: [
+    {
+      title: '标记状态',
+      field: 'manualSign',
+      align: 'center',
+      sortable: true,
+      width: 180,
+      visible: !!store.getters.isSx,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '查看状态',
+      field: 'readStatus',
+      align: 'center',
+      sortable: true,
+      visible: !!store.getters.isSx,
+      width: 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
     {
       title: '是否疑似违规',
       field: 'isSign',
@@ -1350,6 +1500,54 @@ let proconf = {
   ],
   PoliciesTableColumnsToBudgetExecute: [
     {
+      title: '标记状态',
+      field: 'manualSign',
+      align: 'center',
+      sortable: true,
+      width: 180,
+      visible: !!store.getters.isSx,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '查看状态',
+      field: 'readStatus',
+      align: 'center',
+      sortable: true,
+      visible: !!store.getters.isSx,
+      width: 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
       title: '是否疑似违规',
       field: 'isSign',
       'width': 180,
@@ -1544,6 +1742,54 @@ let proconf = {
     }
   ],
   PoliciesTableColumnsToThrExp: [
+    {
+      title: '标记状态',
+      field: 'manualSign',
+      align: 'center',
+      sortable: true,
+      width: 180,
+      visible: !!store.getters.isSx,
+      cellRender: {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '查看状态',
+      field: 'readStatus',
+      align: 'center',
+      sortable: true,
+      visible: !!store.getters.isSx,
+      width: 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
     {
       title: '是否疑似违规',
       field: 'isSign',

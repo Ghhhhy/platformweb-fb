@@ -137,7 +137,7 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass === 1" color="red">*</font>&nbsp;业务菜单</div>
-                      <el-tooltip class="item" effect="dark" :content="businessFunctionCodeModal" placement="top-start">
+                      <el-tooltip class="item" effect="dark" :content="showSplitName(businessFunctionCodeModal)" placement="top-start">
                         <BsTree
                           :key="refleshKey"
                           v-model="businessFunctionCodeModal"
@@ -1260,6 +1260,10 @@ export default {
       this.searchDataList.businessModuleCode = obj.businessModule_code
       this.searchDataList.businessFunctionCode = obj.businessFunction_code
       this.getTableData()
+    },
+    showSplitName(name) {
+      let tempMenuName = name.split('#')
+      return tempMenuName[tempMenuName.length - 1]
     },
     // 高级查询下拉框
     itemChange(obj, form) {

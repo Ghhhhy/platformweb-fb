@@ -163,7 +163,14 @@ export let proconf = {
       key: 'sx',
       treeNode: true,
       sortable: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '区划名称'
+        }
+      }
     },
     {
       title: '预算单位',
@@ -172,7 +179,14 @@ export let proconf = {
       field: 'agencyCodeName',
       treeNode: true,
       sortable: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算单位'
+        }
+      }
     },
     {
       title: '所属处室',
@@ -181,7 +195,14 @@ export let proconf = {
       field: 'manageMofDepCodeName',
       treeNode: true,
       sortable: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '所属处室'
+        }
+      }
     },
     {
       title: '指标金额',

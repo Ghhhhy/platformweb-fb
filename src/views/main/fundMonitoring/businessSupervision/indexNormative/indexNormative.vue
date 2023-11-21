@@ -580,6 +580,12 @@ export default {
       HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
+          res.data.results.forEach(item => {
+            item.mofDivName = item.mofDivCode && item.mofDivName ? item.mofDivCode + '-' + item.mofDivName : ''
+            item.manageMofDepName = item.manageMofDepCode && item.manageMofDepName ? item.manageMofDepCode + '-' + item.manageMofDepName : ''
+            item.agencyName = item.agencyCode && item.agencyName ? item.agencyCode + '-' + item.agencyName : ''
+            item.expFuncName = item.expFuncCode && item.expFuncName ? item.expFuncCode + '-' + item.expFuncName : ''
+          })
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount

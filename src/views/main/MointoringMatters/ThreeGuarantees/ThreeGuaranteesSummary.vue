@@ -727,7 +727,6 @@ export default {
           that.getChildrenData(item.children)
         }
       })
-
       return datas
     },
     // 操作日志

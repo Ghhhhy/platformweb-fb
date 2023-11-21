@@ -246,7 +246,7 @@ export let proconf = {
       width: 180,
       field: 'mofDivName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: {
         name: '$vxeInput',
@@ -265,7 +265,7 @@ export let proconf = {
       width: 180,
       field: 'manageMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
       cellRender: {
         name: '$vxeInput',
@@ -284,64 +284,120 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支出功能分类科目'
+        }
+      }
     },
     {
       title: '项目名称',
       width: 180,
       field: 'proName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '项目名称'
+        }
+      }
     },
     {
       title: '指标文号',
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '指标文号'
+        }
+      }
     },
     {
       title: '用途',
       width: 180,
       field: 'useDes',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '用途'
+        }
+      }
     },
     {
       title: '支付申请号',
       width: 180,
       field: 'payAppNo',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支付申请号'
+        }
+      }
     },
     {
       title: '付款账户名称',
       width: 180,
       field: 'payAcctName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '付款账户名称'
+        }
+      }
     },
     {
       title: '付款方账户',
       width: 180,
       field: 'payAcctNo',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '付款方账户'
+        }
+      }
     },
     {
       title: '支付日期',
       width: 180,
       field: 'xpayDate',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支付日期'
+        }
+      }
     },
     {
       title: '导入日期',
@@ -371,24 +427,45 @@ export let proconf = {
       width: 180,
       field: 'payeeAcctName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '收款账户名称'
+        }
+      }
     },
     {
       title: '收款方账户',
       width: 180,
       field: 'payeeAcctNo',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '收款方账户'
+        }
+      }
     },
     {
       title: '结算方式',
       width: 180,
       field: 'setModeName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '结算方式'
+        }
+      }
     }
   ]
 }

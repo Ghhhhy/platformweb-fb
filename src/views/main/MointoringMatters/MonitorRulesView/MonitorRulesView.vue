@@ -352,7 +352,7 @@ export default {
      * 有传入则不展示左侧主题树和监控主题筛选下拉框
      */
     setMonitorThemeTreeShow() {
-      if (this.param5.regulationClass) {
+      if (this.param5 && this.param5.regulationClass) {
         this.showMonitorTree = false
         this.leftTreeVisible = false
         this.queryConfig = proconf.highQueryConfig.filter(item => item.field !== 'regulationClass')

@@ -38,5 +38,8 @@ export default {
   // 获取主题树
   getLeftTree1(params) {
     return post('large-monitor-platform/lmp/regulation/queryRuleTree', params)
+  },
+  dataDoMark(params) {
+    return post('large-monitor-platform/lmp/executeWarn/manualSign', params)
   }
 }

@@ -115,10 +115,14 @@ export let proconf = {
       width: 180,
       field: 'mofDivName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '上级文号'
+        }
       }
     },
     {
@@ -126,34 +130,59 @@ export let proconf = {
       'width': 180,
       field: 'speTypeName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '专项名称'
+        }
+      }
     },
     {
       title: '上级文号',
       'width': 180,
       field: 'supBgtDocNo',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '专项名称'
+        }
+      }
     },
     {
       title: '指标文号',
       'width': 180,
       field: 'corBgtDocNo',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '专项名称'
+        }
+      }
     },
     {
       title: '处室名称',
       'width': 180,
       field: 'manageMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.manageMofDepCode && row.manageMofDepName ? `${row.manageMofDepCode}-${row.manageMofDepName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '处室名称'
+        }
       }
     },
     {
@@ -161,10 +190,14 @@ export let proconf = {
       'width': 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算单位'
+        }
       }
     },
     {
@@ -187,10 +220,14 @@ export let proconf = {
       'width': 180,
       field: 'expFuncName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支出功能分类科目'
+        }
       }
     },
     {
@@ -199,7 +236,7 @@ export let proconf = {
       field: 'bgtExeFlag',
       align: 'center',
       sortable: false,
-      filters: false,
+      filters: true,
       cellRender: {
         name: '$vxeSelect',
         options: [

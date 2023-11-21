@@ -113,31 +113,19 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;触发菜单</div>
-                      <!--:disabled="disabled"-->
-                      <!--<el-select-->
-                      <!--  v-model="businessFunctionCode"-->
-                      <!--  placeholder="请选择触发菜单"-->
-                      <!--  style="width:45%"-->
-                      <!--  @change="changeFunCode"-->
-                      <!--&gt;-->
-                      <!--  <el-option-->
-                      <!--    v-for="item in businessFunctionCodeoptions"-->
-                      <!--    :key="item.id"-->
-                      <!--    :label="item.businessName"-->
-                      <!--    :value="item.id"-->
-                      <!--  />-->
-                      <!--</el-select>-->
-                      <BsTree
-                        :key="refleshKey"
-                        v-model="businessFunctionCodeModal"
-                        :is-drop-select-tree="true"
-                        :editable="true"
-                        :tree-data="businessFunctionTreeData"
-                        :default-checked-keys="businessFunctionCode"
-                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
-                        class="businessFunctionTree"
-                        style="display: inline-block;"
-                      />
+                      <el-tooltip class="item" effect="dark" :content="showSplitName(businessFunctionCodeModal)" placement="top-start">
+                        <BsTree
+                          :key="refleshKey"
+                          v-model="businessFunctionCodeModal"
+                          :is-drop-select-tree="true"
+                          :editable="true"
+                          :tree-data="businessFunctionTreeData"
+                          :default-checked-keys="businessFunctionCode"
+                          v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                          class="businessFunctionTree"
+                          style="display: inline-block;"
+                        />
+                      </el-tooltip>
                     </el-row>
                   </el-main>
                 </el-container>
@@ -1321,6 +1309,10 @@ export default {
           this.$message.error('下拉树加载失败')
         }
       })
+    },
+    showSplitName(name) {
+      let tempMenuName = name.split('#')
+      return tempMenuName[tempMenuName.length - 1]
     }
 
   },

@@ -157,33 +157,20 @@
                 <el-main width="100%">
                   <el-row>
                     <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font v-show="triggerClass !== 2" color="red">*</font>&nbsp;业务菜单</div>
-                    <!--<el-select-->
-                    <!--  v-model="businessFunctionCode"-->
-                    <!--  :disabled="disabled"-->
-                    <!--  multiple="true"-->
-                    <!--  placeholder="请选择业务菜单"-->
-                    <!--  style="width:45%"-->
-                    <!--  @change="changeFunCode"-->
-                    <!--&gt;-->
-                    <!--  <el-option-->
-                    <!--    v-for="item in businessFunctionCodeoptions"-->
-                    <!--    :key="item.id"-->
-                    <!--    :label="item.businessName"-->
-                    <!--    :value="item.id"-->
-                    <!--  />-->
-                    <!--</el-select>-->
-                    <BsTree
-                      ref="businessFunctionCodeModalRef"
-                      :key="refleshKey"
-                      v-model="businessFunctionCodeModal"
-                      :is-drop-select-tree="true"
-                      :editable="true"
-                      :tree-data="businessFunctionTreeData"
-                      :default-checked-keys="businessFunctionCode"
-                      v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
-                      class="businessFunctionTree"
-                      style="display: inline-block;"
-                    />
+                    <el-tooltip class="item" effect="dark" :content="showSplitName(businessFunctionCodeModal)" placement="top-start">
+                      <BsTree
+                        ref="businessFunctionCodeModalRef"
+                        :key="refleshKey"
+                        v-model="businessFunctionCodeModal"
+                        :is-drop-select-tree="true"
+                        :editable="true"
+                        :tree-data="businessFunctionTreeData"
+                        :default-checked-keys="businessFunctionCode"
+                        v-bind="{ config: { ...businessFunctionTreeConfig, disabled } }"
+                        class="businessFunctionTree"
+                        style="display: inline-block;"
+                      />
+                    </el-tooltip>
                   </el-row>
                 </el-main>
               </el-container>
@@ -1924,6 +1911,10 @@ export default {
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
       this.getTableData()
+    },
+    showSplitName(name) {
+      let tempMenuName = name.split('#')
+      return tempMenuName[tempMenuName.length - 1]
     }
   },
   watch: {
@@ -2092,7 +2083,7 @@ export default {
             }
             // this.formDatas.agency_code = '000,000001,000002'
             // this.formDatas.agency_name = '预算处预留,预算处预留,test单位新增'
-            
+
           // this.formDatas.agency_code_id = '5208FE4932F34E27B0A31BDDE2D0276A'
           // let formDataParams = this.formDatas[this.formItemsConfigMessage[0].itemRender.options[item].name].split(',')
           // let paramsCodes = ''

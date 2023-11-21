@@ -109,12 +109,16 @@ export let proconf = {
     {
       title: '地区名称',
       width: 180,
-      field: '',
+      field: 'mofDivName',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '地区名称'
+        }
       }
     },
     {
@@ -122,24 +126,45 @@ export let proconf = {
       width: 180,
       field: 'proCode',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '项目编码'
+        }
+      }
     },
     {
       title: '项目名称',
       width: 180,
       field: 'proName',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '项目名称'
+        }
+      }
     },
     {
       title: '预算单位',
       width: 180,
       field: 'agencyName',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算单位'
+        }
+      }
     }
   ]
 }

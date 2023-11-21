@@ -120,19 +120,21 @@
                   <el-main width="100%">
                     <el-row>
                       <div class="sub-title-add" style="width:100px;float:left;margin-top:8px"><font color="red">*</font>&nbsp;触发菜单</div>
-                      <el-select
-                        v-model="businessFunctionName"
-                        :disabled="disabled"
-                        placeholder="请选择触发菜单"
-                        style="width:45%"
-                      >
-                        <el-option
-                          v-for="item in businessFunctionCodeoptions"
-                          :key="item.id"
-                          :label="item.businessName"
-                          :value="item.id"
-                        />
-                      </el-select>
+                      <el-tooltip class="item" effect="dark" :content="showSplitName(businessFunctionName)" placement="top-start">
+                        <el-select
+                          v-model="businessFunctionName"
+                          :disabled="disabled"
+                          placeholder="请选择触发菜单"
+                          style="width:45%"
+                        >
+                          <el-option
+                            v-for="item in businessFunctionCodeoptions"
+                            :key="item.id"
+                            :label="item.businessName"
+                            :value="item.id"
+                          />
+                        </el-select>
+                      </el-tooltip>
                     </el-row>
                   </el-main>
                 </el-container>
@@ -1285,6 +1287,10 @@ export default {
         this.warningLevel = 1
         this.handleType = 1
       }
+    },
+    showSplitName(name) {
+      let tempMenuName = name.split('#')
+      return tempMenuName[tempMenuName.length - 1]
     }
   },
   watch: {

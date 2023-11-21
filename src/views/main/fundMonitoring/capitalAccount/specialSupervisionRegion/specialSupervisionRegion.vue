@@ -180,6 +180,7 @@ import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion.js'
 import regionMixin from '../mixins/regionMixin'
 import XEUtils from 'xe-utils/ctor'
+import store from '@/store/index'
 const dictionary = {
   '中央下达': 'amountZyxd',
   '支出-金额': 'amountPayAll',
@@ -383,7 +384,7 @@ export default {
       billguid: '',
       condition: {},
       selectData: '',
-      queryConfig: getFormData('highQueryConfig'),
+      queryConfig: getFormData(store.getters.isSx ? 'highQueryConfigToSx' : 'highQueryConfig'),
       searchDataList: getFormData('highQueryData'),
       detailVisible: false,
       detailType: '',

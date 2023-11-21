@@ -56,5 +56,8 @@ export default {
   },
   getRuleTreeData(params) {
     return post('dfr-monitor-service/dfr/mofDivList/queryRule', params)
+  },
+  dataDoMark(params) {
+    return post('large-monitor-platform/lmp/executeWarn/manualSign', params)
   }
 }

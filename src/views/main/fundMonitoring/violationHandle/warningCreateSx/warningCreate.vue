@@ -59,6 +59,7 @@
       :detail-data="detailData"
       :colour-type="colourType"
       :select-bid="bussnessId"
+      :manual-sign="manualSign"
     />
   </div>
 </template>
@@ -176,7 +177,8 @@ export default {
       warningDec: `预警级别说明：
           1.橙色预警--预警（需上传附件）
           2.黄色预警--预警（无需上传附件）
-          3.蓝色预警--记录`
+          3.蓝色预警--记录`,
+      manualSign: ''
 
     }
   },
@@ -200,7 +202,7 @@ export default {
         let data = getFormData('basicInfo', 'monitorTableColumnsConfig')
         return this.setWidth(data)
       }
-      return getFormData('basicInfo', 'tableColumnsConfig')
+      return getFormData('basicInfo', this.$store.getters.isSx ? 'tableColumnsConfigToSx' : 'tableColumnsConfig')
     },
     // 动态设置表格列数据end
     ajaxTableData({ params, currentPage, pageSize }) {
@@ -330,12 +332,15 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      this.manualSign = ''
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
       switch (key) {
+        case 'orangeDoubtfulNum':
         case 'orangeUndoNum':
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
+          this.manualSign = this.$store.getters.isSx ? '1' : ''
           break
         case 'orangeNormalNum':
           this.detailData = ['orangeNormalNum', obj.row.fiRuleCode]
@@ -352,10 +357,12 @@ export default {
           this.colourType = '2'
           this.detailVisible = true
           break
+        case 'yellowDoubtfulNum':
         case 'yellowUndoNum':
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
+          this.manualSign = this.$store.getters.isSx ? '1' : ''
           break
         case 'yellowNormalNum':
           this.detailData = ['yellowNormalNum', obj.row.fiRuleCode]
@@ -372,10 +379,12 @@ export default {
           this.colourType = '1'
           this.detailVisible = true
           break
+        case 'blueDoubtfulNum':
         case 'blueUndoNum':
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
+          this.manualSign = this.$store.getters.isSx ? '1' : ''
           break
         case 'blueNormalNum':
           this.detailData = ['blueNormalNum', obj.row.fiRuleCode]

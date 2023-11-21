@@ -1168,7 +1168,6 @@ export default {
       let Arraya = hideColumnLinkStr.hideColumn_link ? hideColumnLinkStr.hideColumn_link.split('#') : []
       // 根据code隐藏对应行
       let rowCodeHide = hideColumnLinkStr.rowCodeHide ? hideColumnLinkStr.rowCodeHide.split('#') : []
-      debugger
       if (Arraya.length > 0 && rowCodeHide.length === 0) { // 只配置了隐藏行
         if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll', 'amountZyxd', 'amountSnjxjfp', 'amountSxjfp'].includes(column.property) && !Arraya.includes(column.property)) {
           return true
@@ -1218,6 +1217,7 @@ export default {
         this.refresh(true)
       })
     }
+    this.queryConfig = this.isSx ? getFormData('highQueryConfigToSx') : getFormData('highQueryConfig')
     if (this.transJson2(this.params5 || '')?.projectCode !== 'SH') {
       let arr = this.queryConfig.filter(item => {
         return item.field === 'fiscalYear' || item.field === 'mofDivCodes' || item.field === 'startTime' || item.field === 'endTime'

@@ -567,6 +567,12 @@ export default {
       HttpModule.queryTableDatasPage(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
+          res.data.results.forEach(item => {
+            item.proName = item.proCode && item.proName ? item.proCode + '-' + item.proName : ''
+            item.fundTypeName = item.fundTypeCode && item.fundTypeName ? item.fundTypeCode + '-' + item.fundTypeName : ''
+            item.expFuncName = item.expFuncCode && item.expFuncName ? item.expFuncCode + '-' + item.expFuncName : ''
+            item.tpFuncName = item.tpFuncCode && item.tpFuncName ? item.tpFuncCode + '-' + item.tpFuncName : ''
+          })
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount

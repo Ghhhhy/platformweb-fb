@@ -108,6 +108,85 @@ const proconf = {
       }
     }
   ],
+  highQueryConfigToSx: [
+    {
+      title: '业务年度',
+      field: 'fiscalYear',
+      width: '8',
+      align: 'left',
+      formula: '',
+      visible: !store.getters.isFuJian,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          clearable: true,
+          type: 'year',
+          valueFormat: 'yyyy',
+          placeholder: '业务年度'
+        }
+      }
+    },
+    {
+      title: '资金名称',
+      field: 'proCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '资金名称',
+            clearable: true,
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '开始日期',
+      field: 'startTime',
+      width: 100,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          clearable: true,
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '开始日期'
+        }
+      }
+    },
+    {
+      title: '结束日期',
+      field: 'endTime',
+      width: 100,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          clearable: true,
+          format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          type: 'date',
+          placeholder: '结束日期'
+        }
+      }
+    }
+  ],
   highQueryData: {
     fiscalYear: store.state.userInfo.year,
     proCodes: '',

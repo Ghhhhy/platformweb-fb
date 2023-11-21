@@ -243,6 +243,7 @@ export default {
       if (!this.isNeedFiRuleCode) {
         this.$parent.fiRuleCode = ''
       }
+      this.$emit('closeDialog')
       // this.$parent.queryTableDatas()
     },
     moneyFormat(amt) {

@@ -576,6 +576,10 @@ export default {
       HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
+          res.data.results.forEach(item => {
+            item.mofDivName = item.mofDivCode && item.mofDivName ? item.mofDivCode + '-' + item.mofDivName : ''
+            item.manageMofDepName = item.manageMofDepCode && item.manageMofDepName ? item.manageMofDepCode + '-' + item.manageMofDepName : ''
+          })
           this.tableData = res.data.results
           this.caliberDeclareContent = res.data.description || ''
           this.mainPagerConfig.total = res.data.totalCount
