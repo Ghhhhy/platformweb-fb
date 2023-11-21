@@ -36,7 +36,7 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   // 是否允许禁止操作
   // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
-    if (store.getters.isFuJian && isReallyDivisionReAudit.value) { // 福建  处室复审界面 放开禁止按钮
+    if (store.getters.isFuJian) { // 福建  处室复审界面 放开禁止按钮
       return true
     }
     if (unref(isUnitMenu)) {
@@ -65,6 +65,7 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
     isUnitFeedbackPage,
     isBlueWarnLevel,
     isAllowDisabled,
-    isDivisionPage
+    isDivisionPage,
+    isReallyDivisionReAudit
   }
 }
