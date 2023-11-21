@@ -334,7 +334,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjzyxd}-{amountSnjzybjfp})'
+                formula: $formula('budgetReleaseRegion.szywfpAmount')
               },
               {
                 title: '地方安排',
@@ -342,7 +342,7 @@ let proconf = {
                 width: 100,
                 align: 'right',
                 cellRender: { name: '$vxeMoney' },
-                formula: '({amountSnjdfdf}-{amountSnjdfbjfp})'
+                formula: $formula('budgetReleaseRegion.sdfwfpAmount')
               },
               {
                 title: '总金额',
