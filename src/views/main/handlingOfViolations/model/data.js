@@ -1,9 +1,10 @@
 import store from '@/store/index'
+import { inject, computed, unref } from '@vue/composition-api'
 import router from '@/router'
 import { transJson2 } from '@/utils/params'
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
 import { $title } from '@/hooks/useTitle/useTitle.js'
-
+const pagePath = inject('pagePath')
 /**
  * 页面标识映射节点类型：用于给接口做权限区分
  * @type {{DIVISION_AUDIT: number, DEPARTMENT_AUDIT: number, UNIT_FEEDBACK: number, UNIT_AUDIT: number, DEPARTMENT_REAUDIT: number, DIVISION_REAUDIT: number}}
@@ -588,12 +589,22 @@ export const auditInfoColumns = [
  * @param isAudit 是否是审核
  * @return {[{field: string, itemRender: {name: string, props: {clearable: boolean, placeholder: string}}, title: (string), required: boolean, span: number}]}
  */
+
+// 是否是处室复审页面（终审） //福建没有按主题区分 不加regulationClass也有处理预警相关的能力
+const isReallyDivisionReAudit = computed(() => {
+  return ['/divisionReAudit', '/divisionReAuditBySpe'].includes(unref(pagePath))
+})
+const isFuJian = store.getters.isFuJian
+const isRequired = computed(() => {
+  if (!isFuJian) return true
+  return isFuJian && isReallyDivisionReAudit.value
+})
 export const getAuditFormSchemas = (isUnitFeedback = false) => {
   return [
     {
       title: isUnitFeedback ? '处理说明' : '处理意见',
       field: 'dealResult',
-      required: true,
+      required: isRequired.value,
       span: 24,
       itemRender: {
         name: '$input',
