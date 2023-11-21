@@ -160,7 +160,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton1,
+        buttonsInfo: this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton1,
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -183,7 +183,7 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
-      tableColumnsConfig: proconf.PoliciesTableColumns1,
+      tableColumnsConfig: this.$store.getters.isSx ? proconf.PoliciesTableColumns1ToSx : proconf.PoliciesTableColumns1,
       tableData: [],
       tableToolbarConfig: {
         // table工具栏配置
@@ -477,6 +477,9 @@ export default {
         case 'monitor':
           // this.doDiscard(obj, context, e)
           break
+        case 'mark':
+          this.markData()
+          break
         case 'detail':
           let selection = this.$refs.mainTableRef.getSelectionData()
           if (selection.length !== 1) {
@@ -541,6 +544,28 @@ export default {
     changeVisible(val) {
       console.log(val, '输出')
       this.breakRuleVisible = val
+    },
+    markData() {
+      let datas = this.$refs.mainTableRef.getSelectionData()
+      if (datas.length === 0) {
+        this.$message.warning('请选择一条需要标记数据！')
+        return
+      }
+      let data = {
+        warnId: datas[0].warnid,
+        manualSign: 1,
+        fiscalYear: this.$store.state.userInfo.year
+      }
+      this.tableLoading = true
+      HttpModule.dataDoMark(data).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.$message.success('标记疑点成功！')
+          this.refresh()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // table 右侧操作按钮
     onOptionRowClick({ row, optionType }, context) {
@@ -895,13 +920,13 @@ export default {
     this.params5 = this.$store.state.curNavModule.param5
     this.paramObj = this.transJson(this.$store.state.curNavModule.param5 || '') || {}
     if (this.params5 === '6') {
-      this.tableColumnsConfig = proconf.PoliciesTableColumns
+      this.tableColumnsConfig = this.$store.getters.isSx ? proconf.PoliciesTableColumnsToSx : proconf.PoliciesTableColumns
     }
     if (this.$store.getters.isFuJian) {
       this.queryConfig = Boolean.valueOf(this.paramObj.queryPayData) ? proconf.highQueryConfigPay : proconf.highQueryConfig
     }
     if (this.params5 === '6' || this.params5 === '7') {
-      this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton
+      this.toolBarStatusBtnConfig.buttonsInfo = this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
     }
     this.getLeftTreeData()
     this.queryTableDatas()

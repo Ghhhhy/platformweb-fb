@@ -562,6 +562,9 @@ export default {
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
+          res.data.results.forEach(item => {
+            item.mofDivName = item.mofDivCode && item.mofDivName ? item.mofDivCode + '-' + item.mofDivName : ''
+          })
           this.tableData = res.data.results
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount

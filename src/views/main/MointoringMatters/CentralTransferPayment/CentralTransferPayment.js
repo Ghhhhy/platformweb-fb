@@ -106,29 +106,29 @@ export let proconf = {
   },
   PoliciesTableColumns: [
     {
-      title: '项目编码',
+      title: '中央项目资金编码',
       field: 'proCode',
       sortable: false,
       align: 'left'
     },
     {
-      title: '项目名称',
+      title: '中央项目资金名称',
       field: 'proName',
       sortable: false,
       align: 'left'
     },
-    {
-      title: '资金分类编码',
-      field: 'fundCategoryCode',
-      sortable: false,
-      align: 'left'
-    },
-    {
-      title: '资金分类名称',
-      field: 'fundCategoryName',
-      sortable: false,
-      align: 'left'
-    },
+    // {
+    //   title: '资金分类编码',
+    //   field: 'fundCategoryCode',
+    //   sortable: false,
+    //   align: 'left'
+    // },
+    // {
+    //   title: '资金分类名称',
+    //   field: 'fundCategoryName',
+    //   sortable: false,
+    //   align: 'left'
+    // },
     {
       title: '热点分类编码',
       field: 'cfsHotTopicCateCode',
@@ -140,19 +140,19 @@ export let proconf = {
       field: 'cfsHotTopicCateName',
       sortable: false,
       align: 'left'
+    },
+    {
+      title: '资金分类编码',
+      field: 'proFundCode',
+      sortable: false,
+      align: 'left'
+    },
+    {
+      title: '资金分类名称',
+      field: 'proFundName',
+      sortable: false,
+      align: 'left'
     }
-    // {
-    //   title: '中央项目资金名称编码',
-    //   field: 'fundCategoryCode',
-    //   sortable: false,
-    //   align: 'left'
-    // },
-    // {
-    //   title: '中央项目资金名称',
-    //   field: 'fundCategoryName',
-    //   sortable: false,
-    //   align: 'left'
-    // }
     // ,{
     //   title: '数据源地址',
     //   field: 'adapterAddr',

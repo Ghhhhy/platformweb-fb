@@ -93,10 +93,14 @@ export let proconf = {
       width: 180,
       field: 'mofDivName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter: ({ row }) => {
-        return row.mofDivCode && row.mofDivName ? `${row.mofDivCode}-${row.mofDivName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '地区名称'
+        }
       }
     },
     {
@@ -104,10 +108,14 @@ export let proconf = {
       width: 180,
       field: 'manageMofDepName',
       sortable: true,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter: ({ row }) => {
-        return row.manageMofDepCode && row.manageMofDepName ? `${row.manageMofDepCode}-${row.manageMofDepName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '处室'
+        }
       }
     },
     {
@@ -115,48 +123,90 @@ export let proconf = {
       width: 180,
       field: 'corBgtDocNoName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '本级文号'
+        }
+      }
     },
     {
       title: '本级专项资金',
       width: 180,
       field: 'speTypeName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '本级专项资金'
+        }
+      }
     },
     {
       title: '上级文号',
       width: 180,
       field: 'supBgtDocNoName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '上级文号'
+        }
+      }
     },
     {
       title: '上级专项资金',
       width: 180,
       field: 'supSpeTypeName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '上级专项资金'
+        }
+      }
     },
     {
       title: '下级地区',
       width: 180,
       field: 'xjdq',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '下级地区'
+        }
+      }
     },
     {
       title: '下级地区名称',
       width: 180,
       field: 'xjdqmc',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '下级地区名称'
+        }
+      }
     },
     {
       title: '未发送金额',
@@ -180,8 +230,15 @@ export let proconf = {
       width: 180,
       field: 'creater',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '制单人姓名'
+        }
+      }
     }
   ]
 }

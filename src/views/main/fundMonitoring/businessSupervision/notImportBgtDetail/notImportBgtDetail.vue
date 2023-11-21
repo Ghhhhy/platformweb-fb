@@ -43,7 +43,7 @@
         />
       </template>
       <template v-slot:mainForm>
-        <BsTable
+        <LocalBsTable
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
@@ -69,7 +69,7 @@
               </div>
             </div>
           </template>
-        </BsTable>
+        </LocalBsTable>
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />

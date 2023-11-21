@@ -88,34 +88,59 @@ export let proconf = {
       'width': 180,
       field: 'mofDivName',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '地区名称'
+        }
+      }
     },
     {
       title: '指标文号',
       'width': 180,
       field: 'supBgtDocNoName',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '指标文号'
+        }
+      }
     },
     {
       title: '接收区划',
       'width': 180,
       field: 'recDivName',
       sortable: false,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '指标文号'
+        }
+      }
     },
     {
       title: '预算项目',
       width: 180,
       field: 'proName',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.proCode && row.proName ? `${row.proCode}-${row.proName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算项目'
+        }
       }
     },
     {
@@ -123,10 +148,14 @@ export let proconf = {
       width: 180,
       field: 'fundTypeName',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.fundTypeCode && row.fundTypeName ? `${row.fundTypeCode}-${row.fundTypeName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '资金性质名称'
+        }
       }
     },
     {
@@ -134,10 +163,14 @@ export let proconf = {
       width: 180,
       field: 'expFuncName',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '支出功能科目'
+        }
       }
     },
     {
@@ -145,10 +178,14 @@ export let proconf = {
       width: 180,
       field: 'tpFuncName',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'center',
-      formatter({ row }) {
-        return row.tpFuncCode && row.tpFuncName ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '转移支付功能分类科目'
+        }
       }
     },
     {
@@ -173,7 +210,7 @@ export let proconf = {
       width: 180,
       field: 'directFlagCode',
       sortable: false,
-      filters: false,
+      filters: true,
       align: 'right',
       formatter({ row }) {
         return row.directFlagCode === '01' ? '是' : '否'

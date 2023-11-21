@@ -167,7 +167,14 @@ export let proconf = {
       field: 'mofDivCodeName',
       treeNode: true,
       sortable: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '区划名称'
+        }
+      }
     },
     {
       title: '单位名称',
@@ -175,7 +182,14 @@ export let proconf = {
       field: 'agencyCodeName',
       treeNode: true,
       sortable: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '单位名称'
+        }
+      }
     },
     {
       title: '所属处室',
@@ -183,7 +197,14 @@ export let proconf = {
       field: 'manageMofDepCodeName',
       sortable: true,
       treeNode: true,
-      align: 'center'
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '所属处室'
+        }
+      }
     },
     {
       title: '指标金额',

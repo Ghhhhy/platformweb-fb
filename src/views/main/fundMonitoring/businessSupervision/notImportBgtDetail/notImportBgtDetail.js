@@ -87,40 +87,75 @@ let proconf = {
       'width': 180,
       field: 'mofDivName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '地区名称'
+        }
+      }
     },
     {
       title: '上级文号',
       'width': 180,
       field: 'supBgtDocNoName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '上级文号'
+        }
+      }
     },
     {
       title: '上级专项资金',
       'width': 180,
       field: 'supSpeTypeName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '上级专项资金'
+        }
+      }
     },
     {
       title: '预算单位',
       'width': 180,
       field: 'agencyName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算单位'
+        }
+      }
     },
     {
       title: '接收区划',
       'width': 180,
       field: 'recDivName',
       sortable: true,
-      filters: false,
-      align: 'center'
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '接收区划'
+        }
+      }
     },
     {
       title: '未接收金额',

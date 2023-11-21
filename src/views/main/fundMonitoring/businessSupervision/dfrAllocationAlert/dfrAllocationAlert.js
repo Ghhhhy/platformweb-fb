@@ -76,53 +76,105 @@ const proconf = {
         field: 'speTypeCode',
         width: 120,
         sortable: true,
-        filters: false,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '专项资金目录编码'
+          }
+        }
       },
       {
         title: '专项资金目录名称',
         field: 'speTypeName',
         width: 120,
         sortable: true,
-        filters: false,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '专项资金目录编码'
+          }
+        }
       },
       {
         title: '下达区划编码',
         field: 'xdRecDivCode',
         width: 120,
         sortable: false,
-        filters: false,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '下达区划编码'
+          }
+        }
       },
       {
         title: '下达区划名称',
         field: 'xdRecDivName',
         width: 120,
         sortable: false,
-        filters: false,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '下达区划名称'
+          }
+        }
       },
       {
         title: '指标文号',
         field: 'corBgtDocNo',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '指标文号'
+          }
+        }
       },
       {
         title: '项目编码',
         field: 'proCode',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '项目编码'
+          }
+        }
       },
       {
         title: '项目名称',
         field: 'proName',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '项目名称'
+          }
+        }
       },
       {
         title: '下达金额',
@@ -143,21 +195,45 @@ const proconf = {
         field: 'xdTime',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: false,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '下达时间'
+          }
+        }
       },
       {
         title: '登记时间',
         field: 'djTime',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: false,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '登记时间'
+          }
+        }
       },
       {
         title: '登记天数',
         field: 'djDate',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: false,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '登记时间'
+          }
+        }
       },
       {
         title: '未登记预警',
@@ -195,7 +271,15 @@ const proconf = {
         field: 'fpTime',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: false,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '分配时间'
+          }
+        }
       },
       {
         title: '分配天数',
@@ -296,82 +380,135 @@ const proconf = {
         field: 'sourceTypeCode',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '指标来源代码'
+          }
+        }
       },
       {
         title: '指标来源名称',
         field: 'sourceTypeName',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '指标来源名称'
+          }
+        }
       },
       {
         title: '资金来源代码',
         field: 'foundTypeCode',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '资金来源代码'
+          }
+        }
       },
       {
         title: '资金来源名称',
         field: 'foundTypeName',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '资金来源名称'
+          }
+        }
       },
       {
         title: '资金性质代码',
         field: 'fundTypeCode',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '资金性质代码'
+          }
+        }
       },
       {
         title: '资金性质名称',
         field: 'fundTypeName',
         width: 120,
         sortable: true,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '资金性质名称'
+          }
+        }
       },
-      // {
-      //   title: '支出功能科目编码',
-      //   field: 'expFuncCode',
-      //   width: 120,
-      //   sortable: true,
-      //   align: 'center'
-      // },
       {
         title: '支出功能科目',
-        filters: false,
+        filters: true,
         width: 140,
         field: 'expFuncName',
-        formatter({ row }) {
-          return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
-        },
         sortable: false,
-        align: 'right'
+        align: 'right',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '支出功能科目'
+          }
+        }
       },
       {
         title: '政府支出经济分类',
-        filters: false,
+        filters: true,
         width: 140,
         field: 'govBgtEcoName',
-        formatter({ row }) {
-          return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
-        },
         sortable: false,
-        align: 'right'
+        align: 'right',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '政府支出经济分类'
+          }
+        }
       },
       {
         title: '部门支出经济分类',
-        filters: false,
+        filters: true,
         width: 140,
         field: 'depBgtEcoName',
-        formatter({ row }) {
-          return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
-        },
         sortable: false,
-        align: 'right'
+        align: 'right',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '部门支出经济分类'
+          }
+        }
       },
       {
         title: '指标管理处室',

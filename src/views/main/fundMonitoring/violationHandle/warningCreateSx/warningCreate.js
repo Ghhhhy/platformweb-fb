@@ -62,6 +62,69 @@ const orangeColumn = {
     }
   ]
 }
+const orangeColumnToSx = {
+  title: '橙色预警',
+  field: '',
+  sortable: false,
+  align: 'center',
+  children: [
+    {
+      title: '疑点数据',
+      field: 'orangeDoubtfulNum',
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon6',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '生成问询单',
+      sortable: false,
+      align: 'center',
+      children: [
+        {
+          title: '认定正常',
+          field: 'orangeNormalNum',
+          align: 'center',
+          filters: false,
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '已整改',
+          field: 'orangeDoneNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '未完成',
+          field: 'orangeNotRectifiedNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon6',
+            props: {
+              $refs: this
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
 const redColumn = {
   title: '红色预警',
   field: '',
@@ -188,6 +251,69 @@ const yellowColumn = {
     }
   ]
 }
+const yellowColumnToSx = {
+  title: '黄色预警',
+  field: '',
+  sortable: false,
+  align: 'center',
+  children: [
+    {
+      title: '疑点数据',
+      field: 'yellowDoubtfulNum',
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon2',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '生成问询单',
+      sortable: false,
+      align: 'center',
+      children: [
+        {
+          title: '认定正常',
+          field: 'yellowNormalNum',
+          align: 'center',
+          filters: false,
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '已整改',
+          field: 'yellowDoneNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '未完成',
+          field: 'yellowNotRectifiedNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon2',
+            props: {
+              $refs: this
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
 const greyColumn = {
   title: '灰色预警',
   field: '',
@@ -260,6 +386,69 @@ const blueColumn = {
     {
       title: '预警数据',
       field: 'blueUndoNum',
+      filters: false,
+      align: 'center',
+      cellRender: {
+        name: '$vxeIcon7',
+        props: {
+          $refs: this
+        }
+      }
+    },
+    {
+      title: '生成问询单',
+      sortable: false,
+      align: 'center',
+      children: [
+        {
+          title: '认定正常',
+          field: 'blueNormalNum',
+          align: 'center',
+          filters: false,
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '已整改',
+          field: 'blueDoneNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon3',
+            props: {
+              $refs: this
+            }
+          }
+        },
+        {
+          title: '未完成',
+          field: 'blueNotRectifiedNum',
+          filters: false,
+          align: 'center',
+          cellRender: {
+            name: '$vxeIcon7',
+            props: {
+              $refs: this
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+const blueColumnToSx = {
+  title: '蓝色预警',
+  field: '',
+  sortable: false,
+  align: 'center',
+  children: [
+    {
+      title: '疑点数据',
+      field: 'blueDoubtfulNum',
       filters: false,
       align: 'center',
       cellRender: {
@@ -693,6 +882,18 @@ const proconf = {
       orangeColumn,
       yellowColumn,
       blueColumn
+    ],
+    tableColumnsConfigToSx: [
+      {
+        title: '规则名称',
+        field: 'fiRuleName',
+        sortable: true,
+        align: 'center',
+        width: 200
+      },
+      orangeColumnToSx,
+      yellowColumnToSx,
+      blueColumnToSx
     ],
     monitorTableColumnsConfig: [
       {

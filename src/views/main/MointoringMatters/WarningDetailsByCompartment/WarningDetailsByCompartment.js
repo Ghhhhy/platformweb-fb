@@ -31,6 +31,12 @@ export let proconf = {
       { code: 'detail', label: '查看详情', status: 'primary' }
     ]
   },
+  statusRightToolBarButtonToSx: {
+    '1': [
+      { code: 'mark', label: '标记疑点', status: 'primary' },
+      { code: 'detail', label: '查看详情', status: 'primary' }
+    ]
+  },
   highQueryConfig: [
     {
       title: '管理级次',
@@ -707,6 +713,234 @@ export let proconf = {
       'filters': ''
     }
   ],
+  PoliciesTableColumnsToSx: [
+    {
+      'title': '标记状态',
+      'field': 'manualSign',
+      'align': 'center',
+      sortable: true,
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      'title': '查看状态',
+      'field': 'readStatus',
+      'align': 'center',
+      sortable: true,
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '规则编码',
+      'width': 180,
+      field: 'fiRuleCode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '规则名称',
+      'width': 180,
+      field: 'firulename',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      'width': 180,
+      field: 'mofdivcode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预警级别',
+      'width': 180,
+      field: 'warnlevel',
+      sortable: false,
+      filters: false,
+      align: 'center',
+      name: '$vxeSelect',
+      slots: {
+        default({ row }) {
+          return [
+            <div class={'warningLevel' + row.warnLevel}>{dict.find(item => item.value === String(row.warnLevel))?.label}</div>
+          ]
+        }
+      },
+      cellRender: {
+        name: '$vxeSelect',
+        options: dict,
+        props: {
+          placeholder: '预警级别'
+        }
+      }
+    },
+    {
+      title: '管理级次',
+      'width': 180,
+      field: 'regulationtype',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位编码',
+      'width': 180,
+      field: 'agencycode',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位名称',
+      'width': 180,
+      field: 'agencyname',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '处理情况',
+      'field': 'status',
+      'align': 'center',
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '1',
+            'label': '待处理'
+          },
+          {
+            'value': '2',
+            'label': '已处理'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '支付申请编码',
+      'width': 180,
+      field: 'fivouno',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '支付申请金额',
+      'field': 'paymentAmount',
+      'width': '200',
+      'align': 'right',
+      'filters': '[object Object]',
+      'filterRender': {
+        'name': 'FilterNumberCompare'
+      },
+      'combinedType': 'average,subTotal,total,totalAll',
+      'cellRender': {
+        'name': '$moneyRender',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$moneyRender',
+      'fixed': '',
+      'formula': '',
+      'constraint': '',
+      'sortable': 'true',
+      'associatedQuery': '',
+      'className': '',
+      'combinedType_select_sort': '平均值,选中合计,当前页合计,所有合计'
+    },
+    {
+      title: '资金用途',
+      'width': 180,
+      field: 'useDes',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '监控拦截时间',
+      'width': 180,
+      field: 'createTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '业务数据开始时间',
+      'width': 180,
+      field: 'businessTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '违规处理时间',
+      'width': 180,
+      field: 'handleTime',
+      sortable: false,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    }
+  ],
   PoliciesTableColumns1: [
     {
       title: '规则编码',
@@ -874,6 +1108,269 @@ export let proconf = {
       field: 'voidOrNot',
       align: 'center',
       width: 180,
+      cellRender: {
+        name: '$vxeSelect',
+        'options': [
+          {
+            'value': '1',
+            'label': '是'
+          },
+          {
+            'value': '2',
+            'label': '否'
+          }
+        ],
+        defaultValue: '',
+        props: {}
+      },
+      name: '$vxeSelect'
+    },
+    {
+      'title': '操作',
+      'field': 'gloableOptionRow',
+      'className': 'gloableOptionRow',
+      'align': 'center',
+      'fixed': 'right',
+      'sortable': 'false',
+      'width': '100',
+      'cellRender': {
+        'name': '$payVoucherInputGloableOptionRow',
+        'options': [],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$payVoucherInputGloableOptionRow',
+      'formula': '',
+      'constraint': '',
+      'combinedType': '',
+      'associatedQuery': '',
+      'combinedType_select_sort': '',
+      'filters': ''
+    }
+  ],
+  PoliciesTableColumns1ToSx: [
+    {
+      'title': '标记状态',
+      'field': 'manualSign',
+      'align': 'center',
+      sortable: true,
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未标记'
+          },
+          {
+            'value': '1',
+            'label': '疑点数据'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      'title': '查看状态',
+      'field': 'readStatus',
+      'align': 'center',
+      sortable: true,
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '0',
+            'label': '未读'
+          },
+          {
+            'value': '1',
+            'label': '已读'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '规则编码',
+      'width': 180,
+      field: 'fiRuleCode',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '规则编码',
+      'width': 180,
+      field: 'fiRuleCode',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '规则名称',
+      'width': 180,
+      field: 'firulename',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '业务编号',
+      'width': 180,
+      field: 'businessNo',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '支付金额',
+      field: 'paymentAmount',
+      sortable: true,
+      filters: false,
+      align: 'right',
+      width: 140,
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '资金用途',
+      'width': 180,
+      field: 'useDes',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      'title': '触发方式',
+      'field': 'triggerClass',
+      'align': 'center',
+      sortable: true,
+      'width': 180,
+      'cellRender': {
+        'name': '$vxeSelect',
+        options: [
+          {
+            'value': '1',
+            'label': '事中触发'
+          },
+          {
+            'value': '2',
+            'label': '定时触发'
+          }
+        ],
+        'defaultValue': '',
+        'props': {}
+      },
+      'name': '$vxeSelect'
+    },
+    {
+      title: '监控拦截时间',
+      'width': 180,
+      field: 'createTime',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '区划',
+      'width': 180,
+      field: 'mofDiv',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预警级别',
+      field: 'warnLevel',
+      width: 180,
+      align: 'center',
+      name: '$vxeSelect',
+      sortable: true,
+      slots: {
+        default({ row }) {
+          return [
+            <div class={'warningLevel' + row.warnLevel}>{dict.find(item => item.value === String(row.warnLevel))?.label}</div>
+          ]
+        }
+      },
+      cellRender: {
+        name: '$vxeSelect',
+        options: dict,
+        props: {
+          placeholder: '预警级别'
+        }
+      }
+    },
+    {
+      title: '管理级次',
+      'width': 180,
+      field: 'regulationtype',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '预算单位',
+      'width': 180,
+      field: 'agency',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    // {
+    //   title: '预算单位名称',
+    //   'width': 180,
+    //   field: 'agencyname',
+    //   sortable: false,
+    //   filters: false,
+    //   align: 'center'
+    // },
+    // {
+    //   'title': '处理情况',
+    //   'field': 'status',
+    //   'align': 'center',
+    //   'width': 180,
+    //   'cellRender': {
+    //     'name': '$vxeSelect',
+    //     options: [
+    //       {
+    //         'value': '1',
+    //         'label': '待处理'
+    //       },
+    //       {
+    //         'value': '2',
+    //         'label': '已处理'
+    //       }
+    //     ],
+    //     'defaultValue': '',
+    //     'props': {}
+    //   },
+    //   'name': '$vxeSelect'
+    // },
+    {
+      title: '业务数据开始时间',
+      'width': 180,
+      field: 'businessTime',
+      sortable: true,
+      filters: false,
+      align: 'center'
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      align: 'center',
+      width: 180,
+      sortable: true,
       cellRender: {
         name: '$vxeSelect',
         'options': [

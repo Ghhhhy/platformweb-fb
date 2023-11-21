@@ -367,6 +367,9 @@ export default {
             }
             condition[item.field] = levelsArr
           }
+          if (item.field === 'month') {
+            condition[item.field] = curValue
+          }
         } else if (item.itemRender.name === '$vxeMoney') {
           let newFieldName = fieldValue + '__moneySwitchinput'
           if (this.searchDataList[newFieldName]) {

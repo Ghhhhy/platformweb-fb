@@ -81,6 +81,7 @@
       :title="dialogTitle"
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
+      @closeDialog="closeDialog"
     />
     <HsDetailDialog
       v-if="dialogHsVisible"
@@ -171,7 +172,7 @@ export default {
           code: '1',
           curValue: '1'
         },
-        buttonsInfo: proconf.statusRightToolBarButton1,
+        buttonsInfo: this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton1,
         methods: {
           bsToolbarClickEvent: this.onStatusTabClick
         }
@@ -375,7 +376,6 @@ export default {
       switch (obj.code) {
         // 全部
         case 'check':
-
           break
       }
       this.regulationStatus = obj.curValue
@@ -483,6 +483,9 @@ export default {
         // 全量监控
         case 'monitor':
           // this.doDiscard(obj, context, e)
+          break
+        case 'mark':
+          this.markData()
           break
         case 'detail':
           let selection = this.$refs.mainTableRef.getSelectionData()
@@ -651,6 +654,28 @@ export default {
         default:
           console.log('default fallback')
       }
+    },
+    markData() {
+      let datas = this.$refs.mainTableRef.getSelectionData()
+      if (datas.length === 0) {
+        this.$message.warning('请选择一条需要标记数据！')
+        return
+      }
+      let data = {
+        warnId: datas[0].warnid,
+        manualSign: 1,
+        fiscalYear: this.$store.state.userInfo.year
+      }
+      this.tableLoading = true
+      HttpModule.dataDoMark(data).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.$message.success('标记疑点成功！')
+          this.refresh()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     // 查看附件
     showAttachment(row) {
@@ -941,6 +966,9 @@ export default {
       })
 
       return datas
+    },
+    closeDialog() {
+      this.queryTableDatas()
     }
   },
   created() {
@@ -990,7 +1018,7 @@ export default {
       this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
-      this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarButton
+      this.toolBarStatusBtnConfig.buttonsInfo = this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
     }
     this.getLeftTreeData()
     this.queryTableDatas()

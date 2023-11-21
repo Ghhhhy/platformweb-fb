@@ -380,6 +380,11 @@ export default {
       this.$store.getters.isSx && (axiosQueryUrl = 'queryTableDatasSx')
       HttpModule[axiosQueryUrl](param).then((res) => {
         if (res.code === '000000') {
+          res.data.results.forEach(item => {
+            item.expFuncName = item.expFuncCode && item.expFuncName ? item.expFuncCode + '-' + item.expFuncName : ''
+            item.govBgtEcoName = item.govBgtEcoCode && item.govBgtEcoName ? item.govBgtEcoCode + '-' + item.govBgtEcoName : ''
+            item.depBgtEcoName = item.depBgtEcoCode && item.depBgtEcoName ? item.depBgtEcoCode + '-' + item.depBgtEcoName : ''
+          })
           this.tableData = res.data.results
           this.pagerConfig.total = res.data.totalCount
         } else {
