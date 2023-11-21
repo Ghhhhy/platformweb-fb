@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 const proconf = {
   highQueryConfig: [
     {
@@ -1335,6 +1335,7 @@ const proconf = {
     {
       title: '预警时间',
       field: 'warnTime',
+      visible: !store.getters.isFuJian,
       sortable: false,
       filters: false,
       width: 140,
