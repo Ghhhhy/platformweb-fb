@@ -196,10 +196,14 @@ export default defineComponent({
       let payData = data2?.sort((a, b) => { return b['amountPayPro'] - a['amountPayPro'] }).map(item => item) || []
       let ysData = data2?.sort((a, b) => { return b['amountPro'] - a['amountPro'] }).map(item => item) || []
       tableData2.value = data1?.map((item, index) => {
-        if (ysData[index] && payData[index]) {
-          return { mofDivName1: ysData[index].mofDivName || '', amountPro: ysData[index].amountPro < 100 ? ysData[index].amountPro : '100', mofDivName2: payData[index].mofDivName || '', amountPayPro: payData[index].amountPayPro < 100 ? payData[index].amountPayPro : '100', mofDivName3: item['mofDivName'], rankProcess: item['rankProcess'] }
+        return {
+          mofDivName1: ysData[index]?.mofDivName || '',
+          amountPro: (ysData[index]?.amountPro || 0) < 100 ? Number(ysData[index]?.amountPro) : '100',
+          mofDivName2: payData[index]?.mofDivName || '',
+          amountPayPro: (payData[index]?.amountPayPro || 0) < 100 ? Number(payData[index]?.amountPayPro) : '100',
+          mofDivName3: item['mofDivName'],
+          rankProcess: item['rankProcess']
         }
-        return item
       }) || []
     })
     /**
