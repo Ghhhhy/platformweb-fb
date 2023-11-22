@@ -47,7 +47,7 @@ const BSURL = {
   api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表
   api_tableconf: 'mp-b-perm-service/v1/tableconf', // 平台 查询单个动态表单JSON配置项
 
-  // 预算
+  // 预算   eg: bgt_xxx: 'budget/api/budget'
   bgt_transferBudgetProjectGetLeftData: 'budget/api/budget/bisProject/project/pmProjectInfo/fj/querySpeProjectDetail' // 本级预算项目获取左侧表格数据
 
 }
