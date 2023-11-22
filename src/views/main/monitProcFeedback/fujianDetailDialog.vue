@@ -61,6 +61,7 @@
       v-if="dialogVisibleShow"
       :title="dialogTitle"
     />
+    <RuleDialog v-if="ruleDialogShow" :code="rulesCode" />
   </div>
 </template>
 <script>
@@ -69,9 +70,10 @@ import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import monitProcFeedbackFormInstance from '@/views/main/monitProcFeedback/monitProcFeedbackFormInstance.vue'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
+import RuleDialog from './ruleDialog.vue'
 export default {
   name: 'HandleDialog',
-  components: { AddDialog, monitProcFeedbackFormInstance },
+  components: { AddDialog, monitProcFeedbackFormInstance, RuleDialog },
   computed: {
     handletableColumnsConfig() {
       if (this.param5.retroact === 'company' || this.param5.tableHide) {
@@ -147,6 +149,8 @@ export default {
   },
   data() {
     return {
+      ruleDialogShow: false,
+      rulesCode: '',
       xmDisabled: false,
       // 规则详情信息
       DetailData: {},
@@ -278,10 +282,18 @@ export default {
       }
     },
     cellClick(obj, context, e) {
+      let key = obj.column.property
+      switch (key) {
+        case 'regulationsName':
+          if (obj.row.regulationsCode) {
+            this.rulesCode = obj.row.regulationsCode
+            this.ruleDialogShow = true
+          }
+          break
+      }
       if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
       }
-      let key = obj.column.property
       switch (key) {
         case 'regulationName':
           HttpDetailModule.getDetailData(obj.row.regulationCode).then((res) => {
