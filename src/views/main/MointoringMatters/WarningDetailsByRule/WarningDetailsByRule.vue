@@ -657,8 +657,8 @@ export default {
     },
     markData() {
       let datas = this.$refs.mainTableRef.getSelectionData()
-      if (datas.length === 0) {
-        this.$message.warning('请选择一条需要标记数据！')
+      if (datas.length !== 1) {
+        this.$message.warning('请选择一条需要标记的数据！')
         return
       }
       let data = {

@@ -729,7 +729,7 @@ export let proconf = {
           },
           {
             'value': '1',
-            'label': '疑点数据'
+            'label': '疑点'
           }
         ],
         'defaultValue': '',
@@ -1164,7 +1164,7 @@ export let proconf = {
           },
           {
             'value': '1',
-            'label': '疑点数据'
+            'label': '疑点'
           }
         ],
         'defaultValue': '',
