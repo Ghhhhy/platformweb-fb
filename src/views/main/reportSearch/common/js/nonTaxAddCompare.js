@@ -283,7 +283,8 @@ const proconf = {
         'width': 200,
         'field': 'code',
         'filters': true,
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
@@ -295,7 +296,8 @@ const proconf = {
         'max-width': '300px',
         'filters': true,
         'field': 'levels',
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'
@@ -306,7 +308,8 @@ const proconf = {
         'width': 200,
         'filters': true,
         'field': 'incomeSortCode',
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'incomeSortCode',
         'cellRender': {
           'name': '$vxeInput'
@@ -317,7 +320,8 @@ const proconf = {
         'width': 200,
         'filters': true,
         'field': 'incomeSortName',
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'incomeSortName',
         'cellRender': {
           'name': '$vxeInput'
