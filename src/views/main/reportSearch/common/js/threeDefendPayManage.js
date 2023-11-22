@@ -232,9 +232,9 @@ const proconf = {
       {
         'title': '当年累计预算执行进度 (三保）',
         'width': 350,
-        'field': 'budgetProgress',
+        'field': 'amountBudgetProgress',
         'align': 'right',
-        'type': 'budgetProgress',
+        'type': 'amountBudgetProgress',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -242,10 +242,9 @@ const proconf = {
       },
       {
         'title': '序时进度',
-        'field': 'chronologicalProgress',
+        'field': 'amountChronologicalProgress',
         'width': 350,
         'align': 'right',
-        // 'formula': 'Math.round(({nm-amountSnjxd})/12)',
         'cellRender': {
           'name': '$vxeMoney'
         },
@@ -257,7 +256,7 @@ const proconf = {
         'filters': true,
         'width': 200,
         'align': 'right',
-        'formula': 'Math.round(({budgetProgress}-{chronologicalProgress}))',
+        'formula': 'Math.round(({amountBudgetProgress} - {amountChronologicalProgress}))',
         'cellRender': {
           'name': '$vxeRatio'
         }
