@@ -757,7 +757,9 @@ export default {
         this.queryTableDatas()
       } else {
         this.regulationType = node.node.regulationType
-        this.regulation_code = node.node.code
+        if (!this.$store.getters.isFuJian) {
+          this.regulation_code = node.node.code
+        }
         this.queryTableDatas()
       }
     },
