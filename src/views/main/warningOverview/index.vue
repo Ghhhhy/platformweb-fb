@@ -185,6 +185,7 @@ export default defineComponent({
         ])
         return [response1.data, response2.data]
       } catch (error) {
+        tableDataLoading.value = false
         console.error(error)
       } finally {
         tableDataLoading.value = false
@@ -192,17 +193,18 @@ export default defineComponent({
       }
     }
     getRankQSProcessing().then(([data1, data2]) => {
-      let payData = data2 || []
-      payData = payData.sort((a, b) => { return b['amountPayPro'] - a['amountPayPro'] })
-      let ysData = data2 || []
-      ysData = ysData.sort((a, b) => { return b['amountPro'] - a['amountPro'] })
-      let defaultData1 = data1 || []
-      tableData2.value = defaultData1.map((item, index) => {
-        if (ysData[index] && payData[index] && store.getters.isSx) {
-          return { ...item, mofDivName1: ysData[index].mofDivName || '', amountPro: ysData[index].amountPro < 100 ? ysData[index].amountPro : '100', mofDivName2: payData[index].mofDivName || '', amountPayPro: payData[index].amountPayPro < 100 ? payData[index].amountPayPro : '100', mofDivName3: item['mofDivName'], rankProcess: item['rankProcess'] }
+      let payData = data2?.sort((a, b) => { return b['amountPayPro'] - a['amountPayPro'] }).map(item => item) || []
+      let ysData = data2?.sort((a, b) => { return b['amountPro'] - a['amountPro'] }).map(item => item) || []
+      tableData2.value = data1?.map((item, index) => {
+        return {
+          mofDivName1: ysData[index]?.mofDivName || '',
+          amountPro: (ysData[index]?.amountPro || 0) < 100 ? Number(ysData[index]?.amountPro) : '100',
+          mofDivName2: payData[index]?.mofDivName || '',
+          amountPayPro: (payData[index]?.amountPayPro || 0) < 100 ? Number(payData[index]?.amountPayPro) : '100',
+          mofDivName3: item['mofDivName'],
+          rankProcess: item['rankProcess']
         }
-        return item
-      })
+      }) || []
     })
     /**
      * 直达资金管理工作排名
