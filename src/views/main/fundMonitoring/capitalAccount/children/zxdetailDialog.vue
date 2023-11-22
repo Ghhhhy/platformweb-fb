@@ -143,7 +143,8 @@ export default {
         showFooter: false
       },
       tableFooterConfigSx: {
-        showFooter: false
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
       },
       pagerConfig: {
         total: 0,
@@ -826,6 +827,11 @@ export default {
         this.tableFooterConfig.showFooter = true
       } else {
         this.tableFooterConfig.showFooter = false
+      }
+    } else {
+      this.tableFooterConfigSx = {
+        showFooter: true,
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
       }
     }
   }
