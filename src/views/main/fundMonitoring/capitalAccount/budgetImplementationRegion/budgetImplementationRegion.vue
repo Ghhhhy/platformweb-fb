@@ -125,6 +125,7 @@ import DetailDialog from '../children/detailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import regionMixin from '../mixins/regionMixin'
+import store from '@/store/index'
 export default {
   mixins: [regionMixin],
   computed: {
@@ -314,7 +315,7 @@ export default {
       billguid: '',
       condition: {},
       selectData: '',
-      queryConfig: [
+      queryConfig: store.getters.isSx ? [
         {
           title: '业务年度',
           field: 'fiscalYear',
@@ -366,22 +367,90 @@ export default {
             }
           }
         },
-        // {
-        //   title: '开始日期',
-        //   field: 'startTime',
-        //   width: 100,
-        //   align: 'center',
-        //   filters: false,
-        //   itemRender: {
-        //     name: '$vxeTime',
-        //     props: {
-        //       // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-        //       'value-format': 'yyyy-MM-dd',
-        //       type: 'date',
-        //       placeholder: '开始日期'
-        //     }
-        //   }
-        // },
+        {
+          title: '开始日期',
+          field: 'startTime',
+          width: 100,
+          align: 'center',
+          filters: false,
+          itemRender: {
+            name: '$vxeTime',
+            props: {
+              // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+              'value-format': 'yyyy-MM-dd',
+              type: 'date',
+              placeholder: '开始日期'
+            }
+          }
+        },
+        {
+          title: '结束日期',
+          field: 'endTime',
+          width: 100,
+          align: 'center',
+          filters: false,
+          itemRender: {
+            name: '$vxeTime',
+            props: {
+              // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+              'value-format': 'yyyy-MM-dd 23:59:59',
+              type: 'date',
+              placeholder: '结束日期'
+            }
+          }
+        }
+      ] : [
+        {
+          title: '业务年度',
+          field: 'fiscalYear',
+          width: '8',
+          align: 'left',
+          formula: '',
+          visible: !this.$store.getters.isFuJian,
+          itemRender: {
+            name: '$input',
+            props: {
+              type: 'year',
+              valueFormat: 'yyyy',
+              placeholder: '业务年度'
+            },
+            events: {
+              'change': (value, $event) => {
+                this.searchDataList.fiscalYear = $event.value
+                this.searchDataListOld = Object.assign({}, this.searchDataList)// 因为业务年度需要和资金名称联动 需要保存一个旧址 BsQuery深度监听了queryConfig，当queryConfig变化的时候，会重置searchDataList
+                this.$refs.queryFrom.reset()
+                this.getPro($event.value)
+              }
+            }
+          }
+        },
+        {
+          title: '资金名称',
+          field: 'proCodes',
+          width: '8',
+          align: 'left',
+          name: '$vxeTree',
+          itemRender: {
+            name: '$vxeTree',
+            options: [],
+            props: {
+              config: {
+                valueKeys: ['code', 'name', 'id'],
+                format: '{name}',
+                treeProps: {
+                  labelFormat: '{code}-{name}', // {code}-{name}
+                  nodeKey: 'id',
+                  label: 'label',
+                  children: 'children'
+                },
+                placeholder: '资金名称',
+                multiple: true,
+                readonly: false,
+                isleaf: true
+              }
+            }
+          }
+        },
         {
           title: '截止日期',
           field: 'endTime',

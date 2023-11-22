@@ -50,22 +50,6 @@ export let proconf = {
       }
     },
     {
-      title: '资金分类名称',
-      field: 'fundCategoryName',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeInput',
-      itemRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          clearable: true,
-          placeholder: '资金分类名称'
-        }
-      }
-    },
-    {
       title: '热点分类名称',
       field: 'cfsHotTopicCateName',
       width: '8',
@@ -82,7 +66,7 @@ export let proconf = {
       }
     },
     {
-      title: '中央项目资金名称',
+      title: '资金分类名称',
       field: 'proFundName',
       width: '8',
       align: 'left',
@@ -93,7 +77,7 @@ export let proconf = {
         options: [],
         props: {
           clearable: true,
-          placeholder: '中央项目资金名称'
+          placeholder: '资金分类名称'
         }
       }
     }

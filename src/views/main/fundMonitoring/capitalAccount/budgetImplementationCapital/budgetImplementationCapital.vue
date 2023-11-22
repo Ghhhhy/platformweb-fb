@@ -122,6 +122,7 @@ import ImportModal from './components/ImportModal'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import { checkRscode } from '@/utils/checkRscode'
 // import proconf from '../children/column'
+import store from '@/store/index'
 import capitalMixin from '../mixins/capitalMixin'
 export default {
   mixins: [capitalMixin],
@@ -291,7 +292,7 @@ export default {
       billguid: '',
       condition: {},
       selectData: '',
-      queryConfig: getFormData('highQueryConfig'),
+      queryConfig: store.getters.isSx ? getFormData('highQueryConfigToSx') : getFormData('highQueryConfig'),
       searchDataList: getFormData('highQueryData'),
       detailVisible: false,
       detailType: '',
