@@ -35,13 +35,16 @@
               <i class="fn-inline"></i>
             </div>
           </div>
+          <div class="table-toolbar-right">
+            <el-switch v-model="shiftValue" @change="changeSwitchButton" />
+          </div>
         </template>
       </BsTable>
     </div>
     <div class="el-transfer__buttons">
       <div class="fcc fd_c">
         <el-button
-          :disabled="rightSelections.length < 1"
+          :disabled="!shiftValue || rightSelections.length < 1"
           type="button"
           class="el-button el-button--primary el-transfer__button"
           style="margin-bottom: 10px;"
@@ -50,7 +53,7 @@
           <span><i class="el-icon-arrow-left"></i></span>
         </el-button>
         <el-button
-          :disabled="leftSelections.length < 1"
+          :disabled="!shiftValue || leftSelections.length < 1"
           type="button"
           class="el-button el-button--primary el-transfer__button"
           @click="selectRow"
@@ -101,6 +104,7 @@
 <script>
 import resolveResult from '@/utils/result.js'
 import api from '@/api/frame/main/inventory/index.js'
+import { get, post } from '@/api/http'
 import {
   leftFormItemData,
   leftFormItem,
@@ -114,9 +118,12 @@ export default {
   components: { },
   data() {
     return {
+      shiftValue: false,
       leftParams: {
         currentPage: 1,
-        pageSize: 20
+        pageSize: 20,
+        mofDivCode: this.$store.state.userInfo.province,
+        fiscalYear: this.$store.state.userInfo.year
       },
       leftFormItem: leftFormItem,
       leftFormItemData: leftFormItemData,
@@ -178,6 +185,28 @@ export default {
   },
   methods: {
     ...resolveResult,
+    // 切换按钮
+    changeSwitchButton() {
+      let params = {
+        configValue: this.shiftValue ? '1' : '0',
+        guid: this.$store.state.userInfo.guid
+      }
+      post(BSURL.lmp_transferBudgetProjectSwitchButton, params).then(res => {
+        console.log(res)
+      })
+    },
+    // 获取初始化按钮信息
+    getInitButtonInfo() {
+      let params = {
+        groupName: 'proListSwitch',
+        configKey: 'curProSwitch'
+      }
+      get(BSURL.lmp_transferBudgetProjectShowButton, params).then(res => {
+        if (res.code === '000000') {
+          this.shiftValue = Boolean(res.data.configValue)
+        }
+      })
+    },
     // 表格初始加载
     leftAjaxData({ params, currentPage, pageSize }) {
       this.leftPagerConfig.currentPage = currentPage
@@ -194,17 +223,26 @@ export default {
       this.leftShowLoading = true
       let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
       var _this = this
-      api.localPro(datas)
-        .then(res => {
-          if (res.code === '000000') {
-            _this.leftTableData = res.data.dataList
-            _this.leftPagerConfig.total = res.data.total
-          } else {
-            let message = res?.message || ''
-            _this.$message.error('查询失败!' + message)
-          }
-        })
-        .finally(() => { this.leftShowLoading = false })
+      get(BSURL.bgt_transferBudgetProjectGetLeftData, datas).then(res => {
+        if (res.code === '100000') {
+          _this.leftTableData = res.data
+          _this.leftPagerConfig.total = res.data.length
+        } else {
+          let message = res?.msg || ''
+          _this.$message.error('查询失败!' + message)
+        }
+      }).finally(() => { this.leftShowLoading = false })
+      // api.localPro(datas)
+      //   .then(res => {
+      //     if (res.code === '000000') {
+      //       _this.leftTableData = res.data.dataList
+      //       _this.leftPagerConfig.total = res.data.total
+      //     } else {
+      //       let message = res?.message || ''
+      //       _this.$message.error('查询失败!' + message)
+      //     }
+      //   })
+      //   .finally(() => { this.leftShowLoading = false })
     },
     leftSearch(obj) {
       this.leftFormItemData = obj
@@ -385,6 +423,7 @@ export default {
   created() {
     this.initLeftTableData()
     this.initRightTableData()
+    this.getInitButtonInfo()
   // },
   // watch: {
   //   rightTableData: { // 监听右边表格数据变化，重置页码及分页数据
