@@ -236,7 +236,7 @@ const proconf = {
         'align': 'right',
         'type': 'amountBudgetProgress',
         'cellRender': {
-          'name': '$vxeMoney'
+          'name': '$vxeRatio'
         },
         'visible': true
       },
@@ -246,7 +246,7 @@ const proconf = {
         'width': 350,
         'align': 'right',
         'cellRender': {
-          'name': '$vxeMoney'
+          'name': '$vxeRatio'
         },
         'visible': true
       },
@@ -256,7 +256,7 @@ const proconf = {
         'filters': true,
         'width': 200,
         'align': 'right',
-        'formula': 'Math.round(({amountBudgetProgress} - {amountChronologicalProgress}))',
+        'formula': 'Math.round(({amountChronologicalProgress} - {amountBudgetProgress}))',
         'cellRender': {
           'name': '$vxeRatio'
         }
