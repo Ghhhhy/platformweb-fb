@@ -181,7 +181,7 @@ export default defineComponent({
       try {
         const [response1, response2] = await Promise.all([
           rankProcessing(params),
-          ledgerProcessing({ fiscalYear: store.state.userInfo.year, reportCode: 'zdzjzcjdpm' })
+          ledgerProcessing({ isFlush: params.isFlush, fiscalYear: store.state.userInfo.year, reportCode: 'zdzjzcjdpm' })
         ])
         return [response1.data, response2.data]
       } catch (error) {
