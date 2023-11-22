@@ -259,7 +259,8 @@ const proconf = {
         'width': 200,
         'field': 'code',
         'filters': true,
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
@@ -269,7 +270,8 @@ const proconf = {
         'title': '级次（省、市、县）',
         'filters': true,
         'field': 'levels',
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'

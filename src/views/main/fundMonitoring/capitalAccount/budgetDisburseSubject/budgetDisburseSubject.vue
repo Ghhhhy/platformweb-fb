@@ -88,6 +88,8 @@
       v-if="detailVisible"
       :title="detailTitle"
       :detail-data="detailData"
+      :detail-type="isSx ? detailType : ''"
+      :detail-query-param="detailQueryParam"
     />
     <SDetailDialog
       v-if="sDetailVisible"
@@ -145,24 +147,7 @@ export default {
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
-      // // 头部工具栏 BsTabPanel config
-      // toolBarStatusBtnConfig: {
-      //   changeBtns: true,
-      //   // buttons: getFormData('toolBarStatusButtons'),
-      //   curButton: {
-      //     type: 'button',
-      //     iconName: 'base-all.png',
-      //     iconNameActive: 'base-all-active.png',
-      //     iconUrl: '',
-      //     label: '全部',
-      //     code: '1',
-      //     curValue: '1'
-      //   },
-      //   buttonsInfo: getFormData('statusRightToolBarButton'),
-      //   methods: {
-      //     bsToolbarClickEvent: this.onStatusTabClick
-      //   }
-      // },
+      detailQueryParam: {},
       buttonsInfo: getFormData('statusRightToolBarButtonByBusDept'),
       tabStatusNumConfig: {
         1: 0
@@ -486,6 +471,19 @@ export default {
       if (this.isSx) {
         let key = obj.column.property
         switch (key) {
+          case 'amountYshj':
+          case 'amountZykzx':
+          case 'amountDfkzx':
+            this.handleDetailSx('zdzjxmtz_yss', obj.row, obj.column.property)
+            this.detailTitle = '预算明细'
+            break
+          case '2':
+          case 'amountZchj':
+          case 'amountZypay':
+          case 'amountDfpay':
+            this.handleDetailSx('zdzjxmtz_zcs', obj.row, obj.column.property)
+            this.detailTitle = '直达资金支出明细'
+            break
           case 'jOut':
             this.handleDetail('jOut', obj.row.speTypeCode)
             this.detailTitle = '支出明细'
@@ -515,6 +513,44 @@ export default {
             this.detailTitle = '直达资金项目明细'
         }
       }
+    },
+    handleDetailSx(reportCode, rowData, column) {
+      let condition = ''
+      switch (column) {
+        // 全部及中央
+        case 'amountYszje':
+        case 'amountYszyap':
+        case 'amountZczje':
+        case 'amountZczyap':
+          condition = '1=1'
+          break
+        // 省级
+        case 'amountYssnjap':
+        case 'amountZcsnjap':
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+          break
+        // 市级
+        case 'amountYssjap':
+        case 'amountZcsjap':
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
+          break
+        // 县级
+        case 'amountYsxjap':
+        case 'amountZcxjap':
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          break
+      }
+      let params = {
+        condition: condition,
+        reportCode: reportCode,
+        endTime: this.endTime,
+        fiscalYear: this.fiscalYear,
+        proCode1: rowData.proCode,
+        ...rowData
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {
@@ -599,7 +635,7 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       if (this.isSx) {
-        if (['sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
+        if (['amountYshj', 'amountZykzx', 'amountDfkzx', 'amountZchj', 'amountZypay', 'amountDfpay', 'sbjfpAmount', 'jOut', 'sbbjfpAmount', 'xbjfpAmount'].includes(column.property)) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'

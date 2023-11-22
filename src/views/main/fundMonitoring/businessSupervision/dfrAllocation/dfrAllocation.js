@@ -62,17 +62,31 @@ const proconf = {
         width: 200,
         // treeNode: true,
         sortable: false,
-        filters: false,
+        filters: true,
         // cellRender: { name: '$vxeIcon' },
-        align: 'center'
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '专项资金编码'
+          }
+        }
       },
       {
         title: '专项资金名称',
         field: 'speTypeName',
         width: 150,
         sortable: false,
-        filters: false,
-        align: 'center'
+        filters: true,
+        align: 'center',
+        cellRender: {
+          name: '$vxeInput',
+          options: [],
+          props: {
+            placeholder: '专项资金名称'
+          }
+        }
       },
       {
         title: '预算总金额',

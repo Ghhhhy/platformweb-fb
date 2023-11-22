@@ -112,6 +112,94 @@ const proconf = {
       }
     }
   ],
+  highQueryConfigToSx: [
+    {
+      title: '业务年度',
+      field: 'fiscalYear',
+      width: '8',
+      align: 'left',
+      formula: '',
+      visible: !store.getters.isFuJian,
+      itemRender: {
+        name: '$vxeInput',
+        // options: [
+        //   // { value: '2020', label: '2020年' },
+        //   // { value: '2021', label: '2021年' },
+        //   { value: '2022', label: '2022年' },
+        //   { value: '2023', label: '2023年' }
+        // ],
+        props: {
+          clearable: true,
+          type: 'year',
+          valueFormat: 'yyyy',
+          placeholder: '业务年度'
+        }
+      }
+    },
+    {
+      title: '地区',
+      field: 'mofDivCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          defaultCheckedKeys: [],
+          config: {
+            valueKeys: ['code', 'name', 'id', 'codeFragment'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '地区',
+            clearable: true,
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '开始日期',
+      field: 'startTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          clearable: true,
+          // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          'value-format': 'yyyy-MM-dd',
+          type: 'date',
+          placeholder: '开始日期'
+        }
+      }
+    },
+    {
+      title: '结束日期',
+      field: 'endTime',
+      width: 200,
+      align: 'center',
+      filters: false,
+      itemRender: {
+        name: '$vxeTime',
+        props: {
+          clearable: true,
+          // format: 'YYYY-MM-DD', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          'value-format': 'yyyy-MM-dd 23:59:59',
+          type: 'date',
+          placeholder: '结束日期'
+        }
+      }
+    }
+  ],
   highQueryData: {
     fiscalYear: store.state?.userInfo?.year,
     mofDivCodes: [],

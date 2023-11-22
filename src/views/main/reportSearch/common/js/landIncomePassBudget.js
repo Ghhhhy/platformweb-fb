@@ -211,7 +211,8 @@ const proconf = {
         'width': 330,
         'field': 'code',
         'filters': true,
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'code',
         'cellRender': {
           'name': '$vxeInput'
@@ -223,7 +224,8 @@ const proconf = {
         'max-width': '300px',
         'filters': true,
         'field': 'levels',
-        'align': 'right',
+        'fixed': 'left',
+        'align': 'left',
         'type': 'levels',
         'cellRender': {
           'name': '$vxeInput'

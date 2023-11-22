@@ -1262,8 +1262,14 @@ export default {
       this.getTableData()
     },
     showSplitName(name) {
-      let tempMenuName = name.split('#')
-      return tempMenuName[tempMenuName.length - 1]
+      if (name) {
+        let nameArr = []
+        let tempNameArr = name.split(',')
+        tempNameArr.forEach(item => {
+          nameArr.push(item.replace(/[^\u4e00-\u9fa5]/gi, ''))
+        })
+        return nameArr.join(',')
+      }
     },
     // 高级查询下拉框
     itemChange(obj, form) {

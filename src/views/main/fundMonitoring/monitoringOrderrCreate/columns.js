@@ -153,10 +153,10 @@ export const tableColumns = (ctx) => [
     field: 'opration',
     width: '230',
     slots: {
-      default(row) {
+      default({ row }) {
         let vnode = (
           <div class="fcc">
-            <el-button type="primary" size="mini" onClick={(row) => ctx.handleRowClick(row)}>查看详情</el-button>
+            <el-button type="primary" size="mini" onClick={() => ctx.handleRowClick(row)}>查看详情</el-button>
             {/* <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button> */}
           </div>
         )
