@@ -266,7 +266,9 @@ export default {
       //   case 'amountsjfpbjall':
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
-      this.$refs.CarryImplementationRegionModal.tableStaticProperty.defaultMoneyUnit = this.$refs.bsTableRef.moneyUnit
+      if (this.$store.getters.isFuJian) {
+        this.$refs.CarryImplementationRegionModal.tableStaticProperty.defaultMoneyUnit = this.$refs.bsTableRef.moneyUnit
+      }
       this.$refs.CarryImplementationRegionModal.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
       this.$refs.CarryImplementationRegionModal.init()
       // break
