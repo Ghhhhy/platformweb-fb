@@ -2321,6 +2321,13 @@ export let proconf = {
           status: 'primary'
         }
       ],
+      'yxf': store.getters.isSx ? [
+        {
+          label: '撤回',
+          code: 'withdraw',
+          status: 'primary'
+        }
+      ] : [],
       'rectified': [
       ]
     }

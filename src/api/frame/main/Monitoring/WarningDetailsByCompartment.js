@@ -59,5 +59,8 @@ export default {
   },
   dataDoMark(params) {
     return post('large-monitor-platform/lmp/executeWarn/manualSign', params)
+  },
+  withdrawMonitorData(params) {
+    return post('large-monitor-platform/lmp/totalWarn/repealDetail', params)
   }
 }

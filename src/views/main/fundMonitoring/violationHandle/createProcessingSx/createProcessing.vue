@@ -710,9 +710,37 @@ export default {
         case 'print': // 打印
           self.print(obj)
           break
+        case 'withdraw': // 撤回
+          this.withdrawMonitorData()
+          break
         default:
           console.log('default fallback')
       }
+    },
+    withdrawMonitorData() {
+      let selection = this.$refs.mainTableRef.getSelectionData()
+      if (selection.length !== 1) {
+        this.$message.warning('请选择一条数据')
+      }
+      let param = {
+        dealNo: selection[0].dealNo
+      }
+      this.tableLoading = true
+      HttpModule.withdrawMonitorData(param).then(res => {
+        this.tableLoading = false
+        if (res.code === '000000') {
+          this.$message.success('撤回成功！')
+          this.tableColumnsConfig = proconf.policiesTableColumns1
+          this.queryConfig = proconf.highQueryConfig
+          this.searchDataList = proconf.highQueryData
+          this.status = 3
+          this.menuName = '监控问询单列表'
+          this.tableData = []
+          this.getdata()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     getLeftTreeData() {
       let that = this

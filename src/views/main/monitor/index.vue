@@ -588,12 +588,13 @@ export default {
     }
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
-    // this.getLeftTreeData()
+    if (this.$store.getters.isSx) {
+      this.getLeftTreeData()
+    }
   },
   mounted() {
     HttpModule.monitorTheme(0).then((res) => {
