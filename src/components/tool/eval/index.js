@@ -132,5 +132,5 @@ const myeval = {
     level: 1,
     fun: (a, b) => a || b
   })
-console.log(111111111111, myeval)
+// console.log(111111111111, myeval)
 export default myeval

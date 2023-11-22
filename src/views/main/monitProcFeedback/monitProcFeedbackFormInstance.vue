@@ -335,7 +335,7 @@ export default {
           createDataList[eachForm.field] = createDataList[eachForm.field] || createDataList.createdAttachmentid
           if (createDataList[eachForm.field]) {
             this.fileData3 = await this.getAttachmentInfo(createDataList[eachForm.field])
-            console.log(createDataList[eachForm.field], this.fileData3)
+            // console.log(createDataList[eachForm.field], this.fileData3)
           }
         }
       }
@@ -344,7 +344,7 @@ export default {
       let _this = this
       VXETable.renderer.add('$customerFileRender', {
         renderItemContent(h, renderOpts, { data, property }) {
-          console.log('customerFileRender', renderOpts, data, property)
+          // console.log('customerFileRender', renderOpts, data, property)
           let fileList = renderOpts.fileList || []
           return fileList.map(item => {
             return <div>
