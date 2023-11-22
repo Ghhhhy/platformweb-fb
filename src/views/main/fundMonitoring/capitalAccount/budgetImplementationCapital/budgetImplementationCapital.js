@@ -301,7 +301,8 @@ const proconf = {
             cellRender: {
               name: '$vxeRatio'
             },
-            slots: { // 解决值太小没有展示的问题
+            // 如果用自定义slot 会导致导出导出进度失败 因为陕西需要在超小精度下暂时 故做此处理
+            slots: store.getters.isFuJian ? undefined : { // 解决值太小没有展示的问题
               default({ row }) {
                 let amount1 = parseFloat(row.amountZyxd || 0)
                 if (store.getters.isSx) {
