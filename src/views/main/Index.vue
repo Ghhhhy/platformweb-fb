@@ -49,7 +49,7 @@
         ></iframe>
       </div>
       <div v-if="!isIframe()" class="main-modulebox-quick-nav" :class="isShowHeader ? 'top60' : 'top0'">
-        <BsQuickNav :nav-data="menuData" @onNavClick="onQuickNavClick" @fixedNavChange="onFixedNavChange" />
+        <BsQuickNav :nav-data="menuData" show-search @onNavClick="onQuickNavClick" @fixedNavChange="onFixedNavChange" />
       </div>
       <GlobalSetting />
     </div>
