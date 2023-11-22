@@ -81,6 +81,7 @@
       :title="dialogTitle"
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
+      @closeDialog="closeDialog"
     />
     <HsDetailDialog
       v-if="dialogHsVisible"
@@ -547,8 +548,8 @@ export default {
     },
     markData() {
       let datas = this.$refs.mainTableRef.getSelectionData()
-      if (datas.length === 0) {
-        this.$message.warning('请选择一条需要标记数据！')
+      if (datas.length !== 1) {
+        this.$message.warning('请选择一条需要标记的数据！')
         return
       }
       let data = {
@@ -902,6 +903,9 @@ export default {
           that.$message.error('下拉树加载失败')
         }
       })
+    },
+    closeDialog() {
+      this.queryTableDatas()
     }
   },
   created() {
