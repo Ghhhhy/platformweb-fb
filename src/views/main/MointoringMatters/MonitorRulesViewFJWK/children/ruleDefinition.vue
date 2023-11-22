@@ -117,7 +117,7 @@ export default {
                 format: '{businessName}',
                 highlightCurrent: true,
                 treeProps: {
-                  nodeKey: 'id,businessName,code',
+                  nodeKey: 'id',
                   children: 'children',
                   label: 'businessName',
                   labelFormat: '{id}-{businessName}'

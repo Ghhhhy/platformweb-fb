@@ -31,7 +31,7 @@
               ref="mofDivTree"
               v-loading="treeLoading"
               :filter-text="treeFilterText"
-              :config="{ showFilter: false,expandOnClickNode: false, treeProps }"
+              :config="{ valueKeys: ['code', 'name','id'],showFilter: false,expandOnClickNode: false, treeProps }"
               :tree-data="treeData"
               @onNodeClick="nodeClick"
             />
@@ -188,7 +188,7 @@ export default defineComponent({
         treeProps: {
           labelFormat: '{code}-{name}',
           id: 'code',
-          nodeKey: 'code', // 树的主键
+          nodeKey: 'id', // 树的主键
           label: 'name', // 树的显示lalel字段
           children: 'children'
         },
@@ -203,7 +203,7 @@ export default defineComponent({
         afterFetch: data => {
           return [
             {
-              id: '',
+              id: 'root',
               name: '全部',
               customCode: '',
               children: data || [],
