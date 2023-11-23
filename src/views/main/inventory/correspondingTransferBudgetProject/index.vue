@@ -119,6 +119,7 @@ export default {
   data() {
     return {
       shiftValue: false,
+      buttonGuid: '',
       leftParams: {
         currentPage: 1,
         pageSize: 20,
@@ -189,7 +190,7 @@ export default {
     changeSwitchButton() {
       let params = {
         configValue: this.shiftValue ? '1' : '0',
-        guid: this.$store.state.userInfo.guid
+        guid: this.buttonGuid
       }
       post(BSURL.lmp_transferBudgetProjectSwitchButton, params).then(res => {
         console.log(res)
@@ -204,6 +205,7 @@ export default {
       get(BSURL.lmp_transferBudgetProjectShowButton, params).then(res => {
         if (res.code === '000000') {
           this.shiftValue = Boolean(res.data.configValue)
+          this.buttonGuid = res.data.guid
         }
       })
     },
