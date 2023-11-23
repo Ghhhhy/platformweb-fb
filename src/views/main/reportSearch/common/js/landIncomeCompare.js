@@ -414,7 +414,7 @@ const proconf = {
         'filters': true,
         'width': 100,
         'align': 'right',
-        'formula': 'Math.round(({amountCurrentMonth}-{amountLastMonth})/{amountLastMonth})',
+        'formula': 'Math.round(({amountCurrentMonth}-{amountLastMonth})/{amountLastMonth} * 100)',
         'cellRender': {
           'name': '$vxeRatio'
         }
