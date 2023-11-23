@@ -231,6 +231,7 @@ export default {
         ...this.createDataList,
         ...formData,
         actionType: '2',
+        regulationClass: this.transJson(this.$store.state.curNavModule.param5 || '')?.regulationClass,
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
       }

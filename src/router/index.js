@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import main from './main/main.js'
+import { MainRoute, MircoRoute } from './main/main.js'
 import test from './test.js'
 Vue.use(VueRouter)
 
@@ -21,7 +21,7 @@ const routes = [
     component: () => import('../views/portal/Index.vue') // 主页
   },
   {
-    ...main
+    ...MainRoute
   },
   {
     path: '/Template', // test--template:Titans
@@ -71,7 +71,7 @@ VueRouter.prototype.push = function push(location) {
 }
 const router = new VueRouter({
   mode: 'hash',
-  routes
+  routes: window.__MICRO_APP_ENVIRONMENT__ ? [...MircoRoute] : routes
 })
 
 export default router

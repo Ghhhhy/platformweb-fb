@@ -1,5 +1,3 @@
-import directFund from './directFund/directFund'
-
 // 主菜单列表页面路由
 const subRoutes = []
 function importAll(r) {
@@ -7,6 +5,7 @@ function importAll(r) {
     key => subRoutes.push(r(key).default)
   )
 }
+importAll(require.context('./directFund', false, /.js$/))
 importAll(require.context('./children', false, /.js$/))
 importAll(require.context('./baseDataManage', false, /.js$/))
 importAll(require.context('./fundMonitoring', false, /.js$/))
@@ -72,11 +71,19 @@ const MainRoute = {
         requireAuth: true
       },
       component: () => import('../../views/main/monitor/index.vue')
-    },
-    ...directFund
-
+    }
   ]
 }
 MainRoute.children = MainRoute.children.concat(...subRoutes)
-
-export default MainRoute
+const MircoRoute = {
+  path: window.__MICRO_APP_BASE_ROUTE__ || '/lmp', /** 根据项目运行的不同环境，设置路径的前缀 */
+  name: window.__MICRO_APP_BASE_ROUTE__ || 'lmp',
+  meta: {
+    keepAlive: true,
+    requireAuth: true
+  },
+  component: () => import('@/views/main/empty.vue'),
+  children: []
+}
+MircoRoute.children = MircoRoute.children.concat(...subRoutes)
+export { MainRoute, MircoRoute }

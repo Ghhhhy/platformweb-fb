@@ -3,6 +3,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
+import './micro/public-path.js' // 引入配置
 // element-ui
 // import ElementUI from 'element-ui'
 import { setupElementUI } from './plugin/setupElementUI'
@@ -39,7 +40,23 @@ import './plugin/bs-ui' // 组件库出现问题阻塞时，注释掉当前行�
 import '@/assets/css/reset.scss'
 window.BSURL = BSURL
 // import Base64 from 'js-base64'
+// 微前端环境下，注册mount和unmount方法
+let app = null
+// 将渲染操作放入 mount 函数
+function mount () {
+  app = new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+}
 
+// 将卸载操作放入 unmount 函数
+function unmount () {
+  app.$destroy()
+  app.$el.innerHTML = ''
+  app = null
+}
 // Vue.use(Base64)
 // Vue.prototype.$Base64 = Base64
 
@@ -70,8 +87,10 @@ setupVueQuillEditor(Vue)
 setupVuePrint(Vue)
 Vue.prototype.transJson = transJson
 Vue.prototype.useOptionChain = useOptionChain
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+// 微前端环境下，注册mount和unmount方法
+if (window.__MICRO_APP_ENVIRONMENT__) {
+  window[`micro-app-${window.__MICRO_APP_NAME__}`] = { mount, unmount }
+} else {
+  // 非微前端环境直接渲染
+  mount()
+}
