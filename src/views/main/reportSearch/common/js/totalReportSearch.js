@@ -903,7 +903,98 @@ const proconf = {
         align: 'left',
         width: 200,
         field: 'sbzcgl',
-        cellRender: { name: '$vxeInput' }
+        children: [
+          {
+            title: '小计',
+            width: 100,
+            field: 'amountXj9',
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '1月',
+            field: 'smonth1',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '2月',
+            field: 'smonth2',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '3月',
+            field: 'smonth3',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '4月',
+            field: 'smonth4',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '5月',
+            field: 'smonth5',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '6月',
+            field: 'smonth6',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '7月',
+            field: 'smonth7',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '8月',
+            field: 'smonth8',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '9月',
+            field: 'smonth9',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '10月',
+            field: 'smonth10',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '11月',
+            field: 'smonth11',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          },
+          {
+            title: '12月',
+            field: 'smonth12',
+            width: 100,
+            align: 'right',
+            cellRender: { name: '$vxeInput' }
+          }]
       }
     ],
     // 直辖（市、区、镇）
