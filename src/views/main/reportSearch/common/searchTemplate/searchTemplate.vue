@@ -328,6 +328,9 @@ export default {
           }
         } else if (item.itemRender.name === '$vxeSelect') {
           clearCondition[item.field] = []
+          if (item.field === 'month') {
+            clearCondition[item.field] = ''
+          }
         } else {
           if (item.field) {
             clearCondition[fieldValue] = ''
