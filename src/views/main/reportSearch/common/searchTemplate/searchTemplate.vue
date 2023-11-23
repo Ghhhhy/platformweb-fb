@@ -735,6 +735,9 @@ export default {
       }
       curParam = { ...curParam, ...curThis.recordSearchDataList }
       console.log(curThis)
+      if (Array.isArray(curParam.month) && curParam.month.length === 0) {
+        curParam.month = ''
+      }
       curThis.tableLoading = true
       // dfr-monitor-service/dfr/zdzjledger/query
       // dfr-monitor-service/dfr/supervision/query
