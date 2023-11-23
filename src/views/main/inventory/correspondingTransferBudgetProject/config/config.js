@@ -37,13 +37,13 @@ const leftFormItem = [
 
 const leftTableColumnsConfig = [
   {
-    title: '专项资金',
-    field: 'proName',
+    title: '专项资金目录',
+    field: 'speName',
     formatter({ row }) {
-      if (row.proCode && row.proName) {
-        return `${row.proCode}-${row.proName}`
+      if (row.speCode && row.speName) {
+        return `${row.speCode}-${row.speName}`
       }
-      return `${row.proName}`
+      return `${row.speName}`
     }
   },
   // {
@@ -71,15 +71,15 @@ const leftTableColumnsConfig = [
     }
   },
   {
-    title: '资金管理处室',
-    field: 'fundMofDepName',
+    title: '资金主管处室',
+    field: 'bgtMofDepName',
     span: 12,
     align: 'left',
     formatter({ row }) {
-      if (row.fundMofDepCode && row.fundMofDepName) {
-        return `${row.fundMofDepCode}-${row.fundMofDepName}`
+      if (row.bgtMofDepCode && row.bgtMofDepName) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
       }
-      return `${row.fundMofDepName}`
+      return `${row.bgtMofDepName}`
     },
     itemRender: {
       name: '$vxeNewInput',
