@@ -128,7 +128,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'amountHj',
+            field: 'aamountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -226,7 +226,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'bmountHj',
+            field: 'bamountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -323,7 +323,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'cmountHj',
+            field: 'camountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -420,7 +420,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'dmountHj',
+            field: 'damountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -517,7 +517,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'emountHj',
+            field: 'eamountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -614,7 +614,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'fmountHj',
+            field: 'famountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -711,7 +711,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'gmountHj',
+            field: 'gamountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -808,7 +808,7 @@ const proconf = {
           {
             title: '小计',
             width: 100,
-            field: 'hmountHj',
+            field: 'hamountHj',
             align: 'right',
             cellRender: { name: '$vxeMoney' }
           },
@@ -902,7 +902,8 @@ const proconf = {
         type: 'sbzcgl',
         align: 'left',
         width: 200,
-        field: 'sbzcgl'
+        field: 'sbzcgl',
+        cellRender: { name: '$vxeMoney' }
       }
     ],
     // 直辖（市、区、镇）
