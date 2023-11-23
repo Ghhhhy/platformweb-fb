@@ -507,7 +507,8 @@ export let proconf = {
           title: '涉及金额',
           field: 'correctedAmount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: { name: '$vxeMoney' }
         },
         {
           title: '已处理',
@@ -519,7 +520,8 @@ export let proconf = {
           title: '已处理涉及金额',
           field: 'orderCorrectionAmount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: { name: '$vxeMoney' }
         }
       ]
     }
@@ -1037,7 +1039,8 @@ export let proconf = {
           title: '涉及金额',
           field: 'correctedAmount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: { name: '$vxeMoney' }
         },
         {
           title: '已处理',
@@ -1049,7 +1052,8 @@ export let proconf = {
           title: '已处理涉及金额',
           field: 'orderCorrectionAmount',
           width: '150',
-          align: 'center'
+          align: 'center',
+          cellRender: { name: '$vxeMoney' }
         }
       ]
     }

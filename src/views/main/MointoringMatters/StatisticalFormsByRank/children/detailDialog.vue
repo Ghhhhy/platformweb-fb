@@ -41,7 +41,8 @@
               :table-data="tableData"
               :table-config="tableConfig"
               :pager-config="mainPagerConfig"
-              :toolbar-config="false"
+              :toolbar-config="tableToolbarConfig"
+              :default-money-unit="1"
               @onToolbarBtnClick="onToolbarBtnClick"
               @ajaxData="ajaxTableData"
               @cellClick="cellClick"
@@ -168,7 +169,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出

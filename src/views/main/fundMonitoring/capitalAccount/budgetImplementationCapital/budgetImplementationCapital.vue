@@ -908,6 +908,10 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }
+      if (this.isSx && param.startTime !== '' && param.endTime !== '' && param.startTime > param.endTime) {
+        this.$message.info('开始时间不能大于结束时间！')
+        return
+      }
       this.isFlush && (param.isFlush = true)
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {

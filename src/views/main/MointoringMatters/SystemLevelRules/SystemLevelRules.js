@@ -461,7 +461,7 @@ export let proconf = {
     {
       title: '触发菜单',
       'width': 180,
-      field: 'businessFunctionName',
+      field: 'menuNameList',
       sortable: false,
       align: 'left'
     },
