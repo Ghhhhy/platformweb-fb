@@ -674,6 +674,7 @@ const proconf = {
         field: '',
         sortable: false,
         align: 'center',
+        visible: !store.getters.isFuJian,
         children: [
           {
             title: '待整改',
@@ -681,6 +682,7 @@ const proconf = {
             width: 140,
             filters: false,
             align: 'center',
+            visible: !store.getters.isFuJian,
             cellRender: {
               name: '$vxeIcon2',
               props: {
@@ -694,6 +696,7 @@ const proconf = {
             width: 140,
             filters: false,
             align: 'center',
+            visible: !store.getters.isFuJian,
             cellRender: {
               name: '$vxeIcon3',
               props: {

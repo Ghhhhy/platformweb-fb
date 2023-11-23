@@ -505,7 +505,9 @@ export const getCommonColumns = (warnLevelRenderName = '$customIcon') => {
       visible: !store.getters.isFuJian// 福建去掉处理单编号
     }),
     getAgencyNameColumn(),
-    getMofDivCodeColumn(),
+    getMofDivCodeColumn({
+      visible: !store.getters.isFuJian// 福建去掉处理单编号
+    }),
     getDeptNameColumn(),
     getManageMofDepNameColumn(),
     getBusinessNoColumn({

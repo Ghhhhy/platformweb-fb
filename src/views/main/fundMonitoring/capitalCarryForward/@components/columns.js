@@ -50,7 +50,7 @@ export const carryImplementationRegionModalColumns = [
     filters: false,
     field: 'useDes',
     width: 260,
-    align: 'center',
+    align: 'left',
     cellRender: { name: '$vxeInput' }
   },
   {
@@ -60,7 +60,7 @@ export const carryImplementationRegionModalColumns = [
     filters: false,
     field: 'payAcctName',
     width: 260,
-    align: 'center',
+    align: 'left',
     cellRender: { name: '$vxeInput' }
   },
   {
@@ -80,7 +80,7 @@ export const carryImplementationRegionModalColumns = [
     filters: false,
     field: 'payeeAcctName',
     width: 260,
-    align: 'center',
+    align: 'left',
     cellRender: { name: '$vxeInput' }
   },
   {

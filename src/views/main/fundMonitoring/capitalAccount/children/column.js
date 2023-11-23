@@ -2895,6 +2895,12 @@ if (store.getters.isSx) {
         align: 'center',
         field: 'amountAllfp',
         sortable: false,
+        combinedType: [
+          'average',
+          'subTotal',
+          'total',
+          'totalAll'
+        ],
         cellRender: { name: '$vxeMoney' }
       },
       // {

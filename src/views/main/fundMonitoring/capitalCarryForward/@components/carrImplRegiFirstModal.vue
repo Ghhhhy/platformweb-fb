@@ -149,6 +149,7 @@ export default defineComponent({
       border: true,
       resizable: true,
       showOverflow: true,
+      defaultMoneyUnit: 10000,
       // height: '100%',
       align: 'left',
       cellStyle: ({ row, rowIndex, column }) => {

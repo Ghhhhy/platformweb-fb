@@ -1346,6 +1346,14 @@ const routers = [
         '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
       )
   },
+  {
+    path: '/totalReportSearch', // 福建总表
+    name: 'totalReportSearch',
+    component: () =>
+      import(
+        '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
+      )
+  },
   ...workFlowRouters
 ]
 
