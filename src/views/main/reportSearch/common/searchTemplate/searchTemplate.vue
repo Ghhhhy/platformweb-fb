@@ -686,8 +686,13 @@ export default {
         }
       }
       let routeKey = key.substring(0, 2)
+      let param = { ...map[routeKey] }
+      if (key !== 'sb') {
+        let month = key.substring(key.length - 1, key.length)
+        param.month = month
+      }
       const reportCode = map[routeKey].reportCode
-      this.detailQueryParam = map[routeKey]
+      this.detailQueryParam = param
       this.detailType = reportCode
       this.totalDetailVisible = true
     },
@@ -819,7 +824,7 @@ export default {
             textDecoration: 'underline'
           }
         }
-        if (validCellValue && (column.property.indexOf('_month') !== -1 || column.property === 'sbzcgl')) {
+        if (validCellValue && (column.property.indexOf('month') !== -1 || column.property === 'sbzcgl')) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
