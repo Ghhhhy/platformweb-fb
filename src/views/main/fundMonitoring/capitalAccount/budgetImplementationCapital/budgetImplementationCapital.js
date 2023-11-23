@@ -411,7 +411,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: !store.getters.isSx
+            visible: !store.getters.isSx && !store.getters.isFuJian
           },
           {
             title: '分配本级',
@@ -479,7 +479,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: !store.getters.isSx
+            visible: !store.getters.isSx && !store.getters.isFuJian
           },
           {
             title: '分配本级',

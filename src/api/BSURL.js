@@ -27,6 +27,8 @@ const BSURL = {
   lmp_ruleClassifyTree: 'large-monitor-platform/lmp/ruleClassify/tree/', // 获取监控主题列表
   lmp_regulationDetail: 'large-monitor-platform/lmp/regulation/detail/', // 获取规则详情信息
   lmp_regulationDetailfj: 'large-monitor-platform/lmp/regulation/detailfj/', // 福建 获取规则详情信息
+  lmp_transferBudgetProjectShowButton: 'large-monitor-platform/lmp/payReportConfig/queryConfig', // 本级预算项目和上级转移预算项目新增按钮功能 初始化按钮
+  lmp_transferBudgetProjectSwitchButton: 'large-monitor-platform/lmp/payReportConfig/updateConfig', // 本级预算项目和上级转移预算项目新增按钮功能 切换按钮
 
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
@@ -43,7 +45,10 @@ const BSURL = {
   api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
   api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表
-  api_tableconf: 'mp-b-perm-service/v1/tableconf'// 平台 查询单个动态表单JSON配置项
+  api_tableconf: 'mp-b-perm-service/v1/tableconf', // 平台 查询单个动态表单JSON配置项
+
+  // 预算   eg: bgt_xxx: 'budget/api/budget'
+  bgt_transferBudgetProjectGetLeftData: 'budget/api/budget/bisProject/project/pmProjectInfo/fj/querySpeProjectDetail' // 本级预算项目获取左侧表格数据
 
 }
 export {
