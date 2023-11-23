@@ -1008,6 +1008,10 @@ export default {
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
         }
+        if (param.startTime !== '' && param.endTime !== '' && param.startTime > param.endTime) {
+          this.$message.info('开始时间不能大于结束时间！')
+          return
+        }
         this.tableLoading = true
         HttpModule.queryTableData(param).then((res) => {
           this.tableLoading = false

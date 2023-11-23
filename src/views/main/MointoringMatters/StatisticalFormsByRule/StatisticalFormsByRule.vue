@@ -32,6 +32,7 @@
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
           :cell-style="cellStyle"
+          :default-money-unit="10000"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -124,7 +125,7 @@ export default {
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
-        moneyConversion: false, // 是否有金额转换
+        moneyConversion: true, // 是否有金额转换
         search: false, // 是否有search
         import: false, // 导入
         export: true, // 导出
@@ -510,7 +511,8 @@ export default {
               title: '涉及金额',
               field: 'correctedAmount',
               width: '150',
-              align: 'center'
+              align: 'center',
+              cellRender: { name: '$vxeMoney' }
             },
             {
               title: '已处理',
@@ -522,7 +524,8 @@ export default {
               title: '已处理涉及金额',
               field: 'orderCorrectionAmount',
               width: '150',
-              align: 'center'
+              align: 'center',
+              cellRender: { name: '$vxeMoney' }
             }
           ]
         }
@@ -568,6 +571,7 @@ export default {
             })
           }
           this.tableColumnsConfig = tableColumnsConfig2
+          // res.data.dataList[0].correctedAmount = 1000000
           this.tableData = this.handleQueryData(res.data.dataList)
           this.tableData.forEach(item => {
             if (

@@ -249,6 +249,19 @@ export default [
         '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
       )
   },
+  // 监控规则查看全辖
+  {
+    path: '/SXMonitorRulesView',
+    name: 'SXMonitorRulesView',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
   // 监控规则查看
   {
     path: '/MonitorRulesViewFJWK',
@@ -276,6 +289,16 @@ export default [
   {
     path: '/MonitorRulesViewShow',
     name: 'MonitorRulesViewShow',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue')
+  },
+  // 监控规则查看
+  {
+    path: '/SXMonitorRulesViewShow',
+    name: 'SXMonitorRulesViewShow',
     meta: {
       keepAlive: true,
       requireAuth: true

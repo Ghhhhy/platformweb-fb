@@ -363,6 +363,9 @@ export default {
     }
   },
   created() {
+    let date = new Date()
+    let year = date.toLocaleDateString().split('/')[0]
+    this.searchDataList.fiscalYear = year
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
