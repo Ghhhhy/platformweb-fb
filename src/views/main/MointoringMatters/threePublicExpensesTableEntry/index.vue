@@ -200,7 +200,7 @@ export default defineComponent({
           elementcode: 'admdiv',
           province,
           year: year,
-          wheresql: 'and code like ' + getWheresql(province) + '%'
+          wheresql: 'and code like \'' + getWheresql(province) + '%\''
         }
       },
       treeProps: {

@@ -1029,6 +1029,10 @@ export default {
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')
       }
+      if (this.isSx && param.startTime !== '' && param.endTime !== '' && param.startTime > param.endTime) {
+        this.$message.info('开始时间不能大于结束时间！')
+        return
+      }
       this.isFlush && (param.isFlush = true)
       // if (this.isSx) {
       //   param.reportCode = this.params5
