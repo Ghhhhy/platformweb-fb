@@ -18,6 +18,11 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_CONF_PUBLIC_PATH || './') : (process.env.VUE_APP_CONF_PUBLIC_PATH || './'),
   devServer: {
     hot: true,
+    host: 'localhost',
+    port: 8080,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     proxy: {
       '/apaas/boss/': {
         target: 'http://223.223.190.114:12218',
