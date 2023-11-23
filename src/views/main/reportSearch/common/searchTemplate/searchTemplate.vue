@@ -110,6 +110,13 @@
       :detail-data="detailData"
       :detail-query-param="detailQueryParam"
     />
+    <TotalDetailDialog
+      v-if="totalDetailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
     <SDetailDialog
       v-if="sDetailVisible"
       :title="sDetailTitle"
@@ -122,6 +129,7 @@
 
 <script>
 import DetailDialog from '../children/detailDialog.vue'
+import TotalDetailDialog from '../children/totalDetailDialog.vue'
 import SDetailDialog from '../children/sDetailDialog.vue'
 import regionMixin from '../mixins/regionMixin.js'
 export default {
@@ -143,7 +151,8 @@ export default {
   },
   components: {
     DetailDialog,
-    SDetailDialog
+    SDetailDialog,
+    TotalDetailDialog
   },
   watch: {
     $refs: {
@@ -155,6 +164,7 @@ export default {
   },
   data() {
     return {
+      totalDetailVisible: false,
       hideColumnLinkStr: this.transJson3(this.$store.state.curNavModule.param5), // 菜单配置信息
       showZeroState: this.transJson3(this.$store.state.curNavModule.param5).projectCode === 'SH',
       roleguid: this.$store.state.curNavModule.roleguid,
@@ -612,14 +622,79 @@ export default {
       }
     },
     handleCellClick(obj, context, e) {
+      let routerNameValue = this.$route.name
       if (this.isSx) {
         this.cellClickSx(obj, context, e)
+      } else if (routerNameValue === 'totalReportSearch') {
+        this.cellClickTotal(obj, context, e)
       } else {
         this.cellClick(obj, context, e)
       }
     },
     // 表格单元行单击
     cellClickSx(obj, context, e) {
+    },
+    cellClickTotal(obj) {
+      // const rowIndex = obj?.rowIndex
+      // if (!rowIndex) return
+      let key = obj.column.property
+      let map = {
+        'am': {
+          url: 'generallyIncomeChain',
+          reportCode: 'srcx-ybggyssrdyhbzf',
+          name: '一般公共预算收入当月环比增幅超过50%'
+        },
+        'bm': {
+          url: 'generallyIncomeCompare',
+          reportCode: 'srcx-ybggyssrdytbzf',
+          name: '一般公共预算收入当月同比增幅超过50%'
+        },
+        'cm': {
+          url: 'generallyIncomeAddCompare',
+          reportCode: 'srcx-ybggyssrljtbzf',
+          name: '一般公共预算收入累计同比增幅超20%%'
+        },
+        'dm': {
+          url: 'revenueAddCompare',
+          reportCode: 'srcx-sssrejkmljtbzf',
+          name: '税收收入二级科目累计同比增幅超50%'
+        },
+        'em': {
+          url: 'nonTaxAddCompare',
+          reportCode: 'srcx-fssrejkmljtbzf',
+          name: '非税收入二级科目累计同比增幅超50%'
+        },
+        'fm': {
+          url: 'landIncomeCompare',
+          reportCode: 'srcx-tdcrljsrtbzf',
+          name: '土地出让累计收入同比增幅超100%'
+        },
+        'gm': {
+          url: 'revenueProportion',
+          reportCode: 'srcx-sszbxy',
+          name: '税收占比小于80%'
+        },
+        'hm': {
+          url: 'landIncomePassBudget',
+          reportCode: 'srcx-tdcrsrdyybggyssr',
+          name: '土地出让收入大于一般公共预算收入'
+        },
+        'sb': {
+          url: 'threeDefendPayManage',
+          reportCode: 'srcx-sbzcgl',
+          name: '“三保”支出管理'
+        }
+      }
+      let routeKey = key.substring(0, 2)
+      let param = { ...map[routeKey] }
+      if (key !== 'sb') {
+        let month = key.substring(key.length - 1, key.length)
+        param.month = month
+      }
+      const reportCode = map[routeKey].reportCode
+      this.detailQueryParam = param
+      this.detailType = reportCode
+      this.totalDetailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {
@@ -744,6 +819,12 @@ export default {
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
         if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline'
+          }
+        }
+        if (validCellValue && (column.property.indexOf('month') !== -1 || column.property === 'sbzcgl')) {
           return {
             color: '#4293F4',
             textDecoration: 'underline'
