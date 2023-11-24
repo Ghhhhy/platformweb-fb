@@ -207,7 +207,7 @@ export default {
       }
       get(BSURL.lmp_transferBudgetProjectShowButton, params).then(res => {
         if (res.code === '000000') {
-          this.shiftValue = Boolean(res.data.configValue)
+          this.shiftValue = res.data.configValue === '1'
           this.buttonGuid = res.data.guid
         }
       })
