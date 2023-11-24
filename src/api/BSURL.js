@@ -29,6 +29,7 @@ const BSURL = {
   lmp_regulationDetailfj: 'large-monitor-platform/lmp/regulation/detailfj/', // 福建 获取规则详情信息
   lmp_transferBudgetProjectShowButton: 'large-monitor-platform/lmp/payReportConfig/queryConfig', // 本级预算项目和上级转移预算项目新增按钮功能 初始化按钮
   lmp_transferBudgetProjectSwitchButton: 'large-monitor-platform/lmp/payReportConfig/updateConfig', // 本级预算项目和上级转移预算项目新增按钮功能 切换按钮
+  lmp_regulationsDetail: 'large-monitor-platform/lmp/regulations/detail', // 获取主题详情列表
 
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',

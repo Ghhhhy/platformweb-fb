@@ -24,7 +24,6 @@
   </vxe-modal>
 </template>
 <script>
-import { getDetail } from '@/api/frame/main/Monitoring/Policies.js'
 import { getFiles } from '@/api/frame/common/file.js'
 import FilePreview from '@/views/main/MointoringMatters/common/filePreview.vue'
 export default {
@@ -49,23 +48,14 @@ export default {
           $gloableOptionRow: {
             renderDefault(h, cellRender, params, context) {
               let self = context.$grid.$parent
-              console.log(self.fileGuid)
               let { row, column } = params
               return [
                 <el-tooltip content="附件" placement="top" effect="light">
                   <a
                     class="gloable-option-row-attachment gloable-option-row  fn-inline"
-                    onClick={() =>
-                      self.onOptionRowClick({
-                        row,
-                        column,
-                        optionType: 'attachment'
-                      })
-                    }
-                  >
+                    onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>
                     附件
                   </a>
-                  ,
                 </el-tooltip>
               ]
             }
@@ -109,7 +99,7 @@ export default {
   },
   mounted() {
     let self = this
-    getDetail({
+    this.$http.post(BSURL.lmp_regulationsDetail, {
       regulationsCode: this.code
     }).then((res) => {
       this.tableData = [res.data]
@@ -120,7 +110,10 @@ export default {
   },
   methods: {
     preview(fileguid) {
-      if (!this.fileGuid) return
+      if (!fileguid) {
+        this.$message.warning('该数据无附件')
+        return
+      }
       this.filePreviewDialogVisible = true
     },
     getFile() {
@@ -133,7 +126,7 @@ export default {
     onOptionRowClick({ row, optionType }, context) {
       switch (optionType) {
         case 'attachment':
-          this.preview()
+          this.preview(row.fileGuid)
           break
         default:
       }
