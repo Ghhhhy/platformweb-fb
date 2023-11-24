@@ -47,7 +47,7 @@
           :pager-config="pagerConfig"
           :export-modal-config="{ fileName: menuName, addReportTitleColumn: true , addUnitColumn: true }"
           :title="menuName"
-          :default-money-unit="10000"
+          :default-money-unit="1"
           :cell-style="cellStyle"
           :show-zero="showZeroState"
           :formula-digits="1"
@@ -682,7 +682,7 @@ export default {
           reportCode: 'srcx-tdcrsrdyybggyssr',
           name: '土地出让收入大于一般公共预算收入'
         },
-        'sb': {
+        'sm': {
           url: 'threeDefendPayManage',
           reportCode: 'srcx-sbzcgl',
           name: '“三保”支出管理'
@@ -694,6 +694,7 @@ export default {
         let month = key.substring(key.length - 1, key.length)
         param.month = month
       }
+      param.mofDivCode = obj.row.code
       const reportCode = map[routeKey].reportCode
       this.detailQueryParam = param
       this.detailType = reportCode
@@ -734,6 +735,9 @@ export default {
       }
       curParam = { ...curParam, ...curThis.recordSearchDataList }
       console.log(curThis)
+      if (Array.isArray(curParam.month) && curParam.month.length === 0) {
+        curParam.month = ''
+      }
       curThis.tableLoading = true
       // dfr-monitor-service/dfr/zdzjledger/query
       // dfr-monitor-service/dfr/supervision/query
