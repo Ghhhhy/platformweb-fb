@@ -374,9 +374,18 @@ export default {
       DetailData: {},
       dialogVisibleShow: false,
       dialogTitle: '查看详情',
-      options: [{
+      options: this.$store.getters.isSx ? [{
         value: '2',
         label: '认定正常'
+      }, {
+        value: '7',
+        label: '单位已整改'
+      }] : [{
+        value: '2',
+        label: '认定正常'
+      }, {
+        value: '3',
+        label: '需要核实（下发单位）'
       }, {
         value: '7',
         label: '单位已整改'
