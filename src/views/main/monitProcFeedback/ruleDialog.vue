@@ -24,8 +24,6 @@
   </vxe-modal>
 </template>
 <script>
-import { getDetail } from '@/api/frame/main/Monitoring/Policies.js'
-import { getFiles } from '@/api/frame/common/file.js'
 import FilePreview from '@/views/main/MointoringMatters/common/filePreview.vue'
 export default {
   name: 'RuleDialog',
@@ -49,23 +47,14 @@ export default {
           $gloableOptionRow: {
             renderDefault(h, cellRender, params, context) {
               let self = context.$grid.$parent
-              console.log(self.fileGuid)
               let { row, column } = params
               return [
                 <el-tooltip content="附件" placement="top" effect="light">
                   <a
                     class="gloable-option-row-attachment gloable-option-row  fn-inline"
-                    onClick={() =>
-                      self.onOptionRowClick({
-                        row,
-                        column,
-                        optionType: 'attachment'
-                      })
-                    }
-                  >
+                    onClick={() => self.onOptionRowClick({ row, column, optionType: 'attachment' })}>
                     附件
                   </a>
-                  ,
                 </el-tooltip>
               ]
             }
@@ -108,23 +97,31 @@ export default {
     }
   },
   mounted() {
-    let self = this
-    getDetail({
-      regulationsCode: this.code
-    }).then((res) => {
-      this.tableData = [res.data]
-    })
-    this.getFile().then((res) => {
-      self.fileGuid = JSON.parse(res.data)[0].fileguid
-    })
+    this.getTableData()
+    this.getFileGuid()
   },
   methods: {
-    preview(fileguid) {
-      if (!this.fileGuid) return
-      this.filePreviewDialogVisible = true
+    getFileGuid() {
+      const params = {
+        billguid: this.code,
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      this.$http.get(BSURL.api_fileservice_v2_files, params).then(res => {
+        this.fileGuid = JSON.parse(res.data)[0].fileguid
+      })
     },
-    getFile() {
-      return getFiles(this.code) // 879858831008317440
+    getTableData() {
+      this.$http.post(BSURL.lmp_regulationsDetail, { regulationsCode: this.code }).then((res) => {
+        this.tableData = [res.data]
+      })
+    },
+    preview() {
+      if (!this.fileGuid) {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.filePreviewDialogVisible = true
     },
     dialogClose() {
       this.dialogVisibleShow = false

@@ -1544,7 +1544,7 @@ export const proconf = {
       sortable: false,
       align: 'left',
       cellRender: {
-        // name: '$vxeTableHref'
+        name: '$vxeTableHref'
       }
     }
   ],
