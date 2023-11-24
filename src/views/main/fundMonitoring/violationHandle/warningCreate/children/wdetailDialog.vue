@@ -522,7 +522,7 @@ export default {
     },
     // 搜索
     search(val) {
-      this.searchDataList = val
+      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'ruleCodes' })].itemRender.props['value'] = val.ruleCodes
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -586,6 +586,7 @@ export default {
       }
     },
     itemChange(obj, formRef) {
+      console.log(111, obj)
       let timeFiledList = ['warnStartDate', 'warnEndDate', 'dealWarnStartDate', 'dealWarnEndDate', 'recStartTime', 'recEndTime', 'xPayDateStart', 'xPayDateEnd']
       if (timeFiledList.includes(obj.property)) {
         obj.renderOpts.props.value = moment(obj.itemValue).format('YYYY-MM-DD')
