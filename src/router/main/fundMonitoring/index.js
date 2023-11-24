@@ -1323,7 +1323,7 @@ const routers = [
       )
   },
   {
-    path: '/revenueProportion', // 内蒙7税收占比小于80%
+    path: '/revenueProportion', // 内蒙7税收占比小于50%
     name: 'revenueProportion',
     component: () =>
       import(

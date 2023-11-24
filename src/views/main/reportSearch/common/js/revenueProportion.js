@@ -1,5 +1,5 @@
 import store from '@/store/index'
-// 内蒙7税收占比小于80%
+// 内蒙7税收占比小于50%
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
