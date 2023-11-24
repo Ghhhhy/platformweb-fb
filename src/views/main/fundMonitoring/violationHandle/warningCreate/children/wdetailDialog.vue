@@ -1253,11 +1253,13 @@ export default {
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = ''
       this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'ruleCodes' })].itemRender.props['value'] = ''
-      this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'payCertNo' })].itemRender.props['value'] = ''
       this.$refs.queryFrom.reset()
       this.agencyCodeList = []
       this.searchDataList.agencyCodeList = []
       this.searchDataList.ruleCodes = ''
+      if (this.searchDataList.payCertNo) {
+        this.searchDataList.payCertNo = ''
+      }
       this.searchDataList.businessNo = ''
       this.searchDataList.fiRuleName = ''
       this.searchDataList.regulationClassName = ''
@@ -1496,7 +1498,6 @@ export default {
     this.$set(this.searchDataList, 'xPayDateStart', this.queryData.xPayDateStart)
     this.$set(this.searchDataList, 'xPayDateEnd', this.queryData.xPayDateEnd)
     this.$set(this.searchDataList, 'ruleCodes', this.queryData.ruleCodes)
-
     // 回显时间
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
@@ -1507,7 +1508,6 @@ export default {
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateStart' })].itemRender.props['value'] = this.searchDataList.xPayDateStart
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'xPayDateEnd' })].itemRender.props['value'] = this.searchDataList.xPayDateEnd
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'ruleCodes' })].itemRender.props['value'] = this.searchDataList.ruleCodes
-    this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'payCertNo' })].itemRender.props['value'] = this.searchDataList.payCertNo
   }
 }
 </script>
