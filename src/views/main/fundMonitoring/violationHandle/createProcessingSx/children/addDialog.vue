@@ -1040,9 +1040,13 @@ export default {
         this.commentDept = '3'
         this.status = 3
       }
-      if (this.param5.retroact === 'department' && (this.value === '2' || this.value === '7') && (flag === '1' || flag === 1)) {
+      if (this.param5.retroact === 'department' && (this.value === '2') && (flag === '1' || flag === 1)) {
         this.commentDept = '2'
         this.status = 2
+      }
+      if (this.param5.retroact === 'department' && (this.value === '7') && (flag === '1' || flag === 1)) {
+        this.commentDept = '7'
+        this.status = 7
       }
       // 退回
       if (this.param5.retroact === 'department' && this.value1 === '8' && this.returnReason) {
