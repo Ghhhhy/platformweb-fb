@@ -1,15 +1,15 @@
 import { readonly } from '@vue/composition-api'
 import store from '@/store/index'
-import { menuModelData } from '../modal/data'
+import { menuModelData, SxMenuModelData } from '../modal/data'
 export const useMenuModel = () => {
-  const menus = readonly(menuModelData)
+  const menus = store.getters.isSx ? readonly(SxMenuModelData) : readonly(menuModelData)
 
   /**
    * 菜单点击
    * @param {String} menuName
    */
-  const menuClick = (menu) => {
-    const { code, name, isOpen } = menu
+  const menuClick = (menus) => {
+    const { code, name, isOpen } = menus
     if (!isOpen) return
     const route = {
       url: `/subjectAnalysis?menuName=${name}&menuCode=${code}`,
