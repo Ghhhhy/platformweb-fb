@@ -24,7 +24,6 @@
   </vxe-modal>
 </template>
 <script>
-import { getFiles } from '@/api/frame/common/file.js'
 import FilePreview from '@/views/main/MointoringMatters/common/filePreview.vue'
 export default {
   name: 'RuleDialog',
@@ -98,26 +97,31 @@ export default {
     }
   },
   mounted() {
-    let self = this
-    this.$http.post(BSURL.lmp_regulationsDetail, {
-      regulationsCode: this.code
-    }).then((res) => {
-      this.tableData = [res.data]
-    })
-    this.getFile().then((res) => {
-      self.fileGuid = JSON.parse(res.data)[0].fileguid
-    })
+    this.getTableData()
+    this.getFileGuid()
   },
   methods: {
-    preview(fileguid) {
-      if (!fileguid) {
+    getFileGuid() {
+      const params = {
+        billguid: this.code,
+        year: this.$store.state.userInfo.year,
+        province: this.$store.state.userInfo.province
+      }
+      this.$http.get(BSURL.api_fileservice_v2_files, params).then(res => {
+        this.fileGuid = JSON.parse(res.data)[0].fileguid
+      })
+    },
+    getTableData() {
+      this.$http.post(BSURL.lmp_regulationsDetail, { regulationsCode: this.code }).then((res) => {
+        this.tableData = [res.data]
+      })
+    },
+    preview() {
+      if (!this.fileGuid) {
         this.$message.warning('该数据无附件')
         return
       }
       this.filePreviewDialogVisible = true
-    },
-    getFile() {
-      return getFiles(this.code) // 879858831008317440
     },
     dialogClose() {
       this.dialogVisibleShow = false
@@ -126,7 +130,7 @@ export default {
     onOptionRowClick({ row, optionType }, context) {
       switch (optionType) {
         case 'attachment':
-          this.preview(row.fileGuid)
+          this.preview()
           break
         default:
       }
