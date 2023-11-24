@@ -187,12 +187,13 @@ export default {
             }
           },
           $customerWarnLevel: {
-            renderDefault: (h, cellRender, { row, rowIndex }, context) => {
-              if (row.warnLevel) {
-                return [
-                  <div class={'warningLevel' + row.warnLevel} size="mini" >{this.$store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === row.warnLevel)?.label}</div>
-                ]
-              }
+            renderDefault(h, cellRender, params, context) {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span class="gloable-option-row-attachment gloable-option-row  fn-inline" style={ this.$store.getters.dict.find(item => Number(item.value) === Number(row[column.property]))?.colorStyle}>{this.$store.getters.dict.find(item => Number(item.value) === Number(row[column.property]))?.label}</span>
+                </el-tooltip>
+              ]
             }
           }
         }
