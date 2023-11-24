@@ -353,6 +353,12 @@ export default {
           })
         }
       })
+      // 福建判断去除区划
+      if (this.$store.getters.isFuJian) {
+        this.formData[0].formItemList = this.formData[0].formItemList.filter(item => {
+          return item.field !== 'mofDivName'
+        })
+      }
     }
   },
   watch: {

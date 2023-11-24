@@ -176,7 +176,7 @@ export default {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
                 <div>
-                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>核实</el-button>
                   <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
@@ -744,10 +744,10 @@ export default {
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
       this.menuName = configQueryData.dataConfig.menuname
-      // 福建判断表格去掉财政区划
+      // 福建判断表格去掉财政区划和监控类型
       if (this.$store.getters.isFuJian) {
         this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
-          return item.field !== 'mofDivName'
+          return item.field !== 'mofDivName' && item.field !== 'triggerClass'
         })
       }
     },
