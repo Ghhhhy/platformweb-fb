@@ -696,6 +696,7 @@ export default {
       }
       param.mofDivCode = obj.row.code
       const reportCode = map[routeKey].reportCode
+      if (obj.column.own.canInsert === false) return
       this.detailQueryParam = param
       this.detailType = reportCode
       this.totalDetailVisible = true
@@ -814,28 +815,20 @@ export default {
         // 判断只有最底层有超链接
         if (row.children !== undefined) return
       }
-      if (this.isSx) {
-        if (['recAmount', 'amountRec', 'amountZyxd', 'amountSnjxd', 'amountSjxd', 'amountXjxd', 'amountZjxd', 'amountPayAll', 'amountSnjpay', 'amountSjpay', 'amountXjpay', 'amountZjpay', 'amountSnjwfp', 'amountSjwfp', 'amountXjwfp', 'amountZjwfp', 'amountSnjbjfp', 'amountSnjxjfp', 'amountSbjfp', 'amountSxjfp', 'amountXbjfp', 'amountXxjfp', 'amountZjfp'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      if (!rowIndex) return
+      // 有效的cellValue
+      const validCellValue = (row[column.property] * 1)
+      if (column.own.canInsert === false) return
+      if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
-      } else {
-        if (!rowIndex) return
-        // 有效的cellValue
-        const validCellValue = (row[column.property] * 1)
-        if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
-        }
-        if (validCellValue && (column.property.indexOf('month') !== -1 || column.property === 'sbzcgl')) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+      }
+      if (validCellValue && (column.property.indexOf('month') !== -1 || column.property === 'sbzcgl')) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline'
         }
       }
     },

@@ -119,6 +119,7 @@ const proconf = {
         align: 'right',
         type: 'amountHj',
         tooltipFormat: () => '',
+        canInsert: false,
         cellRender: {
           name: '$vxeMoney',
           props: {
@@ -137,6 +138,7 @@ const proconf = {
             field: 'amountXj1',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -241,6 +243,7 @@ const proconf = {
             field: 'amountXj2',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -344,6 +347,7 @@ const proconf = {
             field: 'amountXj3',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -447,6 +451,7 @@ const proconf = {
             field: 'amountXj4',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -550,6 +555,7 @@ const proconf = {
             field: 'amountXj5',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -653,6 +659,7 @@ const proconf = {
             field: 'amountXj6',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -756,6 +763,7 @@ const proconf = {
             field: 'amountXj7',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -859,6 +867,7 @@ const proconf = {
             field: 'amountXj8',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
@@ -962,6 +971,7 @@ const proconf = {
             field: 'amountXj9',
             align: 'right',
             tooltipFormat: () => '',
+            canInsert: false,
             cellRender: {
               name: '$vxeMoney',
               props: {
