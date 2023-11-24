@@ -151,13 +151,6 @@ export default {
           label: 'name', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
         },
-        axiosConfig: {
-          rootName: '全部',
-          successCode: '200', // 成功code
-          statusField: 'rscode',
-          method: 'get', // 请求方式
-          url: ''
-        },
         multiple: false, // 是否多选,
         clearable: true, // 可清除
         defaultExpandAll: true // 默认是否展开所有节点
@@ -220,38 +213,7 @@ export default {
         accordion: false
       },
       tableColumnsConfig: proconf.tableColumnsConfig,
-      tableData: [
-        {
-          name: 'test1',
-          superDivision: '特定转移支付资金1',
-          acceptDivision: '22',
-          transferPayment: 'beijing',
-          documentNumber: '111',
-          documentMoney: '999',
-          result: '比对失败',
-          time: '9.27'
-        },
-        {
-          name: 'test2',
-          superDivision: '特定转移支付资金2',
-          acceptDivision: '22',
-          transferPayment: 'beijing',
-          documentNumber: '111',
-          documentMoney: '999',
-          result: '比对成功',
-          time: '9.27'
-        },
-        {
-          name: 'test3',
-          superDivision: '特定转移支付资金3',
-          acceptDivision: '22',
-          transferPayment: 'beijing',
-          documentNumber: '111',
-          documentMoney: '999',
-          result: '比对成功',
-          time: '9.27'
-        }
-      ],
+      tableData: [],
       // datav表格数据
       searchObj: {},
       curDivCode: '',
@@ -275,7 +237,17 @@ export default {
       const { year, province } = this.$store.state.userInfo
       const res = await getTreeData({ year: year, province: province })
       console.log(res)
-      this.treeData = res?.data || []
+      this.treeData = [{
+        name: '全部',
+        guid: 'ALL_NODE_CODE',
+        id: 'root',
+        code: 'root',
+        customCode: '',
+        children: res?.data || []
+      }]
+      this.$nextTick(() => {
+        this.onNodeClick({ node: this.treeData[0] })
+      })
     },
     handleRowClick(row) {
       console.log('点击每行的方法', row)
@@ -296,14 +268,15 @@ export default {
     },
     // 点击树节点
     onNodeClick({ node, treeData }, $event, treeContext) {
-      console.log(node, '-----')
       if (node.children.length === 0) {
         this.curDivCode = node?.code
       } else {
         // 有下级区划全部拼接成一个字符串进行传参
         // node.children.forEach((item) => {
-        this.curDivCode = node?.code + ','
+        if (node.code !== 'root') {
+          this.curDivCode = node?.code + ','
         // })
+        }
         this.xjAllCode(node)
         this.curDivCode = this.curDivCode.slice(0, -1)
       }
