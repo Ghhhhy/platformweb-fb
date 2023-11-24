@@ -37,6 +37,25 @@ export const menuModelData = [
   { code: '0201', name: '直达资金', postion: { top: '386px', left: '644px' } }
 ]
 
+export const SxMenuModelData = [
+  { code: '0204', name: '三保', postion: { top: '372px', left: '59px' } },
+  { code: '0107', name: '会计核算', isOpen: true, postion: { top: '238px', left: '21px' }, report: ['/StatisticalFormsByCompartmentHs', '/StatisticalFormsByRankHs', '/StatisticalFormsByRuleHs'] },
+  { code: '0203', name: '地方债务管理', postion: { top: '449px', left: '180px' } },
+  { code: '0202', name: '转移支付', postion: { top: '96px', left: '150px' } },
+  { code: '0103', name: '预算编制', postion: { top: '277px', left: '335px' } },
+  { code: '0102', name: '项目库管理', postion: { top: '423px', left: '355px' } },
+  { code: '0104', name: '预算调整调剂', postion: { top: '19px', left: '301px' } },
+  { code: '0105', name: '预算批复', postion: { top: '225px', left: '488px' } },
+  { code: '0106', name: '预算执行', isOpen: true, postion: { top: '227px', left: '636px' }, report: ['/StatisticalFormsByCompartment', '/StatisticalFormsByRank', '/StatisticalFormsByRule', '/SXStatisticalFormsByCompartment', '/SXStatisticalFormsByRank', '/SXStatisticalFormsByRule'] },
+  { code: '0108', name: '决算和报告', postion: { top: '20px', left: '520px' } },
+  { code: '0101', name: '基础信息管理', postion: { top: '100px', left: '650px' } },
+  { code: '0201', name: '直达资金', postion: { top: '373px', left: '645px' } },
+  { code: '0201', name: '三公', postion: { top: '146px', left: '272px' } },
+  { code: '0201', name: '财政专户资金', postion: { top: '113px', left: '399px' } },
+  { code: '0201', name: '库款保障', postion: { top: '278px', left: '177px' } },
+  { code: '0201', name: '预算执行专项监督', postion: { top: '425px', left: '533px' } }
+]
+
 export const getViewAllRuleSelectOption = () => {
   return [
     { label: '按区划', value: 1 },
