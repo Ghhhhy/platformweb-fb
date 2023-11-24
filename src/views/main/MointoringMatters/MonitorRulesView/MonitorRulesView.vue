@@ -825,7 +825,7 @@ export default {
         regulation_class: this.regulationClass,
         regulation_type: this.regulationType,
         isDir: this.isDir,
-        jurisdiction: this.param5.jurisdiction === '1',
+        jurisdiction: this.param5 && this.param5.jurisdiction === '1',
         roleId: this.$store.state.curNavModule.roleguid
       }
       if (!this.isSx) {
