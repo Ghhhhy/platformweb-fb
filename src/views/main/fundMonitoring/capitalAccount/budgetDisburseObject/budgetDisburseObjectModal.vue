@@ -70,6 +70,7 @@ export default defineComponent({
         sortable: false,
         filters: false,
         align: 'center',
+        combinedType: ['average', 'subTotal', 'total', 'totalAll', 'switchTotal'],
         cellRender: { name: '$vxeMoney' }
       },
       {
@@ -259,6 +260,14 @@ export default defineComponent({
       showOverflow: true,
       height: '100%',
       align: 'left',
+      footerConfig: {
+        showFooter: true,
+        totalObj: { // totalAll和 switchTotal需要配置 其他可以不配
+          amount: 0, // 对应column的field
+          payAmt: 0
+        },
+        combinedType: ['average', 'subTotal', 'total', 'totalAll', 'switchTotal']
+      },
       // defaultMoneyUnit: computed(() => tableType.value === 'bgt' ? 1 : 10000),
       cellStyle: ({ row, rowIndex, column }) => {
         // 有效的cellValue
