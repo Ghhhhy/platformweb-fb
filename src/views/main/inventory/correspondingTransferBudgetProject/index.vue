@@ -304,10 +304,10 @@ export default {
         return {
           fiscalYear: item.fiscalYear, //      财年
           mofDivCode: item.mofDivCode, //
-          manageMofDepCode: item.fundMofDepCode, //      财年        业务主管处室代
-          manageMofDepName: item.fundMofDepName, //      财年        业务主管处室名
-          objCode: item.objCode, //      财年监控对象编码
-          objName: item.objName, //      财年监控对象名称
+          manageMofDepCode: item.bgtMofDepCode, //      财年        业务主管处室代
+          manageMofDepName: item.bgtMofDepName, //      财年        业务主管处室名
+          objCode: item.speCode, //      财年监控对象编码
+          objName: item.speName, //      财年监控对象名称
           bizType: '03', // 本级
           proCatCode: item.proCatCode, //      财年项目类别代码
           proCatName: item.proCatName, //      财年项目类别名称
@@ -364,14 +364,14 @@ export default {
         curretArr = [
           ...curretArr,
           {
-            objName: v.proName,
+            speName: v.speName,
             proCatName: v.proCatName,
             bgtDeptName: v.bgtDeptName,
             fiscalYear: v.fiscalYear, //      财年
             mofDivCode: v.mofDivCode, //
-            manageMofDepCode: v.fundMofDepCode, //      财年        业务主管处室代
-            manageMofDepName: v.fundMofDepName, //      财年        业务主管处室名
-            objCode: v.proCode, //      财年监控对象编码
+            bgtMofDepCode: v.bgtMofDepCode, //      财年        业务主管处室代
+            bgtMofDepName: v.bgtMofDepName, //      财年        业务主管处室名
+            speCode: v.speCode, //      财年监控对象编码
             bizType: '01', //      财年默认传01
             proCatCode: v.proCatCode, //      财年项目类别代码
             bgtDeptCode: v.bgtDeptCode //
