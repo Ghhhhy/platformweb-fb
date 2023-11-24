@@ -30,7 +30,7 @@
               ref="mofDivTree"
               v-loading="treeLoading"
               :filter-text="treeFilterText"
-              :config="{ showFilter: false, expandOnClickNode: false, treeProps }"
+              :config="{ showFilter: false, valueKeys: ['code', 'ruleName','code'], expandOnClickNode: false, treeProps }"
               :tree-data="treeData"
               @onNodeClick="nodeClick"
             />
