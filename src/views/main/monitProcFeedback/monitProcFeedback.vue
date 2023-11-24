@@ -187,12 +187,13 @@ export default {
             }
           },
           $customerWarnLevel: {
-            renderDefault: (h, cellRender, { row, rowIndex }, context) => {
-              if (row.warnLevel) {
-                return [
-                  <div class={'warningLevel' + row.warnLevel} size="mini" >{this.$store.state.warnInfo.warnLevelOptions.find(item => item.warnLevel === row.warnLevel)?.label}</div>
-                ]
-              }
+            renderDefault(h, cellRender, params, context) {
+              let { row, column } = params
+              return [
+                <el-tooltip content="" placement="" effect="light">
+                  <span class="gloable-option-row-attachment gloable-option-row  fn-inline" style={ this.$store.getters.dict.find(item => Number(item.value) === Number(row[column.property]))?.colorStyle}>{this.$store.getters.dict.find(item => Number(item.value) === Number(row[column.property]))?.label}</span>
+                </el-tooltip>
+              ]
             }
           }
         }
@@ -697,7 +698,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           let index = this.queryConfig.findIndex(item => item.field.indexOf('mofDivCode') > -1)
-          this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
+          index ?? this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
@@ -743,7 +744,7 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.tableColumnsConfig = configQueryData.itemsConfig
-      this.menuName = configQueryData.dataConfig.menuname
+      this.menuName = configQueryData.dataConfig.menuname || this.$store.state?.curNavModule?.name
       // 福建判断表格去掉财政区划
       if (this.$store.getters.isFuJian) {
         this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
