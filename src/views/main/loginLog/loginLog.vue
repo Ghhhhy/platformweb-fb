@@ -31,6 +31,7 @@
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
           :toolbar-config="tableToolbarConfig"
+          :table-global-config="tableGlobalConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="ajaxTableData"
           @cellClick="cellClick"
@@ -116,6 +117,11 @@ export default {
       tableLoading: false,
       tableColumnsConfig: proconf.PoliciesTableColumns,
       tableData: [],
+      tableGlobalConfig: {
+        customExportConfig: {
+          fileName: this.$store.state.curNavModule.name
+        }
+      },
       tableToolbarConfig: {
         // table工具栏配置
         disabledMoneyConversion: false,
