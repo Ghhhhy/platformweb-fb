@@ -351,7 +351,9 @@ const proconf = {
           clearable: true,
           format: 'YYYY-MM-DD',
           type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
-          placeholder: '支付时间'
+          placeholder: '支付时间',
+          'value-format': 'yyyy-MM-dd 00:00:00',
+          'label-format': 'yyyy-MM-dd'
         }
       }
     },

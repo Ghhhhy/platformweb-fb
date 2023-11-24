@@ -617,7 +617,7 @@ export const proconf = {
           type: 'date',
           'label-format': 'yyyy-MM-dd',
           'value-format': 'yyyy-MM-dd 23:59:59',
-          placeholder: '违规开始时间'
+          placeholder: '违规结束时间'
         }
       }
     },
