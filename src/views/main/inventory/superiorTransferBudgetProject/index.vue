@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="table-toolbar-right">
-            <el-switch v-model="shiftValue" @change="changeSwitchButton" />
+            是否展示清单<el-switch v-model="shiftValue" @change="changeSwitchButton" />
           </div>
         </template>
       </BsTable>
@@ -185,21 +185,28 @@ export default {
   methods: {
     ...resolveResult,
     // 切换按钮
-    changeSwitchButton() {
+    changeSwitchButton(val) {
       let params = {
         configValue: this.shiftValue ? '1' : '0',
         guid: this.buttonGuid
       }
       post(BSURL.lmp_transferBudgetProjectSwitchButton, params).then(res => {
-        console.log(res)
+        if (res.code !== '000000') {
+          this.$message.error('切换失败!')
+          this.shiftValue = !val
+        }
       })
     },
     // 获取初始化按钮信息
     getInitButtonInfo() {
-      get(BSURL.lmp_transferBudgetProjectShowButton).then(res => {
+      let params = {
+        groupName: 'proListSwitch',
+        configKey: 'preProSwitch'
+      }
+      get(BSURL.lmp_transferBudgetProjectShowButton, params).then(res => {
         console.log(res)
         if (res.code === '000000') {
-          this.shiftValue = Boolean(res.data.configValue)
+          this.shiftValue = res.data.configValue === '1'
           this.buttonGuid = res.data.guid
         }
       })
@@ -431,7 +438,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+/deep/ .vxe-button--wrapper {
+  line-height: 32px;
+}
 /deep/.leftReport {
   width: 50%;
   height: 100%;
