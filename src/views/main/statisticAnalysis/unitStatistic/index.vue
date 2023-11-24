@@ -91,6 +91,7 @@ import useTabPlanel from '../common/hooks/useTabPlanel'
 import { useModal } from '@/hooks/useModal/index'
 
 import { queryDep } from '@/api/frame/main/statisticAnalysis/unitStatistic.js'
+import { transJson1 } from '@/utils/params.js'
 import {
   getWarnCountColumns,
   searchFormCommonSchemas,
@@ -234,7 +235,8 @@ export default defineComponent({
 
         return {
           ...params,
-          agencyCode: codes
+          agencyCode: codes,
+          regulationClass: transJson1(store.state.curNavModule.param5 || '')?.regulationClass
         }
       },
       finallyFetch: data => {
