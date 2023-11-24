@@ -176,7 +176,7 @@ export default {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
                 <div>
-                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>核实</el-button>
                   <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
@@ -748,7 +748,7 @@ export default {
       // 福建判断表格去掉财政区划
       if (this.$store.getters.isFuJian) {
         this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
-          return item.field !== 'mofDivName'
+          return item.field !== 'mofDivName' && item.field !== 'triggerClass'
         })
       }
     },
