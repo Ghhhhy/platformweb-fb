@@ -698,7 +698,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           let index = this.queryConfig.findIndex(item => item.field.indexOf('mofDivCode') > -1)
-          index ?? this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
+          index !== undefined && this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
