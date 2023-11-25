@@ -317,7 +317,7 @@ const proconf = {
         'visible': true
       },
       {
-        'title': '上年同期累计收入（税收收入二级科目）',
+        'title': '当年当月累计收入',
         'field': 'amountLastMonth',
         'width': 350,
         'align': 'right',
@@ -332,7 +332,7 @@ const proconf = {
         'filters': true,
         'width': 200,
         'align': 'right',
-        'formula': 'Math.round(({amountCurrentMonth}-{amountLastMonth})/{amountLastMonth} * 100)',
+        'formula': 'Math.round({amountCurrentMonth}/{amountLastMonth} * 100)',
         'cellRender': {
           'name': '$vxeRatio'
         }
