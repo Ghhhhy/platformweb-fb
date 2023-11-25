@@ -77,7 +77,7 @@ const budgetImpColumns = [
     align: 'center'
   },
   {
-    title: '违规时间',
+    title: store.getters.isFuJian ? '监控时间' : '违规时间',
     width: 180,
     field: 'warnTime',
     sortable: false,
@@ -902,7 +902,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '违规时间',
+      title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
       sortable: false,
@@ -2323,7 +2323,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '违规时间',
+      title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
       sortable: false,
