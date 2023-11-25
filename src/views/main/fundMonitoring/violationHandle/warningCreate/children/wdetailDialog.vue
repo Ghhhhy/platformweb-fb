@@ -1028,7 +1028,7 @@ export default {
         //   break
       }
       // this.tabSelect = this.tabStatusBtnConfig.curButton.code
-      switch (this.warnLevel) {
+      switch (this.colourType) {
         case '1':
           this.title = '红色预警-' + this.title
           break

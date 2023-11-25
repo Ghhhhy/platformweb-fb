@@ -76,7 +76,7 @@ export default {
   },
   computed: {
     tableGlobalConfigCop() {
-      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
+      let dataType = this.transJson(this.$store.state.curNavModule.param5 || '')?.exportModalDefaultSelect || 'fullData'
       return {
         customExportConfig: {
           ...this.tableGlobalConfig.customExportConfig,
@@ -511,10 +511,11 @@ export default {
       })
     },
     getRules(fiscalYear = this.$store.state.userInfo?.year) {
-      HttpModule.getRuleTreeData({
-        fiscalYear: fiscalYear,
-        regulationClass: '08'
-      }).then(res => {
+      let params = { fiscalYear: fiscalYear, regulationClass: '08' }
+      if (this.$store.getters.isFuJian) {
+        params.regulationClass = this.transJson(this.$store.state.curNavModule.param5 || '')?.regulationClass
+      }
+      HttpModule.getRuleTreeData(params).then(res => {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig[2].itemRender.options = treeResdata
