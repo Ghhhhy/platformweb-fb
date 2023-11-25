@@ -9,6 +9,7 @@
       v-bind="tableLayOut"
       :table-data="tableData"
       :table-columns-config="tableColumns"
+      :pager-config="pagerConfig"
       v-on="tableLisenter"
     >
       <template v-slot:toolbarSlots>
@@ -36,7 +37,7 @@ export default defineComponent({
       title: '未填报惠企项目明细',
       width: '96%',
       height: '90%',
-      showFooter: false,
+      showFooter: true,
       class: 'notOverFlowAuto'
     })
     const mainTableRef = ref(null)
@@ -44,7 +45,7 @@ export default defineComponent({
     const tableData = ref([])
     const tableLayOut = reactive({
       footerConfig: {
-        showFooter: false
+        showFooter: true
       },
       toolbarConfig: {
         // table工具栏配置
@@ -89,7 +90,7 @@ export default defineComponent({
       }
       HttpModule.getBenefitDeDetail(params).then(res => {
         if (res.code === '000000') {
-          tableData.value = res.data
+          tableData.value = res.data?.data
         }
         formLoading.value = false
       })
