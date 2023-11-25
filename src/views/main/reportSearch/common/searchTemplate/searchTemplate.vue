@@ -675,7 +675,7 @@ export default {
         'gm': {
           url: 'revenueProportion',
           reportCode: 'srcx-sszbxy',
-          name: '税收占比小于80%'
+          name: '税收占比小于50%'
         },
         'hm': {
           url: 'landIncomePassBudget',

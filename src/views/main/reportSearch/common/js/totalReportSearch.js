@@ -753,7 +753,7 @@ const proconf = {
           }]
       },
       {
-        title: '税收占比小于80%',
+        title: '税收占比小于50%',
         width: 100,
         align: 'center',
         children: [
