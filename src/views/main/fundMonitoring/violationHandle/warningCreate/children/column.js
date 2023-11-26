@@ -706,7 +706,7 @@ const proconf = {
       }
     },
     {
-      title: '警告开始时间',
+      title: store.getters.isFuJian ? '预警开始时间' : '警告开始时间',
       field: 'warnStartDate',
       sortable: false,
       align: 'left',
@@ -722,7 +722,7 @@ const proconf = {
       }
     },
     {
-      title: '警告结束时间',
+      title: store.getters.isFuJian ? '预警结束时间' : '警告结束时间',
       field: 'warnEndDate',
       sortable: false,
       align: 'left',
