@@ -366,7 +366,7 @@ export default defineComponent({
       // 福建不要业务编码 以区划区分
       if (store.getters.isFuJian) {
         initColumns = initColumns.filter(item => {
-          return item.field !== 'businessNo' || item.field !== 'mofDivName'
+          return item.field !== 'businessNo' && item.field !== 'mofDivName' && item.field !== 'payCertNo'
         })
       }
       const projectCode = transJson2(store.state.curNavModule.param5 || '')?.projectCode
