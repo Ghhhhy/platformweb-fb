@@ -45,6 +45,7 @@ let proconf = {
     {
       title: '处室名称',
       field: 'manageMofDeps',
+      visible: !store.getters.isXm,
       width: '8',
       align: 'left',
       name: '$vxeTree',
@@ -169,7 +170,8 @@ let proconf = {
           { value: '', label: '' },
           { value: '01', label: '利民' },
           { value: '02', label: '惠企' },
-          { value: '03', label: '惠企利民' }
+          { value: '03', label: '惠企利民' },
+          { value: '99', label: '其他' }
         ],
         props: {
           clearable: true,
