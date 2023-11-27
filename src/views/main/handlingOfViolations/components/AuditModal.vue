@@ -412,14 +412,16 @@ export default defineComponent({
         }
         // 禁止额外参数标识
         if (forbidStatus) {
-          params.forbidStatus = forbidStatus
-          if (store.getters.isFuJian) {
+          params.isEnd = true
+          params.actionType = '2'
+          if (store.getters.isFuJian && isReallyDivisionReAudit.value) { // 福建 最终岗 才代表结束
             if (isReallyDivisionReAudit.value) {
               params.isStop = '1'
-              params.actionType = '2'
             } else {
               params.dealResult = '禁止'
             }
+          } else {
+            params.forbidStatus = forbidStatus
           }
         }
         // 走请求逻辑
