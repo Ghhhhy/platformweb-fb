@@ -20,6 +20,7 @@ export let proconf = {
       align: 'left',
       formula: '',
       name: '$vxeInput',
+      visible: !store.getters.isXm,
       itemRender: {
         name: '$vxeInput',
         props: {
@@ -321,6 +322,7 @@ export let proconf = {
     {
       title: '支付申请单号',
       field: 'payAppNo',
+      visible: !store.getters.isXm,
       sortable: true,
       filters: [{ data: '' }],
       filterRender: { name: 'FilterInput' },
