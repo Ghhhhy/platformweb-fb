@@ -319,6 +319,18 @@ export default [
       )
   },
   {
+    path: '/SXMonitorRulesViewByZd',
+    name: 'SXMonitorRulesViewByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/MonitorRulesView/MonitorRulesView.vue'
+      )
+  },
+  {
     path: '/MonitorRulesViewBySpe',
     name: 'MonitorRulesViewBySpe',
     meta: {
@@ -673,8 +685,32 @@ export default [
       )
   },
   {
+    path: '/SXstatisticalFormsByCompartmentByZh',
+    name: 'SXstatisticalFormsByCompartmentByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  {
     path: '/StatisticalFormsByCompartmentByPay',
     name: 'StatisticalFormsByCompartmentByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  {
+    path: '/SXStatisticalFormsByCompartmentByPay',
+    name: 'SXStatisticalFormsByCompartmentByPay',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -707,8 +743,52 @@ export default [
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
   },
   {
+    path: '/SXStatisticalFormsByRuleByPay',
+    name: 'SXStatisticalFormsByRuleByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  // 转移支付-统计分析报表（按预警级别）
+  {
+    path: '/StatisticalFormsByRankByPay',
+    name: 'StatisticalFormsByRankByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
+  // 转移支付-统计分析报表（按预警级别）
+  {
+    path: '/SXStatisticalFormsByRankByPay',
+    name: 'SXStatisticalFormsByRankByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
+  {
     path: '/StatisticalFormsByRuleByZh',
     name: 'StatisticalFormsByRuleByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  {
+    path: '/SXStatisticalFormsByRuleByZh',
+    name: 'SXStatisticalFormsByRuleByZh',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -731,6 +811,18 @@ export default [
   {
     path: '/StatisticalFormsByRankByZh',
     name: 'StatisticalFormsByRankByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
+  {
+    path: '/SXStatisticalFormsByRankByZh',
+    name: 'SXStatisticalFormsByRankByZh',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -766,8 +858,29 @@ export default [
       )
   },
   {
+    path: '/SXwarningDetailsByRuleByZh',
+    name: 'SXwarningDetailsByRuleByZh',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
+  },
+  {
     path: '/WarningDetailsByRuleByPay',
     name: 'WarningDetailsByRuleByPay',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  {
+    path: '/SXWarningDetailsByRuleByPay',
+    name: 'SXWarningDetailsByRuleByPay',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -1759,5 +1872,97 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  // 三保 统计分析查询（区划+预警级别）
+  {
+    path: '/sangbaoStatisticalFormsByCompartment',
+    name: 'sangbaoStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  // 三保 统计分析查询（区划+预警级别）
+  {
+    path: '/SXsangbaoStatisticalFormsByCompartment',
+    name: 'SXsangbaoStatisticalFormsByCompartment',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue'
+      )
+  },
+  // 三保 统计分析查询（规则+区划）
+  {
+    path: '/sangbaoStatisticalFormsByRule',
+    name: 'sangbaoStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  // 三保 统计分析查询（规则+区划） 全辖
+  {
+    path: '/SXsangbaoStatisticalFormsByRule',
+    name: 'SXsangbaoStatisticalFormsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByRule/StatisticalFormsByRule.vue')
+  },
+  // 三保 统计分析报表（规则+预警级别）
+  {
+    path: '/sangbaoStatisticalFormsByRank',
+    name: 'sangbaoStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
+  // 三保 统计分析报表（规则+预警级别） 全辖
+  {
+    path: '/SXsangbaoStatisticalFormsByRank',
+    name: 'SXsangbaoStatisticalFormsByRank',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/StatisticalFormsByRank/StatisticalFormsByRank.vue'
+      )
+  },
+  // 三保 预警明细查询
+  {
+    path: '/sangbaoWarningDetailsByRule',
+    name: 'sangbaoWarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
+  },
+  // 三保 预警明细查询 全辖
+  {
+    path: '/SXsangbaoWarningDetailsByRule',
+    name: 'SXsangbaoWarningDetailsByRule',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
   }
 ]

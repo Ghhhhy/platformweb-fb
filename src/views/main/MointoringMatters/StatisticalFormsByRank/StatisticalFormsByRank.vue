@@ -163,6 +163,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '',
       params5: '',
+      params5s: {},
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -415,6 +416,10 @@ export default {
         startTime: this.startTime,
         endTime: this.endTime
       }
+      if (this.$store.getters.isSx) {
+        param.regulationClass = this.params5s.regulationClass
+        param.jurisdiction = this.params5s.jurisdiction ? this.params5s.jurisdiction === '1' : false
+      }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
         this.tableLoading = false
@@ -504,7 +509,9 @@ export default {
     }
   },
   created() {
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    if (this.$store.getters.isSx) {
+      this.params5s = this.transJson(this.$store.state.curNavModule.param5)
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

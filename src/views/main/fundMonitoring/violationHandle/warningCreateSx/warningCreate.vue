@@ -150,7 +150,7 @@ export default {
       modifyData: {},
       // 请求 & 角色权限相关配置
       menuName: '',
-      params5: '',
+      param5: {},
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -281,6 +281,7 @@ export default {
       this.searchDataList.regulationClass = ''
       this.searchDataList.regulationClass_code = ''
       this.searchDataList.regulationClass_name = ''
+      this.searchDataList.fiRuleName = ''
       this.condition.fiRuleName = ''
       this.queryTableDatas()
     },
@@ -457,7 +458,9 @@ export default {
           page: this.pagerConfig.currentPage, // 页码
           pageSize: this.pagerConfig.pageSize, // 每页条数
           firulename: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-          regulationClass: this.searchDataList.regulationClass_code
+          regulationClass: this.searchDataList.regulationClass_code,
+          jurisdiction: this.param5 && this.$store.getters.isSx ? this.param5.jurisdiction === '1' : false,
+          roleId: this.roleguid
         }
         this.tableLoading = true
         HttpModule.queryWarningInfoAll(param).then((res) => {
@@ -474,7 +477,9 @@ export default {
           page: this.pagerConfig.currentPage, // 页码
           pageSize: this.pagerConfig.pageSize, // 每页条数
           fiRuleName: this.condition.fiRuleName ? this.condition.fiRuleName[0] : '',
-          regulationClass: this.searchDataList.regulationClass_code
+          regulationClass: this.searchDataList.regulationClass_code,
+          jurisdiction: this.param5 && this.$store.getters.isSx ? this.param5.jurisdiction === '1' : false,
+          roleId: this.roleguid
         }
         this.tableLoading = true
         HttpModule.queryWarningForDeal(param).then((res) => {
@@ -571,6 +576,11 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
+    if (this.$store.getters.isSx) {
+      if (this.$store.state.curNavModule.param5) {
+        this.param5 = this.transJson(this.$store.state.curNavModule.param5)
+      }
+    }
     await this.getRegulation()
     this.queryTableDatas()
     if (getFormData('monitorResultPages').includes(this.$route.name)) {
