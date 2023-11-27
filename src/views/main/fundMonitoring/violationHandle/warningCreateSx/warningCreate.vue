@@ -197,7 +197,7 @@ export default {
       return data
     },
     setCloumns() {
-      if (getFormData('monitorResultPages').includes(this.$route.name)) {
+      if ((this.$store.getters.isSx && (this.$route.name === 'QueryProcessingByZd' || this.$route.name === 'ZhunHuMonitorWarningResults')) || getFormData('monitorResultPages').includes(this.$route.name)) {
         this.warningDec = '预警级别说明：1.橙色预警--预警（需上传附件）2.黄色预警--预警（无需上传附件）3.蓝色预警--记录 4.红色预警--拦截 5.灰色预警--禁止'
         let data = getFormData('basicInfo', 'monitorTableColumnsConfig')
         return this.setWidth(data)
@@ -341,7 +341,7 @@ export default {
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
-          this.manualSign = this.$store.getters.isSx ? '1' : ''
+          this.manualSign = this.$store.getters.isSx && this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
           break
         case 'orangeNormalNum':
           this.detailData = ['orangeNormalNum', obj.row.fiRuleCode]
@@ -363,7 +363,7 @@ export default {
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
-          this.manualSign = this.$store.getters.isSx ? '1' : ''
+          this.manualSign = this.$store.getters.isSx && this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
           break
         case 'yellowNormalNum':
           this.detailData = ['yellowNormalNum', obj.row.fiRuleCode]
@@ -385,7 +385,7 @@ export default {
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
-          this.manualSign = this.$store.getters.isSx ? '1' : ''
+          this.manualSign = this.$store.getters.isSx && this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
           break
         case 'blueNormalNum':
           this.detailData = ['blueNormalNum', obj.row.fiRuleCode]
@@ -583,7 +583,7 @@ export default {
     }
     await this.getRegulation()
     this.queryTableDatas()
-    if (getFormData('monitorResultPages').includes(this.$route.name)) {
+    if ((this.$store.getters.isSx && (this.$route.name === 'QueryProcessingByZd' || this.$route.name === 'ZhunHuMonitorWarningResults')) || getFormData('monitorResultPages').includes(this.$route.name)) {
       this.warningDec = '预警级别说明：1.红色预警--拦截 2.橙色预警--预警（需上传附件）3.黄色预警--预警（无需上传附件）4.灰色预警--禁止 5.蓝色预警--记录'
     }
   }
