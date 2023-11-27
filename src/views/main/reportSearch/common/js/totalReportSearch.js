@@ -880,84 +880,84 @@ const proconf = {
             field: 'hmonth1',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '2月',
             field: 'hmonth2',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '3月',
             field: 'hmonth3',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '4月',
             field: 'hmonth4',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '5月',
             field: 'hmonth5',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '6月',
             field: 'hmonth6',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '7月',
             field: 'hmonth7',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '8月',
             field: 'hmonth8',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '9月',
             field: 'hmonth9',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '10月',
             field: 'hmonth10',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '11月',
             field: 'hmonth11',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           },
           {
             title: '12月',
             field: 'hmonth12',
             width: 100,
             align: 'right',
-            cellRender: { name: '$vxeRatio' }
+            cellRender: { name: '$vxeMoney' }
           }]
       },
       {
