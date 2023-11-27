@@ -971,6 +971,7 @@ export const fjAddColumns = [
     sortable: false,
     filters: false,
     width: 100,
+    visible: !store.getters.isFuJian,
     cellRender: {
       name: '$gloableOptionRow'
     }
@@ -1129,6 +1130,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       width: 100,
+      visible: !store.getters.isFuJian,
       cellRender: {
         name: '$gloableOptionRow'
       }
