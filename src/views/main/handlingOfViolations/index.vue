@@ -355,11 +355,13 @@ export default defineComponent({
         }
       } else if (unref(currentTab).code === TabEnum.NO_AUDIT) {
         // 未审核
-        initColumns.splice(
-          initColumns.length - 1,
-          0,
-          getAuditDescriptionColumn({ title: '处理说明' })
-        )
+        if (!store.getters.isFuJian) {
+          initColumns.splice(
+            initColumns.length - 1,
+            0,
+            getAuditDescriptionColumn({ title: '处理说明' })
+          )
+        }
       } else if (unref(currentTab).code === TabEnum.AUDITED) {
         // 已审核
         initColumns.splice(
