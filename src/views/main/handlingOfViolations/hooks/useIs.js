@@ -16,7 +16,7 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   })
   // 是否是处室复审页面（终审） //福建没有按主题区分 不加regulationClass也有处理预警相关的能力
   const isReallyDivisionReAudit = computed(() => {
-    return ['/divisionReAudit', '/divisionReAuditBySpe'].includes(unref(pagePath))
+    return ['/divisionReAudit', '/divisionReAuditBySpe'].some(item => item.indexOf(unref(pagePath)) > -1)
   })
 
   // 是否是单位反馈页面
