@@ -176,7 +176,7 @@ export default {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
                 <div>
-                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>核实</el-button>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>{this.$store.getters.isFuJian ? '核实' : '查看详情'}</el-button>
                   <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
