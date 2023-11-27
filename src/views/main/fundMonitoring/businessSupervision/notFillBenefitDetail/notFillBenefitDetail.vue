@@ -427,7 +427,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(isFlush = false) {
       const param = {
-        isFlush,
+        isFlush: true, // 福建需求，领导要求直接统一改为isFlush传true
         reportCode: 'hqlmffmxwgjzfpzqk',
         fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : this.$store.state.userInfo.year
       }

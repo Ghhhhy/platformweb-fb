@@ -66,7 +66,7 @@ export default {
       ref: 'bsTableRef',
       beforeRequest: (config, ctx) => {
         config.fileName = ctx.title
-        config.params.pageSize = 9999
+        config.params.pageSize = 999999
       }
     }
   )
