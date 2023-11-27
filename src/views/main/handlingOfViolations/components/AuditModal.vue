@@ -412,9 +412,9 @@ export default defineComponent({
         }
         // 禁止额外参数标识
         if (forbidStatus) {
-          params.isEnd = true
           params.actionType = '2'
           if (store.getters.isFuJian) { // 福建 最终岗 才代表结束
+            params.warningCodeAndFilesList.forEach(x => { x.isEnd = true })
             if (isReallyDivisionReAudit.value) {
               params.isStop = '1'
             } else {
