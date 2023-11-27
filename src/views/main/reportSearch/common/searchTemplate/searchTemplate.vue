@@ -691,8 +691,11 @@ export default {
       let routeKey = key.substring(0, 2)
       let param = { ...map[routeKey] }
       if (key !== 'sb') {
-        let month = key.substring(key.length - 1, key.length)
-        param.month = month
+        const regex = /\d+$/ // 匹配字符串末尾的数字
+        const match = key.match(regex)
+        if (match) {
+          param.month = match[0]
+        }
       }
       param.mofDivCode = obj.row.code
       const reportCode = map[routeKey].reportCode
