@@ -31,7 +31,22 @@
           :table-data="tableData"
           :toolbar-config="tableToolbarConfig"
           :pager-config="pagerConfig"
-          :tree-config="{ dblExpandAll: true, dblExpand: true,accordion: false,expandAll: true, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
+          :tree-config=" isSx ? {
+            dblExpandAll: true,
+            dblExpand: true,
+            accordion: false,
+            expandAll: false,
+            iconClose: 'el-icon-circle-plus',
+            iconOpen: 'el-icon-remove',
+            expandRowKeys: defaultExpandKey,
+          } : {
+            dblExpandAll: true,
+            dblExpand: true,
+            accordion: false,
+            expandAll: true,
+            iconClose: 'el-icon-circle-plus',
+            iconOpen: 'el-icon-remove',
+          }"
           :export-modal-config="{ fileName: menuName }"
           @editClosed="onEditClosed"
           @ajaxData="ajaxTableData"
@@ -64,6 +79,23 @@ import getFormData from './warningQuery.js'
 import DetailDialog from './children/wdetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import transJson from '@/utils/transformMenuQuery'
+const cursionTreeList = (tree) => {
+  const arr = []
+  const levelNo = [0, 1]
+  if (!Array.isArray(tree) || !tree.length) return
+  const cursionTree = (tree, level = 0) => {
+    tree.forEach((item) => {
+      if (levelNo.includes(level)) {
+        arr.push(item.id)
+      }
+      if (Array.isArray(item.children) && item.children && item.children.length) {
+        cursionTree(item.children, level + 1)
+      }
+    })
+  }
+  cursionTree(tree)
+  return arr
+}
 export default {
   components: {
     DetailDialog
@@ -169,7 +201,9 @@ export default {
       sdetailData: [],
       detailData: [],
       code: '',
-      fiscalYear: ''
+      fiscalYear: '',
+      isSx: this.$store.getters.isSx,
+      defaultExpandKey: []
     }
   },
   mounted() {
@@ -443,6 +477,7 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data
+          this.defaultExpandKey = cursionTreeList(res.data)
         } else {
           this.$message.error(res.message)
         }

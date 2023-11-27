@@ -57,5 +57,9 @@ export default {
   },
   getTreewhere(params) {
     return get('large-monitor-platform/lmp/mofDivTree', params)
+  },
+  // 删除导入数据
+  deleteImportDataList (params) {
+    return post('dfr-monitor-service/dfr/benefitEnterprisesAndPeople/delete', params)
   }
 }
