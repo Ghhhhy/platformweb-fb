@@ -550,7 +550,7 @@
                     ref="rightTree"
                     style="height: calc(100% - 100px)"
                     :tree-data="treeData"
-                    :config="{ multiple: true, rootName: '全部', disabled: false, treeProps: { nodeKey: 'id', label: 'text',children: 'children' ,id: 'id' } }"
+                    :config="{ multiple: true, rootName: '全部',valueKeys: ['id','text','id'], disabled: false, treeProps: { nodeKey: 'id', label: 'text',children: 'children' ,id: 'id' } }"
                     :default-checked-keys="defaultCheckedKeys"
                     @onNodeCheckClick="onNodeCheckClick"
                   />
@@ -1179,6 +1179,7 @@ export default {
               id: 'root',
               label: '全部',
               code: 'root',
+              text:"全部",
               name: '全部',
               isleaf: '0',
               children: treeResdata
@@ -1355,6 +1356,7 @@ export default {
               id: 'root',
               label: '全部',
               code: 'root',
+              text:'全部',
               isleaf: '0',
               disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',

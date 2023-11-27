@@ -229,21 +229,17 @@ export let proconf = {
     {
       title: '预警级别',
       field: 'warningLevel',
-      sortable: false,
+      width: 180,
       align: 'center',
-      name: '$vxeSelect',
-      slots: {
-        default({ row }) {
-          return [
-            <div class={'warningLevel' + row.warningLevel}>{dict.find(item => item.value === String(row.warningLevel))?.label}</div>
-          ]
-        }
+      formula: '',
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
       },
       cellRender: {
-        name: '$vxeSelect',
-        options: dict,
+        name: '$warningLevelRender',
         props: {
-          placeholder: '是否启用'
+          placeholder: '预警级别'
         }
       }
     },

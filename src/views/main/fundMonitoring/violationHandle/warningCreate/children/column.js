@@ -77,7 +77,7 @@ const budgetImpColumns = [
     align: 'center'
   },
   {
-    title: '违规时间',
+    title: store.getters.isFuJian ? '监控时间' : '违规时间',
     width: 180,
     field: 'warnTime',
     sortable: false,
@@ -706,7 +706,7 @@ const proconf = {
       }
     },
     {
-      title: '警告开始时间',
+      title: store.getters.isFuJian ? '预警开始时间' : '警告开始时间',
       field: 'warnStartDate',
       sortable: false,
       align: 'left',
@@ -722,7 +722,7 @@ const proconf = {
       }
     },
     {
-      title: '警告结束时间',
+      title: store.getters.isFuJian ? '预警结束时间' : '警告结束时间',
       field: 'warnEndDate',
       sortable: false,
       align: 'left',
@@ -902,7 +902,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '违规时间',
+      title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
       sortable: false,
@@ -2323,7 +2323,7 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '违规时间',
+      title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
       sortable: false,

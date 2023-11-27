@@ -410,6 +410,15 @@ export default {
       this.refresh()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
     },
+    pickObjectField(obj = {}, field) {
+      let newObj = {}
+      Object.keys(obj).map(item => {
+        if (field.includes(item)) {
+          newObj[item] = obj[item]
+        }
+      })
+      return newObj
+    },
     // 切换操作按钮
     operationToolbarButtonClickEvent(obj, context, e) {
       console.log(obj.code)
@@ -423,7 +432,11 @@ export default {
           }
           this.$refs.RuleModal.dialogVisible = true
           this.$refs.RuleModal.selection = selection
-          // this.$refs.RuleModal.createDataList = selection
+          let filedList = Object.keys(this.$refs.RuleModal.createDataList)
+          let propsData = this.pickObjectField(selection[0], filedList)
+          if (selection.length === 1) {
+            this.$refs.RuleModal.createDataList = propsData
+          }
           break
       }
     },

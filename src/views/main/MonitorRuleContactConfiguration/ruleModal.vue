@@ -99,16 +99,7 @@ export default {
   watch: {
     dialogVisible() {
       this.$refs.ruleForm.clearValidate()
-      this.createDataList = {
-        contactPerson: '',
-        officePhone: '',
-        mobilePhone: '',
-        email: '',
-        weChat: '',
-        qqNumber: '',
-        otherWay: '',
-        otherInfo: ''
-      }
+      this.$refs.ruleForm.reset()
     }
   },
   created() {

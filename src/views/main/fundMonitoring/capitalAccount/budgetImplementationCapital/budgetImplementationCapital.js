@@ -343,7 +343,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: !store.getters.isSx
+            visible: !(store.getters.isSx || store.getters.isFuJian)// 福建和陕西不要
           },
           {
             title: '分配本级',
@@ -634,7 +634,7 @@ const proconf = {
             width: 200,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !(store.getters.isSx || store.getters.isFuJian)
           },
           {
             title: '分配本级',
@@ -697,7 +697,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !(store.getters.isSx || store.getters.isFuJian)
           },
           {
             title: '分配本级',
@@ -752,7 +752,7 @@ const proconf = {
             align: 'right',
             type: 'amountXjzhje',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !(store.getters.isSx || store.getters.isFuJian)
           },
           {
             title: '中央下达',
@@ -760,7 +760,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isSx
+            visible: !(store.getters.isSx || store.getters.isFuJian)
           },
           {
             title: '已分配',
