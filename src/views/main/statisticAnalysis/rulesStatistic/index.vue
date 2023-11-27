@@ -204,7 +204,8 @@ export default defineComponent({
           ...params,
           ruleCodes: ruleCodesSS.value,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
-          isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm
+          isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
+          regulationClass: transJson1(store.state.curNavModule.param5 || '')?.regulationClass
         }
       },
       finallyFetch: data => {

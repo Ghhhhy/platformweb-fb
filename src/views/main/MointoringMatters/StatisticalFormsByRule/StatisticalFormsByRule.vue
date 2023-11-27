@@ -165,6 +165,7 @@ export default {
       // 请求 & 角色权限相关配置
       menuName: '',
       params5: '',
+      params5s: '',
       menuId: '',
       tokenid: '',
       userInfo: {},
@@ -453,6 +454,10 @@ export default {
         jurisdiction: this.$store.getters.getIsJurisdiction,
         roleId: this.roleguid
       }
+      if (this.$store.getters.isSx) {
+        param.regulationClass = this.params5s.regulationClass
+        param.jurisdiction = this.params5s.jurisdiction ? this.params5s.jurisdiction === '1' : false
+      }
       const tableColumnsConfig2 = [
         {
           title: '规则名称',
@@ -717,10 +722,9 @@ export default {
     }
   },
   created() {
-    // let date = new Date()
-    // let year = date.toLocaleDateString().split('/')[0]
-    // this.searchDataList.fiscalYear = year
-    // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    if (this.$store.getters.isSx) {
+      this.params5s = this.transJson(this.$store.state.curNavModule.param5)
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

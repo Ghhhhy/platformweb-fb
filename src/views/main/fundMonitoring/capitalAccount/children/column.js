@@ -191,6 +191,7 @@ let proconf = {
       filters: false,
       width: 140,
       field: 'expFuncName',
+      backEndFormat: '{expFuncCode}-{expFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.expFuncCode && row.expFuncName ? `${row.expFuncCode}-${row.expFuncName}` : ''
       },
@@ -203,6 +204,7 @@ let proconf = {
       filters: false,
       width: 140,
       field: 'govBgtEcoName',
+      backEndFormat: '{govBgtEcoCode}-{govBgtEcoName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.govBgtEcoCode && row.govBgtEcoName ? `${row.govBgtEcoCode}-${row.govBgtEcoName}` : ''
       },
@@ -215,6 +217,7 @@ let proconf = {
       filters: false,
       width: 140,
       field: 'depBgtEcoName',
+      backEndFormat: '{depBgtEcoCode}-{depBgtEcoName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.depBgtEcoCode && row.depBgtEcoName ? `${row.depBgtEcoCode}-${row.depBgtEcoName}` : ''
       },
@@ -320,6 +323,7 @@ let proconf = {
       width: 140,
       sortable: false,
       field: 'xjExpFuncName',
+      backEndFormat: '{xjExpFuncCode}-{xjExpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
@@ -434,6 +438,7 @@ let proconf = {
       sortable: false,
       align: 'left',
       field: 'xjExpFuncName',
+      backEndFormat: '{xjExpFuncCode}-{xjExpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
@@ -950,6 +955,7 @@ let proconf = {
       filters: false,
       width: 140,
       field: 'xjExpFuncName',
+      backEndFormat: '{xjExpFuncCode}-{xjExpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.xjExpFuncName && row.xjExpFuncCode ? `${row.xjExpFuncCode}-${row.xjExpFuncName}` : ''
       },
@@ -963,6 +969,7 @@ let proconf = {
       sortable: false,
       align: 'left',
       field: 'tpFuncName',
+      backEndFormat: '{tpFuncCode}-{tpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
       },
@@ -1045,6 +1052,7 @@ let proconf = {
       field: 'tpFuncCode',
       sortable: false,
       align: 'left',
+      backEndFormat: '{tpFuncCode}-{tpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
         return row.tpFuncName && row.tpFuncCode ? `${row.tpFuncCode}-${row.tpFuncName}` : ''
       },
@@ -2405,6 +2413,7 @@ if (store.getters.isSx) {
         sortable: false,
         filters: false,
         align: 'center',
+        backEndFormat: '{mofDivCode}-{mofDivName}', // 后端大数据批量导出format
         formatter({ row }) {
           if (row.mofDivName && row.mofDivCode) {
             return `${row.mofDivCode}-${row.mofDivName}`
@@ -2585,6 +2594,7 @@ if (store.getters.isSx) {
         sortable: false,
         filters: false,
         align: 'center',
+        backEndFormat: '{mofDivCode}-{mofDivName}', // 后端大数据批量导出format
         formatter({ row }) {
           if (row.mofDivName && row.mofDivCode) {
             return `${row.mofDivCode}-${row.mofDivName}`

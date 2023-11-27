@@ -1174,6 +1174,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/SXCreateProcessingByZd', // 监控处理单生成
+    name: 'SXCreateProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/DepartmentRetroactByZd', // 主管处室反馈/部门反馈
     name: 'DepartmentRetroactByZd',
     meta: {
@@ -1201,6 +1210,15 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/SXQueryProcessingByZd', // 查询
+    name: 'SXQueryProcessingByZd',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/WarnRegionByZd', // 直达资金地方预警汇总
     name: 'WarnRegionByZd',
     meta: {
@@ -1219,8 +1237,44 @@ const routers = [
     component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/SXBudgetImpMonitorWarningResults', // 预算执行监控预警结果查询 (全辖)
+    name: 'SXBudgetImpMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/AccountMonitorWarningResults', // 会计核算监控预警结果查询
     name: 'AccountMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/SXAccountMonitorWarningResults', // 会计核算监控预警结果查询(全辖)
+    name: 'SXAccountMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/TransferPayWarningResults', // 转移支付监控预警结果查询
+    name: 'TransferPayWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/SXTransferPayWarningResults', // 转移支付监控预警结果查询(全辖)
+    name: 'SXTransferPayWarningResults',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -1236,11 +1290,29 @@ const routers = [
     },
     // component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreateSx/warningCreate.vue')
     component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
-
+  },
+  {
+    path: '/SXSanGongMonitorWarningResults', // 三公监控预警结果查询
+    name: 'SXSanGongMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    // component: () => import('@/views/main/fundMonitoring/violationHandle/warningCreateSx/warningCreate.vue')
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
     path: '/SanBaoMonitorWarningResults', // 三保监控预警结果查询
     name: 'SanBaoMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/SXSanBaoMonitorWarningResults', // 三保监控预警结果查询
+    name: 'SXSanBaoMonitorWarningResults',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -1257,8 +1329,26 @@ const routers = [
     component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   {
+    path: '/SXZhunHuMonitorWarningResults', // 财政专户预警结果查询
+    name: 'SXZhunHuMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
     path: '/ZhuanXiangMonitorWarningResults', // 预算执行专项监督预警结果查询
     name: 'ZhuanXiangMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/SXZhuanXiangMonitorWarningResults', // 预算执行专项监督预警结果查询 全辖
+    name: 'SXZhuanXiangMonitorWarningResults',
     meta: {
       keepAlive: true,
       requireAuth: true
@@ -1323,7 +1413,7 @@ const routers = [
       )
   },
   {
-    path: '/revenueProportion', // 内蒙7税收占比小于80%
+    path: '/revenueProportion', // 内蒙7税收占比小于50%
     name: 'revenueProportion',
     component: () =>
       import(
@@ -1353,6 +1443,24 @@ const routers = [
       import(
         '../../../views/main/reportSearch/common/searchTemplate/searchTemplate.vue'
       )
+  },
+  {
+    path: '/BudgetMonitorWarningResults', // 预算编制监控预警结果查询
+    name: 'BudgetMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
+  },
+  {
+    path: '/SXBudgetMonitorWarningResults', // 预算编制监控预警结果查询 (全辖)
+    name: 'SXBudgetMonitorWarningResults',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('@/views/main/fundMonitoring/violationHandle/diffWarningCreate.vue')
   },
   ...workFlowRouters
 ]

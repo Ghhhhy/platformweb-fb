@@ -401,22 +401,11 @@ export default {
       }
       return proCodes
     },
-    getChildrenNewData1(datas) {
-      let that = this
-      datas.forEach(item => {
-        item.label = item.name
-        if (item.children) {
-          that.getChildrenNewData1(item.children)
-        }
-      })
-      return datas
-    },
     getPro() {
       HttpModule.getProTreeData().then(res => {
-        if (res.code === '000000') {
-          console.log('data', res.data)
-          let treeResdata = this.getChildrenNewData1(res.data)
-          this.queryConfig[1].itemRender.options = treeResdata
+        if (res.code === '000000' && Array.isArray(res.data)) {
+          let index = this.queryConfig.findIndex(item => item.field === 'proCodes')
+          index !== undefined && (this.queryConfig[index].itemRender.options = res.data)
         } else {
           this.$message.error(res.message)
         }
@@ -534,12 +523,8 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
-    this.isSx ? this.queryCaliberDeclareContent() : this.getPro()
-    if (!this.isSx) {
-      this.queryConfig = this.queryConfig.filter(item => {
-        return item.field !== 'proCodes'
-      })
-    }
+    this.isSx && this.queryCaliberDeclareContent()
+    this.$store.getters.isFuJian && this.getPro()
   }
 }
 </script>

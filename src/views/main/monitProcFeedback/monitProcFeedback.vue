@@ -176,7 +176,7 @@ export default {
             renderDefault: (h, cellRender, { row, rowIndex }, context) => {
               let vnode = (
                 <div>
-                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>查看详情</el-button>
+                  <el-button type="primary" size="mini" onClick={() => this.handleRowClick(row)}>{this.$store.getters.isFuJian ? '核实' : '查看详情'}</el-button>
                   <el-button type="primary" size="mini" onClick={() => this.showLogModel(row)}>查看日志</el-button>
                 </div>
               )
@@ -698,7 +698,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           let index = this.queryConfig.findIndex(item => item.field.indexOf('mofDivCode') > -1)
-          index ?? this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
+          index !== undefined && this.$set(this.queryConfig[index].itemRender, 'options', treeResdata)
           // this.queryConfig[0].itemRender.options = treeResdata
         } else {
           this.$message.error(res.message)
@@ -748,7 +748,7 @@ export default {
       // 福建判断表格去掉财政区划
       if (this.$store.getters.isFuJian) {
         this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
-          return item.field !== 'mofDivName'
+          return item.field !== 'mofDivName' && item.field !== 'triggerClass'
         })
       }
     },

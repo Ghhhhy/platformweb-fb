@@ -911,7 +911,7 @@ const proconf = {
     ],
     tableData: []
   },
-  monitorResultPages: ['BudgetMonitorWarningResults', 'BudgetImpMonitorWarningResults', 'AccountMonitorWarningResults', 'SanGongMonitorWarningResults', 'SanBaoMonitorWarningResults']
+  monitorResultPages: ['BudgetMonitorWarningResults', 'SXBudgetMonitorWarningResults', 'BudgetImpMonitorWarningResults', 'SXBudgetImpMonitorWarningResults', 'AccountMonitorWarningResults', 'SXAccountMonitorWarningResults', 'SanGongMonitorWarningResults', 'SanBaoMonitorWarningResults']
 }
 export default function (tableType, configType) {
   if (tableType && configType) {
