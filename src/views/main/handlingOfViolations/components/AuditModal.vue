@@ -414,7 +414,7 @@ export default defineComponent({
         if (forbidStatus) {
           params.isEnd = true
           params.actionType = '2'
-          if (store.getters.isFuJian && isReallyDivisionReAudit.value) { // 福建 最终岗 才代表结束
+          if (store.getters.isFuJian) { // 福建 最终岗 才代表结束
             if (isReallyDivisionReAudit.value) {
               params.isStop = '1'
             } else {
