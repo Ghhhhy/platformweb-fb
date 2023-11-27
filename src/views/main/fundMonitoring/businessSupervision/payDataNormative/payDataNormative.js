@@ -56,7 +56,7 @@ export let proconf = {
           { value: '1', label: '包含特殊字符' },
           { value: '2', label: '不包含汉字内容' },
           { value: '3', label: '用途为空' },
-          { value: '4', label: '内容为空' },
+          // { value: '4', label: '内容为空' },
           { value: '5', label: '包含特殊字符且不包含~' }
         ],
         props: {
