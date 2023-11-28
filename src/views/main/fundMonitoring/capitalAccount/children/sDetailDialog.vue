@@ -372,7 +372,11 @@ export default {
           case 'zxjdzcmx_fdq_xj':
           case 'zxjdzcmx_fzj_xj':
             this.tableColumnsConfig = proconf.payColumn
-            this.queryConfig = proconf.highQueryConfigZx
+            if (this.$store.getters.isXm) {
+              this.queryConfig = proconf.highQueryConfig1Xm
+            } else {
+              this.queryConfig = proconf.highQueryConfigZx
+            }
             break
 
           case 'zjzcmx_fzj':
@@ -438,6 +442,7 @@ export default {
     },
     showInfoForVisible() {
       console.log(this.sDetailType, '第三层钻取表格参数! --静态')
+      debugger
       switch (this.sDetailType) {
         case 'zdzjzcmx_fdq':
         case 'zyzjzcmx_fdq':
@@ -455,6 +460,9 @@ export default {
             this.$set(this.tableColumnsConfig[1], 'visible', true)
           }
           this.queryConfig = proconf.highQueryConfigZx
+          if (this.$store.getters.isXm) {
+            this.queryConfig = proconf.highQueryConfig1Xm
+          }
           break
         case 'zdzjzbmx_fzjfp':
         case 'zyzfzbmx_fzjfp':

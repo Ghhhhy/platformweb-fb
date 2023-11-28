@@ -342,6 +342,7 @@ export let proconf = {
     {
       title: '支付申请号',
       width: 180,
+      visible: !store.getters.isXm,
       field: 'payAppNo',
       sortable: true,
       filters: true,
