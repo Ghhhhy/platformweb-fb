@@ -1603,6 +1603,22 @@ let proconf = {
     payeeAcctNo: '',
     xpayDate: ''
   },
+  highQueryConfig1Xm: [
+    {
+      title: '单位名称',
+      field: 'agencyName',
+      width: 200,
+      align: 'left',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '单位名称',
+          clearable: true
+        }
+      }
+    }
+  ],
   highQueryConfig1: [
     // {
     //   title: '处室名称',

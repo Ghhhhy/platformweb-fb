@@ -666,7 +666,7 @@ export default {
               trainUnlistedAmount += item.trainUnlistedAmount
             }
             Object.keys(item).forEach(t => {
-              if (t.includes('ExpenditureProgress') || t.includes('expenditureProgress')) {
+              if (t.includes('ExpenditureProgress') || t.includes('expenditureProgress') || t.includes('ExpendPrg') || t.includes('ExpenProgs') || t.includes('ExpenitrePross')) {
                 if (item[t] === null) {
                   item[t] = '<span>0</span>'
                 } else if ((item[t] * 100) > progress) {

@@ -14,7 +14,8 @@ function useTabPlanel(
   pagePath, // 菜单来源
   checkedRecords, // 勾选的行
   currentTab, // 当前页面tab
-  resetFetchTableData // 刷新表格
+  resetFetchTableData, // 刷新表格
+  ruleModalVislbel// 福建 海南模式弹窗
 ) {
   // 搜索栏显隐
   const isShowSearchForm = ref(true)
@@ -51,6 +52,10 @@ function useTabPlanel(
       }
     }
     modalType.value = type
+    if (type === ModalTypeEnum.PREVIEW && store.getters.isFuJian && checkedRecords.value.length === 1) { // 福建 事中 查看详情改用海南模式
+      ruleModalVislbel.value = true
+      return
+    }
     auditVisible.value = true
   }
 

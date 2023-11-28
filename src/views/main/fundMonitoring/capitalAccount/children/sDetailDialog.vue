@@ -74,7 +74,7 @@ export default {
       ref: 'bsTableRef',
       beforeRequest: (config, ctx) => {
         config.fileName = ctx.title
-        config.params.pageSize = 9999
+        config.params.pageSize = 999999
       }
     }
   )
@@ -363,6 +363,9 @@ export default {
           case 'zyzfzcmx_fzj':
           case 'zyzfzcmx_fdq':
             this.tableColumnsConfig = proconf.payColumn
+            if (this.$store.getters.isXm) {
+              this.queryConfig = proconf.highQueryConfig1Xm
+            }
             break
           case 'zxjdzcmx_fdq':
           case 'zxjdzcmx_fzj':

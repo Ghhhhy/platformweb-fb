@@ -254,6 +254,7 @@ const proconf = {
         field: 'amountZyxd',
         align: 'right',
         type: 'amountZyxd',
+        visible: !store.getters.isSx,
         sortable: true,
         cellRender: { name: '$vxeMoney' }
       },
