@@ -199,7 +199,7 @@ export default {
       return newParameters
     },
     async showInfo() {
-      let code = [this.selectedRow?.warningCode, this.selectedRow?.fiRuleCode].filter(Boolean).join('/')
+      let code = [this.selectedRow?.warningCode, this.selectedRow?.ruleCode].filter(Boolean).join('/')
       this.$http.get(`${BSURL.lmp_executeWarnGetDetail}${code}/0`).then(res => {
         if (res.code === '000000') {
           let supplayObject = {}
@@ -224,20 +224,14 @@ export default {
       })
     }
   },
-  watch: {
-    visible(n, o) {
-      if (n) {
-        if (!this.param5.show) { // 隐藏3个字段
-          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
-            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-          })
-        }
-        this.showInfo()
-      }
-    }
-  },
+  watch: {},
   created() {
-
+    if (!this.param5.show) { // 隐藏3个字段
+      this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+        return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+      })
+    }
+    this.showInfo()
   }
 }
 </script>
