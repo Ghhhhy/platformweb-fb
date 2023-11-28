@@ -242,6 +242,10 @@ let proconf = {
         code: 'company-import'
       },
       {
+        label: '删除',
+        code: 'delete-import'
+      },
+      {
         label: '挂接',
         code: 'hook_set',
         status: 'primary'

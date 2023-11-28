@@ -684,9 +684,39 @@ export default {
             fileType: obj.code === 'person-import' ? '1' : '2'
           }
           break
+        case 'delete-import':
+          this.deleteImportDataList()
+          break
         default:
           break
       }
+    },
+    deleteImportDataList() {
+      let tempDataArr = []
+      let dataArr = this.$refs.mainTableRef.getSelectionData()
+      if (dataArr.length === 0) {
+        this.$message.error('请选择导入数据后再进行删除操作！')
+        return
+      }
+      this.$confirm('请确认是否删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        dataArr.forEach(item => {
+          tempDataArr.push({ id: item.id, isImport: item.isImport })
+        })
+        this.tableLoading = true
+        HttpModule.deleteImportDataList(tempDataArr).then(res => {
+          this.tableLoading = false
+          if (res.code === '000000') {
+            this.$message.success('删除成功')
+            this.queryTableDatas()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      })
     },
     async onImportClick(fileDataList) {
       this.importFileMethod(fileDataList)

@@ -77,12 +77,14 @@
       :data-info="dataInfo"
       :type="processDiagramDialogType"
     />
+    <ruleModal v-model="ruleModalVislbel" :regulation-code="propsRegulationCode" />
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, unref, computed, provide, readonly, toRaw } from '@vue/composition-api'
 import AuditModal from './components/AuditModal'
+import ruleModal from '@/views/main/MointoringMatters/MonitorRulesViewFJWK/children/ruleModal.vue'// 海南模式查看
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
@@ -111,7 +113,8 @@ import transJson from '@/utils/transformMenuQuery.js'
 export default defineComponent({
   components: {
     AuditModal,
-    ProcessDiagramDialog
+    ProcessDiagramDialog,
+    ruleModal
   },
   setup(_, { root }) {
     const menuName = ref(store.getters.getCurNavModule.name)
@@ -128,6 +131,8 @@ export default defineComponent({
     const pagePath = ref(route.path)
     /* eslint-disable-next-line */
     const { isDivisionPage } = useIs({}, pagePath)
+    const ruleModalVislbel = ref(false)
+    const propsRegulationCode = computed(() => checkedRecords.value[0]?.ruleCode)
 
     // 是否是单位页面（单位反馈、单位审核）
     // const isUnitMenu = computed(() => {
@@ -366,7 +371,7 @@ export default defineComponent({
       // 福建不要业务编码 以区划区分
       if (store.getters.isFuJian) {
         initColumns = initColumns.filter(item => {
-          return item.field !== 'businessNo' || item.field !== 'mofDivName'
+          return item.field !== 'businessNo' && item.field !== 'mofDivName' && item.field !== 'payCertNo'
         })
       }
       const projectCode = transJson2(store.state.curNavModule.param5 || '')?.projectCode
@@ -394,7 +399,7 @@ export default defineComponent({
       isShowSearchForm,
       modalType,
       onQueryConditionsClick
-    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab, resetFetchTableData)
+    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab, resetFetchTableData, ruleModalVislbel)
     /**
      * tab切换
      * @param tab
@@ -475,6 +480,8 @@ export default defineComponent({
     provide('pagePath', readonly(pagePath))
     return {
       leftVisible,
+      ruleModalVislbel,
+      propsRegulationCode,
       isUnitMenu,
       auditVisible,
       menuName,
