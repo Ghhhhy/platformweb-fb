@@ -184,6 +184,7 @@ export default {
         { value: '12', label: '十二月' }
       ],
       isSx: true,
+      userInfo: {},
       askProvince: '',
       askProvinceOptions: [],
       provinceNameList: [],
@@ -326,26 +327,28 @@ export default {
     getLeftTreeData() {
       let that = this
       let params = {}
-      if (this.$store.state.userInfo.province?.slice(2, 9) === '0000000') {
+      if (this.userInfo.province.substring(2, 9) === '0000000') {
         params = {
           elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + 61 + '%\''
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 2) + '%\'' + 'and code not like \'%998\''
         }
-      } else if (this.$store.state.userInfo.province?.slice(4, 9) === '00000') {
+      } else if (
+        this.userInfo.province.substring(4, 9) === '00000' && this.userInfo.province.substring(2, 9) !== '0000000'
+      ) {
         params = {
           elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 4) + '%\''
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 4) + '%\'' + 'and code not like \'%998\''
         }
       } else {
         params = {
           elementcode: 'admdiv',
-          province: this.$store.state.userInfo.province,
-          year: this.$store.state.userInfo.year,
-          wheresql: 'and code like \'' + this.$store.state.userInfo.province.substring(0, 6) + '%\''
+          province: this.userInfo.province,
+          year: this.userInfo.year,
+          wheresql: 'and code like \'' + this.userInfo.province.substring(0, 6) + '%\'' + 'and code not like \'%998\''
         }
       }
       HttpModule.getLeftTree(params).then(res => {
@@ -372,6 +375,7 @@ export default {
   watch: {
   },
   created() {
+    this.userInfo = this.$store.state.userInfo
     this.isSx = this.$store.getters.isSx
     this.getLeftTreeData()
   }

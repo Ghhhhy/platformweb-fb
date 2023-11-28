@@ -977,7 +977,6 @@ export default {
     let month = date.toLocaleDateString().split('/')[1]
     let day = date.toLocaleDateString().split('/')[2]
     this.searchDataList.endTime = year + '-' + month + '-' + day
-    // this.getTree()
     console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
@@ -986,6 +985,9 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.getters.getRegulationClass
     this.paramObj = this.transJson(this.$store.state.curNavModule.param5) || {}
+    if (this.$store.getters.isSx && this.$store.getters.getIsJurisdiction) {
+      this.leftTreeVisible = true
+    }
     if (this.params5 === '6') {
       this.tableColumnsConfig = proconf.PoliciesTableColumns
     }

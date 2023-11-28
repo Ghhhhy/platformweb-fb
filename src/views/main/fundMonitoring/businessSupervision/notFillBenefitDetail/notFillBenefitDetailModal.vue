@@ -9,7 +9,6 @@
       v-bind="tableLayOut"
       :table-data="tableData"
       :table-columns-config="tableColumns"
-      :pager-config="pagerConfig"
       v-on="tableLisenter"
     >
       <template v-slot:toolbarSlots>
@@ -63,10 +62,10 @@ export default defineComponent({
         }
       },
       pagerConfig: {
-        autoHidden: true,
+        // autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       defaultMoneyUnit: 10000
     })
@@ -76,6 +75,11 @@ export default defineComponent({
           refresh: onSearch// 刷新
         }
         codeMap[code]()
+      },
+      ajaxData({ params, currentPage, pageSize }) {
+        tableLayOut.pagerConfig.currentPage = currentPage
+        tableLayOut.pagerConfig.pageSize = pageSize
+        onSearch()
       }
     }
     const dialogClose = () => {
@@ -86,11 +90,14 @@ export default defineComponent({
       const params = {
         fiscalYear: store.state.userInfo.year,
         mofDivCode: clickRowData.value.code,
-        isSubCode: clickRowData.value.isSubCode
+        isSubCode: clickRowData.value.isSubCode,
+        page: tableLayOut.pagerConfig.currentPage,
+        pageSize: tableLayOut.pagerConfig.pageSize
       }
       HttpModule.getBenefitDeDetail(params).then(res => {
         if (res.code === '000000') {
-          tableData.value = res.data?.data
+          tableData.value = res.data?.results
+          tableLayOut.pagerConfig.total = res.data?.totalCount
         }
         formLoading.value = false
       })
