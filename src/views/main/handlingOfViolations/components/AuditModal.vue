@@ -67,7 +67,7 @@
                 class="dfr-custom-check-all"
                 @change="handleCheckAllChange"
               >
-                全部监控处理单（{{ cloneRecords.length }}）
+                {{ leftTitle }}（{{ cloneRecords.length }}）
               </el-checkbox>
               <div class="items-detail">
                 <el-checkbox-group
@@ -241,6 +241,9 @@ export default defineComponent({
       }
     })
 
+    // 处理单查看弹框左侧做福建判断
+    const leftTitle = ref('')
+    leftTitle.value = store.getters.isFuJian ? '全部违规单' : '全部监控处理单'
     /**
      * 处理单相关
      * */
@@ -521,7 +524,8 @@ export default defineComponent({
       changeDialogVisible,
       dialogVisible,
       DetailData,
-      dialogTitle
+      dialogTitle,
+      leftTitle
     }
   }
 })
