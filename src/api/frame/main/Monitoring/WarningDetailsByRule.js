@@ -41,5 +41,8 @@ export default {
   },
   dataDoMark(params) {
     return post('large-monitor-platform/lmp/executeWarn/manualSign', params)
+  },
+  getRegulationTree(params) {
+    return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
   }
 }
