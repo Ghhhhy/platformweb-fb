@@ -128,9 +128,12 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'total_zxjd',
+          tableType: 'zxjd',
           width: 100,
           align: 'right',
           filters: false,
+          canInsert: true,
+          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
             name: '$vxeRatio'
           },
@@ -174,8 +177,11 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'bgz_zxjd',
+          tableType: 'zxjd',
           width: 100,
           align: 'right',
+          threesafe_symbolcat_code: '003001',
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -251,8 +257,11 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'byz_zxjd',
+          tableType: 'zxjd',
+          threesafe_symbolcat_code: '003002',
           width: 100,
           align: 'right',
+          canInsert: true,
           filters: false,
           combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
@@ -328,9 +337,13 @@ export let proconf = {
         {
           title: '执行进度',
           field: 'bms_zxjd',
+          tableType: 'zxjd',
+          threesafe_symbolcat_code: '003003',
           width: 100,
           align: 'right',
+          canInsert: true,
           filters: false,
+          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
           cellRender: {
             name: '$vxeRatio'
           },

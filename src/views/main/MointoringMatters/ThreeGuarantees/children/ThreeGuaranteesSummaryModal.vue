@@ -33,7 +33,9 @@ import {
   bgtTotalTableColumns,
   bgtRegionTableColumns,
   payTotalTableColumns,
-  payRegionTableColumns
+  payRegionTableColumns,
+  zxjdTotalTableColumns,
+  zxjdRegionTableColumns
 } from './columns'
 import store from '@/store/index'
 // import { message } from 'element-ui'
@@ -55,6 +57,12 @@ export default defineComponent({
         title: '支出明细',
         total: payTotalTableColumns,
         region: payRegionTableColumns
+      },
+      zxjd: {
+        reportCode: 'sbzcyjhzb_ysmx',
+        title: '执行进度明细',
+        total: zxjdTotalTableColumns,
+        region: zxjdRegionTableColumns
       }
     }
     /* eslint-disable-next-line */
