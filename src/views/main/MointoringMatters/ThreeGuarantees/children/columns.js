@@ -52,6 +52,16 @@ const defaultTableColumns = [
     cellRender: { name: '$vxeInput' }
   },
   {
+    title: '预算项目名称',
+    field: 'proname',
+    width: 180,
+    filters: true,
+    sortable: false,
+    tableType: 'zxjd',
+    align: 'left',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
     title: '指标文号',
     width: 180,
     filters: true,
@@ -73,6 +83,18 @@ const defaultTableColumns = [
     }
   },
   {
+    title: '指标摘要',
+    field: 'bgtremname',
+    width: 180,
+    filters: true,
+    tableType: 'zxjd',
+    align: 'left',
+    itemRender: {
+      name: '$input',
+      cellRender: { name: '$vxeInput' }
+    }
+  },
+  {
     title: '三保标识',
     field: 'sbsign',
     tableType: 'bgt',
@@ -82,8 +104,29 @@ const defaultTableColumns = [
     cellRender: { name: '$vxeInput' }
   },
   {
+    title: '三保标识',
+    field: 'sbsign',
+    tableType: 'zxjd',
+    filters: true,
+    width: 180,
+    align: 'left',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
     title: '指标金额',
     tableType: 'bgt',
+    field: 'amount',
+    filters: true,
+    width: 180,
+    align: 'right',
+    combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+    cellRender: {
+      name: '$vxeMoney'
+    }
+  },
+  {
+    title: '指标金额',
+    tableType: 'zxjd',
     field: 'amount',
     filters: true,
     width: 180,
@@ -222,23 +265,32 @@ const defaultTableColumns = [
   }
 ]
 const bgtTotalTableColumns = defaultTableColumns.filter(item => {
-  return item.tableType !== 'pay'
+  return item.tableType !== 'pay' && item.tableType !== 'zxjd'
 })
 const bgtRegionTableColumns = defaultTableColumns.filter(item => {
   const notShowField = ['name']
-  return !notShowField.includes(item.field) && item.tableType !== 'pay'
+  return !notShowField.includes(item.field) && item.tableType !== 'pay' && item.tableType !== 'zxjd'
 })
 const payTotalTableColumns = defaultTableColumns.filter(item => {
-  return item.tableType !== 'bgt'
+  return item.tableType !== 'bgt' && item.tableType !== 'zxjd'
 })
 const payRegionTableColumns = defaultTableColumns.filter(item => {
   const notShowField = ['name']
-  return !notShowField.includes(item.field) && item.tableType !== 'bgt'
+  return !notShowField.includes(item.field) && item.tableType !== 'bgt' && item.tableType !== 'zxjd'
+})
+const zxjdTotalTableColumns = defaultTableColumns.filter(item => {
+  return item.tableType !== 'bgt' && item.tableType !== 'pay'
+})
+const zxjdRegionTableColumns = defaultTableColumns.filter(item => {
+  const notShowField = ['name']
+  return !notShowField.includes(item.field) && item.tableType !== 'bgt' && item.tableType !== 'pay'
 })
 
 export {
   bgtTotalTableColumns,
   bgtRegionTableColumns,
   payTotalTableColumns,
-  payRegionTableColumns
+  payRegionTableColumns,
+  zxjdTotalTableColumns,
+  zxjdRegionTableColumns
 }
