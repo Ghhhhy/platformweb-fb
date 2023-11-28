@@ -244,12 +244,12 @@ export default defineComponent({
       let route = {}
       if (store.getters.isSx) {
         router.push({
-          name: 'MonitorRulesView'
+          name: 'SXMonitorRulesView'
         })
         route = {
-          url: '/MonitorRulesView',
+          url: '/SXMonitorRulesView',
           code: '892',
-          name: ' 监控规则库 '
+          name: ' 监控规则库（全辖） '
         }
       } else {
         router.push({
