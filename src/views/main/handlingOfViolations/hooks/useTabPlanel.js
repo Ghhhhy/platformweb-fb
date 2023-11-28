@@ -54,6 +54,8 @@ function useTabPlanel(
     modalType.value = type
     if (store.getters.isFuJian && checkedRecords.value.length === 1) { // 福建 事中 查看详情改用海南模式
       isHaiNanMode.value = true
+    } else {
+      isHaiNanMode.value = false
     }
     auditVisible.value = true
   }
