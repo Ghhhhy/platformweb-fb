@@ -139,7 +139,12 @@ const budgetImpColumns = [
     width: 180,
     cellRender: {
       name: '$vxeSelect',
-      options: [
+      options: store.getters.isFuJian ? store.state.warnInfo.warnControlTypeOptions.map(item => {
+        return {
+          ...item,
+          value: String(item.value)
+        }
+      }) : [
         {
           value: 1,
           label: '拦截'
