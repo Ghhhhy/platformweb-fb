@@ -139,7 +139,7 @@
               />
             </div>
             <div v-if="isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
-              <haiNanModeAuditModal />
+              <haiNanModeAuditModal :visible="visible" />
             </div>
           </template>
         </BsSplitPane>

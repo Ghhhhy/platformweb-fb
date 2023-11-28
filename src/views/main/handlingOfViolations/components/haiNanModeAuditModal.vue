@@ -97,6 +97,10 @@ export default {
         return {}
       }
     },
+    visible: {
+      type: Boolean,
+      default: false
+    },
     bussnessId: {
       type: String,
       default: '7'// 预算执行
@@ -220,14 +224,20 @@ export default {
       })
     }
   },
-  watch: {},
-  created() {
-    if (!this.param5.show) { // 隐藏3个字段
-      this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
-        return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
-      })
+  watch: {
+    visible(n, o) {
+      if (n) {
+        if (!this.param5.show) { // 隐藏3个字段
+          this.incomeMsgConfig = proconf.incomeMsgConfig.filter(item => {
+            return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          })
+        }
+        this.showInfo()
+      }
     }
-    this.showInfo()
+  },
+  created() {
+
   }
 }
 </script>
