@@ -70,7 +70,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/createProcessing.js'
 import HttpDetailModule from '@/api/frame/main/Monitoring/WarningDataMager.js'
 import monitProcFeedbackFormInstance from '@/views/main/monitProcFeedback/monitProcFeedbackFormInstance.vue'
 import AddDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/addDialog.vue'
-import RuleDialog from './ruleDialog.vue'
+import RuleDialog from '@/views/main/monitProcFeedback/ruleDialog.vue'
 export default {
   name: 'HandleDialog',
   components: { AddDialog, monitProcFeedbackFormInstance, RuleDialog },
