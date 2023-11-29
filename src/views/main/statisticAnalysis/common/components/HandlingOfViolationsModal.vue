@@ -29,7 +29,7 @@
           @cellDblclick="cellDblclick"
         >
           <template v-slot:toolbarSlots>
-            <bs-table-title title="监控处理单" />
+            <bs-table-title title="违规单明细" />
           </template>
         </BsTable>
       </div>
