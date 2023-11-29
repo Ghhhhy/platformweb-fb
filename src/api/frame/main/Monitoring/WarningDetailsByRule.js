@@ -44,5 +44,8 @@ export default {
   },
   getRegulationTree(params) {
     return post('large-monitor-platform/lmp/ruleClassify/tree/' + params)
+  },
+  queryTableDatasSum(params) {
+    return post('large-monitor-platform/lmp/executeWarn/warnInfosSum', params)
   }
 }
