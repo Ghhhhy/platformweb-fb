@@ -149,9 +149,12 @@ export let proconf = {
     {
       title: '地区名称',
       field: 'mofDivName',
-      width: '150',
-      sortable: false,
-      align: 'left'
+      align: 'left',
+      fixed: 'left',
+      width: 150,
+      cellRender: {
+        name: '$vxeIcon'
+      }
     },
     {
       title: '整体预警情况',

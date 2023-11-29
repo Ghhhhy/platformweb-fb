@@ -271,6 +271,10 @@ export default {
       this.fiscalYear = val.fiscalYear
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClassQuery = val.regulationClass_code__multiple
+      if (val.businessStartTime && val.businessEndTime && val.businessStartTime > val.businessEndTime) {
+        this.$message.info('开始时间不能大于结束时间！')
+        return
+      }
       if (val.endTime.length !== 0) {
         this.endTime = val.endTime.toString().substring(0, 10) + ' 23:59:59'
       } else {

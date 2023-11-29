@@ -101,6 +101,32 @@ export let proconf = {
           placeholder: '监控规则'
         }
       }
+    },
+    {
+      title: '业务数据开始时间',
+      field: 'businessStartTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据开始时间'
+        }
+      }
+    },
+    {
+      title: '业务数据结束时间',
+      field: 'businessEndTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据结束时间'
+        }
+      }
     }
   ],
   highQueryData: {
@@ -112,7 +138,8 @@ export let proconf = {
       field: 'fiRuleName',
       width: '150',
       sortable: false,
-      align: 'left'
+      align: 'left',
+      fixed: 'left'
     },
     {
       title: '整体预警情况',
