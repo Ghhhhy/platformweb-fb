@@ -4,6 +4,7 @@ import router from '@/router'
 import { transJson2 } from '@/utils/params'
 import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
 import { $title } from '@/hooks/useTitle/useTitle.js'
+const dict = JSON.parse(JSON.stringify(store.getters.dict))
 const pagePath = inject('pagePath')
 /**
  * 页面标识映射节点类型：用于给接口做权限区分
@@ -175,7 +176,10 @@ export const searchFormCommonSchemas = [
     titleWidth: 0,
     itemRender: {
       name: '$select',
-      options: warnLevelOptions,
+      options: dict.map((item) => {
+        let option = warnLevelOptions.find(ii => ii.value === item.value)
+        return { ...item, iconClass: option?.iconClass, iconStyle: { color: item.color } }
+      }),
       props: {
         clearable: true,
         placeholder: '预警级别'
@@ -431,10 +435,19 @@ export const getWarnLevelColumn = (warnLevelRenderName = '$customIcon') => {
     title: '预警级别',
     field: 'warnLevel',
     width: 160,
-    filters: false,
+    filters: dict.map((item) => {
+      let option = warnLevelOptions.find(ii => ii.value === item.value)
+      return { ...item, iconClass: option?.iconClass, iconStyle: { color: item.color } }
+    }),
+    filterRender: {
+      name: '$vxeSelect'
+    },
     cellRender: {
       name: warnLevelRenderName,
-      options: warnLevelOptions,
+      options: dict.map((item) => {
+        let option = warnLevelOptions.find(ii => ii.value === item.value)
+        return { ...item, iconClass: option?.iconClass, iconStyle: { color: item.color } }
+      }),
       props: {
         showLabel: true
       }

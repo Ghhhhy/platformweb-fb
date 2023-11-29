@@ -53,9 +53,6 @@ function useTable(
     exportCustom: false, // 自定义导出
     ...configIn.tableToolbarConfig
   })
-  if (configIn.isUnitFeedbackMenu) {
-    tableToolbarConfig.exportCustom = true
-  }
 
   // 分页设置
   const pagerConfig = reactive({
@@ -153,9 +150,6 @@ function useTable(
   /**
    * @type {(ctx:dfr.contexts):void}
    */
-  function openCustomerExport(ctx) {
-    ctx.triggerExportOption({ dataType: 'selection' })
-  }
   /**
    * 表格数据请求
    * @returns {Promise<void>}
@@ -257,7 +251,6 @@ function useTable(
 
   function onToolbarBtnClick({ code, context, table }) {
     code === 'refresh' && fetchTableData()
-    code === 'export' && openCustomerExport(context)
   }
 
   async function refreshColumn() {

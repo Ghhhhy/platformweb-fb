@@ -46,6 +46,12 @@
             :table-columns-config="columns"
             :table-data="tableData"
             :toolbar-config="tableToolbarConfig"
+            :table-global-config="{
+              customExportConfig: {
+                dataType: isUnitFeedbackMenu ? 'selection' : 'fullData',
+                fileName: menuName,
+              },
+            }"
             :pager-config="pagerConfig"
             size="medium"
             @register="registerTable"
@@ -479,6 +485,7 @@ export default defineComponent({
     provide('modalType', readonly(modalType))
     provide('pagePath', readonly(pagePath))
     return {
+      isUnitFeedbackMenu,
       leftVisible,
       isHaiNanMode,
       isUnitMenu,
