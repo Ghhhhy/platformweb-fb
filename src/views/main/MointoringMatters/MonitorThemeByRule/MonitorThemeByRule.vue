@@ -186,7 +186,9 @@ export default {
       warnLevel: '',
       queryFormData: {},
       startTime: '',
-      endTime: ''
+      endTime: '',
+      businessStartTime: '',
+      businessEndTime: ''
     }
   },
   mounted() {
@@ -276,15 +278,15 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.fiRuleNameQuery = val.fiRuleName
-      if (val.endTime && val.endTime.length !== 0) {
-        this.endTime = val.endTime.toString().substring(0, 10) + ' 23:59:59'
+      if (val.businessEndTime && val.businessEndTime.length !== 0) {
+        this.businessEndTime = val.businessEndTime.toString().substring(0, 10) + ' 23:59:59'
       } else {
-        this.endTime = ''
+        this.businessEndTime = ''
       }
-      if (val.startTime && val.startTime.length !== 0) {
-        this.startTime = val.startTime.toString().substring(0, 10) + ' 00:00:00'
+      if (val.businessStartTime && val.businessStartTime.length !== 0) {
+        this.businessStartTime = val.businessStartTime.toString().substring(0, 10) + ' 00:00:00'
       } else {
-        this.startTime = ''
+        this.businessStartTime = ''
       }
       this.queryTableDatas()
     },
@@ -445,8 +447,8 @@ export default {
         fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         jurisdiction: this.$store.getters.getIsJurisdiction,
         warnLevel: this.warnLevel,
-        startTime: this.startTime,
-        endTime: this.endTime
+        businessStartTime: this.businessStartTime,
+        businessEndTime: this.businessEndTime
       }
       this.queryFormData = { ...param }
       this.tableLoading = true

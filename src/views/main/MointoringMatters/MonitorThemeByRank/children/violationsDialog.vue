@@ -65,6 +65,11 @@
       :fi-rule-code="fiRuleCode"
     />
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid-list="billguidList" />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -74,10 +79,12 @@ import HttpModule from '@/api/frame/main/Monitoring/MonitorThemeByRank.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import BsAttachment from '@/views/main/fundMonitoring/violationHandle/createProcessing/children/common/GlAttachment.vue'
 import moment from 'moment'
+import GlAttachment from '../../common/GlAttachment'
 export default {
   components: {
     DetailDialog,
-    BsAttachment
+    BsAttachment,
+    GlAttachment
   },
   props: {
     title: {
@@ -190,7 +197,8 @@ export default {
         }
       },
       tableFooterConfig: {
-        showFooter: false
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -211,6 +219,7 @@ export default {
       isHaveZero: '0',
       // 文件
       showAttachmentDialog: false,
+      showGlAttachmentDialog: false,
       billguid: '',
       billguidList: [],
       condition: {},
@@ -413,9 +422,12 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.billguidList = [row.attachmentid1, row.attachmentid3].filter(item => item)
-      this.showAttachmentDialog = true
+      if (!row.attachment_id && !row.attachmentid) {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachment_id || row.attachmentid
+      this.showGlAttachmentDialog = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh() {

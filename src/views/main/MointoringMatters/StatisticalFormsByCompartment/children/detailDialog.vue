@@ -65,6 +65,13 @@
       :warning-code="warningCode"
       :fi-rule-code="fiRuleCode"
     />
+    <!-- 附件弹框 -->
+    <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
+    <GlAttachment
+      v-if="showGlAttachmentDialog"
+      :user-info="userInfo"
+      :billguid="billguid"
+    />
   </div>
 </template>
 
@@ -72,9 +79,11 @@
 import { proconf } from './detailDialog.js'
 import DetailDialog from '@/views/main/MointoringMatters/BudgetAccountingWarningDataMager/children/handleDialog.vue'
 import HttpModule from '@/api/frame/main/Monitoring/StatisticalFormsByRule.js'
+import GlAttachment from '../../common/GlAttachment'
 export default {
   components: {
-    DetailDialog
+    DetailDialog,
+    GlAttachment
   },
   props: {
     title: {
@@ -215,6 +224,7 @@ export default {
       isHaveZero: '0',
       // 文件
       showAttachmentDialog: false,
+      showGlAttachmentDialog: false,
       billguid: '',
       condition: {},
       showViolations: true,
@@ -436,8 +446,12 @@ export default {
     },
     // 查看附件
     showAttachment(row) {
-      this.billguid = row.attachment_id
-      this.showAttachmentDialog = true
+      if (!row.attachment_id && !row.attachmentid) {
+        this.$message.warning('该数据无附件')
+        return
+      }
+      this.billguid = row.attachment_id || row.attachmentid
+      this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
     cellClick(obj, context, e) {

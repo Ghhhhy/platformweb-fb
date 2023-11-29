@@ -185,7 +185,9 @@ export default {
       regulationClass: '',
       agencyCodeList: [],
       regulationTypeQuery: '',
-      inquiriesStatus: ''
+      inquiriesStatus: '',
+      businessStartTime: '',
+      businessEndTime: ''
     }
   },
   mounted() {
@@ -276,6 +278,20 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.regulationTypeQuery = val.regulationType
+      if (val.startTime !== '' && val.endTime !== '' && val.businessStartTime > val.businessEndTime) {
+        this.$message.info('开始时间不能大于结束时间！')
+        return
+      }
+      if (val.businessEndTime && val.businessEndTime.length !== 0) {
+        this.businessEndTime = val.businessEndTime.toString().substring(0, 10) + ' 23:59:59'
+      } else {
+        this.businessEndTime = ''
+      }
+      if (val.businessStartTime && val.businessStartTime.length !== 0) {
+        this.businessStartTime = val.businessStartTime.toString().substring(0, 10) + ' 00:00:00'
+      } else {
+        this.businessStartTime = ''
+      }
       this.queryTableDatas()
     },
     // 切换操作按钮
@@ -398,7 +414,9 @@ export default {
         mofDivCodeList: this.mofDivCodeList,
         regulationClass: this.regulationClass,
         regulationType: this.regulationTypeQuery,
-        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year
+        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
+        businessStartTime: this.businessStartTime,
+        businessEndTime: this.businessEndTime
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
