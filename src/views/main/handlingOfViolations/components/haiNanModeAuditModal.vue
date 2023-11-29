@@ -71,11 +71,7 @@ export default {
       // this.fujianDialogVisible = true
     },
     handletableColumnsConfig() {
-      if (this.param5.retroact === 'company' || this.param5.tableHide) {
-        return proconf.compayHandletableColumnsConfig
-      } else { // 当配置了tableHide参数时，需要隐藏字段
-        return proconf.handletableColumnsConfig
-      }
+      return proconf.compayHandletableColumnsConfig
     },
     curNavModule() {
       return this.$store.state.curNavModule

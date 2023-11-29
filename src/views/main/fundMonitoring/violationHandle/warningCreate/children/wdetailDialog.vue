@@ -115,6 +115,7 @@
       :bussness-id="bussnessId"
       @close="refresh"
     />
+    <FuJianHaiNanModal v-model="showFuJianHaiNanModal" :param5="param5" :selected-row="fuSelectedRow" />
   </vxe-modal>
 </template>
 <script>
@@ -131,6 +132,7 @@ import GlAttachment from './common/GlAttachment'
 import ShowDialog from './addDialog.vue'
 import transJson from '@/utils/transformMenuQuery'
 import { filterText } from '@/utils/customerUtils'
+import FuJianHaiNanModal from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/fjHaiNanModeModal.vue'
 // import BsTable1 from '@/components/Table/Table.vue'
 import moment from 'moment'
 const tabSelectActionTypeMap = {
@@ -151,7 +153,8 @@ export default {
   components: {
     GlAttachment,
     ShowDialog,
-    HandleInitialScreeningModal
+    HandleInitialScreeningModal,
+    FuJianHaiNanModal
     // BsTable1
   },
   computed: {
@@ -233,6 +236,8 @@ export default {
       tabSelect: '1', // 设置默认
       isFlow: false,
       showHandleInitialScreeningModal: false,
+      showFuJianHaiNanModal: false,
+      fuSelectedRow: {},
       showType: '',
       logData: [],
       showLogView: false,
@@ -512,6 +517,11 @@ export default {
     },
     // 查看详情
     show(val) {
+      if (this.$store.getters.isFuJian) {
+        this.showFuJianHaiNanModal = true
+        this.fuSelectedRow = val
+        return
+      }
       this.detailFiRuleCode = val.fiRuleCode || ''
       this.warningCode = val.warningCode || ''
       this.showDialogVisible = true
@@ -1230,7 +1240,6 @@ export default {
       // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue) return
-
       switch (key) {
         case 'detail':
           this.handleDetail('detail', obj.row.diBillId, obj.row.mofDivCode)
