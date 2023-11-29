@@ -23,10 +23,7 @@
       </template>
       <template v-slot:mainForm>
         <div style="width: 100%; color: red; font-size: 16px">
-          预警级别说明：
-          1.橙色预警--预警（需上传附件）
-          2.黄色预警--预警（无需上传附件）
-          3.蓝色预警--记录
+          {{ warningDescription }}
         </div>
         <BsTable
           id="1001"
@@ -61,10 +58,11 @@
     <DetailDialog
       v-if="detailVisible"
       :detail-data="detailData"
-      :colour-type="colourType"
       :select-bid="bussnessId"
       :query-data="searchDataList"
       :regulation-class="propsRegulationClass"
+      :warn-level="propsWarnLevel"
+      :deal-level="propsDealLevel"
     />
   </div>
 </template>
@@ -80,6 +78,16 @@ export default {
     DetailDialog
   },
   computed: {
+    warningDescription() {
+      let initString = '预警级别说明：\n'
+      let warningLevelItem = (index) => this.$store.state.warnInfo.warnLevelOptions.find(item => String(item.value) === `${index + 1}`) || {}
+      let warningTypeItem = (index) => this.$store.state.warnInfo.warnControlTypeOptions.find(item => String(item.value) === `${index + 1}`) || {}
+      let templateString = (index, warningLevelLabel, warningTypeLabel) => `${index + 1}.${warningLevelLabel}--${warningTypeLabel}\n`
+      this.$store.state.warnInfo.warnLevelOptions.forEach((item, index) => {
+        initString += templateString(index, warningLevelItem(index).label, warningTypeItem(index).label)
+      })
+      return initString
+    },
     tableGlobalConfig() {
       return {
         customExportConfig: {
@@ -192,6 +200,8 @@ export default {
       fiscalYear: '',
       regulationClass: '',
       propsRegulationClass: '',
+      propsWarnLevel: '',
+      propsDealLevel: '',
       bussnessId: ''
     }
   },
@@ -324,21 +334,9 @@ export default {
       this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
+      this.propsWarnLevel = obj.column.own.warnLevel
+      this.propsDealLevel = obj.column.own.dealLevel
       this.propsRegulationClass = obj.row.regulationClass
-      if (key.startsWith('red')) {
-        this.colourType = '1'
-      } else if (key.startsWith('orange')) {
-        this.colourType = '2'
-      } else if (key.startsWith('yellow')) {
-        this.colourType = '3'
-      } else if (key.startsWith('blue')) {
-        this.colourType = '4'
-      } else if (key.startsWith('name')) {
-        return
-      } else {
-        // 灰色
-        this.colourType = '5'
-      }
       this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear]
       this.detailVisible = true
     },

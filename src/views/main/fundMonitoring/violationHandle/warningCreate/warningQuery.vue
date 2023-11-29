@@ -55,7 +55,8 @@
     <DetailDialog
       v-if="detailVisible"
       :detail-data="detailData"
-      :colour-type="colourType"
+      :warn-level="propsWarnLevel"
+      :deal-level="propsDealLevel"
       :query-data="searchDataList"
       :regulation-class="regulationClass"
     />
@@ -98,7 +99,8 @@ export default {
   data() {
     return {
       regulationClass: this.transJson(this.$store.state.curNavModule.param5)?.regulationClass,
-      colourType: '',
+      propsDealLevel: '',
+      propsWarnLevel: '',
       warningCode: '',
       fiRuleCode: '',
       ruleCodes: [],
@@ -332,20 +334,8 @@ export default {
         triggerMonitorDate: triggerMonitorDate ? triggerMonitorDate[0] : ''
       }
       this.detailData = [key, obj.row.fiRuleCode, obj.row.code, this.fiscalYear, fiRuleCode, timeRange]
-      if (key.startsWith('red')) {
-        this.colourType = '1'
-      } else if (key.startsWith('orange')) {
-        this.colourType = '2'
-      } else if (key.startsWith('yellow')) {
-        this.colourType = '3'
-      } else if (key.startsWith('blue')) {
-        this.colourType = '4'
-      } else if (key.startsWith('name')) {
-        return
-      } else {
-        // 灰色
-        this.colourType = '5'
-      }
+      this.propsWarnLevel = obj.column.own.warnLevel
+      this.propsDealLevel = obj.column.own.dealLevel
       this.detailVisible = true
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据

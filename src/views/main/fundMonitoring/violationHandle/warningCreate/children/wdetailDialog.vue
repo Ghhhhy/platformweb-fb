@@ -139,12 +139,12 @@ const tabSelectActionTypeMap = {
   '3': 'DoneNum',
   '4': 'NotRectifiedNum'
 }
-const colourTypeMap = {
+const sqlWarnLevelForColorFieldMapping = { // 从处室生成/查询过来得colorType
   '1': 'red',
   '2': 'orange',
   '3': 'yellow',
   '4': 'blue',
-  '5': 'grey'
+  '5': 'gray'// 目前只有陕西有灰
 }
 export default {
   name: 'DetailDialogs',
@@ -212,6 +212,14 @@ export default {
       type: String,
       default: '0201'
     },
+    warnLevel: {
+      type: String,
+      default: ''
+    },
+    dealLevel: {
+      type: String,
+      default: ''
+    },
     queryData: {
       type: Object,
       default() {
@@ -235,7 +243,6 @@ export default {
       showDetailData: [],
       isCreate: false,
       isDone: false,
-      warnLevel: '',
       status: null,
       isHandle: false,
       isNormal: false,
@@ -555,7 +562,7 @@ export default {
     bsToolbarClickEvent(obj, $this) {
       this.tabSelect = obj.curValue
       const tabSelectActionType = tabSelectActionTypeMap[String(obj.curValue)]
-      const colorType = colourTypeMap[String(this.colourType)]
+      const colorType = sqlWarnLevelForColorFieldMapping[String(this.warnLevel)]
       this.detailType = colorType + tabSelectActionType
       this.condition = {}
       this.pagerConfig.currentPage = 1
@@ -793,23 +800,6 @@ export default {
       this.fiRuleCode = this.detailData[1]
       this.mofDivCode = this.detailData[2]
       this.fiscalYear = this.detailData[3]
-      const warningLevelOption = this.$store.getters.dict// 各个地区 warningLevel不同
-      // {[key:从处室生成/查询过来得colorType]:[value:对应各个地区得warningLevel]}
-      const colorTypeWarningLevelMap = { // 从处室生成/查询过来得colorType
-        '1': warningLevelOption.find(item => item.warningLabel === '红')?.value,
-        '2': warningLevelOption.find(item => item.warningLabel === '橙')?.value,
-        '3': warningLevelOption.find(item => item.warningLabel === '黄')?.value,
-        '4': warningLevelOption.find(item => item.warningLabel === '蓝')?.value,
-        '5': warningLevelOption.find(item => item.warningLabel === '灰')?.value// 目前只有陕西有灰
-      }
-      if (this.$store.getters.isFuJian) {
-        // 福建没有 橙 字段，橙色为黄色警铃 福建也缺蓝色预警
-        colorTypeWarningLevelMap['2'] = '2'
-        colorTypeWarningLevelMap['3'] = '3'
-        colorTypeWarningLevelMap['4'] = '4'
-      }
-      console.log('预警【处室点击列颜色预警 ：各个项目实际预警级别】映射表', colorTypeWarningLevelMap)
-      this.warnLevel = String(colorTypeWarningLevelMap[this.colourType])
       // 这里在获取一个业务类型 然后依据业务类型和具体的状态去动态构造表头数据
       switch (this.detailType) {
         case 'redUndoNum':
@@ -818,9 +808,8 @@ export default {
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '疑点信息明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-疑点信息明细`
           break
         case 'redNormalNum':
           this.tableColumnsConfig = proconf.getColumns('redNormalNum', this.bussnessId, this.showLog, '', this.isFlow)
@@ -829,9 +818,8 @@ export default {
           this.status = ''
           this.isNormal = true
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '认定正常明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'redNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
@@ -839,10 +827,9 @@ export default {
           this.tabSelect = curStatusButton3.curValue
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.isSign = '2'
           this.status = 7
-          this.title = '认定违规-待整改明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-待整改明细`
           break
         case 'redDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
@@ -852,9 +839,8 @@ export default {
           this.status = null
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = 7
-          this.title = '认定违规-已整改明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-已整改明细`
           break
         case 'orangeUndoNum':
           //  this.tableColumnsConfig = proconf.undoNum
@@ -863,9 +849,8 @@ export default {
           this.isSign = 0
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'orangeNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
@@ -874,9 +859,8 @@ export default {
           this.isSign = 2
           this.isNormal = true
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '认定正常明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'orangeNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
@@ -885,9 +869,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
-          this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'orangeDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
@@ -896,9 +879,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'yellowUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
@@ -907,9 +889,8 @@ export default {
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'yellowNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
@@ -918,9 +899,8 @@ export default {
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '认定正常明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'yellowNotRectifiedNum':
           // this.tableColumnsConfig = proconf.notRectifiedNum
@@ -929,9 +909,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
-          this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'yellowDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
@@ -940,9 +919,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'blueUndoNum':
           // this.tableColumnsConfig = proconf.undoNum
@@ -951,9 +929,8 @@ export default {
           this.isSign = '0'
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'blueNormalNum':
           // this.tableColumnsConfig = proconf.normalNum
@@ -962,9 +939,8 @@ export default {
           this.isSign = '2'
           this.isNormal = true
           this.isHandle = false
-          this.isProcessed = false
           this.status = null
-          this.title = '认定正常明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'blueNotRectifiedNum':// 未完成
           // this.tableColumnsConfig = proconf.notRectifiedNum
@@ -973,9 +949,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = true
-          this.isProcessed = false
           this.status = null
-          this.title = '未完成明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'blueDoneNum':
           // this.tableColumnsConfig = proconf.doneNum
@@ -984,9 +959,8 @@ export default {
           this.isSign = '2'
           this.isNormal = false
           this.isHandle = false
-          this.isProcessed = false
           this.status = 7
-          this.title = '已整改明细'
+          this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         default:
           break
@@ -1028,25 +1002,6 @@ export default {
         //   break
       }
       // this.tabSelect = this.tabStatusBtnConfig.curButton.code
-      switch (this.colourType) {
-        case '1':
-          this.title = '红色预警-' + this.title
-          break
-        case '2':
-          this.title = '橙色预警-' + this.title
-          break
-        case '3':
-          this.title = '黄色预警-' + this.title
-          break
-        // case '4':
-        //   this.title = '灰色预警-' + this.title
-        //   break
-        case '4':
-          this.title = '蓝色预警-' + this.title
-          break
-        default:
-          break
-      }
     },
     queryTableDatas() {
       let curFormData = { ...this.searchDataList }

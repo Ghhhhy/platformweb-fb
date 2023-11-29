@@ -1,5 +1,12 @@
 import store from '@/store/index'
 import { proconf as warningQuery } from '@/views/main/fundMonitoring/violationHandle/warningCreate/warningQuery.js'
+const sqlWarnLevelForColorFieldMapping = { // 从处室生成/查询过来得colorType
+  '1': 'red',
+  '2': 'orange',
+  '3': 'yellow',
+  '4': 'blue',
+  '5': 'gray'// 目前只有陕西有灰
+}
 const proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -480,93 +487,23 @@ const proconf = {
         align: 'center',
         width: 200
       },
-      // {
-      //   title: '红色1111111111111 ',
-      //   field: '',
-      //   width: 500,
-      //   sortable: false,
-      //   align: 'center',
-      //   children: [
-      //     {
-      //       title: '预警数据',
-      //       field: 'redUndoNum',
-      //       filters: false,
-      //       align: 'center',
-      //       width: 200,
-      //       cellRender: {
-      //         name: '$vxeIcon6',
-      //         props: {
-      //           $refs: this
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: '生成问询单',
-      //       sortable: false,
-      //       align: 'center',
-      //       width: 300,
-      //       children: [
-      //         {
-      //           title: '认定正常',
-      //           field: 'redNormalNum',
-      //           align: 'center',
-      //           filters: false,
-      //           width: 100,
-      //           cellRender: {
-      //             name: '$vxeIcon3',
-      //             props: {
-      //               $refs: this
-      //             }
-      //           }
-      //         },
-      //         {
-      //           title: '已整改',
-      //           field: 'redDoneNum',
-      //           filters: false,
-      //           align: 'center',
-      //           width: 100,
-      //           cellRender: {
-      //             name: '$vxeIcon3',
-      //             props: {
-      //               $refs: this
-      //             }
-      //           }
-      //         },
-      //         {
-      //           title: '未完成',
-      //           field: 'redNotRectifiedNum',
-      //           filters: false,
-      //           align: 'center',
-      //           width: 100,
-      //           cellRender: {
-      //             name: '$vxeIcon6',
-      //             props: {
-      //               $refs: this
-      //             }
-      //           }
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
-        title: '橙色预警',
-        field: '',
+        title: `${store.getters.dict.find(item => String(item.value) === '1')?.label}`,
+        field: 'level1',
         sortable: false,
         align: 'center',
         // width: 400,
         children: [
           {
             title: '预警数据',
-            field: 'orangeUndoNum',
+            field: `${sqlWarnLevelForColorFieldMapping[1]}UndoNum`,
+            warnLevel: '1',
+            dealLevel: 'Undo',
             filters: false,
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon6',
-              props: {
-                $refs: this
-              }
+              name: '$vxeIcon6'
             }
           },
           {
@@ -577,41 +514,38 @@ const proconf = {
             children: [
               {
                 title: '认定正常',
-                field: 'orangeNormalNum',
+                field: `${sqlWarnLevelForColorFieldMapping[1]}NormalNum`,
                 align: 'center',
+                warnLevel: '1',
+                dealLevel: 'Normal',
                 filters: false,
                 width: 100,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '已整改',
-                field: 'orangeDoneNum',
+                field: `${sqlWarnLevelForColorFieldMapping[1]}DoneNum`,
                 filters: false,
+                warnLevel: '1',
+                dealLevel: 'Done',
                 align: 'center',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '未完成',
-                field: 'orangeNotRectifiedNum',
+                field: `${sqlWarnLevelForColorFieldMapping[1]}NotRectifiedNum`,
                 filters: false,
                 align: 'center',
+                warnLevel: '1',
+                dealLevel: 'NotRectified',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon6',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon6'
                 }
               }
             ]
@@ -619,23 +553,22 @@ const proconf = {
         ]
       },
       {
-        title: '黄色预警',
-        field: '',
+        title: `${store.getters.dict.find(item => String(item.value) === '2')?.label || '黄色预警'}`,
+        field: 'level2',
         // width: 400,
         sortable: false,
         align: 'center',
         children: [
           {
             title: '预警数据',
-            field: 'yellowUndoNum',
+            field: `${sqlWarnLevelForColorFieldMapping[2]}UndoNum`,
             filters: false,
+            warnLevel: '2',
+            dealLevel: 'Undo',
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon2',
-              props: {
-                $refs: this
-              }
+              name: '$vxeIcon2'
             }
           },
           {
@@ -646,41 +579,38 @@ const proconf = {
             children: [
               {
                 title: '认定正常',
-                field: 'yellowNormalNum',
+                field: `${sqlWarnLevelForColorFieldMapping[2]}NormalNum`,
                 align: 'center',
                 width: 100,
+                warnLevel: '2',
+                dealLevel: 'Normal',
                 filters: false,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '已整改',
-                field: 'yellowDoneNum',
+                field: `${sqlWarnLevelForColorFieldMapping[2]}DoneNum`,
                 filters: false,
                 align: 'center',
+                warnLevel: '2',
+                dealLevel: 'Done',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '未完成',
-                field: 'yellowNotRectifiedNum',
+                field: `${sqlWarnLevelForColorFieldMapping[2]}NotRectifiedNum`,
                 filters: false,
                 // width: 100,
+                warnLevel: '2',
+                dealLevel: 'NotRectified',
                 align: 'center',
                 cellRender: {
-                  name: '$vxeIcon2',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon2'
                 }
               }
             ]
@@ -688,23 +618,22 @@ const proconf = {
         ]
       },
       {
-        title: '蓝色预警',
-        field: '',
+        title: `${store.getters.dict.find(item => String(item.value) === '3')?.label}`,
+        field: 'level3',
         sortable: false,
         // width: 500,
         align: 'center',
         children: [
           {
             title: '预警数据',
-            field: 'blueUndoNum',
+            field: `${sqlWarnLevelForColorFieldMapping[3]}UndoNum`,
             filters: false,
+            warnLevel: '3',
+            dealLevel: 'Undo',
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon7',
-              props: {
-                $refs: this
-              }
+              name: '$vxeIcon7'
             }
           },
           {
@@ -715,41 +644,38 @@ const proconf = {
             children: [
               {
                 title: '认定正常',
-                field: 'blueNormalNum',
+                field: `${sqlWarnLevelForColorFieldMapping[3]}NormalNum`,
                 align: 'center',
+                warnLevel: '3',
+                dealLevel: 'Normal',
                 filters: false,
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '已整改',
-                field: 'blueDoneNum',
+                field: `${sqlWarnLevelForColorFieldMapping[3]}DoneNum`,
                 filters: false,
                 align: 'center',
+                warnLevel: '3',
+                dealLevel: 'Done',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon3',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon3'
                 }
               },
               {
                 title: '未完成',
-                field: 'blueNotRectifiedNum',
+                field: `${sqlWarnLevelForColorFieldMapping[3]}NotRectifiedNum`,
                 filters: false,
+                warnLevel: '3',
+                dealLevel: 'NotRectified',
                 align: 'center',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon7',
-                  props: {
-                    $refs: this
-                  }
+                  name: '$vxeIcon7'
                 }
               }
             ]
