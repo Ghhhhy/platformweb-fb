@@ -119,18 +119,16 @@ const budgetImpColumns = [
     field: 'warnLevel',
     align: 'center',
     width: 180,
-    cellRender: {
-      name: '$vxeSelect',
-      options: store.state.warnInfo.warnLevelOptions.map(item => {
-        return {
-          ...item,
-          value: String(item.value)
-        }
-      }),
-      defaultValue: '',
-      props: { disabled: true, placeholder: '预警级别' }
+    filters: store.state.warnInfo.warnLevelOptions,
+    filterRender: {
+      name: '$vxeSelect'
     },
-    name: '$vxeSelect'
+    cellRender: {
+      name: '$warningLevelRender',
+      props: {
+        placeholder: '预警级别'
+      }
+    }
   },
   {
     title: '处理方式',
@@ -139,34 +137,12 @@ const budgetImpColumns = [
     width: 180,
     cellRender: {
       name: '$vxeSelect',
-      options: store.getters.isFuJian ? store.state.warnInfo.warnControlTypeOptions.map(item => {
+      options: store.state.warnInfo.warnControlTypeOptions.map(item => {
         return {
           ...item,
           value: String(item.value)
         }
-      }) : [
-        {
-          value: 1,
-          label: '拦截'
-        },
-        {
-          value: 2,
-          label: '预警，需上传附件'
-        },
-        {
-          value: 3,
-          label: '预警，无需上传附件'
-        },
-        {
-          value: 4,
-          label: '提醒'
-        },
-        {
-          value: 5,
-          label: '记录'
-        }
-      ],
-      defaultValue: '',
+      }),
       props: {}
     },
     name: '$vxeSelect'
@@ -949,18 +925,16 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      itemRender: {
-        name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
-          }
-        }),
-        defaultValue: '',
-        props: { disabled: true, placeholder: '预警级别' }
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
       },
-      name: '$vxeSelect'
+      cellRender: {
+        name: '$warningLevelRender',
+        props: {
+          placeholder: '预警级别'
+        }
+      }
     },
     {
       title: '处理方式',
@@ -969,29 +943,12 @@ const proconf = {
       width: 180,
       cellRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        ],
-        defaultValue: '',
+        }),
         props: {}
       },
       name: '$vxeSelect'
@@ -2370,18 +2327,16 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      itemRender: {
-        name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
-          return {
-            ...item,
-            value: String(item.value)
-          }
-        }),
-        defaultValue: '',
-        props: { disabled: true, placeholder: '预警级别' }
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
       },
-      name: '$vxeSelect'
+      cellRender: {
+        name: '$warningLevelRender',
+        props: {
+          placeholder: '预警级别'
+        }
+      }
     },
     {
       title: '处理方式',
@@ -2390,29 +2345,12 @@ const proconf = {
       width: 180,
       cellRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        ],
-        defaultValue: '',
+        }),
         props: {}
       },
       name: '$vxeSelect'
@@ -2631,52 +2569,33 @@ const proconf = {
       field: 'warnLevel',
       align: 'center',
       width: 180,
-      itemRender: {
+      filters: store.state.warnInfo.warnLevelOptions,
+      filterRender: {
+        name: '$vxeSelect'
+      },
+      cellRender: {
+        name: '$warningLevelRender',
+        props: {
+          placeholder: '预警级别'
+        }
+      }
+    },
+    {
+      title: '处理方式',
+      field: 'handleType',
+      align: 'center',
+      width: 180,
+      cellRender: {
         name: '$vxeSelect',
-        options: store.state.warnInfo.warnLevelOptions.map(item => {
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
           return {
             ...item,
             value: String(item.value)
           }
         }),
-        defaultValue: '',
-        props: { disabled: true, placeholder: '预警级别' }
+        props: {}
       },
       name: '$vxeSelect'
-    },
-    {
-      'title': '处理方式',
-      'field': 'handleType',
-      'align': 'center',
-      'cellRender': {
-        'name': '$vxeSelect',
-        'options': [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
-          }
-        ],
-        'defaultValue': '',
-        'props': {}
-      },
-      'sortable': 'true',
-      'name': '$vxeSelect'
     }
   ],
   createConfig: [
@@ -2729,29 +2648,12 @@ const proconf = {
       span: 8,
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        ],
-        defaultValue: '',
+        }),
         props: { disabled: true, placeholder: '处理方式' }
       },
       name: '$vxeSelect'
@@ -2853,29 +2755,12 @@ const proconf = {
       span: 8,
       itemRender: {
         name: '$vxeSelect',
-        options: [
-          {
-            value: 1,
-            label: '拦截'
-          },
-          {
-            value: 2,
-            label: '预警，需上传附件'
-          },
-          {
-            value: 3,
-            label: '预警，无需上传附件'
-          },
-          {
-            value: 4,
-            label: '提醒'
-          },
-          {
-            value: 5,
-            label: '记录'
+        options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
           }
-        ],
-        defaultValue: '',
+        }),
         props: { disabled: true, placeholder: '处理方式' }
       },
       name: '$vxeSelect'
