@@ -169,7 +169,7 @@ export const getStatusCodeOptions = () => {
  * 首页列表筛选表单
  * @type {[{field: string, itemRender: {name: string, options: [{label: string, value: string}, {label: string, value: string}, {label: string, value: string}, {label: string, value: string}], props: {clearable: boolean, placeholder: string}}, titleWidth: number, title: string}, {field: string, itemRender: {name: string, options: [{label: string, value: string}, {label: string, value: string}, {label: string, value: string}, {label: string, value: string}], props: {clearable: boolean, placeholder: string}}, titleWidth: number, title: string}, {field: string, itemRender: {name: string, options: [{label: string, value: string}, {label: string, value: string}], props: {clearable: boolean, placeholder: string}}, titleWidth: number, title: string}, {field: string, itemRender: {name: string, props: {clearable: boolean, labelFormat: string, valueFormat: string, placeholder: string, type: string}}, titleWidth: number, title: string}, {field: string, itemRender: {name: string, props: {clearable: boolean, placeholder: string}}, titleWidth: number, title: string}]}
  */
-export const searchFormCommonSchemas = [
+let searchFormCommonSchemas = [
   {
     title: '预警级别',
     field: 'warnLevel',
@@ -199,6 +199,23 @@ export const searchFormCommonSchemas = [
   //     }
   //   }
   // },
+  {
+    title: '监控处理方式',
+    field: 'controlType',
+    align: 'center',
+    visible: store.getters.isFuJian,
+    itemRender: {
+      name: '$vxeSelect',
+      options: store.state.warnInfo.warnControlTypeOptions.map(item => {
+        return {
+          ...item,
+          value: String(item.value)
+        }
+      }),
+      props: { disabled: false, placeholder: '处理方式' }
+    },
+    name: '$vxeSelect'
+  },
   {
     title: '是否直达资金',
     field: 'isDir',
@@ -285,13 +302,20 @@ export const searchFormCommonSchemas = [
     itemRender: {
       name: '$input',
       props: {
-        placeholder: '业务编号',
+        placeholder: store.getters.isFuJian ? '支付申请编号' : '业务编号',
         clearable: true
       }
     }
   }
 ]
 
+if (store.getters.isFuJian) {
+  const sortFieldList = ['ruleName', 'businessNo']// 福建需要排序的列
+  const pickSortList = searchFormCommonSchemas.filter(item => sortFieldList.includes(item.field))
+  searchFormCommonSchemas = pickSortList.concat(searchFormCommonSchemas.filter(item => !sortFieldList.includes(item.field)))
+}
+
+export { searchFormCommonSchemas }
 // 【全部】页卡特有过滤筛选
 export const searchFormAllTabSchema = [
   {

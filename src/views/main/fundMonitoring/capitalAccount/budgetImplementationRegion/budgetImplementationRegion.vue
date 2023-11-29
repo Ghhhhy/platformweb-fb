@@ -126,6 +126,7 @@ import SDetailDialog from '../children/sDetailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import regionMixin from '../mixins/regionMixin'
 import store from '@/store/index'
+import moment from 'moment'
 export default {
   mixins: [regionMixin],
   computed: {
@@ -480,7 +481,9 @@ export default {
       detailTitle: '',
       detailData: [],
       detailQueryParam: {},
-      sDetailQueryParam: {}
+      sDetailQueryParam: {},
+      fjColorConfig: [], // 福建 颜色配置
+      cellStyleFiledList: [] // 颜色列field
     }
   },
   methods: {
@@ -1136,17 +1139,51 @@ export default {
         if (!rowIndex) return
         // 有效的cellValue
         const validCellValue = (row[column.property] * 1)
-        if (validCellValue && ['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
-          return {
-            color: '#4293F4',
-            textDecoration: 'underline'
-          }
+        if (!validCellValue) return
+        const staticStyle = {}
+        if (this.fjColorConfig.length && this.cellStyleFiledList.includes(column.property)) {
+          this.setColumnBgColor(staticStyle, column, row)
         }
+        if (['amountSnjbjfp', 'amountSbjfp', 'amountXjfp', 'amountPayAll'].includes(column.property)) {
+          staticStyle.color = '#4293F4'
+          staticStyle.textDecoration = 'underline'
+        }
+        return staticStyle
       }
     },
     isConfigTable() {
       this.loadConfig('BsTable', 'Table101')
       this.loadConfig('BsQuery', 'Query101')
+    },
+    loadFuJianColorConfig() {
+      if (this.$store.getters.isFuJian) {
+        let params = {
+          menuguid: this.$store.state.curNavModule.guid,
+          mof_div_code: this.$store.state.userInfo.province, // 区划
+          fiscalyear: this.$store.state.userInfo.year // 年份
+        }
+        return this.$http.get(BSURL.api_tableconfMenuguid, params).then(res => {
+          if (res.rscode === '100000' && Array.isArray(res.data)) {
+            let configString = res.data.find(item => item.type === 'colorConfig')?.configure || ''
+            let configObject = JSON.parse(configString) || {}
+            this.fjColorConfig = configObject?.itemsConfig || []
+            this.cellStyleFiledList = this.fjColorConfig.map(item => item.field)
+          }
+        })
+      }
+    },
+    setColumnBgColor(staticStyle, column, row) {
+      let colorItem = this.fjColorConfig.find(item => item.field === column.property)
+      if (colorItem) {
+        const getCurMonth = moment(this.searchDataList.endTime || Date.now()).month() + 1// moment获取的月份序号(0-11)
+        let timeSeqProcess = parseFloat((getCurMonth / 12).toFixed(3)) * 100// 序时进度
+        const value = parseFloat(row[column.property] || 0)
+        if (value > timeSeqProcess) {
+          staticStyle['background-color'] = colorItem.setting?.low || '#ffffff'
+        } else if (value < timeSeqProcess) {
+          staticStyle['background-color'] = colorItem.setting?.high || '#ffffff'
+        }
+      }
     }
   },
   mounted() {
@@ -1163,6 +1200,7 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.getPro()
+    this.loadFuJianColorConfig()
     this.queryTableDatas(false)
   }
 }
