@@ -278,6 +278,10 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.fiRuleNameQuery = val.fiRuleName
+      if (val.businessStartTime && val.businessEndTime && val.businessStartTime > val.businessEndTime) {
+        this.$message.info('开始时间不能大于结束时间！')
+        return
+      }
       if (val.businessEndTime && val.businessEndTime.length !== 0) {
         this.businessEndTime = val.businessEndTime.toString().substring(0, 10) + ' 23:59:59'
       } else {

@@ -278,7 +278,7 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.regulationTypeQuery = val.regulationType
-      if (val.startTime !== '' && val.endTime !== '' && val.businessStartTime > val.businessEndTime) {
+      if (val.businessStartTime && val.businessEndTime && val.businessStartTime > val.businessEndTime) {
         this.$message.info('开始时间不能大于结束时间！')
         return
       }
