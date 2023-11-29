@@ -243,7 +243,7 @@ export default defineComponent({
 
     // 处理单查看弹框左侧做福建判断
     const leftTitle = ref('')
-    leftTitle.value = store.getters.isFuJian ? '违规单信息' : '全部监控处理单'
+    leftTitle.value = store.getters.isFuJian ? '全部' : '全部监控处理单'
     /**
      * 处理单相关
      * */
