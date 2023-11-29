@@ -1243,6 +1243,7 @@ let proconf = {
       'width': 180,
       sortable: true,
       filters: false,
+      visible: !store.getters.isSx,
       align: 'center'
     },
     {
@@ -1276,6 +1277,22 @@ let proconf = {
       sortable: true,
       filters: false,
       align: 'left'
+    },
+    {
+      title: '支付金额',
+      field: 'paymentAmount',
+      sortable: true,
+      filters: false,
+      align: 'right',
+      width: 140,
+      visible: store.getters.isSx,
+      combinedType: [
+        'average',
+        'subTotal',
+        'total',
+        'totalAll'
+      ],
+      cellRender: { name: '$vxeMoney' }
     },
     // {
     //   title: '触发菜单',

@@ -749,7 +749,8 @@ export default {
         }
       } else if (this.title === '业务数据信息') {
         const param = {
-          payAppId: this.detailData[0].payAppId
+          payAppId: this.detailData[0].payAppId,
+          mofDivCode: this.detailData[0].mofDivCode
         }
         HttpModule.queryBusinessData(param).then(res => {
           this.addLoading = false
