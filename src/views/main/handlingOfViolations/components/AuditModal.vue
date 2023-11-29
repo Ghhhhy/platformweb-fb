@@ -98,7 +98,7 @@
           </template>
           <!--右侧当前选中的处理单信息-->
           <template #paneR>
-            <div class="right-info" style="height: 100%; overflow-y: auto">
+            <div v-if="!isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
               <!--规则信息-->
               <RuleInfo :rule-info="currentWarnDetail.ruleResVO">
                 <template #header>
@@ -137,6 +137,9 @@
                 @uploadAfter="uploadAfter"
                 @deleteFile="deleteFileHandle"
               />
+            </div>
+            <div v-if="isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
+              <haiNanModeAuditModal :visible="visible" />
             </div>
           </template>
         </BsSplitPane>
@@ -177,6 +180,7 @@ import AttachmentInfo from './AttachmentInfo'
 import AuditForm from './AuditForm'
 import PreviewReceipts from './PreviewReceipts'
 import PrintHtmlNode from './PrintHtmlNode'
+import haiNanModeAuditModal from '@/views/main/handlingOfViolations/components/haiNanModeAuditModal.vue'
 import RulePreview from '@/views/main/MointoringMatters/SystemLevelRules/children/addDialog.vue'
 
 import useLoadingState from '@/hooks/useLoadingState'
@@ -208,9 +212,20 @@ export default defineComponent({
     AuditForm,
     PreviewReceipts,
     PrintHtmlNode,
-    RulePreview
+    RulePreview,
+    haiNanModeAuditModal
   },
   props: {
+    isHaiNanMode: { // 福建-海南模式 只有福建才有
+      type: Boolean,
+      default: false
+    },
+    param5: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     // 弹窗显隐
     value: {
       type: Boolean,
@@ -317,7 +332,15 @@ export default defineComponent({
     const getWarnLevelOption = (warnLevel) => {
       return warnLevelOptions.find(item => String(item.value) === String(warnLevel)) || {}
     }
-
+    const haiNanModeProperty = computed(() => {
+      return {
+        title: '查看详情信息',
+        warningCode: props.checkedRecords[0]?.warningCode || '',
+        fiRuleCode: props.checkedRecords[0]?.ruleCode || '',
+        selectedRow: props.checkedRecords[0],
+        param5: props.param5
+      }
+    })
     /**
      * 附件相关
      * */
@@ -525,7 +548,8 @@ export default defineComponent({
       dialogVisible,
       DetailData,
       dialogTitle,
-      leftTitle
+      leftTitle,
+      haiNanModeProperty
     }
   }
 })

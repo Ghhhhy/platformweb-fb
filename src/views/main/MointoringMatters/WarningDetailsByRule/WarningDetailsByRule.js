@@ -422,6 +422,218 @@ let proconf = {
           placeholder: '规则名称'
         }
       }
+    },
+    {
+      title: '监控类型',
+      field: 'triggerClass',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '0', label: '实时' },
+          { value: '1', label: '定时' }
+        ],
+        props: {
+          placeholder: '监控类型'
+        }
+      }
+    },
+    {
+      title: '资金用途',
+      field: 'useDes',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '资金用途'
+        }
+      }
+    },
+    {
+      title: '业务数据开始时间',
+      field: 'businessTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据开始时间'
+        }
+      }
+    },
+    {
+      title: '业务数据结束时间',
+      field: 'endTime',
+      itemRender: {
+        name: '$vxeTime',
+        defaultValue: '',
+        props: {
+          format: 'YYYY-MM-DD',
+          type: 'date', // "当前日期为：YYYY-MM-DD，星期W，为第Q季度，时间为：hh:mm:ss:c"
+          placeholder: '业务数据结束时间'
+        }
+      }
+    },
+    {
+      title: '是否疑似违规',
+      field: 'isSign',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: 0, label: '疑点信息' },
+          { value: 1, label: '正常' },
+          { value: 2, label: '违规' }
+        ],
+        props: {
+          placeholder: '是否标记'
+        }
+      }
+    },
+    {
+      title: '支付申请编号',
+      field: 'businessNo',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '支付申请编号'
+        }
+      }
+    },
+    {
+      title: '是否作废',
+      field: 'voidOrNot',
+      width: 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '是' },
+          { value: '2', label: '否' }
+        ],
+        props: {
+          placeholder: '是否作废'
+        }
+      }
+    },
+    {
+      title: '区划',
+      field: 'mofDivCodeList',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '区划',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': false
+          }
+        }
+      }
+    },
+    {
+      title: '监控主题',
+      field: 'regulationClass',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        'props': {
+          'config': {
+            'treeProps': {
+              'nodeKey': 'id',
+              'label': 'label',
+              'children': 'children'
+            },
+            'placeholder': '监控主题',
+            'multiple': true,
+            'readonly': true,
+            'isleaf': true
+          }
+        }
+      }
+    }
+  ],
+  highQueryConfigSpecialSupervision: [
+    {
+      title: '管理级次',
+      field: 'regulationType',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { value: '1', label: '系统级' },
+          { value: '2', label: '财政级' },
+          { value: '3', label: '部门级' }
+        ],
+        props: {
+          placeholder: '管理级次'
+        }
+      }
+    },
+    {
+      title: '预警级别',
+      field: 'warnLevel',
+      'width': 180,
+      align: 'left',
+      formula: '',
+      name: '$vxeSelect',
+      itemRender: {
+        name: '$vxeSelect',
+        options: store.state.warnInfo.warnLevelOptions.map(item => {
+          return {
+            ...item,
+            value: String(item.value)
+          }
+        }),
+        defaultValue: '',
+        props: { disabled: false, placeholder: '预警级别' }
+      }
+    },
+    {
+      title: '规则名称',
+      field: 'firulename',
+      width: '8',
+      align: 'left',
+      formula: '',
+      name: '$vxeInput',
+      itemRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '规则名称'
+        }
+      }
       // },
       // {
       //   title: '主题',

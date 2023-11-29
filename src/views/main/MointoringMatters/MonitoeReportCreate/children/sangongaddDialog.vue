@@ -25,6 +25,7 @@
                         :reloaddata="false"
                         :isleaf="!isSx"
                         :showcheckbox="false"
+                        :no-sel-mof-div="noClickMofDiv"
                         @input="selectProvince"
                       />
                     </div>
@@ -186,6 +187,7 @@ export default {
       isSx: true,
       userInfo: {},
       askProvince: '',
+      noClickMofDiv: '1',
       askProvinceOptions: [],
       provinceNameList: [],
       importModalVisible: false, // 导入弹框
@@ -361,15 +363,22 @@ export default {
       })
     },
     selectProvince(val) {
-      console.log(val)
-      // let valArr = val.split(',')
-      // let nameList = []
-      // for (let i = 0; i < valArr.length; i++) {
-      //   nameList.push(valArr[i].split('##')[2])
-      // }
       this.provinceName = val.split('##')[2]
       this.provinceCode = val.split('##')[1]
-      // console.log(nameList)
+      this.noClickMofDiv = '1'
+      if (this.$store.getters.isSx && this.askProvince) {
+        let tempMofDivData = this.askProvince.split('##')
+        let nowUserMofDiv = this.rightTrim(this.userInfo.province)
+        let clickSelMofDiv = tempMofDivData[1].slice(0, nowUserMofDiv.length)
+        if (nowUserMofDiv !== clickSelMofDiv) {
+          this.askProvince = ''
+          this.noClickMofDiv = '2'
+          this.$message.error('请选择当前本级区划或下级区划！')
+        }
+      }
+    },
+    rightTrim(str) {
+      return str.replace(/\.?0+$/, '')
     }
   },
   watch: {

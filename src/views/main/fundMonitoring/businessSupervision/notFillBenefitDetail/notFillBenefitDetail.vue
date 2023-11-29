@@ -523,8 +523,8 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas()
-    this.isSx && this.queryCaliberDeclareContent()
-    this.$store.getters.isFuJian && this.getPro()
+    this.isSx && this.queryCaliberDeclareContent();
+    (this.$store.getters.isFuJian || this.$store.getters.isXm) && this.getPro()
   }
 }
 </script>
