@@ -296,7 +296,15 @@ export default {
         leftTreeFilterText: ''
       },
       // 表尾合计
-      footerConfig: {}
+      footerConfig: {},
+      isSx: this.$store.getters.isSx,
+      tableFooterConfigSx: {
+        showFooter: true,
+        totalObj: {
+          paymentAmount: 0
+        },
+        combinedType: ['switchTotal']
+      }
     }
   },
   mounted() {
@@ -784,11 +792,18 @@ export default {
         trackProName: this.trackProName,
         voidOrNot: this.voidOrNot
       }
-      if (this.$store.getters.isSx) {
+      if (this.isSx) {
         param.regulation_type = this.regulationType
         param.mofDivCodeList = this.mofDivCodeList
         param.regulationClassList = this.regulationClassList
         delete param.regulationType
+        HttpModule.queryTableDatasSum(param).then(res => {
+          if (res.code === '000000') {
+            this.tableFooterConfigSx.totalObj = res.data
+          } else {
+            this.$message.error(res.result)
+          }
+        })
       }
       this.tableLoading = true
       let axiosUrl = BSURL.lmp_executeWarnWarnInfos
@@ -920,7 +935,7 @@ export default {
         }
       }
       // 陕西 县级不请求树结构
-      if (this.$store.getters.isSx && this.$store.state.userInfo.budgetlevelcode === '5') {
+      if (this.isSx && this.$store.state.userInfo.budgetlevelcode === '5') {
         return
       }
       let that = this
@@ -1004,7 +1019,7 @@ export default {
     this.menuName = this.$store.state.curNavModule.name
     this.params5 = this.$store.getters.getRegulationClass
     this.paramObj = this.transJson(this.$store.state.curNavModule.param5) || {}
-    if (this.$store.getters.isSx && this.$store.getters.getIsJurisdiction) {
+    if (this.isSx && this.$store.getters.getIsJurisdiction) {
       this.leftTreeVisible = true
     }
     if (this.params5 === '6') {
@@ -1018,7 +1033,7 @@ export default {
       }
     }
     if (this.params5 === '0207') {
-      this.tableColumnsConfig = proconf.PoliciesTableColumnsFullJurisdiction
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsSpecialSupervision
       this.footerConfig = {
         showFooter: true,
         combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
@@ -1038,11 +1053,13 @@ export default {
     if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
       this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }
-    if (this.$store.getters.isSx && this.$route.name === 'SXWarningDetailsByRuleAll') { // 平台【预警明细查询】（专项）不展示管理级次
+    if (this.isSx && this.$route.name === 'SXWarningDetailsByRuleAll') { // 【监控主题分析】预警明细查询（全辖）陕西特定修改
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsFullJurisdiction
       this.queryConfig = proconf.highQueryConfigFullJurisdiction
+      this.footerConfig = this.tableFooterConfigSx
     }
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
-      this.toolBarStatusBtnConfig.buttonsInfo = this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
+      this.toolBarStatusBtnConfig.buttonsInfo = this.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
     }
     this.getLeftTreeData()
     this.getRegulation()
