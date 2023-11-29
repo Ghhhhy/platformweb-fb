@@ -69,6 +69,10 @@ export default {
         return []
       }
     },
+    noSelMofDiv: { // select尺寸 medium/small/mini
+      type: String,
+      default: ''
+    },
     size: { // select尺寸 medium/small/mini
       type: String,
       default: ''
@@ -742,6 +746,11 @@ export default {
         this.lineData[`${this.treePrefix}code`] = curVal.code
         this.lineData[`${this.treePrefix}name`] = curVal.name
       } else {
+        if (this.noSelMofDiv === '2' && this.$store.getters.isSx) {
+          this.valueTitle = ''
+          this.noSelMofDiv = '1'
+          return
+        }
         this.lineData = `${curVal.id}##${curVal.code}##${curVal.name}`
       }
       // console.log(77, this.lineData)

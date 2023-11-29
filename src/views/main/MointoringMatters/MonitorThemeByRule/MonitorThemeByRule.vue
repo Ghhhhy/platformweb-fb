@@ -276,12 +276,12 @@ export default {
       this.mofDivCodeList = val.mofDivCodeList_code__multiple
       this.regulationClass = val.regulationClass_code
       this.fiRuleNameQuery = val.fiRuleName
-      if (val.endTime.length !== 0) {
+      if (val.endTime && val.endTime.length !== 0) {
         this.endTime = val.endTime.toString().substring(0, 10) + ' 23:59:59'
       } else {
         this.endTime = ''
       }
-      if (val.startTime.length !== 0) {
+      if (val.startTime && val.startTime.length !== 0) {
         this.startTime = val.startTime.toString().substring(0, 10) + ' 00:00:00'
       } else {
         this.startTime = ''

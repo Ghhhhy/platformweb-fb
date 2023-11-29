@@ -269,6 +269,8 @@ export default {
       useDes: '',
       trackProCode: '',
       trackProName: '',
+      mofDivCodeList: [],
+      regulationClassList: [],
       defaultExpandedKeysIn: ['0'],
       leftTreeConfig: { // 左侧单位树配置
         showFilter: false, // 是否显示过滤
@@ -319,6 +321,8 @@ export default {
       this.trackProCode = obj.trackProCode
       this.searchDataList.businessNo = obj.businessNo
       this.voidOrNot = obj.voidOrNot
+      this.mofDivCodeList = obj.mofDivCodeList_code__multiple
+      this.regulationClassList = obj.regulationClass_code__multiple
       if (this.endTime) {
         this.endTime = this.endTime + ' 23:59:59'
       }
@@ -326,7 +330,6 @@ export default {
         this.businessTime = this.businessTime + ' 00:00:00'
       }
       this.queryTableDatas()
-      // this.queryTableDatasCount()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -783,6 +786,8 @@ export default {
       }
       if (this.$store.getters.isSx) {
         param.regulation_type = this.regulationType
+        param.mofDivCodeList = this.mofDivCodeList
+        param.regulationClassList = this.regulationClassList
         delete param.regulationType
       }
       this.tableLoading = true
@@ -923,8 +928,19 @@ export default {
         if (res.rscode === '100000') {
           let treeResdata = that.getChildrenData(res.data)
           that.treeData = treeResdata
+          this.queryConfig[10].itemRender.options = treeResdata
         } else {
           this.$message.error('左侧树加载失败')
+        }
+      })
+    },
+    getRegulation() {
+      HttpModule.getRegulationTree(0).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getRegulationChildrenData(res.data)
+          this.queryConfig[11].itemRender.options = treeResdata
+        } else {
+          this.$message.error('下拉树加载失败')
         }
       })
     },
@@ -937,16 +953,6 @@ export default {
       HttpModule.getLeftTree1().then(res => {
         if (res.code === '000000') {
           let arr = []
-          // if (this.params5 === 'dfr') {
-          //   res.data.children.forEach(item1 => {
-          //     if (item1.code === '09') {
-          //       this.children = item1
-          //     }
-          //   })
-          //   arr.push(this.children)
-          //   let treeResdata = that.getChildrenData(arr)
-          //   that.treeData = treeResdata
-          // } else {
           arr.push(res.data)
           let treeResdata = that.getChildrenData(arr)
           that.treeData = treeResdata
@@ -964,7 +970,20 @@ export default {
           that.getChildrenData(item.children)
         }
       })
-
+      return datas
+    },
+    getRegulationChildrenData(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.name = item.ruleName
+        item.label = item.code + '-' + item.ruleName
+        if (item.children.length > 0) {
+          that.getRegulationChildrenData(item.children)
+          item.leaf = false
+        } else {
+          item.leaf = true
+        }
+      })
       return datas
     },
     closeDialog() {
@@ -1004,7 +1023,7 @@ export default {
         showFooter: true,
         combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
       }
-      this.queryConfig = proconf.highQueryConfigFullJurisdiction
+      this.queryConfig = proconf.highQueryConfigSpecialSupervision
     }
     if (this.params5 === '0106') {
       this.tableColumnsConfig = proconf.PoliciesTableColumnsToBudgetExecute
@@ -1019,10 +1038,14 @@ export default {
     if (this.$route.name === 'WarningDetailsByRuleAllSpe') { // 平台【预警明细查询】（专项）不展示管理级次
       this.tableColumnsConfig.splice(this.tableColumnsConfig.findIndex(item => item.field === 'regulationtype'), 1)
     }
+    if (this.$store.getters.isSx && this.$route.name === 'SXWarningDetailsByRuleAll') { // 平台【预警明细查询】（专项）不展示管理级次
+      this.queryConfig = proconf.highQueryConfigFullJurisdiction
+    }
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
       this.toolBarStatusBtnConfig.buttonsInfo = this.$store.getters.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
     }
     this.getLeftTreeData()
+    this.getRegulation()
     this.queryTableDatas()
   }
 }
