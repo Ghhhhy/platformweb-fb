@@ -668,7 +668,7 @@ export default {
             Object.keys(item).forEach(t => {
               if (t.includes('ExpenditureProgress') || t.includes('expenditureProgress') || t.includes('ExpendPrg') || t.includes('ExpenProgs') || t.includes('ExpenitrePross')) {
                 if (item[t] === null) {
-                  item[t] = '<span>0</span>'
+                  item[t] = '<span>0%</span>'
                 } else if ((item[t] * 100) > progress) {
                   item[t] = '<span style="color:red">' + parseFloat((item[t] * 100).toFixed(2)) + '%</span>'
                 } else {

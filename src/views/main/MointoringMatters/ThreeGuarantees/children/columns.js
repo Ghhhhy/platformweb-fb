@@ -140,7 +140,7 @@ const defaultTableColumns = [
     title: '支付金额',
     field: 'payamount',
     filters: true,
-    tableType: 'bgt',
+    tableType: 'zxjd',
     width: 180,
     align: 'right',
     combinedType: ['average', 'subTotal', 'total', 'totalAll'],
@@ -152,7 +152,7 @@ const defaultTableColumns = [
     title: '执行进度',
     field: 'sbzxjd',
     filters: true,
-    tableType: 'bgt',
+    tableType: 'zxjd',
     width: 180,
     align: 'right',
     cellRender: {
@@ -162,7 +162,7 @@ const defaultTableColumns = [
   {
     title: '序时进度',
     field: 'sbxsjd',
-    tableType: 'bgt',
+    tableType: 'zxjd',
     width: 180,
     align: 'right',
     filters: true,
@@ -174,7 +174,7 @@ const defaultTableColumns = [
     title: '预警',
     field: 'sbyj',
     width: 180,
-    tableType: 'bgt',
+    tableType: 'zxjd',
     align: 'right',
     filters: true,
     cellRender: {
