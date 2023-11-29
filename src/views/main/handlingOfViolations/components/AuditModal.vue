@@ -139,7 +139,7 @@
               />
             </div>
             <div v-if="isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
-              <haiNanModeAuditModal :visible="visible" />
+              <haiNanModeAuditModal v-bind="haiNanModeProperty" :visible="visible" />
             </div>
           </template>
         </BsSplitPane>
@@ -335,8 +335,6 @@ export default defineComponent({
     const haiNanModeProperty = computed(() => {
       return {
         title: '查看详情信息',
-        warningCode: props.checkedRecords[0]?.warningCode || '',
-        fiRuleCode: props.checkedRecords[0]?.ruleCode || '',
         selectedRow: props.checkedRecords[0],
         param5: props.param5
       }
