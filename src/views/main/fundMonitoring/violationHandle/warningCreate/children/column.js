@@ -2566,7 +2566,7 @@ const proconf = {
     },
     {
       title: '预警级别',
-      field: 'warnLevel',
+      field: store.getters.isNeiMeng ? 'warnLevel' : 'warningLevel',
       align: 'center',
       width: 180,
       filters: store.state.warnInfo.warnLevelOptions,
