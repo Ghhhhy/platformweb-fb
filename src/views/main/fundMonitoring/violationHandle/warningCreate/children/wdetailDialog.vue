@@ -1163,26 +1163,6 @@ export default {
       if (validCellValue && ['detail'].includes(column.property)) {
         style.color = '#4293F4'
         style.textDecoration = 'underline'
-      } else if (['warnLevel'].includes(column.property)) {
-        switch (row.warnLevel) {
-          case 3:
-            style.color = '#BBBB00'
-            break
-          case 2:
-            style.color = 'orange'
-            break
-          case 1:
-            style.color = 'red'
-            break
-          case 4:
-            style.color = 'blue'
-            break
-          case 5:
-            style.color = 'gray'
-            break
-          default:
-            break
-        }
       }
       return style
     },
