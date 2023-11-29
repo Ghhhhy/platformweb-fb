@@ -46,6 +46,12 @@
             :table-columns-config="columns"
             :table-data="tableData"
             :toolbar-config="tableToolbarConfig"
+            :table-global-config="{
+              customExportConfig: {
+                dataType: isUnitFeedbackMenu ? 'selection' : 'fullData',
+                fileName: menuName,
+              },
+            }"
             :pager-config="pagerConfig"
             size="medium"
             @register="registerTable"
@@ -67,8 +73,10 @@
     <AuditModal
       v-if="auditVisible"
       v-model="auditVisible"
+      :is-hai-nan-mode="isHaiNanMode"
       :checked-records="checkedRecords"
       :menu-name="menuName"
+      :param5="param5"
       @success="resetFetchTableData"
     />
     <ProcessDiagramDialog
@@ -77,14 +85,12 @@
       :data-info="dataInfo"
       :type="processDiagramDialogType"
     />
-    <ruleModal v-model="ruleModalVislbel" :regulation-code="propsRegulationCode" />
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, unref, computed, provide, readonly, toRaw } from '@vue/composition-api'
 import AuditModal from './components/AuditModal'
-import ruleModal from '@/views/main/MointoringMatters/MonitorRulesViewFJWK/children/ruleModal.vue'// 海南模式查看
 import useTable from '@/hooks/useTable'
 import useForm from '@/hooks/useForm'
 import useTree from '@/hooks/useTree'
@@ -113,8 +119,7 @@ import transJson from '@/utils/transformMenuQuery.js'
 export default defineComponent({
   components: {
     AuditModal,
-    ProcessDiagramDialog,
-    ruleModal
+    ProcessDiagramDialog
   },
   setup(_, { root }) {
     const menuName = ref(store.getters.getCurNavModule.name)
@@ -131,8 +136,7 @@ export default defineComponent({
     const pagePath = ref(route.path)
     /* eslint-disable-next-line */
     const { isDivisionPage } = useIs({}, pagePath)
-    const ruleModalVislbel = ref(false)
-    const propsRegulationCode = computed(() => checkedRecords.value[0]?.ruleCode)
+    const isHaiNanMode = ref(false)
 
     // 是否是单位页面（单位反馈、单位审核）
     // const isUnitMenu = computed(() => {
@@ -355,11 +359,13 @@ export default defineComponent({
         }
       } else if (unref(currentTab).code === TabEnum.NO_AUDIT) {
         // 未审核
-        initColumns.splice(
-          initColumns.length - 1,
-          0,
-          getAuditDescriptionColumn({ title: '处理说明' })
-        )
+        if (!store.getters.isFuJian) {
+          initColumns.splice(
+            initColumns.length - 1,
+            0,
+            getAuditDescriptionColumn({ title: '处理说明' })
+          )
+        }
       } else if (unref(currentTab).code === TabEnum.AUDITED) {
         // 已审核
         initColumns.splice(
@@ -399,7 +405,7 @@ export default defineComponent({
       isShowSearchForm,
       modalType,
       onQueryConditionsClick
-    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab, resetFetchTableData, ruleModalVislbel)
+    } = useTabPlanel(auditVisible, getTable, pagePath, checkedRecords, currentTab, resetFetchTableData, isHaiNanMode)
     /**
      * tab切换
      * @param tab
@@ -479,9 +485,9 @@ export default defineComponent({
     provide('modalType', readonly(modalType))
     provide('pagePath', readonly(pagePath))
     return {
+      isUnitFeedbackMenu,
       leftVisible,
-      ruleModalVislbel,
-      propsRegulationCode,
+      isHaiNanMode,
       isUnitMenu,
       auditVisible,
       menuName,
@@ -513,7 +519,6 @@ export default defineComponent({
       pagerChange,
       resetFetchTableData,
       checkedRecords,
-
       tabStatusBtnConfig,
       isShowSearchForm,
       onTabClick,

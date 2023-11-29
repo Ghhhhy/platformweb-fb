@@ -30,6 +30,7 @@ const BSURL = {
   lmp_transferBudgetProjectShowButton: 'large-monitor-platform/lmp/payReportConfig/queryConfig', // 本级预算项目和上级转移预算项目新增按钮功能 初始化按钮
   lmp_transferBudgetProjectSwitchButton: 'large-monitor-platform/lmp/payReportConfig/updateConfig', // 本级预算项目和上级转移预算项目新增按钮功能 切换按钮
   lmp_regulationsDetail: 'large-monitor-platform/lmp/regulations/detail', // 获取主题详情列表
+  lmp_commomGetCurrentTime: 'large-monitor-platform/lmp/commom/getCurrentTime', // 获取服务器时间
 
   /* ==========================dfr-monitor-service/dfr 直达资金    ========================== */
   dfr_warningResultHandleRulePageQueryFlow: 'dfr-monitor-service/dfr/warningResultHandleRule/pageQueryFlow',
