@@ -59,7 +59,7 @@ export default defineComponent({
         region: payRegionTableColumns
       },
       zxjd: {
-        reportCode: 'sbzcyjhzb_ysmx',
+        reportCode: 'sbzcyjhzb_zxjdmx',
         title: '执行进度明细',
         total: zxjdTotalTableColumns,
         region: zxjdRegionTableColumns
@@ -113,6 +113,7 @@ export default defineComponent({
     ] = useTable({
       fetch: (params = {}) => post(BSURL.dfr_supervisionPageQuery, params),
       beforeFetch: params => {
+        debugger
         params.reportCode = clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode
         params.mofDivCode = clickRowInfo.value.mofDivCode
         params.threesafe_symbolcat_code = clickColumnsInfo.value.threesafe_symbolcat_code

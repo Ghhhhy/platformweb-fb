@@ -186,17 +186,20 @@ export let proconf = {
   PoliciesTableColumns: [
     {
       title: '区划',
+      width: 180,
       field: 'mofDivName',
       align: 'center'
     },
     {
       title: '监控主题',
+      width: 180,
       field: 'regulationClassName',
       sortable: false,
       align: 'center'
     },
     {
       title: '规则类型',
+      width: 180,
       field: 'fiRuleTypeName',
       sortable: false,
       align: 'center'
@@ -222,6 +225,7 @@ export let proconf = {
     },
     {
       title: '监控规则名称',
+      width: 180,
       field: 'regulationName',
       sortable: false,
       align: 'center'
@@ -245,6 +249,7 @@ export let proconf = {
     },
     {
       title: '是否启用',
+      width: 180,
       field: 'isEnable',
       sortable: false,
       align: 'center',
@@ -255,12 +260,14 @@ export let proconf = {
     },
     {
       title: '联系人',
+      width: 180,
       field: 'contactPerson',
       sortable: false,
       align: 'center'
     },
     {
       title: '联系电话',
+      width: 180,
       field: 'officePhone',
       sortable: false,
       align: 'center'
