@@ -17,6 +17,7 @@ import 'vxe-table-plugin-element/dist/style.css'
 import '@/assets/css/Titans.scss' // Titans的样式
 import '@/assets/alifont/iconfont.css'
 import '@/assets/css/bsui20230824.scss'// BsUI 20230824 UI改版
+import '@/assets/css/projectCustomerStyle.scss'// 各个项目的样式修改
 
 // 金额的特殊字体
 import '@/assets/font/font.css'

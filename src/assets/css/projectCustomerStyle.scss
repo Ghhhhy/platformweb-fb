@@ -1,0 +1,29 @@
+.isFuJian{
+  .BsAppHeader{
+    .MenuList-header{
+      .MenuList-header.header-left{
+        flex: 1;
+        min-width: 364px;
+      }
+      .xmHeader.header-right{
+        width: auto !important;
+        min-width: 580px;
+      }
+      .block-plan.flex {
+        width: auto;
+        box-sizing: border-box;
+        .block-plan-desc {
+          width: auto;
+          display: inline-block;
+          max-width: 200px;
+          padding: 0 10px;
+          text-align: center;
+          text-wrap: nowrap;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

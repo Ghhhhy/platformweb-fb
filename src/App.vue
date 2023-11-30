@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[theme,'v20230824']" :style="{ height: wrapHeight }">
+  <div id="app" :class="{ [theme]: true,'v20230824': true,'isFuJian': $store.getters.isFuJian }" :style="{ height: wrapHeight }">
     <div class="app-main">
       <BsKeepAlive ref="keepAlive">
         <router-view v-if="isMicroApp && ifrouteractive" :key="$route.name" />
