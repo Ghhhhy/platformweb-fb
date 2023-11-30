@@ -327,9 +327,9 @@ export default {
           this.$message.error(res.message)
         }
       })
-      this.attachmentId = this.modifyData.attachment_id != null ? this.modifyData.attachment_id : this.$ToolFn.utilFn.getUuid()
+      this.attachmentId = this.modifyData?.attachment_id != null ? this.modifyData?.attachment_id : this.$ToolFn.utilFn.getUuid()
       let param = 'attachmentId=' + this.attachmentId
-      HttpModule.getFiles(param).then(res => {
+      HttpModule.getFile(param).then(res => {
         if (res.rscode === '200') {
           // 获取附件信息
           this.fileData = res.data.fileList
