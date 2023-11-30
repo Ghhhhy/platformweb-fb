@@ -47,7 +47,7 @@ export const getters = {
   },
   isFuJian() { // 判断是不是福建项目
     const province = state.userInfo.province
-    return province.slice(0, 2) === '35' && province.slice(0, 4) !== '3502'// 3502 去掉厦门项目
+    return province?.slice(0, 2) === '35' && province?.slice(0, 4) !== '3502'// 3502 去掉厦门项目
   },
   isXm() { // 厦门项目
     const province = state.userInfo.province
