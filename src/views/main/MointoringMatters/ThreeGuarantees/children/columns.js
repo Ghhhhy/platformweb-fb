@@ -175,7 +175,7 @@ const defaultTableColumns = [
     field: 'sbyj',
     width: 180,
     tableType: 'zxjd',
-    align: 'right',
+    align: 'center',
     filters: true,
     cellRender: {
       name: '$vxeInput'

@@ -905,7 +905,7 @@ export default {
       } else if (!fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH) {
         this.handleDetail(xmSource + '_xj', obj.row.code, key, obj.row)
         this.detailTitle = '项目明细'
-      } else if (isSX && key === dictionary['预警数量']) {
+      } else if (isSX && key === dictionary['预警数量'] && obj.row.children === null) {
         this.handleDetailSx('zxjd_fzj', obj.row.code, key, obj.row)
         this.detailTitle = '预警明细列表'
       }
@@ -1106,7 +1106,7 @@ export default {
         2: !fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key),
         3: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && !isSH,
         4: !fpxjShow && [dictionary['省级分配下级'], dictionary['市级分配下级']].includes(key) && isSH,
-        5: isSX && key === dictionary['预警数量']
+        5: isSX && key === dictionary['预警数量'] && row.children === null
       }
       if (Object.values(canInsertMap).some(item => item) && this.linkStyle(row, rowIndex, column)) {
         return {
