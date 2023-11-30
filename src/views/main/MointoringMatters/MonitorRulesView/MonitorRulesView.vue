@@ -965,6 +965,9 @@ export default {
       let param = {
         regulationClass: this.regulationClass
       }
+      if (this.isSx) {
+        param['jurisdiction'] = (this.param5 && this.param5.jurisdiction === '1') || this.$route.name === 'SXMonitorRulesView'
+      }
       HttpModule.getLeftTree1(param).then(res => {
         if (res.code === '000000') {
           let arr = []

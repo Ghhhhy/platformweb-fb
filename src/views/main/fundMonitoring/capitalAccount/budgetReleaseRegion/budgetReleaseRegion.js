@@ -1473,14 +1473,16 @@ if (store.getters.isSx) {
           children: [
             {
               title: '中央安排',
-              field: 'amountZjzl',
+              // field: 'amountZjzl',
+              field: 'amountZyxdbhxj',
               width: 100,
               align: 'right',
               cellRender: { name: '$vxeMoney' }
             },
             {
               title: '地方安排',
-              field: 'amountZjzc',
+              // field: 'amountZjzc',
+              field: 'amountQsdfbhxj',
               width: 100,
               align: 'right',
               cellRender: { name: '$vxeMoney' }
@@ -1493,7 +1495,8 @@ if (store.getters.isSx) {
               cellRender: {
                 name: '$vxeMoney'
               },
-              formula: '({amountZjzl}+{amountZjzc})'
+              // formula: '({amountZjzl}+{amountZjzc})'
+              formula: '({amountZyxdbhxj}+{amountQsdfbhxj})'
             }
           ]
         },
@@ -1580,7 +1583,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({sqzyapAmount}+{amountSnjysZyap})'
+                      formula: '({sqzyapAmount}+{amountSnjzyxd})'
                     },
                     {
                       title: '地方安排',
@@ -1588,7 +1591,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({sqdfapAmount}+{amountSnjysDfap})'
+                      formula: '({sqdfapAmount}+{amountSnjdfdf})'
                     },
                     {
                       title: '总金额',
@@ -1598,7 +1601,7 @@ if (store.getters.isSx) {
                       cellRender: {
                         name: '$vxeMoney'
                       },
-                      formula: '({shzyapAmount}+{amountSnjysDfap})'
+                      formula: '({shzyapAmount}+{amountSnjysDfap11})'
                     }
                   ]
                 }
@@ -1820,7 +1823,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({shqzyapAmount}+{amountSjysZyap})'
+                      formula: '({shqzyapAmount}+{amountSjzydf})'
                     },
                     {
                       title: '地方安排',
@@ -1828,7 +1831,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({shqdfapAmount}+{amountSjysDfap})'
+                      formula: '({shqdfapAmount}+{amountSjdfdf})'
                     },
                     {
                       title: '总金额',
@@ -2059,7 +2062,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({xqzyapAmount}+{amountXjysZyap})'
+                      formula: '({xqzyapAmount}+{amountXjzydf})'
                     },
                     {
                       title: '地方安排',
@@ -2067,7 +2070,7 @@ if (store.getters.isSx) {
                       width: 100,
                       align: 'right',
                       cellRender: { name: '$vxeMoney' },
-                      formula: '({xqdfapAmount}+{amountXjysDfap})'
+                      formula: '({xqdfapAmount}+{amountXjdfdf})'
                     },
                     {
                       title: '总金额',
@@ -2350,7 +2353,8 @@ if (store.getters.isSx) {
                   width: 150,
                   align: 'right',
                   sortable: true,
-                  cellRender: { name: '$vxeMoney' }
+                  cellRender: { name: '$vxeMoney' },
+                  formula: '({amountZjysZyap}-{amountZjfpZyap})'
                 },
                 {
                   title: '地方安排',

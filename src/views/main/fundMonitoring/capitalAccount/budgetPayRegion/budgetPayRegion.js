@@ -1133,7 +1133,7 @@ if (store.getters.isSx) {
               cellRender: {
                 name: '$vxeRatio'
               },
-              formula: '(({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
+              formula: '({amountZjzl}+{cAmount})-0==0?0:Math.round({amountZjzc}/({amountZjzl}+{cAmount})*100*10)/10'
             }
           ]
         },
@@ -1552,211 +1552,209 @@ if (store.getters.isSx) {
           children: [
             {
               title: '中央安排',
-              field: 'zzyapAmount',
+              field: 'amountXjzypay',
               width: 100,
               align: 'right',
-              cellRender: { name: '$vxeMoney' },
-              formula: '{amountSnjzypay}+{amountSjzypay}+{amountXjzypay}'
+              cellRender: { name: '$vxeMoney' }
             },
             {
               title: '地方安排',
-              field: 'zdfapAmount',
+              field: 'amountXjdfpay',
               width: 100,
               align: 'right',
-              cellRender: { name: '$vxeMoney' },
-              formula: '{amountSnjdfpay}+{amountSjdfpay}+{amountXjdfpay}'
-            },
-            {
-              title: '总金额',
-              field: 'zaAmount',
-              width: 100,
-              align: 'right',
-              cellRender: {
-                name: '$vxeMoney'
-              },
-              formula: '({zzyapAmount}+{zdfapAmount})'
-            }
-          ]
-        },
-        {
-          title: '镇级',
-          width: 200,
-          align: 'center',
-          children: [
-            {
-              title: '资金总量',
-              width: 200,
-              align: 'right',
-              children: [
-                {
-                  title: '中央安排',
-                  field: 'amountZjxd',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '地方安排',
-                  field: 'zdfapaAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '总金额',
-                  field: 'zaaAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: {
-                    name: '$vxeMoney'
-                  },
-                  formula: '({amountZjxd}+{zdfapaAmount})'
-                }
-              ]
-            },
-            {
-              title: '整合金额',
-              width: 200,
-              align: 'right',
-              children: [
-                {
-                  title: '中央安排',
-                  field: 'zzyapcAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '地方安排',
-                  field: 'zdfapcAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '总金额',
-                  field: 'zacAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: {
-                    name: '$vxeMoney'
-                  },
-                  formula: '({zzyapcAmount}+{zdfapcAmount})'
-                }
-              ]
-            },
-            {
-              title: '支出金额',
-              width: 200,
-              align: 'right',
-              children: [
-                {
-                  title: '中央安排',
-                  field: 'amountZjpay',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '地方安排',
-                  field: 'zdfappAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeMoney' }
-                },
-                {
-                  title: '总金额',
-                  field: 'zapAmount',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: {
-                    name: '$vxeMoney'
-                  },
-                  formula: '({amountZjpay}+{zdfappAmount})'
-                }
-              ]
-            },
-            {
-              title: '支出进度',
-              width: 200,
-              align: 'right',
-              children: [
-                {
-                  title: '中央安排',
-                  field: 'zzyapPro',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeRatio' },
-                  formula: '{amountZjxd}-0==0?0:{amountZjpay}/{amountZjxd}*100'
-                },
-                {
-                  title: '地方安排',
-                  field: 'zdfappPro',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: { name: '$vxeRatio' }
-                },
-                {
-                  title: '总进度',
-                  field: 'zapPro',
-                  width: 200,
-                  align: 'right',
-                  sortable: true,
-                  cellRender: {
-                    name: '$vxeRatio'
-                  },
-                  formula: '({zzyapPro})'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: '支出总数',
-          width: 200,
-          align: 'center',
-          children: [
-            {
-              title: '中央安排',
-              field: 'zzyapAmount',
-              width: 200,
-              align: 'right',
-              sortable: true,
-              cellRender: { name: '$vxeMoney' },
-              formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
-            },
-            {
-              title: '地方安排',
-              field: 'zdfapAmount',
-              width: 200,
-              align: 'right',
-              sortable: true,
               cellRender: { name: '$vxeMoney' }
             },
             {
               title: '总金额',
               field: 'zaAmount',
-              width: 200,
+              width: 100,
               align: 'right',
-              sortable: true,
               cellRender: {
                 name: '$vxeMoney'
               },
-              formula: '({zzyapAmount}+{zdfapAmount})'
+              formula: '({amountXjzypay}+{amountXjdfpay})'
             }
           ]
         }
+        // {
+        //   title: '镇级',
+        //   width: 200,
+        //   align: 'center',
+        //   children: [
+        //     {
+        //       title: '资金总量',
+        //       width: 200,
+        //       align: 'right',
+        //       children: [
+        //         {
+        //           title: '中央安排',
+        //           field: 'amountZjxd',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '地方安排',
+        //           field: 'zdfapaAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '总金额',
+        //           field: 'zaaAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: {
+        //             name: '$vxeMoney'
+        //           },
+        //           formula: '({amountZjxd}+{zdfapaAmount})'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       title: '整合金额',
+        //       width: 200,
+        //       align: 'right',
+        //       children: [
+        //         {
+        //           title: '中央安排',
+        //           field: 'zzyapcAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: false,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '地方安排',
+        //           field: 'zdfapcAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: false,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '总金额',
+        //           field: 'zacAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: false,
+        //           cellRender: {
+        //             name: '$vxeMoney'
+        //           },
+        //           formula: '({zzyapcAmount}+{zdfapcAmount})'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       title: '支出金额',
+        //       width: 200,
+        //       align: 'right',
+        //       children: [
+        //         {
+        //           title: '中央安排',
+        //           field: 'amountZjpay',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '地方安排',
+        //           field: 'zdfappAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeMoney' }
+        //         },
+        //         {
+        //           title: '总金额',
+        //           field: 'zapAmount',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: {
+        //             name: '$vxeMoney'
+        //           },
+        //           formula: '({amountZjpay}+{zdfappAmount})'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       title: '支出进度',
+        //       width: 200,
+        //       align: 'right',
+        //       children: [
+        //         {
+        //           title: '中央安排',
+        //           field: 'zzyapPro',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeRatio' },
+        //           formula: '{amountZjxd}-0==0?0:{amountZjpay}/{amountZjxd}*100'
+        //         },
+        //         {
+        //           title: '地方安排',
+        //           field: 'zdfappPro',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: { name: '$vxeRatio' }
+        //         },
+        //         {
+        //           title: '总进度',
+        //           field: 'zapPro',
+        //           width: 200,
+        //           align: 'right',
+        //           sortable: true,
+        //           cellRender: {
+        //             name: '$vxeRatio'
+        //           },
+        //           formula: '({zzyapPro})'
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
+        // {
+        //   title: '支出总数',
+        //   width: 200,
+        //   align: 'center',
+        //   children: [
+        //     {
+        //       title: '中央安排',
+        //       field: 'zzyapAmount',
+        //       width: 200,
+        //       align: 'right',
+        //       sortable: true,
+        //       cellRender: { name: '$vxeMoney' },
+        //       formula: '{amountSnjpay}+{amountSjpay}+{amountXjpay}+{amountZjpay}'
+        //     },
+        //     {
+        //       title: '地方安排',
+        //       field: 'zdfapAmount',
+        //       width: 200,
+        //       align: 'right',
+        //       sortable: true,
+        //       cellRender: { name: '$vxeMoney' }
+        //     },
+        //     {
+        //       title: '总金额',
+        //       field: 'zaAmount',
+        //       width: 200,
+        //       align: 'right',
+        //       sortable: true,
+        //       cellRender: {
+        //         name: '$vxeMoney'
+        //       },
+        //       formula: '({zzyapAmount}+{zdfapAmount})'
+        //     }
+        //   ]
+        // }
       ],
       tableData: []
     }

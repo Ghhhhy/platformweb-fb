@@ -51,7 +51,7 @@ export let proconf = {
     ]
   },
   statusRightToolBarButtonByBusDept: {
-    '1': [
+    '1': store.getters.isSx ? [] : [
       { code: 'check', label: '查看详情' }
     ]
   },
