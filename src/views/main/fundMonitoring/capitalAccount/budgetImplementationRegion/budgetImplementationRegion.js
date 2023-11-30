@@ -129,6 +129,7 @@ const proconf = {
         align: 'left',
         fixed: 'left',
         width: 200,
+        exportVisibleWidth: true,
         field: 'name',
         cellRender: {
           name: '$vxeIcon'
