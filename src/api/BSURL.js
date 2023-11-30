@@ -43,13 +43,17 @@ const BSURL = {
   dfr_benefitPeopleNotHook: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', // 惠企利民支付明细导入_取消挂接
   dfr_benefitPeopleDelete: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/deleteBenefitData', // 惠企利民支付明细导入_删除惠企明细数据
   dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
-  // mp-b-basedata-service 平台
-  api_simpleTreeWhere: 'mp-b-basedata-service/v2/basedata/simpletree/where',
+
+  // 平台  文件服务
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
+
+  // mp-b-perm-service 平台  权限服务
   api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表
   api_tableconf: 'mp-b-perm-service/v1/tableconf', // 平台 查询单个动态表单JSON配置项
-  api_v2Dicds: 'mp-b-perm-service/v2/dicds', // 平台 函数值字典
-  api_v2Basedata: 'mp-b-perm-service/v2/basedata', // 平台 规则设置 查询要素信息字典
+
+  // mp-b-basedata-service 平台 基础服务接口
+  api_v2Dicds: 'mp-b-basedata-service/v2/dicds', // 平台 函数值字典
+  api_v2Basedata: 'mp-b-basedata-service/v2/basedata', // 平台 规则设置 查询要素信息字典
 
   // 预算   eg: bgt_xxx: 'budget/api/budget'
   bgt_transferBudgetProjectGetLeftData: 'budget/api/budget/bisProject/project/pmProjectInfo/fj/querySpeProjectDetail' // 本级预算项目获取左侧表格数据
