@@ -48,7 +48,8 @@ const BSURL = {
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
   api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表
   api_tableconf: 'mp-b-perm-service/v1/tableconf', // 平台 查询单个动态表单JSON配置项
-  api_v2Dicds: 'mp-b-perm-service/v2/dicds',
+  api_v2Dicds: 'mp-b-perm-service/v2/dicds', // 平台 函数值字典
+  api_v2Basedata: 'mp-b-perm-service/v2/basedata', // 平台 规则设置 查询要素信息字典
 
   // 预算   eg: bgt_xxx: 'budget/api/budget'
   bgt_transferBudgetProjectGetLeftData: 'budget/api/budget/bisProject/project/pmProjectInfo/fj/querySpeProjectDetail' // 本级预算项目获取左侧表格数据

@@ -483,16 +483,16 @@
             v-slot:column-editParam="{ row, column }"
           >
             <div class="custom-cell" style="font-size: 14px">
-              <div v-if="row.paramType !== '5'">
-                <vxe-input v-model="row.param" />
-              </div>
-              <div v-else>
+              <div v-if="paramType(row)">
                 <vxe-select
                   v-model="row.param"
-                  :options="functionSelectOptions"
+                  :options="funcParamsOption(row)"
                   :option-props="{ label: 'value', value: 'regId' }"
                   :placeholder="column.title"
                 />
+              </div>
+              <div v-else>
+                <vxe-input v-model="row.param" />
               </div>
             </div>
           </template>
@@ -792,6 +792,19 @@ export default {
     }
   },
   methods: {
+    funcParamsOption(row) {
+      if (row.paramType === '5') {
+        return this.functionSelectOptions
+      } else if (row.paramType === '4') {
+        return row.functionSelectOptionsByValueSet
+      }
+    },
+    paramType(row) {
+      if (row.paramType === '5' || (this.$store.getters.isSx && row.paramType === '4')) {
+        return true
+      }
+      return false
+    },
     formItemChange(obj) {
       if (obj.property === 'payment') {
         let data = obj.itemValue ? obj.itemValue.split(',').slice(0) : []
@@ -991,21 +1004,39 @@ export default {
       console.log(datas1)
       HttpModule.getTemplateByCode({ ruleTemplateCode: datas[0].ruleTemplateCode }).then(res => {
         if (res.code === '000000') {
-          res.data.functionInfoList.forEach(item => {
+          if (this.$store.getters.isSx) {
+            const elementCodeList = res.data.functionInfoList.map(item => {
+              return item.elementcode
+            })
+            Promise.all(elementCodeList.map(code => {
+              return this.getFunctionSelectOptionsByValueSet(code)
+            })).then(listResult => {
+              res.data.functionInfoList.forEach((item, index) => {
+                let tempObj = {
+                  functionName: item.functionName,
+                  functionCode: item.functionCode,
+                  functionParameter: item.functionParameter,
+                  functionSelectOptionsByValueSet: listResult[index].data || [],
+                  description: item.description,
+                  relation: '1',
+                  paramType: '1',
+                  param: item.param
+                }
+                that.mountTableData.push(tempObj)
+              })
+            })
+            return
+          }
+          res.data.functionInfoList.forEach((item, index) => {
             let tempObj = {
-              functionName: '',
-              functionCode: '',
-              functionParameter: '',
-              description: '',
+              functionName: item.functionName,
+              functionCode: item.functionCode,
+              functionParameter: item.functionParameter,
+              description: item.description,
               relation: '1',
               paramType: '1',
-              param: ''
+              param: item.param
             }
-            tempObj.functionParameter = item.functionParameter
-            tempObj.description = item.description
-            tempObj.functionName = item.functionName
-            tempObj.functionCode = item.functionCode
-            tempObj.param = item.param
             that.mountTableData.push(tempObj)
           })
         } else {
@@ -1319,6 +1350,10 @@ export default {
       })
 
       return datas
+    },
+    getFunctionSelectOptionsByValueSet(elementCode) {
+      const params = [elementCode,this.$store.state.userInfo.province].join('/')
+      return this.$http.get(BSURL.api_v2Basedata+'/'+params)
     },
     // 获取生效范围
     getWhereTree() {
