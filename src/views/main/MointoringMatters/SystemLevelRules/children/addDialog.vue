@@ -1007,7 +1007,7 @@ export default {
               return item.elementCode
             })
             Promise.all(elementCodeList.map(code => {
-              return this.getFunctionSelectOptionsByValueSetLabel(code)
+              return this.getFunctionSelectOptionsByValueSet(code)
             })).then(listResult => {
               res.data.functionInfoList.forEach((item, index) => {
                 let tempObj = {
