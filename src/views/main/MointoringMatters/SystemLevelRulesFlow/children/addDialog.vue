@@ -393,14 +393,9 @@
             :toolbar-config="false"
             :pager-config="false"
           >
-            <template
-              v-slot:column-editParam="{ row, column }"
-            >
+            <template v-slot:column-editParam="{ row, column }">
               <div class="custom-cell" style="font-size: 14px">
-                <div v-if="row.paramType !== '5'">
-                  <vxe-input v-model="row.param" />
-                </div>
-                <div v-else>
+                <div v-if="row.paramType === '5'">
                   <vxe-select
                     v-model="row.param"
                     :options="functionSelectOptions"
@@ -408,12 +403,23 @@
                     :placeholder="column.title"
                   />
                 </div>
+                <div v-else-if="row.paramType === '4' && $store.getters.isSx">
+                  <vxe-select
+                    v-model="row.param"
+                    :options="row.functionSelectOptionsByValueSet"
+                    :option-props="{ label: 'name', value: 'code' }"
+                    :placeholder="column.title"
+                  />
+                </div>
+                <div v-else>
+                  <vxe-input v-model="row.param" />
+                </div>
               </div>
             </template>
-            <template
-              v-slot:column-defaultParam="{ row }"
-            >
-              <span>{{ getFunctionLabel(row.param) }}</span>
+            <template v-slot:column-defaultParam="{ row }">
+              <span v-if="row.paramType === '5'">{{ getFunctionLabel(row.param) }}</span>
+              <span v-if="row.paramType === '4' && $store.getters.isSx">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+              <span v-else>{{ row.param }}</span>
             </template>
           </BsTable>
         </div>
@@ -690,6 +696,15 @@ export default {
     }
   },
   methods: {
+    getFunctionSelectOptionsByValueSetLabel(row) {
+      let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
+      let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
+      return joinListString
+    },
+    getFunctionSelectOptionsByValueSet(elementCode) {
+      const params = [elementCode, this.$store.state.userInfo.province].join('/')
+      return this.$http.get(BSURL.api_v2Basedata + '/' + params)
+    },
     chooseWarningLevel(val) {
       if (val === 1) {
         this.handleType = 1
@@ -1379,7 +1394,16 @@ export default {
     // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
     // this.businessFunctionName = this.$parent.DetailData.menuNameList
     this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
-    this.mountTableData = this.$parent.DetailData.regulationConfig
+    let regulationConfig = this.$parent.DetailData.regulationConfig || []
+    if (this.$store.getters.isSx) {
+      let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+        return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+      }))
+      regulationConfig = regulationConfig.map((item, index) => {
+        return { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+      })
+    }
+    this.mountTableData = regulationConfig
     this.ruleFlag = this.$parent.DetailData.ruleFlag
     this.warnLocation = this.$parent.DetailData.warnLocation
     this.policiesDescription = this.$parent.DetailData.warningTips

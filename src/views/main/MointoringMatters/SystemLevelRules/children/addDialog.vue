@@ -479,14 +479,9 @@
           :toolbar-config="false"
           :pager-config="false"
         >
-          <template
-            v-slot:column-editParam="{ row, column }"
-          >
+          <template v-slot:column-editParam="{ row, column }">
             <div class="custom-cell" style="font-size: 14px">
-              <div v-if="row.paramType !== '5'">
-                <vxe-input v-model="row.param" />
-              </div>
-              <div v-else>
+              <div v-if="row.paramType === '5'">
                 <vxe-select
                   v-model="row.param"
                   :options="functionSelectOptions"
@@ -494,12 +489,23 @@
                   :placeholder="column.title"
                 />
               </div>
+              <div v-else-if="row.paramType === '4' && $store.getters.isSx">
+                <vxe-select
+                  v-model="row.param"
+                  :options="row.functionSelectOptionsByValueSet"
+                  :option-props="{ label: 'name', value: 'code' }"
+                  :placeholder="column.title"
+                />
+              </div>
+              <div v-else>
+                <vxe-input v-model="row.param" />
+              </div>
             </div>
           </template>
-          <template
-            v-slot:column-defaultParam="{ row }"
-          >
-            <span>{{ getFunctionLabel(row.param) }}</span>
+          <template v-slot:column-defaultParam="{ row }">
+            <span v-if="row.paramType === '5'">{{ getFunctionLabel(row.param) }}</span>
+            <span v-if="row.paramType === '4' && $store.getters.isSx">{{ getFunctionSelectOptionsByValueSet(row) }}</span>
+            <span v-else>{{ row.param }}</span>
           </template>
         </BsTable>
       </div>
@@ -792,6 +798,11 @@ export default {
     }
   },
   methods: {
+    getFunctionSelectOptionsByValueSetLabel(row) {
+      let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
+      let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
+      return joinListString
+    },
     formItemChange(obj) {
       if (obj.property === 'payment') {
         let data = obj.itemValue ? obj.itemValue.split(',').slice(0) : []
@@ -991,21 +1002,39 @@ export default {
       console.log(datas1)
       HttpModule.getTemplateByCode({ ruleTemplateCode: datas[0].ruleTemplateCode }).then(res => {
         if (res.code === '000000') {
-          res.data.functionInfoList.forEach(item => {
+          if (this.$store.getters.isSx) {
+            const elementCodeList = res.data.functionInfoList.map(item => {
+              return item.elementCode
+            })
+            Promise.all(elementCodeList.map(code => {
+              return this.getFunctionSelectOptionsByValueSetLabel(code)
+            })).then(listResult => {
+              res.data.functionInfoList.forEach((item, index) => {
+                let tempObj = {
+                  functionName: item.functionName,
+                  functionCode: item.functionCode,
+                  functionParameter: item.functionParameter,
+                  functionSelectOptionsByValueSet: listResult[index].data || [],
+                  description: item.description,
+                  relation: '1',
+                  paramType: '1',
+                  param: item.param
+                }
+                that.mountTableData.push(tempObj)
+              })
+            })
+            return
+          }
+          res.data.functionInfoList.forEach((item, index) => {
             let tempObj = {
-              functionName: '',
-              functionCode: '',
-              functionParameter: '',
-              description: '',
+              functionName: item.functionName,
+              functionCode: item.functionCode,
+              functionParameter: item.functionParameter,
+              description: item.description,
               relation: '1',
               paramType: '1',
-              param: ''
+              param: item.param
             }
-            tempObj.functionParameter = item.functionParameter
-            tempObj.description = item.description
-            tempObj.functionName = item.functionName
-            tempObj.functionCode = item.functionCode
-            tempObj.param = item.param
             that.mountTableData.push(tempObj)
           })
         } else {
@@ -1021,7 +1050,7 @@ export default {
       // 修改的时候可以随意切换
       if (this.title !== '修改') {
         // 在模板信息页必须勾选且点击之后才能进行tab切换
-        /*eslint-disable */
+        /* eslint-disable-next-line */
         if (this.activeIndex === 0 && index !== 0 && this.showType != '1') {
           this.$XModal.message({ status: 'warning', message: '请选择一条数据数据并点击确定！' })
           return
@@ -1179,7 +1208,7 @@ export default {
               id: 'root',
               label: '全部',
               code: 'root',
-              text:"全部",
+              text: '全部',
               name: '全部',
               isleaf: '0',
               children: treeResdata
@@ -1320,6 +1349,10 @@ export default {
 
       return datas
     },
+    getFunctionSelectOptionsByValueSet(elementCode) {
+      const params = [elementCode, this.$store.state.userInfo.province].join('/')
+      return this.$http.get(BSURL.api_v2Basedata + '/' + params)
+    },
     // 获取生效范围
     getWhereTree() {
       this.defaultCheckedKeys = []
@@ -1336,7 +1369,7 @@ export default {
       let regulationType = this.$store.state.curNavModule.f_FullName?.substring(0, 3)
       if (regulationType === '部门级') {
         param.elementCode = 'DEPARTMENT'
-        if(this.$store.getters.isSx||this.$store.getters.isFuJian){
+        if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
           param.elementCode = 'AGENCY'
         }
         param.wheresql = 'and code like \'' + this.$store.state.userInfo.orgcode + '%\''
@@ -1356,7 +1389,7 @@ export default {
               id: 'root',
               label: '全部',
               code: 'root',
-              text:'全部',
+              text: '全部',
               isleaf: '0',
               disabled: this.$parent.dialogTitle === '查看详情',
               name: '全部',
@@ -1952,7 +1985,7 @@ export default {
   },
   mounted() {
   },
-  created() {
+  async created() {
     console.log(this.$parent.DetailData)
     this.formItemsConfigMessage = [...proconf.formItemsConfigMessage]
     this.getWhereTree()
@@ -2007,7 +2040,16 @@ export default {
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
-      this.mountTableData = this.$parent.DetailData.regulationConfig
+      let regulationConfig = this.$parent.DetailData.regulationConfig || []
+      if (this.$store.getters.isSx) {
+        let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+          return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+        }))
+        regulationConfig = regulationConfig.map((item, index) => {
+          return { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+        })
+      }
+      this.mountTableData = regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       this.warnLocation = this.$parent.DetailData.warnLocation
       this.policiesDescription = this.$parent.DetailData.warningTips
@@ -2053,7 +2095,16 @@ export default {
       // this.businessFunctionName.push(this.$parent.DetailData.businessFunctionName)
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.regulationModelCode
-      this.mountTableData = this.$parent.DetailData.regulationConfig
+      let regulationConfig = this.$parent.DetailData.regulationConfig || []
+      if (this.$store.getters.isSx) {
+        let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+          return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+        }))
+        regulationConfig = regulationConfig.map((item, index) => {
+          return { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+        })
+      }
+      this.mountTableData = regulationConfig
       this.fiRuleTypeCode = this.$parent.DetailData.ruleTemplate.fiRuleTypeCode
       this.fiRuleTypeName = this.$parent.DetailData.ruleTemplate.fiRuleTypeName
       if (this.$parent.DetailData.ruleTemplate.fiRuleTypeCode && this.$parent.DetailData.ruleTemplate.fiRuleTypeName) {
@@ -2123,7 +2174,7 @@ export default {
       if (this.$parent.formDatas) {
         this.formDatas = {}
         if (this.formDatas.payment && this.formDatas.payment !== '') {
-          this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(item=>item)//过滤空字符串
+          this.formDatas.payment__multiple = this.formDatas.payment.split(',').filter(item => item)// 过滤空字符串
           this.paymentLen = this.formDatas.payment__multiple.length
           this.formDatas.payment__multiple.forEach((item, index) => {
             let datas = {}

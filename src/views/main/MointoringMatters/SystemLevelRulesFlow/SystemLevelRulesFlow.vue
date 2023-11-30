@@ -75,6 +75,7 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AddDialog
       v-if="dialogVisible"
+      ref="AddDialog"
       :title="dialogTitle"
       :click-type="clickType"
       :modify-data="modifyData"
@@ -266,6 +267,9 @@ export default {
           this.DetailData = res.data
           this.DetailData.ruleFlowOpinion = this.ruleFlowOpinion
           this.dialogVisible = true
+          this.$nextTick(() => {
+            this.$refs.AddDialog.ruleFlowOpinion = this.ruleFlowOpinion
+          })
         }
       })
     },
@@ -416,6 +420,7 @@ export default {
           } else {
             this.provinceList = datas3[0].codeList
             this.formDatas = datas3[0].ruleElement
+            this.ruleFlowOpinion = datas3[0].ruleFlowOpinion
             this.clickType = clickTypeEnum['审批']
             this.dialogTitle = '审批'
             this.getDetail(regulationCodes[0])

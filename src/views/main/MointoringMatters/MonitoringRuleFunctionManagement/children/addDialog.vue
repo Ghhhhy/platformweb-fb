@@ -128,6 +128,29 @@
                 </el-main>
               </el-container>
             </el-col>
+            <el-col v-if="$store.getters.isSx" :span="12">
+              <el-container>
+                <el-main width="100%">
+                  <el-row>
+                    <div class="sub-title-add" style="width:100px;float:left;margin-top:8px">函数值</div>
+                    <el-select
+                      v-model="elementCode"
+                      placeholder="请选择函数值"
+                      clearable
+                      filterable
+                      style="width:45%"
+                    >
+                      <el-option
+                        v-for="item in elementCodeOption"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item.code"
+                      />
+                    </el-select>
+                  </el-row>
+                </el-main>
+              </el-container>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
@@ -220,6 +243,8 @@ export default {
         { id: 'outTable', label: '表间', value: '2' },
         { id: 'inTableAll', label: '表内批量', value: '31' }
       ],
+      elementCodeOption: [],
+      elementCode: '',
       functionName: '',
       functionApi: '',
       functionApiType: '',
@@ -258,6 +283,11 @@ export default {
         }
       })
     },
+    getElementCodeOption() {
+      this.$http.get(BSURL.api_v2Dicds).then(res => {
+        res.rscode === '100000' && (this.elementCodeOption = res.data)
+      })
+    },
     functionTypeFun() {
       console.log(this.functionType, 'functionTypeFun')
     },
@@ -289,6 +319,7 @@ export default {
           this.functionApiType = res.data.functionApiType == null ? res.data.functionApiType : res.data.functionApiType.toString()
           this.functionParameter = res.data.functionParameter
           this.description = res.data.description
+          this.elementCode = res.data.elementCode
           this.dataSourceName = res.data.dataSourceName
           this.dataSourceCode = res.data.dataSourceCode
           this.queryType = res.data.queryType || ''
@@ -296,9 +327,9 @@ export default {
           this.$message.error(res.message)
         }
       })
-      this.attachmentId = this.modifyData.attachment_id != null ? this.modifyData.attachment_id : this.$ToolFn.utilFn.getUuid()
+      this.attachmentId = this.modifyData?.attachment_id != null ? this.modifyData?.attachment_id : this.$ToolFn.utilFn.getUuid()
       let param = 'attachmentId=' + this.attachmentId
-      HttpModule.getFiles(param).then(res => {
+      HttpModule.getFile(param).then(res => {
         if (res.rscode === '200') {
           // 获取附件信息
           this.fileData = res.data.fileList
@@ -371,6 +402,7 @@ export default {
           functionApi: this.functionApi,
           functionApiType: this.functionApiType,
           functionParameter: this.functionParameter,
+          elementCode: this.elementCode,
           description: this.description,
           dataSourceCode: this.dataSourceCode,
           menuName: this.$store.state.curNavModule.name,
@@ -392,6 +424,7 @@ export default {
           functionCode: this.functionCode,
           functionType: this.functionType,
           functionName: this.functionName,
+          elementCode: this.elementCode,
           functionApi: this.functionApi,
           functionApiType: this.functionApiType,
           functionParameter: this.functionParameter,
@@ -435,6 +468,7 @@ export default {
     this.getFunctionApiType()
     this.getDataSourceInfo()
     this.showInfo()
+    this.getElementCodeOption()
   }
 }
 </script>
