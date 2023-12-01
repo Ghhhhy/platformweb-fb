@@ -128,7 +128,7 @@
                 </el-main>
               </el-container>
             </el-col>
-            <el-col v-if="$store.getters.isSx" :span="12">
+            <el-col v-if="$store.getters.isSx && functionType === '1'" :span="12">
               <el-container>
                 <el-main width="100%">
                   <el-row>
@@ -142,8 +142,8 @@
                     >
                       <el-option
                         v-for="item in elementCodeOption"
-                        :key="item.code"
-                        :label="item.name"
+                        :key="`${item.guid}${item.code}`"
+                        :label="`${item.code}-${item.name}`"
                         :value="item.code"
                       />
                     </el-select>
@@ -402,11 +402,13 @@ export default {
           functionApi: this.functionApi,
           functionApiType: this.functionApiType,
           functionParameter: this.functionParameter,
-          elementCode: this.elementCode,
           description: this.description,
           dataSourceCode: this.dataSourceCode,
           menuName: this.$store.state.curNavModule.name,
           queryType: this.queryType || undefined
+        }
+        if (this.functionType === '1') {
+          param.elementCode = this.elementCode
         }
         this.addLoading = true
         HttpModule.addPolicies(param).then(res => {

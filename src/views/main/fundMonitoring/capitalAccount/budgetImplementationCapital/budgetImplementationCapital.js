@@ -237,6 +237,7 @@ const proconf = {
         title: '资金名称',
         type: 'name',
         treeNode: true,
+        exportVisibleWidth: true,
         fixed: 'left',
         align: 'left',
         width: 160,

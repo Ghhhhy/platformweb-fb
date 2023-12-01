@@ -81,6 +81,7 @@ export default {
   },
   data() {
     return {
+      leftTreeVisible: false,
       isShowQueryConditions: true,
       radioShow: true,
       breakRuleVisible: false,
