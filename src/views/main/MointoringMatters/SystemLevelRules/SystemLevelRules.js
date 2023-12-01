@@ -338,7 +338,7 @@ export let proconf = {
       formula: '',
       name: '$vxeSelect',
       editRender: {
-        name: '$vxeSelect',
+        name: '$select',
         options: [
           { value: '1', label: '文本' },
           { value: '2', label: '数字' },
@@ -348,6 +348,15 @@ export let proconf = {
         ],
         props: {
           placeholder: '关系'
+        },
+        events: {
+          'change': ({ row }) => {
+            if (row.paramType === '4') {
+              row.param = []
+            } else {
+              row.param = ''
+            }
+          }
         }
       }
     },
