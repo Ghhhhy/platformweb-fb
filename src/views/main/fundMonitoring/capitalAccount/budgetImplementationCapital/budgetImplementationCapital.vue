@@ -300,7 +300,7 @@ export default {
       detailType: '',
       sDetailType: '',
       detailTitle: '',
-      mofDivCodes: [],
+      mofDivCodes: '',
       detailData: [],
       detailQueryParam: {},
       sDetailQueryParam: {},
@@ -380,7 +380,9 @@ export default {
             if (item.field === 'cor_bgt_doc_no_') {
               condition[item.field + 'name'] = []
             } else {
-              if (!this.$store.getters.isSx) {
+              if (this.$store.getters.isSx && item.field !== 'mofDivCodes') {
+                condition[item.field + 'code'] = []
+              } else {
                 condition[item.field + 'code'] = []
               }
             }
@@ -418,7 +420,11 @@ export default {
     // 搜索
     search(val, multipleValue = {}, isFlush = false) {
       console.log(this.searchDataList)
-      if (!this.$store.getters.isSx) {
+      let tempData = this.searchDataList
+      if (this.$store.getters.isSx) {
+        this.searchDataList = val
+        this.searchDataList.mofDivCodes = val.mofDivCodes ? val.mofDivCodes : tempData.mofDivCodes
+      } else {
         this.searchDataList = val
       }
       let condition = this.getConditionList()
