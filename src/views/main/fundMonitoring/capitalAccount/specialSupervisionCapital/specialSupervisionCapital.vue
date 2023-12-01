@@ -24,6 +24,7 @@
           :table-config="tableConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :export-visible-width="$store.getters.isFuJian"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
           :toolbar-config="tableToolbarConfig"
           :calculate-constraint-config="calculateConstraintConfig"
