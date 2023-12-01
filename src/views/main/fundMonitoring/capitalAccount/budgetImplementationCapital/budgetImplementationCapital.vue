@@ -1054,6 +1054,8 @@ export default {
     if (!this.isSx) {
       this.searchDataList.mofDivCodes_name = ''
       this.searchDataList.mofDivCodes = []
+    } else {
+      this.searchDataList.mofDivCodes = store.state?.userInfo?.province + '##' + store.state?.userInfo?.admdivname + '##'
     }
     this.params5 = this.$store.state.curNavModule.param5
     this.menuId = this.$store.state.curNavModule.guid
