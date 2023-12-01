@@ -181,6 +181,7 @@ export default defineComponent({
         const value = unref(pagePath) === RouterPathEnum.UNIT_STATISTIC ? agencyCode : fiRuleCodes
         return {
           ...params,
+          regulationClass: transJson1(store.state.curNavModule.param5 || '')?.regulationClass,
           paramCode: transJson1(store.state.curNavModule.param5 || '')?.paramCode,
           isFilterByPerm: transJson1(store.state.curNavModule.param5 || '')?.isFilterByPerm,
           fiRuleName: props.currentRow.ruleName,
