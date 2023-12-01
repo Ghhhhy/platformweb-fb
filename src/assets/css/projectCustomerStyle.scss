@@ -1,6 +1,13 @@
 .isFuJian{
   .BsAppHeader{
     .MenuList-header{
+      .header-marquee{
+        width: auto;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        overflow: hidden;
+      }
       .MenuList-header.header-left{
         flex: 1;
         min-width: 364px;
