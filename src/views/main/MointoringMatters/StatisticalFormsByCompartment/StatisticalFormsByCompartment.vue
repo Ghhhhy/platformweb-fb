@@ -538,7 +538,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.getters.getRegulationClass
-    this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    if (!this.$store.getters.isSx) {
+      this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    }
     this.fiscalYear = this.$store.state.userInfo.year
     this.getLeftTreeData()
     this.getAgency(this.$store.getters.getuserInfo.province)

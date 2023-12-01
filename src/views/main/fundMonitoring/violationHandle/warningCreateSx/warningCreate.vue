@@ -341,7 +341,7 @@ export default {
           this.detailData = ['orangeUndoNum', obj.row.fiRuleCode]
           this.colourType = '2'
           this.detailVisible = true
-          this.manualSign = this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
+          this.manualSign = this.param5.doubtMark === '1' ? '1' : ''
           break
         case 'orangeNormalNum':
           this.detailData = ['orangeNormalNum', obj.row.fiRuleCode]
@@ -363,7 +363,7 @@ export default {
           this.detailData = ['yellowUndoNum', obj.row.fiRuleCode]
           this.colourType = '1'
           this.detailVisible = true
-          this.manualSign = this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
+          this.manualSign = this.param5.doubtMark === '1' ? '1' : ''
           break
         case 'yellowNormalNum':
           this.detailData = ['yellowNormalNum', obj.row.fiRuleCode]
@@ -385,7 +385,7 @@ export default {
           this.detailData = ['blueUndoNum', obj.row.fiRuleCode]
           this.colourType = '5'
           this.detailVisible = true
-          this.manualSign = this.$route.name !== 'QueryProcessingByZd' && this.$route.name !== 'ZhunHuMonitorWarningResults' ? '1' : ''
+          this.manualSign = this.param5.doubtMark === '1' ? '1' : ''
           break
         case 'blueNormalNum':
           this.detailData = ['blueNormalNum', obj.row.fiRuleCode]

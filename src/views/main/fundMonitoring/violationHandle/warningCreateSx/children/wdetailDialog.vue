@@ -221,7 +221,8 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
-      selectData: {}
+      selectData: {},
+      param5: {}
     }
   },
   methods: {
@@ -624,6 +625,10 @@ export default {
       this.fiscalYear = this.detailData[3]
       this.fiRuleCode1 = this.detailData[4]
       console.log('this.detailType', this.detailType)
+      if (this.param5.doubtMark === '1') {
+        statusButtons[0].label = '疑点数据'
+        curStatusButton.label = '疑点数据'
+      }
       switch (this.detailType) {
         case 'orangeUndoNum':
           this.tableColumnsConfig = proconf.undoNum
@@ -635,7 +640,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'orangeNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -683,7 +688,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'yellowNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -731,7 +736,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'blueNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -779,7 +784,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'redNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -827,7 +832,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'greyNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -905,7 +910,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'orangeNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -953,7 +958,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'yellowNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -1001,7 +1006,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'blueNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -1049,7 +1054,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'redNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -1097,7 +1102,7 @@ export default {
           this.isHandle = false
           this.isProcessed = false
           this.status = null
-          this.title = '预警数据明细'
+          this.title = this.param5.doubtMark === '1' ? '疑点数据明细' : '预警数据明细'
           break
         case 'greyNormalNum':
           this.tableColumnsConfig = proconf.normalNum
@@ -1176,7 +1181,7 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         dealNo: this.condition.dealNo ? this.condition.dealNo[0] : '',
         voidOrNot: this.condition.voidOrNot ? this.condition.voidOrNot[0] : '',
-        manualSign: this.tabStatusBtnConfig.curButton.code === '1' ? this.manualSign ? this.manualSign : '' : ''
+        manualSign: this.tabStatusBtnConfig.curButton.code === '1' && this.param5.doubtMark === '1' ? '1' : ''
       }
       if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
         params.regulationClass = '0201'

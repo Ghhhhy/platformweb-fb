@@ -870,6 +870,18 @@ export default [
       )
   },
   {
+    path: '/SXWarningDetailsByRuleHs',
+    name: 'SXWarningDetailsByRuleHs',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () =>
+      import(
+        '../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue'
+      )
+  },
+  {
     path: '/WarningDetailsByRuleByPay',
     name: 'WarningDetailsByRuleByPay',
     meta: {
@@ -1766,6 +1778,15 @@ export default [
       requireAuth: true
     },
     component: () => import('../../../views/main/MointoringMatters/StatisticalFormsByCompartment/StatisticalFormsByCompartment.vue')
+  },
+  {
+    path: '/SXWarningDetailsByRuleBgt',
+    name: 'SXWarningDetailsByRuleBgt',
+    meta: {
+      keepAlive: true,
+      requireAuth: true
+    },
+    component: () => import('../../../views/main/MointoringMatters/WarningDetailsByRule/WarningDetailsByRule.vue')
   },
   // 陕西部分菜单单独分离出一个
   {
