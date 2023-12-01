@@ -380,7 +380,12 @@ export default {
             if (item.field === 'cor_bgt_doc_no_') {
               condition[item.field + 'name'] = []
             } else {
-              condition[item.field + 'code'] = []
+              if (!this.$store.getters.isSx) {
+                condition[item.field + 'code'] = []
+              }
+            }
+            if (this.$store.getters.isSx && item.field === 'mofDivCodes') {
+              condition[item.field] = []
             }
           }
         } else {
@@ -412,7 +417,10 @@ export default {
     },
     // 搜索
     search(val, multipleValue = {}, isFlush = false) {
-      this.searchDataList = val
+      console.log(this.searchDataList)
+      if (!this.$store.getters.isSx) {
+        this.searchDataList = val
+      }
       let condition = this.getConditionList()
       for (let key in condition) {
         if (
@@ -430,7 +438,11 @@ export default {
           }
         }
       }
-      condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      if (!this.$store.getters.isSx) {
+        condition.mofDivCodes = condition.mofDivCodes?.split('##')[0]
+      } else {
+        condition.mofDivCodes = condition.mofDivCodes[0]?.split('##')[0]
+      }
       this.condition = condition
       this.queryTableDatas(isFlush)
     },
