@@ -794,7 +794,7 @@ export default {
       }
       if (this.isSx) {
         param.regulation_type = this.regulationType
-        param.mofDivCodeList = this.mofDivCodeList.length > 0 ? this.mofDivCodeList : this.codeList
+        param.mofDivCodeList = this.mofDivCodeList && this.mofDivCodeList.length > 0 ? this.mofDivCodeList : this.codeList
         param.regulationClassList = this.regulationClassList
         delete param.regulationType
         HttpModule.queryTableDatasSum(param).then(res => {
