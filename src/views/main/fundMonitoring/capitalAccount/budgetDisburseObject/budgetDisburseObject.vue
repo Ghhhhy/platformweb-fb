@@ -72,6 +72,7 @@
           :table-global-config="!isSx ? tableGlobalConfigCop : {}"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
+          :export-visible-width="$store.getters.isFuJian"
           :table-config="tableConfig"
           :default-money-unit="10000"
           :title="menuName"

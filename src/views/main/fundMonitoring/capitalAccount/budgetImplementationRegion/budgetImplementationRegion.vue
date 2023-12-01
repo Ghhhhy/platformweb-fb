@@ -40,7 +40,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-global-config="tableGlobalConfigCop"
           :table-data="tableData"
-          export-seq-visible-width
+          :export-visible-width="$store.getters.isFuJian"
           :calculate-constraint-config="calculateConstraintConfig"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove' }"
           :toolbar-config="tableToolbarConfig"

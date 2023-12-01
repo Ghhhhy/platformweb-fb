@@ -48,6 +48,7 @@
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :table-config="tableConfig"
+          :export-visible-width="$store.getters.isFuJian"
           :default-money-unit="10000"
           :title="menuName"
           :pager-config="mainPagerConfig"
