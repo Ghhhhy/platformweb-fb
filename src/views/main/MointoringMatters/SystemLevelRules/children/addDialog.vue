@@ -489,7 +489,7 @@
                   :placeholder="column.title"
                 />
               </div>
-              <div v-else-if="Number(row.functionType) === 1 && String(row.paramType) !== '5'">
+              <div v-else-if="Number(row.functionType) === 1 && row.elementCode && String(row.paramType) !== '5'">
                 <vxe-select
                   v-model="row.param"
                   :placeholder="column.title"
@@ -505,7 +505,7 @@
           </template>
           <template v-slot:column-defaultParam="{ row }">
             <span v-if="row.paramType === '5'">{{ getFunctionLabel(row.param) }}</span>
-            <span v-if="Number(row.functionType) === 1 && row.paramType !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+            <span v-if="Number(row.functionType) === 1 && row.elementCode && row.paramType !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
             <span v-else>{{ row.param }}</span>
           </template>
         </BsTable>
@@ -2125,7 +2125,7 @@ export default {
       }))
       regulationConfig = regulationConfig.map((item, index) => {
         let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
-        if (Number(item.functionType) === 1 && String(item.paramType) === '4') {
+        if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
           tempObj.param = item.param.split(',').filter(Boolean)
         } else {
           tempObj.param = item.param

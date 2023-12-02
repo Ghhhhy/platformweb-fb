@@ -403,7 +403,7 @@
                     :placeholder="column.title"
                   />
                 </div>
-                <div v-else-if="Number(row.functionType) === 1 && String(row.paramType) !== '5'">
+                <div v-else-if="Number(row.functionType) === 1 && row.elementCode && String(row.paramType) !== '5'">
                   <vxe-select
                     v-model="row.param"
                     :placeholder="column.title"
@@ -419,7 +419,7 @@
             </template>
             <template v-slot:column-defaultParam="{ row }">
               <span v-if="String(row.paramType) === '5'">{{ getFunctionLabel(row.param) }}</span>
-              <span v-if="Number(row.functionType) === 1 && String(row.paramType) !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+              <span v-if="Number(row.functionType) === 1 && row.elementCode && String(row.paramType) !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
               <span v-else>{{ row.param }}</span>
             </template>
           </BsTable>
