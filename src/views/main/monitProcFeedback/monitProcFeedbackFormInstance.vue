@@ -54,6 +54,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    warningCode: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -231,6 +235,7 @@ export default {
         ...this.createDataList,
         ...formData,
         actionType: '2',
+        warningCode: this.defaultFormData.warningCode,
         menuId: this.$store.state.curNavModule.guid,
         menuName: this.$store.state.curNavModule.name
       }

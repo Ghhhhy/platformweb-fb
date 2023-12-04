@@ -45,7 +45,7 @@
           :pager-config="false"
           @cellClick="cellClick"
         />
-        <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :default-form-data="defaultFormData" />
+        <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :default-form-data="defaultFormData" :warning-code="warningCode" />
       </div>
       <div slot="footer" style="height: 80px;margin:0 15px">
         <el-divider style="color:#E7EBF0" />
