@@ -158,6 +158,9 @@ export default {
     // BsTable1
   },
   computed: {
+    isZX() { // 判断是专项还是直达资金
+      return this.$route.name === 'WarnRegionBySpecial'// 专项
+    },
     tabStatusBtnConfig() {
       let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
@@ -395,6 +398,24 @@ export default {
     }
   },
   methods: {
+    // 获取追踪项目下拉树
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      let queryUrl = 'getProSpeTreeData'
+      if (!this.isZX) queryUrl = 'getProTreeData'
+      HttpModule[queryUrl]({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig.forEach(item => {
+            if (item.field === 'trackProName') {
+              this.$set(item.itemRender, 'options', treeResdata)
+              // item.itemRender.options = treeResdata
+            }
+          })
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     /**
      *动态控制左侧树的显示  只有特定的路由才显示
      */
@@ -1323,7 +1344,7 @@ export default {
       const param = {
         fiscalYear: this.$store.state.userInfo.year
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
@@ -1349,7 +1370,7 @@ export default {
         } else {
           detailColumns = proconf.bgtMsgConfig
         }
-      } else if (!this.param5.show) {
+      } else if (!this.param5?.show) {
         detailColumns = proconf.msgConfig.filter(item => {
           return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
         })
@@ -1433,6 +1454,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.setShowBusinesTree()
     this.getFiRule()
+    this.getPro()
     this.$set(this.searchDataList, 'warnStartDate', this.queryData.warnStartDate && moment(this.queryData.warnStartDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'warnEndDate', this.queryData.warnEndDate && moment(this.queryData.warnEndDate).format('YYYY-MM-DD'))
     this.$set(this.searchDataList, 'dealWarnStartDate', this.queryData.dealWarnStartDate && moment(this.queryData.dealWarnStartDate).format('YYYY-MM-DD'))
