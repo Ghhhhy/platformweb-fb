@@ -472,6 +472,7 @@ export default {
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         warn_level: this.warningLevel, // 预警级别
         jurisdiction: true,
+        regulationClass: '0207',
         ...this.searchDataList,
         voidOrNot: this.searchDataList.voidOrNot ? this.searchDataList.voidOrNot : null,
         ...this.detailQueryParam
