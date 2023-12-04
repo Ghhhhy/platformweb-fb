@@ -164,7 +164,7 @@ const budgetImpColumns = [
   },
   {
     title: '追踪项目',
-    width: 180,
+    width: 280,
     field: 'trackProName',
     sortable: false,
     filters: false,
