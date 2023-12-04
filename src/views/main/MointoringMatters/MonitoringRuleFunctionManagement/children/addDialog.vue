@@ -128,7 +128,7 @@
                 </el-main>
               </el-container>
             </el-col>
-            <el-col v-if="$store.getters.isSx && functionType === '1'" :span="12">
+            <el-col v-if="($store.getters.isSx || $store.getters.isFuJian) && functionType === '1'" :span="12">
               <el-container>
                 <el-main width="100%">
                   <el-row>
