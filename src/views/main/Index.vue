@@ -530,7 +530,7 @@ export default {
         reuseRouts.forEach((ritem, rindex) => {
           if (item.name === ritem.url.replace('ReuseRoute', '')) {
             mainAddRoute.push({
-              path: `/${ritem.uucode}${ritem.url}`,
+              path: `/${ritem.code}${ritem.url}`,
               name: `${ritem.code}${ritem.url}`,
               component: item.component,
               meta: {
