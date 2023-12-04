@@ -581,6 +581,11 @@ export default {
       console.log(val, '-------------')
       // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
+      this.searchDataList.trackProName = this.searchDataList.trackProName.split(',')
+      this.searchDataList.trackProName = this.searchDataList.trackProName.map(item => {
+        return item.split('##')[0]
+      })
+      console.log(this.searchDataList, this.condition)
       this.queryTableDatas()
     },
     closeHandle(titleName) {
@@ -1062,7 +1067,7 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
-        trackProName: this.condition.trackProName ? this.condition.trackProName[0] : '',
+        trackProName: this.searchDataList.trackProName ? this.searchDataList.trackProName : '',
         roleguid: this.$store.state.curNavModule.roleguid,
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
