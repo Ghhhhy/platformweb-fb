@@ -26,6 +26,7 @@ axios.interceptors.request.use(function(config) {
   // config.headers.token = '1234444'
   // config.headers.os = 0
   config.headers.menuguid = store.state.curNavModule ? (store.state.curNavModule.guid || store.state.curNavModule.menuguid) : ''
+  config.headers.roleguid = store.state.curNavModule ? (store.state.curNavModule.roleguid) : ''
   config.headers.appguid = appguid
   if (tokenid) {
     config.headers.tokenid = tokenid
