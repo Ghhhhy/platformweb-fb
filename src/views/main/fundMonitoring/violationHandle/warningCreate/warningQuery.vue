@@ -327,6 +327,8 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       let key = obj.column.property
+      const forbidedList = ['name']
+      if (!key || forbidedList.includes(key)) return
       let fiRuleCode = this.condition.fiRuleCode ? this.condition.fiRuleCode.split('#')[0] : ''
       let { xpayDate, triggerMonitorDate } = this.condition
       const timeRange = {
