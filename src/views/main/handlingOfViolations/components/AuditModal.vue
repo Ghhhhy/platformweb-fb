@@ -140,6 +140,10 @@
             </div>
             <div v-if="isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
               <haiNanModeAuditModal v-bind="haiNanModeProperty" :visible="visible" />
+              <AuditProgress
+                v-if="currentWarnDetail.processResultList"
+                :table-data="currentWarnDetail.processResultList"
+              />
             </div>
           </template>
         </BsSplitPane>
