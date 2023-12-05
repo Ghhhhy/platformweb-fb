@@ -505,7 +505,7 @@
           </template>
           <template v-slot:column-defaultParam="{ row }">
             <span v-if="row.paramType === '5'">{{ getFunctionLabel(row.param) }}</span>
-            <span v-if="Number(row.functionType) === 1 && row.elementCode && row.paramType !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+            <span v-else-if="Number(row.functionType) === 1 && row.elementCode">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
             <span v-else>{{ row.param }}</span>
           </template>
         </BsTable>
