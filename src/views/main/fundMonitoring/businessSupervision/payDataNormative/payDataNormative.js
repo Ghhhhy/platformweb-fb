@@ -467,6 +467,22 @@ export let proconf = {
           placeholder: '结算方式'
         }
       }
+    },
+    {
+      title: '业务类型',
+      width: 180,
+      field: 'payBusTypeName',
+      sortable: true,
+      filters: true,
+      visible: store.getters.isSx,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '业务类型'
+        }
+      }
     }
   ]
 }

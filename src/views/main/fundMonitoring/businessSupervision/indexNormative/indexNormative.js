@@ -51,7 +51,11 @@ export let proconf = {
       name: '$vxeSelect',
       itemRender: {
         name: '$vxeSelect',
-        options: [
+        options: store.getters.isSx ? [
+          { value: '0', label: '全部' },
+          { value: '1', label: '包含特殊字符' },
+          { value: '2', label: '不包含汉字内容' }
+        ] : [
           { value: '0', label: '全部' },
           { value: '1', label: '包含特殊字符' },
           { value: '2', label: '不包含汉字内容' },
