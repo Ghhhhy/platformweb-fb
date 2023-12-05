@@ -331,6 +331,8 @@ export default {
     cellClick(obj, context, e) {
       this.highLightRow = obj.row
       let key = obj.column.property
+      const forbidedList = ['fiRuleName']
+      if (!key || forbidedList.includes(key)) return
       this.$refs.bsTableRef.$refs.xGrid.setCurrentRow(this.highLightRow)
       // '7' 默认预算执行
       this.bussnessId = obj.row.businessModuleCode ? obj.row.businessModuleCode.toString() : '7'
