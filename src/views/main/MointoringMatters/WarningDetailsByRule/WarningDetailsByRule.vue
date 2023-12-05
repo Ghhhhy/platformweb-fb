@@ -1061,6 +1061,12 @@ export default {
     if (this.params5 === '06' || this.params5 === '07' || this.params5 === '0106' || this.params5 === '0107') {
       this.toolBarStatusBtnConfig.buttonsInfo = this.isSx ? proconf.statusRightToolBarButtonToSx : proconf.statusRightToolBarButton
     }
+    if (this.isSx) { // 陕西的预警级别   展示的是预警文字（黄色预警这种） 而不是预警处理提示
+      let index = this.tableColumnsConfig.findIndex(item => item.field === 'warnLevel' || item.title === '预警级别')
+      this.tableColumnsConfig[index].cellRender = {
+        name: '$warningLevelRender'
+      }
+    }
     this.getLeftTreeData()
     this.getRegulation()
     this.queryTableDatas()

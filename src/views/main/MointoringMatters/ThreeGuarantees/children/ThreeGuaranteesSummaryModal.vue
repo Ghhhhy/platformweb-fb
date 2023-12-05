@@ -5,6 +5,14 @@
     class="carryImplementationRegionModal"
     @close="dialogClose"
   >
+    <div class="main-query">
+      <BsQuery
+        ref="queryFrom"
+        :query-form-item-config="queryConfig"
+        :query-form-data="searchDataList"
+        @onSearchClick="search"
+      />
+    </div>
     <BsTable
       ref="waitTable"
       :loading="tableLoadingState"
@@ -28,7 +36,7 @@
 <script>
 import { defineComponent, reactive, ref, onMounted, getCurrentInstance, computed } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { post } from '@/api/http'
+import { post, get } from '@/api/http'
 import {
   bgtTotalTableColumns,
   bgtRegionTableColumns,
@@ -77,6 +85,58 @@ export default defineComponent({
       mofDivCode: ''
     })
     const queryData = ref({})
+    const queryConfig = ref([
+      {
+        title: '预算单位',
+        field: 'agencyCodeList',
+        width: '8',
+        align: 'left',
+        formula: '',
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          'props': {
+            'config': {
+              'treeProps': {
+                'nodeKey': 'id',
+                'label': 'label',
+                'children': 'children'
+              },
+              'placeholder': '预算单位',
+              'multiple': true,
+              'readonly': true,
+              'isleaf': false
+            }
+          }
+        }
+      },
+      {
+        title: '业务主管处室',
+        field: 'manageMofDepCodeList',
+        width: '8',
+        align: 'left',
+        formula: '',
+        name: '$vxeTree',
+        itemRender: {
+          name: '$vxeTree',
+          options: [],
+          'props': {
+            'config': {
+              'treeProps': {
+                'nodeKey': 'id',
+                'label': 'label',
+                'children': 'children'
+              },
+              'placeholder': '业务主管处室',
+              'multiple': true,
+              'readonly': true,
+              'isleaf': false
+            }
+          }
+        }
+      }
+    ])
     const modalStaticProperty = computed(() => {
       return {
         title: clickCodeMap[clickColumnsInfo.value.tableType]?.title,
@@ -90,6 +150,7 @@ export default defineComponent({
     const dialogVisible = ref(false)
     const dialogClose = () => {
       dialogVisible.value = false
+      searchDataList.value = []
     }
     const cellClickColumns = computed(() => {
       if (clickColumnsInfo.value.tableType && clickType.value) {
@@ -113,7 +174,6 @@ export default defineComponent({
     ] = useTable({
       fetch: (params = {}) => post(BSURL.dfr_supervisionPageQuery, params),
       beforeFetch: params => {
-        debugger
         params.reportCode = clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode
         params.mofDivCode = clickRowInfo.value.mofDivCode
         params.threesafe_symbolcat_code = clickColumnsInfo.value.threesafe_symbolcat_code
@@ -169,10 +229,30 @@ export default defineComponent({
         CarrImplRegiSecondModal.value.init()
       }
     }
+    const search = (val) => {
+      let param = {
+        reportCode: clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode,
+        mofDivCode: clickRowInfo.value.mofDivCode,
+        threesafe_symbolcat_code: clickColumnsInfo.value.threesafe_symbolcat_code,
+        fiscal_year: store.getters.getuserInfo.year,
+        endTime: clickColumnsInfo.value.tableType === 'bgt' ? parentQueryData.value.endTime : '',
+        agencyCodeList: val.agencyCodeList_code__multiple,
+        manageMofDepCodeList: val.manageMofDepCodeList_code__multiple
+      }
+      tableLoadingState.value = true
+      post(BSURL.dfr_supervisionPageQuery, param).then(res => {
+        tableLoadingState.value = false
+        if (res.code === '000000') {
+          tableData.value = res.data.results
+        }
+      })
+    }
     const init = () => {
       tableData.value = []
       resetFetchTableData()
       queryFooterData()
+      queryAgencyList()
+      queryManageMofDepList()
     }
     const queryFooterData = () => {
       const params = { ...queryData.value }
@@ -184,11 +264,46 @@ export default defineComponent({
         }
       })
     }
+    const queryAgencyList = () => {
+      const param = {
+        wheresql: 'and province =' + clickRowInfo.value.mofDivCode,
+        elementCode: 'AGENCY',
+        year: store.state.userInfo.year,
+        province: clickRowInfo.value.mofDivCode
+      }
+      get('large-monitor-platform/lmp/mofDivTree', param).then(res => {
+        if (res && res.code === '000000' && res.data) {
+          let treeResdata = getChildrenNewData(res.data)
+          queryConfig.value[0].itemRender.options = treeResdata
+        }
+      })
+    }
+    const queryManageMofDepList = () => {
+      const param = {
+        elementCode: 'DEPARTMENT',
+        year: store.state.userInfo.year,
+        province: clickRowInfo.value.mofDivCode
+      }
+      get('large-monitor-platform/lmp/mofDivTree', param).then(res => {
+        if (res && res.code === '000000' && res.data) {
+          let treeResdata = getChildrenNewData(res.data)
+          queryConfig.value[1].itemRender.options = treeResdata
+        }
+      })
+    }
+    const getChildrenNewData = (datas) => {
+      datas.forEach(item => {
+        item.label = item.text
+        if (item.children) {
+          getChildrenNewData(item.children)
+        }
+      })
+      return datas
+    }
     const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
     let selectData = ref([])
     onMounted(() => {
-
     })
     return {
       columns,
@@ -207,6 +322,7 @@ export default defineComponent({
       isShowQueryConditions,
       tableStaticProperty,
       cellClick,
+      search,
       selectData,
       waitTable,
       CarrImplRegiSecondModal,
@@ -215,7 +331,8 @@ export default defineComponent({
       clickRowInfo,
       clickType,
       parentQueryData,
-      init
+      init,
+      queryConfig
     }
   }
 })
