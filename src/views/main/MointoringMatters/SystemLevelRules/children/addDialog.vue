@@ -795,7 +795,8 @@ export default {
         des: '',
         basis: ''
       },
-      formValidationConfigMessage: proconf.formValidationConfigMessage
+      formValidationConfigMessage: proconf.formValidationConfigMessage,
+      mofDivCode: ''
     }
   },
   methods: {
@@ -1744,7 +1745,8 @@ export default {
           basis: formDatas.basis
         },
         warnType: this.warnType, // 预警类别
-        uploadFile: this.uploadFile // 是否上传附件
+        uploadFile: this.uploadFile, // 是否上传附件
+        mofDivCode: this.mofDivCode
       }
       this.submitLoading = true
       if (this.$parent.dialogTitle === '修改') {
@@ -2110,7 +2112,6 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-
       // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
       // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
@@ -2144,6 +2145,7 @@ export default {
       this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
       this.implDesc = this.$parent.DetailData.implDesc
       this.scope = this.$parent.DetailData.regulationScope
+      this.mofDivCode = this.$parent.DetailData.mofDivCode
     }
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {
