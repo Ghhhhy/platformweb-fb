@@ -416,7 +416,8 @@ export default {
         regulationType: this.regulationTypeQuery,
         fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         businessStartTime: this.businessStartTime,
-        businessEndTime: this.businessEndTime
+        businessEndTime: this.businessEndTime,
+        jurisdiction: this.$store.getters.getIsJurisdiction
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
