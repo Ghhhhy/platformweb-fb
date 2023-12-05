@@ -219,6 +219,14 @@ export default {
       type: String,
       default: ''
     },
+    mofDivName: {
+      type: String,
+      default: ''
+    },
+    mofDivCode: {
+      type: String,
+      default: ''
+    },
     functionCode: {
       type: String,
       default: ''
@@ -432,7 +440,9 @@ export default {
           functionParameter: this.functionParameter,
           description: this.description,
           dataSourceCode: this.dataSourceCode,
-          queryType: this.queryType
+          queryType: this.queryType,
+          mofDivName: this.mofDivName,
+          mofDivCode: this.mofDivCode
         }
         this.addLoading = true
         HttpModule.changePolicies(param).then(res => {

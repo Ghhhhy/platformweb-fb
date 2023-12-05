@@ -52,6 +52,8 @@
       v-if="dialogVisible"
       :title="dialogTitle"
       :function-code="functionCode"
+      :mof-div-name="mofDivName"
+      :mof-div-code="mofDivCode"
     />
     <PreviewDialog
       v-if="previewDialogVisible"
@@ -179,7 +181,9 @@ export default {
       functionCode: '',
       businessModuleCode: '',
       previewDialogVisible: false,
-      previewTitle: ''
+      previewTitle: '',
+      mofDivName: '',
+      mofDivCode: ''
     }
   },
   mounted() {
@@ -321,6 +325,8 @@ export default {
         return
       }
       this.functionCode = selection[0].functionCode
+      this.mofDivName = selection[0].mofDivName
+      this.mofDivCode = selection[0].mofDivCode
       this.businessModuleCode = selection[0].businessModuleCode
       this.previewTitle = '预览'
       this.previewDialogVisible = true
@@ -365,6 +371,8 @@ export default {
         return
       }
       this.functionCode = selection[0].functionCode
+      this.mofDivName = selection[0].mofDivName
+      this.mofDivCode = selection[0].mofDivCode
       this.dialogVisible = true
       this.dialogTitle = '修改'
     },

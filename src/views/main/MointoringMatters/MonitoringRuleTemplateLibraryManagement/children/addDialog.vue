@@ -292,6 +292,14 @@ export default {
       type: String,
       default: ''
     },
+    mofDivName: {
+      type: String,
+      default: ''
+    },
+    mofDivCode: {
+      type: String,
+      default: ''
+    },
     functionCodeList: {
       type: Array,
       default() {
@@ -1031,8 +1039,9 @@ export default {
             'ruleAccord': this.ruleAccord,
             'functionCodeList': functionCodes,
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
-
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, ''),
+            mofDivName: this.mofDivName,
+            mofDivCode: this.mofDivCode
           }
         } else {
           params = {
@@ -1043,7 +1052,9 @@ export default {
             'ruleAccord': this.ruleAccord,
             'functionCodeList': functionCodes,
             'fiRuleTypeCode': this.fiRuleTypeCode,
-            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, '')
+            'fiRuleTypeName': this.fiRuleTypeName.replace(replaceStr, ''),
+            mofDivName: this.mofDivName,
+            mofDivCode: this.mofDivCode
           }
         }
         HttpModule.changeTemplate(params).then(res => {
