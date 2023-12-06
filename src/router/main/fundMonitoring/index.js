@@ -95,6 +95,14 @@ const routers = [
       )
   },
   {
+    path: '/ReportTemplate', // 报表模板
+    name: 'ReportTemplate',
+    component: () =>
+      import(
+        '../../../views/main/reportTemplate/ReportTemplate.vue'
+      )
+  },
+  {
     path: '/SpecialSupervisionRegionSh', // 专项监督_分地区
     name: 'SpecialSupervisionRegionSh',
     component: () =>
