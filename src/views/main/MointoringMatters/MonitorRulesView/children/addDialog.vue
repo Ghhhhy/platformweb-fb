@@ -660,22 +660,8 @@ export default {
   computed: {
     mountTableColumnsConfig() {
       if (this.$store.getters.isFuJian) {
-        const fieldList = ['functionParameter', 'paramType', 'param']// 福建去掉这3个字段
-        const addedColumn = [{ // 新增一个列
-          title: '参数值描述',
-          sortable: false,
-          field: 'description',
-          align: 'left',
-          formula: '',
-          name: '$vxeInput',
-          editRender: {
-            name: '$vxeInput',
-            options: [],
-            props: {
-              placeholder: '参数值描述'
-            }
-          }
-        }]
+        const fieldList = ['functionParameter', 'paramType']// 福建去掉这2个字段
+        const addedColumn = []
         return proconf.mountTableColumnsConfig.filter(item => !fieldList.includes(item.field)).concat(addedColumn)
       }
       return proconf.mountTableColumnsConfig
