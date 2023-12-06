@@ -7,6 +7,7 @@
   >
     <div class="main-query">
       <BsQuery
+        v-if="isSx"
         ref="queryFrom"
         :query-form-item-config="queryConfig"
         :query-form-data="searchDataList"
@@ -137,6 +138,7 @@ export default defineComponent({
         }
       }
     ])
+    const isSx = store.getters.isSx
     const modalStaticProperty = computed(() => {
       return {
         title: clickCodeMap[clickColumnsInfo.value.tableType]?.title,
@@ -151,6 +153,9 @@ export default defineComponent({
     const dialogClose = () => {
       dialogVisible.value = false
       searchDataList.value = []
+      agencyCodeList.value = []
+      manageMofDepCodeList.value = []
+      tableStaticProperty.footerConfig.totalObj = {}
     }
     const cellClickColumns = computed(() => {
       if (clickColumnsInfo.value.tableType && clickType.value) {
@@ -183,6 +188,8 @@ export default defineComponent({
         } else if (clickColumnsInfo.value.tableType === 'pay') {
           params.xpayDate = parentQueryData.value.endTime
         }
+        params.agencyCodeList = agencyCodeList.value ? agencyCodeList.value : []
+        params.manageMofDepCodeList = manageMofDepCodeList.value ? manageMofDepCodeList.value : []
         queryData.value = params
         return params
       },
@@ -229,24 +236,15 @@ export default defineComponent({
         CarrImplRegiSecondModal.value.init()
       }
     }
+
+    const agencyCodeList = ref([])
+    const manageMofDepCodeList = ref([])
     const search = (val) => {
-      let param = {
-        reportCode: clickCodeMap[clickColumnsInfo.value.tableType]?.reportCode,
-        mofDivCode: clickRowInfo.value.mofDivCode,
-        threesafe_symbolcat_code: clickColumnsInfo.value.threesafe_symbolcat_code,
-        fiscal_year: store.getters.getuserInfo.year,
-        endTime: clickColumnsInfo.value.tableType === 'bgt' ? parentQueryData.value.endTime : '',
-        agencyCodeList: val.agencyCodeList_code__multiple,
-        manageMofDepCodeList: val.manageMofDepCodeList_code__multiple
-      }
-      tableLoadingState.value = true
-      post(BSURL.dfr_supervisionPageQuery, param).then(res => {
-        tableLoadingState.value = false
-        if (res.code === '000000') {
-          tableData.value = res.data.results
-        }
-      })
+      agencyCodeList.value = val.agencyCodeList_code__multiple
+      manageMofDepCodeList.value = val.manageMofDepCodeList_code__multiple
+      resetFetchTableData()
     }
+
     const init = () => {
       tableData.value = []
       resetFetchTableData()
@@ -260,7 +258,7 @@ export default defineComponent({
       delete params.pageSize
       post(BSURL.dfr_supervisionSum, params).then(res => {
         if (res && res.code === '000000' && res.data) {
-          tableStaticProperty.value.footerConfig.totalObj = res.data
+          tableStaticProperty.footerConfig.totalObj = res.data[0]
         }
       })
     }
@@ -304,6 +302,7 @@ export default defineComponent({
     const isShowQueryConditions = ref(true)
     let selectData = ref([])
     onMounted(() => {
+
     })
     return {
       columns,
@@ -332,7 +331,10 @@ export default defineComponent({
       clickType,
       parentQueryData,
       init,
-      queryConfig
+      queryConfig,
+      agencyCodeList,
+      manageMofDepCodeList,
+      isSx
     }
   }
 })
