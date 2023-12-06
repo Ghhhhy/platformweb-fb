@@ -155,6 +155,7 @@ export default defineComponent({
       searchDataList.value = []
       agencyCodeList.value = []
       manageMofDepCodeList.value = []
+      tableStaticProperty.footerConfig.totalObj = {}
     }
     const cellClickColumns = computed(() => {
       if (clickColumnsInfo.value.tableType && clickType.value) {
