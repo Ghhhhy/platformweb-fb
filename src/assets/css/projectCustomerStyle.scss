@@ -1,4 +1,8 @@
 .isFuJian{
+  /* 如果你希望设置特定输入框的占位符颜色，可以使用类名或ID选择器 */
+  input::-webkit-input-placeholder {
+    color: #c0c4cc !important;
+  }
   .BsAppHeader{
     .MenuList-header{
       .header-marquee{
