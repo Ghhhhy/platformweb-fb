@@ -164,7 +164,7 @@ const budgetImpColumns = [
   },
   {
     title: '追踪项目',
-    width: 180,
+    width: 280,
     field: 'trackProName',
     sortable: false,
     filters: false,
@@ -675,14 +675,26 @@ const proconf = {
       field: 'trackProName',
       width: '8',
       align: 'left',
-      formula: '',
-      name: '$vxeInput',
+      name: '$vxeTree',
       itemRender: {
-        name: '$vxeInput',
+        name: '$vxeTree',
         options: [],
         props: {
-          clearable: true,
-          placeholder: '追踪项目'
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '追踪项目',
+            clearable: true,
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
         }
       }
     },
