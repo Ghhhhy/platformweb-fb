@@ -419,7 +419,7 @@
             </template>
             <template v-slot:column-defaultParam="{ row }">
               <span v-if="String(row.paramType) === '5'">{{ getFunctionLabel(row.param) }}</span>
-              <span v-if="Number(row.functionType) === 1 && row.elementCode && String(row.paramType) !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+              <span v-else-if="Number(row.functionType) === 1 && row.elementCode">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
               <span v-else>{{ row.param }}</span>
             </template>
           </BsTable>
@@ -698,18 +698,16 @@ export default {
   },
   methods: {
     getFunctionSelectOptionsByValueSetLabel(row) {
-      if (Number(row.functionType) === 1 && String(row.paramType) !== '5') {
-        if (String(row.paramType) !== '4') {
-          let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
-          let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
-          return joinListString
-        } else { // 处理多选
-          let findList = row.functionSelectOptionsByValueSet.filter(item => row.param.includes(item.code))
-          let joinListString = findList.map(item => {
-            return [item.code, item.name].filter(Boolean).join('-')
-          }).join(',')
-          return joinListString
-        }
+      if (String(row.paramType) !== '4') {
+        let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
+        let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
+        return joinListString
+      } else { // 处理多选
+        let findList = row.functionSelectOptionsByValueSet.filter(item => row.param.includes(item.code))
+        let joinListString = findList.map(item => {
+          return [item.code, item.name].filter(Boolean).join('-')
+        }).join(',')
+        return joinListString
       }
     },
     getFunctionSelectOptionsByValueSet(elementCode) {
