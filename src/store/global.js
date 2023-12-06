@@ -51,18 +51,18 @@ export const getters = {
   },
   isXm() { // 厦门项目
     const province = state.userInfo.province
-    return province.slice(0, 2) === '35' && province.slice(0, 4) === '3502'// 3502 去掉厦门项目
+    return province?.slice(0, 2) === '35' && province?.slice(0, 4) === '3502'// 3502 去掉厦门项目
   },
   isQingHai() { // 青海项目
     const province = state.userInfo.province
-    return province.slice(0, 2) === '63'
+    return province?.slice(0, 2) === '63'
   },
   isNeiMeng() { // 判断是不是内蒙项目
-    return state.userInfo.province.slice(0, 2) === '15'
+    return state.userInfo.province?.slice(0, 2) === '15'
   },
   isSx() { // 判断是否是陕西项目
     /*eslint-disable */
-    return state.projectList.some(item => {
+    return state.projectList?.some(item => {
       return item.configKey === 'sx' && item.configValue === 'true'
     })
   },

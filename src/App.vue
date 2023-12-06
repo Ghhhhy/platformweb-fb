@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ [theme]: true,'v20230824': true,'isFuJian': $store.getters.isFuJian }" :style="{ height: wrapHeight }">
+  <div id="app" :class="classMap" :style="{ height: wrapHeight }">
     <div class="app-main">
       <BsKeepAlive ref="keepAlive">
         <router-view v-if="isMicroApp && ifrouteractive" :key="$route.name" />
@@ -24,7 +24,12 @@ export default {
       logOutPopUp: false,
       wrapHeight: window.__MICRO_APP_ENVIRONMENT__ ? '100%' : 'calc(100vh / var(--bs-zoom) - 10px)',
       logOutPopInterval: null,
-      theme: 'FiscalCloud',
+      classMap: {
+        'FiscalCloud': true,
+        'v20230824': true,
+        'isFuJian': this.$store.getters.isFuJian,
+        'isXm': this.$store.getters.isXm
+      },
       ifrouteractive: false
     }
   },
