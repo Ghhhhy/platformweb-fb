@@ -881,6 +881,10 @@ export default {
     }
   },
   methods: {
+    getFunctionSelectOptionsByValueSet(elementCode) {
+      const params = [elementCode, this.$store.state.userInfo.province].join('/')
+      return this.$http.get(BSURL.api_v2Basedata + '/' + params)
+    },
     getFunctionSelectOptionsByValueSetLabel(row) {
       if (String(row.paramType) !== '4') {
         let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
