@@ -779,9 +779,9 @@ export default {
       }
       let configQueryData = await this.loadBsConfig(params)
       this.$set(this, 'queryConfig', configQueryData.itemsConfig)
-      if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && configQueryData.itemsConfig[0].field === 'mofDivCodes') {
+      if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && this.queryConfig.find(item => item.field.indexOf('mofDivCode') > -1)) {
         this.getMofDiv()// 财政区划添加下拉按钮选项
-      } else if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && configQueryData.itemsConfig[0].field === 'agencyCodeList') {
+      } else if (configQueryData.itemsConfig && configQueryData.itemsConfig.length && this.queryConfig.find(item => item.field.indexOf('agencyCode') > -1)) {
         this.getAgency()// 预算单位加载
       }
       // 福建判断取消区划查询
