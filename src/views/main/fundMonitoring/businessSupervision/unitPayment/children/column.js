@@ -211,12 +211,12 @@ const proconf = {
       align: 'center'
     },
     {
-      title: '处室编码',
+      title: '资金归口',
       field: 'bgtMofDepCode',
       align: 'center'
     },
     {
-      title: '处室名称',
+      title: '资金归口名称',
       field: 'bgtMofDepName',
       sortable: false,
       align: 'center'
