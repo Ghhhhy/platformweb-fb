@@ -1,5 +1,88 @@
 import store from '@/store/index'
 let proconf = {
+  // 黑龙江新增查询
+  addHLJQueryConfig: [
+    {
+      title: '区划',
+      field: 'mofDivCode',
+      width: 200,
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '区划',
+            clearable: true,
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
+    },
+    {
+      title: '指标文号',
+      field: 'corBgtDocNo',
+      width: 200,
+      align: 'left',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '指标文号',
+          clearable: true
+        }
+      }
+    },
+    {
+      title: '支付凭证号',
+      field: 'payCertNo',
+      width: 200,
+      align: 'left',
+      filters: false,
+      itemRender: {
+        name: '$vxeInput',
+        props: {
+          placeholder: '支付凭证号',
+          clearable: true
+        }
+      }
+    }
+  ],
+  // 黑龙江新增列配置
+  addHLJColumn: [
+    {
+      title: '区划',
+      width: 140,
+      field: 'mofDivCode',
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '指标文号',
+      field: 'corBgtDocNo',
+      width: 140,
+      sortable: true,
+      align: 'left'
+    },
+    {
+      title: '支付凭证号',
+      field: 'payCertNo',
+      width: 140,
+      sortable: true,
+      align: 'left'
+    }
+  ],
   // 支出明细
   expenditureColumn: [
     {
@@ -31,7 +114,6 @@ let proconf = {
       align: 'right',
       combinedType: ['average', 'subTotal', 'total', 'totalAll'],
       cellRender: { name: '$vxeMoney' }
-
     },
     {
       title: '其中：中央直达资金',
@@ -1470,7 +1552,6 @@ let proconf = {
         }
       }
     }
-
   ],
   highQueryData: {
     proName: ''

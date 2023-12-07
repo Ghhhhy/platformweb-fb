@@ -190,6 +190,28 @@ export default {
     }
   },
   methods: {
+    // 黑龙江支出明细新增区划搜索
+    getMofDiv(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          console.log('data', res.data)
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[1].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     // 载入表头
     async loadConfig(Type, id) {
       let params = {
@@ -223,7 +245,7 @@ export default {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
             if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
+              this.searchDataList[key]?.split(',').forEach((item) => {
                 condition[key].push(item)
               })
             }
@@ -463,6 +485,21 @@ export default {
         default:
           break
       }
+      // 黑龙江钻取新增查询和表格列
+      if (this.$store.getters.isHLJ) {
+        this.getMofDiv()
+        this.queryConfig = this.queryConfig.concat(proconf.addHLJQueryConfig)
+        this.tableColumnsConfig = proconf.addHLJColumn.concat(this.tableColumnsConfig)
+        // 只有支出明细钻取新增区划，指标文号和凭证号，其他的只要区划
+        if (this.detailQueryParam.column !== 'amountPayAll') {
+          this.queryConfig = this.queryConfig.filter(item => {
+            return !(['corBgtDocNo', 'payCertNo']).includes(item.field)
+          })
+          this.tableColumnsConfig = this.tableColumnsConfig.filter(item => {
+            return !(['corBgtDocNo', 'payCertNo']).includes(item.field)
+          })
+        }
+      }
       this.queryTableDatas()
     },
     showInfoSx() {
@@ -601,8 +638,8 @@ export default {
     },
     transJson3 (str) {
       let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
-        const [key, value] = curr.split('=')
+      str?.split(',').reduce((acc, curr) => {
+        const [key, value] = curr?.split('=')
         acc[key] = value
         strTwo = acc
         return acc
