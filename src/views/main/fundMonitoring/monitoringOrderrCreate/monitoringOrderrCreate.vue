@@ -67,7 +67,7 @@ import { tableColumns, queryColumns, tabButtonColumns } from './columns'
 import ShowDialog from '@/views/main/fundMonitoring/violationHandle/warningCreate/children/addDialog.vue'
 import store from '@/store/index'
 import { message } from 'element-ui'
-// import transJson from '@/utils/transformMenuQuery'
+import transJson from '@/utils/transformMenuQuery'
 export default defineComponent({
   components: {
     ShowDialog,
@@ -129,7 +129,8 @@ export default defineComponent({
           page: params.page,
           pageSize: params.pageSize,
           createBill: query.searchDataList.createBill,
-          mofDivCode: params.mofDivCode.split('##')[0]
+          mofDivCode: params.mofDivCode.split('##')[0],
+          regulationClass: transJson(store.state.curNavModule.param5 || '')?.regulationClass
         })
         return obj
       }, // 前置钩子
