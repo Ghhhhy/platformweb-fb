@@ -585,6 +585,11 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          if (this.$store.getters.isSx) {
+            this.tableData.forEach(item => {
+              item.payBusTypeName = item.payBusTypeCode + '-' + item.payBusTypeName
+            })
+          }
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
           this.caliberDeclareContent = res.data.description || ''

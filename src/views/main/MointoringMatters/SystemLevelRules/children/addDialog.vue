@@ -505,7 +505,7 @@
           </template>
           <template v-slot:column-defaultParam="{ row }">
             <span v-if="row.paramType === '5'">{{ getFunctionLabel(row.param) }}</span>
-            <span v-if="Number(row.functionType) === 1 && row.elementCode && row.paramType !== '5'">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+            <span v-else-if="Number(row.functionType) === 1 && row.elementCode">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
             <span v-else>{{ row.param }}</span>
           </template>
         </BsTable>
@@ -801,18 +801,16 @@ export default {
   },
   methods: {
     getFunctionSelectOptionsByValueSetLabel(row) {
-      if (Number(row.functionType) === 1 && String(row.paramType) !== '5') {
-        if (String(row.paramType) !== '4') {
-          let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
-          let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
-          return joinListString
-        } else { // 处理多选
-          let findList = row.functionSelectOptionsByValueSet.filter(item => row.param.includes(item.code))
-          let joinListString = findList.map(item => {
-            return [item.code, item.name].filter(Boolean).join('-')
-          }).join(',')
-          return joinListString
-        }
+      if (String(row.paramType) !== '4') {
+        let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
+        let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
+        return joinListString
+      } else { // 处理多选
+        let findList = row.functionSelectOptionsByValueSet.filter(item => row.param.includes(item.code))
+        let joinListString = findList.map(item => {
+          return [item.code, item.name].filter(Boolean).join('-')
+        }).join(',')
+        return joinListString
       }
     },
     formItemChange(obj) {
@@ -1014,7 +1012,7 @@ export default {
       console.log(datas1)
       HttpModule.getTemplateByCode({ ruleTemplateCode: datas[0].ruleTemplateCode }).then(res => {
         if (res.code === '000000') {
-          if (this.$store.getters.isSx) {
+          if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
             const elementCodeList = res.data.functionInfoList.map(item => {
               return item.elementCode
             })
@@ -1026,8 +1024,7 @@ export default {
                   ...item,
                   functionSelectOptionsByValueSet: listResult[index].data || [],
                   relation: '1',
-                  paramType: '1',
-                  paramList: []
+                  paramType: '1'
                 }
                 if (Number(item.functionType) === 1 && String(item.paramType) === '4') {
                   tempObj.param = item.param.split(',').filter(Boolean)
@@ -2061,13 +2058,13 @@ export default {
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.ruleTemplateCode
       let regulationConfig = this.$parent.DetailData.regulationConfig || []
-      if (this.$store.getters.isSx) {
+      if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
         let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
           return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
         }))
         regulationConfig = regulationConfig.map((item, index) => {
           let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
-          if (String(item.paramType) === '4') {
+          if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
             tempObj.param = item.param.split(',').filter(Boolean)
           } else {
             tempObj.param = item.param
@@ -2121,18 +2118,20 @@ export default {
       // this.businessFunctionName = this.$parent.DetailData.menuNameList
       this.regulationModelCode = this.$parent.DetailData.regulationModelCode
       let regulationConfig = this.$parent.DetailData.regulationConfig || []
-      let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
-        return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
-      }))
-      regulationConfig = regulationConfig.map((item, index) => {
-        let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
-        if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
-          tempObj.param = item.param.split(',').filter(Boolean)
-        } else {
-          tempObj.param = item.param
-        }
-        return tempObj
-      })
+      if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
+        let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+          return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+        }))
+        regulationConfig = regulationConfig.map((item, index) => {
+          let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+          if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
+            tempObj.param = item.param.split(',').filter(Boolean)
+          } else {
+            tempObj.param = item.param
+          }
+          return tempObj
+        })
+      }
       this.mountTableData = regulationConfig
       this.fiRuleTypeCode = this.$parent.DetailData.ruleTemplate.fiRuleTypeCode
       this.fiRuleTypeName = this.$parent.DetailData.ruleTemplate.fiRuleTypeName

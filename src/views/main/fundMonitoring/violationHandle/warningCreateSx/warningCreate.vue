@@ -197,7 +197,7 @@ export default {
       return data
     },
     setCloumns() {
-      if (['QueryProcessingByZd', 'ZhunHuMonitorWarningResults'].includes(this.$route.name) || getFormData('monitorResultPages').includes(this.$route.name)) {
+      if (['QueryProcessingByZd', 'SXQueryProcessingByZd', 'ZhunHuMonitorWarningResults', 'SXZhunHuMonitorWarningResults'].includes(this.$route.name) || getFormData('monitorResultPages').includes(this.$route.name)) {
         this.warningDec = '预警级别说明：1.橙色预警--预警（需上传附件）2.黄色预警--预警（无需上传附件）3.蓝色预警--记录 4.红色预警--拦截 5.灰色预警--禁止'
         let data = getFormData('basicInfo', 'monitorTableColumnsConfig')
         return this.setWidth(data)
@@ -581,7 +581,7 @@ export default {
     }
     await this.getRegulation()
     this.queryTableDatas()
-    if (['QueryProcessingByZd', 'ZhunHuMonitorWarningResults'].includes(this.$route.name) || getFormData('monitorResultPages').includes(this.$route.name)) {
+    if (['QueryProcessingByZd', 'SXQueryProcessingByZd', 'ZhunHuMonitorWarningResults', 'SXZhunHuMonitorWarningResults'].includes(this.$route.name) || getFormData('monitorResultPages').includes(this.$route.name)) {
       this.warningDec = '预警级别说明：1.红色预警--拦截 2.橙色预警--预警（需上传附件）3.黄色预警--预警（无需上传附件）4.灰色预警--禁止 5.蓝色预警--记录'
     }
   }
