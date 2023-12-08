@@ -627,6 +627,7 @@ export default {
     open(datas) {
       this.idList = []
       let isGo = true
+      this.mofDivCodeList = []
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
         this.mofDivCodeList.push(item.mofDivCode)
@@ -660,6 +661,7 @@ export default {
     stop(datas) {
       this.idList = []
       let isGo = true
+      this.mofDivCodeList = []
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
         this.mofDivCodeList.push(item.mofDivCode)
