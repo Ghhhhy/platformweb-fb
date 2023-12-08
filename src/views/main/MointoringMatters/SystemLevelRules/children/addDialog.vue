@@ -1098,6 +1098,7 @@ export default {
       let param = {
         page: 1,
         pageSize: 500,
+        isUseMof: '1',
         ...that.searchDataList
       }
       HttpModule.getPageQuery(param).then(res => {
@@ -1242,7 +1243,7 @@ export default {
             })
           }
         } else {
-          that.$message.warning('加载失败')
+          this.$message.warning(res.message)
         }
       })
     },
@@ -2083,6 +2084,8 @@ export default {
       this.disabled = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改' || this.$parent.dialogTitle === '复制') {
+      this.mofDivCode = this.$parent.DetailData.mofDivCode
+
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag

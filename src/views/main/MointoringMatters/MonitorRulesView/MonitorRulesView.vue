@@ -85,6 +85,7 @@
       v-if="descVisible"
       :title="descTitle"
       :id-list="idList"
+      :mof-div-code-list="mofDivCodeList"
     />
     <RulesAddModal
       v-if="dialogVisibleRules"
@@ -336,7 +337,8 @@ export default {
       regulation_class: '',
       regulation_type: '',
       regulation_code: '',
-      isEnableState: true
+      isEnableState: true,
+      mofDivCodeList: []
     }
   },
   mounted() {
@@ -522,7 +524,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
-          if (this.setupAuth && Number(selection[0].regulationType) === 1) {
+          if (this.setupAuth && Number(selection[0].regulationType) === 1 && this.isSx) {
             this.$message.warning('系统级规则不可修改、启用、停用！')
             return
           }
@@ -542,7 +544,7 @@ export default {
               isSystem = true
             }
           })
-          if (this.setupAuth && isSystem) {
+          if (this.setupAuth && isSystem && this.isSx) {
             this.$message.warning('系统级规则不可修改、启用、停用！')
             return
           }
@@ -575,7 +577,7 @@ export default {
               isSystem = true
             }
           })
-          if (this.setupAuth && isSystem) {
+          if (this.setupAuth && isSystem && this.isSx) {
             this.$message.warning('系统级规则不可修改、启用、停用！')
             return
           }
@@ -627,6 +629,7 @@ export default {
       let isGo = true
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
+        this.mofDivCodeList.push(item.mofDivCode)
         if (item.isEnable === '1') {
           isGo = false
         }
@@ -659,6 +662,7 @@ export default {
       let isGo = true
       datas.forEach(item => {
         this.idList.push(item.regulationCode)
+        this.mofDivCodeList.push(item.mofDivCode)
         if (item.isEnable === '0') {
           isGo = false
         }

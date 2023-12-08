@@ -321,14 +321,22 @@ export default {
         type: 'warning'
       }).then(() => {
         let arr = []
+        let mofDivCodes = []
         datas.forEach(res => {
           arr.push(res.regulationCode)
+          mofDivCodes.push(res.mofDivCode)
         })
-        HttpModule.delete(arr).then(res => {
+        let param = {
+          regulationCodes: arr,
+          mofDivCodes: mofDivCodes
+        }
+        HttpModule.delete(param).then(res => {
           if (res.code === '000000') {
             this.$message.success('删除成功')
             this.queryTableDatas()
             this.queryTableDatasCount()
+          } else {
+            this.$message.error(res.message)
           }
         })
       })
@@ -339,6 +347,8 @@ export default {
           this.DetailData = res.data
           this.dialogVisible = true
           this.dialogTitle = '修改'
+        } else {
+          this.$message.warning(res.message)
         }
       })
     },
@@ -366,6 +376,8 @@ export default {
       let datas3 = this.$refs.mainTableRef.getSelectionData()
       let regulationCodes = []
       this.showType = ''
+      let mofDivCodes = []
+
       switch (obj.code) {
         // 新增
         case 'add':
@@ -379,9 +391,10 @@ export default {
           }
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
+            mofDivCodes.push(datas3[i].mofDivCode)
           }
           // this.auditByCheck(obj, context, e)// 经过监控的送审
-          this.audieData({ operate: 1, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
+          this.audieData({ operate: 1, regulationCodes: regulationCodes, mofDivCodes: mofDivCodes, menuName: this.$store.state.curNavModule.name })
           break
         // 撤销
         case 'revoke':
@@ -391,9 +404,10 @@ export default {
           }
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
+            mofDivCodes.push(datas3[i].mofDivCode)
           }
           // this.auditByCheck(obj, context, e)// 经过监控的送审
-          this.audieData({ operate: 3, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
+          this.audieData({ operate: 3, regulationCodes: regulationCodes, mofDivCodes: mofDivCodes, menuName: this.$store.state.curNavModule.name })
           break
         // 查看
         case 'check':
@@ -677,6 +691,8 @@ export default {
           this.$message.success('操作成功')
           this.queryTableDatas()
           this.queryTableDatasCount()
+        } else {
+          this.$message.warning(res.message)
         }
       })
     },
