@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -170,6 +170,209 @@ export let proconf = {
       sortable: false,
       align: 'left',
       fixed: 'left'
+    },
+    {
+      title: '红色预警',
+      field: 'red',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计预警',
+          field: 'redWholeCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'redWholeHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '未处理',
+          field: 'redWholeNoHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '处理进度',
+          field: 'redProcessingProgress',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    },
+    {
+      title: '橙色预警',
+      field: 'orange',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计预警',
+          field: 'orangeWholeCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单',
+          field: 'orangeWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
+          field: 'orangeWholeHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单未完成',
+          field: 'orangeWholeNoHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '处理进度',
+          field: 'orangeProcessingProgress',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    },
+    {
+      title: '黄色预警',
+      field: 'yellow',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计预警',
+          field: 'yellowWholeCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单',
+          field: 'yellowWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
+          field: 'yellowWholeHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单未完成',
+          field: 'yellowWholeNoHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '处理进度',
+          field: 'yellowProcessingProgress',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    },
+    {
+      title: '蓝色预警',
+      field: 'blue',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计预警',
+          field: 'blueWholeCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单',
+          field: 'blueWholeInquiriesCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单已处理',
+          field: 'blueWholeHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '问询单未完成',
+          field: 'blueWholeNoHandleCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '处理进度',
+          field: 'blueProcessingProgress',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    },
+    {
+      title: '监控问询情况',
+      field: 'thing',
+      sortable: false,
+      align: 'left',
+      children: [
+        {
+          title: '累计问询单',
+          field: 'correctedCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '涉及金额',
+          field: 'correctedAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'orderCorrectionCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'orderCorrectionAmount',
+          width: '150',
+          align: 'center'
+        }
+      ]
+    }
+  ],
+  PoliciesTableColumnsToSx: [
+    {
+      title: '规则名称',
+      field: 'fiRuleName',
+      width: '150',
+      sortable: false,
+      align: 'left',
+      fixed: 'left'
+    },
+    {
+      title: '整体预警情况',
+      field: 'totals',
+      sortable: false,
+      align: 'left',
+      visible: store.getters.isSx,
+      children: [
+        {
+          title: '累计预警合计',
+          field: 'wholeNoGrayCount',
+          width: '150',
+          align: 'center'
+        }
+      ]
     },
     {
       title: '红色预警',

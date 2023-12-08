@@ -143,7 +143,7 @@
           </template>
           <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
-              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+              <el-tooltip :disabled="isXm" effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
                   <i class="ri-history-fill"></i>
                   <span class="dfr-report-time">{{ reportTime }}</span>
@@ -200,6 +200,9 @@ export default {
   computed: {
     menuSettingConfig() { // 路由菜单配置信息
       return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    },
+    isXm() {
+      return this.$store.getters.isXm
     },
     isSx() {
       return this.$store.getters.isSx
@@ -776,7 +779,7 @@ export default {
             break
         }
         let isCz = ''
-        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode.includes('cz')) {
+        if (this.transJson(this.params5 || '')?.reportCode !== '' && this.transJson(this.params5 || '')?.reportCode?.includes('cz')) {
           isCz = '2'
         } else {
           isCz = '1'
@@ -888,14 +891,20 @@ export default {
           xmSource = 'zxjdxmmx_fdq'
           zcSource = 'zxjdzcmx_fdq'
         }
-        const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-        const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-        const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-        const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        const fpbjShow = this.menuSettingConfig && this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+        const fpxjShow = this.menuSettingConfig && this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+        const zcjeShow = this.menuSettingConfig && this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+        const isSH = this.menuSettingConfig && this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+        const isHLJ = this.menuSettingConfig && this.menuSettingConfig['projectCode'] === 'HLJ' // 判断黑龙江项目
         console.info(zcjeShow)
         if (!zcjeShow && key === dictionary['支出-金额']) {
           this.handleDetail(zcSource, obj.row.code, key, obj.row)
           this.detailTitle = '支出明细'
+          return
+        }
+        if (isHLJ && key === dictionary['中央下达']) {
+          this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
+          this.detailTitle = '中央下达明细'
           return
         }
         if (!fpbjShow && [dictionary['省级分配本级'], dictionary['市级分配本级'], dictionary['县级已分配']].includes(key)) {

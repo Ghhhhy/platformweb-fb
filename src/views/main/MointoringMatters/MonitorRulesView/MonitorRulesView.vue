@@ -846,7 +846,7 @@ export default {
           param.code = this.regulationClass
         }
         // 监控中台模板规则库 点击左侧树接口传参错误 为了不影响其他功能 用此判断
-        if (this.$route.name === 'MonitorRulesView' && this.treeType === '2') {
+        if ((this.$route.name === 'MonitorRulesView' || this.$route.name === 'MonitorRulesViewShow') && this.treeType === '2') {
           param.regulationClass = this.leftTreeClickNode.code
         }
       } else {
