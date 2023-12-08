@@ -718,7 +718,7 @@ export default {
       api.getTreeAgency(param).then(res => {
         let treeResdata = res.data
         let index = this.queryConfig.findIndex(item => item.field.indexOf('agencyCode') > -1)
-        this.queryConfig[index].itemRender.options = treeResdata
+        index !== undefined && (this.queryConfig[index].itemRender.options = treeResdata)
       })
     },
     getChildrenNewData1(datas) {
