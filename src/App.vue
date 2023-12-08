@@ -12,6 +12,7 @@
 import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
 import MenuModule from '@/api/frame/common/menu.js'
+import { refreshTiemChange } from '@/api/tokenTimeOut'
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -319,9 +320,13 @@ export default {
 
   async mounted() {
     let that = this
-    this.logOutPopInterval = setInterval(() => {
-      that.intervalQuest()
-    }, 300000)
+    if (this.$store.getters.isXm) {
+      refreshTiemChange()
+    } else {
+      this.logOutPopInterval = setInterval(() => {
+        that.intervalQuest()
+      }, 300000)
+    }
     window.onunload = () => {
       localStorage.removeItem('bsSxczyAccessToken')
       localStorage.removeItem('bsSxczyAppguid')

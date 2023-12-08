@@ -95,13 +95,13 @@ export default {
     }
   },
   mounted() {
-    const el = document.getElementsById('test')
-    var event = new MouseEvent('mouseover', {
-      bubbles: true,
-      cancelable: true,
-      view: window
-    })
-    el.dispatchEvent(event)
+    // const el = document.getElementsById('test')
+    // var event = new MouseEvent('mouseover', {
+    //   bubbles: true,
+    //   cancelable: true,
+    //   view: window
+    // })
+    // el.dispatchEvent(event)
   },
   created() {
     this.navigationRequest() // 请求导航
