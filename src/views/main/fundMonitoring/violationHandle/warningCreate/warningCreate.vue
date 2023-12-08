@@ -349,7 +349,7 @@ export default {
       const param = {
         fiscalYear: this.$store.state.userInfo.year
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
@@ -416,7 +416,7 @@ export default {
           xPayDateEnd: this.searchDataList.xPayDateEnd
         }
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
 
