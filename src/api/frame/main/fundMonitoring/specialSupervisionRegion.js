@@ -13,7 +13,7 @@ export default {
   },
   // 明细分页查询
   detailPageQuery (params) {
-    if (store.state.userInfo.province.slice(0, 2) !== '31') {
+    if (store.state.userInfo.province.slice(0, 2) === '31') {
       params = Base64.encode(JSON.stringify(params))
     }
     return post('dfr-monitor-service/dfr/zdzjledger/detailPageQuery', params)

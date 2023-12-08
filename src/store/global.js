@@ -66,6 +66,9 @@ export const getters = {
       return item.configKey === 'sx' && item.configValue === 'true'
     })
   },
+  isHLJ() { // 判断是否是黑龙江项目
+    return state.userInfo.province.slice(0, 2) === '23'
+  },
   treeQueryparamsCom() {
     let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
     let budgetlevelcode = state.userInfo.budgetlevelcode

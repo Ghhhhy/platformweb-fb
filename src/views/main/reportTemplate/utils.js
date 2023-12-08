@@ -196,10 +196,11 @@ export default {
   // 获取穿透查询条件
   getPenetrateParams(row, column) {
     let configParams = column.own.params || {}
-    if (column.own.penetrateParams) {
-      for (let c of column.own.penetrateParams) {
+    let params = column.own.penetrateParams
+    if (params) {
+      for (let c in params) {
         if (row[c]) {
-          configParams[toUnderline(c)] = row[c]
+          configParams[params[c]] = row[c]
         }
       }
     }
@@ -207,4 +208,4 @@ export default {
   }
 }
 
-const toUnderline = (str) => str.replace(/([A-Z])/g, '_$1').toLowerCase()
+// const toUnderline = (str) => str.replace(/([A-Z])/g, '_$1').toLowerCase()

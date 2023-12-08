@@ -134,7 +134,7 @@
           </template>
           <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
-              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+              <el-tooltip :disabled="isXm" effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
                   <i class="ri-history-fill"></i>
                   <span class="dfr-report-time">{{ reportTime }}</span>
@@ -206,6 +206,9 @@ export default {
   computed: {
     menuSettingConfig() { // 路由菜单配置信息
       return this.transJson2(this.$store.state.curNavModule.param5 || '')
+    },
+    isXm() {
+      return this.$store.getters.isXm
     },
     isSx() {
       return this.$store.getters.isSx
@@ -881,18 +884,19 @@ export default {
       if (hideColumnLinkStr.hideCell && this.cellHide(hideColumnLinkStr.hideCell, obj.column, obj.row)) {
         return
       }
-      const isSH = this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
-      const fpbjShow = this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
-      const fpxjShow = this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
-      const zcjeShow = this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
-      const isFJ = this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const isSH = this.menuSettingConfig && this.menuSettingConfig['projectCode'] === 'SH'// 判断上海项目
+      const fpbjShow = this.menuSettingConfig && this.menuSettingConfig['fpbjShow'] === 'false' // 省，市，县分配本级是否显示
+      const fpxjShow = this.menuSettingConfig && this.menuSettingConfig['fpxjShow'] === 'false'// 省，市分配下级是否显示
+      const zcjeShow = this.menuSettingConfig && this.menuSettingConfig['zcjeShow'] === 'false'// 支出-金额是否显示
+      const isFJ = this.menuSettingConfig && this.menuSettingConfig['projectCode'] === 'FJ'// 判断福建项目
+      const isHLJ = this.menuSettingConfig && this.menuSettingConfig['projectCode'] === 'HLJ' // 判断黑龙江项目
       const isSX = this.$store.getters.isSx
       if (!zcjeShow && key === dictionary['支出-金额']) {
         this.handleDetail(zcSource, obj.row.code, key, obj.row)
         this.detailTitle = '支出明细'
         return
       }
-      if (((isSH || isFJ) || isFJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
+      if (((isSH || isFJ) || isFJ || isHLJ) && key === dictionary['中央下达']) { // 只有上海项目 这个才显示 并且不受其他参数控制
         this.handleDetail('zyxdxmmx_fzj', obj.row.code, key, obj.row)
         this.detailTitle = '中央下达明细'
         return
@@ -1077,7 +1081,7 @@ export default {
     },
     transJson3 (str) {
       let strTwo = ''
-      str.split(',').reduce((acc, curr) => {
+      str?.split(',').reduce((acc, curr) => {
         const [key, value] = curr.split('=')
         acc[key] = value
         strTwo = acc
