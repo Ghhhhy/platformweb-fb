@@ -180,6 +180,13 @@ export default {
       } else {
         allowNum = 3
       }
+      if (this.$store.getters.isXm) {
+        if (this.$refs.cardContent.offsetWidth >= '1440') {
+          allowNum = 5
+        } else {
+          allowNum = 3
+        }
+      }
       let rows = []
       let menus = {}
       if (allowNum > 0) {

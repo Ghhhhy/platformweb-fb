@@ -59,7 +59,7 @@
           }"
         >
           <!--左侧处理单信息-->
-          <template #paneL>
+          <template v-if="!isHaiNanMode" #paneL>
             <div class="left-items">
               <el-checkbox
                 v-model="checkedAll"

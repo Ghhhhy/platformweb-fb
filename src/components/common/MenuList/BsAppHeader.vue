@@ -6,44 +6,9 @@
         <div class="MenuList-header flex">
           <div class="MenuList-header header-left flex">
             <div class="header-left header-left-title flex">
-              <img src="./img/logo-new.png" alt="">
-              <!-- <div class="header-img"></div>
-            <div class="header-title">预算管理</div> -->
+              <xmHeader v-if="$store.getters.isXm" />
+              <img v-else src="./img/logo-new.png" alt="">
             </div>
-            <!-- <div class="header-left header-left-menu flex">
-            <div class="header-left-menu-list flex pointer">
-              <LevelMenu @onMenuSelectChange="onMenuSelectChange" />
-            </div>
-            <div class="header-left-menu-list flex pointer">
-              <i class="el-icon-star-off icon"></i>
-              <MyFavorite @onMenuSelectChange="onMenuSelectChange" />
-            </div>
-          </div> -->
-            <!-- <div class="header-left header-left-search flex" style="display:none">
-              <div v-if="show" class="header-left-search search-select flex">
-                <select class="search-select">
-                  <option value="菜单">菜单</option>
-                  <option value="全部">全部</option>
-                  <option value="列表">列表</option>
-                </select>
-                <el-select
-                  v-model="value"
-                  filterable
-                  placeholder="请选择"
-                  size="mini"
-                  @change="getData"
-                >
-                  <el-option
-                    v-for="(item,v) in searchData"
-                    :key="v"
-                    :label="item.label"
-                    :value="item.value"
-                    :menu="item"
-                  />
-                </el-select>
-              </div>
-              <i @click="OnShowSelectSearch"><img src="~@/assets/img/basic/search.svg"> </i>
-            </div> -->
           </div>
           <div v-for="(it,ids) in menuData" :key="ids" :class="[province.slice(0, 2) === '31' ? 'shHeader' : 'xmHeader', 'MenuList-header header-right flex']">
             <div class="header-right-title flex">
@@ -201,6 +166,7 @@
 import MenuModule from '../../../api/frame/common/menu.js'
 import store from '@/store/index'
 import BBS from './children/BBS.vue'
+import xmHeader from './XMBsAppHeader.vue'
 // import {
 //   enable as enableDarkMode,
 //   disable as disableDarkMode
@@ -216,7 +182,8 @@ export default {
     // LevelMenu
     // MyFavorite
     // Chat
-    BBS
+    BBS,
+    xmHeader
   },
   data () {
     return {
