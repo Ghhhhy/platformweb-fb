@@ -187,7 +187,7 @@ export default {
               obj.bizKey = ii.field
               obj.bizValue = formItemData[ii.field]
               if (item.needUpload) { // 获取需要上传的哪个表单的数据
-                if (ii.field.indexOf('commentDept') > -1) {
+                if (ii.field.indexOf('commentDept') > -1 && obj.bizValue) {
                   let obj2 = {
                     bizKey: 'commentName',
                     bizValue: ii.itemRender.options.find(item => { return item.value === obj.bizValue }).label
