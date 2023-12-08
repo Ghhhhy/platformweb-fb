@@ -51,6 +51,8 @@
       :title="dialogTitle"
       :rule-template-code="ruleTemplateCode"
       :function-code-list="functionCodeList"
+      :mof-div-name="mofDivName"
+      :mof-div-code="mofDivCode"
     />
     <!-- 附件弹框 -->
     <BsAttachment v-if="showAttachmentDialog" refs="attachmentboss" :user-info="userInfo" :billguid="billguid" />
@@ -181,7 +183,9 @@ export default {
       condition: {},
       businessSystemCode: '',
       businessModuleCode: '',
-      businessFunctionCode: ''
+      businessFunctionCode: '',
+      mofDivName: '',
+      mofDivCode: ''
     }
   },
   mounted() {
@@ -349,6 +353,8 @@ export default {
       }
       this.ruleTemplateCode = selection[0].ruleTemplateCode
       this.functionCodeList = selection[0].functionCodeList
+      this.mofDivName = selection[0].mofDivName
+      this.mofDivCode = selection[0].mofDivCode
       this.dialogVisible = true
       this.dialogTitle = '修改'
     },
@@ -383,12 +389,17 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
+      let mofDivCodes = []
+      selection.forEach(item => {
+        mofDivCodes.push(item.mofDivCode)
+      })
       let ruleTemplateCodes = []
       selection.forEach(item => {
         ruleTemplateCodes.push(item.ruleTemplateCode)
       })
       let param = {
-        'ruleTemplateCodes': ruleTemplateCodes
+        'ruleTemplateCodes': ruleTemplateCodes,
+        mofDivCodes: mofDivCodes
       }
       this.$confirm('是否确定删除 ?', '提示', {
         confirmButtonText: '确定',

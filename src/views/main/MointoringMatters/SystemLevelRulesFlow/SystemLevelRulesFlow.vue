@@ -390,6 +390,7 @@ export default {
       this.buttonType = obj.code
       let datas3 = this.$refs.mainTableRef.getSelectionData()
       let regulationCodes = []
+      let mofDivCodes = []
       switch (obj.code) {
         // 新增
         case 'add':
@@ -403,10 +404,12 @@ export default {
           }
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
+            mofDivCodes.push(datas3[i].mofDivCode)
           }
           if (datas3.length > 1) {
             let param = {
               regulationCodes: regulationCodes,
+              mofDivCodes: mofDivCodes,
               operate: 2,
               menuName: this.$store.state.curNavModule.name
             }
@@ -434,8 +437,9 @@ export default {
           }
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
+            mofDivCodes.push(datas3[i].mofDivCode)
           }
-          this.audieData({ operate: 5, regulationCodes: regulationCodes, menuName: this.$store.state.curNavModule.name })
+          this.audieData({ operate: 5, regulationCodes: regulationCodes, mofDivCodes: mofDivCodes, menuName: this.$store.state.curNavModule.name })
           break
         case 'sendBack':
           if (datas3.length === 0) {
@@ -444,9 +448,11 @@ export default {
           }
           for (let i = 0; i < datas3.length; i++) {
             regulationCodes.push(datas3[i].regulationCode)
+            mofDivCodes.push(datas3[i].mofDivCode)
           }
           let param = {
             regulationCodes: regulationCodes,
+            mofDivCodes: mofDivCodes,
             operate: 4,
             menuName: this.$store.state.curNavModule.name
           }

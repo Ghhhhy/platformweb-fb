@@ -1583,7 +1583,8 @@ export default {
           menuName: this.$store.state.curNavModule.name,
           regulationClass: classCode,
           'menuIdList': this.businessFunctionCode.toString(), // 多菜单
-          'menuNameList': this.businessFunctionName.toString()
+          'menuNameList': this.businessFunctionName.toString(),
+          mofDivCode: this.$parent.DetailData.mofDivCode
         }
         if (this.isSx) {
           HttpModule.updateDataView(params).then(res => {
@@ -1598,7 +1599,7 @@ export default {
               that.$parent.dialogVisible = false
               this.$parent.queryTableDatas()
             } else {
-              that.$message.error('操作失败')
+              this.$message.warning(res.message)
             }
           }).finally(() => {
           // that.$parent.dialogVisible = false
@@ -1616,7 +1617,7 @@ export default {
               that.$parent.dialogVisible = false
               this.$parent.queryTableDatas()
             } else {
-              that.$message.error('操作失败')
+              this.$message.warning(res.message)
             }
           }).finally(() => {
           // that.$parent.dialogVisible = false

@@ -795,7 +795,8 @@ export default {
         des: '',
         basis: ''
       },
-      formValidationConfigMessage: proconf.formValidationConfigMessage
+      formValidationConfigMessage: proconf.formValidationConfigMessage,
+      mofDivCode: ''
     }
   },
   methods: {
@@ -1097,6 +1098,7 @@ export default {
       let param = {
         page: 1,
         pageSize: 500,
+        isUseMof: '1',
         ...that.searchDataList
       }
       HttpModule.getPageQuery(param).then(res => {
@@ -1241,7 +1243,7 @@ export default {
             })
           }
         } else {
-          that.$message.warning('加载失败')
+          this.$message.warning(res.message)
         }
       })
     },
@@ -1741,7 +1743,8 @@ export default {
           basis: formDatas.basis
         },
         warnType: this.warnType, // 预警类别
-        uploadFile: this.uploadFile // 是否上传附件
+        uploadFile: this.uploadFile, // 是否上传附件
+        mofDivCode: this.mofDivCode
       }
       this.submitLoading = true
       if (this.$parent.dialogTitle === '修改') {
@@ -2081,6 +2084,8 @@ export default {
       this.disabled = true
       this.editConfig = false
     } else if (this.$parent.dialogTitle === '修改' || this.$parent.dialogTitle === '复制') {
+      this.mofDivCode = this.$parent.DetailData.mofDivCode
+
       this.warnType = this.$parent.DetailData.warnType
       this.uploadFile = this.$parent.DetailData.uploadFile
       this.ruleFlag = this.$parent.DetailData.ruleFlag
@@ -2107,7 +2112,6 @@ export default {
       this.getModLists()
       this.businessModuleCode = this.$parent.DetailData.businessModuleCode + ''
       this.ModparentId = this.businessModuleCode
-
       // this.getFunLists()
       // this.businessFunctionCode.push(parseInt(this.$parent.DetailData.businessFunctionCode))
       // this.businessFunctionCode = this.$parent.DetailData.menuIdList.split(',')
@@ -2143,6 +2147,7 @@ export default {
       this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
       this.implDesc = this.$parent.DetailData.implDesc
       this.scope = this.$parent.DetailData.regulationScope
+      this.mofDivCode = this.$parent.DetailData.mofDivCode
     }
     if (this.$parent.dialogTitle !== '新增') {
       if (this.$parent.formDatas) {

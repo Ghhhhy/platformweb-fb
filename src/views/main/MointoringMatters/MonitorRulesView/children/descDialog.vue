@@ -56,6 +56,10 @@ export default {
       type: String,
       default: ''
     },
+    mofDivCodeList: {
+      type: Array,
+      default: null
+    },
     idList: {
       type: Array,
       default: null
@@ -80,6 +84,7 @@ export default {
       if (this.title === '启用事由') {
         const params = {
           regulationCodes: this.idList,
+          mofDivCodes: this.mofDivCodeList,
           openDesc: this.desc,
           menuName: this.$store.state.curNavModule.name
         }
@@ -95,6 +100,7 @@ export default {
       } else {
         const params = {
           regulationCodes: this.idList,
+          mofDivCodes: this.mofDivCodeList,
           openDesc: this.desc,
           menuName: this.$store.state.curNavModule.name
         }
