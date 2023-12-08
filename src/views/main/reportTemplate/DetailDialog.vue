@@ -98,6 +98,7 @@ export default {
   },
   data() {
     return {
+      cacheParam: {},
       globalConfig: {},
       isShowQueryConditions: true,
       queryConfig: [],
@@ -243,6 +244,7 @@ export default {
         this.tableDataParams.condition || {}
       )
       let params = {
+        ...(this.$parent?.cacheParam || {}),
         page: this.pagerConfig.currentPage, // 页码
         pageSize: this.pagerConfig.pageSize, // 每页条数
         ...this.detailQueryParam,
@@ -250,6 +252,7 @@ export default {
       }
       this.$parent.tableLoading = true
       console.log(params)
+      this.cacheParam = params
       HttpModule.getDetailTableDatas(params)
         .then((res) => {
           if (res.code === '000000') {
@@ -266,16 +269,23 @@ export default {
     handleDetail(row, column) {
       this.tableDataParams.condition = Object.assign(
         {},
+        this.$parent?.cacheParam,
+        this.cacheParam || {},
         this.$parent?.tableDataParams?.condition || {},
         this.tableDataParams.condition || {}
       )
       let configParams = utils.getPenetrateParams(row, column)
       this.detailQueryParam1 = {
-        mof_div_code: row.mofDivCode,
-        column: column.property,
-        reportCode: this.penetrateTableId,
         ...this.tableDataParams.condition,
-        ...configParams
+        ...configParams,
+        column: column.property,
+        reportCode: this.penetrateTableId
+      }
+      let ignoreParams = column.own.ignoreParams
+      if (ignoreParams && ignoreParams.length > 0) {
+        for (let i of ignoreParams) {
+          delete this.detailQueryParam1[i]
+        }
       }
       console.log(this.detailQueryParam1)
       this.detailTitle = utils.getPenetrateTitle(

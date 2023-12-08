@@ -91,7 +91,7 @@
           </template>
           <template v-slot:toolbar-custom-slot>
             <div class="dfr-report-time-wrapper">
-              <el-tooltip effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
+              <el-tooltip :disabled="isXm" effect="light" :content="`报表最近取数时间：${reportTime}`" placement="top">
                 <div class="dfr-report-time-content">
                   <i class="ri-history-fill"></i>
                   <span class="dfr-report-time">{{ reportTime }}</span>
@@ -131,6 +131,9 @@ import moment from 'moment'
 export default {
   mixins: [regionMixin],
   computed: {
+    isXm() {
+      return this.$store.getters.isXm
+    },
     isSx() {
       return this.$store.getters.isSx
     },

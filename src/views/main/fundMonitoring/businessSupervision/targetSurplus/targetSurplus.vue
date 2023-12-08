@@ -394,21 +394,22 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      // let key = obj.column.property
+      if (!this.$store.getters.isSx) {
+        let key = obj.column.property
+        // 无效的cellValue
+        const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+        if (isInvalidCellValue) return
 
-      // 无效的cellValue
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      // if (isInvalidCellValue) return
-
-      // switch (key) {
-      //   case 'amountz':
-      //     this.handleDetail('zdzjdfjemx', obj.row.code)
-      //     this.detailTitle = '直达资金待分指标明细'
-      //     break
-      //   case 'amountc':
-      //     this.handleDetail('czzdzjdfjemx', obj.row.code)
-      //     this.detailTitle = '参照直达资金待分指标明细'
-      // }
+        switch (key) {
+          case 'amountz':
+            this.handleDetail('zdzjdfjemx', obj.row.code)
+            this.detailTitle = '直达资金待分指标明细'
+            break
+          case 'amountc':
+            this.handleDetail('czzdzjdfjemx', obj.row.code)
+            this.detailTitle = '参照直达资金待分指标明细'
+        }
+      }
     },
     // 刷新按钮 刷新查询栏，提示刷新 table 数据
     refresh(isFlush = true) {

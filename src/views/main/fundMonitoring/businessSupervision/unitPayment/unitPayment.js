@@ -250,10 +250,10 @@ export let proconf = {
       }
     },
     {
-      title: '中央追踪项目',
+      title: '中央资金名称',
       width: 180,
       field: 'trackProCodeName',
-      key: 'sx',
+      visible: store.getters.isSx,
       treeNode: true,
       sortable: true,
       align: 'center',
@@ -261,15 +261,15 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '中央追踪项目'
+          placeholder: '中央资金名称'
         }
       }
     },
     {
-      title: '预算项目',
+      title: '预算项目名称',
       width: 180,
       field: 'proCodeName',
-      key: 'sx',
+      visible: store.getters.isSx,
       treeNode: true,
       sortable: true,
       align: 'center',
@@ -277,7 +277,7 @@ export let proconf = {
         name: '$vxeInput',
         options: [],
         props: {
-          placeholder: '预算项目'
+          placeholder: '预算项目名称'
         }
       }
     },
@@ -285,7 +285,7 @@ export let proconf = {
       title: '本级文号',
       width: 180,
       field: 'corBgtDocNo',
-      key: 'sx',
+      visible: store.getters.isSx,
       treeNode: true,
       sortable: true,
       align: 'center',
