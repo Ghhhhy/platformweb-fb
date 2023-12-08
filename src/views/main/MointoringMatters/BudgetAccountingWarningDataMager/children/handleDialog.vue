@@ -441,7 +441,12 @@ export default {
     },
     // 附件预览
     showAttachmentMask() {
-      this.$parent.showAttachment(this.$parent.selectData)
+      if (this.$store.getters.isSx) {
+        let selData = this.$parent.selectData
+        this.$parent.showAttachment(selData && selData.attachmentId ? selData : this.supplyDataList)
+      } else {
+        this.$parent.showAttachment(this.$parent.selectData)
+      }
     },
     cellClick(obj, context, e) {
       console.log(obj)

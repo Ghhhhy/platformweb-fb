@@ -897,12 +897,19 @@ export default {
     // 查看附件
     showAttachment(row) {
       console.log('查看附件')
-      if (row.attachmentid === null || row.attachmentid === '') {
-        this.$message.warning('该数据无附件')
-        return
+      if (this.$store.getters.isSx) {
+        if (!row.attachmentid && !row.attachmentId) {
+          this.$message.warning('该数据无附件！')
+          return
+        }
+        this.billguid = row.attachmentid ? row.attachmentid : row.attachmentId
+      } else {
+        if (row.attachmentid === null || row.attachmentid === '') {
+          this.$message.warning('该数据无附件')
+          return
+        }
+        this.billguid = row.attachmentid
       }
-      this.billguid = row.attachmentid
-      // this.showAttachmentDialog = true
       this.showGlAttachmentDialog = true
     },
     // 表格单元行单击
