@@ -124,6 +124,7 @@ export default {
   },
   data() {
     return {
+      cacheParam: {},
       globalConfig: {},
       caliberDeclareContent: '', // 口径说明
       reportTime: '', // 拉取支付报表的最新时间
@@ -319,7 +320,6 @@ export default {
     handleDetail(mofDivCode, column, row) {
       let configParams = utils.getPenetrateParams(row, column)
       let params = {
-        mof_div_code: mofDivCode,
         column: column.property,
         reportCode: this.penetrateTableId,
         ...this.tableDataParams.condition,
@@ -378,6 +378,7 @@ export default {
       }
       console.log(param, '--------------查询参数')
       this.tableLoading = true
+      this.cacheParam = param
       HttpModule.getReportTableDatas(param)
         .then((res) => {
           if (res.code === '000000') {
