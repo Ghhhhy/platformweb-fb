@@ -52,7 +52,7 @@
       </template>
       <div class="modal-content" :style="{ height: `calc(100% - ${modalType === ModalTypeEnum.AUDIT ? 6 : 20}px)` }">
         <BsSplitPane
-          :default-percent="20"
+          :default-percent="isHaiNanMode ? 0 : 20"
           split="vertical"
           :style="{
             height: `calc(100% - ${modalType !== ModalTypeEnum.PREVIEW ? 110 : 0}px)`,
@@ -140,6 +140,20 @@
             </div>
             <div v-if="isHaiNanMode" class="right-info" style="height: 100%; overflow-y: auto">
               <haiNanModeAuditModal v-bind="haiNanModeProperty" :visible="visible" />
+              <AuditProgress
+                v-if="currentWarnDetail.processResultList"
+                :table-data="currentWarnDetail.processResultList"
+              />
+              <!--附件信息-->
+              <AttachmentInfo
+                v-if="true"
+                :loading="fileLoading"
+                :required="currentNode.uploadFile"
+                :file-list="currentNode.attachFiles"
+                :billguid="currentNode.warningCode"
+                @uploadAfter="uploadAfter"
+                @deleteFile="deleteFileHandle"
+              />
             </div>
           </template>
         </BsSplitPane>

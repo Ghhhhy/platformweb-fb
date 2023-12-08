@@ -917,7 +917,13 @@ export default {
     },
     handleDetailSx(reportCode, proCode, column, row) {
       let params = {
-        trackProCode: row.trackProCode
+        trackProCode: row.trackProCode,
+        startTime: this.condition.startTime ? this.condition.startTime[0] : '',
+        endTime: this.condition.endTime ? this.condition.endTime[0] : '',
+        fiscalYear: this.searchDataList.fiscalYear,
+        mofDivCodes: this.searchDataList.mofDivCodes === '' || this.searchDataList.mofDivCodes === undefined ? [] : this.getTrees(this.searchDataList.mofDivCodes),
+        isCentral: this.searchDataList.isCentral || '',
+        isZd: this.searchDataList.isZd || ''
       }
       this.detailQueryParam = params
       this.sxDetailVisible = true

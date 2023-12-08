@@ -118,6 +118,18 @@ export default {
     inquiriesStatus: {
       type: String,
       default: ''
+    },
+    warnLevelList: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    jurisdiction: {
+      type: Boolean,
+      default() {
+        return false
+      }
     }
   },
   watch: {
@@ -454,7 +466,9 @@ export default {
         inquiriesStatus: this.inquiriesStatus,
         regulationClass: this.regulationClass,
         regulationType: this.regulationType,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot,
+        warnLevelList: this.warnLevelList,
+        jurisdiction: this.jurisdiction
       }
       if (param.endTime && this.$store.getters.isSx) {
         param.endTime = moment(param.endTime).format('YYYY-MM-DD 23:59:59')

@@ -416,62 +416,13 @@ export default {
       this.queryTableDatas()
     },
     // 查询 table 数据
-    // queryTableDatas() {
-    //   console.log(this.fiRuleCode)
-    //   const param = {
-    //     page: this.mainPagerConfig.currentPage, // 页码
-    //     pageSize: this.mainPagerConfig.pageSize, // 每页条数
-    //     fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
-    //     fiRuleCode: this.fiRuleCode,
-    //     warnLevel: this.warnLevel,
-    //     status: this.status,
-    //     regulationType: this.regulationType,
-    //     mofDivCode: this.mofDivCode,
-    //     agencyCodeList: this.agencyCodeList,
-    //     regulationClass: this.$store.getters.getRegulationClass,
-    //     fiRuleName: this.fiRuleName,
-    //     businessNo: this.payApplyNumber,
-    //     jurisdiction: this.$store.getters.getIsJurisdiction,
-    //     startTime: this.searchDataList.startTime,
-    //     endTime: this.searchDataList.endTime,
-    //     voidOrNot: this.voidOrNot ? this.voidOrNot : '2'
-    //   }
-    //   this.tableLoading = true
-    //   HttpModule.getViolationsDetailDatas(param).then(res => {
-    //     this.tableLoading = false
-    //     if (res.code === '000000') {
-    //       this.tableData = res.data.results
-    //       this.tableData.forEach(item => {
-    //         if (item.agencyCode && item.agencyName) {
-    //           item.agency = item.agencyCode + '-' + item.agencyName
-    //         }
-    //         if (item.warnLevel === 3) {
-    //           item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-    //         } else if (item.warnLevel === 2) {
-    //           item.warnLevel = '<span style="color:orange">橙色预警</span>'
-    //         } else if (item.warnLevel === 1) {
-    //           item.warnLevel = '<span style="color:red">红色预警</span>'
-    //         } else if (item.warnLevel === 4) {
-    //           item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-    //         } else if (item.warnLevel === 5) {
-    //           item.warnLevel = '<span style="color:gray">灰色预警</span>'
-    //         }
-    //       })
-    //       this.mainPagerConfig.total = res.data.totalCount
-    //       this.tabStatusNumConfig['1'] = res.data.totalCount
-    //       this.tableFooterConfig.totalObj.paymentAmount = res.data.amountSum
-    //     } else {
-    //       this.$message.error(res.message)
-    //     }
-    //   })
-    // },
-    // 查询 table 数据
     queryTableDatas() {
       const param = {
         page: this.mainPagerConfig.currentPage, // 页码
         pageSize: this.mainPagerConfig.pageSize, // 每页条数
         warn_level: this.warningLevel, // 预警级别
         jurisdiction: true,
+        regulationClass: '0207',
         ...this.searchDataList,
         voidOrNot: this.searchDataList.voidOrNot ? this.searchDataList.voidOrNot : null,
         ...this.detailQueryParam
@@ -531,7 +482,6 @@ export default {
           that.getChildrenNewData1(item.children)
         }
       })
-
       return datas
     }
   },
@@ -541,6 +491,10 @@ export default {
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
+    if (this.$store.getters.isSx) {
+      this.searchDataList.businessTime = this.detailQueryParam && this.detailQueryParam.startTime ? this.detailQueryParam.startTime : ''
+      this.searchDataList.endTime = this.detailQueryParam && this.detailQueryParam.endTime ? this.detailQueryParam.endTime : ''
+    }
   }
 }
 </script>

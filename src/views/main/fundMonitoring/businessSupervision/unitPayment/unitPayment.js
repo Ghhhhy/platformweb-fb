@@ -248,6 +248,54 @@ export let proconf = {
       cellRender: {
         name: '$vxeRatio'
       }
+    },
+    {
+      title: '中央资金名称',
+      width: 180,
+      field: 'trackProCodeName',
+      visible: store.getters.isSx,
+      treeNode: true,
+      sortable: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '中央资金名称'
+        }
+      }
+    },
+    {
+      title: '预算项目名称',
+      width: 180,
+      field: 'proCodeName',
+      visible: store.getters.isSx,
+      treeNode: true,
+      sortable: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '预算项目名称'
+        }
+      }
+    },
+    {
+      title: '本级文号',
+      width: 180,
+      field: 'corBgtDocNo',
+      visible: store.getters.isSx,
+      treeNode: true,
+      sortable: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '本级文号'
+        }
+      }
     }
   ]
 }

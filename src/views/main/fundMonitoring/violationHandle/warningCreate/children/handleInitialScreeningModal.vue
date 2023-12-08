@@ -385,7 +385,8 @@ export default {
             bgtMofDepId: item.bgtMofDepId,
             warnid: item.warnid,
             fiRuleCode: item.fiRuleCode,
-            warningCode: item.warningCode
+            warningCode: item.warningCode,
+            handleType: item.handleType
           }
           if (this.$store.getters.isFuJian) {
             data.issueType = '1'

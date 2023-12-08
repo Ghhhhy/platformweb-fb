@@ -85,6 +85,23 @@ const routers = [
         '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion.vue'
       )
   },
+  // 新增报表测试菜单
+  {
+    path: '/SpecialSupervisionRegionTemplate', // 专项监督_分地区
+    name: 'SpecialSupervisionRegionTemplate',
+    component: () =>
+      import(
+        '../../../views/main/fundMonitoring/capitalAccount/specialSupervisionRegion/specialSupervisionRegion1.vue'
+      )
+  },
+  {
+    path: '/ReportTemplate', // 报表模板
+    name: 'ReportTemplate',
+    component: () =>
+      import(
+        '../../../views/main/reportTemplate/ReportTemplate.vue'
+      )
+  },
   {
     path: '/SpecialSupervisionRegionSh', // 专项监督_分地区
     name: 'SpecialSupervisionRegionSh',

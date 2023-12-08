@@ -215,6 +215,21 @@ export let proconf = {
       formatter({ row }) {
         return row.directFlagCode === '01' ? '是' : '否'
       }
+    },
+    {
+      title: '中央下达时间',
+      width: 180,
+      field: 'sendDate',
+      sortable: false,
+      filters: true,
+      align: 'center',
+      cellRender: {
+        name: '$vxeInput',
+        options: [],
+        props: {
+          placeholder: '中央下达时间'
+        }
+      }
     }
   ]
 }

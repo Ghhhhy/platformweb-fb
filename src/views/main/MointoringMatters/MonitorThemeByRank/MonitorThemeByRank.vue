@@ -51,6 +51,8 @@
       v-if="violationsView"
       :title="dialogTitle"
       :warn-level="warnLevel"
+      :warn-level-list="warnLevelList"
+      :jurisdiction="jurisdiction"
       :status="status"
       :inquiries-status="inquiriesStatus"
       :mof-div-code="mofDivCode"
@@ -178,6 +180,8 @@ export default {
       regulationType: '',
       status: '',
       warnLevel: '',
+      warnLevelList: [],
+      jurisdiction: false,
       violationsView: false,
       treeQueryparams: { elementcode: 'admdiv', province: this.$store.state.userInfo.province, year: this.$store.state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' },
       fiscalYear: '',
@@ -345,9 +349,12 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      console.log(obj)
       let key = obj.column.property
-      console.log(key, obj.row)
+      this.warnLevelList = []
+      this.jurisdiction = false
+      if (this.$store.getters.isSx) {
+        this.regulationClass = ''
+      }
       if (
         key !== 'fiRuleName' &&
         key !== 'orderCorrectionCount' &&
@@ -355,7 +362,7 @@ export default {
         key !== 'correctedCount' &&
         key !== 'correctedAmount'
       ) {
-        if (obj.column.title === '累计预警') {
+        if (obj.column.title === '累计预警' || obj.column.title === '累计预警合计') {
           this.status = ''
           this.inquiriesStatus = ''
         } else if (obj.column.title === '已处理') {
@@ -381,6 +388,10 @@ export default {
         if (key.substring(0, 4) === 'blue') {
           this.warnLevel = '5'
         }
+        if (key === 'wholeNoGrayCount') {
+          this.warnLevel = ''
+          this.warnLevelList = [1, 2, 3, 5]
+        }
         if (obj.row.fiRuleCode !== null && obj.row.fiRuleCode.length === 2) {
           // this.regulationClass = ''
           this.fiRuleCode = ''
@@ -394,6 +405,7 @@ export default {
           // this.regulationTypeQuery = ''
           this.fiRuleCode = obj.row.fiRuleCode
         }
+        this.jurisdiction = this.$store.getters.getIsJurisdiction
         this.violationsView = true
       }
     },
@@ -416,7 +428,8 @@ export default {
         regulationType: this.regulationTypeQuery,
         fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
         businessStartTime: this.businessStartTime,
-        businessEndTime: this.businessEndTime
+        businessEndTime: this.businessEndTime,
+        jurisdiction: this.$store.getters.getIsJurisdiction
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
@@ -554,6 +567,9 @@ export default {
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.state.curNavModule.param5
+    if (this.$store.getters.isSx && this.$store.getters.getIsJurisdiction) {
+      this.tableColumnsConfig = proconf.PoliciesTableColumnsToSx
+    }
     this.getLeftTreeData()
     this.getRegulation()
     this.getAgency()

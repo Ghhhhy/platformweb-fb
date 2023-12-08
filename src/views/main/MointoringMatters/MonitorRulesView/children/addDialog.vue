@@ -517,14 +517,9 @@
             :pager-config="false"
             @cellClick="cellClick"
           >
-            <template
-              v-slot:column-editParam="{ row, column }"
-            >
+            <template v-slot:column-editParam="{ row, column }">
               <div class="custom-cell" style="font-size: 14px">
-                <div v-if="row.paramType !== '5'">
-                  <vxe-input v-model="row.param" />
-                </div>
-                <div v-else>
+                <div v-if="String(row.paramType) === '5'">
                   <vxe-select
                     v-model="row.param"
                     :options="functionSelectOptions"
@@ -532,12 +527,24 @@
                     :placeholder="column.title"
                   />
                 </div>
+                <div v-else-if="Number(row.functionType) === 1 && row.elementCode && String(row.paramType) !== '5'">
+                  <vxe-select
+                    v-model="row.param"
+                    :placeholder="column.title"
+                    :multiple="String(row.paramType) === '4'"
+                  >
+                    <vxe-option v-for="item in row.functionSelectOptionsByValueSet" :key="item.id" :value="item.code" :label="`${item.code}-${item.name}`" />
+                  </vxe-select>
+                </div>
+                <div v-else>
+                  <vxe-input v-model="row.param" />
+                </div>
               </div>
             </template>
-            <template
-              v-slot:column-defaultParam="{ row }"
-            >
-              <span>{{ getFunctionLabel(row.param) }}</span>
+            <template v-slot:column-defaultParam="{ row }">
+              <span v-if="String(row.paramType) === '5'">{{ getFunctionLabel(row.param) }}</span>
+              <span v-else-if="Number(row.functionType) === 1 && row.elementCode">{{ getFunctionSelectOptionsByValueSetLabel(row) }}</span>
+              <span v-else>{{ row.param }}</span>
             </template>
           </BsTable>
         </div>
@@ -660,22 +667,8 @@ export default {
   computed: {
     mountTableColumnsConfig() {
       if (this.$store.getters.isFuJian) {
-        const fieldList = ['functionParameter', 'paramType', 'param']// 福建去掉这3个字段
-        const addedColumn = [{ // 新增一个列
-          title: '参数值描述',
-          sortable: false,
-          field: 'description',
-          align: 'left',
-          formula: '',
-          name: '$vxeInput',
-          editRender: {
-            name: '$vxeInput',
-            options: [],
-            props: {
-              placeholder: '参数值描述'
-            }
-          }
-        }]
+        const fieldList = ['functionParameter', 'paramType']// 福建去掉这2个字段
+        const addedColumn = []
         return proconf.mountTableColumnsConfig.filter(item => !fieldList.includes(item.field)).concat(addedColumn)
       }
       return proconf.mountTableColumnsConfig
@@ -888,6 +881,23 @@ export default {
     }
   },
   methods: {
+    getFunctionSelectOptionsByValueSet(elementCode) {
+      const params = [elementCode, this.$store.state.userInfo.province].join('/')
+      return this.$http.get(BSURL.api_v2Basedata + '/' + params)
+    },
+    getFunctionSelectOptionsByValueSetLabel(row) {
+      if (String(row.paramType) !== '4') {
+        let finditem = row.functionSelectOptionsByValueSet?.find(item => item.code === row.param) || {}
+        let joinListString = [finditem.code, finditem.name].filter(Boolean).join('-')
+        return joinListString
+      } else { // 处理多选
+        let findList = row.functionSelectOptionsByValueSet.filter(item => row.param.includes(item.code))
+        let joinListString = findList.map(item => {
+          return [item.code, item.name].filter(Boolean).join('-')
+        }).join(',')
+        return joinListString
+      }
+    },
     chooseWarningLevel(val) {
       if (val === 1) {
         this.handleType = 1
@@ -1126,16 +1136,39 @@ export default {
       console.log(datas1)
       HttpModule.getTemplateByCode({ ruleTemplateCode: datas[0].ruleTemplateCode }).then(res => {
         if (res.code === '000000') {
+          if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
+            const elementCodeList = res.data.functionInfoList.map(item => {
+              return item.elementCode
+            })
+            Promise.all(elementCodeList.map(code => {
+              return this.getFunctionSelectOptionsByValueSet(code)
+            })).then(listResult => {
+              res.data.functionInfoList.forEach((item, index) => {
+                let tempObj = {
+                  ...item,
+                  functionSelectOptionsByValueSet: listResult[index].data || [],
+                  relation: '1',
+                  paramType: '1'
+                }
+                if (Number(item.functionType) === 1 && String(item.paramType) === '4') {
+                  tempObj.param = item.param.split(',').filter(Boolean)
+                } else {
+                  tempObj.param = item.param
+                }
+                that.mountTableData.push(tempObj)
+              })
+            })
+            return
+          }
           res.data.functionInfoList.forEach(item => {
             let tempObj = {
-              functionName: '',
-              functionCode: '',
+              functionName: item.functionName,
+              functionCode: item.functionCode,
+              functionType: item.functionType,
               relation: '1',
               paramType: '1',
               param: ''
             }
-            tempObj.functionName = item.functionName
-            tempObj.functionCode = item.functionCode
             that.mountTableData.push(tempObj)
           })
         } else {
@@ -1742,7 +1775,7 @@ export default {
   },
   mounted() {
   },
-  created() {
+  async created() {
     console.log(this.$parent.DetailData)
     console.log(this.$store.state.userInfo.orgCode)
     console.log(this.$parent.DetailData.regulationType)
@@ -1795,8 +1828,22 @@ export default {
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
 
-      this.mountTableData = this.$parent.DetailData.regulationConfig
-
+      let regulationConfig = this.$parent.DetailData.regulationConfig || []
+      if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
+        let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+          return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+        }))
+        regulationConfig = regulationConfig.map((item, index) => {
+          let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+          if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
+            tempObj.param = item.param.split(',').filter(Boolean)
+          } else {
+            tempObj.param = item.param
+          }
+          return tempObj
+        })
+      }
+      this.mountTableData = regulationConfig
       this.policiesDescription = this.$parent.DetailData.warningTips
       this.fiRuleDesc = this.$parent.DetailData.fiRuleDesc
       this.implDesc = this.$parent.DetailData.implDesc
@@ -1840,7 +1887,22 @@ export default {
       this.businessSystemName = this.$parent.DetailData.businessSystemName
       this.businessModuleName = this.$parent.DetailData.businessModuleName
       // this.businessFunctionName = this.$parent.DetailData.businessFunctionName
-      this.mountTableData = this.$parent.DetailData.regulationConfig
+      let regulationConfig = this.$parent.DetailData.regulationConfig || []
+      if (this.$store.getters.isSx || this.$store.getters.isFuJian) {
+        let functionSelectOptionsByValueSet = await Promise.all(regulationConfig.map(regulationItem => {
+          return this.getFunctionSelectOptionsByValueSet(regulationItem.elementCode)
+        }))
+        regulationConfig = regulationConfig.map((item, index) => {
+          let tempObj = { ...item, functionSelectOptionsByValueSet: functionSelectOptionsByValueSet[index].data || [] }
+          if (Number(item.functionType) === 1 && item.elementCode && String(item.paramType) === '4') {
+            tempObj.param = item.param.split(',').filter(Boolean)
+          } else {
+            tempObj.param = item.param
+          }
+          return tempObj
+        })
+      }
+      this.mountTableData = regulationConfig
       this.ruleFlag = this.$parent.DetailData.ruleFlag
       this.warnLocation = this.$parent.DetailData.warnLocation
 
