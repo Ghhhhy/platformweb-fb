@@ -1658,7 +1658,7 @@ export default {
         if (Number(item.functionType) === 1 && String(item.paramType) === '4') {
           return {
             ...item,
-            param: item.param.join(',')
+            param: item.param instanceof Array ? item.param.join(',') : item.param
           }
         }
         return item
