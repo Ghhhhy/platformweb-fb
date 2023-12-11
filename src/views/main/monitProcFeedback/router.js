@@ -19,7 +19,7 @@ let workFlowRouters = [// monitProcFeedbackSpe2 monitProcFeedbackDfr2...
     component: () => import('@/views/main/monitProcFeedback/monitProcFeedback.vue')
   }
 ]
-for (let i = 2; i < 7; i++) {
+for (let i = 2; i < 10; i++) {
   // 专项 Spe 直达资金Dfr
   const routerMeteList = ['Spe', 'Dfr']
   routerMeteList.forEach(str => {
