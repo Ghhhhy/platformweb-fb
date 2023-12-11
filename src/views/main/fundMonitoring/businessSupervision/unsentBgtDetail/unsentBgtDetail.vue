@@ -573,6 +573,9 @@ export default {
           }
         })
       }
+      if (this.$store.getters.isFuJian) {
+        queryUrl = 'queryTableDatasPage'
+      }
       HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
