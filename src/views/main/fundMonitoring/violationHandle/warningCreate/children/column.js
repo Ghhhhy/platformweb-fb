@@ -35,7 +35,10 @@ const budgetImpColumns = [
     width: 180,
     field: 'agencyName',
     sortable: false,
-    filters: false,
+    filters: store.getters.isXm ? [{ data: '' }] : false,
+    filterRender: {
+      name: 'FilterInput'
+    },
     align: 'center',
     tooltipFormat: '{agencyCode}-{agencyName}',
     formatter({ row }) {
@@ -2574,6 +2577,18 @@ const proconf = {
       align: 'left',
       cellRender: {
         name: '$vxeTableHref'
+      }
+    },
+    {
+      title: '指标管理处室',
+      width: 180,
+      field: 'bgtMofDepName',
+      visible: store.getters.isHLJ,
+      formatter({ row }) {
+        if (row.bgtMofDepCode && row.bgtMofDepName) {
+          return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
+        }
+        return `${row.bgtMofDepName}`
       }
     },
     {

@@ -544,35 +544,35 @@ const proconf = {
     }
   ],
   highQueryConfigHLJ: [
-    {
-      title: '支付时间',
-      field: 'xpayDate',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          clearable: true,
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '支付时间'
-        }
-      }
-    }, {
-      title: '触发监控时间',
-      field: 'triggerMonitorDate',
-      width: 200,
-      itemRender: {
-        name: '$vxeTime',
-        defaultValue: '',
-        props: {
-          clearable: true,
-          format: 'YYYY-MM-DD',
-          type: 'date',
-          placeholder: '触发监控时间'
-        }
-      }
-    }
+    // {
+    //   title: '支付时间',
+    //   field: 'xpayDate',
+    //   width: 200,
+    //   itemRender: {
+    //     name: '$vxeTime',
+    //     defaultValue: '',
+    //     props: {
+    //       clearable: true,
+    //       format: 'YYYY-MM-DD',
+    //       type: 'date',
+    //       placeholder: '支付时间'
+    //     }
+    //   }
+    // }, {
+    //   title: '触发监控时间',
+    //   field: 'triggerMonitorDate',
+    //   width: 200,
+    //   itemRender: {
+    //     name: '$vxeTime',
+    //     defaultValue: '',
+    //     props: {
+    //       clearable: true,
+    //       format: 'YYYY-MM-DD',
+    //       type: 'date',
+    //       placeholder: '触发监控时间'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     fiscalYear: '',

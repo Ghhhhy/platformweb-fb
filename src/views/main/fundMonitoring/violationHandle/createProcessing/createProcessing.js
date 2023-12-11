@@ -390,6 +390,18 @@ const dealAffairsColumns = [
     sortable: false,
     filters: false,
     align: 'center'
+  },
+  {
+    title: '指标管理处室',
+    width: 180,
+    field: 'bgtMofDepName',
+    visible: store.getters.isHLJ,
+    formatter({ row }) {
+      if (row.bgtMofDepCode && row.bgtMofDepName) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
+      }
+      return `${row.bgtMofDepName}`
+    }
   }
 ]
 // 预算单位列

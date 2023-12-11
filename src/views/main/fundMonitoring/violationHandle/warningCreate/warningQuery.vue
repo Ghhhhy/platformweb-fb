@@ -198,9 +198,11 @@ export default {
   methods: {
     // 黑龙江加查询条件
     dynamicSetConfig() {
-      if (this.transJson(this.params5).projectCode === 'HLJ') {
+      if (this.$store.getters.isHLJ) {
         this.queryConfig = getFormData('highQueryConfig').concat(getFormData('highQueryConfigHLJ'))
+        // this.queryConfig = getFormData('highQueryConfigHLJ')
         this.searchDataList = Object.assign(getFormData('highQueryData'), getFormData('highQueryDataHLJ'))
+        // this.searchDataList = getFormData('highQueryDataHLJ')
       }
     },
     ajaxTableData({ params, currentPage, pageSize }) {
@@ -349,7 +351,7 @@ export default {
       const param = {
         fiscalYear: this.$store.state.userInfo.year
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
@@ -398,7 +400,7 @@ export default {
         xPayDateStart: this.searchDataList.xPayDateStart,
         xPayDateEnd: this.searchDataList.xPayDateEnd
       }
-      if (this.$store.state.curNavModule.f_FullName.substring(0, 4) === '直达资金') {
+      if (this.$store.state.curNavModule.f_FullName?.substring(0, 4) === '直达资金') {
         param.regulationClass = '0201'
       }
       const regulationClass = transJson(this.$store.state.curNavModule.param5)?.regulationClass
