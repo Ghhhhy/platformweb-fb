@@ -146,7 +146,7 @@ export default {
 }
 </script>
 
-<style  lang="scss">
+<style  lang="scss" scoped>
   .card-content{
     // width: 356px;
     // height: 224px;
