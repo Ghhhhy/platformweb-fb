@@ -709,6 +709,7 @@ const proconf = {
       field: 'warnStartDate',
       sortable: false,
       align: 'left',
+      visible: !store.getters.isXm,
       itemRender: {
         name: '$vxeTime',
         defaultValue: '',
@@ -725,6 +726,7 @@ const proconf = {
       field: 'warnEndDate',
       sortable: false,
       align: 'left',
+      visible: !store.getters.isXm,
       itemRender: {
         name: '$vxeTime',
         defaultValue: '',
