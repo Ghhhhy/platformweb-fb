@@ -40,6 +40,9 @@
           <CardMenuTree v-if="currentBtn === 'funMenu' && !$store.getters.isXm" :data="menuTree" />
           <CardMenuTreeXM v-if="currentBtn === 'funMenu' && $store.getters.isXm" :data="menuTree" />
           <CardVideo v-if="currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
+          <CardMenuTree v-if="currentBtn === 'funMenu'" :data="menuTree" />
+          <CardVideo v-if="!isShowFJ && currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
+          <OperateGuideNew v-if="isShowFJ && currentBtn === 'oprateGuide'" :oprate-guide-datas="oprateGuideDatas" />
         </div>
       </div>
     </div>
@@ -56,6 +59,7 @@ import PoperExtend from './poper/poper'
 import MenuTodo from './other/menuTodo'
 import data from './config/data'
 import MenuModule from '@/api/frame/common/menu.js'
+import OperateGuideNew from '@/views/main/guidOperation/operateGuidNew'
 
 // import databf from './config/databf'
 
@@ -73,7 +77,8 @@ export default {
     CardMenuTreeXM,
     CardVideo,
     MenuTodo,
-    PoperExtend
+    PoperExtend,
+    OperateGuideNew
   },
   props: {
 
@@ -91,7 +96,8 @@ export default {
       cardWidth: '0px',
       marginWidth: '50px',
       allowNumIn: 0,
-      arrowDirectClass: 'arrow-left'
+      arrowDirectClass: 'arrow-left',
+      oprateGuideDatas: {}
     }
   },
   computed: {
@@ -102,6 +108,9 @@ export default {
         allowNum: this.allowNumIn,
         arrowDirectClass: this.arrowDirectClass
       }
+    },
+    isShowFJ() {
+      return this.$store.getters.isFuJian
     }
   },
   methods: {
@@ -123,7 +132,7 @@ export default {
       })
     },
     // card上按钮，事件回调
-    bsCardClickEvent(obj, $this) {
+    async bsCardClickEvent(obj, $this) {
       this.menuTree = {}
       // 同一行的，同一个模块，同一按钮点击如果已经展开，第二次点击则收
       const sysMenu = this.$store.state.systemMenu || []
@@ -156,6 +165,9 @@ export default {
       this.curExtend = obj.rowNo
       this.currentBtn = obj.code
       this.currentCard = obj.type
+      if (obj.code === 'oprateGuide') {
+        this.oprateGuideDatas = await this.getFileData(obj.type)
+      }
     },
 
     // 展开面板，按钮回调
@@ -229,6 +241,28 @@ export default {
       })
 
       this.uiCardMenu = extend(true, {}, menus)
+    },
+    getFileData(attachmentid) {
+      if ((attachmentid ?? '') === '') {
+        return
+      }
+      const params = {
+        attachmentid,
+        is_deleted: 2
+      }
+      return new Promise((resolve, reject) => {
+        this.$http.post('fi-service/v2/fi/file/query', params).then(res => {
+          const { data, rscode } = res
+          if (rscode === '200') {
+            resolve([].concat(data || []))
+          } else {
+            resolve([])
+            this.$XModal.message({ status: 'error', message: '获取信息失败！' })
+          }
+        }, err => {
+          reject(err)
+        })
+      })
     }
   },
   created() {
