@@ -83,7 +83,7 @@ const budgetImpColumns = [
     title: store.getters.isFuJian ? '监控时间' : '违规时间',
     width: 180,
     field: 'warnTime',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'center'
   },
@@ -153,7 +153,7 @@ const budgetImpColumns = [
   {
     title: '支付金额',
     field: 'paymentAmount',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'right',
     width: 160,
@@ -260,14 +260,14 @@ const budgetManagementColumns = [
     title: '指标接收时间',
     width: 180,
     field: 'recTime',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'center'
   }, {
     title: '接收金额',
     width: 180,
     field: 'recAmount',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'center'
   }, {
@@ -298,6 +298,7 @@ const budgetManagementColumns = [
     field: 'curAmt',
     title: '指标余额',
     titleWidth: '180',
+    sortable: true,
     span: 8,
     itemRender: {
       name: '$vxeInput',
@@ -308,6 +309,7 @@ const budgetManagementColumns = [
     field: 'timeoutIssueAmount',
     title: '超时下达金额',
     titleWidth: '180',
+    sortable: true,
     span: 8,
     itemRender: {
       name: '$vxeInput',
@@ -317,6 +319,7 @@ const budgetManagementColumns = [
   {
     field: 'timeoutIssueTime',
     title: '超时下达时间',
+    sortable: true,
     titleWidth: '180',
     span: 8,
     itemRender: {
@@ -350,7 +353,7 @@ const otherColumns = [
     title: '生成时间',
     width: 180,
     field: 'warnDealGenTime',
-    sortable: false,
+    sortable: true,
     filters: false,
     align: 'center'
   },
@@ -706,6 +709,7 @@ const proconf = {
       field: 'warnStartDate',
       sortable: false,
       align: 'left',
+      visible: !store.getters.isXm,
       itemRender: {
         name: '$vxeTime',
         defaultValue: '',
@@ -722,6 +726,7 @@ const proconf = {
       field: 'warnEndDate',
       sortable: false,
       align: 'left',
+      visible: !store.getters.isXm,
       itemRender: {
         name: '$vxeTime',
         defaultValue: '',
@@ -901,7 +906,7 @@ const proconf = {
       title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -971,7 +976,7 @@ const proconf = {
     {
       title: '支付金额',
       field: 'paymentAmount',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'right',
       width: 180,
@@ -1266,6 +1271,7 @@ const proconf = {
       field: 'payAppAmt',
       title: '支付金额',
       titleWidth: '180',
+      sortable: true,
       span: 8,
       itemRender: {
         name: '$vxeInput',
@@ -1387,6 +1393,7 @@ const proconf = {
       field: 'createTime',
       span: 8,
       titleWidth: '180',
+      sortable: true,
       visible: store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
@@ -1397,6 +1404,7 @@ const proconf = {
       title: '监控时间',
       field: 'fiDate',
       span: 8,
+      sortable: true,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
@@ -1408,6 +1416,7 @@ const proconf = {
       field: 'xpayDate',
       span: 8,
       titleWidth: '180',
+      sortable: true,
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '支付日期' }
@@ -1546,6 +1555,7 @@ const proconf = {
       title: '指标接收时间',
       titleWidth: '180',
       span: 8,
+      sortable: true,
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '指标接收时间', disabled: true }
@@ -1554,6 +1564,7 @@ const proconf = {
       field: 'recAmount',
       title: '接收金额',
       titleWidth: '180',
+      sortable: true,
       span: 8,
       itemRender: {
         name: '$vxeInput',
@@ -1563,6 +1574,7 @@ const proconf = {
       field: 'allocationAmount',
       title: '已分配金额',
       titleWidth: '180',
+      sortable: true,
       span: 8,
       itemRender: {
         name: '$vxeInput',
@@ -1572,6 +1584,7 @@ const proconf = {
     {
       field: 'curAmt',
       title: '指标余额',
+      sortable: true,
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -1582,6 +1595,7 @@ const proconf = {
     {
       field: 'timeoutIssueAmount',
       title: '超时下达金额',
+      sortable: true,
       titleWidth: '180',
       span: 8,
       itemRender: {
@@ -1594,6 +1608,7 @@ const proconf = {
       title: '超时下达时间',
       titleWidth: '180',
       span: 8,
+      sortable: true,
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '超时下达时间', disabled: true }
@@ -2011,6 +2026,7 @@ const proconf = {
       field: 'payAppAmt',
       title: '支付金额',
       titleWidth: '180',
+      sortable: true,
       span: 8,
       itemRender: {
         name: '$vxeInput',
@@ -2303,7 +2319,7 @@ const proconf = {
       title: store.getters.isFuJian ? '监控时间' : '违规时间',
       width: 180,
       field: 'warnTime',
-      sortable: false,
+      sortable: true,
       filters: false,
       align: 'center'
     },
@@ -2465,7 +2481,7 @@ const proconf = {
     {
       title: '支付金额',
       field: 'paymentAmount',
-      sortable: false,
+      sortable: true,
       filters: false,
       width: 180,
       align: 'right',
@@ -2727,6 +2743,7 @@ const proconf = {
       field: 'issueTime',
       span: 8,
       titleWidth: '180',
+      sortable: true,
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '生成日期' }
@@ -2834,6 +2851,7 @@ const proconf = {
       field: 'issueTime',
       span: 8,
       titleWidth: '180',
+      sortable: true,
       itemRender: {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '生成日期' }
@@ -2904,7 +2922,7 @@ const proconf = {
           title: '生成时间',
           width: 180,
           field: 'warnDealGenTime',
-          sortable: false,
+          sortable: true,
           filters: false,
           align: 'center'
         }
