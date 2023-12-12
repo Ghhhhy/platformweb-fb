@@ -20,7 +20,7 @@
           @btnClick="operationToolbarButtonClickEvent"
           @tabClick="bsToolbarClickEvent"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
+          <template v-if="['2','3','4'].includes(tabSelect) && param5.isQuery !== 'true' && param5.isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"
@@ -242,6 +242,7 @@ export default {
       showFuJianHaiNanModal: false,
       fuSelectedRow: {},
       showType: '',
+      param5: {},
       logData: [],
       showLogView: false,
       title: '',
