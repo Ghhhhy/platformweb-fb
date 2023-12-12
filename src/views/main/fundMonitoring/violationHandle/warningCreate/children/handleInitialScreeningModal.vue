@@ -202,7 +202,7 @@ export default {
           title: '处理日期',
           span: 8,
           titleWidth: '180',
-          field: 'updatetime1',
+          field: 'updateTime1',
           visible: true,
           align: 'center',
           itemRender: {
@@ -321,7 +321,7 @@ export default {
         ZGQX: '',
         rectifyDetail: '',
         handler1: '',
-        updatetime1: '',
+        updateTime1: '',
         doubtViolateExplain: '',
         information1: '',
         rectifyTime: '',
@@ -342,7 +342,7 @@ export default {
         this.createDataList.attachmentid1 = this.$ToolFn.utilFn.getUuid()
         this.createDataList.fileList = []
         this.createDataList.handler1 = store.getters.getuserInfo.name
-        this.createDataList.updatetime1 = moment().format('YYYY-MM-DD HH:mm:ss')
+        this.createDataList.updateTime1 = moment().format('YYYY-MM-DD')
       } else {
         this.createDataList = { ...this.createDataList, ...pickObjectField(this.selectedData[0], this.formItemConfig.map(item => item.field)) }
         this.createDataList.attachmentid1 = this.selectedData[0].attachmentid1
