@@ -817,6 +817,8 @@ export default {
     },
     dialogClose() {
       this.searchDataList.payCertNo = ''
+      this.searchDataList.warnStartTime = ''
+      this.searchDataList.warnTime = ''
       this.$parent.detailVisible = false
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') {
         return
