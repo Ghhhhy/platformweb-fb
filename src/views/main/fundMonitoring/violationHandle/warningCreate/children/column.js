@@ -1489,6 +1489,21 @@ const proconf = {
         name: '$vxeInput',
         props: { disabled: true, placeholder: '追踪项目' }
       }
+    },
+    {
+      title: '是否配套',
+      field: 'isMatCode',
+      span: 8,
+      titleWidth: '180',
+      visible: store.getters.isXm,
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          { label: '是', value: '1' },
+          { label: '否', value: '2' }
+        ],
+        props: { disabled: true, placeholder: '是否配套' }
+      }
     }
   ],
   indexMsgConfig: [
@@ -2566,7 +2581,8 @@ const proconf = {
     todoName: '',
     voidOrNot: '',
     trackProName: '',
-    xpayDate: ''
+    xpayDate: '',
+    isMatCode: ''
   },
   indexMsgData: {
     timeoutIssueType: '',
