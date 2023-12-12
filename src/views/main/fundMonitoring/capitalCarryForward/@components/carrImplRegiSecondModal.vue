@@ -49,16 +49,24 @@ export default defineComponent({
      */
     const reportCodeMap = {
       'CarryImplementationRegion': {
-        querykey: 'mofDivCode'
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'mofDivCode',
+        tableType: 'bgt'
       },
       'CarryImplementationCapital': {
-        querykey: 'trackProCode'
+        reportCode: 'jzzjysxd_level1',
+        querykey: 'trackProCode',
+        tableType: 'bgt'
       },
       'CarryPayRegion': {
-        querykey: 'mofDivCode'
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'mofDivCode',
+        tableType: 'pay'
       },
       'CarryPayCapital': {
-        querykey: 'trackProCode'
+        reportCode: 'jzzjzcxd_level1',
+        querykey: 'trackProCode',
+        tableType: 'pay'
       }
     }
     const reportCode = ref('')
@@ -69,6 +77,9 @@ export default defineComponent({
     const injectData = ref({
       mofDivCode: ''
     })
+    const mofDivCodes = ref()
+    const proCodes = ref()
+    const endTime = ref()
     const modalStaticProperty = ref({
       title: tableType.value === 'pay' ? '支出明细' : '预算明细',
       width: '96%',
@@ -96,13 +107,15 @@ export default defineComponent({
     ] = useTable({
       fetch: HttpModule.queryDetail,
       beforeFetch: params => {
-        // debugger
         tableLoadingState.value = true
         let copyObj = {
           reportCode: reportCode.value,
+          mofDivCodes: mofDivCodes.value,
+          proCodes: proCodes.value,
+          endTime: endTime.value ? endTime.value[0] : '',
           ...params
         }
-        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.mofDivCode
+        copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
         return copyObj
       },
       afterFetch: tableData => {
@@ -150,6 +163,9 @@ export default defineComponent({
       tableStaticProperty,
       waitTable,
       injectData,
+      mofDivCodes,
+      proCodes,
+      endTime,
       init
     }
   }
