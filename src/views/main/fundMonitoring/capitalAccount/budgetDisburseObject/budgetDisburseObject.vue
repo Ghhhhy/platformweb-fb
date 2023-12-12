@@ -166,6 +166,9 @@ export default {
     isSx() {
       return this.$store.getters.isSx
     },
+    isXm() {
+      return this.$store.getters.isXm
+    },
     tableGlobalConfigCop() {
       let dataType = this.transJson(this.$store.state.curNavModule.param5 || '').exportModalDefaultSelect || 'fullData'
       return {
@@ -1172,20 +1175,20 @@ export default {
         }
         HttpModule.getTreeData(params).then(res => {
           if (res.rscode === '100000') {
-            let treeResdata = that.getChildrenData(res.data)
-            // treeResdata.forEach(item => {
-            //   item.label = item.id + '-' + item.businessName
-            // })
-            // const result = [
-            //   {
-            //     id: 'root',
-            //     label: '全部',
-            //     code: 'root',
-            //     isleaf: '0',
-            //     children: treeResdata
-            //   }
-            // ]
+            let treeResdata = that.getChildrenNewData1(res.data)
             this.treeData = treeResdata
+          } else {
+            this.$message.error('左侧树加载失败')
+          }
+        })
+      } else if (this.isXm) { // 厦门的想展示福建的。平台的不会返回福建的
+        console.log('测试厦门的调其他树形接口')
+        let fiscalYear = this.userInfo.year
+        let that = this
+        HttpModule.getMofTreeData({ fiscalYear }).then(res => {
+          if (res.code === '000000') {
+            let treeResdata = that.getChildrenData(res.data)
+            that.treeData = treeResdata
           } else {
             this.$message.error('左侧树加载失败')
           }
