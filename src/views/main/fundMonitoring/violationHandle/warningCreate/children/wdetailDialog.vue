@@ -187,7 +187,7 @@ export default {
       let detailColumns = this.getDetailFormItem()
       let detailAddArr = []
       let arr = Object.assign([], this.tableColumnsConfig)
-      if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+      if (this.$store.getters.isNeiMeng) {
         detailColumns.forEach(item => {
           let arr2 = arr.map(item => item.field)
           if (!arr2.includes(item.field)) {
@@ -195,6 +195,7 @@ export default {
             detailAddArr.push(item)
           }
         })
+        arr = arr.map(item => { return { ...item, sortable: true } })
       }
       return { arr, detailAddArr }
     }
