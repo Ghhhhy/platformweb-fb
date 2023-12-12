@@ -20,7 +20,7 @@
           @btnClick="operationToolbarButtonClickEvent"
           @tabClick="bsToolbarClickEvent"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
+          <template v-if="['2','3','4'].includes(tabSelect) && param5.isQuery !== 'true' && param5.isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"
@@ -187,7 +187,7 @@ export default {
       let detailColumns = this.getDetailFormItem()
       let detailAddArr = []
       let arr = Object.assign([], this.tableColumnsConfig)
-      if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+      if (this.$store.getters.isNeiMeng) {
         detailColumns.forEach(item => {
           let arr2 = arr.map(item => item.field)
           if (!arr2.includes(item.field)) {
@@ -195,6 +195,7 @@ export default {
             detailAddArr.push(item)
           }
         })
+        arr = arr.map(item => { return { ...item, sortable: true } })
       }
       return { arr, detailAddArr }
     }
@@ -242,6 +243,7 @@ export default {
       showFuJianHaiNanModal: false,
       fuSelectedRow: {},
       showType: '',
+      param5: {},
       logData: [],
       showLogView: false,
       title: '',
