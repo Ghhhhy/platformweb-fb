@@ -3,17 +3,33 @@
   <div ref="cardContent" class="card-menu__content">
     <div v-for="(item, index) in uiCardMenu" :key="index" class="menu-panel">
       <div ref="cardMenu" class="card-menu__card" :style="{ width: cardWidth, 'margin-left': marginWidth, 'margin-right': marginWidth, '--top-item-nums': allowNumIn }">
-        <Card
-          v-for="(card, idx) in item.cardMenu"
-          :key="idx"
-          :card-global="cardGlobal"
-          :card-menu="card"
-          :row-no="item.rowNo"
-          :active-btn="activeBtn"
-          :seq="item.cardMenu.length === allowNumIn ? (idx === 0 ? 'first' : ((idx + 1) === item.cardMenu.length ? 'end' : 'middle')) : 'first'"
-          :class="(idx === item.cardMenu.length - 1 ) ? 'row-last-card' : ''"
-          @generateCardBtns="preGenerateCardBtns"
-        />
+        <template v-if="!$store.getters.isXm">
+          <Card
+            v-for="(card, idx) in item.cardMenu"
+            :key="idx"
+            :card-global="cardGlobal"
+            :card-menu="card"
+            :row-no="item.rowNo"
+            :active-btn="activeBtn"
+            :seq="item.cardMenu.length === allowNumIn ? (idx === 0 ? 'first' : ((idx + 1) === item.cardMenu.length ? 'end' : 'middle')) : 'first'"
+            :class="(idx === item.cardMenu.length - 1 ) ? 'row-last-card' : ''"
+            @generateCardBtns="preGenerateCardBtns"
+          />
+        </template>
+        <template v-else>
+          <CardXM
+            v-for="(card, idx) in item.cardMenu"
+            :key="idx"
+            :card-global="cardGlobal"
+            :card-menu="card"
+            :row-no="item.rowNo"
+            :active-btn="activeBtn"
+            :seq="item.cardMenu.length === allowNumIn ? (idx === 0 ? 'first' : ((idx + 1) === item.cardMenu.length ? 'end' : 'middle')) : 'first'"
+            :class="(idx === item.cardMenu.length - 1 ) ? 'row-last-card' : ''"
+            @generateCardBtns="preGenerateCardBtns"
+          />
+        </template>
+
       </div>
       <div v-show="curExtend === item.rowNo" ref="cardExtend" class="card-menu__extend" :style="{ width: extendWidth, 'margin-left': marginWidth, 'margin-right': marginWidth }">
         <div class="arrow" :class="arrowDirectClass"></div>
@@ -21,7 +37,8 @@
           <!--自定义待办-->
           <MenuTodo v-if="currentBtn === 'agentItem'" :card="cur" />
           <PoperExtend v-if="currentBtn === 'doneItem'" v-loading="adLoading" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
-          <CardMenuTree v-if="currentBtn === 'funMenu'" :data="menuTree" />
+          <CardMenuTree v-if="currentBtn === 'funMenu' && !$store.getters.isXm" :data="menuTree" />
+          <CardMenuTreeXM v-if="currentBtn === 'funMenu' && $store.getters.isXm" :data="menuTree" />
           <CardVideo v-if="currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
         </div>
       </div>
@@ -31,7 +48,9 @@
 
 <script>
 import Card from './card/card'
+import CardXM from '@/components/CardMenu/cardXM/card.vue'
 import CardMenuTree from './other/menuTree/index.vue'
+import CardMenuTreeXM from '@/components/CardMenu/other/menuTreeXM/menuTree.vue'
 import CardVideo from './other/video'
 import PoperExtend from './poper/poper'
 import MenuTodo from './other/menuTodo'
@@ -50,6 +69,8 @@ export default {
   components: {
     Card,
     CardMenuTree,
+    CardXM,
+    CardMenuTreeXM,
     CardVideo,
     MenuTodo,
     PoperExtend
