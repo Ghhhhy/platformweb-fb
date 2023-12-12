@@ -407,6 +407,8 @@ export default {
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
       // switch (key) {
       //   case 'amountsjfpbjall':
+      this.$refs.CarryImplementationRegionModal.proCodes = this.searchDataList.proCodes ? this.getTrees(this.searchDataList.proCodes) : []
+      this.$refs.CarryImplementationRegionModal.endTime = this.searchDataList.endTime ? this.getTrees(this.searchDataList.endTime) : []
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
       this.$refs.CarryImplementationRegionModal.init()

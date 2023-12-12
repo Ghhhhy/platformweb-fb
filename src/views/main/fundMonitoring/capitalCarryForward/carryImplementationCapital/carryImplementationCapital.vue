@@ -460,6 +460,7 @@ export default {
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
       console.log('mofDivCodes', this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : [])
+      this.$refs.CarryImplementationRegionModal.endTime = this.searchDataList.endTime ? this.getTrees(this.searchDataList.endTime) : []
       this.$refs.CarryImplementationRegionModal.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
       this.$refs.CarryImplementationRegionModal.init()
       // break
