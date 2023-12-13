@@ -503,7 +503,7 @@ const proconf = {
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon6'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
             }
           },
           {
@@ -545,7 +545,7 @@ const proconf = {
                 dealLevel: 'NotRectified',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon6'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
                 }
               }
             ]
@@ -553,7 +553,7 @@ const proconf = {
         ]
       },
       {
-        title: `${store.getters.dict.find(item => String(item.value) === '2')?.label || '黄色预警'}`,
+        title: `${store.getters.dict.find(item => String(item.value) === '2')?.label}`,
         field: 'level2',
         // width: 400,
         sortable: false,
@@ -568,7 +568,7 @@ const proconf = {
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon2'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
             }
           },
           {
@@ -610,7 +610,7 @@ const proconf = {
                 dealLevel: 'NotRectified',
                 align: 'center',
                 cellRender: {
-                  name: '$vxeIcon2'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
                 }
               }
             ]
@@ -633,7 +633,7 @@ const proconf = {
             align: 'center',
             // width: 100,
             cellRender: {
-              name: '$vxeIcon7'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
             }
           },
           {
@@ -675,7 +675,7 @@ const proconf = {
                 align: 'center',
                 // width: 100,
                 cellRender: {
-                  name: '$vxeIcon7'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
                 }
               }
             ]
