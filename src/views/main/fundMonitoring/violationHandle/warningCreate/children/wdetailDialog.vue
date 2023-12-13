@@ -1069,7 +1069,7 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
-        proCodes: this.searchDataList.proCodes ? this.searchDataList.proCodes : '',
+        proCodes: this.searchDataList.proCodes ? this.searchDataList.proCodes : [],
         roleguid: this.$store.state.curNavModule.roleguid,
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
