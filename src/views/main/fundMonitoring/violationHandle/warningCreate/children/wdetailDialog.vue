@@ -408,7 +408,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig.forEach(item => {
-            if (item.field === 'trackProName') {
+            if (item.field === 'proCodes') {
               this.$set(item.itemRender, 'options', treeResdata)
               // item.itemRender.options = treeResdata
             }
@@ -583,8 +583,8 @@ export default {
       console.log(val, '-------------')
       // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
-      this.searchDataList.trackProName = this.searchDataList.trackProName.split(',')
-      this.searchDataList.trackProName = this.searchDataList.trackProName.map(item => {
+      this.searchDataList.proCodes = this.searchDataList.proCodes.split(',')
+      this.searchDataList.proCodes = this.searchDataList.proCodes.map(item => {
         return item.split('##')[0]
       })
       console.log(this.searchDataList, this.condition)
@@ -1071,7 +1071,7 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
-        trackProName: this.searchDataList.trackProName ? this.searchDataList.trackProName : '',
+        proCodes: this.searchDataList.proCodes ? this.searchDataList.proCodes : '',
         roleguid: this.$store.state.curNavModule.roleguid,
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
@@ -1238,7 +1238,7 @@ export default {
       this.searchDataList.businessNo = ''
       this.searchDataList.fiRuleName = ''
       this.searchDataList.regulationClassName = ''
-      this.searchDataList.trackProName = ''
+      this.searchDataList.proCodes = ''
       this.searchDataList.triggerClass = ''
       this.searchDataList.warnStartTime = ''
       this.searchDataList.warnTime = ''
@@ -1257,7 +1257,7 @@ export default {
       this.condition.businessNo = ''
       this.condition.fiRuleName = ''
       this.condition.regulationClassName = ''
-      this.condition.trackProName = ''
+      this.condition.proCodes = ''
       this.condition.triggerClass = ''
       this.condition.warnStartTime = ''
       this.condition.warnTime = ''
@@ -1306,7 +1306,7 @@ export default {
         detailData.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
         detailData.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
         detailData.isThrExp = filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
-        detailData.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+        detailData.proCodes = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.proCodes ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.proCodes : ''
         detailData.useDes = res.data.executeData && res.data.executeData?.useDes
         detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
         detailData.xpayDate = res.data.executeData?.xpayDate

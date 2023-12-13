@@ -345,6 +345,15 @@ const violationColumn = [
     sortable: false,
     filters: false,
     align: 'center'
+  },
+  {
+    title: '常用语',
+    width: 180,
+    field: 'commonLanguage',
+    sortable: false,
+    filters: false,
+    visible: store.getters.isNeiMeng,
+    align: 'center'
   }
 ]
 // 其他类型列
@@ -678,7 +687,7 @@ const proconf = {
     },
     {
       title: '追踪项目',
-      field: 'trackProName',
+      field: 'proCodes',
       width: '8',
       align: 'left',
       name: '$vxeTree',
