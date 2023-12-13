@@ -22,11 +22,11 @@ export const state = { // 实时监听state值的变化(最新状态)
   userRolesData: [], // 用户角色
   projectList: [], // 项目列表
   colorList: [
-    { warningLabel: '黄', color: '#FFD43C', colorStyle: 'color: #FFD43C;' },
-    { warningLabel: '橙', color: '#FF6F20', colorStyle: 'color: #FF6F20;' },
-    { warningLabel: '红', color: '#ff0000', colorStyle: 'color: #ff0000;' },
-    { warningLabel: '灰', color: '#F1F1F1', colorStyle: 'color: #F1F1F1;' },
-    { warningLabel: '蓝', color: '#0000ff', colorStyle: 'color: #0000ff;' }
+    { warningLabel: '黄', color: '#FFD43C', lightIconNumber: '2', lightIconEnglishText: 'yellow', colorStyle: 'color: #FFD43C;' },
+    { warningLabel: '橙', color: '#FF6F20', lightIconNumber: '6', lightIconEnglishText: 'orange', colorStyle: 'color: #FF6F20;' },
+    { warningLabel: '红', color: '#ff0000', lightIconNumber: '1', lightIconEnglishText: 'red', colorStyle: 'color: #ff0000;' },
+    { warningLabel: '灰', color: '#F1F1F1', lightIconNumber: '8', lightIconEnglishText: 'gray', colorStyle: 'color: #F1F1F1;' },
+    { warningLabel: '蓝', color: '#0000ff', lightIconNumber: '7', lightIconEnglishText: 'blue', colorStyle: 'color: #0000ff;' }
   ],
   rankingModalVisible: true, // 直达资金收支进度排行弹窗
   escalationModalVisible: false, // 财政上报提醒弹窗
@@ -67,7 +67,7 @@ export const getters = {
     })
   },
   isHLJ() { // 判断是否是黑龙江项目
-    return state.userInfo.province.slice(0, 2) === '23'
+    return state.userInfo.province?.slice(0, 2) === '23'
   },
   treeQueryparamsCom() {
     let obj = { elementcode: 'admdiv', province: state.userInfo.province, year: state.userInfo.year, wheresql: 'and code like \'' + 61 + '%\'' }
