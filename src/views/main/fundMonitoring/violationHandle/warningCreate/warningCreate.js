@@ -486,201 +486,6 @@ const proconf = {
         sortable: true,
         align: 'center',
         width: 200
-      },
-      {
-        title: `${store.getters.dict.find(item => String(item.value) === '1')?.label}`,
-        field: 'level1',
-        sortable: false,
-        align: 'center',
-        // width: 400,
-        children: [
-          {
-            title: '预警数据',
-            field: `${sqlWarnLevelForColorFieldMapping[1]}UndoNum`,
-            warnLevel: '1',
-            dealLevel: 'Undo',
-            filters: false,
-            align: 'center',
-            // width: 100,
-            cellRender: {
-              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
-            }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            // width: 300,
-            children: [
-              {
-                title: '认定正常',
-                field: `${sqlWarnLevelForColorFieldMapping[1]}NormalNum`,
-                align: 'center',
-                warnLevel: '1',
-                dealLevel: 'Normal',
-                filters: false,
-                width: 100,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '已整改',
-                field: `${sqlWarnLevelForColorFieldMapping[1]}DoneNum`,
-                filters: false,
-                warnLevel: '1',
-                dealLevel: 'Done',
-                align: 'center',
-                // width: 100,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '未完成',
-                field: `${sqlWarnLevelForColorFieldMapping[1]}NotRectifiedNum`,
-                filters: false,
-                align: 'center',
-                warnLevel: '1',
-                dealLevel: 'NotRectified',
-                // width: 100,
-                cellRender: {
-                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: `${store.getters.dict.find(item => String(item.value) === '2')?.label}`,
-        field: 'level2',
-        // width: 400,
-        sortable: false,
-        align: 'center',
-        children: [
-          {
-            title: '预警数据',
-            field: `${sqlWarnLevelForColorFieldMapping[2]}UndoNum`,
-            filters: false,
-            warnLevel: '2',
-            dealLevel: 'Undo',
-            align: 'center',
-            // width: 100,
-            cellRender: {
-              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
-            }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            // width: 300,
-            children: [
-              {
-                title: '认定正常',
-                field: `${sqlWarnLevelForColorFieldMapping[2]}NormalNum`,
-                align: 'center',
-                width: 100,
-                warnLevel: '2',
-                dealLevel: 'Normal',
-                filters: false,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '已整改',
-                field: `${sqlWarnLevelForColorFieldMapping[2]}DoneNum`,
-                filters: false,
-                align: 'center',
-                warnLevel: '2',
-                dealLevel: 'Done',
-                // width: 100,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '未完成',
-                field: `${sqlWarnLevelForColorFieldMapping[2]}NotRectifiedNum`,
-                filters: false,
-                // width: 100,
-                warnLevel: '2',
-                dealLevel: 'NotRectified',
-                align: 'center',
-                cellRender: {
-                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        title: `${store.getters.dict.find(item => String(item.value) === '3')?.label}`,
-        field: 'level3',
-        sortable: false,
-        // width: 500,
-        align: 'center',
-        children: [
-          {
-            title: '预警数据',
-            field: `${sqlWarnLevelForColorFieldMapping[3]}UndoNum`,
-            filters: false,
-            warnLevel: '3',
-            dealLevel: 'Undo',
-            align: 'center',
-            // width: 100,
-            cellRender: {
-              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
-            }
-          },
-          {
-            title: '生成问询单',
-            sortable: false,
-            align: 'center',
-            // width: 300,
-            children: [
-              {
-                title: '认定正常',
-                field: `${sqlWarnLevelForColorFieldMapping[3]}NormalNum`,
-                align: 'center',
-                warnLevel: '3',
-                dealLevel: 'Normal',
-                filters: false,
-                // width: 100,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '已整改',
-                field: `${sqlWarnLevelForColorFieldMapping[3]}DoneNum`,
-                filters: false,
-                align: 'center',
-                warnLevel: '3',
-                dealLevel: 'Done',
-                // width: 100,
-                cellRender: {
-                  name: '$vxeIcon3'
-                }
-              },
-              {
-                title: '未完成',
-                field: `${sqlWarnLevelForColorFieldMapping[3]}NotRectifiedNum`,
-                filters: false,
-                warnLevel: '3',
-                dealLevel: 'NotRectified',
-                align: 'center',
-                // width: 100,
-                cellRender: {
-                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
-                }
-              }
-            ]
-          }
-        ]
       }
     ],
     tableData: []
@@ -689,6 +494,75 @@ const proconf = {
 if (store.getters.isNeiMeng) { // 内蒙要求 [直达资金监控处理单查询] 查询条件和 [直达资金监控处理单查询(全辖)] 相同
   proconf.highQueryConfig = warningQuery.highQueryConfig
   proconf.highQueryData = warningQuery.highQueryData
+}
+const tableColumnTemplate = (numberStr) => {
+  return {
+    title: `${store.getters.dict.find(item => String(item.value) === numberStr)?.label}`,
+    field: `level${numberStr}`,
+    sortable: false,
+    align: 'center',
+    children: [
+      {
+        title: '预警数据',
+        field: `${sqlWarnLevelForColorFieldMapping[numberStr]}UndoNum`,
+        warnLevel: numberStr,
+        dealLevel: 'Undo',
+        filters: false,
+        align: 'center',
+        cellRender: {
+          name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === numberStr)?.lightIconNumber || ''}`
+        }
+      },
+      {
+        title: '生成问询单',
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '认定正常',
+            field: `${sqlWarnLevelForColorFieldMapping[numberStr]}NormalNum`,
+            align: 'center',
+            warnLevel: numberStr,
+            dealLevel: 'Normal',
+            filters: false,
+            width: 100,
+            cellRender: {
+              name: '$vxeIcon3'
+            }
+          },
+          {
+            title: '已整改',
+            field: `${sqlWarnLevelForColorFieldMapping[numberStr]}DoneNum`,
+            filters: false,
+            warnLevel: numberStr,
+            dealLevel: 'Done',
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon3'
+            }
+          },
+          {
+            title: '未完成',
+            field: `${sqlWarnLevelForColorFieldMapping[numberStr]}NotRectifiedNum`,
+            filters: false,
+            align: 'center',
+            warnLevel: numberStr,
+            dealLevel: 'NotRectified',
+            cellRender: {
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === numberStr)?.lightIconNumber || ''}`
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+if (store.getters.isXm) {
+  const columnTemp = ['2', '3', '4']
+  proconf.basicInfo.tableColumnsConfig = proconf.basicInfo.tableColumnsConfig.concat(columnTemp.map(item => tableColumnTemplate(item)))
+} else {
+  const columnTemp = ['1', '2', '3']
+  proconf.basicInfo.tableColumnsConfig = proconf.basicInfo.tableColumnsConfig.concat(columnTemp.map(item => tableColumnTemplate(item)))
 }
 export default function (tableType, configType) {
   if (tableType && configType) {
