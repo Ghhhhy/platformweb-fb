@@ -23,9 +23,9 @@
           <div class="drawer-right">
             <div class="journal">
               <!-- <p>{{ log.nodeName }}</p> -->
-              <p>操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
+              <p v-if="showStart && !log[startKey]">操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
             </div>
-            <div class="journal-buttom">
+            <div v-show="showStart && !log[startKey]" class="journal-buttom">
               <!-- <p>{{ log.dutyName }}</p> -->
               <p v-if="logsDatas[index].message !== ''"> 意见：{{ log.message }}</p>
             </div>
@@ -55,6 +55,8 @@ export default {
   },
   data() {
     return {
+      startKey: 'isStart',
+      showStart: this.$store.gettere.isXm,
       logsDatas: [],
       allLogsData: [],
       showLogViews: this.showLogView,
@@ -106,16 +108,24 @@ export default {
   watch: {
     logsData: {
       handler(newValue) {
-        this.allLogsData = this.deepCopy(newValue)
-        this.logsDatas = this.deepCopy(newValue)
-        if (newValue.length > 3) {
+        const staticStartObject = {
+          'actionName': '开始',
+          [this.startKey]: true
+        }
+        let logList = newValue
+        if (this.showStart) {
+          logList = logList.concat([staticStartObject])
+        }
+        this.allLogsData = this.deepCopy(logList)
+        this.logsDatas = this.deepCopy(logList)
+        if (logList.length > 3) {
           this.isShow = true
           console.log(this.logsDatas.length - 3)
           this.logsDatas.splice(0, this.logsDatas.length - 3)
           // console.log(deepValue, deepValue.splice(3, deepValue.length + 1), deepValue.length + 1)
         } else {
           this.isShow = false
-          this.logsDatas = this.deepCopy(newValue)
+          this.logsDatas = this.deepCopy(logList)
         }
         this.logsDatas = this.logsDatas.reverse()
         this.allLogsData = this.allLogsData.reverse()

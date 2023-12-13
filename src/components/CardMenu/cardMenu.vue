@@ -40,7 +40,6 @@
           <CardMenuTree v-if="currentBtn === 'funMenu' && !$store.getters.isXm" :data="menuTree" />
           <CardMenuTreeXM v-if="currentBtn === 'funMenu' && $store.getters.isXm" :data="menuTree" />
           <CardVideo v-if="currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
-          <CardMenuTree v-if="currentBtn === 'funMenu'" :data="menuTree" />
           <CardVideo v-if="!isShowFJ && currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
           <OperateGuideNew v-if="isShowFJ && currentBtn === 'oprateGuide'" :oprate-guide-datas="oprateGuideDatas" />
         </div>
