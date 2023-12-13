@@ -134,8 +134,9 @@ export default {
         }
       }
     }
-
-    console.log('this.$store.state', this.$store.state)
+    console.log('%c状态机', 'background: red;color:white;padding:2px;border-radius:2px;', this.$store.state)
+    console.log('%c当前用户信息', 'background: green;color:white;padding:2px;border-radius:2px;', this.$store.state.userInfo)
+    console.log('%c预警以及颜色字典', 'background: green;color:white;padding:2px;border-radius:2px;', this.$store.getters.dict)
   },
   async mounted() {
     // !this.$store.state.hasQueryMonitorWarningModalVisible && this.getSalaryNoticeData()
