@@ -605,11 +605,15 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '规则名称',
-        field: 'fiRuleName',
-        sortable: true,
-        align: 'center',
-        width: 200
+        title: '地区名称',
+        treeNode: true,
+        align: 'left',
+        width: 260,
+        field: 'name',
+        filters: false,
+        cellRender: {
+          name: '$vxeIcon'
+        }
       },
       {
         title: `${store.getters.dict.find(item => String(item.value) === '1')?.label}`,
