@@ -493,14 +493,14 @@ export default {
     },
     cellStyle({ row, rowIndex, column }) {
       // 有效的cellValue
-      // const validCellValue = (row[column.property] * 1)
-      // if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
-      //   return {
-      //     color: '#4293F4',
-      //     textDecoration: 'underline',
-      //     cursor: 'pinter'
-      //   }
-      // }
+      const validCellValue = (row[column.property] * 1)
+      if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
+        return {
+          color: '#4293F4',
+          textDecoration: 'underline',
+          cursor: 'pinter'
+        }
+      }
     }
   },
   created() {
