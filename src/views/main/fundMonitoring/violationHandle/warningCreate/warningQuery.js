@@ -605,15 +605,11 @@ const proconf = {
     },
     tableColumnsConfig: [
       {
-        title: '地区名称',
-        treeNode: true,
-        align: 'left',
-        width: 260,
-        field: 'name',
-        filters: false,
-        cellRender: {
-          name: '$vxeIcon'
-        }
+        title: '规则名称',
+        field: 'fiRuleName',
+        sortable: true,
+        align: 'center',
+        width: 200
       },
       {
         title: `${store.getters.dict.find(item => String(item.value) === '1')?.label}`,
@@ -629,7 +625,7 @@ const proconf = {
             filters: false,
             align: 'center',
             cellRender: {
-              name: '$vxeIcon6'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
             }
           },
           {
@@ -644,6 +640,7 @@ const proconf = {
                 warnLevel: '1',
                 dealLevel: 'Normal',
                 filters: false,
+                width: 100,
                 cellRender: {
                   name: '$vxeIcon3'
                 }
@@ -666,8 +663,9 @@ const proconf = {
                 align: 'center',
                 warnLevel: '1',
                 dealLevel: 'NotRectified',
+                // width: 100,
                 cellRender: {
-                  name: '$vxeIcon6'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '1')?.lightIconNumber || ''}`
                 }
               }
             ]
@@ -688,7 +686,7 @@ const proconf = {
             dealLevel: 'Undo',
             align: 'center',
             cellRender: {
-              name: '$vxeIcon2'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
             }
           },
           {
@@ -722,11 +720,12 @@ const proconf = {
                 title: '未完成',
                 field: `${sqlWarnLevelForColorFieldMapping[2]}NotRectifiedNum`,
                 filters: false,
+                // width: 100,
                 warnLevel: '2',
                 dealLevel: 'NotRectified',
                 align: 'center',
                 cellRender: {
-                  name: '$vxeIcon2'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '2')?.lightIconNumber || ''}`
                 }
               }
             ]
@@ -747,7 +746,7 @@ const proconf = {
             dealLevel: 'Undo',
             align: 'center',
             cellRender: {
-              name: '$vxeIcon7'
+              name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
             }
           },
           {
@@ -785,7 +784,7 @@ const proconf = {
                 dealLevel: 'NotRectified',
                 align: 'center',
                 cellRender: {
-                  name: '$vxeIcon7'
+                  name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === '3')?.lightIconNumber || ''}`
                 }
               }
             ]
