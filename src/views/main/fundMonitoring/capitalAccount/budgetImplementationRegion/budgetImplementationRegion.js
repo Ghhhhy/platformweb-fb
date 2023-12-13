@@ -401,7 +401,7 @@ const proconf = {
             align: 'right',
             sortable: true,
             cellRender: { name: '$vxeMoney' },
-            visible: !store.getters.isFuJian
+            visible: !store.getters.isFuJian && !store.getters.isXm
           },
           {
             title: '已分配',
@@ -409,7 +409,7 @@ const proconf = {
             width: 100,
             align: 'right',
             cellRender: { name: '$vxeMoney' },
-            visible: store.getters.isFuJian
+            visible: store.getters.isFuJian || store.getters.isXm
           },
           {
             title: '未分配',
