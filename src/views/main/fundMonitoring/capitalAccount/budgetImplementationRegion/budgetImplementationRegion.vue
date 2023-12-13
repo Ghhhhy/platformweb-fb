@@ -722,6 +722,9 @@ export default {
       if (this.$store.getters.isFuJian) {
         params.mofDivCode = row.code// 福建sql查询出来得code 就是区划mofDivCode
       }
+      if (this.$store.getters.isXm) {
+        params.mofDivCode = row.code
+      }
       this.detailQueryParam = params
       this.detailType = reportCode
       this.detailVisible = true
