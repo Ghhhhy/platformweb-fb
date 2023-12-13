@@ -20,12 +20,12 @@
         >
           <div class="drawer-circular"></div>
           <div class="drawer-straight">{{ log.actionName }}</div>
-          <div class="drawer-right">
+          <div class="drawer-right" :class="{ 'isStart': (showStart && log[startKey]) }">
             <div class="journal">
               <!-- <p>{{ log.nodeName }}</p> -->
-              <p v-if="showStart && !log[startKey]">操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
+              <p v-if="!(showStart && log[startKey])">操作人员： {{ log.actionUser }}      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 操作时间： {{ log.actionTime }}</p>
             </div>
-            <div v-show="showStart && !log[startKey]" class="journal-buttom">
+            <div v-show="!(showStart && log[startKey])" class="journal-buttom">
               <!-- <p>{{ log.dutyName }}</p> -->
               <p v-if="logsDatas[index].message !== ''"> 意见：{{ log.message }}</p>
             </div>
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       startKey: 'isStart',
-      showStart: this.$store.gettere.isXm,
+      showStart: this.$store.getters.isXm,
       logsDatas: [],
       allLogsData: [],
       showLogViews: this.showLogView,
@@ -201,6 +201,9 @@ export default {
       }
       .drawer-right{
         top:-17px;
+      }
+      .drawer-right.isStart{
+        height:42px;
       }
     }
     li:last-child{
