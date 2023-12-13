@@ -213,10 +213,11 @@ const proconf = {
         'visible': false
       },
       {
-        'title': '支出',
-        'width': 260,
-        'align': 'center',
-        'children': [
+        title: '支出',
+        width: 260,
+        align: 'center',
+        visible: store.getters.isSx || store.getters.isFuJian,
+        children: store.getters.isSx || store.getters.isFuJian ? [
           {
             'title': '金额',
             'align': 'right',
@@ -235,7 +236,7 @@ const proconf = {
               'name': '$vxeRatio'
             }
           }
-        ]
+        ] : []
       },
       {
         'title': '省级',
