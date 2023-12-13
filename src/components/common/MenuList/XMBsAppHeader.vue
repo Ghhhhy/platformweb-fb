@@ -43,8 +43,8 @@ export default {
   name: 'XMBsAppHeaderVue',
   data() {
     return {
-      headerTitle: (window.gloableToolFn.globalTitle || '').headerTitle || '厦门市智慧' + (window?.$desensitization?.finance || '**') + '系统',
-      headerTitleChild: '预算管理一体化系统',
+      headerTitle: '厦门市智慧财政系统',
+      headerTitleChild: '直达资金监控',
       emptyLogo: require('../../Table/assets/img/empty-data.jpg'),
       headerImg: window.gloableToolFn.globalTitle?.htmlLogo || 'LOGO_3-prod.png',
       navigationData: [],
