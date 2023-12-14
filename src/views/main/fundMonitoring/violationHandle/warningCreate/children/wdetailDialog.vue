@@ -1106,7 +1106,7 @@ export default {
         })
       }
       if (!params.warnTime && params.triggerMonitorDate) {
-        params.warnTime = params.triggerMonitorDate
+        params.warnTime = params.triggerMonitorDate + ' 00:00:00'
       }
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
