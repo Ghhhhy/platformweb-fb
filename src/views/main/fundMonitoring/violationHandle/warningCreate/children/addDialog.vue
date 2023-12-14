@@ -90,9 +90,9 @@
           <el-col :span="24">
             <div style="display: flex; align-content: center; margin-top: 10px;">
               <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0">常用语</span>
-              <el-card style="width: 90%;max-height: 100px; overflow:scroll">
+              <el-card style="width: 90%;min-height: 80px; max-height: 250px; overflow:scroll">
                 <div v-for="item in commonList" :key="item" style="margin: 5px 0; display: flex; justify-content: space-between;">
-                  <span>{{ item.content }}</span>
+                  <span @click="copyCommom(item.content)">{{ item.content }}</span>
                   <i class="el-icon-close" @click="deleteCommon(item.id)"></i>
                 </div>
               </el-card>
@@ -816,32 +816,38 @@ export default {
     },
     queryCommonList() {
       HttpModule.getCommonList().then(res => {
-        console.log(res)
-        this.commonList = res.data
+        if (res.rscode === '100000') {
+          this.commonList = res.data
+        } else {
+          this.$message.error(res.message)
+        }
       })
+    },
+    copyCommom(itemContent) {
+      this.doubtViolateExplain = itemContent
     },
     // 内蒙新增常用语模板
     addCommon() {
-      let param = {
+      let params = {
         content: this.doubtViolateExplain
       }
-      HttpModule.addCommonList(param).then(res => {
+      HttpModule.addCommonList(params).then(res => {
         if (res.rscode === '100000') {
           this.$message.success('添加成功')
           this.queryCommonList()
+        } else {
+          this.$message.error(res.message)
         }
-      }).finally(() => {
-        this.$message.error('添加失败')
       })
     },
     deleteCommon(id) {
-      HttpModule.deleteCommonList(id).then(res => {
+      HttpModule.deleteCommonList('/' + id).then(res => {
         if (res.rscode === '100000') {
-          this.$message.success('删除成功')
+          this.$message.success('添加成功')
           this.queryCommonList()
+        } else {
+          this.$message.error(res.message)
         }
-      }).finally(() => {
-        this.$message.error('删除失败')
       })
     },
     // 规则校验

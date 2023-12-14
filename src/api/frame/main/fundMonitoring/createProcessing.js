@@ -131,10 +131,10 @@ export default {
     return get('large-monitor-platform/lmp/commonPhrases/query')
   },
   addCommonList(params) {
-    return post('large-monitor-platform/commonPhrases/add' + params)
+    return post('large-monitor-platform/lmp/commonPhrases/add', params)
   },
   deleteCommonList(params) {
-    return post('large-monitor-platform/commonPhrases/delete' + params)
+    return post('large-monitor-platform/lmp/commonPhrases/delete' + params)
   },
   getisShowViolateType() {
     return get('large-monitor-platform/lmp/payReportConfig/query')
