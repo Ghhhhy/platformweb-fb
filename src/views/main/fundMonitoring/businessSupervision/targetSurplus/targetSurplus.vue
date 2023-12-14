@@ -492,13 +492,15 @@ export default {
       bsTable.performTableDataCalculate(obj)
     },
     cellStyle({ row, rowIndex, column }) {
-      // 有效的cellValue
-      const validCellValue = (row[column.property] * 1)
-      if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
-        return {
-          color: '#4293F4',
-          textDecoration: 'underline',
-          cursor: 'pinter'
+      if (!this.$store.getters.isSx) {
+        // 有效的cellValue
+        const validCellValue = (row[column.property] * 1)
+        if (validCellValue && ['amountz', 'amountc'].includes(column.property)) {
+          return {
+            color: '#4293F4',
+            textDecoration: 'underline',
+            cursor: 'pinter'
+          }
         }
       }
     }
