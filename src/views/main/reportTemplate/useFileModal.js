@@ -245,6 +245,12 @@ const closeModal = (config, app) => {
   domNode = null
 }
 
+// 点击确定
+const ok = (config, app) => {
+  config?.ok?.()
+  closeModal()
+}
+
 // 下载附件
 const downloadAttachment = (selection) => {
   if (!Array.isArray(selection) || selection.length !== 1) {
@@ -314,7 +320,7 @@ const mount = () => {
           </template>
         </BsTable>
         <div slot='footer' style="margin:0 15px">
-          {propsConfig.value.showSure && <el-button size="small" type="primary" onClick={() => { propsConfig.value.ok?.() }} v-deClick={false}>确定</el-button>}
+          {propsConfig.value.showSure && <el-button size="small" type="primary" onClick={() => { ok() }} v-deClick={false}>确定</el-button>}
           {propsConfig.value.showCancel && <el-button size="small" onClose={() => { closeModal(propsConfig.value, miniVue) }}>取消</el-button>}
         </div>
       </vxeModal>
