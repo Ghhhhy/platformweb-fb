@@ -256,7 +256,7 @@ export default {
             resolve([].concat(data || []))
           } else {
             resolve([])
-            this.$XModal.message({ status: 'error', message: '获取信息失败！' })
+            // this.$XModal.message({ status: 'error', message: '获取信息失败！' })
           }
         }, err => {
           reject(err)
