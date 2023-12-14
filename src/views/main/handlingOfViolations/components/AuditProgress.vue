@@ -46,7 +46,32 @@
         </tr>
       </thead>
       <!--表体-->
-      <tbody>
+      <tbody v-if="isFuJian">
+        <tr
+          v-for="(row, index) in tableData"
+          :key="index"
+        >
+          <!--除开第1、2最后一列（序号、处理日期、是否终审），其余列左对齐-->
+          <td
+            v-for="(column) in columns"
+            :key="column.field"
+            valign="top"
+            :align="column.align || 'center'"
+            @click="showTodoUsers(row,column,index,tableData.length)"
+          >
+            <a
+              v-if="column.field === 'createBy' && index === tableData.length - 1"
+              style="color:#1890ff;cursor:pointer;"
+            >
+              {{ getTdLabel(row, column, index) }}
+            </a>
+            <div v-else>
+              {{ getTdLabel(row, column, index) }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
         <tr
           v-for="(row, index) in tableData"
           :key="index"
@@ -70,16 +95,27 @@
       <!--<img :src="require('@/components/Table/assets/img/empty.svg')">-->
       <p style="margin-top: 8px;">暂无处理进度数据！</p>
     </div>
+    <TodoUsersDialog
+      v-if="todoUsersVisible"
+      :visible.sync="todoUsersVisible"
+      :log-row="logRow"
+      @changeVisible="todoUsersVisible = false"
+    />
   </div>
 </template>
 
 <script>
-import { defineComponent, unref, inject, computed } from '@vue/composition-api'
+import { defineComponent, ref, unref, inject, computed } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
 import { auditInfoColumns, getAuditDescriptionColumn, indexColumn } from '../model/data'
 import { RouterPathEnum, WarnLevelEnum } from '../model/enum'
+import store from '@/store'
+import TodoUsersDialog from './TodoUsersDialog'
 
 export default defineComponent({
+  components: {
+    TodoUsersDialog
+  },
   props: {
     isPint: {
       type: Boolean,
@@ -172,12 +208,29 @@ export default defineComponent({
       }
       return row[column.field]
     }
+
+    // 获取待操作人员列表
+    const isFuJian = computed(() => {
+      return store.getters.isFuJian
+    })
+    const logRow = ref({})
+    const todoUsersVisible = ref(false)
+    const showTodoUsers = (row, column, index, length) => {
+      if (column.field === 'createBy' && index === length - 1) {
+        logRow.value = row
+        todoUsersVisible.value = true
+      }
+    }
     return {
       columns,
       tableConfig,
       // tableData,
       getTdLabel,
-      computedColumnWidth
+      computedColumnWidth,
+      logRow,
+      showTodoUsers,
+      todoUsersVisible,
+      isFuJian
     }
   }
 })
