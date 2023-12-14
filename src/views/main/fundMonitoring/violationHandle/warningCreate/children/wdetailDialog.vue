@@ -165,7 +165,7 @@ export default {
       let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
         firstBtn = []
-      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai) {
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai || this.$store.getters.isXm || this.$store.getters.isNeiMeng) {
         firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return {

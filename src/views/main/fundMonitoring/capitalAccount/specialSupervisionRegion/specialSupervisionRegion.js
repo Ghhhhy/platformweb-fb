@@ -216,8 +216,8 @@ const proconf = {
         title: '支出',
         width: 260,
         align: 'center',
-        visible: store.getters.isSx || store.getters.isFuJian,
-        children: store.getters.isSx || store.getters.isFuJian ? [
+        visible: store.getters.isSx || store.getters.isFuJian || store.getters.isXm,
+        children: store.getters.isSx || store.getters.isFuJian || store.getters.isXm ? [
           {
             'title': '金额',
             'align': 'right',
@@ -432,31 +432,6 @@ const proconf = {
             'width': 100,
             'align': 'right',
             'formula': '({amountXjxd}-0==0)?0:Math.round({amountXjfp}/{amountXjxd}*100*10)/10',
-            'cellRender': {
-              'name': '$vxeRatio'
-            }
-          }
-        ]
-      },
-      {
-        'title': '支出',
-        'width': 260,
-        'align': 'center',
-        'children': [
-          {
-            'title': '金额',
-            'align': 'right',
-            'width': 100,
-            'field': 'amountPayAll',
-            'formula': '{amountSnjpay}+{amountSjpay}+{amountXjpay}',
-            'cellRender': { 'name': '$vxeMoney' }
-          },
-          {
-            'title': '进度',
-            'align': 'right',
-            'width': 100,
-            'field': 'jLoad',
-            'formula': '({amountZyxd}-0==0)?0:({amountPayAll}/{amountZyxd}*100)',
             'cellRender': {
               'name': '$vxeRatio'
             }
