@@ -533,6 +533,8 @@ export default {
         agencyName: obj.row.agencyName,
         manageMofDepCode: obj.row.manageMofDepCode,
         manageMofDepName: obj.row.manageMofDepName,
+        bgtMofDepCode: obj.row.manageMofDepCode,
+        bgtMofDepName: obj.row.manageMofDepName,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         pageSize: this.mainPagerConfig.pageSize,
         page: this.mainPagerConfig.currentPage
