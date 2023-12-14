@@ -51,6 +51,7 @@ export default {
             setTimeout(() => {
               el.removeAttribute('disabled')
               el.classList.remove('is--disabled')
+              el.classList.remove('is-disabled')
             }, binding.value || 1000)
           }
         })
