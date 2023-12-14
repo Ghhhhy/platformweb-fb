@@ -1473,6 +1473,7 @@ export default {
     this.$set(this.searchDataList, 'xPayDateStart', this.queryData.xPayDateStart)
     this.$set(this.searchDataList, 'xPayDateEnd', this.queryData.xPayDateEnd)
     this.$set(this.searchDataList, 'ruleCodes', this.queryData.ruleCodes)
+    this.$set(this.searchDataList, 'proCodes', this.queryData.proCodes)
     // 回显时间
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate
