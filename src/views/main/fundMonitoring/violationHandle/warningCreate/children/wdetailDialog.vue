@@ -189,13 +189,13 @@ export default {
       let arr = Object.assign([], this.tableColumnsConfig)
       if (this.$store.getters.isNeiMeng) {
         detailColumns.forEach(item => {
-          let arr2 = arr.map(item => item.field)
+          let arr2 = arr?.map(item => item.field)
           if (!arr2.includes(item.field)) {
             arr.push(item)
             detailAddArr.push(item)
           }
         })
-        arr = arr.map(item => { return { ...item, sortable: true } })
+        arr = arr?.map(item => { return { ...item, sortable: true } })
       }
       return { arr, detailAddArr }
     }
@@ -506,7 +506,7 @@ export default {
     queryActionLog(row) {
       HttpModule.getLogs(row.dealNo).then(res => {
         if (res.code === '000000') {
-          let tempData = res.data.map(item => {
+          let tempData = res.data?.map(item => {
             return {
               logid: item['operationTypeCode'],
               nodeName: item['operationTypeName'],
@@ -573,7 +573,7 @@ export default {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
             if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
+              this.searchDataList[key]?.split(',').forEach((item) => {
                 condition[key].push(item)
               })
             }
@@ -583,9 +583,9 @@ export default {
       console.log(val, '-------------')
       // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
-      this.searchDataList.proCodes = this.searchDataList.proCodes.split(',')
-      this.searchDataList.proCodes = this.searchDataList.proCodes.map(item => {
-        return item.split('##')[0]
+      this.searchDataList.proCodes = this.searchDataList.proCodes?.split(',')
+      this.searchDataList.proCodes = this.searchDataList.proCodes?.map(item => {
+        return item?.split('##')[0]
       })
       console.log(this.searchDataList, this.condition)
       this.queryTableDatas()
@@ -641,9 +641,9 @@ export default {
       }
       if (obj.property === 'agencyCodeList') {
         let arr = []
-        obj.itemValue && obj.itemValue.split(',')?.map(v => {
+        obj.itemValue && obj.itemValue?.split(',')?.map(v => {
           if (v?.length > 0) {
-            arr.push(v.split('#')[0])
+            arr.push(v?.split('#')[0])
           }
         })
         this.agencyCodeList = arr
@@ -1087,8 +1087,8 @@ export default {
         ruleCodes: []
       }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
-        params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
-          return item.split('##')[0]
+        params.ruleCodes = this.searchDataList.ruleCodes?.split(',')?.map(item => {
+          return item?.split('##')[0]
         })
       }
       // 有菜单有主题参数则 则用主题参数
@@ -1124,9 +1124,9 @@ export default {
           if (res.code === '000000') {
             this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
-              this.tableData = res.data.results.map(item => {
+              this.tableData = res.data.results?.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
               return
             }
@@ -1150,9 +1150,9 @@ export default {
           if (res.code === '000000') {
             this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
-              this.tableData = res.data.results.map(item => {
+              this.tableData = res.data.results?.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
               return
             }
@@ -1208,11 +1208,11 @@ export default {
     },
     transJson(str) {
       if (!str) return
-      var params = str.split(',')
+      var params = str?.split(',')
       var result = {}
       if (params && params.length > 0) {
         for (var i = 0; i < params.length; i++) {
-          var map = params[i].split('=')
+          var map = params[i]?.split('=')
           result[map[0]] = map[1]
         }
       }
@@ -1279,7 +1279,7 @@ export default {
     },
     pickObjectField(obj = {}, field) {
       let newObj = {}
-      Object.keys(obj).map(item => {
+      Object.keys(obj)?.map(item => {
         if (field.includes(item)) {
           newObj[item] = obj[item]
         }
@@ -1384,7 +1384,7 @@ export default {
           return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
         })
       }
-      return detailColumns.map(item => {
+      return detailColumns?.map(item => {
         return { ...item, width: 180 }
       })
     },
