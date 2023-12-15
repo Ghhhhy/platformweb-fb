@@ -395,10 +395,10 @@ export default {
       //   this.$message.warning('函数接口长度应小于等于500位')
       //   return
       // }
-      if (this.functionParameter.length > 5000) {
-        this.$message.warning('函数参数长度应小于等于5000位')
-        return
-      }
+      // if (this.functionParameter.length > 5000) {
+      //   this.$message.warning('函数参数长度应小于等于5000位')
+      //   return
+      // }
       if (this.description.length > 100) {
         this.$message.warning('函数描述应小于等于100位')
         return

@@ -1,7 +1,7 @@
 // 查询区条件
 const leftFormItemData = {
   bgtDeptName: '',
-  proName: ''
+  speName: ''
 }
 
 // 查询表单设置
@@ -22,7 +22,7 @@ const leftFormItem = [
   },
   {
     title: '专项资金',
-    field: 'proName',
+    field: 'speName',
     span: 12,
     align: 'left',
     itemRender: {

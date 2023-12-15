@@ -43,7 +43,7 @@
 <script>
 import { defineComponent, reactive, ref, onMounted, computed, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carryImplementationRegionModalColumns } from './columns.js'
+import { carryImplementationRegionModalColumns, carryImplementationRegionModalColumnsFJ } from './columns.js'
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
@@ -146,7 +146,13 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: computed(() => carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)), // 预算和支出表头区分
+      columns: computed(() => {
+        if (store.getters.isFuJian && $route.name === 'CarryPayRegion') {
+          return carryImplementationRegionModalColumnsFJ
+        }
+        return carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)
+      }
+      ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({

@@ -262,6 +262,189 @@ export const carryImplementationRegionModalColumns = [
     cellRender: { name: '$vxeInput' }
   }
 ]
+export const carryImplementationRegionModalColumnsFJ = [
+  {
+    title: '资金名称',
+    field: 'trackProName',
+    align: 'left',
+    tableType: 'bgt',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算单位',
+    field: 'agencyName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '项目名称',
+    field: 'proName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '金额',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAppAmt',
+    width: 260,
+    align: 'right',
+    combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+    cellRender: { name: '$vxeMoney' }
+  },
+  {
+    title: '用途',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'useDes',
+    width: 260,
+    align: 'left',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctName',
+    width: 260,
+    align: 'left',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账户名称',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctName',
+    width: 260,
+    align: 'left',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款方账号',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'payeeAcctNo',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '付款日期',
+    tableType: 'pay',
+    sortable: false,
+    filters: false,
+    field: 'xpayDate',
+    width: 260,
+    align: 'center',
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出功能科目',
+    field: 'xjExpFuncName',
+    align: 'left',
+    tableType: 'bgt',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    field: 'isDirectFinanc',
+    title: '是否直达资金',
+    align: 'left',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: '1',
+          label: '是'
+        },
+        {
+          value: '0',
+          label: '否'
+        }]
+    }
+  },
+  {
+    title: '政府支出经济分类',
+    filters: false,
+    field: 'govBgtEcoName',
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '部门支出经济分类',
+    filters: false,
+    field: 'depBgtEcoName',
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支付方式',
+    field: 'payTypeName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款人银行',
+    field: 'payeeAcctBankName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算年度',
+    field: 'fiscalYear',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '是否政府采购',
+    field: 'isGovPurName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  }
+]
 export const carrImplRegiSecondModalColumns = [
   // {
   //   title: '序号',
