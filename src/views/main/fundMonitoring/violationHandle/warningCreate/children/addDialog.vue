@@ -81,6 +81,24 @@
             </div>
           </el-col>
         </el-row>
+        <el-row v-if="isNeiMeng">
+          <el-col style="display: flex;justify-content: end;">
+            <el-button type="primary" plain @click="addCommon">添加到模板</el-button>
+          </el-col>
+        </el-row>
+        <el-row v-if="isNeiMeng && commonList && commonList.length > 0">
+          <el-col :span="24">
+            <div style="display: flex; align-content: center; margin-top: 10px;">
+              <span class="sub-title-add" style="text-align: right;width:168px;margin:8px 11.2px 0 0;flex-shrink: 0">常用语</span>
+              <el-card style="width: 90%;min-height: 80px; max-height: 250px; overflow:scroll">
+                <div v-for="item in commonList" :key="item" style="margin: 5px 0; display: flex; justify-content: space-between;">
+                  <span @click="copyCommom(item.content)">{{ item.content }}</span>
+                  <i class="el-icon-close" @click="deleteCommon(item.id)"></i>
+                </div>
+              </el-card>
+            </div>
+          </el-col>
+        </el-row>
         <div v-if="isDone" style="margin-top:10px">
           <div style="color:#40aaff;margin-bottom:5px;font-size:16px;font-weight:bold">主管处室指导意见</div>
           <el-row>
@@ -366,6 +384,9 @@ export default {
       }
       return false
     },
+    isNeiMeng() {
+      return this.$store.getters.isNeiMeng
+    },
     footerConfig() {
       // if (!this.isXmProject) {
       //   return { 'footer-config': {} }
@@ -472,6 +493,7 @@ export default {
       status: '',
       attachmentid3: '',
       doubtViolateExplain: '', // 疑似违规说明
+      commonList: [], // 常用语
       edit: false,
       handleResult: '',
       handlePersonName: '',
@@ -786,6 +808,45 @@ export default {
       await HttpModule.getWarningTips(ruleCode).then(res => {
         if (res.code === '000000') {
           this.doubtViolateExplain = res.data
+        }
+      })
+      if (this.$store.getters.isNeiMeng) {
+        this.queryCommonList()
+      }
+    },
+    queryCommonList() {
+      HttpModule.getCommonList().then(res => {
+        if (res.rscode === '100000') {
+          this.commonList = res.data
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    copyCommom(itemContent) {
+      this.doubtViolateExplain = itemContent
+    },
+    // 内蒙新增常用语模板
+    addCommon() {
+      let params = {
+        content: this.doubtViolateExplain
+      }
+      HttpModule.addCommonList(params).then(res => {
+        if (res.rscode === '100000') {
+          this.$message.success('添加成功')
+          this.queryCommonList()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    deleteCommon(id) {
+      HttpModule.deleteCommonList('/' + id).then(res => {
+        if (res.rscode === '100000') {
+          this.$message.success('添加成功')
+          this.queryCommonList()
+        } else {
+          this.$message.error(res.message)
         }
       })
     },
