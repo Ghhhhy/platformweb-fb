@@ -46,6 +46,7 @@ const BSURL = {
 
   // 平台  文件服务
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
+  api_fileservice_v2_find_fileExists: 'fileservice/v2/find/fileExists', // 平台  判断文件是否存在
 
   // mp-b-perm-service 平台  权限服务
   api_tableconfMenuguid: 'mp-b-perm-service/v1/tableconf/menuguid', // 平台 获取菜单配置的动态表格列表

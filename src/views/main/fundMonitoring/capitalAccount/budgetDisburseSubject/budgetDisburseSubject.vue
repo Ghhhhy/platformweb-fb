@@ -575,6 +575,7 @@ export default {
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then((res) => {
           if (res.code === '000000') {
+            this.setMergeCodeName(res.data.data) // 赋值codeAndName字段
             this.tableData = res.data.data
             this.tableLoading = false
             this.reportTime = res.data.reportTime || ''
@@ -598,6 +599,7 @@ export default {
         HttpModule.queryTableDatas(param).then((res) => {
           if (res.code === '000000') {
             if (res.data) {
+              this.setMergeCodeName(res.data.data) // 赋值codeAndName字段
               this.tableData = res.data.data
               this.reportTime = res.data.reportTime || ''
               this.caliberDeclareContent = res.data.description || ''
@@ -608,6 +610,18 @@ export default {
         }).finally(() => {
           this.isFlush = false
           this.tableLoading = false
+        })
+      }
+    },
+    // 赋值codeAndName字段
+    setMergeCodeName(list) {
+      if (list) {
+        list.forEach(row => {
+          // 将code和name的值合并为codeAndName: '[code]name'
+          row['codeAndName'] = row.name === '合计' ? row.name : `[${row.code}]${row.name}`
+          if (row.children?.length) {
+            this.setMergeCodeName(row.children)
+          }
         })
       }
     },

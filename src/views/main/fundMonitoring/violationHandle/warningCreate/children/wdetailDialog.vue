@@ -165,7 +165,7 @@ export default {
       let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
         firstBtn = []
-      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai) {
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai || this.$store.getters.isXm || this.$store.getters.isNeiMeng) {
         firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return {
@@ -375,6 +375,7 @@ export default {
       clickRowBussnessId: '',
       treeTypeConfig: {},
       currentNodeKey: '7',
+      backType: '',
       detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
       // {
       //   children: [],
@@ -849,6 +850,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-疑点信息明细`
           break
         case 'redNormalNum':
@@ -859,6 +861,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'redNotRectifiedNum':
@@ -869,6 +872,7 @@ export default {
           this.isHandle = false
           this.isSign = '2'
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-待整改明细`
           break
         case 'redDoneNum':
@@ -880,6 +884,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-已整改明细`
           break
         case 'orangeUndoNum':
@@ -890,6 +895,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'orangeNormalNum':
@@ -900,6 +906,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'orangeNotRectifiedNum':
@@ -910,6 +917,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'orangeDoneNum':
@@ -920,6 +928,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'yellowUndoNum':
@@ -930,6 +939,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'yellowNormalNum':
@@ -940,6 +950,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'yellowNotRectifiedNum':
@@ -950,6 +961,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'yellowDoneNum':
@@ -960,6 +972,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'blueUndoNum':
@@ -970,6 +983,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'blueNormalNum':
@@ -980,6 +994,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'blueNotRectifiedNum':// 未完成
@@ -990,6 +1005,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'blueDoneNum':
@@ -1000,6 +1016,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         default:
@@ -1396,8 +1413,13 @@ export default {
       }
       var backIds = []
       selection.forEach(function (item, index) {
-        backIds.push({ warnid: item.warnid, dealNo: item.dealNo })
+        backIds.push({ warnid: item.warnid, dealNo: item.dealNo, dealId: item.dealId })
       })
+      let params = {
+        reqParams: backIds,
+        menuId: this.$store.state.curNavModule.guid,
+        type: this.backType
+      }
       this.$confirm('确定退回选中数据?', '提示', {
         confirmButtonText: '退回',
         cancelButtonText: '取消',
@@ -1405,9 +1427,10 @@ export default {
       }).then(() => {
         this.tableLoading = true
         HttpModule
-          .doBack(backIds)
+          .doBack(params)
           .then(res => {
             this.tableLoading = false
+            console.log('回退结果', res)
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
@@ -1415,7 +1438,11 @@ export default {
               })
               this.queryTableDatas()
             } else {
-              this.$message.error(res.message)
+              this.$message({
+                type: 'error',
+                message: res.message
+              })
+              this.queryTableDatas()
             }
           })
           .finally(() => {

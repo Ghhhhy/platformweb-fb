@@ -141,7 +141,7 @@ export default {
         currentPage: 1
       },
       rightParams: {
-        currentPage: 1,
+        page: 1,
         pageSize: 20
       },
       rightTableColumnsConfig: rightTableColumnsConfig,
@@ -178,8 +178,7 @@ export default {
         validConfig: {
           autoPos: true
         }
-      },
-      list: [] // 右侧表格展示数据
+      }
     }
   },
   methods: {
@@ -257,17 +256,15 @@ export default {
       this.rightPagerConfig.currentPage = currentPage
       this.rightPagerConfig.pageSize = pageSize
       this.rightParams = Object.assign(this.rightParams, {
-        params
+        page: currentPage,
+        pageSize
       })
-      this.list = this.rightTableData.slice( // 纯前端分页
-        (this.rightPagerConfig.currentPage - 1) * this.rightPagerConfig.pageSize,
-        this.rightPagerConfig.currentPage * this.rightPagerConfig.pageSize
-      )
+      this.initRightTableData()
     },
     // 初始化查询表格数据+条件查询表格数据
     initRightTableData() {
       this.rightShowLoading = true
-      let datas = Object.assign({}, this.rightFormItemData, {
+      let datas = Object.assign({}, this.rightParams, this.rightFormItemData, {
         bizType: '01',
         pubFlag: '1',
         isDeleted: 2 }) // 只需传入搜索条件
@@ -349,6 +346,8 @@ export default {
     },
     rightSearch(obj) {
       this.rightFormItemData = obj
+      this.rightParams.page = 1
+      this.rightPagerConfig.currentPage = 1
       this.initRightTableData()
     },
     doSave() {
