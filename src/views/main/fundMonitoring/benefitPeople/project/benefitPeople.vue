@@ -464,9 +464,10 @@ export default {
       } else {
         if (this.$store.getters.isNeiMeng) {
           this.percentage = 0
-          HttpModule.importPersonAndCompany(this.fileConfig)
+          checkRscode(await HttpModule.importPersonAndCompany(this.fileConfig))
           return
         }
+        checkRscode(await HttpModule.importPersonAndCompany(this.fileConfig))
         this.$refs.ImportModel.disabled = false
         this.$message.success('导入成功')
         this.dtos = []
@@ -611,8 +612,10 @@ export default {
       // this.queryTableDatasCount()
     },
     closeImportModal() {
-      console.log('this.ws', this.ws)
       this.ws?.closeHandle()
+      this.dtos = []
+      this.refresh()
+      this.refresh1()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -809,6 +812,7 @@ export default {
             fileType: obj.code === 'person-import' ? '1' : '2'
           }
           if (this.$store.getters.isNeiMeng) {
+            this.percentage = 0
             this.ws = new WebSocketClass({
               URL: `dfr-monitor-service/dfr/websocket/${this.$store.state.userInfo.guid}`
             }, {
