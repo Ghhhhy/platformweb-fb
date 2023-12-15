@@ -224,6 +224,7 @@ export default {
   computed: {
     paramsObj() {
       return {
+        fiscalYear: this.$store.state.userInfo.year,
         mofDivCode: this.curDivCode
         // mofDivCode: '230183000'
       }
