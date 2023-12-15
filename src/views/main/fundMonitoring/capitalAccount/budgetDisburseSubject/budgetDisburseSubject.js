@@ -116,7 +116,7 @@ let proconf = {
         title: '科目名称',
         align: 'left',
         // width: 160,
-        field: 'name',
+        field: 'codeAndName',
         treeNode: true,
         fixed: 'left',
         cellRender: {
