@@ -181,7 +181,8 @@ export default {
           autoPos: true
         }
       },
-      list: [] // 右侧表格展示数据
+      list: [], // 右侧表格展示数据,
+      leftQueryFormConditions: []
     }
   },
   methods: {
@@ -227,11 +228,12 @@ export default {
     initLeftTableData() {
       this.leftShowLoading = true
       let datas = Object.assign({}, this.leftParams, this.leftFormItemData)
+      datas.queryConditions = this.leftQueryFormConditions
       var _this = this
-      get(BSURL.bgt_transferBudgetProjectGetLeftData, datas).then(res => {
+      post(BSURL.bgt_transferBudgetProjectGetLeftData, datas).then(res => {
         if (res.code === '100000') {
-          _this.leftTableData = res.data
-          _this.leftPagerConfig.total = res.data.length
+          _this.leftTableData = res.data.dataList
+          _this.leftPagerConfig.total = res.data.total
         } else {
           let message = res?.msg || ''
           _this.$message.error('查询失败!' + message)
@@ -250,6 +252,25 @@ export default {
       //   .finally(() => { this.leftShowLoading = false })
     },
     leftSearch(obj) {
+      this.leftQueryFormConditions = []
+      const camelToUnderline = this.$ToolFn.StringFn.camelToUnderline // 小驼峰转下划线的转换函数
+      this.leftFormItem.forEach(config => {
+        if (obj[config.field]) { // 有值才生成条件
+          if (config.itemRender.name === '$vxeTree') { // 若是下拉树，查其code
+            this.leftQueryFormConditions.push({
+              key: camelToUnderline(config.field) + '_code',
+              operation: 'like',
+              value: '%' + obj[config.field + 'Code'] + '%' // %?% 为模糊查询，含有?字符即可搜出
+            })
+          } else {
+            this.leftQueryFormConditions.push({
+              key: camelToUnderline(config.field),
+              operation: 'like',
+              value: '%' + obj[config.field] + '%'
+            })
+          }
+        }
+      })
       this.leftFormItemData = obj
       this.leftParams.currentPage = 1
       this.leftPagerConfig.currentPage = 1
