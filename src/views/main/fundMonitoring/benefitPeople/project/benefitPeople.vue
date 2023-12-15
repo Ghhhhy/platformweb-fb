@@ -130,10 +130,12 @@
     <ImportModel
       ref="ImportModel"
       :file-config="fileConfig"
+      :percentage="percentage"
       :import-modal-visible.sync="importModalVisible"
       @onDownloadTemplateClick="onDownloadTemplateClick"
       @onImportClick="onImportClick"
       @onImportFileClick="onImportFileClick"
+      @close="closeImportModal"
     />
     <AddDialog
       v-if="addDialogVisible"
@@ -187,6 +189,8 @@ export default {
     return {
       isShowPanelTop: true,
       selectData: {},
+      ws: null,
+      percentage: 0,
       importCorpData: [],
       addDialogVisible: false,
       addCorpDialogVisible: false,
@@ -458,10 +462,9 @@ export default {
           }
         })
       } else {
-        await HttpModule.importPersonAndCompany(this.fileConfig)
         if (this.$store.getters.isNeiMeng) {
-          /* eslint-disable-next-line */
-         const socketInstance= new WebSocketClass('ws://47.109.31.211:6603'+'/dfr/websocket',this.$store.state.userInfo.guid, this.processStart)
+          this.percentage = 0
+          HttpModule.importPersonAndCompany(this.fileConfig)
           return
         }
         this.$refs.ImportModel.disabled = false
@@ -519,9 +522,13 @@ export default {
       }
       this.queryTableDatas()
     },
-    processStart(response) {
-      console.log(123, response)
-      this.$message.success('导入成功')
+    processStart(data, defaultConfig, wsClass, response) {
+      this.percentage = data.progress
+      if (this.percentage >= 99) {
+        this.$message.success('导入成功')
+        this.$refs.ImportModel.disabled = false
+        this.percentage = 100
+      }
     },
     bsToolbarClickEventTop(obj) {
       if (obj.code === '3') { // 实拨
@@ -602,6 +609,10 @@ export default {
       this.agencyCodeList = obj.agencyName_code__multiple
       this.queryTableDatas1()
       // this.queryTableDatasCount()
+    },
+    closeImportModal() {
+      console.log('this.ws', this.ws)
+      this.ws?.closeHandle()
     },
     // 初始化高级查询data
     getSearchDataList() {
@@ -790,11 +801,19 @@ export default {
         case 'person-import':
         case 'company-import':
           this.importModalVisible = true
+          this.$refs.ImportModel.disabled = false
           this.fileConfig = {
             importType: this.importType,
             fileName: '',
             file: null,
             fileType: obj.code === 'person-import' ? '1' : '2'
+          }
+          if (this.$store.getters.isNeiMeng) {
+            this.ws = new WebSocketClass({
+              URL: `dfr-monitor-service/dfr/websocket/${this.$store.state.userInfo.guid}`
+            }, {
+              onmessage: this.processStart
+            })
           }
           break
         default:
@@ -1219,6 +1238,9 @@ export default {
     this.getAgency()
     // this.queryTableDatas()
     // this.queryTableDatas1()
+  },
+  beforeDistory() {
+    this.ws?.closeHandle()
   }
 }
 </script>
