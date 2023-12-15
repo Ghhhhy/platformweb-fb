@@ -41,6 +41,7 @@
             @click="onImportClick"
           />
         </div>
+        <el-progress v-if="$store.getters.isNeiMeng" :percentage="percentage" :color="customColorMethod" />
       </div>
     </vxe-modal>
   </div>
@@ -51,6 +52,10 @@ export default {
   props: {
     importModalVisible: {
       type: Boolean
+    },
+    percentage: {
+      type: Number,
+      default: 0
     },
     config: {
       type: Object,
@@ -81,6 +86,15 @@ export default {
     }
   },
   methods: {
+    customColorMethod(percentage) {
+      if (percentage < 30) {
+        return '#909399'
+      } else if (percentage < 70) {
+        return '#e6a23c'
+      } else {
+        return '#67c23a'
+      }
+    },
     // 关闭对话框
     closeAndClear() {
       this.importModalVisible = false
