@@ -311,51 +311,52 @@ export default {
       if (isInvalidCellValue) return
       this.fiscalYear = this.searchDataList.fiscalYear === '' ? this.$store.state.userInfo.curyear : this.searchDataList.fiscalYear
       this.trackProCodes = this.searchDataList.trackProCode === '' ? [] : this.getTrees(this.searchDataList.trackProCode)
+      let fiRuleCode = obj.row.last__level === 1 ? obj.row.code : ''
       switch (key) {
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numbernofileNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '红灯-未处理明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberfileNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '红灯-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberwarnUndoNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄灯-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberwarndoNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄灯-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberwarnUndoNoNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄灯-认定违规-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberwarndidNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄灯-认定违规-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberhqlmUndoNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色警铃-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.trackProCodes]
+          this.detailData = ['numberhqlmdoNum', fiRuleCode, this.fiscalYear, this.trackProCodes]
           this.detailTitle = '黄色警铃-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmdoNum'
