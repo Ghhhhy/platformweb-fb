@@ -584,7 +584,7 @@ export default {
       console.log(val, '-------------')
       // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
-      this.searchDataList.proCodes = this.searchDataList.proCodes?.split(',')
+      this.searchDataList.proCodes = this.searchDataList?.proCodes?.split(',')
       this.searchDataList.proCodes = this.searchDataList.proCodes?.map(item => {
         return item?.split('##')[0]
       })
