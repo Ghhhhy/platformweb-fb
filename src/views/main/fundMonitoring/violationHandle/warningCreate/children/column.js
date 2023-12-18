@@ -196,6 +196,18 @@ const budgetImpColumns = [
       return `${row.proName}`
     },
     exportFormatter: true
+  },
+  {
+    title: '指标管理处室',
+    width: 220,
+    field: 'bgtMofDepName',
+    align: 'center',
+    formatter({ row }) {
+      if (row.bgtMofDepCode && row.bgtMofDepName) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
+      }
+      return `${row.bgtMofDepName}`
+    }
   }
 ]
 // 预算管理表头(只用于专项监督0207)
@@ -1638,38 +1650,35 @@ const proconf = {
         props: { placeholder: '超时下达时间', disabled: true }
       }
     },
-    // {
-    //   field: 'bgtMofDepCode',
-    //   title: '指标管理处室名称',
-    //   titleWidth: '180',
-    //   span: 8,
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     props: { placeholder: '指标管理处室编码', disabled: true }
-    //   }
-    // },
-    // {
-    //   field: 'bgtMofDepName',
-    //   title: '指标管理处室名称',
-    //   titleWidth: '180',
-    //   span: 8,
-    //   itemRender: {
-    //     name: '$vxeInput',
-    //     props: { placeholder: '指标管理处室名称', disabled: true }
-    //   }
-    // },
     {
-      title: '指标管理处室',
-      width: 240,
+      field: 'bgtMofDepCode',
+      title: '指标管理处室名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标管理处室编码', disabled: true }
+      }
+    },
+    {
       field: 'bgtMofDepName',
-      sortable: false,
-      filters: false,
-      align: 'center',
-      formatter({ row }) {
-        if (row.bgtMofDepCode && row.bgtMofDepName) {
-          return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
-        }
-        return `${row.bgtMofDepName}`
+      title: '指标管理处室名称',
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '指标管理处室名称', disabled: true }
+      }
+    },
+    {
+      field: 'payCertNo',
+      title: '支付凭证号',
+      titleWidth: '180',
+      visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '支付凭证号', disabled: true }
       }
     }
   ],
@@ -2604,7 +2613,8 @@ const proconf = {
     voidOrNot: '',
     trackProName: '',
     xpayDate: '',
-    isMatCode: ''
+    isMatCode: '',
+    payCertNo: ''
   },
   indexMsgData: {
     timeoutIssueType: '',
