@@ -526,8 +526,8 @@ export default {
     handleDetail(reportCode, obj) {
       let params = {
         reportCode: reportCode,
-        mofDivCode: this.codeList ? this.codeList[0] : '', // 单位区划没传入
-        // mofDivCodeList: obj.row.code,
+        // mofDivCode: this.codeList ? this.codeList[0] : '', // 单位区划没传入
+        mofDivCodeList: this.codeList,
         fiscalYear: this.searchDataList.fiscalYear,
         agencyCode: obj.row.agencyCode,
         agencyName: obj.row.agencyName,
