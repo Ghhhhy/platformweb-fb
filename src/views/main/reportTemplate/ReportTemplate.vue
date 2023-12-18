@@ -95,6 +95,7 @@ import DetailDialog from './DetailDialog.vue'
 import HttpModule from '@/api/frame/main/reportTemplate/index.js'
 import regionMixin from './mixins/regionMixin'
 import utils from './utils.js'
+import showFileModal from '@//views/main/reportTemplate/useFileModal.js'
 export default {
   mixins: [regionMixin],
   components: {
@@ -336,6 +337,10 @@ export default {
       const rowIndex = obj?.rowIndex
       if (!rowIndex) return
       if (!obj.column.own.column_link) {
+        return
+      }
+      if (obj.column.own.insertType === 'file') {
+        showFileModal({})
         return
       }
       this.penetrateTableId = obj.column.own.penetrateTable

@@ -93,7 +93,11 @@ export default {
         billguid: billguid
       }
       return get(BSURL.api_fileservice_v2_files, params).then((res) => {
-        let fileList = JSON.parse(res.data) || []
+        let fileList = []
+        if (res.data) {
+          fileList = JSON.parse(res.data) || []
+        }
+
         fileList.length && fileList.forEach(element => {
           let size = element.filesize / 1024
           element.filesize = size.toFixed(2) + 'KB'

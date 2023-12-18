@@ -43,7 +43,7 @@
 <script>
 import { defineComponent, reactive, ref, onMounted, computed, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carryImplementationRegionModalColumns } from './columns.js'
+import { carryImplementationRegionModalColumns, carryImplementationRegionModalColumnsFJ } from './columns.js'
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
@@ -87,6 +87,8 @@ export default defineComponent({
       mofDivCode: ''
     })
     const mofDivCodes = ref()
+    const proCodes = ref()
+    const endTime = ref()
     const modalStaticProperty = {
       title: '项目明细',
       width: '96%',
@@ -119,6 +121,8 @@ export default defineComponent({
         let copyObj = {
           reportCode: reportCodeMap[$route.name].reportCode,
           mofDivCodes: mofDivCodes.value,
+          proCodes: proCodes.value,
+          endTime: endTime.value ? endTime.value[0] : '',
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
@@ -142,7 +146,13 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: computed(() => carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)), // 预算和支出表头区分
+      columns: computed(() => {
+        if (store.getters.isFuJian && $route.name === 'CarryPayRegion') {
+          return carryImplementationRegionModalColumnsFJ
+        }
+        return carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)
+      }
+      ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -173,6 +183,10 @@ export default defineComponent({
         column.own.reportCode && (CarrImplRegiSecondModal.value.reportCode = column.own.reportCode)
         CarrImplRegiSecondModal.value.tableType = column.own.tableType
         CarrImplRegiSecondModal.value.injectData = row
+        CarrImplRegiSecondModal.value.injectData.code = injectData.value.code
+        CarrImplRegiSecondModal.value.mofDivCodes = mofDivCodes.value
+        CarrImplRegiSecondModal.value.proCodes = proCodes.value
+        CarrImplRegiSecondModal.value.endTime = endTime.value
         CarrImplRegiSecondModal.value.init()
       }
     }
@@ -208,6 +222,8 @@ export default defineComponent({
       injectData,
       isFuJian,
       mofDivCodes,
+      proCodes,
+      endTime,
       init
     }
   }

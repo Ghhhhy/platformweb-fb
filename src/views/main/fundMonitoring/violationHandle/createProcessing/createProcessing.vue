@@ -394,7 +394,7 @@ export default {
     },
     // 操作日志
     queryActionLog(row) {
-      api.getLogs(row.dealNo).then(res => {
+      api.getLogs(`${row.dealNo}/1`).then(res => {
         if (res.code === '000000') {
           let tempData = res.data.map(item => {
             return {

@@ -5,9 +5,12 @@
       <div class="BsAppHeader">
         <div class="MenuList-header flex">
           <div class="MenuList-header header-left flex">
-            <div class="header-left header-left-title flex">
-              <xmHeader v-if="$store.getters.isXm" />
-              <img v-else src="./img/logo-new.png" alt="">
+            <div v-if="$store.getters.isXm" class="header-left header-left-title flex">
+              <xmHeader />
+            </div>
+            <div v-else class="header-left header-left-title flex">
+              <img src="./img/logo-new.png" alt="">
+              <span style="height:29px; white-space:nowrap; line-height:29px;">| {{ $store.state.userInfo.app.name || '' }}</span>
             </div>
           </div>
           <div v-for="(it,ids) in menuData" :key="ids" :class="[province.slice(0, 2) === '31' ? 'shHeader' : 'xmHeader', 'MenuList-header header-right flex']">

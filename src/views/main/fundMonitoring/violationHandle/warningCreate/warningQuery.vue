@@ -302,6 +302,10 @@ export default {
       condition.ruleCodes = condition.ruleCodes?.split('##')[0]
       condition.trackProCode = val.trackProCode_id__multiple
       this.condition = condition
+      this.searchDataList = {
+        ...this.searchDataList,
+        proCodes: this.condition.trackProCode
+      }
       this.queryTableDatas()
     },
     // 切换操作按钮

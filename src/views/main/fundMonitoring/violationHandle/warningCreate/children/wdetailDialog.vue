@@ -20,7 +20,7 @@
           @btnClick="operationToolbarButtonClickEvent"
           @tabClick="bsToolbarClickEvent"
         >
-          <template v-if="(tabSelect === '3' || tabSelect === '4' || tabSelect === '2') && (transJson($store.state.curNavModule.param5).isQuery !== 'true') && transJson($store.state.curNavModule.param5).isShowBack !== 'false'" v-slot:preBtns>
+          <template v-if="['2','3','4'].includes(tabSelect) && param5.isQuery !== 'true' && param5.isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
               size="medium"
               @click="doBack"
@@ -165,7 +165,7 @@ export default {
       let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
         firstBtn = []
-      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai) {
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai || this.$store.getters.isXm || this.$store.getters.isNeiMeng) {
         firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return {
@@ -187,14 +187,15 @@ export default {
       let detailColumns = this.getDetailFormItem()
       let detailAddArr = []
       let arr = Object.assign([], this.tableColumnsConfig)
-      if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
+      if (this.$store.getters.isNeiMeng) {
         detailColumns.forEach(item => {
-          let arr2 = arr.map(item => item.field)
+          let arr2 = arr?.map(item => item.field)
           if (!arr2.includes(item.field)) {
             arr.push(item)
             detailAddArr.push(item)
           }
         })
+        arr = arr?.map(item => { return { ...item, sortable: true } })
       }
       return { arr, detailAddArr }
     }
@@ -242,6 +243,7 @@ export default {
       showFuJianHaiNanModal: false,
       fuSelectedRow: {},
       showType: '',
+      param5: {},
       logData: [],
       showLogView: false,
       title: '',
@@ -373,6 +375,7 @@ export default {
       clickRowBussnessId: '',
       treeTypeConfig: {},
       currentNodeKey: '7',
+      backType: '',
       detailFiRuleCode: '' // 查看详情单独定义fiRuleCode 不影响查询
       // {
       //   children: [],
@@ -406,7 +409,7 @@ export default {
         if (res.code === '000000') {
           let treeResdata = this.getChildrenNewData1(res.data)
           this.queryConfig.forEach(item => {
-            if (item.field === 'trackProName') {
+            if (item.field === 'proCodes') {
               this.$set(item.itemRender, 'options', treeResdata)
               // item.itemRender.options = treeResdata
             }
@@ -504,7 +507,7 @@ export default {
     queryActionLog(row) {
       HttpModule.getLogs(row.dealNo).then(res => {
         if (res.code === '000000') {
-          let tempData = res.data.map(item => {
+          let tempData = res.data?.map(item => {
             return {
               logid: item['operationTypeCode'],
               nodeName: item['operationTypeName'],
@@ -571,7 +574,7 @@ export default {
             condition[key] = this.searchDataList[key]
           } else if (typeof this.searchDataList[key] === 'string') {
             if (this.searchDataList[key].trim() !== '') {
-              this.searchDataList[key].split(',').forEach((item) => {
+              this.searchDataList[key]?.split(',').forEach((item) => {
                 condition[key].push(item)
               })
             }
@@ -581,9 +584,9 @@ export default {
       console.log(val, '-------------')
       // this.agencyCodeList = val.agencyCodeList_code__multiple
       this.condition = condition
-      this.searchDataList.trackProName = this.searchDataList.trackProName.split(',')
-      this.searchDataList.trackProName = this.searchDataList.trackProName.map(item => {
-        return item.split('##')[0]
+      this.searchDataList.proCodes = this.searchDataList.proCodes?.split(',')
+      this.searchDataList.proCodes = this.searchDataList.proCodes?.map(item => {
+        return item?.split('##')[0]
       })
       console.log(this.searchDataList, this.condition)
       this.queryTableDatas()
@@ -639,9 +642,9 @@ export default {
       }
       if (obj.property === 'agencyCodeList') {
         let arr = []
-        obj.itemValue && obj.itemValue.split(',')?.map(v => {
+        obj.itemValue && obj.itemValue?.split(',')?.map(v => {
           if (v?.length > 0) {
-            arr.push(v.split('#')[0])
+            arr.push(v?.split('#')[0])
           }
         })
         this.agencyCodeList = arr
@@ -817,6 +820,8 @@ export default {
     },
     dialogClose() {
       this.searchDataList.payCertNo = ''
+      this.searchDataList.warnStartTime = ''
+      this.searchDataList.warnTime = ''
       this.$parent.detailVisible = false
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery === 'true') {
         return
@@ -845,6 +850,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-疑点信息明细`
           break
         case 'redNormalNum':
@@ -855,6 +861,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'redNotRectifiedNum':
@@ -865,6 +872,7 @@ export default {
           this.isHandle = false
           this.isSign = '2'
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-待整改明细`
           break
         case 'redDoneNum':
@@ -876,6 +884,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-已整改明细`
           break
         case 'orangeUndoNum':
@@ -886,6 +895,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'orangeNormalNum':
@@ -896,6 +906,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'orangeNotRectifiedNum':
@@ -906,6 +917,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'orangeDoneNum':
@@ -916,6 +928,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'yellowUndoNum':
@@ -926,6 +939,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'yellowNormalNum':
@@ -936,6 +950,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'yellowNotRectifiedNum':
@@ -946,6 +961,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'yellowDoneNum':
@@ -956,6 +972,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'blueUndoNum':
@@ -966,6 +983,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'blueNormalNum':
@@ -976,6 +994,7 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
         case 'blueNotRectifiedNum':// 未完成
@@ -986,6 +1005,7 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
+          this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'blueDoneNum':
@@ -996,6 +1016,7 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         default:
@@ -1067,7 +1088,7 @@ export default {
         businessNo: this.condition.businessNo ? this.condition.businessNo[0] : '',
         isFilterByPerm: transJson(this.$store.state.curNavModule.param5)?.isFilterByPerm,
         businessModuleCode: this.bussnessId || undefined,
-        trackProName: this.searchDataList.trackProName ? this.searchDataList.trackProName : '',
+        proCodes: this.searchDataList.proCodes ? this.searchDataList.proCodes : [],
         roleguid: this.$store.state.curNavModule.roleguid,
         warnStartDate: this.searchDataList.warnStartDate && moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD'),
         warnEndDate: this.searchDataList.warnEndDate && moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD'),
@@ -1083,8 +1104,8 @@ export default {
         ruleCodes: []
       }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
-        params.ruleCodes = this.searchDataList.ruleCodes.split(',').map(item => {
-          return item.split('##')[0]
+        params.ruleCodes = this.searchDataList.ruleCodes?.split(',')?.map(item => {
+          return item?.split('##')[0]
         })
       }
       // 有菜单有主题参数则 则用主题参数
@@ -1102,7 +1123,7 @@ export default {
         })
       }
       if (!params.warnTime && params.triggerMonitorDate) {
-        params.warnTime = params.triggerMonitorDate
+        params.warnTime = params.triggerMonitorDate + ' 00:00:00'
       }
       if (this.fiRuleCode === null || this.fiRuleCode === '') {
         params.mofDivCode = this.mofDivCode
@@ -1120,9 +1141,9 @@ export default {
           if (res.code === '000000') {
             this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
-              this.tableData = res.data.results.map(item => {
+              this.tableData = res.data.results?.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
               return
             }
@@ -1146,9 +1167,9 @@ export default {
           if (res.code === '000000') {
             this.pagerConfig.total = res.data.totalCount
             if (this.$store.state.userInfo.province.slice(0, 2) === '15') {
-              this.tableData = res.data.results.map(item => {
+              this.tableData = res.data.results?.map(item => {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
-                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr.map(item => item.field)))
+                return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
               return
             }
@@ -1204,11 +1225,11 @@ export default {
     },
     transJson(str) {
       if (!str) return
-      var params = str.split(',')
+      var params = str?.split(',')
       var result = {}
       if (params && params.length > 0) {
         for (var i = 0; i < params.length; i++) {
-          var map = params[i].split('=')
+          var map = params[i]?.split('=')
           result[map[0]] = map[1]
         }
       }
@@ -1234,7 +1255,7 @@ export default {
       this.searchDataList.businessNo = ''
       this.searchDataList.fiRuleName = ''
       this.searchDataList.regulationClassName = ''
-      this.searchDataList.trackProName = ''
+      this.searchDataList.proCodes = ''
       this.searchDataList.triggerClass = ''
       this.searchDataList.warnStartTime = ''
       this.searchDataList.warnTime = ''
@@ -1253,7 +1274,7 @@ export default {
       this.condition.businessNo = ''
       this.condition.fiRuleName = ''
       this.condition.regulationClassName = ''
-      this.condition.trackProName = ''
+      this.condition.proCodes = ''
       this.condition.triggerClass = ''
       this.condition.warnStartTime = ''
       this.condition.warnTime = ''
@@ -1275,7 +1296,7 @@ export default {
     },
     pickObjectField(obj = {}, field) {
       let newObj = {}
-      Object.keys(obj).map(item => {
+      Object.keys(obj)?.map(item => {
         if (field.includes(item)) {
           newObj[item] = obj[item]
         }
@@ -1302,7 +1323,7 @@ export default {
         detailData.businessOffice = res.data.executeData?.manageMofDepCode + '-' + res.data.executeData?.manageMofDepName
         detailData.paymentMethod = res.data.executeData?.payTypeCode + '-' + res.data.executeData?.payTypeName
         detailData.isThrExp = filterText(res.data.executeData?.thrExpCode, res.data.executeData?.thrExpName)
-        detailData.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
+        detailData.proCodes = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.proCodes ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.proCodes : ''
         detailData.useDes = res.data.executeData && res.data.executeData?.useDes
         detailData.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
         detailData.xpayDate = res.data.executeData?.xpayDate
@@ -1380,7 +1401,7 @@ export default {
           return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
         })
       }
-      return detailColumns.map(item => {
+      return detailColumns?.map(item => {
         return { ...item, width: 180 }
       })
     },
@@ -1392,8 +1413,13 @@ export default {
       }
       var backIds = []
       selection.forEach(function (item, index) {
-        backIds.push({ warnid: item.warnid, dealNo: item.dealNo })
+        backIds.push({ warnid: item.warnid, dealNo: item.dealNo, dealId: item.dealId })
       })
+      let params = {
+        reqParams: backIds,
+        menuId: this.$store.state.curNavModule.guid,
+        type: this.backType
+      }
       this.$confirm('确定退回选中数据?', '提示', {
         confirmButtonText: '退回',
         cancelButtonText: '取消',
@@ -1401,9 +1427,10 @@ export default {
       }).then(() => {
         this.tableLoading = true
         HttpModule
-          .doBack(backIds)
+          .doBack(params)
           .then(res => {
             this.tableLoading = false
+            console.log('回退结果', res)
             if (res.code === '000000') {
               this.$message({
                 type: 'success',
@@ -1411,7 +1438,11 @@ export default {
               })
               this.queryTableDatas()
             } else {
-              this.$message.error(res.message)
+              this.$message({
+                type: 'error',
+                message: res.message
+              })
+              this.queryTableDatas()
             }
           })
           .finally(() => {
@@ -1469,6 +1500,7 @@ export default {
     this.$set(this.searchDataList, 'xPayDateStart', this.queryData.xPayDateStart)
     this.$set(this.searchDataList, 'xPayDateEnd', this.queryData.xPayDateEnd)
     this.$set(this.searchDataList, 'ruleCodes', this.queryData.ruleCodes)
+    this.$set(this.searchDataList, 'proCodes', this.queryData.proCodes)
     // 回显时间
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnStartDate' })].itemRender.props['value'] = this.searchDataList.warnStartDate
     this.queryConfig[this.queryConfig.findIndex(item => { return item.field === 'warnEndDate' })].itemRender.props['value'] = this.searchDataList.warnEndDate

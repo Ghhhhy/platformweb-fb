@@ -16,6 +16,8 @@ import { setupProjectPreoperation } from './setupProjectPreoperation.js'
 import BehaviorCollector from '@/utils/behaviorcollector.js'
 
 router.beforeEach(async (to, from, next) => {
+  console.log('%c路由跳转', 'background: green;color:white;padding:2px;border-radius:2px;', to)
+  console.log('%c菜单信息', 'background: green;color:white;padding:2px;border-radius:2px;', store.state.curNavModule)
   BehaviorCollector.initRouteMonitor({ to, from, state: store.state })
   BSUI.utilsLib.LoadingMark.showLoadingMark()
   setTimeout(function () { BSUI.utilsLib.LoadingMark.removeLoadingMark() }, 6000)

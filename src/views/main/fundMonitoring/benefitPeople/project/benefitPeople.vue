@@ -160,6 +160,7 @@ import HttpModule from '@/api/frame/main/fundMonitoring/benefitPeople.js'
 import { readLocalFile } from '@/utils/readLocalFile'
 import { checkRscode } from '@/utils/checkRscode'
 import { downloadByUrl } from '@/utils/download'
+import WebSocketClass from '@/utils/websocket.js'
 // import AddDialog from './children/addDialog'
 // import HttpModule from '@/api/frame/main/Monitoring/WarningDetailsByCompartment.js'
 export default {
@@ -433,9 +434,6 @@ export default {
         this.$message.warning('请先选择导入文件')
         return
       }
-      if (this.$store.getters.isNeiMeng) {
-        this.$refs.ImportModel.disabled = true
-      }
       if (this.fileConfig.fileType === '2' && this.$store.getters.isFuJian) {
         await HttpModule.queryCompanyInfo(this.fileConfig).then(async (res) => {
           this.$refs.ImportModel.disabled = false
@@ -460,7 +458,12 @@ export default {
           }
         })
       } else {
-        checkRscode(await HttpModule.importPersonAndCompany(this.fileConfig))
+        await HttpModule.importPersonAndCompany(this.fileConfig)
+        if (this.$store.getters.isNeiMeng) {
+          /* eslint-disable-next-line */
+         const socketInstance= new WebSocketClass('ws://47.109.31.211:6603'+'/dfr/websocket',this.$store.state.userInfo.guid, this.processStart)
+          return
+        }
         this.$refs.ImportModel.disabled = false
         this.$message.success('导入成功')
         this.dtos = []
@@ -515,6 +518,10 @@ export default {
         this.payAmt = ''
       }
       this.queryTableDatas()
+    },
+    processStart(response) {
+      console.log(123, response)
+      this.$message.success('导入成功')
     },
     bsToolbarClickEventTop(obj) {
       if (obj.code === '3') { // 实拨
