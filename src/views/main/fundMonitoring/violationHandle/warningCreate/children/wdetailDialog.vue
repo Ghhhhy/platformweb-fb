@@ -1145,9 +1145,25 @@ export default {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
                 return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
+              this.tableData = this.tableData?.map(item => {
+                return {
+                  ...item,
+                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+                }
+              })
               return
             }
             this.tableData = res.data.results
+            this.tableData = this.tableData.map(item => {
+              return {
+                ...item,
+                bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+              }
+            })
           } else {
             this.$message.error(res.message)
           }
@@ -1171,9 +1187,25 @@ export default {
                 let detailFormData = this.pickDetailData({ data: item.executeDataDetailVO })
                 return Object.assign({}, item, this.pickObjectField(detailFormData, this.tableColumnsConfigComputed.detailAddArr?.map(item => item.field)))
               })
+              this.tableData = this.tableData?.map(item => {
+                return {
+                  ...item,
+                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+                }
+              })
               return
             }
             this.tableData = res.data.results
+            this.tableData = this.tableData?.map(item => {
+              return {
+                ...item,
+                bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+              }
+            })
           } else {
             this.$message.error(res.message)
           }
@@ -1401,6 +1433,8 @@ export default {
           return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
         })
       }
+      // 查看违规详情的form配置和其冲突，列配置将code过滤，单独写
+      detailColumns = detailColumns.filter(item => item.field !== 'bgtMofDepCode')
       return detailColumns?.map(item => {
         return { ...item, width: 180 }
       })

@@ -374,7 +374,8 @@ export default {
     // 查询 table 数据
     queryTableDatas(flush) {
       const param = {
-        reportCode: this.reportCode,
+        // reportCode: this.reportCode,
+        ...this.params5,
         ...this.queryParams,
         ...this.tableDataParams.condition
       }

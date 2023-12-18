@@ -15,12 +15,30 @@ const budgetImpColumns = [
     exportFormatter: true
   },
   {
+    title: '指标管理处室',
+    width: 220,
+    field: 'bgtMofDepName',
+    align: 'center',
+    formatter({ row }) {
+      if (row.bgtMofDepCode && row.bgtMofDepName) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
+      }
+      return `${row.bgtMofDepName}`
+    }
+  },
+  {
     title: '业务处室',
     width: 180,
     field: 'manageMofDepName',
     sortable: false,
     filters: false,
-    align: 'center'
+    align: 'center',
+    formatter({ row }) {
+      if (row.manageMofDepCode && row.manageMofDepName) {
+        return `${row.manageMofDepCode}-${row.manageMofDepName}`
+      }
+      return `${row.manageMofDepName}`
+    }
   },
   // {
   //   title: '单位编码',
@@ -39,7 +57,7 @@ const budgetImpColumns = [
     filterRender: {
       name: 'FilterInput'
     },
-    align: 'center',
+    align: 'left',
     tooltipFormat: '{agencyCode}-{agencyName}',
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
@@ -1638,16 +1656,16 @@ const proconf = {
         props: { placeholder: '超时下达时间', disabled: true }
       }
     },
-    {
-      field: 'bgtMofDepCode',
-      title: '指标管理处室编码',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '指标管理处室编码', disabled: true }
-      }
-    },
+    // {
+    //   field: 'bgtMofDepCode',
+    //   title: '指标管理处室名称',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '指标管理处室编码', disabled: true }
+    //   }
+    // },
     {
       field: 'bgtMofDepName',
       title: '指标管理处室名称',
@@ -1657,8 +1675,18 @@ const proconf = {
         name: '$vxeInput',
         props: { placeholder: '指标管理处室名称', disabled: true }
       }
+    },
+    {
+      field: 'payCertNo',
+      title: '支付凭证号',
+      titleWidth: '180',
+      visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '支付凭证号', disabled: true }
+      }
     }
-
   ],
   bgtMsgConfig: [
     // {
@@ -2591,7 +2619,8 @@ const proconf = {
     voidOrNot: '',
     trackProName: '',
     xpayDate: '',
-    isMatCode: ''
+    isMatCode: '',
+    payCertNo: ''
   },
   indexMsgData: {
     timeoutIssueType: '',
@@ -2618,18 +2647,6 @@ const proconf = {
       align: 'left',
       cellRender: {
         name: '$vxeTableHref'
-      }
-    },
-    {
-      title: '指标管理处室',
-      width: 180,
-      field: 'bgtMofDepName',
-      visible: store.getters.isHLJ,
-      formatter({ row }) {
-        if (row.bgtMofDepCode && row.bgtMofDepName) {
-          return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
-        }
-        return `${row.bgtMofDepName}`
       }
     },
     {
