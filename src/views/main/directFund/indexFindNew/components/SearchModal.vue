@@ -247,7 +247,8 @@ export default {
       downParams: {
         corBgtDocNo: '',
         recDivCode: '',
-        trackProCode: ''
+        trackProCode: '',
+        bgtId: ''
       }
 
     }
@@ -422,6 +423,7 @@ export default {
       this.downParams.corBgtDocNo = obj.row.corBgtDocNo || ''
       this.downParams.recDivCode = obj.row.recDivCode || ''
       this.downParams.trackProCode = obj.row.trackProCode || ''
+      this.downParams.bgtId = obj.row.bgtId || ''
       await this.getBottomTableData(obj.row)
     },
     closeDialog(type) {
