@@ -5,7 +5,7 @@
       v-model="importModalVisible"
       width="800"
       title="导入"
-      @click="closeAndClear"
+      @close="closeAndClear"
     >
       <div class="import-download-template-up">
         <!-- 下载提示 -->
@@ -97,13 +97,15 @@ export default {
     },
     // 关闭对话框
     closeAndClear() {
-      this.importModalVisible = false
+      this.$emit('update:importModalVisible', false)
+      this.$emit('close')
     },
     onDownloadTemplateClick() {
       // 下载最新模板
       this.$emit('onDownloadTemplateClick', {}, this)
     },
     onImportFileClick() {
+      if (this.disabled) return
       // 选择文件
       this.$emit('onImportFileClick', {}, this)
     },
