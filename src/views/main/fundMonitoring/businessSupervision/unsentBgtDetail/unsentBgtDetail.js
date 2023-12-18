@@ -224,21 +224,6 @@ export let proconf = {
       cellRender: {
         name: '$vxeMoney'
       }
-    },
-    {
-      title: '制单人姓名',
-      width: 180,
-      field: 'creater',
-      sortable: true,
-      filters: true,
-      align: 'center',
-      cellRender: {
-        name: '$vxeInput',
-        options: [],
-        props: {
-          placeholder: '制单人姓名'
-        }
-      }
     }
   ]
 }

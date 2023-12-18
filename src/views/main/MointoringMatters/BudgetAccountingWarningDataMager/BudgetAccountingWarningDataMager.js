@@ -149,6 +149,7 @@ export let proconf = {
     businessFunctionCode: '',
     createTime: '',
     warnTotal: '',
+    businessFunctionName: '',
     payApplyNumber: ''
   },
   highQueryConfig1: [
@@ -272,6 +273,7 @@ export let proconf = {
   highQueryData1: {
     status: '',
     businessFunctionCode: '',
+    businessFunctionName: '',
     createTime: '',
     warnLevel: '',
     warnTotal: '',

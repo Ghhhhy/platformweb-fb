@@ -429,7 +429,6 @@ export default {
       warningCode: '',
       businessId: '',
       formVisible: true,
-
       fiRuleCode: '',
       showGlAttachmentDialog: false,
       agencyCodeList: [],
@@ -556,6 +555,9 @@ export default {
       if (this.searchDataList.businessFunctionCode && this.searchDataList.businessFunctionCode.trim() !== '') {
         condition.businessFunctionCode = this.searchDataList.businessFunctionCode
       }
+      if (this.searchDataList.businessFunctionName) {
+        condition.businessFunctionName = this.searchDataList.businessFunctionName
+      }
       if (this.searchDataList.createTime && this.searchDataList.createTime.trim() !== '') {
         let createTime = this.searchDataList.createTime.toString()
         let createTime1 = createTime.substring(0, 10)
@@ -574,6 +576,8 @@ export default {
           'status': this.condition.status ? this.condition.status.toString() : '',
           'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
           'createTime': this.condition.createTime.length !== 0 ? this.condition.createTime.toString() : null,
+          'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
+          'businessFunctionName': this.condition.businessFunctionName ? this.condition.businessFunctionName : '',
           warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
           warnLevel: '3',
           agencyCodeList: this.agencyCodeList,
@@ -796,12 +800,34 @@ export default {
       this.treeGlobalConfig.inputVal = val
     },
     onClickmethod(node) {
-      if (node.children !== null && node.children.length !== 0 && node.id !== '0') {
+      if (node.children !== null && node.children.length !== 0 && node.id !== '0' && !this.$store.getters.isSx) {
         return
       }
+      let condition = this.getConditionList()
       if (this.formVisible) {
         this.queryConfig = proconf.highQueryConfig
-        this.searchDataList = proconf.highQueryData
+        if (!this.$store.getters.isSx) {
+          this.searchDataList = proconf.highQueryData
+        } else {
+          if (node.children.length === 0) {
+            if (this.searchDataList.status && this.searchDataList.status.trim() !== '') {
+              condition.status = this.searchDataList.status
+            }
+            if (this.searchDataList.warnTotal && this.searchDataList.warnTotal.trim() !== '') {
+              condition.warnTotal = this.searchDataList.warnTotal
+            }
+            if (this.searchDataList.createTime && this.searchDataList.createTime.trim() !== '') {
+              let createTime = this.searchDataList.createTime.toString()
+              let createTime1 = createTime.substring(0, 10)
+              condition.createTime = createTime1
+            }
+            this.searchDataList.businessFunctionCode = node.code
+            this.searchDataList.businessFunctionName = node.businessName
+          } else {
+            this.searchDataList.businessFunctionCode = ''
+            this.searchDataList.businessFunctionName = ''
+          }
+        }
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
@@ -809,9 +835,11 @@ export default {
           fiRuleCode: this.fiRuleCode,
           handleResult: this.toolBarStatusSelect.curValue,
           'status': this.condition.status ? this.condition.status.toString() : '',
-          'businessFunctionCode': this.condition.businessFunctionCode ? this.condition.businessFunctionCode.toString() : '',
+          'payApplyNumber': this.condition.payApplyNumber ? this.condition.payApplyNumber.toString() : '',
+          'businessFunctionCode': this.searchDataList.businessFunctionCode ? this.searchDataList.businessFunctionCode.toString() : '',
           'createTime': this.condition.createTime ? this.condition.createTime.toString() : null,
-          businessFunctionName: node.businessName,
+          businessFunctionName: this.searchDataList.businessFunctionName,
+          warnTotal: this.condition.warnTotal ? this.condition.warnTotal.toString() : '',
           warnLevel: '3',
           agencyCodeList: this.agencyCodeList,
           regulationClass: this.params5
