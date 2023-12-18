@@ -1668,12 +1668,23 @@ const proconf = {
     // },
     {
       field: 'bgtMofDepName',
-      title: '指标管理处室名称',
+      title: '指标管理处室',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '指标管理处室名称', disabled: true }
+      }
+    },
+    {
+      field: 'manageMofDepName',
+      title: '业务处室',
+      titleWidth: '180',
+      visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '业务处室', disabled: true }
       }
     },
     {

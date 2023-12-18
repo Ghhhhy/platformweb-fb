@@ -687,6 +687,7 @@ export default {
               this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
               this.supplyDataList.payCertNo = res.data.baBgtInfoEntity.payCertNo
               this.supplyDataList.bgtMofDepName = res.data.baBgtInfoEntity.bgtMofDepCode + '-' + res.data.baBgtInfoEntity.bgtMofDepName
+              this.supplyDataList.manageMofDepName = res.data.baBgtInfoEntity.manageMofDepCode + '-' + res.data.baBgtInfoEntity.manageMofDepName
             }
             this.handletableData = res.data?.regulationList
           } else {
