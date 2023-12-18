@@ -57,7 +57,7 @@ const budgetImpColumns = [
     filterRender: {
       name: 'FilterInput'
     },
-    align: 'center',
+    align: 'left',
     tooltipFormat: '{agencyCode}-{agencyName}',
     formatter({ row }) {
       return row.agencyCode && row.agencyName ? `${row.agencyCode}-${row.agencyName}` : ''
@@ -1656,16 +1656,16 @@ const proconf = {
         props: { placeholder: '超时下达时间', disabled: true }
       }
     },
-    {
-      field: 'bgtMofDepCode',
-      title: '指标管理处室名称',
-      titleWidth: '180',
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '指标管理处室编码', disabled: true }
-      }
-    },
+    // {
+    //   field: 'bgtMofDepCode',
+    //   title: '指标管理处室名称',
+    //   titleWidth: '180',
+    //   span: 8,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     props: { placeholder: '指标管理处室编码', disabled: true }
+    //   }
+    // },
     {
       field: 'bgtMofDepName',
       title: '指标管理处室名称',
