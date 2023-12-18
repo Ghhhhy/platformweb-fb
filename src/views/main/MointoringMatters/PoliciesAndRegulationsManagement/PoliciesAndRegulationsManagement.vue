@@ -98,12 +98,15 @@ import AddDialog from './children/addDialog'
 import HttpModule from '@/api/frame/main/Monitoring/Policies.js'
 import GlAttachment from '../common/GlAttachment'
 import DetailDialog from './children/dedailDialog'
+import mix from '@/mixin/commonMixin.js'
+
 export default {
   components: {
     AddDialog,
     GlAttachment,
     DetailDialog
   },
+  mixins: [mix],
   watch: {
     queryConfig() {
       this.getSearchDataList()
@@ -561,6 +564,10 @@ export default {
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     if (this.menuId === '266A441A752111ECA9A7B8F0F910FFFB') {
+      this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarSelectButton
+    }
+    // "政策法规查询"菜单，对用户来说仅用于查询
+    if (+this.param5.onlyView === 1) {
       this.toolBarStatusBtnConfig.buttonsInfo = proconf.statusRightToolBarSelectButton
     }
     this.roleguid = this.$store.state.curNavModule.roleguid

@@ -1473,10 +1473,9 @@ export default {
               this.queryTableDatas()
             } else {
               this.$message({
-                type: 'error',
+                type: 'warning',
                 message: res.message
               })
-              this.queryTableDatas()
             }
           })
           .finally(() => {
