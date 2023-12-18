@@ -331,7 +331,7 @@ export default {
           if (res.data.isbudgetbegin === 0 && res.data.datatype !== 8) {
             self.$message('预算编报已关闭')
           } else {
-            this.$store.commit('setCurMenuObj', obj)
+            this.$store.commit('setCurMenuObj', this.deepCopy(obj))
             // this.registTabComs(obj)
           }
         }).catch(error => {
@@ -340,7 +340,7 @@ export default {
         })
       } else {
         self.$refs.keepAlive.destroy(obj.url)
-        this.$store.commit('setCurMenuObj', obj)
+        this.$store.commit('setCurMenuObj', this.deepCopy(obj))
         // this.registTabComs(obj)
       }
     },
