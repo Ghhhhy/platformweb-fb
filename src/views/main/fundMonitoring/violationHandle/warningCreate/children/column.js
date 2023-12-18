@@ -15,12 +15,30 @@ const budgetImpColumns = [
     exportFormatter: true
   },
   {
+    title: '指标管理处室',
+    width: 220,
+    field: 'bgtMofDepName',
+    align: 'center',
+    formatter({ row }) {
+      if (row.bgtMofDepCode && row.bgtMofDepName) {
+        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
+      }
+      return `${row.bgtMofDepName}`
+    }
+  },
+  {
     title: '业务处室',
     width: 180,
     field: 'manageMofDepName',
     sortable: false,
     filters: false,
-    align: 'center'
+    align: 'center',
+    formatter({ row }) {
+      if (row.manageMofDepCode && row.manageMofDepName) {
+        return `${row.manageMofDepCode}-${row.manageMofDepName}`
+      }
+      return `${row.manageMofDepName}`
+    }
   },
   // {
   //   title: '单位编码',
@@ -196,18 +214,6 @@ const budgetImpColumns = [
       return `${row.proName}`
     },
     exportFormatter: true
-  },
-  {
-    title: '指标管理处室',
-    width: 220,
-    field: 'bgtMofDepName',
-    align: 'center',
-    formatter({ row }) {
-      if (row.bgtMofDepCode && row.bgtMofDepName) {
-        return `${row.bgtMofDepCode}-${row.bgtMofDepName}`
-      }
-      return `${row.bgtMofDepName}`
-    }
   }
 ]
 // 预算管理表头(只用于专项监督0207)

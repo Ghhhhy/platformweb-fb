@@ -1149,7 +1149,8 @@ export default {
                 return {
                   ...item,
                   bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
                 }
               })
               return
@@ -1159,7 +1160,8 @@ export default {
               return {
                 ...item,
                 bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName
+                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
               }
             })
           } else {
@@ -1189,7 +1191,8 @@ export default {
                 return {
                   ...item,
                   bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
                 }
               })
               return
@@ -1199,7 +1202,8 @@ export default {
               return {
                 ...item,
                 bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName
+                bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
               }
             })
           } else {
