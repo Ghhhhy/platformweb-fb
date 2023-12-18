@@ -1,7 +1,7 @@
 import { postDownloadXlsxInArrayBuffer } from '@/api/http'
 import { onMounted, ref, unref, getCurrentInstance } from '@vue/composition-api'
 export default function useExportAll (propParams) {
-  const context = getCurrentInstance().proxy
+  const context = getCurrentInstance()?.proxy
   const defaultConfig = {
     ref: 'bsTableRef', // 请确保唯一
     fileName: '下载文件',
@@ -69,7 +69,7 @@ export default function useExportAll (propParams) {
     // 文件流保存
     await postDownloadXlsxInArrayBuffer(BSURL.dfr_zdzjledgerExportData, defaultConfig.params, defaultConfig.fileName)
     // to do something
-    requestLoading.value = true
+    requestLoading.value = false
   }
 
   onMounted(() => {
