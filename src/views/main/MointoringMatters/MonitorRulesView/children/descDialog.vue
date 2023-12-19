@@ -2,6 +2,7 @@
 <template>
   <vxe-modal
     v-model="descVisible"
+    v-loading="descLoading"
     :title="title"
     width="50%"
     height="35%"
@@ -67,8 +68,10 @@ export default {
   },
   data() {
     return {
+      showbox: false,
       descVisible: true,
-      desc: ''
+      desc: '',
+      descLoading: false
     }
   },
   methods: {
@@ -81,6 +84,8 @@ export default {
         this.$message.warning('请输入事由')
         return
       }
+      this.$message.info('保存中')
+      this.descLoading = true
       if (this.title === '启用事由') {
         const params = {
           regulationCodes: this.idList,

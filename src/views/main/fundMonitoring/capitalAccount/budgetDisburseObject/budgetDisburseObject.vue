@@ -363,7 +363,7 @@ export default {
       regulationclass: '',
       firulename: '',
       tableData: [],
-      mofDivCode: '610000000',
+      mofDivCode: this.$store.state.userInfo.province,
       fiscalYear: '',
       speTypeName: '',
       trackProName: '',

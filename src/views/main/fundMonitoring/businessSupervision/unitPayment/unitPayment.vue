@@ -687,16 +687,16 @@ export default {
           // treeResdata.forEach(item => {
           //   item.label = item.id + '-' + item.businessName
           // })
-          // const result = [
-          //   {
-          //     id: 'root',
-          //     label: '全部',
-          //     code: 'root',
-          //     isleaf: '0',
-          //     children: treeResdata
-          //   }
-          // ]
-          this.treeData = treeResdata
+          const result = [
+            {
+              id: 'root',
+              label: '全部',
+              code: 'root',
+              isleaf: '0',
+              children: treeResdata
+            }
+          ]
+          this.treeData = result
         } else {
           this.$message.error('左侧树加载失败')
         }

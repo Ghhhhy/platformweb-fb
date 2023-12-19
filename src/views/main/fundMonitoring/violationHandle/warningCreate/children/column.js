@@ -315,11 +315,12 @@ const budgetManagementColumns = [
   {
     field: 'curAmt',
     title: '指标余额',
+    width: 180,
     titleWidth: '180',
     sortable: true,
     span: 8,
     itemRender: {
-      name: '$vxeInput',
+      name: '$vxeMoney',
       props: { placeholder: '指标余额', disabled: true }
     }
   },
@@ -327,6 +328,7 @@ const budgetManagementColumns = [
     field: 'timeoutIssueAmount',
     title: '超时下达金额',
     titleWidth: '180',
+    width: 180,
     sortable: true,
     span: 8,
     itemRender: {
@@ -337,6 +339,7 @@ const budgetManagementColumns = [
   {
     field: 'timeoutIssueTime',
     title: '超时下达时间',
+    width: 180,
     sortable: true,
     titleWidth: '180',
     span: 8,
@@ -1668,12 +1671,23 @@ const proconf = {
     // },
     {
       field: 'bgtMofDepName',
-      title: '指标管理处室名称',
+      title: '指标管理处室',
       titleWidth: '180',
       span: 8,
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '指标管理处室名称', disabled: true }
+      }
+    },
+    {
+      field: 'manageMofDepName',
+      title: '业务处室',
+      titleWidth: '180',
+      visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '业务处室', disabled: true }
       }
     },
     {
