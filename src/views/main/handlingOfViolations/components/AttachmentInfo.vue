@@ -34,6 +34,7 @@
     </div>
     <div v-else>
       <BsTable
+        ref="table"
         :loading="loading"
         :table-config="tableConfig"
         :table-columns-config="columns"
@@ -43,12 +44,17 @@
         :max-height="260"
         size="medium"
       />
+      <FilePreview
+        v-if="filePreviewDialogVisible"
+        :visible.sync="filePreviewDialogVisible"
+        :file-guid="fileGuid"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { computed, defineComponent, inject, unref } from '@vue/composition-api'
+import { computed, defineComponent, inject, unref, ref } from '@vue/composition-api'
 import { readLocalFile } from '@/utils/readLocalFile'
 import useLoadingState from '@/hooks/useLoadingState'
 import useTable from '@/hooks/useTable'
@@ -60,10 +66,13 @@ import { fileColumns } from '../model/data'
 import { uploadFile } from '@/api/frame/common/file'
 import { checkRscode } from '@/utils/checkRscode'
 import { downloadByFileId } from '@/utils/download'
-
+import FilePreview from './filePreview.vue'
 // 附件最大值(1M)
 const maxSize = 1024 * 1024 * 10
 export default defineComponent({
+  components: {
+    FilePreview
+  },
   props: {
     // 文件列表
     fileList: {
@@ -166,7 +175,22 @@ export default defineComponent({
     function downloadHandle({ row }) {
       downloadByFileId(row.fileguid)
     }
-
+    /**
+     * 预览附件
+     */
+    let fileGuid = ref('')
+    let filePreviewDialogVisible = ref(false)
+    function previewHandle() {
+      let selection = this.$refs.table.getSelectionData()
+      if (selection.length === 1) {
+        // this.downloadParams.fileguid = selection[0].fileguid
+        // this.appId = data.appid
+        fileGuid.value = selection[0].fileguid
+        filePreviewDialogVisible.value = true
+      } else {
+        this.$message.error('请选择一条数据！')
+      }
+    }
     // 操作列
     const columnActions = [
       {
@@ -174,6 +198,12 @@ export default defineComponent({
         // ri-download-cloud-fill
         class: 'cursor f-c-c',
         handle: downloadHandle
+      },
+      {
+        label: '预览',
+        // ri-download-cloud-fill
+        class: 'cursor f-c-c',
+        handle: previewHandle
       }
     ]
     /**
@@ -206,7 +236,10 @@ export default defineComponent({
       deleteFileHandle,
 
       columns,
-      tableConfig
+      tableConfig,
+
+      fileGuid,
+      filePreviewDialogVisible
     }
   }
 })
