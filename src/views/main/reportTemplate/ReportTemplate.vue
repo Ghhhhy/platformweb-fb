@@ -340,7 +340,7 @@ export default {
         return
       }
       if (obj.column.own.insertType === 'file') {
-        showFileModal({})
+        showFileModal(this.globalConfig?.fileClickModalConfig || obj.column.own.fileClickModalConfig)
         return
       }
       this.penetrateTableId = obj.column.own.penetrateTable
