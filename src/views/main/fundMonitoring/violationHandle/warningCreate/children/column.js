@@ -1521,6 +1521,28 @@ const proconf = {
       }
     },
     {
+      title: '业务类型',
+      field: 'payBusTypeName',
+      span: 8,
+      visible: store.getters.isHLJ,
+      titleWidth: '180',
+      itemRender: {
+        name: '$vxeInput',
+        props: { disabled: true, placeholder: '业务类型' }
+      }
+    },
+    {
+      field: 'payCertNo',
+      title: '支付凭证号',
+      titleWidth: '180',
+      visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '支付凭证号', disabled: true }
+      }
+    },
+    {
       title: '是否配套',
       field: 'isMatCode',
       span: 8,
@@ -1688,17 +1710,6 @@ const proconf = {
       itemRender: {
         name: '$vxeInput',
         props: { placeholder: '业务处室', disabled: true }
-      }
-    },
-    {
-      field: 'payCertNo',
-      title: '支付凭证号',
-      titleWidth: '180',
-      visible: store.getters.isHLJ,
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '支付凭证号', disabled: true }
       }
     }
   ],
