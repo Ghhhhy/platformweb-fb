@@ -33,7 +33,7 @@ export default defineComponent({
     let clickRowData = ref({})
     const detailVisible = ref(false)
     const modalLayout = reactive({
-      title: '未填报惠企项目明细',
+      title: '未填报惠企项目明细', // 这个标题已不取这里的，由调用的时候$refs.notFillModal.modalLayout.title做了更改
       width: '96%',
       height: '90%',
       showFooter: true,
@@ -88,6 +88,7 @@ export default defineComponent({
     const onSearch = () => {
       formLoading.value = true
       const params = {
+        reportCode: 'wtbhqlm_mx',
         fiscalYear: store.state.userInfo.year,
         mofDivCode: clickRowData.value.code,
         isSubCode: clickRowData.value.isSubCode,
