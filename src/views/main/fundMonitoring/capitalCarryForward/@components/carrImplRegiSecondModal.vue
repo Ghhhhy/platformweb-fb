@@ -113,6 +113,8 @@ export default defineComponent({
           mofDivCodes: mofDivCodes.value,
           proCodes: proCodes.value,
           endTime: endTime.value ? endTime.value[0] : '',
+          proCode1: store.getters.isFuJian ? injectData.value.proCode : '',
+          xjExpFuncCode: store.getters.isFuJian ? injectData.value.xjExpFuncCode : '',
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
