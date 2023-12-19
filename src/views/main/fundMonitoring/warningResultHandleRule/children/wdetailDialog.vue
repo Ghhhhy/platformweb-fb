@@ -208,6 +208,7 @@ export default {
       affirmDialogVisibles: false,
       dialogTitle1: '整改意见',
       fiscalYear: '',
+      newTitle: this.title,
       selectData: {},
       trackProCodes: []
     }
@@ -296,35 +297,35 @@ export default {
       this.tabSelect = obj.curValue
       let diffColumns = []
       if (this.tabSelect === '1') {
-        this.title = '红灯-未处理明细'
+        this.newTitle = '红灯-未处理明细'
         this.detailType = 'numbernofileNum'
         diffColumns = proconf.redUndoNum
       } else if (this.tabSelect === '2') {
-        this.title = '红灯-已整改明细'
+        this.newTitle = '红灯-已整改明细'
         this.detailType = 'numberfileNum'
         diffColumns = proconf.redDoneNum
       } else if (this.tabSelect === '5') {
-        this.title = '黄灯-未处理明细'
+        this.newTitle = '黄灯-未处理明细'
         this.detailType = 'numberwarnUndoNum'
         diffColumns = proconf.orangeUndoNum
       } else if (this.tabSelect === '6') {
-        this.title = '黄灯-已认定明细'
+        this.newTitle = '黄灯-已认定明细'
         this.detailType = 'numberwarndoNum'
         diffColumns = proconf.orangeDoneNum
       } else if (this.tabSelect === '7') {
-        this.title = '黄灯-认定违规-未处理明细'
+        this.newTitle = '黄灯-认定违规-未处理明细'
         this.detailType = 'numberwarnUndoNoNum'
         diffColumns = proconf.yellowUndoNum
       } else if (this.tabSelect === '8') {
-        this.title = '黄灯-认定违规-已认定明细'
+        this.newTitle = '黄灯-认定违规-已认定明细'
         diffColumns = proconf.yellowDoneNum
         this.detailType = 'numberwarndidNum'
       } else if (this.tabSelect === '9') {
-        this.title = '黄色警铃-未处理明细'
+        this.newTitle = '黄色警铃-未处理明细'
         this.detailType = 'numberhqlmUndoNum'
         diffColumns = proconf.yellowUndoNumw
       } else if (this.tabSelect === '10') {
-        this.title = '黄色警铃-已整改明细'
+        this.newTitle = '黄色警铃-已整改明细'
         this.detailType = 'numberhqlmdoNum'
         diffColumns = proconf.yellowDoneNumw
       } else {
@@ -343,7 +344,6 @@ export default {
           }
         ]
         this.tableColumnsConfig = diffColumns.concat(specialColumns)
-        return
       }
       this.condition = {}
       this.pagerConfig.currentPage = 1
@@ -481,7 +481,7 @@ export default {
       this.fiscalYear = this.detailData[2]
       this.trackProCodes = this.detailData[3]
       let diffColumns = []
-      switch (this.title) {
+      switch (this.newTitle) {
         case '红灯-未处理明细':
           diffColumns = proconf.redUndoNum
           this.tabStatusBtnConfig.buttons = statusButtons

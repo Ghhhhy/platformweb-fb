@@ -370,6 +370,7 @@ export default {
         if (!obj.column.own.canInsert) {
           return
         }
+        this.$refs.notFillModal.modalLayout.title = `未填报${obj.column.title || '惠企利民'}项目明细`
         this.$refs.notFillModal.detailVisible = true
         this.$refs.notFillModal.clickRowData = { ...obj.row, isSubCode: obj.column.own.isSubCode }
         this.$refs.notFillModal.onSearch()
