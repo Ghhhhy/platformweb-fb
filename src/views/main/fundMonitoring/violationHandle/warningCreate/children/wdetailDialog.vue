@@ -1490,11 +1490,7 @@ export default {
       })
     },
     isXmProject() { // 是否是厦门项目
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
-        return true
-      }
-      return false
+      return this.$store.getters.isXm
     }
   },
   async mounted() {

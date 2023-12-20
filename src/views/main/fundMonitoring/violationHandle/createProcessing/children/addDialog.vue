@@ -378,11 +378,7 @@ export default {
       return false
     },
     isXmProject() { // 是否是厦门项目
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
-        return true
-      }
-      return false
+      return this.$store.getters.isXm
     },
     phoneIsRequire() {
       const { province } = this.$store.state.userInfo
@@ -490,6 +486,7 @@ export default {
   data() {
     return {
       xmDisabled: false,
+      isFlow: false,
       // 规则详情信息
       DetailData: {},
       formDatas: {},
@@ -1037,6 +1034,11 @@ export default {
         fiRuleCode: this.detailData[0].fiRuleCode,
         warningCode: this.detailData[0].warningCode
       }
+      if (this.isXmProject && this.isFlow && param.handleResult === '2') {
+        // 厦门生成走事后工作流的时候 认定违规 额外传参
+        param.issueFlag = 2
+        param.issueType = 1
+      }
       this.addLoading = true
       await HttpModule.handleAdd(param).then(res => {
         if (res.code === '000000') {
@@ -1314,7 +1316,7 @@ export default {
       immediate: true
     }
   },
-  created() {
+  async created() {
     // 只有查看详情是才会动态渲染  且要根据路由去动态渲染
     const routes = ['CompanyRetroactBySpecial', 'DepartmentRetroactBySpecial', 'DepartmentRetroact', 'CompanyRetroact', 'QueryProcessing']
     if (this.title === '查看详情信息' && routes.includes(this.$route.name)) {
@@ -1324,6 +1326,8 @@ export default {
         return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
       })
     }
+    let { data } = await HttpModule.getIsFlow()// 判断是不是走工作流
+    this.isFlow = data
     this.isManagement = this.title === '监控问询单信息' && this.routes.includes(this.$route.name) && [6, '6', 2, '2'].includes(this.bussnessId)
     if (this.isManagement) {
       this.options = this.options2
