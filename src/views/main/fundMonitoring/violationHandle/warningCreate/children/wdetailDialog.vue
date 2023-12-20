@@ -22,6 +22,7 @@
         >
           <template v-if="['2','3','4'].includes(tabSelect) && param5.isQuery !== 'true' && param5.isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
+              v-if="!($store.getters.isXm && tabSelect === '3')"
               size="medium"
               @click="doBack"
             >退回</vxe-button>
