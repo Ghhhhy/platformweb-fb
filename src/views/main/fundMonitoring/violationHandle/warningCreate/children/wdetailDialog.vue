@@ -1452,7 +1452,8 @@ export default {
       let params = {
         reqParams: backIds,
         menuId: this.$store.state.curNavModule.guid,
-        type: this.backType
+        type: this.backType,
+        regulationClass: transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       this.$confirm('确定退回选中数据?', '提示', {
         confirmButtonText: '退回',
