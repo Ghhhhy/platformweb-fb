@@ -34,7 +34,7 @@
     </div>
     <div v-else>
       <BsTable
-        ref="table"
+        ref="tableRef"
         :loading="loading"
         :table-config="tableConfig"
         :table-columns-config="columns"
@@ -180,27 +180,21 @@ export default defineComponent({
      */
     let fileGuid = ref('')
     let filePreviewDialogVisible = ref(false)
-    function previewHandle() {
-      let selection = this.$refs.table.getSelectionData()
-      if (selection.length === 1) {
-        // this.downloadParams.fileguid = selection[0].fileguid
-        // this.appId = data.appid
-        fileGuid.value = selection[0].fileguid
-        filePreviewDialogVisible.value = true
-      } else {
-        this.$message.error('请选择一条数据！')
-      }
+    let tableRef = ref(null)
+    function previewHandle({ row }) {
+      fileGuid.value = row.fileguid
+      filePreviewDialogVisible.value = true
     }
     // 操作列
     const columnActions = [
       {
-        label: '下载',
+        label: '下载 ',
         // ri-download-cloud-fill
         class: 'cursor f-c-c',
         handle: downloadHandle
       },
       {
-        label: '预览',
+        label: ' 预览',
         // ri-download-cloud-fill
         class: 'cursor f-c-c',
         handle: previewHandle
@@ -239,7 +233,9 @@ export default defineComponent({
       tableConfig,
 
       fileGuid,
-      filePreviewDialogVisible
+      filePreviewDialogVisible,
+      previewHandle,
+      tableRef
     }
   }
 })
@@ -306,5 +302,8 @@ export default defineComponent({
       }
     }
   }
+}
+::v-deep .vxe-cell.c--tooltip {
+  display: flex;
 }
 </style>

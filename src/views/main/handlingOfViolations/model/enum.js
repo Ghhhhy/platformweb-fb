@@ -100,7 +100,7 @@ export const ActionTypeEnum = {
  * 预警级别枚举
  * @type {{RED: string, BLUE: string, YELLOW: string, ORANGE: string}}
  */
-const NeiMengWarnLevelEnum = {
+export const NeiMengWarnLevelEnum = {
   // 红色预警
   RED: '3',
   // 橙色预警
@@ -110,7 +110,7 @@ const NeiMengWarnLevelEnum = {
   // 蓝色预警
   BLUE: '1'
 }
-export const WarnLevelEnum = store.getters.isNeiMeng ? NeiMengWarnLevelEnum : {
+export const WarnLevelEnum = {
   // 红色预警
   RED: '1',
   // 橙色预警
@@ -120,7 +120,6 @@ export const WarnLevelEnum = store.getters.isNeiMeng ? NeiMengWarnLevelEnum : {
   // 蓝色预警
   BLUE: '4'
 }
-
 /**
  * 文件状态
  * @type {{}}

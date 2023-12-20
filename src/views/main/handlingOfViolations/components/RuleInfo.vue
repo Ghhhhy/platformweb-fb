@@ -73,9 +73,9 @@
 <script>
 import { defineComponent, computed, inject, unref } from '@vue/composition-api'
 import { formatterThousands } from '@/utils/thousands'
-import { warnLevelOptions, warnTypeOptions } from '../model/data'
+import { warnLevelOptions, warnTypeOptions, NeiMengwarnLevelOptions } from '../model/data'
 import { RouterPathEnum } from '../model/enum'
-
+import store from '@/store'
 export default defineComponent({
   props: {
     ruleInfo: {
@@ -86,6 +86,9 @@ export default defineComponent({
   setup(props) {
     // 预警级别
     const warnLevelOption = computed(() => {
+      if (store.getters.isNeiMeng) {
+        return NeiMengwarnLevelOptions.find(item => String(item.value) === String(props.ruleInfo?.warnLevel)) || {}
+      }
       return warnLevelOptions.find(item => String(item.value) === String(props.ruleInfo?.warnLevel)) || {}
     })
 
