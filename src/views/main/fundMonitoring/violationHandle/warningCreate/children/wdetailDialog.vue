@@ -1148,9 +1148,9 @@ export default {
               this.tableData = this.tableData?.map(item => {
                 return {
                   ...item,
-                  bgtMofDepCode: item?.executeDataDetailVO?.executeData?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.executeData?.bgtMofDepName,
-                  manageMofDepCode: item?.executeDataDetailVO?.executeData?.manageMofDepCode
+                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
                 }
               })
               return
@@ -1190,9 +1190,9 @@ export default {
               this.tableData = this.tableData?.map(item => {
                 return {
                   ...item,
-                  bgtMofDepCode: item?.executeDataDetailVO?.executeData?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.executeData?.bgtMofDepName,
-                  manageMofDepCode: item?.executeDataDetailVO?.executeData?.manageMofDepCode
+                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
                 }
               })
               return
@@ -1434,7 +1434,7 @@ export default {
         })
       }
       // 查看违规详情的form配置和其冲突，列配置将code过滤，单独写
-      detailColumns = detailColumns.filter(item => item.field !== 'bgtMofDepCode')
+      detailColumns = detailColumns.filter(item => item.field !== 'bgtMofDepCode' && item.field !== 'payBusType')
       return detailColumns?.map(item => {
         return { ...item, width: 180 }
       })
