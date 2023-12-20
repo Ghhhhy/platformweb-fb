@@ -50,6 +50,7 @@
           row-id="id"
           show-zero
           :table-config="tableConfig"
+          :table-global-config="tableGlobalConfig"
           :table-columns-config="tableColumnsConfig"
           :table-data="tableData"
           :tree-config="{ dblExpandAll: true, dblExpand: true, accordion: false, iconClose: 'el-icon-circle-plus', iconOpen: 'el-icon-remove', isTreeSeqToFlat: true }"
@@ -78,6 +79,7 @@
           ref="mainTableRef"
           :footer-config="tableFooterConfig"
           :table-columns-config="tableColumnsConfig"
+          :table-global-config="tableGlobalConfig"
           :table-data="tableData"
           :table-config="tableConfig"
           :pager-config="mainPagerConfig"
@@ -220,6 +222,11 @@ export default {
       },
       // table 相关配置
       tableLoading: false,
+      tableGlobalConfig: {
+        customExportConfig: {
+          fileName: this.$store.state.curNavModule.name // 导出表的默认名称为菜单名
+        }
+      },
       tableColumnsConfig: proconf.PoliciesTableColumns,
       tableData: [],
       tableToolbarConfig: {
