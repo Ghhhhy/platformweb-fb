@@ -1405,7 +1405,7 @@ export default {
         elementCode: 'admdiv',
         // elementCode: 'AGENCY',
         year: this.$store.state.userInfo.year,
-        province: this.$store.state.userInfo.province
+        province: this.$parent.DetailData.mofDivCode
       }
       let regulationType = this.regulationType
       if (regulationType === '部门级') {
@@ -1414,7 +1414,7 @@ export default {
       }
       if (regulationType === '财政级') {
         param.elementCode = 'AGENCY'
-        param.wheresql = 'and province =' + this.$store.state.userInfo.province
+        param.wheresql = 'and province =' + this.$parent.DetailData.mofDivCode
       }
       HttpModule.getTreewhere(param).then(res => {
         // console.log('that.getChildrenNewData(res.data)', that.getChildrenNewData(res.data))

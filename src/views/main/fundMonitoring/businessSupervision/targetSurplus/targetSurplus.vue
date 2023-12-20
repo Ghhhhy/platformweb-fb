@@ -430,7 +430,11 @@ export default {
       }
       HttpModule[axiosStr](param).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.data
+          if (this.$store.getters.isSx) { // 大概是和其他地方返回格式不一样，加个陕西判断
+            this.tableData = res.data
+          } else {
+            this.tableData = res.data.data
+          }
           this.caliberDeclareContent = res.data.description || ''
           this.reportTime = res.data.reportTime || ''
         } else {
