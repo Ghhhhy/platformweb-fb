@@ -80,6 +80,7 @@ export default defineComponent({
     const mofDivCodes = ref()
     const proCodes = ref()
     const endTime = ref()
+    const condition = ref()
     const modalStaticProperty = ref({
       title: tableType.value === 'pay' ? '支出明细' : '预算明细',
       width: '96%',
@@ -115,6 +116,7 @@ export default defineComponent({
           endTime: endTime.value ? endTime.value[0] : '',
           proCode1: store.getters.isFuJian ? injectData.value.proCode : '',
           xjExpFuncCode: store.getters.isFuJian ? injectData.value.xjExpFuncCode : '',
+          condition: store.getters.isFuJian ? condition.value ? condition.value : '' : '',
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
@@ -168,7 +170,8 @@ export default defineComponent({
       mofDivCodes,
       proCodes,
       endTime,
-      init
+      init,
+      condition
     }
   }
 })
