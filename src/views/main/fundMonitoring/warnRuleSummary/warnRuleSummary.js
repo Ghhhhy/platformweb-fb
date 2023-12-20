@@ -291,41 +291,41 @@ const proconf = {
             ]
           }
         ]
+      },
+      {
+        title: '未导入惠企利民明细',
+        field: '',
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '未认定',
+            field: 'numberhqlmUndoNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon2',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '已整改',
+            field: 'numberhqlmdoNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          }
+        ]
       }
-      // {
-      //   title: '未导入惠企利民明细',
-      //   field: '',
-      //   sortable: false,
-      //   align: 'center',
-      //   children: [
-      //     {
-      //       title: '未认定',
-      //       field: 'numberhqlmUndoNum',
-      //       width: 140,
-      //       filters: false,
-      //       align: 'center',
-      //       cellRender: {
-      //         name: '$vxeIcon2',
-      //         props: {
-      //           $refs: this
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: '已整改',
-      //       field: 'numberhqlmdoNum',
-      //       width: 140,
-      //       filters: false,
-      //       align: 'center',
-      //       cellRender: {
-      //         name: '$vxeIcon3',
-      //         props: {
-      //           $refs: this
-      //         }
-      //       }
-      //     }
-      //   ]
-      // }
     ],
     tableData: []
   }

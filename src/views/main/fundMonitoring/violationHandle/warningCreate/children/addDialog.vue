@@ -650,12 +650,11 @@ export default {
               this.supplyDataList.isThrExp = res.data.executeData?.thrExpCode + (res.data.executeData?.thrExpName === null ? '' : '-' + res.data.executeData?.thrExpName)
               this.supplyDataList.trackProName = res.data.executeData && res.data.executeData?.trackProCode && res.data.executeData?.trackProName ? res.data.executeData?.trackProCode + '_' + res.data.executeData?.trackProName : ''
               this.supplyDataList.useDes = res.data.executeData && res.data.executeData?.useDes
-              this.supplyDataList.payBusType = res.data.executeData.payBusTypeCode === null ? '' : res.data.executeData.payBusTypeCode + '_' + res.data.executeData.payBusTypeName
+              this.supplyDataList.payBusType = res.data.executeData?.payBusTypeCode ? res.data.executeData.payBusTypeCode + '-' + res.data.executeData.payBusTypeName : ''
               this.supplyDataList.xpayDate = res.data.executeData?.xpayDate
-              this.supplyDataList.payCertNo = res.data.executeData.payCertNo
+              this.supplyDataList.payCertNo = res.data.executeData?.payCertNo
               this.supplyDataList.bgtMofDepName = res.data.executeData.bgtMofDepCode + '-' + res.data.executeData.bgtMofDepName
               this.supplyDataList.manageMofDepName = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
-              this.supplyDataList.payBusTypeName = res.data.executeData.payBusTypeCode + '-' + res.data.executeData.payBusTypeName
             }
             if (res.data.payVoucherVo !== null) {
               this.supplyDataList.payBusType = res.data.payVoucherVo.payBusType
@@ -689,6 +688,9 @@ export default {
               this.supplyDataList.fundTypeName = res.data.baBgtInfoEntity.fundTypeName
               this.supplyDataList.expFuncName = res.data.baBgtInfoEntity.expFuncName
               this.supplyDataList.govBgtEcoName = res.data.baBgtInfoEntity.govBgtEcoName
+              this.supplyDataList.bgtMofDepName = res.data.baBgtInfoEntity.bgtMofDepCode + '-' + res.data.baBgtInfoEntity.bgtMofDepName
+              this.supplyDataList.manageMofDepName = res.data.baBgtInfoEntity.manageMofDepCode + '-' + res.data.baBgtInfoEntity.manageMofDepName
+              this.supplyDataList.payBusType = res.data.baBgtInfoEntity?.payBusTypeCode ? res.data.baBgtInfoEntity.payBusTypeCode + '-' + res.data.baBgtInfoEntity.payBusTypeName : ''
             }
             this.handletableData = res.data?.regulationList
           } else {

@@ -89,6 +89,7 @@ export default defineComponent({
     const mofDivCodes = ref()
     const proCodes = ref()
     const endTime = ref()
+    const condition = ref()
     const modalStaticProperty = {
       title: '项目明细',
       width: '96%',
@@ -123,6 +124,7 @@ export default defineComponent({
           mofDivCodes: mofDivCodes.value,
           proCodes: proCodes.value,
           endTime: endTime.value ? endTime.value[0] : '',
+          condition: store.getters.isFuJian ? condition.value ? condition.value : '' : '',
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
@@ -185,6 +187,7 @@ export default defineComponent({
         CarrImplRegiSecondModal.value.injectData = row
         CarrImplRegiSecondModal.value.injectData.code = injectData.value.code
         CarrImplRegiSecondModal.value.mofDivCodes = mofDivCodes.value
+        CarrImplRegiSecondModal.value.condition = condition.value
         CarrImplRegiSecondModal.value.proCodes = proCodes.value
         CarrImplRegiSecondModal.value.endTime = endTime.value
         CarrImplRegiSecondModal.value.init()
@@ -224,7 +227,8 @@ export default defineComponent({
       mofDivCodes,
       proCodes,
       endTime,
-      init
+      init,
+      condition
     }
   }
 })

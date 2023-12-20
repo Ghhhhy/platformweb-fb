@@ -655,13 +655,17 @@ export default {
       return datas
     },
     getTrees(val) {
-      let mofDivCodes = []
-      if (val.trim() !== '') {
-        val.split(',').forEach((item) => {
-          mofDivCodes.push(item.split('##')[0])
-        })
+      if (typeof val === 'string') {
+        let mofDivCodes = []
+        if (val.trim() !== '') {
+          val.split(',').forEach((item) => {
+            mofDivCodes.push(item.split('##')[0])
+          })
+        }
+        return mofDivCodes
+      } else {
+        return val
       }
-      return mofDivCodes
     },
     // 福建 如果返回的字段columns的字段  则不用公司 用返回的字段
     fuJianUseField(columns, row) {

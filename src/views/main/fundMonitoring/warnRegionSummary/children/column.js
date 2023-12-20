@@ -760,7 +760,7 @@ const proconf = {
       width: 140,
       field: 'expFuncName',
       formatter({ row }) {
-        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+        return (row.zfExpFuncCode ? `${row.zfExpFuncCode}-` : '') + (row.zfExpFuncName ? `${row.zfExpFuncName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -771,7 +771,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+        return (row.zfGovBgtEcoCode ? `${row.zfGovBgtEcoCode}-` : '') + (row.zfGovBgtEcoName ? `${row.zfGovBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -782,7 +782,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+        return (row.zfDepBgtEcoCode ? `${row.zfDepBgtEcoCode}-` : '') + (row.zfDepBgtEcoName ? `${row.zfDepBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -989,7 +989,7 @@ const proconf = {
       width: 140,
       field: 'expFuncName',
       formatter({ row }) {
-        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+        return (row.zfExpFuncCode ? `${row.zfExpFuncCode}-` : '') + (row.zfExpFuncName ? `${row.zfExpFuncName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -1000,7 +1000,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+        return (row.zfGovBgtEcoCode ? `${row.zfGovBgtEcoCode}-` : '') + (row.zfGovBgtEcoName ? `${row.zfGovBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -1011,7 +1011,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+        return (row.zfDepBgtEcoCode ? `${row.zfDepBgtEcoCode}-` : '') + (row.zfDepBgtEcoName ? `${row.zfDepBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -1214,7 +1214,7 @@ const proconf = {
       width: 140,
       field: 'expFuncName',
       formatter({ row }) {
-        return row.zfExpFuncCode && row.zfExpFuncName ? `${row.zfExpFuncCode}-${row.zfExpFuncName}` : ''
+        return (row.zfExpFuncCode ? `${row.zfExpFuncCode}-` : '') + (row.zfExpFuncName ? `${row.zfExpFuncName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -1226,7 +1226,7 @@ const proconf = {
       width: 140,
       field: 'govBgtEcoName',
       formatter({ row }) {
-        return row.zfGovBgtEcoCode && row.zfGovBgtEcoName ? `${row.zfGovBgtEcoCode}-${row.zfGovBgtEcoName}` : ''
+        return (row.zfGovBgtEcoCode ? `${row.zfGovBgtEcoCode}-` : '') + (row.zfGovBgtEcoName ? `${row.zfGovBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'
@@ -1237,7 +1237,7 @@ const proconf = {
       width: 140,
       field: 'depBgtEcoName',
       formatter({ row }) {
-        return row.zfDepBgtEcoCode && row.zfDepBgtEcoName ? `${row.zfDepBgtEcoCode}-${row.zfDepBgtEcoName}` : ''
+        return (row.zfDepBgtEcoCode ? `${row.zfDepBgtEcoCode}-` : '') + (row.zfDepBgtEcoName ? `${row.zfDepBgtEcoName}` : '')
       },
       sortable: false,
       align: 'right'

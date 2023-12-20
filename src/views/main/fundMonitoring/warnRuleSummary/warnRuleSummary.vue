@@ -383,59 +383,59 @@ export default {
       this.proCodes = this.searchDataList.proCodes === '' ? this.proCodes : this.getTrees(this.searchDataList.proCodes)
       this.warnStartDate = this.searchDataList.warnStartDate === '' || this.searchDataList.warnStartDate === undefined ? '' : moment(this.searchDataList.warnStartDate).format('YYYY-MM-DD') + ' 00:00:00'
       this.warnEndDate = this.searchDataList.warnEndDate === '' || this.searchDataList.warnEndDate === undefined ? '' : moment(this.searchDataList.warnEndDate).format('YYYY-MM-DD') + ' 23:59:59'
-
+      let fiRuleCode = obj.row.last__level === 1 ? obj.row.code : ''
       switch (key) {
         case 'numbernofileNum':
-          this.detailData = ['numbernofileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numbernofileNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '是否上传附件-未认定明细'
           this.detailType = 'numbernofileNum'
           this.detailVisible = true
           break
         case 'numberfileNum':
-          this.detailData = ['numberfileNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberfileNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '是否上传附件-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberfileNum'
           break
         case 'numberwarnUndoNum':
-          this.detailData = ['numberwarnUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberwarnUndoNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '支出预警-未认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNum'
           break
         case 'numberwarndoNum':
-          this.detailData = ['numberwarndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberwarndoNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '支出预警-已认定明细'
           this.detailVisible = true
           this.detailType = 'numberwarndoNum'
           break
         case 'numberwarnUndoNoNum':
-          this.detailData = ['numberwarnUndoNoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberwarnUndoNoNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '支出预警-待整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarnUndoNoNum'
           break
         case 'numberwarndidNum':
-          this.detailData = ['numberwarndidNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberwarndidNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '支出预警-已整改明细'
           this.detailVisible = true
           this.detailType = 'numberwarndidNum'
           break
         case 'numberhqlmUndoNum':
-          this.detailData = ['numberhqlmUndoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberhqlmUndoNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '未导入惠企利民明细-未处理明细'
           this.detailVisible = true
           this.detailType = 'numberhqlmUndoNum'
           break
         case 'numberhqlmdoNum':
-          this.detailData = ['numberhqlmdoNum', obj.row.code, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
+          this.detailData = ['numberhqlmdoNum', fiRuleCode, this.fiscalYear, this.proCodes, this.mofDivCodes, this.warnStartDate, this.warnEndDate
           ]
           this.detailTitle = '未导入惠企利民明细-已整改明细'
           this.detailVisible = true
