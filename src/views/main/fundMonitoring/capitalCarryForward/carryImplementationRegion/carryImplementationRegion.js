@@ -289,6 +289,7 @@ const proconf = {
                 width: 100,
                 align: 'right',
                 canInsert: true,
+                areaType: 'city',
                 cellRender: {
                   name: '$vxeMoney'
                 },
@@ -498,6 +499,7 @@ const proconf = {
                 sortable: false,
                 filters: false,
                 canInsert: true,
+                areaType: 'county',
                 cellRender: {
                   name: '$vxeMoney'
                 },
