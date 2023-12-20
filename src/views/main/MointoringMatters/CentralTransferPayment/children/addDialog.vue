@@ -79,6 +79,7 @@
                       v-model="cfsHotTopicCateCode"
                       placeholder="请选择热点分类编码"
                       style="width:45%"
+                      @change="changeCode"
                     >
                       <el-option
                         v-for="item in cfsHotTopicCateCodeOptions"
@@ -100,6 +101,7 @@
                       v-model="cfsHotTopicCateName"
                       placeholder="请选择热点分类名称"
                       style="width:45%"
+                      @change="changeName"
                     >
                       <el-option
                         v-for="item in cfsHotTopicCateNameOptions"
@@ -156,7 +158,6 @@
                 </el-main>
               </el-container>
             </el-col>
-          </el-row>
           </el-row>
         </div>
       </div>
@@ -221,6 +222,11 @@ export default {
         { value: '2', label: '中央参照直达资金' },
         { value: '3', label: '其他' }
       ],
+      cfsHotTopicCateOptions: [
+        { value: '1', labelName: '中央直达资金', labelCode: '01' },
+        { value: '2', labelName: '中央参照直达资金', labelCode: '02' },
+        { value: '3', labelName: '其他', labelCode: '09' }
+      ],
       proFundCodeOptions: [
         { value: '1', label: '1' },
         { value: '2', label: '2' },
@@ -242,10 +248,25 @@ export default {
       fileData: [],
       fileDataBakDel: [],
       attachmentId: '',
-      showbox: false
+      showbox: false,
+      curItemVal: ''
     }
   },
   methods: {
+    changeCode(val) {
+      this.cfsHotTopicCateOptions.forEach(item => {
+        if (item.labelCode === val) {
+          this.cfsHotTopicCateName = item.labelName
+        }
+      })
+    },
+    changeName(val) {
+      this.cfsHotTopicCateOptions.forEach(item => {
+        if (item.labelName === val) {
+          this.cfsHotTopicCateCode = item.labelCode
+        }
+      })
+    },
     dialogClose() {
       this.$parent.dialogVisible = false
       this.$parent.queryTableDatas()
