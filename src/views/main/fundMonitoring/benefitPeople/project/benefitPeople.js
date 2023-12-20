@@ -481,7 +481,7 @@ export let proconf = {
       combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal']
     },
     {
-      title: '支付凭证号',
+      title: '支付凭证号', // 拨款凭证号
       width: 180,
       field: 'payCertNo',
       sortable: false,

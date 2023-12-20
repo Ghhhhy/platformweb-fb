@@ -533,10 +533,18 @@ export default {
     },
     bsToolbarClickEventTop(obj) {
       if (obj.code === '3') { // 实拨
+        this.tableColumnsConfig1 = [...this.tableColumnsConfig1.map(col => {
+          col.title = col.field === 'payCertNo' ? '拨款凭证号' : col.title
+          return col
+        })]
         this.importType = 2
         this.refresh()
         this.refresh1()
       } else if (obj.code === '4') { // 集中支付
+        this.tableColumnsConfig1 = [...this.tableColumnsConfig1.map(col => {
+          col.title = col.field === 'payCertNo' ? '支付凭证号' : col.title
+          return col
+        })]
         if (this.importType === '1') return
         this.importType = '1'
         this.refresh()
