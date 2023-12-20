@@ -36,6 +36,10 @@ export default function useIs(currentNode, pagePath, checkedItemsObj) {
   // 是否允许禁止操作
   // 非单位送审、反馈 &&（如果是批量操作则判断当前勾选列表中是否存在橙色预警，否判断当前选中处理单是否是橙色预警）
   const isAllowDisabled = computed(() => {
+    if (unref(pagePath) === 'unitFeedbackBySpe') {
+      // "监控预警单位反馈" 这个菜单，不显示"禁止"按钮
+      return false
+    }
     if (store.getters.isFuJian) { // 福建  处室复审界面 放开禁止按钮
       return true
     }
