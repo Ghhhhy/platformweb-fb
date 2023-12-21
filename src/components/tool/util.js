@@ -6,6 +6,55 @@
 /* eslint-disable */
 import BigNumber from './big.js'
 export default {
+  transJson(str) {
+    if (!str) return
+    var params = str.split(',')
+    var result = {}
+    if (params && params.length > 0) {
+      for (var i = 0; i < params.length; i++) {
+        var map = params[i].split('=')
+        result[map[0]] = map[1]
+      }
+    }
+    return result
+  },
+  getConditionFn(searchFormConfig, searchDataList) {
+    let condition = this.getSearchDataListFn(searchFormConfig)
+    for (let key in condition) {
+      if (
+        (searchDataList[key] !== undefined) &
+        (searchDataList[key] !== null)
+      ) {
+        if (Array.isArray(searchDataList[key])) {
+          condition[key] = searchDataList[key]
+        } else if (typeof (searchDataList[key]) === 'string') {
+          if (searchDataList[key].trim() !== '') {
+            searchDataList[key].split(',').forEach(item => {
+              condition[key].push(item)
+            })
+          }
+        }
+      }
+    }
+    return condition
+  },
+  getSearchDataListFn(searchFormConfig) {
+    let searchDataObj = {}
+    if (Array.isArray(searchFormConfig) && searchFormConfig.length) {
+      searchFormConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            searchDataObj[item.field + 'code'] = []
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = []
+          }
+        }
+      })
+    }
+    return searchDataObj
+  },
   each(object, callback) {
     /* js原生each方法 */
     let type = (function(obj) {

@@ -48,6 +48,7 @@ import BsTreeTitle from './treeTitle/index.vue' // 树组件头
 import BsTableTitle from './tableTitle/index.vue' // 表格标题
 import BsThemePicker from './ThemePicker/ThemePicker.vue'
 import BsOperationLog from './OperationLog/operationLog.vue'// 操作日志
+import BsTemplate from './BsTemplate'
 // import LocalBsTable from './Table/Table.vue' // table:Titans
 const componentsLib = {
   BsBossTree,
@@ -88,7 +89,8 @@ const componentsLib = {
   FilePreview: BsFilePreview,
   BsThemePicker,
   FilterNumberRange,
-  BsOperationLog
+  BsOperationLog,
+  BsTemplate
 }
 const utilsLib = {
   LoadingMark,
