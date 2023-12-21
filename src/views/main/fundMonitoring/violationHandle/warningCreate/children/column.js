@@ -2710,10 +2710,36 @@ const proconf = {
   ],
   createConfig: [
     {
+      title: '初筛认定',
+      field: 'handleResult',
+      align: 'center',
+      visible: false, // 仅厦门且开启工作流时候 这儿会变true
+      titleWidth: '180',
+      span: 8,
+      itemRender: {
+        name: '$vxeSelect',
+        options: [
+          {
+            value: '1',
+            label: '认定正常'
+          },
+          {
+            value: '2',
+            label: '认定违规'
+          }
+        ],
+        defaultValue: '',
+        props: {
+          disabled: false,
+          placeholder: '处理结果'
+        }
+      }
+    },
+    {
       field: 'violateType',
       title: '违规类型',
       titleWidth: '180',
-      visible: true,
+      visible: !store.getters.isXm,
       span: 8,
       itemRender: {
         name: '$vxeSelect',
@@ -2768,33 +2794,6 @@ const proconf = {
       },
       name: '$vxeSelect'
     },
-    // {
-    //   title: '处理结果',
-    //   field: 'handleResult',
-    //   align: 'center',
-    //   titleWidth: '180',
-    //   span: 8,
-    //   itemRender: {
-    //     name: '$vxeSelect',
-    //     options: [
-    //       {
-    //         value: 0,
-    //         label: '未处理'
-    //       },
-    //       {
-    //         value: 1,
-    //         label: '通过'
-    //       },
-    //       {
-    //         value: 2,
-    //         label: '不通过'
-    //       }
-    //     ],
-    //     defaultValue: '',
-    //     props: { disabled: true, placeholder: '处理结果' }
-    //   },
-    //   name: '$vxeSelect'
-    // },
     {
       title: '区划',
       field: 'mofDivCode',
