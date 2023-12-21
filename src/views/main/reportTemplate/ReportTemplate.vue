@@ -334,8 +334,8 @@ export default {
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
-      const rowIndex = obj?.rowIndex
-      if (!rowIndex) return
+      // const rowIndex = obj?.rowIndex
+      // if (!rowIndex) return
       if (!obj.column.own.column_link) {
         return
       }

@@ -1150,9 +1150,9 @@ export default {
               this.tableData = this.tableData?.map(item => {
                 return {
                   ...item,
-                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
-                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+                  bgtMofDepCode: item?.executeDataDetailVO?.executeData?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.executeData?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.executeData?.manageMofDepCode
                 }
               })
               return
@@ -1192,9 +1192,9 @@ export default {
               this.tableData = this.tableData?.map(item => {
                 return {
                   ...item,
-                  bgtMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepCode,
-                  bgtMofDepName: item?.executeDataDetailVO?.baBgtInfoEntity?.bgtMofDepName,
-                  manageMofDepCode: item?.executeDataDetailVO?.baBgtInfoEntity?.manageMofDepCode
+                  bgtMofDepCode: item?.executeDataDetailVO?.executeData?.bgtMofDepCode,
+                  bgtMofDepName: item?.executeDataDetailVO?.executeData?.bgtMofDepName,
+                  manageMofDepCode: item?.executeDataDetailVO?.executeData?.manageMofDepCode
                 }
               })
               return

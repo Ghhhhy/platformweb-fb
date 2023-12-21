@@ -315,8 +315,18 @@ const mount = () => {
           tableData={tableData.value}
         >
           <template slot="toolbarSlots">
-            {propsConfig.value.showDownloadAll && <vxe-button type="primary" size="small" onClick={() => { downloadAttachment(fileInfoTable.value.getCheckboxRecords()) }}>批量下载</vxe-button>}
-            {propsConfig.value.showExportAll && <vxe-button type="primary" size="small" v-loading={requestLoading.value} loading={requestLoading.value} onClick={() => { serverExport() }}>全部导出</vxe-button>}
+            {
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <span>类型</span> &nbsp;&nbsp;
+                  <span>文件名</span>
+                </div>
+                <div>
+                  {propsConfig.value.showDownloadAll && <vxe-button type="primary" size="small" onClick={() => { downloadAttachment(fileInfoTable.value.getCheckboxRecords()) }}>批量下载</vxe-button>}
+                  {propsConfig.value.showExportAll && <vxe-button type="primary" size="small" v-loading={requestLoading.value} loading={requestLoading.value} onClick={() => { serverExport() }}>全部导出</vxe-button>}
+                </div>
+              </div>
+            }
           </template>
         </BsTable>
         <div slot='footer' style="margin:0 15px">

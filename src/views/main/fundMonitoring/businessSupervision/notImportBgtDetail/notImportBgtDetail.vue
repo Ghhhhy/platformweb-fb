@@ -593,6 +593,12 @@ export default {
         this.tableLoading = false
         if (res.code === '000000') {
           this.tableData = res.data.results
+          this.tableData = this.tableData.map(item => {
+            return {
+              ...item,
+              mofDivName: item.mofDivCode + '-' + item.mofDivName
+            }
+          })
           this.caliberDeclareContent = res.data.description || ''
           this.mainPagerConfig.total = res.data.totalCount
           this.tabStatusNumConfig['1'] = res.data.totalCount
