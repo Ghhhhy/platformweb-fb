@@ -218,7 +218,7 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'name',children: 'children' } }"
+                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'codeName',children: 'children' } }"
 
                       class="businessFunctionTree"
                       style="display: inline-block;"
@@ -1945,6 +1945,7 @@ export default {
         if (res.code === '000000') {
           this.$XEUtils.eachTree(res.data, item => {
             item.name = item.ruleName
+            item.codeName = item.code + '-' + item.ruleName
             item.disabled = !!item.children?.length
           })
           this.regulationClassoptions = res.data
