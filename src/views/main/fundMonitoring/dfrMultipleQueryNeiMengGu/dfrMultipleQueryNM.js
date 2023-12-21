@@ -472,7 +472,7 @@ export let proconf = {
     //   align: 'center'
     // },
     {
-      title: '接受区划名称',
+      title: '接收区划名称',
       width: 180,
       field: 'recDivName',
       sortable: false,
