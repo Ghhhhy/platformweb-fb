@@ -296,7 +296,16 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '指标接收金额',
+      width: 180,
+      field: 'jsAmount',
+      sortable: false,
+      filters: false,
+      align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -395,7 +404,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     // {
@@ -463,7 +472,7 @@ export let proconf = {
     //   align: 'center'
     // },
     {
-      title: '接受区划名称',
+      title: '接收区划名称',
       width: 180,
       field: 'recDivName',
       sortable: false,
@@ -610,7 +619,16 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      cellRender: { name: '$vxeMoney' }
+    },
+    {
+      title: '指标接收金额',
+      width: 180,
+      field: 'jsAmount',
+      sortable: false,
+      filters: false,
+      align: 'center',
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -727,7 +745,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
@@ -797,7 +815,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     },
     // {
@@ -993,7 +1011,7 @@ export let proconf = {
       sortable: false,
       filters: false,
       align: 'center',
-      formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
+      // formula: '{bjAmount}-{zbsjfpje}-{xjAmount}',
       cellRender: { name: '$vxeMoney' }
     }
   ],
