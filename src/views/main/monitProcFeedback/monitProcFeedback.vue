@@ -295,25 +295,15 @@ export default {
     },
     itemChange(changeEvent) {
       console.log('change', changeEvent)
-      // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理单位搜索和区划搜索栏
-      if (changeEvent.property === 'mofDivCodes' || changeEvent.property === 'mofDivCodeList') {
-        this.queryData['mofDivCodeList'] = changeEvent.data[`${changeEvent.property}_code__multiple`]
-      } else if (changeEvent.property === 'agencyCodeList') {
-        this.queryData['agencyCodeList'] = changeEvent.data[`${changeEvent.property}_code__multiple`]
+      if (changeEvent?.renderOpts?.name === '$vxeTree') {
+        if (changeEvent?.renderOpts?.props?.config?.multiple) {
+          this.queryData[changeEvent.property] = changeEvent.data[`${changeEvent.property}_code__multiple`]
+        } else {
+          this.queryData[changeEvent.property] = changeEvent.data[`${changeEvent.property}_code`]
+        }
       }
     },
     onSearch() {
-      let formData = this.$refs.queryFrom.getFormData()
-      let queryConfigSearchData = {}
-      if (this.queryConfig && this.queryConfig.length) {
-        this.queryConfig.forEach(item => {
-          // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理单位搜索和区划搜索栏
-          if (item.field !== 'mofDivCodeList' && item.field !== 'agencyCodeList' && item.field !== 'mofDivCodesList') {
-            queryConfigSearchData[item.field] = formData[item.field]
-          }
-        })
-      }
-      this.queryData = { ...this.queryData, ...queryConfigSearchData }
       this.queryTableDatas()
     },
     // 初始化高级查询data
@@ -321,37 +311,15 @@ export default {
       // 下拉树
       let searchDataObj = {}
       this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
-          if (item.field) {
-            searchDataObj[item.field + 'code'] = ''
-          }
-        } else {
-          if (item.field) {
-            searchDataObj[item.field] = ''
-          }
+        if (item.itemRender?.name === '$vxeTree' && item.itemRender?.props?.config?.multiple) {
+          searchDataObj[item.field] = []
+          return
+        }
+        if (item.field) {
+          searchDataObj[item.field] = ''
         }
       })
       this.queryData = searchDataObj
-    },
-    // 初始化高级查询参数condition
-    getConditionList() {
-      let condition = {}
-      this.queryConfig.forEach(item => {
-        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
-          if (item.field) {
-            if (item.field === 'cor_bgt_doc_no_') {
-              condition[item.field + 'name'] = []
-            } else {
-              condition[item.field + 'code'] = []
-            }
-          }
-        } else {
-          if (item.field) {
-            condition[item.field] = []
-          }
-        }
-      })
-      return condition
     },
     changeVisible(val) {
       console.log(val, '输出')
@@ -374,13 +342,7 @@ export default {
       this.mainPagerConfig.pageSize = 20
       // 因为无法预知是否配置了预算单位搜索和区划搜索栏 所以暂时用这种处理重置单位搜索和区划搜索栏
       if (this.queryConfig && this.queryConfig.length) {
-        this.queryConfig.forEach(item => {
-          if (item.field === 'mofDivCodes' || item.field === 'mofDivCodeList') {
-            this.queryData['mofDivCodeList'] = []
-          } else if (item.field === 'agencyCodeList') {
-            this.queryData['agencyCodeList'] = []
-          }
-        })
+        this.getSearchDataList()
       }
     },
     // 查看附件
@@ -802,6 +764,7 @@ export default {
       let taskQueue = [this.loadConfig(this.configTypeId), this.loadTabConfig(this.configTypeId), this.loadQueryFormConfig(this.configTypeId)]
       Promise.all(taskQueue).then(() => {
         this.$nextTick(async () => { // 渲染优化 放到mounted之后渲染
+          this.getSearchDataList()
           this.onSearch()
         })
       })
