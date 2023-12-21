@@ -652,3 +652,197 @@ export const carrImplRegiSecondModalColumns = [
   //   cellRender: { name: '$vxeInput' }
   // }
 ]
+export const carrImplRegiSecondModalColumnsFj = [
+  {
+    title: '资金名称',
+    field: 'trackProName',
+    align: 'left',
+    tableType: 'bgt',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '处室名称',
+    tableType: 'bgt',
+    field: 'bgtMofDepName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '单位名称',
+    tableType: 'bgt',
+    field: 'agencyName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '中央直达资金名称',
+    tableType: 'bgt',
+    field: 'cenTraProName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出功能科目编码',
+    tableType: 'bgt',
+    field: 'xjExpFuncCode',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出功能科目名称',
+    tableType: 'bgt',
+    field: 'xjExpFuncName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '本级专项资金名称',
+    tableType: 'bgt',
+    field: 'speTypeName',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '上级文号',
+    tableType: 'bgt',
+    field: 'supBgtDocNo',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '本级文号',
+    tableType: 'bgt',
+    field: 'corBgtDocNo',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算金额',
+    tableType: 'bgt',
+    field: 'jzPayAmount',
+    align: 'left',
+    sortable: false,
+    filters: false,
+    // treeNode: true,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支出功能科目',
+    field: 'xjExpFuncName',
+    align: 'left',
+    tableType: 'bgt',
+    sortable: false,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    field: 'isDirectFinanc',
+    title: '是否直达资金',
+    align: 'left',
+    width: 180,
+    cellRender: {
+      name: '$vxeSelect',
+      options: [
+        {
+          value: '1',
+          label: '是'
+        },
+        {
+          value: '0',
+          label: '否'
+        }]
+    }
+  },
+  {
+    title: '政府支出经济分类',
+    filters: false,
+    field: 'govBgtEcoName',
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '部门支出经济分类',
+    filters: false,
+    field: 'depBgtEcoName',
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '支付方式',
+    field: 'payTypeName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '收款人银行',
+    field: 'payeeAcctBankName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '预算年度',
+    field: 'fiscalYear',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
+    title: '是否政府采购',
+    field: 'isGovPurName',
+    filters: false,
+    sortable: false,
+    align: 'left',
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  }
+
+]

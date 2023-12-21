@@ -37,7 +37,7 @@
 <script>
 import { defineComponent, reactive, ref, computed, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carrImplRegiSecondModalColumns } from './columns.js'
+import { carrImplRegiSecondModalColumns, carrImplRegiSecondModalColumnsFj } from './columns.js'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
@@ -129,7 +129,13 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: computed(() => carrImplRegiSecondModalColumns.filter(item => item.tableType === tableType.value || !item.tableType)),
+      columns: computed(() => {
+        if (store.getters.isFuJian) {
+          return carrImplRegiSecondModalColumnsFj
+        }
+        return carrImplRegiSecondModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)
+      }
+      ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({

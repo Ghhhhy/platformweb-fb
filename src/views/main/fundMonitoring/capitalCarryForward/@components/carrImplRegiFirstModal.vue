@@ -149,7 +149,7 @@ export default defineComponent({
         return res
       },
       columns: computed(() => {
-        if (store.getters.isFuJian && $route.name === 'CarryPayRegion') {
+        if (store.getters.isFuJian && ($route.name === 'CarryPayRegion' || $route.name === 'CarryPayCapital')) {
           return carryImplementationRegionModalColumnsFJ
         }
         return carryImplementationRegionModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)
