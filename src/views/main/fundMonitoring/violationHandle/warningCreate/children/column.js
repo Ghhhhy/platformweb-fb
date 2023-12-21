@@ -1492,22 +1492,13 @@ const proconf = {
         props: { disabled: true, placeholder: '是否作废' }
       }
     }, {
-      title: '指标管理处室编码',
-      field: 'bgtMofDepCode',
-      span: 8,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '指标管理处室编码' }
-      }
-    }, {
-      title: '指标管理处室名称',
+      title: '指标管理处室',
       field: 'bgtMofDepName',
       span: 8,
       titleWidth: '180',
       itemRender: {
         name: '$vxeInput',
-        props: { disabled: true, placeholder: '指标管理处室名称' }
+        props: { disabled: true, placeholder: '指标管理处室' }
       }
     },
     {
@@ -1533,6 +1524,17 @@ const proconf = {
           { label: '否', value: '2' }
         ],
         props: { disabled: true, placeholder: '是否配套' }
+      }
+    },
+    {
+      field: 'payCertNo',
+      title: '支付凭证号',
+      titleWidth: '180',
+      // visible: store.getters.isHLJ,
+      span: 8,
+      itemRender: {
+        name: '$vxeInput',
+        props: { placeholder: '支付凭证号', disabled: true }
       }
     }
   ],
@@ -1676,40 +1678,7 @@ const proconf = {
       span: 8,
       itemRender: {
         name: '$vxeInput',
-        props: { placeholder: '指标管理处室名称', disabled: true }
-      }
-    },
-    {
-      field: 'manageMofDepName',
-      title: '业务处室',
-      titleWidth: '180',
-      // visible: store.getters.isHLJ,
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '业务处室', disabled: true }
-      }
-    },
-    {
-      title: '业务类型',
-      field: 'payBusType',
-      span: 8,
-      // visible: store.getters.isHLJ,
-      titleWidth: '180',
-      itemRender: {
-        name: '$vxeInput',
-        props: { disabled: true, placeholder: '业务类型' }
-      }
-    },
-    {
-      field: 'payCertNo',
-      title: '支付凭证号',
-      titleWidth: '180',
-      // visible: store.getters.isHLJ,
-      span: 8,
-      itemRender: {
-        name: '$vxeInput',
-        props: { placeholder: '支付凭证号', disabled: true }
+        props: { placeholder: '指标管理处室', disabled: true }
       }
     }
   ],

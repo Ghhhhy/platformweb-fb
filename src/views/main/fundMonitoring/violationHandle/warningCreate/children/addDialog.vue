@@ -1009,7 +1009,7 @@ export default {
         this.supplyDataList = proconf.msgData
         // 现在默认隐藏3个字段
         this.incomeMsgConfig = proconf.msgConfig.filter(item => {
-          return !['payBusType', 'todoName', 'voidOrNot'].includes(item.field)
+          return !['todoName', 'voidOrNot'].includes(item.field)
         })
       }
       this.dialogVisibleKjsmBut = true
