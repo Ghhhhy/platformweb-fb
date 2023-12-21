@@ -114,7 +114,7 @@ export default {
         }
         let logList = newValue
         if (this.showStart) {
-          logList = logList.concat([staticStartObject])
+          logList = [staticStartObject].concat(logList)
         }
         this.allLogsData = this.deepCopy(logList)
         this.logsDatas = this.deepCopy(logList)
@@ -127,6 +127,7 @@ export default {
           this.isShow = false
           this.logsDatas = this.deepCopy(logList)
         }
+        if (this.$store.getters.isXm) return// 厦门不反转
         this.logsDatas = this.logsDatas.reverse()
         this.allLogsData = this.allLogsData.reverse()
       },
