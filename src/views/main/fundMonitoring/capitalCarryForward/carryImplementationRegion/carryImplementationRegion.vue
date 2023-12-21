@@ -407,6 +407,18 @@ export default {
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
       // switch (key) {
       //   case 'amountsjfpbjall':
+      let condition = ''
+      let areaType = obj.column.own.areaType
+      if (this.$store.getters.isFuJian) {
+        if (areaType === 'province') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+        } else if (areaType === 'city') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+        } else if (areaType === 'county') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+        }
+      }
+      this.$refs.CarryImplementationRegionModal.condition = condition
       this.$refs.CarryImplementationRegionModal.proCodes = this.searchDataList.proCodes ? this.getTrees(this.searchDataList.proCodes) : []
       this.$refs.CarryImplementationRegionModal.endTime = this.searchDataList.endTime ? this.getTrees(this.searchDataList.endTime) : []
       this.$refs.CarryImplementationRegionModal.dialogVisible = true

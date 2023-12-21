@@ -37,7 +37,7 @@
 <script>
 import { defineComponent, reactive, ref, computed, onMounted, getCurrentInstance } from '@vue/composition-api'
 import useTable from '@/hooks/useTable'
-import { carrImplRegiSecondModalColumns } from './columns.js'
+import { carrImplRegiSecondModalColumns, carrImplRegiSecondModalColumnsFj } from './columns.js'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 // import { message } from 'element-ui'
@@ -80,6 +80,7 @@ export default defineComponent({
     const mofDivCodes = ref()
     const proCodes = ref()
     const endTime = ref()
+    const condition = ref()
     const modalStaticProperty = ref({
       title: tableType.value === 'pay' ? '支出明细' : '预算明细',
       width: '96%',
@@ -115,6 +116,7 @@ export default defineComponent({
           endTime: endTime.value ? endTime.value[0] : '',
           proCode1: store.getters.isFuJian ? injectData.value.proCode : '',
           xjExpFuncCode: store.getters.isFuJian ? injectData.value.xjExpFuncCode : '',
+          condition: store.getters.isFuJian ? condition.value ? condition.value : '' : '',
           ...params
         }
         copyObj[reportCodeMap[$route.name].querykey] = injectData.value.code
@@ -127,7 +129,13 @@ export default defineComponent({
         tableLoadingState.value = false
         return res
       },
-      columns: computed(() => carrImplRegiSecondModalColumns.filter(item => item.tableType === tableType.value || !item.tableType)),
+      columns: computed(() => {
+        if (store.getters.isFuJian) {
+          return carrImplRegiSecondModalColumnsFj
+        }
+        return carrImplRegiSecondModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)
+      }
+      ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
     const tableStaticProperty = reactive({
@@ -168,7 +176,8 @@ export default defineComponent({
       mofDivCodes,
       proCodes,
       endTime,
-      init
+      init,
+      condition
     }
   }
 })

@@ -499,7 +499,7 @@ export default {
               break
             case 'shbjfpaAmount':// 市级-分配本级-总金额
               if (this.$store.getters.isFuJian) {
-                condition = ' substr(mof_div_code,7,3)=\'000\' '
+                condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
               } else if (this.$store.getters.isNeiMeng) {
                 condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
               } else {

@@ -223,7 +223,6 @@ let proconf = {
                 sortable: true,
                 filters: false,
                 width: 100,
-                canInsert: true,
                 align: 'right',
                 formula: '{amountSjSnjJz}+{amountSjJz}',
                 cellRender: {
@@ -261,6 +260,8 @@ let proconf = {
                 width: 100,
                 sortable: true,
                 filters: false,
+                areaType: 'city',
+                canInsert: true,
                 align: 'right',
                 formula: '{amountSjSnjJzPay}+{amountSjJzPay}',
                 cellRender: {
@@ -399,6 +400,7 @@ let proconf = {
                 sortable: true,
                 filters: false,
                 width: 100,
+                areaType: 'county',
                 canInsert: true,
                 align: 'right',
                 formula: '{amountXjSnjJzPay}+{amountXjSjJzPay}+{amountXjJzPay}',

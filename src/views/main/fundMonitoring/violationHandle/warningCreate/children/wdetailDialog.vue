@@ -22,6 +22,7 @@
         >
           <template v-if="['2','3','4'].includes(tabSelect) && param5.isQuery !== 'true' && param5.isShowBack !== 'false'" v-slot:preBtns>
             <vxe-button
+              v-if="!($store.getters.isXm && tabSelect === '3')"
               size="medium"
               @click="doBack"
             >退回</vxe-button>
@@ -94,6 +95,7 @@
       :fi-rule-code="detailFiRuleCode"
       :is-create="isCreate"
       :is-done="isDone"
+      :is-flow="isFlow"
       :detail-data="showDetailData"
       :bussness-id="bussnessId"
       :regulation-class="regulationClass"
@@ -165,7 +167,7 @@ export default {
       let firstBtn = [{ label: '生成', code: 'create', status: 'primary' }]
       if (this.transJson(this.$store.state.curNavModule.param5)?.isQuery) {
         firstBtn = []
-      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai || this.$store.getters.isXm || this.$store.getters.isNeiMeng) {
+      } else if (this.$store.getters.isFuJian || this.$store.getters.isQingHai || this.$store.getters.isNeiMeng) {
         firstBtn = [{ label: '初筛', code: 'initialScreening', status: 'primary' }]
       }
       return {
@@ -1452,7 +1454,8 @@ export default {
       let params = {
         reqParams: backIds,
         menuId: this.$store.state.curNavModule.guid,
-        type: this.backType
+        type: this.backType,
+        regulationClass: transJson(this.$store.state.curNavModule.param5)?.regulationClass
       }
       this.$confirm('确定退回选中数据?', '提示', {
         confirmButtonText: '退回',
@@ -1489,11 +1492,7 @@ export default {
       })
     },
     isXmProject() { // 是否是厦门项目
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
-        return true
-      }
-      return false
+      return this.$store.getters.isXm
     }
   },
   async mounted() {

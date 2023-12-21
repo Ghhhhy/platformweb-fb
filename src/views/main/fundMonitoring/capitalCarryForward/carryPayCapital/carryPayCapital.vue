@@ -264,11 +264,24 @@ export default {
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
       // switch (key) {
       //   case 'amountsjfpbjall':
+      let condition = ''
+      let areaType = obj.column.own.areaType
+      if (this.$store.getters.isFuJian) {
+        if (areaType === 'province') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+        } else if (areaType === 'city') {
+          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+        } else if (areaType === 'county') {
+          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+        }
+      }
+      this.$refs.CarryImplementationRegionModal.condition = condition
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
       if (this.$store.getters.isFuJian) {
         this.$refs.CarryImplementationRegionModal.tableStaticProperty.defaultMoneyUnit = this.$refs.bsTableRef.moneyUnit
       }
+      this.$refs.CarryImplementationRegionModal.endTime = this.searchDataList.endTime ? this.getTrees(this.searchDataList.endTime) : []
       this.$refs.CarryImplementationRegionModal.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
       this.$refs.CarryImplementationRegionModal.init()
       // break

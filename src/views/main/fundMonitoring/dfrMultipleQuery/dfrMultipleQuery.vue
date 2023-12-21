@@ -82,7 +82,7 @@
               <BsTable
                 ref="mainTableRef1"
                 v-loading="tableLoading2"
-                style="height: calc(100% - 10px); position: relative; z-index: 10"
+                style="height: calc(100% - 10px); z-index: 10"
                 :footer-config="tableFooterConfig1"
                 :table-columns-config="tableColumnsConfig1"
                 :table-data="tableData1"

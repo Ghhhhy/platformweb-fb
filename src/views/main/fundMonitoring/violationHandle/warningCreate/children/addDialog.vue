@@ -378,11 +378,7 @@ export default {
       return this.$store.state.curNavModule
     },
     isXmProject() { // 是否是厦门项目
-      const { province } = this.$store.state.userInfo
-      if (province?.slice(0, 4) === '3502') { // 项目项目隐藏三个字段
-        return true
-      }
-      return false
+      return this.$store.getters.isXm
     },
     isNeiMeng() {
       return this.$store.getters.isNeiMeng
@@ -396,6 +392,10 @@ export default {
     }
   },
   props: {
+    isFlow: { // 是否开启了工作流
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String,
       default: ''
@@ -699,7 +699,10 @@ export default {
         })
       } else if (this.title === '监控问询单信息') {
         this.doubtViolateExplain = this.detailData[0].doubtViolateExplain
-        let params = { ...this.detailData[0], issueTime: this.detailData[0].issueTime || serverTime.data }
+        let params = { ...this.detailData[0], issueTime: this.detailData[0].issueTime || serverTime.data, handleResult: '' }
+        if (this.isXmProject && this.isFlow) {
+          params.handleResult = '2'
+        }
         this.$set(this, 'createDataList', params)
         if (this.createDataList.warnLevel === '<span style="color:#BBBB00">黄色预警</span>') {
           this.createDataList.warnLevel = '3'
@@ -808,6 +811,8 @@ export default {
             this.$message.error(res.message)
           }
         })
+      } else if (this.title === '处理') {
+        this.showbtn = true
       }
       this.getViolationType()
       let ruleCode = this.detailData[0]?.fiRuleCode
@@ -816,6 +821,11 @@ export default {
           this.doubtViolateExplain = res.data
         }
       })
+      // 厦门 开启工作流得情况下 展示初筛认定
+      if (this.isXmProject && this.isFlow) {
+        let index = this.createConfig.findIndex(item => item.field === 'handleResult')
+        index !== undefined && (this.createConfig[index].visible = true)
+      }
       if (this.$store.getters.isNeiMeng) {
         this.queryCommonList()
       }
@@ -885,7 +895,7 @@ export default {
       }
       // 取服务器时间
       let dataList = this.detailData.map(item => {
-        return {
+        let workFlowObj = {
           agencyId: this.createDataList.agencyId,
           manageMofDepId: this.createDataList.manageMofDepId,
           agencyName: this.createDataList.agencyName,
@@ -903,6 +913,12 @@ export default {
           fiRuleCode: item.fiRuleCode,
           warningCode: item.warningCode
         }
+        if (this.isXmProject && this.isFlow && workFlowObj.handleResult === '2') {
+          // 厦门生成走事后工作流的时候 认定违规 额外传参
+          workFlowObj.issueFlag = 2
+          workFlowObj.issueType = 1
+        }
+        return workFlowObj
       })
       let params = {
         businessModuleCode: this.bussnessId,
@@ -968,7 +984,8 @@ export default {
             v.value = v.name
             v.label = v.name
           })
-          this.createConfig[0].itemRender.options = res.data.results
+          let index = this.createConfig.findIndex(item => item.field === 'violateType')
+          index !== undefined && (this.createConfig[index].itemRender.options = res.data.results)
         }
       })
     },
@@ -996,21 +1013,6 @@ export default {
         })
       }
       this.dialogVisibleKjsmBut = true
-    },
-    getisShowViolateType() { // 处理违规类型下拉框是否显示
-      // HttpModule.getisShowViolateType().then(res => {
-      //   if (res.code === '000000' && res.data) {
-      //     this.createConfig[0].visible = true
-      //   } else {
-      //     delete this.createValidate.violateType
-      //     this.createConfig[0].visible = false
-      //   }
-      // })
-      if (this.isXmProject) {
-        this.createConfig[0].visible = false
-      } else {
-        this.createConfig[0].visible = true
-      }
     }
   },
   watch: {
@@ -1024,10 +1026,6 @@ export default {
       this.setFormItem()
     }
     this.showInfo()
-    this.getisShowViolateType()
-    if (this.title === '处理') {
-      this.showbtn = true
-    }
   }
 }
 </script>
