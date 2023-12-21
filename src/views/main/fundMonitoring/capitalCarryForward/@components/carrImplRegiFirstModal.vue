@@ -29,9 +29,19 @@
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="pagerChange"
           @cellClick="cellClick"
+          @register="onTableRegister"
         >
           <template v-slot:toolbar-custom-slot>
-            单位：万元
+            <div style="margin-right: 10px;">
+              <vxe-button
+                v-if="$store.getters.isFuJian"
+                content="导出全部"
+                status="primary"
+                size="medium"
+                :loading="requestLoading"
+                @click="serverExport"
+              />
+            </div>
           </template>
         </BsTable>
       </template>
@@ -47,7 +57,9 @@ import { carryImplementationRegionModalColumns, carryImplementationRegionModalCo
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import useExportAll from '@/hooks/useExportAll/useExportAll.js'
 // import { message } from 'element-ui'
+
 export default defineComponent({
   components: {
     CarrImplRegiSecondModal
@@ -198,6 +210,22 @@ export default defineComponent({
     let selectData = ref([])
     onMounted(() => {
     })
+
+    // 初始化全部导出
+    const [serverExport, registerTable, requestLoading] = useExportAll({
+      ref: 'waitTable',
+      beforeRequest: (config, ctx) => {
+        config.fileName = modalStaticProperty.title
+        config.params = {
+          ...config.params,
+          pageSize: 999999,
+          reportCode: reportCodeMap[$route.name].reportCode
+        }
+      }
+    })
+    const onTableRegister = ($instance) => {
+      registerTable($instance)
+    }
     return {
       columns,
       tableData,
@@ -224,7 +252,11 @@ export default defineComponent({
       mofDivCodes,
       proCodes,
       endTime,
-      init
+      init,
+      serverExport,
+      registerTable,
+      requestLoading,
+      onTableRegister
     }
   }
 })
