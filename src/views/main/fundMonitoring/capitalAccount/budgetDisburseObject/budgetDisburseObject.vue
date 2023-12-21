@@ -318,7 +318,8 @@ export default {
       },
       tableConfig: proconf.tableConfig,
       // 表格尾部合计配置
-      tableFooterConfig: {
+      tableFooterConfig: {},
+      tableFooterConfigOther: {
         totalObj: {
           amountYszje: 0,
           amountYszyap: 0,
@@ -333,6 +334,10 @@ export default {
         },
         combinedType: ['switchTotal'],
         showFooter: this.isSx
+      },
+      tableFooterConfigToCzzd: {
+        combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal'],
+        showFooter: true
       },
       // 操作日志
       logData: [],
@@ -1303,7 +1308,7 @@ export default {
         'yyyy-MM-dd'
       )
     }
-    console.log('this.$store.state.curNavModule', this.$store.state.curNavModule)
+    this.tableFooterConfig = this.$store.state.curNavModule.url.includes('CZBudgetDisburseObject', 'BudgetDisburseObject') ? this.tableFooterConfigToCzzd : this.tableFooterConfigOther
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
