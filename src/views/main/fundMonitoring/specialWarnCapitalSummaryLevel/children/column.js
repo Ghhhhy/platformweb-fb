@@ -421,6 +421,7 @@ const proconf = {
     {
       title: '地区名称',
       field: 'name',
+      width: 140,
       sortable: false,
       filters: false
     },
