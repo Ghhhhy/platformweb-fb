@@ -19,6 +19,7 @@
             :query-form-item-config="queryConfig"
             :query-form-data="searchDataList"
             @onSearchClick="search"
+            @onSearchResetClick="resetSearch"
           />
         </div>
       </template>
@@ -264,6 +265,15 @@ export default {
       this.mainPagerConfig.currentPage = 1
       this.refresh()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
+    },
+    resetSearch() {
+      this.fiRuleName = ''
+      this.agencyCodeList = []
+      this.mofDivCodeList = []
+      this.startTime = ''
+      this.endTime = ''
+      this.fiscalYear = ''
+      this.queryTableDatas()
     },
     // 搜索
     search(val) {
