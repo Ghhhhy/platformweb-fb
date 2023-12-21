@@ -1133,6 +1133,7 @@ let proconf = {
       width: 140,
       field: 'tpFuncCode',
       sortable: false,
+      visible: !store.getters.isFuJian,
       align: 'left',
       backEndFormat: '{tpFuncCode}-{tpFuncName}', // 后端大数据批量导出format
       formatter({ row }) {
