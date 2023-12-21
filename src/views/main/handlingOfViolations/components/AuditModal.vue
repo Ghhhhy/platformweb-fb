@@ -211,7 +211,7 @@ import { Message, MessageBox } from 'element-ui'
 import { ModalTypeEnum, RouterPathEnum, ActionTypeEnum } from '../model/enum'
 import { checkRscode } from '@/utils/checkRscode'
 import { bpmFlow } from '@/api/frame/main/handlingOfViolations/index.js'
-import { pagePathMapNodeType, warnLevelOptions } from '../model/data'
+import { pagePathMapNodeType, warnLevelOptions, NeiMengwarnLevelOptions } from '../model/data'
 
 // 自定义双向绑定
 const model = {
@@ -344,6 +344,9 @@ export default defineComponent({
 
     // 获取预警级别
     const getWarnLevelOption = (warnLevel) => {
+      if (store.getters.isNeiMeng) {
+        return NeiMengwarnLevelOptions.find(item => String(item.value) === String(warnLevel)) || {}
+      }
       return warnLevelOptions.find(item => String(item.value) === String(warnLevel)) || {}
     }
     const haiNanModeProperty = computed(() => {

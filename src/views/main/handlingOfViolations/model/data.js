@@ -2,7 +2,7 @@ import store from '@/store/index'
 import { inject, computed, unref } from '@vue/composition-api'
 import router from '@/router'
 import { transJson2 } from '@/utils/params'
-import { TabEnum, WarnLevelEnum, RouterPathEnum } from './enum'
+import { TabEnum, WarnLevelEnum, NeiMengWarnLevelEnum, RouterPathEnum } from './enum'
 import { $title } from '@/hooks/useTitle/useTitle.js'
 const dict = JSON.parse(JSON.stringify(store.getters.dict))
 const pagePath = inject('pagePath')
@@ -101,6 +101,12 @@ export const warnLevelOptions = [
   { value: WarnLevelEnum.ORANGE, label: '橙色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#E67E22' } },
   { value: WarnLevelEnum.RED, label: '红色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#E74C3C' } },
   { value: WarnLevelEnum.BLUE, label: '蓝色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#3298DB' } }
+]
+export const NeiMengwarnLevelOptions = [
+  { value: NeiMengWarnLevelEnum.YELLOW, label: '黄色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#F1C40E' } },
+  { value: NeiMengWarnLevelEnum.ORANGE, label: '橙色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#E67E22' } },
+  { value: NeiMengWarnLevelEnum.RED, label: '红色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#E74C3C' } },
+  { value: NeiMengWarnLevelEnum.BLUE, label: '蓝色预警', iconClass: 'ri-alarm-warning-fill', iconStyle: { color: '#3298DB' } }
 ]
 
 // 监控处理方式Options（参照原项目内几种方式）
