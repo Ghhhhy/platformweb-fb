@@ -500,15 +500,15 @@ export default {
           this.tableData = res.data.results
           this.tableData.forEach(item => {
             item.agency = item.agencyCode + '-' + item.agencyName
-            if (item.warnLevel === 1) {
+            if (item.warnLevel === '1') {
               item.warnLevel = '<span style="color:#BBBB00">黄色预警</span>'
-            } else if (item.warnLevel === 2) {
+            } else if (item.warnLevel === '2') {
               item.warnLevel = '<span style="color:orange">橙色预警</span>'
-            } else if (item.warnLevel === 3) {
+            } else if (item.warnLevel === '3') {
               item.warnLevel = '<span style="color:red">红色预警</span>'
-            } else if (item.warnLevel === 5) {
+            } else if (item.warnLevel === '5') {
               item.warnLevel = '<span style="color:blue">蓝色预警</span>'
-            } else if (item.warnLevel === 4) {
+            } else if (item.warnLevel === '4') {
               item.warnLevel = '<span style="color:gray">灰色预警</span>'
             }
           })

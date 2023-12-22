@@ -127,10 +127,13 @@ export let proconf = {
     },
     {
       title: '区划',
-      field: 'mofDiv',
+      field: 'mofDivCode',
       width: '150',
       sortable: true,
-      align: 'center'
+      align: 'center',
+      formatter: ({ row }) => {
+        return `${row.mofDivCode}-${row.mofDivName}`
+      }
     },
     {
       'title': '预警级别',
