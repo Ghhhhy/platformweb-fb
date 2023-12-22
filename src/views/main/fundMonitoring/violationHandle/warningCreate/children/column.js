@@ -4,7 +4,7 @@ const budgetImpColumns = [
   {
     title: '区划',
     width: 180,
-    field: 'mofDivName',
+    field: 'mofDivCode',
     sortable: false,
     filters: false,
     align: 'center',
@@ -17,7 +17,7 @@ const budgetImpColumns = [
   {
     title: '指标管理处室',
     width: 220,
-    field: 'bgtMofDepName',
+    field: 'bgtMofDepCode',
     align: 'center',
     formatter({ row }) {
       if (row.bgtMofDepCode && row.bgtMofDepName) {
@@ -51,7 +51,7 @@ const budgetImpColumns = [
   {
     title: '预算单位',
     width: 180,
-    field: 'agencyName',
+    field: 'agencyCode',
     sortable: false,
     filters: store.getters.isXm ? [{ data: '' }] : false,
     filterRender: {
