@@ -309,7 +309,7 @@ export default {
     // 初始化高级查询data
     getSearchDataList() {
       // 下拉树
-      let searchDataObj = {}
+      let searchDataObj = this.queryData
       this.queryConfig.forEach(item => {
         if (item.itemRender?.name === '$vxeTree' && item.itemRender?.props?.config?.multiple) {
           searchDataObj[item.field] = []
