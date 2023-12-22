@@ -28,7 +28,13 @@
           :toolbar-config="tableToolbarConfig"
           @onToolbarBtnClick="onToolbarBtnClick"
           @ajaxData="pagerChange"
-        />
+        >
+          <template v-slot:toolbar-custom-slot>
+            <div style="margin-right: 10px;">
+              <vxe-button v-if="$store.getters.isFuJian" status="primary" :loading="exportLoading" @click="onExportAll">导出全部</vxe-button>
+            </div>
+          </template>
+        </BsTable>
       </template>
     </BsMainFormListLayout>
   </vxe-modal>
@@ -40,7 +46,9 @@ import useTable from '@/hooks/useTable'
 import { carrImplRegiSecondModalColumns, carrImplRegiSecondModalColumnsFj } from './columns.js'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import useExportAllOfFJ from '@/hooks/useExportAll/useExportAllOfFJ.js'
 // import { message } from 'element-ui'
+
 export default defineComponent({
   components: {},
   setup() {
@@ -150,10 +158,33 @@ export default defineComponent({
       resetFetchTableData()
     }
     const isShowQueryConditions = ref(true)
+
+    // 初始化"导出全部"功能
+    const exportLoading = ref(false)
+    function onExportAll() {
+      useExportAllOfFJ({
+        $tableInstance: waitTable.value,
+        beforeRequest: (config) => {
+          config.fileName = `${store.state.curNavModule.name}-${modalStaticProperty.value.title}`
+          config.requestParam = {
+            ...config.requestParam,
+            reportCode: reportCode.value,
+            [reportCodeMap[$route.name].querykey]: injectData.value.code // trackProCode 或 mofDivCode 的值
+          }
+
+          exportLoading.value = true
+        }
+      }).finally(_ => {
+        exportLoading.value = false
+      })
+    }
+
     onMounted(() => {
 
     })
     return {
+      exportLoading,
+      onExportAll,
       columns,
       tableData,
       resetFetchTableData,
