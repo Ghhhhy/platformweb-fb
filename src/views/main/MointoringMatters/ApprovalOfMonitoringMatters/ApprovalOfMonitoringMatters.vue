@@ -681,7 +681,7 @@ export default {
         mofDivCode: this.mofDivCode,
         mofDivCodeList: this.codeList,
         menuId: this.$store.state.curNavModule.guid,
-        flowStatus: this.toolBarStatusSelect.curValue
+        flowStatus: this.$store.state.curNavModule.url === 'ApprovalOfMonitoringSelectMatters' ? '3' : this.toolBarStatusSelect.curValue
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then(res => {
