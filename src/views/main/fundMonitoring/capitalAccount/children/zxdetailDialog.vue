@@ -308,7 +308,6 @@ export default {
       params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
-      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results
