@@ -22,6 +22,7 @@
           ref="waitTable"
           v-bind="tableStaticProperty"
           class="Titans-table"
+          :table-config="tableConfig"
           :table-columns-config="columns"
           :table-data="tableData"
           :pager-config="pagerConfig"
@@ -32,7 +33,7 @@
         >
           <template v-slot:toolbar-custom-slot>
             <div style="margin-right: 10px;">
-              <vxe-button v-if="$store.getters.isFuJian" status="primary" :loading="exportLoading" @click="onExportAll">导出全部</vxe-button>
+              <vxe-button v-if="showExportAllBtn" status="primary" :loading="exportLoading" @click="onExportAll">导出全部</vxe-button>
             </div>
           </template>
         </BsTable>
@@ -161,6 +162,12 @@ export default defineComponent({
       ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
+    const tableConfig = {
+      globalConfig: {
+        checkType: '',
+        seq: true
+      }
+    }
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
@@ -205,6 +212,10 @@ export default defineComponent({
     let selectData = ref([])
 
     // 初始化"导出全部"功能
+    const showExportAllBtn = computed(() => {
+      const isMenuAllow = ['CarryPayRegion', 'CarryPayCapital'].includes($route.name) // 项目明细需要导出的菜单
+      return store.getters.isFuJian && isMenuAllow
+    })
     const exportLoading = ref(false)
     function onExportAll() {
       useExportAllOfFJ({
@@ -227,6 +238,8 @@ export default defineComponent({
     onMounted(() => {
     })
     return {
+      showExportAllBtn,
+      tableConfig,
       exportLoading,
       onExportAll,
       columns,

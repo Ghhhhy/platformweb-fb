@@ -22,6 +22,7 @@
           ref="waitTable"
           v-bind="tableStaticProperty"
           class="Titans-table"
+          :table-config="tableConfig"
           :table-columns-config="columns"
           :table-data="tableData"
           :pager-config="pagerConfig"
@@ -146,6 +147,12 @@ export default defineComponent({
       ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
+    const tableConfig = {
+      globalConfig: {
+        checkType: '',
+        seq: true
+      }
+    }
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
@@ -183,6 +190,7 @@ export default defineComponent({
 
     })
     return {
+      tableConfig,
       exportLoading,
       onExportAll,
       columns,

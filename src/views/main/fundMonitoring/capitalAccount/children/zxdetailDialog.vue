@@ -169,6 +169,7 @@ export default {
       tableConfig: {
         globalConfig: {
           // 全局配置
+          checkType: '',
           seq: true, // 序号列
           useMoneyFilter: true
         }
