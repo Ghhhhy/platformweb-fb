@@ -298,6 +298,18 @@ export default {
             this.supplyDataList.payeeAcctBankName = res.data.executeData.payeeAcctBankName
             this.supplyDataList.corBgtDocNoName = res.data.executeData.corBgtDocNoName
             this.supplyDataList.proName = res.data.executeData.proCode + '-' + res.data.executeData.proName
+            this.supplyDataList.proCatName = res.data.executeData.proCatCode + '-' + res.data.executeData.proCatName
+            this.supplyDataList.agencyName = res.data.executeData.agencyCode + '-' + res.data.executeData.agencyName
+            this.supplyDataList.payAcctBankName = res.data.executeData.payAcctBankCode ? res.data.executeData.payAcctBankCode + '-' + res.data.executeData.payAcctBankName : res.data.executeData.payAcctBankName
+            this.supplyDataList.govBgtEcoName = res.data.executeData.govBgtEcoCode + '-' + res.data.executeData.govBgtEcoName
+            this.supplyDataList.depBgtEcoName = res.data.executeData.depBgtEcoCode + '-' + res.data.executeData.depBgtEcoName
+            this.supplyDataList.fundTypeName = res.data.executeData.fundTypeCode + '-' + res.data.executeData.fundTypeName
+            this.supplyDataList.expFuncName = res.data.executeData.expFuncCode + '-' + res.data.executeData.expFuncName
+            this.supplyDataList.payTypeName = res.data.executeData.payTypeCode + '-' + res.data.executeData.payTypeName
+            this.supplyDataList.setModeName = res.data.executeData.setModeCode + '-' + res.data.executeData.setModeName
+            this.supplyDataList.manageMofDepName = res.data.executeData.manageMofDepCode + '-' + res.data.executeData.manageMofDepName
+            this.supplyDataList.isSalName = res.data.executeData.isSalCode + '-' + res.data.executeData.isSalName
+            this.supplyDataList.isDirName = res.data.executeData.isDirCode + '-' + res.data.executeData.isDirName
             if (this.$store.getters.isSx) {
               this.supplyDataList.depBgtEcoName = ['depBgtEcoCode', 'depBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')
               this.supplyDataList.govBgtEcoName = ['govBgtEcoCode', 'govBgtEcoName'].map(key => res.data.executeData[key]).filter(Boolean).join('-')

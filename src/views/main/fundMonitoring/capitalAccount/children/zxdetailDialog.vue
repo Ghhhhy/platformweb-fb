@@ -29,8 +29,6 @@
         :export-modal-config="{ fileName: title }"
         :default-money-unit="10000"
         @cellClick="cellClick"
-        @register="register"
-
         @onToolbarBtnClick="onToolbarBtnClick"
         @ajaxData="ajaxTableData"
       >
@@ -40,6 +38,11 @@
               <span class="fn-inline">{{ title }}</span>
               <i class="fn-inline"></i>
             </div>
+          </div>
+        </template>
+        <template v-slot:toolbar-custom-slot>
+          <div style="margin-right: 10px;">
+            <vxe-button v-if="$store.getters.isFuJian" status="primary" :loading="exportLoading" @click="onExportAll">导出全部</vxe-button>
           </div>
         </template>
       </BsTable>
@@ -66,19 +69,10 @@ import HttpModule from '@/api/frame/main/fundMonitoring/specialSupervisionRegion
 import proconf from './column.js'
 import ProjectItem from './ProjectItem.vue'
 import ProjectItemSx from './ProjectItemSx.vue'
-import useExportAll from '@/hooks/useExportAll/useExportAllMixin.js'
+import useExportAllOfFJ from '@/hooks/useExportAll/useExportAllOfFJ.js'
 
 export default {
-  mixins: [useExportAll(
-    {
-      ref: 'bsTableRef',
-      beforeRequest: (config, ctx) => {
-        config.fileName = ctx.title
-        config.params.pageSize = 999999
-      }
-    }
-  )
-  ],
+  mixins: [],
   name: 'DetailDialog',
   components: {
     ProjectItem,
@@ -127,6 +121,7 @@ export default {
   data() {
     return {
       proCode: '',
+      exportLoading: false,
       isShowQueryConditions: true,
       queryConfig: proconf.highQueryConfig,
       searchDataList: proconf.highQueryData,
@@ -174,6 +169,7 @@ export default {
       tableConfig: {
         globalConfig: {
           // 全局配置
+          checkType: '',
           seq: true, // 序号列
           useMoneyFilter: true
         }
@@ -312,7 +308,6 @@ export default {
       params.payeeAcctNo = this.condition.payeeAcctNo ? this.condition.payeeAcctNo[0] : ''
       params.xpayDate = this.condition.xpayDate ? this.condition.xpayDate[0] : ''
       this.$parent.tableLoading = true
-      this.defaultConfig.params = { ...this.defaultConfig.params, ...params }
       HttpModule.detailPageQuery(params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data.results
@@ -701,6 +696,23 @@ export default {
           }
         }
       }
+    },
+    // 导出全部
+    onExportAll() {
+      useExportAllOfFJ({
+        $tableInstance: this.$refs.mainTableRef,
+        beforeRequest: (config) => {
+          config.fileName = `${this.$store.state.curNavModule.name}-${this.title}`
+          config.requestParam = {
+            ...config.requestParam,
+            ...this.detailQueryParam
+          }
+
+          this.exportLoading = true
+        }
+      }).finally(_ => {
+        this.exportLoading = false
+      })
     },
     // 表格单元行单击
     cellClick(obj, context, e) {
