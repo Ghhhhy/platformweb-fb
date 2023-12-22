@@ -22,6 +22,7 @@
           ref="waitTable"
           v-bind="tableStaticProperty"
           class="Titans-table"
+          :table-config="tableConfig"
           :table-columns-config="columns"
           :table-data="tableData"
           :pager-config="pagerConfig"
@@ -31,7 +32,9 @@
           @cellClick="cellClick"
         >
           <template v-slot:toolbar-custom-slot>
-            单位：万元
+            <div style="margin-right: 10px;">
+              <vxe-button v-if="showExportAllBtn" status="primary" :loading="exportLoading" @click="onExportAll">导出全部</vxe-button>
+            </div>
           </template>
         </BsTable>
       </template>
@@ -47,7 +50,9 @@ import { carryImplementationRegionModalColumns, carryImplementationRegionModalCo
 import CarrImplRegiSecondModal from './carrImplRegiSecondModal.vue'
 import store from '@/store/index'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
+import useExportAllOfFJ from '@/hooks/useExportAll/useExportAllOfFJ.js'
 // import { message } from 'element-ui'
+
 export default defineComponent({
   components: {
     CarrImplRegiSecondModal
@@ -157,6 +162,12 @@ export default defineComponent({
       ), // 预算和支出表头区分
       dataKey: store.getters.isFuJian ? 'data.results' : 'data.data'
     }, false)
+    const tableConfig = {
+      globalConfig: {
+        checkType: '',
+        seq: true
+      }
+    }
     const tableStaticProperty = reactive({
       border: true,
       resizable: true,
@@ -199,9 +210,38 @@ export default defineComponent({
     const searchDataList = reactive({})
     const isShowQueryConditions = ref(true)
     let selectData = ref([])
+
+    // 初始化"导出全部"功能
+    const showExportAllBtn = computed(() => {
+      const isMenuAllow = ['CarryPayRegion', 'CarryPayCapital'].includes($route.name) // 项目明细需要导出的菜单
+      return store.getters.isFuJian && isMenuAllow
+    })
+    const exportLoading = ref(false)
+    function onExportAll() {
+      useExportAllOfFJ({
+        $tableInstance: waitTable.value,
+        beforeRequest: (config) => {
+          config.fileName = `${store.state.curNavModule.name}-${modalStaticProperty.title}`
+          config.requestParam = {
+            ...config.requestParam,
+            reportCode: reportCodeMap[$route.name].reportCode,
+            [reportCodeMap[$route.name].querykey]: injectData.value.code // trackProCode 或 mofDivCode 的值
+          }
+
+          exportLoading.value = true
+        }
+      }).finally(_ => {
+        exportLoading.value = false
+      })
+    }
+
     onMounted(() => {
     })
     return {
+      showExportAllBtn,
+      tableConfig,
+      exportLoading,
+      onExportAll,
       columns,
       tableData,
       resetFetchTableData,

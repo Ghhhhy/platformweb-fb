@@ -345,6 +345,36 @@ export function postDownloadXlsxInArrayBuffer(url, data = {}, name = '下载文�
   })
 }
 
+// "导出全部" 请求文件流
+export function postDownloadXlsxInArrayBufferOfFJ(url, data = {}, name = '下载文件', Origin, openLoading) {
+  return new Promise((resolve, reject) => {
+    axios.request({
+      responseType: 'arraybuffer',
+      url: globalGatewayAgent(url, Origin),
+      method: 'post',
+      data: data
+    }).then((result) => {
+      const outputFilename = `${name}.xlsx`
+      const blob = new Blob([result.data], { type: 'application/vnd.ms-excel' })
+      if ('download' in document.createElement('a')) {
+        const elink = document.createElement('a')
+        elink.download = outputFilename
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href)
+        document.body.removeChild(elink)
+      } else {
+        navigator.msSaveBlob(blob, outputFilename)
+      }
+      resolve(outputFilename)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 // 封装axios的下载数据流转换成excel
 export function DownLoadToExcel(url, data = {}, fileName, Origin) {
   fileName = fileName + '.xls'
