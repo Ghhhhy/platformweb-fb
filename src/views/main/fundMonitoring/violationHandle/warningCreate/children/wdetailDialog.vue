@@ -256,6 +256,7 @@ export default {
       isCreate: false,
       isDone: false,
       status: null,
+      statusList: null,
       isHandle: false,
       isNormal: false,
       isProcessed: false,
@@ -849,6 +850,7 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabSelect = curStatusButton.curValue
           this.isSign = 0
+          this.$store.getters.isHLJ && (this.warnLevel = 1)
           this.isNormal = false
           this.isHandle = false
           this.status = null
@@ -861,6 +863,10 @@ export default {
           this.isSign = '1'
           this.status = ''
           this.isNormal = true
+          if (this.$store.getters.isHLJ) {
+            this.warnLevel = 1
+            this.isNormal = false
+          }
           this.isHandle = false
           this.status = null
           this.backType = ''
@@ -874,6 +880,10 @@ export default {
           this.isHandle = false
           this.isSign = '2'
           this.status = 7
+          if (this.$store.getters.isHLJ) {
+            this.warnLevel = '1'
+            this.statusList = ['1', '2', '3']
+          }
           this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-待整改明细`
           break
@@ -886,6 +896,10 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
+          if (this.$store.getters.isHLJ) {
+            this.warnLevel = '1'
+            this.status = '4'
+          }
           this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定违规-已整改明细`
           break
@@ -1105,6 +1119,10 @@ export default {
         menuId: this.$store.state.curNavModule.guid,
         ruleCodes: []
       }
+      if (this.$store.getters.isHLJ && this.statusList) {
+        params.statusList = this.statusList
+        delete params.status
+      }
       if (this.searchDataList.ruleCodes && typeof this.searchDataList.ruleCodes === 'string') {
         params.ruleCodes = this.searchDataList.ruleCodes?.split(',')?.map(item => {
           return item?.split('##')[0]
@@ -1208,6 +1226,9 @@ export default {
                 manageMofDepCode: item?.executeDataDetailVO?.executeData?.manageMofDepCode
               }
             })
+            if (this.$store.getters.isHLJ) {
+              this.statusList = null
+            }
           } else {
             this.$message.error(res.message)
           }
