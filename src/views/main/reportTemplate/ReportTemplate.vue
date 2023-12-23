@@ -300,6 +300,7 @@ export default {
       console.log(data, obj)
       const condition = { ...utils.highSearch(this.queryConfig, data) }
       this.tableDataParams.condition = condition
+      this.searchDataList = condition
       this.queryTableDatas()
     },
     onToolbarBtnClick({ context, table, code }) {
