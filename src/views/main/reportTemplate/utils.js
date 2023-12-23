@@ -160,11 +160,25 @@ export default {
     hightQueryConfig.forEach((item) => {
       let field = item.field
       if (item.itemRender) {
-        if (item.itemRender?.name === '$vxeTree' && item.itemRender?.props?.config?.multiple) {
-          searchDataObj[item.field] = []
+        let renderName = item.itemRender.name
+        if (renderName === '$formTreeInput' || renderName === '$vxeTree') {
+          searchDataObj[field] = ''
+        } else if (
+          renderName === '$vxeInput' &&
+          item.itemRender.props.readonly
+        ) {
+          if (field) {
+            searchDataObj[field] = ''
+          }
+        } else {
+          if (field) {
+            searchDataObj[field] = ''
+          }
         }
-      } else if (field) {
-        searchDataObj[field] = ''
+      } else {
+        if (field) {
+          searchDataObj[field] = ''
+        }
       }
     })
     return searchDataObj
