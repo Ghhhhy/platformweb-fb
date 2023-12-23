@@ -93,11 +93,9 @@
 <script>
 import DetailDialog from './DetailDialog.vue'
 import HttpModule from '@/api/frame/main/reportTemplate/index.js'
-import regionMixin from './mixins/regionMixin'
 import utils from './utils.js'
 import showFileModal from '@//views/main/reportTemplate/useFileModal.js'
 export default {
-  mixins: [regionMixin],
   components: {
     DetailDialog
   },
@@ -272,6 +270,9 @@ export default {
           }
         })
       })
+    },
+    itemChange(changeEvent) {
+
     },
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit =
