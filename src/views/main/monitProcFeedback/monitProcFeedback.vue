@@ -301,6 +301,8 @@ export default {
         } else {
           this.queryData[changeEvent.property] = changeEvent.data[`${changeEvent.property}_code`]
         }
+      } else {
+        this.queryData[changeEvent.property] = changeEvent.data[`${changeEvent.property}`]
       }
     },
     onSearch() {
