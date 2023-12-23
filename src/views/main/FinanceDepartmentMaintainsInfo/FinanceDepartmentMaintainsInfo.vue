@@ -2,12 +2,15 @@
   <div style="height: 100%">
     <BsTemplate ref="tmp" @btnclick="onBtnClick" />
     <vxe-modal
-      v-if="addModalBtm"
-      v-model="addModalBtm"
-      title="新增"
+      v-if="showModal"
+      ref="modalForm"
+      v-model="modalForm"
+      :title="modalTitle"
       width="66%"
       :height="(activeNameBtm === '2' || activeNameBtm === '6') ? '79%' : '60%'"
       :show-footer="true"
+      :destroy-on-close="true"
+      @close="closeModal"
     >
       <div style="height: 100%; overflow: hidden">
         <el-tabs v-model="activeNameBtm" type="border-card">
@@ -47,13 +50,10 @@
             />
           </el-tab-pane>
           <el-tab-pane label="相关部门联系方式" name="5">
-            <BsTable
-              height="350"
-              :table-columns-config="modalTblColumnsConfigFv"
-              :table-data="tableDataFv"
-              :pager-config="false"
-              :footer-config="{ showFooter: false }"
-              :toolbar-config="tableToolbarConfigInmodal"
+            <BsForm
+              ref="contactInformationForm"
+              :form-items-config="contactInformationFormConfig"
+              :form-data-list="contactInformationFormData"
             />
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="6">
@@ -85,6 +85,7 @@
               </div>
             </el-upload>
             <BsTable
+              ref="fileDataRef"
               height="460"
               :table-columns-config="modalTblColumnsConfigSx"
               :table-data="tableDataSx"
@@ -96,16 +97,32 @@
         </el-tabs>
       </div>
       <div slot="footer">
-        <vxe-button @click="addModalBtm = false">取消</vxe-button>
+        <vxe-button @click="showModal = false">取消</vxe-button>
         <vxe-button status="primary" @click="handleSure">确认</vxe-button>
       </div>
     </vxe-modal>
   </div>
 </template>
 <script>
+import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+const fileTypeMap = new Map()
+fileTypeMap.set('01 ', ' 项目审批（核准、备案）资料')
+fileTypeMap.set('02 ', ' 项目用地审批、环评审批、施工许可资料')
+fileTypeMap.set('03 ', ' 项目招投标和政府采购资料')
+fileTypeMap.set('04 ', ' 项目主要合同资料')
+fileTypeMap.set('05 ', ' 项目评审报告')
+fileTypeMap.set('11', '  资金支出佐证资料')
+fileTypeMap.set('12 ', ' 财务会计资料')
+fileTypeMap.set('13 ', ' 工程资料')
+fileTypeMap.set('14 ', ' 项目形象进度照片')
+fileTypeMap.set('15 ', ' 竣工验收资料')
+fileTypeMap.set('99 ', ' 其他')
 export default {
   data() {
     return {
+      menuId: '',
+      modalTitle: '',
+      modalForm: '',
       importConlum: [
         {
           title: '一级绩效指标代码',
@@ -158,30 +175,38 @@ export default {
       modalTblColumnsConfigSx: [
         {
           title: '附件名称',
-          field: 'filename'
+          field: 'fileName'
         },
         {
           title: '上传时间',
-          field: 'time'
+          field: 'createTime'
         },
         {
           title: '附件分类',
-          field: 'type',
+          field: 'proAttchKindCode',
           editRender: {
             name: '$vxeSelect',
             options: [
-              {
-                label: '分类1'
-              },
-              {
-                label: '分类2'
-              }
-            ]
+              { value: '01', label: '项目审批（核准、备案）资料' },
+              { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
+              { value: '03', label: '项目招投标和政府采购资料' },
+              { value: '04', label: '项目主要合同资料' },
+              { value: '05', label: '项目评审报告' },
+              { value: '11', label: '资金支出佐证资料' },
+              { value: '12', label: '财务会计资料' },
+              { value: '13', label: '工程资料' },
+              { value: '14', label: '项目形象进度照片' },
+              { value: '15', label: '竣工验收资料' },
+              { value: '99', label: '其他' }
+            ],
+            props: {
+              placeholder: '请选择附件分类'
+            }
           }
         },
         {
           title: '附件说明',
-          field: 'des',
+          field: 'kpiRemark',
           editRender: {
             name: '$vxeInput'
           }
@@ -193,15 +218,141 @@ export default {
           name: 1
         }
       ],
+      contactInformationFormConfig: [
+        {
+          field: 'proAddress',
+          title: '项目地址',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目地址', disabled: false } }
+        },
+        {
+          field: 'estAgencyName',
+          title: '主要监理单位',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入主要监理单位', disabled: false } }
+        },
+        {
+          field: 'consAgencyName',
+          title: '主要施工单位',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入主要施工单位', disabled: false } }
+        },
+        {
+          field: 'agencyLeaderPerName',
+          title: '项目单位负责人姓名',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目单位负责人姓名', disabled: false } }
+        },
+        {
+          field: 'agencyLeaderPerOtel',
+          title: '项目单位负责人办公电话',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目单位负责人办公电话', disabled: false } }
+        },
+        {
+          field: 'agencyLeaderPerMtel',
+          title: '项目单位负责人手机',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目单位负责人手机', disabled: false } }
+        },
+        {
+          field: 'fiLeader',
+          title: '财务负责人姓名',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财务负责人姓名', disabled: false } }
+        },
+        {
+          field: 'fiLeaderOtel',
+          title: '财务负责人办公电话',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财务负责人办公电话', disabled: false } }
+        },
+        {
+          field: 'fiLeaderMtel',
+          title: '财务负责人手机',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财务负责人手机', disabled: false } }
+        },
+        {
+          field: 'proLeader',
+          title: '项目负责人姓名',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目负责人姓名', disabled: false } }
+        },
+        {
+          field: 'proLeaderOtel',
+          title: '项目负责人办公电话',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目负责人办公电话', disabled: false } }
+        },
+        {
+          field: 'proLeaderMtel',
+          title: '项目负责人手机',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目负责人手机', disabled: false } }
+        },
+        {
+          field: 'proLessor',
+          title: '工作联系人姓名',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入工作联系人姓名', disabled: false } }
+        },
+        {
+          field: 'proLessorOtel',
+          title: '工作联系人办公电话',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入工作联系人办公电话', disabled: false } }
+        },
+        {
+          field: 'proLessorMtel',
+          title: '工作联系人手机',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入工作联系人手机', disabled: false } }
+        }
+      ],
+      contactInformationFormData: {
+        proAddress: '',
+        estAgencyName: '',
+        consAgencyName: '',
+        agencyLeaderPerName: '',
+        agencyLeaderPerOtel: '',
+        agencyLeaderPerMtel: '',
+        fiLeader: '',
+        fiLeaderOtel: '',
+        fiLeaderMtel: '',
+        proLeader: '',
+        proLeaderOtel: '',
+        proLeaderMtel: '',
+        proLessor: '',
+        proLessorOtel: '',
+        proLessorMtel: ''
+      },
       modalTblColumnsConfigFv: [
         {
           title: '项目地址',
           width: 200,
+          field: 'proAddress',
           editRender: {
             name: '$vxeInput'
           }
         },
         {
+          field: 'estAgencyName',
           title: '主要监理单位',
           width: 200,
           editRender: {
@@ -209,6 +360,7 @@ export default {
           }
         },
         {
+          field: 'consAgencyName',
           title: '主要施工单位',
           width: 200,
           editRender: {
@@ -219,6 +371,7 @@ export default {
           title: '项目单位负责人',
           children: [
             {
+              field: 'agencyLeaderPerName',
               title: '姓名',
               width: 200,
               editRender: {
@@ -226,6 +379,7 @@ export default {
               }
             },
             {
+              field: 'agencyLeaderPerOtel',
               title: '办公电话',
               width: 200,
               editRender: {
@@ -233,6 +387,7 @@ export default {
               }
             },
             {
+              field: 'agencyLeaderPerMtel',
               title: '手机',
               width: 200,
               editRender: {
@@ -245,6 +400,7 @@ export default {
           title: '财务负责人',
           children: [
             {
+              field: 'fiLeader',
               title: '姓名',
               width: 200,
               editRender: {
@@ -252,6 +408,7 @@ export default {
               }
             },
             {
+              field: 'fiLeaderOtel',
               title: '办公电话',
               width: 200,
               editRender: {
@@ -259,6 +416,7 @@ export default {
               }
             },
             {
+              field: 'fiLeaderMtel',
               title: '手机',
               width: 200,
               editRender: {
@@ -271,6 +429,7 @@ export default {
           title: '项目负责人',
           children: [
             {
+              field: 'proLeader',
               title: '姓名',
               width: 200,
               editRender: {
@@ -278,6 +437,7 @@ export default {
               }
             },
             {
+              field: 'proLeaderOtel',
               title: '办公电话',
               width: 200,
               editRender: {
@@ -285,6 +445,7 @@ export default {
               }
             },
             {
+              field: 'proLeaderMtel',
               title: '手机',
               width: 200,
               editRender: {
@@ -297,6 +458,7 @@ export default {
           title: '工作联系人',
           children: [
             {
+              field: 'proLessor',
               title: '姓名',
               width: 200,
               editRender: {
@@ -304,6 +466,7 @@ export default {
               }
             },
             {
+              field: 'proLessorOtel',
               title: '办公电话',
               width: 200,
               editRender: {
@@ -311,6 +474,7 @@ export default {
               }
             },
             {
+              field: 'proLessorMtel',
               title: '手机',
               width: 200,
               editRender: {
@@ -322,99 +486,110 @@ export default {
       ],
       formItemsConfigForth: [
         {
-          field: 'b1',
+          field: 'proApproveNumber',
           title: '项目审批（核准、备案）文号',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目审批（核准、备案）文号' } }
         },
         {
-          field: 'b2',
+          field: 'landApproveNumber',
           title: '用地审批文号',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入用地审批文号' } }
         },
         {
-          field: 'b3',
+          field: 'eiaApproveNumber',
           title: '环评审批文号',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入环评审批文号' } }
         },
         {
-          field: 'b4',
+          field: 'consApproveNumber',
           title: '施工许可文号',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入施工许可文号' } }
         }
       ],
-      formDataListForth: {},
+      formDataListForth: {
+        proApproveNumber: '',
+        landApproveNumber: '',
+        eiaApproveNumber: '',
+        consApproveNumber: ''
+      },
       formDataListThird: {
         sums: '',
-        a1: '',
-        a2: ''
+        proGi: '',
+        proGiAddnb: '',
+        proGiCff: '',
+        proGiCfo: '',
+        proGiLff: '',
+        proGiEf: '',
+        proGiLb: '',
+        proGiBankl: ''
       },
       formItemsConfigThird: [
         {
-          field: 'sums',
+          field: 'proGi',
           title: '项目总投资',
           span: 24,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '自动生成', disabled: true } }
         },
         {
-          field: 'a1',
+          field: 'proGiAddnb',
           title: '增发国债资金',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入增发国债资金' } }
         },
         {
-          field: 'a2',
+          field: 'proGiCff',
           title: '中央预算内投资',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入中央预算内投资' } }
         },
         {
-          field: 'a3',
+          field: 'proGiCfo',
           title: '其他中央财政性建设资金',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入其他中央财政性建设资金' } }
         },
         {
-          field: 'a4',
+          field: 'proGiLff',
           title: '地方财政资金',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入地方财政资金' } }
         },
         {
-          field: 'a5',
+          field: 'proGiEf',
           title: '企业自有资金',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入企业自有资金' } }
         },
         {
-          field: 'a6',
+          field: 'proGiLb',
           title: '地方政府专项债券',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入地方政府专项债券' } }
         },
         {
-          field: 'a7',
+          field: 'proGiBankl',
           title: '银行贷款',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$vxeMoney', props: { type: 'string', required: true, placeholder: '请输入银行贷款' } }
         },
         {
-          field: 'a8',
+          field: 'proGiOth',
           title: '其他资金',
           span: 12,
           titleWidth: '240',
@@ -424,71 +599,56 @@ export default {
       activeNameTop: '1',
       formItemsConfigBtm: [
         {
-          field: 'agency_',
+          field: 'proAgencyName',
           title: '项目单位',
           span: 12,
           titleWidth: '240',
-          itemRender: {
-            name: '$formTreeInput',
-            required: true,
-            props: {
-              disabled: true,
-              placeholder: '请选择项目单位',
-              isServer: true,
-              serverUri: 'pay-clear-service/v3/elementtree',
-              elecode: 'AGENCY',
-              queryparams: {
-                elementCode: 'AGENCY',
-                menuguid: 'B198CFFC387EA6D1E1307A101AA5A8F1',
-                relationCondition: ''
-              }
-            }
-          }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目单位', disabled: true } }
         },
         {
-          field: 'id_card_no',
+          field: 'mofDivName',
           title: '财政区划',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财政区划', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财政区划', disabled: false } }
         },
         {
-          field: 'card_no',
+          field: 'budgetLevelName',
           title: '预算级次',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入预算级次', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入预算级次', disabled: false } }
         },
         {
-          field: 'card_no_a',
+          field: 'speProName',
           title: '项目名称',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目名称', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目名称', disabled: false } }
         },
         {
-          field: 'card_no_b',
+          field: 'speProCode',
           title: '项目代码',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目代码', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目代码', disabled: false } }
         },
         {
-          field: 'card_no_c',
+          field: 'trackProName',
           title: '增发国债资金中央转移支付项目名称',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入增发国债资金中央转移支付项目名称', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入增发国债资金中央转移支付项目名称', disabled: false } }
         },
         {
-          field: 'card_no_d',
+          field: 'trackProCode',
           title: '增发国债资金中央转移支付项目代码',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入增发国债资金中央转移支付项目代码', disabled: true } }
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入增发国债资金中央转移支付项目代码', disabled: false } }
         },
         {
-          field: 'dept_',
+          field: 'proDeptName',
           title: '项目主管部门',
           span: 12,
           titleWidth: '240',
@@ -496,7 +656,7 @@ export default {
             name: '$formTreeInput',
             required: true,
             props: {
-              disabled: true,
+              disabled: false,
               placeholder: '请选择项目主管部门',
               isServer: true,
               serverUri: 'pay-clear-service/v3/elementtree',
@@ -508,28 +668,28 @@ export default {
           }
         },
         {
-          field: 'card_no_e',
+          field: 'fundInvestAreaName',
           title: '项目所属投向领域',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目所属投向领域' } }
         },
         {
-          field: 'card_no_f',
+          field: 'proContent',
           title: '项目主要建设内容',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目主要建设内容' } }
         },
         {
-          field: 'card_no_g',
+          field: 'proStaDate',
           title: '开工或预计开工时间',
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择开工或预计开工时间' } }
         },
         {
-          field: 'card_no_h',
+          field: 'proEndDate',
           title: '预计完工时间',
           span: 12,
           titleWidth: '240',
@@ -537,16 +697,20 @@ export default {
         }
       ],
       formDataListBtm: {
-        agency_: '',
-        id_card_no: '',
-        card_no: '',
-        card_no_a: '',
-        card_no_b: '',
-        card_no_c: '',
-        card_no_d: '',
-        dept_: ''
+        proAgencyCode: '',
+        mofDivName: '',
+        budgetLevelName: '',
+        speProName: '',
+        speProCode: '',
+        trackProName: '',
+        trackProCode: '',
+        proDeptName: '',
+        fundInvestAreaName: '',
+        proContent: '',
+        proStaDate: '',
+        proEndDate: ''
       },
-      addModalBtm: false,
+      showModal: false,
       tableToolbarConfigInmodal: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -566,19 +730,19 @@ export default {
       modalTblColumnsConfig: [
         {
           title: '一级指标',
-          field: 'lvl1name'
+          field: 'lv1PerfIndName'
         },
         {
           title: '二级指标',
-          field: 'lvl2name'
+          field: 'lv2PerfIndName'
         },
         {
           title: '三级指标',
-          field: 'lvl3name'
+          field: 'lv3PerfIndName'
         },
         {
           title: '指标值',
-          field: 'value'
+          field: 'kpiVal'
         }
       ],
       addModal: false,
@@ -586,29 +750,30 @@ export default {
       tableColumnsIdConfig: [
         {
           code: '1',
-          tid: '950D6C7306584E548C173C80F808396A',
+          tid: '436FEE6C7CB5474C822D91546240423D',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
           code: '2',
-          tid: '950D6C7306584E548C173C80F808396A',
+          tid: '436FEE6C7CB5474C822D91546240423D',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         },
         {
-          code: '3',
-          tid: '950D6C7306584E548C173C80F808396A',
+          code: '0',
+          tid: '436FEE6C7CB5474C822D91546240423D',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         }
       ],
-      menuName: '财政部门维护信息',
-      tableUrl: '',
+      menuName: '增发国债资金项目基本信息录入',
+      tableUrl: '/pro-gather-server/gather/pmProjectInfoDetail/list',
       tableParams: {
-
+        appId: 'pm_project_info_detail'
       },
       hideZero: true,
-      tableCountUrl: '',
+      tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetail/count',
       tableCountParams: {
-
+        statusCodeArr: ['1', '2', '0'],
+        appId: 'pm_project_info_detail'
       },
       toolBarStatusBtnConfig: {
         changeBtns: true,
@@ -637,8 +802,8 @@ export default {
             iconNameActive: 'base-all-active.png',
             iconUrl: '',
             label: '曾经办',
-            code: '3',
-            curValue: '3'
+            code: '0',
+            curValue: '0'
           }
         ],
         curButton: {
@@ -691,10 +856,17 @@ export default {
           ]
         }
       },
-      currentRow: {}
+      currentRow: {},
+      proDetId: ''
     }
   },
+  created() {
+    this.menuId = this.$store.state.curNavModule.guid
+  },
   methods: {
+    closeModal() {
+      this.showModal = false
+    },
     handleImport() {
       let self = this
       self.$refs.tmp.$refs.tableRef.triggerImportOption({
@@ -705,79 +877,101 @@ export default {
           a.click()
         },
         importSuccessCallback(res) {
-          self.$message.success('导入成功')
           let basicInfo = res['基本情况明细表']
           basicInfo.shift()
           let basicInfoRes = basicInfo.map(item => {
             return {
-              mof_div_name: item['财政区划'],
-              pro_agency_name: item['项目单位'],
-              budget_level_name: item['预算级次'],
-              spe_pro_code: item['项目代码'],
-              spe_pro_name: item['项目名称'],
-              fund_invest_area_name: item['项目所属投向领域'],
-              pro_content: item['项目主要建设内容'],
-              pro_sta_date: item['开工或预计开工时间'],
-              pro_end_date: item['预计完工时间'],
-              ndrc_pro_code: item['发改委项目代码'],
-              ndrc_pro_name: item['发改委项目名称'],
-              track_pro_name: item['增发国债资金中央转移支付项目名称'],
-              track_pro_code: item['增发国债资金中央转移支付项目代码'],
-              pro_dept_name: item['项目主管部门'],
-              pro_gi: item['项目总投资'],
-              pro_approve_number: item['项目审批（核准、备案）文号'],
-              land_approve_number: item['用地审批文号'],
-              eia_approve_number: item['环评审批文号'],
-              cons_approve_number: item['施工许可文号'],
-              pro_address: item['项目地址'],
-              est_agency_name: item['主要监理单位'],
-              cons_agency_name: item['主要施工单位'],
-              agency_leader_per_name: item['项目单位负责人'],
-              agency_leader_per_otel: item['__EMPTY_8'],
-              agency_leader_per_mtel: item['__EMPTY_9'],
-              fi_leader: item['财务负责人'],
-              fi_leader_otel: item['__EMPTY_10'],
-              fi_leader_mtel: item['__EMPTY_11'],
-              pro_leader: item['项目负责人'],
-              pro_leader_otel: item['__EMPTY_12'],
-              pro_leader_mtel: item['__EMPTY_13'],
-              pro_lessor: item['工作联系人'],
-              pro_lessor_otel: item['__EMPTY_14'],
-              pro_lessor_mtel: item['__EMPTY_15'],
-              pro_perf_all: item['总体绩效目标'],
-              pro_gi_addnb: item['__EMPTY'],
-              pro_gi_cff: item['__EMPTY_1'],
-              pro_gi_cfo: item['__EMPTY_2'],
-              pro_gi_lff: item['__EMPTY_3'],
-              pro_gi_ef: item['__EMPTY_4'],
-              pro_gi_lb: item['__EMPTY_5'],
-              pro_gi_bankl: item['__EMPTY_6'],
-              pro_gi_oth: item['__EMPTY_7']
+              mofDivName: item['财政区划'],
+              proAgencyCode: item['项目单位代码'],
+              proAgencyName: item['项目单位名称'],
+              budgetLevelCode: item['预算级次代码'],
+              budgetLevelName: item['预算级次名称'],
+              speProCode: item['项目代码'],
+              speProName: item['项目名称'],
+              fundInvestAreaName: item['项目所属投向领域'],
+              proContent: item['项目主要建设内容'],
+              proStaDate: item['开工或预计开工时间'],
+              proEndDate: item['预计完工时间'],
+              ndrcProCode: item['发改委项目代码'],
+              ndrcProName: item['发改委项目名称'],
+              trackProName: item['增发国债资金中央转移支付项目名称'],
+              trackProCode: item['增发国债资金中央转移支付项目代码'],
+              proDeptCode: item['项目主管部门编码'],
+              proDeptName: item['项目主管部门名称'],
+              proGi: item['项目总投资'],
+              proApproveNumber: item['项目审批（核准、备案）文号'],
+              landApproveNumber: item['用地审批文号'],
+              eiaApproveNumber: item['环评审批文号'],
+              consApproveNumber: item['施工许可文号'],
+              proAddress: item['项目地址'],
+              estAgencyName: item['主要监理单位'],
+              consAgencyName: item['主要施工单位'],
+              agencyLeaderPerName: item['项目单位负责人'],
+              agencyLeaderPerOtel: item['__EMPTY_8'],
+              agencyLeaderPerMtel: item['__EMPTY_9'],
+              fiLeader: item['财务负责人'],
+              fiLeaderOtel: item['__EMPTY_10'],
+              fiLeaderMtel: item['__EMPTY_11'],
+              proLeader: item['项目负责人'],
+              proLeaderOtel: item['__EMPTY_12'],
+              proLeaderMtel: item['__EMPTY_13'],
+              proLessor: item['工作联系人'],
+              proLessorOtel: item['__EMPTY_14'],
+              proLessorMtel: item['__EMPTY_15'],
+              kpiTarget: item['总体绩效目标'],
+              proGiAddnb: item['__EMPTY'],
+              proGiCff: item['__EMPTY_1'],
+              proGiCfo: item['__EMPTY_2'],
+              proGiLff: item['__EMPTY_3'],
+              proGiEf: item['__EMPTY_4'],
+              proGiLb: item['__EMPTY_5'],
+              proGiBankl: item['__EMPTY_6'],
+              proGiOth: item['__EMPTY_7']
             }
           })
           console.log(basicInfoRes)
           let bgtInfo = res['国债资金项目绩效指标']
           let bgtRes = bgtInfo.map(item => {
             return {
-              spe_pro_code: item['项目代码'],
-              spe_pro_name: item['项目名称'],
-              lv1_perf_ind_code: item['一级绩效指标代码'],
-              lv1_perf_ind_name: item['一级绩效指标名称'],
-              lv2_perf_ind_code: item['二级绩效指标代码'],
-              lv2_perf_ind_name: item['二级绩效指标名称'],
-              lv3_perf_ind_code: item['三级绩效指标代码'],
-              lv3_perf_ind_name: item['三级绩效指标名称'],
-              kpi_content: item['绩效指标说明'] ? item['绩效指标说明'] : '',
-              kpi_val: item['指标值']
+              speProCode: item['项目代码'],
+              speProName: item['项目名称'],
+              lv1PerfIndCode: item['一级绩效指标代码'],
+              lv1PerfIndName: item['一级绩效指标名称'],
+              lv2PerfIndCode: item['二级绩效指标代码'],
+              lv2PerfIndName: item['二级绩效指标名称'],
+              lv3PerfIndCode: item['三级绩效指标代码'],
+              lv3PerfIndName: item['三级绩效指标名称'],
+              kpiContent: item['绩效指标说明'] ? item['绩效指标说明'] : '',
+              kpiVal: item['指标值']
             }
           })
           console.log(bgtRes)
+          self.$refs.tmp.showLoading = true
+          let params = {
+            projectInfo: basicInfoRes,
+            perfIndica: bgtRes,
+            appId: 'pm_project_info_detail',
+            menuId: self.menuId,
+            actionType: '1',
+            actionName: '录入',
+            advice: ''
+          }
+          HttpModule.importExcel(params).then((res) => {
+            if (res && res.rscode === '200') {
+              self.$message.success('导入成功')
+              self.$refs.tmp.refresh()
+            } else {
+              self.$message.success('导入失败：')
+            }
+            console.log(res)
+          }).finally(() => {
+            self.$refs.tmp.showLoading = false
+          })
         }
       })
     },
     onImportSuccess(data) {
-      // this.$message.success('导入成功')
-      // this.tableData = data
+
     },
     clearFormat(str) {
       str += ''
@@ -790,6 +984,7 @@ export default {
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       data.sums = this.clearFormat(data.a1) + this.clearFormat(data.a2) + this.clearFormat(data.a3) + this.clearFormat(data.a4) + this.clearFormat(data.a5) + this.clearFormat(data.a6) + this.clearFormat(data.a7) + this.clearFormat(data.a8)
+      console.log(this.formDataListThird)
     },
     fileUpload(params) {
       return this.$http.post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
@@ -822,8 +1017,8 @@ export default {
           data['year'] = this.$store.state.userInfo.year
           data['count'] = 0
           data['filesize'] = e.file.size
-          data['filename'] = e.file.name
-          data['fileguid'] = resultData
+          data['fileName'] = e.file.name
+          data['proAttchId'] = resultData
           data['filepath'] = e.file.webkitRelativePath
           data['province'] = this.$store.state.userInfo.province
           data['appid'] = 'pay_plan_voucher'
@@ -831,8 +1026,8 @@ export default {
           data['guid'] = this.$store.state.userInfo.guid
           data['billguid'] = this.$ToolFn.utilFn.getUuid()
           data['importuser'] = this.$store.state.userInfo.name
-          data['time'] = new Date().toLocaleDateString()
-          data['type'] = ''
+          data['createTime'] = new Date().toLocaleDateString()
+          data['proAttchKindCode'] = ''
           this.tableDataSx.push(data)
           this.$message.success('上传成功')
         } else {
@@ -843,7 +1038,9 @@ export default {
         }
       }).catch()
     },
-    handleRemove() {},
+    handleRemove() {
+
+    },
     addLevelOneLeft() {
       this.tableData.push({
         level1: '',
@@ -905,15 +1102,231 @@ export default {
       }
     },
     handleSure() {
+      let localThis = this
+      console.log()
+      localThis.$refs.tmp.showLoading = true
+      let fileList = []
+      let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
+      if (fileDataList && fileDataList.length > 0) {
+        fileDataList.forEach((item) => {
+          fileList.push({
+            fileName: item.fileName,
+            kpiRemark: item.kpiRemark,
+            proAttchKindCode: item.proAttchKindCode,
+            proAttchKindName: item.proAttchKindCode__viewSort,
+            proAttchId: item.proAttchId
+          })
+        })
+      }
 
+      let params = {
+        projectInfo: localThis.$refs.addForm.getFormData(),
+        perfIndica: localThis.tableData,
+        proGiSource: localThis.$refs.addFormthrid.getFormData(),
+        // 项目总投资
+        approvalDoc: localThis.$refs.addFormForth.getFormData(),
+        // 联系方式
+        depInfo: localThis.$refs.contactInformationForm.getFormData(),
+        attchs: fileList
+      }
+      console.log(params)
+
+      if (localThis.proDetId === '') {
+        // 新增
+
+      } else {
+        // 修改
+        params.proDetId = localThis.proDetId
+        params.projectInfo.proDetId = localThis.proDetId
+        HttpModule.editDataRecord(params).then((res) => {
+          if (res.rscode === '200') {
+            this.showModal = false
+            localThis.$message.success('操作成功')
+            localThis.$refs.tmp.refresh()
+          } else {
+            localThis.$message.warning('数据编辑保存询失败')
+          }
+          localThis.$refs.tmp.showLoading = false
+        })
+      }
     },
     onBtnClick(obj) {
       if (obj.code === 'pay-add') {
-        this.addModalBtm = true
+        this.showModal = true
+        this.modalTitle = '新增'
       }
       if (obj.code === 'pay-import') {
         this.handleImport()
       }
+      if (obj.code === 'pay-edit') {
+        if (this.$refs.tmp.getSelectionRcd().length !== 1) {
+          this.$message.warning('请选择一条数据进行查看')
+          return false
+        }
+        this.editRecord()
+      }
+      if (obj.code === 'pay-discard') {
+        this.discardRecord()
+      }
+      if (obj.code === 'pay-checkDetails') {
+        if (this.$refs.tmp.getSelectionRcd().length !== 1) {
+          this.$message.warning('请选择一条数据进行查看')
+          return false
+        }
+        this.viewDetail()
+      }
+      if (obj.code === 'pay-audit') {
+        this.auditRecord(2)
+      }
+      if (obj.code === 'pay-unAudit') {
+        this.auditRecord(3)
+      }
+    },
+    editRecord() {
+      let localThis = this
+      localThis.$refs.tmp.showLoading = true
+      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
+      localThis.proDetId = selection.proDetId
+      let params = {
+        proDetId: selection.proDetId
+      }
+      localThis.tableData = []
+      HttpModule.detailDataRecord(params).then((res) => {
+        if (res.rscode === '200') {
+          let projectInfo = res.data.projectInfo
+          let perfIndica = res.data.perfIndica
+          let attchs = res.data.attchs
+          localThis.tableDataSx = attchs
+          localThis.tableData = perfIndica
+          localThis.initModalFormData(projectInfo)
+          this.showModal = true
+          this.modalTitle = '编辑'
+        } else {
+          localThis.$message.warning('数据详细查询失败')
+        }
+        localThis.$refs.tmp.showLoading = false
+      })
+    },
+    discardRecord() {
+      let localThis = this
+      if (localThis.$refs.tmp.getSelectionRcd().length < 1) {
+        localThis.$message.warning('请至少选择一条数据进行操作')
+        return false
+      }
+      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
+        return item.proDetId
+      })
+      let params = {
+        ids: ids,
+        appId: 'pm_project_info_detail',
+        menuId: localThis.menuId,
+        actionType: 2,
+        actionName: '作废'
+      }
+      HttpModule.discardRecords(params).then((res) => {
+        if (res.rscode === '200') {
+          localThis.$message.success('操作成功')
+          localThis.$refs.tmp.refresh()
+        } else {
+          localThis.$message.warning('操作失败')
+        }
+      })
+    },
+    auditRecord(type) {
+      let localThis = this
+      if (localThis.$refs.tmp.getSelectionRcd().length < 1) {
+        localThis.$message.warning('请至少选择一条数据进行操作')
+        return false
+      }
+      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
+        return item.proDetId
+      })
+      let params = {
+        ids: ids,
+        appId: 'pm_project_info_detail',
+        menuId: localThis.menuId,
+        actionType: type,
+        actionName: type === 2 ? '送审' : '撤销送审'
+      }
+      HttpModule.auditDataRecords(params).then((res) => {
+        if (res.rscode === '200') {
+          localThis.$message.success('操作成功')
+          localThis.$refs.tmp.refresh()
+        } else {
+          localThis.$message.warning('操作失败')
+        }
+      })
+    },
+    viewDetail() {
+      let localThis = this
+      localThis.$refs.tmp.showLoading = true
+      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
+      let params = {
+        proDetId: selection.proDetId
+      }
+      localThis.tableData = []
+      HttpModule.detailDataRecord(params).then((res) => {
+        if (res.rscode === '200') {
+          let projectInfo = res.data.projectInfo
+          let perfIndica = res.data.perfIndica
+          let attchs = res.data.attchs
+          localThis.tableDataSx = attchs
+          localThis.tableData = perfIndica
+          localThis.initModalFormData(projectInfo)
+          localThis.showModal = true
+          localThis.modalTitle = '查看详情'
+        } else {
+          localThis.$message.warning('查看详情失败')
+        }
+        localThis.$refs.tmp.showLoading = false
+      })
+    },
+    initModalFormData(projectInfo) {
+      let localThis = this
+      // 基本情况
+      localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyName
+      localThis.formDataListBtm.proAgencyCode = projectInfo.proAgencyCode
+      localThis.formDataListBtm.mofDivName = projectInfo.mofDivName
+      localThis.formDataListBtm.budgetLevelName = projectInfo.budgetLevelName
+      localThis.formDataListBtm.speProName = projectInfo.speProName
+      localThis.formDataListBtm.speProCode = projectInfo.speProCode
+      localThis.formDataListBtm.trackProName = projectInfo.trackProName
+      localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
+      localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
+      localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
+      localThis.formDataListBtm.proContent = projectInfo.proContent
+      localThis.formDataListBtm.proStaDate = projectInfo.proStaDate
+      localThis.formDataListBtm.proEndDate = projectInfo.proEndDate
+      // 项目总投资
+      localThis.formDataListThird.proGi = projectInfo.proGi
+      localThis.formDataListThird.proGiAddnb = projectInfo.proGiAddnb
+      localThis.formDataListThird.proGiCff = projectInfo.proGiCff
+      localThis.formDataListThird.proGiCfo = projectInfo.proGiCfo
+      localThis.formDataListThird.proGiLff = projectInfo.proGiLff
+      localThis.formDataListThird.proGiEf = projectInfo.proGiEf
+      localThis.formDataListThird.proGiLb = projectInfo.proGiLb
+      localThis.formDataListThird.proGiBankl = projectInfo.proGiBankl
+      // 项目批复信息
+      localThis.formDataListForth.proApproveNumber = projectInfo.proApproveNumber
+      localThis.formDataListForth.landApproveNumber = projectInfo.landApproveNumber
+      localThis.formDataListForth.eiaApproveNumber = projectInfo.eiaApproveNumber
+      localThis.formDataListForth.consApproveNumber = projectInfo.consApproveNumber
+      // 相关部门联系方式
+      localThis.contactInformationFormData.proAddress = projectInfo.proAddress
+      localThis.contactInformationFormData.estAgencyName = projectInfo.estAgencyName
+      localThis.contactInformationFormData.consAgencyName = projectInfo.consAgencyName
+      localThis.contactInformationFormData.agencyLeaderPerName = projectInfo.agencyLeaderPerName
+      localThis.contactInformationFormData.agencyLeaderPerOtel = projectInfo.agencyLeaderPerOtel
+      localThis.contactInformationFormData.agencyLeaderPerMtel = projectInfo.agencyLeaderPerMtel
+      localThis.contactInformationFormData.fiLeader = projectInfo.fiLeader
+      localThis.contactInformationFormData.fiLeaderOtel = projectInfo.fiLeaderOtel
+      localThis.contactInformationFormData.fiLeaderMtel = projectInfo.fiLeaderMtel
+      localThis.contactInformationFormData.proLeader = projectInfo.proLeader
+      localThis.contactInformationFormData.proLeaderOtel = projectInfo.proLeaderOtel
+      localThis.contactInformationFormData.proLeaderMtel = projectInfo.proLeaderMtel
+      localThis.contactInformationFormData.proLessor = projectInfo.proLessor
+      localThis.contactInformationFormData.proLessorOtel = projectInfo.proLessorOtel
+      localThis.contactInformationFormData.proLessorMtel = projectInfo.proLessorMtel
     }
   }
 }

@@ -121,6 +121,9 @@ export default {
         }
       })
     },
+    getSelectionRcd() {
+      return this.$refs.tableRef.getSelectionData()
+    },
     onStatusTabClick(obj) {
       if (!obj.type) {
         this.operationToolbarButtonClickEvent(obj)
@@ -205,7 +208,7 @@ export default {
       this.$http.post(this.tableApi, apiparams).then(res => {
         this.showLoading = false
         if (res && res.rscode === '200') {
-          this.tableData = res.data.rows
+          this.tableData = res.data.list
           this.pagerConfig.total = res.data.total
           this.tableFooterConfig.totalObj = res.data.sums
         } else {

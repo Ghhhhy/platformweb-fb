@@ -109,6 +109,8 @@
   </div>
 </template>
 <script>
+import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
+
 export default {
   data() {
     return {
@@ -880,6 +882,8 @@ export default {
       if (obj.code === 'pay-add') {
         this.addModalBtm = true
       }
+
+      HttpModule.auditDataRecords()
     }
   }
 }
