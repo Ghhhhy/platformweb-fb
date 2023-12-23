@@ -105,18 +105,7 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
-const fileTypeMap = new Map()
-fileTypeMap.set('01 ', ' 项目审批（核准、备案）资料')
-fileTypeMap.set('02 ', ' 项目用地审批、环评审批、施工许可资料')
-fileTypeMap.set('03 ', ' 项目招投标和政府采购资料')
-fileTypeMap.set('04 ', ' 项目主要合同资料')
-fileTypeMap.set('05 ', ' 项目评审报告')
-fileTypeMap.set('11', '  资金支出佐证资料')
-fileTypeMap.set('12 ', ' 财务会计资料')
-fileTypeMap.set('13 ', ' 工程资料')
-fileTypeMap.set('14 ', ' 项目形象进度照片')
-fileTypeMap.set('15 ', ' 竣工验收资料')
-fileTypeMap.set('99 ', ' 其他')
+
 export default {
   data() {
     return {
