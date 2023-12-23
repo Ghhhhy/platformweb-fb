@@ -805,6 +805,10 @@ export default {
           }
         })
       }
+      if (this.$store.getters.isHLJ) {
+        param.regulation_type = this.regulationType
+        delete param.regulationType
+      }
       this.tableLoading = true
       let axiosUrl = BSURL.lmp_executeWarnWarnInfos
       if (this.$store.getters.isFuJian && this.paramObj?.queryPayData) {

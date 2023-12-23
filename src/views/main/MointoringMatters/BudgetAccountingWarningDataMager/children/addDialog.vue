@@ -587,7 +587,7 @@ export default {
         { value: 5, label: '蓝色预警' }
       ],
       handleType: 1,
-      handleTypeoptions: [
+      handleTypeoptions: this.$store.getters.isHLJ ? this.$store.state.warnInfo.warnControlTypeOptions : [
         { value: 1, label: '预警' },
         { value: 2, label: '拦截' },
         { value: 3, label: '冻结' },
@@ -1329,6 +1329,7 @@ export default {
       this.monitorRuleName = this.$parent.DetailData.regulationName
       this.warningLevel = this.$parent.DetailData.warningLevel
       this.handleType = this.$parent.DetailData.handleType
+      this.triggerClass = this.$parent.DetailData.triggerClass
       this.regulationClass = this.$parent.DetailData.regulationClass + '-' + this.$parent.DetailData.regulationClassName
       this.operationTableData = [this.$parent.DetailData.ruleTemplate]
 
