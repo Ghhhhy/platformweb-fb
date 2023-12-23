@@ -39,7 +39,6 @@
           <PoperExtend v-if="currentBtn === 'doneItem'" v-loading="adLoading" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
           <CardMenuTree v-if="currentBtn === 'funMenu' && !$store.getters.isXm" :data="menuTree" />
           <CardMenuTreeXM v-if="currentBtn === 'funMenu' && $store.getters.isXm" :data="menuTree" />
-          <CardVideo v-if="currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
           <CardVideo v-if="!isShowFJ && currentBtn === 'oprateGuide'" :card-btns="cardBtns" :cur="cur" :allow-num="allowNumIn" />
           <OperateGuideNew v-if="isShowFJ && currentBtn === 'oprateGuide'" :oprate-guide-datas="oprateGuideDatas" />
         </div>
@@ -125,6 +124,7 @@ export default {
       this.resize()
     },
     preGenerateCardBtns(status, menus) {
+      console.log(213)
       this.adLoading = true
       this.generateCardBtns(status, menus).then(() => {
         this.adLoading = false
@@ -240,6 +240,7 @@ export default {
       })
 
       this.uiCardMenu = extend(true, {}, menus)
+      console.log(this.uiCardMenu, '12312')
     },
     getFileData(attachmentid) {
       if ((attachmentid ?? '') === '') {
