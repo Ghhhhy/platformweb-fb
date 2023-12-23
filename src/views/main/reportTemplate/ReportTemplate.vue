@@ -271,9 +271,7 @@ export default {
         })
       })
     },
-    itemChange(changeEvent) {
-
-    },
+    itemChange(changeEvent) {},
     switchMoneyUnit(level) {
       this.tableGlobalConfig.customExportConfig.unit =
         level === 1 ? '元' : '万元'
@@ -299,9 +297,9 @@ export default {
     // 搜索
     search(data, obj) {
       console.log(data, obj)
+      this.searchDataList = data
       const condition = { ...utils.highSearch(this.queryConfig, data) }
       this.tableDataParams.condition = condition
-      this.searchDataList = condition
       this.queryTableDatas()
     },
     onToolbarBtnClick({ context, table, code }) {
