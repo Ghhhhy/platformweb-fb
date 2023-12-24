@@ -95,6 +95,7 @@ import DetailDialog from './DetailDialog.vue'
 import HttpModule from '@/api/frame/main/reportTemplate/index.js'
 import utils from './utils.js'
 import showFileModal from '@//views/main/reportTemplate/useFileModal.js'
+import moment from 'moment'
 export default {
   components: {
     DetailDialog
@@ -230,7 +231,6 @@ export default {
         this.tableColumnsConfig = configData.itemsConfig
         this.queryParams = configData.queryParams || {}
         this.globalConfig = configData.globalConfig || {}
-        this.queryTableDatas()
       }
       if (type === 'query') {
         let configData = await this.loadBsConfig(params)
@@ -244,13 +244,13 @@ export default {
       // 如果选择器是vxeTree,需要调用后台的接口选择数据
       this.queryConfig.forEach((query) => {
         if (query.itemRender) {
-          if (
-            query.itemRender.name === '$vxeTree' ||
-            query.itemRender.name === '$formTreeInput'
-          ) {
-            this.getHighConfigData(query).then((res) => {
-              query.itemRender.options = res
-            })
+          if (['$vxeSelect', '$select'].includes(query.itemRender.name)) {
+            if (query.itemRender.defaultValue) {
+              this.$set(this.searchDataList, query.field, query.itemRender.defaultValue)
+            }
+            if (query.itemRender.getCurrentMonth) {
+              this.$set(this.searchDataList, query.field, String(moment().month()).padStart(2, '0'))
+            }
           }
         }
       })
@@ -336,7 +336,8 @@ export default {
     cellClick(obj, context, e) {
       // const rowIndex = obj?.rowIndex
       // if (!rowIndex) return
-      if (!obj.column.own.column_link) {
+      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (!obj.column.own.column_link || isInvalidCellValue) {
         return
       }
       if (obj.column.own.insertType === 'file') {
@@ -377,6 +378,7 @@ export default {
         // reportCode: this.reportCode,
         ...this.params5,
         ...this.queryParams,
+        ...this.searchDataList,
         ...this.tableDataParams.condition
       }
       if (flush) {
@@ -438,8 +440,9 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.reportCode = this.params5.reportCode
     console.log('--reportcode', this.reportCode)
-    this.loadConfig('table')
-    this.loadConfig('query')
+    Promise.all([this.loadConfig('table'), this.loadConfig('query')]).then(res => {
+      this.queryTableDatas()
+    })
   }
 }
 </script>
