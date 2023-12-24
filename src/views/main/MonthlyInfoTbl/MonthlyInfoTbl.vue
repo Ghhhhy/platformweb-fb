@@ -7,11 +7,11 @@
       :title="modalTitle"
       :destroy-on-close="true"
       width="66%"
-      :height="(activeNameBtm === '6' || activeNameBtm === '7') ? '79%' : '60%'"
+      :height="'80%'"
       :show-footer="true"
       @close="closeModal"
     >
-      <div style="height: 100%;">
+      <div style="height: 100%;overflow: hidden">
         <el-tabs v-model="activeNameBtm" type="border-card">
           <el-tab-pane label="基本情况" name="1">
             <BsForm
@@ -21,12 +21,443 @@
             />
           </el-tab-pane>
           <el-tab-pane label="累计可用资金" name="2">
-            <BsForm
+            <!--            <BsForm
               ref="addFormthrid"
               :form-items-config="formItemsConfigThird"
               :form-data-list="formDataListThird"
               @itemChange="insertItemChange"
-            />
+            />-->
+            <vxe-form
+              ref="formRef"
+              title-width="0"
+              :data="formData"
+              :rules="formRule"
+              style="background-color: #fff; padding-bottom: 230px;"
+            >
+              <table class="tblInfo" style="width: 100%; text-align: center" border="1">
+                <thead>
+                  <th colspan="3">类型</th>
+                  <th>当期累计金额（元）</th>
+                  <th>前期累计金额（元）</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="3">累计可用资金（合计）</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="8" style="width: 150px;">其中</td>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">增发国债基金</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">累计可用资金（合计）</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                  </tr>
+                  <tr>
+                    <td rowspan="8" style="width: 150px;">其中</td>
+                    <td rowspan="4">增发国债基金</td>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td rowspan="4">中央预算内投资</td>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>建筑安装工程投资支出</td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                    <td>
+                      <vxe-form-item title="" field="name" style="width: 100%">
+                        <template v-slot>
+                          <vxe-input
+                            v-model="formData.name"
+                            style="width: 100%"
+                            clearable
+                          />
+                        </template>
+                      </vxe-form-item>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </vxe-form>
           </el-tab-pane>
           <el-tab-pane label="累计最终支付资金" name="3">
             <div style="height: 100%;overflow: auto;">
@@ -61,38 +492,69 @@
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left">
+              <div class="fn-inline" style="float:left; visibility: hidden">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
                   <el-row
                     style="display: inline-block;height: 42px;"
                   >
                     <el-col :span="16">
-                      <span class="sp-my">上传附件</span>
+                      <span ref="uploadref" class="sp-my">上传附件</span>
                     </el-col>
                   </el-row>
                 </div>
               </div>
-              <div slot="tip" class="fn-inline upload-my-css">
-                <div class="fn-inline" style="height:33px;float:left">
+              <div slot="tip" class="fn-inline upload-my-css" style="margin-left: 0">
+                <div class="fn-inline" style="height:33px;float:left;">
                   <span class="sp-my-two">支持png/jpg/pdf等，不超过20M</span>
                 </div>
               </div>
             </el-upload>
             <BsTable
               ref="fileDataRef"
-              height="460"
+              height="350"
               :table-columns-config="modalTblColumnsConfigSx"
               :table-data="tableDataSx"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
-            />
+            >
+              <template v-slot:toolbarSlots>
+                <div class="table-toolbar-left">
+                  <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
+                </div>
+              </template>
+            </BsTable>
           </el-tab-pane>
         </el-tabs>
       </div>
       <div slot="footer">
         <vxe-button @click="showModal = false">取消</vxe-button>
         <vxe-button status="primary" @click="handleSure">确认</vxe-button>
+      </div>
+    </vxe-modal>
+    <vxe-modal
+      v-if="showTypeModal"
+      v-model="showTypeModal"
+      :title="'请选择附件类型'"
+      :destroy-on-close="true"
+      width="300px"
+      :height="'170px'"
+      :show-footer="true"
+      @close="showTypeModal = false"
+    >
+      <div style="overflow: hidden">
+        <el-select v-model="filetype" style="width: 100%">
+          <el-option
+            v-for="item in modalTblColumnsConfigSx[2].editRender.options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <div slot="footer">
+        <vxe-button @click="showTypeModal = false">取消</vxe-button>
+        <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
       </div>
     </vxe-modal>
   </div>
@@ -113,6 +575,12 @@ const execProgCodeList = [
 export default {
   data() {
     return {
+      formData: {
+        name: ''
+      },
+      formRule: {},
+      filetype: '01',
+      showTypeModal: false,
       menuId: '',
       modalTitle: '',
       modalForm: '',
@@ -136,6 +604,7 @@ export default {
           field: 'proAttchKindCode',
           name: '$vxeSelect',
           formula: '',
+          sortable: true,
           editRender: {
             name: '$vxeSelect',
             options: [
@@ -811,129 +1280,8 @@ export default {
         }
       ],
       activeNameTop: '1',
-      formItemsConfigBtm: [
-        {
-          field: 'proAgencyName',
-          title: '项目单位名称',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目名称', disabled: true } }
-        },
-        {
-          field: 'speProName',
-          title: '项目名称',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目名称', disabled: true } }
-        },
-
-        {
-          field: 'month',
-          title: '月报周期',
-          span: 12,
-          titleWidth: '240',
-          itemRender: {
-            name: '$vxeSelect',
-            options: [
-              {
-                label: '1月',
-                value: '1'
-              },
-              {
-                label: '2月',
-                value: '2'
-              },
-              {
-                label: '3月',
-                value: '3'
-              },
-              {
-                label: '4月',
-                value: '4'
-              },
-              {
-                label: '5月',
-                value: '5'
-              },
-              {
-                label: '6月',
-                value: '6'
-              },
-              {
-                label: '7月',
-                value: '7'
-              },
-              {
-                label: '8月',
-                value: '8'
-              },
-              {
-                label: '9月',
-                value: '9'
-              },
-              {
-                label: '10月',
-                value: '10'
-              },
-              {
-                label: '11月',
-                value: '11'
-              },
-              {
-                label: '12月',
-                value: '12'
-              }
-            ]
-          }
-        },
-        {
-          field: 'proGiIpAcc',
-          title: '累计可用资金',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目名称', disabled: false } }
-        },
-        {
-          title: '累计最终支付资金投资完成额',
-          field: 'proGiCompAcc',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$vxeMoney', props: { placeholder: '请输入累计最终支付资金投资完成额' } }
-        },
-        {
-          title: '形象进度',
-          field: 'execProgCode',
-          span: 12,
-          titleWidth: '240',
-          itemRender: {
-            name: '$vxeSelect',
-            options: execProgCodeList
-          }
-        },
-        {
-          title: '形象进度说明',
-          field: 'proExecAcc',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$input', props: { placeholder: '请输入形象进度说明' } }
-        },
-        {
-          title: '总体绩效目标完成情况说明',
-          field: 'proPerfAll',
-          span: 12,
-          titleWidth: '240',
-          itemRender: { name: '$input', props: { placeholder: '请输入总体绩效目标完成情况说明' } }
-        }
-      ],
-      formDataListBtm: {
-        proAgencyName: '',
-        speProName: '',
-        month: '',
-        proGiCompAcc: '',
-        execProgCode: '',
-        proExecAcc: '',
-        proPerfAll: ''
-      },
+      formItemsConfigBtm: [],
+      formDataListBtm: {},
       tableToolbarConfigInmodal: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -1105,8 +1453,37 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
+    this.loadConfig('C7FB497B80C44A1E86416BDFAE4AB510')
+  },
+  watch: {
+    formItemsConfigBtm(val) {
+      this.formDataListBtm = this.$ToolFn.getFormDataListFn(val)
+    }
   },
   methods: {
+    async loadConfig(id) {
+      let params = {
+        tableId: {
+          id: '',
+          fiscalyear: this.$store.state.userInfo.year,
+          mof_div_code: this.$store.state.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid,
+          userguid: ''
+        }
+      }
+      if (id === 'C7FB497B80C44A1E86416BDFAE4AB510') {
+        params.tableId.id = id
+        let configQueryData = await this.loadBsConfig(params)
+        this.formItemsConfigBtm = configQueryData.itemsConfig
+      }
+    },
+    handleSureType() {
+      this.$refs.uploadref.click()
+      this.showTypeModal = false
+    },
+    handleUpload() {
+      this.showTypeModal = true
+    },
     closeModal() {
       this.showModal = false
     },
@@ -1171,6 +1548,7 @@ export default {
           data['importuser'] = this.$store.state.userInfo.name
           data['createTime'] = new Date().toLocaleDateString()
           data['proAttchKindCode'] = ''
+          data.proAttchKindCode = this.filetype
           this.tableDataSx.push(data)
           this.$message.success('上传成功')
         } else {
@@ -1306,11 +1684,12 @@ export default {
     },
     addRecord() {
       let localThis = this
+      localThis.showModal = true // TODO
       if (localThis.$refs.tmp.getSelectionRcd().length !== 1) {
         localThis.$message.warning('请选择一条数据进行录入')
         return false
       }
-      localThis.$refs.tmp.showLoading = true
+      // localThis.$refs.tmp.showLoading = true
       let selection = localThis.$refs.tmp.getSelectionRcd()[0]
       localThis.proDetId = selection.proDetId
       let params = {
@@ -1529,7 +1908,27 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.tblInfo{
+  color: #000;
+  thead th {
+    height: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    background: #d6ddf8;
+  }
+  tbody {
+    tr {
+      td {
+        height: 35px;
+      }
+    }
+  }
+}
 .Titans-form ::v-deep .vxe-form .boss-tree__input .el-select {
   height: 34px;
+}
+.el-tabs ::v-deep .el-tabs__content {
+  overflow: auto;
 }
 </style>

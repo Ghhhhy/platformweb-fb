@@ -38,6 +38,25 @@ export default {
     }
     return condition
   },
+  getFormDataListFn(searchFormConfig) {
+    let searchDataObj = {}
+    if (Array.isArray(searchFormConfig) && searchFormConfig.length) {
+      searchFormConfig.forEach(item => {
+        if (item.itemRender.name === '$formTreeInput' || item.itemRender.name === '$vxeTree') {
+          if (item.field) {
+            searchDataObj[item.field + 'id'] = ''
+            searchDataObj[item.field + 'code'] = ''
+            searchDataObj[item.field + 'name'] = ''
+          }
+        } else {
+          if (item.field) {
+            searchDataObj[item.field] = ''
+          }
+        }
+      })
+    }
+    return searchDataObj
+  },
   getSearchDataListFn(searchFormConfig) {
     let searchDataObj = {}
     if (Array.isArray(searchFormConfig) && searchFormConfig.length) {
