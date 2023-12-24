@@ -249,7 +249,11 @@ export default {
               this.$set(this.searchDataList, query.field, query.itemRender.defaultValue)
             }
             if (query.itemRender.getCurrentMonth) {
-              this.$set(this.searchDataList, query.field, String(moment().month()).padStart(2, '0'))
+              let preMonthValue = String(moment().month()).padStart(2, '0')// 获取上月份值
+              if (preMonthValue === '00') { // 处理一月份 显示00
+                preMonthValue = '01'
+              }
+              this.$set(this.searchDataList, query.field, preMonthValue)
             }
           }
         }
