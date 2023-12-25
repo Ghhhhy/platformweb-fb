@@ -681,7 +681,7 @@ const tableColumnTemplate = (numberStr) => {
     ]
   }
 }
-if (store.getters.isXm || store.getters.isNeiMeng) {
+if (store.getters.isXm || store.getters.isNeiMeng || store.getters.isHLJ) {
   const columnTemp = ['2', '3', '4']
   proconf.basicInfo.tableColumnsConfig = proconf.basicInfo.tableColumnsConfig.concat(columnTemp.map(item => tableColumnTemplate(item)))
 } else {
