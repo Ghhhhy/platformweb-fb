@@ -123,6 +123,8 @@ export default {
   },
   data() {
     return {
+      endTime: this.$parent.searchDataList.endTime,
+      startTime: this.$parent.searchDataList.startTime,
       handleDialogVisible: false,
       showInfo: false,
       warningCode: '',
@@ -490,6 +492,8 @@ export default {
         fiRuleName: this.fiRuleName,
         businessNo: this.payApplyNumber,
         agencyCodeList: this.agencyCodeList,
+        endTime: this.endTime,
+        startTime: this.startTime,
         mofDivCodeList: this.mofDivCodeList,
         warnLogId: this.$parent?.currentRow.warnLogId,
         voidOrNot: this.voidOrNot
@@ -510,6 +514,7 @@ export default {
           warnLogId: this.$parent?.currentRow?.warnLogId,
           businessTime: this.businessTime,
           endTime: this.endTime,
+          startTime: this.startTime,
           mark: 1, // 标识预警弹窗使用
           voidOrNot: this.voidOrNot
         }
@@ -555,6 +560,9 @@ export default {
   },
   created() {
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
+    debugger
+    this.endTime = this.$parent.searchDataList.endTime
+    this.startTime = this.$parent.searchDataList.startTime
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

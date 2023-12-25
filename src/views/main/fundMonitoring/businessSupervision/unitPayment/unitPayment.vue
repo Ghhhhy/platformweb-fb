@@ -696,9 +696,9 @@ export default {
           // })
           const result = [
             {
-              id: 'root',
+              id: '0',
               label: '全部',
-              code: 'root',
+              code: '0',
               isleaf: '0',
               children: treeResdata
             }
