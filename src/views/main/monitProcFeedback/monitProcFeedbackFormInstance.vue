@@ -199,7 +199,7 @@ export default {
           } else {
             let obj = {}
             obj.bizKey = item.field
-            obj.bizValue = this.createDataList.createdAttachmentid
+            obj.bizValue = this.createDataList[item.field] || this.createDataList.createdAttachmentid
             flowParamVoList.push(obj)
           }
         })
