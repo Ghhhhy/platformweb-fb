@@ -19,7 +19,7 @@ const budgetImpColumns = [
     width: 220,
     field: 'bgtMofDepCode',
     align: 'center',
-    visible: !store.getters.isXm,
+    visible: !(store.getters.isXm || store.getters.isHLJ),
     formatter({ row }) {
       if (row.bgtMofDepCode && row.bgtMofDepName) {
         return `${row.bgtMofDepCode}-${row.bgtMofDepName}`

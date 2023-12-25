@@ -1,4 +1,5 @@
-// import store from '@/store/index'
+import store from '@/store/index'
+
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -379,6 +380,7 @@ export let proconf = {
           title: '次数',
           field: 'orderCorrectionCount',
           width: '150',
+          visible: !store.getters.isHLJ,
           align: 'center'
         },
         {
@@ -386,12 +388,14 @@ export let proconf = {
           field: 'orderCorrectionAmount',
           width: '150',
           align: 'center',
+          visible: !store.getters.isHLJ,
           cellRender: { name: '$vxeMoney' }
         },
         {
           title: '已改正事项次数',
           field: 'correctedCount',
           width: '150',
+          visible: !store.getters.isHLJ,
           align: 'center'
         },
         {
@@ -399,6 +403,7 @@ export let proconf = {
           field: 'correctedAmount',
           width: '150',
           align: 'center',
+          visible: !store.getters.isHLJ,
           cellRender: { name: '$vxeMoney' }
         }
       ]
