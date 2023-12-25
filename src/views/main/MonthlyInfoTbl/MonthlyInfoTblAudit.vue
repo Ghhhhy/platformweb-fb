@@ -8,7 +8,7 @@
       :destroy-on-close="true"
       width="66%"
       :height="'80%'"
-      :show-footer="showModalFooter"
+      show-footer="false"
       @close="closeModal"
     >
       <div style="height: 100%;overflow: hidden">
@@ -60,9 +60,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreAddnb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -87,9 +85,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -114,9 +110,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreCfo"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -141,9 +135,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -168,9 +160,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreEf"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -195,9 +185,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreLb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -222,9 +210,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreBankl"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -249,9 +235,7 @@
                           <vxe-input
                             v-model="formData.proGiIpPreOth"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -285,9 +269,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreAddnb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -312,9 +294,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreAddnb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -339,9 +319,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreAddnb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -366,9 +344,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreAddnb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -395,9 +371,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -422,9 +396,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -449,9 +421,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -476,9 +446,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -505,9 +473,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreCfo"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -532,9 +498,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreCfo"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -559,9 +523,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreCfo"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -586,9 +548,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreCfo"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -615,9 +575,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -642,9 +600,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -669,9 +625,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -696,9 +650,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLff"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -725,9 +677,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreEf"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -752,9 +702,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreEf"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -779,9 +727,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreEf"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -806,9 +752,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreEf"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -835,9 +779,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreLb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -862,9 +804,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreLb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -889,9 +829,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreLb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -916,9 +854,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreLb"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -945,9 +881,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreBankl"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -972,9 +906,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreBankl"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -999,9 +931,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreBankl"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -1026,9 +956,7 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreBankl"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -1055,9 +983,7 @@
                           <vxe-input
                             v-model="formData.proGiBupayPreOth"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -1082,9 +1008,7 @@
                           <vxe-input
                             v-model="formData.proGiDepayPreOth"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -1109,9 +1033,7 @@
                           <vxe-input
                             v-model="formData.proGiPrpayPreOth"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
@@ -1136,15 +1058,12 @@
                           <vxe-input
                             v-model="formData.proGiOtpayPreOth"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable
                           />
                         </template>
                       </vxe-form-item>
                     </td>
                   </tr>
-
                   <tr>
                     <td colspan="3">累计最终支付资金投资完成额</td>
                     <td>
@@ -1164,15 +1083,12 @@
                           <vxe-input
                             v-model="formData.proGiCompPre"
                             style="width: 100%"
-                            :clearable="isClearable"
-                            :readonly="isFirst"
-                            :disabled="isFirst"
+                            clearable="true"
                           />
                         </template>
                       </vxe-form-item>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
             </vxe-form>
@@ -1191,33 +1107,6 @@
             />
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="4">
-            <el-upload
-              ref="fileUpload"
-              action="#"
-              multiple
-              :show-file-list="false"
-              :data="uploadDFileParams"
-              :on-remove="handleRemove"
-              :http-request="handelUploadDebugfile"
-            >
-              <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left; visibility: hidden">
-                <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
-                  <el-row
-                    style="display: inline-block;height: 42px;"
-                  >
-                    <el-col :span="16">
-                      <span ref="uploadref" class="sp-my">上传附件</span>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-              <div slot="tip" class="fn-inline upload-my-css" style="margin-left: 0">
-                <div class="fn-inline" style="height:33px;float:left;">
-                  <span class="sp-my-two">支持png/jpg/pdf等，不超过20M</span>
-                </div>
-              </div>
-            </el-upload>
             <BsTable
               ref="fileDataRef"
               height="350"
@@ -1226,50 +1115,15 @@
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
-            >
-              <template v-slot:toolbarSlots>
-                <div class="table-toolbar-left">
-                  <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
-                </div>
-              </template>
-            </BsTable>
+            />
           </el-tab-pane>
         </el-tabs>
-      </div>
-      <div slot="footer">
-        <vxe-button @click="showModal = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSure">确认</vxe-button>
-      </div>
-    </vxe-modal>
-    <vxe-modal
-      v-if="showTypeModal"
-      v-model="showTypeModal"
-      :title="'请选择附件类型'"
-      :destroy-on-close="true"
-      width="300px"
-      :height="'170px'"
-      :show-footer="true"
-      @close="showTypeModal = false"
-    >
-      <div style="overflow: hidden">
-        <el-select v-model="filetype" style="width: 100%">
-          <el-option
-            v-for="item in fileTypeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
-      <div slot="footer">
-        <vxe-button @click="showTypeModal = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
       </div>
     </vxe-modal>
   </div>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
+import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTblFirstAudit.js'
 
 const execProgCodeList = [
   {
@@ -1398,33 +1252,18 @@ export default {
       },
       formRule: {},
       filetype: '01',
-      filetypeName: '项目审批（核准、备案）资料',
       showTypeModal: false,
       menuId: '',
+      isLastInst: '',
       modalTitle: '',
       modalForm: '',
       showModal: false,
       showModalFooter: true,
-      isFirst: false,
-      isClearable: false,
       activeNameBtm: '1',
       uploadDFileParams: [],
       attachmentId: '',
       fileDataBakDel: [],
       fileData: [],
-      fileTypeOptions: [
-        { value: '01', label: '项目审批（核准、备案）资料' },
-        { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
-        { value: '03', label: '项目招投标和政府采购资料' },
-        { value: '04', label: '项目主要合同资料' },
-        { value: '05', label: '项目评审报告' },
-        { value: '11', label: '资金支出佐证资料' },
-        { value: '12', label: '财务会计资料' },
-        { value: '13', label: '工程资料' },
-        { value: '14', label: '项目形象进度照片' },
-        { value: '15', label: '竣工验收资料' },
-        { value: '99', label: '其他' }
-      ],
       modalTblColumnsConfigSx: [
         {
           title: '附件名称',
@@ -1801,11 +1640,6 @@ export default {
       hideTree: true,
       tableColumnsIdConfig: [
         {
-          code: '9',
-          tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
-          qid: '315DDFED8D444D678B5C65E6DB5087E3'
-        },
-        {
           code: '1',
           tid: 'C9FBBBAB7C254172AD54674B0BC75BD2',
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
@@ -1821,7 +1655,7 @@ export default {
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         }
       ],
-      menuName: '增发国债资金项目月度信息表',
+      menuName: '增发国债资金项目月度信息审核',
       tableUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/list',
       tableParams: {
         appId: 'pm_project_info_det_month'
@@ -1829,21 +1663,12 @@ export default {
       hideZero: true,
       tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/count',
       tableCountParams: {
-        statusCodeArr: ['1', '2', '0', '9'],
+        statusCodeArr: ['1', '2', '0'],
         appId: 'pm_project_info_det_month'
       },
       toolBarStatusBtnConfig: {
         changeBtns: true,
         buttons: [
-          {
-            type: 'button',
-            iconName: 'base-daiban.png',
-            iconNameActive: 'base-daiban-active.png',
-            iconUrl: '',
-            label: '基本信息',
-            code: '9',
-            curValue: '9'
-          },
           {
             type: 'button',
             iconName: 'base-daiban.png',
@@ -1877,30 +1702,15 @@ export default {
           iconName: 'base-daiban.png',
           iconNameActive: 'base-daiban-active.png',
           iconUrl: '',
-          label: '基本信息',
-          code: '9',
-          curValue: '9'
+          label: '待办事项',
+          code: '1',
+          curValue: '1'
         },
         buttonsInfo: {
-          '9': [
-            {
-              code: 'pay-add',
-              label: '新增',
-              status: 'primary'
-            }
-          ],
           '1': [
             {
-              code: 'pay-edit',
-              label: '修改'
-            },
-            {
-              code: 'pay-discard',
-              label: '作废'
-            },
-            {
               code: 'pay-audit',
-              label: '送审'
+              label: '审核'
             },
             {
               code: 'pay-checkDetails',
@@ -1910,7 +1720,7 @@ export default {
           '2': [
             {
               code: 'pay-unAudit',
-              label: '撤销送审'
+              label: '撤销审核'
             },
             {
               code: 'pay-checkDetails',
@@ -1927,6 +1737,7 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
+    this.isLastInst = this.$store.state.curNavModule.param5.isLastInst
     this.loadConfig('C7FB497B80C44A1E86416BDFAE4AB510')
   },
   computed: {
@@ -1985,10 +1796,6 @@ export default {
       }
     },
     handleSureType() {
-      let proAttchKindName = this.fileTypeOptions.find((item) => {
-        return item.value === this.filetype
-      }).label
-      this.filetypeName = proAttchKindName
       this.$refs.uploadref.click()
       this.showTypeModal = false
     },
@@ -2020,59 +1827,6 @@ export default {
     fileUpload(params) {
       return this.$http.post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
     },
-    handelUploadDebugfile(e) {
-      const form = new FormData()
-      const temp = []
-      // 文件对象
-      form.append('file', e.file)
-      form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
-      temp.push(e.file.name)
-      form.append('doctype', '')
-      form.append('year', this.$store.state.userInfo.year)
-      form.append('province', this.$store.state.userInfo.province)
-      form.append('userguid', this.$store.state.userInfo.guid)
-      form.append('billguid', this.$ToolFn.utilFn.getUuid())
-      this.addLoading = true
-      this.fileUpload(form).then(res => {
-        this.addLoading = false
-        if (res.rscode === '100000') {
-          let resultData = ''
-          if (res.data || res.data != null) {
-            resultData = res.data
-          } else {
-            resultData = res.result
-          }
-          let data = {}
-          temp.push(resultData)
-          data['year'] = this.$store.state.userInfo.year
-          data['count'] = 0
-          data['filesize'] = e.file.size
-          data['fileName'] = e.file.name
-          data['proAttchId'] = resultData
-          data['filepath'] = e.file.webkitRelativePath
-          data['province'] = this.$store.state.userInfo.province
-          data['appid'] = 'pay_plan_voucher'
-          data['creater'] = e.file.uid
-          data['guid'] = this.$store.state.userInfo.guid
-          data['billguid'] = this.$ToolFn.utilFn.getUuid()
-          data['importuser'] = this.$store.state.userInfo.name
-          data['createTime'] = new Date().toLocaleDateString()
-          data['proAttchKindCode'] = ''
-          data.proAttchKindCode = this.filetype
-
-          data.proAttchKindName = this.filetypeName
-          this.tableDataSx.push(data)
-          this.$message.success('上传成功')
-        } else {
-          if (res.result.includes('Size: 0')) {
-            this.$message.error('上传失败,不能上传空文件')
-          }
-          this.$message.error('上传失败：' + res.result)
-        }
-      }).catch()
-    },
-    handleRemove() {},
     addLevelOneLeft() {
       this.tableData.push({
         level1: '',
@@ -2109,15 +1863,15 @@ export default {
             fileName: item.fileName,
             kpiRemark: item.kpiRemark,
             proAttchKindCode: item.proAttchKindCode,
-            proAttchKindName: item.proAttchKindName,
+            proAttchKindName: item.proAttchKindCode__viewSort,
             proAttchId: item.proAttchId
           })
         })
       }
       localThis.formData.proGiIpPre = localThis.proGiIpPre
       localThis.formData.proGiIpAcc = localThis.proGiIpAcc
-      localThis.formData.proGiFinalAcc = localThis.proGiFinalAcc
-      localThis.formData.proGiFinalPre = localThis.proGiFinalPre
+      localThis.formData.proGiCompAcc = localThis.proGiCompAcc
+      localThis.formData.proGiCompAcc = localThis.proGiCompAcc
 
       let perfGoalDetMonList = localThis.$refs.perfGoalDetMonRef.getTableData().fullData
       let proDetMonInfo = localThis.$refs.addForm.getFormData()
@@ -2181,15 +1935,6 @@ export default {
     },
     onBtnClick(obj) {
       let localThis = this
-      if (obj.code === 'pay-add') {
-        localThis.addRecord()
-      }
-      if (obj.code === 'pay-edit') {
-        localThis.editRecord()
-      }
-      if (obj.code === 'pay-discard') {
-        localThis.discardRecord()
-      }
       if (obj.code === 'pay-audit') {
         localThis.auditRecord(2)
       }
@@ -2199,117 +1944,6 @@ export default {
       if (obj.code === 'pay-unAudit') {
         localThis.auditRecord(3)
       }
-    },
-    addRecord() {
-      let localThis = this
-      if (localThis.$refs.tmp.getSelectionRcd().length !== 1) {
-        localThis.$message.warning('请选择一条数据进行录入')
-        return false
-      }
-      localThis.$refs.tmp.showLoading = true
-      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
-      localThis.proDetId = selection.proDetId
-      let params = {
-        id: selection.proDetId
-      }
-      localThis.tableData = []
-      localThis.tableDataSx = []
-      localThis.isFirst = false
-      localThis.isClearable = false
-      HttpModule.detailProjectInfo(params).then((res) => {
-        if (res.rscode === '200') {
-          let proDetMonInfo = res.data.proDetMonInfo
-          let perfGoalDetMonList = res.data.perfGoalDetMonList
-          let fundUsage = res.data.fundUsage
-          let isFirst = res.data.isFirst
-          localThis.formDataListBtm = proDetMonInfo
-          localThis.tableData = perfGoalDetMonList
-          localThis.formData = fundUsage
-
-          localThis.isFirst = isFirst
-          localThis.isClearable = isFirst
-          localThis.showModal = true
-          localThis.modalTitle = '新增'
-          localThis.showModalFooter = true
-        } else {
-          localThis.$message.warning('数据详细查询失败')
-        }
-        localThis.$refs.tmp.showLoading = false
-      })
-    },
-    editRecord() {
-      let localThis = this
-      if (localThis.$refs.tmp.getSelectionRcd().length !== 1) {
-        localThis.$message.warning('请选择一条数据进行编辑')
-        return false
-      }
-      localThis.$refs.tmp.showLoading = true
-      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
-      localThis.proDetMonId = selection.proDetMonId
-      let params = {
-        id: selection.proDetMonId
-      }
-      localThis.tableData = []
-      localThis.tableDataSx = []
-      localThis.proDetMonId = ''
-      localThis.proDetId = ''
-
-      HttpModule.detailDataRecord(params).then((res) => {
-        if (res.rscode === '200') {
-          // 基本情况
-          let proDetMonInfo = res.data.proDetMonInfo
-          localThis.formDataListBtm = proDetMonInfo
-          // 累计金额
-          let fundUsage = res.data.fundUsage
-          localThis.formData = fundUsage
-          // 绩效
-          let perfGoalDetMonList = res.data.perfGoalDetMonList
-          localThis.tableData = perfGoalDetMonList
-          // 附件
-          let proAttchList = res.data.proAttchList
-          localThis.tableDataSx = proAttchList
-          //
-          let isFirst = res.data.isFirst
-          localThis.isFirst = isFirst
-          localThis.isClearable = isFirst
-
-          localThis.proDetId = proDetMonInfo.proDetId
-          localThis.genMonthId = proDetMonInfo.genMonthId
-          localThis.proDetMonId = proDetMonInfo.proDetMonId
-
-          this.showModal = true
-          this.modalTitle = '编辑'
-          localThis.showModalFooter = true
-        } else {
-          localThis.$message.warning('数据详细查询失败')
-        }
-        localThis.$refs.tmp.showLoading = false
-      })
-    },
-    discardRecord() {
-      let localThis = this
-      if (localThis.$refs.tmp.getSelectionRcd().length < 1) {
-        localThis.$message.warning('请至少选择一条数据进行操作')
-        return false
-      }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetMonId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_det_month',
-        menuId: localThis.menuId,
-        actionType: 2,
-        actionName: '作废'
-      }
-      HttpModule.discardRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败')
-        }
-      })
     },
     auditRecord(type) {
       let localThis = this
@@ -2324,6 +1958,7 @@ export default {
         ids: ids,
         appId: 'pm_project_info_det_month',
         menuId: localThis.menuId,
+        isLastInst: localThis.isLastInst,
         actionType: type,
         actionName: type === 2 ? '送审' : '撤销送审'
       }

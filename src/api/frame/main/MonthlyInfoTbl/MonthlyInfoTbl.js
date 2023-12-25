@@ -13,7 +13,7 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   detailProjectInfo(params) {
-    return get('/pro-gather-server/gather/pmProjectInfoDetail/queryByProDetId', params)
+    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryProDetailById', params)
   },
   /**
    * 新增

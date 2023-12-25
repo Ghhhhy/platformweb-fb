@@ -19,7 +19,7 @@ export default [
       requireAuth: true
     },
     component: () =>
-      import('../../../views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoFirstAudit.vue')
+      import('../../../views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoAudit.vue')
   },
   // 增发国债资金项目基本信息终审
   {
@@ -30,7 +30,7 @@ export default [
       requireAuth: true
     },
     component: () =>
-      import('../../../views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoSecondAudit.vue')
+      import('../../../views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoList.vue')
   },
   // 增发国债资金项目基本信息月报录入
   {
@@ -52,7 +52,7 @@ export default [
       requireAuth: true
     },
     component: () =>
-      import('../../../views/main/MonthlyInfoTbl/MonthlyInfoTblFirstAudit.vue')
+      import('../../../views/main/MonthlyInfoTbl/MonthlyInfoTblAudit.vue')
   },
   // 增发国债资金项目基本信息月报终审
   {
@@ -63,6 +63,6 @@ export default [
       requireAuth: true
     },
     component: () =>
-      import('../../../views/main/MonthlyInfoTbl/MonthlyInfoTblSecondAudit.vue')
+      import('../../../views/main/MonthlyInfoTbl/MonthlyInfoTblList.vue')
   }
 ]

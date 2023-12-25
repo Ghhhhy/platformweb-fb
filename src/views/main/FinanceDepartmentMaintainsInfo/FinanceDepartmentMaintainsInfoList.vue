@@ -8,7 +8,7 @@
       :title="modalTitle"
       width="66%"
       :height="(activeNameBtm === '2' || activeNameBtm === '6') ? '79%' : '60%'"
-      :show-footer="true"
+      :show-footer="false"
       :destroy-on-close="true"
       @close="closeModal"
     >
@@ -39,7 +39,6 @@
               ref="addFormthrid"
               :form-items-config="formItemsConfigThird"
               :form-data-list="formDataListThird"
-              @itemChange="insertItemChange"
             />
           </el-tab-pane>
           <el-tab-pane label="项目批复信息" name="4">
@@ -57,33 +56,6 @@
             />
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="6">
-            <el-upload
-              ref="fileUpload"
-              action="#"
-              multiple
-              :show-file-list="false"
-              :data="uploadDFileParams"
-              :on-remove="handleRemove"
-              :http-request="handelUploadDebugfile"
-            >
-              <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left">
-                <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
-                  <el-row
-                    style="display: inline-block;height: 42px;"
-                  >
-                    <el-col :span="16">
-                      <span class="sp-my">上传附件</span>
-                    </el-col>
-                  </el-row>
-                </div>
-              </div>
-              <div slot="tip" class="fn-inline upload-my-css">
-                <div class="fn-inline" style="height:33px;float:left">
-                  <span class="sp-my-two">支持png/jpg/pdf等，不超过20M</span>
-                </div>
-              </div>
-            </el-upload>
             <BsTable
               ref="fileDataRef"
               height="460"
@@ -96,20 +68,17 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div slot="footer">
-        <vxe-button @click="showModal = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSure">确认</vxe-button>
-      </div>
     </vxe-modal>
   </div>
 </template>
 <script>
-import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfoSecondAudit.js'
 
 export default {
   data() {
     return {
       menuId: '',
+      isLastInst: '',
       modalTitle: '',
       modalForm: '',
       importConlum: [
@@ -753,7 +722,7 @@ export default {
           qid: '315DDFED8D444D678B5C65E6DB5087E3'
         }
       ],
-      menuName: '增发国债资金项目基本信息录入',
+      menuName: '增发国债资金项目基本信息列表',
       tableUrl: '/pro-gather-server/gather/pmProjectInfoDetail/list',
       tableParams: {
         appId: 'pm_project_info_detail'
@@ -797,38 +766,12 @@ export default {
         },
         buttonsInfo: {
           '1': [
-            /*  {
-              code: 'pay-add',
-              label: '新增',
-              status: 'primary'
-            }, */
-            {
-              code: 'pay-import',
-              label: '导入',
-              status: 'primary'
-            },
-            {
-              code: 'pay-edit',
-              label: '修改'
-            },
-            {
-              code: 'pay-discard',
-              label: '作废'
-            },
-            {
-              code: 'pay-audit',
-              label: '送审'
-            },
             {
               code: 'pay-checkDetails',
               label: '查看详情'
             }
           ],
           '2': [
-            {
-              code: 'pay-unAudit',
-              label: '撤销送审'
-            },
             {
               code: 'pay-checkDetails',
               label: '查看详情'
@@ -842,116 +785,11 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
+    this.isLastInst = this.$store.state.curNavModule.param5.isLastInst
   },
   methods: {
     closeModal() {
       this.showModal = false
-    },
-    handleImport() {
-      let self = this
-      self.$refs.tmp.$refs.tableRef.triggerImportOption({
-        downloadTemplateCallback() {
-          const a = document.createElement('a')
-          a.setAttribute('download', '')
-          a.setAttribute('href', 'static/files/国债资金监控导入模板.xlsx')
-          a.click()
-        },
-        importSuccessCallback(res) {
-          let basicInfo = res['基本情况明细表']
-          basicInfo.shift()
-          let basicInfoRes = basicInfo.map(item => {
-            return {
-              mofDivName: item['财政区划'],
-              proAgencyCode: item['项目单位代码'],
-              proAgencyName: item['项目单位名称'],
-              budgetLevelCode: item['预算级次代码'],
-              budgetLevelName: item['预算级次名称'],
-              speProCode: item['项目代码'],
-              speProName: item['项目名称'],
-              fundInvestAreaName: item['项目所属投向领域'],
-              proContent: item['项目主要建设内容'],
-              proStaDate: item['开工或预计开工时间'],
-              proEndDate: item['预计完工时间'],
-              ndrcProCode: item['发改委项目代码'],
-              ndrcProName: item['发改委项目名称'],
-              trackProName: item['增发国债资金中央转移支付项目名称'],
-              trackProCode: item['增发国债资金中央转移支付项目代码'],
-              proDeptCode: item['项目主管部门编码'],
-              proDeptName: item['项目主管部门名称'],
-              proGi: item['项目总投资'],
-              proApproveNumber: item['项目审批（核准、备案）文号'],
-              landApproveNumber: item['用地审批文号'],
-              eiaApproveNumber: item['环评审批文号'],
-              consApproveNumber: item['施工许可文号'],
-              proAddress: item['项目地址'],
-              estAgencyName: item['主要监理单位'],
-              consAgencyName: item['主要施工单位'],
-              agencyLeaderPerName: item['项目单位负责人'],
-              agencyLeaderPerOtel: item['__EMPTY_8'],
-              agencyLeaderPerMtel: item['__EMPTY_9'],
-              fiLeader: item['财务负责人'],
-              fiLeaderOtel: item['__EMPTY_10'],
-              fiLeaderMtel: item['__EMPTY_11'],
-              proLeader: item['项目负责人'],
-              proLeaderOtel: item['__EMPTY_12'],
-              proLeaderMtel: item['__EMPTY_13'],
-              proLessor: item['工作联系人'],
-              proLessorOtel: item['__EMPTY_14'],
-              proLessorMtel: item['__EMPTY_15'],
-              kpiTarget: item['总体绩效目标'],
-              proGiAddnb: item['__EMPTY'],
-              proGiCff: item['__EMPTY_1'],
-              proGiCfo: item['__EMPTY_2'],
-              proGiLff: item['__EMPTY_3'],
-              proGiEf: item['__EMPTY_4'],
-              proGiLb: item['__EMPTY_5'],
-              proGiBankl: item['__EMPTY_6'],
-              proGiOth: item['__EMPTY_7']
-            }
-          })
-          console.log(basicInfoRes)
-          let bgtInfo = res['国债资金项目绩效指标']
-          let bgtRes = bgtInfo.map(item => {
-            return {
-              speProCode: item['项目代码'],
-              speProName: item['项目名称'],
-              lv1PerfIndCode: item['一级绩效指标代码'],
-              lv1PerfIndName: item['一级绩效指标名称'],
-              lv2PerfIndCode: item['二级绩效指标代码'],
-              lv2PerfIndName: item['二级绩效指标名称'],
-              lv3PerfIndCode: item['三级绩效指标代码'],
-              lv3PerfIndName: item['三级绩效指标名称'],
-              kpiContent: item['绩效指标说明'] ? item['绩效指标说明'] : '',
-              kpiVal: item['指标值']
-            }
-          })
-          console.log(bgtRes)
-          self.$refs.tmp.showLoading = true
-          let params = {
-            projectInfo: basicInfoRes,
-            perfIndica: bgtRes,
-            appId: 'pm_project_info_detail',
-            menuId: self.menuId,
-            actionType: '1',
-            actionName: '录入',
-            advice: ''
-          }
-          HttpModule.importExcel(params).then((res) => {
-            if (res && res.rscode === '200') {
-              self.$message.success('导入成功')
-              self.$refs.tmp.refresh()
-            } else {
-              self.$message.success('导入失败：')
-            }
-            console.log(res)
-          }).finally(() => {
-            self.$refs.tmp.showLoading = false
-          })
-        }
-      })
-    },
-    onImportSuccess(data) {
-
     },
     clearFormat(str) {
       str += ''
@@ -962,64 +800,8 @@ export default {
       }
       return i
     },
-    insertItemChange({ $form, property, itemValue, data }, bsform) {
-      data.sums = this.clearFormat(data.a1) + this.clearFormat(data.a2) + this.clearFormat(data.a3) + this.clearFormat(data.a4) + this.clearFormat(data.a5) + this.clearFormat(data.a6) + this.clearFormat(data.a7) + this.clearFormat(data.a8)
-      console.log(this.formDataListThird)
-    },
     fileUpload(params) {
       return this.$http.post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
-    },
-    handelUploadDebugfile(e) {
-      const form = new FormData()
-      const temp = []
-      // 文件对象
-      form.append('file', e.file)
-      form.append('filename', e.file.name)
-      form.append('appid', 'pay_plan_voucher')
-      temp.push(e.file.name)
-      form.append('doctype', '')
-      form.append('year', this.$store.state.userInfo.year)
-      form.append('province', this.$store.state.userInfo.province)
-      form.append('userguid', this.$store.state.userInfo.guid)
-      form.append('billguid', this.$ToolFn.utilFn.getUuid())
-      this.addLoading = true
-      this.fileUpload(form).then(res => {
-        this.addLoading = false
-        if (res.rscode === '100000') {
-          let resultData = ''
-          if (res.data || res.data != null) {
-            resultData = res.data
-          } else {
-            resultData = res.result
-          }
-          let data = {}
-          temp.push(resultData)
-          data['year'] = this.$store.state.userInfo.year
-          data['count'] = 0
-          data['filesize'] = e.file.size
-          data['fileName'] = e.file.name
-          data['proAttchId'] = resultData
-          data['filepath'] = e.file.webkitRelativePath
-          data['province'] = this.$store.state.userInfo.province
-          data['appid'] = 'pay_plan_voucher'
-          data['creater'] = e.file.uid
-          data['guid'] = this.$store.state.userInfo.guid
-          data['billguid'] = this.$ToolFn.utilFn.getUuid()
-          data['importuser'] = this.$store.state.userInfo.name
-          data['createTime'] = new Date().toLocaleDateString()
-          data['proAttchKindCode'] = ''
-          this.tableDataSx.push(data)
-          this.$message.success('上传成功')
-        } else {
-          if (res.result.includes('Size: 0')) {
-            this.$message.error('上传失败,不能上传空文件')
-          }
-          this.$message.error('上传失败：' + res.result)
-        }
-      }).catch()
-    },
-    handleRemove() {
-
     },
     addLevelOneLeft() {
       this.tableData.push({
@@ -1081,73 +863,7 @@ export default {
         }
       }
     },
-    handleSure() {
-      let localThis = this
-      console.log()
-      localThis.$refs.tmp.showLoading = true
-      let fileList = []
-      let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
-      if (fileDataList && fileDataList.length > 0) {
-        fileDataList.forEach((item) => {
-          fileList.push({
-            fileName: item.fileName,
-            kpiRemark: item.kpiRemark,
-            proAttchKindCode: item.proAttchKindCode,
-            proAttchKindName: item.proAttchKindCode__viewSort,
-            proAttchId: item.proAttchId
-          })
-        })
-      }
-
-      let params = {
-        projectInfo: localThis.$refs.addForm.getFormData(),
-        perfIndica: localThis.tableData,
-        proGiSource: localThis.$refs.addFormthrid.getFormData(),
-        // 项目总投资
-        approvalDoc: localThis.$refs.addFormForth.getFormData(),
-        // 联系方式
-        depInfo: localThis.$refs.contactInformationForm.getFormData(),
-        attchs: fileList
-      }
-      console.log(params)
-
-      if (localThis.proDetId === '') {
-        // 新增
-
-      } else {
-        // 修改
-        params.proDetId = localThis.proDetId
-        params.projectInfo.proDetId = localThis.proDetId
-        HttpModule.editDataRecord(params).then((res) => {
-          if (res.rscode === '200') {
-            this.showModal = false
-            localThis.$message.success('操作成功')
-            localThis.$refs.tmp.refresh()
-          } else {
-            localThis.$message.warning('数据编辑保存询失败')
-          }
-          localThis.$refs.tmp.showLoading = false
-        })
-      }
-    },
     onBtnClick(obj) {
-      if (obj.code === 'pay-add') {
-        this.showModal = true
-        this.modalTitle = '新增'
-      }
-      if (obj.code === 'pay-import') {
-        this.handleImport()
-      }
-      if (obj.code === 'pay-edit') {
-        if (this.$refs.tmp.getSelectionRcd().length !== 1) {
-          this.$message.warning('请选择一条数据进行查看')
-          return false
-        }
-        this.editRecord()
-      }
-      if (obj.code === 'pay-discard') {
-        this.discardRecord()
-      }
       if (obj.code === 'pay-checkDetails') {
         if (this.$refs.tmp.getSelectionRcd().length !== 1) {
           this.$message.warning('请选择一条数据进行查看')
@@ -1155,87 +871,6 @@ export default {
         }
         this.viewDetail()
       }
-      if (obj.code === 'pay-audit') {
-        this.auditRecord(2)
-      }
-      if (obj.code === 'pay-unAudit') {
-        this.auditRecord(3)
-      }
-    },
-    editRecord() {
-      let localThis = this
-      localThis.$refs.tmp.showLoading = true
-      let selection = localThis.$refs.tmp.getSelectionRcd()[0]
-      localThis.proDetId = selection.proDetId
-      let params = {
-        proDetId: selection.proDetId
-      }
-      localThis.tableData = []
-      HttpModule.detailDataRecord(params).then((res) => {
-        if (res.rscode === '200') {
-          let projectInfo = res.data.projectInfo
-          let perfIndica = res.data.perfIndica
-          let attchs = res.data.attchs
-          localThis.tableDataSx = attchs
-          localThis.tableData = perfIndica
-          localThis.initModalFormData(projectInfo)
-          this.showModal = true
-          this.modalTitle = '编辑'
-        } else {
-          localThis.$message.warning('数据详细查询失败')
-        }
-        localThis.$refs.tmp.showLoading = false
-      })
-    },
-    discardRecord() {
-      let localThis = this
-      if (localThis.$refs.tmp.getSelectionRcd().length < 1) {
-        localThis.$message.warning('请至少选择一条数据进行操作')
-        return false
-      }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_detail',
-        menuId: localThis.menuId,
-        actionType: 2,
-        actionName: '作废'
-      }
-      HttpModule.discardRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败')
-        }
-      })
-    },
-    auditRecord(type) {
-      let localThis = this
-      if (localThis.$refs.tmp.getSelectionRcd().length < 1) {
-        localThis.$message.warning('请至少选择一条数据进行操作')
-        return false
-      }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_detail',
-        menuId: localThis.menuId,
-        actionType: type,
-        actionName: type === 2 ? '送审' : '撤销送审'
-      }
-      HttpModule.auditDataRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败')
-        }
-      })
     },
     viewDetail() {
       let localThis = this

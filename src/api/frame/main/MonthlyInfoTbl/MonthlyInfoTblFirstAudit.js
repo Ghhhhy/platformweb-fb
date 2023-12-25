@@ -1,4 +1,4 @@
-import { post } from '@/api/http'
+import { post, get } from '@/api/http'
 
 export default {
   /**
@@ -6,22 +6,13 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   auditDataRecords(params) {
-    return post('pro-gather-server/lmp/warnProcess/pageQueryeg', params)
+    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/audit', params)
   },
-
   /**
-   * 撤销审核
+   * 查询详情
    * @return {Promise | Promise<unknown>}
    */
-  revokeDataRecords(params) {
-    return post('pro-gather-server/lmp/warnProcess/pageQueryeg', params)
-  },
-
-  /**
-   * 数据查看
-   * @return {Promise | Promise<unknown>}
-   */
-  viewDataRecord(params) {
-    return post('pro-gather-server/lmp/warnProcess/pageQueryeg', params)
+  detailDataRecord(params) {
+    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryById', params)
   }
 }
