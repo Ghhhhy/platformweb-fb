@@ -2298,7 +2298,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败'+res.errorMessage)
+          localThis.$message.warning('操作失败' + res.errorMessage)
         }
       })
     },
@@ -2323,7 +2323,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败'+res.errorMessage)
+          localThis.$message.warning('操作失败' + res.errorMessage)
         }
       })
     },
