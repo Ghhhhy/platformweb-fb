@@ -9,12 +9,12 @@
       :show-footer="true"
       @close="dialogClose"
     >
-      <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :default-form-data="createDataList" />
+      <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :show-type="showType" :default-form-data="createDataList" />
       <div slot="footer" style="height: 80px;margin:0 15px">
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="space-around">
           <div>
-            <vxe-button status="primary" @click="doFeedback">确定</vxe-button>
+            <vxe-button v-if="showType !== 'detail'" status="primary" @click="doFeedback">确定</vxe-button>
             <vxe-button @click="dialogClose">取消</vxe-button>
           </div>
         </div>
@@ -30,7 +30,7 @@ export default {
     monitProcFeedbackFormInstance
   },
   // eslint-disable-next-line
-  props: ['createDataList'],
+  props: ['createDataList','showType'],
   data() {
     return {
       tableLoading: false,
