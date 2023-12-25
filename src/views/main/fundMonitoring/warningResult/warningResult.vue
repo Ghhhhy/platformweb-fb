@@ -104,7 +104,7 @@ export default {
       // table 相关配置
       tableLoading: false,
       tableConfig: getFormData('basicInfo', 'tableConfig'),
-      tableColumnsConfig: getFormData('basicInfo', 'tableColumnsConfig'),
+      tableColumnsConfig: this.$store.getters.isFuJian ? getFormData('basicInfo', 'tableColumnsConfigFj') : getFormData('basicInfo', 'tableColumnsConfig'),
       tableData: [],
       obj: {},
       toolbarConfig: {

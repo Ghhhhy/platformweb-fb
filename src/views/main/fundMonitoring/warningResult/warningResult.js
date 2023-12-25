@@ -663,6 +663,156 @@ const proconf = {
         ]
       }
     ],
+    tableColumnsConfigFj: [
+      {
+        title: '规则名称',
+        treeNode: true,
+        align: 'left',
+        width: 260,
+        field: 'name',
+        filters: false,
+        cellRender: {
+          name: '$vxeIcon'
+        }
+      },
+      {
+        title: '红灯',
+        field: '',
+        width: 140,
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '未认定',
+            field: 'numbernofileNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon1',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '已整改',
+            field: 'numberfileNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          }
+        ]
+      },
+      {
+        title: '黄灯',
+        field: '',
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '疑点信息',
+            field: 'numberwarnUndoNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon6',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '认定正常',
+            field: 'numberwarndoNum',
+            width: 140,
+            align: 'center',
+            filters: false,
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '认定违规',
+            field: 'numberwarndoNoNum',
+            width: 140,
+            align: 'center',
+            children: [
+              {
+                title: '待整改',
+                field: 'numberwarnUndoNoNum',
+                width: 140,
+                filters: false,
+                align: 'center',
+                cellRender: {
+                  name: '$vxeIcon1',
+                  props: {
+                    $refs: this
+                  }
+                }
+              },
+              {
+                title: '已整改',
+                field: 'numberwarndidNum',
+                width: 140,
+                align: 'center',
+                filters: false,
+                cellRender: {
+                  name: '$vxeIcon3',
+                  props: {
+                    $refs: this
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: '黄色警铃',
+        field: '',
+        sortable: false,
+        align: 'center',
+        children: [
+          {
+            title: '未认定',
+            field: 'numberhqlmUndoNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon2',
+              props: {
+                $refs: this
+              }
+            }
+          },
+          {
+            title: '已整改',
+            field: 'numberhqlmdoNum',
+            width: 140,
+            filters: false,
+            align: 'center',
+            cellRender: {
+              name: '$vxeIcon3',
+              props: {
+                $refs: this
+              }
+            }
+          }
+        ]
+      }
+    ],
     tableData: []
   }
 }

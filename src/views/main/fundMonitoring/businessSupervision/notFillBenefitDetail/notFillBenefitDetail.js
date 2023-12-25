@@ -318,6 +318,7 @@ export const modalTableColumns = [
     title: '地区名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'mofDivName',
     formatter({ row }) {
       if (row.mofDivCode && row.mofDivName) {
@@ -330,36 +331,42 @@ export const modalTableColumns = [
     title: '单位名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'agencyName'
   },
   {
     title: '处室名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'bgtMofDepName'
   },
   {
     title: '资金名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'trackProName'
   },
   {
     title: '本级专项资金名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'trackProName'
   },
   {
     title: '项目编码',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'proCode'
   },
   {
     title: '项目名称',
     align: 'left',
     width: 260,
+    sortable: true,
     field: 'proName'
   }
 ]
