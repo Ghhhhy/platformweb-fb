@@ -199,14 +199,14 @@ export default {
             self.$message('预算编报已关闭')
           } else {
             this.$store.commit('setCurMenuObj', obj)
-            if (this.$store.getters.isNeiMeng) {
+            if (this.$store.getters.isQingHai) {
               robotServe(this)// 客服机器人服务
             }
           }
         })
       } else {
         this.$store.commit('setCurMenuObj', obj)
-        if (this.$store.getters.isNeiMeng) {
+        if (this.$store.getters.isQingHai) {
           robotServe(this)// 客服机器人服务
         }
       }
