@@ -43,11 +43,19 @@ const propsConfig = ref({
     otherParams: {},
     dynamicParams: {
       /*
-      'test':'store.getters.dict.map(item=>)',
-      'test2':"row.XXX"
+      'storeData':'store.userinfo.name',
+      'inRowData':"row.XXX",
+      'inColumnData':"column.XXX"
+      "parentVueData":"ctx.$props",
+      "string":"'row'",
+      "number":123,
+      "bool":false,
+      "arr":[],
+      "null":null,
       */
     }
   },
+  context: this,
   // 点击行数据
   row: {},
   // 点击列配置数据
@@ -189,19 +197,33 @@ const queryTableData = async () => {
     ...propsConfig.value.tableFetchConfig.otherParams
   }
   const getDynamicParams = () => {
-    const storeCopy = JSON.stringify({ ...store.state, ...store.getters })
+    let storeCopy = {}
+    try {
+      storeCopy = JSON.parse(JSON.stringify({ ...store.state, ...store.getters }))
+    } catch (error) {
+      console.log(error)
+    }
     let asyncQueue = Object.keys(propsConfig.value.tableFetchConfig?.dynamicParams || {})?.map(key => {
       let funcEnv = async () => {
         // eslint-disable-next-line
-        let $store = JSON.parse(storeCopy)
+        let $store = storeCopy
         // eslint-disable-next-line
         let row = propsConfig.value.row
         // eslint-disable-next-line
         let column = propsConfig.value.column
         // eslint-disable-next-line
-        let result = eval(propsConfig.value.tableFetchConfig.dynamicParams[key])
-        result = JSON.parse(JSON.stringify(result))
-        return { key, value: result }
+        let result = ''
+        // eslint-disable-next-line
+        let ctx=propsConfig.value.context
+        try {
+          // eslint-disable-next-line
+          result = eval(propsConfig.value.tableFetchConfig.dynamicParams[key])
+          result = JSON.parse(JSON.stringify(result))
+          return { key, value: result }
+        } catch (error) {
+          console.error(`动态配置取值解析错误,错误key：${key}\n`, error)
+          return { key, value: '' }
+        }
       }
       return funcEnv()
     })
