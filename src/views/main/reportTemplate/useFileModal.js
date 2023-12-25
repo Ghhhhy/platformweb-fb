@@ -189,10 +189,11 @@ const queryTableData = async () => {
     ...propsConfig.value.tableFetchConfig.otherParams
   }
   const getDynamicParams = () => {
+    const storeCopy = JSON.stringify({ ...store.state, ...store.getters })
     let asyncQueue = Object.keys(propsConfig.value.tableFetchConfig?.dynamicParams || {})?.map(key => {
       let funcEnv = async () => {
         // eslint-disable-next-line
-        let store = store
+        let $store = JSON.parse(storeCopy)
         // eslint-disable-next-line
         let row = propsConfig.value.row
         // eslint-disable-next-line
@@ -206,7 +207,8 @@ const queryTableData = async () => {
     })
     return Promise.all(asyncQueue).then(res => {
       return res.reduce((pre, cur) => {
-        return { [cur.key]: cur.value }
+        pre[cur.key] = cur.value
+        return pre
       }, {})
     })
   }
