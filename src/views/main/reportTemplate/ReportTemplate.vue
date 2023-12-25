@@ -345,7 +345,10 @@ export default {
         return
       }
       if (obj.column.own.insertType === 'file') {
-        showFileModal(this.globalConfig?.fileClickModalConfig || obj.column.own.fileClickModalConfig)
+        let settingConfig = this.globalConfig?.fileClickModalConfig || obj.column.own.fileClickModalConfig
+        let row = JSON.parse(JSON.stringify(obj.row))
+        let column = JSON.parse(JSON.stringify(obj.column.own))
+        showFileModal({ ...settingConfig, row, column })
         return
       }
       this.penetrateTableId = obj.column.own.penetrateTable

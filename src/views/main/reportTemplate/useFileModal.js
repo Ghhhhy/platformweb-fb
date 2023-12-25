@@ -40,7 +40,13 @@ const propsConfig = ref({
     succuessCode: '000000',
     succuessField: 'code',
     dataKey: 'data',
-    otherParams: {}
+    otherParams: {},
+    dynamicParams: {
+      /*
+      'test':'store.getters.dict.map(item=>)',
+      'test2':"row.XXX"
+      */
+    }
   },
   // 点击行数据
   row: {},
@@ -182,6 +188,29 @@ const queryTableData = async () => {
     pageSize: mainPagerConfig.value.pageSize,
     ...propsConfig.value.tableFetchConfig.otherParams
   }
+  const getDynamicParams = () => {
+    let asyncQueue = Object.keys(propsConfig.value.tableFetchConfig?.dynamicParams || {})?.map(key => {
+      let funcEnv = async () => {
+        // eslint-disable-next-line
+        let store = store
+        // eslint-disable-next-line
+        let row = propsConfig.value.row
+        // eslint-disable-next-line
+        let column = propsConfig.value.column
+        // eslint-disable-next-line
+        let result = eval(propsConfig.value.tableFetchConfig.dynamicParams[key])
+        result = JSON.parse(JSON.stringify(result))
+        return { key, value: result }
+      }
+      return funcEnv()
+    })
+    return Promise.all(asyncQueue).then(res => {
+      return res.reduce((pre, cur) => {
+        return { [cur.key]: cur.value }
+      }, {})
+    })
+  }
+  defaultParams = await getDynamicParams()
   const beforeParams = propsConfig.value.before?.(defaultParams)
   const finallyParams = { ...defaultParams, ...beforeParams }
   tableLoading.value = true
