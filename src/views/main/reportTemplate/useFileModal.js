@@ -185,56 +185,58 @@ const strToJson = (str) => {
   return json
 }
 
+// 获取动态请求数据
+const getDynamicParams = () => {
+  let storeCopy = {}
+  try {
+    storeCopy = JSON.parse(JSON.stringify({ ...store.state, ...store.getters }))
+  } catch (error) {
+    console.log(error)
+  }
+  let asyncQueue = Object.keys(propsConfig.value.tableFetchConfig?.dynamicParams || {})?.map(key => {
+    let funcEnv = async () => {
+      // eslint-disable-next-line
+      let $store = storeCopy
+      // eslint-disable-next-line
+      let row = propsConfig.value.row
+      // eslint-disable-next-line
+      let column = propsConfig.value.column
+      // eslint-disable-next-line
+      let result = ''
+      // eslint-disable-next-line
+      let ctx=propsConfig.value.context
+      try {
+        // eslint-disable-next-line
+        result = eval(propsConfig.value.tableFetchConfig.dynamicParams[key])
+        result = JSON.parse(JSON.stringify(result))
+        return { key, value: result }
+      } catch (error) {
+        console.error(`动态配置取值解析错误,错误key：${key}\n`, error)
+        return { key, value: '' }
+      }
+    }
+    return funcEnv()
+  })
+  return Promise.all(asyncQueue).then(res => {
+    return res.reduce((pre, cur) => {
+      pre[cur.key] = cur.value
+      return pre
+    }, {})
+  })
+}
 // 请求数据方法
 const queryTableData = async () => {
   if (!propsConfig.value.tableFetchConfig?.tableDataUrl) {
     Message.error('未配置表格查询URL，请配置')
     return
   }
+  const dynamicParams = await getDynamicParams()
   let defaultParams = {
     page: mainPagerConfig.value.currentPage,
     pageSize: mainPagerConfig.value.pageSize,
-    ...propsConfig.value.tableFetchConfig.otherParams
+    ...propsConfig.value.tableFetchConfig.otherParams,
+    ...dynamicParams
   }
-  const getDynamicParams = () => {
-    let storeCopy = {}
-    try {
-      storeCopy = JSON.parse(JSON.stringify({ ...store.state, ...store.getters }))
-    } catch (error) {
-      console.log(error)
-    }
-    let asyncQueue = Object.keys(propsConfig.value.tableFetchConfig?.dynamicParams || {})?.map(key => {
-      let funcEnv = async () => {
-        // eslint-disable-next-line
-        let $store = storeCopy
-        // eslint-disable-next-line
-        let row = propsConfig.value.row
-        // eslint-disable-next-line
-        let column = propsConfig.value.column
-        // eslint-disable-next-line
-        let result = ''
-        // eslint-disable-next-line
-        let ctx=propsConfig.value.context
-        try {
-          // eslint-disable-next-line
-          result = eval(propsConfig.value.tableFetchConfig.dynamicParams[key])
-          result = JSON.parse(JSON.stringify(result))
-          return { key, value: result }
-        } catch (error) {
-          console.error(`动态配置取值解析错误,错误key：${key}\n`, error)
-          return { key, value: '' }
-        }
-      }
-      return funcEnv()
-    })
-    return Promise.all(asyncQueue).then(res => {
-      return res.reduce((pre, cur) => {
-        pre[cur.key] = cur.value
-        return pre
-      }, {})
-    })
-  }
-  defaultParams = await getDynamicParams()
   const beforeParams = propsConfig.value.before?.(defaultParams)
   const finallyParams = { ...defaultParams, ...beforeParams }
   tableLoading.value = true
