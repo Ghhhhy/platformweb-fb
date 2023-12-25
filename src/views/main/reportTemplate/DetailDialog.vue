@@ -256,12 +256,14 @@ export default {
       console.log(params)
       this.cacheParam = params
       let URL = 'getReportTableDatas'
+      let dataKey = 'data'
       if (this.settingPageConfig.usePage) {
         URL = 'getDetailTableDatas'
+        dataKey = 'results'
       }
       HttpModule[URL](params).then((res) => {
         if (res.code === '000000') {
-          this.tableData = res.data.results
+          this.tableData = res.data[dataKey]
           this.pagerConfig.total = res.data.totalCount
         } else {
           this.$message.error(res.message)

@@ -397,13 +397,15 @@ export default {
       this.tableLoading = true
       this.cacheParam = param
       let URL = 'getReportTableDatas'
+      let dataKey = 'data'
       if (this.settingPageConfig.usePage) {
         URL = 'getDetailTableDatas'
+        dataKey = 'results'
       }
       HttpModule[URL](param).then((res) => {
         if (res.code === '000000') {
           if (res.data) {
-            this.tableData = res.data.data
+            this.tableData = res.data[dataKey]
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
           }
