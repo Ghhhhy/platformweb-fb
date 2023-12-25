@@ -124,6 +124,7 @@ export default {
   },
   data() {
     return {
+      settingPageConfig: {},
       cacheParam: {},
       globalConfig: {},
       caliberDeclareContent: '', // 口径说明
@@ -231,6 +232,7 @@ export default {
         this.tableColumnsConfig = configData.itemsConfig
         this.queryParams = configData.queryParams || {}
         this.globalConfig = configData.globalConfig || {}
+        this.settingPageConfig = configData.pageConfig || {}
       }
       if (type === 'query') {
         let configData = await this.loadBsConfig(params)
@@ -394,21 +396,23 @@ export default {
       console.log(param, '--------------查询参数')
       this.tableLoading = true
       this.cacheParam = param
-      HttpModule.getReportTableDatas(param)
-        .then((res) => {
-          if (res.code === '000000') {
-            if (res.data) {
-              this.tableData = res.data.data
-              this.reportTime = res.data.reportTime || ''
-              this.caliberDeclareContent = res.data.description || ''
-            }
-          } else {
-            this.$message.error(res.message)
+      let URL = 'getReportTableDatas'
+      if (this.settingPageConfig.usePage) {
+        URL = 'getDetailTableDatas'
+      }
+      HttpModule[URL](param).then((res) => {
+        if (res.code === '000000') {
+          if (res.data) {
+            this.tableData = res.data.data
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
           }
-        })
-        .finally(() => {
-          this.tableLoading = false
-        })
+        } else {
+          this.$message.error(res.message)
+        }
+      }).finally(() => {
+        this.tableLoading = false
+      })
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)

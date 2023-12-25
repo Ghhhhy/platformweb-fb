@@ -98,6 +98,7 @@ export default {
   },
   data() {
     return {
+      settingPageConfig: {},
       cacheParam: {},
       globalConfig: {},
       isShowQueryConditions: true,
@@ -169,6 +170,7 @@ export default {
         let configData = await this.loadBsConfig(params)
         this.globalConfig = configData.globalConfig || {}
         this.tableColumnsConfig = configData.itemsConfig
+        this.settingPageConfig = configData.pageConfig || {}
       }
       if (type === 'query') {
         let configData = await this.loadBsConfig(params)
@@ -253,15 +255,18 @@ export default {
       this.$parent.tableLoading = true
       console.log(params)
       this.cacheParam = params
-      HttpModule.getDetailTableDatas(params)
-        .then((res) => {
-          if (res.code === '000000') {
-            this.tableData = res.data.results
-            this.pagerConfig.total = res.data.totalCount
-          } else {
-            this.$message.error(res.message)
-          }
-        })
+      let URL = 'getReportTableDatas'
+      if (this.settingPageConfig.usePage) {
+        URL = 'getDetailTableDatas'
+      }
+      HttpModule[URL](params).then((res) => {
+        if (res.code === '000000') {
+          this.tableData = res.data.results
+          this.pagerConfig.total = res.data.totalCount
+        } else {
+          this.$message.error(res.message)
+        }
+      })
         .finally(() => {
           this.$parent.tableLoading = false
         })
@@ -324,16 +329,13 @@ export default {
         obj.column.own.penetrateQuery ||
         obj.column.own.penetrateTable + '_query'
       this.handleDetail(obj.row, obj.column)
-    },
-    isConfigTable() {
-      this.loadConfig('table')
-      this.loadConfig('query')
     }
   },
   mounted() {
     console.log(this.detailTable, 'munid')
-    this.isConfigTable()
-    this.queryTableDatas()
+    Promise.all([this.loadConfig('table'), this.loadConfig('query')]).then(res => {
+      this.queryTableDatas()
+    })
   },
   watch: {},
   created() {
