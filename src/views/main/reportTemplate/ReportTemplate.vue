@@ -295,7 +295,7 @@ export default {
           this.menuName = '直达资金预算下达_分地区(单位:万元)'
           break
       }
-      this.mainPagerConfig.currentPage = 1
+      // this.mainPagerConfig.currentPage = 1
       this.queryTableDatas()
       this.queryTableDatasCount()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
@@ -401,6 +401,8 @@ export default {
       if (this.settingPageConfig.usePage) {
         URL = 'getDetailTableDatas'
         dataKey = 'results'
+        param.pageNo = this.pagerConfig.currentPage
+        param.pageSize = this.pagerConfig.pageSize
       }
       HttpModule[URL](param).then((res) => {
         if (res.code === '000000') {
@@ -408,6 +410,11 @@ export default {
             this.tableData = res.data[dataKey]
             this.reportTime = res.data.reportTime || ''
             this.caliberDeclareContent = res.data.description || ''
+            if (this.settingPageConfig.usePage) {
+              this.pagerConfig.currentPage = res.data.pageNo
+              this.pagerConfig.currentPage = res.data.pageSize
+              this.pagerConfig.total = res.data.totalCount
+            }
           }
         } else {
           this.$message.error(res.message)

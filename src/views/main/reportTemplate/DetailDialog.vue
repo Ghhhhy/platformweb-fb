@@ -116,6 +116,7 @@ export default {
         showFooter: false
       },
       pagerConfig: {
+        autoHidden: true,
         total: 0,
         currentPage: 1,
         pageSize: 20
@@ -260,11 +261,17 @@ export default {
       if (this.settingPageConfig.usePage) {
         URL = 'getDetailTableDatas'
         dataKey = 'results'
+        params.pageNo = this.pagerConfig.currentPage
+        params.pageSize = this.pagerConfig.pageSize
       }
       HttpModule[URL](params).then((res) => {
         if (res.code === '000000') {
           this.tableData = res.data[dataKey]
-          this.pagerConfig.total = res.data.totalCount
+          if (this.settingPageConfig.usePage) {
+            this.pagerConfig.currentPage = res.data.pageNo
+            this.pagerConfig.currentPage = res.data.pageSize
+            this.pagerConfig.total = res.data.totalCount
+          }
         } else {
           this.$message.error(res.message)
         }
