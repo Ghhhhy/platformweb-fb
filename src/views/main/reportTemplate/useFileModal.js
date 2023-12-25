@@ -40,6 +40,7 @@ const propsConfig = ref({
     succuessCode: '000000',
     succuessField: 'code',
     dataKey: 'data',
+    totalKey: 'data.totalCount',
     otherParams: {},
     dynamicParams: {
       /*
@@ -88,6 +89,7 @@ const modalStaticlayout = {
 
 // 默认分页数据
 const mainPagerConfig = ref({
+  total: 0,
   currentPage: 1,
   pageSize: 20
 })
@@ -247,10 +249,11 @@ const queryTableData = async () => {
   tableLoading.value = false
   const code = unCheckResult[propsConfig.value.tableFetchConfig.succuessField]
   if (propsConfig.value.tableFetchConfig.succuessCode !== code) {
-    Message.error('接口请求校验不通过')
+    Message.error('接口请求校验不通过,请检查tableFetchConfig配置')
     return
   }
   let beforeTableData = transformFetchData(unCheckResult, propsConfig.value.tableFetchConfig.dataKey)
+  mainPagerConfig.value.total = transformFetchData(unCheckResult, propsConfig.value.tableFetchConfig.totalKey || 'data.totalCount')
   tableData.value = propsConfig.value.after?.(beforeTableData) ?? beforeTableData
 }
 
