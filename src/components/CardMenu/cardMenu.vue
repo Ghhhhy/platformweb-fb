@@ -57,6 +57,7 @@ import PoperExtend from './poper/poper'
 import MenuTodo from './other/menuTodo'
 import data from './config/data'
 import MenuModule from '@/api/frame/common/menu.js'
+import { robotServe } from '@/utils/robotServer.js'
 import OperateGuideNew from '@/views/main/guidOperation/operateGuidNew'
 
 // import databf from './config/databf'
@@ -198,10 +199,16 @@ export default {
             self.$message('预算编报已关闭')
           } else {
             this.$store.commit('setCurMenuObj', obj)
+            if (this.$store.getters.isNeiMeng) {
+              robotServe(this)// 客服机器人服务
+            }
           }
         })
       } else {
         this.$store.commit('setCurMenuObj', obj)
+        if (this.$store.getters.isNeiMeng) {
+          robotServe(this)// 客服机器人服务
+        }
       }
     },
     // 缩放
