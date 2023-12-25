@@ -8,7 +8,7 @@
       :title="modalTitle"
       width="66%"
       :height="(activeNameBtm === '2' || activeNameBtm === '6') ? '79%' : '60%'"
-      :show-footer="true"
+      :show-footer="showModalFooter"
       :destroy-on-close="true"
       @close="closeModal"
     >
@@ -58,6 +58,7 @@
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="6">
             <el-upload
+              v-if="showModalFooter"
               ref="fileUpload"
               action="#"
               multiple
@@ -700,6 +701,7 @@ export default {
         proEndDate: ''
       },
       showModal: false,
+      showModalFooter: true,
       tableToolbarConfigInmodal: {
         // table工具栏配置
         disabledMoneyConversion: false,
@@ -1179,6 +1181,7 @@ export default {
           localThis.tableDataSx = attchs
           localThis.tableData = perfIndica
           localThis.initModalFormData(projectInfo)
+          localThis.showModalFooter = true
           this.showModal = true
           this.modalTitle = '编辑'
         } else {
@@ -1208,7 +1211,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败')
+          localThis.$message.warning('操作失败'+res.errorMessage)
         }
       })
     },
@@ -1233,7 +1236,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败')
+          localThis.$message.warning('操作失败'+res.errorMessage)
         }
       })
     },
@@ -1253,6 +1256,7 @@ export default {
           localThis.tableDataSx = attchs
           localThis.tableData = perfIndica
           localThis.initModalFormData(projectInfo)
+          localThis.showModalFooter = false
           localThis.showModal = true
           localThis.modalTitle = '查看详情'
         } else {

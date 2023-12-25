@@ -8,7 +8,7 @@
       :destroy-on-close="true"
       width="66%"
       :height="'80%'"
-      show-footer="false"
+      :show-footer="false"
       @close="closeModal"
     >
       <div style="height: 100%;overflow: hidden">
@@ -1663,7 +1663,7 @@ export default {
       hideZero: true,
       tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/count',
       tableCountParams: {
-        statusCodeArr: ['1', '2', '0'],
+        statusCodeArr: ['1', '2'],
         appId: 'pm_project_info_det_month'
       },
       toolBarStatusBtnConfig: {
@@ -1686,15 +1686,6 @@ export default {
             label: '已办事项',
             code: '2',
             curValue: '2'
-          },
-          {
-            type: 'button',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png',
-            iconUrl: '',
-            label: '曾经办',
-            code: '0',
-            curValue: '0'
           }
         ],
         curButton: {
@@ -1967,7 +1958,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败')
+          localThis.$message.warning('操作失败'+res.errorMessage)
         }
       })
     },

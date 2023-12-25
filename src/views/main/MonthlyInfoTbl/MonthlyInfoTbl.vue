@@ -1228,7 +1228,7 @@
               :toolbar-config="tableToolbarConfigInmodal"
             >
               <template v-slot:toolbarSlots>
-                <div class="table-toolbar-left">
+                <div v-if="showModalFooter" class="table-toolbar-left">
                   <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
                 </div>
               </template>
@@ -1829,7 +1829,7 @@ export default {
       hideZero: true,
       tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/count',
       tableCountParams: {
-        statusCodeArr: ['1', '2', '0', '9'],
+        statusCodeArr: ['1', '2', '9'],
         appId: 'pm_project_info_det_month'
       },
       toolBarStatusBtnConfig: {
@@ -1861,15 +1861,6 @@ export default {
             label: '已办事项',
             code: '2',
             curValue: '2'
-          },
-          {
-            type: 'button',
-            iconName: 'base-all.png',
-            iconNameActive: 'base-all-active.png',
-            iconUrl: '',
-            label: '曾经办',
-            code: '0',
-            curValue: '0'
           }
         ],
         curButton: {
@@ -2307,7 +2298,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败')
+          localThis.$message.warning('操作失败'+res.errorMessage)
         }
       })
     },
@@ -2332,7 +2323,7 @@ export default {
           localThis.$message.success('操作成功')
           localThis.$refs.tmp.refresh()
         } else {
-          localThis.$message.warning('操作失败')
+          localThis.$message.warning('操作失败'+res.errorMessage)
         }
       })
     },

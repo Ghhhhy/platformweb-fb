@@ -723,7 +723,7 @@ export default {
         }
       ],
       menuName: '增发国债资金项目基本信息列表',
-      tableUrl: '/pro-gather-server/gather/pmProjectInfoDetail/list',
+      tableUrl: '/pro-gather-server/gather/pmProjectInfoDetail/listAll',
       tableParams: {
         appId: 'pm_project_info_detail'
       },
@@ -741,18 +741,9 @@ export default {
             iconName: 'base-daiban.png',
             iconNameActive: 'base-daiban-active.png',
             iconUrl: '',
-            label: '待办事项',
+            label: '全部数据',
             code: '1',
             curValue: '1'
-          },
-          {
-            type: 'button',
-            iconName: 'base-yiban.png',
-            iconNameActive: 'base-yiban-active.png',
-            iconUrl: '',
-            label: '已办事项',
-            code: '2',
-            curValue: '2'
           }
         ],
         curButton: {
@@ -760,18 +751,12 @@ export default {
           iconName: 'base-daiban.png',
           iconNameActive: 'base-daiban-active.png',
           iconUrl: '',
-          label: '待办事项',
+          label: '全部数据',
           code: '1',
           curValue: '1'
         },
         buttonsInfo: {
           '1': [
-            {
-              code: 'pay-checkDetails',
-              label: '查看详情'
-            }
-          ],
-          '2': [
             {
               code: 'pay-checkDetails',
               label: '查看详情'

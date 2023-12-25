@@ -35,5 +35,13 @@ export default {
    */
   detailDataRecord(params) {
     return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryById', params)
+  },
+
+  /**
+   * 数据作废
+   * @return {Promise | Promise<unknown>}
+   */
+  discardRecords(params) {
+    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/discard', params)
   }
 }
