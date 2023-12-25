@@ -850,7 +850,6 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('redUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabSelect = curStatusButton.curValue
           this.isSign = 0
-          this.$store.getters.isHLJ && (this.warnLevel = 1)
           this.isNormal = false
           this.isHandle = false
           this.status = null
@@ -863,10 +862,6 @@ export default {
           this.isSign = '1'
           this.status = ''
           this.isNormal = true
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 1
-            this.isNormal = false
-          }
           this.isHandle = false
           this.status = null
           this.backType = ''
@@ -881,7 +876,6 @@ export default {
           this.isSign = '2'
           this.status = 7
           if (this.$store.getters.isHLJ) {
-            this.warnLevel = '1'
             this.statusList = ['1', '2', '3']
           }
           this.backType = ''
@@ -897,7 +891,6 @@ export default {
           this.isHandle = false
           this.status = 7
           if (this.$store.getters.isHLJ) {
-            this.warnLevel = '1'
             this.status = '4'
           }
           this.backType = ''
@@ -908,7 +901,6 @@ export default {
           this.tableColumnsConfig = proconf.getColumns('orangeUndoNum', this.bussnessId, this.showLog, '', this.isFlow)
           this.tabSelect = curStatusButton.curValue
           this.isSign = 0
-          this.$store.getters.isHLJ && (this.warnLevel = 2)
           this.isNormal = false
           this.isHandle = false
           this.status = null
@@ -923,7 +915,6 @@ export default {
           this.isNormal = true
           this.isHandle = false
           this.status = null
-          this.$store.getters.isHLJ && (this.warnLevel = 2)
           this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
           break
@@ -935,7 +926,6 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
-          this.$store.getters.isHLJ && (this.warnLevel = 2)
           this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
@@ -947,7 +937,6 @@ export default {
           this.isNormal = false
           this.isHandle = false
           this.status = 7
-          this.$store.getters.isHLJ && (this.warnLevel = 2)
           this.backType = ''
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
@@ -960,7 +949,6 @@ export default {
           this.isHandle = false
           this.status = null
           this.backType = ''
-          this.$store.getters.isHLJ && (this.warnLevel = 3)
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'yellowNormalNum':
@@ -973,7 +961,6 @@ export default {
           this.status = null
           this.backType = ''
           if (this.$store.getters.isHLJ) {
-            this.warnLevel = 3
             this.isSign = ''
           }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
@@ -986,9 +973,6 @@ export default {
           this.isNormal = false
           this.isHandle = true
           this.status = null
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 3
-          }
           this.backType = '1'
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
@@ -1001,9 +985,6 @@ export default {
           this.isHandle = false
           this.status = 7
           this.backType = ''
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 3
-          }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         case 'blueUndoNum':
@@ -1015,9 +996,6 @@ export default {
           this.isHandle = false
           this.status = null
           this.backType = ''
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 4
-          }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-预警数据明细`
           break
         case 'blueNormalNum':
@@ -1030,7 +1008,6 @@ export default {
           this.status = null
           this.backType = ''
           if (this.$store.getters.isHLJ) {
-            this.warnLevel = 4
             this.isSign = ''
           }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-认定正常明细`
@@ -1044,9 +1021,6 @@ export default {
           this.isHandle = true
           this.status = null
           this.backType = '1'
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 4
-          }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-未完成明细`
           break
         case 'blueDoneNum':
@@ -1058,9 +1032,6 @@ export default {
           this.isHandle = false
           this.status = 7
           this.backType = ''
-          if (this.$store.getters.isHLJ) {
-            this.warnLevel = 4
-          }
           this.title = `${this.$store.getters.dict.find(item => item.value === this.warnLevel)?.label}-已整改明细`
           break
         default:
