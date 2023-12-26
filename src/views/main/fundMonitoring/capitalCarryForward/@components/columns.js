@@ -452,6 +452,16 @@ export const carrImplRegiSecondModalColumns = [
   //   width: '80'
   // },
   {
+    title: '资金名称',
+    field: 'trackProName',
+    align: 'left',
+    tableType: 'bgt',
+    sortable: true,
+    filters: false,
+    width: 260,
+    cellRender: { name: '$vxeInput' }
+  },
+  {
     title: '预算单位',
     field: 'agencyName',
     align: 'left',
