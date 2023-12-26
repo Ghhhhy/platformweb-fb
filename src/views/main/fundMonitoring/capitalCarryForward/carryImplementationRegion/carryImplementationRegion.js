@@ -209,7 +209,7 @@ const proconf = {
             align: 'right',
             sortable: false,
             filters: false,
-            formula: '{amountSnjjz}-0==0?0:({amountsnjfpbj}+{amountsnjwfp})/{amountSnjjz}*100',
+            formula: '{amountSnjjz}-0==0?0:({amountsnjfpbj}+{amountsnjfpxj})/{amountSnjjz}*100',
             cellRender: {
               name: '$vxeRatio'
             }

@@ -449,7 +449,7 @@ export default {
           reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
           speTypeCode: trackProCode,
           mofDivCode: '',
-          fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+          fiscalYear: this.$store.state.userInfo.year
         }
         this.detailVisible = true
         this.tableLoading = true
@@ -627,7 +627,7 @@ export default {
     queryTableDatas(isFlush = false) {
       const param = {
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjzjzc_fzj', // 陕西zdzjzjzc_fzj
-        fiscalYear: this.searchDataList.fiscalYear || '',
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear || '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
       }

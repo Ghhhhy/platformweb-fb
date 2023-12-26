@@ -30,7 +30,7 @@ const proconf = {
       width: '8',
       align: 'left',
       formula: '',
-      visible: !store.getters.isFuJian,
+      visible: !store.getters.isFuJian && !store.getters.isSx,
       itemRender: {
         name: '$vxeInput',
         // options: [

@@ -427,7 +427,7 @@ export default {
           reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
           speTypeCode: speTypeCode,
           mofDivCode: '',
-          fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+          fiscalYear: this.$store.state.userInfo.year
         }
         this.detailVisible = true
         this.tableLoading = true
@@ -545,7 +545,7 @@ export default {
         condition: condition,
         reportCode: reportCode,
         endTime: this.endTime,
-        fiscalYear: this.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.fiscalYear,
         proCode1: rowData.proCode,
         ...rowData
       }
@@ -568,7 +568,7 @@ export default {
       if (this.isSx) {
         const param = {
           reportCode: 'zdzjzc_fkm',
-          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          fiscalYear: this.$store.state.userInfo.year,
           endTime: this.condition.endTime ? this.condition.endTime[0] : ''
         }
         this.isFlush && (param.isFlush = true)

@@ -13,7 +13,7 @@
         />
       </template> -->
       <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <div v-show="!isSx && isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="projectSearchForm"
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import store from '@/store/index'
 import getFormData from './carryPayRegion.js'
 // import HttpModule from '@/api/frame/main/fundMonitoring/carryImplementationRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
@@ -231,7 +232,8 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      isSx: store.getters.isSx
     }
   },
   mounted() {

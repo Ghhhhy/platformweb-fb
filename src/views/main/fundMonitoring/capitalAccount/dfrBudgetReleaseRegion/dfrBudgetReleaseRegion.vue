@@ -450,7 +450,7 @@ export default {
         let params = {
           reportCode: type === 'jOut' ? 'zjzcmx_fdq' : 'zdzjxmmx_fdq',
           mofDivCode: recDivCode,
-          fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+          fiscalYear: this.$store.state.userInfo.year
         }
         this.tableLoading = true
         HttpModule.queryTableDatas(params).then((res) => {
@@ -658,7 +658,7 @@ export default {
       if (this.isSx) {
         const param = {
           reportCode: 'zdzjysxd_fdq',
-          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          fiscalYear: this.$store.state.userInfo.year,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           showAllTree: this.transJson(this.$store.state.curNavModule.param5) ? this.showAllTree : '1',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)

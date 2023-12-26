@@ -280,7 +280,7 @@ export default {
           width: '8',
           align: 'left',
           formula: '',
-          visible: !this.$store.getters.isFuJian,
+          visible: !this.$store.getters.isFuJian && !this.$store.getters.isSx,
           itemRender: {
             name: '$vxeInput',
             // options: [
@@ -591,7 +591,7 @@ export default {
           speTypeCode: '',
           isBj: isBj,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-          fiscalYear: this.searchDataList.fiscalYear,
+          fiscalYear: this.$store.state.userInfo.year,
           mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
         }
         this.detailQueryParam = params
@@ -818,7 +818,7 @@ export default {
       if (this.isSx) {
         const param = {
           reportCode: 'zyhdfysxd_fzjzd',
-          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          fiscalYear: this.$store.state.userInfo.year,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           mofDivCodes: this.searchDataList.mofDivCodes === '' ? [] : this.getTrees(this.searchDataList.mofDivCodes)
         }

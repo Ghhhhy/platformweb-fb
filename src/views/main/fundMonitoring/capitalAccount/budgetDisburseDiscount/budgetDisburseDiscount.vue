@@ -448,7 +448,7 @@ export default {
         params = {
           reportCode: reportCode === 'hjqybzje' ? 'xmhjqymx' : 'xmhjrymx',
           mofDivCode: recDivCode,
-          fiscalYear: this.searchDataList.fiscalYear
+          fiscalYear: this.$store.state.userInfo.year
         }
       }
       this.tableLoading = true
@@ -585,7 +585,7 @@ export default {
       const param = {
         // reportCode: 'zdzjhqlmffmx',
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zdzjhqlmffmx',
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
       }

@@ -478,7 +478,7 @@ export default {
           mofDivCode: recDivCode,
           speTypeCode: '',
           isBj: isBj,
-          fiscalYear: this.searchDataList.fiscalYear,
+          fiscalYear: this.$store.state.userInfo.year,
           condition: condition,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
@@ -654,7 +654,7 @@ export default {
       if (this.isSx) {
         const param = {
           reportCode: 'zyhdfzjzc_fdqzd',
-          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          fiscalYear: this.$store.state.userInfo.year,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes)
         }
