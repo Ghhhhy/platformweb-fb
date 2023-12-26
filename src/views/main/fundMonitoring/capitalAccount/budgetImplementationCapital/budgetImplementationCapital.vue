@@ -626,7 +626,7 @@ export default {
         isCz: isCz,
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         mofDivCodes: (this.searchDataList.mofDivCodes && typeof this.searchDataList.mofDivCodes === 'string') ? this.getTrees(this.searchDataList.mofDivCodes) : []
       }
       this.detailQueryParam = params
@@ -709,7 +709,7 @@ export default {
         isBj: isBj,
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
       }
       this.detailQueryParam = params
@@ -928,7 +928,7 @@ export default {
       const param = {
         // isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode || 'zyzdzjyszxqkfzj',
-        fiscalYear: this.searchDataList.fiscalYear || '',
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear || '',
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         mofDivCodes: this.searchDataList.mofDivCodes === ('' || undefined) ? [] : this.getTrees(this.searchDataList.mofDivCodes)

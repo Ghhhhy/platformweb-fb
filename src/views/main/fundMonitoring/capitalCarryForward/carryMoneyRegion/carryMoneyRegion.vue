@@ -13,7 +13,7 @@
         />
       </template> -->
       <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <div v-show="!isSx && isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="queryConfig"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import store from '@/store/index'
 import getFormData from './carryMoneyRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 export default {
@@ -202,7 +203,8 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      isSx: store.getters.isSx
     }
   },
   mounted() {
@@ -406,6 +408,9 @@ export default {
     let date = new Date()
     let year = date.toLocaleDateString().split('/')[0]
     this.searchDataList.fiscalYear = year
+    if (this.$store.getters.isSx) {
+      this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid

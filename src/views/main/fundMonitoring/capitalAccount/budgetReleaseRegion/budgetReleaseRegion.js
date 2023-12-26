@@ -1377,6 +1377,7 @@ if (store.getters.isSx) {
         align: 'left',
         formula: '',
         name: '$vxeSelect',
+        visible: !store.getters.isSx,
         itemRender: {
           name: '$vxeSelect',
           options: [

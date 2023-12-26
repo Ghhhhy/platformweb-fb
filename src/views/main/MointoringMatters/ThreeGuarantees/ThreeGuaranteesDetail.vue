@@ -646,7 +646,7 @@ export default {
       }
       HttpModule.getTreewhere(param).then((res) => {
         let treeResdata = this.getChildrenNewData1(res.data)
-        this.queryConfig[5].itemRender.options = treeResdata
+        this.queryConfig[0].itemRender.options = treeResdata
       })
     },
     getChildrenNewData1(datas) {

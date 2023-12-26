@@ -557,7 +557,7 @@ export default {
         condition: condition,
         reportCode: reportCode,
         endTime: this.endTime,
-        fiscalYear: this.fiscalYear,
+        fiscalYear: this.$store.state.userInfo.year,
         proCode1: rowData.proCode,
         ...rowData
       }
@@ -1043,7 +1043,7 @@ export default {
         const param = {
           page: this.mainPagerConfig.currentPage, // 页码
           pageSize: this.mainPagerConfig.pageSize, // 每页条数
-          fiscalYear: this.searchDataList.fiscalYear,
+          fiscalYear: this.$store.state.userInfo.year,
           reportCode: this.$store.state.curNavModule.name === '参照直达资金项目台账' ? 'czzdzjxmtz' : 'zdzjxmtz',
           // mofDivCode: this.mofDivCode, // 获取左侧树
           trackProName: this.trackProName,
