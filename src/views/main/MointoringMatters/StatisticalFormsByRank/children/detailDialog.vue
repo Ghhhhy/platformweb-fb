@@ -123,6 +123,8 @@ export default {
   },
   data() {
     return {
+      endTime: '',
+      startTime: '',
       handleDialogVisible: false,
       showInfo: false,
       warningCode: '',
@@ -492,7 +494,9 @@ export default {
         agencyCodeList: this.agencyCodeList,
         mofDivCodeList: this.mofDivCodeList,
         warnLogId: this.$parent?.currentRow.warnLogId,
-        voidOrNot: this.voidOrNot
+        voidOrNot: this.voidOrNot,
+        startTime: this.startTime,
+        endTime: this.endTime
       }
       if (this.isRegulationClass10()) {
         param = {
@@ -511,7 +515,8 @@ export default {
           businessTime: this.businessTime,
           endTime: this.endTime,
           mark: 1, // 标识预警弹窗使用
-          voidOrNot: this.voidOrNot
+          voidOrNot: this.voidOrNot,
+          startTime: this.startTime
         }
       }
       this.tableLoading = true
@@ -554,6 +559,10 @@ export default {
     }
   },
   created() {
+    if (this.$store.getters.isHLJ) {
+      this.endTime = this.$parent.searchDataList.endTime
+      this.startTime = this.$parent.searchDataList.startTime
+    }
     // this.params5 = commonFn.transJson(this.$store.state.curNavModule.param5)
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid

@@ -250,15 +250,15 @@ export default {
         scrollLoad: false, // 是否开启滚动加载
         isleaf: 0, // 指定节点是否为叶子节点，仅在指定了 lazy 属性的情况下生效
         levelno: -1, // 可选层级
-        valueKeys: ['code', 'name', 'id'],
-        format: '{code}-{name}',
+        valueKeys: ['code', 'label', 'id'],
+        format: '{code}-{label}',
         placeholder: '请选择',
         multipleValueType: 'String', // 多选值类型 String[逗号分割]，Array //废弃
         treeProps: {
           // 树配置选项
           labelFormat: '{label}', // {code}-{name}
           nodeKey: 'code', // 树的主键
-          label: 'name', // 树的显示lalel字段
+          label: 'label', // 树的显示lalel字段
           children: 'children' // 树的嵌套字段
         },
         multiple: false, // 是否多选,
@@ -658,9 +658,9 @@ export default {
           })
           const result = [
             {
-              id: 'root',
+              id: '0',
               label: '全部',
-              code: 'root',
+              code: '0',
               isleaf: '0',
               children: treeResdata
             }
