@@ -523,7 +523,6 @@ export default {
     },
     // 搜索
     search(val) {
-      console.log(val)
       this.searchDataList = val
       this.agencyCodeList = val.agencyCodeList_code__multiple
       let condition = this.getConditionList()
@@ -546,9 +545,9 @@ export default {
       if (this.searchDataList.status && this.searchDataList.status.trim() !== '') {
         condition.status = this.searchDataList.status
       }
-      // if (this.searchDataList.warnLevel && this.searchDataList.warnLevel.trim() !== '') {
-      //   condition.warnLevel = this.searchDataList.warnLevel
-      // }
+      if (this.searchDataList.payAppNo && this.searchDataList.payAppNo.trim() !== '') {
+        condition.payApplyNumber = this.searchDataList.payAppNo
+      }
       if (this.searchDataList.warnTotal && this.searchDataList.warnTotal.trim() !== '') {
         condition.warnTotal = this.searchDataList.warnTotal
       }
@@ -815,6 +814,9 @@ export default {
             }
             if (this.searchDataList.warnTotal && this.searchDataList.warnTotal.trim() !== '') {
               condition.warnTotal = this.searchDataList.warnTotal
+            }
+            if (this.searchDataList.payAppNo && this.searchDataList.payAppNo.trim() !== '') {
+              condition.payApplyNumber = this.searchDataList.payAppNo
             }
             if (this.searchDataList.createTime && this.searchDataList.createTime.trim() !== '') {
               let createTime = this.searchDataList.createTime.toString()
