@@ -341,10 +341,19 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
+      debugger
+      const that = this
+      const trackProArr = that.searchDataList.proCodes
+      let condition = ''
+      if (trackProArr) {
+        const trackProCodeArr = that.getTrees(trackProArr)
+        condition = 'track_pro_code in (' + trackProCodeArr.toString() + ')'
+      }
       const param = {
         reportCode: this.params5 || 'zdjzxmqsmzqglqkb',
         fiscalYear: this.searchDataList.fiscalYear,
-        isFlush
+        isFlush,
+        condition: condition
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -357,6 +366,18 @@ export default {
           this.$message.error(res.message)
         }
       })
+    },
+    getTrees(val) {
+      if (val === undefined) {
+        return
+      }
+      let codes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          codes.push('\'' + item.split('##')[0] + '\'')
+        })
+      }
+      return codes
     },
     loadChildrenMethod ({ row }) {
       // 异步加载子节点
@@ -380,6 +401,26 @@ export default {
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => item.field === 'proCodes')].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
     }
   },
   created() {
@@ -392,6 +433,7 @@ export default {
     this.userInfo = this.$store.state.userInfo
     this.menuName = this.$store.state.curNavModule.name
     this.queryTableDatas(false)
+    this.getPro()
   }
 }
 </script>
