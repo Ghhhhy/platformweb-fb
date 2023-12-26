@@ -43,10 +43,38 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
+    },
+    {
+      title: '资金名称',
+      field: 'proCodes',
+      width: '8',
+      align: 'left',
+      name: '$vxeTree',
+      itemRender: {
+        name: '$vxeTree',
+        options: [],
+        props: {
+          config: {
+            valueKeys: ['code', 'name', 'id'],
+            format: '{name}',
+            treeProps: {
+              labelFormat: '{code}-{name}', // {code}-{name}
+              nodeKey: 'id',
+              label: 'label',
+              children: 'children'
+            },
+            placeholder: '资金名称',
+            multiple: true,
+            readonly: false,
+            isleaf: true
+          }
+        }
+      }
     }
   ],
   highQueryData: {
-    fiscalYear: ''
+    fiscalYear: '',
+    proCodes: ''
   },
   basicInfo: {
     type: 'form',
