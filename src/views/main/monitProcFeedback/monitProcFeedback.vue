@@ -122,7 +122,7 @@ export default {
       drawInformation: '',
       // BsQuery 查询栏
       showModal: false,
-      showType: 'edit',
+      showType: 'submitWorkFlow',
       queryConfig: [],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
