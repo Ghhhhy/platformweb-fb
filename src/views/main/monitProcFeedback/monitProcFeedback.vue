@@ -447,12 +447,14 @@ export default {
       //   'revoke': '撤回'
       //   // ...
       // }
-      if (obj.code === 'dcl-hsfk' || obj.showType === 'submitWorkFlow' || !obj.showType) { // 适配老配置
+      if (obj.code === 'dcl-hsfk' || obj.showType === 'submitWorkFlow') { // 适配老配置
         return 'submitWorkFlow'
       } else if (obj.code === 'dcl-cx' || obj.showType === 'revoke') {
         return 'revoke'
-      } else {
+      } else if (obj.showType) {
         return obj.showType
+      } else {
+        return 'submitWorkFlow'
       }
     },
     async showWorkFlowModal() {
@@ -468,6 +470,7 @@ export default {
       }
       this.selection = selection
       this.showType = this.actionMap(obj)
+      console.log('this.showType', this.showType)
       let formItemText = selection[0].mflowBizInfoList || []// 接口工作流节点信息
       let workflowData = {}// 工作流节点数据
       if (Array.isArray(formItemText) && formItemText.length) {
