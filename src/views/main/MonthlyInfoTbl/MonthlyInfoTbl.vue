@@ -1822,12 +1822,12 @@ export default {
         }
       ],
       menuName: '增发国债资金项目月度信息表',
-      tableUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/list',
+      tableUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetMon/list',
       tableParams: {
         appId: 'pm_project_info_det_month'
       },
       hideZero: true,
-      tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetMon/count',
+      tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetMon/count',
       tableCountParams: {
         statusCodeArr: ['1', '2', '9'],
         appId: 'pm_project_info_det_month'
