@@ -38,7 +38,7 @@
           :filter-text="leftTreeFilterText"
           :config="leftTreeConfig"
           :tree-data="treeData"
-          :default-expanded-keys="['619900000', '619800000']"
+          :default-expanded-keys="expandedKeys"
           @onNodeClick="onClickmethod"
         />
       </template>
@@ -159,6 +159,7 @@ export default {
       breakRuleVisible: false,
       codeList: [],
       leftTreeFilterText: '',
+      expandedKeys: this.$store.getters.isFuJian ? [] : ['619900000', '619800000'],
       treeData: [{
         children: [],
         code: 0,
