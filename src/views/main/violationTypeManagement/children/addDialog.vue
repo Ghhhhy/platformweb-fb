@@ -264,6 +264,10 @@ export default {
         const selectedId = val.split('##').filter(item => item)[0]
         const selectedRow = this.findSelectedRow(this.parentRuleoptions, selectedId)
         this.levelNo = Number(selectedRow.levelNo) + 1
+        if (Number(this.levelNo) > 1) {
+          this.parentName = selectedRow.name
+          this.parentId = selectedRow.guid
+        }
         return
       }
       // BossTreeInput组件封装有问题（未知人员封装），会清空时执行emitClearLineData将结果赋值为initId+当前时间戳
