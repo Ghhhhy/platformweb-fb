@@ -8,7 +8,7 @@ export default [
       requireAuth: true
     },
     component: () =>
-      import('../../../views/main/baseDataManage/DataSourceManagement.vue')
+      import('../../../views/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.vue')
   },
   // 转移支付指标下达明细（13区）
   {
@@ -31,7 +31,8 @@ export default [
     },
     component: () =>
       import(
-        '../../../views/main/violationTypeManagement/violationTypeManagement.vue'
+        '../../../views/main/MonthlyInfoTbl/MonthlyInfoTbl.vue'
+        // '../../../views/main/violationTypeManagement/violationTypeManagement.vue'
       )
   },
   // 规则分类管理
