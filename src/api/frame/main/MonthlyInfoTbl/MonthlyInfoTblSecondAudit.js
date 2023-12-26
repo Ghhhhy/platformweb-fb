@@ -6,6 +6,6 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   detailDataRecord(params) {
-    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryById', params)
+    return get('/dfr-monitor-service/dfr/pmProjectInfoDetMon/queryById', params)
   }
 }

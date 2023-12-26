@@ -723,12 +723,12 @@ export default {
         }
       ],
       menuName: '增发国债资金项目基本信息列表',
-      tableUrl: '/pro-gather-server/gather/pmProjectInfoDetail/listAll',
+      tableUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetail/listAll',
       tableParams: {
         appId: 'pm_project_info_detail'
       },
       hideZero: true,
-      tableCountUrl: '/pro-gather-server/gather/pmProjectInfoDetail/count',
+      tableCountUrl: '/dfr-monitor-service/dfr/pmProjectInfoDetail/count',
       tableCountParams: {
         statusCodeArr: ['1', '2'],
         appId: 'pm_project_info_detail'
