@@ -49,6 +49,11 @@ export default {
     }
   },
   props: {
+    showType: {
+      type: String,
+      default: 'edit',
+      enmu: ['edit', 'detail']
+    },
     defaultFormData: {
       type: Object,
       default: () => {
@@ -107,25 +112,14 @@ export default {
     },
     setFormDisabled(formItemIndexList = []) {
       if (!formItemIndexList.length) return
-      formItemIndexList.forEach((formItem) => {
-        this[`createConfig${formItem}`].forEach(item => {
-          item.itemRender.props['disabled'] = true
-        })
-      })
-    },
-    /**
-     *
-     * @param {Array[string]} formItemIndexList 在data定义的表单字段list
-     * @param {Array[string]} filedList 需要禁用的字段,传filed的值
-     */
-    setFormItemDisabled(formItemIndexList, filedList) { //
-      if (!formItemIndexList.length) return
-      formItemIndexList.forEach((formItem) => {
-        this[`createConfig${formItem}`].forEach(item => {
-          if (filedList.includes(item.field)) {
+      formItemIndexList.forEach((formItem, index) => {
+        if (formItem.type === 'components') {
+          formItem.disabled = true
+          return
+        }
+        formItem.formItemList?.forEach(item => {
+          if (item.itemRender?.props) {
             item.itemRender.props['disabled'] = true
-          } else {
-            item.itemRender.props['disabled'] = false
           }
         })
       })
@@ -205,7 +199,7 @@ export default {
           } else {
             let obj = {}
             obj.bizKey = item.field
-            obj.bizValue = this.createDataList.createdAttachmentid
+            obj.bizValue = this.createDataList[item.field] || this.createDataList.createdAttachmentid
             flowParamVoList.push(obj)
           }
         })
@@ -252,7 +246,6 @@ export default {
       })
     },
     initModal() {
-      console.log('查看数据', Object.assign({}, this.createDataList))
       this.getTableConfByMenuguid(this.$store.state.curNavModule.guid).then(res => {
         res.forEach(item => {
           this.configTypeId[item.type] = item.id
@@ -312,11 +305,14 @@ export default {
         }
       }
       let configQueryData = await this.loadBsConfig(params)
+      if (this.showType === 'detail') {
+        this.setFormDisabled(configQueryData.itemsConfig)
+      }
       this.$set(this, 'formData', configQueryData.itemsConfig)
       this.$set(this, 'validateData', configQueryData.editRules)
       let createDataList = Object.assign({}, this.defaultFormData)
       let formDefaultValue = configQueryData.editConfig.defaultValue || {}
-      if (Object.keys(formDefaultValue)) { // 重新组装默认值
+      if (this.showType !== 'detail' && Object.keys(formDefaultValue)) { // 重新组装默认值
         Object.keys(formDefaultValue).forEach(fieldKey => {
           if (!createDataList[fieldKey]) {
             createDataList[fieldKey] = formDefaultValue[fieldKey]
@@ -333,6 +329,7 @@ export default {
               let fileList = await this.getAttachmentInfo(createDataList[formItem.field])
               this.$set(formItem.itemRender, 'fileList', fileList)
             }
+            if (this.showType === 'detail') continue// 查看详情不需要从user拿
             if (formItem.itemRender.getServerTime) { // 如果配置了获取服务器时间 则取服务器时间
               createDataList[formItem.field] = createDataList.serverTime
             }

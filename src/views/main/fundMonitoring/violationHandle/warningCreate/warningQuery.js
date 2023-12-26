@@ -632,6 +632,7 @@ const tableColumnTemplate = (numberStr) => {
         warnLevel: numberStr,
         dealLevel: 'Undo',
         filters: false,
+        width: 120,
         align: 'center',
         cellRender: {
           name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === numberStr)?.lightIconNumber || ''}`
@@ -649,7 +650,7 @@ const tableColumnTemplate = (numberStr) => {
             warnLevel: numberStr,
             dealLevel: 'Normal',
             filters: false,
-            width: 100,
+            width: 120,
             cellRender: {
               name: '$vxeIcon3'
             }
@@ -661,6 +662,7 @@ const tableColumnTemplate = (numberStr) => {
             warnLevel: numberStr,
             dealLevel: 'Done',
             align: 'center',
+            width: 120,
             cellRender: {
               name: '$vxeIcon3'
             }
@@ -670,6 +672,7 @@ const tableColumnTemplate = (numberStr) => {
             field: `${sqlWarnLevelForColorFieldMapping[numberStr]}NotRectifiedNum`,
             filters: false,
             align: 'center',
+            width: 120,
             warnLevel: numberStr,
             dealLevel: 'NotRectified',
             cellRender: {
@@ -681,7 +684,7 @@ const tableColumnTemplate = (numberStr) => {
     ]
   }
 }
-if (store.getters.isXm || store.getters.isNeiMeng) {
+if (store.getters.isXm || store.getters.isNeiMeng || store.getters.isHLJ) {
   const columnTemp = ['2', '3', '4']
   proconf.basicInfo.tableColumnsConfig = proconf.basicInfo.tableColumnsConfig.concat(columnTemp.map(item => tableColumnTemplate(item)))
 } else {

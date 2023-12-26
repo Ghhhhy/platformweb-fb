@@ -53,7 +53,7 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
-    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" :create-data-list="createDataList" @close="showModal = false" />
+    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" :show-type="showType" :create-data-list="createDataList" @close="showModal = false" />
     <fujianDetailDialog
       v-if="fujianDialogVisible"
       :title="dialogTitle"
@@ -115,6 +115,7 @@ export default {
       drawInformation: '',
       // BsQuery 查询栏
       showModal: false,
+      showType: 'edit',
       queryConfig: [],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
@@ -440,10 +441,25 @@ export default {
       this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
     },
     async onTabPanelBtnClick(obj) { // 按钮点击
-      console.log(777, obj)
+      this.showType = 'edit'
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
+        return
+      }
+      if (obj.showType === 'detail') {
+        this.showModal = true
+        this.showType = obj.showType
+        await this.$nextTick()
+        let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
+        let preNodeFormObj = {}// 上一个节点表单填得值
+        if (Array.isArray(formItemText) && formItemText.length) {
+          formItemText.forEach(item => {
+            preNodeFormObj[item.bizKey] = item.bizValue
+          })
+        }
+        this.createDataList = { ...selection[0], ...preNodeFormObj }
+        this.$refs.MonitProcFeedbackModal.dialogVisible = true
         return
       }
       if (obj.code === 'dcl-hsfk') {

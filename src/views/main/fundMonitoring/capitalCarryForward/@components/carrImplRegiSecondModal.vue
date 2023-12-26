@@ -139,7 +139,7 @@ export default defineComponent({
         return res
       },
       columns: computed(() => {
-        if (store.getters.isFuJian) {
+        if (store.getters.isFuJian && tableType.value === 'pay') {
           return carrImplRegiSecondModalColumnsFj
         }
         return carrImplRegiSecondModalColumns.filter(item => item.tableType === reportCodeMap[$route.name].tableType || !item.tableType)

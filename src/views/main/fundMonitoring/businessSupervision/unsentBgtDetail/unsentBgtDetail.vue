@@ -200,9 +200,10 @@ export default {
       leftNode: {},
       regulationStatus: '1',
       mainPagerConfig: {
+        autoHidden: this.$store.getters.isHLJ,
         total: 0,
         currentPage: 1,
-        pageSize: 20
+        pageSize: this.$store.getters.isHLJ ? 999999 : 20
       },
       tableConfig: {
         renderers: {
@@ -579,14 +580,19 @@ export default {
       HttpModule[queryUrl](param).then(res => {
         this.tableLoading = false
         if (res.code === '000000') {
-          res.data.results.forEach(item => {
-            item.mofDivName = item.mofDivCode && item.mofDivName ? item.mofDivCode + '-' + item.mofDivName : ''
-            item.manageMofDepName = item.manageMofDepCode && item.manageMofDepName ? item.manageMofDepCode + '-' + item.manageMofDepName : ''
-          })
-          this.tableData = res.data.results
-          this.caliberDeclareContent = res.data.description || ''
-          this.mainPagerConfig.total = res.data.totalCount
-          this.tabStatusNumConfig['1'] = res.data.totalCount
+          console.log(res.data)
+          if (this.$store.getters.isHLJ) {
+            this.tableData = res.data
+          } else {
+            res.data.results.forEach(item => {
+              item.mofDivName = item.mofDivCode && item.mofDivName ? item.mofDivCode + '-' + item.mofDivName : ''
+              item.manageMofDepName = item.manageMofDepCode && item.manageMofDepName ? item.manageMofDepCode + '-' + item.manageMofDepName : ''
+            })
+            this.tableData = res.data.results
+            this.caliberDeclareContent = res.data.description || ''
+            this.mainPagerConfig.total = res.data.totalCount
+            this.tabStatusNumConfig['1'] = res.data.totalCount
+          }
         } else {
           this.$message.error(res.message)
         }

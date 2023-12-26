@@ -124,6 +124,7 @@ export default {
   },
   data() {
     return {
+      settingPageConfig: {},
       cacheParam: {},
       globalConfig: {},
       caliberDeclareContent: '', // 口径说明
@@ -231,6 +232,7 @@ export default {
         this.tableColumnsConfig = configData.itemsConfig
         this.queryParams = configData.queryParams || {}
         this.globalConfig = configData.globalConfig || {}
+        this.settingPageConfig = configData.pageConfig || {}
       }
       if (type === 'query') {
         let configData = await this.loadBsConfig(params)
@@ -293,7 +295,7 @@ export default {
           this.menuName = '直达资金预算下达_分地区(单位:万元)'
           break
       }
-      this.mainPagerConfig.currentPage = 1
+      // this.mainPagerConfig.currentPage = 1
       this.queryTableDatas()
       this.queryTableDatasCount()
       this.$refs.mainTableRef.$refs.xGrid.clearScroll()
@@ -345,7 +347,10 @@ export default {
         return
       }
       if (obj.column.own.insertType === 'file') {
-        showFileModal(this.globalConfig?.fileClickModalConfig || obj.column.own.fileClickModalConfig)
+        let settingConfig = obj.column.own.fileClickModalConfig || this.globalConfig?.fileClickModalConfig
+        let row = JSON.parse(JSON.stringify(obj.row))
+        let column = JSON.parse(JSON.stringify(obj.column.own))
+        showFileModal({ ...settingConfig, row, column, context: this })
         return
       }
       this.penetrateTableId = obj.column.own.penetrateTable
@@ -391,21 +396,32 @@ export default {
       console.log(param, '--------------查询参数')
       this.tableLoading = true
       this.cacheParam = param
-      HttpModule.getReportTableDatas(param)
-        .then((res) => {
-          if (res.code === '000000') {
-            if (res.data) {
-              this.tableData = res.data.data
-              this.reportTime = res.data.reportTime || ''
-              this.caliberDeclareContent = res.data.description || ''
+      let URL = 'getReportTableDatas'
+      let dataKey = 'data'
+      if (this.settingPageConfig.usePage) {
+        URL = 'getDetailTableDatas'
+        dataKey = 'results'
+        param.pageNo = this.pagerConfig.currentPage
+        param.pageSize = this.pagerConfig.pageSize
+      }
+      HttpModule[URL](param).then((res) => {
+        if (res.code === '000000') {
+          if (res.data) {
+            this.tableData = res.data[dataKey]
+            this.reportTime = res.data.reportTime || ''
+            this.caliberDeclareContent = res.data.description || ''
+            if (this.settingPageConfig.usePage) {
+              this.pagerConfig.currentPage = res.data.pageNo
+              this.pagerConfig.currentPage = res.data.pageSize
+              this.pagerConfig.total = res.data.totalCount
             }
-          } else {
-            this.$message.error(res.message)
           }
-        })
-        .finally(() => {
-          this.tableLoading = false
-        })
+        } else {
+          this.$message.error(res.message)
+        }
+      }).finally(() => {
+        this.tableLoading = false
+      })
     },
     onEditClosed(obj, bsTable, xGrid) {
       bsTable.performTableDataCalculate(obj)

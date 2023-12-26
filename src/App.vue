@@ -13,6 +13,7 @@ import Store from '@/utils/store'
 import goLogin from './utils/goLogin'
 import MenuModule from '@/api/frame/common/menu.js'
 import { refreshTiemChange } from '@/api/tokenTimeOut'
+import { robotServe } from '@/utils/robotServer.js'
 const BS_SXCZY_ACCESS_TOKEN = 'bsSxczyAccessToken'
 const BS_SXCZY_APPGUID = 'bsSxczyAppguid'
 const USER_INFO = 'userInfo'
@@ -206,6 +207,9 @@ export default {
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
+              if (this.$store.getters.isQingHai) {
+                robotServe(this)// 客服机器人服务
+              }
               // iframe
               if (window.self !== window.top) {
                 this.ifrouteractive = true
