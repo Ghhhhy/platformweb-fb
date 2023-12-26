@@ -51,8 +51,8 @@ export default {
   props: {
     showType: {
       type: String,
-      default: 'edit',
-      enmu: ['edit', 'detail']
+      default: 'submitWorkFlow',
+      enmu: ['submitWorkFlow', 'detail', 'approve']
     },
     defaultFormData: {
       type: Object,
@@ -63,6 +63,18 @@ export default {
     warningCode: {
       type: String,
       default: ''
+    },
+    row: { // 某些是从表单条过来的 可以传如一个row
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    column: { // 某些是从表单条过来的 可以传如一个column
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -292,32 +304,65 @@ export default {
       })
       return newParameters
     },
-    async loadConfig(configTypeId) { // 请求工作流formitem配置项
-      let { form } = configTypeId
-      if (!form) return
-      let params = {
-        tableId: {
-          id: form,
-          fiscalyear: this.userInfo.year,
-          mof_div_code: this.userInfo.province,
-          menuguid: this.$store.state.curNavModule.guid
-          // userguid: ''
+    // 获取动态请求数据
+    getDynamicParams(dynamicParams) {
+      let _this = this
+      console.groupCollapsed('动态表单可取的动态数据，点击展开')
+      console.log('外层表格点击行数据 row:', this.row)
+      console.log('外层表格点击列数据 column:', this.column)
+      console.log('项目状态机数据 $store:', { ...this.$store.state, ...this.$store.getters })
+      console.log('外层表格实例内置数据 ctx:', this.$parent)
+      console.log('还可以取 window，localStroage...等')
+      console.groupEnd()
+      let storeCopy = {}
+      try {
+        storeCopy = JSON.parse(JSON.stringify({ ...this.$store.state, ...this.$store.getters }))
+      } catch (error) {
+        console.log(error)
+      }
+      let asyncQueue = Object.keys(dynamicParams || {})?.map(key => {
+        let funcEnv = async () => {
+          // eslint-disable-next-line
+        let $store = storeCopy
+          // eslint-disable-next-line
+        let row = _this.row
+          // eslint-disable-next-line
+        let column = _this.column
+          // eslint-disable-next-line
+        let result = ''
+          // eslint-disable-next-line
+        let ctx=_this.$parent
+          try {
+            // eslint-disable-next-line
+          result = eval(dynamicParams[key])
+            result = JSON.parse(JSON.stringify(result))
+            return { key, value: result }
+          } catch (error) {
+            console.error(`动态配置取值解析错误,错误key：${key}\n`, error)
+            return { key, value: '' }
+          }
         }
-      }
-      let configQueryData = await this.loadBsConfig(params)
-      if (this.showType === 'detail') {
-        this.setFormDisabled(configQueryData.itemsConfig)
-      }
-      this.$set(this, 'formData', configQueryData.itemsConfig)
-      this.$set(this, 'validateData', configQueryData.editRules)
+        return funcEnv()
+      })
+      return Promise.all(asyncQueue).then(res => {
+        return res.reduce((pre, cur) => {
+          pre[cur.key] = cur.value
+          return pre
+        }, {})
+      })
+    },
+    async assemblingWorkFlowFormData(configQueryData) { // 组装工作流数据
       let createDataList = Object.assign({}, this.defaultFormData)
       let formDefaultValue = configQueryData.editConfig.defaultValue || {}
-      if (this.showType !== 'detail' && Object.keys(formDefaultValue)) { // 重新组装默认值
+      let dynamicParams = configQueryData.editConfig.dynamicDefaultValue || {}
+      if (this.showType !== 'detail') { // 重新组装默认值
         Object.keys(formDefaultValue).forEach(fieldKey => {
-          if (!createDataList[fieldKey]) {
+          if (createDataList[fieldKey]) {
             createDataList[fieldKey] = formDefaultValue[fieldKey]
           }
         })
+        dynamicParams = await this.getDynamicParams(dynamicParams)
+        createDataList = { ...createDataList, ...dynamicParams }
       }
       // 如果表单项配置了附件 则通过接口 拿到附件列表 并且重新给表单得配置项得itemRender挂载一个fileList
       for (let i = 0; i < this.formData.length; i++) {
@@ -346,6 +391,26 @@ export default {
         }
       }
       this.$set(this, 'createDataList', createDataList)
+    },
+    async loadConfig(configTypeId) { // 请求工作流formitem配置项
+      let { form } = configTypeId
+      if (!form) return
+      let params = {
+        tableId: {
+          id: form,
+          fiscalyear: this.userInfo.year,
+          mof_div_code: this.userInfo.province,
+          menuguid: this.$store.state.curNavModule.guid
+          // userguid: ''
+        }
+      }
+      let configQueryData = await this.loadBsConfig(params)
+      if (this.showType === 'detail') {
+        this.setFormDisabled(configQueryData.itemsConfig)
+      }
+      this.$set(this, 'formData', configQueryData.itemsConfig)// 设置表单项
+      this.$set(this, 'validateData', configQueryData.editRules)// 设置校验数据
+      await this.assemblingWorkFlowFormData(configQueryData)// 设置表单展示数据
       // 给vxetable配置渲染器  渲染文件列表
       let _this = this
       VXETable.renderer.add('$customerFileRender', {
