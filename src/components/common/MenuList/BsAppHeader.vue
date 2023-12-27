@@ -252,8 +252,21 @@ export default {
     this.name = userList.name
     this.province = userList.province
     console.log('userList.app.yearSelect', userList.app.yearSelect)
-    // this.yearList = userList.app.yearSelect
-    this.yearList = userList.app.yearSelect
+    if (this.$store.getters.isSx) {
+      if (userList && userList.app && userList.app.yearSelect) {
+        if (userList.app.yearSelect.length === 2) {
+          let yearList = []
+          for (let i = Number(userList.app.yearSelect[0]); i <= Number(userList.app.yearSelect[1]); i++) {
+            yearList.push(String(i))
+          }
+          this.yearList = yearList
+        } else {
+          this.yearList = userList.app.yearSelect
+        }
+      }
+    } else {
+      this.yearList = userList.app.yearSelect
+    }
   },
   watch: {
     darkMode: {
@@ -475,7 +488,6 @@ export default {
       this.pwdVisible = false
     },
     handleIssue() {
-      console.log(window.gloableToolFn, 'window.gloableToolFn.getIssueUrl()')
       let url = window.gloableToolFn?.getIssueUrl || 'https://yth.czj.sh.cegn.cn/itsm/src/login/loginShczj.html'
       window.open(`${url}?tokenid=${store.getters.getLoginAuthentication.tokenid}&appguid=${store.getters.getLoginAuthentication.appguid}`)
     },
