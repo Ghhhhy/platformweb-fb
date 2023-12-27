@@ -1077,7 +1077,11 @@ export default {
               self.$message.success('导入成功')
               self.$refs.tmp.refresh()
             } else {
-              self.$message.success('导入失败：')
+              if (res.message) {
+                self.$message.error('导入失败:' + res.message)
+              } else {
+                self.$message.error('导入失败!')
+              }
             }
             console.log(res)
           }).finally(() => {
@@ -1297,7 +1301,11 @@ export default {
             localThis.$message.success('操作成功')
             localThis.$refs.tmp.refresh()
           } else {
-            localThis.$message.warning('数据编辑保存询失败')
+            if (res.message) {
+              localThis.$message.error('数据编辑保存询失败:' + res.message)
+            } else {
+              localThis.$message.error('数据编辑保存询失败')
+            }
           }
           localThis.$refs.tmp.showLoading = false
         })
