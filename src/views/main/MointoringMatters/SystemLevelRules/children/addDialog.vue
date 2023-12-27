@@ -218,7 +218,8 @@
                       :is-drop-select-tree="true"
                       :editable="true"
                       :tree-data="regulationClassoptions"
-                      :config="{ disabled: disabled,treeProps: { nodeKey: 'code', label: 'codeName',children: 'children' } }"
+                      :config="{ disabled: disabled,treeProps: {
+                        nodeKey: 'guid',maxTask: 500, label: 'codeName',children: 'children' } }"
 
                       class="businessFunctionTree"
                       style="display: inline-block;"
@@ -1817,7 +1818,8 @@ export default {
       let busName = this.businessModuleCodeoptions.find(item => {
         return item.id === val
       })
-      this.businessModuleName = busName.businessName
+      this.businessModuleName = busName?.businessName
+      this.refleshKey = Date.now()
       // this.getFunLists()
     },
     changeFunCode(val) {

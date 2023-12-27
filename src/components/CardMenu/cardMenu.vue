@@ -125,7 +125,6 @@ export default {
       this.resize()
     },
     preGenerateCardBtns(status, menus) {
-      console.log(213)
       this.adLoading = true
       this.generateCardBtns(status, menus).then(() => {
         this.adLoading = false
@@ -247,7 +246,6 @@ export default {
       })
 
       this.uiCardMenu = extend(true, {}, menus)
-      console.log(this.uiCardMenu, '12312')
     },
     getFileData(attachmentid) {
       if ((attachmentid ?? '') === '') {

@@ -50,26 +50,26 @@ export let proconf = {
         }
       }
     },
-    {
-      title: '业务年度',
-      visible: store.getters.isSx,
-      field: 'fiscalYear',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2021', label: '2021' },
-          { value: '2022', label: '2022' },
-          { value: '2023', label: '2023' }
-        ],
-        props: {
-          placeholder: '业务年度'
-        }
-      }
-    },
+    // {
+    //   title: '业务年度',
+    //   visible: store.getters.isSx,
+    //   field: 'fiscalYear',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '2021', label: '2021' },
+    //       { value: '2022', label: '2022' },
+    //       { value: '2023', label: '2023' }
+    //     ],
+    //     props: {
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // },
     {
       title: '预算单位',
       visible: store.getters.isSx,

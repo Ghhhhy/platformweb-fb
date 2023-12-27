@@ -43,6 +43,7 @@ const BSURL = {
   dfr_benefitPeopleNotHook: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/notHookBenefitImport', // 惠企利民支付明细导入_取消挂接
   dfr_benefitPeopleDelete: 'dfr-monitor-service/dfr/benefitEnterprisesAndPeople/deleteBenefitData', // 惠企利民支付明细导入_删除惠企明细数据
   dfr_zdzjledgerExportData: 'dfr-monitor-service/dfr/zdzjledger/exportData', // 报表明细钻取大数据（>50w）导出接口
+  dfr_warningResultHandleRuleUpdateZGBatch: 'dfr-monitor-service/dfr/warningResultHandleRule/updateZGBatch', // 预算重点监督预警处理_分规则 批量整改
 
   // 平台  文件服务
   api_fileservice_v2_files: 'fileservice/v2/files', // 平台获取文件列表
