@@ -77,6 +77,7 @@ import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceD
 export default {
   data() {
     return {
+      menuParam: {},
       menuId: '',
       isLastInst: '',
       modalTitle: '',
@@ -793,7 +794,7 @@ export default {
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
-    this.isLastInst = this.$store.state.curNavModule.param5.isLastInst
+    this.isLastInst = this.$store.state.curNavModule.param5
   },
   methods: {
     closeModal() {
