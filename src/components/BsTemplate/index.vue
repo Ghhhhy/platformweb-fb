@@ -149,8 +149,8 @@ export default {
         tableId: {
           fiscalyear: this.userInfo.year,
           mof_div_code: this.userInfo.province,
-          menuguid: this.menuId,
-          userguid: this.userInfo.guid
+          menuguid: this.menuId
+          // userguid: this.userInfo.guid
         }
       }
       params.tableId.id = current?.tid

@@ -12,7 +12,7 @@
       :destroy-on-close="true"
       @close="closeModal"
     >
-      <div style="height: 100%; overflow: hidden">
+      <div style="overflow: auto">
         <el-tabs v-model="activeNameBtm" type="border-card">
           <el-tab-pane label="基本情况" name="1">
             <BsForm
@@ -93,6 +93,7 @@
               :pager-config="false"
               :footer-config="{ showFooter: false }"
               :toolbar-config="tableToolbarConfigInmodal"
+              @editClosed="editClosed"
             />
           </el-tab-pane>
         </el-tabs>
@@ -155,7 +156,7 @@ export default {
         totalObj: {
           aviamt: 0
         },
-        showFooter: true
+        showFooter: false
       },
       activeNameBtm: '1',
       uploadDFileParams: [],
@@ -182,11 +183,11 @@ export default {
               { value: '03', label: '项目招投标和政府采购资料' },
               { value: '04', label: '项目主要合同资料' },
               { value: '05', label: '项目评审报告' },
-              { value: '11', label: '资金支出佐证资料' },
-              { value: '12', label: '财务会计资料' },
-              { value: '13', label: '工程资料' },
-              { value: '14', label: '项目形象进度照片' },
-              { value: '15', label: '竣工验收资料' },
+              // { value: '11', label: '资金支出佐证资料' },
+              // { value: '12', label: '财务会计资料' },
+              // { value: '13', label: '工程资料' },
+              // { value: '14', label: '项目形象进度照片' },
+              // { value: '15', label: '竣工验收资料' },
               { value: '99', label: '其他' }
             ],
             props: {
@@ -519,7 +520,8 @@ export default {
         proGiLff: '',
         proGiEf: '',
         proGiLb: '',
-        proGiBankl: ''
+        proGiBankl: '',
+        proGiOth: ''
       },
       formItemsConfigThird: [
         {
@@ -684,6 +686,19 @@ export default {
           span: 12,
           titleWidth: '240',
           itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
+        },
+        {
+          field: 'isEnd',
+          title: '项目是否终结',
+          span: 12,
+          titleWidth: '240',
+          itemRender: {
+            name: '$vxeSelect',
+            defaultValue: '前端',
+            options: [
+              { value: '1', label: '是' },
+              { value: '2', label: '否' }
+            ] }
         }
       ],
       formDataListBtm: {
@@ -698,7 +713,8 @@ export default {
         fundInvestAreaName: '',
         proContent: '',
         proStaDate: '',
-        proEndDate: ''
+        proEndDate: '',
+        isEnd: ''
       },
       showModal: false,
       showModalFooter: true,
@@ -729,11 +745,17 @@ export default {
         },
         {
           title: '三级指标',
-          field: 'lv3PerfIndName'
+          field: 'lv3PerfIndName',
+          editRender: {
+            name: '$input'
+          }
         },
         {
           title: '指标值',
-          field: 'kpiVal'
+          field: 'kpiVal',
+          editRender: {
+            name: '$input'
+          }
         }
       ],
       addModal: false,
@@ -965,8 +987,18 @@ export default {
       return i
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
-      data.sums = this.clearFormat(data.a1) + this.clearFormat(data.a2) + this.clearFormat(data.a3) + this.clearFormat(data.a4) + this.clearFormat(data.a5) + this.clearFormat(data.a6) + this.clearFormat(data.a7) + this.clearFormat(data.a8)
+      let sum = 0
+      this.formDataListThird[property] = data[property]
+      this.formItemsConfigThird.forEach(item => {
+        if (item.field !== 'proGi') {
+          console.log(data[item.field])
+          sum += this.clearFormat(data[item.field])
+        }
+      })
+      this.formDataListThird.proGi = sum
+      this.formDataListThird = { ...this.formDataListThird }
       console.log(this.formDataListThird)
+      console.log(data.sums)
     },
     fileUpload(params) {
       return this.$http.post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
@@ -1011,6 +1043,7 @@ export default {
           data['createTime'] = new Date().toLocaleDateString()
           data['proAttchKindCode'] = ''
           this.tableDataSx.push(data)
+          console.log('---', this.tableDataSx)
           this.$message.success('上传成功')
         } else {
           if (res.result.includes('Size: 0')) {
@@ -1103,7 +1136,7 @@ export default {
 
       let params = {
         projectInfo: localThis.$refs.addForm.getFormData(),
-        perfIndica: localThis.tableData,
+        perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
         proGiSource: localThis.$refs.addFormthrid.getFormData(),
         // 项目总投资
         approvalDoc: localThis.$refs.addFormForth.getFormData(),
@@ -1231,6 +1264,7 @@ export default {
         actionType: type,
         actionName: type === 2 ? '送审' : '撤销送审'
       }
+      localThis.$refs.tmp.showLoading = true
       HttpModule.auditDataRecords(params).then((res) => {
         if (res.rscode === '200') {
           localThis.$message.success('操作成功')
@@ -1238,7 +1272,12 @@ export default {
         } else {
           localThis.$message.warning('操作失败' + res.errorMessage)
         }
+        localThis.$refs.tmp.showLoading = false
       })
+    },
+    // 修改附件
+    editClosed(obj, grid) {
+      this.tableDataSx = obj.visibleData
     },
     viewDetail() {
       let localThis = this
@@ -1290,6 +1329,7 @@ export default {
       localThis.formDataListThird.proGiEf = projectInfo.proGiEf
       localThis.formDataListThird.proGiLb = projectInfo.proGiLb
       localThis.formDataListThird.proGiBankl = projectInfo.proGiBankl
+      localThis.formDataListThird.proGiOth = projectInfo.proGiOth
       // 项目批复信息
       localThis.formDataListForth.proApproveNumber = projectInfo.proApproveNumber
       localThis.formDataListForth.landApproveNumber = projectInfo.landApproveNumber
