@@ -19,6 +19,7 @@
               ref="addForm"
               :form-items-config="formItemsConfigBtm"
               :form-data-list="formDataListBtm"
+              :form-validation-config="formDataListBtmRequired"
               @itemChange="BtminsertItemChange"
             />
           </el-tab-pane>
@@ -40,6 +41,7 @@
               ref="addFormthrid"
               :form-items-config="formItemsConfigThird"
               :form-data-list="formDataListThird"
+              :form-validation-config="formDataListThirdRequired"
               @itemChange="insertItemChange"
             />
           </el-tab-pane>
@@ -48,6 +50,7 @@
               ref="addFormForth"
               :form-items-config="formItemsConfigForth"
               :form-data-list="formDataListForth"
+              :form-validation-config="formDataListForthRequired"
             />
           </el-tab-pane>
           <el-tab-pane label="相关部门联系方式" name="5">
@@ -55,6 +58,7 @@
               ref="contactInformationForm"
               :form-items-config="contactInformationFormConfig"
               :form-data-list="contactInformationFormData"
+              :form-validation-config="contactInformationFormDataRequired"
             />
           </el-tab-pane>
           <el-tab-pane label="项目附件" name="6">
@@ -236,6 +240,24 @@ export default {
           name: 1
         }
       ],
+      contactInformationFormDataRequired: {
+        proAddress: [ { required: true, message: '请输入项目地址', trigger: 'change' } ],
+        estAgencyName: [ { required: true, message: '请输入主要监理单位', trigger: 'change' } ],
+        consAgencyName: [ { required: true, message: '请输入主要施工单位', trigger: 'change' } ],
+        agencyLeaderPerName: [{ required: true, message: '请输入项目单位负责人姓名', trigger: 'change' }],
+
+        agencyLeaderPerOtel: [ { required: true, message: '请输入项目单位负责人办公电话', trigger: 'change' } ],
+        agencyLeaderPerMtel: [ { required: true, message: '请输入项目单位负责人手机', trigger: 'change' } ],
+        fiLeader: [ { required: true, message: '请输入财务负责人姓名', trigger: 'change' } ],
+        fiLeaderOtel: [ { required: true, message: '请输入财务负责人办公电话', trigger: 'change' } ],
+        fiLeaderMtel: [ { required: true, message: '请输入财务负责人手机', trigger: 'change' } ],
+        proLeader: [ { required: true, message: '请输入项目负责人姓名', trigger: 'change' } ],
+        proLeaderOtel: [ { required: true, message: '请输入项目负责人办公电话', trigger: 'change' } ],
+        proLeaderMtel: [ { required: true, message: '请输入项目负责人手机', trigger: 'change' } ],
+        proLessor: [ { required: true, message: '请输入工作联系人姓名', trigger: 'change' } ],
+        proLessorOtel: [ { required: true, message: '请输入工作联系人办公电话', trigger: 'change' } ],
+        proLessorMtel: [ { required: true, message: '请输入工作联系人手机', trigger: 'change' } ]
+      },
       contactInformationFormConfig: [
         {
           field: 'proAddress',
@@ -502,6 +524,12 @@ export default {
           ]
         }
       ],
+      formDataListForthRequired: {
+        proApproveNumber: [ { required: true, message: '请输入项目审批（核准、备案）文号', trigger: 'change' } ],
+        landApproveNumber: [ { required: true, message: '请输入用地审批文号', trigger: 'change' } ],
+        eiaApproveNumber: [ { required: true, message: '请输入环评审批文号', trigger: 'change' } ],
+        consApproveNumber: [ { required: true, message: '请输入施工许可文号', trigger: 'change' } ]
+      },
       formItemsConfigForth: [
         {
           field: 'proApproveNumber',
@@ -549,6 +577,16 @@ export default {
         proGiLb: '',
         proGiBankl: '',
         proGiOth: ''
+      },
+      formDataListThirdRequired: {
+        proGiAddnb: [ { required: true, message: '请输入增发国债资金', trigger: 'change' } ],
+        proGiCff: [ { required: true, message: '请输入中央预算内投资', trigger: 'change' } ],
+        proGiCfo: [ { required: true, message: '请输入其他中央财政性建设资金', trigger: 'change' } ],
+        proGiLff: [ { required: true, message: '请输入地方财政资金', trigger: 'change' } ],
+        proGiEf: [ { required: true, message: '请输入企业自有资金', trigger: 'change' } ],
+        proGiLb: [ { required: true, message: '请输入地方政府专项债券', trigger: 'change' } ],
+        proGiBankl: [ { required: true, message: '请输入银行贷款', trigger: 'change' } ],
+        proGiOth: [ { required: true, message: '请输入其他资金', trigger: 'change' } ]
       },
       formItemsConfigThird: [
         {
@@ -774,6 +812,21 @@ export default {
             ] }
         }
       ],
+      formDataListBtmRequired: {
+        proAgencyCode: [ { required: true, message: '请输入企业名称', trigger: 'change' } ],
+        proAgencyName: [ { required: true, message: '请输入项目单位名称', trigger: 'change' } ],
+        speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
+        speProName: [ { required: true, message: '请输入项目名称', trigger: 'change' } ],
+        fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
+        fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
+        proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
+        proStaDate: [ { required: true, message: '请输入开工或预计开工时间', trigger: 'change' } ],
+        proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
+        isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
+        proDeptCode: [ { required: true, message: '请输入项目主管部门代码', trigger: 'change' } ],
+        proDeptName: [ { required: true, message: '请输入项目主管部门名称', trigger: 'change' } ],
+        isEnd: [ { required: true, message: '请输入项目是否终结', trigger: 'change' } ]
+      },
       formDataListBtm: {
         proAgencyCode: '',
         mofDiv_: '',
@@ -996,6 +1049,7 @@ export default {
           let basicInfo = res['基本情况明细表']
           basicInfo.shift()
           let basicInfoRes = basicInfo.map(item => {
+            let trackProInfo = (item['增发国债资金中央转移支付项目名称'] || '').split('-')
             return {
               mofDivName: item['财政区划'],
               proAgencyCode: item['项目单位代码'],
@@ -1004,14 +1058,14 @@ export default {
               budgetLevelName: item['预算级次名称'],
               speProCode: item['项目代码'],
               speProName: item['项目名称'],
-              fundInvestAreaName: item['项目所属投向领域'],
+              fundInvestAreaName: item['项目所属投向领域代码'] + item['项目所属投向领域'],
               proContent: item['项目主要建设内容'],
               proStaDate: item['开工或预计开工时间'],
               proEndDate: item['预计完工时间'],
               ndrcProCode: item['发改委项目代码'],
               ndrcProName: item['发改委项目名称'],
-              trackProName: item['增发国债资金中央转移支付项目名称'],
-              trackProCode: item['增发国债资金中央转移支付项目代码'],
+              trackProName: trackProInfo[0],
+              trackProCode: trackProInfo[1],
               proDeptCode: item['项目主管部门编码'],
               proDeptName: item['项目主管部门名称'],
               proGi: item['项目总投资'],
@@ -1250,66 +1304,82 @@ export default {
       this.showTypeModal = false
     },
     handleSure() {
-      let localThis = this
-      console.log()
-      localThis.$refs.tmp.showLoading = true
-      let fileList = []
-      let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
-      if (fileDataList && fileDataList.length > 0) {
-        fileDataList.forEach((item) => {
-          fileList.push({
-            fileName: item.fileName,
-            kpiRemark: item.kpiRemark,
-            proAttchKindCode: item.proAttchKindCode,
-            proAttchKindName: item.proAttchKindCode__viewSort,
-            proAttchId: item.proAttchId
+      this.$refs.addForm.formOptionsFn().validate().then(() => {
+        this.$refs.addFormthrid.formOptionsFn().validate().then(() => {
+          this.$refs.addFormForth.formOptionsFn().validate().then(() => {
+            this.$refs.contactInformationForm.formOptionsFn().validate().then(() => {
+              let localThis = this
+              console.log()
+              localThis.$refs.tmp.showLoading = true
+              let fileList = []
+              let fileDataList = localThis.$refs.fileDataRef.getTableData().fullData
+              if (fileDataList && fileDataList.length > 0) {
+                fileDataList.forEach((item) => {
+                  fileList.push({
+                    fileName: item.fileName,
+                    kpiRemark: item.kpiRemark,
+                    proAttchKindCode: item.proAttchKindCode,
+                    proAttchKindName: item.proAttchKindCode__viewSort,
+                    proAttchId: item.proAttchId
+                  })
+                })
+              }
+              let btmFormData = localThis.formDataListBtm
+              for (let key in btmFormData) {
+                if (this.treeProps.indexOf(key) > -1) {
+                  delete btmFormData[key]
+                  delete btmFormData[key + 'id']
+                  delete btmFormData[key + 'code']
+                  delete btmFormData[key + 'name']
+                }
+              }
+              let params = {
+                // projectInfo: localThis.$refs.addForm.getFormData(),
+                projectInfo: localThis.formDataListBtm,
+                perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
+                proGiSource: localThis.$refs.addFormthrid.getFormData(),
+                // 项目总投资
+                approvalDoc: localThis.$refs.addFormForth.getFormData(),
+                // 联系方式
+                depInfo: localThis.$refs.contactInformationForm.getFormData(),
+                attchs: fileList
+              }
+              console.log(params)
+
+              if (localThis.proDetId === '') {
+                // 新增
+
+              } else {
+                // 修改
+                params.proDetId = localThis.proDetId
+                params.projectInfo.proDetId = localThis.proDetId
+                HttpModule.editDataRecord(params).then((res) => {
+                  if (res.rscode === '200') {
+                    this.showModal = false
+                    localThis.$message.success('操作成功')
+                    localThis.$refs.tmp.refresh()
+                  } else {
+                    if (res.message) {
+                      localThis.$message.error('数据编辑保存询失败:' + res.message)
+                    } else {
+                      localThis.$message.error('数据编辑保存询失败')
+                    }
+                  }
+                  localThis.$refs.tmp.showLoading = false
+                })
+              }
+            }).catch(() => {
+              this.$message.error('表单信息未填写完整，请检查')
+            })
+          }).catch(() => {
+            this.$message.error('表单信息未填写完整，请检查')
           })
+        }).catch(() => {
+          this.$message.error('表单信息未填写完整，请检查')
         })
-      }
-      let btmFormData = localThis.formDataListBtm
-      for (let key in btmFormData) {
-        if (this.treeProps.indexOf(key) > -1) {
-          delete btmFormData[key]
-          delete btmFormData[key + 'id']
-          delete btmFormData[key + 'code']
-          delete btmFormData[key + 'name']
-        }
-      }
-      let params = {
-        // projectInfo: localThis.$refs.addForm.getFormData(),
-        projectInfo: localThis.formDataListBtm,
-        perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
-        proGiSource: localThis.$refs.addFormthrid.getFormData(),
-        // 项目总投资
-        approvalDoc: localThis.$refs.addFormForth.getFormData(),
-        // 联系方式
-        depInfo: localThis.$refs.contactInformationForm.getFormData(),
-        attchs: fileList
-      }
-      console.log(params)
-
-      if (localThis.proDetId === '') {
-        // 新增
-
-      } else {
-        // 修改
-        params.proDetId = localThis.proDetId
-        params.projectInfo.proDetId = localThis.proDetId
-        HttpModule.editDataRecord(params).then((res) => {
-          if (res.rscode === '200') {
-            this.showModal = false
-            localThis.$message.success('操作成功')
-            localThis.$refs.tmp.refresh()
-          } else {
-            if (res.message) {
-              localThis.$message.error('数据编辑保存询失败:' + res.message)
-            } else {
-              localThis.$message.error('数据编辑保存询失败')
-            }
-          }
-          localThis.$refs.tmp.showLoading = false
-        })
-      }
+      }).catch(() => {
+        this.$message.error('表单信息未填写完整，请检查')
+      })
     },
     onBtnClick(obj) {
       this.isView = false
@@ -1380,7 +1450,7 @@ export default {
         })
       } else {
         itemConfigs.forEach(item => {
-          if (item.field !== 'proAgencyName') {
+          if (item.field !== 'proAgencyName' && item.field !== 'proGi') {
             if (item.itemRender) {
               if (item.itemRender.props) {
                 item.itemRender.props.disabled = disabled
