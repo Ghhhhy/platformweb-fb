@@ -155,25 +155,25 @@ const proconf = {
     proName: ''
   },
   highQueryConfigFdq: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          // { value: '2020', label: '2020年' },
-          // { value: '2021', label: '2021年' },
-          { value: '2022', label: '2022年' }
-        ],
-        props: {
-          placeholder: '业务年度'
-        }
-      }
-    },
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       // { value: '2020', label: '2020年' },
+    //       // { value: '2021', label: '2021年' },
+    //       { value: '2022', label: '2022年' }
+    //     ],
+    //     props: {
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // },
     {
       title: '资金名称',
       field: 'proCodes',

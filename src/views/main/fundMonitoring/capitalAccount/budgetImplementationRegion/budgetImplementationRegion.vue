@@ -321,30 +321,30 @@ export default {
       condition: {},
       selectData: '',
       queryConfig: store.getters.isSx ? [
-        {
-          title: '业务年度',
-          field: 'fiscalYear',
-          width: '8',
-          align: 'left',
-          formula: '',
-          visible: !store.getters.isSx,
-          itemRender: {
-            name: '$input',
-            props: {
-              type: 'year',
-              valueFormat: 'yyyy',
-              placeholder: '业务年度'
-            },
-            events: {
-              'change': (value, $event) => {
-                this.searchDataList.fiscalYear = $event.value
-                this.searchDataListOld = Object.assign({}, this.searchDataList)// 因为业务年度需要和资金名称联动 需要保存一个旧址 BsQuery深度监听了queryConfig，当queryConfig变化的时候，会重置searchDataList
-                this.$refs.queryFrom.reset()
-                this.getPro($event.value)
-              }
-            }
-          }
-        },
+        // {
+        //   title: '业务年度',
+        //   field: 'fiscalYear',
+        //   width: '8',
+        //   align: 'left',
+        //   formula: '',
+        //   visible: !store.getters.isSx,
+        //   itemRender: {
+        //     name: '$input',
+        //     props: {
+        //       type: 'year',
+        //       valueFormat: 'yyyy',
+        //       placeholder: '业务年度'
+        //     },
+        //     events: {
+        //       'change': (value, $event) => {
+        //         this.searchDataList.fiscalYear = $event.value
+        //         this.searchDataListOld = Object.assign({}, this.searchDataList)// 因为业务年度需要和资金名称联动 需要保存一个旧址 BsQuery深度监听了queryConfig，当queryConfig变化的时候，会重置searchDataList
+        //         this.$refs.queryFrom.reset()
+        //         this.getPro($event.value)
+        //       }
+        //     }
+        //   }
+        // },
         {
           title: '资金名称',
           field: 'proCodes',
@@ -405,30 +405,30 @@ export default {
           }
         }
       ] : [
-        {
-          title: '业务年度',
-          field: 'fiscalYear',
-          width: '8',
-          align: 'left',
-          formula: '',
-          visible: !this.$store.getters.isFuJian,
-          itemRender: {
-            name: '$input',
-            props: {
-              type: 'year',
-              valueFormat: 'yyyy',
-              placeholder: '业务年度'
-            },
-            events: {
-              'change': (value, $event) => {
-                this.searchDataList.fiscalYear = $event.value
-                this.searchDataListOld = Object.assign({}, this.searchDataList)// 因为业务年度需要和资金名称联动 需要保存一个旧址 BsQuery深度监听了queryConfig，当queryConfig变化的时候，会重置searchDataList
-                this.$refs.queryFrom.reset()
-                this.getPro($event.value)
-              }
-            }
-          }
-        },
+        // {
+        //   title: '业务年度',
+        //   field: 'fiscalYear',
+        //   width: '8',
+        //   align: 'left',
+        //   formula: '',
+        //   visible: !this.$store.getters.isFuJian,
+        //   itemRender: {
+        //     name: '$input',
+        //     props: {
+        //       type: 'year',
+        //       valueFormat: 'yyyy',
+        //       placeholder: '业务年度'
+        //     },
+        //     events: {
+        //       'change': (value, $event) => {
+        //         this.searchDataList.fiscalYear = $event.value
+        //         this.searchDataListOld = Object.assign({}, this.searchDataList)// 因为业务年度需要和资金名称联动 需要保存一个旧址 BsQuery深度监听了queryConfig，当queryConfig变化的时候，会重置searchDataList
+        //         this.$refs.queryFrom.reset()
+        //         this.getPro($event.value)
+        //       }
+        //     }
+        //   }
+        // },
         {
           title: '资金名称',
           field: 'proCodes',

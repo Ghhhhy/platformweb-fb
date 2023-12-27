@@ -25,29 +25,29 @@ let proconf = {
     ]
   },
   highQueryConfig: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      visible: !store.getters.isFuJian,
-      itemRender: {
-        name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
-        props: {
-          clearable: true,
-          type: 'year',
-          valueFormat: 'yyyy',
-          placeholder: '业务年度'
-        }
-      }
-    },
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   visible: !store.getters.isFuJian,
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     // options: [
+    //     //   // { value: '2020', label: '2020年' },
+    //     //   // { value: '2021', label: '2021年' },
+    //     //   { value: '2022', label: '2022年' },
+    //     //   { value: '2023', label: '2023年' }
+    //     // ],
+    //     props: {
+    //       clearable: true,
+    //       type: 'year',
+    //       valueFormat: 'yyyy',
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // },
     {
       title: '地区',
       field: 'mofDivCodes',
@@ -1372,26 +1372,26 @@ if (store.getters.isSx) {
       ]
     },
     highQueryConfig: [
-      {
-        title: '业务年度',
-        field: 'fiscalYear',
-        width: '8',
-        align: 'left',
-        formula: '',
-        name: '$vxeSelect',
-        itemRender: {
-          name: '$vxeSelect',
-          options: [
-            { value: '2022', label: '2022年' },
-            { value: '2023', label: '2023年' }
-          ],
-          defaultValue: store.state?.userInfo?.year,
-          props: {
-            clearable: true,
-            placeholder: '业务年度'
-          }
-        }
-      },
+      // {
+      //   title: '业务年度',
+      //   field: 'fiscalYear',
+      //   width: '8',
+      //   align: 'left',
+      //   formula: '',
+      //   name: '$vxeSelect',
+      //   itemRender: {
+      //     name: '$vxeSelect',
+      //     options: [
+      //       { value: '2022', label: '2022年' },
+      //       { value: '2023', label: '2023年' }
+      //     ],
+      //     defaultValue: store.state?.userInfo?.year,
+      //     props: {
+      //       clearable: true,
+      //       placeholder: '业务年度'
+      //     }
+      //   }
+      // },
       {
         title: '地区',
         field: 'mofDivCodes',
