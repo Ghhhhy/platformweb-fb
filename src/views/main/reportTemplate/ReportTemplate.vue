@@ -48,6 +48,7 @@
           @onToolbarBtnClick="onToolbarBtnClick"
           @cellClick="cellClick"
           @switchMoneyUnit="switchMoneyUnit"
+          @ajaxData="ajaxTableData"
         >
           <!--口径说明插槽-->
           <template v-if="caliberDeclareContent" v-slot:caliberDeclare>
@@ -338,12 +339,17 @@ export default {
     closeDialog() {
       this.detailVisible = false
     },
+    ajaxTableData({ params, currentPage, pageSize }) {
+      this.pagerConfig.currentPage = currentPage
+      this.pagerConfig.pageSize = pageSize
+      this.queryTableDatas()
+    },
     // 表格单元行单击
     cellClick(obj, context, e) {
       // const rowIndex = obj?.rowIndex
       // if (!rowIndex) return
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (!obj.column.own.column_link && !isInvalidCellValue) {
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (!obj.column.own.column_link) {
         return
       }
       if (obj.column.own.insertType === 'file') {
