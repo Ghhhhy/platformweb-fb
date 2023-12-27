@@ -77,6 +77,7 @@ import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceD
 export default {
   data() {
     return {
+      menuParam: {},
       menuId: '',
       isLastInst: '',
       modalTitle: '',
