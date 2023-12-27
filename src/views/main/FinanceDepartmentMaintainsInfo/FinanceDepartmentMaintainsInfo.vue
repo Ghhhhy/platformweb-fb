@@ -1052,7 +1052,7 @@ export default {
           // a.click()
           self.$http.get(BSURL.dfr_file_downLoadFile).then(res => {
             if (res.code === '000000') {
-              const fileName = '增发国债资金项目基本信息导入'
+              const fileName = '增发国债资金项目基本信息导入.xlsx'
               let blob = self.dataURLtoBlob(res.data)
               let downloadUrl = window.URL.createObjectURL(blob)
               let anchor = document.createElement('a')
