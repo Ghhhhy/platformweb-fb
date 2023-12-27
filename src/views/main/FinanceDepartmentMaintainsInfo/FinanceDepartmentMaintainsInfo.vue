@@ -19,6 +19,7 @@
               ref="addForm"
               :form-items-config="formItemsConfigBtm"
               :form-data-list="formDataListBtm"
+              @itemChange="BtminsertItemChange"
             />
           </el-tab-pane>
           <el-tab-pane label="绩效目标" name="2">
@@ -68,13 +69,13 @@
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left">
+              <div class="fn-inline" style="float:left; visibility: hidden">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
                   <el-row
                     style="display: inline-block;height: 42px;"
                   >
                     <el-col :span="16">
-                      <span class="sp-my">上传附件</span>
+                      <span ref="uploadref" class="sp-my">上传附件</span>
                     </el-col>
                   </el-row>
                 </div>
@@ -92,7 +93,7 @@
               :table-data="tableDataSx"
               :pager-config="false"
               :footer-config="{ showFooter: false }"
-              :toolbar-config="tableToolbarConfigInmodal"
+              :toolbar-config="tableToolbarConfigAttach"
               @editClosed="editClosed"
             />
           </el-tab-pane>
@@ -101,6 +102,31 @@
       <div slot="footer">
         <vxe-button @click="showModal = false">取消</vxe-button>
         <vxe-button status="primary" @click="handleSure">确认</vxe-button>
+      </div>
+    </vxe-modal>
+    <vxe-modal
+      v-if="showTypeModal"
+      v-model="showTypeModal"
+      :title="'请选择附件类型'"
+      :destroy-on-close="true"
+      width="300px"
+      :height="'170px'"
+      :show-footer="true"
+      @close="showTypeModal = false"
+    >
+      <div style="overflow: hidden">
+        <el-select v-model="filetype" style="width: 100%">
+          <el-option
+            v-for="item in fileTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+      <div slot="footer">
+        <vxe-button @click="showTypeModal = false">取消</vxe-button>
+        <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
       </div>
     </vxe-modal>
   </div>
@@ -204,6 +230,7 @@ export default {
         }
       ],
       tableDataSx: [],
+      showTypeModal: false,
       tableDataFv: [
         {
           name: 1
@@ -595,21 +622,54 @@ export default {
           title: '项目单位',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目单位', disabled: true } }
+          itemRender: {
+            name: '$input',
+            props: {
+              type: 'string',
+              placeholder: '请输入项目单位',
+              disabled: true
+            }
+          }
         },
         {
-          field: 'mofDivName',
+          field: 'mofDiv_',
           title: '财政区划',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入财政区划', disabled: false } }
+          itemRender: {
+            name: '$formTreeInput',
+            required: true,
+            props: {
+              disabled: false,
+              placeholder: '请选择财政区划',
+              isServer: true,
+              serverUri: '/dfr-monitor-service/dfr/common/elementtree',
+              elecode: 'adm_div',
+              queryparams: {
+                elementCode: 'adm_div'
+              }
+            }
+          }
         },
         {
-          field: 'budgetLevelName',
+          field: 'budgetLevel_',
           title: '预算级次',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入预算级次', disabled: false } }
+          itemRender: {
+            name: '$formTreeInput',
+            required: true,
+            props: {
+              disabled: false,
+              placeholder: '请选择预算级次',
+              isServer: true,
+              serverUri: '/dfr-monitor-service/dfr/common/elementtree',
+              elecode: 'budget_level',
+              queryparams: {
+                elementCode: 'budget_level'
+              }
+            }
+          }
         },
         {
           field: 'speProName',
@@ -640,7 +700,7 @@ export default {
           itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入增发国债资金中央转移支付项目代码', disabled: false } }
         },
         {
-          field: 'proDeptName',
+          field: 'proDept_',
           title: '项目主管部门',
           span: 12,
           titleWidth: '240',
@@ -651,7 +711,7 @@ export default {
               disabled: false,
               placeholder: '请选择项目主管部门',
               isServer: true,
-              serverUri: 'pay-clear-service/v3/elementtree',
+              serverUri: '/dfr-monitor-service/dfr/common/elementtree',
               elecode: 'dept',
               queryparams: {
                 elementCode: 'dept'
@@ -660,11 +720,24 @@ export default {
           }
         },
         {
-          field: 'fundInvestAreaName',
+          field: 'fundInvestArea_',
           title: '项目所属投向领域',
           span: 12,
           titleWidth: '240',
-          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目所属投向领域' } }
+          itemRender: {
+            name: '$formTreeInput',
+            required: true,
+            props: {
+              disabled: false,
+              placeholder: '请输入项目所属投向领域',
+              isServer: true,
+              serverUri: '/dfr-monitor-service/dfr/common/elementtree',
+              elecode: 'PROFUNDINVESTAREA',
+              queryparams: {
+                elementCode: 'PROFUNDINVESTAREA'
+              }
+            }
+          }
         },
         {
           field: 'proContent',
@@ -696,20 +769,24 @@ export default {
             name: '$vxeSelect',
             defaultValue: '前端',
             options: [
-              { value: '1', label: '是' },
-              { value: '2', label: '否' }
+              { value: 1, label: '是' },
+              { value: 2, label: '否' }
             ] }
         }
       ],
       formDataListBtm: {
         proAgencyCode: '',
+        mofDiv_: '',
         mofDivName: '',
+        budgetLevel_: '',
         budgetLevelName: '',
         speProName: '',
         speProCode: '',
         trackProName: '',
         trackProCode: '',
+        proDept_: '',
         proDeptName: '',
+        fundInvestArea_: '',
         fundInvestAreaName: '',
         proContent: '',
         proStaDate: '',
@@ -732,6 +809,31 @@ export default {
           tools: 'toolbarTools',
           buttons: 'toolbarSlots'
         }
+      },
+      fileTypeOptions: [
+        { value: '01', label: '项目审批（核准、备案）资料' },
+        { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
+        { value: '03', label: '项目招投标和政府采购资料' },
+        { value: '04', label: '项目主要合同资料' },
+        { value: '05', label: '项目评审报告' },
+        { value: '99', label: '其他' }
+      ],
+      filetype: '01',
+      filetypeName: '项目审批（核准、备案）资料',
+      tableToolbarConfigAttach: {
+        // table工具栏配置
+        disabledMoneyConversion: false,
+        moneyConversion: false, // 是否有金额转换
+        search: false, // 是否有search
+        import: false, // 导入
+        export: true, // 导出
+        print: false, // 打印
+        zoom: true, // 缩放
+        custom: false, // 选配展示列
+        buttons: [
+          { code: 'delete-attachment', name: '删除', status: 'primary', callback: this.deleteAttachment },
+          { code: 'upload-attachment', name: '上传附件', status: 'primary', callback: this.handleUpload }
+        ]
       },
       tableData: [],
       modalTblColumnsConfig: [
@@ -861,13 +963,23 @@ export default {
         }
       },
       currentRow: {},
-      proDetId: ''
+      proDetId: '',
+      isView: false,
+      treeProps: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_']
     }
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
   },
   methods: {
+    deleteAttachment() {
+      let selections = this.$refs.fileDataRef.getSelectionData()
+      if (selections.length === 0) {
+        this.$message.warning('请选择要删除的附件')
+        return
+      }
+      this.$refs.fileDataRef.$refs.xGrid.removeCheckboxRow()
+    },
     closeModal() {
       this.showModal = false
     },
@@ -986,6 +1098,12 @@ export default {
       }
       return i
     },
+    BtminsertItemChange({ $form, property, itemValue, data }, bsform) {
+      if (this.treeProps.indexOf(property) > -1) {
+        let p = property.substr(0, property.length - 1)
+        this.formDataListBtm[p + 'Name'] = itemValue
+      }
+    },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
       this.formDataListThird[property] = data[property]
@@ -1002,6 +1120,9 @@ export default {
     },
     fileUpload(params) {
       return this.$http.post('fileservice/v2/upload', params, null, 'multipart/form-data', 'openapi')
+    },
+    handleUpload() {
+      this.showTypeModal = true
     },
     handelUploadDebugfile(e) {
       const form = new FormData()
@@ -1041,7 +1162,7 @@ export default {
           data['billguid'] = this.$ToolFn.utilFn.getUuid()
           data['importuser'] = this.$store.state.userInfo.name
           data['createTime'] = new Date().toLocaleDateString()
-          data['proAttchKindCode'] = ''
+          data.proAttchKindCode = this.filetype
           this.tableDataSx.push(data)
           console.log('---', this.tableDataSx)
           this.$message.success('上传成功')
@@ -1065,14 +1186,14 @@ export default {
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
       if (columnIndex === 2) {
-        const cellValue = row['lvl1name']
+        const cellValue = row['lv1PerfIndCode']
         const prevRow = visibleData[rowIndex - 1]
         let nextRow = visibleData[rowIndex + 1]
-        if (prevRow && prevRow['lvl1name'] === cellValue) {
+        if (prevRow && prevRow['lv1PerfIndCode'] === cellValue) {
           return { rowspan: 0, colspan: 0 }
         } else {
           let countRowspan = 1
-          while (nextRow && nextRow['lvl1name'] === cellValue) {
+          while (nextRow && nextRow['lv1PerfIndCode'] === cellValue) {
             nextRow = visibleData[++countRowspan + rowIndex]
           }
           if (countRowspan > 1) {
@@ -1081,14 +1202,14 @@ export default {
         }
       }
       if (columnIndex === 3) {
-        const cellValue = row['lvl2name']
+        const cellValue = row['lv2PerfIndCode']
         const prevRow = visibleData[rowIndex - 1]
         let nextRow = visibleData[rowIndex + 1]
-        if (prevRow && prevRow['lvl2name'] === cellValue) {
+        if (prevRow && prevRow['lv2PerfIndCode'] === cellValue) {
           return { rowspan: 0, colspan: 0 }
         } else {
           let countRowspan = 1
-          while (nextRow && nextRow['lvl2name'] === cellValue) {
+          while (nextRow && nextRow['lv2PerfIndCode'] === cellValue) {
             nextRow = visibleData[++countRowspan + rowIndex]
           }
           if (countRowspan > 1) {
@@ -1116,6 +1237,14 @@ export default {
         }
       }
     },
+    handleSureType() {
+      let proAttchKindName = this.fileTypeOptions.find((item) => {
+        return item.value === this.filetype
+      }).label
+      this.filetypeName = proAttchKindName
+      this.$refs.uploadref.click()
+      this.showTypeModal = false
+    },
     handleSure() {
       let localThis = this
       console.log()
@@ -1133,9 +1262,18 @@ export default {
           })
         })
       }
-
+      let btmFormData = localThis.formDataListBtm
+      for (let key in btmFormData) {
+        if (this.treeProps.indexOf(key) > -1) {
+          delete btmFormData[key]
+          delete btmFormData[key + 'id']
+          delete btmFormData[key + 'code']
+          delete btmFormData[key + 'name']
+        }
+      }
       let params = {
-        projectInfo: localThis.$refs.addForm.getFormData(),
+        // projectInfo: localThis.$refs.addForm.getFormData(),
+        projectInfo: localThis.formDataListBtm,
         perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
         proGiSource: localThis.$refs.addFormthrid.getFormData(),
         // 项目总投资
@@ -1166,9 +1304,11 @@ export default {
       }
     },
     onBtnClick(obj) {
+      this.isView = false
       if (obj.code === 'pay-add') {
         this.showModal = true
         this.modalTitle = '新增'
+        this.initFormItems(false)
       }
       if (obj.code === 'pay-import') {
         this.handleImport()
@@ -1178,16 +1318,19 @@ export default {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
+        this.initFormItems(false)
         this.editRecord()
       }
       if (obj.code === 'pay-discard') {
         this.discardRecord()
       }
       if (obj.code === 'pay-checkDetails') {
+        this.isView = true
         if (this.$refs.tmp.getSelectionRcd().length !== 1) {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
+        this.initFormItems(true)
         this.viewDetail()
       }
       if (obj.code === 'pay-audit') {
@@ -1197,6 +1340,51 @@ export default {
         this.auditRecord(3)
       }
     },
+    initFormItems(disabled) {
+      this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
+      this.setItemsDisable(this.formItemsConfigThird, false, disabled)
+      this.setItemsDisable(this.formItemsConfigForth, false, disabled)
+      this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
+      this.tableToolbarConfigAttach.buttons.forEach(btn => {
+        btn.disabled = disabled
+      })
+    },
+    setItemsDisable(itemConfigs, isTable, disabled) {
+      if (isTable) {
+        itemConfigs.forEach(column => {
+          if (disabled) {
+            // 只读
+            let render = column.editRender
+            if (render) {
+              column.render = render
+              delete column.editRender
+            }
+          } else {
+            let render = column.cellRender || column.render
+            if (render) {
+              column.editRender = render
+              delete column.cellRender
+              delete column.render
+            }
+          }
+        })
+      } else {
+        itemConfigs.forEach(item => {
+          if (item.field !== 'proAgencyName') {
+            if (item.itemRender) {
+              if (item.itemRender.props) {
+                item.itemRender.props.disabled = disabled
+              } else {
+                item.itemRender.props = { disabled: disabled }
+              }
+            }
+          }
+        })
+      }
+    },
+    // 修改
     editRecord() {
       let localThis = this
       localThis.$refs.tmp.showLoading = true
@@ -1229,24 +1417,30 @@ export default {
         localThis.$message.warning('请至少选择一条数据进行操作')
         return false
       }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_detail',
-        menuId: localThis.menuId,
-        actionType: 2,
-        actionName: '作废'
-      }
-      HttpModule.discardRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败' + res.errorMessage)
-        }
-      })
+      this.$XModal
+        .confirm('请确认是否删除？')
+        .then((type) => {
+          if (type === 'confirm') {
+            let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
+              return item.proDetId
+            })
+            let params = {
+              ids: ids,
+              appId: 'pm_project_info_detail',
+              menuId: localThis.menuId,
+              actionType: 2,
+              actionName: '作废'
+            }
+            HttpModule.discardRecords(params).then((res) => {
+              if (res.rscode === '200') {
+                localThis.$message.success('操作成功')
+                localThis.$refs.tmp.refresh()
+              } else {
+                localThis.$message.warning('操作失败' + res.errorMessage)
+              }
+            })
+          }
+        })
     },
     auditRecord(type) {
       let localThis = this
@@ -1254,26 +1448,32 @@ export default {
         localThis.$message.warning('请至少选择一条数据进行操作')
         return false
       }
-      let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
-        return item.proDetId
-      })
-      let params = {
-        ids: ids,
-        appId: 'pm_project_info_detail',
-        menuId: localThis.menuId,
-        actionType: type,
-        actionName: type === 2 ? '送审' : '撤销送审'
-      }
-      localThis.$refs.tmp.showLoading = true
-      HttpModule.auditDataRecords(params).then((res) => {
-        if (res.rscode === '200') {
-          localThis.$message.success('操作成功')
-          localThis.$refs.tmp.refresh()
-        } else {
-          localThis.$message.warning('操作失败' + res.errorMessage)
-        }
-        localThis.$refs.tmp.showLoading = false
-      })
+      this.$XModal
+        .confirm('请确认是否' + (type === 2 ? '送审?' : '撤销送审?'))
+        .then((status) => {
+          if (status === 'confirm') {
+            let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
+              return item.proDetId
+            })
+            let params = {
+              ids: ids,
+              appId: 'pm_project_info_detail',
+              menuId: localThis.menuId,
+              actionType: type,
+              actionName: type === 2 ? '送审' : '撤销送审'
+            }
+            localThis.$refs.tmp.showLoading = true
+            HttpModule.auditDataRecords(params).then((res) => {
+              if (res.rscode === '200') {
+                localThis.$message.success('操作成功')
+                localThis.$refs.tmp.refresh()
+              } else {
+                localThis.$message.warning('操作失败' + res.errorMessage)
+              }
+              localThis.$refs.tmp.showLoading = false
+            })
+          }
+        })
     },
     // 修改附件
     editClosed(obj, grid) {
@@ -1304,22 +1504,43 @@ export default {
         localThis.$refs.tmp.showLoading = false
       })
     },
+    initTreeInfo(formData, property, value) {
+      let infos = value.split('##')
+      formData[property] = value
+      formData[property + 'id'] = infos[0]
+      formData[property + 'code'] = infos[1]
+      formData[property + 'name'] = infos[2]
+    },
     initModalFormData(projectInfo) {
       let localThis = this
       // 基本情况
       localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyName
       localThis.formDataListBtm.proAgencyCode = projectInfo.proAgencyCode
+      // 财政区划
+      let mofDiv = projectInfo.mofDivName
+      this.initTreeInfo(localThis.formDataListBtm, 'mofDiv_', mofDiv)
       localThis.formDataListBtm.mofDivName = projectInfo.mofDivName
+      // localThis.formDataListBtm.mofDivNameId = projectInfo.mofDivName
+      // 预算级次
       localThis.formDataListBtm.budgetLevelName = projectInfo.budgetLevelName
+      let budgetLevel = projectInfo.budgetLevelName
+      this.initTreeInfo(localThis.formDataListBtm, 'budgetLevel_', budgetLevel)
       localThis.formDataListBtm.speProName = projectInfo.speProName
       localThis.formDataListBtm.speProCode = projectInfo.speProCode
       localThis.formDataListBtm.trackProName = projectInfo.trackProName
       localThis.formDataListBtm.trackProCode = projectInfo.trackProCode
+      // 项目主管部门
+      let proDeptName = projectInfo.proDeptName
       localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
+      this.initTreeInfo(localThis.formDataListBtm, 'proDept_', proDeptName)
+      // 项目所属投向领域
+      let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
+      this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo)
       localThis.formDataListBtm.proContent = projectInfo.proContent
       localThis.formDataListBtm.proStaDate = projectInfo.proStaDate
       localThis.formDataListBtm.proEndDate = projectInfo.proEndDate
+      localThis.formDataListBtm.isEnd = projectInfo.isEnd
       // 项目总投资
       localThis.formDataListThird.proGi = projectInfo.proGi
       localThis.formDataListThird.proGiAddnb = projectInfo.proGiAddnb
