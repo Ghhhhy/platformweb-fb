@@ -13,7 +13,7 @@
         />
       </template> -->
       <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <div v-show="!isSx && isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="projectSearchForm"
@@ -62,15 +62,25 @@
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <CarryImplementationRegionModal ref="CarryImplementationRegionModal" />
+    <DetailDialog
+      v-if="detailVisible"
+      :title="detailTitle"
+      :detail-type="detailType"
+      :detail-data="detailData"
+      :detail-query-param="detailQueryParam"
+    />
   </div>
 </template>
 
 <script>
+import store from '@/store/index'
 import getFormData from './carryImplementationCapital.js'
+import DetailDialog from '../../capitalAccount/children/detailDialog.vue'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import CarryImplementationRegionModal from '@/views/main/fundMonitoring/capitalCarryForward/@components/carrImplRegiFirstModal.vue'
 export default {
   components: {
+    DetailDialog,
     CarryImplementationRegionModal
   },
   watch: {
@@ -235,7 +245,9 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      detailQueryParam: {},
+      isSx: store.getters.isSx
     }
   },
   mounted() {
@@ -435,6 +447,12 @@ export default {
       // 有效的cellValue
       const validCellValue = (row[column.property] * 1)
       if (this.$store.getters.isSx) {
+        // if (column.own.areaType && column.own.areaType === 'province' && ['amountProvince', 'amountSnfpxj'].includes(column.property)) {
+        //   return {
+        //     color: '#4293F4',
+        //     textDecoration: 'underline'
+        //   }
+        // }
         return
       }
       if (validCellValue && !row.children && column.own.canInsert) {
@@ -447,9 +465,11 @@ export default {
     // 表格单元行单击
     cellClick(obj, context, e) {
       const rowIndex = obj?.rowIndex
+      // if (this.$store.getters.isSx) {
+      //   this.cellClickSx(obj, context, e)
+      //   return
+      // }
       if (!rowIndex) return
-      // let key = obj.column.property
-      // 无效的cellValue
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
       if (isInvalidCellValue || obj.row.children || !obj.column.own.canInsert) return
       if (this.$store.getters.isSx) {
@@ -459,24 +479,57 @@ export default {
       let areaType = obj.column.own.areaType
       if (this.$store.getters.isFuJian) {
         if (areaType === 'province') {
-          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
         } else if (areaType === 'city') {
-          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
         } else if (areaType === 'county') {
-          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          condition = ' substr(mof_div_code,5,5) <> \'00000\''
         }
       }
       this.$refs.CarryImplementationRegionModal.condition = condition
-      // switch (key) {
-      // case 'amountsjfpbjall':
       this.$refs.CarryImplementationRegionModal.dialogVisible = true
       this.$refs.CarryImplementationRegionModal.injectData = obj.row
       console.log('mofDivCodes', this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : [])
       this.$refs.CarryImplementationRegionModal.endTime = this.searchDataList.endTime ? this.getTrees(this.searchDataList.endTime) : []
       this.$refs.CarryImplementationRegionModal.mofDivCodes = this.searchDataList.mofDivCodes ? this.getTrees(this.searchDataList.mofDivCodes) : []
       this.$refs.CarryImplementationRegionModal.init()
-      // break
-      // }
+    },
+    cellClickSx(obj, context, e) {
+      debugger
+      let key = obj.column.property
+      if (obj.column.own.areaType && obj.column.own.areaType === 'province' && ['amountProvince', 'amountSnfpxj'].includes(obj.column.property)) {
+        switch (key) {
+          case 'amountProvince':
+          case 'amountSnfpxj':
+            this.handleDetailSx('zdzjzbmx_fzjfp', obj.row, obj.column)
+            this.detailTitle = '结转资金明细'
+            break
+        }
+      }
+    },
+    handleDetailSx(reportCode, row, column) {
+      let condition = ''
+      condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
+      let isBj = ''
+      switch (column.property) {
+        case 'amountProvince':
+          isBj = '1'
+          break
+        case 'amountSnfpxj':
+          isBj = '2'
+          break
+      }
+      let params = {
+        reportCode: reportCode,
+        // mofDivCode: row.code,
+        speTypeCode: '',
+        isBj: isBj,
+        fiscalYear: this.searchDataList.fiscalYear,
+        condition: condition
+      }
+      this.detailQueryParam = params
+      this.detailType = reportCode
+      this.detailVisible = true
     },
     cellDblclick(obj) {
       // console.log('双击', obj)

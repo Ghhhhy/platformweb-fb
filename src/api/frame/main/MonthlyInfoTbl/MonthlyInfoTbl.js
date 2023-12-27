@@ -6,35 +6,35 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   auditDataRecords(params) {
-    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/audit', params)
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetMon/action/audit', params)
   },
   /**
    * 查询项目详情
    * @return {Promise | Promise<unknown>}
    */
   detailProjectInfo(params) {
-    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryProDetailById', params)
+    return get('/dfr-monitor-service/dfr/pmProjectInfoDetMon/queryProDetailById', params)
   },
   /**
    * 新增
    * @return {Promise | Promise<unknown>}
    */
   addDataRecord(params) {
-    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/insert', params)
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetMon/action/insert', params)
   },
   /**
    * 数据修改
    * @return {Promise | Promise<unknown>}
    */
   editDataRecord(params) {
-    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/modify', params)
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetMon/action/modify', params)
   },
   /**
    * 查询详情
    * @return {Promise | Promise<unknown>}
    */
   detailDataRecord(params) {
-    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryById', params)
+    return get('/dfr-monitor-service/dfr/pmProjectInfoDetMon/queryById', params)
   },
 
   /**
@@ -42,6 +42,6 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   discardRecords(params) {
-    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/discard', params)
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetMon/action/discard', params)
   }
 }

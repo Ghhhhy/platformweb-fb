@@ -531,7 +531,7 @@ export default {
     // 查询 table 数据
     queryTableDatas() {
       const param = {
-        year: this.year,
+        year: this.$store.getters.isSx ? this.$store.state.userInfo.year : this.year,
         startMonth: this.startMonth,
         endMonth: this.endMonth,
         createTime: this.createTime,

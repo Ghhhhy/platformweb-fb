@@ -13,7 +13,7 @@
         />
       </template> -->
       <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <div v-show="!isSx && isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="queryConfig"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import store from '@/store/index'
 import getFormData from './carryMoneyRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 export default {
@@ -202,7 +203,8 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      isSx: store.getters.isSx
     }
   },
   mounted() {
@@ -339,10 +341,18 @@ export default {
     },
     // 查询 table 数据
     queryTableDatas(isFlush = true) {
+      const that = this
+      const trackProArr = that.searchDataList.proCodes
+      let condition = ''
+      if (trackProArr) {
+        const trackProCodeArr = that.getTrees(trackProArr)
+        condition = 'track_pro_code in (' + trackProCodeArr.toString() + ')'
+      }
       const param = {
         isFlush,
         fiscalYear: this.searchDataList.fiscalYear,
-        reportCode: this.params5.reportCode || 'zdjzzjfdqjzqkb'
+        reportCode: this.params5.reportCode || 'zdjzzjfdqjzqkb',
+        condition: condition
       }
       this.tableLoading = true
       HttpModule.queryTableDatas(param).then((res) => {
@@ -355,6 +365,38 @@ export default {
         }
       })
     },
+    getTrees(val) {
+      if (val === undefined) {
+        return
+      }
+      let codes = []
+      if (val.trim() !== '') {
+        val.split(',').forEach((item) => {
+          codes.push('\'' + item.split('##')[0] + '\'')
+        })
+      }
+      return codes
+    },
+    getPro(fiscalYear = this.$store.state.userInfo?.year) {
+      HttpModule.getProTreeData({ fiscalYear }).then(res => {
+        if (res.code === '000000') {
+          let treeResdata = this.getChildrenNewData1(res.data)
+          this.queryConfig[this.queryConfig.findIndex(item => item.field === 'proCodes')].itemRender.options = treeResdata
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getChildrenNewData1(datas) {
+      let that = this
+      datas.forEach(item => {
+        item.label = item.name
+        if (item.children) {
+          that.getChildrenNewData1(item.children)
+        }
+      })
+      return datas
+    },
     cellDblclick(obj) {
       // console.log('双击', obj)
     },
@@ -366,12 +408,16 @@ export default {
     let date = new Date()
     let year = date.toLocaleDateString().split('/')[0]
     this.searchDataList.fiscalYear = year
+    if (this.$store.getters.isSx) {
+      this.searchDataList.fiscalYear = this.$store.state.userInfo.year
+    }
     this.menuId = this.$store.state.curNavModule.guid
     this.roleguid = this.$store.state.curNavModule.roleguid
     this.tokenid = this.$store.getters.getLoginAuthentication.tokenid
     this.userInfo = this.$store.state.userInfo
     this.params5 = this.$store.state.curNavModule.param5
     this.queryTableDatas(false)
+    this.getPro()
   }
 }
 </script>

@@ -189,6 +189,13 @@ const strToJson = (str) => {
 
 // 获取动态请求数据
 const getDynamicParams = () => {
+  console.groupCollapsed('动态表单可取的动态数据，点击展开')
+  console.log('动态表单点击行数据 row:', propsConfig.value.row)
+  console.log('动态表单点击列数据 column:', propsConfig.value.column)
+  console.log('动态表单状态机数据 $store:', { ...store.state, ...store.getters })
+  console.log('动态表单父级表单实例内置数据 ctx:', propsConfig.value.context)
+  console.log('还可以取 window，localStroage...等')
+  console.groupEnd()
   let storeCopy = {}
   try {
     storeCopy = JSON.parse(JSON.stringify({ ...store.state, ...store.getters }))

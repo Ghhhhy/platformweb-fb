@@ -53,7 +53,14 @@
       </template>
     </BsMainFormListLayout>
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
-    <MonitProcFeedbackModal v-if="showModal" ref="MonitProcFeedbackModal" :show-type="showType" :create-data-list="createDataList" @close="showModal = false" />
+    <MonitProcFeedbackModal
+      v-if="showModal"
+      ref="MonitProcFeedbackModal"
+      :row="selection[0]"
+      :show-type="showType"
+      :create-data-list="createDataList"
+      @close="showModal = false"
+    />
     <fujianDetailDialog
       v-if="fujianDialogVisible"
       :title="dialogTitle"
@@ -115,7 +122,7 @@ export default {
       drawInformation: '',
       // BsQuery 查询栏
       showModal: false,
-      showType: 'edit',
+      showType: 'submitWorkFlow',
       queryConfig: [],
       queryData: {
         roleId: this.$store.state.curNavModule.roleguid,
@@ -432,67 +439,64 @@ export default {
           })
       })
     },
-    // 生成
-    handleCreate() {
-      let selection = this.$refs.mainTableRef.getSelectionData()
-      if (selection.length !== 1) {
-        this.$message.warning('请选择一条数据')
+    actionMap(obj) { // 按钮行为控制
+      // const showTypeDescription = {
+      //   'submitWorkFlow': '默认行为，提交工作流到下一岗',
+      //   'detail': '查看详情',
+      //   'approve': '特殊的提交到下一岗，但是审批需要控制部分行为',
+      //   'revoke': '撤回'
+      //   // ...
+      // }
+      if (obj.code === 'dcl-hsfk' || obj.showType === 'submitWorkFlow') { // 适配老配置
+        return 'submitWorkFlow'
+      } else if (obj.code === 'dcl-cx' || obj.showType === 'revoke') {
+        return 'revoke'
+      } else if (obj.showType) {
+        return obj.showType
+      } else {
+        return 'submitWorkFlow'
       }
-      this.$set(this.$refs.mainTableRef, 'createDataList', selection[0])
+    },
+    async showWorkFlowModal() {
+      this.showModal = true
+      await this.$nextTick()
+      this.$refs.MonitProcFeedbackModal.dialogVisible = true
     },
     async onTabPanelBtnClick(obj) { // 按钮点击
-      this.showType = 'edit'
       let selection = this.$refs.mainTableRef.getSelectionData()
       if (selection.length !== 1) {
         this.$message.warning('请选择一条数据')
         return
       }
-      if (obj.showType === 'detail') {
-        this.showModal = true
-        this.showType = obj.showType
-        await this.$nextTick()
-        let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
-        let preNodeFormObj = {}// 上一个节点表单填得值
-        if (Array.isArray(formItemText) && formItemText.length) {
-          formItemText.forEach(item => {
-            preNodeFormObj[item.bizKey] = item.bizValue
-          })
-        }
-        this.createDataList = { ...selection[0], ...preNodeFormObj }
-        this.$refs.MonitProcFeedbackModal.dialogVisible = true
-        return
+      this.selection = selection
+      this.showType = this.actionMap(obj)
+      console.log('this.showType', this.showType)
+      let formItemText = selection[0].mflowBizInfoList || []// 接口工作流节点信息
+      let workflowData = {}// 工作流节点数据
+      if (Array.isArray(formItemText) && formItemText.length) {
+        formItemText.forEach(item => {
+          workflowData[item.bizKey] = item.bizValue
+        })
       }
-      if (obj.code === 'dcl-hsfk') {
-        this.showModal = true
-        await this.$nextTick()
+      // 平铺数据
+      workflowData = { ...selection[0], ...workflowData }
+      if (this.showType === 'submitWorkFlow' || this.showType === 'approve') {
         let serverTime = await HttpModule.getCurrentTime()
-        let formItemText = selection[0].mflowBizInfoList || []// 拿到上一个节点表单结构
-        let preNodeFormObj = {}// 上一个节点表单填得值
-        if (formItemText && formItemText.length) {
-          formItemText.forEach(item => {
-            preNodeFormObj[item.bizKey] = item.bizValue
-          })
-        }
-        let ortherData = {
+        let defaultValue = {
           serverTime: serverTime.data,
           createdAttachmentid: this.$ToolFn.utilFn.getUuid(),
           userName: this.userInfo.name,
           menuName: this.menuName
         }
         if (this.$route.name === 'monitProcFeedbackSpe' || this.$route.name === 'monitProcFeedbackDfr') {
-          ortherData.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
+          defaultValue.commentDept = '1'// 单位材料整改初始值设置为1 先暂时这样改
         }
-        this.createDataList = { ...selection[0], ...preNodeFormObj, ...ortherData }
-        // this.$set(this.$refs.MonitProcFeedbackModal, 'createDataList', )
-        this.$refs.MonitProcFeedbackModal.tabCode = obj.code
-        this.$refs.MonitProcFeedbackModal.dialogVisible = true
-      } else if (obj.code === 'dcl-cx') {
-        let selection = this.$refs.mainTableRef.getSelectionData() || []
-        if (selection.length === 0) {
-          this.$message.warning('请选择数据')
-          return
-        }
-        this.selection = selection
+        this.createDataList = { ...workflowData, ...defaultValue }
+        this.showWorkFlowModal()
+      } else if (this.showType === 'detail') {
+        this.createDataList = workflowData
+        this.showWorkFlowModal()
+      } else if (this.showType === 'revoke') {
         this.dialogTableVisible = true
       }
     },

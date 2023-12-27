@@ -6,13 +6,13 @@ export default {
    * @return {Promise | Promise<unknown>}
    */
   auditDataRecords(params) {
-    return post('/pro-gather-server/gather/pmProjectInfoDetMon/action/audit', params)
+    return post('/dfr-monitor-service/dfr/pmProjectInfoDetMon/action/audit', params)
   },
   /**
    * 查询详情
    * @return {Promise | Promise<unknown>}
    */
   detailDataRecord(params) {
-    return get('/pro-gather-server/gather/pmProjectInfoDetMon/queryById', params)
+    return get('/dfr-monitor-service/dfr/pmProjectInfoDetMon/queryById', params)
   }
 }

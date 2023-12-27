@@ -13,7 +13,7 @@
         />
       </template> -->
       <template v-slot:query>
-        <div v-show="isShowQueryConditions" class="main-query">
+        <div v-show="!isSx && isShowQueryConditions" class="main-query">
           <BsQuery
             ref="queryFrom"
             :query-form-item-config="projectSearchForm"
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import store from '@/store/index'
 import getFormData from './carryImplementationRegion.js'
 import HttpModule from '@/api/frame/main/fundMonitoring/budgetImplementationRegion.js'
 import CarryImplementationRegionModal from '@/views/main/fundMonitoring/capitalCarryForward/@components/carrImplRegiFirstModal.vue'
@@ -237,7 +238,8 @@ export default {
       detailVisible: false,
       detailType: '',
       detailTitle: '',
-      detailData: []
+      detailData: [],
+      isSx: store.getters.isSx
     }
   },
   mounted() {
@@ -411,11 +413,11 @@ export default {
       let areaType = obj.column.own.areaType
       if (this.$store.getters.isFuJian) {
         if (areaType === 'province') {
-          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code not like \'%35\''
+          condition = 'substr(mof_div_code,3,7) = \'0000000\'  '
         } else if (areaType === 'city') {
-          condition = ' substr(mof_div_code,5,5) = \'00000\' and mof_div_code  like \'%35\' '
+          condition = ' substr(mof_div_code,3,7) <> \'0000000\' and substr(mof_div_code,5,5)=\'00000\' '
         } else if (areaType === 'county') {
-          condition = ' substr(mof_div_code,5,5) <> \'00000\' and substr(mof_div_code,7,3)=\'000\' '
+          condition = ' substr(mof_div_code,5,5) <> \'00000\''
         }
       }
       this.$refs.CarryImplementationRegionModal.condition = condition

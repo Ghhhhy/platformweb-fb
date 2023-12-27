@@ -343,7 +343,7 @@ export default {
       // const rowIndex = obj?.rowIndex
       // if (!rowIndex) return
       const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (!obj.column.own.column_link || isInvalidCellValue) {
+      if (!obj.column.own.column_link && !isInvalidCellValue) {
         return
       }
       if (obj.column.own.insertType === 'file') {

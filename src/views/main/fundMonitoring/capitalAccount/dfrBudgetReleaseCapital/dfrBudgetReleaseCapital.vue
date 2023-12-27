@@ -451,7 +451,7 @@ export default {
           reportCode: type === 'jOut' ? 'zjzcmx_fzj' : 'zdzjxmmx_fzj',
           speTypeCode: speTypeCode,
           mofDivCode: '',
-          fiscalYear: this.condition.fiscalYear ? this.condition.fiscalYear[0] : ''
+          fiscalYear: this.$store.state.userInfo.year
         }
         this.detailVisible = true
         this.tableLoading = true
@@ -666,18 +666,19 @@ export default {
       if (this.isSx) {
         const param = {
           reportCode: 'zdzjysxd_fzj',
-          fiscalYear: this.searchDataList.fiscalYear ? this.searchDataList.fiscalYear : '',
+          fiscalYear: this.$store.state.userInfo.year,
           endTime: this.condition.endTime ? this.condition.endTime[0] : '',
           mofDivCodes: this.searchDataList?.mofDivCodes_code__multiple || []
         }
         this.isFlush && (param.isFlush = true)
         this.tableLoading = true
         HttpModule.queryTableDatas(param).then((res) => {
+          this.tableLoading = false
           if (res.code === '000000') {
             this.tableData = res.data.data
-            this.tableLoading = false
             this.reportTime = res.data.reportTime || ''
           } else {
+            this.tableLoading = false
             this.$message.error(res.message)
           }
         })

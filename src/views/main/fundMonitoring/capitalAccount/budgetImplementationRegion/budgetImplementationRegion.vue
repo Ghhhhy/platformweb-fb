@@ -327,7 +327,7 @@ export default {
           width: '8',
           align: 'left',
           formula: '',
-          visible: !this.$store.getters.isFuJian,
+          visible: !store.getters.isSx,
           itemRender: {
             name: '$input',
             props: {
@@ -713,7 +713,7 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         condition: condition,
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
@@ -964,7 +964,7 @@ export default {
         speTypeCode: '',
         isBj: isBj,
         isCz: isCz,
-        fiscalYear: this.searchDataList.fiscalYear,
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear,
         condition: condition,
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
@@ -1034,7 +1034,7 @@ export default {
       const param = {
         // isFlush,
         reportCode: this.transJson(this.params5 || '')?.reportCode,
-        fiscalYear: this.searchDataList.fiscalYear || '',
+        fiscalYear: this.isSx ? this.$store.state.userInfo.year : this.searchDataList.fiscalYear || '',
         startTime: this.condition.startTime ? this.condition.startTime[0] : '',
         endTime: this.condition.endTime ? this.condition.endTime[0] : '',
         proCodes: this.searchDataList.proCodes === '' ? [] : this.getTrees(this.searchDataList.proCodes || '')

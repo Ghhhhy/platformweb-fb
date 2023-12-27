@@ -182,6 +182,7 @@ const proconf = {
             width: 200,
             align: 'right',
             sortable: true,
+            // areaType: 'province',
             cellRender: { name: '$vxeMoney' }
           },
           {
@@ -190,6 +191,8 @@ const proconf = {
             width: 200,
             sortable: true,
             align: 'right'
+            // areaType: 'province',
+            // cellRender: { name: '$vxeMoney' }
           },
           {
             title: '未分配',

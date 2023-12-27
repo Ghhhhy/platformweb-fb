@@ -9,7 +9,7 @@
       :show-footer="true"
       @close="dialogClose"
     >
-      <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :show-type="showType" :default-form-data="createDataList" />
+      <monitProcFeedbackFormInstance ref="monitProcFeedbackFormInstance" :row="row" :column="column" :show-type="showType" :default-form-data="createDataList" />
       <div slot="footer" style="height: 80px;margin:0 15px">
         <el-divider style="color:#E7EBF0" />
         <div type="flex" justify="space-around">
@@ -29,8 +29,28 @@ export default {
   components: {
     monitProcFeedbackFormInstance
   },
-  // eslint-disable-next-line
-  props: ['createDataList','showType'],
+  props: {
+    createDataList: {
+      type: Object,
+      default: () => { return {} }
+    },
+    showType: {
+      type: String,
+      default: 'submitWorkFlow'
+    },
+    row: { // 某些是从表单条过来的 可以传如一个row
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    column: { // 某些是从表单条过来的 可以传如一个column
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data() {
     return {
       tableLoading: false,

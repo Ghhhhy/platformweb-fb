@@ -41,6 +41,7 @@
                     <div class="sub-title-add" style="width:20%;float:left;margin-top:8px"><font color="red">*</font>&nbsp;年份</div>
                     <el-select
                       v-model="year"
+                      disabled="true"
                       placeholder="请选择年份"
                       style="width:70%"
                     >
@@ -159,11 +160,12 @@ export default {
       fileDataBakDel: [],
       attachmentId: '',
       showbox: false,
-      year: '',
+      year: this.$store.getters.isSx ? this.$store.state.userInfo.year : '',
       yearOptions: [
         { value: 2021, label: '2021年' },
         { value: 2022, label: '2022年' },
-        { value: 2023, label: '2023年' }
+        { value: 2023, label: '2023年' },
+        { value: 2024, label: '2024年' }
       ],
       startMonth: '',
       endMonth: '',
