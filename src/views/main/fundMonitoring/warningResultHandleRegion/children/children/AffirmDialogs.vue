@@ -170,39 +170,18 @@ export default {
       default () {
         return {}
       }
+    },
+    selectIds: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data() {
     return {
       affirmResult: '1',
-      options: [{
-        value: '预算下达不及时',
-        label: '预算下达不及时'
-      }, {
-        value: '滞留闲置',
-        label: '滞留闲置'
-      }, {
-        value: '挤占挪用',
-        label: '挤占挪用'
-      }, {
-        value: '违反规定扩大开支范围、提高支出标准',
-        label: '违反规定扩大开支范围、提高支出标准'
-      }, {
-        value: '违规将直达资金划转至财政专户、单位或乡镇实有资金账户',
-        label: '违规将直达资金划转至财政专户、单位或乡镇实有资金账户'
-      }, {
-        value: '虚报、冒领、套取资金',
-        label: '虚报、冒领、套取资金'
-      }, {
-        value: '违规发放工资、津补贴',
-        label: '违规发放工资、津补贴'
-      }, {
-        value: '数据不完整、不真实',
-        label: '数据不完整、不真实'
-      }, {
-        value: '其他',
-        label: '其他'
-      }],
+      options: [],
       options1: [{
         value: '正常',
         label: '正常'
@@ -287,6 +266,7 @@ export default {
           }
         })
       }
+      this.getViolationType()
     },
     // 保存新增的计划信息
     doInsert() {
@@ -324,6 +304,29 @@ export default {
             this.$message.error(res.message)
           }
         })
+      } else if (this.title === '批量认定处理单') {
+        console.info('批量认定处理单')
+        let param = {
+          affirmResult: this.affirmResult,
+          matterDetail: this.matterDetail,
+          rectifyAsk: this.rectifyAsk,
+          warnType: this.warnType,
+          returnAmt: this.returnAmt || 0,
+          transferAmt: this.transferAmt || 0,
+          otherAmt: this.otherAmt || 0,
+          affirmFileCode: this.attachmentId,
+          selectIds: this.selectIds
+        }
+        this.addLoading = true
+        HttpModule.batchUpdateYellow(param).then(res => {
+          this.addLoading = false
+          if (res.code === '000000') {
+            this.$message.success('认定成功')
+            this.dialogClose()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
       } else {
         let param = {
           askProvinceCode: this.askProvinceCode,
@@ -349,6 +352,22 @@ export default {
           }
         })
       }
+    },
+    // 获取违规类型  lll 2023/5/8
+    getViolationType() {
+      let params = {
+        page: 1,
+        size: 99999
+      }
+      HttpModule.queryViolationType(params).then(res => {
+        if (res.code === '000000') {
+          res.data.results.map(v => {
+            v.value = v.name
+            v.label = v.name
+          })
+          this.options = res.data.results
+        }
+      })
     }
   },
   watch: {

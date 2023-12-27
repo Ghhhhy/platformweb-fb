@@ -170,6 +170,12 @@ export default {
       default () {
         return {}
       }
+    },
+    selectIds: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   },
   data() {
@@ -290,6 +296,29 @@ export default {
         }
         this.addLoading = true
         HttpModule.updateYellow(param).then(res => {
+          this.addLoading = false
+          if (res.code === '000000') {
+            this.$message.success('认定成功')
+            this.dialogClose()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else if (this.title === '批量认定处理单') {
+        console.info('批量认定处理单')
+        let param = {
+          affirmResult: this.affirmResult,
+          matterDetail: this.matterDetail,
+          rectifyAsk: this.rectifyAsk,
+          warnType: this.warnType,
+          returnAmt: this.returnAmt || 0,
+          transferAmt: this.transferAmt || 0,
+          otherAmt: this.otherAmt || 0,
+          affirmFileCode: this.attachmentId,
+          selectIds: this.selectIds
+        }
+        this.addLoading = true
+        HttpModule.batchUpdateYellow(param).then(res => {
           this.addLoading = false
           if (res.code === '000000') {
             this.$message.success('认定成功')
