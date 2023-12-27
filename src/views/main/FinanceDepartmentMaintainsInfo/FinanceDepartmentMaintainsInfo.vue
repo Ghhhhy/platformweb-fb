@@ -1290,6 +1290,7 @@ export default {
       localThis.formDataListThird.proGiEf = projectInfo.proGiEf
       localThis.formDataListThird.proGiLb = projectInfo.proGiLb
       localThis.formDataListThird.proGiBankl = projectInfo.proGiBankl
+      localThis.formDataListThird.proGiOth = projectInfo.proGiOth
       // 项目批复信息
       localThis.formDataListForth.proApproveNumber = projectInfo.proApproveNumber
       localThis.formDataListForth.landApproveNumber = projectInfo.landApproveNumber
