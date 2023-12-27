@@ -1357,8 +1357,8 @@ export default {
                 }
               }
               let params = {
-                // projectInfo: localThis.$refs.addForm.getFormData(),
-                projectInfo: localThis.formDataListBtm,
+                projectInfo: localThis.$refs.addForm.getFormData(),
+                // projectInfo: localThis.formDataListBtm,
                 perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
                 proGiSource: localThis.$refs.addFormthrid.getFormData(),
                 // 项目总投资
