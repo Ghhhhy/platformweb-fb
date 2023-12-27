@@ -654,6 +654,7 @@ export default {
         }
       ],
       activeNameTop: '1',
+      readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       formItemsConfigBtm: [
         {
           field: 'proAgencyName',
@@ -1450,7 +1451,7 @@ export default {
         })
       } else {
         itemConfigs.forEach(item => {
-          if (item.field !== 'proAgencyName' && item.field !== 'proGi') {
+          if (this.readonly.indexOf(item.field) === -1) {
             if (item.itemRender) {
               if (item.itemRender.props) {
                 item.itemRender.props.disabled = disabled
@@ -1458,6 +1459,8 @@ export default {
                 item.itemRender.props = { disabled: disabled }
               }
             }
+          } else {
+            item.itemRender.props.disabled = true
           }
         })
       }
