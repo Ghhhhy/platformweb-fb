@@ -2535,8 +2535,8 @@ const buttons1 = {
       status: 'primary'
     },
     {
-      label: '批量认定',
-      code: 'batch_set',
+      label: '批量整改',
+      code: 'batch_rectify_ask',
       status: 'primary'
     }
   ],
