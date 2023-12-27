@@ -509,7 +509,7 @@ const tableColumnTemplate = (numberStr) => {
         dealLevel: 'Undo',
         filters: false,
         align: 'center',
-        width: 120,
+        width: store.getters.isHLJ ? 140 : 120,
         cellRender: {
           name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === numberStr)?.lightIconNumber || ''}`
         }
@@ -526,7 +526,7 @@ const tableColumnTemplate = (numberStr) => {
             warnLevel: numberStr,
             dealLevel: 'Normal',
             filters: false,
-            width: 120,
+            width: store.getters.isHLJ ? 140 : 120,
             cellRender: {
               name: '$vxeIcon3'
             }
@@ -538,7 +538,7 @@ const tableColumnTemplate = (numberStr) => {
             warnLevel: numberStr,
             dealLevel: 'Done',
             align: 'center',
-            width: 120,
+            width: store.getters.isHLJ ? 140 : 120,
             cellRender: {
               name: '$vxeIcon3'
             }
@@ -550,7 +550,7 @@ const tableColumnTemplate = (numberStr) => {
             align: 'center',
             warnLevel: numberStr,
             dealLevel: 'NotRectified',
-            width: 120,
+            width: store.getters.isHLJ ? 140 : 120,
             cellRender: {
               name: `$vxeIcon${store.getters.dict.find(item => String(item.value) === numberStr)?.lightIconNumber || ''}`
             }
