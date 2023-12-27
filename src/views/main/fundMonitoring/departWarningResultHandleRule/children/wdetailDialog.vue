@@ -369,7 +369,7 @@ export default {
             this.$message.warning('请选择一条数据')
             return
           }
-          var title = '认定处理单'
+          let title = '认定处理单'
           this.selectData = selectionRow[0]
           this.affirm(title)
           break
@@ -380,7 +380,7 @@ export default {
             this.$message.warning('请至少选择一条数据')
             return
           }
-          var stitle = '批量认定处理单'
+          let stitle = '批量认定处理单'
           this.selectData = selecRow[0]
           this.selectIds = selecRow.map(function(item, index, array) {
             return item.diBillId
