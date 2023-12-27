@@ -1053,6 +1053,7 @@ export default {
             let proAgency = (item['*项目单位'] || '').split('-')
             let fundInvestArea = (item['*项目所属投向领域'] || '').split('-')
             let trackProInfo = (item['增发国债资金中央转移支付项目名称'] || '').split('-')
+            let proDept = (item['*项目主管部门'] || '').split('-')
             return {
               proAgencyCode: proAgency[0],
               proAgencyName: proAgency[1],
@@ -1072,8 +1073,8 @@ export default {
               trackProName: trackProInfo[0],
               trackProCode: trackProInfo[1],
               isUseMultiTrackPro: item['*是否使用多项中央转移支付资金'] === '是' ? '1' : '2',
-              proDeptCode: item['*项目主管部门编码'],
-              proDeptName: item['*项目主管部门名称'],
+              proDeptCode: proDept[0],
+              proDeptName: proDept[1],
               proGiAddnb: item['*项目总投资'],
               proGiCff: item['__EMPTY'],
               proGiCfo: item['__EMPTY_1'],
