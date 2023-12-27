@@ -175,10 +175,10 @@ export default {
         }
       },
       pagerConfig: {
-        autoHidden: true,
+        // autoHidden: true,
         total: 1,
         currentPage: 1,
-        pageSize: 999999
+        pageSize: 20
       },
       tableToolbarConfig: {
         // table工具栏配置
@@ -342,8 +342,12 @@ export default {
     cellClick(obj, context, e) {
       // const rowIndex = obj?.rowIndex
       // if (!rowIndex) return
-      const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (!obj.column.own.column_link && !isInvalidCellValue) {
+      // 只有全部增发国债资金项目基本情况汇总表和全部增发国债资金项目月度汇总表才有钻取
+      // 且只有项目名称才有钻取
+      const isInvalidReportCode = ['zfgzzjxmjbqkhzb', 'zfgzzjxmydhzb'].includes(this.reportCode)
+      const isInvalidCellValue = obj.column.property === 'proname'
+      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
+      if (!obj.column.own.column_link && !isInvalidReportCode) {
         return
       }
       if (obj.column.own.insertType === 'file') {
@@ -353,6 +357,7 @@ export default {
         showFileModal({ ...settingConfig, row, column, context: this })
         return
       }
+      if (!isInvalidCellValue) return
       this.penetrateTableId = obj.column.own.penetrateTable
       this.penetrateQueryId =
         obj.column.own.penetrateQuery ||
