@@ -75,9 +75,7 @@
               <!-- <div class="fn-inline"> -->
               <div class="fn-inline" style="float:left; visibility: hidden">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
-                  <el-row
-                    style="display: inline-block;height: 42px;"
-                  >
+                  <el-row style="display: inline-block;height: 42px;">
                     <el-col :span="16">
                       <span ref="uploadref" class="sp-my">上传附件</span>
                     </el-col>
@@ -120,12 +118,7 @@
     >
       <div style="overflow: hidden">
         <el-select v-model="filetype" style="width: 100%">
-          <el-option
-            v-for="item in fileTypeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in fileTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
       <div slot="footer">
@@ -137,6 +130,7 @@
 </template>
 <script>
 import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceDepartmentMaintainsInfo.js'
+// import { DownLoadToFile } from '@/api/http'
 
 export default {
   data() {
@@ -241,22 +235,22 @@ export default {
         }
       ],
       contactInformationFormDataRequired: {
-        proAddress: [ { required: true, message: '请输入项目地址', trigger: 'change' } ],
-        estAgencyName: [ { required: true, message: '请输入主要监理单位', trigger: 'change' } ],
-        consAgencyName: [ { required: true, message: '请输入主要施工单位', trigger: 'change' } ],
+        proAddress: [{ required: true, message: '请输入项目地址', trigger: 'change' }],
+        estAgencyName: [{ required: true, message: '请输入主要监理单位', trigger: 'change' }],
+        consAgencyName: [{ required: true, message: '请输入主要施工单位', trigger: 'change' }],
         agencyLeaderPerName: [{ required: true, message: '请输入项目单位负责人姓名', trigger: 'change' }],
 
-        agencyLeaderPerOtel: [ { required: true, message: '请输入项目单位负责人办公电话', trigger: 'change' } ],
-        agencyLeaderPerMtel: [ { required: true, message: '请输入项目单位负责人手机', trigger: 'change' } ],
-        fiLeader: [ { required: true, message: '请输入财务负责人姓名', trigger: 'change' } ],
-        fiLeaderOtel: [ { required: true, message: '请输入财务负责人办公电话', trigger: 'change' } ],
-        fiLeaderMtel: [ { required: true, message: '请输入财务负责人手机', trigger: 'change' } ],
-        proLeader: [ { required: true, message: '请输入项目负责人姓名', trigger: 'change' } ],
-        proLeaderOtel: [ { required: true, message: '请输入项目负责人办公电话', trigger: 'change' } ],
-        proLeaderMtel: [ { required: true, message: '请输入项目负责人手机', trigger: 'change' } ],
-        proLessor: [ { required: true, message: '请输入工作联系人姓名', trigger: 'change' } ],
-        proLessorOtel: [ { required: true, message: '请输入工作联系人办公电话', trigger: 'change' } ],
-        proLessorMtel: [ { required: true, message: '请输入工作联系人手机', trigger: 'change' } ]
+        agencyLeaderPerOtel: [{ required: true, message: '请输入项目单位负责人办公电话', trigger: 'change' }],
+        agencyLeaderPerMtel: [{ required: true, message: '请输入项目单位负责人手机', trigger: 'change' }],
+        fiLeader: [{ required: true, message: '请输入财务负责人姓名', trigger: 'change' }],
+        fiLeaderOtel: [{ required: true, message: '请输入财务负责人办公电话', trigger: 'change' }],
+        fiLeaderMtel: [{ required: true, message: '请输入财务负责人手机', trigger: 'change' }],
+        proLeader: [{ required: true, message: '请输入项目负责人姓名', trigger: 'change' }],
+        proLeaderOtel: [{ required: true, message: '请输入项目负责人办公电话', trigger: 'change' }],
+        proLeaderMtel: [{ required: true, message: '请输入项目负责人手机', trigger: 'change' }],
+        proLessor: [{ required: true, message: '请输入工作联系人姓名', trigger: 'change' }],
+        proLessorOtel: [{ required: true, message: '请输入工作联系人办公电话', trigger: 'change' }],
+        proLessorMtel: [{ required: true, message: '请输入工作联系人手机', trigger: 'change' }]
       },
       contactInformationFormConfig: [
         {
@@ -525,10 +519,10 @@ export default {
         }
       ],
       formDataListForthRequired: {
-        proApproveNumber: [ { required: true, message: '请输入项目审批（核准、备案）文号', trigger: 'change' } ],
-        landApproveNumber: [ { required: true, message: '请输入用地审批文号', trigger: 'change' } ],
-        eiaApproveNumber: [ { required: true, message: '请输入环评审批文号', trigger: 'change' } ],
-        consApproveNumber: [ { required: true, message: '请输入施工许可文号', trigger: 'change' } ]
+        proApproveNumber: [{ required: true, message: '请输入项目审批（核准、备案）文号', trigger: 'change' }],
+        landApproveNumber: [{ required: true, message: '请输入用地审批文号', trigger: 'change' }],
+        eiaApproveNumber: [{ required: true, message: '请输入环评审批文号', trigger: 'change' }],
+        consApproveNumber: [{ required: true, message: '请输入施工许可文号', trigger: 'change' }]
       },
       formItemsConfigForth: [
         {
@@ -579,14 +573,14 @@ export default {
         proGiOth: ''
       },
       formDataListThirdRequired: {
-        proGiAddnb: [ { required: true, message: '请输入增发国债资金', trigger: 'change' } ],
-        proGiCff: [ { required: true, message: '请输入中央预算内投资', trigger: 'change' } ],
-        proGiCfo: [ { required: true, message: '请输入其他中央财政性建设资金', trigger: 'change' } ],
-        proGiLff: [ { required: true, message: '请输入地方财政资金', trigger: 'change' } ],
-        proGiEf: [ { required: true, message: '请输入企业自有资金', trigger: 'change' } ],
-        proGiLb: [ { required: true, message: '请输入地方政府专项债券', trigger: 'change' } ],
-        proGiBankl: [ { required: true, message: '请输入银行贷款', trigger: 'change' } ],
-        proGiOth: [ { required: true, message: '请输入其他资金', trigger: 'change' } ]
+        proGiAddnb: [{ required: true, message: '请输入增发国债资金', trigger: 'change' }],
+        proGiCff: [{ required: true, message: '请输入中央预算内投资', trigger: 'change' }],
+        proGiCfo: [{ required: true, message: '请输入其他中央财政性建设资金', trigger: 'change' }],
+        proGiLff: [{ required: true, message: '请输入地方财政资金', trigger: 'change' }],
+        proGiEf: [{ required: true, message: '请输入企业自有资金', trigger: 'change' }],
+        proGiLb: [{ required: true, message: '请输入地方政府专项债券', trigger: 'change' }],
+        proGiBankl: [{ required: true, message: '请输入银行贷款', trigger: 'change' }],
+        proGiOth: [{ required: true, message: '请输入其他资金', trigger: 'change' }]
       },
       formItemsConfigThird: [
         {
@@ -810,23 +804,24 @@ export default {
             options: [
               { value: 1, label: '是' },
               { value: 2, label: '否' }
-            ] }
+            ]
+          }
         }
       ],
       formDataListBtmRequired: {
-        proAgencyCode: [ { required: true, message: '请输入企业名称', trigger: 'change' } ],
-        proAgencyName: [ { required: true, message: '请输入项目单位名称', trigger: 'change' } ],
-        speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
-        speProName: [ { required: true, message: '请输入项目名称', trigger: 'change' } ],
-        fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
-        fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
-        proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
-        proStaDate: [ { required: true, message: '请输入开工或预计开工时间', trigger: 'change' } ],
-        proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
-        isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
-        proDeptCode: [ { required: true, message: '请输入项目主管部门代码', trigger: 'change' } ],
-        proDeptName: [ { required: true, message: '请输入项目主管部门名称', trigger: 'change' } ],
-        isEnd: [ { required: true, message: '请输入项目是否终结', trigger: 'change' } ]
+        proAgencyCode: [{ required: true, message: '请输入企业名称', trigger: 'change' }],
+        proAgencyName: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
+        speProCode: [{ required: true, message: '请输入项目代码', trigger: 'change' }],
+        speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
+        fundInvestAreaCode: [{ required: true, message: '请输入项目所属投向领域代码', trigger: 'change' }],
+        fundInvestAreaName: [{ required: true, message: '请输入项目所属投向领域名称', trigger: 'change' }],
+        proContent: [{ required: true, message: '请输入项目主要建设内容', trigger: 'change' }],
+        proStaDate: [{ required: true, message: '请输入开工或预计开工时间', trigger: 'change' }],
+        proEndDate: [{ required: true, message: '请输入预计完工时间', trigger: 'change' }],
+        isUseMultiTrackPro: [{ required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' }],
+        proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
+        proDeptName: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
+        isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }]
       },
       formDataListBtm: {
         proAgencyCode: '',
@@ -1037,14 +1032,35 @@ export default {
     closeModal() {
       this.showModal = false
     },
+    dataURLtoBlob(base64Str) {
+      var bstr = atob(base64Str)
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      // 下载的是excel格式的文件
+      return new Blob([u8arr], { type: 'application/vnd.ms-excel' })
+    },
     handleImport() {
       let self = this
       self.$refs.tmp.$refs.tableRef.triggerImportOption({
         downloadTemplateCallback() {
-          const a = document.createElement('a')
-          a.setAttribute('download', '')
-          a.setAttribute('href', 'static/files/国债资金监控导入模板.xls')
-          a.click()
+          // const a = document.createElement('a')
+          // a.setAttribute('download', '')
+          // a.setAttribute('href', 'static/files/国债资金监控导入模板.xlsx')
+          // a.click()
+          self.$http.get(BSURL.dfr_file_downLoadFile).then(res => {
+            if (res.code === '000000') {
+              const fileName = '增发国债资金项目基本信息导入'
+              let blob = self.dataURLtoBlob(res.data)
+              let downloadUrl = window.URL.createObjectURL(blob)
+              let anchor = document.createElement('a')
+              anchor.href = downloadUrl
+              anchor.download = fileName
+              anchor.click()
+            }
+          })
         },
         importSuccessCallback(res) {
           let basicInfo = res['基本情况明细表']
@@ -1667,7 +1683,8 @@ export default {
 .Titans-form ::v-deep .vxe-form .boss-tree__input .el-select {
   height: 34px;
 }
-.app-main .boss-main .el-tab-pane{
-  height: auto!important;
+
+.app-main .boss-main .el-tab-pane {
+  height: auto !important;
 }
 </style>
