@@ -1810,6 +1810,7 @@ export default {
     },
     // 选择业务模块
     changeModCode(val) {
+      if (this.ModparentId === val) return
       this.ModparentId = val
       this.businessFunctionCodeModal = ''
       this.$refs.businessFunctionCodeModalRef.reset?.()

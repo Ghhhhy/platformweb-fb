@@ -136,7 +136,7 @@ export default {
           combinedType: ['subTotal', 'total', 'totalAll', 'switchTotal'],
           showFooter: true
         },
-        title: '中央来源资金分配情况表'
+        title: '单位指标查询表'
       }
     }
   },
@@ -277,38 +277,38 @@ export default {
         //   sortable: true,
         //   title: '上级专项'
         // },
-        {
-          field: 'amount',
-          title: '下达金额',
-          align: 'right',
-          sortable: true,
-          cellRender: {
-            name: '$vxeMoney'
-          },
-          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
-          sort: true
-        },
-        {
-          field: 'fpAmount',
-          title: '分配下级金额',
-          align: 'right',
-          sortable: true,
-          cellRender: {
-            name: '$vxeMoney'
-          },
-          combinedType: ['average', 'subTotal', 'total', 'totalAll'],
-          sort: true
-        },
-        {
-          field: 'fpRate',
-          title: '分配下级进度',
-          align: 'right',
-          sortable: true,
-          formula: '({amount}-0==0)?0:(({fpAmount})/{amount}*100)',
-          cellRender: {
-            name: '$vxeRatio'
-          }
-        },
+        // {
+        //   field: 'amount',
+        //   title: '下达金额',
+        //   align: 'right',
+        //   sortable: true,
+        //   cellRender: {
+        //     name: '$vxeMoney'
+        //   },
+        //   combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+        //   sort: true
+        // },
+        // {
+        //   field: 'fpAmount',
+        //   title: '分配下级金额',
+        //   align: 'right',
+        //   sortable: true,
+        //   cellRender: {
+        //     name: '$vxeMoney'
+        //   },
+        //   combinedType: ['average', 'subTotal', 'total', 'totalAll'],
+        //   sort: true
+        // },
+        // {
+        //   field: 'fpRate',
+        //   title: '分配下级进度',
+        //   align: 'right',
+        //   sortable: true,
+        //   formula: '({amount}-0==0)?0:(({fpAmount})/{amount}*100)',
+        //   cellRender: {
+        //     name: '$vxeRatio'
+        //   }
+        // },
         {
           field: 'sfzd',
           sortable: true,
