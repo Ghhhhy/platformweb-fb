@@ -274,28 +274,28 @@ export default {
       condition: {},
       selectData: '',
       queryConfig: [
-        {
-          title: '业务年度',
-          field: 'fiscalYear',
-          width: '8',
-          align: 'left',
-          formula: '',
-          visible: !this.$store.getters.isFuJian && !this.$store.getters.isSx,
-          itemRender: {
-            name: '$vxeInput',
-            // options: [
-            //   // { value: '2020', label: '2020年' },
-            //   // { value: '2021', label: '2021年' },
-            //   { value: '2022', label: '2022年' },
-            //   { value: '2023', label: '2023年' }
-            // ],
-            props: {
-              type: 'year',
-              valueFormat: 'yyyy',
-              placeholder: '业务年度'
-            }
-          }
-        },
+        // {
+        //   title: '业务年度',
+        //   field: 'fiscalYear',
+        //   width: '8',
+        //   align: 'left',
+        //   formula: '',
+        //   visible: !this.$store.getters.isFuJian && !this.$store.getters.isSx,
+        //   itemRender: {
+        //     name: '$vxeInput',
+        //     // options: [
+        //     //   // { value: '2020', label: '2020年' },
+        //     //   // { value: '2021', label: '2021年' },
+        //     //   { value: '2022', label: '2022年' },
+        //     //   { value: '2023', label: '2023年' }
+        //     // ],
+        //     props: {
+        //       type: 'year',
+        //       valueFormat: 'yyyy',
+        //       placeholder: '业务年度'
+        //     }
+        //   }
+        // },
         {
           title: '地区',
           field: 'mofDivCodes',
