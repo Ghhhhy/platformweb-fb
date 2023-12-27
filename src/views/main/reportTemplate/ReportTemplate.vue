@@ -348,8 +348,8 @@ export default {
     cellClick(obj, context, e) {
       // const rowIndex = obj?.rowIndex
       // if (!rowIndex) return
-      // const isInvalidCellValue = !(obj.row[obj.column.property] * 1)
-      if (!obj.column.own.column_link) {
+      const isInvalidCellValue = obj.row[obj.column.property]
+      if (!obj.column.own.column_link || !isInvalidCellValue) {
         return
       }
       if (obj.column.own.insertType === 'file') {
@@ -443,9 +443,9 @@ export default {
       return strTwo
     },
     cellStyle({ row, rowIndex, column }) {
-      if (!rowIndex) return
+      // if (!rowIndex) return
       // 有效的cellValue
-      const validCellValue = row[column.property] * 1
+      const validCellValue = row[column.property]
       if (!validCellValue) return
       // 拿到那些可以进行超链接的表格行
       if (column.own.column_link) {
