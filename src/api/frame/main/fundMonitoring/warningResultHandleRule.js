@@ -17,8 +17,8 @@ export default {
   update(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/update', params)
   },
-  updateZGBatch() {
-    return post('dfr-monitor-service/dfr/warningResultHandleRule/updateZGBatch')
+  updateZGBatch(params) {
+    return post('dfr-monitor-service/dfr/warningResultHandleRule/updateZGBatch', params)
   },
   updateYellow(params) {
     return post('dfr-monitor-service/dfr/warningResultHandleRule/updateYellow', params)

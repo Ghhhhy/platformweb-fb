@@ -374,6 +374,9 @@ export default {
             return
           }
           this.selectData = selection[0]
+          this.selectIds = selection.map(function(item, index, array) {
+            return item.diBillId
+          })
           this.updateRectifyAsk(1)
           break
         // 整改意见
