@@ -1359,4 +1359,7 @@ export default {
 .Titans-form ::v-deep .vxe-form .boss-tree__input .el-select {
   height: 34px;
 }
+.app-main .boss-main .el-tab-pane{
+  height: auto!important;
+}
 </style>
