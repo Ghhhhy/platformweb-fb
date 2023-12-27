@@ -1,16 +1,16 @@
 // import store from '@/store/index'
-const getfiscalYearOptions = () => {
-  const currentYear = new Date().getFullYear()
-  const startYear = 2020
-  const options = []
-  for (let year = startYear; year <= currentYear; year++) {
-    options.push({
-      value: year,
-      label: `${year}年`
-    })
-  }
-  return options
-}
+// const getfiscalYearOptions = () => {
+//   const currentYear = new Date().getFullYear()
+//   const startYear = 2020
+//   const options = []
+//   for (let year = startYear; year <= currentYear; year++) {
+//     options.push({
+//       value: year,
+//       label: `${year}年`
+//     })
+//   }
+//   return options
+// }
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -100,21 +100,21 @@ export let proconf = {
     }
   ],
   highQueryConfig: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeSelect',
-        options: getfiscalYearOptions(),
-        props: {
-          placeholder: '业务年度'
-        }
-      }
-    }
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: getfiscalYearOptions(),
+    //     props: {
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     declareName: '',
