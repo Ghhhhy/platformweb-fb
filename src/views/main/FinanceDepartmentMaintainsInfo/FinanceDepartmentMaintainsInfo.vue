@@ -1043,7 +1043,7 @@ export default {
         downloadTemplateCallback() {
           const a = document.createElement('a')
           a.setAttribute('download', '')
-          a.setAttribute('href', 'static/files/国债资金监控导入模板.xlsx')
+          a.setAttribute('href', 'static/files/国债资金监控导入模板.xls')
           a.click()
         },
         importSuccessCallback(res) {
