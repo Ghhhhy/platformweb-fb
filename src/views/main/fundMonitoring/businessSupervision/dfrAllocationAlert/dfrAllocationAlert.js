@@ -24,27 +24,27 @@ const proconf = {
     ]
   },
   highQueryConfig: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      itemRender: {
-        name: '$vxeInput',
-        // options: [
-        //   // { value: '2020', label: '2020年' },
-        //   // { value: '2021', label: '2021年' },
-        //   { value: '2022', label: '2022年' },
-        //   { value: '2023', label: '2023年' }
-        // ],
-        props: {
-          type: 'year',
-          valueFormat: 'yyyy',
-          placeholder: '业务年度'
-        }
-      }
-    }
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     // options: [
+    //     //   // { value: '2020', label: '2020年' },
+    //     //   // { value: '2021', label: '2021年' },
+    //     //   { value: '2022', label: '2022年' },
+    //     //   { value: '2023', label: '2023年' }
+    //     // ],
+    //     props: {
+    //       type: 'year',
+    //       valueFormat: 'yyyy',
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // }
   ],
   highQueryData: {
     fiscalYear: store.state?.userInfo?.year

@@ -25,28 +25,28 @@ let proconf = {
     ]
   },
   highQueryConfig: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      width: '8',
-      align: 'left',
-      formula: '',
-      visible: !store.getters.isFuJian,
-      name: '$vxeSelect',
-      itemRender: {
-        name: '$vxeInput',
-        options: [
-          // { value: '2020', label: '2020年' },
-          { value: '2022', label: '2022年' },
-          { value: '2023', label: '2023年' }
-        ],
-        props: {
-          clearable: true,
-          type: 'year',
-          placeholder: '业务年度'
-        }
-      }
-    },
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   width: '8',
+    //   align: 'left',
+    //   formula: '',
+    //   visible: !store.getters.isFuJian,
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeInput',
+    //     options: [
+    //       // { value: '2020', label: '2020年' },
+    //       { value: '2022', label: '2022年' },
+    //       { value: '2023', label: '2023年' }
+    //     ],
+    //     props: {
+    //       clearable: true,
+    //       type: 'year',
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // },
     {
       title: '资金名称',
       field: 'proCodes',
