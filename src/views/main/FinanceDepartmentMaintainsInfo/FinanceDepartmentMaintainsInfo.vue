@@ -1350,7 +1350,12 @@ export default {
               for (let key in btmFormData) {
                 if (this.treeProps.indexOf(key) > -1) {
                   let p = key.substr(0, key.length - 1)
-                  btmFormData[p + 'Name'] = btmFormData[key]
+                  let value = (btmFormData[key] || '').split('##')
+                  if (value[0].indexOf('initId') > -1) {
+                    btmFormData[p + 'Name'] = value[1] + '##' + value[2]
+                  } else {
+                    btmFormData[p + 'Name'] = btmFormData[key]
+                  }
                   delete btmFormData[key]
                   delete btmFormData[key + 'id']
                   delete btmFormData[key + 'code']
@@ -1358,6 +1363,9 @@ export default {
                 }
                 if (key === 'proAgencyName') {
                   btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
+                }
+                if (key === 'proStaDate' || key === 'proEndDate') {
+                  btmFormData[key] = btmFormData[key].replaceAll('-', '')
                 }
               }
               let params = {
