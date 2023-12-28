@@ -24,23 +24,24 @@ const proconf = {
     ]
   },
   highQueryConfig: [
-    // {
-    //   'title': '业务年度',
-    //   'field': 'fiscalYear',
-    //   'width': '8',
-    //   'align': 'left',
-    //   'formula': '',
-    //   'visible': !store.getters.isFuJian,
-    //   'itemRender': {
-    //     'name': '$vxeInput',
-    //     'props': {
-    //       'clearable': true,
-    //       'type': 'year',
-    //       'valueFormat': 'yyyy',
-    //       'placeholder': '业务年度'
-    //     }
-    //   }
-    // },
+    {
+      'title': '业务年度',
+      'field': 'fiscalYear',
+      'visible': false,
+      'width': '8',
+      'align': 'left',
+      'formula': '',
+      // 'visible': !store.getters.isFuJian,
+      'itemRender': {
+        'name': '$vxeInput',
+        'props': {
+          'clearable': true,
+          'type': 'year',
+          'valueFormat': 'yyyy',
+          'placeholder': '业务年度'
+        }
+      }
+    },
     {
       'title': '资金名称',
       'field': 'proCodes',
@@ -90,6 +91,7 @@ const proconf = {
     // {
     //   title: '业务年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   width: '8',
     //   align: 'left',
     //   formula: '',
