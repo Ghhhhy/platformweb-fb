@@ -6,7 +6,7 @@
       ref="modalForm"
       v-model="modalForm"
       :title="modalTitle"
-      width="66%"
+      width="75%"
       :height="(activeNameBtm === '2' || activeNameBtm === '6') ? '79%' : '60%'"
       :show-footer="showModalFooter"
       :destroy-on-close="true"
@@ -16,10 +16,19 @@
         <el-tabs v-model="activeNameBtm" type="border-card">
           <el-tab-pane label="基本情况" name="1">
             <BsForm
+              v-if="!isAdd"
               ref="addForm"
               :form-items-config="formItemsConfigBtm"
               :form-data-list="formDataListBtm"
               :form-validation-config="formDataListBtmRequired"
+              @itemChange="BtminsertItemChange"
+            />
+            <BsForm
+              v-if="isAdd"
+              ref="addForm"
+              :form-items-config="formItemsConfigBtmAdd"
+              :form-data-list="formDataListBtmAdd"
+              :form-validation-config="formDataListBtmRequiredAdd"
               @itemChange="BtminsertItemChange"
             />
           </el-tab-pane>
@@ -126,6 +135,31 @@
         <vxe-button status="primary" @click="handleSureType">确定</vxe-button>
       </div>
     </vxe-modal>
+    <vxe-modal
+      v-if="showAddLineModal"
+      v-model="showAddLineModal"
+      :title="'新增指标'"
+      :destroy-on-close="true"
+      width="66%"
+      :height="'300px'"
+      :show-footer="true"
+      @close="showAddLineModal = false"
+    >
+      <div>
+        <BsForm
+          ref="addBudget"
+          :form-items-config="addBudgetFormConfig"
+          :form-data-list="addBudgetFormData"
+          :form-validation-config="addBudgetFormDataRequired"
+          @itemChange="addFormChange"
+        />
+      </div>
+      <div slot="footer">
+        <vxe-button @click="showAddLineModal = false">取消</vxe-button>
+        <vxe-button status="primary" @click="confirm">确定</vxe-button>
+      </div>
+    </vxe-modal>
+
   </div>
 </template>
 <script>
@@ -169,10 +203,16 @@ export default {
       formDataListThirdRequired: config().formDataListThirdRequired,
       formItemsConfigThird: config().formItemsConfigThird,
       activeNameTop: '1',
-      readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
+      readonly: ['proAgencyName', 'mofDivName', 'budgetLevelName', 'speProCode', 'proDept_', 'proGi'],
       formItemsConfigBtm: config().formItemsConfigBtm,
       formDataListBtmRequired: config().formDataListBtmRequired,
       formDataListBtm: config().formDataListBtm,
+      formItemsConfigBtmAdd: config().formItemsConfigBtmAdd,
+      formDataListBtmRequiredAdd: config().formDataListBtmRequiredAdd,
+      formDataListBtmAdd: config().formDataListBtmAdd,
+      addBudgetFormConfig: config().addBudgetFormConfig,
+      addBudgetFormData: config().addBudgetFormData,
+      addBudgetFormDataRequired: config().addBudgetFormDataRequired,
       showModal: false,
       showModalFooter: true,
       tableToolbarConfigInmodal: {
@@ -280,14 +320,14 @@ export default {
         },
         buttonsInfo: {
           '1': [
-            /*  {
-              code: 'pay-add',
-              label: '新增',
-              status: 'primary'
-            }, */
             {
               code: 'pay-import',
               label: '导入',
+              status: 'primary'
+            },
+            {
+              code: 'pay-add',
+              label: '新增',
               status: 'primary'
             },
             {
@@ -322,11 +362,16 @@ export default {
       currentRow: {},
       proDetId: '',
       isView: false,
-      treeProps: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_']
+      isAdd: false,
+      treeProps: ['mofDiv_', 'budgetLevel_', 'proDept_', 'fundInvestArea_', 'proAgency_', 'trackPro_', 'fundInvestArea_'],
+      showAddLineModal: false
     }
   },
   created() {
     this.menuId = this.$store.state.curNavModule.guid
+    this.getFundInvestArea()
+    this.getBudgetElement()
+    this.formDataListBtmAdd.mofDivName = this.$store.state.userInfo.province
   },
   methods: {
     stringToDate(str) {
@@ -504,11 +549,87 @@ export default {
       return i
     },
     BtminsertItemChange({ $form, property, itemValue, data }, bsform) {
-      console.log(property, itemValue)
+      console.log(property, itemValue, data)
       if (this.treeProps.indexOf(property) > -1) {
         let p = property.substr(0, property.length - 1)
-        this.formDataListBtm[p + 'Name'] = itemValue
+        this.formDataListBtm[p + 'Name'] = data[property + 'name']
+        this.formDataListBtm[property + 'name'] = data[property + 'name']
+        this.formDataListBtm[property] = itemValue
+        this.formDataListBtm[property + 'code'] = data[property + 'code']
+        this.formDataListBtm[property + 'id'] = data[property + 'id']
       }
+      if (this.isAdd) {
+        if (property === 'trackPro_') {
+          this.formDataListBtmAdd.trackProCode = data.trackPro_code
+          data.trackProCode = data.trackPro_code
+          data.fundInvestArea_ = ''
+          data.fundInvestArea_code = ''
+          data.fundInvestArea_id = ''
+          data.fundInvestArea_name = ''
+          this.fundInvestArea(data.trackPro_id)
+        }
+      }
+    },
+    // 获取指标级次
+    getBudgetElement() {
+      this.$http.post('/dfr-monitor-service/dfr/common/elementtree', { 'elementCode': 'agency' }).then((res) => {
+        if (res.rscode === '200') {
+          this.addBudgetFormConfig.forEach(item => {
+            if (item.field === 'lv2PerfInd_') {
+              item.itemRender.options = res.data
+              this.toFlatTree(res.data)
+            }
+          })
+        }
+      })
+    },
+    getFundInvestArea() {
+      this.$http.post('/dfr-monitor-service/dfr/common/elementtree', { elementCode: 'PROFUNDINVESTAREA' }).then((res) => {
+        if (res.rscode === '200') {
+          this.formItemsConfigBtmAdd.forEach(item => {
+            if (item.field === 'fundInvestArea_') {
+              this.fundInvestAreaOptions = res.data
+              item.itemRender.options = res.data
+            }
+          })
+        }
+      })
+    },
+    // 树扁平化Map
+    toFlatTree(trees) {
+      let self = this
+      trees.forEach(tree => {
+        if (tree.children) {
+          self.getChildren(tree, tree.children)
+        }
+      })
+    },
+    getChildren(tree, children) {
+      children.forEach(c => {
+        c.p = {
+          id: tree.id,
+          code: tree.code,
+          label: tree.label,
+          name: tree.name
+        }
+      })
+    },
+    fundInvestArea(id) {
+      let currentFundInvest = []
+      for (let i = 0; i < this.fundInvestAreaOptions.length; i++) {
+        if (this.fundInvestAreaOptions[i].code === id) {
+          currentFundInvest = [this.fundInvestAreaOptions[i]]
+          console.log(currentFundInvest)
+          break
+        }
+      }
+      this.formItemsConfigBtmAdd.forEach(item => {
+        if (item.field === 'fundInvestArea_') {
+          item.itemRender.options = currentFundInvest
+        }
+      })
+      this.formItemsConfigBtmAdd = [...this.formItemsConfigBtmAdd]
+      console.log(this.formItemsConfigBtmAdd)
     },
     insertItemChange({ $form, property, itemValue, data }, bsform) {
       let sum = 0
@@ -591,6 +712,9 @@ export default {
       })
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
+      if (this.isAdd) {
+        return { rowspan: 1, colspan: 1 }
+      }
       if (columnIndex === 2) {
         const cellValue = row['lv1PerfIndCode']
         const prevRow = visibleData[rowIndex - 1]
@@ -706,10 +830,24 @@ export default {
                 attchs: fileList
               }
               console.log(params)
-
               if (localThis.proDetId === '') {
-                // 新增
-
+                // 新增---待修改
+                params.proDetId = localThis.proDetId
+                params.projectInfo.proDetId = localThis.proDetId
+                HttpModule.editDataRecord(params).then((res) => {
+                  if (res.rscode === '200') {
+                    this.showModal = false
+                    localThis.$message.success('操作成功')
+                    localThis.$refs.tmp.refresh()
+                  } else {
+                    if (res.message) {
+                      localThis.$message.error('数据保存询失败:' + res.message)
+                    } else {
+                      localThis.$message.error('数据保存询失败')
+                    }
+                  }
+                  localThis.$refs.tmp.showLoading = false
+                })
               } else {
                 // 修改
                 params.proDetId = localThis.proDetId
@@ -742,13 +880,75 @@ export default {
         this.$message.error('表单信息未填写完整，请检查')
       })
     },
+    // 根据二级指标获取一级指标并填充值
+    addFormChange({ $form, property, itemValue, data, renderOpts, node, nodes, treeData }) {
+      console.log(data, node, nodes)
+      this.formDataListBtm['lv1PerfIndName'] = data[property + 'name']
+      this.selectLevels = nodes
+      let firstLevel = this.getFirstLevel(nodes, treeData)
+      let firstlevelStr = ''
+      for (let key in firstLevel) {
+        firstlevelStr += firstLevel[key].label + ','
+      }
+      this.addBudgetFormData.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
+      data.lv1PerfIndName = firstlevelStr.substr(0, firstlevelStr.length - 1)
+      console.log(this.addBudgetFormData)
+    },
+    getFirstLevel(nodes, treeData, pnodes = {}) {
+      // let self = this
+      nodes.forEach(node => {
+        pnodes[node.p.code] = node.p
+      })
+      console.log(pnodes)
+      return pnodes
+    },
+    addLine() {
+      this.showAddLineModal = true
+    },
+    confirm() {
+      let self = this
+      let levelTableDatas = []
+      self.selectLevels.forEach(level => {
+        levelTableDatas.push({
+          lv1PerfIndName: level.p.name,
+          lv2PerfIndName: level.name,
+          lv3PerfIndName: '',
+          kpiVal: ''
+        })
+      })
+      console.log(levelTableDatas)
+      self.$refs.addBudget.formOptionsFn().validate().then(() => {
+        self.showAddLineModal = false
+        self.$refs.bgtTblRef.$refs.xGrid.insert(levelTableDatas)
+      })
+    },
+    deleteLine() {
+      let checkItems = this.$refs.bgtTblRef.getSelectionData()
+      if (checkItems.length === 0) {
+        this.$message.warning('请选择删除数据')
+        return
+      }
+      this.$refs.bgtTblRef.$refs.xGrid.removeCheckboxRow()
+    },
     onBtnClick(obj) {
       this.isView = false
+      this.isAdd = false
+      delete this.tableToolbarConfigInmodal.buttons
+      this.tableToolbarConfigInmodal.slots = {
+        tools: 'toolbarTools',
+        buttons: 'toolbarSlots'
+      }
       if (obj.code === 'pay-add') {
         this.showModal = true
+        this.isAdd = true
         this.modalTitle = '新增'
-        this.initFormItems(false)
+        this.tableToolbarConfigInmodal.buttons = [
+          { code: 'code-add', name: '新增行', status: 'primary', callback: this.addLine },
+          { code: 'code-delete', name: '删除', status: 'primary', callback: this.deleteLine }
+        ]
+        delete this.tableToolbarConfigInmodal.slots
       }
+      this.tableToolbarConfigInmodal = { ...this.tableToolbarConfigInmodal }
       if (obj.code === 'pay-import') {
         this.handleImport()
       }
