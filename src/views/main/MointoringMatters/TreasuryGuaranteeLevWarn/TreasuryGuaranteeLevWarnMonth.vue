@@ -379,7 +379,7 @@ export default {
     },
     queryInfoData() {
       const param = {
-        fiscalYear: this.fiscalYear,
+        fiscalYear: this.$store.state.userInfo.year,
         mofDivCode: this.mofDivCode,
         acctPeriod: this.month
       }
@@ -405,7 +405,7 @@ export default {
     // 查询 table 数据
     queryTableDatas(fiscalYear) {
       const param = {
-        fiscalYear: fiscalYear || this.$store.state.userInfo.year,
+        fiscalYear: this.$store.state.userInfo.year,
         mofDivName: this.searchDataList.mofDivName,
         mofDivCodeList: this.mofDivCodeList
       }
