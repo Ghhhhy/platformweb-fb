@@ -1229,6 +1229,7 @@
             >
               <template v-slot:toolbarSlots>
                 <div v-if="showModalFooter" class="table-toolbar-left">
+                  <vxe-button status="primary" style="float: left" @click="deleteAttachment">删除附件</vxe-button>
                   <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
                 </div>
               </template>
@@ -1959,6 +1960,14 @@ export default {
         let configQueryData = await this.loadBsConfig(params)
         this.formItemsConfigBtm = configQueryData.itemsConfig
       }
+    },
+    deleteAttachment() {
+      let selections = this.$refs.fileDataRef.getSelectionData()
+      if (selections.length === 0) {
+        this.$message.warning('请选择要删除的附件')
+        return
+      }
+      this.$refs.fileDataRef.$refs.xGrid.removeCheckboxRow()
     },
     handleSureType() {
       let proAttchKindName = this.fileTypeOptions.find((item) => {
