@@ -600,13 +600,6 @@ export let config = () => {
         itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
       },
       {
-        field: 'proNotStaRea',
-        title: '项目未开工原因',
-        span: 12,
-        titleWidth: '240',
-        itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目未开工原因' } }
-      },
-      {
         field: 'kpiTarget',
         title: '项目整体绩效目标',
         span: 12,
@@ -653,6 +646,13 @@ export let config = () => {
         span: 24,
         titleWidth: '240',
         itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目主要建设内容' } }
+      },
+      {
+        field: 'proNotStaRea',
+        title: '项目未开工原因',
+        span: 24,
+        titleWidth: '240',
+        itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目未开工原因' } }
       }
     ],
     formDataListBtmRequired: {
