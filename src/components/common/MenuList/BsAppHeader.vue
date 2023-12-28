@@ -252,7 +252,7 @@ export default {
     this.name = userList.name
     this.province = userList.province
     console.log('userList.app.yearSelect', userList.app.yearSelect)
-    if (this.$store.getters.isSx) {
+    if (this.$store.getters.isSx || this.$store.getters.isXm) {
       if (userList && userList.app && userList.app.yearSelect) {
         if (userList.app.yearSelect.length === 2) {
           let yearList = []
