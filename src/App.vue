@@ -207,9 +207,7 @@ export default {
               Store(USER_INFO, res.data)
               Store(BS_SXCZY_APPGUID, appguid)
               Store(BS_SXCZY_ACCESS_TOKEN, tokenid)
-              if (this.$store.getters.isQingHai) {
-                robotServe(this)// 客服机器人服务
-              }
+              this.addRobotServe()
               // iframe
               if (window.self !== window.top) {
                 this.ifrouteractive = true
@@ -229,6 +227,23 @@ export default {
             console.log('http------------------')
             goLogin()
           })
+      }
+    },
+    addRobotServe(tryCount = 0) { // 青海 添加客服机器人服务
+      if (this.$store.getters.isQingHai && tryCount <= 3) {
+        let script = document.createElement('script')
+        script.type = 'text/JavaScript'
+        script.src = `${window.BASE_URL}lhxx-js/lhxx-index.js`
+        document.getElementsByTagName('body')[0].appendChild(script)
+        script.onload = () => {
+          console.log('客服机器人脚本加载成功！')
+          robotServe(this)// 客服机器人服务
+        }
+        script.onerror = () => {
+          console.log('window')
+          console.log('客服机器人脚本加载失败,重试中...,次数：', tryCount + 1)
+          this.addRobotServe(tryCount + 1)
+        }
       }
     },
     // 轮询token是否过期
