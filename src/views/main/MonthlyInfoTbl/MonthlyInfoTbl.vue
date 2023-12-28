@@ -1289,7 +1289,7 @@
               :http-request="handelUploadDebugfile"
             >
               <!-- <div class="fn-inline"> -->
-              <div class="fn-inline" style="float:left; visibility: hidden">
+              <div class="fn-inline" style="float:left;display:none;">
                 <div class="footer-btn" style="margin-left: 10px; padding-left: 10px;">
                   <el-row
                     style="display: inline-block;height: 42px;"
@@ -1300,8 +1300,8 @@
                   </el-row>
                 </div>
               </div>
-              <div slot="tip" class="fn-inline upload-my-css" style="margin-left: 0">
-                <div class="fn-inline" style="height:33px;float:left;">
+              <div v-if="showModalFooter" slot="tip" class="fn-inline upload-my-css" style="float:unset;">
+                <div class="fn-inline" style="height:33px;">
                   <span class="sp-my-two">支持png/jpg/pdf等，不超过20M</span>
                 </div>
               </div>
