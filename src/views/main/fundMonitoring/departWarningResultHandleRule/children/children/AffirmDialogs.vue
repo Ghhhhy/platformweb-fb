@@ -172,9 +172,9 @@ export default {
       }
     },
     selectIds: {
-      type: Object,
+      type: Array,
       default () {
-        return {}
+        return []
       }
     }
   },

@@ -2521,6 +2521,11 @@ const buttons1 = {
       label: '人工认定',
       code: 'peo_set',
       status: 'primary'
+    },
+    {
+      label: '批量认定',
+      code: 'batch_set',
+      status: 'primary'
     }
   ],
   6: [
@@ -2537,8 +2542,8 @@ const buttons1 = {
       status: 'primary'
     },
     {
-      label: '批量认定',
-      code: 'batch_set',
+      label: '批量整改',
+      code: 'batch_rectify_ask',
       status: 'primary'
     }
   ],

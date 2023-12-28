@@ -12,5 +12,8 @@ export default {
   },
   getTreeWhere(params) {
     return get('mp-b-basedata-service/v2/elevalueset/view/jstreedata/THREESAFE', params)
+  },
+  getTreeWhereNew(eleCode, params) {
+    return get('mp-b-basedata-service/v2/elevalueset/view/jstreedata/' + eleCode, params)
   }
 }
