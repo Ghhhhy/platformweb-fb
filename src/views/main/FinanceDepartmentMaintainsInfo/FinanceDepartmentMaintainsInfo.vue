@@ -767,6 +767,7 @@ export default {
             name: '$formTreeInput',
             required: true,
             props: {
+              isleaf: true,
               disabled: false,
               placeholder: '请输入项目所属投向领域',
               isServer: true,
@@ -1037,6 +1038,17 @@ export default {
     closeModal() {
       this.showModal = false
     },
+    formatDate(numb) {
+      if (!numb) {
+        return ''
+      }
+      const time = new Date((numb - 1) * 24 * 3600000 + 1)
+      time.setYear(time.getFullYear() - 70)
+      const year = time.getFullYear() + ''
+      const month = time.getMonth() + 1 + ''
+      const date = time.getDate() - 1 + ''
+      return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
+    },
     handleImport() {
       let self = this
       self.$refs.tmp.$refs.tableRef.triggerImportOption({
@@ -1063,10 +1075,10 @@ export default {
               fundInvestAreaName: fundInvestArea[1],
               fundInvestAreaDesc: item['项目所属投向领域说明'],
               proContent: item['*项目主要建设内容'],
-              proStaDate: item['*开工或预计开工时间'],
-              proEndDate: item['*预计完工时间'],
-              proRealStaDate: item['实际开工时间'],
-              proRealEndDate: item['实际竣工时间'],
+              proStaDate: self.formatDate(item['*开工或预计开工时间']),
+              proEndDate: self.formatDate(item['*预计完工时间']),
+              proRealStaDate: self.formatDate(item['实际开工时间']),
+              proRealEndDate: self.formatDate(item['实际竣工时间']),
               proNotStaRea: item['项目未开工原因'],
               ndrcProCode: item['发改委项目代码'],
               ndrcProName: item['发改委项目名称'],
@@ -1332,7 +1344,6 @@ export default {
                   })
                 })
               }
-              debugger
               let btmFormData = localThis.$refs.addForm.getFormData()
               for (let key in btmFormData) {
                 if (this.treeProps.indexOf(key) > -1) {
@@ -1342,6 +1353,9 @@ export default {
                   delete btmFormData[key + 'id']
                   delete btmFormData[key + 'code']
                   delete btmFormData[key + 'name']
+                }
+                if (key === 'proAgencyName') {
+                  btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
                 }
               }
               let params = {
@@ -1595,27 +1609,34 @@ export default {
         localThis.$refs.tmp.showLoading = false
       })
     },
-    initTreeInfo(formData, property, value) {
+    initTreeInfo(formData, property, value, projectInfo) {
       let infos = value.split('##')
-      formData[property] = value
-      formData[property + 'id'] = infos[0]
-      formData[property + 'code'] = infos[1]
-      formData[property + 'name'] = infos[2]
+      if (!(infos[1] || '').trim() || !(infos[2] || '').trim()) {
+        let p = property.substr(0, property.length - 1)
+        formData[property] = '##' + projectInfo[p + 'Code'] + infos[0]
+        formData[property + 'code'] = (infos[1] || '').trim() || projectInfo[p + 'Code']
+        formData[property + 'name'] = (infos[2] || '').trim() || infos[0]
+      } else {
+        formData[property] = value
+        formData[property + 'id'] = infos[0]
+        formData[property + 'code'] = (infos[1] || '').trim()
+        formData[property + 'name'] = (infos[2] || '').trim()
+      }
     },
     initModalFormData(projectInfo) {
       let localThis = this
       // 基本情况
-      localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyName
+      localThis.formDataListBtm.proAgencyName = projectInfo.proAgencyCode + '-' + projectInfo.proAgencyName
       localThis.formDataListBtm.proAgencyCode = projectInfo.proAgencyCode
       // 财政区划
       let mofDiv = projectInfo.mofDivName
-      this.initTreeInfo(localThis.formDataListBtm, 'mofDiv_', mofDiv)
+      this.initTreeInfo(localThis.formDataListBtm, 'mofDiv_', mofDiv, projectInfo)
       localThis.formDataListBtm.mofDivName = projectInfo.mofDivName
       // localThis.formDataListBtm.mofDivNameId = projectInfo.mofDivName
       // 预算级次
       localThis.formDataListBtm.budgetLevelName = projectInfo.budgetLevelName
       let budgetLevel = projectInfo.budgetLevelName
-      this.initTreeInfo(localThis.formDataListBtm, 'budgetLevel_', budgetLevel)
+      this.initTreeInfo(localThis.formDataListBtm, 'budgetLevel_', budgetLevel, projectInfo)
       localThis.formDataListBtm.speProName = projectInfo.speProName
       localThis.formDataListBtm.speProCode = projectInfo.speProCode
       localThis.formDataListBtm.trackProName = projectInfo.trackProName
@@ -1623,11 +1644,11 @@ export default {
       // 项目主管部门
       let proDeptName = projectInfo.proDeptName
       localThis.formDataListBtm.proDeptName = projectInfo.proDeptName
-      this.initTreeInfo(localThis.formDataListBtm, 'proDept_', proDeptName)
+      this.initTreeInfo(localThis.formDataListBtm, 'proDept_', proDeptName, projectInfo)
       // 项目所属投向领域
       let fundInvestInfo = projectInfo.fundInvestAreaName
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
-      this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo)
+      this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo, projectInfo)
       localThis.formDataListBtm.proContent = projectInfo.proContent
       localThis.formDataListBtm.proStaDate = projectInfo.proStaDate
       localThis.formDataListBtm.proEndDate = projectInfo.proEndDate
