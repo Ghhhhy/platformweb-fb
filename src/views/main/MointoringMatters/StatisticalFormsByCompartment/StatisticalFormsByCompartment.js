@@ -1,4 +1,4 @@
-import store from '@/store/index'
+// import store from '@/store/index'
 export let proconf = {
   // BsToolBar 状态栏
   toolBarStatusButtons: [
@@ -19,26 +19,25 @@ export let proconf = {
     ]
   },
   highQueryConfig: [
-    {
-      title: '业务年度',
-      field: 'fiscalYear',
-      'width': 180,
-      align: 'left',
-      formula: '',
-      name: '$vxeSelect',
-      visible: !store.getters.isSx,
-      itemRender: {
-        name: '$vxeSelect',
-        options: [
-          { value: '2021', label: '2021' },
-          { value: '2022', label: '2022' },
-          { value: '2023', label: '2023' }
-        ],
-        props: {
-          placeholder: '业务年度'
-        }
-      }
-    },
+    // {
+    //   title: '业务年度',
+    //   field: 'fiscalYear',
+    //   'width': 180,
+    //   align: 'left',
+    //   formula: '',
+    //   name: '$vxeSelect',
+    //   itemRender: {
+    //     name: '$vxeSelect',
+    //     options: [
+    //       { value: '2021', label: '2021' },
+    //       { value: '2022', label: '2022' },
+    //       { value: '2023', label: '2023' }
+    //     ],
+    //     props: {
+    //       placeholder: '业务年度'
+    //     }
+    //   }
+    // },
     {
       title: '区划',
       field: 'mofDivCodeList',

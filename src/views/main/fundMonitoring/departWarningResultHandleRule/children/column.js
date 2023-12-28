@@ -2533,6 +2533,11 @@ const buttons1 = {
       label: '整改意见',
       code: 'rectify_ask',
       status: 'primary'
+    },
+    {
+      label: '批量整改',
+      code: 'batch_rectify_ask',
+      status: 'primary'
     }
   ],
   8: [
