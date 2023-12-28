@@ -1164,6 +1164,7 @@ export default {
       return i
     },
     BtminsertItemChange({ $form, property, itemValue, data }, bsform) {
+      console.log(property, itemValue)
       if (this.treeProps.indexOf(property) > -1) {
         let p = property.substr(0, property.length - 1)
         this.formDataListBtm[p + 'Name'] = itemValue
@@ -1331,9 +1332,12 @@ export default {
                   })
                 })
               }
-              let btmFormData = localThis.formDataListBtm
+              debugger
+              let btmFormData = localThis.$refs.addForm.getFormData()
               for (let key in btmFormData) {
                 if (this.treeProps.indexOf(key) > -1) {
+                  let p = key.substr(0, key.length - 1)
+                  btmFormData[p + 'Name'] = btmFormData[key]
                   delete btmFormData[key]
                   delete btmFormData[key + 'id']
                   delete btmFormData[key + 'code']
@@ -1341,8 +1345,8 @@ export default {
                 }
               }
               let params = {
-                // projectInfo: localThis.$refs.addForm.getFormData(),
-                projectInfo: localThis.formDataListBtm,
+                projectInfo: btmFormData,
+                // projectInfo: localThis.formDataListBtm,
                 perfIndica: localThis.$refs.bgtTblRef.getTableData().tableData,
                 proGiSource: localThis.$refs.addFormthrid.getFormData(),
                 // 项目总投资
