@@ -233,7 +233,7 @@ export default {
       if (this.$store.getters.isQingHai && tryCount <= 3) {
         let script = document.createElement('script')
         script.type = 'text/JavaScript'
-        script.src = `${window.BASE_URL}lhxx-js/lhxx-index.js`
+        script.src = `${process.env.VUE_APP_CONF_PUBLIC_PATH || './'}lhxx-js/lhxx-index.js`
         document.getElementsByTagName('body')[0].appendChild(script)
         script.onload = () => {
           console.log('客服机器人脚本加载成功！')
