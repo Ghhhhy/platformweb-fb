@@ -20,7 +20,7 @@
               :form-data-list="formDataListBtm"
             />
           </el-tab-pane>
-          <el-tab-pane label="累计可用资金" name="2">
+          <el-tab-pane label="项目资金情况" name="2">
             <vxe-form
               ref="formRef"
               title-width="0"
@@ -1271,16 +1271,6 @@
 <script>
 import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
 
-const execProgCodeList = [
-  {
-    label: '进度1',
-    value: '1'
-  },
-  {
-    label: '进度2',
-    value: '2'
-  }
-]
 export default {
   data() {
     return {
@@ -2123,16 +2113,18 @@ export default {
       }
       console.log(params)
 
-      let execProgCode = proDetMonInfo.execProgCode
-      let execProgName = ''
-      if (execProgCode !== '') {
-        execProgName = execProgCodeList.find((item) => {
-          return item.value === execProgCode
-        }).label
-      }
-
       params.proDetMonInfo.proDetId = localThis.proDetId
-      params.proDetMonInfo.execProgName = execProgName
+      params.proDetMonInfo.execProgCode = proDetMonInfo.execProg_code
+      params.proDetMonInfo.execProgName = proDetMonInfo.execProg_name
+
+      for (let key in params.proDetMonInfo) {
+        if (key.endsWith('_code')) {
+          params.proDetMonInfo[key.replace('_code', 'Code')] = params.proDetMonInfo[key]
+        }
+        if (key.endsWith('_name')) {
+          params.proDetMonInfo[key.replace('_name', 'Name')] = params.proDetMonInfo[key]
+        }
+      }
 
       if (localThis.proDetMonId === '') {
         // 新增
@@ -2245,6 +2237,15 @@ export default {
           // 基本情况
           let proDetMonInfo = res.data.proDetMonInfo
           localThis.formDataListBtm = proDetMonInfo
+
+          for (let key in proDetMonInfo) {
+            if (key.endsWith('Code')) {
+              localThis.formDataListBtm[key.replace('Code', '_code')] = proDetMonInfo[key]
+            }
+            if (key.endsWith('Name')) {
+              localThis.formDataListBtm[key.replace('Name', '_name')] = proDetMonInfo[key]
+            }
+          }
           // 累计金额
           let fundUsage = res.data.fundUsage
           localThis.formData = fundUsage
