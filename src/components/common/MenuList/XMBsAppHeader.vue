@@ -31,7 +31,7 @@
         </div>
       </div>
     </el-popover>
-    <div id="test" class="header-title center-title">|</div>
+    <div id="test" class="header-title center-title" style="padding: 0 8px;">|</div>
     <div class="header-title" style="padding-left: 0;font-size: 18px;" @click="skipHome">
       {{ headerTitleChild }}
     </div>
@@ -109,6 +109,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+::v-deep .header-title {
+  font-weight: 400 !important;
+}
+::v-deep .header-title {
+  width: auto !important;
+}
   .mainPopperClass {
     padding: 0;
     .mainHoverWindow {
