@@ -130,7 +130,7 @@
       </div>
       <div slot="footer">
         <vxe-button @click="showTypeModal = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
+        <vxe-button status="primary" @click="handleSureType">确定</vxe-button>
       </div>
     </vxe-modal>
   </div>
