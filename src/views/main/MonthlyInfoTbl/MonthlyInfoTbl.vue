@@ -48,6 +48,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -59,6 +60,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -75,6 +77,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -86,6 +89,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -102,6 +106,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -113,6 +118,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -129,6 +135,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -140,6 +147,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -156,6 +164,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -167,6 +176,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -183,6 +193,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -194,6 +205,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -210,6 +222,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -221,6 +234,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -237,6 +251,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -248,6 +263,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiIpPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -273,6 +289,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -284,6 +301,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -300,6 +318,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -311,6 +330,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -327,6 +347,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -338,6 +359,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -354,6 +376,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccAddnb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -365,6 +388,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreAddnb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -383,6 +407,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -394,6 +419,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -410,6 +436,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -421,6 +448,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -437,6 +465,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -448,6 +477,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -464,6 +494,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccCff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -475,6 +506,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreCff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -493,6 +525,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -504,6 +537,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -520,6 +554,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -531,6 +566,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -547,6 +583,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -558,6 +595,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -574,6 +612,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccCfo"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -585,6 +624,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreCfo"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -603,6 +643,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -614,6 +655,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -630,6 +672,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -641,6 +684,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -657,6 +701,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -668,6 +713,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -684,6 +730,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccLff"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -695,6 +742,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreLff"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -713,6 +761,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -724,6 +773,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -740,6 +790,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -751,6 +802,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -767,6 +819,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -778,6 +831,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -794,6 +848,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccEf"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -805,6 +860,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreEf"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -823,6 +879,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -834,6 +891,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -850,6 +908,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -861,6 +920,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -877,6 +937,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -888,6 +949,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -904,6 +966,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccLb"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -915,6 +978,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreLb"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -933,6 +997,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -944,6 +1009,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -960,6 +1026,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -971,6 +1038,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -987,6 +1055,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -998,6 +1067,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1014,6 +1084,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccBankl"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1025,6 +1096,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreBankl"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1043,6 +1115,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1054,6 +1127,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiBupayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1070,6 +1144,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1081,6 +1156,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiDepayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1097,6 +1173,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1108,6 +1185,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiPrpayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1124,6 +1202,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayAccOth"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1135,6 +1214,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiOtpayPreOth"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
@@ -1152,6 +1232,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiCompAcc"
+                            type="number"
                             style="width: 100%"
                             clearable
                           />
@@ -1163,6 +1244,7 @@
                         <template v-slot>
                           <vxe-input
                             v-model="formData.proGiCompPre"
+                            type="number"
                             style="width: 100%"
                             :clearable="isClearable"
                             :readonly="isFirst"
