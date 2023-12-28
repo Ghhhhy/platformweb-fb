@@ -27,10 +27,11 @@ const proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',
-      visible: !store.getters.isFuJian,
+      // visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         // options: [
@@ -45,7 +46,8 @@ const proconf = {
           placeholder: '业务年度'
         }
       }
-    }, {
+    },
+    {
       title: '预警开始时间',
       field: 'warnStartDate',
       sortable: false,

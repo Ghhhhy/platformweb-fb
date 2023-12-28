@@ -327,7 +327,8 @@ export default {
           width: '8',
           align: 'left',
           formula: '',
-          visible: !store.getters.isSx,
+          // visible: !store.getters.isSx,
+          visible: false,
           itemRender: {
             name: '$input',
             props: {
@@ -408,10 +409,11 @@ export default {
         {
           title: '业务年度',
           field: 'fiscalYear',
+          visible: false,
           width: '8',
           align: 'left',
           formula: '',
-          visible: !this.$store.getters.isFuJian,
+          // visible: !this.$store.getters.isFuJian,
           itemRender: {
             name: '$input',
             props: {

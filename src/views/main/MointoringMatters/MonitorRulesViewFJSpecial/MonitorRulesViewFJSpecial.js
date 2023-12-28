@@ -29,6 +29,7 @@ const proconf = {
       field: 'fiscalYear',
       width: '8',
       align: 'left',
+      visible: false,
       formula: '',
       name: '$vxeSelect',
       itemRender: {

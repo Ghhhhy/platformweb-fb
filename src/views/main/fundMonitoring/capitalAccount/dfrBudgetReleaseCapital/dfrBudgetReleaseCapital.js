@@ -28,10 +28,11 @@ let proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',
-      visible: !store.getters.isFuJian,
+      // visible: !store.getters.isFuJian,
       itemRender: {
         name: '$vxeInput',
         props: {
@@ -1546,6 +1547,7 @@ if (store.getters.isSx) {
       // {
       //   title: '业务年度',
       //   field: 'fiscalYear',
+    //   visible: false,
       //   width: '8',
       //   align: 'left',
       //   formula: '',

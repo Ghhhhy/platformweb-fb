@@ -440,6 +440,7 @@ const proconf = {
     // {
     //   title: '年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   sortable: false,
     //   filters: false,
     //   width: 140,
@@ -889,6 +890,7 @@ const proconf = {
     // {
     //   title: '年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   sortable: false,
     //   filters: false,
     //   width: 140,
@@ -1394,6 +1396,7 @@ const proconf = {
     // {
     //   title: '年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   sortable: false,
     //   filters: false,
     //   width: 140,
@@ -1883,6 +1886,7 @@ const proconf = {
     // {
     //   title: '年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   sortable: false,
     //   filters: false,
     //   width: 140,
@@ -2159,6 +2163,7 @@ const proconf = {
     // {
     //   title: '年度',
     //   field: 'fiscalYear',
+    //   visible: false,
     //   sortable: false,
     //   filters: false,
     //   width: 140,

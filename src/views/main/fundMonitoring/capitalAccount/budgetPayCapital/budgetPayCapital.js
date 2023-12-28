@@ -29,10 +29,11 @@ const proconf = {
     {
       title: '业务年度',
       field: 'fiscalYear',
+      visible: false,
       width: '8',
       align: 'left',
       formula: '',
-      visible: !store.getters.isFuJian && !store.getters.isSx,
+      // visible: !store.getters.isFuJian && !store.getters.isSx,
       itemRender: {
         name: '$vxeSelect',
         options: [

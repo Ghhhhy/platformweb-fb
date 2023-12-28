@@ -277,10 +277,11 @@ export default {
         {
           title: '业务年度',
           field: 'fiscalYear',
+          visible: false,
           width: '8',
           align: 'left',
           formula: '',
-          visible: !this.$store.getters.isFuJian && !this.$store.getters.isSx,
+          // visible: !this.$store.getters.isFuJian && !this.$store.getters.isSx,
           itemRender: {
             name: '$vxeInput',
             // options: [
