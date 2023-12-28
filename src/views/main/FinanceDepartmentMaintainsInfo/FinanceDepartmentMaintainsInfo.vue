@@ -130,7 +130,7 @@
       </div>
       <div slot="footer">
         <vxe-button @click="showTypeModal = false">取消</vxe-button>
-        <vxe-button status="primary" @click="handleSureType">保存</vxe-button>
+        <vxe-button status="primary" @click="handleSureType">确定</vxe-button>
       </div>
     </vxe-modal>
   </div>
@@ -1064,7 +1064,7 @@ export default {
           let basicInfoRes = basicInfo.map(item => {
             let proAgency = (item['*项目单位'] || '').split('-')
             let fundInvestArea = (item['*项目所属投向领域'] || '').split('-')
-            let trackProInfo = (item['增发国债资金中央转移支付项目名称'] || '').split('-')
+            let trackProInfo = (item['增发国债资金中央转移支付项目'] || '').split('-')
             let proDept = (item['*项目主管部门'] || '').split('-')
             return {
               proAgencyCode: proAgency[0],
@@ -1082,8 +1082,8 @@ export default {
               proNotStaRea: item['项目未开工原因'],
               ndrcProCode: item['发改委项目代码'],
               ndrcProName: item['发改委项目名称'],
-              trackProName: trackProInfo[0],
-              trackProCode: trackProInfo[1],
+              trackProCode: trackProInfo[0],
+              trackProName: trackProInfo[1],
               isUseMultiTrackPro: item['*是否使用多项中央转移支付资金'] === '是' ? '1' : '2',
               proDeptCode: proDept[0],
               proDeptName: proDept[1],
@@ -1121,17 +1121,19 @@ export default {
           console.log(basicInfoRes)
           let bgtInfo = res['国债资金项目绩效指标']
           let bgtRes = bgtInfo.map(item => {
+            let lv2PerfInd = (item['*二级绩效指标'] || '').split('-')
             return {
-              speProCode: item['项目代码'],
-              speProName: item['项目名称'],
+              speProCode: item['*具体项目代码'],
               lv1PerfIndCode: item['一级绩效指标代码'],
               lv1PerfIndName: item['一级绩效指标名称'],
-              lv2PerfIndCode: item['二级绩效指标代码'],
-              lv2PerfIndName: item['二级绩效指标名称'],
-              lv3PerfIndCode: item['三级绩效指标代码'],
-              lv3PerfIndName: item['三级绩效指标名称'],
+              lv2PerfIndCode: lv2PerfInd[0],
+              lv2PerfIndName: lv2PerfInd[1],
+              lv3PerfIndCode: item['*三级绩效指标代码'],
+              lv3PerfIndName: item['*三级绩效指标名称'],
               kpiContent: item['绩效指标说明'] ? item['绩效指标说明'] : '',
-              kpiVal: item['指标值']
+              kpiVal: item['*指标值'],
+              kpiEvalstd: item['评（扣）分标准'],
+              kpiRemark: item['备注']
             }
           })
           console.log(bgtRes)

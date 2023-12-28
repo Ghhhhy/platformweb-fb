@@ -42,7 +42,7 @@
                   </tr>
                   <tr>
                     <td rowspan="8" style="width: 150px;">其中</td>
-                    <td colspan="2">增发国债基金</td>
+                    <td colspan="2">增发国债资金</td>
                     <td>
                       <vxe-form-item title="" field="name" style="width: 100%">
                         <template v-slot>
