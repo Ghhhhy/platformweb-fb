@@ -1603,7 +1603,7 @@ export default {
         return false
       }
       this.$XModal
-        .confirm('请确认是否删除？')
+        .confirm('请确认是否作废？')
         .then((type) => {
           if (type === 'confirm') {
             let ids = localThis.$refs.tmp.getSelectionRcd().map((item) => {
