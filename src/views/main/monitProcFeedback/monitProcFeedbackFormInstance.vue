@@ -357,7 +357,7 @@ export default {
       let dynamicParams = configQueryData.editConfig.dynamicDefaultValue || {}
       if (this.showType !== 'detail') { // 重新组装默认值
         Object.keys(formDefaultValue).forEach(fieldKey => {
-          if (createDataList[fieldKey]) {
+          if (!createDataList[fieldKey]) {
             createDataList[fieldKey] = formDefaultValue[fieldKey]
           }
         })
