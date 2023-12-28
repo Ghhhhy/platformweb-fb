@@ -528,25 +528,25 @@ export let proconf = {
       children: [
         {
           title: '累计问询单',
-          field: 'correctedCount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '涉及金额',
-          field: 'correctedAmount',
-          width: '150',
-          align: 'center'
-        },
-        {
-          title: '已处理',
           field: 'orderCorrectionCount',
           width: '150',
           align: 'center'
         },
         {
-          title: '已处理涉及金额',
+          title: '涉及金额',
           field: 'orderCorrectionAmount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理',
+          field: 'correctedCount',
+          width: '150',
+          align: 'center'
+        },
+        {
+          title: '已处理涉及金额',
+          field: 'correctedAmount',
           width: '150',
           align: 'center'
         }
