@@ -1094,6 +1094,9 @@ export default {
     this.menuId = this.$store.state.curNavModule.guid
   },
   methods: {
+    stringToDate(str) {
+      return str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6)
+    },
     deleteAttachment() {
       let selections = this.$refs.fileDataRef.getSelectionData()
       if (selections.length === 0) {
@@ -1431,7 +1434,7 @@ export default {
                 if (key === 'proAgencyName') {
                   btmFormData['proAgencyName'] = btmFormData['proAgencyName'].replace(btmFormData['proAgencyCode'] + '-', '')
                 }
-                if (key === 'proStaDate' || key === 'proEndDate') {
+                if (key === 'proStaDate' || key === 'proEndDate' || key === 'proRealStaDate' || key === 'proRealEndDate') {
                   btmFormData[key] = btmFormData[key].replaceAll('-', '')
                 }
               }
@@ -1727,10 +1730,10 @@ export default {
       localThis.formDataListBtm.fundInvestAreaName = projectInfo.fundInvestAreaName
       this.initTreeInfo(localThis.formDataListBtm, 'fundInvestArea_', fundInvestInfo, projectInfo)
       localThis.formDataListBtm.proContent = projectInfo.proContent
-      localThis.formDataListBtm.proStaDate = projectInfo.proStaDate
-      localThis.formDataListBtm.proEndDate = projectInfo.proEndDate
-      localThis.formDataListBtm.proRealStaDate = projectInfo.proRealStaDate
-      localThis.formDataListBtm.proRealEndDate = projectInfo.proRealEndDate
+      localThis.formDataListBtm.proStaDate = this.stringToDate(projectInfo.proStaDate)
+      localThis.formDataListBtm.proEndDate = this.stringToDate(projectInfo.proEndDate)
+      localThis.formDataListBtm.proRealStaDate = this.stringToDate(projectInfo.proRealStaDate)
+      localThis.formDataListBtm.proRealEndDate = this.stringToDate(projectInfo.proRealEndDate)
       localThis.formDataListBtm.proNotStaRea = projectInfo.proNotStaRea
       localThis.formDataListBtm.kpiTarget = projectInfo.kpiTarget
       localThis.formDataListBtm.isUseMultiTrackPro = projectInfo.isUseMultiTrackPro
