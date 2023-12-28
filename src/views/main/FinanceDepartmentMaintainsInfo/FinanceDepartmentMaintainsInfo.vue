@@ -801,6 +801,34 @@ export default {
           itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
         },
         {
+          field: 'proRealStaDate',
+          title: '实际开工时间',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择开工或预计开工时间' } }
+        },
+        {
+          field: 'proRealEndDate',
+          title: '实际竣工时间',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择预计完工时间' } }
+        },
+        {
+          field: 'proNotStaRea',
+          title: '项目未开工原因',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目未开工原因' } }
+        },
+        {
+          field: 'kpiTarget',
+          title: '项目整体绩效目标',
+          span: 12,
+          titleWidth: '240',
+          itemRender: { name: '$input', props: { type: 'string', placeholder: '请输入项目整体绩效目标' } }
+        },
+        {
           field: 'isEnd',
           title: '项目是否终结',
           span: 12,
@@ -812,22 +840,55 @@ export default {
               { value: 1, label: '是' },
               { value: 2, label: '否' }
             ] }
+        },
+        {
+          field: 'isUseMultiTrackPro',
+          title: '是否使用多项中央转移支付资金',
+          span: 12,
+          titleWidth: '240',
+          itemRender: {
+            name: '$vxeSelect',
+            defaultValue: '前端',
+            options: [
+              { value: 1, label: '是' },
+              { value: 2, label: '否' }
+            ]
+          }
+        },
+        {
+          field: 'fundInvestAreaDesc',
+          title: '项目所属投向领域说明',
+          span: 24,
+          titleWidth: '240',
+          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目所属投向领域说明' } }
+        },
+        {
+          field: 'proContent',
+          title: '项目主要建设内容',
+          span: 24,
+          titleWidth: '240',
+          itemRender: { name: '$vxeEditDownTextarea', props: { type: 'string', placeholder: '请输入项目主要建设内容' } }
         }
       ],
       formDataListBtmRequired: {
-        proAgencyCode: [ { required: true, message: '请输入企业名称', trigger: 'change' } ],
-        proAgencyName: [ { required: true, message: '请输入项目单位名称', trigger: 'change' } ],
+        proAgencyCode: [ { required: true, message: '请输入项目单位编码', trigger: 'change' } ],
+        proAgencyName: [{ required: true, message: '请输入项目单位名称', trigger: 'change' }],
+        mofDivCode: [{ required: true, message: '请输入区划编码', trigger: 'change' }],
+        mofDivName: [{ required: true, message: '请输入区划名称', trigger: 'change' }],
+        bugdetLevelCode: [{ required: true, message: '请输入预算级次编码', trigger: 'change' }],
+        bugdetLevelName: [{ required: true, message: '请输入预算级次名称', trigger: 'change' }],
         speProCode: [ { required: true, message: '请输入项目代码', trigger: 'change' } ],
-        speProName: [ { required: true, message: '请输入项目名称', trigger: 'change' } ],
+        speProName: [{ required: true, message: '请输入项目名称', trigger: 'change' }],
+        proDeptCode: [{ required: true, message: '请输入项目主管部门代码', trigger: 'change' }],
+        proDeptName: [{ required: true, message: '请输入项目主管部门名称', trigger: 'change' }],
         fundInvestAreaCode: [ { required: true, message: '请输入项目所属投向领域代码', trigger: 'change' } ],
         fundInvestAreaName: [ { required: true, message: '请输入项目所属投向领域名称', trigger: 'change' } ],
         proContent: [ { required: true, message: '请输入项目主要建设内容', trigger: 'change' } ],
         proStaDate: [ { required: true, message: '请输入开工或预计开工时间', trigger: 'change' } ],
         proEndDate: [ { required: true, message: '请输入预计完工时间', trigger: 'change' } ],
         isUseMultiTrackPro: [ { required: true, message: '请输入是否使用多项中央转移支付资金', trigger: 'change' } ],
-        proDeptCode: [ { required: true, message: '请输入项目主管部门代码', trigger: 'change' } ],
-        proDeptName: [ { required: true, message: '请输入项目主管部门名称', trigger: 'change' } ],
-        isEnd: [ { required: true, message: '请输入项目是否终结', trigger: 'change' } ]
+        isEnd: [{ required: true, message: '请输入项目是否终结', trigger: 'change' }],
+        kpiTarget: [{ required: true, message: '请输入项目整体绩效目标', trigger: 'change' }]
       },
       formDataListBtm: {
         proAgencyCode: '',
@@ -846,6 +907,12 @@ export default {
         proContent: '',
         proStaDate: '',
         proEndDate: '',
+        proRealStaDate: '',
+        proRealEndDate: '',
+        proNotStaRea: '',
+        kpiTarget: '',
+        isUseMultiTrackPro: '',
+        fundInvestAreaDesc: '',
         isEnd: ''
       },
       showModal: false,
@@ -1662,6 +1729,12 @@ export default {
       localThis.formDataListBtm.proContent = projectInfo.proContent
       localThis.formDataListBtm.proStaDate = projectInfo.proStaDate
       localThis.formDataListBtm.proEndDate = projectInfo.proEndDate
+      localThis.formDataListBtm.proRealStaDate = projectInfo.proRealStaDate
+      localThis.formDataListBtm.proRealEndDate = projectInfo.proRealEndDate
+      localThis.formDataListBtm.proNotStaRea = projectInfo.proNotStaRea
+      localThis.formDataListBtm.kpiTarget = projectInfo.kpiTarget
+      localThis.formDataListBtm.isUseMultiTrackPro = projectInfo.isUseMultiTrackPro
+      localThis.formDataListBtm.fundInvestAreaDesc = projectInfo.fundInvestAreaDesc
       localThis.formDataListBtm.isEnd = projectInfo.isEnd
       // 项目总投资
       localThis.formDataListThird.proGi = projectInfo.proGi
