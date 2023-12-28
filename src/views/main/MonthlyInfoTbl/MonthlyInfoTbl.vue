@@ -1260,6 +1260,12 @@
             </vxe-form>
           </el-tab-pane>
           <el-tab-pane label="绩效目标完成情况" name="3">
+            <el-row>
+              <el-col span="5">总体绩效目标完成情况说明</el-col>
+              <el-col span="19">
+                <vxe-textarea v-model="formDataListBtm.proPerfAll" resize="vertical" />
+              </el-col>
+            </el-row>
             <BsTable
               ref="perfGoalDetMonRef"
               height="530"
@@ -2201,7 +2207,7 @@ export default {
         actionType: '1',
         actionName: '录入',
         advice: '',
-        proDetMonInfo: proDetMonInfo,
+        proDetMonInfo: { ...proDetMonInfo, proPerfAll: this.formDataListBtm.proPerfAll },
         // 累计可用金额
         fundUsage: fundUsage,
         // 绩效
