@@ -621,6 +621,9 @@ export default {
       if (this.param5?.retroact === 'company' || this.param5?.tableHide) {
         return
       }
+      if (this.$store.getters.isXm && this.$store.state.curNavModule.param5 === '5') {
+        return
+      }
       let key = obj.column.property
       switch (key) {
         case 'regulationName':
