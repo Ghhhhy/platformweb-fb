@@ -20,7 +20,7 @@
               :form-data-list="formDataListBtm"
             />
           </el-tab-pane>
-          <el-tab-pane label="累计可用资金" name="2">
+          <el-tab-pane label="项目资金情况" name="2">
             <vxe-form
               ref="formRef"
               title-width="0"
@@ -283,7 +283,7 @@
                   </tr>
                   <!-- 详细 -->
                   <tr>
-                    <td colspan="3">累计可用资金（合计）</td>
+                    <td colspan="3">累计最终支出金额</td>
                     <td>{{ proGiFinalAcc }}</td>
                     <td>{{ proGiFinalPre }}</td>
                   </tr>
@@ -1358,6 +1358,7 @@
             >
               <template v-slot:toolbarSlots>
                 <div v-if="showModalFooter" class="table-toolbar-left">
+                  <vxe-button status="primary" style="float: left" @click="deleteAttachment">删除附件</vxe-button>
                   <vxe-button status="primary" style="float: left" @click="handleUpload">上传附件</vxe-button>
                 </div>
               </template>
@@ -1400,16 +1401,6 @@
 <script>
 import HttpModule from '@/api/frame/main/MonthlyInfoTbl/MonthlyInfoTbl.js'
 
-const execProgCodeList = [
-  {
-    label: '进度1',
-    value: '1'
-  },
-  {
-    label: '进度2',
-    value: '2'
-  }
-]
 export default {
   data() {
     return {
@@ -1528,8 +1519,8 @@ export default {
         proGiOtpayPreOth: ''
       },
       formRule: {},
-      filetype: '01',
-      filetypeName: '项目审批（核准、备案）资料',
+      filetype: '11',
+      filetypeName: '资金支出佐证资料',
       showTypeModal: false,
       menuId: '',
       modalTitle: '',
@@ -1544,11 +1535,6 @@ export default {
       fileDataBakDel: [],
       fileData: [],
       fileTypeOptions: [
-        { value: '01', label: '项目审批（核准、备案）资料' },
-        { value: '02', label: '项目用地审批、环评审批、施工许可资料' },
-        { value: '03', label: '项目招投标和政府采购资料' },
-        { value: '04', label: '项目主要合同资料' },
-        { value: '05', label: '项目评审报告' },
         { value: '11', label: '资金支出佐证资料' },
         { value: '12', label: '财务会计资料' },
         { value: '13', label: '工程资料' },
@@ -2106,6 +2092,14 @@ export default {
         this.formItemsConfigBtm = configQueryData.itemsConfig
       }
     },
+    deleteAttachment() {
+      let selections = this.$refs.fileDataRef.getSelectionData()
+      if (selections.length === 0) {
+        this.$message.warning('请选择要删除的附件')
+        return
+      }
+      this.$refs.fileDataRef.$refs.xGrid.removeCheckboxRow()
+    },
     handleSureType() {
       let proAttchKindName = this.fileTypeOptions.find((item) => {
         return item.value === this.filetype
@@ -2202,23 +2196,38 @@ export default {
         level3: ''
       })
     },
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column)
+    objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
       if (columnIndex === 2) {
-        if (rowIndex % 2 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1
-          }
+        const cellValue = row['lv1PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv1PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
         } else {
-          return {
-            rowspan: 0,
-            colspan: 0
+          let countRowspan = 1
+          while (nextRow && nextRow['lv1PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
           }
         }
       }
       if (columnIndex === 3) {
-
+        const cellValue = row['lv2PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv2PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
+        } else {
+          let countRowspan = 1
+          while (nextRow && nextRow['lv2PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
+          }
+        }
       }
     },
     handleSure() {
@@ -2259,16 +2268,18 @@ export default {
       }
       console.log(params)
 
-      let execProgCode = proDetMonInfo.execProgCode
-      let execProgName = ''
-      if (execProgCode !== '') {
-        execProgName = execProgCodeList.find((item) => {
-          return item.value === execProgCode
-        }).label
-      }
-
       params.proDetMonInfo.proDetId = localThis.proDetId
-      params.proDetMonInfo.execProgName = execProgName
+      params.proDetMonInfo.execProgCode = proDetMonInfo.execProg_code
+      params.proDetMonInfo.execProgName = proDetMonInfo.execProg_name
+
+      for (let key in params.proDetMonInfo) {
+        if (key.endsWith('_code')) {
+          params.proDetMonInfo[key.replace('_code', 'Code')] = params.proDetMonInfo[key]
+        }
+        if (key.endsWith('_name')) {
+          params.proDetMonInfo[key.replace('_name', 'Name')] = params.proDetMonInfo[key]
+        }
+      }
 
       if (localThis.proDetMonId === '') {
         // 新增
@@ -2427,6 +2438,15 @@ export default {
           // 基本情况
           let proDetMonInfo = res.data.proDetMonInfo
           localThis.formDataListBtm = proDetMonInfo
+
+          for (let key in proDetMonInfo) {
+            if (key.endsWith('Code')) {
+              localThis.formDataListBtm[key.replace('Code', '_code')] = proDetMonInfo[key]
+            }
+            if (key.endsWith('Name')) {
+              localThis.formDataListBtm[key.replace('Name', '_name')] = proDetMonInfo[key]
+            }
+          }
           // 累计金额
           let fundUsage = res.data.fundUsage
           localThis.formData = fundUsage
