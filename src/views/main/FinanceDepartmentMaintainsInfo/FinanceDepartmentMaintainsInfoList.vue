@@ -77,6 +77,7 @@ import HttpModule from '@/api/frame/main/FinanceDepartmentMaintainsInfo/FinanceD
 export default {
   data() {
     return {
+      readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       menuId: '',
       isLastInst: '',
       modalTitle: '',
@@ -848,12 +849,56 @@ export default {
         }
       }
     },
+    initFormItems(disabled) {
+      this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
+      this.setItemsDisable(this.formItemsConfigThird, false, disabled)
+      this.setItemsDisable(this.formItemsConfigForth, false, disabled)
+      this.setItemsDisable(this.contactInformationFormConfig, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
+    },
+    setItemsDisable(itemConfigs, isTable, disabled) {
+      if (isTable) {
+        itemConfigs.forEach(column => {
+          if (disabled) {
+            // 只读
+            let render = column.editRender
+            if (render) {
+              column.render = render
+              delete column.editRender
+            }
+          } else {
+            let render = column.cellRender || column.render
+            if (render) {
+              column.editRender = render
+              delete column.cellRender
+              delete column.render
+            }
+          }
+        })
+      } else {
+        itemConfigs.forEach(item => {
+          if (this.readonly.indexOf(item.field) === -1) {
+            if (item.itemRender) {
+              if (item.itemRender.props) {
+                item.itemRender.props.disabled = disabled
+              } else {
+                item.itemRender.props = { disabled: disabled }
+              }
+            }
+          } else {
+            item.itemRender.props.disabled = true
+          }
+        })
+      }
+    },
     onBtnClick(obj) {
       if (obj.code === 'pay-checkDetails') {
         if (this.$refs.tmp.getSelectionRcd().length !== 1) {
           this.$message.warning('请选择一条数据进行查看')
           return false
         }
+        this.initFormItems(true)
         this.viewDetail()
       }
     },

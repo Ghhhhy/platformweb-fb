@@ -51,6 +51,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -80,6 +81,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -109,6 +111,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -138,6 +141,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -167,6 +171,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -196,6 +201,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -225,6 +231,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -254,6 +261,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -292,6 +300,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -321,6 +330,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -350,6 +360,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -379,6 +390,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -410,6 +422,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -439,6 +452,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -468,6 +482,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -497,6 +512,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -528,6 +544,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -557,6 +574,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -586,6 +604,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -615,6 +634,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -646,6 +666,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -675,6 +696,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -704,6 +726,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -733,6 +756,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -764,6 +788,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -793,6 +818,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -822,6 +848,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -851,6 +878,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -882,6 +910,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -911,6 +940,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -940,6 +970,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -969,6 +1000,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1000,6 +1032,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1029,6 +1062,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1058,6 +1092,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1087,6 +1122,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1118,6 +1154,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1147,6 +1184,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1176,6 +1214,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1205,6 +1244,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1235,6 +1275,7 @@
                             type="number"
                             style="width: 100%"
                             clearable
+                            :disabled="btnClickType === 'pay-checkDetails'"
                           />
                         </template>
                       </vxe-form-item>
@@ -1263,7 +1304,7 @@
             <el-row>
               <el-col span="5">总体绩效目标完成情况说明</el-col>
               <el-col span="19">
-                <vxe-textarea v-model="formDataListBtm.proPerfAll" resize="vertical" />
+                <vxe-textarea v-model="formDataListBtm.proPerfAll" :disabled="btnClickType === 'pay-checkDetails'" resize="vertical" />
               </el-col>
             </el-row>
             <BsTable
@@ -1372,6 +1413,8 @@ const execProgCodeList = [
 export default {
   data() {
     return {
+      btnClickType: '',
+      readonly: ['proAgencyName', 'mofDiv_', 'budgetLevel_', 'speProCode', 'proDept_', 'proGi'],
       formData: {
         // 累计可用资金合计
         proGiIpAcc: '',
@@ -2260,23 +2303,69 @@ export default {
     },
     onBtnClick(obj) {
       let localThis = this
+      this.btnClickType = obj.code
       if (obj.code === 'pay-add') {
+        this.initFormItems(false)
         localThis.addRecord()
       }
       if (obj.code === 'pay-edit') {
+        this.initFormItems(false)
         localThis.editRecord()
       }
       if (obj.code === 'pay-discard') {
+        this.initFormItems(false)
         localThis.discardRecord()
       }
       if (obj.code === 'pay-audit') {
+        this.initFormItems(false)
         localThis.auditRecord(2)
       }
       if (obj.code === 'pay-checkDetails') {
+        this.initFormItems(true)
         localThis.viewDetail()
       }
       if (obj.code === 'pay-unAudit') {
         localThis.auditRecord(3)
+      }
+    },
+    initFormItems(disabled) {
+      this.setItemsDisable(this.formItemsConfigBtm, false, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfig, true, disabled)
+      this.setItemsDisable(this.modalTblColumnsConfigSx, true, disabled)
+    },
+    setItemsDisable(itemConfigs, isTable, disabled) {
+      if (isTable) {
+        itemConfigs.forEach(column => {
+          if (disabled) {
+            // 只读
+            let render = column.editRender
+            if (render) {
+              column.render = render
+              delete column.editRender
+            }
+          } else {
+            let render = column.cellRender || column.render
+            if (render) {
+              column.editRender = render
+              delete column.cellRender
+              delete column.render
+            }
+          }
+        })
+      } else {
+        itemConfigs.forEach(item => {
+          if (this.readonly.indexOf(item.field) === -1) {
+            if (item.itemRender) {
+              if (item.itemRender.props) {
+                item.itemRender.props.disabled = disabled
+              } else {
+                item.itemRender.props = { disabled: disabled }
+              }
+            }
+          } else {
+            item.itemRender.props.disabled = true
+          }
+        })
       }
     },
     addRecord() {
@@ -2428,6 +2517,7 @@ export default {
       }
       HttpModule.detailDataRecord(params).then((res) => {
         if (res.rscode === '200') {
+          this.isFirst = true
           // 基本情况
           let proDetMonInfo = res.data.proDetMonInfo
           localThis.formDataListBtm = proDetMonInfo
