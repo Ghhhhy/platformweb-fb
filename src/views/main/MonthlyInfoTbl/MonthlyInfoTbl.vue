@@ -2056,23 +2056,38 @@ export default {
         level3: ''
       })
     },
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log(row, column)
+    objectSpanMethod({ row, column, rowIndex, columnIndex, visibleData }) {
       if (columnIndex === 2) {
-        if (rowIndex % 2 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1
-          }
+        const cellValue = row['lv1PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv1PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
         } else {
-          return {
-            rowspan: 0,
-            colspan: 0
+          let countRowspan = 1
+          while (nextRow && nextRow['lv1PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
           }
         }
       }
       if (columnIndex === 3) {
-
+        const cellValue = row['lv2PerfIndCode']
+        const prevRow = visibleData[rowIndex - 1]
+        let nextRow = visibleData[rowIndex + 1]
+        if (prevRow && prevRow['lv2PerfIndCode'] === cellValue) {
+          return { rowspan: 0, colspan: 0 }
+        } else {
+          let countRowspan = 1
+          while (nextRow && nextRow['lv2PerfIndCode'] === cellValue) {
+            nextRow = visibleData[++countRowspan + rowIndex]
+          }
+          if (countRowspan > 1) {
+            return { rowspan: countRowspan, colspan: 1 }
+          }
+        }
       }
     },
     handleSure() {
