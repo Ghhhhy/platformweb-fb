@@ -49,6 +49,14 @@
     <BsOperationLog :logs-data="logData" :show-log-view="showLogView" />
     <AddDialog
       v-if="dialogVisible"
+      :dialog-visible.sync="dialogVisible"
+      :title="dialogTitle"
+      :data-id="dataId"
+      :modify-data="modifyData"
+    />
+    <AddDialogSx
+      v-if="dialogVisibleSx"
+      :dialog-visible.sync="dialogVisibleSx"
       :title="dialogTitle"
       :data-id="dataId"
       :modify-data="modifyData"
@@ -60,11 +68,13 @@
 
 <script>
 import { proconf } from './ProjectConf'
-import AddDialog from './children/addDialog'
+import AddDialog from './children/addDialog.vue'
+import AddDialogSx from './children/addDialog_new'
 import HttpModule from '@/api/frame/main/baseConfigManage/ProjectConf.js'
 export default {
   components: {
-    AddDialog
+    AddDialog,
+    AddDialogSx
   },
   watch: {
     queryConfig() {
@@ -149,6 +159,7 @@ export default {
       showLogView: false,
       // 新增弹窗
       dialogVisible: false,
+      dialogVisibleSx: false,
       dialogTitle: '新增',
       addTableData: [],
       modifyData: {},
@@ -169,7 +180,8 @@ export default {
       regulationName: '',
       typeName: '',
       param: '',
-      dataId: ''
+      dataId: '',
+      isSx: this.$store.getters.isSx
     }
   },
   mounted() {
@@ -265,7 +277,11 @@ export default {
     },
     // 新增
     onAddToolbarClickAdd() {
-      this.dialogVisible = true
+      if (this.isSx) {
+        this.dialogVisibleSx = true
+      } else {
+        this.dialogVisible = true
+      }
       this.dialogTitle = '新增'
     },
     changeVisible(val) {
