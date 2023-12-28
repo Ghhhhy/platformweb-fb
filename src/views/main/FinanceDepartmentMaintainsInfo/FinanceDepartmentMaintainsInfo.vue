@@ -1109,17 +1109,19 @@ export default {
           console.log(basicInfoRes)
           let bgtInfo = res['国债资金项目绩效指标']
           let bgtRes = bgtInfo.map(item => {
+            let lv2PerfInd = (item['*二级绩效指标'] || '').split('-')
             return {
-              speProCode: item['项目代码'],
-              speProName: item['项目名称'],
+              speProCode: item['*具体项目代码'],
               lv1PerfIndCode: item['一级绩效指标代码'],
               lv1PerfIndName: item['一级绩效指标名称'],
-              lv2PerfIndCode: item['二级绩效指标代码'],
-              lv2PerfIndName: item['二级绩效指标名称'],
-              lv3PerfIndCode: item['三级绩效指标代码'],
-              lv3PerfIndName: item['三级绩效指标名称'],
+              lv2PerfIndCode: lv2PerfInd[0],
+              lv2PerfIndName: lv2PerfInd[1],
+              lv3PerfIndCode: item['*三级绩效指标代码'],
+              lv3PerfIndName: item['*三级绩效指标名称'],
               kpiContent: item['绩效指标说明'] ? item['绩效指标说明'] : '',
-              kpiVal: item['指标值']
+              kpiVal: item['*指标值'],
+              kpiEvalstd: item['评（扣）分标准'],
+              kpiRemark: item['备注']
             }
           })
           console.log(bgtRes)
