@@ -426,7 +426,7 @@ export default {
         mofDivCodeList: this.mofDivCodeList,
         regulationClass: this.regulationClass,
         regulationType: this.regulationTypeQuery,
-        fiscalYear: this.fiscalYear || this.$store.state.userInfo.year,
+        fiscalYear: this.$store.state.userInfo.year,
         businessStartTime: this.businessStartTime,
         businessEndTime: this.businessEndTime,
         jurisdiction: this.$store.getters.getIsJurisdiction
