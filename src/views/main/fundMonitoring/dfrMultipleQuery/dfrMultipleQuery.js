@@ -1,4 +1,4 @@
-// import store from '@/store/index'
+import store from '@/store/index'
 import { padStart } from 'xe-utils/methods'
 
 export let proconf = {
@@ -237,6 +237,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -246,6 +247,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -255,6 +257,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -264,6 +267,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -273,6 +277,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -611,6 +616,7 @@ export let proconf = {
       width: 180,
       field: 'sjzbdrje',
       sortable: true,
+      visible: !store.getters.isSx,
       filters: true,
       align: 'center',
       cellRender: { name: '$vxeMoney' }
@@ -622,6 +628,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -631,6 +638,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -640,6 +648,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
@@ -649,6 +658,7 @@ export let proconf = {
       sortable: true,
       filters: true,
       align: 'center',
+      visible: !store.getters.isSx,
       cellRender: { name: '$vxeMoney' }
     },
     {
