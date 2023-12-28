@@ -1052,7 +1052,7 @@ export default {
           let basicInfoRes = basicInfo.map(item => {
             let proAgency = (item['*项目单位'] || '').split('-')
             let fundInvestArea = (item['*项目所属投向领域'] || '').split('-')
-            let trackProInfo = (item['增发国债资金中央转移支付项目名称'] || '').split('-')
+            let trackProInfo = (item['增发国债资金中央转移支付项目'] || '').split('-')
             let proDept = (item['*项目主管部门'] || '').split('-')
             return {
               proAgencyCode: proAgency[0],
@@ -1070,8 +1070,8 @@ export default {
               proNotStaRea: item['项目未开工原因'],
               ndrcProCode: item['发改委项目代码'],
               ndrcProName: item['发改委项目名称'],
-              trackProName: trackProInfo[0],
-              trackProCode: trackProInfo[1],
+              trackProCode: trackProInfo[0],
+              trackProName: trackProInfo[1],
               isUseMultiTrackPro: item['*是否使用多项中央转移支付资金'] === '是' ? '1' : '2',
               proDeptCode: proDept[0],
               proDeptName: proDept[1],
